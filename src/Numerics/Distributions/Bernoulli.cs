@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _p;
+        readonly double _p;
 
         /// <summary>
         /// Initializes a new instance of the Bernoulli class.
@@ -54,8 +54,13 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If the Bernoulli parameter is not in the range [0,1].</exception>
         public Bernoulli(double p)
         {
+            if (!IsValidParameterSet(p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(p);
+            _p = p;
         }
 
         /// <summary>
@@ -66,8 +71,13 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If the Bernoulli parameter is not in the range [0,1].</exception>
         public Bernoulli(double p, System.Random randomSource)
         {
+            if (!IsValidParameterSet(p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(p);
+            _p = p;
         }
 
         /// <summary>
@@ -89,27 +99,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double p)
-        {
-            if (!(p >= 0.0 && p <= 1.0))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _p = p;
-        }
-
-        /// <summary>
         /// Gets or sets the probability of generating a one. Range: 0 ≤ p ≤ 1.
         /// </summary>
         public double P
         {
             get { return _p; }
-            set { SetParameters(value); }
         }
 
         /// <summary>

@@ -220,28 +220,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         }
 
         /// <summary>
-        /// Can set probability.
-        /// </summary>
-        [Test]
-        public void CanSetProbability()
-        {
-            GC.KeepAlive(new Multinomial(_largeP, 4)
-            {
-                P = _smallP
-            });
-        }
-
-        /// <summary>
-        /// Set bad values of probability fails.
-        /// </summary>
-        [Test]
-        public void SetProbabilityFails()
-        {
-            var b = new Multinomial(_largeP, 4);
-            Assert.That(() => b.P = _badP, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Can sample static.
         /// </summary>
         [Test]

@@ -87,64 +87,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set A.
-        /// </summary>
-        /// <param name="a">A parameter.</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetA(double a)
-        {
-            GC.KeepAlive(new InverseGamma(1.0, 1.0)
-            {
-                Shape = a
-            });
-        }
-
-        /// <summary>
-        /// Set A fails with non-positive value.
-        /// </summary>
-        /// <param name="a">A parameter.</param>
-        [TestCase(-1.0)]
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        public void SetAFailsWithNonPositiveA(double a)
-        {
-            var n = new InverseGamma(1.0, 1.0);
-            Assert.That(() => n.Shape = a, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set B.
-        /// </summary>
-        /// <param name="b">B parameter.</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetB(double b)
-        {
-            GC.KeepAlive(new InverseGamma(1.0, 1.0)
-            {
-                Scale = b
-            });
-        }
-
-        /// <summary>
-        /// Set B fails with non-positive value.
-        /// </summary>
-        /// <param name="b">B parameter.</param>
-        [TestCase(-1.0)]
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        public void SetBFailsWithNonPositiveB(double b)
-        {
-            var n = new InverseGamma(1.0, 1.0);
-            Assert.That(() => n.Scale = b, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         /// <param name="a">A parameter.</param>

@@ -47,8 +47,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _mu;
-        double _sigma;
+        readonly double _mu;
+        readonly double _sigma;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LogNormal"/> class.
@@ -59,8 +59,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="sigma">The shape (σ) of the logarithm of the distribution. Range: σ ≥ 0.</param>
         public LogNormal(double mu, double sigma)
         {
+            if (!IsValidParameterSet(mu, sigma))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(mu, sigma);
+            _mu = mu;
+            _sigma = sigma;
         }
 
         /// <summary>
@@ -73,8 +79,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public LogNormal(double mu, double sigma, System.Random randomSource)
         {
+            if (!IsValidParameterSet(mu, sigma))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(mu, sigma);
+            _mu = mu;
+            _sigma = sigma;
         }
 
         /// <summary>
@@ -135,29 +147,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="mu">The log-scale (μ) of the distribution.</param>
-        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double mu, double sigma)
-        {
-            if (sigma < 0.0 || Double.IsNaN(mu) || Double.IsNaN(sigma))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _mu = mu;
-            _sigma = sigma;
-        }
-
-        /// <summary>
         /// Gets or sets the log-scale (μ) (mean of the logarithm) of the distribution.
         /// </summary>
         public double Mu
         {
             get { return _mu; }
-            set { SetParameters(value, _sigma); }
         }
 
         /// <summary>
@@ -166,7 +160,6 @@ namespace MathNet.Numerics.Distributions
         public double Sigma
         {
             get { return _sigma; }
-            set { SetParameters(_mu, value); }
         }
 
         /// <summary>

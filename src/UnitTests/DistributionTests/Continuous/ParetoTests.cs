@@ -87,58 +87,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set scale.
-        /// </summary>
-        /// <param name="scale">Scale value.</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetScale(double scale)
-        {
-            GC.KeepAlive(new Pareto(1.0, 1.0)
-            {
-                Scale = scale
-            });
-        }
-
-        /// <summary>
-        /// Set scale fails with negative scale.
-        /// </summary>
-        [Test]
-        public void SetScaleFailsWithNegativeScale()
-        {
-            var n = new Pareto(1.0, 1.0);
-            Assert.That(() => n.Scale = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set shape.
-        /// </summary>
-        /// <param name="shape">Shape value.</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetShape(double shape)
-        {
-            GC.KeepAlive(new Pareto(1.0, 1.0)
-            {
-                Shape = shape
-            });
-        }
-
-        /// <summary>
-        /// Set shape fails with negative shape.
-        /// </summary>
-        [Test]
-        public void SetShapeFailsWithNegativeShape()
-        {
-            var n = new Pareto(1.0, 1.0);
-            Assert.That(() => n.Shape = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         /// <param name="scale">Scale value.</param>

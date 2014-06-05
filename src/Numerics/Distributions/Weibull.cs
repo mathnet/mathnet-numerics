@@ -49,8 +49,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _shape;
-        double _scale;
+        readonly double _shape;
+        readonly double _scale;
 
         /// <summary>
         /// Reusable intermediate result 1 / (_scale ^ _shape)
@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Distributions
         /// By caching this parameter we can get slightly better numerics precision
         /// in certain constellations without any additional computations.
         /// </remarks>
-        double _scalePowShapeInv;
+        readonly double _scalePowShapeInv;
 
         /// <summary>
         /// Initializes a new instance of the Weibull class.
@@ -68,8 +68,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
         public Weibull(double shape, double scale)
         {
+            if (!IsValidParameterSet(shape, scale))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(shape, scale);
+            _shape = shape;
+            _scale = scale;
+            _scalePowShapeInv = Math.Pow(scale, -shape);
         }
 
         /// <summary>
@@ -80,8 +87,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Weibull(double shape, double scale, System.Random randomSource)
         {
+            if (!IsValidParameterSet(shape, scale))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(shape, scale);
+            _shape = shape;
+            _scale = scale;
+            _scalePowShapeInv = Math.Pow(scale, -shape);
         }
 
         /// <summary>
@@ -104,30 +118,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
-        /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double shape, double scale)
-        {
-            if (shape <= 0.0 || scale <= 0.0 || Double.IsNaN(shape) || Double.IsNaN(scale))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _shape = shape;
-            _scale = scale;
-            _scalePowShapeInv = Math.Pow(scale, -shape);
-        }
-
-        /// <summary>
         /// Gets or sets the shape (k) of the Weibull distribution. Range: k > 0.
         /// </summary>
         public double Shape
         {
             get { return _shape; }
-            set { SetParameters(value, _scale); }
         }
 
         /// <summary>
@@ -136,7 +131,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-            set { SetParameters(_shape, value); }
         }
 
         /// <summary>

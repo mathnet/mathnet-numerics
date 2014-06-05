@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _lambda;
+        readonly double _lambda;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Poisson"/> class.
@@ -56,8 +56,13 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
         public Poisson(double lambda)
         {
+            if (!IsValidParameterSet(lambda))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(lambda);
+            _lambda = lambda;
         }
 
         /// <summary>
@@ -68,8 +73,13 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="System.ArgumentOutOfRangeException">If <paramref name="lambda"/> is equal or less then 0.0.</exception>
         public Poisson(double lambda, System.Random randomSource)
         {
+            if (!IsValidParameterSet(lambda))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(lambda);
+            _lambda = lambda;
         }
 
         /// <summary>
@@ -93,27 +103,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double lambda)
-        {
-            if (!(lambda > 0.0))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _lambda = lambda;
-        }
-
-        /// <summary>
         /// Gets or sets the Poisson distribution parameter λ. Range: λ > 0.
         /// </summary>
         public double Lambda
         {
             get { return _lambda; }
-            set { SetParameters(value); }
         }
 
         /// <summary>

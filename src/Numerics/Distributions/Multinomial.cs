@@ -55,12 +55,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Stores the normalized multinomial probabilities.
         /// </summary>
-        double[] _p;
+        readonly double[] _p;
 
         /// <summary>
         /// The number of trials.
         /// </summary>
-        int _trials;
+        readonly int _trials;
 
         /// <summary>
         /// Initializes a new instance of the Multinomial class.
@@ -72,8 +72,14 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Multinomial(double[] p, int n)
         {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(p, n);
+            _p = (double[]) p.Clone();
+            _trials = n;
         }
 
         /// <summary>
@@ -87,8 +93,14 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Multinomial(double[] p, int n, System.Random randomSource)
         {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(p, n);
+            _p = (double[]) p.Clone();
+            _trials = n;
         }
 
         /// <summary>
@@ -115,7 +127,13 @@ namespace MathNet.Numerics.Distributions
                 p[i] = h[i].Count;
             }
 
-            SetParameters(p, n);
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            _p = (double[]) p.Clone();
+            _trials = n;
             RandomSource = SystemRandomSource.Default;
         }
 
@@ -158,30 +176,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
-        /// as this is often impossible using floating point arithmetic.</param>
-        /// <param name="n">The number of trials.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double[] p, int n)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _p = (double[]) p.Clone();
-            _trials = n;
-        }
-
-        /// <summary>
         /// Gets or sets the proportion of ratios.
         /// </summary>
         public double[] P
         {
             get { return (double[])_p.Clone(); }
-            set { SetParameters(value, _trials); }
         }
 
         /// <summary>
@@ -190,7 +189,6 @@ namespace MathNet.Numerics.Distributions
         public int N
         {
             get { return _trials; }
-            set { SetParameters(_p, value); }
         }
 
         /// <summary>

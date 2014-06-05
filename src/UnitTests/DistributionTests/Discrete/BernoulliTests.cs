@@ -77,34 +77,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         /// <summary>
-        /// Can set probability of one.
-        /// </summary>
-        /// <param name="p">Probability of one.</param>
-        [TestCase(0.0)]
-        [TestCase(0.3)]
-        [TestCase(1.0)]
-        public void CanSetProbabilityOfOne(double p)
-        {
-            GC.KeepAlive(new Bernoulli(0.3)
-            {
-                P = p
-            });
-        }
-
-        /// <summary>
-        /// Set probability of one fails with bad values.
-        /// </summary>
-        /// <param name="p">Probability of one.</param>
-        [TestCase(Double.NaN)]
-        [TestCase(-1.0)]
-        [TestCase(2.0)]
-        public void SetProbabilityOfOneFails(double p)
-        {
-            var b = new Bernoulli(0.3);
-            Assert.That(() => b.P = p, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate entropy.
         /// </summary>
         /// <param name="p">Probability of one.</param>

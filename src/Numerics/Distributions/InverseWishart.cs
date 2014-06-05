@@ -46,13 +46,13 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _freedom;
-        Matrix<double> _scale;
+        readonly double _freedom;
+        readonly Matrix<double> _scale;
 
         /// <summary>
         /// Caches the Cholesky factorization of the scale matrix.
         /// </summary>
-        Cholesky<double> _chol;
+        readonly Cholesky<double> _chol;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InverseWishart"/> class.
@@ -61,8 +61,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
         public InverseWishart(double degreesOfFreedom, Matrix<double> scale)
         {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(degreesOfFreedom, scale);
+            _freedom = degreesOfFreedom;
+            _scale = scale;
+            _chol = _scale.Cholesky();
         }
 
         /// <summary>
@@ -73,8 +80,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public InverseWishart(double degreesOfFreedom, Matrix<double> scale, System.Random randomSource)
         {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(degreesOfFreedom, scale);
+            _freedom = degreesOfFreedom;
+            _scale = scale;
+            _chol = _scale.Cholesky();
         }
 
         /// <summary>
@@ -110,30 +124,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
-        /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double degreesOfFreedom, Matrix<double> scale)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _freedom = degreesOfFreedom;
-            _scale = scale;
-            _chol = _scale.Cholesky();
-        }
-
-        /// <summary>
         /// Gets or sets the degree of freedom (ν) for the inverse Wishart distribution.
         /// </summary>
         public double DegreesOfFreedom
         {
             get { return _freedom; }
-            set { SetParameters(value, _scale); }
         }
 
         /// <summary>
@@ -142,7 +137,6 @@ namespace MathNet.Numerics.Distributions
         public Matrix<double> Scale
         {
             get { return _scale; }
-            set { SetParameters(_freedom, value); }
         }
 
         /// <summary>

@@ -45,8 +45,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _shape;
-        double _rate;
+        readonly double _shape;
+        readonly double _rate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Erlang"/> class.
@@ -55,8 +55,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         public Erlang(int shape, double rate)
         {
+            if (!IsValidParameterSet(shape, rate))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(shape, rate);
+            _shape = shape;
+            _rate = rate;
         }
 
         /// <summary>
@@ -67,8 +73,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Erlang(int shape, double rate, System.Random randomSource)
         {
+            if (!IsValidParameterSet(shape, rate))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(shape, rate);
+            _shape = shape;
+            _rate = rate;
         }
 
         /// <summary>
@@ -115,29 +127,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
-        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double shape, double rate)
-        {
-            if (shape < 0.0 || rate < 0.0 || Double.IsNaN(shape) || Double.IsNaN(rate))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _shape = shape;
-            _rate = rate;
-        }
-
-        /// <summary>
         /// Gets or sets the shape (k) of the Erlang distribution. Range: k ≥ 0.
         /// </summary>
         public int Shape
         {
             get { return (int)_shape; }
-            set { SetParameters(value, _rate); }
         }
 
         /// <summary>
@@ -146,7 +140,6 @@ namespace MathNet.Numerics.Distributions
         public double Rate
         {
             get { return _rate; }
-            set { SetParameters(_shape, value); }
         }
 
         /// <summary>
@@ -155,15 +148,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return 1.0 / _rate; }
-            set
-            {
-                var invScale = 1.0 / value;
-                if (Double.IsNegativeInfinity(invScale))
-                {
-                    invScale = -invScale;
-                }
-                SetParameters(_shape, invScale);
-            }
         }
 
         /// <summary>

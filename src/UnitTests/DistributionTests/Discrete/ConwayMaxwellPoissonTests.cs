@@ -78,66 +78,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         /// <summary>
-        /// Can set lambda.
-        /// </summary>
-        /// <param name="lambda">Lambda value.</param>
-        [TestCase(0.1)]
-        [TestCase(3.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetLambda(double lambda)
-        {
-            GC.KeepAlive(new ConwayMaxwellPoisson(1.0, 2.0)
-            {
-                Lambda = lambda
-            });
-        }
-
-        /// <summary>
-        /// Can set DegreesOfFreedom.
-        /// </summary>
-        /// <param name="nu">DegreesOfFreedom parameter.</param>
-        [TestCase(0.0)]
-        [TestCase(3.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetNu(double nu)
-        {
-            GC.KeepAlive(new ConwayMaxwellPoisson(1.0, 2.0)
-            {
-                Nu = nu
-            });
-        }
-
-        /// <summary>
-        /// Set lambda with bad values fails.
-        /// </summary>
-        /// <param name="lambda">Lambda value.</param>
-        [TestCase(0.0)]
-        [TestCase(-0.0)]
-        [TestCase(-1.0)]
-        [TestCase(Double.NegativeInfinity)]
-        public void SetLambdaFails(double lambda)
-        {
-            var d = new ConwayMaxwellPoisson(1.0, 2.0);
-            Assert.That(() => d.Lambda = lambda, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Set DegreesOfFreedom with bad values fails.
-        /// </summary>
-        /// <param name="nu">DegreesOfFreedom parameter.</param>
-        [TestCase(-0.1)]
-        [TestCase(-1.0)]
-        [TestCase(-10.0)]
-        [TestCase(Double.NegativeInfinity)]
-        public void SetNuFails(double nu)
-        {
-            var d = new ConwayMaxwellPoisson(1.0, 2.0);
-            Assert.That(() => d.Nu = nu, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate entropy throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]

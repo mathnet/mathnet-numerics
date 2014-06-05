@@ -92,36 +92,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             var n = new Triangular(0d, 2d, 1d);
             Assert.AreEqual("Triangular(Lower = 0, Upper = 2, Mode = 1)", n.ToString());
         }
-
-        /// <summary>
-        /// Can Set Lower Bound
-        /// </summary>
-        /// <param name="lower">New Lower Bound.</param>
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        public void CanSetLowerBound(double lower)
-        {
-            GC.KeepAlive(new Triangular(0.0, 20.0, 10.0)
-            {
-                LowerBound = lower
-            });
-        }
-
-        /// <summary>
-        /// Set LowerBound fails if greater than Mode.
-        /// </summary>
-        [TestCase(1.0, 0.5)]
-        [TestCase(Double.PositiveInfinity, 0.5)]
-        public void SetLowerBoundFailsIfGreaterThanMode(double lower, double mode)
-        {
-            var n = new Triangular(0.0, 100.0, mode);
-            Assert.That(() => n.LowerBound = lower, Throws.ArgumentException);
-        }
-
-        // Todo: Add tests for setting upper bound and mode values.
         
         // Todo: Add tests for:
         // - Mean, 

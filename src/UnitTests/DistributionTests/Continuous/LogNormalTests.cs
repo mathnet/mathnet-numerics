@@ -86,54 +86,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set sigma.
-        /// </summary>
-        /// <param name="sigma">Sigma value.</param>
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetSigma(double sigma)
-        {
-            GC.KeepAlive(new LogNormal(1.0, 2.0)
-            {
-                Sigma = sigma
-            });
-        }
-
-        /// <summary>
-        /// Set sigma fails with negative value.
-        /// </summary>
-        [Test]
-        public void SetSigmaFailsWithNegativeSigma()
-        {
-            var n = new LogNormal(1.0, 2.0);
-            Assert.That(() => n.Sigma = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set mu.
-        /// </summary>
-        /// <param name="mu">Mu parameter.</param>
-        [TestCase(Double.NegativeInfinity)]
-        [TestCase(-1.0)]
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetMu(double mu)
-        {
-            GC.KeepAlive(new LogNormal(1.0, 2.0)
-            {
-                Mu = mu
-            });
-        }
-
-        /// <summary>
         /// Validate entropy.
         /// </summary>
         /// <param name="mu">Mu parameter.</param>

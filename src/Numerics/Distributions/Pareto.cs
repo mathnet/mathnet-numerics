@@ -48,8 +48,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _scale;
-        double _shape;
+        readonly double _scale;
+        readonly double _shape;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Pareto"/> class.
@@ -59,8 +59,14 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
         public Pareto(double scale, double shape)
         {
+            if (!IsValidParameterSet(scale, shape))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(scale, shape);
+            _scale = scale;
+            _shape = shape;
         }
 
         /// <summary>
@@ -72,8 +78,14 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If <paramref name="scale"/> or <paramref name="shape"/> are negative.</exception>
         public Pareto(double scale, double shape, System.Random randomSource)
         {
+            if (!IsValidParameterSet(scale, shape))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(scale, shape);
+            _scale = scale;
+            _shape = shape;
         }
 
         /// <summary>
@@ -96,29 +108,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="scale">The scale (xm) of the distribution. Range: xm > 0.</param>
-        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double scale, double shape)
-        {
-            if (scale <= 0.0 || shape <= 0.0 || Double.IsNaN(scale) || Double.IsNaN(shape))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _scale = scale;
-            _shape = shape;
-        }
-
-        /// <summary>
         /// Gets or sets the scale (xm) of the distribution. Range: xm > 0.
         /// </summary>
         public double Scale
         {
             get { return _scale; }
-            set { SetParameters(value, _shape); }
         }
 
         /// <summary>
@@ -127,7 +121,6 @@ namespace MathNet.Numerics.Distributions
         public double Shape
         {
             get { return _shape; }
-            set { SetParameters(_scale, value); }
         }
 
         /// <summary>

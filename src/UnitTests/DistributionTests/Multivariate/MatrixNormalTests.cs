@@ -174,22 +174,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         }
 
         /// <summary>
-        /// Can set M.
-        /// </summary>
-        /// <param name="n">Matrix rows count.</param>
-        /// <param name="p">Matrix columns count.</param>
-        [TestCase(1, 1)]
-        [TestCase(3, 3)]
-        [TestCase(10, 10)]
-        public void CanSetM(int n, int p)
-        {
-            GC.KeepAlive(new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
-            {
-                Mean = Matrix<double>.Build.Random(n, p, 1)
-            });
-        }
-
-        /// <summary>
         /// Can get V matrix.
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
@@ -211,22 +195,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         }
 
         /// <summary>
-        /// Can set V matrix.
-        /// </summary>
-        /// <param name="n">Matrix rows count.</param>
-        /// <param name="p">Matrix columns count.</param>
-        [TestCase(1, 1)]
-        [TestCase(3, 3)]
-        [TestCase(10, 10)]
-        public void CanSetV(int n, int p)
-        {
-            GC.KeepAlive(new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
-            {
-                RowCovariance = Matrix<double>.Build.RandomPositiveDefinite(n, 1)
-            });
-        }
-
-        /// <summary>
         /// Can get K matrix.
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
@@ -245,22 +213,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
                     Assert.AreEqual(matrixK[i, j], d.ColumnCovariance[i, j]);
                 }
             }
-        }
-
-        /// <summary>
-        /// Can set K matrix.
-        /// </summary>
-        /// <param name="n">Matrix rows count.</param>
-        /// <param name="p">Matrix columns count.</param>
-        [TestCase(1, 1)]
-        [TestCase(3, 3)]
-        [TestCase(10, 10)]
-        public void CanSetK(int n, int p)
-        {
-            GC.KeepAlive(new MatrixNormal(Matrix<double>.Build.Random(n, p, 1), Matrix<double>.Build.RandomPositiveDefinite(n, 1), Matrix<double>.Build.RandomPositiveDefinite(p, 1))
-            {
-                ColumnCovariance = Matrix<double>.Build.RandomPositiveDefinite(p, 1)
-            });
         }
 
         /// <summary>

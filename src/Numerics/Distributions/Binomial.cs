@@ -47,8 +47,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _p;
-        int _trials;
+        readonly double _p;
+        readonly int _trials;
 
         /// <summary>
         /// Initializes a new instance of the Binomial class.
@@ -59,8 +59,14 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Binomial(double p, int n)
         {
+            if (!IsValidParameterSet(p, n))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(p, n);
+            _p = p;
+            _trials = n;
         }
 
         /// <summary>
@@ -73,8 +79,14 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
         public Binomial(double p, int n, System.Random randomSource)
         {
+            if (!IsValidParameterSet(p, n))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(p, n);
+            _p = p;
+            _trials = n;
         }
 
         /// <summary>
@@ -97,30 +109,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
-        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="p"/> is not in the interval [0.0,1.0].</exception>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="n"/> is negative.</exception>
-        void SetParameters(double p, int n)
-        {
-            if (!(p >= 0.0 && p <= 1.0 && n >= 0))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _p = p;
-            _trials = n;
-        }
-
-        /// <summary>
         /// Gets or sets the success probability in each trial. Range: 0 ≤ p ≤ 1.
         /// </summary>
         public double P
         {
             get { return _p; }
-            set { SetParameters(value, _trials); }
         }
 
         /// <summary>
@@ -129,7 +122,6 @@ namespace MathNet.Numerics.Distributions
         public int N
         {
             get { return _trials; }
-            set { SetParameters(_p, value); }
         }
 
         /// <summary>

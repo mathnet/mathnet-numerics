@@ -89,64 +89,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set shape.
-        /// </summary>
-        /// <param name="shape">Shape value.</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetShape(double shape)
-        {
-            GC.KeepAlive(new Weibull(1.0, 1.0)
-            {
-                Shape = shape
-            });
-        }
-
-        /// <summary>
-        /// Set shape fails with negative shape.
-        /// </summary>
-        /// <param name="shape">Shape value.</param>
-        [TestCase(-1.0)]
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        public void SetShapeFailsWithNegativeShape(double shape)
-        {
-            var n = new Weibull(1.0, 1.0);
-            Assert.That(() => n.Shape = shape, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set scale.
-        /// </summary>
-        /// <param name="scale">Scale value.</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetScale(double scale)
-        {
-            GC.KeepAlive(new Weibull(1.0, 1.0)
-            {
-                Scale = scale
-            });
-        }
-
-        /// <summary>
-        /// Set scale fails with negative scale.
-        /// </summary>
-        /// <param name="scale">Scale value.</param>
-        [TestCase(-1.0)]
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        public void SetScaleFailsWithNegativeScale(double scale)
-        {
-            var n = new Weibull(1.0, 1.0);
-            Assert.That(() => n.Scale = scale, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         /// <param name="shape">Shape value.</param>

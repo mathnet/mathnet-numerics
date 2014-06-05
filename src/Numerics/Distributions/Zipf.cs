@@ -50,12 +50,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The s parameter of the distribution.
         /// </summary>
-        double _s;
+        readonly double _s;
 
         /// <summary>
         /// The n parameter of the distribution.
         /// </summary>
-        int _n;
+        readonly int _n;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Zipf"/> class.
@@ -64,8 +64,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public Zipf(double s, int n)
         {
+            if (!IsValidParameterSet(s, n))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(s, n);
+            _s = s;
+            _n = n;
         }
 
         /// <summary>
@@ -76,8 +82,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Zipf(double s, int n, System.Random randomSource)
         {
+            if (!IsValidParameterSet(s, n))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(s, n);
+            _s = s;
+            _n = n;
         }
 
         /// <summary>
@@ -100,29 +112,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="s">The s parameter of the distribution.</param>
-        /// <param name="n">The n parameter of the distribution.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double s, int n)
-        {
-            if (!(n > 0 && s > 0.0))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _s = s;
-            _n = n;
-        }
-
-        /// <summary>
         /// Gets or sets the s parameter of the distribution.
         /// </summary>
         public double S
         {
             get { return _s; }
-            set { SetParameters(value, _n); }
         }
 
         /// <summary>
@@ -131,7 +125,6 @@ namespace MathNet.Numerics.Distributions
         public int N
         {
             get { return _n; }
-            set { SetParameters(_s, value); }
         }
 
         /// <summary>

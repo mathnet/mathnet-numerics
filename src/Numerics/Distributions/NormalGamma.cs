@@ -68,7 +68,6 @@ namespace MathNet.Numerics.Distributions
         public double Mean
         {
             get { return _mean; }
-
             set { _mean = value; }
         }
 
@@ -78,7 +77,6 @@ namespace MathNet.Numerics.Distributions
         public double Precision
         {
             get { return _precision; }
-
             set { _precision = value; }
         }
     }
@@ -100,10 +98,10 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _meanLocation;
-        double _meanScale;
-        double _precisionShape;
-        double _precisionInvScale;
+        readonly double _meanLocation;
+        readonly double _meanScale;
+        readonly double _precisionShape;
+        readonly double _precisionInvScale;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NormalGamma"/> class.
@@ -114,8 +112,16 @@ namespace MathNet.Numerics.Distributions
         /// <param name="precisionInverseScale">The inverse scale of the precision.</param>
         public NormalGamma(double meanLocation, double meanScale, double precisionShape, double precisionInverseScale)
         {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precisionShape, precisionInverseScale))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
+            _meanLocation = meanLocation;
+            _meanScale = meanScale;
+            _precisionShape = precisionShape;
+            _precisionInvScale = precisionInverseScale;
         }
 
         /// <summary>
@@ -128,8 +134,16 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public NormalGamma(double meanLocation, double meanScale, double precisionShape, double precisionInverseScale, System.Random randomSource)
         {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precisionShape, precisionInverseScale))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(meanLocation, meanScale, precisionShape, precisionInverseScale);
+            _meanLocation = meanLocation;
+            _meanScale = meanScale;
+            _precisionShape = precisionShape;
+            _precisionInvScale = precisionInverseScale;
         }
 
         /// <summary>
@@ -155,33 +169,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="meanLocation">The location of the mean.</param>
-        /// <param name="meanScale">The scale of the mean.</param>
-        /// <param name="precShape">The shape of the precision.</param>
-        /// <param name="precInvScale">The inverse scale of the precision.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double meanLocation, double meanScale, double precShape, double precInvScale)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precShape, precInvScale))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _meanLocation = meanLocation;
-            _meanScale = meanScale;
-            _precisionShape = precShape;
-            _precisionInvScale = precInvScale;
-        }
-
-        /// <summary>
         /// Gets or sets the location of the mean.
         /// </summary>
         public double MeanLocation
         {
             get { return _meanLocation; }
-            set { SetParameters(value, _meanScale, _precisionShape, _precisionInvScale); }
         }
 
         /// <summary>
@@ -190,7 +182,6 @@ namespace MathNet.Numerics.Distributions
         public double MeanScale
         {
             get { return _meanScale; }
-            set { SetParameters(_meanLocation, value, _precisionShape, _precisionInvScale); }
         }
 
         /// <summary>
@@ -199,7 +190,6 @@ namespace MathNet.Numerics.Distributions
         public double PrecisionShape
         {
             get { return _precisionShape; }
-            set { SetParameters(_meanLocation, _meanScale, value, _precisionInvScale); }
         }
 
         /// <summary>
@@ -208,7 +198,6 @@ namespace MathNet.Numerics.Distributions
         public double PrecisionInverseScale
         {
             get { return _precisionInvScale; }
-            set { SetParameters(_meanLocation, _meanScale, _precisionShape, value); }
         }
 
         /// <summary>

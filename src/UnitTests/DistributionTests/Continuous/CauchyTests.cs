@@ -95,58 +95,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set location.
-        /// </summary>
-        /// <param name="location">Location value.</param>
-        [TestCase(-10.0)]
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        public void CanSetLocation(double location)
-        {
-            GC.KeepAlive(new Cauchy
-            {
-                Location = location
-            });
-        }
-
-        /// <summary>
-        /// Set bad location fails.
-        /// </summary>
-        [Test]
-        public void SetBadLocationFail()
-        {
-            var n = new Cauchy();
-            Assert.That(() => n.Location = Double.NaN, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set scale.
-        /// </summary>
-        /// <param name="scale">Scale value.</param>
-        [TestCase(1.0)]
-        [TestCase(2.0)]
-        [TestCase(12.0)]
-        public void CanSetScale(double scale)
-        {
-            GC.KeepAlive(new Cauchy
-            {
-                Scale = scale
-            });
-        }
-
-        /// <summary>
-        /// Set bad scale fails.
-        /// </summary>
-        [Test]
-        public void SetBadScaleFail()
-        {
-            var n = new Cauchy();
-            Assert.That(() => n.Scale = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate entropy.
         /// </summary>
         /// <param name="location">Location value.</param>

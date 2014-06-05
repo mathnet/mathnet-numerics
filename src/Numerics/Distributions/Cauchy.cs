@@ -45,8 +45,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _location;
-        double _scale;
+        readonly double _location;
+        readonly double _scale;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cauchy"/> class with the location parameter set to 0 and the scale parameter set to 1
@@ -62,8 +62,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
         public Cauchy(double location, double scale)
         {
+            if (!IsValidParameterSet(location, scale))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(location, scale);
+            _location = location;
+            _scale = scale;
         }
 
         /// <summary>
@@ -74,8 +80,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Cauchy(double location, double scale, System.Random randomSource)
         {
+            if (!IsValidParameterSet(location, scale))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(location, scale);
+            _location = location;
+            _scale = scale;
         }
 
         /// <summary>
@@ -98,29 +110,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="location">The location (x0) of the distribution.</param>
-        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double location, double scale)
-        {
-            if (scale <= 0.0 || Double.IsNaN(location) || Double.IsNaN(scale))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _location = location;
-            _scale = scale;
-        }
-
-        /// <summary>
         /// Gets or sets the location  (x0) of the distribution.
         /// </summary>
         public double Location
         {
             get { return _location; }
-            set { SetParameters(value, _scale); }
         }
 
         /// <summary>
@@ -129,7 +123,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-            set { SetParameters(_location, value); }
         }
 
         /// <summary>

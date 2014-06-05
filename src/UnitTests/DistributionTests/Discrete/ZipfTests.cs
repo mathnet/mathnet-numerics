@@ -79,61 +79,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         /// <summary>
-        /// Can set S.
-        /// </summary>
-        /// <param name="s">S parameter.</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(5.0)]
-        public void CanSetS(double s)
-        {
-            GC.KeepAlive(new Zipf(1.0, 5)
-            {
-                S = s
-            });
-        }
-
-        /// <summary>
-        /// Set S fails with bad values.
-        /// </summary>
-        /// <param name="s">S parameter.</param>
-        [TestCase(Double.NaN)]
-        [TestCase(-1.0)]
-        [TestCase(Double.NegativeInfinity)]
-        public void SetSFails(double s)
-        {
-            var d = new Zipf(1.0, 5);
-            Assert.That(() => d.S = s, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set N.
-        /// </summary>
-        /// <param name="n">N parameter.</param>
-        [TestCase(1)]
-        [TestCase(20)]
-        [TestCase(50)]
-        public void CanSetN(int n)
-        {
-            GC.KeepAlive(new Zipf(1.0, 5)
-            {
-                N = n
-            });
-        }
-
-        /// <summary>
-        /// Set N fails with bad values.
-        /// </summary>
-        /// <param name="n">N parameter.</param>
-        [TestCase(-1)]
-        [TestCase(0)]
-        public void SetNFails(int n)
-        {
-            var d = new Zipf(1.0, 5);
-            Assert.That(() => d.N = n, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate entropy.
         /// </summary>
         /// <param name="s">S parameter.</param>

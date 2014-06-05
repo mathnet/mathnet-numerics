@@ -45,8 +45,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _lower;
-        double _upper;
+        readonly double _lower;
+        readonly double _upper;
 
         /// <summary>
         /// Initializes a new instance of the ContinuousUniform class with lower bound 0 and upper bound 1.
@@ -63,8 +63,14 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If the upper bound is smaller than the lower bound.</exception>
         public ContinuousUniform(double lower, double upper)
         {
+            if (!IsValidParameterSet(lower, upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(lower, upper);
+            _lower = lower;
+            _upper = upper;
         }
 
         /// <summary>
@@ -76,8 +82,14 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If the upper bound is smaller than the lower bound.</exception>
         public ContinuousUniform(double lower, double upper, System.Random randomSource)
         {
+            if (!IsValidParameterSet(lower, upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(lower, upper);
+            _lower = lower;
+            _upper = upper;
         }
 
         /// <summary>
@@ -96,24 +108,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         public static bool IsValidParameterSet(double lower, double upper)
         {
-            return lower <= upper && !Double.IsInfinity(lower) && !Double.IsInfinity(upper);
-        }
-
-        /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
-        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double lower, double upper)
-        {
-            if (upper < lower || Double.IsNaN(upper) || Double.IsNaN(lower))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _lower = lower;
-            _upper = upper;
+            return lower <= upper;
         }
 
         /// <summary>
@@ -122,7 +117,6 @@ namespace MathNet.Numerics.Distributions
         public double LowerBound
         {
             get { return _lower; }
-            set { SetParameters(value, _upper); }
         }
 
         /// <summary>
@@ -131,7 +125,6 @@ namespace MathNet.Numerics.Distributions
         public double UpperBound
         {
             get { return _upper; }
-            set { SetParameters(_lower, value); }
         }
 
         /// <summary>

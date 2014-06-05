@@ -98,28 +98,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         }
 
         /// <summary>
-        /// Can set mean location.
-        /// </summary>
-        /// <param name="meanLocation">Mean location.</param>
-        /// <param name="meanScale">Mean scale.</param>
-        /// <param name="precShape">Precision shape.</param>
-        /// <param name="precInvScale">Precision inverse scale.</param>
-        [TestCase(0.0, 1.0, 1.0, 1.0)]
-        [TestCase(10.0, 2.0, 2.0, 2.0)]
-        public void CanSetMeanLocation(double meanLocation, double meanScale, double precShape, double precInvScale)
-        {
-            var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale)
-                     {
-                         MeanLocation = -5.0
-                     };
-
-            Assert.AreEqual(-5.0, ng.MeanLocation);
-            Assert.AreEqual(meanScale, ng.MeanScale);
-            Assert.AreEqual(precShape, ng.PrecisionShape);
-            Assert.AreEqual(precInvScale, ng.PrecisionInverseScale);
-        }
-
-        /// <summary>
         /// Can get mean scale.
         /// </summary>
         /// <param name="meanLocation">Mean location.</param>
@@ -132,27 +110,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             Assert.AreEqual(meanScale, ng.MeanScale);
-        }
-
-        /// <summary>
-        /// Can set mean scale.
-        /// </summary>
-        /// <param name="meanLocation">Mean location.</param>
-        /// <param name="meanScale">Mean scale.</param>
-        /// <param name="precShape">Precision shape.</param>
-        /// <param name="precInvScale">Precision inverse scale.</param>
-        [TestCase(0.0, 1.0, 1.0, 1.0)]
-        [TestCase(10.0, 2.0, 2.0, 2.0)]
-        public void CanSetMeanScale(double meanLocation, double meanScale, double precShape, double precInvScale)
-        {
-            var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale)
-                     {
-                         MeanScale = 5.0
-                     };
-            Assert.AreEqual(meanLocation, ng.MeanLocation);
-            Assert.AreEqual(5.0, ng.MeanScale);
-            Assert.AreEqual(precShape, ng.PrecisionShape);
-            Assert.AreEqual(precInvScale, ng.PrecisionInverseScale);
         }
 
         /// <summary>
@@ -171,27 +128,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         }
 
         /// <summary>
-        /// Can set precision shape.
-        /// </summary>
-        /// <param name="meanLocation">Mean location.</param>
-        /// <param name="meanScale">Mean scale.</param>
-        /// <param name="precShape">Precision shape.</param>
-        /// <param name="precInvScale">Precision inverse scale.</param>
-        [TestCase(0.0, 1.0, 1.0, 1.0)]
-        [TestCase(10.0, 2.0, 2.0, 2.0)]
-        public void CanSetPrecisionShape(double meanLocation, double meanScale, double precShape, double precInvScale)
-        {
-            var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale)
-                     {
-                         PrecisionShape = 5.0
-                     };
-            Assert.AreEqual(meanLocation, ng.MeanLocation);
-            Assert.AreEqual(meanScale, ng.MeanScale);
-            Assert.AreEqual(5.0, ng.PrecisionShape);
-            Assert.AreEqual(precInvScale, ng.PrecisionInverseScale);
-        }
-
-        /// <summary>
         /// Can get precision inverse scale.
         /// </summary>
         /// <param name="meanLocation">Mean location.</param>
@@ -204,27 +140,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale);
             Assert.AreEqual(precInvScale, ng.PrecisionInverseScale);
-        }
-
-        /// <summary>
-        /// Can set precision inverse scale.
-        /// </summary>
-        /// <param name="meanLocation">Mean location.</param>
-        /// <param name="meanScale">Mean scale.</param>
-        /// <param name="precShape">Precision shape.</param>
-        /// <param name="precInvScale">Precision inverse scale.</param>
-        [TestCase(0.0, 1.0, 1.0, 1.0)]
-        [TestCase(10.0, 2.0, 2.0, 2.0)]
-        public void CanSetPrecisionPrecisionInverseScale(double meanLocation, double meanScale, double precShape, double precInvScale)
-        {
-            var ng = new NormalGamma(meanLocation, meanScale, precShape, precInvScale)
-                     {
-                         PrecisionInverseScale = 5.0
-                     };
-            Assert.AreEqual(meanLocation, ng.MeanLocation);
-            Assert.AreEqual(meanScale, ng.MeanScale);
-            Assert.AreEqual(precShape, ng.PrecisionShape);
-            Assert.AreEqual(5.0, ng.PrecisionInverseScale);
         }
 
         /// <summary>

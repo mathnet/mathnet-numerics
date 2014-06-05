@@ -102,58 +102,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set degree of freedom 1.
-        /// </summary>
-        /// <param name="d1">Degrees of freedom 1</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetDegreesOfFreedom1(double d1)
-        {
-            GC.KeepAlive(new FisherSnedecor(1.0, 2.0)
-            {
-                DegreesOfFreedom1 = d1
-            });
-        }
-
-        /// <summary>
-        /// Set degree of freedom 1 fails with negative value.
-        /// </summary>
-        [Test]
-        public void SetDegreesOfFreedom1FailsWithNegativeDegreeOfFreedom()
-        {
-            var n = new FisherSnedecor(1.0, 2.0);
-            Assert.That(() => n.DegreesOfFreedom1 = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set degree of freedom 2.
-        /// </summary>
-        /// <param name="d2">Degrees of freedom 2</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetDegreesOfFreedom2(double d2)
-        {
-            GC.KeepAlive(new FisherSnedecor(1.0, 2.0)
-            {
-                DegreesOfFreedom2 = d2
-            });
-        }
-
-        /// <summary>
-        /// Set degree of freedom 2 fails with negative value.
-        /// </summary>
-        [Test]
-        public void SetDegreesOfFreedom2FailsWithNegativeDegreeOfFreedom()
-        {
-            var n = new FisherSnedecor(1.0, 2.0);
-            Assert.That(() => n.DegreesOfFreedom2 = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         /// <param name="d1">Degrees of freedom 1</param>

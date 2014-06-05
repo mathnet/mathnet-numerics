@@ -45,8 +45,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _mean;
-        double _stdDev;
+        readonly double _mean;
+        readonly double _stdDev;
 
         /// <summary>
         /// Initializes a new instance of the Normal class. This is a normal distribution with mean 0.0
@@ -77,8 +77,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
         public Normal(double mean, double stddev)
         {
+            if (!IsValidParameterSet(mean, stddev))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(mean, stddev);
+            _mean = mean;
+            _stdDev = stddev;
         }
 
         /// <summary>
@@ -90,8 +96,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Normal(double mean, double stddev, System.Random randomSource)
         {
+            if (!IsValidParameterSet(mean, stddev))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(mean, stddev);
+            _mean = mean;
+            _stdDev = stddev;
         }
 
         /// <summary>
@@ -163,29 +175,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="mean">The mean (μ) of the normal distribution.</param>
-        /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double mean, double stddev)
-        {
-            if (stddev < 0.0 || Double.IsNaN(mean) || Double.IsNaN(stddev))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _mean = mean;
-            _stdDev = stddev;
-        }
-
-        /// <summary>
         /// Gets or sets the mean (μ) of the normal distribution.
         /// </summary>
         public double Mean
         {
             get { return _mean; }
-            set { SetParameters(value, _stdDev); }
         }
 
         /// <summary>
@@ -194,7 +188,6 @@ namespace MathNet.Numerics.Distributions
         public double StdDev
         {
             get { return _stdDev; }
-            set { SetParameters(_mean, value); }
         }
 
         /// <summary>
@@ -203,7 +196,6 @@ namespace MathNet.Numerics.Distributions
         public double Variance
         {
             get { return _stdDev*_stdDev; }
-            set { SetParameters(_mean, Math.Sqrt(value)); }
         }
 
         /// <summary>
@@ -212,16 +204,6 @@ namespace MathNet.Numerics.Distributions
         public double Precision
         {
             get { return 1.0/(_stdDev*_stdDev); }
-            set
-            {
-                var sdev = 1.0/Math.Sqrt(value);
-                // Handle the case when the precision is -0.
-                if (Double.IsInfinity(sdev))
-                {
-                    sdev = Double.PositiveInfinity;
-                }
-                SetParameters(_mean, sdev);
-            }
         }
 
         /// <summary>

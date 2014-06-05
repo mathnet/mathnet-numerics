@@ -54,8 +54,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _shape;
-        double _rate;
+        readonly double _shape;
+        readonly double _rate;
 
         /// <summary>
         /// Initializes a new instance of the Gamma class.
@@ -64,8 +64,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
         public Gamma(double shape, double rate)
         {
+            if (!IsValidParameterSet(shape, rate))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(shape, rate);
+            _shape = shape;
+            _rate = rate;
         }
 
         /// <summary>
@@ -76,8 +82,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Gamma(double shape, double rate, System.Random randomSource)
         {
+            if (!IsValidParameterSet(shape, rate))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(shape, rate);
+            _shape = shape;
+            _rate = rate;
         }
 
         /// <summary>
@@ -124,29 +136,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
-        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double shape, double rate)
-        {
-            if (shape < 0.0 || rate < 0.0 || Double.IsNaN(shape) || Double.IsNaN(rate))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _shape = shape;
-            _rate = rate;
-        }
-
-        /// <summary>
         /// Gets or sets the shape (k, α) of the Gamma distribution. Range: α ≥ 0.
         /// </summary>
         public double Shape
         {
             get { return _shape; }
-            set { SetParameters(value, _rate); }
         }
 
         /// <summary>
@@ -155,7 +149,6 @@ namespace MathNet.Numerics.Distributions
         public double Rate
         {
             get { return _rate; }
-            set { SetParameters(_shape, value); }
         }
 
         /// <summary>
@@ -164,15 +157,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return 1.0 / _rate; }
-            set
-            {
-                var rate = 1.0 / value;
-                if (Double.IsNegativeInfinity(rate))
-                {
-                    rate = -rate;
-                }
-                SetParameters(_shape, rate);
-            }
         }
 
         /// <summary>

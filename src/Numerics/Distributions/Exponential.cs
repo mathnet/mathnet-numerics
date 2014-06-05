@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _rate;
+        readonly double _rate;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Exponential"/> class.
@@ -54,8 +54,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
         public Exponential(double rate)
         {
+            if (!IsValidParameterSet(rate))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(rate);
+            _rate = rate;
         }
 
         /// <summary>
@@ -65,8 +70,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Exponential(double rate, System.Random randomSource)
         {
+            if (!IsValidParameterSet(rate))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(rate);
+            _rate = rate;
         }
 
         /// <summary>
@@ -88,27 +98,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double rate)
-        {
-            if (rate < 0.0 || Double.IsNaN(rate))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _rate = rate;
-        }
-
-        /// <summary>
         /// Gets or sets the rate (λ) parameter of the distribution. Range: λ ≥ 0.
         /// </summary>
         public double Rate
         {
             get { return _rate; }
-            set { SetParameters(value); }
         }
 
         /// <summary>

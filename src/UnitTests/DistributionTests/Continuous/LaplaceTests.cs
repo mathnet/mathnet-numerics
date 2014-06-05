@@ -81,65 +81,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set location.
-        /// </summary>
-        /// <param name="location">Location value.</param>
-        [TestCase(Double.NegativeInfinity)]
-        [TestCase(-5.0 - 1.0)]
-        [TestCase(0.0)]
-        [TestCase(1.0)]
-        [TestCase(5.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetLocation(double location)
-        {
-            GC.KeepAlive(new Laplace
-            {
-                Location = location
-            });
-        }
-
-        /// <summary>
-        /// Set location fails with negative value.
-        /// </summary>
-        [Test]
-        public void SetLocationFailsWithNegativeLocation()
-        {
-            var n = new Laplace();
-            Assert.That(() => n.Location = Double.NaN, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set scale.
-        /// </summary>
-        /// <param name="scale">Scale value.</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetScale(double scale)
-        {
-            GC.KeepAlive(new Laplace
-            {
-                Scale = scale
-            });
-        }
-
-        /// <summary>
-        /// Set scale fails with negative value.
-        /// </summary>
-        /// <param name="scale">Scale value.</param>
-        [TestCase(0.0)]
-        [TestCase(-1.0)]
-        [TestCase(-5.0)]
-        [TestCase(Double.NegativeInfinity)]
-        [TestCase(Double.NaN)]
-        public void SetScaleFailsWithNegativeScale(double scale)
-        {
-            var n = new Laplace();
-            Assert.That(() => n.Scale = scale, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         /// <param name="location">Location value.</param>

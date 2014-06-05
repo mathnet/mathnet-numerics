@@ -49,17 +49,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// The mean of the matrix normal distribution.
         /// </summary>
-        Matrix<double> _m;
+        readonly Matrix<double> _m;
 
         /// <summary>
         /// The covariance matrix for the rows.
         /// </summary>
-        Matrix<double> _v;
+        readonly Matrix<double> _v;
 
         /// <summary>
         /// The covariance matrix for the columns.
         /// </summary>
-        Matrix<double> _k;
+        readonly Matrix<double> _k;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MatrixNormal"/> class.
@@ -70,8 +70,15 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If the dimensions of the mean and two covariance matrices don't match.</exception>
         public MatrixNormal(Matrix<double> m, Matrix<double> v, Matrix<double> k)
         {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(m, v, k))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(m, v, k);
+            _m = m;
+            _v = v;
+            _k = k;
         }
 
         /// <summary>
@@ -84,8 +91,15 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentOutOfRangeException">If the dimensions of the mean and two covariance matrices don't match.</exception>
         public MatrixNormal(Matrix<double> m, Matrix<double> v, Matrix<double> k, System.Random randomSource)
         {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(m, v, k))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(m, v, k);
+            _m = m;
+            _v = v;
+            _k = k;
         }
 
         /// <summary>
@@ -139,32 +153,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="m">The mean of the matrix normal.</param>
-        /// <param name="v">The covariance matrix for the rows.</param>
-        /// <param name="k">The covariance matrix for the columns.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(Matrix<double> m, Matrix<double> v, Matrix<double> k)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(m, v, k))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _m = m;
-            _v = v;
-            _k = k;
-        }
-
-        /// <summary>
         /// Gets or sets the mean. (M)
         /// </summary>
         /// <value>The mean of the distribution.</value>
         public Matrix<double> Mean
         {
             get { return _m; }
-            set { SetParameters(value, _v, _k); }
         }
 
         /// <summary>
@@ -174,7 +168,6 @@ namespace MathNet.Numerics.Distributions
         public Matrix<double> RowCovariance
         {
             get { return _v; }
-            set { SetParameters(_m, value, _k); }
         }
 
         /// <summary>
@@ -184,7 +177,6 @@ namespace MathNet.Numerics.Distributions
         public Matrix<double> ColumnCovariance
         {
             get { return _k; }
-            set { SetParameters(_m, _v, value); }
         }
 
         /// <summary>

@@ -79,37 +79,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set scale.
-        /// </summary>
-        /// <param name="scale">Scale value.</param>
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetScale(double scale)
-        {
-            GC.KeepAlive(new Rayleigh(1.0)
-            {
-                Scale = scale
-            });
-        }
-
-        /// <summary>
-        /// Set scale fails with negative scale.
-        /// </summary>
-        /// <param name="scale">Scale value.</param>
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        [TestCase(-1.0)]
-        [TestCase(Double.NegativeInfinity)]
-        [TestCase(Double.NaN)]
-        public void SetScaleFailsWithNegativeScale(double scale)
-        {
-            var n = new Rayleigh(1.0);
-            Assert.That(() => n.Scale = scale, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         /// <param name="scale">Scale value.</param>

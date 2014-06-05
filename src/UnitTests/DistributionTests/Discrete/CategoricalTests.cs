@@ -140,28 +140,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         /// <summary>
-        /// Can set probability.
-        /// </summary>
-        [Test]
-        public void CanSetProbability()
-        {
-            GC.KeepAlive(new Categorical(_largeP)
-            {
-                P = _smallP
-            });
-        }
-
-        /// <summary>
-        /// Set probability with a bad array fails.
-        /// </summary>
-        [Test]
-        public void SetProbabilityFails()
-        {
-            var b = new Categorical(_largeP);
-            Assert.That(() => b.P = _badP, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         /// <param name="p">An array of nonnegative ratios.</param>

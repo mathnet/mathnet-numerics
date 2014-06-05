@@ -46,9 +46,9 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        int _population;
-        int _success;
-        int _draws;
+        readonly int _population;
+        readonly int _success;
+        readonly int _draws;
 
         /// <summary>
         /// Initializes a new instance of the Hypergeometric class.
@@ -58,8 +58,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="draws">The number of draws without replacement (n).</param>
         public Hypergeometric(int population, int success, int draws)
         {
+            if (!IsValidParameterSet(population, success, draws))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(population, success, draws);
+            _population = population;
+            _success = success;
+            _draws = draws;
         }
 
         /// <summary>
@@ -71,8 +78,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Hypergeometric(int population, int success, int draws, System.Random randomSource)
         {
+            if (!IsValidParameterSet(population, success, draws))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(population, success, draws);
+            _population = population;
+            _success = success;
+            _draws = draws;
         }
 
         /// <summary>
@@ -98,25 +112,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="population">The size of the population (N).</param>
-        /// <param name="success">The number successes within the population (K, M).</param>
-        /// <param name="draws">The number of draws without replacement (n).</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(int population, int success, int draws)
-        {
-            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _population = population;
-            _success = success;
-            _draws = draws;
-        }
-
-        /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
@@ -131,7 +126,6 @@ namespace MathNet.Numerics.Distributions
         public int Population
         {
             get { return _population; }
-            set { SetParameters(value, _success, _draws); }
         }
 
         /// <summary>
@@ -140,7 +134,6 @@ namespace MathNet.Numerics.Distributions
         public int Draws
         {
             get { return _draws; }
-            set { SetParameters(_population, value, _draws); }
         }
 
         /// <summary>
@@ -149,37 +142,6 @@ namespace MathNet.Numerics.Distributions
         public int Success
         {
             get { return _success; }
-            set { SetParameters(_population, _success, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the size of the population (N).
-        /// </summary>
-        [Obsolete("Use Population instead. Scheduled for removal in v3.0.")]
-        public int PopulationSize
-        {
-            get { return _population; }
-            set { SetParameters(value, _success, _draws); }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of draws without replacement (n).
-        /// </summary>
-        [Obsolete("Use Draws instead. Scheduled for removal in v3.0.")]
-        public int N
-        {
-            get { return _draws; }
-            set { SetParameters(_population, value, _draws); }
-        }
-
-        /// <summary>
-        /// Gets or sets the number successes within the population (K, M).
-        /// </summary>
-        [Obsolete("Use Success instead. Scheduled for removal in v3.0.")]
-        public int M
-        {
-            get { return _success; }
-            set { SetParameters(_population, _success, value); }
         }
 
         /// <summary>

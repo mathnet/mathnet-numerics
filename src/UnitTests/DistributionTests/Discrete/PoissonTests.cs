@@ -77,34 +77,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         /// <summary>
-        /// Can set probability of one.
-        /// </summary>
-        /// <param name="lambda">Lambda value.</param>
-        [TestCase(1.5)]
-        [TestCase(5.4)]
-        [TestCase(10.8)]
-        public void CanSetProbabilityOfOne(double lambda)
-        {
-            GC.KeepAlive(new Poisson(0.3)
-            {
-                Lambda = lambda
-            });
-        }
-
-        /// <summary>
-        /// Set probability of one fails with bad value.
-        /// </summary>
-        /// <param name="lambda">Lambda value.</param>
-        [TestCase(Double.NaN)]
-        [TestCase(-1.5)]
-        [TestCase(0.0)]
-        public void SetProbabilityOfOneFails(double lambda)
-        {
-            var d = new Poisson(0.3);
-            Assert.That(() => d.Lambda = lambda, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate entropy.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>

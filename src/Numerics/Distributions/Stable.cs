@@ -47,10 +47,10 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _alpha;
-        double _beta;
-        double _scale;
-        double _location;
+        readonly double _alpha;
+        readonly double _beta;
+        readonly double _scale;
+        readonly double _location;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Stable"/> class.
@@ -61,8 +61,16 @@ namespace MathNet.Numerics.Distributions
         /// <param name="location">The location (μ) of the distribution.</param>
         public Stable(double alpha, double beta, double scale, double location)
         {
+            if (!IsValidParameterSet(alpha, beta, scale, location))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(alpha, beta, scale, location);
+            _alpha = alpha;
+            _beta = beta;
+            _scale = scale;
+            _location = location;
         }
 
         /// <summary>
@@ -75,8 +83,16 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Stable(double alpha, double beta, double scale, double location, System.Random randomSource)
         {
+            if (!IsValidParameterSet(alpha, beta, scale, location))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(alpha, beta, scale, location);
+            _alpha = alpha;
+            _beta = beta;
+            _scale = scale;
+            _location = location;
         }
 
         /// <summary>
@@ -101,34 +117,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
-        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
-        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
-        /// <param name="location">The location (μ) of the distribution.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double alpha, double beta, double scale, double location)
-        {
-            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0
-                || Double.IsNaN(alpha) || Double.IsNaN(beta) || Double.IsNaN(scale) || Double.IsNaN(location))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _alpha = alpha;
-            _beta = beta;
-            _scale = scale;
-            _location = location;
-        }
-
-        /// <summary>
         /// Gets or sets the stability (α) of the distribution. Range: 2 ≥ α > 0.
         /// </summary>
         public double Alpha
         {
             get { return _alpha; }
-            set { SetParameters(value, _beta, _scale, _location); }
         }
 
         /// <summary>
@@ -137,7 +130,6 @@ namespace MathNet.Numerics.Distributions
         public double Beta
         {
             get { return _beta; }
-            set { SetParameters(_alpha, value, _scale, _location); }
         }
 
         /// <summary>
@@ -146,7 +138,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-            set { SetParameters(_alpha, _beta, value, _location); }
         }
 
         /// <summary>
@@ -155,7 +146,6 @@ namespace MathNet.Numerics.Distributions
         public double Location
         {
             get { return _location; }
-            set { SetParameters(_alpha, _beta, _scale, value); }
         }
 
         /// <summary>

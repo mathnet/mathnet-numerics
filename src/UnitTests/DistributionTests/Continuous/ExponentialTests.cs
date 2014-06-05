@@ -79,34 +79,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set lambda.
-        /// </summary>
-        /// <param name="lambda">Lambda value.</param>
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetLambda(double lambda)
-        {
-            GC.KeepAlive(new Exponential(1.0)
-            {
-                Rate = lambda
-            });
-        }
-
-        /// <summary>
-        /// Set lambda fails with negative lambda.
-        /// </summary>
-        [Test]
-        public void SetLambdaFailsWithNegativeLambda()
-        {
-            var n = new Exponential(1.0);
-            Assert.That(() => n.Rate = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         /// <param name="lambda">Lambda value.</param>

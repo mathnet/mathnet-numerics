@@ -49,9 +49,9 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _lower;
-        double _upper;
-        double _mode;
+        readonly double _lower;
+        readonly double _upper;
+        readonly double _mode;
 
         /// <summary>
         /// Initializes a new instance of the Triangular class with the given lower bound, upper bound and mode.
@@ -62,8 +62,15 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If the upper bound is smaller than the mode or if the mode is smaller than the lower bound.</exception>
         public Triangular(double lower, double upper, double mode)
         {
+            if (!IsValidParameterSet(lower, upper, mode))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(lower, upper, mode);
+            _lower = lower;
+            _upper = upper;
+            _mode = mode;
         }
 
         /// <summary>
@@ -76,8 +83,15 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If the upper bound is smaller than the mode or if the mode is smaller than the lower bound.</exception>
         public Triangular(double lower, double upper, double mode, System.Random randomSource)
         {
+            if (!IsValidParameterSet(lower, upper, mode))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(lower, upper, mode);
+            _lower = lower;
+            _upper = upper;
+            _mode = mode;
         }
 
         /// <summary>
@@ -101,33 +115,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="lower">Lower bound. Range: lower ≤ mode ≤ upper</param>
-        /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
-        /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double lower, double upper, double mode)
-        {
-            if (upper < mode || mode < lower || Double.IsNaN(upper) || Double.IsNaN(lower) || Double.IsNaN(mode)
-                || Double.IsInfinity(upper) || Double.IsInfinity(lower) || Double.IsInfinity(mode)
-                )
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _lower = lower;
-            _upper = upper;
-            _mode = mode;
-        }
-
-        /// <summary>
         /// Gets or sets the lower bound of the distribution.
         /// </summary>
         public double LowerBound
         {
             get { return _lower; }
-            set { SetParameters(value, _upper, _mode); }
         }
 
         /// <summary>
@@ -136,7 +128,6 @@ namespace MathNet.Numerics.Distributions
         public double UpperBound
         {
             get { return _upper; }
-            set { SetParameters(_lower, value, _mode); }
         }
 
         /// <summary>
@@ -209,7 +200,6 @@ namespace MathNet.Numerics.Distributions
         public double Mode
         {
             get { return _mode; }
-            set { SetParameters(_lower, _upper, value); }
         }
 
         /// <summary>

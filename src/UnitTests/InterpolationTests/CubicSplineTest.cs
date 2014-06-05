@@ -30,7 +30,6 @@
 
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using MathNet.Numerics.Interpolation;
 using NUnit.Framework;
 
@@ -177,6 +176,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             }
         }
 
+#if !NET35 && !PORTABLE
         [Test]
         public void InterpolateAkimaSorted_MustBeThreadSafe_GitHub219([Values(8, 32, 256, 1024)] int samples)
         {
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             }
 
             var yipol = new double[samples];
-            Parallel.For(0, samples, i =>
+            System.Threading.Tasks.Parallel.For(0, samples, i =>
             {
                 var spline = CubicSpline.InterpolateAkimaSorted(x, y[i]);
                 yipol[i] = spline.Interpolate(1.0);
@@ -196,5 +196,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
 
             CollectionAssert.DoesNotContain(yipol, Double.NaN);
         }
+#endif
+
     }
 }

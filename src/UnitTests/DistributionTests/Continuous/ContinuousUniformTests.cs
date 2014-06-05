@@ -98,58 +98,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can set lower bound.
-        /// </summary>
-        /// <param name="lower">Lower bound.</param>
-        [TestCase(-10.0)]
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        public void CanSetLower(double lower)
-        {
-            GC.KeepAlive(new ContinuousUniform
-            {
-                LowerBound = lower
-            });
-        }
-
-        /// <summary>
-        /// Set bad lower bound fails.
-        /// </summary>
-        [Test]
-        public void SetBadLowerFails()
-        {
-            var n = new ContinuousUniform();
-            Assert.That(() => n.LowerBound = 3.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set upper bound.
-        /// </summary>
-        /// <param name="upper">Upper bound.</param>
-        [TestCase(1.0)]
-        [TestCase(2.0)]
-        [TestCase(12.0)]
-        public void CanSetUpper(double upper)
-        {
-            GC.KeepAlive(new ContinuousUniform
-            {
-                UpperBound = upper
-            });
-        }
-
-        /// <summary>
-        /// Set bad upper fails.
-        /// </summary>
-        [Test]
-        public void SetBadUpperFails()
-        {
-            var n = new ContinuousUniform();
-            Assert.That(() => n.UpperBound = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate entropy.
         /// </summary>
         /// <param name="lower">Lower bound.</param>

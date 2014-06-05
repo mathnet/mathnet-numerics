@@ -45,8 +45,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _freedom1;
-        double _freedom2;
+        readonly double _freedom1;
+        readonly double _freedom2;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FisherSnedecor"/> class.
@@ -55,8 +55,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
         public FisherSnedecor(double d1, double d2)
         {
+            if (!IsValidParameterSet(d1, d2))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(d1, d2);
+            _freedom1 = d1;
+            _freedom2 = d2;
         }
 
         /// <summary>
@@ -67,8 +73,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public FisherSnedecor(double d1, double d2, System.Random randomSource)
         {
+            if (!IsValidParameterSet(d1, d2))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(d1, d2);
+            _freedom1 = d1;
+            _freedom2 = d2;
         }
 
         /// <summary>
@@ -91,29 +103,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
-        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double d1, double d2)
-        {
-            if (d1 <= 0.0 || d2 <= 0.0 || Double.IsNaN(d1) || Double.IsNaN(d2))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _freedom1 = d1;
-            _freedom2 = d2;
-        }
-
-        /// <summary>
         /// Gets or sets the first degree of freedom (d1) of the distribution. Range: d1 > 0.
         /// </summary>
         public double DegreesOfFreedom1
         {
             get { return _freedom1; }
-            set { SetParameters(value, _freedom2); }
         }
 
         /// <summary>
@@ -122,7 +116,6 @@ namespace MathNet.Numerics.Distributions
         public double DegreesOfFreedom2
         {
             get { return _freedom2; }
-            set { SetParameters(_freedom1, value); }
         }
 
         /// <summary>

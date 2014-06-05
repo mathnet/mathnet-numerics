@@ -80,35 +80,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         }
 
         /// <summary>
-        /// Can set success probability.
-        /// </summary>
-        /// <param name="p">Success probability.</param>
-        /// <param name="n">Number of trials.</param>
-        [TestCase(0.0, 4)]
-        [TestCase(0.3, 3)]
-        [TestCase(1.0, 2)]
-        public void CanSetSuccessProbability(double p, int n)
-        {
-            GC.KeepAlive(new Binomial(0.3, n)
-            {
-                P = p
-            });
-        }
-
-        /// <summary>
-        /// Set success probability fails with bad values.
-        /// </summary>
-        /// <param name="p">Success probability.</param>
-        [TestCase(Double.NaN)]
-        [TestCase(-1.0)]
-        [TestCase(2.0)]
-        public void SetProbabilityOfOneFails(double p)
-        {
-            var b = new Binomial(0.3, 1);
-            Assert.That(() => b.P = p, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate entropy.
         /// </summary>
         /// <param name="p">Success probability.</param>

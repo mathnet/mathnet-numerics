@@ -90,62 +90,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         }
 
         /// <summary>
-        /// Can Set Shape A
-        /// </summary>
-        /// <param name="a">New A value.</param>
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetShapeA(double a)
-        {
-            GC.KeepAlive(new Beta(1.0, 1.0)
-            {
-                A = a
-            });
-        }
-
-        /// <summary>
-        /// Set A fails with negative A.
-        /// </summary>
-        [Test]
-        public void SetShapeAFailsWithNegativeA()
-        {
-            var n = new Beta(1.0, 1.0);
-            Assert.That(() => n.A = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
-        /// Can set shape B.
-        /// </summary>
-        /// <param name="b">New B value.</param>
-        [TestCase(-0.0)]
-        [TestCase(0.0)]
-        [TestCase(0.1)]
-        [TestCase(1.0)]
-        [TestCase(10.0)]
-        [TestCase(Double.PositiveInfinity)]
-        public void CanSetShapeB(double b)
-        {
-            GC.KeepAlive(new Beta(1.0, 1.0)
-            {
-                B = b
-            });
-        }
-
-        /// <summary>
-        /// Set shape B fails with negative B.
-        /// </summary>
-        [Test]
-        public void SetShapeBFailsWithNegativeB()
-        {
-            var n = new Beta(1.0, 1.0);
-            Assert.That(() => n.B = -1.0, Throws.ArgumentException);
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         /// <param name="a">Parameter A.</param>

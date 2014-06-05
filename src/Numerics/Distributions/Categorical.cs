@@ -55,8 +55,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double[] _pmfNormalized;
-        double[] _cdfUnnormalized;
+        readonly double[] _pmfNormalized;
+        readonly double[] _cdfUnnormalized;
 
         /// <summary>
         /// Initializes a new instance of the Categorical class.
@@ -65,9 +65,8 @@ namespace MathNet.Numerics.Distributions
         /// as this is often impossible using floating point arithmetic.</param>
         /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
         public Categorical(double[] probabilityMass)
+            : this(probabilityMass, SystemRandomSource.Default)
         {
-            _random = SystemRandomSource.Default;
-            SetParameters(probabilityMass);
         }
 
         /// <summary>
@@ -79,8 +78,28 @@ namespace MathNet.Numerics.Distributions
         /// <exception cref="ArgumentException">If any of the probabilities are negative or do not sum to one.</exception>
         public Categorical(double[] probabilityMass, System.Random randomSource)
         {
+            if (Control.CheckDistributionParameters && !IsValidProbabilityMass(probabilityMass))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(probabilityMass);
+
+            // Extract unnormalized cumulative distribution
+            _cdfUnnormalized = new double[probabilityMass.Length];
+            _cdfUnnormalized[0] = probabilityMass[0];
+            for (int i = 1; i < probabilityMass.Length; i++)
+            {
+                _cdfUnnormalized[i] = _cdfUnnormalized[i - 1] + probabilityMass[i];
+            }
+
+            // Extract normalized probability mass
+            var sum = _cdfUnnormalized[_cdfUnnormalized.Length - 1];
+            _pmfNormalized = new double[probabilityMass.Length];
+            for (int i = 0; i < probabilityMass.Length; i++)
+            {
+                _pmfNormalized[i] = probabilityMass[i]/sum;
+            }
         }
 
         /// <summary>
@@ -106,7 +125,27 @@ namespace MathNet.Numerics.Distributions
             }
 
             _random = SystemRandomSource.Default;
-            SetParameters(p);
+
+            if (Control.CheckDistributionParameters && !IsValidProbabilityMass(p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            // Extract unnormalized cumulative distribution
+            _cdfUnnormalized = new double[p.Length];
+            _cdfUnnormalized[0] = p[0];
+            for (int i1 = 1; i1 < p.Length; i1++)
+            {
+                _cdfUnnormalized[i1] = _cdfUnnormalized[i1 - 1] + p[i1];
+            }
+
+            // Extract normalized probability mass
+            var sum = _cdfUnnormalized[_cdfUnnormalized.Length - 1];
+            _pmfNormalized = new double[p.Length];
+            for (int i2 = 0; i2 < p.Length; i2++)
+            {
+                _pmfNormalized[i2] = p[i2]/sum;
+            }
         }
 
         /// <summary>
@@ -163,43 +202,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
-        /// as this is often impossible using floating point arithmetic.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double[] p)
-        {
-            if (Control.CheckDistributionParameters && !IsValidProbabilityMass(p))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            // Extract unnormalized cumulative distribution
-            _cdfUnnormalized = new double[p.Length];
-            _cdfUnnormalized[0] = p[0];
-            for (int i = 1; i < p.Length; i++)
-            {
-                _cdfUnnormalized[i] = _cdfUnnormalized[i - 1] + p[i];
-            }
-
-            // Extract normalized probability mass
-            var sum = _cdfUnnormalized[_cdfUnnormalized.Length - 1];
-            _pmfNormalized = new double[p.Length];
-            for (int i = 0; i < p.Length; i++)
-            {
-                _pmfNormalized[i] = p[i]/sum;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the probability mass vector (non-negative ratios) of the multinomial.
         /// </summary>
         /// <remarks>Sometimes the normalized probability vector cannot be represented exactly in a floating point representation.</remarks>
         public double[] P
         {
             get { return (double[])_pmfNormalized.Clone(); }
-            set { SetParameters(value); }
         }
 
         /// <summary>

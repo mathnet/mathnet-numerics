@@ -51,8 +51,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _lambda;
-        double _nu;
+        readonly double _lambda;
+        readonly double _nu;
 
         /// <summary>
         /// The mean of the distribution.
@@ -82,8 +82,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public ConwayMaxwellPoisson(double lambda, double nu)
         {
+            if (!IsValidParameterSet(lambda, nu))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(lambda, nu);
+            _lambda = lambda;
+            _nu = nu;
         }
 
         /// <summary>
@@ -94,8 +100,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public ConwayMaxwellPoisson(double lambda, double nu, System.Random randomSource)
         {
+            if (!IsValidParameterSet(lambda, nu))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(lambda, nu);
+            _lambda = lambda;
+            _nu = nu;
         }
 
         /// <summary>
@@ -118,29 +130,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
-        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double lambda, double nu)
-        {
-            if (!(lambda > 0.0 && nu >= 0.0))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _lambda = lambda;
-            _nu = nu;
-        }
-
-        /// <summary>
         /// Gets or sets the lambda (λ) parameter. Range: λ > 0.
         /// </summary>
         public double Lambda
         {
             get { return _lambda; }
-            set { SetParameters(value, _nu); }
         }
 
         /// <summary>
@@ -149,7 +143,6 @@ namespace MathNet.Numerics.Distributions
         public double Nu
         {
             get { return _nu; }
-            set { SetParameters(_lambda, value); }
         }
 
         /// <summary>

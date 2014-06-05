@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _freedom;
+        readonly double _freedom;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChiSquared"/> class.
@@ -52,8 +52,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
         public ChiSquared(double freedom)
         {
+            if (!IsValidParameterSet(freedom))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(freedom);
+            _freedom = freedom;
         }
 
         /// <summary>
@@ -63,8 +68,13 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public ChiSquared(double freedom, System.Random randomSource)
         {
+            if (!IsValidParameterSet(freedom))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(freedom);
+            _freedom = freedom;
         }
 
         /// <summary>
@@ -86,27 +96,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double freedom)
-        {
-            if (freedom <= 0.0 || Double.IsNaN(freedom))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _freedom = freedom;
-        }
-
-        /// <summary>
         /// Gets or sets the degrees of freedom (k) of the Chi-Squared distribution. Range: k > 0.
         /// </summary>
         public double DegreesOfFreedom
         {
             get { return _freedom; }
-            set { SetParameters(value); }
         }
 
         /// <summary>

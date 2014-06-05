@@ -146,23 +146,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         }
 
         /// <summary>
-        /// Can set alpha.
-        /// </summary>
-        [Test]
-        public void CanSetAlpha()
-        {
-            var d = new Dirichlet(0.3, 10);
-
-            var alpha = new double[10];
-            for (var i = 0; i < 10; i++)
-            {
-                alpha[i] = i;
-            }
-
-            d.Alpha = alpha;
-        }
-
-        /// <summary>
         /// Validate mean.
         /// </summary>
         [Test]

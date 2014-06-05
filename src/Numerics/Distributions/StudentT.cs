@@ -61,9 +61,9 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _location;
-        double _scale;
-        double _freedom;
+        readonly double _location;
+        readonly double _scale;
+        readonly double _freedom;
 
         /// <summary>
         /// Initializes a new instance of the StudentT class. This is a Student t-distribution with location 0.0
@@ -72,7 +72,9 @@ namespace MathNet.Numerics.Distributions
         public StudentT()
         {
             _random = SystemRandomSource.Default;
-            SetParameters(0.0, 1.0, 1.0);
+            _location = 0.0;
+            _scale = 1.0;
+            _freedom = 1.0;
         }
 
         /// <summary>
@@ -84,8 +86,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         public StudentT(double location, double scale, double freedom)
         {
+            if (!IsValidParameterSet(location, scale, freedom))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(location, scale, freedom);
+            _location = location;
+            _scale = scale;
+            _freedom = freedom;
         }
 
         /// <summary>
@@ -98,8 +107,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public StudentT(double location, double scale, double freedom, System.Random randomSource)
         {
+            if (!IsValidParameterSet(location, scale, freedom))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(location, scale, freedom);
+            _location = location;
+            _scale = scale;
+            _freedom = freedom;
         }
 
         /// <summary>
@@ -119,26 +135,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
         public static bool IsValidParameterSet(double location, double scale, double freedom)
         {
-            return scale > 0.0 && freedom > 0.0;
-        }
-
-        /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
-        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double location, double scale, double freedom)
-        {
-            if (scale <= 0.0 || freedom <= 0.0 || Double.IsNaN(scale) || Double.IsNaN(location) || Double.IsNaN(freedom))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _location = location;
-            _scale = scale;
-            _freedom = freedom;
+            return scale > 0.0 && freedom > 0.0 && !Double.IsNaN(location);
         }
 
         /// <summary>
@@ -147,7 +144,6 @@ namespace MathNet.Numerics.Distributions
         public double Location
         {
             get { return _location; }
-            set { SetParameters(value, _scale, _freedom); }
         }
 
         /// <summary>
@@ -156,7 +152,6 @@ namespace MathNet.Numerics.Distributions
         public double Scale
         {
             get { return _scale; }
-            set { SetParameters(_location, value, _freedom); }
         }
 
         /// <summary>
@@ -165,7 +160,6 @@ namespace MathNet.Numerics.Distributions
         public double DegreesOfFreedom
         {
             get { return _freedom; }
-            set { SetParameters(_location, _scale, value); }
         }
 
         /// <summary>

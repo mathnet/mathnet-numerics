@@ -45,8 +45,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        int _lower;
-        int _upper;
+        readonly int _lower;
+        readonly int _upper;
 
         /// <summary>
         /// Initializes a new instance of the DiscreteUniform class.
@@ -55,8 +55,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
         public DiscreteUniform(int lower, int upper)
         {
+            if (!IsValidParameterSet(lower, upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(lower, upper);
+            _lower = lower;
+            _upper = upper;
         }
 
         /// <summary>
@@ -67,8 +73,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public DiscreteUniform(int lower, int upper, System.Random randomSource)
         {
+            if (!IsValidParameterSet(lower, upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(lower, upper);
+            _lower = lower;
+            _upper = upper;
         }
 
         /// <summary>
@@ -93,29 +105,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
-        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(int lower, int upper)
-        {
-            if (!(lower <= upper))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _lower = lower;
-            _upper = upper;
-        }
-
-        /// <summary>
         /// Gets or sets the lower bound of the probability distribution.
         /// </summary>
         public int LowerBound
         {
             get { return _lower; }
-            set { SetParameters(value, _upper); }
         }
 
         /// <summary>
@@ -124,7 +118,6 @@ namespace MathNet.Numerics.Distributions
         public int UpperBound
         {
             get { return _upper; }
-            set { SetParameters(_lower, value); }
         }
 
         /// <summary>

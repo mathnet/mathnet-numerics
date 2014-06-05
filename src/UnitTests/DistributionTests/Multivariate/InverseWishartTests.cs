@@ -153,21 +153,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         }
 
         /// <summary>
-        /// Can set DegreesOfFreedom.
-        /// </summary>
-        /// <param name="nu">DegreesOfFreedom parameter.</param>
-        [TestCase(1.0)]
-        [TestCase(2.0)]
-        [TestCase(5.0)]
-        public void CanSetNu(double nu)
-        {
-            GC.KeepAlive(new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
-            {
-                DegreesOfFreedom = nu
-            });
-        }
-
-        /// <summary>
         /// Can get scale matrix.
         /// </summary>
         [Test]
@@ -184,18 +169,6 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
                     Assert.AreEqual(matrix[i, j], d.Scale[i, j]);
                 }
             }
-        }
-
-        /// <summary>
-        /// Can set scale matrix.
-        /// </summary>
-        [Test]
-        public void CanSetS()
-        {
-            GC.KeepAlive(new InverseWishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1))
-            {
-                Scale = Matrix<double>.Build.RandomPositiveDefinite(2, 1)
-            });
         }
 
         /// <summary>

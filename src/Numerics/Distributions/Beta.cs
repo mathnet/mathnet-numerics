@@ -53,8 +53,8 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        double _shapeA;
-        double _shapeB;
+        readonly double _shapeA;
+        readonly double _shapeB;
 
         /// <summary>
         /// Initializes a new instance of the Beta class.
@@ -63,8 +63,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
         public Beta(double a, double b)
         {
+            if (!IsValidParameterSet(a, b))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = SystemRandomSource.Default;
-            SetParameters(a, b);
+            _shapeA = a;
+            _shapeB = b;
         }
 
         /// <summary>
@@ -75,8 +81,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public Beta(double a, double b, System.Random randomSource)
         {
+            if (!IsValidParameterSet(a, b))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             _random = randomSource ?? SystemRandomSource.Default;
-            SetParameters(a, b);
+            _shapeA = a;
+            _shapeB = b;
         }
 
         /// <summary>
@@ -99,29 +111,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
-        /// </summary>
-        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
-        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double a, double b)
-        {
-            if (a < 0.0 || b < 0.0 || Double.IsNaN(a) || Double.IsNaN(b))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _shapeA = a;
-            _shapeB = b;
-        }
-
-        /// <summary>
         /// Gets or sets the α shape parameter of the Beta distribution. Range: α ≥ 0.
         /// </summary>
         public double A
         {
             get { return _shapeA; }
-            set { SetParameters(value, _shapeB); }
         }
 
         /// <summary>
@@ -130,7 +124,6 @@ namespace MathNet.Numerics.Distributions
         public double B
         {
             get { return _shapeB; }
-            set { SetParameters(_shapeA, value); }
         }
 
         /// <summary>
