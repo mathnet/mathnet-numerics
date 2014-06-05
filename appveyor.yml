@@ -1,3 +1,6 @@
+os: Windows Server 2012 R2
 build_script:
-  - ps: .\build.cmd Build
+  - cmd: build.cmd Build
 test: off
+deploy: off
+shallow_clone: true
