@@ -89,6 +89,18 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        public static bool IsValidParameterSet(double alpha, double beta, double scale, double location)
+        {
+            return alpha > 0.0 && alpha <= 2.0 && beta >= -1.0 && beta <= 1.0 && scale > 0.0 && !Double.IsNaN(location);
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>

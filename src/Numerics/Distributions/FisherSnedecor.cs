@@ -81,6 +81,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        public static bool IsValidParameterSet(double d1, double d2)
+        {
+            return d1 > 0.0 && d2 > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>

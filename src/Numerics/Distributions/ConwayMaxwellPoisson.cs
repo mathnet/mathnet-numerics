@@ -108,6 +108,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
+        public static bool IsValidParameterSet(double lambda, double nu)
+        {
+            return lambda > 0.0 && nu >= 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>

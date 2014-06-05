@@ -94,6 +94,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>
+        /// <param name="scale">The scale (λ) of the Weibull distribution. Range: λ > 0.</param>
+        public static bool IsValidParameterSet(double shape, double scale)
+        {
+            return shape > 0.0 && scale > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="shape">The shape (k) of the Weibull distribution. Range: k > 0.</param>

@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized as this is often impossible using floating point arithmetic.</param>
         /// <returns>If any of the probabilities are negative returns <c>false</c>, or if the sum of parameters is 0.0; otherwise <c>true</c></returns>
-        static bool IsValidProbabilityMass(double[] p)
+        public static bool IsValidProbabilityMass(double[] p)
         {
             var sum = 0.0;
             for (int i = 0; i < p.Length; i++)
@@ -145,7 +145,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="cdf">An array of nonnegative ratios: this array does not need to be normalized as this is often impossible using floating point arithmetic.</param>
         /// <returns>If any of the probabilities are negative returns <c>false</c>, or if the sum of parameters is 0.0; otherwise <c>true</c></returns>
-        static bool IsValidCumulativeDistribution(double[] cdf)
+        public static bool IsValidCumulativeDistribution(double[] cdf)
         {
             var last = 0.0;
             for (int i = 0; i < cdf.Length; i++)

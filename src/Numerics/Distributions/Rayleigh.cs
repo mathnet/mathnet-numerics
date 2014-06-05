@@ -84,6 +84,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        public static bool IsValidParameterSet(double scale)
+        {
+            return scale > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>

@@ -77,6 +77,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        public static bool IsValidParameterSet(double freedom)
+        {
+            return freedom > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>

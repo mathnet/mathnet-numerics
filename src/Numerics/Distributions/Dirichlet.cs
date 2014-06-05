@@ -117,15 +117,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid: no
-        /// parameter can be less than zero and at least one parameter should be
-        /// larger than zero.
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// No parameter can be less than zero and at least one parameter should be larger than zero.
         /// </summary>
-        /// <param name="alpha">The parameters of the Dirichlet distribution.
-        /// </param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c>
-        /// otherwise.</returns>
-        static bool IsValidParameterSet(double[] alpha)
+        /// <param name="alpha">The parameters of the Dirichlet distribution.</param>
+        public static bool IsValidParameterSet(double[] alpha)
         {
             var allzero = true;
 

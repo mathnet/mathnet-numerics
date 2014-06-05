@@ -153,6 +153,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="mean">The mean (μ) of the normal distribution.</param>
+        /// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ ≥ 0.</param>
+        public static bool IsValidParameterSet(double mean, double stddev)
+        {
+            return stddev >= 0.0 && !Double.IsNaN(mean);
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="mean">The mean (μ) of the normal distribution.</param>

@@ -143,16 +143,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
+        /// Tests whether the provided values are valid parameters for this distribution.
         /// </summary>
         /// <param name="meanLocation">The location of the mean.</param>
         /// <param name="meanScale">The scale of the mean.</param>
         /// <param name="precShape">The shape of the precision.</param>
         /// <param name="precInvScale">The inverse scale of the precision.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double meanLocation, double meanScale, double precShape, double precInvScale)
+        public static bool IsValidParameterSet(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
-            return (meanScale > 0.0) && (precShape > 0.0) && (precInvScale > 0.0) && !Double.IsNaN(meanLocation);
+            return meanScale > 0.0 && precShape > 0.0 && precInvScale > 0.0 && !Double.IsNaN(meanLocation);
         }
 
         /// <summary>

@@ -112,6 +112,17 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
+        public static bool IsValidParameterSet(double location, double scale, double freedom)
+        {
+            return scale > 0.0 && freedom > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="location">The location (μ) of the distribution.</param>

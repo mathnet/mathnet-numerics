@@ -90,6 +90,17 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ mode ≤ upper</param>
+        /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
+        public static bool IsValidParameterSet(double lower, double upper, double mode)
+        {
+            return upper >= mode && mode >= lower && !Double.IsInfinity(upper) && !Double.IsInfinity(lower) && !Double.IsInfinity(mode);
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lower">Lower bound. Range: lower ≤ mode ≤ upper</param>

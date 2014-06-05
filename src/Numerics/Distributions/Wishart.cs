@@ -87,30 +87,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Sets the parameters of the distribution after checking their validity.
+        /// Tests whether the provided values are valid parameters for this distribution.
         /// </summary>
         /// <param name="degreesOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
         /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
-        void SetParameters(double degreesOfFreedom, Matrix<double> scale)
-        {
-            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
-            {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
-
-            _degreesOfFreedom = degreesOfFreedom;
-            _scale = scale;
-            _chol = _scale.Cholesky();
-        }
-
-        /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
-        /// </summary>
-        /// <param name="degreesOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
-        /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double degreesOfFreedom, Matrix<double> scale)
+        public static bool IsValidParameterSet(double degreesOfFreedom, Matrix<double> scale)
         {
             if (scale.RowCount != scale.ColumnCount)
             {
@@ -131,6 +112,24 @@ namespace MathNet.Numerics.Distributions
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Sets the parameters of the distribution after checking their validity.
+        /// </summary>
+        /// <param name="degreesOfFreedom">The degrees of freedom (n) for the Wishart distribution.</param>
+        /// <param name="scale">The scale matrix (V) for the Wishart distribution.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the parameters are out of range.</exception>
+        void SetParameters(double degreesOfFreedom, Matrix<double> scale)
+        {
+            if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            _degreesOfFreedom = degreesOfFreedom;
+            _scale = scale;
+            _chol = _scale.Cholesky();
         }
 
         /// <summary>

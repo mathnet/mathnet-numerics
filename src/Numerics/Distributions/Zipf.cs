@@ -90,6 +90,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        public static bool IsValidParameterSet(double s, int n)
+        {
+            return n > 0 && s > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="s">The s parameter of the distribution.</param>

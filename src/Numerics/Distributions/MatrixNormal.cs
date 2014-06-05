@@ -100,13 +100,12 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
+        /// Tests whether the provided values are valid parameters for this distribution.
         /// </summary>
         /// <param name="m">The mean of the matrix normal.</param>
         /// <param name="v">The covariance matrix for the rows.</param>
         /// <param name="k">The covariance matrix for the columns.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(Matrix<double> m, Matrix<double> v, Matrix<double> k)
+        public static bool IsValidParameterSet(Matrix<double> m, Matrix<double> v, Matrix<double> k)
         {
             var n = m.RowCount;
             var p = m.ColumnCount;

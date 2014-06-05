@@ -125,6 +125,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="mu">The log-scale (μ) of the distribution.</param>
+        /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
+        public static bool IsValidParameterSet(double mu, double sigma)
+        {
+            return sigma >= 0.0 && !Double.IsNaN(mu);
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="mu">The log-scale (μ) of the distribution.</param>

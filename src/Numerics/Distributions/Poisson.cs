@@ -84,6 +84,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
+        public static bool IsValidParameterSet(double lambda)
+        {
+            return lambda > 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>

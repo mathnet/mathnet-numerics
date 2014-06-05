@@ -129,14 +129,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
+        /// Tests whether the provided values are valid parameters for this distribution.
         /// </summary>
         /// <param name="p">An array of nonnegative ratios: this array does not need to be normalized
         /// as this is often impossible using floating point arithmetic.</param>
         /// <param name="n">The number of trials.</param>
         /// <returns>If any of the probabilities are negative returns <c>false</c>,
         /// if the sum of parameters is 0.0, or if the number of trials is negative; otherwise <c>true</c>.</returns>
-        static bool IsValidParameterSet(IEnumerable<double> p, int n)
+        public static bool IsValidParameterSet(IEnumerable<double> p, int n)
         {
             var sum = 0.0;
             foreach (var t in p)

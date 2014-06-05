@@ -79,6 +79,15 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
+        public static bool IsValidParameterSet(double rate)
+        {
+            return rate >= 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>

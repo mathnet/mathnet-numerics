@@ -89,6 +89,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
+        public static bool IsValidParameterSet(double a, double b)
+        {
+            return a >= 0.0 && b >= 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>

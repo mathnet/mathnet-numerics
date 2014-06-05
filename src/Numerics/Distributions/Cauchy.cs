@@ -88,6 +88,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="location">The location (x0) of the distribution.</param>
+        /// <param name="scale">The scale (γ) of the distribution. Range: γ > 0.</param>
+        public static bool IsValidParameterSet(double location, double scale)
+        {
+            return scale > 0.0 && !Double.IsNaN(location);
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="location">The location (x0) of the distribution.</param>

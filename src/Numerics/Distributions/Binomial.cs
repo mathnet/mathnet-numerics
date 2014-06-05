@@ -87,6 +87,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
+        public static bool IsValidParameterSet(double p, int n)
+        {
+            return p >= 0.0 && p <= 1.0 && n >= 0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>

@@ -83,6 +83,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>
+        /// <param name="upper">Upper bound. Range: lower ≤ upper.</param>
+        public static bool IsValidParameterSet(int lower, int upper)
+        {
+            return lower <= upper;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="lower">Lower bound. Range: lower ≤ upper.</param>

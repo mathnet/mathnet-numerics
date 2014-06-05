@@ -105,6 +105,16 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
+        public static bool IsValidParameterSet(double shape, double rate)
+        {
+            return shape >= 0.0 && rate >= 0.0;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>

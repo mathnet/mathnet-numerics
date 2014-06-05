@@ -87,6 +87,17 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        public static bool IsValidParameterSet(int population, int success, int draws)
+        {
+            return population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population;
+        }
+
+        /// <summary>
         /// Sets the parameters of the distribution after checking their validity.
         /// </summary>
         /// <param name="population">The size of the population (N).</param>

@@ -87,12 +87,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Checks whether the parameters of the distribution are valid.
+        /// Tests whether the provided values are valid parameters for this distribution.
         /// </summary>
         /// <param name="degreesOfFreedom">The degree of freedom (ν) for the inverse Wishart distribution.</param>
         /// <param name="scale">The scale matrix (Ψ) for the inverse Wishart distribution.</param>
-        /// <returns><c>true</c> when the parameters are valid, <c>false</c> otherwise.</returns>
-        static bool IsValidParameterSet(double degreesOfFreedom, Matrix<double> scale)
+        public static bool IsValidParameterSet(double degreesOfFreedom, Matrix<double> scale)
         {
             if (scale.RowCount != scale.ColumnCount)
             {
