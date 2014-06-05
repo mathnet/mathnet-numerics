@@ -1,3 +1,13 @@
+### 3.0.0-beta03 - 2014-06-05
+* Linear Algebra: vector outer product now follows common style, supports explicit result argument, more efficient.
+* Interpolation: must not modify/sort original data; alternative Sorted and Inplace functions.
+* Distributions: static IsValidParameterSet functions.
+* Distributions: all distributions are now immutable in their distribution parameters.
+* NuGet: attempt to create proper symbol+source packages on symbolsource; primary packages smaller, w/o pdbs
+* Build: skip long tests with new "quick" argument (FAKE)
+* Build: clearing is more explicit, fixes most locking issues if solution is also open in IDE.
+* Build: automated publishing docs, api, git release tag (maintainer)
+
 ### 3.0.0-beta02 - 2014-05-29
 * Linear Algebra:
    * optimized sparse-sparse and sparse-diagonal matrix products. *~Christian Woltering*
