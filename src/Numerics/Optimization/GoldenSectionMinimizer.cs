@@ -49,9 +49,7 @@ namespace MathNet.Numerics.Optimization
                 }
 
                 middlePointX = lowerBound + (upperBound - lowerBound)/(1 + Constants.GoldenRatio);
-                lower = objective.Evaluate(lowerBound);
                 middle = objective.Evaluate(middlePointX);
-                upper = objective.Evaluate(upperBound);
 
                 expansion_steps += 1;
             }
