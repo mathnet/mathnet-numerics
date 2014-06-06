@@ -22,7 +22,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         public void Test_ExpansionWorks()
         {
             var algorithm = new GoldenSectionMinimizer(1e-5, 1000);
-            var f1 = new Func<double, double>(x => (x - 3) * (x - 3));
+            var f1 = new Func<double, double>(x => (x - 3)*(x - 3));
             var obj = new SimpleObjectiveFunction1D(f1);
             var r1 = algorithm.FindMinimum(obj, -5, 5);
 
