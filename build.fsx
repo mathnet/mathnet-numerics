@@ -22,6 +22,7 @@ open Fake
 open Fake.DocuHelper
 open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
+open Fake.StringHelper
 open System
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
@@ -60,7 +61,7 @@ type Package =
       Files : (string * string option * string option) list }
 
 let release = LoadReleaseNotes "RELEASENOTES.md"
-let buildPart = "0" // TODO: Fetch from TC
+let buildPart = "0"
 let assemblyVersion = release.AssemblyVersion + "." + buildPart
 let packageVersion = release.NugetVersion
 let releaseNotes = release.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
@@ -174,7 +175,27 @@ Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 // Requires a local installation of Intel MKL
 // --------------------------------------------------------------------------------------
 
+// PROJECT INFO
+
+let nativeRelease = LoadReleaseNotes "RELEASENOTES-Native.md"
+let nativeBuildPart = "0"
+let nativeAssemblyVersion = nativeRelease.AssemblyVersion + "." + nativeBuildPart
+let nativePackageVersion = nativeRelease.NugetVersion
+let nativeReleaseNotes = nativeRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+
+
+// VERSION
+
+Target "NativeVersion" (fun _ ->
+    ReplaceInFile
+        (regex_replace "\d+\.\d+\.\d+\.\d+" nativeAssemblyVersion
+         >> regex_replace "\d+,\d+,\d+,\d+" (replace "." "," nativeAssemblyVersion))
+        "src/NativeProviders/Common/resource.rc")
+
+
 // BUILD
+
+Target "NativeClean" (fun _ -> CleanDirs [ "out/MKL"; "out/ATLAS" ] )
 
 let native32Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
 let native64Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
@@ -183,8 +204,16 @@ Target "Native32Build" (fun _ -> native32Build !! "MathNet.Numerics.NativeProvid
 Target "Native64Build" (fun _ -> native64Build !! "MathNet.Numerics.NativeProviders.sln")
 Target "NativeBuild" DoNothing
 
-"Prepare" ==> "Native32Build" ==> "NativeBuild"
-"Prepare" ==> "Native64Build" ==> "NativeBuild"
+"Prepare"
+  =?> ("NativeClean", not (hasBuildParam "incremental"))
+  ==> "NativeVersion"
+  ==> "Native32Build"
+  ==> "NativeBuild"
+"Prepare"
+  =?> ("NativeClean", not (hasBuildParam "incremental"))
+  ==> "NativeVersion"
+  ==> "Native64Build"
+  ==> "NativeBuild"
 
 
 // TEST

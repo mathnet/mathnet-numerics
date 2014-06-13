@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		LICENSE.md = LICENSE.md
 		MAINTAINING.md = MAINTAINING.md
 		README.md = README.md
+		RELEASENOTES-Native.md = RELEASENOTES-Native.md
 		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject

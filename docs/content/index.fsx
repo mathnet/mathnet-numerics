@@ -223,11 +223,7 @@ If you do not want to use the official binaries, or if you like to modify, debug
     build.cmd NuGet all     # generate normal NuGet packages (.Net 4.0, 3.5, PCL)
     build.cmd NuGet signed  # generate signed/strong named NuGet packages (.Net 4.0)
     
-    build.cmd Native32Build    # build native providers 32bit/x86
-    build.cmd Native64Build    # build native providers 64bit/x64
     build.cmd NativeBuild      # build native providers for all platforms
-    build.cmd Native32Test     # test native providers 32bit/x86
-    build.cmd Native64Test     # test native providers 64bit/x64
     build.cmd NativeTest       # test native providers for all platforms
 
     build.cmd All          # build, test, docs, api reference (.Net 4.0)
