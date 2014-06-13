@@ -44,9 +44,9 @@ Target "Prepare" DoNothing
   ==> "Prepare"
 
 
-// --------------------------------------------------------------------------------------
+// ======================================================================================
 // Math.NET Numerics Core
-// --------------------------------------------------------------------------------------
+// ======================================================================================
 
 // PROJECT INFO
 
@@ -170,10 +170,75 @@ Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 "Build" ==> "Test"
 
 
-// --------------------------------------------------------------------------------------
+// ZIP
+
+Target "Zip" (fun _ ->
+    CleanDir "out/packages/Zip"
+    CleanDir "obj/Zip"
+    if not (hasBuildParam "signed") || hasBuildParam "release" then
+        CopyDir "obj/Zip/MathNet.Numerics" "out/lib" (fun f -> f.Contains("MathNet.Numerics."))
+        Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics/**/*.*"
+    if hasBuildParam "signed" || hasBuildParam "release" then
+        CopyDir "obj/Zip/MathNet.Numerics.Signed" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics."))
+        Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics.Signed-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics.Signed/**/*.*"
+    CleanDir "obj/Zip")
+
+"Build" ==> "Zip"
+
+
+// NUGET
+
+let nugetPack pack =
+    CleanDir "obj/NuGet"
+    CopyFile "obj/NuGet/license.txt" "LICENSE.md"
+    CopyFile "obj/NuGet/readme.txt" "RELEASENOTES.md"
+
+    let update p =
+        { p with ToolPath = "tools/NuGet/NuGet.exe"
+                 OutputPath = "out/packages/NuGet"
+                 WorkingDir = "obj/NuGet"
+                 Version = packageVersion
+                 ReleaseNotes = releaseNotes
+                 Project = pack.Id
+                 Title = pack.Title
+                 Summary = pack.Summary
+                 Description = pack.Description
+                 Tags = pack.Tags
+                 Authors = pack.Authors
+                 Dependencies = pack.Dependencies |> List.map (fun p -> (p, packageVersion))
+                 SymbolPackage = NugetSymbolPackage.Nuspec
+                 Files = [ "license.txt", None, None; "readme.txt", None, None; ] @ pack.Files
+                 Publish = false }
+
+    NuGet (fun p -> update p) "build/MathNet.Numerics.nuspec"
+
+    NuGet (fun p ->
+        let p' = update p in
+        { p' with Files = p'.Files |> List.choose (function
+                                                   | (_, Some target, _) when target.StartsWith("src") -> None
+                                                   | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
+                                                   | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb")))
+                  SymbolPackage = NugetSymbolPackage.None })
+        "build/MathNet.Numerics.nuspec"
+
+
+Target "NuGet" (fun _ ->
+    CleanDir "out/packages/NuGet"
+    if hasBuildParam "signed" || hasBuildParam "release" then
+        nugetPack numericsSignedPack
+        nugetPack fsharpSignedPack
+    if hasBuildParam "all" || hasBuildParam "release" then
+        nugetPack numericsPack
+        nugetPack fsharpPack
+    CleanDir "obj/NuGet")
+
+"Build" ==> "NuGet"
+
+
+// ======================================================================================
 // Math.NET Numerics Native Providers
 // Requires a local installation of Intel MKL
-// --------------------------------------------------------------------------------------
+// ======================================================================================
 
 // PROJECT INFO
 
@@ -247,9 +312,21 @@ FinalTarget "CloseTestRunner" (fun _ ->
 "Native64Build" ==> "Native64Test" ==> "NativeTest"
 
 
-// --------------------------------------------------------------------------------------
+// ZIP
+
+Target "NativeZip" (fun _ ->
+    CleanDir "out/MKL/packages/Zip"
+    CleanDir "obj/MKL/Zip"
+    CopyDir "obj/MKL/Zip/MathNet.Numerics.MKL" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
+    Zip "obj/MKL/Zip/" (sprintf "out/MKL/packages/Zip/MathNet.Numerics.MKL-%s.zip" nativePackageVersion) !! "obj/MKL/Zip/MathNet.Numerics.MKL/**/*.*"
+    CleanDir "obj/MKL/Zip")
+
+"NativeBuild" ==> "NativeZip"
+
+
+// ======================================================================================
 // Documentation
-// --------------------------------------------------------------------------------------
+// ======================================================================================
 
 // DOCS
 
@@ -286,79 +363,10 @@ Target "Api" (fun _ ->
 "Build" ==> "CleanApi" ==> "Api"
 
 
-// --------------------------------------------------------------------------------------
-// Packages
-// --------------------------------------------------------------------------------------
-
-// ZIP
-
-Target "Zip" (fun _ ->
-    CleanDir "out/packages/Zip"
-    CleanDir "obj/Zip"
-    if not (hasBuildParam "signed") || hasBuildParam "release" then
-        CopyDir "obj/Zip/MathNet.Numerics" "out/lib" (fun f -> f.Contains("MathNet.Numerics."))
-        Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics/**/*.*"
-    if hasBuildParam "signed" || hasBuildParam "release" then
-        CopyDir "obj/Zip/MathNet.Numerics.Signed" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics."))
-        Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics.Signed-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics.Signed/**/*.*"
-    CleanDir "obj/Zip")
-
-"Build" ==> "Zip"
-
-
-// NUGET
-
-let nugetPack pack =
-    CleanDir "obj/NuGet"
-    CopyFile "obj/NuGet/license.txt" "LICENSE.md"
-    CopyFile "obj/NuGet/readme.txt" "RELEASENOTES.md"
-
-    let update p =
-        { p with ToolPath = "tools/NuGet/NuGet.exe"
-                 OutputPath = "out/packages/NuGet"
-                 WorkingDir = "obj/NuGet"
-                 Version = packageVersion
-                 ReleaseNotes = releaseNotes
-                 Project = pack.Id
-                 Title = pack.Title
-                 Summary = pack.Summary
-                 Description = pack.Description
-                 Tags = pack.Tags
-                 Authors = pack.Authors
-                 Dependencies = pack.Dependencies |> List.map (fun p -> (p, packageVersion))
-                 SymbolPackage = NugetSymbolPackage.Nuspec
-                 Files = [ "license.txt", None, None; "readme.txt", None, None; ] @ pack.Files
-                 Publish = false }
-
-    NuGet (fun p -> update p) "build/MathNet.Numerics.nuspec"
-
-    NuGet (fun p ->
-        let p' = update p in
-        { p' with Files = p'.Files |> List.choose (function
-                                                   | (_, Some target, _) when target.StartsWith("src") -> None
-                                                   | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
-                                                   | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb")))
-                  SymbolPackage = NugetSymbolPackage.None })
-        "build/MathNet.Numerics.nuspec"
-
-
-Target "NuGet" (fun _ ->
-    CleanDir "out/packages/NuGet"
-    if hasBuildParam "signed" || hasBuildParam "release" then
-        nugetPack numericsSignedPack
-        nugetPack fsharpSignedPack
-    if hasBuildParam "all" || hasBuildParam "release" then
-        nugetPack numericsPack
-        nugetPack fsharpPack
-    CleanDir "obj/NuGet")
-
-"Build" ==> "NuGet"
-
-
-// --------------------------------------------------------------------------------------
+// ======================================================================================
 // Release/Publishing
 // Requires permissions; intended only for maintainers
-// --------------------------------------------------------------------------------------
+// ======================================================================================
 
 Target "PublishTag" (fun _ ->
     // inspired by Deedle/tpetricek
