@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A4A66FA9
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
 		build\NuGet\MathNet.Numerics.nuspec = build\NuGet\MathNet.Numerics.nuspec
-		.nuget\packages.config = .nuget\packages.config
+		build\packages.config = build\packages.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{DB89F4DB-5204-4B38-B9F5-FE11E69D32AD}"
