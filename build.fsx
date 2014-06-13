@@ -171,24 +171,25 @@ Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 
 // --------------------------------------------------------------------------------------
 // Math.NET Numerics Native Providers
+// Requires a local installation of Intel MKL
 // --------------------------------------------------------------------------------------
 
 // BUILD
 
-let buildx86 subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
-let buildx64 subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
+let native32Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
+let native64Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
 
-Target "BuildNativex86" (fun _ -> buildx86 !! "MathNet.Numerics.NativeProviders.sln")
-Target "BuildNativex64" (fun _ -> buildx64 !! "MathNet.Numerics.NativeProviders.sln")
-Target "BuildNative" DoNothing
+Target "Native32Build" (fun _ -> native32Build !! "MathNet.Numerics.NativeProviders.sln")
+Target "Native64Build" (fun _ -> native64Build !! "MathNet.Numerics.NativeProviders.sln")
+Target "NativeBuild" DoNothing
 
-"Prepare" ==> "BuildNativex86" ==> "BuildNative"
-"Prepare" ==> "BuildNativex64" ==> "BuildNative"
+"Prepare" ==> "Native32Build" ==> "NativeBuild"
+"Prepare" ==> "Native64Build" ==> "NativeBuild"
 
 
 // TEST
 
-Target "TestNativex86" (fun _ ->
+Target "Native32Test" (fun _ ->
     ActivateFinalTarget "CloseTestRunner"
     !! "out/MKL/Windows/x86/*UnitTests*.dll"
     |> NUnit (fun p ->
@@ -197,7 +198,7 @@ Target "TestNativex86" (fun _ ->
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 30.
             OutputFile = "TestResults.xml" }))
-Target "TestNativex64" (fun _ ->
+Target "Native64Test" (fun _ ->
     ActivateFinalTarget "CloseTestRunner"
     !! "out/MKL/Windows/x64/*UnitTests*.dll"
     |> NUnit (fun p ->
@@ -206,15 +207,15 @@ Target "TestNativex64" (fun _ ->
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 30.
             OutputFile = "TestResults.xml" }))
-Target "TestNative" DoNothing
+Target "NativeTest" DoNothing
 
 FinalTarget "CloseTestRunner" (fun _ ->
     ProcessHelper.killProcess "nunit-agent.exe"
     ProcessHelper.killProcess "nunit-agent-x86.exe"
 )
 
-"BuildNativex86" ==> "TestNativex86" ==> "TestNative"
-"BuildNativex64" ==> "TestNativex64" ==> "TestNative"
+"Native32Build" ==> "Native32Test" ==> "NativeTest"
+"Native64Build" ==> "Native64Test" ==> "NativeTest"
 
 
 // --------------------------------------------------------------------------------------
@@ -327,7 +328,7 @@ Target "NuGet" (fun _ ->
 
 // --------------------------------------------------------------------------------------
 // Release/Publishing
-// These targets are interesting only for maintainers and require write permissions
+// Requires permissions; intended only for maintainers
 // --------------------------------------------------------------------------------------
 
 Target "PublishTag" (fun _ ->
