@@ -300,7 +300,7 @@ let nugetPack pack =
                  Files = [ "license.txt", None, None; "readme.txt", None, None; ] @ pack.Files
                  Publish = false }
 
-    NuGet (fun p -> update p) "build/NuGet/MathNet.Numerics.nuspec"
+    NuGet (fun p -> update p) "build/MathNet.Numerics.nuspec"
 
     NuGet (fun p ->
         let p' = update p in
@@ -309,7 +309,7 @@ let nugetPack pack =
                                                    | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
                                                    | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb")))
                   SymbolPackage = NugetSymbolPackage.None })
-        "build/NuGet/MathNet.Numerics.nuspec"
+        "build/MathNet.Numerics.nuspec"
 
 
 Target "NuGet" (fun _ ->

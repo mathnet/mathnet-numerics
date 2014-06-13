@@ -50,7 +50,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40-DE22-49FB-B1C0-6E5BDA3B0B2F}"
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
-		build\NuGet\MathNet.Numerics.nuspec = build\NuGet\MathNet.Numerics.nuspec
+		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
 		build\packages.config = build\packages.config
 	EndProjectSection
 EndProject
