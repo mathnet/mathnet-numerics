@@ -1,5 +1,18 @@
-// --------------------------------------------------------------------------------------
+//  __  __       _   _       _   _ ______ _______
+// |  \/  |     | | | |     | \ | |  ____|__   __|
+// | \  / | __ _| |_| |__   |  \| | |__     | |
+// | |\/| |/ _` | __| '_ \  | . ` |  __|    | |
+// | |  | | (_| | |_| | | |_| |\  | |____   | |
+// |_|  |_|\__,_|\__|_| |_(_)_| \_|______|  |_|
+//
+// Math.NET Numerics - http://numerics.mathdotnet.com
+// Copyright (c) Math.NET - Open Source MIT/X11 License
 // FAKE build script, see http://fsharp.github.io/FAKE
+//
+
+
+// --------------------------------------------------------------------------------------
+// Prelude
 // --------------------------------------------------------------------------------------
 
 #I "packages/FAKE/tools"
@@ -13,6 +26,26 @@ open System
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 
+Target "Start" DoNothing
+Target "Clean" (fun _ ->
+    CleanDirs [ "obj" ]
+    CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
+    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile344" ]
+    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile344" ]
+    CleanDirs [ "out/lib-signed/Net40" ]
+    CleanDirs [ "out/test-signed/Net40" ])
+Target "RestorePackages" RestorePackages
+Target "Prepare" DoNothing
+
+"Start"
+  =?> ("Clean", not (hasBuildParam "incremental"))
+  ==> "RestorePackages"
+  ==> "Prepare"
+
+
+// --------------------------------------------------------------------------------------
+// Math.NET Numerics Core
+// --------------------------------------------------------------------------------------
 
 // PROJECT INFO
 
@@ -89,18 +122,7 @@ let fsharpSignedPack =
                                 "..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 
-// PREPARE
-
-Target "Start" DoNothing
-Target "RestorePackages" RestorePackages
-
-Target "Clean" (fun _ ->
-    CleanDirs [ "obj" ]
-    CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
-    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile344" ]
-    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile344" ]
-    CleanDirs [ "out/lib-signed/Net40" ]
-    CleanDirs [ "out/test-signed/Net40" ])
+// VERSION
 
 Target "AssemblyInfo" (fun _ ->
     BulkReplaceAssemblyInfoVersions "src/" (fun f ->
@@ -109,13 +131,7 @@ Target "AssemblyInfo" (fun _ ->
             AssemblyFileVersion = assemblyVersion
             AssemblyInformationalVersion = packageVersion }))
 
-Target "Prepare" DoNothing
-
-"Start"
-  =?> ("Clean", not (hasBuildParam "incremental"))
-  ==> "RestorePackages"
-  ==> "AssemblyInfo"
-  ==> "Prepare"
+"Prepare" ==> "AssemblyInfo"
 
 
 // BUILD
@@ -131,24 +147,12 @@ Target "BuildSigned" (fun _ -> buildSigned !! "MathNet.Numerics.sln")
 
 Target "Build" DoNothing
 "Prepare"
+  ==> "AssemblyInfo"
   =?> ("BuildNet35", hasBuildParam "net35")
   =?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
   =?> ("BuildAll", hasBuildParam "all" || hasBuildParam "release")
   =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "net35" || hasBuildParam "signed"))
   ==> "Build"
-
-
-// NATIVE BUILD
-
-let buildx86 subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
-let buildx64 subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
-
-Target "BuildNativex86" (fun _ -> buildx86 !! "MathNet.Numerics.NativeProviders.sln")
-Target "BuildNativex64" (fun _ -> buildx64 !! "MathNet.Numerics.NativeProviders.sln")
-Target "BuildNative" DoNothing
-
-"Prepare" ==> "BuildNativex86" ==> "BuildNative"
-"Prepare" ==> "BuildNativex64" ==> "BuildNative"
 
 
 // TEST
@@ -165,7 +169,24 @@ Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 "Build" ==> "Test"
 
 
-// NATIVE TEST
+// --------------------------------------------------------------------------------------
+// Math.NET Numerics Native Providers
+// --------------------------------------------------------------------------------------
+
+// BUILD
+
+let buildx86 subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
+let buildx64 subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
+
+Target "BuildNativex86" (fun _ -> buildx86 !! "MathNet.Numerics.NativeProviders.sln")
+Target "BuildNativex64" (fun _ -> buildx64 !! "MathNet.Numerics.NativeProviders.sln")
+Target "BuildNative" DoNothing
+
+"Prepare" ==> "BuildNativex86" ==> "BuildNative"
+"Prepare" ==> "BuildNativex64" ==> "BuildNative"
+
+
+// TEST
 
 Target "TestNativex86" (fun _ ->
     ActivateFinalTarget "CloseTestRunner"
@@ -196,7 +217,11 @@ FinalTarget "CloseTestRunner" (fun _ ->
 "BuildNativex64" ==> "TestNativex64" ==> "TestNative"
 
 
-// DOCUMENTATION
+// --------------------------------------------------------------------------------------
+// Documentation
+// --------------------------------------------------------------------------------------
+
+// DOCS
 
 Target "CleanDocs" (fun _ -> CleanDirs ["out/docs"])
 
@@ -230,6 +255,10 @@ Target "Api" (fun _ ->
 
 "Build" ==> "CleanApi" ==> "Api"
 
+
+// --------------------------------------------------------------------------------------
+// Packages
+// --------------------------------------------------------------------------------------
 
 // ZIP
 
@@ -296,8 +325,10 @@ Target "NuGet" (fun _ ->
 "Build" ==> "NuGet"
 
 
-// PUBLISH
+// --------------------------------------------------------------------------------------
+// Release/Publishing
 // These targets are interesting only for maintainers and require write permissions
+// --------------------------------------------------------------------------------------
 
 Target "PublishTag" (fun _ ->
     // inspired by Deedle/tpetricek
@@ -335,7 +366,9 @@ Target "Publish" DoNothing
 "PublishApi" ==> "Publish"
 
 
-// RUN
+// --------------------------------------------------------------------------------------
+// Default Targets
+// --------------------------------------------------------------------------------------
 
 Target "All" DoNothing
 
