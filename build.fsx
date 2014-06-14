@@ -7,6 +7,7 @@
 //
 // Math.NET Numerics - http://numerics.mathdotnet.com
 // Copyright (c) Math.NET - Open Source MIT/X11 License
+//
 // FAKE build script, see http://fsharp.github.io/FAKE
 //
 
@@ -26,6 +27,8 @@ open Fake.StringHelper
 open System
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
+let header = ReadFile(__SOURCE_DIRECTORY__ @@ "build.fsx") |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> toLines
+trace header
 
 Target "Start" DoNothing
 Target "Clean" (fun _ ->
@@ -51,21 +54,23 @@ Target "Prepare" DoNothing
 // PROJECT INFO
 
 type Package =
-    { Id : string
-      Title : string
-      Summary : string
-      Description : string
-      Tags : string
-      Authors : string list
-      Dependencies : string list
-      Files : (string * string option * string option) list }
+    { Id: string
+      Version: string
+      Title: string
+      Summary: string
+      Description: string
+      ReleaseNotes: string
+      Tags: string
+      Authors: string list
+      Dependencies: (string*string) list
+      Files: (string * string option * string option) list }
 
 let release = LoadReleaseNotes "RELEASENOTES.md"
 let buildPart = "0"
 let assemblyVersion = release.AssemblyVersion + "." + buildPart
 let packageVersion = release.NugetVersion
 let releaseNotes = release.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
-trace (sprintf "Building Math.NET Numerics %s" release.NugetVersion)
+trace (sprintf " Math.NET Numerics                    v%s" release.NugetVersion)
 
 let summary = "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use."
 let description = "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. "
@@ -81,17 +86,19 @@ let libpcl344 = "lib/portable-net45+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTou
 
 let numericsPack =
     { Id = "MathNet.Numerics"
+      Version = packageVersion
       Title = "Math.NET Numerics"
       Summary = summary
       Description = description + support
+      ReleaseNotes = releaseNotes
       Tags = tags
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       Dependencies = []
-      Files = [ "..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some "**\MathNet.Numerics.FSharp.*";
-                "..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some "**\MathNet.Numerics.FSharp.*";
-                "..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some "**\MathNet.Numerics.FSharp.*";
-                "..\..\out\lib\Profile344\MathNet.Numerics.*", Some libpcl344, Some "**\MathNet.Numerics.FSharp.*";
-                "..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
+      Files = [ @"..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some @"**\MathNet.Numerics.FSharp.*";
+                @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
+                @"..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some @"**\MathNet.Numerics.FSharp.*";
+                @"..\..\out\lib\Profile344\MathNet.Numerics.*", Some libpcl344, Some @"**\MathNet.Numerics.FSharp.*";
+                @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
 
 let fsharpPack =
     { numericsPack with Id = "MathNet.Numerics.FSharp"
@@ -99,31 +106,31 @@ let fsharpPack =
                         Summary = "F# Modules for " + summary
                         Description = description + supportFsharp
                         Tags = "fsharp F# " + tags
-                        Dependencies = [ "MathNet.Numerics" ]
-                        Files = [ "..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
-                                  "..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
-                                  "..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
-                                  "..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
+                        Dependencies = [ "MathNet.Numerics", packageVersion ]
+                        Files = [ @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
+                                  @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
+                                  @"..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
+                                  @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 let numericsSignedPack =
     { numericsPack with Id = numericsPack.Id + ".Signed"
                         Title = numericsPack.Title + " - Signed Edition"
                         Description = description + supportSigned
                         Tags = numericsPack.Tags + " signed"
-                        Files = [ "..\..\out\lib-signed\Net40\MathNet.Numerics.*", Some libnet40, Some "**\MathNet.Numerics.FSharp.*";
-                                  "..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
+                        Files = [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
+                                  @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
 
 let fsharpSignedPack =
     { fsharpPack with Id = fsharpPack.Id + ".Signed"
                       Title = fsharpPack.Title + " - Signed Edition"
                       Description = description + supportSigned
                       Tags = fsharpPack.Tags + " signed"
-                      Dependencies = [ "MathNet.Numerics.Signed" ]
-                      Files = [ "..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
-                                "..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
+                      Dependencies = [ "MathNet.Numerics.Signed", packageVersion ]
+                      Files = [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
+                                @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 
-// VERSION
+// APPLY VERSION
 
 Target "AssemblyInfo" (fun _ ->
     BulkReplaceAssemblyInfoVersions "src/" (fun f ->
@@ -188,48 +195,45 @@ Target "Zip" (fun _ ->
 
 // NUGET
 
-let nugetPack pack =
+let updateNuspec pack outPath symbols updateFiles spec =
+    { spec with ToolPath = "tools/NuGet/NuGet.exe"
+                OutputPath = outPath
+                WorkingDir = "obj/NuGet"
+                Version = pack.Version
+                ReleaseNotes = pack.ReleaseNotes
+                Project = pack.Id
+                Title = pack.Title
+                Summary = pack.Summary
+                Description = pack.Description
+                Tags = pack.Tags
+                Authors = pack.Authors
+                Dependencies = pack.Dependencies
+                SymbolPackage = symbols
+                Files = updateFiles pack.Files
+                Publish = false }
+
+let nugetPack pack outPath =
     CleanDir "obj/NuGet"
     CopyFile "obj/NuGet/license.txt" "LICENSE.md"
     CopyFile "obj/NuGet/readme.txt" "RELEASENOTES.md"
-
-    let update p =
-        { p with ToolPath = "tools/NuGet/NuGet.exe"
-                 OutputPath = "out/packages/NuGet"
-                 WorkingDir = "obj/NuGet"
-                 Version = packageVersion
-                 ReleaseNotes = releaseNotes
-                 Project = pack.Id
-                 Title = pack.Title
-                 Summary = pack.Summary
-                 Description = pack.Description
-                 Tags = pack.Tags
-                 Authors = pack.Authors
-                 Dependencies = pack.Dependencies |> List.map (fun p -> (p, packageVersion))
-                 SymbolPackage = NugetSymbolPackage.Nuspec
-                 Files = [ "license.txt", None, None; "readme.txt", None, None; ] @ pack.Files
-                 Publish = false }
-
-    NuGet (fun p -> update p) "build/MathNet.Numerics.nuspec"
-
-    NuGet (fun p ->
-        let p' = update p in
-        { p' with Files = p'.Files |> List.choose (function
-                                                   | (_, Some target, _) when target.StartsWith("src") -> None
-                                                   | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
-                                                   | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb")))
-                  SymbolPackage = NugetSymbolPackage.None })
-        "build/MathNet.Numerics.nuspec"
-
+    let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
+    let withoutSymbolsSources f =
+        List.choose (function | (_, Some (target:string), _) when target.StartsWith("src") -> None
+                              | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
+                              | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb"))) f
+    NuGet (updateNuspec pack outPath NugetSymbolPackage.Nuspec withLicenseReadme) "build/MathNet.Numerics.nuspec"
+    NuGet (updateNuspec pack outPath NugetSymbolPackage.None (withLicenseReadme >> withoutSymbolsSources)) "build/MathNet.Numerics.nuspec"
+    CleanDir "obj/NuGet"
 
 Target "NuGet" (fun _ ->
-    CleanDir "out/packages/NuGet"
+    let outPath = "out/packages/NuGet"
+    CleanDir outPath
     if hasBuildParam "signed" || hasBuildParam "release" then
-        nugetPack numericsSignedPack
-        nugetPack fsharpSignedPack
+        nugetPack numericsSignedPack outPath
+        nugetPack fsharpSignedPack outPath
     if hasBuildParam "all" || hasBuildParam "release" then
-        nugetPack numericsPack
-        nugetPack fsharpPack
+        nugetPack numericsPack outPath
+        nugetPack fsharpPack outPath
     CleanDir "obj/NuGet")
 
 "Build" ==> "NuGet"
@@ -247,9 +251,32 @@ let nativeBuildPart = "0"
 let nativeAssemblyVersion = nativeRelease.AssemblyVersion + "." + nativeBuildPart
 let nativePackageVersion = nativeRelease.NugetVersion
 let nativeReleaseNotes = nativeRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf " Math.NET Numerics Native Providers   v%s" nativeRelease.NugetVersion)
+trace ""
+
+let nativeSummary = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
+
+let nativeMKLWin32Pack =
+    { Id = "MathNet.Numerics.MKL.Win-x86"
+      Version = nativePackageVersion
+      Title = "Math.NET Numerics - MKL Native Libraries (Windows 32-bit)"
+      Summary = nativeSummary
+      Description = nativeSummary
+      ReleaseNotes = nativeReleaseNotes
+      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl x86"
+      Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
+      Dependencies = [ "MathNet.Numerics", "2.4.0" ]
+      Files = [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
+                @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
+
+let nativeMKLWin64Pack =
+    { nativeMKLWin32Pack with Id = "MathNet.Numerics.MKL.Win-x64"
+                              Title = "Math.NET Numerics - MKL Native Libraries (Windows 64-bit)"
+                              Files = [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
+                                        @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
 
 
-// VERSION
+// APPLY VERSION
 
 Target "NativeVersion" (fun _ ->
     ReplaceInFile
@@ -316,12 +343,32 @@ FinalTarget "CloseTestRunner" (fun _ ->
 
 Target "NativeZip" (fun _ ->
     CleanDir "out/MKL/packages/Zip"
-    CleanDir "obj/MKL/Zip"
-    CopyDir "obj/MKL/Zip/MathNet.Numerics.MKL" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
-    Zip "obj/MKL/Zip/" (sprintf "out/MKL/packages/Zip/MathNet.Numerics.MKL-%s.zip" nativePackageVersion) !! "obj/MKL/Zip/MathNet.Numerics.MKL/**/*.*"
-    CleanDir "obj/MKL/Zip")
+    CleanDir "obj/Zip"
+    CopyDir "obj/Zip/MathNet.Numerics.MKL" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
+    Zip "obj/Zip/" (sprintf "out/MKL/packages/Zip/MathNet.Numerics.MKL-%s.zip" nativePackageVersion) !! "obj/Zip/MathNet.Numerics.MKL/**/*.*"
+    CleanDir "obj/Zip")
 
 "NativeBuild" ==> "NativeZip"
+
+
+// NUGET
+
+let nativeNugetPack pack outPath =
+    CleanDir "obj/NuGet"
+    CopyFile "obj/NuGet/license.txt" "LICENSE.md"
+    CopyFile "obj/NuGet/readme.txt" "RELEASENOTES-Native.md"
+    let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
+    NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Native.nuspec"
+    CleanDir "obj/NuGet"
+
+Target "NativeNuGet" (fun _ ->
+    let outPath = "out/MKL/packages/NuGet"
+    CleanDir outPath
+    nativeNugetPack nativeMKLWin32Pack outPath
+    nativeNugetPack nativeMKLWin64Pack outPath
+    CleanDir "obj/NuGet")
+
+"NativeBuild" ==> "NativeNuGet"
 
 
 // ======================================================================================
@@ -409,12 +456,17 @@ Target "Publish" DoNothing
 // --------------------------------------------------------------------------------------
 
 Target "All" DoNothing
-
 "Build" ==> "All"
 "Zip" ==> "All"
 "NuGet" ==> "All"
 "Docs" ==> "All"
 "Api" ==> "All"
 "Test" ==> "All"
+
+Target "NativeAll" DoNothing
+"NativeBuild" ==> "NativeAll"
+"NativeZip" ==> "NativeAll"
+"NativeNuGet" ==> "NativeAll"
+"NativeTest" ==> "NativeAll"
 
 RunTargetOrDefault "Test"
