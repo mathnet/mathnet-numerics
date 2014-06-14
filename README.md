@@ -99,7 +99,6 @@ Quick Links
 * [Downloads](http://mathnetnumerics.codeplex.com/releases)
 * [Documentation](http://numerics.mathdotnet.com/docs/)
 * [API Reference](http://numerics.mathdotnet.com/api/)
-* [Code Samples](http://github.com/mathnet/mathnet-numerics/tree/master/src/Examples)
 * [Discussions](http://mathnetnumerics.codeplex.com/discussions)
 * [Work Items and Bug Tracker](http://github.com/mathnet/mathnet-numerics/issues)
 * [Ideas & Feedback](http://feedback.mathdotnet.com/forums/2060-math-net-numerics)

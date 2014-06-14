@@ -131,7 +131,7 @@ let nativeMKLWin32Pack =
       Summary = nativeSummary
       Description = nativeSummary
       ReleaseNotes = nativeReleaseNotes
-      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl x86"
+      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       Dependencies = [ "MathNet.Numerics", "2.4.0" ]
       Files = [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
@@ -339,7 +339,6 @@ Target "Zip" (fun _ ->
         provideCoreFiles "obj/Zip/MathNet.Numerics.Signed"
         Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics.Signed-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics.Signed/**/*.*"
     CleanDir "obj/Zip")
-
 "Build" ==> "Zip"
 
 Target "NativeZip" (fun _ ->
@@ -349,7 +348,6 @@ Target "NativeZip" (fun _ ->
     provideNativeFiles "obj/Zip/MathNet.Numerics.MKL"
     Zip "obj/Zip/" (sprintf "out/MKL/packages/Zip/MathNet.Numerics.MKL-%s.zip" nativePackageVersion) !! "obj/Zip/MathNet.Numerics.MKL/**/*.*"
     CleanDir "obj/Zip")
-
 "NativeBuild" ==> "NativeZip"
 
 Target "DataZip" (fun _ ->
@@ -359,7 +357,6 @@ Target "DataZip" (fun _ ->
     provideDataFiles "obj/Zip/MathNet.Numerics.Data"
     Zip "obj/Zip/" (sprintf "out/Data/packages/Zip/MathNet.Numerics.Data-%s.zip" dataPackageVersion) !! "obj/Zip/MathNet.Numerics.Data/**/*.*"
     CleanDir "obj/Zip")
-
 "DataBuild" ==> "DataZip"
 
 // NUGET
@@ -393,6 +390,13 @@ let nugetPack pack outPath =
     NuGet (updateNuspec pack outPath NugetSymbolPackage.None (withLicenseReadme >> withoutSymbolsSources)) "build/MathNet.Numerics.nuspec"
     CleanDir "obj/NuGet"
 
+let nugetPackExtension pack extraFiles outPath =
+    CleanDir "obj/NuGet"
+    extraFiles "obj/NuGet"
+    let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
+    NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Extension.nuspec"
+    CleanDir "obj/NuGet"
+
 Target "NuGet" (fun _ ->
     let outPath = "out/packages/NuGet"
     CleanDir outPath
@@ -403,39 +407,22 @@ Target "NuGet" (fun _ ->
         nugetPack numericsPack outPath
         nugetPack fsharpPack outPath
     CleanDir "obj/NuGet")
-
 "Build" ==> "NuGet"
-
-let nativeNugetPack pack outPath =
-    CleanDir "obj/NuGet"
-    provideNativeFiles "obj/NuGet"
-    let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
-    NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Native.nuspec"
-    CleanDir "obj/NuGet"
 
 Target "NativeNuGet" (fun _ ->
     let outPath = "out/MKL/packages/NuGet"
     CleanDir outPath
-    nativeNugetPack nativeMKLWin32Pack outPath
-    nativeNugetPack nativeMKLWin64Pack outPath
+    nugetPackExtension nativeMKLWin32Pack provideNativeFiles outPath
+    nugetPackExtension nativeMKLWin64Pack provideNativeFiles outPath
     CleanDir "obj/NuGet")
-
 "NativeBuild" ==> "NativeNuGet"
-
-let dataNugetPack pack outPath =
-    CleanDir "obj/NuGet"
-    provideDataFiles "obj/NuGet"
-    let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
-    NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Data.nuspec"
-    CleanDir "obj/NuGet"
 
 Target "DataNuGet" (fun _ ->
     let outPath = "out/Data/packages/NuGet"
     CleanDir outPath
-    dataNugetPack dataTextPack outPath
-    dataNugetPack dataMatlabPack outPath
+    nugetPackExtension dataTextPack provideDataFiles outPath
+    nugetPackExtension dataMatlabPack provideDataFiles outPath
     CleanDir "obj/NuGet")
-
 "DataBuild" ==> "DataNuGet"
 
 
@@ -483,33 +470,20 @@ Target "Api" (fun _ ->
 // Requires permissions; intended only for maintainers
 // --------------------------------------------------------------------------------------
 
-let pushGitTag tag =
+let publishReleaseTag title prefix version notes =
+    // inspired by Deedle/tpetricek
+    let tagName = prefix + "v" + version
+    let tagMessage = String.concat Environment.NewLine [title + " v" + version; ""; notes ]
+    let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
+    Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
     let _, remotes, _ = Git.CommandHelper.runGitCommand "." "remote -v"
     let main = remotes |> Seq.find (fun s -> s.Contains("(push)") && s.Contains("mathnet/mathnet-numerics"))
     let remoteName = main.Split('\t').[0]
-    Git.Branches.pushTag "." remoteName tag
+    Git.Branches.pushTag "." remoteName tagName
 
-Target "PublishTag" (fun _ ->
-    // inspired by Deedle/tpetricek
-    let tagName = "v" + packageVersion
-    let tagMessage = String.concat Environment.NewLine ["Math.NET Numerics v" + packageVersion; ""; releaseNotes ]
-    let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
-    Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
-    pushGitTag tagName)
-
-Target "NativePublishTag" (fun _ ->
-    let tagName = "native-v" + nativePackageVersion
-    let tagMessage = String.concat Environment.NewLine ["Math.NET Numerics Native Providers v" + nativePackageVersion; ""; nativeReleaseNotes ]
-    let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
-    Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
-    pushGitTag tagName)
-
-Target "DataPublishTag" (fun _ ->
-    let tagName = "data-v" + dataPackageVersion
-    let tagMessage = String.concat Environment.NewLine ["Math.NET Numerics Data Extensions v" + dataPackageVersion; ""; dataReleaseNotes ]
-    let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
-    Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
-    pushGitTag tagName)
+Target "PublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics" "" packageVersion releaseNotes)
+Target "NativePublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Native Providers" "native-" nativePackageVersion nativeReleaseNotes)
+Target "DataPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Data Extensions" "data-" dataPackageVersion dataReleaseNotes)
 
 Target "PublishDocs" (fun _ ->
     let repo = "../mathnet-websites"
