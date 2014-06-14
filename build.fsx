@@ -53,7 +53,7 @@ let buildPart = "0"
 let assemblyVersion = release.AssemblyVersion + "." + buildPart
 let packageVersion = release.NugetVersion
 let releaseNotes = release.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
-trace (sprintf " Math.NET Numerics                    v%s" release.NugetVersion)
+trace (sprintf " Math.NET Numerics                    v%s" packageVersion)
 
 let summary = "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use."
 let description = "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. "
@@ -120,8 +120,7 @@ let nativeBuildPart = "0"
 let nativeAssemblyVersion = nativeRelease.AssemblyVersion + "." + nativeBuildPart
 let nativePackageVersion = nativeRelease.NugetVersion
 let nativeReleaseNotes = nativeRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
-trace (sprintf " Math.NET Numerics Native Providers   v%s" nativeRelease.NugetVersion)
-trace ""
+trace (sprintf " Math.NET Numerics Native Providers   v%s" nativePackageVersion)
 
 let nativeSummary = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
 
@@ -145,6 +144,46 @@ let nativeMKLWin64Pack =
                                         @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
 
 
+// DATA EXTENSION PACKAGES
+
+let dataRelease = LoadReleaseNotes "RELEASENOTES-Data.md"
+let dataBuildPart = "0"
+let dataAssemblyVersion = dataRelease.AssemblyVersion + "." + dataBuildPart
+let dataPackageVersion = dataRelease.NugetVersion
+let dataReleaseNotes = dataRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf " Math.NET Numerics Data Extensions    v%s" dataPackageVersion)
+trace ""
+
+let dataTextSummary = "Text Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use."
+let dataMatlabSummary = "MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use."
+
+let dataTextPack =
+    { Id = "MathNet.Numerics.Data.Text"
+      Version = dataPackageVersion
+      Title = "Math.NET Numerics - Text Data I/O Extensions"
+      Summary = dataTextSummary
+      Description = dataTextSummary
+      ReleaseNotes = dataReleaseNotes
+      Tags = "math numeric data text csv tsv json xml"
+      Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
+      Dependencies = [ "MathNet.Numerics", packageVersion ]
+      Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.dll", Some libnet40, None;
+                @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml", Some libnet40, None ] }
+
+let dataMatlabPack =
+    { Id = "MathNet.Numerics.Data.Matlab"
+      Version = dataPackageVersion
+      Title = "Math.NET Numerics - MATLAB Data I/O Extensions"
+      Summary = dataMatlabSummary
+      Description = dataMatlabSummary
+      ReleaseNotes = dataReleaseNotes
+      Tags = "math numeric data matlab"
+      Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
+      Dependencies = [ "MathNet.Numerics", packageVersion ]
+      Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
+                @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
+
+
 // --------------------------------------------------------------------------------------
 // PREPARE
 // --------------------------------------------------------------------------------------
@@ -156,21 +195,28 @@ Target "Clean" (fun _ ->
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
     CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile344" ]
     CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile344" ]
-    CleanDirs [ "out/lib-signed/Net40" ]
-    CleanDirs [ "out/test-signed/Net40" ]
-    CleanDirs [ "out/MKL"; "out/ATLAS" ])
+    CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
+    CleanDirs [ "out/MKL"; "out/ATLAS" ] // Native Providers
+    CleanDirs [ "out/Data" ]) // Data Extensions
 
 Target "RestorePackages" RestorePackages
 
 Target "ApplyVersion" (fun _ ->
-    BulkReplaceAssemblyInfoVersions "src/" (fun f ->
-        { f with
-            AssemblyVersion = assemblyVersion
-            AssemblyFileVersion = assemblyVersion
-            AssemblyInformationalVersion = packageVersion })
+    let patchAssemblyInfo path assemblyVersion packageVersion =
+        BulkReplaceAssemblyInfoVersions path (fun f ->
+            { f with
+                AssemblyVersion = assemblyVersion
+                AssemblyFileVersion = assemblyVersion
+                AssemblyInformationalVersion = packageVersion })
+    patchAssemblyInfo "src/Numerics" assemblyVersion packageVersion
+    patchAssemblyInfo "src/FSharp" assemblyVersion packageVersion
+    patchAssemblyInfo "src/UnitTests" assemblyVersion packageVersion
+    patchAssemblyInfo "src/FSharpUnitTests" assemblyVersion packageVersion
+    patchAssemblyInfo "src/Data" dataAssemblyVersion dataPackageVersion
+    patchAssemblyInfo "src/DataUnitTests" dataAssemblyVersion dataPackageVersion
     ReplaceInFile
-        (regex_replace "\d+\.\d+\.\d+\.\d+" nativeAssemblyVersion
-         >> regex_replace "\d+,\d+,\d+,\d+" (replace "." "," nativeAssemblyVersion))
+        (regex_replace @"\d+\.\d+\.\d+\.\d+" nativeAssemblyVersion
+         >> regex_replace @"\d+,\d+,\d+,\d+" (replace "." "," nativeAssemblyVersion))
         "src/NativeProviders/Common/resource.rc")
 
 Target "Prepare" DoNothing
@@ -210,6 +256,9 @@ Target "Native64Build" (fun _ -> native64Build !! "MathNet.Numerics.NativeProvid
 Target "NativeBuild" DoNothing
 "Prepare" ==> "Native32Build" ==> "NativeBuild"
 "Prepare" ==> "Native64Build" ==> "NativeBuild"
+
+Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
+"Prepare" ==> "DataBuild"
 
 
 // --------------------------------------------------------------------------------------
@@ -255,6 +304,9 @@ FinalTarget "CloseTestRunner" (fun _ ->
 "Native32Build" ==> "Native32Test" ==> "NativeTest"
 "Native64Build" ==> "Native64Test" ==> "NativeTest"
 
+Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
+"DataBuild" ==> "DataTest"
+
 
 // --------------------------------------------------------------------------------------
 // PACKAGES
@@ -271,6 +323,7 @@ let provideLicenseReadme title license releasenotes path =
     |> ReplaceFile readmePath
 let provideCoreFiles = provideLicenseReadme (sprintf "Math.NET Numerics v%s" packageVersion) "LICENSE.md" "RELEASENOTES.md"
 let provideNativeFiles = provideLicenseReadme (sprintf "Math.NET Numerics Native Providers v%s" nativePackageVersion) "LICENSE.md" "RELEASENOTES-Native.md"
+let provideDataFiles = provideLicenseReadme (sprintf "Math.NET Numerics Data Extensions v%s" dataPackageVersion) "LICENSE.md" "RELEASENOTES-Data.md"
 
 // ZIP
 
@@ -298,6 +351,16 @@ Target "NativeZip" (fun _ ->
     CleanDir "obj/Zip")
 
 "NativeBuild" ==> "NativeZip"
+
+Target "DataZip" (fun _ ->
+    CleanDir "out/Data/packages/Zip"
+    CleanDir "obj/Zip"
+    CopyDir "obj/Zip/MathNet.Numerics.Data" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data."))
+    provideDataFiles "obj/Zip/MathNet.Numerics.Data"
+    Zip "obj/Zip/" (sprintf "out/Data/packages/Zip/MathNet.Numerics.Data-%s.zip" dataPackageVersion) !! "obj/Zip/MathNet.Numerics.Data/**/*.*"
+    CleanDir "obj/Zip")
+
+"DataBuild" ==> "DataZip"
 
 // NUGET
 
@@ -359,6 +422,22 @@ Target "NativeNuGet" (fun _ ->
 
 "NativeBuild" ==> "NativeNuGet"
 
+let dataNugetPack pack outPath =
+    CleanDir "obj/NuGet"
+    provideDataFiles "obj/NuGet"
+    let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
+    NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Data.nuspec"
+    CleanDir "obj/NuGet"
+
+Target "DataNuGet" (fun _ ->
+    let outPath = "out/Data/packages/NuGet"
+    CleanDir outPath
+    dataNugetPack dataTextPack outPath
+    dataNugetPack dataMatlabPack outPath
+    CleanDir "obj/NuGet")
+
+"DataBuild" ==> "DataNuGet"
+
 
 // --------------------------------------------------------------------------------------
 // Documentation
@@ -419,9 +498,15 @@ Target "PublishTag" (fun _ ->
     pushGitTag tagName)
 
 Target "NativePublishTag" (fun _ ->
-    // create tag with release notes
     let tagName = "native-v" + nativePackageVersion
     let tagMessage = String.concat Environment.NewLine ["Math.NET Numerics Native Providers v" + nativePackageVersion; ""; nativeReleaseNotes ]
+    let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
+    Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
+    pushGitTag tagName)
+
+Target "DataPublishTag" (fun _ ->
+    let tagName = "data-v" + dataPackageVersion
+    let tagMessage = String.concat Environment.NewLine ["Math.NET Numerics Data Extensions v" + dataPackageVersion; ""; dataReleaseNotes ]
     let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
     Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
     pushGitTag tagName)
@@ -454,6 +539,11 @@ Target "NativePublish" DoNothing
 "PublishDocs" ==> "NativePublish"
 "PublishApi" ==> "NativePublish"
 
+Target "DataPublish" DoNothing
+"DataPublishTag" ==> "DataPublish"
+"PublishDocs" ==> "DataPublish"
+"PublishApi" ==> "DataPublish"
+
 
 // --------------------------------------------------------------------------------------
 // Default Targets
@@ -473,8 +563,36 @@ Target "NativeAll" DoNothing
 "NativeNuGet" ==> "NativeAll"
 "NativeTest" ==> "NativeAll"
 
+Target "DataAll" DoNothing
+"DataBuild" ==> "DataAll"
+"DataZip" ==> "DataAll"
+"DataNuGet" ==> "DataAll"
+"DataTest" ==> "DataAll"
+
+Target "UltimateBuild" DoNothing
+"Build" ==> "UltimateBuild"
+"NativeBuild" ==> "UltimateBuild"
+"DataBuild" ==> "UltimateBuild"
+
+Target "UltimateTest" DoNothing
+"UltimateBuild" ==> "UltimateTest"
+"Test" ==> "UltimateTest"
+"NativeTest" ==> "UltimateTest"
+"DataTest" ==> "UltimateTest"
+
+Target "UltimatePack" DoNothing
+"UltimateBuild" ==> "UltimatePack"
+"Zip" ==> "UltimatePack"
+"NuGet" ==> "UltimatePack"
+"NativeZip" ==> "UltimatePack"
+"NativeNuGet" ==> "UltimatePack"
+"DataZip" ==> "UltimatePack"
+"DataNuGet" ==> "UltimatePack"
+
 Target "Ultimate" DoNothing
 "All" ==> "Ultimate"
-"NativeAll" ==> "Ultimate"
+"UltimateBuild" ==> "Ultimate"
+"UltimatePack" ==> "Ultimate"
+"UltimateTest" ==> "Ultimate"
 
 RunTargetOrDefault "Test"

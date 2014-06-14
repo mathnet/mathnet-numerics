@@ -11,6 +11,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Text", "src\Data\Text\Text.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics", "src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{F510F04E-7503-4F87-A1EC-3A5FBA1DF7B8}"
+	ProjectSection(SolutionItems) = preProject
+		CONTRIBUTING.md = CONTRIBUTING.md
+		CONTRIBUTORS.md = CONTRIBUTORS.md
+		LICENSE.md = LICENSE.md
+		MAINTAINING.md = MAINTAINING.md
+		README.md = README.md
+		RELEASENOTES-Data.md = RELEASENOTES-Data.md
+		RELEASENOTES.md = RELEASENOTES.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{D954831A-F51A-436A-9F17-0DFC7AEC7113}"
+	ProjectSection(SolutionItems) = preProject
+		build.fsx = build.fsx
+		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
+		build\packages.config = build\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

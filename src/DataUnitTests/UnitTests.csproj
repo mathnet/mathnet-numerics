@@ -16,9 +16,9 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\out\test-debug\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Net40\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\Data\test-debug\Net40\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\Data\test-debug\Net40\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\Data\test-debug\Net40\</BaseIntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,9 +26,9 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\out\test\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Net40\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\Data\test\Net40\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\Data\test\Net40\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\Data\test\Net40\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

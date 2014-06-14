@@ -1,4 +1,4 @@
-﻿// <copyright file="AssemblyInfo.cs" company="Math.NET">
+// <copyright file="AssemblyInfo.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
@@ -35,12 +35,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Marcus Cuda, Christoph Ruegg")]
 [assembly: AssemblyProduct("Math.NET Numerics")]
-[assembly: AssemblyCopyright("Copyright © Math.NET Project")]
+[assembly: AssemblyCopyright("Copyright � Math.NET Project")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
 [assembly: Guid("d9f6a513-7772-4a7d-a15e-668dfcdf5b00")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("3.0.0.0")]
+[assembly: AssemblyFileVersion("3.0.0.0")]
+[assembly: AssemblyInformationalVersion("3.0.0-beta01")]

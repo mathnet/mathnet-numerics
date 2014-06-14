@@ -16,9 +16,9 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\out\lib-debug\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\..\obj\lib-debug\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\..\obj\lib-debug\Net40\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\..\out\Data\lib-debug\Net40\</OutputPath>
+    <IntermediateOutputPath>..\..\..\obj\Data\lib-debug\Net40\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\obj\Data\lib-debug\Net40\</BaseIntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,10 +26,10 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\out\lib\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\..\obj\lib\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\..\obj\lib\Net40\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\..\out\lib\Net40\MathNet.Numerics.Data.Text.xml</DocumentationFile>
+    <OutputPath>..\..\..\out\Data\lib\Net40\</OutputPath>
+    <IntermediateOutputPath>..\..\..\obj\Data\lib\Net40\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\obj\Data\lib\Net40\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml</DocumentationFile>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
