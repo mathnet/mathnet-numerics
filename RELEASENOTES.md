@@ -2,7 +2,7 @@
 * Linear Algebra: vector outer product now follows common style, supports explicit result argument, more efficient.
 * Interpolation: must not modify/sort original data; alternative Sorted and Inplace functions.
 * Distributions: static IsValidParameterSet functions.
-* Distributions: all distributions are now immutable in their distribution parameters.
+* Distributions: all distributions are now immutable in their distribution parameters. **Breaking.**
 * NuGet: attempt to create proper symbol+source packages on symbolsource; primary packages smaller, w/o pdbs
 * Build: skip long tests with new "quick" argument (FAKE)
 * Build: clearing is more explicit, fixes most locking issues if solution is also open in IDE.
@@ -17,7 +17,7 @@
    * matrix FoldRows/FoldColumns.
    * matrix column/row norms, normalization.
    * prefer enums over boolean parameters (e.g. `Zeros.AllowSkip`).
-   * IsSymmetric is now a method, add IsConjugateSymmetric. **breaking**
+   * IsSymmetric is now a method, add IsConjugateSymmetric. **Breaking.**
    * Eigenvalue decomposition can optionally skip symmetry test.
    * Direct diagonal-scalar division implementation
 * Test Functions: Rosenbrock, Rastrigin, DropWave, Ackley, Bohachevsky, Matyas, SixHumpCamel, Himmelblau
