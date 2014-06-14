@@ -157,9 +157,8 @@ Target "Clean" (fun _ ->
     CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile344" ]
     CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile344" ]
     CleanDirs [ "out/lib-signed/Net40" ]
-    CleanDirs [ "out/test-signed/Net40" ])
-
-Target "NativeClean" (fun _ -> CleanDirs [ "out/MKL"; "out/ATLAS" ] )
+    CleanDirs [ "out/test-signed/Net40" ]
+    CleanDirs [ "out/MKL"; "out/ATLAS" ])
 
 Target "RestorePackages" RestorePackages
 
@@ -209,15 +208,8 @@ Target "Native32Build" (fun _ -> native32Build !! "MathNet.Numerics.NativeProvid
 Target "Native64Build" (fun _ -> native64Build !! "MathNet.Numerics.NativeProviders.sln")
 
 Target "NativeBuild" DoNothing
-"Prepare"
-  =?> ("NativeClean", not (hasBuildParam "incremental"))
-  ==> "Native32Build"
-  ==> "NativeBuild"
-"Prepare"
-  =?> ("NativeClean", not (hasBuildParam "incremental"))
-  ==> "NativeVersion"
-  ==> "Native64Build"
-  ==> "NativeBuild"
+"Prepare" ==> "Native32Build" ==> "NativeBuild"
+"Prepare" ==> "Native64Build" ==> "NativeBuild"
 
 
 // --------------------------------------------------------------------------------------
@@ -268,15 +260,17 @@ FinalTarget "CloseTestRunner" (fun _ ->
 // PACKAGES
 // --------------------------------------------------------------------------------------
 
-let provideLicenseReadme license releasenotes path =
+let provideLicenseReadme title license releasenotes path =
     let licensePath = path @@ "license.txt"
     let readmePath = path @@ "readme.txt"
     CopyFile licensePath license
     CopyFile readmePath releasenotes
     ConvertFileToWindowsLineBreaks licensePath
-    header + Environment.NewLine + (ReadFileAsString readmePath)
+    String.concat Environment.NewLine [header; " " + title; ""; ReadFileAsString readmePath]
     |> ConvertTextToWindowsLineBreaks 
     |> ReplaceFile readmePath
+let provideCoreFiles = provideLicenseReadme (sprintf "Math.NET Numerics v%s" packageVersion) "LICENSE.md" "RELEASENOTES.md"
+let provideNativeFiles = provideLicenseReadme (sprintf "Math.NET Numerics Native Providers v%s" nativePackageVersion) "LICENSE.md" "RELEASENOTES-Native.md"
 
 // ZIP
 
@@ -285,11 +279,11 @@ Target "Zip" (fun _ ->
     CleanDir "obj/Zip"
     if not (hasBuildParam "signed") || hasBuildParam "release" then
         CopyDir "obj/Zip/MathNet.Numerics" "out/lib" (fun f -> f.Contains("MathNet.Numerics."))
-        provideLicenseReadme "LICENSE.md" "RELEASENOTES.md" "obj/Zip/MathNet.Numerics"
+        provideCoreFiles "obj/Zip/MathNet.Numerics"
         Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics/**/*.*"
     if hasBuildParam "signed" || hasBuildParam "release" then
         CopyDir "obj/Zip/MathNet.Numerics.Signed" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics."))
-        provideLicenseReadme "LICENSE.md" "RELEASENOTES.md" "obj/Zip/MathNet.Numerics.Signed"
+        provideCoreFiles "obj/Zip/MathNet.Numerics.Signed"
         Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics.Signed-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics.Signed/**/*.*"
     CleanDir "obj/Zip")
 
@@ -299,7 +293,7 @@ Target "NativeZip" (fun _ ->
     CleanDir "out/MKL/packages/Zip"
     CleanDir "obj/Zip"
     CopyDir "obj/Zip/MathNet.Numerics.MKL" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
-    provideLicenseReadme "LICENSE.md" "RELEASENOTES-Native.md" "obj/Zip/MathNet.Numerics.MKL"
+    provideNativeFiles "obj/Zip/MathNet.Numerics.MKL"
     Zip "obj/Zip/" (sprintf "out/MKL/packages/Zip/MathNet.Numerics.MKL-%s.zip" nativePackageVersion) !! "obj/Zip/MathNet.Numerics.MKL/**/*.*"
     CleanDir "obj/Zip")
 
@@ -326,7 +320,7 @@ let updateNuspec pack outPath symbols updateFiles spec =
 
 let nugetPack pack outPath =
     CleanDir "obj/NuGet"
-    provideLicenseReadme "LICENSE.md" "RELEASENOTES.md" "obj/NuGet"
+    provideCoreFiles "obj/NuGet"
     let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
     let withoutSymbolsSources f =
         List.choose (function | (_, Some (target:string), _) when target.StartsWith("src") -> None
@@ -351,7 +345,7 @@ Target "NuGet" (fun _ ->
 
 let nativeNugetPack pack outPath =
     CleanDir "obj/NuGet"
-    provideLicenseReadme "LICENSE.md" "RELEASENOTES-Native.md" "obj/NuGet"
+    provideNativeFiles "obj/NuGet"
     let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
     NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Native.nuspec"
     CleanDir "obj/NuGet"
@@ -478,5 +472,9 @@ Target "NativeAll" DoNothing
 "NativeZip" ==> "NativeAll"
 "NativeNuGet" ==> "NativeAll"
 "NativeTest" ==> "NativeAll"
+
+Target "Ultimate" DoNothing
+"All" ==> "Ultimate"
+"NativeAll" ==> "Ultimate"
 
 RunTargetOrDefault "Test"
