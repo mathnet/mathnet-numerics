@@ -410,17 +410,27 @@ Target "Api" (fun _ ->
 // Requires permissions; intended only for maintainers
 // --------------------------------------------------------------------------------------
 
-Target "PublishTag" (fun _ ->
-    // inspired by Deedle/tpetricek
-    // create tag with release notes
-    let tagName = "v" + packageVersion
-    let cmd = sprintf """tag -a %s -m "%s" """ tagName releaseNotes
-    Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
-    // push tag
+let pushGitTag tag =
     let _, remotes, _ = Git.CommandHelper.runGitCommand "." "remote -v"
     let main = remotes |> Seq.find (fun s -> s.Contains("(push)") && s.Contains("mathnet/mathnet-numerics"))
     let remoteName = main.Split('\t').[0]
-    Git.Branches.pushTag "." remoteName tagName)
+    Git.Branches.pushTag "." remoteName tag
+
+Target "PublishTag" (fun _ ->
+    // inspired by Deedle/tpetricek
+    let tagName = "v" + packageVersion
+    let tagMessage = String.concat Environment.NewLine ["Math.NET Numerics v" + packageVersion; ""; releaseNotes ]
+    let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
+    Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
+    pushGitTag tagName)
+
+Target "NativePublishTag" (fun _ ->
+    // create tag with release notes
+    let tagName = "native-v" + nativePackageVersion
+    let tagMessage = String.concat Environment.NewLine ["Math.NET Numerics Native Providers v" + nativePackageVersion; ""; nativeReleaseNotes ]
+    let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
+    Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
+    pushGitTag tagName)
 
 Target "PublishDocs" (fun _ ->
     let repo = "../mathnet-websites"
@@ -444,6 +454,11 @@ Target "Publish" DoNothing
 "PublishTag" ==> "Publish"
 "PublishDocs" ==> "Publish"
 "PublishApi" ==> "Publish"
+
+Target "NativePublish" DoNothing
+"NativePublishTag" ==> "NativePublish"
+"PublishDocs" ==> "NativePublish"
+"PublishApi" ==> "NativePublish"
 
 
 // --------------------------------------------------------------------------------------
