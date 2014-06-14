@@ -42,8 +42,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadAllMatrices()
         {
-            var dmr = new MatlabMatrixReader<double>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices();
+            var matrices = MatlabMatrixReader.ReadMatrices<double>("./data/Matlab/collection.mat");
             Assert.AreEqual(30, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -57,8 +56,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadFirstMatrix()
         {
-            var dmr = new MatlabMatrixReader<double>("./data/Matlab/A.mat");
-            var matrix = dmr.ReadMatrix();
+            var matrix = MatlabMatrixReader.ReadMatrix<double>("./data/Matlab/A.mat");
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(LinearAlgebra.Double.DenseMatrix), matrix.GetType());
@@ -71,8 +69,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNamedMatrices()
         {
-            var dmr = new MatlabMatrixReader<double>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices(new[] { "Ad", "Au64" });
+            var matrices = MatlabMatrixReader.ReadMatrices<double>("./data/Matlab/collection.mat", "Ad", "Au64");
             Assert.AreEqual(2, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -86,8 +83,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNamedMatrix()
         {
-            var dmr = new MatlabMatrixReader<double>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices(new[] { "Ad" });
+            var matrices = MatlabMatrixReader.ReadMatrices<double>("./data/Matlab/collection.mat", "Ad");
             Assert.AreEqual(1, matrices.Count);
             var ad = matrices["Ad"];
             Assert.AreEqual(100, ad.RowCount);
@@ -102,8 +98,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNamedSparseMatrix()
         {
-            var dmr = new MatlabMatrixReader<double>("./data/Matlab/sparse-small.mat");
-            var matrix = dmr.ReadMatrix("S");
+            var matrix = MatlabMatrixReader.ReadMatrix<double>("./data/Matlab/sparse-small.mat", "S");
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(LinearAlgebra.Double.SparseMatrix), matrix.GetType());
@@ -116,8 +111,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadComplexAllMatrices()
         {
-            var dmr = new MatlabMatrixReader<Complex>("./data/Matlab/complex.mat");
-            var matrices = dmr.ReadMatrices();
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex>("./data/Matlab/complex.mat");
             Assert.AreEqual(3, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -137,8 +131,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadSparseComplexAllMatrices()
         {
-            var dmr = new MatlabMatrixReader<Complex>("./data/Matlab/sparse_complex.mat");
-            var matrices = dmr.ReadMatrices();
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex>("./data/Matlab/sparse_complex.mat");
             Assert.AreEqual(3, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -158,8 +151,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplexAllMatrices()
         {
-            var dmr = new MatlabMatrixReader<Complex>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices();
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex>("./data/Matlab/collection.mat");
             Assert.AreEqual(30, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -173,8 +165,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplexFirstMatrix()
         {
-            var dmr = new MatlabMatrixReader<Complex>("./data/Matlab/A.mat");
-            var matrix = dmr.ReadMatrix();
+            var matrix = MatlabMatrixReader.ReadMatrix<Complex>("./data/Matlab/A.mat");
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(LinearAlgebra.Complex.DenseMatrix), matrix.GetType());
@@ -187,8 +178,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplexNamedMatrices()
         {
-            var dmr = new MatlabMatrixReader<Complex>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices(new[] { "Ad", "Au64" });
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex>("./data/Matlab/collection.mat", "Ad", "Au64");
             Assert.AreEqual(2, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -202,8 +192,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplexNamedMatrix()
         {
-            var dmr = new MatlabMatrixReader<Complex>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices(new[] { "Ad" });
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex>("./data/Matlab/collection.mat", "Ad");
             Assert.AreEqual(1, matrices.Count);
             var ad = matrices["Ad"];
             Assert.AreEqual(100, ad.RowCount);
@@ -218,8 +207,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplexNamedSparseMatrix()
         {
-            var dmr = new MatlabMatrixReader<Complex>("./data/Matlab/sparse-small.mat");
-            var matrix = dmr.ReadMatrix("S");
+            var matrix = MatlabMatrixReader.ReadMatrix<Complex>("./data/Matlab/sparse-small.mat", "S");
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(LinearAlgebra.Complex.SparseMatrix), matrix.GetType());
@@ -232,8 +220,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadComplex32AllMatrices()
         {
-            var dmr = new MatlabMatrixReader<Complex32>("./data/Matlab/complex.mat");
-            var matrices = dmr.ReadMatrices();
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex32>("./data/Matlab/complex.mat");
             Assert.AreEqual(3, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -253,8 +240,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadSparseComplex32AllMatrices()
         {
-            var dmr = new MatlabMatrixReader<Complex32>("./data/Matlab/sparse_complex.mat");
-            var matrices = dmr.ReadMatrices();
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex32>("./data/Matlab/sparse_complex.mat");
             Assert.AreEqual(3, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -274,8 +260,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplex32AllMatrices()
         {
-            var dmr = new MatlabMatrixReader<Complex32>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices();
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex32>("./data/Matlab/collection.mat");
             Assert.AreEqual(30, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -289,8 +274,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplex32FirstMatrix()
         {
-            var dmr = new MatlabMatrixReader<Complex32>("./data/Matlab/A.mat");
-            var matrix = dmr.ReadMatrix();
+            var matrix = MatlabMatrixReader.ReadMatrix<Complex32>("./data/Matlab/A.mat");
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(LinearAlgebra.Complex32.DenseMatrix), matrix.GetType());
@@ -303,8 +287,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplex32NamedMatrices()
         {
-            var dmr = new MatlabMatrixReader<Complex32>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices(new[] { "Ad", "Au64" });
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex32>("./data/Matlab/collection.mat", "Ad", "Au64");
             Assert.AreEqual(2, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -318,8 +301,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplex32NamedMatrix()
         {
-            var dmr = new MatlabMatrixReader<Complex32>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices(new[] { "Ad" });
+            var matrices = MatlabMatrixReader.ReadMatrices<Complex32>("./data/Matlab/collection.mat", "Ad");
             Assert.AreEqual(1, matrices.Count);
             var ad = matrices["Ad"];
             Assert.AreEqual(100, ad.RowCount);
@@ -334,8 +316,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadNonComplex32NamedSparseMatrix()
         {
-            var dmr = new MatlabMatrixReader<Complex32>("./data/Matlab/sparse-small.mat");
-            var matrix = dmr.ReadMatrix("S");
+            var matrix = MatlabMatrixReader.ReadMatrix<Complex32>("./data/Matlab/sparse-small.mat", "S");
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(LinearAlgebra.Complex32.SparseMatrix), matrix.GetType());
@@ -348,8 +329,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadFloatAllMatrices()
         {
-            var dmr = new MatlabMatrixReader<float>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices();
+            var matrices = MatlabMatrixReader.ReadMatrices<float>("./data/Matlab/collection.mat");
             Assert.AreEqual(30, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -363,8 +343,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadFloatFirstMatrix()
         {
-            var dmr = new MatlabMatrixReader<float>("./data/Matlab/A.mat");
-            var matrix = dmr.ReadMatrix();
+            var matrix = MatlabMatrixReader.ReadMatrix<float>("./data/Matlab/A.mat");
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(LinearAlgebra.Single.DenseMatrix), matrix.GetType());
@@ -377,8 +356,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadFloatNamedMatrices()
         {
-            var dmr = new MatlabMatrixReader<float>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices(new[] { "Ad", "Au64" });
+            var matrices = MatlabMatrixReader.ReadMatrices<float>("./data/Matlab/collection.mat", "Ad", "Au64");
             Assert.AreEqual(2, matrices.Count);
             foreach (var matrix in matrices)
             {
@@ -392,8 +370,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadFloatNamedMatrix()
         {
-            var dmr = new MatlabMatrixReader<float>("./data/Matlab/collection.mat");
-            var matrices = dmr.ReadMatrices(new[] { "Ad" });
+            var matrices = MatlabMatrixReader.ReadMatrices<float>("./data/Matlab/collection.mat", "Ad");
             Assert.AreEqual(1, matrices.Count);
             var ad = matrices["Ad"];
             Assert.AreEqual(100, ad.RowCount);
@@ -408,8 +385,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanReadFloatNamedSparseMatrix()
         {
-            var dmr = new MatlabMatrixReader<float>("./data/Matlab/sparse-small.mat");
-            var matrix = dmr.ReadMatrix("S");
+            var matrix = MatlabMatrixReader.ReadMatrix<float>("./data/Matlab/sparse-small.mat", "S");
             Assert.AreEqual(100, matrix.RowCount);
             Assert.AreEqual(100, matrix.ColumnCount);
             Assert.AreEqual(typeof(LinearAlgebra.Single.SparseMatrix), matrix.GetType());

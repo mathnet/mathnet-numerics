@@ -122,14 +122,12 @@ let nativePackageVersion = nativeRelease.NugetVersion
 let nativeReleaseNotes = nativeRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
 trace (sprintf " Math.NET Numerics Native Providers   v%s" nativePackageVersion)
 
-let nativeSummary = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
-
 let nativeMKLWin32Pack =
     { Id = "MathNet.Numerics.MKL.Win-x86"
       Version = nativePackageVersion
       Title = "Math.NET Numerics - MKL Native Libraries (Windows 32-bit)"
-      Summary = nativeSummary
-      Description = nativeSummary
+      Summary = ""
+      Description = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
       ReleaseNotes = nativeReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
@@ -154,15 +152,12 @@ let dataReleaseNotes = dataRelease.Notes |> List.map (fun l -> l.Replace("*","")
 trace (sprintf " Math.NET Numerics Data Extensions    v%s" dataPackageVersion)
 trace ""
 
-let dataTextSummary = "Text Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use."
-let dataMatlabSummary = "MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use."
-
 let dataTextPack =
     { Id = "MathNet.Numerics.Data.Text"
       Version = dataPackageVersion
       Title = "Math.NET Numerics - Text Data I/O Extensions"
-      Summary = dataTextSummary
-      Description = dataTextSummary
+      Summary = ""
+      Description = "Text Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use."
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data text csv tsv json xml"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
@@ -174,8 +169,8 @@ let dataMatlabPack =
     { Id = "MathNet.Numerics.Data.Matlab"
       Version = dataPackageVersion
       Title = "Math.NET Numerics - MATLAB Data I/O Extensions"
-      Summary = dataMatlabSummary
-      Description = dataMatlabSummary
+      Summary = ""
+      Description = "MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use."
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data matlab"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
