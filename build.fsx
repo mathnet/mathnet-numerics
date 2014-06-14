@@ -11,9 +11,8 @@
 // FAKE build script, see http://fsharp.github.io/FAKE
 //
 
-
 // --------------------------------------------------------------------------------------
-// Prelude
+// PRELUDE
 // --------------------------------------------------------------------------------------
 
 #I "packages/FAKE/tools"
@@ -30,28 +29,12 @@ Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 let header = ReadFile(__SOURCE_DIRECTORY__ @@ "build.fsx") |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> toLines
 trace header
 
-Target "Start" DoNothing
-Target "Clean" (fun _ ->
-    CleanDirs [ "obj" ]
-    CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
-    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile344" ]
-    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile344" ]
-    CleanDirs [ "out/lib-signed/Net40" ]
-    CleanDirs [ "out/test-signed/Net40" ])
-Target "RestorePackages" RestorePackages
-Target "Prepare" DoNothing
 
-"Start"
-  =?> ("Clean", not (hasBuildParam "incremental"))
-  ==> "RestorePackages"
-  ==> "Prepare"
-
-
-// ======================================================================================
-// Math.NET Numerics Core
-// ======================================================================================
-
+// --------------------------------------------------------------------------------------
 // PROJECT INFO
+// --------------------------------------------------------------------------------------
+
+// CORE PACKAGES
 
 type Package =
     { Id: string
@@ -130,23 +113,84 @@ let fsharpSignedPack =
                                 @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 
-// APPLY VERSION
+// NATIVE PROVIDER PACKAGES
 
-Target "AssemblyInfo" (fun _ ->
+let nativeRelease = LoadReleaseNotes "RELEASENOTES-Native.md"
+let nativeBuildPart = "0"
+let nativeAssemblyVersion = nativeRelease.AssemblyVersion + "." + nativeBuildPart
+let nativePackageVersion = nativeRelease.NugetVersion
+let nativeReleaseNotes = nativeRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf " Math.NET Numerics Native Providers   v%s" nativeRelease.NugetVersion)
+trace ""
+
+let nativeSummary = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
+
+let nativeMKLWin32Pack =
+    { Id = "MathNet.Numerics.MKL.Win-x86"
+      Version = nativePackageVersion
+      Title = "Math.NET Numerics - MKL Native Libraries (Windows 32-bit)"
+      Summary = nativeSummary
+      Description = nativeSummary
+      ReleaseNotes = nativeReleaseNotes
+      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl x86"
+      Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
+      Dependencies = [ "MathNet.Numerics", "2.4.0" ]
+      Files = [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
+                @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
+
+let nativeMKLWin64Pack =
+    { nativeMKLWin32Pack with Id = "MathNet.Numerics.MKL.Win-x64"
+                              Title = "Math.NET Numerics - MKL Native Libraries (Windows 64-bit)"
+                              Files = [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
+                                        @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
+
+
+// --------------------------------------------------------------------------------------
+// PREPARE
+// --------------------------------------------------------------------------------------
+
+Target "Start" DoNothing
+
+Target "Clean" (fun _ ->
+    CleanDirs [ "obj" ]
+    CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
+    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile344" ]
+    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile344" ]
+    CleanDirs [ "out/lib-signed/Net40" ]
+    CleanDirs [ "out/test-signed/Net40" ])
+
+Target "NativeClean" (fun _ -> CleanDirs [ "out/MKL"; "out/ATLAS" ] )
+
+Target "RestorePackages" RestorePackages
+
+Target "ApplyVersion" (fun _ ->
     BulkReplaceAssemblyInfoVersions "src/" (fun f ->
         { f with
             AssemblyVersion = assemblyVersion
             AssemblyFileVersion = assemblyVersion
-            AssemblyInformationalVersion = packageVersion }))
+            AssemblyInformationalVersion = packageVersion })
+    ReplaceInFile
+        (regex_replace "\d+\.\d+\.\d+\.\d+" nativeAssemblyVersion
+         >> regex_replace "\d+,\d+,\d+,\d+" (replace "." "," nativeAssemblyVersion))
+        "src/NativeProviders/Common/resource.rc")
 
-"Prepare" ==> "AssemblyInfo"
+Target "Prepare" DoNothing
+"Start"
+  =?> ("Clean", not (hasBuildParam "incremental"))
+  ==> "RestorePackages"
+  ==> "ApplyVersion"
+  ==> "Prepare"
 
 
+// --------------------------------------------------------------------------------------
 // BUILD
+// --------------------------------------------------------------------------------------
 
 let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
 let build subject = buildConfig "Release" subject
 let buildSigned subject = buildConfig "Release-Signed" subject
+let native32Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
+let native64Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
 
 Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
 Target "BuildNet35" (fun _ -> build !! "MathNet.Numerics.Net35Only.sln")
@@ -155,15 +199,30 @@ Target "BuildSigned" (fun _ -> buildSigned !! "MathNet.Numerics.sln")
 
 Target "Build" DoNothing
 "Prepare"
-  ==> "AssemblyInfo"
   =?> ("BuildNet35", hasBuildParam "net35")
   =?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
   =?> ("BuildAll", hasBuildParam "all" || hasBuildParam "release")
   =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "net35" || hasBuildParam "signed"))
   ==> "Build"
 
+Target "Native32Build" (fun _ -> native32Build !! "MathNet.Numerics.NativeProviders.sln")
+Target "Native64Build" (fun _ -> native64Build !! "MathNet.Numerics.NativeProviders.sln")
 
+Target "NativeBuild" DoNothing
+"Prepare"
+  =?> ("NativeClean", not (hasBuildParam "incremental"))
+  ==> "Native32Build"
+  ==> "NativeBuild"
+"Prepare"
+  =?> ("NativeClean", not (hasBuildParam "incremental"))
+  ==> "NativeVersion"
+  ==> "Native64Build"
+  ==> "NativeBuild"
+
+
+// --------------------------------------------------------------------------------------
 // TEST
+// --------------------------------------------------------------------------------------
 
 let test target =
     let quick p = if hasBuildParam "quick" then { p with ExcludeCategory="LongRunning" } else p
@@ -176,8 +235,38 @@ let test target =
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 "Build" ==> "Test"
 
+Target "Native32Test" (fun _ ->
+    ActivateFinalTarget "CloseTestRunner"
+    !! "out/MKL/Windows/x86/*UnitTests*.dll"
+    |> NUnit (fun p ->
+        { p with
+            ToolName = "nunit-console-x86.exe"
+            DisableShadowCopy = true
+            TimeOut = TimeSpan.FromMinutes 30.
+            OutputFile = "TestResults.xml" }))
+Target "Native64Test" (fun _ ->
+    ActivateFinalTarget "CloseTestRunner"
+    !! "out/MKL/Windows/x64/*UnitTests*.dll"
+    |> NUnit (fun p ->
+        { p with
+            ToolName = "nunit-console.exe"
+            DisableShadowCopy = true
+            TimeOut = TimeSpan.FromMinutes 30.
+            OutputFile = "TestResults.xml" }))
+Target "NativeTest" DoNothing
 
-// ZIP
+FinalTarget "CloseTestRunner" (fun _ ->
+    ProcessHelper.killProcess "nunit-agent.exe"
+    ProcessHelper.killProcess "nunit-agent-x86.exe"
+)
+
+"Native32Build" ==> "Native32Test" ==> "NativeTest"
+"Native64Build" ==> "Native64Test" ==> "NativeTest"
+
+
+// --------------------------------------------------------------------------------------
+// PACKAGES
+// --------------------------------------------------------------------------------------
 
 let provideLicenseReadme license releasenotes path =
     let licensePath = path @@ "license.txt"
@@ -188,6 +277,8 @@ let provideLicenseReadme license releasenotes path =
     header + Environment.NewLine + (ReadFileAsString readmePath)
     |> ConvertTextToWindowsLineBreaks 
     |> ReplaceFile readmePath
+
+// ZIP
 
 Target "Zip" (fun _ ->
     CleanDir "out/packages/Zip"
@@ -204,6 +295,15 @@ Target "Zip" (fun _ ->
 
 "Build" ==> "Zip"
 
+Target "NativeZip" (fun _ ->
+    CleanDir "out/MKL/packages/Zip"
+    CleanDir "obj/Zip"
+    CopyDir "obj/Zip/MathNet.Numerics.MKL" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
+    provideLicenseReadme "LICENSE.md" "RELEASENOTES-Native.md" "obj/Zip/MathNet.Numerics.MKL"
+    Zip "obj/Zip/" (sprintf "out/MKL/packages/Zip/MathNet.Numerics.MKL-%s.zip" nativePackageVersion) !! "obj/Zip/MathNet.Numerics.MKL/**/*.*"
+    CleanDir "obj/Zip")
+
+"NativeBuild" ==> "NativeZip"
 
 // NUGET
 
@@ -249,122 +349,6 @@ Target "NuGet" (fun _ ->
 
 "Build" ==> "NuGet"
 
-
-// ======================================================================================
-// Math.NET Numerics Native Providers
-// Requires a local installation of Intel MKL
-// ======================================================================================
-
-// PROJECT INFO
-
-let nativeRelease = LoadReleaseNotes "RELEASENOTES-Native.md"
-let nativeBuildPart = "0"
-let nativeAssemblyVersion = nativeRelease.AssemblyVersion + "." + nativeBuildPart
-let nativePackageVersion = nativeRelease.NugetVersion
-let nativeReleaseNotes = nativeRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
-trace (sprintf " Math.NET Numerics Native Providers   v%s" nativeRelease.NugetVersion)
-trace ""
-
-let nativeSummary = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
-
-let nativeMKLWin32Pack =
-    { Id = "MathNet.Numerics.MKL.Win-x86"
-      Version = nativePackageVersion
-      Title = "Math.NET Numerics - MKL Native Libraries (Windows 32-bit)"
-      Summary = nativeSummary
-      Description = nativeSummary
-      ReleaseNotes = nativeReleaseNotes
-      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl x86"
-      Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies = [ "MathNet.Numerics", "2.4.0" ]
-      Files = [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
-                @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
-
-let nativeMKLWin64Pack =
-    { nativeMKLWin32Pack with Id = "MathNet.Numerics.MKL.Win-x64"
-                              Title = "Math.NET Numerics - MKL Native Libraries (Windows 64-bit)"
-                              Files = [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
-                                        @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
-
-
-// APPLY VERSION
-
-Target "NativeVersion" (fun _ ->
-    ReplaceInFile
-        (regex_replace "\d+\.\d+\.\d+\.\d+" nativeAssemblyVersion
-         >> regex_replace "\d+,\d+,\d+,\d+" (replace "." "," nativeAssemblyVersion))
-        "src/NativeProviders/Common/resource.rc")
-
-
-// BUILD
-
-Target "NativeClean" (fun _ -> CleanDirs [ "out/MKL"; "out/ATLAS" ] )
-
-let native32Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
-let native64Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
-
-Target "Native32Build" (fun _ -> native32Build !! "MathNet.Numerics.NativeProviders.sln")
-Target "Native64Build" (fun _ -> native64Build !! "MathNet.Numerics.NativeProviders.sln")
-Target "NativeBuild" DoNothing
-
-"Prepare"
-  =?> ("NativeClean", not (hasBuildParam "incremental"))
-  ==> "NativeVersion"
-  ==> "Native32Build"
-  ==> "NativeBuild"
-"Prepare"
-  =?> ("NativeClean", not (hasBuildParam "incremental"))
-  ==> "NativeVersion"
-  ==> "Native64Build"
-  ==> "NativeBuild"
-
-
-// TEST
-
-Target "Native32Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/MKL/Windows/x86/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console-x86.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 30.
-            OutputFile = "TestResults.xml" }))
-Target "Native64Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/MKL/Windows/x64/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 30.
-            OutputFile = "TestResults.xml" }))
-Target "NativeTest" DoNothing
-
-FinalTarget "CloseTestRunner" (fun _ ->
-    ProcessHelper.killProcess "nunit-agent.exe"
-    ProcessHelper.killProcess "nunit-agent-x86.exe"
-)
-
-"Native32Build" ==> "Native32Test" ==> "NativeTest"
-"Native64Build" ==> "Native64Test" ==> "NativeTest"
-
-
-// ZIP
-
-Target "NativeZip" (fun _ ->
-    CleanDir "out/MKL/packages/Zip"
-    CleanDir "obj/Zip"
-    CopyDir "obj/Zip/MathNet.Numerics.MKL" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
-    provideLicenseReadme "LICENSE.md" "RELEASENOTES-Native.md" "obj/Zip/MathNet.Numerics.MKL"
-    Zip "obj/Zip/" (sprintf "out/MKL/packages/Zip/MathNet.Numerics.MKL-%s.zip" nativePackageVersion) !! "obj/Zip/MathNet.Numerics.MKL/**/*.*"
-    CleanDir "obj/Zip")
-
-"NativeBuild" ==> "NativeZip"
-
-
-// NUGET
-
 let nativeNugetPack pack outPath =
     CleanDir "obj/NuGet"
     provideLicenseReadme "LICENSE.md" "RELEASENOTES-Native.md" "obj/NuGet"
@@ -382,9 +366,9 @@ Target "NativeNuGet" (fun _ ->
 "NativeBuild" ==> "NativeNuGet"
 
 
-// ======================================================================================
+// --------------------------------------------------------------------------------------
 // Documentation
-// ======================================================================================
+// --------------------------------------------------------------------------------------
 
 // DOCS
 
@@ -421,10 +405,10 @@ Target "Api" (fun _ ->
 "Build" ==> "CleanApi" ==> "Api"
 
 
-// ======================================================================================
+// --------------------------------------------------------------------------------------
 // Release/Publishing
 // Requires permissions; intended only for maintainers
-// ======================================================================================
+// --------------------------------------------------------------------------------------
 
 Target "PublishTag" (fun _ ->
     // inspired by Deedle/tpetricek
