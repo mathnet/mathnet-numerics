@@ -1,3 +1,14 @@
+### 3.0.0-beta04 - 2014-06-16
+* Candidate for v3.0 Release
+* Linear Algebra:
+   * FoldRows renamed to FoldByRow, now operates on and returns arrays; same for columns
+   * New FoldRows and ReduceRows that operate on row vectors; same for columns
+   * Split Map into Map and MapConvert (allows optimization in common in-place case)
+   * Row and columns sums and absolute-sums
+   * F# DiagonalMatrix module to create diagonal matrices without using the builder
+   * F# Matrix module extended with sumRows, sumAbsRows, normRows; same for columns
+* Build: extend build and release automation, automatic releases also for data extensions and native providers
+
 ### 3.0.0-beta03 - 2014-06-05
 * Linear Algebra: vector outer product now follows common style, supports explicit result argument, more efficient.
 * Interpolation: must not modify/sort original data; alternative Sorted and Inplace functions.
