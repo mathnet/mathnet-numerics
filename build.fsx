@@ -161,7 +161,7 @@ let dataTextPack =
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data text csv tsv json xml"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies = [ "MathNet.Numerics", packageVersion ]
+      Dependencies = getDependencies "src/Data/Text/packages.config"
       Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.dll", Some libnet40, None;
                 @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml", Some libnet40, None ] }
 
@@ -174,7 +174,7 @@ let dataMatlabPack =
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data matlab"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies = [ "MathNet.Numerics", packageVersion ]
+      Dependencies = getDependencies "src/Data/Matlab/packages.config"
       Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
                 @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
 
