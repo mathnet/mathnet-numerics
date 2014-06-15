@@ -1530,7 +1530,42 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse matrices).
         /// </summary>
-        public void Map<TU>(Func<T, TU> f, Matrix<TU> result, Zeros zeros = Zeros.AllowSkip)
+        public void Map(Func<T, T> f, Matrix<T> result, Zeros zeros = Zeros.AllowSkip)
+        {
+            if (ReferenceEquals(this, result))
+            {
+                Storage.MapInplace(f, zeros);
+            }
+            else
+            {
+                Storage.MapTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
+            }
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this matrix and replaces the value in the result matrix.
+        /// The index of each value (zero-based) is passed as first argument to the function.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
+        /// </summary>
+        public void MapIndexed(Func<int, int, T, T> f, Matrix<T> result, Zeros zeros = Zeros.AllowSkip)
+        {
+            if (ReferenceEquals(this, result))
+            {
+                Storage.MapIndexedInplace(f, zeros);
+            }
+            else
+            {
+                Storage.MapIndexedTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
+            }
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this matrix and replaces the value in the result matrix.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse matrices).
+        /// </summary>
+        public void MapConvert<TU>(Func<T, TU> f, Matrix<TU> result, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             Storage.MapTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
@@ -1542,7 +1577,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse matrices).
         /// </summary>
-        public void MapIndexed<TU>(Func<int, int, T, TU> f, Matrix<TU> result, Zeros zeros = Zeros.AllowSkip)
+        public void MapIndexedConvert<TU>(Func<int, int, T, TU> f, Matrix<TU> result, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             Storage.MapIndexedTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
