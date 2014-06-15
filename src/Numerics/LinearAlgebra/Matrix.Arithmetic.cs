@@ -1674,6 +1674,26 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public abstract Matrix<T> NormalizeColumns(double norm);
 
+        /// <summary>
+        /// Calculates the value sum of each row vector.
+        /// </summary>
+        public abstract Vector<T> RowSums();
+
+        /// <summary>
+        /// Calculates the value sum of each column vector.
+        /// </summary>
+        public abstract Vector<T> ColumnSums();
+
+        /// <summary>
+        /// Calculates the absolute value sum of each row vector.
+        /// </summary>
+        public abstract Vector<T> RowAbsoluteSums();
+
+        /// <summary>
+        /// Calculates the absolute value sum of each column vector.
+        /// </summary>
+        public abstract Vector<T> ColumnAbsoluteSums();
+
         #region Exceptions - possibly move elsewhere?
 
         internal static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, Matrix<T> result, string paramName = null)

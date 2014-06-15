@@ -205,6 +205,46 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Calculates the value sum of each row vector.
+        /// </summary>
+        public override Vector<Complex> RowSums()
+        {
+            var ret = new Complex[RowCount];
+            Storage.FoldByRowUnchecked(ret, (s, x) => s + x, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<Complex>.Build.Dense(ret);
+        }
+
+        /// <summary>
+        /// Calculates the absolute value sum of each row vector.
+        /// </summary>
+        public override Vector<Complex> RowAbsoluteSums()
+        {
+            var ret = new Complex[RowCount];
+            Storage.FoldByRowUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<Complex>.Build.Dense(ret);
+        }
+
+        /// <summary>
+        /// Calculates the value sum of each column vector.
+        /// </summary>
+        public override Vector<Complex> ColumnSums()
+        {
+            var ret = new Complex[ColumnCount];
+            Storage.FoldByColumnUnchecked(ret, (s, x) => s + x, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<Complex>.Build.Dense(ret);
+        }
+
+        /// <summary>
+        /// Calculates the absolute value sum of each column vector.
+        /// </summary>
+        public override Vector<Complex> ColumnAbsoluteSums()
+        {
+            var ret = new Complex[ColumnCount];
+            Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<Complex>.Build.Dense(ret);
+        }
+
+        /// <summary>
         /// Returns the conjugate transpose of this matrix.
         /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>

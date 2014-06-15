@@ -199,6 +199,46 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Calculates the value sum of each row vector.
+        /// </summary>
+        public override Vector<Complex32> RowSums()
+        {
+            var ret = new Complex32[RowCount];
+            Storage.FoldByRowUnchecked(ret, (s, x) => s + x, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<Complex32>.Build.Dense(ret);
+        }
+
+        /// <summary>
+        /// Calculates the absolute value sum of each row vector.
+        /// </summary>
+        public override Vector<Complex32> RowAbsoluteSums()
+        {
+            var ret = new Complex32[RowCount];
+            Storage.FoldByRowUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<Complex32>.Build.Dense(ret);
+        }
+
+        /// <summary>
+        /// Calculates the value sum of each column vector.
+        /// </summary>
+        public override Vector<Complex32> ColumnSums()
+        {
+            var ret = new Complex32[ColumnCount];
+            Storage.FoldByColumnUnchecked(ret, (s, x) => s + x, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<Complex32>.Build.Dense(ret);
+        }
+
+        /// <summary>
+        /// Calculates the absolute value sum of each column vector.
+        /// </summary>
+        public override Vector<Complex32> ColumnAbsoluteSums()
+        {
+            var ret = new Complex32[ColumnCount];
+            Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<Complex32>.Build.Dense(ret);
+        }
+
+        /// <summary>
         /// Returns the conjugate transpose of this matrix.
         /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>

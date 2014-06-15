@@ -195,6 +195,45 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             Storage.MapIndexedTo(result.Storage, (i, j, x) => (float)norminv[j]*x, Zeros.AllowSkip, ExistingData.AssumeZeros);
             return result;
         }
+        /// <summary>
+        /// Calculates the value sum of each row vector.
+        /// </summary>
+        public override Vector<float> RowSums()
+        {
+            var ret = new float[RowCount];
+            Storage.FoldByRowUnchecked(ret, (s, x) => s + x, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<float>.Build.Dense(ret);
+        }
+
+        /// <summary>
+        /// Calculates the absolute value sum of each row vector.
+        /// </summary>
+        public override Vector<float> RowAbsoluteSums()
+        {
+            var ret = new float[RowCount];
+            Storage.FoldByRowUnchecked(ret, (s, x) => s + Math.Abs(x), (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<float>.Build.Dense(ret);
+        }
+
+        /// <summary>
+        /// Calculates the value sum of each column vector.
+        /// </summary>
+        public override Vector<float> ColumnSums()
+        {
+            var ret = new float[ColumnCount];
+            Storage.FoldByColumnUnchecked(ret, (s, x) => s + x, (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<float>.Build.Dense(ret);
+        }
+
+        /// <summary>
+        /// Calculates the absolute value sum of each column vector.
+        /// </summary>
+        public override Vector<float> ColumnAbsoluteSums()
+        {
+            var ret = new float[ColumnCount];
+            Storage.FoldByColumnUnchecked(ret, (s, x) => s + Math.Abs(x), (x, c) => x, ret, Zeros.AllowSkip);
+            return Vector<float>.Build.Dense(ret);
+        }
 
         /// <summary>
         /// Returns the conjugate transpose of this matrix.
