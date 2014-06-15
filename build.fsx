@@ -530,14 +530,10 @@ Target "Publish" DoNothing
 Target "NativePublish" DoNothing
 "NativePublishTag" ==> "NativePublish"
 "NativePublishNuGet" ==> "NativePublish"
-"PublishDocs" ==> "NativePublish"
-"PublishApi" ==> "NativePublish"
 
 Target "DataPublish" DoNothing
-"DataPublishTag" ==> "DataPublish
+"DataPublishTag" ==> "DataPublish"
 "DataPublishNuGet" ==> "DataPublish"
-"PublishDocs" ==> "DataPublish"
-"PublishApi" ==> "DataPublish"
 
 
 // --------------------------------------------------------------------------------------
