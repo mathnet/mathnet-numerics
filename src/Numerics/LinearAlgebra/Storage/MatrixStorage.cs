@@ -670,8 +670,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: FOLD
 
-        public void FoldByRow<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
-            where TU : struct, IEquatable<TU>, IFormattable
+        /// <remarks>The state array will not be modified, unless it is the same instance as the target array (which is allowed).</remarks>
+        public void FoldByRow<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
         {
             if (target == null)
             {
@@ -694,22 +694,22 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             FoldByRowUnchecked(target, f, finalize, state, zeros);
         }
 
-        internal virtual void FoldByRowUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
-            where TU : struct, IEquatable<TU>, IFormattable
+        /// <remarks>The state array will not be modified, unless it is the same instance as the target array (which is allowed).</remarks>
+        internal virtual void FoldByRowUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
         {
             for (int i = 0; i < RowCount; i++)
             {
-                TU s = state.At(i);
+                TU s = state[i];
                 for (int j = 0; j < ColumnCount; j++)
                 {
                     s = f(s, At(i, j));
                 }
-                target.At(i, finalize(s, ColumnCount));
+                target[i] = finalize(s, ColumnCount);
             }
         }
 
-        public void FoldByColumn<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
-            where TU : struct, IEquatable<TU>, IFormattable
+        /// <remarks>The state array will not be modified, unless it is the same instance as the target array (which is allowed).</remarks>
+        public void FoldByColumn<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
         {
             if (target == null)
             {
@@ -732,17 +732,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             FoldByColumnUnchecked(target, f, finalize, state, zeros);
         }
 
-        internal virtual void FoldByColumnUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
-            where TU : struct, IEquatable<TU>, IFormattable
+        /// <remarks>The state array will not be modified, unless it is the same instance as the target array (which is allowed).</remarks>
+        internal virtual void FoldByColumnUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
         {
             for (int j = 0; j < ColumnCount; j++)
             {
-                TU s = state.At(j);
+                TU s = state[j];
                 for (int i = 0; i < RowCount; i++)
                 {
                     s = f(s, At(i, j));
                 }
-                target.At(j, finalize(s, RowCount));
+                target[j] = finalize(s, RowCount);
             }
         }
     }

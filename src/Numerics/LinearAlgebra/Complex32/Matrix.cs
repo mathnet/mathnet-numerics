@@ -111,25 +111,25 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw new ArgumentOutOfRangeException("norm", Resources.ArgumentMustBePositive);
             }
 
-            var ret = Vector<double>.Build.Dense(RowCount);
+            var ret = new double[RowCount];
             if (norm == 2.0)
             {
-                Storage.FoldByRowUnchecked(ret.Storage, (s, x) => s + x.MagnitudeSquared, (x, c) => Math.Sqrt(x), ret.Storage, Zeros.AllowSkip);
+                Storage.FoldByRowUnchecked(ret, (s, x) => s + x.MagnitudeSquared, (x, c) => Math.Sqrt(x), ret, Zeros.AllowSkip);
             }
             else if (norm == 1.0)
             {
-                Storage.FoldByRowUnchecked(ret.Storage, (s, x) => s + x.Magnitude, (x, c) => x, ret.Storage, Zeros.AllowSkip);
+                Storage.FoldByRowUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
             }
             else if (double.IsPositiveInfinity(norm))
             {
-                Storage.FoldByRowUnchecked(ret.Storage, (s, x) => Math.Max(s, x.Magnitude), (x, c) => x, ret.Storage, Zeros.AllowSkip);
+                Storage.FoldByRowUnchecked(ret, (s, x) => Math.Max(s, x.Magnitude), (x, c) => x, ret, Zeros.AllowSkip);
             }
             else
             {
                 double invnorm = 1.0/norm;
-                Storage.FoldByRowUnchecked(ret.Storage, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, c) => Math.Pow(x, invnorm), ret.Storage, Zeros.AllowSkip);
+                Storage.FoldByRowUnchecked(ret, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, c) => Math.Pow(x, invnorm), ret, Zeros.AllowSkip);
             }
-            return ret;
+            return Vector<double>.Build.Dense(ret);
         }
 
         /// <summary>
@@ -143,25 +143,25 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 throw new ArgumentOutOfRangeException("norm", Resources.ArgumentMustBePositive);
             }
 
-            var ret = Vector<double>.Build.Dense(ColumnCount);
+            var ret = new double[ColumnCount];
             if (norm == 2.0)
             {
-                Storage.FoldByColumnUnchecked(ret.Storage, (s, x) => s + x.MagnitudeSquared, (x, c) => Math.Sqrt(x), ret.Storage, Zeros.AllowSkip);
+                Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.MagnitudeSquared, (x, c) => Math.Sqrt(x), ret, Zeros.AllowSkip);
             }
             else if (norm == 1.0)
             {
-                Storage.FoldByColumnUnchecked(ret.Storage, (s, x) => s + x.Magnitude, (x, c) => x, ret.Storage, Zeros.AllowSkip);
+                Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
             }
             else if (double.IsPositiveInfinity(norm))
             {
-                Storage.FoldByColumnUnchecked(ret.Storage, (s, x) => Math.Max(s, x.Magnitude), (x, c) => x, ret.Storage, Zeros.AllowSkip);
+                Storage.FoldByColumnUnchecked(ret, (s, x) => Math.Max(s, x.Magnitude), (x, c) => x, ret, Zeros.AllowSkip);
             }
             else
             {
                 double invnorm = 1.0/norm;
-                Storage.FoldByColumnUnchecked(ret.Storage, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, c) => Math.Pow(x, invnorm), ret.Storage, Zeros.AllowSkip);
+                Storage.FoldByColumnUnchecked(ret, (s, x) => s + Math.Pow(x.Magnitude, norm), (x, c) => Math.Pow(x, invnorm), ret, Zeros.AllowSkip);
             }
-            return ret;
+            return Vector<double>.Build.Dense(ret);
         }
 
         /// <summary>

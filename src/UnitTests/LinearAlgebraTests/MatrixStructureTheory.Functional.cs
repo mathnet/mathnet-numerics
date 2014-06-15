@@ -261,17 +261,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanFoldRows(Matrix<T> matrix)
         {
             // not forced
-            var rowSum = matrix.FoldByRow((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
-            for (int i = 0; i < rowSum.Count; i++)
+            T[] rowSum = matrix.FoldByRow((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
+            for (int i = 0; i < rowSum.Length; i++)
             {
-                Assert.That(rowSum.At(i), Is.EqualTo(matrix.Row(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "not forced");
+                Assert.That(rowSum[i], Is.EqualTo(matrix.Row(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "not forced");
             }
 
             // forced
             rowSum = matrix.FoldByRow((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.Include);
-            for (int i = 0; i < rowSum.Count; i++)
+            for (int i = 0; i < rowSum.Length; i++)
             {
-                Assert.That(rowSum.At(i), Is.EqualTo(matrix.Row(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "forced");
+                Assert.That(rowSum[i], Is.EqualTo(matrix.Row(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "forced");
             }
 
             Assert.That(matrix.FoldByRow((s, x) => s + 1.0, 0.0, Zeros.Include),
@@ -282,17 +282,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanFoldColumns(Matrix<T> matrix)
         {
             // not forced
-            var colSum = matrix.FoldByColumn((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
-            for (int i = 0; i < colSum.Count; i++)
+            T[] colSum = matrix.FoldByColumn((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
+            for (int i = 0; i < colSum.Length; i++)
             {
-                Assert.That(colSum.At(i), Is.EqualTo(matrix.Column(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "not forced");
+                Assert.That(colSum[i], Is.EqualTo(matrix.Column(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "not forced");
             }
 
             // forced
             colSum = matrix.FoldByColumn((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.Include);
-            for (int i = 0; i < colSum.Count; i++)
+            for (int i = 0; i < colSum.Length; i++)
             {
-                Assert.That(colSum.At(i), Is.EqualTo(matrix.Column(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "forced");
+                Assert.That(colSum[i], Is.EqualTo(matrix.Column(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "forced");
             }
 
             Assert.That(matrix.FoldByColumn((s, x) => s + 1.0, 0.0, Zeros.Include),

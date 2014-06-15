@@ -1757,7 +1757,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: FOLD
 
-        internal override void FoldByRowUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        internal override void FoldByRowUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
         {
             if (zeros == Zeros.AllowSkip)
             {
@@ -1765,12 +1765,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 {
                     var startIndex = RowPointers[row];
                     var endIndex = RowPointers[row + 1];
-                    TU s = state.At(row);
+                    TU s = state[row];
                     for (var j = startIndex; j < endIndex; j++)
                     {
                         s = f(s, Values[j]);
                     }
-                    target.At(row, finalize(s, endIndex - startIndex));
+                    target[row] = finalize(s, endIndex - startIndex);
                 }
             }
             else
@@ -1779,7 +1779,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 {
                     var index = RowPointers[row];
                     var endIndex = RowPointers[row + 1];
-                    TU s = state.At(row);
+                    TU s = state[row];
                     for (int j = 0; j < ColumnCount; j++)
                     {
                         if (index < endIndex && j == ColumnIndices[index])
@@ -1792,18 +1792,17 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                             s = f(s, Zero);
                         }
                     }
-                    target.At(row, finalize(s, ColumnCount));
+                    target[row] = finalize(s, ColumnCount);
                 }
             }
         }
 
-        internal override void FoldByColumnUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        internal override void FoldByColumnUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
         {
-            var denseResult = target as DenseVectorStorage<TU> ?? new DenseVectorStorage<TU>(ColumnCount);
-
-            state.CopyTo(denseResult);
-            TU[] result = denseResult.Data;
-
+            if (!ReferenceEquals(state, target))
+            {
+                Array.Copy(state, target, state.Length);
+            }
             if (zeros == Zeros.AllowSkip)
             {
                 int[] count = new int[ColumnCount];
@@ -1814,13 +1813,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     for (var j = startIndex; j < endIndex; j++)
                     {
                         var column = ColumnIndices[j];
-                        result[column] = f(result[column], Values[j]);
+                        target[column] = f(target[column], Values[j]);
                         count[column]++;
                     }
                 }
                 for (int j = 0; j < ColumnCount; j++)
                 {
-                    result[j] = finalize(result[j], count[j]);
+                    target[j] = finalize(target[j], count[j]);
                 }
             }
             else
@@ -1833,24 +1832,19 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     {
                         if (index < endIndex && j == ColumnIndices[index])
                         {
-                            result[j] = f(result[j], Values[index]);
+                            target[j] = f(target[j], Values[index]);
                             index = Math.Min(index + 1, endIndex);
                         }
                         else
                         {
-                            result[j] = f(result[j], Zero);
+                            target[j] = f(target[j], Zero);
                         }
                     }
                 }
                 for (int j = 0; j < ColumnCount; j++)
                 {
-                    result[j] = finalize(result[j], RowCount);
+                    target[j] = finalize(target[j], RowCount);
                 }
-            }
-
-            if (!ReferenceEquals(denseResult, target))
-            {
-                denseResult.CopyTo(target);
             }
         }
     }

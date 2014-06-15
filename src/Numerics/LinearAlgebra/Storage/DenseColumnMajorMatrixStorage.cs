@@ -727,30 +727,30 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: FOLD
 
-        internal override void FoldByRowUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        internal override void FoldByRowUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
         {
             for (int i = 0; i < RowCount; i++)
             {
-                TU s = state.At(i);
+                TU s = state[i];
                 for (int j = 0; j < ColumnCount; j++)
                 {
                     s = f(s, Data[j*RowCount + i]);
                 }
-                target.At(i, finalize(s, ColumnCount));
+                target[i] = finalize(s, ColumnCount);
             }
         }
 
-        internal override void FoldByColumnUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        internal override void FoldByColumnUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
         {
             for (int j = 0; j < ColumnCount; j++)
             {
                 int offset = j*RowCount;
-                TU s = state.At(j);
+                TU s = state[j];
                 for (int i = 0; i < RowCount; i++)
                 {
                     s = f(s, Data[offset + i]);
                 }
-                target.At(j, finalize(s, RowCount));
+                target[j] = finalize(s, RowCount);
             }
         }
     }

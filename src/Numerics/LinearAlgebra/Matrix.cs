@@ -33,6 +33,7 @@ using MathNet.Numerics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Runtime;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra
 {
@@ -1614,11 +1615,20 @@ namespace MathNet.Numerics.LinearAlgebra
         /// For each row, applies a function f to each element of the row, threading an accumulator argument through the computation.
         /// Returns a vector with the resulting accumulator states for each row.
         /// </summary>
-        public Vector<TU> FoldByRow<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
-            where TU : struct, IEquatable<TU>, IFormattable
+        public TU[] FoldByRow<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
         {
-            var result = Vector<TU>.Build.SameAs(this, RowCount);
-            Storage.FoldByRowUnchecked(result.Storage, f, (x, c) => x, DenseVectorStorage<TU>.OfInit(RowCount, i => state), zeros);
+            var result = new TU[RowCount];
+            if (!EqualityComparer<TU>.Default.Equals(state, default(TU)))
+            {
+                CommonParallel.For(0, result.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        result[i] = state;
+                    }
+                });
+            }
+            Storage.FoldByRowUnchecked(result, f, (x, c) => x, result, zeros);
             return result;
         }
 
@@ -1626,11 +1636,20 @@ namespace MathNet.Numerics.LinearAlgebra
         /// For each column, applies a function f to each element of the column, threading an accumulator argument through the computation.
         /// Returns a vector with the resulting accumulator states for each column.
         /// </summary>
-        public Vector<TU> FoldByColumn<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
-            where TU : struct, IEquatable<TU>, IFormattable
+        public TU[] FoldByColumn<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
         {
-            var result = Vector<TU>.Build.SameAs(this, ColumnCount);
-            Storage.FoldByColumnUnchecked(result.Storage, f, (x, c) => x, DenseVectorStorage<TU>.OfInit(ColumnCount, i => state), zeros);
+            var result = new TU[ColumnCount];
+            if (!EqualityComparer<TU>.Default.Equals(state, default(TU)))
+            {
+                CommonParallel.For(0, result.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        result[i] = state;
+                    }
+                });
+            }
+            Storage.FoldByColumnUnchecked(result, f, (x, c) => x, result, zeros);
             return result;
         }
     }
