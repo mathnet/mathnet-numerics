@@ -512,12 +512,10 @@ let publishNuGet packageFiles =
             if result <> 0 then failwith "Error during NuGet push."
         with exn ->
             if trials > 0 then impl (trials-1) file
-            else raise exn
+            else ()
     Seq.iter (impl 3) packageFiles
 
-Target "PublishNuGet" (fun _ ->
-    !! "out/packages/NuGet/*.nupkg" -- "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet
-    !! "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
+Target "PublishNuGet" (fun _ -> !! "out/packages/NuGet/*.nupkg" -- "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
 Target "NativePublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.nupkg" |> publishNuGet)
 Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.nupkg" |> publishNuGet)
 
