@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -45,44 +45,54 @@ namespace MathNet.Numerics.Data.Text
     {
         static readonly NumberFormatInfo Format = CultureInfo.InvariantCulture.NumberFormat;
 
-        public static void WriteMatrix<T>(string filePath, Matrix<T> matrix, bool compress = false) where T : struct, IEquatable<T>, IFormattable
+        public static void WriteMatrix<T>(string filePath, Matrix<T> matrix, Compression compression = Compression.Uncompressed) where T : struct, IEquatable<T>, IFormattable
         {
             using (var stream = File.OpenWrite(filePath))
             {
-                if (compress)
+                switch (compression)
                 {
-                    using (var compressed = new GZipStream(stream, CompressionMode.Compress))
-                    using (var buffered = new BufferedStream(compressed, 4096))
-                    using (var writer = new StreamWriter(buffered))
-                    {
-                        WriteMatrix(writer, matrix);
-                        return;
-                    }
-                }
-                using (var writer = new StreamWriter(stream))
-                {
-                    WriteMatrix(writer, matrix);
+                    case Compression.Uncompressed:
+                        using (var writer = new StreamWriter(stream))
+                        {
+                            WriteMatrix(writer, matrix);
+                        }
+                        break;
+                    case Compression.GZip:
+                        using (var compressed = new GZipStream(stream, CompressionMode.Compress))
+                        using (var buffered = new BufferedStream(compressed, 4096))
+                        using (var writer = new StreamWriter(buffered))
+                        {
+                            WriteMatrix(writer, matrix);
+                        }
+                        break;
+                    default:
+                        throw new NotSupportedException("Compression not supported: " + compression);
                 }
             }
         }
 
-        public static void WriteVector<T>(string filePath, Vector<T> vector, bool compress = false) where T : struct, IEquatable<T>, IFormattable
+        public static void WriteVector<T>(string filePath, Vector<T> vector, Compression compression = Compression.Uncompressed) where T : struct, IEquatable<T>, IFormattable
         {
             using (var stream = File.OpenRead(filePath))
             {
-                if (compress)
+                switch (compression)
                 {
-                    using (var compressed = new GZipStream(stream, CompressionMode.Compress))
-                    using (var buffered = new BufferedStream(compressed, 4096))
-                    using (var writer = new StreamWriter(buffered))
-                    {
-                        WriteVector(writer, vector);
-                        return;
-                    }
-                }
-                using (var writer = new StreamWriter(stream))
-                {
-                    WriteVector(writer, vector);
+                    case Compression.Uncompressed:
+                        using (var writer = new StreamWriter(stream))
+                        {
+                            WriteVector(writer, vector);
+                        }
+                        break;
+                    case Compression.GZip:
+                        using (var compressed = new GZipStream(stream, CompressionMode.Compress))
+                        using (var buffered = new BufferedStream(compressed, 4096))
+                        using (var writer = new StreamWriter(buffered))
+                        {
+                            WriteVector(writer, vector);
+                        }
+                        break;
+                    default:
+                        throw new NotSupportedException("Compression not supported: " + compression);
                 }
             }
         }
@@ -209,7 +219,7 @@ namespace MathNet.Numerics.Data.Text
             {
                 return value =>
                 {
-                    var c = (Complex) (object) value;
+                    var c = (Complex)(object)value;
                     return string.Format(Format, "{0:G14} {1:G14}", c.Real, c.Imaginary);
                 };
             }
@@ -217,7 +227,7 @@ namespace MathNet.Numerics.Data.Text
             {
                 return value =>
                 {
-                    var c = (Complex32) (object) value;
+                    var c = (Complex32)(object)value;
                     return string.Format(Format, "{0:G7} {1:G7}", c.Real, c.Imaginary);
                 };
             }

@@ -53,6 +53,7 @@
     <Compile Include="DelimitedWriter.cs" />
     <Compile Include="MatrixMarketReader.cs" />
     <Compile Include="MatrixMarketWriter.cs" />
+    <Compile Include="Options.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

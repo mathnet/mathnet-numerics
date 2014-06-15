@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -52,43 +52,51 @@ namespace MathNet.Numerics.Data.Text
     /// </summary>
     public static class MatrixMarketReader
     {
-        static readonly char[] Separators = {' '};
+        static readonly char[] Separators = { ' ' };
         static readonly NumberFormatInfo Format = CultureInfo.InvariantCulture.NumberFormat;
 
-        public static Matrix<T> ReadMatrix<T>(string filePath, bool compressed = false) where T : struct, IEquatable<T>, IFormattable
+        public static Matrix<T> ReadMatrix<T>(string filePath, Compression compression = Compression.Uncompressed) where T : struct, IEquatable<T>, IFormattable
         {
             using (var stream = File.OpenRead(filePath))
             {
-                if (compressed)
+                switch (compression)
                 {
-                    using (var decompressed = new GZipStream(stream, CompressionMode.Decompress))
-                    using (var reader = new StreamReader(decompressed))
-                    {
-                        return ReadMatrix<T>(reader);
-                    }
-                }
-                using (var reader = new StreamReader(stream))
-                {
-                    return ReadMatrix<T>(reader);
+                    case Compression.Uncompressed:
+                        using (var reader = new StreamReader(stream))
+                        {
+                            return ReadMatrix<T>(reader);
+                        }
+                    case Compression.GZip:
+                        using (var decompressed = new GZipStream(stream, CompressionMode.Decompress))
+                        using (var reader = new StreamReader(decompressed))
+                        {
+                            return ReadMatrix<T>(reader);
+                        }
+                    default:
+                        throw new NotSupportedException("Compression not supported: " + compression);
                 }
             }
         }
 
-        public static Vector<T> ReadVector<T>(string filePath, bool compressed = false) where T : struct, IEquatable<T>, IFormattable
+        public static Vector<T> ReadVector<T>(string filePath, Compression compression = Compression.Uncompressed) where T : struct, IEquatable<T>, IFormattable
         {
             using (var stream = File.OpenRead(filePath))
             {
-                if (compressed)
+                switch (compression)
                 {
-                    using (var decompressed = new GZipStream(stream, CompressionMode.Decompress))
-                    using (var reader = new StreamReader(decompressed))
-                    {
-                        return ReadVector<T>(reader);
-                    }
-                }
-                using (var reader = new StreamReader(stream))
-                {
-                    return ReadVector<T>(reader);
+                    case Compression.Uncompressed:
+                        using (var reader = new StreamReader(stream))
+                        {
+                            return ReadVector<T>(reader);
+                        }
+                    case Compression.GZip:
+                        using (var decompressed = new GZipStream(stream, CompressionMode.Decompress))
+                        using (var reader = new StreamReader(decompressed))
+                        {
+                            return ReadVector<T>(reader);
+                        }
+                    default:
+                        throw new NotSupportedException("Compression not supported: " + compression);
                 }
             }
         }
@@ -340,24 +348,24 @@ namespace MathNet.Numerics.Data.Text
             if (typeof (T) == typeof (double))
             {
                 // ignore imaginary part if source is complex
-                return (offset, tokens) => (T) (object) double.Parse(tokens[offset], NumberStyles.Any, Format);
+                return (offset, tokens) => (T)(object)double.Parse(tokens[offset], NumberStyles.Any, Format);
             }
             if (typeof (T) == typeof (float))
             {
                 // ignore imaginary part if source is complex
-                return (offset, tokens) => (T) (object) float.Parse(tokens[offset], NumberStyles.Any, Format);
+                return (offset, tokens) => (T)(object)float.Parse(tokens[offset], NumberStyles.Any, Format);
             }
             if (typeof (T) == typeof (Complex))
             {
                 return sourceIsComplex
-                    ? ((offset, tokens) => (T) (object) new Complex(double.Parse(tokens[offset], NumberStyles.Any, Format), double.Parse(tokens[offset + 1], NumberStyles.Any, Format)))
-                    : (Func<int, string[], T>) ((offset, tokens) => (T) (object) new Complex(double.Parse(tokens[offset], NumberStyles.Any, Format), 0d));
+                    ? ((offset, tokens) => (T)(object)new Complex(double.Parse(tokens[offset], NumberStyles.Any, Format), double.Parse(tokens[offset + 1], NumberStyles.Any, Format)))
+                    : (Func<int, string[], T>)((offset, tokens) => (T)(object)new Complex(double.Parse(tokens[offset], NumberStyles.Any, Format), 0d));
             }
             if (typeof (T) == typeof (Complex32))
             {
                 return sourceIsComplex
-                    ? ((offset, tokens) => (T) (object) new Complex32(float.Parse(tokens[offset], NumberStyles.Any, Format), float.Parse(tokens[offset + 1], NumberStyles.Any, Format)))
-                    : (Func<int, string[], T>) ((offset, tokens) => (T) (object) new Complex32(float.Parse(tokens[offset], NumberStyles.Any, Format), 0f));
+                    ? ((offset, tokens) => (T)(object)new Complex32(float.Parse(tokens[offset], NumberStyles.Any, Format), float.Parse(tokens[offset + 1], NumberStyles.Any, Format)))
+                    : (Func<int, string[], T>)((offset, tokens) => (T)(object)new Complex32(float.Parse(tokens[offset], NumberStyles.Any, Format), 0f));
             }
             throw new NotSupportedException();
         }
@@ -366,8 +374,8 @@ namespace MathNet.Numerics.Data.Text
         {
             if (symmetry != MatrixMarketSymmetry.Hermitian) return x => x;
             if (typeof (T) == typeof (double) || typeof (T) == typeof (float)) return x => x;
-            if (typeof (T) == typeof (Complex)) return x => (T) (object) ((Complex) (object) x).Conjugate();
-            if (typeof (T) == typeof (Complex32)) return x => (T) (object) ((Complex32) (object) x).Conjugate();
+            if (typeof (T) == typeof (Complex)) return x => (T)(object)((Complex)(object)x).Conjugate();
+            if (typeof (T) == typeof (Complex32)) return x => (T)(object)((Complex32)(object)x).Conjugate();
             throw new NotSupportedException();
         }
     }

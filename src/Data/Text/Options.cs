@@ -1,8 +1,10 @@
-// <copyright file="AssemblyInfo.cs" company="Math.NET">
+ï»¿// <copyright file="Options.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -26,22 +28,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
-
-[assembly: AssemblyTitle("Math.NET Numerics - MATLAB Data I/O Extensions")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Marcus Cuda, Christoph Ruegg")]
-[assembly: AssemblyProduct("Math.NET Numerics")]
-[assembly: AssemblyCopyright("Copyright © Math.NET Project")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-[assembly: CLSCompliant(true)]
-[assembly: ComVisible(false)]
-[assembly: Guid("1a350030-3ad3-4e15-953d-33342a371aba")]
-
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.0.0")]
-[assembly: AssemblyInformationalVersion("3.0.0-beta02")]
+namespace MathNet.Numerics.Data.Text
+{
+    public enum Compression
+    {
+        Uncompressed = 0,
+        GZip = 1
+    }
+}
