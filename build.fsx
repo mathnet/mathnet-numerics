@@ -461,7 +461,7 @@ Target "Api" (fun _ ->
 
 
 // --------------------------------------------------------------------------------------
-// Release/Publishing
+// Publishing
 // Requires permissions; intended only for maintainers
 // --------------------------------------------------------------------------------------
 
@@ -498,18 +498,44 @@ Target "PublishApi" (fun _ ->
     Git.Commit.Commit repo (sprintf "Numerics: %s api update" packageVersion)
     Git.Branches.pushBranch repo "origin" "master")
 
+let publishNuGet packageFiles =
+    // TODO: Migrate to NuGet helper once it supports direct (non-integrated) operations
+    let rec impl trials file =
+        trace ("NuGet Push: " + System.IO.Path.GetFileName(file) + ".")
+        try
+            let args = sprintf "push \"%s\"" (FullName file)
+            let result =
+                ExecProcess (fun info ->
+                    info.FileName <- "tools/NuGet/NuGet.exe"
+                    info.WorkingDirectory <- FullName "obj/NuGet"
+                    info.Arguments <- args) (TimeSpan.FromMinutes 10.)
+            if result <> 0 then failwith "Error during NuGet push."
+        with exn ->
+            if trials > 0 then impl (trials-1) file
+            else raise exn
+    Seq.iter (impl 3) packageFiles
+
+Target "PublishNuGet" (fun _ ->
+    !! "out/packages/NuGet/*.nupkg" -- "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet
+    !! "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
+Target "NativePublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
+Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
+
 Target "Publish" DoNothing
 "PublishTag" ==> "Publish"
+"PublishNuGet" ==> "Publish"
 "PublishDocs" ==> "Publish"
 "PublishApi" ==> "Publish"
 
 Target "NativePublish" DoNothing
 "NativePublishTag" ==> "NativePublish"
+"NativePublishNuGet" ==> "NativePublish"
 "PublishDocs" ==> "NativePublish"
 "PublishApi" ==> "NativePublish"
 
 Target "DataPublish" DoNothing
-"DataPublishTag" ==> "DataPublish"
+"DataPublishTag" ==> "DataPublish
+"DataPublishNuGet" ==> "DataPublish"
 "PublishDocs" ==> "DataPublish"
 "PublishApi" ==> "DataPublish"
 
