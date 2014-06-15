@@ -670,7 +670,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: FOLD
 
-        public void FoldRows<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        public void FoldByRow<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             if (target == null)
@@ -691,10 +691,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "state");
             }
 
-            FoldRowsUnchecked(target, f, finalize, state, zeros);
+            FoldByRowUnchecked(target, f, finalize, state, zeros);
         }
 
-        internal virtual void FoldRowsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        internal virtual void FoldByRowUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int i = 0; i < RowCount; i++)
@@ -708,7 +708,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void FoldColumns<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        public void FoldByColumn<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             if (target == null)
@@ -729,10 +729,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "state");
             }
 
-            FoldColumnsUnchecked(target, f, finalize, state, zeros);
+            FoldByColumnUnchecked(target, f, finalize, state, zeros);
         }
 
-        internal virtual void FoldColumnsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        internal virtual void FoldByColumnUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int j = 0; j < ColumnCount; j++)

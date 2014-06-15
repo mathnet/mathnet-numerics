@@ -727,7 +727,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: FOLD
 
-        internal override void FoldRowsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        internal override void FoldByRowUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
         {
             for (int i = 0; i < RowCount; i++)
             {
@@ -740,7 +740,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        internal override void FoldColumnsUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
+        internal override void FoldByColumnUnchecked<TU>(VectorStorage<TU> target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, VectorStorage<TU> state, Zeros zeros = Zeros.AllowSkip)
         {
             for (int j = 0; j < ColumnCount; j++)
             {

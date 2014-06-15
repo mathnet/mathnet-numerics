@@ -1579,11 +1579,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// For each row, applies a function f to each element of the row, threading an accumulator argument through the computation.
         /// Returns a vector with the resulting accumulator states for each row.
         /// </summary>
-        public Vector<TU> FoldRows<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
+        public Vector<TU> FoldByRow<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             var result = Vector<TU>.Build.SameAs(this, RowCount);
-            Storage.FoldRowsUnchecked(result.Storage, f, (x, c) => x, DenseVectorStorage<TU>.OfInit(RowCount, i => state), zeros);
+            Storage.FoldByRowUnchecked(result.Storage, f, (x, c) => x, DenseVectorStorage<TU>.OfInit(RowCount, i => state), zeros);
             return result;
         }
 
@@ -1591,11 +1591,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// For each column, applies a function f to each element of the column, threading an accumulator argument through the computation.
         /// Returns a vector with the resulting accumulator states for each column.
         /// </summary>
-        public Vector<TU> FoldColumns<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
+        public Vector<TU> FoldByColumn<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             var result = Vector<TU>.Build.SameAs(this, ColumnCount);
-            Storage.FoldColumnsUnchecked(result.Storage, f, (x, c) => x, DenseVectorStorage<TU>.OfInit(ColumnCount, i => state), zeros);
+            Storage.FoldByColumnUnchecked(result.Storage, f, (x, c) => x, DenseVectorStorage<TU>.OfInit(ColumnCount, i => state), zeros);
             return result;
         }
     }

@@ -261,20 +261,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanFoldRows(Matrix<T> matrix)
         {
             // not forced
-            var rowSum = matrix.FoldRows((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
+            var rowSum = matrix.FoldByRow((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
             for (int i = 0; i < rowSum.Count; i++)
             {
                 Assert.That(rowSum.At(i), Is.EqualTo(matrix.Row(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "not forced");
             }
 
             // forced
-            rowSum = matrix.FoldRows((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.Include);
+            rowSum = matrix.FoldByRow((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.Include);
             for (int i = 0; i < rowSum.Count; i++)
             {
                 Assert.That(rowSum.At(i), Is.EqualTo(matrix.Row(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "forced");
             }
 
-            Assert.That(matrix.FoldRows((s, x) => s + 1.0, 0.0, Zeros.Include),
+            Assert.That(matrix.FoldByRow((s, x) => s + 1.0, 0.0, Zeros.Include),
                 Is.EqualTo(Vector<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount)), "forced - full coverage");
         }
 
@@ -282,20 +282,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void CanFoldColumns(Matrix<T> matrix)
         {
             // not forced
-            var colSum = matrix.FoldColumns((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
+            var colSum = matrix.FoldByColumn((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
             for (int i = 0; i < colSum.Count; i++)
             {
                 Assert.That(colSum.At(i), Is.EqualTo(matrix.Column(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "not forced");
             }
 
             // forced
-            colSum = matrix.FoldColumns((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.Include);
+            colSum = matrix.FoldByColumn((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.Include);
             for (int i = 0; i < colSum.Count; i++)
             {
                 Assert.That(colSum.At(i), Is.EqualTo(matrix.Column(i).Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b))), "forced");
             }
 
-            Assert.That(matrix.FoldColumns((s, x) => s + 1.0, 0.0, Zeros.Include),
+            Assert.That(matrix.FoldByColumn((s, x) => s + 1.0, 0.0, Zeros.Include),
                 Is.EqualTo(Vector<double>.Build.Dense(matrix.ColumnCount, matrix.RowCount)), "forced - full coverage");
         }
     }
