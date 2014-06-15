@@ -518,8 +518,8 @@ let publishNuGet packageFiles =
 Target "PublishNuGet" (fun _ ->
     !! "out/packages/NuGet/*.nupkg" -- "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet
     !! "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
-Target "NativePublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
-Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
+Target "NativePublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.nupkg" |> publishNuGet)
+Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.nupkg" |> publishNuGet)
 
 Target "Publish" DoNothing
 "PublishTag" ==> "Publish"
