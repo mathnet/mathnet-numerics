@@ -555,6 +555,56 @@ module SparseMatrix =
     let inline ofDiagArray2 (rows: int) (cols: int) (array: 'T array) = Matrix<'T>.Build.SparseOfDiagonalArray(rows, cols, array)
 
 
+/// A module which helps constructing generic diagonal matrices.
+[<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
+module DiagonalMatrix =
+
+    /// Create a matrix that directly binds to a storage object.
+    let inline ofStorage (storage:Storage.DiagonalMatrixStorage<_>) = Matrix<'T>.Build.Diagonal(storage)
+    
+    /// Create a square matrix that directly binds to a raw storage array that represents the diagonal, without copying.
+    let inline raw (diagonal: 'T[]) = Matrix<'T>.Build.Diagonal(diagonal)
+
+    /// Create a matrix that directly binds to a raw storage array that represents the diagonal, without copying.
+    let inline raw2 (rows: int) (cols: int) (diagonal: 'T[]) = Matrix<'T>.Build.Diagonal(rows, cols, diagonal)
+
+    /// Create an all-zero matrix with the given dimension.
+    let inline zero<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (rows: int) (cols: int) = Matrix<'T>.Build.Diagonal(rows, cols)
+
+    /// Create a square matrix with the given order and set all diagonal values to x.
+    let inline create (order: int) (x: 'T) = Matrix<'T>.Build.Diagonal(order, order, x)
+
+    /// Create a matrix with the given dimension and set all diagonal values to x.
+    let inline create2 (rows: int) (cols: int) (x: 'T) = Matrix<'T>.Build.Diagonal(rows, cols, x)
+
+    /// Create an identity matrix with the given dimension.
+    let inline identity<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (order: int) = Matrix<'T>.Build.DiagonalIdentity(order)
+
+    /// Create an identity matrix with the given dimension.
+    let inline identity2<'T when 'T:struct and 'T :> ValueType and 'T: (new: unit ->'T) and 'T :> IEquatable<'T> and 'T :> IFormattable>
+        (rows: int) (cols: int) = Matrix<'T>.Build.DiagonalIdentity(rows, cols)
+
+    /// Initialize a square matrix by calling a construction function for every element.
+    let inline init (order: int) (f: int -> 'T) = Matrix<'T>.Build.Diagonal(order, order, fun k -> f k)
+
+    /// Initialize a matrix by calling a construction function for every element.
+    let inline init2 (rows: int) (cols: int) (f: int -> 'T) = Matrix<'T>.Build.Diagonal(rows, cols, fun k -> f k)
+
+    /// Create a square matrix with the vector elements on the diagonal.
+    let inline ofDiag (v: Vector<'T>) = Matrix<'T>.Build.DiagonalOfDiagonalVector(v)
+
+    /// Create a matrix with the vector elements on the diagonal.
+    let inline ofDiag2 (rows: int) (cols: int) (v: Vector<'T>) = Matrix<'T>.Build.DiagonalOfDiagonalVector(rows, cols, v)
+
+    /// Create a square matrix with the array elements on the diagonal.
+    let inline ofDiagArray (array: 'T array) = Matrix<'T>.Build.DiagonalOfDiagonalArray(array)
+
+    /// Create a matrix with the array elements on the diagonal.
+    let inline ofDiagArray2 (rows: int) (cols: int) (array: 'T array) = Matrix<'T>.Build.DiagonalOfDiagonalArray(rows, cols, array)
+
+
 /// Module that contains implementation of useful F#-specific extension members for generic matrices
 [<AutoOpen>]
 module MatrixExtensions =
