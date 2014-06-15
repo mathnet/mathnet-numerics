@@ -28,11 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra
@@ -1613,7 +1614,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
         /// <summary>
         /// For each row, applies a function f to each element of the row, threading an accumulator argument through the computation.
-        /// Returns a vector with the resulting accumulator states for each row.
+        /// Returns an array with the resulting accumulator states for each row.
         /// </summary>
         public TU[] FoldByRow<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
         {
@@ -1634,7 +1635,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
         /// <summary>
         /// For each column, applies a function f to each element of the column, threading an accumulator argument through the computation.
-        /// Returns a vector with the resulting accumulator states for each column.
+        /// Returns an array with the resulting accumulator states for each column.
         /// </summary>
         public TU[] FoldByColumn<TU>(Func<TU, T, TU> f, TU state, Zeros zeros = Zeros.AllowSkip)
         {
@@ -1651,6 +1652,50 @@ namespace MathNet.Numerics.LinearAlgebra
             }
             Storage.FoldByColumnUnchecked(result, f, (x, c) => x, result, zeros);
             return result;
+        }
+
+        /// <summary>
+        /// Applies a function f to each row vector, threading an accumulator vector argument through the computation.
+        /// Returns the resulting accumulator vector.
+        /// </summary>
+        public Vector<TU> FoldRows<TU>(Func<Vector<TU>, Vector<T>, Vector<TU>> f, Vector<TU> state)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            foreach (var vector in EnumerateRows())
+            {
+                state = f(state, vector);
+            }
+            return state;
+        }
+
+        /// <summary>
+        /// Applies a function f to each column vector, threading an accumulator vector argument through the computation.
+        /// Returns the resulting accumulator vector.
+        /// </summary>
+        public Vector<TU> FoldColumns<TU>(Func<Vector<TU>, Vector<T>, Vector<TU>> f, Vector<TU> state)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            foreach (var vector in EnumerateColumns())
+            {
+                state = f(state, vector);
+            }
+            return state;
+        }
+
+        /// <summary>
+        /// Reduces all row vectors by applying a function between two of them, until only a single vector is left.
+        /// </summary>
+        public Vector<T> ReduceRows(Func<Vector<T>, Vector<T>, Vector<T>> f)
+        {
+            return EnumerateRows().Aggregate(f);
+        }
+
+        /// <summary>
+        /// Reduces all column vectors by applying a function between two of them, until only a single vector is left.
+        /// </summary>
+        public Vector<T> ReduceColumns(Func<Vector<T>, Vector<T>, Vector<T>> f)
+        {
+            return EnumerateColumns().Aggregate(f);
         }
     }
 }
