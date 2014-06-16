@@ -351,7 +351,7 @@ namespace MathNet.Numerics
         {
             if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
             int count = 0;
-            for (int i = 1; i < a.Length; i++)
+            for (int i = 0; i < a.Length; i++)
             {
                 if (a[i] != b[i])
                 {
@@ -368,7 +368,7 @@ namespace MathNet.Numerics
         {
             if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
             int count = 0;
-            for (int i = 1; i < a.Length; i++)
+            for (int i = 0; i < a.Length; i++)
             {
                 if (a[i] != b[i])
                 {

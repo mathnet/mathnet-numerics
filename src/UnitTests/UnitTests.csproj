@@ -85,6 +85,7 @@
     <Compile Include="ComplexTests\Complex32Test.TextHandling.cs" />
     <Compile Include="ComplexTests\ComplexTest.cs" />
     <Compile Include="ComplexTests\ComplexTest.TextHandling.cs" />
+    <Compile Include="DistanceTests.cs" />
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
     <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
     <Compile Include="DistributionTests\Continuous\CauchyTests.cs" />
