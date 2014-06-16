@@ -217,7 +217,7 @@ namespace MathNet.Numerics
         {
             if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
             double max = Math.Abs(a[0] - b[0]);
-            for (int i = 1; i < a.Length; i++)
+            for (int i = 0; i < a.Length; i++)
             {
                 var next = Math.Abs(a[i] - b[i]);
                 if (next > max)
@@ -235,7 +235,7 @@ namespace MathNet.Numerics
         {
             if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
             float max = Math.Abs(a[0] - b[0]);
-            for (int i = 1; i < a.Length; i++)
+            for (int i = 0; i < a.Length; i++)
             {
                 var next = Math.Abs(a[i] - b[i]);
                 if (next > max)
