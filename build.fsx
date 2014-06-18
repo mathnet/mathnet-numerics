@@ -93,6 +93,8 @@ let fsharpPack =
                         Files = [ @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
                                   @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
                                   @"..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
+                                  @"..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
+                                  @"MathNet.Numerics.fsx", None, None;
                                   @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 let numericsSignedPack =
@@ -110,6 +112,7 @@ let fsharpSignedPack =
                       Tags = fsharpPack.Tags + " signed"
                       Dependencies = [ "MathNet.Numerics.Signed", packageVersion ]
                       Files = [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
+                                @"MathNet.Numerics.fsx", None, None;
                                 @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 
@@ -307,6 +310,20 @@ Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
 // PACKAGES
 // --------------------------------------------------------------------------------------
 
+let provideFsharpScript path =
+    // inspired by FsLab/tpetricek
+    let fullScript = ReadFile "src/FSharp/MathNet.Numerics.fsx" |> Array.ofSeq
+    let startIndex = fullScript |> Seq.findIndex (fun s -> s.Contains "***MathNet.Numerics.fsx***")
+    let extraScript = fullScript .[startIndex + 1 ..] |> List.ofSeq
+    let assemblies = [ "MathNet.Numerics.dll"; "MathNet.Numerics.FSharp.dll" ]
+    let packages = [ numericsPack; fsharpPack ]
+    let roots = [ ""; "../"; "../../"; "../../../" ]
+    let nowarn = ["#nowarn \"211\""]
+    let zipIncludes = [ for root in roots -> sprintf "#I \"%sNet40\"" root ]
+    let nugetIncludes = [ for root in roots do for package in packages -> sprintf "#I \"%spackages/%s.%s/lib/net40/\"" root package.Id package.Version ]
+    let references = [ for assembly in assemblies -> sprintf "#r \"%s\"" assembly ]
+    ReplaceFile (path @@ "MathNet.Numerics.fsx") (nowarn @ zipIncludes @ nugetIncludes @ references @ extraScript |> toLines)
+
 let provideLicenseReadme title license releasenotes path =
     let licensePath = path @@ "license.txt"
     let readmePath = path @@ "readme.txt"
@@ -316,9 +333,11 @@ let provideLicenseReadme title license releasenotes path =
     String.concat Environment.NewLine [header; " " + title; ""; ReadFileAsString readmePath]
     |> ConvertTextToWindowsLineBreaks 
     |> ReplaceFile readmePath
-let provideCoreFiles = provideLicenseReadme (sprintf "Math.NET Numerics v%s" packageVersion) "LICENSE.md" "RELEASENOTES.md"
+
 let provideNativeFiles = provideLicenseReadme (sprintf "Math.NET Numerics Native Providers v%s" nativePackageVersion) "LICENSE.md" "RELEASENOTES-Native.md"
 let provideDataFiles = provideLicenseReadme (sprintf "Math.NET Numerics Data Extensions v%s" dataPackageVersion) "LICENSE.md" "RELEASENOTES-Data.md"
+let provideCoreFiles = provideLicenseReadme (sprintf "Math.NET Numerics v%s" packageVersion) "LICENSE.md" "RELEASENOTES.md"
+let provideCoreAndFsharpFiles path = provideCoreFiles path; provideFsharpScript path
 
 // ZIP
 
@@ -327,11 +346,11 @@ Target "Zip" (fun _ ->
     CleanDir "obj/Zip"
     if not (hasBuildParam "signed") || hasBuildParam "release" then
         CopyDir "obj/Zip/MathNet.Numerics" "out/lib" (fun f -> f.Contains("MathNet.Numerics."))
-        provideCoreFiles "obj/Zip/MathNet.Numerics"
+        provideCoreAndFsharpFiles "obj/Zip/MathNet.Numerics"
         Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics/**/*.*"
     if hasBuildParam "signed" || hasBuildParam "release" then
         CopyDir "obj/Zip/MathNet.Numerics.Signed" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics."))
-        provideCoreFiles "obj/Zip/MathNet.Numerics.Signed"
+        provideCoreAndFsharpFiles "obj/Zip/MathNet.Numerics.Signed"
         Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics.Signed-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics.Signed/**/*.*"
     CleanDir "obj/Zip")
 "Build" ==> "Zip"
@@ -373,9 +392,9 @@ let updateNuspec pack outPath symbols updateFiles spec =
                 Files = updateFiles pack.Files
                 Publish = false }
 
-let nugetPack pack outPath =
+let nugetPack pack extraFiles outPath =
     CleanDir "obj/NuGet"
-    provideCoreFiles "obj/NuGet"
+    extraFiles "obj/NuGet"
     let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
     let withoutSymbolsSources f =
         List.choose (function | (_, Some (target:string), _) when target.StartsWith("src") -> None
@@ -396,11 +415,11 @@ Target "NuGet" (fun _ ->
     let outPath = "out/packages/NuGet"
     CleanDir outPath
     if hasBuildParam "signed" || hasBuildParam "release" then
-        nugetPack numericsSignedPack outPath
-        nugetPack fsharpSignedPack outPath
+        nugetPack numericsSignedPack provideCoreFiles outPath
+        nugetPack fsharpSignedPack provideCoreAndFsharpFiles outPath
     if hasBuildParam "all" || hasBuildParam "release" then
-        nugetPack numericsPack outPath
-        nugetPack fsharpPack outPath
+        nugetPack numericsPack provideCoreFiles outPath
+        nugetPack fsharpPack provideCoreAndFsharpFiles outPath
     CleanDir "obj/NuGet")
 "Build" ==> "NuGet"
 
