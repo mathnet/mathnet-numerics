@@ -97,14 +97,13 @@ let fsharpPack =
                         Summary = "F# Modules for " + summary
                         Description = description + supportFsharp
                         Tags = "fsharp F# " + tags
-                        Dependencies = [ "MathNet.Numerics", packageVersion ]
+                        Dependencies = [ "MathNet.Numerics", "[" + packageVersion + "]" ]
                         Files = [ @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
                                   @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
                                   @"..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
                                   @"..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
                                   @"MathNet.Numerics.fsx", None, None;
                                   @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
-
 
 let numericsSignedPack =
     { numericsPack with Id = numericsPack.Id + ".Signed"
@@ -119,7 +118,7 @@ let fsharpSignedPack =
                       Title = fsharpPack.Title + " - Signed Edition"
                       Description = description + supportSigned
                       Tags = fsharpPack.Tags + " signed"
-                      Dependencies = [ "MathNet.Numerics.Signed", packageVersion ]
+                      Dependencies = [ "MathNet.Numerics.Signed", "[" + packageVersion + "]" ]
                       Files = [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
                                 @"MathNet.Numerics.fsx", None, None;
                                 @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
