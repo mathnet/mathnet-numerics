@@ -56,10 +56,6 @@ namespace MathNet.Numerics
             CheckDistributionParameters = true;
             ThreadSafeRandomNumberGenerators = true;
 
-            // ToString & Formatting
-            MaxToStringColumns = 6;
-            MaxToStringRows = 8;
-
             // Parallelization & Threading
             _maxDegreeOfParallelism = Environment.ProcessorCount;
             _blockSize = 512;
@@ -198,15 +194,5 @@ namespace MathNet.Numerics
             get { return _parallelizeElements; }
             set { _parallelizeElements = Math.Max(3, value); }
         }
-
-        /// <summary>
-        /// Maximum number of columns to print in ToString methods by default.
-        /// </summary>
-        public static int MaxToStringColumns { get; set; }
-
-        /// <summary>
-        /// Maximum number of rows to print in ToString methods by default.
-        /// </summary>
-        public static int MaxToStringRows { get; set; }
     }
 }
