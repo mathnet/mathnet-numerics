@@ -133,6 +133,19 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Set all values whose absolute value is smaller than the threshold to zero, in-place.
+        /// </summary>
+        public abstract void CoerceZero(double threshold);
+
+        /// <summary>
+        /// Set all values that meet the predicate to zero, in-place.
+        /// </summary>
+        public void CoerceZero(Func<T, bool> zeroPredicate)
+        {
+            MapInplace(x => zeroPredicate(x) ? Zero : x, Zeros.AllowSkip);
+        }
+
+        /// <summary>
         /// Returns a deep-copy clone of the vector.
         /// </summary>
         /// <returns>A deep-copy clone of the vector.</returns>

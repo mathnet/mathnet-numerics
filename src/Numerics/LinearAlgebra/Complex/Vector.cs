@@ -56,6 +56,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Set all values whose absolute value is smaller than the threshold to zero.
+        /// </summary>
+        public override void CoerceZero(double threshold)
+        {
+            MapInplace(x => x.Magnitude < threshold ? Complex.Zero : x, Zeros.AllowSkip);
+        }
+
+        /// <summary>
         /// Adds a scalar to each element of the vector and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">

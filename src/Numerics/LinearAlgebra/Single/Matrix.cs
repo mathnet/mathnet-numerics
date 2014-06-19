@@ -50,6 +50,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
         }
 
+        /// <summary>
+        /// Set all values whose absolute value is smaller than the threshold to zero.
+        /// </summary>
+        public override void CoerceZero(double threshold)
+        {
+            MapInplace(x => Math.Abs(x) < threshold ? 0f : x, Zeros.AllowSkip);
+        }
+
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()

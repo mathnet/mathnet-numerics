@@ -41,7 +41,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
     using Complex = Numerics.Complex;
 #else
     using Complex = System.Numerics.Complex;
-
 #endif
 
     /// <summary>
@@ -56,6 +55,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         protected Matrix(MatrixStorage<Complex> storage)
             : base(storage)
         {
+        }
+
+        /// <summary>
+        /// Set all values whose absolute value is smaller than the threshold to zero.
+        /// </summary>
+        public override void CoerceZero(double threshold)
+        {
+            MapInplace(x => x.Magnitude < threshold ? Complex.Zero : x, Zeros.AllowSkip);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
