@@ -48,6 +48,14 @@ type Package =
       Dependencies: (string*string) list
       Files: (string * string option * string option) list }
 
+type Bundle =
+    { Id: string
+      Version: string
+      Title: string
+      ReleaseNotesFile: string
+      FsLoader: bool
+      Packages: Package list }
+
 let release = LoadReleaseNotes "RELEASENOTES.md"
 let buildPart = "0"
 let assemblyVersion = release.AssemblyVersion + "." + buildPart
@@ -97,6 +105,7 @@ let fsharpPack =
                                   @"MathNet.Numerics.fsx", None, None;
                                   @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
+
 let numericsSignedPack =
     { numericsPack with Id = numericsPack.Id + ".Signed"
                         Title = numericsPack.Title + " - Signed Edition"
@@ -115,6 +124,22 @@ let fsharpSignedPack =
                                 @"MathNet.Numerics.fsx", None, None;
                                 @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
+let coreBundle =
+    { Id = numericsPack.Id
+      Version = packageVersion
+      Title = numericsPack.Title
+      ReleaseNotesFile = "RELEASENOTES.md"
+      FsLoader = true
+      Packages = [ numericsPack; fsharpPack ] }
+
+let coreSignedBundle =
+    { Id = numericsSignedPack.Id
+      Version = packageVersion
+      Title = numericsSignedPack.Title
+      ReleaseNotesFile = "RELEASENOTES.md"
+      FsLoader = true
+      Packages = [ numericsSignedPack; fsharpSignedPack ] }
+
 
 // NATIVE PROVIDER PACKAGES
 
@@ -128,7 +153,7 @@ trace (sprintf " Math.NET Numerics Native Providers   v%s" nativePackageVersion)
 let nativeMKLWin32Pack =
     { Id = "MathNet.Numerics.MKL.Win-x86"
       Version = nativePackageVersion
-      Title = "Math.NET Numerics - MKL Native Libraries (Windows 32-bit)"
+      Title = "Math.NET Numerics - MKL Native Providers (Windows 32-bit)"
       Summary = ""
       Description = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
       ReleaseNotes = nativeReleaseNotes
@@ -140,9 +165,17 @@ let nativeMKLWin32Pack =
 
 let nativeMKLWin64Pack =
     { nativeMKLWin32Pack with Id = "MathNet.Numerics.MKL.Win-x64"
-                              Title = "Math.NET Numerics - MKL Native Libraries (Windows 64-bit)"
+                              Title = "Math.NET Numerics - MKL Native Providers (Windows 64-bit)"
                               Files = [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
                                         @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
+
+let nativeBundle =
+    { Id = "MathNet.Numerics.NativeProviders"
+      Version = nativePackageVersion
+      Title = "Math.NET Numerics Native Providers"
+      ReleaseNotesFile = "RELEASENOTES-Native.md"
+      FsLoader = false
+      Packages = [ nativeMKLWin32Pack; nativeMKLWin64Pack ] }
 
 
 // DATA EXTENSION PACKAGES
@@ -180,6 +213,14 @@ let dataMatlabPack =
       Dependencies = getDependencies "src/Data/Matlab/packages.config"
       Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
                 @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
+
+let dataBundle =
+    { Id = "MathNet.Numerics.Data"
+      Version = dataPackageVersion
+      Title = "Math.NET Numerics Data Extensions"
+      ReleaseNotesFile = "RELEASENOTES-Data.md"
+      FsLoader = false
+      Packages = [ dataTextPack; dataMatlabPack ] }
 
 
 // --------------------------------------------------------------------------------------
@@ -310,72 +351,71 @@ Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
 // PACKAGES
 // --------------------------------------------------------------------------------------
 
-let provideFsharpScript path =
-    // inspired by FsLab/tpetricek
+let provideLicense path =
+    ReadFileAsString "LICENSE.md"
+    |> ConvertTextToWindowsLineBreaks 
+    |> ReplaceFile (path @@ "license.txt")
+
+let provideReadme title releasenotes path =
+    String.concat Environment.NewLine [header; " " + title; ""; ReadFileAsString releasenotes]
+    |> ConvertTextToWindowsLineBreaks 
+    |> ReplaceFile (path @@ "readme.txt")
+
+let provideFsLoader includes path =
     let fullScript = ReadFile "src/FSharp/MathNet.Numerics.fsx" |> Array.ofSeq
     let startIndex = fullScript |> Seq.findIndex (fun s -> s.Contains "***MathNet.Numerics.fsx***")
     let extraScript = fullScript .[startIndex + 1 ..] |> List.ofSeq
     let assemblies = [ "MathNet.Numerics.dll"; "MathNet.Numerics.FSharp.dll" ]
-    let packages = [ numericsPack; fsharpPack ]
-    let roots = [ ""; "../"; "../../"; "../../../" ]
     let nowarn = ["#nowarn \"211\""]
-    let zipIncludes = [ for root in roots -> sprintf "#I \"%sNet40\"" root ]
-    let nugetIncludes = [ for root in roots do for package in packages -> sprintf "#I \"%spackages/%s.%s/lib/net40/\"" root package.Id package.Version ]
     let references = [ for assembly in assemblies -> sprintf "#r \"%s\"" assembly ]
-    ReplaceFile (path @@ "MathNet.Numerics.fsx") (nowarn @ zipIncludes @ nugetIncludes @ references @ extraScript |> toLines)
+    ReplaceFile (path @@ "MathNet.Numerics.fsx") (nowarn @ includes @ references @ extraScript |> toLines)
 
-let provideLicenseReadme title license releasenotes path =
-    let licensePath = path @@ "license.txt"
-    let readmePath = path @@ "readme.txt"
-    CopyFile licensePath license
-    CopyFile readmePath releasenotes
-    ConvertFileToWindowsLineBreaks licensePath
-    String.concat Environment.NewLine [header; " " + title; ""; ReadFileAsString readmePath]
-    |> ConvertTextToWindowsLineBreaks 
-    |> ReplaceFile readmePath
+let provideZipExtraFiles path (bundle:Bundle) =
+    provideLicense path
+    provideReadme (sprintf "%s v%s" bundle.Title bundle.Version) bundle.ReleaseNotesFile path
+    if bundle.FsLoader then
+        let includes = [ for root in [ ""; "../"; "../../" ] -> sprintf "#I \"%sNet40\"" root ]
+        provideFsLoader includes path
 
-let provideNativeFiles = provideLicenseReadme (sprintf "Math.NET Numerics Native Providers v%s" nativePackageVersion) "LICENSE.md" "RELEASENOTES-Native.md"
-let provideDataFiles = provideLicenseReadme (sprintf "Math.NET Numerics Data Extensions v%s" dataPackageVersion) "LICENSE.md" "RELEASENOTES-Data.md"
-let provideCoreFiles = provideLicenseReadme (sprintf "Math.NET Numerics v%s" packageVersion) "LICENSE.md" "RELEASENOTES.md"
-let provideCoreAndFsharpFiles path = provideCoreFiles path; provideFsharpScript path
+let provideNuGetExtraFiles path (bundle:Bundle) (pack:Package) =
+    provideLicense path
+    provideReadme (sprintf "%s v%s" pack.Title pack.Version) bundle.ReleaseNotesFile path
+    if pack = fsharpPack || pack = fsharpSignedPack then
+        let includes = [ for root in [ ""; "../"; "../../"; "../../../" ] do
+                         for package in bundle.Packages -> sprintf "#I \"%spackages/%s.%s/lib/net40/\"" root package.Id package.Version ]
+        provideFsLoader includes path
 
 // ZIP
 
+let zip zipDir filesDir filesFilter bundle =
+    CleanDir "obj/Zip"
+    let workPath = "obj/Zip/" + bundle.Id
+    CopyDir workPath filesDir filesFilter
+    provideZipExtraFiles workPath bundle
+    Zip "obj/Zip/" (zipDir @@ sprintf "%s-%s.zip" bundle.Id bundle.Version) !! (workPath + "/**/*.*")
+    CleanDir "obj/Zip"
+    
 Target "Zip" (fun _ ->
     CleanDir "out/packages/Zip"
-    CleanDir "obj/Zip"
     if not (hasBuildParam "signed") || hasBuildParam "release" then
-        CopyDir "obj/Zip/MathNet.Numerics" "out/lib" (fun f -> f.Contains("MathNet.Numerics."))
-        provideCoreAndFsharpFiles "obj/Zip/MathNet.Numerics"
-        Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics/**/*.*"
+        coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics."))
     if hasBuildParam "signed" || hasBuildParam "release" then
-        CopyDir "obj/Zip/MathNet.Numerics.Signed" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics."))
-        provideCoreAndFsharpFiles "obj/Zip/MathNet.Numerics.Signed"
-        Zip "obj/Zip/" (sprintf "out/packages/Zip/MathNet.Numerics.Signed-%s.zip" packageVersion) !! "obj/Zip/MathNet.Numerics.Signed/**/*.*"
-    CleanDir "obj/Zip")
+        coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
 "Build" ==> "Zip"
 
 Target "NativeZip" (fun _ ->
     CleanDir "out/MKL/packages/Zip"
-    CleanDir "obj/Zip"
-    CopyDir "obj/Zip/MathNet.Numerics.MKL" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
-    provideNativeFiles "obj/Zip/MathNet.Numerics.MKL"
-    Zip "obj/Zip/" (sprintf "out/MKL/packages/Zip/MathNet.Numerics.MKL-%s.zip" nativePackageVersion) !! "obj/Zip/MathNet.Numerics.MKL/**/*.*"
-    CleanDir "obj/Zip")
+    nativeBundle |> zip "out/MKL/packages/Zip" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
 "NativeBuild" ==> "NativeZip"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
-    CleanDir "obj/Zip"
-    CopyDir "obj/Zip/MathNet.Numerics.Data" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data."))
-    provideDataFiles "obj/Zip/MathNet.Numerics.Data"
-    Zip "obj/Zip/" (sprintf "out/Data/packages/Zip/MathNet.Numerics.Data-%s.zip" dataPackageVersion) !! "obj/Zip/MathNet.Numerics.Data/**/*.*"
-    CleanDir "obj/Zip")
+    dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
 "DataBuild" ==> "DataZip"
 
 // NUGET
 
-let updateNuspec pack outPath symbols updateFiles spec =
+let updateNuspec (pack:Package) outPath symbols updateFiles spec =
     { spec with ToolPath = "tools/NuGet/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
@@ -392,51 +432,43 @@ let updateNuspec pack outPath symbols updateFiles spec =
                 Files = updateFiles pack.Files
                 Publish = false }
 
-let nugetPack pack extraFiles outPath =
+let nugetPack bundle outPath =
     CleanDir "obj/NuGet"
-    extraFiles "obj/NuGet"
-    let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
-    let withoutSymbolsSources f =
-        List.choose (function | (_, Some (target:string), _) when target.StartsWith("src") -> None
-                              | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
-                              | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb"))) f
-    NuGet (updateNuspec pack outPath NugetSymbolPackage.Nuspec withLicenseReadme) "build/MathNet.Numerics.nuspec"
-    NuGet (updateNuspec pack outPath NugetSymbolPackage.None (withLicenseReadme >> withoutSymbolsSources)) "build/MathNet.Numerics.nuspec"
-    CleanDir "obj/NuGet"
+    for pack in bundle.Packages do
+        provideNuGetExtraFiles "obj/NuGet" bundle pack
+        let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
+        let withoutSymbolsSources f =
+            List.choose (function | (_, Some (target:string), _) when target.StartsWith("src") -> None
+                                  | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
+                                  | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb"))) f
+        NuGet (updateNuspec pack outPath NugetSymbolPackage.Nuspec withLicenseReadme) "build/MathNet.Numerics.nuspec"
+        NuGet (updateNuspec pack outPath NugetSymbolPackage.None (withLicenseReadme >> withoutSymbolsSources)) "build/MathNet.Numerics.nuspec"
+        CleanDir "obj/NuGet"
 
-let nugetPackExtension pack extraFiles outPath =
+let nugetPackExtension bundle outPath =
     CleanDir "obj/NuGet"
-    extraFiles "obj/NuGet"
-    let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
-    NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Extension.nuspec"
-    CleanDir "obj/NuGet"
+    for pack in bundle.Packages do
+        provideNuGetExtraFiles "obj/NuGet" bundle pack
+        let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
+        NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Extension.nuspec"
+        CleanDir "obj/NuGet"
 
 Target "NuGet" (fun _ ->
-    let outPath = "out/packages/NuGet"
-    CleanDir outPath
+    CleanDir "out/packages/NuGet"
     if hasBuildParam "signed" || hasBuildParam "release" then
-        nugetPack numericsSignedPack provideCoreFiles outPath
-        nugetPack fsharpSignedPack provideCoreAndFsharpFiles outPath
+        nugetPack coreSignedBundle "out/packages/NuGet"
     if hasBuildParam "all" || hasBuildParam "release" then
-        nugetPack numericsPack provideCoreFiles outPath
-        nugetPack fsharpPack provideCoreAndFsharpFiles outPath
-    CleanDir "obj/NuGet")
+        nugetPack coreBundle "out/packages/NuGet")
 "Build" ==> "NuGet"
 
 Target "NativeNuGet" (fun _ ->
-    let outPath = "out/MKL/packages/NuGet"
-    CleanDir outPath
-    nugetPackExtension nativeMKLWin32Pack provideNativeFiles outPath
-    nugetPackExtension nativeMKLWin64Pack provideNativeFiles outPath
-    CleanDir "obj/NuGet")
+    CleanDir "out/MKL/packages/NuGet"
+    nugetPackExtension nativeBundle "out/MKL/packages/NuGet")
 "NativeBuild" ==> "NativeNuGet"
 
 Target "DataNuGet" (fun _ ->
-    let outPath = "out/Data/packages/NuGet"
-    CleanDir outPath
-    nugetPackExtension dataTextPack provideDataFiles outPath
-    nugetPackExtension dataMatlabPack provideDataFiles outPath
-    CleanDir "obj/NuGet")
+    CleanDir "out/Data/packages/NuGet"
+    nugetPackExtension dataBundle "out/Data/packages/NuGet")
 "DataBuild" ==> "DataNuGet"
 
 

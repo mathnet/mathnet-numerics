@@ -1,7 +1,7 @@
 ### 3.0.0-beta04 - 2014-06-16
 * Candidate for v3.0 Release
 * Linear Algebra:
-   * FoldRows renamed to FoldByRow, now operates on and returns arrays; same for columns
+   * FoldRows renamed to FoldByRow, now operates on and returns arrays; same for columns. **Breaking.**
    * New FoldRows and ReduceRows that operate on row vectors; same for columns
    * Split Map into Map and MapConvert (allows optimization in common in-place case)
    * Row and columns sums and absolute-sums
