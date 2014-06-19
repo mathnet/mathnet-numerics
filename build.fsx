@@ -441,7 +441,9 @@ let nugetPack bundle outPath =
             List.choose (function | (_, Some (target:string), _) when target.StartsWith("src") -> None
                                   | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
                                   | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb"))) f
+        // first pass - generates symbol + normal package. NuGet does drop the symbols from the normal package, but unfortunately not the sources.
         NuGet (updateNuspec pack outPath NugetSymbolPackage.Nuspec withLicenseReadme) "build/MathNet.Numerics.nuspec"
+        // second pass - generate only normal package, again, but this time explicitly drop the sources (and the debug symbols)
         NuGet (updateNuspec pack outPath NugetSymbolPackage.None (withLicenseReadme >> withoutSymbolsSources)) "build/MathNet.Numerics.nuspec"
         CleanDir "obj/NuGet"
 
