@@ -37,9 +37,9 @@ module Random =
     let shared = SystemRandomSource.Default :> System.Random
 
     /// Default sampling, efficient but without custom seed (uses robust seeds internally)
-    let inline doubles (length:int) = SystemRandomSource.Doubles(length)
+    let inline doubles (length:int) = SystemRandomSource.FastDoubles(length)
     let inline doubleSeq () = SystemRandomSource.DoubleSequence()
-    let inline doubleFill (values:double[]) = SystemRandomSource.Doubles(values)
+    let inline doubleFill (values:double[]) = SystemRandomSource.FastDoubles(values)
 
     let inline doublesSeed (seed:int) (length:int) = SystemRandomSource.Doubles(length, seed)
     let inline doubleSeqSeed (seed:int) = SystemRandomSource.DoubleSequence(seed)

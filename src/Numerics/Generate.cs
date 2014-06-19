@@ -546,7 +546,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] Uniform(int length)
         {
-            return SystemRandomSource.Doubles(length);
+            return SystemRandomSource.FastDoubles(length);
         }
 
         /// <summary>
@@ -565,7 +565,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] UniformMap<T>(int length, Func<double, T> map)
         {
-            var samples = SystemRandomSource.Doubles(length);
+            var samples = SystemRandomSource.FastDoubles(length);
             var data = new T[length];
             for (int i = 0; i < data.Length; i++)
             {
@@ -589,8 +589,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] UniformMap2<T>(int length, Func<double, double, T> map)
         {
-            var samples1 = SystemRandomSource.Doubles(length);
-            var samples2 = SystemRandomSource.Doubles(length);
+            var samples1 = SystemRandomSource.FastDoubles(length);
+            var samples2 = SystemRandomSource.FastDoubles(length);
             var data = new T[length];
             for (int i = 0; i < data.Length; i++)
             {

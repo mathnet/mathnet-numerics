@@ -124,9 +124,10 @@ namespace MathNet.Numerics.Random
 
         /// <summary>
         /// Fill an array with uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// WARNING: potentially very short random sequence length, can generate repeated partial sequences.
         /// </summary>
         /// <remarks>Parallelized on large length, but also supports being called in parallel from multiple threads</remarks>
-        public static void Doubles(double[] values)
+        public static void FastDoubles(double[] values)
         {
             if (values.Length < 2048)
             {
@@ -146,13 +147,14 @@ namespace MathNet.Numerics.Random
 
         /// <summary>
         /// Returns an array of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// WARNING: potentially very short random sequence length, can generate repeated partial sequences.
         /// </summary>
         /// <remarks>Parallelized on large length, but also supports being called in parallel from multiple threads</remarks>
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public static double[] Doubles(int length)
+        public static double[] FastDoubles(int length)
         {
             var data = new double[length];
-            Doubles(data);
+            FastDoubles(data);
             return data;
         }
 
