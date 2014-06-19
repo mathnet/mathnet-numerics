@@ -361,6 +361,7 @@ let provideReadme title releasenotes path =
     |> ReplaceFile (path @@ "readme.txt")
 
 let provideFsLoader includes path =
+    // inspired by FsLab/tpetricek
     let fullScript = ReadFile "src/FSharp/MathNet.Numerics.fsx" |> Array.ofSeq
     let startIndex = fullScript |> Seq.findIndex (fun s -> s.Contains "***MathNet.Numerics.fsx***")
     let extraScript = fullScript .[startIndex + 1 ..] |> List.ofSeq
