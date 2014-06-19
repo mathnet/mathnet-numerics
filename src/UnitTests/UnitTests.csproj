@@ -153,7 +153,6 @@
     <Compile Include="LinearAlgebraProviderTests\Single\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DiagonalMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\Factorization\CholeskyTests.cs" />
@@ -191,7 +190,6 @@
     <Compile Include="LinearAlgebraTests\Complex32\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex32\SparseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\UserDefinedMatrix.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\UserDefinedMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\UserDefinedVector.cs" />
@@ -202,7 +200,6 @@
     <Compile Include="LinearAlgebraTests\Complex32\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Complex\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\DenseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\DenseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Complex\DenseVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\DiagonalMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\Factorization\CholeskyTests.cs" />
@@ -240,7 +237,6 @@
     <Compile Include="LinearAlgebraTests\Complex\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex\SparseVectorTest.cs" />
-    <Compile Include="LinearAlgebraTests\Complex\SparseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Complex\UserDefinedMatrix.cs" />
     <Compile Include="LinearAlgebraTests\Complex\UserDefinedMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex\UserDefinedVector.cs" />
@@ -257,7 +253,6 @@
     <Compile Include="LinearAlgebraTests\Double\Solvers\StopCriterion\ResidualStopCriteriumTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseMatrixTests.cs" />
-    <Compile Include="LinearAlgebraTests\Double\DenseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\DenseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Double\DiagonalMatrixTests.cs" />
@@ -289,7 +284,6 @@
     <Compile Include="LinearAlgebraTests\Double\Solvers\Preconditioners\UnitPreconditionerTest.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.cs" />
-    <Compile Include="LinearAlgebraTests\Double\SparseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrix.cs" />
     <Compile Include="LinearAlgebraTests\Double\UserDefinedMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Double\UserDefinedVector.cs" />
@@ -304,7 +298,6 @@
     <Compile Include="LinearAlgebraTests\MatrixStructureTheory.Reform.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseVectorArithmeticTheory.cs" />
-    <Compile Include="LinearAlgebraTests\Single\DenseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Single\DenseVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\DiagonalMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\Factorization\CholeskyTests.cs" />
@@ -342,7 +335,6 @@
     <Compile Include="LinearAlgebraTests\Single\SparseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\SparseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.cs" />
-    <Compile Include="LinearAlgebraTests\Single\SparseVectorTest.TextHandling.cs" />
     <Compile Include="LinearAlgebraTests\Single\UserDefinedMatrix.cs" />
     <Compile Include="LinearAlgebraTests\Single\UserDefinedMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\UserDefinedVector.cs" />

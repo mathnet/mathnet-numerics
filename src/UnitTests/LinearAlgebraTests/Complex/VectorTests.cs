@@ -86,17 +86,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 #endif
 
         /// <summary>
-        /// Can convert vector to string.
-        /// </summary>
-        [Test]
-        public void CanConvertVectorToString()
-        {
-            var vector = CreateVector(Data);
-            var str = vector.ToVectorString(1, int.MaxValue, 1);
-            Assert.AreEqual("(1, 1) (2, 1) (3, 1) (4, 1) (5, 1)", str);
-        }
-
-        /// <summary>
         /// Can copy part of a vector to another vector.
         /// </summary>
         [Test]

@@ -32,6 +32,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
@@ -251,113 +252,163 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that describes the type, dimensions and shape of this vector.
+        /// Returns a string that describes the type, dimensions and shape of this vector.
         /// </summary>
         public virtual string ToTypeString()
         {
             return string.Format("{0} {1}-{2}", GetType().Name, Count, typeof (T).Name);
         }
 
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the content of this vector, row by row.
-        /// </summary>
-        public string ToVectorString(int maxLines, int maxPerLine, IFormatProvider provider = null)
+        public string[,] ToVectorStringArray(int maxPerColumn, int maxWidth, int padding, string ellipsis, Func<T, string> formatValue)
         {
-            return ToVectorString(maxLines, maxPerLine, 12, "G6", provider);
+            var columns = new List<Tuple<int, string[]>>();
+            int chars = 0;
+            int offset = 0;
+            while (offset < Count)
+            {
+                // full column
+                int height = Math.Min(maxPerColumn, Count - offset);
+                var candidate = FormatCompleteColumn(offset, height, formatValue);
+                chars += candidate.Item1 + padding;
+                if (chars > maxWidth)
+                {
+                    break;
+                }
+                columns.Add(candidate);
+                offset += height;
+            }
+            if (offset < Count)
+            {
+                // we're not done yet, but adding the last column has failed
+                // --> make the last column partial
+                var last = columns[columns.Count - 1];
+                var c = last.Item2;
+                c[c.Length - 4] = ellipsis;
+                c[c.Length - 3] = ellipsis;
+                c[c.Length - 2] = formatValue(At(Count - 2));
+                c[c.Length - 1] = formatValue(At(Count - 1));
+            }
+
+            int rows = columns[0].Item2.Length;
+            int cols = columns.Count;
+            var array = new string[rows, cols];
+            int colIndex = 0;
+            foreach (var column in columns)
+            {
+                for (int k = 0; k < column.Item2.Length; k++)
+                {
+                    array[k, colIndex] = column.Item2[k];
+                }
+                for (int k = column.Item2.Length; k < rows; k++)
+                {
+                    array[k, colIndex] = "";
+                }
+                colIndex++;
+            }
+            return array;
+        }
+
+        static string FormatStringArrayToString(string[,] array, string columnSeparator, string rowSeparator)
+        {
+            var rows = array.GetLength(0);
+            var cols = array.GetLength(1);
+
+            var widths = new int[cols];
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    widths[j] = Math.Max(widths[j], array[i, j].Length);
+                }
+            }
+
+            var sb = new StringBuilder();
+            for (int i = 0; i < rows; i++)
+            {
+                sb.Append(array[i, 0].PadLeft(widths[0]));
+                for (int j = 1; j < cols; j++)
+                {
+                    sb.Append(columnSeparator);
+                    sb.Append(array[i, j].PadLeft(widths[j]));
+                }
+                sb.Append(rowSeparator);
+            }
+            return sb.ToString();
+        }
+
+        Tuple<int, string[]> FormatCompleteColumn(int offset, int height, Func<T, string> formatValue)
+        {
+            var c = new string[height];
+            int index = 0;
+            for (var k = 0; k < height; k++)
+            {
+                c[index++] = formatValue(At(offset + k));
+            }
+            int w = c.Max(x => x.Length);
+            return new Tuple<int, string[]>(w, c);
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents the content of this vector, row by row.
+        /// Returns a string that represents the content of this vector, column by column.
         /// </summary>
-        public string ToVectorString(int maxLines, int maxPerLine, int padding, string format = null, IFormatProvider provider = null)
+        public string ToVectorString(int maxPerColumn, int maxWidth, string ellipsis, string columnSeparator, string rowSeparator, Func<T, string> formatValue)
         {
-            int fullLines = Count/maxPerLine;
-            int lastLine = Count%maxPerLine;
-            bool incomplete = false;
+            return FormatStringArrayToString(
+                ToVectorStringArray(maxPerColumn, maxWidth, columnSeparator.Length, ellipsis, formatValue),
+                columnSeparator, rowSeparator);
+        }
 
-            if (fullLines > maxLines || fullLines == maxLines && lastLine > 0)
-            {
-                fullLines = maxLines - 1;
-                lastLine = maxPerLine - 1;
-                incomplete = true;
-            }
-
-            const string separator = " ";
-            string pdots = "...".PadLeft(padding);
-
+        /// <summary>
+        /// Returns a string that represents the content of this vector, column by column.
+        /// </summary>
+        public string ToVectorString(int maxPerColumn, int maxWidth, string format = null, IFormatProvider provider = null)
+        {
             if (format == null)
             {
-                format = "G8";
+                format = "G6";
             }
 
-            var stringBuilder = new StringBuilder();
-
-            var iterator = Enumerate().GetEnumerator();
-            for (var line = 0; line < fullLines; line++)
-            {
-                if (line > 0)
-                {
-                    stringBuilder.Append(Environment.NewLine);
-                }
-                iterator.MoveNext();
-                stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
-                for (var column = 1; column < maxPerLine; column++)
-                {
-                    stringBuilder.Append(separator);
-                    iterator.MoveNext();
-                    stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
-                }
-            }
-
-            if (lastLine > 0)
-            {
-                if (fullLines > 0)
-                {
-                    stringBuilder.Append(Environment.NewLine);
-                }
-                iterator.MoveNext();
-                stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
-                for (var column = 1; column < lastLine; column++)
-                {
-                    stringBuilder.Append(separator);
-                    iterator.MoveNext();
-                    stringBuilder.Append(iterator.Current.ToString(format, provider).PadLeft(padding));
-                }
-                if (incomplete)
-                {
-                    stringBuilder.Append(separator);
-                    stringBuilder.Append(pdots);
-                }
-            }
-
-            return stringBuilder.ToString();
+            return ToVectorString(maxPerColumn, maxWidth, "..", "  ", Environment.NewLine, x => x.ToString(format, provider));
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that summarizes this vector.
+        /// Returns a string that represents the content of this vector, column by column.
         /// </summary>
-        public string ToString(int maxLines, int maxPerLine, IFormatProvider provider = null)
+        public string ToVectorString(string format = null, IFormatProvider provider = null)
         {
-            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(maxLines, maxPerLine, provider));
+            if (format == null)
+            {
+                format = "G6";
+            }
+
+            return ToVectorString(12, 80, "..", "  ", Environment.NewLine, x => x.ToString(format, provider));
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that summarizes this vector.
+        /// Returns a string that summarizes this vector.
+        /// </summary>
+        public string ToString(int maxPerColumn, int maxColumns, string format = null, IFormatProvider provider = null)
+        {
+            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(maxPerColumn, maxColumns, format, provider));
+        }
+
+        /// <summary>
+        /// Returns a string that summarizes this vector.
         /// The maximum number of cells can be configured in the <see cref="Control"/> class.
         /// </summary>
         public override sealed string ToString()
         {
-            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(Control.MaxToStringRows, Control.MaxToStringColumns));
+            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString());
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that summarizes this vector.
+        /// Returns a string that summarizes this vector.
         /// The maximum number of cells can be configured in the <see cref="Control"/> class.
         /// The format string is ignored.
         /// </summary>
-        public string ToString(string format, IFormatProvider formatProvider)
+        public string ToString(string format = null, IFormatProvider formatProvider = null)
         {
-            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(Control.MaxToStringRows, Control.MaxToStringColumns, formatProvider));
+            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(format, formatProvider));
         }
     }
 }
