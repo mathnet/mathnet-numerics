@@ -92,7 +92,7 @@ namespace MathNet.Numerics.LinearRegression
         /// <summary>
         /// Locally-Weighted Linear Regression using normal equations.
         /// </summary>
-        [Obsolete("Warning: This function is here to stay but its signature will likely change.")]
+        [Obsolete("Warning: This function is here to stay but its signature will likely change. Opting out from semantic versioning.")]
         public static Vector<T> Local<T>(Matrix<T> x, Vector<T> y, Vector<T> t, double radius, Func<double, T> kernel) where T : struct, IEquatable<T>, IFormattable
         {
             // TODO: Weird kernel definition
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.LinearRegression
         /// <summary>
         /// Locally-Weighted Linear Regression using normal equations.
         /// </summary>
-        [Obsolete("Warning: This function is here to stay but its signature will likely change.")]
+        [Obsolete("Warning: This function is here to stay but its signature will likely change. Opting out from semantic versioning.")]
         public static Matrix<T> Local<T>(Matrix<T> x, Matrix<T> y, Vector<T> t, double radius, Func<double, T> kernel) where T : struct, IEquatable<T>, IFormattable
         {
             // TODO: Weird kernel definition
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.LinearRegression
             return Weighted(x, y, w);
         }
 
-        [Obsolete("Warning: This function is here to stay but will likely be refactored and/or moved to another place.")]
+        [Obsolete("Warning: This function is here to stay but will likely be refactored and/or moved to another place. Opting out from semantic versioning.")]
         public static double GaussianKernel(double normalizedDistance)
         {
             return Math.Exp(-0.5*normalizedDistance*normalizedDistance);
