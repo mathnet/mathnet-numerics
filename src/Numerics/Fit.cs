@@ -66,9 +66,20 @@ namespace MathNet.Numerics
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
         /// If an intercept is added, its coefficient will be prepended to the resulting parameters.
         /// </summary>
-        public static double[] MultiDim(double[][] x, double[] y, bool intercept = false)
+        public static double[] MultiDim(double[][] x, double[] y, bool intercept = false, DirectRegressionMethod method = DirectRegressionMethod.NormalEquations)
         {
-            return MultipleRegression.NormalEquations(x, y, intercept);
+            return MultipleRegression.DirectMethod(x, y, intercept, method);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
+        /// returning a function y' for the best fitting combination.
+        /// If an intercept is added, its coefficient will be prepended to the resulting parameters.
+        /// </summary>
+        public static Func<double[], double> MultiDimFunc(double[][] x, double[] y, bool intercept = false, DirectRegressionMethod method = DirectRegressionMethod.NormalEquations)
+        {
+            var parameters = MultipleRegression.DirectMethod(x, y, intercept, method);
+            return z => Control.LinearAlgebraProvider.DotProduct(parameters, z);
         }
 
         /// <summary>
@@ -81,23 +92,23 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
-        /// returning a function y' for the best fitting combination.
+        /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
         /// </summary>
-        public static Func<double[], double> MultiDimFunc(double[][] x, double[] y)
+        public static double[] Polynomial(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
-            var parameters = MultipleRegression.NormalEquations(x, y);
-            return z => Control.LinearAlgebraProvider.DotProduct(parameters, z);
+            var design = Matrix<double>.Build.Dense(x.Length, order + 1, (i, j) => Math.Pow(x[i], j));
+            return MultipleRegression.DirectMethod(design, Vector<double>.Build.Dense(y), method).ToArray();
         }
 
         /// <summary>
         /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
-        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
+        /// returning a function y' for the best fitting polynomial.
         /// </summary>
-        public static double[] Polynomial(double[] x, double[] y, int order)
+        public static Func<double, double> PolynomialFunc(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
-            var design = Matrix<double>.Build.Dense(x.Length, order + 1, (i, j) => Math.Pow(x[i], j));
-            return MultipleRegression.QR(design, Vector<double>.Build.Dense(y)).ToArray();
+            var parameters = Polynomial(x, y, order, method);
+            return z => Evaluate.Polynomial(z, parameters);
         }
 
         /// <summary>
@@ -108,16 +119,6 @@ namespace MathNet.Numerics
         {
             var design = Matrix<double>.Build.Dense(x.Length, order + 1, (i, j) => Math.Pow(x[i], j));
             return WeightedRegression.Weighted(design, Vector<double>.Build.Dense(y), Matrix<double>.Build.Diagonal(w)).ToArray();
-        }
-
-        /// <summary>
-        /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
-        /// returning a function y' for the best fitting polynomial.
-        /// </summary>
-        public static Func<double, double> PolynomialFunc(double[] x, double[] y, int order)
-        {
-            var parameters = Polynomial(x, y, order);
-            return z => Evaluate.Polynomial(z, parameters);
         }
 
         /// <summary>
@@ -137,6 +138,26 @@ namespace MathNet.Numerics
         public static Func<double, double> LinearCombinationFunc(double[] x, double[] y, params Func<double, double>[] functions)
         {
             var parameters = LinearCombination(x, y, functions);
+            return z => functions.Zip(parameters, (f, p) => p*f(z)).Sum();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// </summary>
+        public static double[] LinearCombination(double[] x, double[] y, DirectRegressionMethod method, params Func<double, double>[] functions)
+        {
+            var design = Matrix<double>.Build.Dense(x.Length, functions.Length, (i, j) => functions[j](x[i]));
+            return MultipleRegression.DirectMethod(design, Vector<double>.Build.Dense(y), method).ToArray();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to an arbitrary linear combination y : x -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
+        /// returning a function y' for the best fitting combination.
+        /// </summary>
+        public static Func<double, double> LinearCombinationFunc(double[] x, double[] y, DirectRegressionMethod method, params Func<double, double>[] functions)
+        {
+            var parameters = LinearCombination(x, y, method, functions);
             return z => functions.Zip(parameters, (f, p) => p*f(z)).Sum();
         }
 
@@ -161,6 +182,26 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// </summary>
+        public static double[] LinearMultiDim(double[][] x, double[] y, DirectRegressionMethod method, params Func<double[], double>[] functions)
+        {
+            var design = Matrix<double>.Build.Dense(x.Length, functions.Length, (i, j) => functions[j](x[i]));
+            return MultipleRegression.DirectMethod(design, Vector<double>.Build.Dense(y), method).ToArray();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to an arbitrary linear combination y : X -> p0*f0(x) + p1*f1(x) + ... + pk*fk(x),
+        /// returning a function y' for the best fitting combination.
+        /// </summary>
+        public static Func<double[], double> LinearMultiDimFunc(double[][] x, double[] y, DirectRegressionMethod method, params Func<double[], double>[] functions)
+        {
+            var parameters = LinearMultiDim(x, y, method, functions);
+            return z => functions.Zip(parameters, (f, p) => p * f(z)).Sum();
+        }
+
+        /// <summary>
         /// Least-Squares fitting the points (T,y) = (T,y) to an arbitrary linear combination y : X -> p0*f0(T) + p1*f1(T) + ... + pk*fk(T),
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
         /// </summary>
@@ -177,6 +218,26 @@ namespace MathNet.Numerics
         public static Func<T, double> LinearGenericFunc<T>(T[] x, double[] y, params Func<T, double>[] functions)
         {
             var parameters = LinearGeneric(x, y, functions);
+            return z => functions.Zip(parameters, (f, p) => p * f(z)).Sum();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (T,y) = (T,y) to an arbitrary linear combination y : X -> p0*f0(T) + p1*f1(T) + ... + pk*fk(T),
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// </summary>
+        public static double[] LinearGeneric<T>(T[] x, double[] y, DirectRegressionMethod method, params Func<T, double>[] functions)
+        {
+            var design = Matrix<double>.Build.Dense(x.Length, functions.Length, (i, j) => functions[j](x[i]));
+            return MultipleRegression.DirectMethod(design, Vector<double>.Build.Dense(y), method).ToArray();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (T,y) = (T,y) to an arbitrary linear combination y : X -> p0*f0(T) + p1*f1(T) + ... + pk*fk(T),
+        /// returning a function y' for the best fitting combination.
+        /// </summary>
+        public static Func<T, double> LinearGenericFunc<T>(T[] x, double[] y, DirectRegressionMethod method, params Func<T, double>[] functions)
+        {
+            var parameters = LinearGeneric(x, y, method, functions);
             return z => functions.Zip(parameters, (f, p) => p * f(z)).Sum();
         }
     }
