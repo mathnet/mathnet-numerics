@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
@@ -59,7 +59,6 @@ Global
 		{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}.Release-Signed|x64.Build.0 = Release|x64
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Debug|x64.ActiveCfg = Debug|x64
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release|Any CPU.ActiveCfg = Release|Win32
@@ -68,7 +67,6 @@ Global
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release|x64.ActiveCfg = Release|x64
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release-Signed|Any CPU.ActiveCfg = Release|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release-Signed|Mixed Platforms.ActiveCfg = Release|Win32
-		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release-Signed|Mixed Platforms.Build.0 = Release|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release-Signed|Win32.ActiveCfg = Release|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release-Signed|Win32.Build.0 = Release|Win32
 		{2362B8AC-C52B-45E4-A1BF-C682A4DB4220}.Release-Signed|x64.ActiveCfg = Release|x64
