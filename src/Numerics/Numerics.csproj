@@ -94,6 +94,7 @@
     <Compile Include="Interpolation\QuadraticSpline.cs" />
     <Compile Include="LinearAlgebra\Options.cs" />
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
+    <Compile Include="LinearRegression\Options.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
