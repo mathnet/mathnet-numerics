@@ -71,13 +71,10 @@ It also works well in the interactive F# environment (REPL) which can be launche
 `fsharpi` on all platforms (including Linux). As a start let's enter the following lines
 into F# interactive. Append `;;` to the end of a line to run all code up to there
 immediately and print the result to the output. Use the tab key for auto-completion or `#help;;` for help.
-You may also need to tell F# interactive where to look for assemblies with
-the `#I "/some/path"` statement first before you can reference them with the `#r` statements.
+For convenience our F# packages include a small script that sets everything up properly:
 
     [lang=fsharp]
-    #I "/path/to/referenced/assemblies"
-    #r "MathNet.Numerics.dll"
-    #r "MathNet.Numerics.FSharp.dll"
+    #load "../packages/MathNet.Numerics.FSharp.3.0.0/MathNet.Numerics.fsx"
 
     open MathNet.Numerics
     SpecialFunctions.Gamma(0.5)
