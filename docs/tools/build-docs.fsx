@@ -32,6 +32,7 @@ let info =
 #r "FSharp.MetadataFormat.dll"
 
 open Fake
+open System
 open System.IO
 open Fake.FileHelper
 open FSharp.Literate
@@ -62,16 +63,32 @@ let layoutRoots =
       formatting @@ "templates/reference" ]
 
 let extraDocs =
-    [ "RELEASENOTES.md", "ReleaseNotes.md"
-      "LICENSE.md", "License.md"
+    [ "LICENSE.md", "License.md"
       "CONTRIBUTING.md", "Contributing.md"
       "CONTRIBUTORS.md", "Contributors.md" ]
 
+let releaseNotesDocs =
+    [ "RELEASENOTES.md", "ReleaseNotes.md", "Release Notes"
+      "RELEASENOTES-Data.md", "ReleaseNotes-Data.md", "Data Extensions Release Notes"
+      "RELEASENOTES-Native.md", "ReleaseNotes-Native.md", "Native Providers Release Notes" ]
+
 // Copy static files and CSS + JS from F# Formatting
-let copyFiles() =
+let copySupportFiles() =
     CopyRecursive files output true |> Log "Copying file: "
     ensureDirectory (output @@ "content")
     CopyRecursive (formatting @@ "styles") (output @@ "content") true |> Log "Copying styles and scripts: "
+
+let copyExtraDocs() =
+    for (fileName, docName) in extraDocs do CopyFile (content @@ docName) (top @@ fileName)
+
+let prepareReleaseNotes() =
+    for (fileName, docName, title) in releaseNotesDocs do
+        String.concat Environment.NewLine
+          [ "# " + title
+            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [Native Providers](ReleaseNotes-Native.html)"
+            ""
+            ReadFileAsString (top @@ fileName) ]
+        |> ReplaceFile (content @@ docName)
 
 // Build API reference from XML comments
 let buildReference() =
@@ -84,22 +101,21 @@ let buildReference() =
 
 // Build documentation from `fsx` and `md` files in `docs/content`
 let buildDocumentation() =
-    for (fileName, docName) in extraDocs do CopyFile (content @@ docName) (top @@ fileName)
     let subdirs = Directory.EnumerateDirectories(content, "*", SearchOption.AllDirectories)
     for dir in Seq.append [ content ] subdirs do
         let sub = if dir.Length > content.Length then dir.Substring(content.Length + 1) else "."
         Literate.ProcessDirectory
             (dir, docTemplate, output @@ sub, replacements = ("root", root) :: info, layoutRoots = layoutRoots,
              references = false, lineNumbers = true)
+
+let cleanup() =
     for (_, docName) in extraDocs do DeleteFile (content @@ docName)
+    for (_, docName, _) in releaseNotesDocs do DeleteFile (content @@ docName)
 
 // Generate
-copyFiles()
+copySupportFiles()
+copyExtraDocs()
+prepareReleaseNotes()
 buildDocumentation()
-//buildReference()
-
-
-// Generate
-copyFiles()
 buildDocumentation()
-//buildReference()
+cleanup()
