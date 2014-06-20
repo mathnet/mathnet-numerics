@@ -1,3 +1,13 @@
+### 3.0.0-beta05 - 2014-06-20
+* 2nd Candidate for v3.0 Release
+* Distance: fix bug in Hamming distance that skipped the first pair.
+* F#: packages now include a MathNet.Numerics.fsx script that includes FSI printers and references the assemblies.
+* Linear Algebra: improved matrix and vector ToString formatting, more compact, adaptive to actual numbers.
+* Linear Algebra: CoerceZero for matrix and vector to replace small numbers with zero.
+* Regression: DirectRegressionMethod option to specify as argument which direct method should be used.
+* Control: drop MaxToStringRows/Columns properties (no longer used)
+* Random: clarify bad randomness properties of SystemRandomSource.FastDoubles (trade off)
+
 ### 3.0.0-beta04 - 2014-06-16
 * Candidate for v3.0 Release
 * Linear Algebra:
