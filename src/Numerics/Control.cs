@@ -54,9 +54,9 @@ namespace MathNet.Numerics
         {
             // Random Numbers & Distributions
             CheckDistributionParameters = true;
-            ThreadSafeRandomNumberGenerators = true;
 
             // Parallelization & Threading
+            ThreadSafeRandomNumberGenerators = true;
             _maxDegreeOfParallelism = Environment.ProcessorCount;
             _blockSize = 512;
             _parallelizeOrder = 64;
@@ -91,6 +91,16 @@ namespace MathNet.Numerics
         {
             _maxDegreeOfParallelism = 1;
             ThreadSafeRandomNumberGenerators = false;
+
+            LinearAlgebraProvider.InitializeVerify();
+        }
+
+        public static void UseMultiThreading()
+        {
+            _maxDegreeOfParallelism = Environment.ProcessorCount;
+            ThreadSafeRandomNumberGenerators = true;
+
+            LinearAlgebraProvider.InitializeVerify();
         }
 
         public static void UseManaged()
@@ -154,7 +164,13 @@ namespace MathNet.Numerics
         public static int MaxDegreeOfParallelism
         {
             get { return _maxDegreeOfParallelism; }
-            set { _maxDegreeOfParallelism = Math.Max(1, Math.Min(1024, value)); }
+            set
+            {
+                _maxDegreeOfParallelism = Math.Max(1, Math.Min(1024, value));
+
+                // Reinitialize providers:
+                LinearAlgebraProvider.InitializeVerify();
+            }
         }
 
         /// <summary>

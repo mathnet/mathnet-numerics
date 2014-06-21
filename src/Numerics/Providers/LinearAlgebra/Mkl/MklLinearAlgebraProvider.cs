@@ -149,10 +149,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new NotSupportedException("MKL Native Provider found but too old or not compatible.");
             }
 
+            // set numerical consistency, precision and accuracy modes, if supported
             if (SafeNativeMethods.query_capability(65) > 0)
             {
                 SafeNativeMethods.set_consistency_mode((int)_consistency);
                 SafeNativeMethods.set_vml_mode((uint)_precision | (uint)_accuracy);
+            }
+
+            // set threading settings, if supported
+            if (SafeNativeMethods.query_capability(66) > 0)
+            {
+                SafeNativeMethods.set_max_threads(Control.MaxDegreeOfParallelism);
             }
         }
 

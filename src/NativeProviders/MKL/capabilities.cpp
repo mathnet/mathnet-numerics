@@ -41,8 +41,9 @@ extern "C" {
 #endif
 
 		// COMMON/SHARED
-		case 64: return 5; // revision
+		case 64: return 6; // revision
 		case 65: return 1; // numerical consistency, precision and accuracy modes
+		case 66: return 1; // threading control
 
 		// LINEAR ALGEBRA
 		case 128: return 1;	// basic dense linear algebra
@@ -66,6 +67,11 @@ extern "C" {
 	DLLEXPORT void set_vml_mode(const MKL_UINT mode)
 	{
 		vmlSetMode(mode);
+	}
+
+	DLLEXPORT void set_max_threads(const MKL_INT num_threads)
+	{
+		mkl_set_num_threads(num_threads);
 	}
 
 	/* Obsolete, will be dropped in the next revision */

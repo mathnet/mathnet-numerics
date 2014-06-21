@@ -41,6 +41,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     [SecurityCritical]
     internal static class SafeNativeMethods
     {
+        // ReSharper disable InconsistentNaming
+
         /// <summary>
         /// Name of the native DLL.
         /// </summary>
@@ -54,6 +56,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void set_vml_mode(uint mode);
+
+        [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void set_max_threads(int num_threads);
 
         #region BLAS
 
@@ -342,6 +347,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         internal static extern void z_vector_divide(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
 
         #endregion  Vector Functions
+
+        // ReSharper restore InconsistentNaming
     }
 }
 
