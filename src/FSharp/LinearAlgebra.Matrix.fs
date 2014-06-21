@@ -355,6 +355,11 @@ module Matrix =
     let inline range (A: #Matrix<_>) = A.Range()
     let inline symmetric (A: #Matrix<_>) = A.IsSymmetric
 
+    let inline cholesky (A: #Matrix<_>) = A.Cholesky()
+    let inline lu (A: #Matrix<_>) = A.LU()
+    let inline qr (A: #Matrix<_>) = A.QR()
+    let inline svd (A: #Matrix<_>) = A.Svd()
+    let inline eigen (A: #Matrix<_>) = A.Evd()
 
 
 /// A module which helps constructing generic dense matrices.
