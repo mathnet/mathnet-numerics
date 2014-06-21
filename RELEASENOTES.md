@@ -1,3 +1,11 @@
+### 3.0.0 - 2014-06-21
+* First stable v3 release:
+   * [Upgrade Notes](https://github.com/mathnet/mathnet-numerics/wiki/Upgrading-to-Version-3)
+   * Stable API, no more breaking changes for all future v3 releases (except previews).
+   * Finally unlocks development and contributions around non-linear optimization and native providers over the next few minor releases.
+* Native Providers: option to control max number of threads used by MKL.
+* F#: Fit.multiDim; Matrix.qr, svd, eigen, lu and cholesky.
+
 ### 3.0.0-beta05 - 2014-06-20
 * 2nd Candidate for v3.0 Release
 * Distance: fix bug in Hamming distance that skipped the first pair.
