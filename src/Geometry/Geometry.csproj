@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1F3364C6-9DA3-4006-B83F-6D1335099895}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Geometry</RootNamespace>
+    <AssemblyName>Geometry</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="2D\Point2D.cs" />
+    <Compile Include="2D\Vector2D.cs" />
+    <Compile Include="3D\CoordinateSystem.cs" />
+    <Compile Include="3D\Line3D.cs" />
+    <Compile Include="3D\Plane.cs" />
+    <Compile Include="3D\Point3D.cs" />
+    <Compile Include="3D\Ray3D.cs" />
+    <Compile Include="3D\UnitVector3D.cs" />
+    <Compile Include="3D\Vector3D.cs" />
+    <Compile Include="Units\Angle.cs" />
+    <Compile Include="Units\AngleUnit.cs" />
+    <Compile Include="Parser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Units\Degrees.cs" />
+    <Compile Include="Units\IAngleUnit.cs" />
+    <Compile Include="Units\IUnit.cs" />
+    <Compile Include="Units\Radians.cs" />
+    <Compile Include="Units\UnitConverter.cs" />
+    <Compile Include="Units\UnitParser.cs" />
+    <Compile Include="XmlExt.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Numerics\Numerics.csproj">
+      <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
