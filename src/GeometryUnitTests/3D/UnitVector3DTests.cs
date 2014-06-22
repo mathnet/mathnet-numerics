@@ -29,25 +29,15 @@
             LinearAlgebraAssert.AreEqual(Vector3D.Parse(exs), v, float.Epsilon);
         }
 
-        [TestCase("1, -2, 3", false, @"<UnitVector3D X=""1"" Y=""0"" Z=""0"" />")]
-        [TestCase("1, -2, 3", true, @"<UnitVector3D X=""1"" Y=""0"" Z=""0"" />")]
-        public void XmlAttributesTests(string uvs, bool asElements, string xml)
+        [TestCase("1, -2, 3", false, @"<UnitVector3D X=""0.2672612419124244"" Y=""-0.53452248382484879"" Z=""0.80178372573727319"" />")]
+        [TestCase("1, -2, 3", true, @"<UnitVector3D><X>0.267261241912424</X><Y>-0.534522483824849</Y><Z>0.801783725737273</Z></UnitVector3D>")]
+        public void XmlRoundTrips(string uvs, bool asElements, string xml)
         {
             var uv = UnitVector3D.Parse(uvs);
             uv.SerializeAsElements = asElements;
             AssertXml.XmlRoundTrips(uv, xml, (e, a) => LinearAlgebraAssert.AreEqual(e, a));
             var actual = UnitVector3D.ReadFrom(XmlReader.Create(new StringReader(xml)));
             LinearAlgebraAssert.AreEqual(uv, actual);
-        }
-
-        [Test]
-        public void CanDeserializeElementStyleTest()
-        {
-            Assert.Inconclusive("Add test");
-            //string xmlElementStyle = @"<UnitVector3D> <X>1</X> <Y>2</Y> <Z>3</Z> </UnitVector3D>";
-            //var vector3D = new GU.Xml.XmlHelper().Deserialize<UnitVector3D>(xmlElementStyle);
-            //if (!unitVector3D.Equals(vector3D))
-            //    Assert.AreEqual(unitVector3D, vector3D);
         }
 
         [Test]

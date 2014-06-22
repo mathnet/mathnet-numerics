@@ -8,55 +8,69 @@
     using System.Xml.Serialization;
 
     [Serializable]
-    public class Line3D : IEquatable<Line3D>, IXmlSerializable
+    public struct Line3D : IEquatable<Line3D>, IXmlSerializable
     {
-        private readonly Point3D _startPoint = new Point3D(double.NaN, double.NaN, double.NaN);
-        private readonly Point3D _endPoint = new Point3D(double.NaN, double.NaN, double.NaN);
-        public Line3D() { }
-        public Line3D(Point3D startPoint, Point3D endPoint, string name = null)
+        public readonly Point3D StartPoint;
+        public readonly Point3D EndPoint;
+        private double _length;
+        private UnitVector3D _direction;
+
+        /// <summary>
+        /// Throws if StartPoint == EndPoint
+        /// </summary>
+        /// <param name="startPoint"></param>
+        /// <param name="endPoint"></param>
+        public Line3D(Point3D startPoint, Point3D endPoint)
         {
-            Name = name;
-            _startPoint = startPoint;
-            _endPoint = endPoint;
-        }
-        public string Name { get; set; }
-        public Point3D StartPoint
-        {
-            get
+            StartPoint = startPoint;
+            EndPoint = endPoint;
+            if (StartPoint == EndPoint)
             {
-                return _startPoint;
+                throw new ArgumentException("StartPoint == EndPoint");
             }
+            _length = -1.0;
+            _direction = new UnitVector3D();
         }
-        public Point3D EndPoint
-        {
-            get
-            {
-                return _endPoint;
-            }
-        }
+
         public double Length
         {
             get
             {
-                return StartPoint.DistanceTo(EndPoint);
+                if (_length < 0)
+                {
+                    var vectorTo = StartPoint.VectorTo(EndPoint);
+                    _length = vectorTo.Length;
+                    if (_length > 0)
+                    {
+                        _direction = vectorTo.Normalize();
+                    }
+                }
+                return _length;
             }
         }
-        [XmlIgnore]
-        public virtual UnitVector3D Direction
+
+        public UnitVector3D Direction
         {
             get
             {
-                return StartPoint.VectorTo(EndPoint).Normalize();
+                if (_length < 0)
+                {
+                    _length = Length; // Side effect hack
+                }
+                return _direction;
             }
         }
+
         public static bool operator ==(Line3D left, Line3D right)
         {
             return Equals(left, right);
         }
+
         public static bool operator !=(Line3D left, Line3D right)
         {
             return !Equals(left, right);
         }
+
         /// <summary>
         /// Returns the shortes line from a point to the ray
         /// </summary>
@@ -78,6 +92,7 @@
             var alongVector = dotProduct * Direction;
             return new Line3D(StartPoint + alongVector, p);
         }
+
         public Line3D ProjectOn(Plane plane)
         {
             return plane.Project(this);
@@ -92,10 +107,9 @@
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(Line3D other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
             return Equals(other.StartPoint, StartPoint) && Equals(other.EndPoint, EndPoint);
         }
+
         /// <summary>
         /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
         /// </summary>
@@ -106,10 +120,9 @@
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(Line3D)) return false;
-            return Equals((Line3D)obj);
+            return obj is Line3D && Equals((Line3D)obj);
         }
+
         /// <summary>
         /// Serves as a hash function for a particular type. 
         /// </summary>
@@ -121,7 +134,9 @@
         {
             unchecked
             {
-                return ((StartPoint != null ? StartPoint.GetHashCode() : 0) * 397) ^ (EndPoint != null ? EndPoint.GetHashCode() : 0);
+                var hashCode = StartPoint.GetHashCode();
+                hashCode = (hashCode * 397) ^ EndPoint.GetHashCode();
+                return hashCode;
             }
         }
         public XmlSchema GetSchema()
@@ -131,14 +146,13 @@
         public void ReadXml(XmlReader reader)
         {
             var e = (XElement)XNode.ReadFrom(reader);
-            Name = e.ReadAttributeOrDefault("Name");
+            var p = new Point3D(e.Descendants("StartPoint").Single().CreateReader());
+
             StartPoint.ReadXml(e.Descendants("StartPoint").Single().CreateReader());
             EndPoint.ReadXml(e.Descendants("EndPoint").Single().CreateReader());
         }
         public void WriteXml(XmlWriter writer)
         {
-            if (Name != null)
-                writer.WriteAttributeString("Name", Name);
             writer.WriteElement("StartPoint", StartPoint);
             writer.WriteElement("EndPoint", EndPoint);
         }

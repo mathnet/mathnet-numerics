@@ -168,9 +168,11 @@ namespace Geometry
             reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
             // Hacking set readonly fields here, can't think of a cleaner workaround
-            XmlExt.SetReadonlyField(ref this, x => x.X, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("X")));
-            XmlExt.SetReadonlyField(ref this, x => x.Y, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Y")));
-            XmlExt.SetReadonlyField(ref this, x => x.Z, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Z")));
+            double x = XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("X"));
+            double y = XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Y"));
+            double z = XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Z"));
+
+            XmlExt.SetReadonlyFields(ref this, new[] { "X", "Y", "Z" }, new[] { x, y, z });
         }
 
         /// <summary>

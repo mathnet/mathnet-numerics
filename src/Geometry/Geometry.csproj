@@ -47,6 +47,7 @@
     <Compile Include="3D\Plane.cs" />
     <Compile Include="3D\Point3D.cs" />
     <Compile Include="3D\Ray3D.cs" />
+    <Compile Include="3D\RotationMatrices.cs" />
     <Compile Include="3D\UnitVector3D.cs" />
     <Compile Include="3D\Vector3D.cs" />
     <Compile Include="Units\Angle.cs" />

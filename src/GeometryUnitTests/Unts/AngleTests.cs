@@ -10,12 +10,12 @@
     public class AngleTests
     {
         private const double Tolerance = 1e-6;
-
+        private const double degToRad = Math.PI / 180;
         [Test]
         public void Ctor()
         {
             const double deg = 90;
-            const double rad = deg * Math.PI / 180;
+            const double rad = deg * degToRad;
             var angles = new Angle[]
             {
                 new Angle(deg, AngleUnit.Degrees),
@@ -33,12 +33,12 @@
             }
         }
 
-        [TestCase("5 °", 5 * Math.PI / 180)]
-        [TestCase("5°", 5 * Math.PI / 180)]
+        [TestCase("5 °", 5 * degToRad)]
+        [TestCase("5°", 5 * degToRad)]
         [TestCase("-5.34 rad", -5.34)]
         [TestCase("-5,34 rad", -5.34)]
         [TestCase("1e-4 rad", 0.0001)]
-        [TestCase("1e-4 °", 0.0001 * Math.PI / 180)]
+        [TestCase("1e-4 °", 0.0001 * degToRad)]
         public void ParseTest(string s, double expected)
         {
             var angle = Angle.Parse(s);
@@ -84,7 +84,7 @@
         }
 
         [TestCase("1.5707 rad", "1.5707 rad", 1.5707 + 1.5707)]
-        [TestCase("1.5707 rad", "2 °", 1.5707 + 2 * Math.PI / 180)]
+        [TestCase("1.5707 rad", "2 °", 1.5707 + 2 * degToRad)]
         public void Addition(string lvs, string rvs, double ev)
         {
             var lv = Angle.Parse(lvs);
@@ -95,7 +95,7 @@
         }
 
         [TestCase("1.5707 rad", "1.5706 rad", 1.5707 - 1.5706)]
-        [TestCase("1.5707 rad", "2 °", 1.5707 - 2 * Math.PI / 180)]
+        [TestCase("1.5707 rad", "2 °", 1.5707 - 2 * degToRad)]
         public void Subtraction(string lvs, string rvs, double ev)
         {
             var lv = Angle.Parse(lvs);
@@ -105,9 +105,9 @@
             Assert.IsInstanceOf<Angle>(diff);
         }
 
-        [TestCase("15 °", 5, 15 * 5 * Math.PI / 180)]
+        [TestCase("15 °", 5, 15 * 5 * degToRad)]
         [TestCase("-10 °", 0, 0)]
-        [TestCase("-10 °", 2, -10 * 2 * Math.PI / 180)]
+        [TestCase("-10 °", 2, -10 * 2 * degToRad)]
         [TestCase("1 rad", 2, 2)]
         public void Multiplication(string lvs, double rv, double ev)
         {
@@ -143,25 +143,39 @@
             Assert.AreEqual(1, big.CompareTo(small));
         }
 
-        [TestCase("15 °", null, "en-us", null, "15")]
-        public void ToString(string s, string format, string culture, string unit, string expected)
+        [TestCase("15 °", "0.261799387799149rad")]
+        public void ToString(string s, string expected)
         {
             Angle angle = Angle.Parse(s);
-            string toString = angle.ToString(format, CultureInfo.GetCultureInfo(culture));
+            string toString = angle.ToString(CultureInfo.InvariantCulture);
+            string toStringComma = angle.ToString(CultureInfo.GetCultureInfo("sv"));
             Assert.AreEqual(expected, toString);
-            Assert.AreEqual(angle, Angle.Parse(toString));
+            Assert.AreEqual(expected.Replace('.', ','), toStringComma);
+            Assert.IsTrue(angle.Equals(Angle.Parse(toString), Tolerance));
+            Assert.IsTrue(angle.Equals(Angle.Parse(toStringComma), Tolerance));
         }
 
-        [TestCase("15 °", false, @"<Angle Value=""15 °"" />")]
-        [TestCase("15 °", true, @"<Angle><Value>15 °</Value></Angle>")]
-        [TestCase("3.141596 rad", false, @"<Angle Value=""3.141596 rad"" />")]
-        [TestCase("3.141596 rad", true, @"<Angle><Value>3.141596 rad</Value></Angle>")]
+        [TestCase("15 °", "F2", "15.00°")]
+        public void ToString(string s, string format, string expected)
+        {
+            Angle angle = Angle.Parse(s);
+            string toString = angle.ToString(format, CultureInfo.InvariantCulture, AngleUnit.Degrees);
+            string toStringComma = angle.ToString(format, CultureInfo.GetCultureInfo("sv"), AngleUnit.Degrees);
+            Assert.AreEqual(expected, toString);
+            Assert.AreEqual(expected.Replace('.', ','), toStringComma);
+            Assert.IsTrue(angle.Equals(Angle.Parse(toString), Tolerance));
+            Assert.IsTrue(angle.Equals(Angle.Parse(toStringComma), Tolerance));
+        }
+
+        [TestCase("15 °", false, @"<Angle Value=""0.26179938779914941"" />")]
+        [TestCase("15 °", true, @"<Angle><Value>0.261799387799149</Value></Angle>")]
         public void XmlTest(string vs, bool asElements, string xml)
         {
             var angle = Angle.Parse(vs);
+            angle.SerializeAsElements = asElements;
             AssertXml.XmlRoundTrips(angle, xml, (e, a) =>
             {
-                Assert.AreEqual(e.Value, a.Value);
+                Assert.AreEqual(e.Value, a.Value, Tolerance);
                 Assert.IsInstanceOf<Angle>(a);
             });
         }

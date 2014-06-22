@@ -180,8 +180,38 @@
             TValue value) where TItem : class
         {
             var fieldInfo = self.GetType()
-                                .GetField(((MemberExpression) func.Body).Member.Name);
+                                .GetField(((MemberExpression)func.Body).Member.Name);
             fieldInfo.SetValue(self, value);
+        }
+
+        internal static void SetReadonlyFields<TItem, TValue>(
+            ref TItem self,
+            Expression<Func<TItem, TValue>>[] funcs,
+            TValue[] values) where TItem : struct
+        {
+            object boxed = self;
+            for (int i = 0; i < funcs.Length; i++)
+            {
+                var func = funcs[i];
+                var fieldInfo = self.GetType().GetField(((MemberExpression)func.Body).Member.Name);
+                fieldInfo.SetValue(boxed, values[i]);
+            }
+
+            self = (TItem)boxed;
+        }
+
+
+        public static void SetReadonlyFields<TItem>(ref TItem self, string[] fields, double[] values) 
+            where TItem : struct
+        {
+            object boxed = self;
+            for (int i = 0; i < fields.Length; i++)
+            {
+                var fieldInfo = self.GetType().GetField(fields[i]);
+                fieldInfo.SetValue(boxed, values[i]);
+            }
+
+            self = (TItem)boxed;
         }
     }
 }

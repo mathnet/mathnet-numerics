@@ -129,11 +129,10 @@ namespace Geometry
         /// <param name="axis">Input Vector object. </param>
         public static CoordinateSystem RotateTo(UnitVector3D fromVector3D, UnitVector3D toVector3D, UnitVector3D? axis = null)
         {
-            throw new NotImplementedException("message");
-            //Matrix<double> r = RotationMatrices.RotationTo(fromVector3D, toVector3D, axis);
-            //var coordinateSystem = new CoordinateSystem();
-            //CoordinateSystem cs = SetRotationSubMatrix(r, coordinateSystem);
-            //return cs;
+            Matrix<double> r = RotationMatrices.RotationTo(fromVector3D, toVector3D, axis);
+            var coordinateSystem = new CoordinateSystem();
+            CoordinateSystem cs = SetRotationSubMatrix(r, coordinateSystem);
+            return cs;
         }
         
         public static CoordinateSystem Rotation<T>(double a, T unit, UnitVector3D v) where T : IAngleUnit
@@ -148,12 +147,10 @@ namespace Geometry
         
         public static CoordinateSystem Rotation(Angle av, UnitVector3D v)
         {
-            throw new NotImplementedException("message");
-            
-            //var m = new DenseMatrix(4, 4);
-            //m.SetSubMatrix(0, 3, 0, 3, RotationMatrices.RotationAroundArbitraryVector(v, av));
-            //m[3, 3] = 1;
-            //return new CoordinateSystem(m);
+            var m = new DenseMatrix(4, 4);
+            m.SetSubMatrix(0, 3, 0, 3, RotationMatrices.RotationAroundArbitraryVector(v, av));
+            m[3, 3] = 1;
+            return new CoordinateSystem(m);
         }
 
         /// <summary>

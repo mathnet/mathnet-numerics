@@ -177,7 +177,23 @@
         /// <returns></returns>
         public Ray3D IntersectionWith(Plane intersectingPlane, double tolerance = float.Epsilon)
         {
-            throw new NotImplementedException();
+            var a = new DenseMatrix(2, 3);
+            a.SetRow(0, Normal.ToDenseVector());
+            a.SetRow(1, intersectingPlane.Normal.ToDenseVector());
+
+            var svd = a.Svd(true);
+            if (svd.Rank != 2)
+                throw new ArgumentException("Planes are parallel");
+            var y = new DenseMatrix(2, 1);
+            y[0, 0] = D;
+            y[1, 0] = intersectingPlane.D;
+
+            Matrix<double> pointOnIntersectionLine = svd.Solve(y);
+            var throughPoint = new Point3D(pointOnIntersectionLine.Column(0));
+
+            var direction = new UnitVector3D(svd.VT.Column(2));
+
+            return new Ray3D(throughPoint, direction);
         }
 
         /// <summary>

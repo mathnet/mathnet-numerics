@@ -46,19 +46,18 @@
         //}
 
         [Test]
-        public void XmlTest()
+        public void XmlRoundTrips()
         {
-            var cs = new CoordinateSystem(_origin, _xAxis, _yAxis, _zAxis);
+            var cs = new CoordinateSystem(new Point3D(1,-2,3), new Vector3D(0,1,0), new Vector3D(0,0,1), new Vector3D(1,0,0));
             string expectedXml =
                 @"
-<CoordinateSystem Name=""CordSysName"">
-    <Origin X=""0"" Y=""0"" Z=""0"" />
-    <XAxis X=""1"" Y=""0"" Z=""0"" />
-    <YAxis X=""0"" Y=""1"" Z=""0"" />
-    <ZAxis X=""0"" Y=""0"" Z=""1"" />
+<CoordinateSystem>
+    <Origin X=""1"" Y=""-2"" Z=""3"" />
+    <XAxis X=""0"" Y=""1"" Z=""0"" />
+    <YAxis X=""0"" Y=""0"" Z=""1"" />
+    <ZAxis X=""1"" Y=""0"" Z=""0"" />
 </CoordinateSystem>";
-            var roundTrip = AssertXml.XmlSerializerRoundTrip(cs, expectedXml);
-            LinearAlgebraAssert.AreEqual(cs, roundTrip);
+            AssertXml.XmlRoundTrips(cs, expectedXml, (e, a) => LinearAlgebraAssert.AreEqual(e, a));
         }
 
         [TestCase("2, 0, 0", 90, "0, 0, 1", "0, 2, 0")]

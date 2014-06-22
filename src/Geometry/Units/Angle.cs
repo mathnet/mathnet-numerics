@@ -49,6 +49,11 @@ namespace Geometry.Units
             }
         }
 
+        /// <summary>
+        /// Creates an Angle from it's string representation
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
         public static Angle Parse(string s)
         {
             return UnitParser.Parse(s, From);
@@ -132,19 +137,12 @@ namespace Geometry.Units
 
         public override string ToString()
         {
-            return ToString(null, (IFormatProvider)NumberFormatInfo.CurrentInfo);
+            return ToString((string)null, (IFormatProvider)NumberFormatInfo.CurrentInfo);
         }
-        public string ToString<T>(T unit) where T : IAngleUnit
-        {
-            return ToString(null, NumberFormatInfo.CurrentInfo, unit);
-        }
+
         public string ToString(string format)
         {
             return ToString(format, (IFormatProvider)NumberFormatInfo.CurrentInfo);
-        }
-        public string ToString<T>(string format, T unit) where T : IAngleUnit
-        {
-            return ToString(format, NumberFormatInfo.CurrentInfo, unit);
         }
 
         public string ToString(IFormatProvider provider)
@@ -152,19 +150,15 @@ namespace Geometry.Units
             return ToString((string)null, (IFormatProvider)NumberFormatInfo.GetInstance(provider));
         }
 
-        public string ToString<T>(IFormatProvider provider, T unit) where T : IAngleUnit
-        {
-            return ToString(null, NumberFormatInfo.GetInstance(provider), unit);
-        }
-
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return string.Format("{0}{1}", Value.ToString(format, formatProvider), AngleUnit.Radians.ShortName);
+            return ToString(format, formatProvider, AngleUnit.Radians);
         }
 
         public string ToString<T>(string format, IFormatProvider formatProvider, T unit) where T : IAngleUnit
         {
-            return string.Format("{0}{1}", Value.ToString(format, formatProvider), unit.ShortName);
+            var value = UnitConverter.ConvertTo(Value, unit);
+            return string.Format("{0}{1}", value.ToString(format, formatProvider), unit.ShortName);
         }
 
         public int CompareTo(Angle other)
@@ -194,10 +188,14 @@ namespace Geometry.Units
         }
 
         /// <summary>
-        /// This method is reserved and should not be used. When implementing the IXmlSerializable interface, you should return null (Nothing in Visual Basic) from this method, and instead, if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
+        /// This method is reserved and should not be used. When implementing the IXmlSerializable interface, 
+        /// you should return null (Nothing in Visual Basic) from this method, and instead, 
+        /// if specifying a custom schema is required, apply the <see cref="T:System.Xml.Serialization.XmlSchemaProviderAttribute"/> to the class.
         /// </summary>
         /// <returns>
-        /// An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
+        /// An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the
+        ///  <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> 
+        /// method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
         /// </returns>
         public XmlSchema GetSchema() { return null; }
 

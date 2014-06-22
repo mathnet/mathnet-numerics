@@ -37,17 +37,18 @@
         }
 
         [TestCase(X, Y, Z)]
+        [TestCase(X, "1, 1, 0", Z)]
         [TestCase(X, NegativeY, NegativeZ)]
         [TestCase(Y, Z, X)]
-        //[TestCase(Y, new double[] { 0.1, 0.1, 1 }, X, "Nästan Z")]
-        //[TestCase(Y, new double[] { -0.1, -0.1, 1 }, X, "Nästan Z men minus")]
-        public void CrossProductTest(string vect1String, string vect2String, string resultString)
+        [TestCase(Y, "0.1, 0.1, 1", "1, 0, -0.1", Description = "Nästan Z")]
+        [TestCase(Y, "-0.1, -0.1, 1", "1, 0, 0.1", Description = "Nästan Z men minus")]
+        public void CrossProductTest(string v1s, string v2s, string ves)
         {
-            var vector1 = Vector3D.Parse(vect1String);
-            var vector2 = Vector3D.Parse(vect2String);
-            var result = Vector3D.Parse(resultString);
+            var vector1 = Vector3D.Parse(v1s);
+            var vector2 = Vector3D.Parse(v2s);
+            var expected = Vector3D.Parse(ves);
             Vector3D crossProduct = vector1.CrossProduct(vector2);
-            LinearAlgebraAssert.AreEqual(result, crossProduct, 1E-6);
+            LinearAlgebraAssert.AreEqual(expected, crossProduct, 1E-6);
         }
 
         [TestCase(X, Y, Z, 90)]
@@ -89,21 +90,21 @@
         [TestCase("1; 0; 1", 0)]
         public void SignedAngleTo_RotationAroundZ(string vectorDoubles, double rotationInDegrees)
         {
-            throw new NotImplementedException("message");
-            
-            //Vector3D vector = Vector3D.Parse(vectorDoubles);
-            //Vector3D rotated = new Vector3D(RotationMatrices.RotationAroundZAxis(rotationInDegrees).Multiply(vector.ToDenseVector()));
-            //var angle = vector.SignedAngleTo(rotated, Vector3D.Parse(Z).Normalize());
-            //Assert.AreEqual(rotationInDegrees, angle.DegreesValue, 1E-6);
+            var vector = Vector3D.Parse(vectorDoubles);
+            Angle angle = Angle.FromDegrees(rotationInDegrees);
+            Vector3D rotated = new Vector3D(RotationMatrices.RotationAroundZAxis(angle).Multiply(vector.ToDenseVector()));
+            var actual = vector.SignedAngleTo(rotated, Vector3D.Parse(Z).Normalize());
+            Assert.AreEqual(rotationInDegrees, actual.Degrees, 1E-6);
         }
 
         [TestCase(X, Z, 90, Y)]
-        public void RotateTest(string vectorString, string aboutVectorString, double rotationInDegrees, string resultVectorString)
+        public void RotateTest(string vs, string avs, double deg, string evs)
         {
-            Vector3D vector = Vector3D.Parse(vectorString);
-            Vector3D aboutvector = Vector3D.Parse(aboutVectorString);
-            Vector3D rotated = vector.Rotate(aboutVector: aboutvector, angle: new Angle(rotationInDegrees, AngleUnit.Degrees));
-            LinearAlgebraAssert.AreEqual(Vector3D.Parse(resultVectorString), rotated, 1E-6);
+            var v = Vector3D.Parse(vs);
+            var aboutvector = Vector3D.Parse(avs);
+            var rotated = v.Rotate(aboutvector, Angle.FromDegrees(deg));
+            var expected = Vector3D.Parse(evs);
+            LinearAlgebraAssert.AreEqual(expected, rotated, 1E-6);
         }
 
         [TestCase("X", X)]
