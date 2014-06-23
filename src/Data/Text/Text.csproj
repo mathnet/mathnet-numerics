@@ -36,8 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MathNet.Numerics">
-      <HintPath>..\..\..\packages\MathNet.Numerics.3.0.0-beta03\lib\net40\MathNet.Numerics.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\..\..\packages\MathNet.Numerics.3.0.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
