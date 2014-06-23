@@ -1,4 +1,4 @@
-﻿namespace GeometryUnitTests
+﻿namespace MathNet.GeometryUnitTests
 {
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;

@@ -1,7 +1,8 @@
-namespace Geometry
+namespace MathNet.Geometry
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.Linq;
     using System.Xml;
@@ -358,25 +359,25 @@ namespace Geometry
         }
 
         // Commented out because the d * v reads nicer than v *d 
-        //public static Vector3D operator *(Vector3D v,double d)
-        //{
-        //    return d*v;
-        //}
+        ////public static Vector3D operator *(Vector3D v,double d)
+        ////{
+        ////    return d*v;
+        ////}
 
         public static Vector3D operator /(UnitVector3D v, double d)
         {
             return new Vector3D(v.X / d, v.Y / d, v.Z / d);
         }
 
-        //public static explicit operator UnitVector3D(System.Windows.Media.Media3D.Vector3D v)
-        //{
-        //    return new UnitVector3D(v.X, v.Y, v.Z);
-        //}
+        ////public static explicit operator UnitVector3D(System.Windows.Media.Media3D.Vector3D v)
+        ////{
+        ////    return new UnitVector3D(v.X, v.Y, v.Z);
+        ////}
 
-        //public static explicit operator System.Windows.Media.Media3D.Vector3D(UnitVector3D p)
-        //{
-        //    return new System.Windows.Media.Media3D.Vector3D(p.X, p.Y, p.Z);
-        //}
+        ////public static explicit operator System.Windows.Media.Media3D.Vector3D(UnitVector3D p)
+        ////{
+        ////    return new System.Windows.Media.Media3D.Vector3D(p.X, p.Y, p.Z);
+        ////}
 
         public Vector3D ScaleBy(double scaleFactor)
         {
@@ -401,6 +402,7 @@ namespace Geometry
             return Math.Abs(1 - dp) < tolerance;
         }
 
+        [Pure]
         public bool IsParallelTo(UnitVector3D othervector, double tolerance = 1e-6)
         {
             var dp = Math.Abs(this.DotProduct(othervector));
@@ -537,11 +539,13 @@ namespace Geometry
             return cs.Transform(this).Normalize();
         }
 
+        [Pure]
         public Point3D ToPoint3D()
         {
             return new Point3D(X, Y, Z);
         }
 
+        [Pure]
         public Vector3D ToVector3D()
         {
             return new Vector3D(X, Y, Z);

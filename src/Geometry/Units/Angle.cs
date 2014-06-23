@@ -1,4 +1,4 @@
-namespace Geometry.Units
+namespace MathNet.Geometry.Units
 {
     using System;
     using System.Globalization;
@@ -10,34 +10,35 @@ namespace Geometry.Units
     [Serializable]
     public struct Angle : IComparable<Angle>, IEquatable<Angle>, IFormattable, IXmlSerializable
     {
-        public readonly double Value;
+        public readonly double Radians;
+      
         /// <summary>
         /// Default is serializing as attributes, set to true for elements
         /// </summary>
         public bool SerializeAsElements;
 
-        private Angle(double value)
+        private Angle(double radians)
         {
-            Value = value;
+            Radians = radians;
             SerializeAsElements = false;
         }
 
-        public Angle(double value, Radians unit)
+        public Angle(double radians, Radians unit)
         {
-            Value = value;
+            Radians = radians;
             SerializeAsElements = false;
         }
 
-        public Angle(double value, Degrees unit)
+        public Angle(double radians, Degrees unit)
         {
-            Value = UnitConverter.ConvertFrom(value, unit);
+            Radians = UnitConverter.ConvertFrom(radians, unit);
             SerializeAsElements = false;
         }
 
         [Obsolete("This boxes, use Angle.From() instead")]
-        public Angle(double value, IAngleUnit unit)
+        public Angle(double radians, IAngleUnit unit)
         {
-            Value = UnitConverter.ConvertFrom(value, unit);
+            Radians = UnitConverter.ConvertFrom(radians, unit);
             SerializeAsElements = false;
         }
 
@@ -45,14 +46,14 @@ namespace Geometry.Units
         {
             get
             {
-                return UnitConverter.ConvertTo(Value, AngleUnit.Degrees);
+                return UnitConverter.ConvertTo(Radians, AngleUnit.Degrees);
             }
         }
 
         /// <summary>
         /// Creates an Angle from it's string representation
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="s">The string representation of the angle</param>
         /// <returns></returns>
         public static Angle Parse(string s)
         {
@@ -86,54 +87,56 @@ namespace Geometry.Units
 
         public static bool operator <(Angle left, Angle right)
         {
-            return left.Value < right.Value;
+            return left.Radians < right.Radians;
         }
 
         public static bool operator >(Angle left, Angle right)
         {
-            return left.Value > right.Value;
+            return left.Radians > right.Radians;
         }
 
         public static bool operator <=(Angle left, Angle right)
         {
-            return left.Value <= right.Value;
+            return left.Radians <= right.Radians;
         }
 
         public static bool operator >=(Angle left, Angle right)
         {
-            return left.Value >= right.Value;
+            return left.Radians >= right.Radians;
         }
 
         public static Angle operator *(double left, Angle right)
         {
-            return new Angle(left * right.Value);
+            return new Angle(left * right.Radians);
         }
 
         [Obsolete("Not sure this is nice")]
         public static Angle operator *(Angle left, double right)
         {
-            return new Angle(left.Value * right);
+            return new Angle(left.Radians * right);
         }
 
         public static Angle operator /(Angle left, double right)
         {
-            return new Angle(left.Value / right);
+            return new Angle(left.Radians / right);
         }
 
         public static Angle operator +(Angle left, Angle right)
         {
-            return new Angle(left.Value + right.Value);
+            return new Angle(left.Radians + right.Radians);
         }
 
         public static Angle operator -(Angle left, Angle right)
         {
-            return new Angle(left.Value - right.Value);
+            return new Angle(left.Radians - right.Radians);
         }
 
-        public static implicit operator double(Angle a)
-        {
-            return a.Value;
-        }
+        ////[Obsolete("Will sweet when doing Math.Cos(angle) but opens the door for 1 + angle, prolly remove")]
+
+        ////public static implicit operator double(Angle a)
+        ////{
+        ////    return a.Value;
+        ////}
 
         public override string ToString()
         {
@@ -157,34 +160,37 @@ namespace Geometry.Units
 
         public string ToString<T>(string format, IFormatProvider formatProvider, T unit) where T : IAngleUnit
         {
-            var value = UnitConverter.ConvertTo(Value, unit);
+            var value = UnitConverter.ConvertTo(Radians, unit);
             return string.Format("{0}{1}", value.ToString(format, formatProvider), unit.ShortName);
         }
 
         public int CompareTo(Angle other)
         {
-            return Value.CompareTo(other.Value);
+            return Radians.CompareTo(other.Radians);
         }
 
         public bool Equals(Angle other)
         {
-            return Value.Equals(other.Value);
+            return Radians.Equals(other.Radians);
         }
 
         public bool Equals(Angle other, double tolerance)
         {
-            return Math.Abs(Value - other.Value) < tolerance;
+            return Math.Abs(Radians - other.Radians) < tolerance;
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is Angle && Equals((Angle)obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            return obj is Angle && this.Equals((Angle)obj);
         }
 
         public override int GetHashCode()
         {
-            return Value.GetHashCode();
+            return Radians.GetHashCode();
         }
 
         /// <summary>
@@ -208,7 +214,7 @@ namespace Geometry.Units
             reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
             // Hacking set readonly fields here, can't think of a cleaner workaround
-            XmlExt.SetReadonlyField(ref this, x => x.Value, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Value")));
+            XmlExt.SetReadonlyField(ref this, x => x.Radians, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Value")));
         }
 
         /// <summary>
@@ -219,11 +225,11 @@ namespace Geometry.Units
         {
             if (SerializeAsElements)
             {
-                writer.WriteElementString("Value", Value.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("Value", Radians.ToString(CultureInfo.InvariantCulture));
             }
             else
             {
-                writer.WriteAttribute("Value", Value);
+                writer.WriteAttribute("Value", Radians);
             }
         }
 

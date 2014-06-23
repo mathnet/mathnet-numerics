@@ -1,4 +1,4 @@
-﻿namespace GeometryUnitTests
+﻿namespace MathNet.GeometryUnitTests
 {
     using Geometry;
     using Geometry.Units;
@@ -41,12 +41,11 @@
         public void RotateTest(string ps, string avs, string eps)
         {
             var p = Point2D.Parse(ps);
-            var point3D = p.ToPoint3D();
             var av = Angle.Parse(avs);
-            var ep = Point2D.Parse(eps);
-            var rm = Point2D.RotationMatrix(av);
-            var rp = p.TransformBy(rm);
-            LinearAlgebraAssert.AreEqual(ep, rp, 1e-2);
+            var expected = Point2D.Parse(eps);
+            var rm = Matrix2D.Rotation(av);
+            var actual = p.TransformBy(rm);
+            LinearAlgebraAssert.AreEqual(expected, actual, 1e-2);
         }
 
         [TestCase("1,2", false, @"<Point2D X=""1"" Y=""2"" />")]

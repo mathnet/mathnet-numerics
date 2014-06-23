@@ -1,4 +1,4 @@
-namespace Geometry
+namespace MathNet.Geometry
 {
     using System;
     using System.Collections.Generic;
@@ -45,7 +45,7 @@ namespace Geometry
         /// <param name="r"></param>
         /// <param name="a"></param>
         public Point2D(double r, Angle a)
-            : this(r * Math.Cos(a), r * Math.Sin(a))
+            : this(r * Math.Cos(a.Radians), r * Math.Sin(a.Radians))
         {
         }
 
@@ -72,26 +72,14 @@ namespace Geometry
             return new Point2D(doubles);
         }
 
-        public static DenseMatrix RotationMatrix(Angle rotation)
-        {
-            double c = Math.Cos(rotation);
-            double s = Math.Sin(rotation);
-            return Create2DMatrix(c, -s, s, c);
-        }
-
-        public static DenseMatrix Create2DMatrix(double m11, double m12, double m21, double m22)
-        {
-            return DenseMatrix.OfColumnMajor(2, 2, new[] { m11, m21, m12, m22 });
-        }
-
         public static bool operator ==(Point2D left, Point2D right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
 
         public static bool operator !=(Point2D left, Point2D right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
         }
 
         public Point2D TransformBy(Matrix<double> m)
@@ -157,7 +145,10 @@ namespace Geometry
         /// <returns>
         /// An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
         /// </returns>
-        public XmlSchema GetSchema() { return null; }
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Generates an object from its XML representation.
@@ -167,6 +158,7 @@ namespace Geometry
         {
             reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
+
             // Hacking set readonly fields here, can't think of a cleaner workaround
             XmlExt.SetReadonlyField(ref this, x => x.X, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("X")));
             XmlExt.SetReadonlyField(ref this, x => x.Y, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Y")));

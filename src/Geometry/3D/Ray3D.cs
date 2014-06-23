@@ -1,4 +1,4 @@
-namespace Geometry
+namespace MathNet.Geometry
 {
     using System;
     using System.Globalization;
@@ -30,6 +30,21 @@ namespace Geometry
             return plane1.IntersectionWith(plane2);
         }
 
+        public static Ray3D Parse(string point, string direction)
+        {
+            return new Ray3D(Point3D.Parse(point), UnitVector3D.Parse(direction));
+        }
+
+        public static bool operator ==(Ray3D left, Ray3D right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Ray3D left, Ray3D right)
+        {
+            return !left.Equals(right);
+        }
+
         /// <summary>
         /// Returns the shortes line from a point to the ray
         /// </summary>
@@ -42,22 +57,9 @@ namespace Geometry
             return new Line3D(ThroughPoint + alongVector, point3D);
         }
 
-        public bool IsCollinear(Ray3D otherRay, double epsilon = float.Epsilon)
+        public bool IsCollinear(Ray3D otherRay, double tolerance = float.Epsilon)
         {
-            if (!Direction.IsParallelTo(otherRay.Direction, epsilon))
-            {
-                return false;
-            }
-            Vector3D vectorTo = ThroughPoint.VectorTo(otherRay.ThroughPoint);
-            if (Math.Abs(vectorTo.Length - 0) < epsilon)
-            {
-                return true;
-            }
-            if (!vectorTo.IsParallelTo(Direction, epsilon))
-            {
-                return false;
-            }
-            return true;
+            return Direction.IsParallelTo(otherRay.Direction, tolerance);
         }
 
         public bool Equals(Ray3D other)
@@ -91,31 +93,6 @@ namespace Geometry
             }
         }
 
-        public static bool operator ==(Ray3D left, Ray3D right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(Ray3D left, Ray3D right)
-        {
-            return !left.Equals(right);
-        }
-
-        public Point3D GetPointAtSpecifiedZ(double specifiedZ)
-        {
-            //ThroughPoint.Z + vectorZ * t = specatZ
-            //t = (specatZ - Through.z )/vector z
-            //punkten blir through + vectorn*t
-
-            var t = (specifiedZ - ThroughPoint.Z) / Direction.Z;
-
-            var scaledDirection = new Vector3D(Direction.X, Direction.Y, Direction.Z);
-            var v = scaledDirection.ScaleBy(t);
-
-            var retPoint = ThroughPoint + v;
-            return retPoint;
-        }
-
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
         /// </summary>
@@ -132,8 +109,8 @@ namespace Geometry
         {
             return string.Format(
                 "ThroughPoint: {0}, Direction: {1}",
-                Direction.ToString(format, formatProvider),
-                ThroughPoint.ToString(format, formatProvider));
+                ThroughPoint.ToString(format, formatProvider),
+                Direction.ToString(format, formatProvider));
         }
 
         public XmlSchema GetSchema()
@@ -143,9 +120,10 @@ namespace Geometry
 
         public void ReadXml(XmlReader reader)
         {
+            reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
-            ThroughPoint.ReadXml(e.SingleElementReader("ThroughPoint"));
-            Direction.ReadXml(e.SingleElementReader("Direction"));
+            XmlExt.SetReadonlyField(ref this, l => l.ThroughPoint, Point3D.ReadFrom(e.SingleElement("ThroughPoint").CreateReader()));
+            XmlExt.SetReadonlyField(ref this, l => l.Direction, UnitVector3D.ReadFrom(e.SingleElement("Direction").CreateReader()));
         }
 
         public void WriteXml(XmlWriter writer)

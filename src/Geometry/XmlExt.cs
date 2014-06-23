@@ -1,4 +1,4 @@
-﻿namespace Geometry
+﻿namespace MathNet.Geometry
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@
             TProperty value,
             Expression<Func<TProperty>> fieldExpression)
         {
-            string name = ((MemberExpression) fieldExpression.Body).Member.Name;
+            string name = ((MemberExpression)fieldExpression.Body).Member.Name;
             GetAllFields(item.GetType())
                 .Single(x => x.Name == name)
                 .SetValue(item, value);
@@ -95,12 +95,12 @@
 
         public static T AsEnum<T>(this XElement e) where T : struct, IConvertible
         {
-            return (T) Enum.Parse(typeof (T), e.Value);
+            return (T)Enum.Parse(typeof(T), e.Value);
         }
 
         public static T AsEnum<T>(this XAttribute e) where T : struct, IConvertible
         {
-            return (T) Enum.Parse(typeof (T), e.Value);
+            return (T)Enum.Parse(typeof(T), e.Value);
         }
 
         public static IEnumerable<XElement> ElementsNamed(this XElement e, string localName)
@@ -137,7 +137,7 @@
 
         public static T ReadAttributeOrElementEnum<T>(this XElement e, string localName) where T : struct, IConvertible
         {
-            return (T) Enum.Parse(typeof (T), e.ReadAttributeOrElement(localName));
+            return (T)Enum.Parse(typeof(T), e.ReadAttributeOrElement(localName));
         }
 
         public static string ReadAttributeOrElementOrDefault(this XElement e, string localName)
@@ -168,10 +168,10 @@
             TValue value) where TItem : struct
         {
             var fieldInfo = self.GetType()
-                                .GetField(((MemberExpression) func.Body).Member.Name);
+                                .GetField(((MemberExpression)func.Body).Member.Name);
             object boxed = self;
             fieldInfo.SetValue(boxed, value);
-            self = (TItem) boxed;
+            self = (TItem)boxed;
         }
 
         internal static void SetReadonlyField<TItem, TValue>(
@@ -201,7 +201,7 @@
         }
 
 
-        public static void SetReadonlyFields<TItem>(ref TItem self, string[] fields, double[] values) 
+        public static void SetReadonlyFields<TItem>(ref TItem self, string[] fields, double[] values)
             where TItem : struct
         {
             object boxed = self;

@@ -1,4 +1,4 @@
-﻿namespace GeometryUnitTests
+﻿namespace MathNet.GeometryUnitTests
 {
     using System;
     using Geometry;
@@ -15,10 +15,27 @@
         const string NegativeY = "0; -1; 0";
         const string NegativeZ = "0; 0; -1";
         private const string ZeroPoint = "0; 0; 0";
-        readonly UnitVector3D _xAxis = UnitVector3D.XAxis;
-        readonly UnitVector3D _yAxis = UnitVector3D.YAxis;
-        readonly UnitVector3D _zAxis = UnitVector3D.ZAxis;
-        readonly Point3D _origin = new Point3D(0, 0, 0);
+
+        [TestCase("1, 2, 3", "4, 5, 6", "7, 8, 9", "-1, -2, -3")]
+        public void ConstructorTest(string ps, string xs, string ys, string zs)
+        {
+            var origin = Point3D.Parse(ps);
+            var xAxis = Vector3D.Parse(xs);
+            var yAxis = Vector3D.Parse(ys);
+            var zAxis = Vector3D.Parse(zs);
+            var css = new[]
+            {
+                new CoordinateSystem(origin, xAxis, yAxis, zAxis),
+                new CoordinateSystem(xAxis, yAxis, zAxis, origin)
+            };
+            foreach (var cs in css)
+            {
+                LinearAlgebraAssert.AreEqual(origin, cs.Origin);
+                LinearAlgebraAssert.AreEqual(xAxis, cs.XAxis);
+                LinearAlgebraAssert.AreEqual(yAxis, cs.YAxis);
+                LinearAlgebraAssert.AreEqual(zAxis, cs.ZAxis);
+            }
+        }
 
         [TestCase("o:{1, 2e-6, -3} x:{1, 2, 3} y:{3, 3, 3} z:{4, 4, 4}", new double[] { 1, 2e-6, -3 }, new double[] { 1, 2, 3 }, new double[] { 3, 3, 3 }, new double[] { 4, 4, 4 })]
         public void ParseTests(string s, double[] ops, double[] xs, double[] ys, double[] zs)
@@ -30,35 +47,6 @@
             LinearAlgebraAssert.AreEqual(new Vector3D(zs), cs.ZAxis);
         }
 
-        [Test]
-        public void ConstructorTest()
-        {
-            var cs = new CoordinateSystem(_origin, _xAxis, _yAxis, _zAxis);
-            LinearAlgebraAssert.AreEqual(cs, _origin, _xAxis.ToVector3D(), _yAxis.ToVector3D(), _zAxis.ToVector3D(), 1e-6);
-        }
-
-        //[Test]
-        //public void SetCoordinateSystemTest()
-        //{
-        //    var coordinateSystem = new CoordinateSystem();
-        //    coordinateSystem.SetCoordinateSystem(_origin, _xAxis, _yAxis, _zAxis);
-        //    LinearAlgebraAssert.AreEqual(coordinateSystem, _origin, _xAxis, _yAxis, _zAxis, float.Epsilon);
-        //}
-
-        [Test]
-        public void XmlRoundTrips()
-        {
-            var cs = new CoordinateSystem(new Point3D(1,-2,3), new Vector3D(0,1,0), new Vector3D(0,0,1), new Vector3D(1,0,0));
-            string expectedXml =
-                @"
-<CoordinateSystem>
-    <Origin X=""1"" Y=""-2"" Z=""3"" />
-    <XAxis X=""0"" Y=""1"" Z=""0"" />
-    <YAxis X=""0"" Y=""0"" Z=""1"" />
-    <ZAxis X=""1"" Y=""0"" Z=""0"" />
-</CoordinateSystem>";
-            AssertXml.XmlRoundTrips(cs, expectedXml, (e, a) => LinearAlgebraAssert.AreEqual(e, a));
-        }
 
         [TestCase("2, 0, 0", 90, "0, 0, 1", "0, 2, 0")]
         [TestCase("2, 0, 0", -90, "0, 0, 1", "0, -2, 0")]
@@ -85,12 +73,12 @@
         [TestCase("2, 0, 0", "0, -1, 0", "2, -1, 0")]
         [TestCase("2, 0, 0", "1, 0, 0", "3, 0, 0")]
         [TestCase("2, 0, 0", "-1, 0, 0", "1, 0, 0")]
-        public void TranslationTests(string ps, string vs, string eps)
+        public void Translation(string ps, string vs, string eps)
         {
             var p = Point3D.Parse(ps);
-            var rcs = CoordinateSystem.Translation(Vector3D.Parse(vs));
-            var tp = rcs.Transform(p);
-            Console.WriteLine(rcs.ToString());
+            var cs = CoordinateSystem.Translation(Vector3D.Parse(vs));
+            var tp = cs.Transform(p);
+            Console.WriteLine(cs.ToString());
             LinearAlgebraAssert.AreEqual(Point3D.Parse(eps), tp);
         }
 
@@ -126,80 +114,86 @@
             LinearAlgebraAssert.AreEqual(v1, rv);
         }
 
-        [TestCase(0, 0, 0, X, Y, Z, ZeroPoint, TestName = "No rotation")]
-        [TestCase(90, 0, 0, Y, NegativeX, Z, ZeroPoint, TestName = "yaw = +90")]
-        [TestCase(-90, 0, 0, NegativeY, X, Z, ZeroPoint, TestName = "yaw = -90")]
-        [TestCase(0, 90, 0, NegativeZ, Y, X, ZeroPoint, TestName = "pitch = +90")]
-        [TestCase(0, -90, 0, Z, Y, NegativeX, ZeroPoint, TestName = "pitch = -90")]
-        [TestCase(0, 0, 90, X, Z, NegativeY, ZeroPoint, TestName = "roll = +90")]
-        [TestCase(0, 0, -90, X, NegativeZ, Y, ZeroPoint, TestName = "roll = -90")]
-        public void RotateCoordSystemWithAnglesYawPitchRoll(double yaw, double pitch, double roll, string exs, string eys, string ezs, string eps)
+        [TestCase(0, 0, 0, "1, 1, 1", "1, 1, 1", TestName = "No rotation")]
+        [TestCase(90, 0, 0, "2, 0, 0", "0, 2, 0", TestName = "yaw = +90")]
+        [TestCase(-90, 0, 0, "1, 0, 0", "0, -1, 0", TestName = "yaw = -90")]
+        [TestCase(0, 90, 0, "1, 0, 0", "0, 0, -1", TestName = "pitch = +90")]
+        [TestCase(0, -90, 0, "1, 0, 0", "0, 0, 1", TestName = "pitch = -90")]
+        [TestCase(0, 0, 90, "1, 0, 0", "1, 0, 0", TestName = "roll = +90")]
+        [TestCase(0, 0, 90, "0, 1, 0", "0, 0, 1", TestName = "roll = +90")]
+        [TestCase(0, 0, -90, "1, 0, 0", "1, 0, 0", TestName = "roll = +90")]
+        public void RotationYawPitchRoll(double yaw, double pitch, double roll, string vs, string evs)
         {
-            CoordinateSystem actual = CoordinateSystem.Rotation(yaw, pitch, roll, AngleUnit.Degrees);
-            var expected = Parse(eps, exs, eys, ezs);
+            var cs = CoordinateSystem.Rotation(yaw, pitch, roll, AngleUnit.Degrees);
+            var v = Vector3D.Parse(vs);
+            var actual = cs.Transform(v);
+            var expected = Vector3D.Parse(evs);
             LinearAlgebraAssert.AreEqual(expected, actual);
         }
 
+        [Test]
         public void InvertTest()
         {
             Assert.Inconclusive("Test this?");
         }
 
-        [TestCase("1; -5; 3", "1; -5; 3", ZeroPoint, X, Y, Z)]
-        public void TransformPoint(string ps, string eps, string ops, string xs, string ys, string zs)
+        [TestCase("1; -5; 3", "1; -5; 3", "o:{0, 0, 0} x:{1, 0, 0} y:{0, 1, 0} z:{0, 0, 1}")]
+        public void TransformPoint(string ps, string eps, string css)
         {
             var p = Point3D.Parse(ps);
-            CoordinateSystem cs = Parse(ops, xs, ys, zs);
+            CoordinateSystem cs = CoordinateSystem.Parse(css);
             Point3D actual = p.TransformBy(cs);
             var expected = Point3D.Parse(eps);
             LinearAlgebraAssert.AreEqual(expected, actual, float.Epsilon);
         }
 
-        [TestCase("1; -5; 3", "1; -5; 3", ZeroPoint, X, Y, Z)]
-        public void TransformVector(string vs, string evs, string pos, string xs, string ys, string zs)
+        [TestCase("1; -5; 3", "1; -5; 3", "o:{0, 0, 0} x:{1, 0, 0} y:{0, 1, 0} z:{0, 0, 1}")]
+        public void TransformVector(string vs, string evs, string css)
         {
             var v = Vector3D.Parse(vs);
-            CoordinateSystem cs = Parse(pos, xs, ys, zs);
+            CoordinateSystem cs = CoordinateSystem.Parse(css);
             Vector3D actual = cs.Transform(v);
             var expected = Vector3D.Parse(evs);
             LinearAlgebraAssert.AreEqual(expected, actual);
         }
 
-        [TestCase(ZeroPoint, "10;0;0", Y, Z, "1;0;0", X, Y, Z, "1;0;0", "0,1;0;0", Y, Z)]
-        [TestCase(ZeroPoint, "10;0;0", Y, Z, ZeroPoint, X, Y, Z, ZeroPoint, "0,1;0;0", Y, Z)]
-        [TestCase("7;-4;3", X, Y, Z, "1;2;3", X, Y, Z, "-6;6;0", X, Y, Z)]
-        [TestCase("1;2;-7", "10;0;0", Y, Z, ZeroPoint, X, Y, Z, "-0,1;-2;7", "0,1;0;0", Y, Z)]
-        public void SetToAlignCoordinateSystemsTest(string fos, string fxs, string fys, string fzs,
-            string tops, string toxs, string toys, string tozs,
-            string eps, string exs, string eys, string ezs)
+        [TestCase("o:{0, 0, 0} x:{1, 0, 0} y:{0, 1, 0} z:{0, 0, 1}", "o:{0, 0, 0} x:{1, 0, 0} y:{0, 1, 0} z:{0, 0, 1}")]
+        [TestCase("o:{0, 0, 0} x:{10, 0, 0} y:{0, 1, 0} z:{0, 0, 1}", "o:{1, 0, 0} x:{0.1, 0, 0} y:{0, 1, 0} z:{0, 0, 1}")]
+        [TestCase("o:{0, 0, 0} x:{10, 0, 0} y:{0, 1, 0} z:{0, 0, 1}", "o:{1, 0, 0} x:{1, 0, 0} y:{0, 1, 0} z:{0, 0, 1}")]
+        [TestCase("o:{1, 2, -7} x:{10, 0, 0} y:{0, 1, 0} z:{0, 0, 1}", "o:{0, 0, 0} x:{1, 0, 0} y:{0, 1, 0} z:{0, 0, 1}")]
+        [TestCase("o:{1, 2, -7} x:{10, 0.1, 0} y:{0, 1.2, 0.1} z:{0.1, 0, 1}", "o:{2, 5, 1} x:{0.1, 2, 0} y:{0.2, -1, 0} z:{0, 0.4, 1}")]
+        public void SetToAlignCoordinateSystemsTest(string fcss, string tcss)
         {
-            var coordinateSystem = new CoordinateSystem();
+            var fcs = CoordinateSystem.Parse(fcss);
+            var tcs = CoordinateSystem.Parse(tcss);
 
-            var p = Point3D.Parse(fos);
-            var x = Vector3D.Parse(fxs);
-            var y = Vector3D.Parse(fys);
-            var z = Vector3D.Parse(fzs);
+            var css = new[]
+            {
+                CoordinateSystem.SetToAlignCoordinateSystems(fcs.Origin, fcs.XAxis, fcs.YAxis, fcs.ZAxis, tcs.Origin, tcs.XAxis, tcs.YAxis, tcs.ZAxis),
+                CoordinateSystem.CreateMappingCoordinateSystem(fcs, tcs)
+            };
+            foreach (var cs in css)
+            {
+                var aligned = cs.Transform(fcs);
+                LinearAlgebraAssert.AreEqual(tcs.Origin, aligned.Origin);
 
-            var toP = Point3D.Parse(tops);
-            var toX = Vector3D.Parse(toxs);
-            var toY = Vector3D.Parse(toys);
-            var toZ = Vector3D.Parse(tozs);
+                LinearAlgebraAssert.AreEqual(tcs.XAxis, aligned.XAxis);
 
-            CoordinateSystem mcs = CoordinateSystem.SetToAlignCoordinateSystems(p, x, y, z, toP, toX, toY, toZ);
-            Point3D actual = p.TransformBy(mcs);
-            LinearAlgebraAssert.AreEqual(actual, toP, 1e-6);
-            var expected = Parse(eps, exs, eys, ezs);
-            LinearAlgebraAssert.AreEqual(expected, mcs, 1E-6);
+                LinearAlgebraAssert.AreEqual(tcs.YAxis, aligned.YAxis);
+
+                LinearAlgebraAssert.AreEqual(tcs.ZAxis, aligned.ZAxis);
+            }
         }
 
-        [TestCase(X, Y, Z, ZeroPoint, Y, NegativeX, Z)]
-        [TestCase(NegativeX, Y, Z, ZeroPoint, NegativeY, X, Z)]
-        [TestCase(NegativeX, Y, null, ZeroPoint, NegativeY, X, Z)]
-        [TestCase(X, Y, null, ZeroPoint, Y, NegativeX, Z)]
-        [TestCase(X, Y, Z, ZeroPoint, Y, NegativeX, Z)]
-        [TestCase(X, Z, Y, ZeroPoint, Z, Y, NegativeX)]
-        public void SetToRotateToTest(string vs, string vts, string axisString,
-            string eps, string exs, string eys, string ezs)
+        [TestCase(X, Y, Z)]
+        [TestCase(NegativeX, Y, Z)]
+        [TestCase(NegativeX, Y, null)]
+        [TestCase(X, Y, null)]
+        [TestCase(X, Y, "0,0,1")]
+        [TestCase("1,-1, 1", "0, 1, 1", null)]
+        [TestCase(X, Y, Z)]
+        [TestCase(X, Z, Y)]
+        public void SetToRotateToTest(string vs, string vts, string axisString)
         {
             var v = UnitVector3D.Parse(vs);
             var vt = UnitVector3D.Parse(vts);
@@ -208,11 +202,17 @@
             {
                 axis = UnitVector3D.Parse(axisString);
             }
-            CoordinateSystem actual = CoordinateSystem.RotateTo(v, vt, axis);
-            var rv = actual.Transform(v);
+            CoordinateSystem cs = CoordinateSystem.RotateTo(v, vt, axis);
+            var rv = cs.Transform(v);
             LinearAlgebraAssert.AreEqual(vt, rv);
-            CoordinateSystem expected = Parse(eps, exs, eys, ezs);
-            LinearAlgebraAssert.AreEqual(expected, actual);
+
+            CoordinateSystem invert = cs.Invert();
+            Vector3D rotateBack = invert.Transform(rv);
+            LinearAlgebraAssert.AreEqual(v, rotateBack);
+
+            cs = CoordinateSystem.RotateTo(vt, v, axis);
+            rotateBack = cs.Transform(rv);
+            LinearAlgebraAssert.AreEqual(v, rotateBack);
         }
 
         [Test]
@@ -224,20 +224,28 @@
             LinearAlgebraAssert.AreEqual(UnitVector3D.YAxis, actual);
         }
 
-        [Test]
-        public void TransformCoordinateSystem()
+        [TestCase("o:{1, 2, -7} x:{10, 0, 0} y:{0, 1, 0} z:{0, 0, 1}", "o:{0, 0, 0} x:{1, 0, 0} y:{0, 1, 0} z:{0, 0, 1}")]
+        public void Transform(string cs1s, string cs2s)
         {
-            var rcs = CoordinateSystem.Rotation(90, AngleUnit.Degrees, UnitVector3D.ZAxis);
-            var cs = new CoordinateSystem(new Point3D(1, 0, 0), UnitVector3D.XAxis, UnitVector3D.YAxis, UnitVector3D.ZAxis);
-            var actual = rcs.Transform(cs);
-            var expected = new CoordinateSystem(new Point3D(0, 1, 0), UnitVector3D.YAxis, UnitVector3D.XAxis.Negate(), UnitVector3D.ZAxis);
+            var cs1 = CoordinateSystem.Parse(cs1s);
+            var cs2 = CoordinateSystem.Parse(cs2s);
+            var actual = cs1.Transform(cs2);
+            var expected = new CoordinateSystem(cs1.Multiply(cs2));
             LinearAlgebraAssert.AreEqual(expected, actual);
-
         }
 
-        protected CoordinateSystem Parse(string pos, string xs, string ys, string zs)
+        [Test]
+        public void XmlRoundTrips()
         {
-            return new CoordinateSystem(Vector3D.Parse(xs), Vector3D.Parse(ys), Vector3D.Parse(zs), Point3D.Parse(pos));
+            var cs = new CoordinateSystem(new Point3D(1, -2, 3), new Vector3D(0, 1, 0), new Vector3D(0, 0, 1), new Vector3D(1, 0, 0));
+            const string expected = @"
+<CoordinateSystem>
+    <Origin X=""1"" Y=""-2"" Z=""3"" />
+    <XAxis X=""0"" Y=""1"" Z=""0"" />
+    <YAxis X=""0"" Y=""0"" Z=""1"" />
+    <ZAxis X=""1"" Y=""0"" Z=""0"" />
+</CoordinateSystem>";
+            AssertXml.XmlRoundTrips(cs, expected, (e, a) => LinearAlgebraAssert.AreEqual(e, a));
         }
     }
 }

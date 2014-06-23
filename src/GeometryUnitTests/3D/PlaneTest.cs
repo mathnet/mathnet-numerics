@@ -1,4 +1,4 @@
-﻿namespace GeometryUnitTests
+﻿namespace MathNet.GeometryUnitTests
 {
     using System;
     using Geometry;
@@ -105,14 +105,23 @@
             LinearAlgebraAssert.AreEqual(new Point3D(0, 0, 1), projectOn.ThroughPoint, float.Epsilon);
         }
 
-        [Test]
-        public void InterSectionWithPlaneTest()
+        [TestCase("p:{0, 0, 0} v:{0, 0, 1}", "p:{0, 0, 0} v:{0, 0, 1}", "0, 0, 0", "0, 0, 0", ExpectedException = typeof(ArgumentException))]
+        [TestCase("p:{0, 0, 0} v:{0, 0, 1}", "p:{0, 0, 0} v:{0, 1, 0}", "0, 0, 0", "-1, 0, 0")]
+        [TestCase("p:{0, 0, 2} v:{0, 0, 1}", "p:{0, 0, 0} v:{0, 1, 0}", "0, 0, 2", "-1, 0, 0")]
+        public void InterSectionWithPlaneTest(string pl1s, string pl2s, string eps, string evs)
         {
-            var yzPlane = new Plane(UnitVector3D.XAxis, new Point3D(0, 0, 0));
-            var xyPlane = new Plane(UnitVector3D.ZAxis, new Point3D(0, 0, 1));
-            Ray3D interSection = yzPlane.IntersectionWith(xyPlane);
-            Assert.IsTrue(interSection.Direction.IsParallelTo(UnitVector3D.YAxis));
-            LinearAlgebraAssert.AreEqual(UnitVector3D.YAxis, interSection.Direction, float.Epsilon, "Direction failed");
+            var plane1 = Plane.Parse(pl1s);
+            var plane2 = Plane.Parse(pl2s);
+            var intersections = new[]
+            {
+                plane1.IntersectionWith(plane2),
+                plane2.IntersectionWith(plane1)
+            };
+            foreach (var intersection in intersections)
+            {
+                LinearAlgebraAssert.AreEqual(Point3D.Parse(eps), intersection.ThroughPoint);
+                LinearAlgebraAssert.AreEqual(UnitVector3D.Parse(evs), intersection.Direction);
+            }
         }
 
         [Test]

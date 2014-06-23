@@ -1,4 +1,4 @@
-﻿namespace GeometryUnitTests
+﻿namespace MathNet.GeometryUnitTests
 {
     using System;
     using Geometry;
@@ -70,7 +70,7 @@
             var toVector = Vector3D.Parse(toString);
             var aboutVector = Vector3D.Parse(axisString);
             var angle = Angle.Parse(@as);
-            Assert.AreEqual(angle, fromVector.SignedAngleTo(toVector.Normalize(), aboutVector.Normalize()), 1E-6);
+            Assert.AreEqual(angle.Degrees, fromVector.SignedAngleTo(toVector.Normalize(), aboutVector.Normalize()).Degrees, 1E-6);
         }
 
         [TestCase(X, 5)]
@@ -92,7 +92,7 @@
         {
             var vector = Vector3D.Parse(vectorDoubles);
             Angle angle = Angle.FromDegrees(rotationInDegrees);
-            Vector3D rotated = new Vector3D(RotationMatrices.RotationAroundZAxis(angle).Multiply(vector.ToDenseVector()));
+            Vector3D rotated = new Vector3D(Matrix3D.RotationAroundZAxis(angle).Multiply(vector.ToDenseVector()));
             var actual = vector.SignedAngleTo(rotated, Vector3D.Parse(Z).Normalize());
             Assert.AreEqual(rotationInDegrees, actual.Degrees, 1E-6);
         }

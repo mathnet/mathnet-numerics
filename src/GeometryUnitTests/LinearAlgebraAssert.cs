@@ -1,7 +1,7 @@
-namespace GeometryUnitTests
+namespace MathNet.GeometryUnitTests
 {
     using Geometry;
-    using MathNet.Numerics.LinearAlgebra;
+    using Numerics.LinearAlgebra;
     using NUnit.Framework;
 
     public static class LinearAlgebraAssert

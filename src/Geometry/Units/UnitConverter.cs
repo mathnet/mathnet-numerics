@@ -1,4 +1,4 @@
-﻿namespace Geometry.Units
+﻿namespace MathNet.Geometry.Units
 {
     public static class UnitConverter
     {

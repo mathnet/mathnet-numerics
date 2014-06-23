@@ -1,4 +1,4 @@
-namespace Geometry
+namespace MathNet.Geometry
 {
     using System;
     using System.Collections.Generic;
@@ -283,16 +283,12 @@ namespace Geometry
 
         public static Vector3D operator +(Vector3D v1, Vector3D v2)
         {
-            // ReSharper disable CSharpWarnings::CS0618
-            return v1.Add(v2);
-            // ReSharper restore CSharpWarnings::CS0618
+            return new Vector3D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
         }
 
         public static Vector3D operator -(Vector3D v1, Vector3D v2)
         {
-            // ReSharper disable CSharpWarnings::CS0618
-            return v1.Subtract(v2);
-            // ReSharper restore CSharpWarnings::CS0618
+            return new Vector3D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
         }
 
         public static Vector3D operator -(Vector3D v)
@@ -316,15 +312,15 @@ namespace Geometry
             return new Vector3D(v.X / d, v.Y / d, v.Z / d);
         }
 
-        //public static explicit operator Vector3D(System.Windows.Media.Media3D.Vector3D v)
-        //{
-        //    return new Vector3D(v.X, v.Y, v.Z);
-        //}
+        ////public static explicit operator Vector3D(System.Windows.Media.Media3D.Vector3D v)
+        ////{
+        ////    return new Vector3D(v.X, v.Y, v.Z);
+        ////}
 
-        //public static explicit operator System.Windows.Media.Media3D.Vector3D(Vector3D p)
-        //{
-        //    return new System.Windows.Media.Media3D.Vector3D(p.X, p.Y, p.Z);
-        //}
+        ////public static explicit operator System.Windows.Media.Media3D.Vector3D(Vector3D p)
+        ////{
+        ////    return new System.Windows.Media.Media3D.Vector3D(p.X, p.Y, p.Z);
+        ////}
 
         public UnitVector3D Normalize()
         {

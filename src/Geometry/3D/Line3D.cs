@@ -1,4 +1,4 @@
-﻿namespace Geometry
+﻿namespace MathNet.Geometry
 {
     using System;
     using System.Linq;
@@ -61,6 +61,11 @@
             }
         }
 
+        public static Line3D Parse(string startPoint, string endPoint)
+        {
+            return new Line3D(Point3D.Parse(startPoint), Point3D.Parse(endPoint));
+        }
+
         public static bool operator ==(Line3D left, Line3D right)
         {
             return Equals(left, right);
@@ -72,7 +77,7 @@
         }
 
         /// <summary>
-        /// Returns the shortes line from a point to the ray
+        /// Returns the shortes line to a point
         /// </summary>
         /// <param name="p"></param>
         /// <param name="mustStartBetweenStartAndEnd">If false the startpoint can be on the line extending beyond the start and endpoint of the line</param>
@@ -139,18 +144,25 @@
                 return hashCode;
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("StartPoint: {0}, EndPoint: {1}", StartPoint, EndPoint);
+        }
+
         public XmlSchema GetSchema()
         {
             return null;
         }
+        
         public void ReadXml(XmlReader reader)
         {
+            reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
-            var p = new Point3D(e.Descendants("StartPoint").Single().CreateReader());
-
-            StartPoint.ReadXml(e.Descendants("StartPoint").Single().CreateReader());
-            EndPoint.ReadXml(e.Descendants("EndPoint").Single().CreateReader());
+            XmlExt.SetReadonlyField(ref this, l => l.StartPoint, Point3D.ReadFrom(e.SingleElement("StartPoint").CreateReader()));
+            XmlExt.SetReadonlyField(ref this, l => l.EndPoint, Point3D.ReadFrom(e.SingleElement("EndPoint").CreateReader()));
         }
+        
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteElement("StartPoint", StartPoint);

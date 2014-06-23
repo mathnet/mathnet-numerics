@@ -1,4 +1,4 @@
-﻿namespace Geometry
+﻿namespace MathNet.Geometry
 {
     using System;
     using System.Collections.Generic;
@@ -46,7 +46,7 @@
         /// <param name="a"></param>
         /// <param name="name"></param>
         public Vector2D(double r, Angle a, string name = null)
-            : this(r * Math.Cos(a), r * Math.Sin(a))
+            : this(r * Math.Cos(a.Radians), r * Math.Sin(a.Radians))
         {
         }
 
@@ -71,18 +71,6 @@
         {
             var doubles = Parser.ParseItem2D(value);
             return new Vector2D(doubles);
-        }
-
-        public static DenseMatrix RotationMatrix(Angle rotation)
-        {
-            double c = Math.Cos(rotation);
-            double s = Math.Sin(rotation);
-            return Create2DMatrix(c, -s, s, c);
-        }
-
-        public static DenseMatrix Create2DMatrix(double m11, double m12, double m21, double m22)
-        {
-            return DenseMatrix.OfColumnMajor(2, 2, new[] { m11, m21, m12, m22 });
         }
 
         public static bool operator ==(Vector2D left, Vector2D right)
@@ -168,6 +156,7 @@
         {
             reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
+
             // Hacking set readonly fields here, can't think of a cleaner workaround
             XmlExt.SetReadonlyField(ref this, x => x.X, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("X")));
             XmlExt.SetReadonlyField(ref this, x => x.Y, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Y")));
@@ -295,7 +284,11 @@
 
         public Vector2D Rotate(Angle angle)
         {
-            return new Vector2D(RotationMatrix(angle).Multiply(this.ToDenseVector()));
+            var cs = Math.Cos(angle.Radians);
+            var sn = Math.Sin(angle.Radians);
+            var x = X * cs - Y * sn;
+            var y = X * sn + Y * cs;
+            return new Vector2D(x, y);
         }
 
         public double Length

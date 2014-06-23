@@ -1,4 +1,4 @@
-﻿namespace GeometryUnitTests
+﻿namespace MathNet.GeometryUnitTests
 {
     using System.IO;
     using System.Runtime.Serialization.Formatters.Binary;
@@ -103,6 +103,16 @@
         {
             Point3D p = Point3D.Parse(ps);
             LinearAlgebraAssert.AreEqual(p, p.ToVector().ToPoint3D(), 1e-9);
+        }
+
+        [TestCase("-2, 0, 1e-4", null, "(-2, 0, 0.0001)", 1e-4)]
+        [TestCase("-2, 0, 1e-4", "F2", "(-2.00, 0.00, 0.00)", 1e-4)]
+        public void ToString(string vs, string format, string expected, double tolerance)
+        {
+            var p = Point3D.Parse(vs);
+            string actual = p.ToString(format);
+            Assert.AreEqual(expected, actual);
+            LinearAlgebraAssert.AreEqual(p, Point3D.Parse(actual), tolerance);
         }
 
         [TestCase("1, -2, 3", false, @"<Point3D X=""1"" Y=""-2"" Z=""3"" />")]

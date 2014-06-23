@@ -1,11 +1,9 @@
-﻿namespace GeometryUnitTests.Unts
+﻿namespace MathNet.GeometryUnitTests.Unts
 {
     using System;
-    using System.Diagnostics;
     using System.Globalization;
     using Geometry.Units;
     using NUnit.Framework;
-    using NUnit.Framework.Constraints;
 
     public class AngleTests
     {
@@ -29,7 +27,7 @@
             };
             foreach (var angle in angles)
             {
-                Assert.AreEqual(rad, angle.Value, Tolerance);
+                Assert.AreEqual(rad, angle.Radians, Tolerance);
             }
         }
 
@@ -42,7 +40,7 @@
         public void ParseTest(string s, double expected)
         {
             var angle = Angle.Parse(s);
-            Assert.AreEqual(expected, angle.Value, Tolerance);
+            Assert.AreEqual(expected, angle.Radians, Tolerance);
             Assert.IsInstanceOf<Angle>(angle);
         }
 
@@ -59,8 +57,8 @@
             foreach (var angle in angles)
             {
                 Assert.AreEqual(degv, angle.Degrees, Tolerance);
-                Assert.AreEqual(radv, angle, Tolerance);
-                Assert.AreEqual(radv, angle.Value, Tolerance);
+                Assert.AreEqual(radv, angle.Radians, Tolerance);
+                Assert.AreEqual(radv, angle.Radians, Tolerance);
             }
         }
 
@@ -90,7 +88,7 @@
             var lv = Angle.Parse(lvs);
             var rv = Angle.Parse(rvs);
             var sum = lv + rv;
-            Assert.AreEqual(ev, sum.Value, Tolerance);
+            Assert.AreEqual(ev, sum.Radians, Tolerance);
             Assert.IsInstanceOf<Angle>(sum);
         }
 
@@ -101,7 +99,7 @@
             var lv = Angle.Parse(lvs);
             var rv = Angle.Parse(rvs);
             var diff = lv - rv;
-            Assert.AreEqual(ev, diff.Value, Tolerance);
+            Assert.AreEqual(ev, diff.Radians, Tolerance);
             Assert.IsInstanceOf<Angle>(diff);
         }
 
@@ -115,7 +113,7 @@
             var prods = new[] { lv * rv, rv * lv };
             foreach (var prod in prods)
             {
-                Assert.AreEqual(ev, prod.Value, 1e-3);
+                Assert.AreEqual(ev, prod.Radians, 1e-3);
                 Assert.IsInstanceOf<Angle>(prod);
             }
         }
@@ -125,7 +123,7 @@
         {
             var angle = Angle.Parse(s);
             var actual = angle / rv;
-            Assert.AreEqual(expected, actual.Value, Tolerance);
+            Assert.AreEqual(expected, actual.Radians, Tolerance);
             Assert.IsInstanceOf<Angle>(actual);
         }
 
@@ -175,7 +173,7 @@
             angle.SerializeAsElements = asElements;
             AssertXml.XmlRoundTrips(angle, xml, (e, a) =>
             {
-                Assert.AreEqual(e.Value, a.Value, Tolerance);
+                Assert.AreEqual(e.Radians, a.Radians, Tolerance);
                 Assert.IsInstanceOf<Angle>(a);
             });
         }

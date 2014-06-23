@@ -1,4 +1,4 @@
-﻿namespace Geometry
+﻿namespace MathNet.Geometry
 {
     using System;
     using System.Text.RegularExpressions;
@@ -8,7 +8,6 @@
     using System.Xml.Serialization;
     using MathNet.Numerics.LinearAlgebra;
     using MathNet.Numerics.LinearAlgebra.Double;
-    using MathNet.Numerics.LinearAlgebra.Factorization;
     using Units;
 
     [Serializable]
@@ -16,8 +15,7 @@
     {
         private readonly UnitVector3D _normal;
         private readonly Point3D _rootPoint;
-        private static string _item3DPattern = Parser.Vector3DPattern.Trim('^', '$');
-        public static readonly string PlanePattern = string.Format(@"^ *p: *{{(?<p>{0})}} *v: *{{(?<v>{0})}} *$", _item3DPattern);
+
         public Plane()
         {
             _rootPoint = new Point3D(double.NaN, double.NaN, double.NaN);
@@ -27,26 +25,27 @@
             : this(new UnitVector3D(a, b, c), -d)
         {
         }
+
         public Plane(UnitVector3D normal, double offset = 0)
         {
             _normal = normal;
             _rootPoint = (offset * _normal).ToPoint3D();
         }
+
         public Plane(UnitVector3D normal, Point3D rootPoint)
             : this(rootPoint, normal)
         {
         }
+
         public Plane(Point3D rootPoint, UnitVector3D normal)
         {
             _rootPoint = rootPoint;
             _normal = normal;
         }
+
         public static Plane Parse(string s)
         {
-            var match = Regex.Match(s, PlanePattern);
-            var p = Point3D.Parse(match.Groups["p"].Value);
-            var uv = UnitVector3D.Parse(match.Groups["v"].Value);
-            return new Plane(p, uv);
+            return Parser.ParsePlane(s);
         }
 
         public double A
@@ -80,7 +79,6 @@
                 var vector = RootPoint.ToVector();
                 return -vector.DotProduct(Normal);
             }
-            //private set { RootPoint = new Point3D(Normal.Multiply(-value)); }
         }
 
         public UnitVector3D Normal
@@ -171,6 +169,7 @@
 
         /// <summary>
         /// Finds the intersection of the two planes, throws if they are paralell
+        /// http://mathworld.wolfram.com/Plane-PlaneIntersection.html
         /// </summary>
         /// <param name="intersectingPlane"></param>
         /// <param name="tolerance"></param>
@@ -180,18 +179,19 @@
             var a = new DenseMatrix(2, 3);
             a.SetRow(0, Normal.ToDenseVector());
             a.SetRow(1, intersectingPlane.Normal.ToDenseVector());
-
             var svd = a.Svd(true);
-            if (svd.Rank != 2)
+            if (svd.S[1] < tolerance)
+            {
                 throw new ArgumentException("Planes are parallel");
+            }
             var y = new DenseMatrix(2, 1);
-            y[0, 0] = D;
-            y[1, 0] = intersectingPlane.D;
+            y[0, 0] = -1 * D;
+            y[1, 0] = -1 * intersectingPlane.D;
 
             Matrix<double> pointOnIntersectionLine = svd.Solve(y);
             var throughPoint = new Point3D(pointOnIntersectionLine.Column(0));
 
-            var direction = new UnitVector3D(svd.VT.Column(2));
+            var direction = new UnitVector3D(svd.VT.Row(2));
 
             return new Ray3D(throughPoint, direction);
         }

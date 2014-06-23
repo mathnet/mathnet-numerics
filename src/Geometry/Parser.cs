@@ -1,4 +1,4 @@
-﻿namespace Geometry
+﻿namespace MathNet.Geometry
 {
     using System;
     using System.Globalization;
@@ -12,6 +12,8 @@
         public static readonly string Vector3DPattern = String.Format(@"^ *\(?(?<x>{0}){1}(?<y>{0}){1}(?<z>{0})\)? *$", DoublePattern, SeparatorPattern);
         public static readonly string Vector2DPattern = String.Format(@"^ *\(?(?<x>{0}){1}(?<y>{0})?\)? *$", DoublePattern, SeparatorPattern);
         public const string UnitValuePattern = @"^(?: *)(?<Value>[+-]?\d+([eE][+-]\d+)?([.,]\d+)?) *(?<Unit>.+) *$";
+        private static string _item3DPattern = Vector3DPattern.Trim('^', '$');
+        public static readonly string PlanePattern = String.Format(@"^ *p: *{{(?<p>{0})}} *v: *{{(?<v>{0})}} *$", _item3DPattern);
 
         internal static double[] ParseItem2D(string vectorString)
         {
@@ -40,7 +42,15 @@
 
         public static double ParseDouble(string s)
         {
-            return double.Parse(s.Replace(',', '.'), CultureInfo.InvariantCulture);
+            return Double.Parse(s.Replace(',', '.'), CultureInfo.InvariantCulture);
+        }
+
+        public static Plane ParsePlane(string s)
+        {
+            var match = Regex.Match(s, PlanePattern);
+            var p = Point3D.Parse(match.Groups["p"].Value);
+            var uv = UnitVector3D.Parse(match.Groups["v"].Value);
+            return new Plane(p, uv);
         }
     }
 }

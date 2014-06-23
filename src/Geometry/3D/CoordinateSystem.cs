@@ -1,4 +1,4 @@
-namespace Geometry
+namespace MathNet.Geometry
 {
     using System;
     using System.Linq;
@@ -15,14 +15,14 @@ namespace Geometry
     public class CoordinateSystem : DenseMatrix, IEquatable<CoordinateSystem>, IXmlSerializable
     {
         private static string _item3DPattern = Parser.Vector3DPattern.Trim('^', '$');
-        
+
         public static readonly string CsPattern = string.Format(@"^ *o: *{{(?<op>{0})}} *x: *{{(?<xv>{0})}} *y: *{{(?<yv>{0})}} *z: *{{(?<zv>{0})}} *$", _item3DPattern);
 
         public CoordinateSystem()
             : this(new Point3D(0, 0, 0), UnitVector3D.XAxis.ToVector3D(), UnitVector3D.YAxis.ToVector3D(), UnitVector3D.ZAxis.ToVector3D())
         {
         }
-        
+
         public CoordinateSystem(Vector3D xAxis, Vector3D yAxis, Vector3D zAxis, Point3D origin)
             : this(origin, xAxis, yAxis, zAxis)
         {
@@ -32,7 +32,7 @@ namespace Geometry
             : this(origin, xAxis.ToVector3D(), yAxis.ToVector3D(), zAxis.ToVector3D())
         {
         }
-        
+
         public CoordinateSystem(Point3D origin, Vector3D xAxis, Vector3D yAxis, Vector3D zAxis)
             : base(4)
         {
@@ -41,7 +41,7 @@ namespace Geometry
             base.SetColumn(2, new[] { zAxis.X, zAxis.Y, zAxis.Z, 0 });
             base.SetColumn(3, new[] { origin.X, origin.Y, origin.Z, 1 });
         }
-        
+
         ////public CoordinateSystem(Vector3D x, Vector3D y, Vector3D z, Vector3D offsetToBase)
         ////    : this(x, y, z, offsetToBase.ToPoint3D())
         ////{
@@ -54,7 +54,7 @@ namespace Geometry
             if (matrix.ColumnCount != 4)
                 throw new ArgumentException("Rowcount must be 4");
         }
-        
+
         public Vector3D XAxis
         {
             get
@@ -70,7 +70,7 @@ namespace Geometry
                 return new Vector3D(base.SubMatrix(0, 3, 1, 1).ToRowWiseArray());
             }
         }
-        
+
         public Vector3D ZAxis
         {
             get
@@ -78,7 +78,7 @@ namespace Geometry
                 return new Vector3D(base.SubMatrix(0, 3, 2, 1).ToRowWiseArray());
             }
         }
-        
+
         public Point3D Origin
         {
             get
@@ -94,7 +94,7 @@ namespace Geometry
                 return Origin.ToVector();
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -106,10 +106,12 @@ namespace Geometry
                 matrix.SetColumn(0, XAxis.ToDenseVector());
                 matrix.SetColumn(1, YAxis.ToDenseVector());
                 matrix.SetColumn(2, ZAxis.ToDenseVector());
-                return SetRotationSubMatrix(matrix.Transpose());
+                var cs = new CoordinateSystem(this);
+                cs.SetRotationSubMatrix(matrix.Transpose());
+                return cs;
             }
         }
-        
+
         public static CoordinateSystem Parse(string s)
         {
             var match = Regex.Match(s, CsPattern, RegexOptions.IgnoreCase | RegexOptions.CultureInvariant | RegexOptions.Singleline);
@@ -119,7 +121,7 @@ namespace Geometry
             var z = Vector3D.Parse(match.Groups["zv"].Value);
             return new CoordinateSystem(o, x, y, z);
         }
-        
+
         /// <summary>
         /// Sets to the matrix of rotation that aligns the 'from' vector with the 'to' vector. 
         /// The optional Axis argument may be used when the two vectors are perpendicular and in opposite directions to specify a specific solution, but is otherwise ignored.
@@ -129,26 +131,26 @@ namespace Geometry
         /// <param name="axis">Input Vector object. </param>
         public static CoordinateSystem RotateTo(UnitVector3D fromVector3D, UnitVector3D toVector3D, UnitVector3D? axis = null)
         {
-            Matrix<double> r = RotationMatrices.RotationTo(fromVector3D, toVector3D, axis);
+            Matrix<double> r = Matrix3D.RotationTo(fromVector3D, toVector3D, axis);
             var coordinateSystem = new CoordinateSystem();
             CoordinateSystem cs = SetRotationSubMatrix(r, coordinateSystem);
             return cs;
         }
-        
+
         public static CoordinateSystem Rotation<T>(double a, T unit, UnitVector3D v) where T : IAngleUnit
         {
             return Rotation(Angle.From(a, unit), v);
         }
-        
+
         public static CoordinateSystem Rotation<T>(double a, T unit, Vector3D v) where T : IAngleUnit
         {
             return Rotation(Angle.From(a, unit), v.Normalize());
         }
-        
+
         public static CoordinateSystem Rotation(Angle av, UnitVector3D v)
         {
             var m = new DenseMatrix(4, 4);
-            m.SetSubMatrix(0, 3, 0, 3, RotationMatrices.RotationAroundArbitraryVector(v, av));
+            m.SetSubMatrix(0, 3, 0, 3, Matrix3D.RotationAroundArbitraryVector(v, av));
             m[3, 3] = 1;
             return new CoordinateSystem(m);
         }
@@ -171,7 +173,7 @@ namespace Geometry
             var rt = Roll(ra);
             return rt.Transform(pt.Transform(yt.Transform(cs)));
         }
-        
+
         /// <summary>
         /// Rotates around Z
         /// </summary>
@@ -181,7 +183,7 @@ namespace Geometry
         {
             return Yaw(Angle.From(a, unit));
         }
-        
+
         /// <summary>
         /// Rotates around Z
         /// </summary>
@@ -190,7 +192,7 @@ namespace Geometry
         {
             return Rotation(av, UnitVector3D.ZAxis);
         }
-        
+
         /// <summary>
         /// Rotates around Y
         /// </summary>
@@ -200,7 +202,7 @@ namespace Geometry
         {
             return Pitch(Angle.From(a, unit));
         }
-        
+
         /// <summary>
         /// Rotates around Y
         /// </summary>
@@ -209,7 +211,7 @@ namespace Geometry
         {
             return Rotation(av, UnitVector3D.YAxis);
         }
-        
+
         /// <summary>
         /// Rotates around X
         /// </summary>
@@ -217,9 +219,9 @@ namespace Geometry
         /// <param name="unit"></param>
         public static CoordinateSystem Roll<T>(double a, T unit) where T : IAngleUnit
         {
-            return Roll(new Angle(a, unit));
+            return Roll(Angle.From(a, unit));
         }
-        
+
         /// <summary>
         /// Rotates around X
         /// </summary>
@@ -228,19 +230,17 @@ namespace Geometry
         {
             return Rotation(av, UnitVector3D.XAxis);
         }
-        
+
         /// <summary>
         /// Creates a coordinate system that maps from the 'from' coordinate system to the 'to' coordinate system.
         /// </summary>
         public static CoordinateSystem CreateMappingCoordinateSystem(CoordinateSystem fromCs, CoordinateSystem toCs)
         {
-            var cs = fromCs.Invert().TransformBy(toCs);
-            var fromOriginInGlobal = fromCs.Origin.TransformBy(fromCs.GetRotationSubMatrix().Inverse());
-            var toOriginInGlobal = toCs.Origin.TransformBy(toCs.GetRotationSubMatrix().Inverse());
-            var v = toOriginInGlobal - fromOriginInGlobal;
-            return cs.SetTranslation(v);
+            var m = toCs.Multiply(fromCs.Inverse());
+            m[3, 3] = 1;
+            return new CoordinateSystem(m);
         }
-        
+
         /// <summary>
         /// Sets this matrix to be the matrix that maps from the 'from' coordinate system to the 'to' coordinate system.
         /// </summary>
@@ -259,12 +259,12 @@ namespace Geometry
             CoordinateSystem mcs = CreateMappingCoordinateSystem(cs1, cs2);
             return mcs;
         }
-        
+
         public static CoordinateSystem Translation(Vector3D translation)
         {
             return new CoordinateSystem(translation.ToPoint3D(), UnitVector3D.XAxis, UnitVector3D.YAxis, UnitVector3D.ZAxis);
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -274,26 +274,26 @@ namespace Geometry
         {
             if (r.RowCount != 3 || r.ColumnCount != 3)
                 throw new ArgumentOutOfRangeException();
-            var cs = new CoordinateSystem(coordinateSystem);
+            var cs = new CoordinateSystem(coordinateSystem.Origin, coordinateSystem.XAxis, coordinateSystem.YAxis,coordinateSystem.ZAxis);
             cs.SetSubMatrix(0, r.RowCount, 0, r.ColumnCount, r);
             return cs;
         }
-        
+
         public static Matrix<double> GetRotationSubMatrix(CoordinateSystem coordinateSystem)
         {
             return coordinateSystem.SubMatrix(0, 3, 0, 3);
         }
-        
+
         public static bool operator ==(CoordinateSystem left, CoordinateSystem right)
         {
             return Equals(left, right);
         }
-        
+
         public static bool operator !=(CoordinateSystem left, CoordinateSystem right)
         {
             return !Equals(left, right);
         }
-        
+
         ////public CoordinateSystem SetCoordinateSystem(Matrix<double> matrix)
         ////{
         ////    if (matrix.ColumnCount != 4 || matrix.RowCount != 4)
@@ -314,16 +314,16 @@ namespace Geometry
         public CoordinateSystem RotateCoordSysAroundVector<T>(Vector3D aboutVector3D, double angle, T angleUnit)
             where T : IAngleUnit
         {
-            var rcs = Rotation(new Angle(angle, angleUnit), aboutVector3D.Normalize());
+            var rcs = Rotation(Angle.From(angle, angleUnit), aboutVector3D.Normalize());
             return rcs.Transform(this);
         }
-       
+
         public CoordinateSystem RotateNoReset<T>(double yaw, double pitch, double roll, T angleUnit) where T : IAngleUnit
         {
             var rcs = Rotation(yaw, pitch, roll, angleUnit);
             return rcs.Transform(this);
         }
-        
+
         public Ray3D TransformToCoordSys(Ray3D r)
         {
             var p = r.ThroughPoint;
@@ -335,14 +335,14 @@ namespace Geometry
             var direction = uv.TransformBy(baseChangeMatrix);
             return new Ray3D(point, direction);
         }
-        
+
         public Point3D TransformToCoordSys(Point3D p)
         {
             var baseChangeMatrix = BaseChangeMatrix;
             var point = baseChangeMatrix.Transform(p) + OffsetToBase;
             return point;
         }
-        
+
         public Ray3D TransformFromCoordSys(Ray3D r)
         {
             var p = r.ThroughPoint;
@@ -353,63 +353,63 @@ namespace Geometry
             var direction = BaseChangeMatrix.Invert().Transform(uv);
             return new Ray3D(point, direction);
         }
-        
+
         public Point3D TransformFromCoordSys(Point3D p)
         {
             var point = BaseChangeMatrix.Invert().Transform(p) + OffsetToBase;
             return point;
         }
-        
+
         public CoordinateSystem SetRotationSubMatrix(Matrix<double> r)
         {
             return SetRotationSubMatrix(r, this);
         }
-        
-        private CoordinateSystem SetTranslation(Vector3D v)
+
+        public CoordinateSystem SetTranslation(Vector3D v)
         {
             return new CoordinateSystem(v.ToPoint3D(), XAxis, YAxis, ZAxis);
         }
-        
+
         public Matrix<double> GetRotationSubMatrix()
         {
             return GetRotationSubMatrix(this);
         }
-        
+
         public Vector3D Transform(Vector3D v)
         {
             return new Vector3D(Transform3DItem(v.ToDenseVector()));
         }
-        
+
         public Vector3D Transform(UnitVector3D v)
         {
             return new Vector3D(Transform3DItem(v.ToDenseVector()));
         }
-        
+
         public Point3D Transform(Point3D p)
         {
             return new Point3D(Transform3DItem(p.ToDenseVector()));
         }
-        
+
         public CoordinateSystem Transform(CoordinateSystem cs)
         {
             return new CoordinateSystem(base.Multiply(cs));
         }
-        
+
         public Line3D Transform(Line3D l)
         {
             return new Line3D(Transform(l.StartPoint), Transform(l.EndPoint));
         }
-        
+
         public CoordinateSystem TransformBy(Matrix<double> matrix)
         {
             return new CoordinateSystem(matrix.Multiply(this));
         }
-        
+
         public CoordinateSystem TransformBy(CoordinateSystem cs)
         {
             return cs.Transform(this);
         }
-        
+
         /////// <summary>
         /////// Rotates a straight coordinate system around Z then around Y and then around X
         /////// </summary>
@@ -441,7 +441,7 @@ namespace Geometry
                 return false;
             return !Values.Where((t, i) => Math.Abs(other.Values[i] - t) > 1E-15).Any();
         }
-        
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
@@ -449,7 +449,7 @@ namespace Geometry
             if (obj.GetType() != typeof(CoordinateSystem)) return false;
             return Equals((CoordinateSystem)obj);
         }
-        
+
         public override int GetHashCode()
         {
             unchecked
@@ -461,7 +461,7 @@ namespace Geometry
                 return result;
             }
         }
-        
+
         public new string ToString()
         {
             return string.Format("Origin: {0}, XAxis: {1}, YAxis: {2}, ZAxis: {3}", Origin, XAxis, YAxis, ZAxis);
@@ -471,7 +471,7 @@ namespace Geometry
         {
             return null;
         }
-        
+
         public void ReadXml(XmlReader reader)
         {
             var e = (XElement)XNode.ReadFrom(reader);
@@ -492,7 +492,7 @@ namespace Geometry
             origin.ReadXml(e.SingleElementReader("Origin"));
             base.SetColumn(3, new[] { origin.X, origin.Y, origin.Z, 1 });
         }
-        
+
         public void WriteXml(XmlWriter writer)
         {
             writer.WriteElement("Origin", Origin);
@@ -500,7 +500,7 @@ namespace Geometry
             writer.WriteElement("YAxis", YAxis);
             writer.WriteElement("ZAxis", ZAxis);
         }
-        
+
         private double[] Transform3DItem(DenseVector item)
         {
             if (item.Count != 3)

@@ -1,4 +1,4 @@
-namespace Geometry.Units
+namespace MathNet.Geometry.Units
 {
     public interface IUnit
     {

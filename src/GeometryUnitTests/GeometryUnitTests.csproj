@@ -7,8 +7,8 @@
     <ProjectGuid>{79785508-B059-4DFA-B408-15588C551DC6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GeometryUnitTests</RootNamespace>
-    <AssemblyName>GeometryUnitTests</AssemblyName>
+    <RootNamespace>MathNet.GeometryUnitTests</RootNamespace>
+    <AssemblyName>MathNet.GeometryUnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,7 +46,7 @@
     <Compile Include="2D\Point2DTests.cs" />
     <Compile Include="2D\Vector2DTests.cs" />
     <Compile Include="3D\CoordinateSystemTest.cs" />
-    <Compile Include="3D\LineTest.cs" />
+    <Compile Include="3D\Line3DTests.cs" />
     <Compile Include="3D\PlaneTest.cs" />
     <Compile Include="3D\Point3DTests.cs" />
     <Compile Include="3D\Ray3DTests.cs" />
@@ -55,6 +55,7 @@
     <Compile Include="AssertXml.cs" />
     <Compile Include="LinearAlgebraAssert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SandBox\Solve.cs" />
     <Compile Include="Unts\AngleTests.cs" />
   </ItemGroup>
   <ItemGroup>

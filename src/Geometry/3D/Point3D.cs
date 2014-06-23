@@ -1,7 +1,8 @@
-namespace Geometry
+namespace MathNet.Geometry
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.Linq;
     using System.Xml;
@@ -197,9 +198,9 @@ namespace Geometry
 
         public static Point3D ReadFrom(XmlReader reader)
         {
-            var v = new Point3D();
-            v.ReadXml(reader);
-            return v;
+            var p = new Point3D();
+            p.ReadXml(reader);
+            return p;
         }
 
         #endregion Common
@@ -274,15 +275,15 @@ namespace Geometry
         }
 
         // Not sure a ref to System.Windows.Media.Media3D is nice
-        //public static explicit operator Point3D(System.Windows.Media.Media3D.Point3D p)
-        //{
-        //    return new Point3D(p.X, p.Y, p.Z);
-        //}
+        ////public static explicit operator Point3D(System.Windows.Media.Media3D.Point3D p)
+        ////{
+        ////    return new Point3D(p.X, p.Y, p.Z);
+        ////}
 
-        //public static explicit operator System.Windows.Media.Media3D.Point3D(Point3D p)
-        //{
-        //    return new System.Windows.Media.Media3D.Point3D(p.X, p.Y, p.Z);
-        //}
+        ////public static explicit operator System.Windows.Media.Media3D.Point3D(Point3D p)
+        ////{
+        ////    return new System.Windows.Media.Media3D.Point3D(p.X, p.Y, p.Z);
+        ////}
 
         public Point3D MirrorAbout(Plane plane)
         {
@@ -305,6 +306,7 @@ namespace Geometry
             return cs.Transform(this);
         }
 
+        [Pure]
         public Vector3D VectorTo(Point3D p)
         {
             return p - this;
