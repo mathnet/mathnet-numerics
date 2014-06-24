@@ -1,3 +1,6 @@
+### 3.0.1 - 2014-06-22
+* Patch release, fixing a bug in new Matrix.ToMatrixString and Vector.ToVectorString routines.
+
 ### 3.0.0 - 2014-06-21
 * First stable v3 release:
    * [Upgrade Notes](https://github.com/mathnet/mathnet-numerics/wiki/Upgrading-to-Version-3)
@@ -22,7 +25,7 @@
    * FoldRows renamed to FoldByRow, now operates on and returns arrays; same for columns. **Breaking.**
    * New FoldRows and ReduceRows that operate on row vectors; same for columns
    * Split Map into Map and MapConvert (allows optimization in common in-place case)
-   * Row and columns sums and absolute-sums
+   * Row and column sums and absolute-sums
    * F# DiagonalMatrix module to create diagonal matrices without using the builder
    * F# Matrix module extended with sumRows, sumAbsRows, normRows; same for columns
 * Build: extend build and release automation, automatic releases also for data extensions and native providers
