@@ -121,34 +121,19 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the Pareto(1, 3) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Pareto(1, 3) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = pareto.Sample();
-            }
-
+            Pareto.Samples(data, 1.0, 3.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Pareto(1, 1) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Pareto(1, 1) distribution and display histogram");
-            pareto.Shape = 1;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = pareto.Sample();
-            }
-
+            Pareto.Samples(data, 1.0, 1.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Pareto(10, 5) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Pareto(10, 50) distribution and display histogram");
-            pareto.Shape = 50;
-            pareto.Scale = 10;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = pareto.Sample();
-            }
-
+            Pareto.Samples(data, 10.0, 50.0);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

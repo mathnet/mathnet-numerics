@@ -115,35 +115,19 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the FisherSnedecor(50, 20) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the FisherSnedecor(50, 20) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = fisherSnedecor.Sample();
-            }
-
+            FisherSnedecor.Samples(data, 50, 20);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the FisherSnedecor(20, 10) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the FisherSnedecor(20, 10) distribution and display histogram");
-            fisherSnedecor.DegreesOfFreedom1 = 20;
-            fisherSnedecor.DegreesOfFreedom2 = 10;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = fisherSnedecor.Sample();
-            }
-
+            FisherSnedecor.Samples(data, 20, 10);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the FisherSnedecor(100, 100) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the FisherSnedecor(100, 100) distribution and display histogram");
-            fisherSnedecor.DegreesOfFreedom1 = 100;
-            fisherSnedecor.DegreesOfFreedom2 = 100;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = fisherSnedecor.Sample();
-            }
-
+            FisherSnedecor.Samples(data, 100, 100);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

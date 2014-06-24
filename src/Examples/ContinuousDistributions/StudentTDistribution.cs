@@ -117,32 +117,18 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the StudentT(0, 1, 1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the StudentT(0, 1, 1) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = studentT.Sample();
-            }
-
+            StudentT.Samples(data, 0, 1, 1);
             ConsoleHelper.DisplayHistogram(data);
 
             // 5. Generate 100000 samples of the StudentT(0, 1, 5) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the StudentT(0, 1, 5) distribution and display histogram");
-            studentT.DegreesOfFreedom = 5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = studentT.Sample();
-            }
-
+            StudentT.Samples(data, 0, 1, 5);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the StudentT(0, 1, 10) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the StudentT(0, 1, 10) distribution and display histogram");
-            studentT.DegreesOfFreedom = 10;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = studentT.Sample();
-            }
-
+            StudentT.Samples(data, 0, 1, 10);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

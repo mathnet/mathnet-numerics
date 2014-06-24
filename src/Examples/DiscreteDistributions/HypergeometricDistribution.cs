@@ -114,25 +114,14 @@ namespace Examples.DiscreteDistributionsExamples
 
             // 4. Generate 100000 samples of the Hypergeometric(30, 15, 10) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Hypergeometric(30, 15, 10) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = hypergeometric.Sample();
-            }
-
+            var data = new int[100000];
+            Hypergeometric.Samples(data, 30, 15, 10);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Hypergeometric(52, 13, 5) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Hypergeometric(52, 13, 5) distribution and display histogram");
-            hypergeometric.Population = 52;
-            hypergeometric.Success = 13;
-            hypergeometric.Draws = 5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = hypergeometric.Sample();
-            }
-
+            Hypergeometric.Samples(data, 52, 13, 5);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

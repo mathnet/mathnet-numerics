@@ -118,33 +118,19 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the Chi(1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Chi(1) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = chi.Sample();
-            }
-
+            Chi.Samples(data, 1);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Chi(2) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Chi(2) distribution and display histogram");
-            chi.DegreesOfFreedom = 2;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = chi.Sample();
-            }
-
+            Chi.Samples(data, 2);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Chi(5) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Chi(5) distribution and display histogram");
-            chi.DegreesOfFreedom = 5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = chi.Sample();
-            }
-
+            Chi.Samples(data, 5);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

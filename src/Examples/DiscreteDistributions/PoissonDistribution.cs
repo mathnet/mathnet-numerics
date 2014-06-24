@@ -120,34 +120,20 @@ namespace Examples.DiscreteDistributionsExamples
 
             // 4. Generate 100000 samples of the Poisson(1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Poisson(1) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = poisson.Sample();
-            }
-
+            var data = new int[100000];
+            Poisson.Samples(data, 1);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Poisson(4) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Poisson(4) distribution and display histogram");
-            poisson.Lambda = 4;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = poisson.Sample();
-            }
-
+            Poisson.Samples(data, 4);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Poisson(10) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Poisson(10) distribution and display histogram");
-            poisson.Lambda = 10;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = poisson.Sample();
-            }
-
+            Poisson.Samples(data, 10);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

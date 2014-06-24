@@ -25,20 +25,22 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Statistics;
 
 namespace Examples
 {
     /// <summary>
-    /// Helper fucntions to output into Console window
+    /// Helper functions to output into Console window
     /// </summary>
     public static class ConsoleHelper
     {
         /// <summary>
-        /// Disoplay histogram from the array
+        /// Display histogram from the array
         /// </summary>
         /// <param name="data">Source array</param>
-        public static void DisplayHistogram(double[] data)
+        public static void DisplayHistogram(IEnumerable<double> data)
         {
             var blockSymbol = Convert.ToChar(9608);
 
@@ -48,7 +50,7 @@ namespace Examples
 
             var histogram = new Histogram(data, rowMaxLength);
 
-            // Find the absolute peak 
+            // Find the absolute peak
             var maxBucketCount = 0.0;
             for (var i = 0; i < histogram.BucketCount; i++)
             {
@@ -104,6 +106,15 @@ namespace Examples
             Console.Write(rightLabel);
 
             Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Display histogram from the array
+        /// </summary>
+        /// <param name="data">Source array</param>
+        public static void DisplayHistogram(IEnumerable<int> data)
+        {
+            DisplayHistogram(data.Select(x => (double)x));
         }
     }
 }

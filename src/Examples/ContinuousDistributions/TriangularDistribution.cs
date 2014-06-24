@@ -63,7 +63,7 @@ namespace Examples.ContinuousDistributionsExamples
         /// <a href="https://en.wikipedia.org/wiki/Triangular_distribution">Triangular distribution</a>
         public void Run()
         {
-            // 1. Initialize 
+            // 1. Initialize
             var triangular = new Triangular(0, 1, 0.3);
             Console.WriteLine(@"1. Initialize the new instance of the Triangular distribution class with parameters Lower = {0}, Upper = {1}, Mode = {2}", triangular.LowerBound, triangular.UpperBound, triangular.Mode);
             Console.WriteLine();
@@ -119,26 +119,15 @@ namespace Examples.ContinuousDistributionsExamples
             Console.WriteLine();
 
             // 10000 samples with starting parameters
-            Console.WriteLine(@"4. Generate 100000 samples of the Triangular({0}, {1}, {2}) distribution and display histogram", triangular.LowerBound, triangular.UpperBound, triangular.Mode);
+            Console.WriteLine(@"4. Generate 100000 samples of the Triangular(0, 1, 0.3) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = triangular.Sample();
-            }
-
+            Triangular.Samples(data, 0.0, 1.0, 0.3);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 10000 with different parameters
-            triangular.UpperBound = 10;
-            triangular.Mode = 8;
-            triangular.LowerBound = 2;
-            Console.WriteLine(@"4. Generate 100000 samples of the Triangular({0}, {1}, {2}) distribution and display histogram", triangular.LowerBound, triangular.UpperBound, triangular.Mode);
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = triangular.Sample();
-            }
-
+            Console.WriteLine(@"4. Generate 100000 samples of the Triangular(2, 10, 8) distribution and display histogram");
+            Triangular.Samples(data, 2.0, 10.0, 8.0);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

@@ -117,34 +117,20 @@ namespace Examples.DiscreteDistributionsExamples
 
             // 4. Generate 100000 samples of the Bernoulli(0.2) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Bernoulli(0.2) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = bernoulli.Sample();
-            }
-
+            var data = new int[100000];
+            Bernoulli.Samples(data, 0.2);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Bernoulli(4) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Bernoulli(0.9) distribution and display histogram");
-            bernoulli.P = 0.9;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = bernoulli.Sample();
-            }
-
+            Bernoulli.Samples(data, 0.9);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Bernoulli(8) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Bernoulli(0.5) distribution and display histogram");
-            bernoulli.P = 0.5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = bernoulli.Sample();
-            }
-
+            Bernoulli.Samples(data, 0.5);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

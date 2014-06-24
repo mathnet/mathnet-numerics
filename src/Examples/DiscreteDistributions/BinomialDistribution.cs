@@ -120,35 +120,20 @@ namespace Examples.DiscreteDistributionsExamples
 
             // 4. Generate 100000 samples of the Binomial(0.2, 20) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Binomial(0.2, 20) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = binomial.Sample();
-            }
-
+            var data = new int[100000];
+            Binomial.Samples(data, 0.2, 20);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Binomial(0.7, 20) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Binomial(0.7, 20) distribution and display histogram");
-            binomial.P = 0.7;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = binomial.Sample();
-            }
-
+            Binomial.Samples(data, 0.7, 20);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Binomial(0.5, 40) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Binomial(0.5, 40) distribution and display histogram");
-            binomial.P = 0.5;
-            binomial.N = 40;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = binomial.Sample();
-            }
-
+            Binomial.Samples(data, 0.5, 40);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

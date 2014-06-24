@@ -118,36 +118,19 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the Stable(1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Stable(2, 0, 1, 0) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = stable.Sample();
-            }
-
+            Stable.Samples(data, 2, 0, 1, 0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Stable(1, 0, 1, 0) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Stable(1, 0, 1, 0) distribution and display histogram");
-            stable.Alpha = 1;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = stable.Sample();
-            }
-
+            Stable.Samples(data, 1, 0, 1, 0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Stable(1.5, 1, 1, 5) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Stable(1.5, 1, 1, 5) distribution and display histogram");
-            stable.Alpha = 1.5;
-            stable.Beta = 1;
-            stable.Location = 5;
-            stable.Scale = 5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = stable.Sample();
-            }
-
+            Stable.Samples(data, 1.5, 1, 1, 5);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

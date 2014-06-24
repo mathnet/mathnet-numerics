@@ -121,23 +121,13 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the ContinuousUniform(0, 1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the ContinuousUniform(0, 1) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = continuousUniform.Sample();
-            }
-
+            ContinuousUniform.Samples(data, 0.0, 1.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the ContinuousUniform(2, 10) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the ContinuousUniform(2, 10) distribution and display histogram");
-            continuousUniform.UpperBound = 10;
-            continuousUniform.LowerBound = 2;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = continuousUniform.Sample();
-            }
-
+            ContinuousUniform.Samples(data, 2, 10);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

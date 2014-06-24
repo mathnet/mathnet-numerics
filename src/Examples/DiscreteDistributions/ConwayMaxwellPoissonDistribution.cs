@@ -63,40 +63,40 @@ namespace Examples.DiscreteDistributionsExamples
         public void Run()
         {
             // 1. Initialize the new instance of the ConwayMaxwellPoisson distribution class with parameters Lambda = 2, Nu = 1
-            var binomial = new ConwayMaxwellPoisson(2, 1);
-            Console.WriteLine(@"1. Initialize the new instance of the ConwayMaxwellPoisson distribution class with parameters Lambda = {0}, Nu = {1}", binomial.Lambda, binomial.Nu);
+            var conwayMaxwellPoisson = new ConwayMaxwellPoisson(2, 1);
+            Console.WriteLine(@"1. Initialize the new instance of the ConwayMaxwellPoisson distribution class with parameters Lambda = {0}, Nu = {1}", conwayMaxwellPoisson.Lambda, conwayMaxwellPoisson.Nu);
             Console.WriteLine();
 
             // 2. Distributuion properties:
-            Console.WriteLine(@"2. {0} distributuion properties:", binomial);
+            Console.WriteLine(@"2. {0} distributuion properties:", conwayMaxwellPoisson);
 
             // Cumulative distribution function
-            Console.WriteLine(@"{0} - Сumulative distribution at location '3'", binomial.CumulativeDistribution(3).ToString(" #0.00000;-#0.00000"));
+            Console.WriteLine(@"{0} - Сumulative distribution at location '3'", conwayMaxwellPoisson.CumulativeDistribution(3).ToString(" #0.00000;-#0.00000"));
 
             // Probability density
-            Console.WriteLine(@"{0} - Probability mass at location '3'", binomial.Probability(3).ToString(" #0.00000;-#0.00000"));
+            Console.WriteLine(@"{0} - Probability mass at location '3'", conwayMaxwellPoisson.Probability(3).ToString(" #0.00000;-#0.00000"));
 
             // Log probability density
-            Console.WriteLine(@"{0} - Log probability mass at location '3'", binomial.ProbabilityLn(3).ToString(" #0.00000;-#0.00000"));
+            Console.WriteLine(@"{0} - Log probability mass at location '3'", conwayMaxwellPoisson.ProbabilityLn(3).ToString(" #0.00000;-#0.00000"));
 
             // Smallest element in the domain
-            Console.WriteLine(@"{0} - Smallest element in the domain", binomial.Minimum.ToString(" #0.00000;-#0.00000"));
+            Console.WriteLine(@"{0} - Smallest element in the domain", conwayMaxwellPoisson.Minimum.ToString(" #0.00000;-#0.00000"));
 
             // Mean
-            Console.WriteLine(@"{0} - Mean", binomial.Mean.ToString(" #0.00000;-#0.00000"));
+            Console.WriteLine(@"{0} - Mean", conwayMaxwellPoisson.Mean.ToString(" #0.00000;-#0.00000"));
             
             // Variance
-            Console.WriteLine(@"{0} - Variance", binomial.Variance.ToString(" #0.00000;-#0.00000"));
+            Console.WriteLine(@"{0} - Variance", conwayMaxwellPoisson.Variance.ToString(" #0.00000;-#0.00000"));
 
             // Standard deviation
-            Console.WriteLine(@"{0} - Standard deviation", binomial.StdDev.ToString(" #0.00000;-#0.00000"));
+            Console.WriteLine(@"{0} - Standard deviation", conwayMaxwellPoisson.StdDev.ToString(" #0.00000;-#0.00000"));
             Console.WriteLine();
 
             // 3. Generate 10 samples of the ConwayMaxwellPoisson distribution
             Console.WriteLine(@"3. Generate 10 samples of the ConwayMaxwellPoisson distribution");
             for (var i = 0; i < 10; i++)
             {
-                Console.Write(binomial.Sample().ToString("N05") + @" ");
+                Console.Write(conwayMaxwellPoisson.Sample().ToString("N05") + @" ");
             }
 
             Console.WriteLine();
@@ -104,35 +104,20 @@ namespace Examples.DiscreteDistributionsExamples
 
             // 4. Generate 100000 samples of the ConwayMaxwellPoisson(4, 1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the ConwayMaxwellPoisson(4, 1) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = binomial.Sample();
-            }
-
+            var data = new int[100000];
+            ConwayMaxwellPoisson.Samples(data, 4, 1);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the ConwayMaxwellPoisson(2, 1) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the ConwayMaxwellPoisson(2, 1) distribution and display histogram");
-            binomial.Lambda = 2;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = binomial.Sample();
-            }
-
+            ConwayMaxwellPoisson.Samples(data, 2, 1);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the ConwayMaxwellPoisson(5, 2) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the ConwayMaxwellPoisson(5, 2) distribution and display histogram");
-            binomial.Lambda = 5;
-            binomial.Nu = 2;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = binomial.Sample();
-            }
-
+            ConwayMaxwellPoisson.Samples(data, 5, 2);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

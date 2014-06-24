@@ -113,36 +113,21 @@ namespace Examples.DiscreteDistributionsExamples
             Console.WriteLine();
 
             // 4. Generate 100000 samples of the NegativeBinomial(0.2, 20) distribution and display histogram
-            Console.WriteLine(@"4. Generate 100000 samples of the NegativeBinomial(0.2, 20) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = negativeBinomial.Sample();
-            }
-
+            Console.WriteLine(@"4. Generate 100000 samples of the NegativeBinomial(20, 0.2) distribution and display histogram");
+            var data = new int[100000];
+            NegativeBinomial.Samples(data, 20, 0.2);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the NegativeBinomial(0.7, 20) distribution and display histogram
-            Console.WriteLine(@"5. Generate 100000 samples of the NegativeBinomial(0.7, 20) distribution and display histogram");
-            negativeBinomial.P = 0.7;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = negativeBinomial.Sample();
-            }
-
+            Console.WriteLine(@"5. Generate 100000 samples of the NegativeBinomial(20, 0.7) distribution and display histogram");
+            NegativeBinomial.Samples(data, 20, 0.7);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the NegativeBinomial(0.5, 1) distribution and display histogram
-            Console.WriteLine(@"6. Generate 100000 samples of the NegativeBinomial(0.5, 1) distribution and display histogram");
-            negativeBinomial.P = 0.5;
-            negativeBinomial.R = 1;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = negativeBinomial.Sample();
-            }
-
+            Console.WriteLine(@"6. Generate 100000 samples of the NegativeBinomial(1, 0.5) distribution and display histogram");
+            NegativeBinomial.Samples(data, 1, 0.5);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

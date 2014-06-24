@@ -111,24 +111,15 @@ namespace Examples.DiscreteDistributionsExamples
             Console.WriteLine();
 
             // 4. Generate 100000 samples of the Categorical(new []{ 0.1, 0.2, 0.25, 0.45 }) distribution and display histogram
-            Console.WriteLine(@"4. Generate 100000 samples of the Categorical(0.2, 20) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = binomial.Sample();
-            }
-
+            Console.WriteLine(@"4. Generate 100000 samples of the Categorical(0.1, 0.2, 0.25, 0.45) distribution and display histogram");
+            var data = new int[100000];
+            Categorical.Samples(data, new[] { 0.1, 0.2, 0.25, 0.45 });
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Categorical(new []{ 0.6, 0.2, 0.1, 0.1 }) distribution and display histogram
-            Console.WriteLine(@"5. Generate 100000 samples of the Categorical(0.7, 20) distribution and display histogram");
-            binomial.P = new[] { 0.6, 0.2, 0.1, 0.1 };
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = binomial.Sample();
-            }
-
+            Console.WriteLine(@"5. Generate 100000 samples of the Categorical(0.6, 0.2, 0.1, 0.1) distribution and display histogram");
+            Categorical.Samples(data, new[] { 0.6, 0.2, 0.1, 0.1 });
             ConsoleHelper.DisplayHistogram(data);
         }
     }

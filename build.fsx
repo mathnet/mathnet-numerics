@@ -533,6 +533,11 @@ Target "PublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics" "" packageVe
 Target "NativePublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Native Providers" "native-" nativePackageVersion nativeReleaseNotes)
 Target "DataPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Data Extensions" "data-" dataPackageVersion dataReleaseNotes)
 
+Target "PublishMirrors" (fun _ ->
+    let repo = "../mirror-numerics"
+    Git.CommandHelper.runSimpleGitCommand repo "remote update" |> printfn "%s"
+    Git.CommandHelper.runSimpleGitCommand repo "push mirrors" |> printfn "%s")
+
 Target "PublishDocs" (fun _ ->
     let repo = "../mathnet-websites"
     Git.Branches.pull repo "origin" "master"

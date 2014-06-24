@@ -118,34 +118,19 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the Erlang(1, 2.0) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Erlang(1, 2.0) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = erlang.Sample();
-            }
-
+            Erlang.Samples(data, 1, 2.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Erlang(3, 2.0) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Erlang(3, 2.0) distribution and display histogram");
-            erlang.Shape = 3;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = erlang.Sample();
-            }
-
+            Erlang.Samples(data, 3, 2.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Erlang(9, 0.5) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Erlang(9, 0.5) distribution and display histogram");
-            erlang.Shape = 9;
-            erlang.Scale = 0.5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = erlang.Sample();
-            }
-
+            Erlang.Samples(data, 9, 0.5);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

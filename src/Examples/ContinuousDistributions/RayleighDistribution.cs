@@ -121,33 +121,19 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the Rayleigh(1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Rayleigh(1) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = rayleigh.Sample();
-            }
-
+            Rayleigh.Samples(data, 1.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Rayleigh(4) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Rayleigh(4) distribution and display histogram");
-            rayleigh.Scale = 4;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = rayleigh.Sample();
-            }
-
+            Rayleigh.Samples(data, 4.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Rayleigh(0.5) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Rayleigh(0.5) distribution and display histogram");
-            rayleigh.Scale = 0.5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = rayleigh.Sample();
-            }
-
+            Rayleigh.Samples(data, 0.5);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

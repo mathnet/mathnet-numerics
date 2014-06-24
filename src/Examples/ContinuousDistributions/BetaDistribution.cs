@@ -118,47 +118,25 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the Beta(5, 1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Beta(5, 1) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = beta.Sample();
-            }
-
+            Beta.Samples(data, 5, 1);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Beta(2, 5) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Beta(2, 5) distribution and display histogram");
-            beta.A = 2;
-            beta.B = 5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = beta.Sample();
-            }
-
+            Beta.Samples(data, 2, 5);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Beta distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Beta(0.5, 0.5) distribution and display histogram");
-            beta.A = 0.5;
-            beta.B = 0.5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = beta.Sample();
-            }
-
+            Beta.Samples(data, 0.5, 0.5);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 7. Generate 100000 samples of the Beta distribution and display histogram
             Console.WriteLine(@"7. Generate 100000 samples of the Beta(2, 2) distribution and display histogram");
-            beta.A = 2;
-            beta.B = 2;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = beta.Sample();
-            }
-
+            Beta.Samples(data, 2, 2);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

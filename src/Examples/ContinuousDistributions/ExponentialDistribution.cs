@@ -121,33 +121,19 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the Exponential(1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Exponential(1) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = exponential.Sample();
-            }
-
+            Exponential.Samples(data, 1.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Exponential(9) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Exponential(9) distribution and display histogram");
-            exponential.Rate = 9;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = exponential.Sample();
-            }
-
+            Exponential.Samples(data, 9.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Exponential(0.01) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Exponential(0.01) distribution and display histogram");
-            exponential.Rate = 0.01;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = exponential.Sample();
-            }
-
+            Exponential.Samples(data, 0.01);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

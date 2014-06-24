@@ -118,33 +118,19 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the InverseGamma(4, 0.5) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the InverseGamma(4, 0.5) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = inverseGamma.Sample();
-            }
-
+            InverseGamma.Samples(data, 4, 0.5);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the InverseGamma(8, 0.5) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the InverseGamma(8, 0.5) distribution and display histogram");
-            inverseGamma.Shape = 8;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = inverseGamma.Sample();
-            }
-
+            InverseGamma.Samples(data, 8, 0.5);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the InverseGamma(2, 1) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the InverseGamma(8, 2) distribution and display histogram");
-            inverseGamma.Scale = 2;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = inverseGamma.Sample();
-            }
-
+            InverseGamma.Samples(data, 8, 2);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

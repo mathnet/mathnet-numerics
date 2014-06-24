@@ -117,35 +117,20 @@ namespace Examples.DiscreteDistributionsExamples
 
             // 4. Generate 100000 samples of the Zipf(5, 10) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Zipf(5, 10) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = zipf.Sample();
-            }
-
+            var data = new int[100000];
+            Zipf.Samples(data, 5, 10);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Zipf(2, 10) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Zipf(2, 10) distribution and display histogram");
-            zipf.S = 2;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = zipf.Sample();
-            }
-
+            Zipf.Samples(data, 2, 10);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Zipf(5, 20) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Zipf(1, 20) distribution and display histogram");
-            zipf.S = 1;
-            zipf.N = 20;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = zipf.Sample();
-            }
-
+            Zipf.Samples(data, 1, 20);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

@@ -120,36 +120,20 @@ namespace Examples.DiscreteDistributionsExamples
 
             // 4. Generate 100000 samples of the DiscreteUniform(2, 10) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the DiscreteUniform(2, 10) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = discreteUniform.Sample();
-            }
-
+            var data = new int[100000];
+            DiscreteUniform.Samples(data, 2, 10);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the DiscreteUniform(-10, 10) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the DiscreteUniform(-10, 10) distribution and display histogram");
-            discreteUniform.LowerBound = -10;
-            discreteUniform.UpperBound = 10;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = discreteUniform.Sample();
-            }
-
+            DiscreteUniform.Samples(data, -10, 10);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the DiscreteUniform(0, 40) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the DiscreteUniform(0, 40) distribution and display histogram");
-            discreteUniform.LowerBound = 0;
-            discreteUniform.UpperBound = 40;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = discreteUniform.Sample();
-            }
-
+            DiscreteUniform.Samples(data, 0, 40);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

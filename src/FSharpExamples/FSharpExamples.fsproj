@@ -70,6 +70,8 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Numerics" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\FSharp\FSharp.fsproj">
       <Name>FSharp</Name>
       <Project>{37e8e802-a354-4114-bfc1-6e1357da605b}</Project>

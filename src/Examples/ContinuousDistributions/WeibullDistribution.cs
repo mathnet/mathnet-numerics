@@ -121,33 +121,19 @@ namespace Examples.ContinuousDistributionsExamples
             // 4. Generate 100000 samples of the Weibull(0.5, 1) distribution and display histogram
             Console.WriteLine(@"4. Generate 100000 samples of the Weibull(0.5, 1) distribution and display histogram");
             var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = weibull.Sample();
-            }
-
+            Weibull.Samples(data, 0.5, 1.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Weibull(1.5, 1) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Weibull(1.5, 1) distribution and display histogram");
-            weibull.Shape = 1.5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = weibull.Sample();
-            }
-
+            Weibull.Samples(data, 1.5, 1.0);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Weibull(5, 1) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Weibull(5, 1) distribution and display histogram");
-            weibull.Shape = 5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = weibull.Sample();
-            }
-
+            Weibull.Samples(data, 5.0, 1.0);
             ConsoleHelper.DisplayHistogram(data);
         }
     }

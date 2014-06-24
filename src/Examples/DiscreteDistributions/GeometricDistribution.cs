@@ -119,35 +119,21 @@ namespace Examples.DiscreteDistributionsExamples
             Console.WriteLine();
 
             // 4. Generate 100000 samples of the Geometric(0.2, 20) distribution and display histogram
-            Console.WriteLine(@"4. Generate 100000 samples of the Geometric(0.2, 20) distribution and display histogram");
-            var data = new double[100000];
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = geometric.Sample();
-            }
-
+            Console.WriteLine(@"4. Generate 100000 samples of the Geometric(0.2) distribution and display histogram");
+            var data = new int[100000];
+            Geometric.Samples(data, 0.2);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 5. Generate 100000 samples of the Geometric(0.5) distribution and display histogram
             Console.WriteLine(@"5. Generate 100000 samples of the Geometric(0.5) distribution and display histogram");
-            geometric.P = 0.5;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = geometric.Sample();
-            }
-
+            Geometric.Samples(data, 0.5);
             ConsoleHelper.DisplayHistogram(data);
             Console.WriteLine();
 
             // 6. Generate 100000 samples of the Geometric(0.8) distribution and display histogram
             Console.WriteLine(@"6. Generate 100000 samples of the Geometric(0.8) distribution and display histogram");
-            geometric.P = 0.8;
-            for (var i = 0; i < data.Length; i++)
-            {
-                data[i] = geometric.Sample();
-            }
-
+            Geometric.Samples(data, 0.8);
             ConsoleHelper.DisplayHistogram(data);
         }
     }
