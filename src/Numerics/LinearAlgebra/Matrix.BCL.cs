@@ -106,13 +106,18 @@ namespace MathNet.Numerics.LinearAlgebra
         public string[,] ToMatrixStringArray(int upperRows, int lowerRows, int leftColumns, int rightColumns,
             string horizontalEllipsis, string verticalEllipsis, string diagonalEllipsis, Func<T, string> formatValue)
         {
+            upperRows = Math.Max(upperRows, 1);
+            lowerRows = Math.Max(lowerRows, 0);
+            leftColumns = Math.Max(leftColumns, 1);
+            rightColumns = Math.Max(rightColumns, 0);
+
             int upper = RowCount <= upperRows ? RowCount : upperRows;
             int lower = RowCount <= upperRows ? 0 : RowCount <= upperRows + lowerRows ? RowCount - upperRows : lowerRows;
             bool rowEllipsis = RowCount > upper + lower;
             int rows = rowEllipsis ? upper + lower + 1 : upper + lower;
 
             int left = ColumnCount <= leftColumns ? ColumnCount : leftColumns;
-            int right = ColumnCount <= leftColumns ? 0 : ColumnCount <= leftColumns + rightColumns ? RowCount - leftColumns : rightColumns;
+            int right = ColumnCount <= leftColumns ? 0 : ColumnCount <= leftColumns + rightColumns ? ColumnCount - leftColumns : rightColumns;
             bool colEllipsis = ColumnCount > left + right;
             int cols = colEllipsis ? left + right + 1 : left + right;
 
@@ -123,43 +128,51 @@ namespace MathNet.Numerics.LinearAlgebra
                 {
                     array[i, j] = formatValue(At(i, j));
                 }
+                int colOffset = left;
                 if (colEllipsis)
                 {
                     array[i, left] = horizontalEllipsis;
+                    colOffset++;
                 }
                 for (int j = 0; j < right; j++)
                 {
-                    array[i, left + 1 + j] = formatValue(At(i, ColumnCount - right + j));
+                    array[i, colOffset + j] = formatValue(At(i, ColumnCount - right + j));
                 }
             }
+            int rowOffset = upper;
             if (rowEllipsis)
             {
                 for (int j = 0; j < left; j++)
                 {
                     array[upper, j] = verticalEllipsis;
                 }
+                int colOffset = left;
                 if (colEllipsis)
                 {
                     array[upper, left] = diagonalEllipsis;
+                    colOffset++;
                 }
                 for (int j = 0; j < right; j++)
                 {
-                    array[upper, left + 1 + j] = verticalEllipsis;
+                    array[upper, colOffset + j] = verticalEllipsis;
                 }
+                rowOffset++;
             }
             for (int i = 0; i < lower; i++)
             {
                 for (int j = 0; j < left; j++)
                 {
-                    array[upper + 1 + i, j] = formatValue(At(RowCount - lower + i, j));
+                    array[rowOffset + i, j] = formatValue(At(RowCount - lower + i, j));
                 }
+                int colOffset = left;
                 if (colEllipsis)
                 {
-                    array[upper + 1 + i, left] = horizontalEllipsis;
+                    array[rowOffset + i, left] = horizontalEllipsis;
+                    colOffset++;
                 }
                 for (int j = 0; j < right; j++)
                 {
-                    array[upper + 1 + i, left + 1 + j] = formatValue(At(RowCount - lower + i, ColumnCount - right + j));
+                    array[rowOffset + i, colOffset + j] = formatValue(At(RowCount - lower + i, ColumnCount - right + j));
                 }
             }
             return array;
@@ -171,13 +184,18 @@ namespace MathNet.Numerics.LinearAlgebra
         public string[,] ToMatrixStringArray(int upperRows, int lowerRows, int minLeftColumns, int rightColumns, int maxWidth, int padding,
             string horizontalEllipsis, string verticalEllipsis, string diagonalEllipsis, Func<T, string> formatValue)
         {
+            upperRows = Math.Max(upperRows, 1);
+            lowerRows = Math.Max(lowerRows, 0);
+            minLeftColumns = Math.Max(minLeftColumns, 1);
+            maxWidth = Math.Max(maxWidth, 12);
+
             int upper = RowCount <= upperRows ? RowCount : upperRows;
             int lower = RowCount <= upperRows ? 0 : RowCount <= upperRows + lowerRows ? RowCount - upperRows : lowerRows;
             bool rowEllipsis = RowCount > upper + lower;
             int rows = rowEllipsis ? upper + lower + 1 : upper + lower;
 
             int left = ColumnCount <= minLeftColumns ? ColumnCount : minLeftColumns;
-            int right = ColumnCount <= minLeftColumns ? 0 : ColumnCount <= minLeftColumns + rightColumns ? RowCount - minLeftColumns : rightColumns;
+            int right = ColumnCount <= minLeftColumns ? 0 : ColumnCount <= minLeftColumns + rightColumns ? ColumnCount - minLeftColumns : rightColumns;
 
             var columnsLeft = new List<Tuple<int, string[]>>();
             for (int j = 0; j < left; j++)
@@ -328,7 +346,9 @@ namespace MathNet.Numerics.LinearAlgebra
                 format = "G6";
             }
 
-            return ToMatrixString(maxRows - 2, 2, maxColumns - 2, 2, "..", "..", "..", "  ", Environment.NewLine, x => x.ToString(format, provider));
+            int bottom = maxRows > 4 ? 2 : 0;
+            int right = maxColumns > 4 ? 2 : 0;
+            return ToMatrixString(maxRows - bottom, bottom, maxColumns - right, right, "..", "..", "..", "  ", Environment.NewLine, x => x.ToString(format, provider));
         }
 
         /// <summary>

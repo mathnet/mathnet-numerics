@@ -320,5 +320,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 }
             }
         }
+
+        [Test]
+        public void VectorToVectorString()
+        {
+            var v = Vector<double>.Build.Dense(20);
+            for (int i = 1; i < 25; i++)
+            {
+                GC.KeepAlive(v.ToVectorString(i, 80));
+            }
+        }
     }
 }

@@ -261,6 +261,9 @@ namespace MathNet.Numerics.LinearAlgebra
 
         public string[,] ToVectorStringArray(int maxPerColumn, int maxWidth, int padding, string ellipsis, Func<T, string> formatValue)
         {
+            maxPerColumn = Math.Max(maxPerColumn, 1);
+            maxWidth = Math.Max(maxWidth, 12);
+
             var columns = new List<Tuple<int, string[]>>();
             int chars = 0;
             int offset = 0;

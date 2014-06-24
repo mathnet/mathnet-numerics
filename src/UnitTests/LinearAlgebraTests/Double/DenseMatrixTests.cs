@@ -196,5 +196,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             AssertHelpers.AlmostEqual(d7, d.Power(7), 10);
             AssertHelpers.AlmostEqual(d8, d.Power(8), 10);
         }
+
+        [Test]
+        public void MatrixToMatrixString()
+        {
+            var m = Matrix<double>.Build.Dense(20, 10);
+            for (int i = 1; i < 25; i++)
+            {
+                for (int j = 1; j < 25; j++)
+                {
+                    GC.KeepAlive(m.ToMatrixString(i, j));
+                }
+            }
+        }
     }
 }
