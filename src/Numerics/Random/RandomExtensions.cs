@@ -122,6 +122,58 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
+        /// Fills an array with uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <param name="rnd">The random number generator.</param>
+        /// <param name="values">The array to fill with random values.</param>
+        /// <param name="minInclusive">Lower bound, inclusive.</param>
+        /// <param name="maxExclusive">Upper bound, exclusive.</param>
+        /// <remarks>
+        /// This extension is thread-safe if and only if called on an random number
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
+        /// </remarks>
+        public static void NextInt32s(this System.Random rnd, int[] values, int minInclusive, int maxExclusive)
+        {
+            var rs = rnd as RandomSource;
+            if (rs != null)
+            {
+                rs.NextInt32s(values, minInclusive, maxExclusive);
+                return;
+            }
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                values[i] = rnd.Next(minInclusive, maxExclusive);
+            }
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <remarks>
+        /// This extension is thread-safe if and only if called on an random number
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
+        /// </remarks>
+        public static IEnumerable<int> NextInt32Sequence(this System.Random rnd, int minInclusive, int maxExclusive)
+        {
+            var rs = rnd as RandomSource;
+            if (rs != null)
+            {
+                return rs.NextInt32Sequence(minInclusive, maxExclusive);
+            }
+
+            return NextInt32SequenceEnumerable(rnd, minInclusive, maxExclusive);
+        }
+
+        static IEnumerable<int> NextInt32SequenceEnumerable(System.Random rnd, int minInclusive, int maxExclusive)
+        {
+            while (true)
+            {
+                yield return rnd.Next(minInclusive, maxExclusive);
+            }
+        }
+
+        /// <summary>
         /// Returns a nonnegative random number less than <see cref="Int64.MaxValue"/>.
         /// </summary>
         /// <param name="rnd">The random number generator.</param>
