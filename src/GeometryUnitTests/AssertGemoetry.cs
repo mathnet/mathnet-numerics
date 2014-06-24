@@ -4,7 +4,7 @@ namespace MathNet.GeometryUnitTests
     using Numerics.LinearAlgebra;
     using NUnit.Framework;
 
-    public static class LinearAlgebraAssert
+    public static class AssertGemoetry
     {
         public static void AreEqual(CoordinateSystem coordinateSystem, Point3D origin, Vector3D xAxis, Vector3D yAxis, Vector3D zAxis, double tolerance = 1e-6)
         {
@@ -104,6 +104,7 @@ namespace MathNet.GeometryUnitTests
         {
             AreEqual(expected.Normal, actual.Normal, tolerance, message);
             AreEqual(expected.RootPoint, actual.RootPoint, tolerance, message);
+            Assert.AreEqual(expected.D, actual.D, tolerance, message);
         }
 
         public static void AreEqual(Matrix<double> expected, Matrix<double> actual, double tolerance = 1e-6)

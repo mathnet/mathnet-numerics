@@ -135,7 +135,7 @@ namespace MathNet.Geometry.Units
 
         ////public static implicit operator double(Angle a)
         ////{
-        ////    return a.Value;
+        ////    return a.Radians;
         ////}
 
         public override string ToString()

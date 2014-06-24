@@ -36,10 +36,10 @@ namespace MathNet.Geometry
         public CoordinateSystem(Point3D origin, Vector3D xAxis, Vector3D yAxis, Vector3D zAxis)
             : base(4)
         {
-            base.SetColumn(0, new[] { xAxis.X, xAxis.Y, xAxis.Z, 0 });
-            base.SetColumn(1, new[] { yAxis.X, yAxis.Y, yAxis.Z, 0 });
-            base.SetColumn(2, new[] { zAxis.X, zAxis.Y, zAxis.Z, 0 });
-            base.SetColumn(3, new[] { origin.X, origin.Y, origin.Z, 1 });
+            SetColumn(0, new[] { xAxis.X, xAxis.Y, xAxis.Z, 0 });
+            SetColumn(1, new[] { yAxis.X, yAxis.Y, yAxis.Z, 0 });
+            SetColumn(2, new[] { zAxis.X, zAxis.Y, zAxis.Z, 0 });
+            SetColumn(3, new[] { origin.X, origin.Y, origin.Z, 1 });
         }
 
         ////public CoordinateSystem(Vector3D x, Vector3D y, Vector3D z, Vector3D offsetToBase)
@@ -67,7 +67,7 @@ namespace MathNet.Geometry
         {
             get
             {
-                return new Vector3D(base.SubMatrix(0, 3, 1, 1).ToRowWiseArray());
+                return new Vector3D(SubMatrix(0, 3, 1, 1).ToRowWiseArray());
             }
         }
 
@@ -75,7 +75,7 @@ namespace MathNet.Geometry
         {
             get
             {
-                return new Vector3D(base.SubMatrix(0, 3, 2, 1).ToRowWiseArray());
+                return new Vector3D(SubMatrix(0, 3, 2, 1).ToRowWiseArray());
             }
         }
 
@@ -83,7 +83,7 @@ namespace MathNet.Geometry
         {
             get
             {
-                return new Point3D(base.SubMatrix(0, 3, 3, 1).ToRowWiseArray());
+                return new Point3D(SubMatrix(0, 3, 3, 1).ToRowWiseArray());
             }
         }
 
@@ -338,7 +338,7 @@ namespace MathNet.Geometry
 
         public Point3D TransformToCoordSys(Point3D p)
         {
-            var baseChangeMatrix = BaseChangeMatrix;
+            var baseChangeMatrix = this.BaseChangeMatrix;
             var point = baseChangeMatrix.Transform(p) + OffsetToBase;
             return point;
         }
@@ -349,14 +349,14 @@ namespace MathNet.Geometry
             var uv = r.Direction;
 
             // positionen och vektorn transformeras
-            var point = BaseChangeMatrix.Invert().Transform(p) + OffsetToBase;
+            var point = this.BaseChangeMatrix.Invert().Transform(p) + OffsetToBase;
             var direction = BaseChangeMatrix.Invert().Transform(uv);
             return new Ray3D(point, direction);
         }
 
         public Point3D TransformFromCoordSys(Point3D p)
         {
-            var point = BaseChangeMatrix.Invert().Transform(p) + OffsetToBase;
+            var point = this.BaseChangeMatrix.Invert().Transform(p) + OffsetToBase;
             return point;
         }
 
@@ -447,7 +447,7 @@ namespace MathNet.Geometry
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != typeof(CoordinateSystem)) return false;
-            return Equals((CoordinateSystem)obj);
+            return this.Equals((CoordinateSystem)obj);
         }
 
         public override int GetHashCode()
@@ -478,19 +478,19 @@ namespace MathNet.Geometry
 
             var xAxis = new Vector3D(double.NaN, double.NaN, double.NaN);
             xAxis.ReadXml(e.SingleElementReader("XAxis"));
-            base.SetColumn(0, new[] { xAxis.X, xAxis.Y, xAxis.Z, 0 });
+            SetColumn(0, new[] { xAxis.X, xAxis.Y, xAxis.Z, 0 });
 
             var yAxis = new Vector3D(double.NaN, double.NaN, double.NaN);
             yAxis.ReadXml(e.SingleElementReader("YAxis"));
-            base.SetColumn(1, new[] { yAxis.X, yAxis.Y, yAxis.Z, 0 });
+            SetColumn(1, new[] { yAxis.X, yAxis.Y, yAxis.Z, 0 });
 
             var zAxis = new Vector3D(double.NaN, double.NaN, double.NaN);
             zAxis.ReadXml(e.SingleElementReader("ZAxis"));
-            base.SetColumn(2, new[] { zAxis.X, zAxis.Y, zAxis.Z, 0 });
+            SetColumn(2, new[] { zAxis.X, zAxis.Y, zAxis.Z, 0 });
 
             var origin = new Point3D(double.NaN, double.NaN, double.NaN);
             origin.ReadXml(e.SingleElementReader("Origin"));
-            base.SetColumn(3, new[] { origin.X, origin.Y, origin.Z, 1 });
+            SetColumn(3, new[] { origin.X, origin.Y, origin.Z, 1 });
         }
 
         public void WriteXml(XmlWriter writer)
@@ -508,7 +508,7 @@ namespace MathNet.Geometry
                 throw new ArgumentException();
             }
             var v4 = new DenseVector(new[] { item[0], item[1], item[2], 1 });
-            var tv4 = base.Multiply(v4);
+            var tv4 = Multiply(v4);
             return new[] { tv4[0], tv4[1], tv4[2] };
         }
     }

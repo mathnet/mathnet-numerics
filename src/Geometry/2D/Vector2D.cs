@@ -129,7 +129,7 @@
             {
                 return false;
             }
-            return obj is Vector2D && Equals((Vector2D)obj);
+            return obj is Vector2D && this.Equals((Vector2D)obj);
         }
 
         public override int GetHashCode()

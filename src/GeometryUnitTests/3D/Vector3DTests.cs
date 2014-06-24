@@ -33,7 +33,7 @@
             var v = Vector3D.Parse(vs);
             string actual = v.ToString(format);
             Assert.AreEqual(expected, actual);
-            LinearAlgebraAssert.AreEqual(v, Vector3D.Parse(actual), tolerance);
+            AssertGemoetry.AreEqual(v, Vector3D.Parse(actual), tolerance);
         }
 
         [TestCase(X, Y, Z)]
@@ -48,7 +48,7 @@
             var vector2 = Vector3D.Parse(v2s);
             var expected = Vector3D.Parse(ves);
             Vector3D crossProduct = vector1.CrossProduct(vector2);
-            LinearAlgebraAssert.AreEqual(expected, crossProduct, 1E-6);
+            AssertGemoetry.AreEqual(expected, crossProduct, 1E-6);
         }
 
         [TestCase(X, Y, Z, 90)]
@@ -104,7 +104,7 @@
             var aboutvector = Vector3D.Parse(avs);
             var rotated = v.Rotate(aboutvector, Angle.FromDegrees(deg));
             var expected = Vector3D.Parse(evs);
-            LinearAlgebraAssert.AreEqual(expected, rotated, 1E-6);
+            AssertGemoetry.AreEqual(expected, rotated, 1E-6);
         }
 
         [TestCase("X", X)]
@@ -165,7 +165,7 @@
             var vector = Vector3D.Parse(vs);
             var uv = vector.Normalize();
             var expected = UnitVector3D.Parse(evs);
-            LinearAlgebraAssert.AreEqual(expected, uv, 1E-6);
+            AssertGemoetry.AreEqual(expected, uv, 1E-6);
         }
 
         [TestCase("1, -1, 10", 5, "5, -5, 50")]
@@ -173,7 +173,7 @@
         {
             var v = Vector3D.Parse(vs);
             Vector3D actual = v.ScaleBy(s);
-            LinearAlgebraAssert.AreEqual(Vector3D.Parse(evs), actual, 1e-6);
+            AssertGemoetry.AreEqual(Vector3D.Parse(evs), actual, 1e-6);
         }
 
         [TestCase("5;0;0", 5)]
@@ -194,7 +194,7 @@
         {
             Vector3D point3D = Vector3D.Parse(vs);
             Vector3D expected = new Vector3D(ep);
-            LinearAlgebraAssert.AreEqual(point3D, expected, 1e-9);
+            AssertGemoetry.AreEqual(point3D, expected, 1e-9);
         }
 
         [TestCase(X, X, true)]
@@ -234,8 +234,8 @@
         public void Multiply(string vectorAsString, double mulitplier, string expected)
         {
             var vector = Vector3D.Parse(vectorAsString);
-            LinearAlgebraAssert.AreEqual(Vector3D.Parse(expected), mulitplier * vector, 1e-6);
-            LinearAlgebraAssert.AreEqual(Vector3D.Parse(expected), mulitplier * vector, 1e-6);
+            AssertGemoetry.AreEqual(Vector3D.Parse(expected), mulitplier * vector, 1e-6);
+            AssertGemoetry.AreEqual(Vector3D.Parse(expected), mulitplier * vector, 1e-6);
         }
 
         [Test]
@@ -243,7 +243,7 @@
         {
             var v = new Vector3D(1, 2, 3);
             var roundTrip = AssertXml.XmlSerializerRoundTrip(v, @"<Vector3D X=""1"" Y=""2"" Z=""3"" />");
-            LinearAlgebraAssert.AreEqual(v, roundTrip);
+            AssertGemoetry.AreEqual(v, roundTrip);
         }
     }
 }

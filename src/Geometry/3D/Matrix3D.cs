@@ -95,7 +95,7 @@ namespace MathNet.Geometry
 
         public static Matrix<double> RotationAroundArbitraryVector(UnitVector3D aboutVector, Angle angle)
         {
-            //http://en.wikipedia.org/wiki/Rotation_matrix
+            // http://en.wikipedia.org/wiki/Rotation_matrix
             var unitTensorProduct = aboutVector.GetUnitTensorProduct();
             var crossproductMatrix = aboutVector.CrossProductMatrix; //aboutVector.Clone().CrossProduct(aboutVector.Clone());
 

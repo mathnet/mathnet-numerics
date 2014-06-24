@@ -29,7 +29,7 @@
             var av = Angle.Parse(avs);
             var p = new Point2D(r, av);
             var ep = Point2D.Parse(eps);
-            LinearAlgebraAssert.AreEqual(ep, p, 1e-2);
+            AssertGemoetry.AreEqual(ep, p, 1e-2);
         }
 
         [TestCase("1, 0", "90 °", "0, 1")]
@@ -45,7 +45,7 @@
             var expected = Point2D.Parse(eps);
             var rm = Matrix2D.Rotation(av);
             var actual = p.TransformBy(rm);
-            LinearAlgebraAssert.AreEqual(expected, actual, 1e-2);
+            AssertGemoetry.AreEqual(expected, actual, 1e-2);
         }
 
         [TestCase("1,2", false, @"<Point2D X=""1"" Y=""2"" />")]
@@ -54,7 +54,7 @@
         {
             var p = Point2D.Parse(vs);
             p.SerializeAsElements = asElements;
-            AssertXml.XmlRoundTrips(p, xml, (e, a) => LinearAlgebraAssert.AreEqual(e, a));
+            AssertXml.XmlRoundTrips(p, xml, (e, a) => AssertGemoetry.AreEqual(e, a));
         }
     }
 }

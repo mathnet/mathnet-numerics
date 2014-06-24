@@ -1,6 +1,8 @@
 ﻿namespace MathNet.GeometryUnitTests
 {
     using System;
+    using System.IO;
+    using System.Runtime.Serialization.Formatters.Binary;
     using Geometry;
     using NUnit.Framework;
 
@@ -8,18 +10,27 @@
     public class PlaneTest
     {
         const string X = "1; 0 ; 0";
-        const string Y = "0; 1; 0";
         const string Z = "0; 0; 1";
-        const string NegativeX = "-1; 0; 0";
-        const string NegativeY = "0; -1; 0";
         const string NegativeZ = "0; 0; -1";
         const string ZeroPoint = "0; 0; 0";
+
+        [Test]
+        public void CtorTest()
+        {
+            var plane1 = new Plane(new Point3D(0, 0, 3), UnitVector3D.ZAxis);
+            var plane2 = new Plane(0, 0, 3, -3);
+            var plane3 = new Plane(UnitVector3D.ZAxis, 3);
+            AssertGemoetry.AreEqual(plane1, plane2);
+            AssertGemoetry.AreEqual(plane1, plane3);
+        }
+
         [TestCase("p:{0, 0, 0} v:{1, 0, 0}", new double[] { 0, 0, 0 }, new double[] { 1, 0, 0 })]
+        [TestCase("1, 0, 0, 0", new double[] { 0, 0, 0 }, new double[] { 1, 0, 0 })]
         public void ParseTest(string s, double[] pds, double[] vds)
         {
             var plane = Plane.Parse(s);
-            LinearAlgebraAssert.AreEqual(new Point3D(pds), plane.RootPoint);
-            LinearAlgebraAssert.AreEqual(new Vector3D(vds), plane.Normal);
+            AssertGemoetry.AreEqual(new Point3D(pds), plane.RootPoint);
+            AssertGemoetry.AreEqual(new Vector3D(vds), plane.Normal);
         }
 
         [TestCase(ZeroPoint, "p:{0, 0, 0} v:{0, 0, 1}", ZeroPoint)]
@@ -31,14 +42,15 @@
             var plane = Plane.Parse(pls);
             var projectedPoint = plane.Project(Point3D.Parse(ps));
             var expected = Point3D.Parse(eps);
-            LinearAlgebraAssert.AreEqual(expected, projectedPoint, float.Epsilon);
+            AssertGemoetry.AreEqual(expected, projectedPoint, float.Epsilon);
         }
 
+        [Test]
         private void ProjectPoint(Point3D pointToProject, Point3D planeRootPoint, UnitVector3D planeNormal, Point3D projectedresult)
         {
             var plane = new Plane(planeNormal, planeRootPoint);
             var projectOn = plane.Project(pointToProject);
-            LinearAlgebraAssert.AreEqual(projectedresult, projectOn, float.Epsilon);
+            AssertGemoetry.AreEqual(projectedresult, projectOn, float.Epsilon);
         }
 
         [TestCase(ZeroPoint, Z, ZeroPoint, 0)]
@@ -90,7 +102,7 @@
 
             var line = new Line3D(new Point3D(0, 0, 0), new Point3D(1, 0, 0));
             var projectOn = plane.Project(line);
-            LinearAlgebraAssert.AreEqual(new Line3D(new Point3D(0, 0, 1), new Point3D(1, 0, 1)), projectOn, float.Epsilon);
+            AssertGemoetry.AreEqual(new Line3D(new Point3D(0, 0, 1), new Point3D(1, 0, 1)), projectOn, float.Epsilon);
         }
 
         [Test]
@@ -101,8 +113,8 @@
             var plane = new Plane(unitVector, rootPoint);
             var vector = new Vector3D(1, 0, 0);
             var projectOn = plane.Project(vector);
-            LinearAlgebraAssert.AreEqual(new Vector3D(1, 0, 0), projectOn.Direction, float.Epsilon);
-            LinearAlgebraAssert.AreEqual(new Point3D(0, 0, 1), projectOn.ThroughPoint, float.Epsilon);
+            AssertGemoetry.AreEqual(new Vector3D(1, 0, 0), projectOn.Direction, float.Epsilon);
+            AssertGemoetry.AreEqual(new Point3D(0, 0, 1), projectOn.ThroughPoint, float.Epsilon);
         }
 
         [TestCase("p:{0, 0, 0} v:{0, 0, 1}", "p:{0, 0, 0} v:{0, 0, 1}", "0, 0, 0", "0, 0, 0", ExpectedException = typeof(ArgumentException))]
@@ -119,8 +131,8 @@
             };
             foreach (var intersection in intersections)
             {
-                LinearAlgebraAssert.AreEqual(Point3D.Parse(eps), intersection.ThroughPoint);
-                LinearAlgebraAssert.AreEqual(UnitVector3D.Parse(evs), intersection.Direction);
+                AssertGemoetry.AreEqual(Point3D.Parse(eps), intersection.ThroughPoint);
+                AssertGemoetry.AreEqual(UnitVector3D.Parse(evs), intersection.Direction);
             }
         }
 
@@ -130,7 +142,7 @@
             var plane = new Plane(UnitVector3D.ZAxis, new Point3D(0, 0, 0));
             var point3D = new Point3D(1, 2, 3);
             Point3D mirrorAbout = plane.MirrorAbout(point3D);
-            LinearAlgebraAssert.AreEqual(new Point3D(1, 2, -3), mirrorAbout, float.Epsilon);
+            AssertGemoetry.AreEqual(new Point3D(1, 2, -3), mirrorAbout, float.Epsilon);
         }
 
         [Test]
@@ -138,25 +150,6 @@
         {
             var plane1 = new Plane(UnitVector3D.ZAxis, new Point3D(0, 0, 100));
             Assert.AreEqual(-100, plane1.D);
-        }
-
-        //[Test]
-        //public void SetD()
-        //{
-        //    var plane1 = new Plane(UnitVector3D.ZAxis, new Point3D(0, 0, 100));
-        //    LinearAlgebraAssert.AreEqual(new Point3D(0, 0, 100), plane1.RootPoint, 1E-10, "Before set D");
-        //    plane1.D = -100;
-        //    LinearAlgebraAssert.AreEqual(new Point3D(0, 0, 100), plane1.RootPoint, 1E-10, "After set D");
-        //}
-
-        [Test]
-        public void InterSectionPointTest()
-        {
-            var plane1 = new Plane(UnitVector3D.XAxis, new Point3D(20, 0, 0));
-            var plane2 = new Plane(UnitVector3D.YAxis, new Point3D(0, 0, 0));
-            var plane3 = new Plane(UnitVector3D.ZAxis, new Point3D(0, 0, -30));
-            var pointFromPlanes = Plane.PointFromPlanes(plane1, plane2, plane3);
-            LinearAlgebraAssert.AreEqual(new Point3D(20, 0, -30), pointFromPlanes, 1E-10);
         }
 
         [Test]
@@ -168,19 +161,55 @@
             var pointFromPlanes1 = Plane.PointFromPlanes(plane1, plane2, plane3);
             var pointFromPlanes2 = Plane.PointFromPlanes(plane2, plane1, plane3);
             var pointFromPlanes3 = Plane.PointFromPlanes(plane3, plane1, plane2);
-            LinearAlgebraAssert.AreEqual(pointFromPlanes1, pointFromPlanes2, 1E-10);
-            LinearAlgebraAssert.AreEqual(pointFromPlanes3, pointFromPlanes2, 1E-10);
+            AssertGemoetry.AreEqual(pointFromPlanes1, pointFromPlanes2, 1E-10);
+            AssertGemoetry.AreEqual(pointFromPlanes3, pointFromPlanes2, 1E-10);
         }
 
-        [Test]
-        public void InterSectionPointTest2()
+        [TestCase("p:{0, 0, 0} v:{1, 0, 0}", "p:{0, 0, 0} v:{0, 1, 0}", "p:{0, 0, 0} v:{0, 0, 1}", "0, 0, 0")]
+        [TestCase("p:{0, 0, 0} v:{-1, 0, 0}", "p:{0, 0, 0} v:{0, 1, 0}", "p:{0, 0, 0} v:{0, 0, 1}", "0, 0, 0")]
+        [TestCase("p:{20, 0, 0} v:{1, 0, 0}", "p:{0, 0, 0} v:{0, 1, 0}", "p:{0, 0, -30} v:{0, 0, 1}", "20, 0, -30")]
+        [TestCase("1, 1, 0, -12", "-1, 1, 0, -12", "0, 0, 1, -5", "0, 16.970563, 5")]
+        public void PointFromPlanes(string pl1s, string pl2s, string pl3s, string eps)
         {
-            var plane1 = new Plane(1, 1, 0, -12);
-            var plane2 = new Plane(-1, 1, 0, -12);
-            var plane3 = new Plane(0, 0, 1, -5);
+            var plane1 = Plane.Parse(pl1s);
+            var plane2 = Plane.Parse(pl2s);
+            var plane3 = Plane.Parse(pl3s);
+            var points = new[]
+            {
+                Plane.PointFromPlanes(plane1, plane2, plane3),
+                Plane.PointFromPlanes(plane2, plane1, plane3),
+                Plane.PointFromPlanes(plane1, plane3, plane2),
+                Plane.PointFromPlanes(plane2, plane3, plane1),
+                Plane.PointFromPlanes(plane3, plane2, plane1),
+                Plane.PointFromPlanes(plane3, plane1, plane2),
+            };
+            var expected = Point3D.Parse(eps);
+            foreach (var point in points)
+            {
+                AssertGemoetry.AreEqual(expected, point);
+            }
+        }
 
-            var pointFromPlanes = Plane.PointFromPlanes(plane1, plane2, plane3);
-            LinearAlgebraAssert.AreEqual(new Point3D(0, 12 * Math.Sqrt(2), 5), pointFromPlanes, 1E-10);
+        [TestCase("p:{0, 0, 0} v:{0, 0, 1}", @"<Plane><RootPoint X=""0"" Y=""0"" Z=""0"" /><Normal X=""0"" Y=""0"" Z=""1"" /></Plane>")]
+        public void XmlRoundTrips(string p1s, string xml)
+        {
+            var plane = Plane.Parse(p1s);
+            AssertXml.XmlRoundTrips(plane, xml, (e, a) => AssertGemoetry.AreEqual(e, a));
+        }
+
+        [TestCase("p:{0, 0, 0} v:{0, 0, 1}")]
+        public void BinaryRountrip(string pls)
+        {
+            var plane = Plane.Parse(pls);
+            using (var ms = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, plane);
+                ms.Flush();
+                ms.Position = 0;
+                var roundTrip = (Plane)formatter.Deserialize(ms);
+                AssertGemoetry.AreEqual(plane, roundTrip);
+            }
         }
     }
 }

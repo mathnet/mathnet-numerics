@@ -76,12 +76,12 @@ namespace MathNet.Geometry
 
         public static bool operator ==(Point3D left, Point3D right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
 
         public static bool operator !=(Point3D left, Point3D right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
         }
 
         [Obsolete("Not sure this is nice")]

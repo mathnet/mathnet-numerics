@@ -76,6 +76,7 @@ namespace MathNet.Geometry
                 {
                     return new UnitVector3D(Z, Z, -X - Y);
                 }
+
                 return new UnitVector3D(-Y - Z, X, X);
             }
         }
@@ -101,26 +102,26 @@ namespace MathNet.Geometry
 
         public static bool operator ==(Vector3D left, UnitVector3D right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
 
         public static bool operator ==(UnitVector3D left, Vector3D right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
         public static bool operator !=(UnitVector3D left, UnitVector3D right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
         }
 
         public static bool operator !=(Vector3D left, UnitVector3D right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
         }
 
         public static bool operator !=(UnitVector3D left, Vector3D right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
         }
 
         [Obsolete("Not sure this is nice")]
@@ -231,6 +232,7 @@ namespace MathNet.Geometry
         {
             reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
+
             // Hacking set readonly fields here, can't think of a cleaner workaround
             XmlExt.SetReadonlyField(ref this, x => x.X, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("X")));
             XmlExt.SetReadonlyField(ref this, x => x.Y, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Y")));
@@ -449,25 +451,25 @@ namespace MathNet.Geometry
 
         public UnitVector3D CrossProduct(UnitVector3D inVector3D)
         {
-            var x = Y * inVector3D.Z - Z * inVector3D.Y;
-            var y = Z * inVector3D.X - X * inVector3D.Z;
-            var z = X * inVector3D.Y - Y * inVector3D.X;
+            var x = (Y * inVector3D.Z) - (Z * inVector3D.Y);
+            var y = (Z * inVector3D.X) - (X * inVector3D.Z);
+            var z =( X * inVector3D.Y) - (Y * inVector3D.X);
             var v = new UnitVector3D(x, y, z);
             return v;
         }
 
         public Vector3D CrossProduct(Vector3D inVector3D)
         {
-            var x = Y * inVector3D.Z - Z * inVector3D.Y;
-            var y = Z * inVector3D.X - X * inVector3D.Z;
-            var z = X * inVector3D.Y - Y * inVector3D.X;
+            var x = (Y * inVector3D.Z) - (Z * inVector3D.Y);
+            var y = (Z * inVector3D.X) - (X * inVector3D.Z);
+            var z = (X * inVector3D.Y) - (Y * inVector3D.X);
             var v = new Vector3D(x, y, z);
             return v;
         }
 
         public Matrix<double> GetUnitTensorProduct()
         {
-            //unitTensorProduct:matrix([ux^2,ux*uy,ux*uz],[ux*uy,uy^2,uy*uz],[ux*uz,uy*uz,uz^2]),
+            // unitTensorProduct:matrix([ux^2,ux*uy,ux*uz],[ux*uy,uy^2,uy*uz],[ux*uz,uy*uz,uz^2]),
             var matrix = new DenseMatrix(3, 3);
             matrix[0, 0] = X * X;
             matrix[0, 1] = X * Y;

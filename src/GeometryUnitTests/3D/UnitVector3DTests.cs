@@ -1,6 +1,5 @@
 ﻿namespace MathNet.GeometryUnitTests
 {
-    using System;
     using System.IO;
     using System.Xml;
     using Geometry;
@@ -26,7 +25,7 @@
         {
             var uv = UnitVector3D.Parse(ivs);
             var v = uv.ScaleBy(s);
-            LinearAlgebraAssert.AreEqual(Vector3D.Parse(exs), v, float.Epsilon);
+            AssertGemoetry.AreEqual(Vector3D.Parse(exs), v, float.Epsilon);
         }
 
         [TestCase("-1, 0, 0", null, "(-1, 0, 0)", 1e-4)]
@@ -36,7 +35,7 @@
             var v = UnitVector3D.Parse(vs);
             string actual = v.ToString(format);
             Assert.AreEqual(expected, actual);
-            LinearAlgebraAssert.AreEqual(v, UnitVector3D.Parse(actual), tolerance);
+            AssertGemoetry.AreEqual(v, UnitVector3D.Parse(actual), tolerance);
         }
 
         [TestCase("1, -2, 3", false, @"<UnitVector3D X=""0.2672612419124244"" Y=""-0.53452248382484879"" Z=""0.80178372573727319"" />")]
@@ -45,9 +44,9 @@
         {
             var uv = UnitVector3D.Parse(uvs);
             uv.SerializeAsElements = asElements;
-            AssertXml.XmlRoundTrips(uv, xml, (e, a) => LinearAlgebraAssert.AreEqual(e, a));
+            AssertXml.XmlRoundTrips(uv, xml, (e, a) => AssertGemoetry.AreEqual(e, a));
             var actual = UnitVector3D.ReadFrom(XmlReader.Create(new StringReader(xml)));
-            LinearAlgebraAssert.AreEqual(uv, actual);
+            AssertGemoetry.AreEqual(uv, actual);
         }
 
         [Test]
@@ -69,45 +68,6 @@
         {
             UnitVector3D unitVector3D = UnitVector3D.Parse(unitVectorAsString);
             Assert.AreEqual(Vector3D.Parse(expected), multiplier * unitVector3D);
-        }
-    }
-
-    public class TwoUnitVectors : IEquatable<TwoUnitVectors>
-    {
-        public UnitVector3D UnitVector3D1 { get; set; }
-        public UnitVector3D UnitVector3D2 { get; set; }
-
-        public bool Equals(TwoUnitVectors other)
-        {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.UnitVector3D2, UnitVector3D2) && Equals(other.UnitVector3D1, UnitVector3D1);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(TwoUnitVectors)) return false;
-            return Equals((TwoUnitVectors)obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((UnitVector3D2 != null ? UnitVector3D2.GetHashCode() : 0) * 397) ^ (UnitVector3D1 != null ? UnitVector3D1.GetHashCode() : 0);
-            }
-        }
-
-        public static bool operator ==(TwoUnitVectors left, TwoUnitVectors right)
-        {
-            return Equals(left, right);
-        }
-
-        public static bool operator !=(TwoUnitVectors left, TwoUnitVectors right)
-        {
-            return !Equals(left, right);
         }
     }
 }

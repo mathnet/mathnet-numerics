@@ -4,7 +4,10 @@
     using Numerics.LinearAlgebra.Double;
     using Units;
 
-    public class Matrix2D
+    /// <summary>
+    /// Helper class for creating matrices for manipulating 2D-elements
+    /// </summary>
+    public static class Matrix2D
     {
         /// <summary>
         /// Creates a rotation about the z-axis

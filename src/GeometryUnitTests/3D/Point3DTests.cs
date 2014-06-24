@@ -19,9 +19,9 @@
             var p2 = Point3D.Parse(p2s);
             var ep = Point3D.Parse(eps);
             Point3D mp = Point3D.MidPoint(p1, p2);
-            LinearAlgebraAssert.AreEqual(ep, mp, 1e-9);
+            AssertGemoetry.AreEqual(ep, mp, 1e-9);
             var centroid = Point3D.Centroid(p1, p2);
-            LinearAlgebraAssert.AreEqual(ep, centroid, 1e-9);
+            AssertGemoetry.AreEqual(ep, centroid, 1e-9);
         }
 
         [TestCase("p:{0, 0, 0} v:{0, 0, 1}", "p:{0, 0, 0} v:{0, 1, 0}", "p:{0, 0, 0} v:{1, 0, 0}", "0, 0, 0")]
@@ -39,7 +39,7 @@
             var ep = Point3D.Parse(eps);
             foreach (var p in new[] { p1, p2, p3, p4, p5 })
             {
-                LinearAlgebraAssert.AreEqual(ep, p);
+                AssertGemoetry.AreEqual(ep, p);
             }
         }
 
@@ -52,7 +52,7 @@
             var actual = p.MirrorAbout(p2);
 
             var ep = Point3D.Parse(eps);
-            LinearAlgebraAssert.AreEqual(ep, actual);
+            AssertGemoetry.AreEqual(ep, actual);
         }
 
         [TestCase("0, 0, 0", "p:{0, 0, 0} v:{0, 0, 1}", "0, 0, 0")]
@@ -65,7 +65,7 @@
             var actual = p.ProjectOn(p2);
 
             var ep = Point3D.Parse(eps);
-            LinearAlgebraAssert.AreEqual(ep, actual);
+            AssertGemoetry.AreEqual(ep, actual);
         }
 
         [TestCase("0,0,0", "1,0,0", "1,0,0")]
@@ -95,14 +95,14 @@
         {
             Point3D point3D = Point3D.Parse(pointAsString);
             Point3D expected = new Point3D(expectedPoint);
-            LinearAlgebraAssert.AreEqual(expected, point3D, 1e-9);
+            AssertGemoetry.AreEqual(expected, point3D, 1e-9);
         }
 
         [TestCase("-1 ; 2;-3")]
         public void ToVectorAndBack(string ps)
         {
             Point3D p = Point3D.Parse(ps);
-            LinearAlgebraAssert.AreEqual(p, p.ToVector().ToPoint3D(), 1e-9);
+            AssertGemoetry.AreEqual(p, p.ToVector().ToPoint3D(), 1e-9);
         }
 
         [TestCase("-2, 0, 1e-4", null, "(-2, 0, 0.0001)", 1e-4)]
@@ -112,7 +112,7 @@
             var p = Point3D.Parse(vs);
             string actual = p.ToString(format);
             Assert.AreEqual(expected, actual);
-            LinearAlgebraAssert.AreEqual(p, Point3D.Parse(actual), tolerance);
+            AssertGemoetry.AreEqual(p, Point3D.Parse(actual), tolerance);
         }
 
         [TestCase("1, -2, 3", false, @"<Point3D X=""1"" Y=""-2"" Z=""3"" />")]
@@ -121,7 +121,7 @@
         {
             var p = Point3D.Parse(vs);
             p.SerializeAsElements = asElements;
-            AssertXml.XmlRoundTrips(p, xml,(expected, actual) => LinearAlgebraAssert.AreEqual(expected,actual));
+            AssertXml.XmlRoundTrips(p, xml, (expected, actual) => AssertGemoetry.AreEqual(expected, actual));
         }
 
         [Test]
@@ -135,7 +135,7 @@
                 ms.Flush();
                 ms.Position = 0;
                 var roundTrip = (Point3D)formatter.Deserialize(ms);
-                LinearAlgebraAssert.AreEqual(v, roundTrip);
+                AssertGemoetry.AreEqual(v, roundTrip);
             }
         }
     }

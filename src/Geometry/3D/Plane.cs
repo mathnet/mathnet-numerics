@@ -11,25 +11,22 @@
     using Units;
 
     [Serializable]
-    public class Plane : IEquatable<Plane>, IXmlSerializable
+    public struct Plane : IEquatable<Plane>, IXmlSerializable
     {
-        private readonly UnitVector3D _normal;
-        private readonly Point3D _rootPoint;
+        public readonly UnitVector3D Normal;
+        public readonly Point3D RootPoint;
+        public readonly double D;
 
-        public Plane()
-        {
-            _rootPoint = new Point3D(double.NaN, double.NaN, double.NaN);
-            _normal = new UnitVector3D(double.NaN, double.NaN, double.NaN);
-        }
         public Plane(double a, double b, double c, double d)
-            : this(new UnitVector3D(a, b, c), -d)
+            : this(new UnitVector3D(a, b, c), -1 * d)
         {
         }
 
         public Plane(UnitVector3D normal, double offset = 0)
         {
-            _normal = normal;
-            _rootPoint = (offset * _normal).ToPoint3D();
+            Normal = normal;
+            RootPoint = (offset * normal).ToPoint3D();
+            D = -1 * offset;
         }
 
         public Plane(UnitVector3D normal, Point3D rootPoint)
@@ -39,8 +36,9 @@
 
         public Plane(Point3D rootPoint, UnitVector3D normal)
         {
-            _rootPoint = rootPoint;
-            _normal = normal;
+            RootPoint = rootPoint;
+            Normal = normal;
+            D = -RootPoint.ToVector().DotProduct(Normal);
         }
 
         public static Plane Parse(string s)
@@ -72,34 +70,9 @@
             }
         }
 
-        public double D
-        {
-            get
-            {
-                var vector = RootPoint.ToVector();
-                return -vector.DotProduct(Normal);
-            }
-        }
-
-        public UnitVector3D Normal
-        {
-            get
-            {
-                return _normal;
-            }
-        }
-
-        public Point3D RootPoint
-        {
-            get
-            {
-                return _rootPoint;
-            }
-        }
-
         public static bool operator ==(Plane left, Plane right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
 
         public static bool operator !=(Plane left, Plane right)
@@ -321,9 +294,11 @@
 
         public void ReadXml(XmlReader reader)
         {
+            reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
-            RootPoint.ReadXml(e.SingleElementReader("RootPoint"));
-            Normal.ReadXml(e.SingleElementReader("Normal"));
+            XmlExt.SetReadonlyField(ref this, l => l.RootPoint, Point3D.ReadFrom(e.SingleElement("RootPoint").CreateReader()));
+            XmlExt.SetReadonlyField(ref this, l => l.Normal, UnitVector3D.ReadFrom(e.SingleElement("Normal").CreateReader()));
+            XmlExt.SetReadonlyField(ref this, l => l.D, -RootPoint.ToVector().DotProduct(Normal));
         }
 
         public void WriteXml(XmlWriter writer)

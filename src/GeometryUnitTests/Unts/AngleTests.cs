@@ -2,6 +2,7 @@
 {
     using System;
     using System.Globalization;
+    using System.Reflection;
     using Geometry.Units;
     using NUnit.Framework;
 
@@ -163,6 +164,17 @@
             Assert.AreEqual(expected.Replace('.', ','), toStringComma);
             Assert.IsTrue(angle.Equals(Angle.Parse(toString), Tolerance));
             Assert.IsTrue(angle.Equals(Angle.Parse(toStringComma), Tolerance));
+        }
+
+        [TestCase("op_Addition")]
+        [TestCase("op_Equality")]
+        public void NotCompile(string @operator)
+        {
+            var angle = new Angle(90, AngleUnit.Degrees);
+            var d = 1.0;
+            MethodInfo add = typeof(Angle).GetMethod(@operator, BindingFlags.Static | BindingFlags.Public);
+            Assert.DoesNotThrow(() => add.Invoke(angle, new object[] { angle, angle }));
+            var exception = Assert.Throws<ArgumentException>(() => add.Invoke(angle, new object[] { angle, d }));
         }
 
         [TestCase("15 °", false, @"<Angle Value=""0.26179938779914941"" />")]

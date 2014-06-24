@@ -1,15 +1,12 @@
 ﻿namespace MathNet.GeometryUnitTests
 {
     using System;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization;
     using System.Xml;
     using System.Xml.Linq;
-    using System.Xml.Schema;
     using System.Xml.Serialization;
-    using Geometry;
     using NUnit.Framework;
 
     public static class AssertXml
@@ -131,64 +128,6 @@
             ne.Add(e.Attributes().Where(a => !a.IsNamespaceDeclaration));
             ne.Add(e.Elements().Select(RemoveAllNamespaces));
             return ne;
-        }
-    }
-
-    public class AssertXmlTests
-    {
-        [Test]
-        public void XmlSerializerRoundTripTest()
-        {
-            var dummy = new XmlSerializableDummy("Meh", 14);
-            var roundTrip = AssertXml.XmlSerializerRoundTrip(dummy, @"<XmlSerializableDummy Age=""14""><Name>Meh</Name></XmlSerializableDummy>");
-            Assert.AreEqual(dummy.Name, roundTrip.Name);
-            Assert.AreEqual(dummy.Age, roundTrip.Age);
-        }
-        [Test]
-        public void DataContractRoundTripTest()
-        {
-            var dummy = new XmlSerializableDummy("Meh", 14);
-            var roundTrip = AssertXml.DataContractRoundTrip(dummy, @"<XmlSerializableDummy Age=""14""><Name>Meh</Name></XmlSerializableDummy>");
-            Assert.AreEqual(dummy.Name, roundTrip.Name);
-            Assert.AreEqual(dummy.Age, roundTrip.Age);
-        }
-    }
-
-    public class XmlSerializableDummy : IXmlSerializable
-    {
-        private readonly string _name;
-        private XmlSerializableDummy()
-        {
-
-        }
-        public XmlSerializableDummy(string name, int age)
-        {
-            Age = age;
-            _name = name;
-        }
-
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-        }
-
-        public int Age { get; set; }
-
-        public XmlSchema GetSchema() { return null; }
-        public void ReadXml(XmlReader reader)
-        {
-            var e = (XElement)XNode.ReadFrom(reader);
-            Age = XmlConvert.ToInt32(e.Attribute("Age").Value);
-            var name = e.ReadAttributeOrElement("Name");
-            XmlExt.WriteValueToReadonlyField(this, name, () => _name);
-        }
-        public void WriteXml(XmlWriter writer)
-        {
-            writer.WriteAttributeString("Age", Age.ToString(CultureInfo.InvariantCulture));
-            writer.WriteElementString("Name", Name);
         }
     }
 }

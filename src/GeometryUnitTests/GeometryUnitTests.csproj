@@ -53,10 +53,12 @@
     <Compile Include="3D\UnitVector3DTests.cs" />
     <Compile Include="3D\Vector3DTests.cs" />
     <Compile Include="AssertXml.cs" />
-    <Compile Include="LinearAlgebraAssert.cs" />
+    <Compile Include="AssertXmlTests.cs" />
+    <Compile Include="AssertGemoetry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SandBox\Solve.cs" />
     <Compile Include="Unts\AngleTests.cs" />
+    <Compile Include="XmlSerializableDummy.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

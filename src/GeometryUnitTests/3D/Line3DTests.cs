@@ -21,7 +21,7 @@
         {
             Line3D l = Line3D.Parse(p1s, p2s);
             var excpected = UnitVector3D.Parse(evs);
-            LinearAlgebraAssert.AreEqual(excpected, l.Direction);
+            AssertGemoetry.AreEqual(excpected, l.Direction);
         }
 
         [TestCase("0, 0, 0", "1, -1, 1", "p:{0, 0, 0} v:{1, 0, 0}", "0, 0, 0", "0, -1, 1")]
@@ -32,7 +32,7 @@
             var line = new Line3D(p1, p2);
             var plane = Plane.Parse(pls);
             var expected = new Line3D(Point3D.Parse(ep1s), Point3D.Parse(ep2s));
-            LinearAlgebraAssert.AreEqual(expected, line.ProjectOn(plane));
+            AssertGemoetry.AreEqual(expected, line.ProjectOn(plane));
         }
 
         [TestCase("0, 0, 0", "1, -2, 3", 3.741657)]
@@ -69,8 +69,8 @@
             Line3D l = new Line3D(p1, p2);
             var p = Point3D.Parse(ps);
             var actual = l.LineTo(p, mustStartFromLine);
-            LinearAlgebraAssert.AreEqual(Point3D.Parse(sps), actual.StartPoint, 1e-6);
-            LinearAlgebraAssert.AreEqual(p, actual.EndPoint, 1e-6);
+            AssertGemoetry.AreEqual(Point3D.Parse(sps), actual.StartPoint, 1e-6);
+            AssertGemoetry.AreEqual(p, actual.EndPoint, 1e-6);
         }
 
         [TestCase("1, 2, 3", "4, 5, 6", @"<Line3D><StartPoint X=""1"" Y=""2"" Z=""3"" /><EndPoint X=""4"" Y=""5"" Z=""6"" /></Line3D>")]
@@ -79,7 +79,7 @@
             Point3D p1 = Point3D.Parse(p1s);
             Point3D p2 = Point3D.Parse(p2s);
             var l = new Line3D(p1, p2);
-            AssertXml.XmlRoundTrips(l, xml, (e, a) => LinearAlgebraAssert.AreEqual(e, a));
+            AssertXml.XmlRoundTrips(l, xml, (e, a) => AssertGemoetry.AreEqual(e, a));
         }
 
         [Test]
@@ -93,7 +93,7 @@
                 ms.Flush();
                 ms.Position = 0;
                 var roundTrip = (Line3D)formatter.Deserialize(ms);
-                LinearAlgebraAssert.AreEqual(line, roundTrip);
+                AssertGemoetry.AreEqual(line, roundTrip);
             }
         }
     }

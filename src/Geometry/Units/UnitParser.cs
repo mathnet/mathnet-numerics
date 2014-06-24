@@ -5,9 +5,11 @@
 
     public static class UnitParser
     {
+        public const string UnitValuePattern = @"^(?: *)(?<Value>[+-]?\d+([eE][+-]\d+)?([.,]\d+)?) *(?<Unit>.+) *$";
+
         public static T Parse<T>(string s, Func<double, IAngleUnit, T> creator)
         {
-            Match match = Regex.Match(s, Parser.UnitValuePattern);
+            Match match = Regex.Match(s, UnitValuePattern);
             double d = Parser.ParseDouble(match.Groups["Value"]);
             var unit = ParseUnit(match.Groups["Unit"].Value);
             return creator(d, (IAngleUnit)unit);

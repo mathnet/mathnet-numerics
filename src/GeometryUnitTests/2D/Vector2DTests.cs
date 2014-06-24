@@ -97,7 +97,7 @@
             var angle = Angle.Parse(@as);
             var rv = v.Rotate(angle);
             var expected = Vector2D.Parse(evs);
-            LinearAlgebraAssert.AreEqual(expected, rv, 0.1);
+            AssertGemoetry.AreEqual(expected, rv, 0.1);
         }
 
         [TestCase("1,0", "0,1", "270°", "-90°")]
@@ -123,7 +123,7 @@
         {
             var p = Vector2D.Parse(vs);
             p.SerializeAsElements = asElements;
-            AssertXml.XmlRoundTrips(p, xml, (e, a) => LinearAlgebraAssert.AreEqual(e, a));
+            AssertXml.XmlRoundTrips(p, xml, (e, a) => AssertGemoetry.AreEqual(e, a));
         }
 
         [Test]
@@ -137,7 +137,7 @@
                 ms.Flush();
                 ms.Position = 0;
                 var roundTrip = (Vector2D)formatter.Deserialize(ms);
-                LinearAlgebraAssert.AreEqual(v, roundTrip);
+                AssertGemoetry.AreEqual(v, roundTrip);
             }
         }
     }

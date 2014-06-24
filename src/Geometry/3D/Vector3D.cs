@@ -90,12 +90,12 @@ namespace MathNet.Geometry
 
         public static bool operator ==(Vector3D left, Vector3D right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
 
         public static bool operator !=(Vector3D left, Vector3D right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
         }
 
         [Obsolete("Not sure this is nice")]
@@ -302,10 +302,10 @@ namespace MathNet.Geometry
         }
 
         // Commented out because the d * v reads nicer than v *d 
-        //public static Vector3D operator *(Vector3D v,double d)
-        //{
-        //    return d*v;
-        //}
+        ////public static Vector3D operator *(Vector3D v,double d)
+        ////{
+        ////    return d*v;
+        ////}
 
         public static Vector3D operator /(Vector3D v, double d)
         {
@@ -418,7 +418,7 @@ namespace MathNet.Geometry
 
         public Matrix<double> GetUnitTensorProduct()
         {
-            //unitTensorProduct:matrix([ux^2,ux*uy,ux*uz],[ux*uy,uy^2,uy*uz],[ux*uz,uy*uz,uz^2]),
+            // unitTensorProduct:matrix([ux^2,ux*uy,ux*uz],[ux*uy,uy^2,uy*uz],[ux*uz,uy*uz,uz^2]),
             var matrix = new DenseMatrix(3, 3);
             matrix[0, 0] = X * X;
             matrix[0, 1] = X * Y;

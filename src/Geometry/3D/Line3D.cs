@@ -68,12 +68,12 @@
 
         public static bool operator ==(Line3D left, Line3D right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
 
         public static bool operator !=(Line3D left, Line3D right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(Line3D other)
         {
-            return Equals(other.StartPoint, StartPoint) && Equals(other.EndPoint, EndPoint);
+            return StartPoint.Equals(other.StartPoint) && EndPoint.Equals(other.EndPoint);
         }
 
         /// <summary>

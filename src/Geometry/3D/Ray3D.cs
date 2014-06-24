@@ -35,6 +35,11 @@ namespace MathNet.Geometry
             return new Ray3D(Point3D.Parse(point), UnitVector3D.Parse(direction));
         }
 
+        public static Ray3D Parse(string s)
+        {
+            return Parser.ParseRay3D(s);
+        }
+
         public static bool operator ==(Ray3D left, Ray3D right)
         {
             return left.Equals(right);
