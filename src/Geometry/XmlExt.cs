@@ -26,7 +26,10 @@
         public static IEnumerable<FieldInfo> GetAllFields(Type t)
         {
             if (t == null)
+            {
                 return Enumerable.Empty<FieldInfo>();
+            }
+
             BindingFlags bindingAttr = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Static |
                                        BindingFlags.Public | BindingFlags.NonPublic;
             return t.GetFields(bindingAttr)
@@ -62,9 +65,11 @@
         {
             XAttribute xattribute = e.Attribute(localName);
             if (xattribute != null)
+            {
                 return xattribute.Value;
-            else
-                return null;
+            }
+
+            return null;
         }
 
         public static XElement SingleElement(this XElement e, string localName)
@@ -82,14 +87,20 @@
         public static double AsDouble(this XElement e, bool throwIfNull = true, double valueIfNull = 0)
         {
             if (!throwIfNull && e == null)
+            {
                 return valueIfNull;
+            }
+
             return XmlConvert.ToDouble(e.Value);
         }
 
         public static double AsDouble(this XAttribute e, bool throwIfNull = true)
         {
             if (!throwIfNull && e == null)
+            {
                 return 0;
+            }
+
             return XmlConvert.ToDouble(e.Value);
         }
 
@@ -126,13 +137,18 @@
             XAttribute xattribute = e.Attributes()
                                      .SingleOrDefault(x => x.Name.LocalName == localName);
             if (xattribute != null)
+            {
                 return xattribute.Value;
+            }
+
             XElement xelement = e.Elements()
                                  .SingleOrDefault(x => x.Name.LocalName == localName);
             if (xelement != null)
+            {
                 return xelement.Value;
-            else
-                throw new XmlException(String.Format("Attribute or element {0} not found", localName));
+            }
+
+            throw new XmlException(string.Format("Attribute or element {0} not found", localName));
         }
 
         public static T ReadAttributeOrElementEnum<T>(this XElement e, string localName) where T : struct, IConvertible
@@ -145,13 +161,18 @@
             XAttribute xattribute = e.Attributes()
                                      .SingleOrDefault(x => x.Name.LocalName == localName);
             if (xattribute != null)
+            {
                 return xattribute.Value;
+            }
+
             XElement xelement = e.Elements()
                                  .SingleOrDefault(x => x.Name.LocalName == localName);
             if (xelement != null)
+            {
                 return xelement.Value;
-            else
-                return null;
+            }
+
+            return null;
         }
 
         public static XmlWriter WriteAttribute<T>(this XmlWriter writer, string name, T value)
@@ -199,7 +220,6 @@
 
             self = (TItem)boxed;
         }
-
 
         public static void SetReadonlyFields<TItem>(ref TItem self, string[] fields, double[] values)
             where TItem : struct

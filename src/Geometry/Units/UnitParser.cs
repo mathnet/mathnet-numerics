@@ -26,7 +26,6 @@
                     return AngleUnit.Radians;
                 default:
                     throw new ArgumentOutOfRangeException();
-
             }
         }
     }

@@ -19,34 +19,34 @@ namespace MathNet.Geometry.Units
 
         private Angle(double radians)
         {
-            Radians = radians;
-            SerializeAsElements = false;
+            this.Radians = radians;
+            this.SerializeAsElements = false;
         }
 
         public Angle(double radians, Radians unit)
         {
-            Radians = radians;
-            SerializeAsElements = false;
+            this.Radians = radians;
+            this.SerializeAsElements = false;
         }
 
         public Angle(double radians, Degrees unit)
         {
-            Radians = UnitConverter.ConvertFrom(radians, unit);
-            SerializeAsElements = false;
+            this.Radians = UnitConverter.ConvertFrom(radians, unit);
+            this.SerializeAsElements = false;
         }
 
         [Obsolete("This boxes, use Angle.From() instead")]
         public Angle(double radians, IAngleUnit unit)
         {
-            Radians = UnitConverter.ConvertFrom(radians, unit);
-            SerializeAsElements = false;
+            this.Radians = UnitConverter.ConvertFrom(radians, unit);
+            this.SerializeAsElements = false;
         }
 
         public double Degrees
         {
             get
             {
-                return UnitConverter.ConvertTo(Radians, AngleUnit.Degrees);
+                return UnitConverter.ConvertTo(this.Radians, AngleUnit.Degrees);
             }
         }
 
@@ -140,43 +140,43 @@ namespace MathNet.Geometry.Units
 
         public override string ToString()
         {
-            return ToString((string)null, (IFormatProvider)NumberFormatInfo.CurrentInfo);
+            return this.ToString((string)null, (IFormatProvider)NumberFormatInfo.CurrentInfo);
         }
 
         public string ToString(string format)
         {
-            return ToString(format, (IFormatProvider)NumberFormatInfo.CurrentInfo);
+            return this.ToString(format, (IFormatProvider)NumberFormatInfo.CurrentInfo);
         }
 
         public string ToString(IFormatProvider provider)
         {
-            return ToString((string)null, (IFormatProvider)NumberFormatInfo.GetInstance(provider));
+            return this.ToString((string)null, (IFormatProvider)NumberFormatInfo.GetInstance(provider));
         }
 
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return ToString(format, formatProvider, AngleUnit.Radians);
+            return this.ToString(format, formatProvider, AngleUnit.Radians);
         }
 
         public string ToString<T>(string format, IFormatProvider formatProvider, T unit) where T : IAngleUnit
         {
-            var value = UnitConverter.ConvertTo(Radians, unit);
+            var value = UnitConverter.ConvertTo(this.Radians, unit);
             return string.Format("{0}{1}", value.ToString(format, formatProvider), unit.ShortName);
         }
 
         public int CompareTo(Angle other)
         {
-            return Radians.CompareTo(other.Radians);
+            return this.Radians.CompareTo(other.Radians);
         }
 
         public bool Equals(Angle other)
         {
-            return Radians.Equals(other.Radians);
+            return this.Radians.Equals(other.Radians);
         }
 
         public bool Equals(Angle other, double tolerance)
         {
-            return Math.Abs(Radians - other.Radians) < tolerance;
+            return Math.Abs(this.Radians - other.Radians) < tolerance;
         }
 
         public override bool Equals(object obj)
@@ -185,12 +185,13 @@ namespace MathNet.Geometry.Units
             {
                 return false;
             }
+
             return obj is Angle && this.Equals((Angle)obj);
         }
 
         public override int GetHashCode()
         {
-            return Radians.GetHashCode();
+            return this.Radians.GetHashCode();
         }
 
         /// <summary>
@@ -203,7 +204,10 @@ namespace MathNet.Geometry.Units
         ///  <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> 
         /// method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
         /// </returns>
-        public XmlSchema GetSchema() { return null; }
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Generates an object from its XML representation.
@@ -213,6 +217,7 @@ namespace MathNet.Geometry.Units
         {
             reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
+
             // Hacking set readonly fields here, can't think of a cleaner workaround
             XmlExt.SetReadonlyField(ref this, x => x.Radians, XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Value")));
         }
@@ -223,13 +228,13 @@ namespace MathNet.Geometry.Units
         /// <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized. </param>
         public void WriteXml(XmlWriter writer)
         {
-            if (SerializeAsElements)
+            if (this.SerializeAsElements)
             {
-                writer.WriteElementString("Value", Radians.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("Value", this.Radians.ToString(CultureInfo.InvariantCulture));
             }
             else
             {
-                writer.WriteAttribute("Value", Radians);
+                writer.WriteAttribute("Value", this.Radians);
             }
         }
 

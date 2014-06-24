@@ -8,9 +8,9 @@
 
         public Circle3D(Point3D centerPoint, UnitVector3D axis, double radius)
         {
-            CenterPoint = centerPoint;
-            Axis = axis;
-            Radius = radius;
+            this.CenterPoint = centerPoint;
+            this.Axis = axis;
+            this.Radius = radius;
         }
     }
 }

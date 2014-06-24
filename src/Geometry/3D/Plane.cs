@@ -24,9 +24,9 @@
 
         public Plane(UnitVector3D normal, double offset = 0)
         {
-            Normal = normal;
-            RootPoint = (offset * normal).ToPoint3D();
-            D = -1 * offset;
+            this.Normal = normal;
+            this.RootPoint = (offset * normal).ToPoint3D();
+            this.D = -1 * offset;
         }
 
         public Plane(UnitVector3D normal, Point3D rootPoint)
@@ -36,9 +36,9 @@
 
         public Plane(Point3D rootPoint, UnitVector3D normal)
         {
-            RootPoint = rootPoint;
-            Normal = normal;
-            D = -RootPoint.ToVector().DotProduct(Normal);
+            this.RootPoint = rootPoint;
+            this.Normal = normal;
+            this.D = -this.RootPoint.ToVector().DotProduct(this.Normal);
         }
 
         public static Plane Parse(string s)
@@ -50,7 +50,7 @@
         {
             get
             {
-                return Normal.X;
+                return this.Normal.X;
             }
         }
 
@@ -58,7 +58,7 @@
         {
             get
             {
-                return Normal.Y;
+                return this.Normal.Y;
             }
         }
 
@@ -66,7 +66,7 @@
         {
             get
             {
-                return Normal.Z;
+                return this.Normal.Z;
             }
         }
 
@@ -77,27 +77,33 @@
 
         public static bool operator !=(Plane left, Plane right)
         {
-            return !Equals(left, right);
+            return !left.Equals(right);
         }
 
         public double SignedDistanceTo(Point3D point)
         {
             var point3D = Project(point);
             var vectorTo = point3D.VectorTo(point);
-            return vectorTo.DotProduct(Normal);
+            return vectorTo.DotProduct(this.Normal);
         }
 
         public double SignedDistanceTo(Plane otherPlane)
         {
-            if (!Normal.IsParallelTo(otherPlane.Normal, tolerance: 1E-15))
+            if (!this.Normal.IsParallelTo(otherPlane.Normal, tolerance: 1E-15))
+            {
                 throw new ArgumentException("Planes are not paralell");
+            }
+
             return SignedDistanceTo(otherPlane.RootPoint);
         }
 
         public double SignedDistanceTo(Ray3D ray)
         {
-            if (Math.Abs(ray.Direction.DotProduct(Normal) - 0) < 1E-15)
+            if (Math.Abs(ray.Direction.DotProduct(this.Normal) - 0) < 1E-15)
+            {
                 return SignedDistanceTo(ray.ThroughPoint);
+            }
+
             return 0;
         }
 
@@ -108,9 +114,9 @@
 
         public Point3D Project(Point3D p, UnitVector3D? projectionDirection = null)
         {
-            double dotProduct = Normal.DotProduct(p.ToVector());
-            var projectiononNormal = projectionDirection == null ? Normal : projectionDirection.Value;
-            var projectionVector = (dotProduct + D) * projectiononNormal;
+            double dotProduct = this.Normal.DotProduct(p.ToVector());
+            var projectiononNormal = projectionDirection == null ? this.Normal : projectionDirection.Value;
+            var projectionVector = (dotProduct + this.D) * projectiononNormal;
             return p - projectionVector;
         }
 
@@ -136,7 +142,7 @@
         public Ray3D Project(Vector3D vector3DToProject)
         {
             var projectedEndPoint = Project(vector3DToProject.ToPoint3D());
-            var projectedZero = Project(new Point3D(0, 0, 0));
+            var projectedZero = this.Project(new Point3D(0, 0, 0));
             return new Ray3D(projectedZero, projectedZero.VectorTo(projectedEndPoint).Normalize());
         }
 
@@ -150,15 +156,16 @@
         public Ray3D IntersectionWith(Plane intersectingPlane, double tolerance = float.Epsilon)
         {
             var a = new DenseMatrix(2, 3);
-            a.SetRow(0, Normal.ToDenseVector());
+            a.SetRow(0, this.Normal.ToDenseVector());
             a.SetRow(1, intersectingPlane.Normal.ToDenseVector());
             var svd = a.Svd(true);
             if (svd.S[1] < tolerance)
             {
                 throw new ArgumentException("Planes are parallel");
             }
+
             var y = new DenseMatrix(2, 1);
-            y[0, 0] = -1 * D;
+            y[0, 0] = -1 * this.D;
             y[1, 0] = -1 * intersectingPlane.D;
 
             Matrix<double> pointOnIntersectionLine = svd.Solve(y);
@@ -178,51 +185,22 @@
         public Point3D IntersectionWith(Ray3D ray, double tolerance = float.Epsilon)
         {
             var d = SignedDistanceTo(ray.ThroughPoint);
-            var t = -1 * d / ray.Direction.DotProduct(Normal);
-            return ray.ThroughPoint + t * ray.Direction;
-        }
-
-        /// <summary>
-        /// Calculate the point of intersection of two lines projected onto this plane.
-        /// </summary>
-        /// <returns>Intersection point</returns>
-        public Point3D IntersectionOf(Line3D first, Line3D second)
-        {
-            first = first.ProjectOn(this);
-            second = second.ProjectOn(this);
-            Point3D[] p = new Point3D[]
-          {
-            first.StartPoint,
-            first.EndPoint,
-            second.StartPoint,
-            second.EndPoint,
-          };
-
-            // http://mathworld.wolfram.com/Line3D-LineIntersection.html
-            double a = p[0].X * p[1].Y - p[0].Y * p[1].X;
-            double b = p[2].X * p[3].Y - p[2].Y * p[3].X;
-            double c = (p[0].X - p[1].X) * (p[2].Y - p[3].Y) - (p[0].Y - p[1].Y) * (p[2].X - p[3].X);
-            if (c == 0)
-                throw new Exception("Lines do not intersect");
-            double x = (a * (p[2].X - p[3].X) - b * (p[0].X - p[1].X)) / c;
-            double y = (a * (p[2].Y - p[3].Y) - b * (p[0].Y - p[1].Y)) / c;
-
-            double z = -(A * x + B * y + D) / C;
-            return new Point3D(x, y, z);
+            var t = -1 * d / ray.Direction.DotProduct(this.Normal);
+            return ray.ThroughPoint + (t * ray.Direction);
         }
 
         public Point3D MirrorAbout(Point3D p)
         {
             Point3D p2 = Project(p);
             double d = SignedDistanceTo(p);
-            return p2 - 1 * d * Normal;
+            return p2 - (1 * d * this.Normal);
         }
 
         public Plane Rotate(UnitVector3D aboutVector, Angle angle)
         {
-            var rootPoint = RootPoint;
+            var rootPoint = this.RootPoint;
             var rotatedPoint = rootPoint.Rotate(aboutVector, angle);
-            var rotatedPlaneVector = Normal.Rotate(aboutVector, angle);
+            var rotatedPlaneVector = this.Normal.Rotate(aboutVector, angle);
             return new Plane(rotatedPlaneVector, rotatedPoint);
         }
 
@@ -235,12 +213,7 @@
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(Plane other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            if (Math.Abs(other.A - A) >= float.Epsilon) return false;
-            if (Math.Abs(other.C - C) >= float.Epsilon) return false;
-            if (Math.Abs(other.B - B) >= float.Epsilon) return false;
-            return Math.Abs(other.D - D) < float.Epsilon;
+            return this.RootPoint == other.RootPoint && this.Normal == other.Normal;
         }
 
         /// <summary>
@@ -252,10 +225,12 @@
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(Plane)) return false;
-            return Equals((Plane)obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            return obj is Plane && this.Equals((Plane)obj);
         }
 
         /// <summary>
@@ -269,10 +244,10 @@
         {
             unchecked
             {
-                int result = A.GetHashCode();
-                result = (result * 397) ^ C.GetHashCode();
-                result = (result * 397) ^ B.GetHashCode();
-                result = (result * 397) ^ D.GetHashCode();
+                int result = this.A.GetHashCode();
+                result = (result * 397) ^ this.C.GetHashCode();
+                result = (result * 397) ^ this.B.GetHashCode();
+                result = (result * 397) ^ this.D.GetHashCode();
                 return result;
             }
         }
@@ -284,7 +259,7 @@
 
         public override string ToString()
         {
-            return string.Format("A:{0} B:{1} C:{2} D:{3}", Math.Round(A, 4), Math.Round(B, 4), Math.Round(C, 4), Math.Round(D, 4));
+            return string.Format("A:{0} B:{1} C:{2} D:{3}", Math.Round(this.A, 4), Math.Round(this.B, 4), Math.Round(this.C, 4), Math.Round(this.D, 4));
         }
 
         public XmlSchema GetSchema()
@@ -298,13 +273,13 @@
             var e = (XElement)XNode.ReadFrom(reader);
             XmlExt.SetReadonlyField(ref this, l => l.RootPoint, Point3D.ReadFrom(e.SingleElement("RootPoint").CreateReader()));
             XmlExt.SetReadonlyField(ref this, l => l.Normal, UnitVector3D.ReadFrom(e.SingleElement("Normal").CreateReader()));
-            XmlExt.SetReadonlyField(ref this, l => l.D, -RootPoint.ToVector().DotProduct(Normal));
+            XmlExt.SetReadonlyField(ref this, l => l.D, -this.RootPoint.ToVector().DotProduct(this.Normal));
         }
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteElement("RootPoint", RootPoint);
-            writer.WriteElement("Normal", Normal);
+            writer.WriteElement("RootPoint", this.RootPoint);
+            writer.WriteElement("Normal", this.Normal);
         }
     }
 }

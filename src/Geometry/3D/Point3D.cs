@@ -16,13 +16,6 @@ namespace MathNet.Geometry
     [Serializable]
     public struct Point3D : IXmlSerializable, IEquatable<Point3D>, IFormattable
     {
-        #region Common
-
-        /// <summary>
-        /// Default is serializing as attributes, set to true for elements
-        /// </summary>
-        public bool SerializeAsElements;
-
         /// <summary>
         /// Using public fields cos: http://blogs.msdn.com/b/ricom/archive/2006/08/31/performance-quiz-11-ten-questions-on-value-based-programming.aspx
         /// </summary>
@@ -38,12 +31,17 @@ namespace MathNet.Geometry
         /// </summary>
         public readonly double Z;
 
+        /// <summary>
+        /// Default is serializing as attributes, set to true for elements
+        /// </summary>
+        public bool SerializeAsElements;
+
         public Point3D(double x, double y, double z)
         {
-            X = x;
-            Y = y;
-            Z = z;
-            SerializeAsElements = false;
+            this.X = x;
+            this.Y = y;
+            this.Z = z;
+            this.SerializeAsElements = false;
         }
 
         public Point3D(IEnumerable<double> data)
@@ -65,7 +63,7 @@ namespace MathNet.Geometry
         /// </summary>
         public DenseVector ToDenseVector()
         {
-            return new DenseVector(new[] { X, Y, Z });
+            return new DenseVector(new[] { this.X, this.Y, this.Z });
         }
 
         public static Point3D Parse(string value)
@@ -98,25 +96,25 @@ namespace MathNet.Geometry
 
         public override string ToString()
         {
-            return ToString(null, CultureInfo.InvariantCulture);
+            return this.ToString(null, CultureInfo.InvariantCulture);
         }
 
         public string ToString(IFormatProvider provider)
         {
-            return ToString(null, provider);
+            return this.ToString(null, provider);
         }
 
         public string ToString(string format, IFormatProvider provider = null)
         {
             var numberFormatInfo = provider != null ? NumberFormatInfo.GetInstance(provider) : CultureInfo.InvariantCulture.NumberFormat;
             string separator = numberFormatInfo.NumberDecimalSeparator == "," ? ";" : ",";
-            return string.Format("({0}{1} {2}{1} {3})",  X.ToString(format, numberFormatInfo), separator, Y.ToString(format, numberFormatInfo), Z.ToString(format, numberFormatInfo));
+            return string.Format("({0}{1} {2}{1} {3})",  this.X.ToString(format, numberFormatInfo), separator, this.Y.ToString(format, numberFormatInfo), this.Z.ToString(format, numberFormatInfo));
         }
 
         public bool Equals(Point3D other)
         {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            return X == other.X && Y == other.Y && Z == other.Z;
+            return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
@@ -127,9 +125,9 @@ namespace MathNet.Geometry
                 throw new ArgumentException("epsilon < 0");
             }
 
-            return Math.Abs(other.X - X) < tolerance &&
-                   Math.Abs(other.Y - Y) < tolerance &&
-                   Math.Abs(other.Z - Z) < tolerance;
+            return Math.Abs(other.X - this.X) < tolerance &&
+                   Math.Abs(other.Y - this.Y) < tolerance &&
+                   Math.Abs(other.Z - this.Z) < tolerance;
         }
 
         public override bool Equals(object obj)
@@ -138,16 +136,17 @@ namespace MathNet.Geometry
             {
                 return false;
             }
-            return obj is Point3D && Equals((Point3D)obj);
+
+            return obj is Point3D && this.Equals((Point3D)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
-                hashCode = (hashCode * 397) ^ Z.GetHashCode();
+                var hashCode = this.X.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Y.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Z.GetHashCode();
                 return hashCode;
             }
         }
@@ -158,7 +157,10 @@ namespace MathNet.Geometry
         /// <returns>
         /// An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
         /// </returns>
-        public XmlSchema GetSchema() { return null; }
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Generates an object from its XML representation.
@@ -168,6 +170,7 @@ namespace MathNet.Geometry
         {
             reader.MoveToContent();
             var e = (XElement)XNode.ReadFrom(reader);
+
             // Hacking set readonly fields here, can't think of a cleaner workaround
             double x = XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("X"));
             double y = XmlConvert.ToDouble(e.ReadAttributeOrElementOrDefault("Y"));
@@ -182,17 +185,17 @@ namespace MathNet.Geometry
         /// <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized. </param>
         public void WriteXml(XmlWriter writer)
         {
-            if (SerializeAsElements)
+            if (this.SerializeAsElements)
             {
-                writer.WriteElementString("X", X.ToString(CultureInfo.InvariantCulture));
-                writer.WriteElementString("Y", Y.ToString(CultureInfo.InvariantCulture));
-                writer.WriteElementString("Z", Z.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("X", this.X.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("Y", this.Y.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("Z", this.Z.ToString(CultureInfo.InvariantCulture));
             }
             else
             {
-                writer.WriteAttribute("X", X);
-                writer.WriteAttribute("Y", Y);
-                writer.WriteAttribute("Z", Z);
+                writer.WriteAttribute("X", this.X);
+                writer.WriteAttribute("Y", this.Y);
+                writer.WriteAttribute("Z", this.Z);
             }
         }
 
@@ -202,8 +205,6 @@ namespace MathNet.Geometry
             p.ReadXml(reader);
             return p;
         }
-
-        #endregion Common
 
         public static Point3D Origin
         {
@@ -228,9 +229,10 @@ namespace MathNet.Geometry
 
         public static Point3D Centroid(params Point3D[] points)
         {
-            return new Point3D(points.Average(point => point.X),
-                              points.Average(point => point.Y),
-                              points.Average(point => point.Z));
+            return new Point3D(
+                points.Average(point => point.X),
+                points.Average(point => point.Y),
+                points.Average(point => point.Z));
         }
 
         public static Point3D MidPoint(Point3D p1, Point3D p2)
@@ -314,13 +316,13 @@ namespace MathNet.Geometry
 
         public double DistanceTo(Point3D p)
         {
-            var vector = VectorTo(p);
+            var vector = this.VectorTo(p);
             return vector.Length;
         }
 
         public Vector3D ToVector()
         {
-            return new Vector3D(X, Y, Z);
+            return new Vector3D(this.X, this.Y, this.Z);
         }
 
         public Point3D TransformBy(CoordinateSystem cs)

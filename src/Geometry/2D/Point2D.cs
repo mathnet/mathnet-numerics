@@ -15,13 +15,6 @@ namespace MathNet.Geometry
     [Serializable]
     public struct Point2D : IXmlSerializable, IEquatable<Point2D>, IFormattable
     {
-        #region Common
-
-        /// <summary>
-        /// Default is serializing as attributes, set to true for elements
-        /// </summary>
-        public bool SerializeAsElements;
-
         /// <summary>
         /// Using public fields cos: http://blogs.msdn.com/b/ricom/archive/2006/08/31/performance-quiz-11-ten-questions-on-value-based-programming.aspx
         /// </summary>
@@ -32,11 +25,16 @@ namespace MathNet.Geometry
         /// </summary>
         public readonly double Y;
 
+        /// <summary>
+        /// Default is serializing as attributes, set to true for elements
+        /// </summary>
+        public bool SerializeAsElements;
+
         public Point2D(double x, double y)
         {
-            X = x;
-            Y = y;
-            SerializeAsElements = false;
+            this.X = x;
+            this.Y = y;
+            this.SerializeAsElements = false;
         }
 
         /// <summary>
@@ -58,12 +56,14 @@ namespace MathNet.Geometry
             : this(data[0], data[1])
         {
             if (data.Length != 2)
+            {
                 throw new ArgumentException("data.Length != 2!");
+            }
         }
 
         public DenseVector ToDenseVector()
         {
-            return new DenseVector(new[] { X, Y });
+            return new DenseVector(new[] { this.X, this.Y });
         }
 
         public static Point2D Parse(string value)
@@ -90,25 +90,25 @@ namespace MathNet.Geometry
 
         public override string ToString()
         {
-            return ToString(null, CultureInfo.InvariantCulture);
+            return this.ToString(null, CultureInfo.InvariantCulture);
         }
 
         public string ToString(IFormatProvider provider)
         {
-            return ToString(null, provider);
+            return this.ToString(null, provider);
         }
 
         public string ToString(string format, IFormatProvider provider = null)
         {
             var numberFormatInfo = provider != null ? NumberFormatInfo.GetInstance(provider) : CultureInfo.InvariantCulture.NumberFormat;
             string separator = numberFormatInfo.NumberDecimalSeparator == "," ? ";" : ",";
-            return string.Format("({0}{1} {2})", X.ToString(format, numberFormatInfo), separator, Y.ToString(format, numberFormatInfo));
+            return string.Format("({0}{1} {2})", this.X.ToString(format, numberFormatInfo), separator, this.Y.ToString(format, numberFormatInfo));
         }
 
         public bool Equals(Point2D other)
         {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            return X == other.X && Y == other.Y;
+            return this.X == other.X && this.Y == other.Y;
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
@@ -118,8 +118,9 @@ namespace MathNet.Geometry
             {
                 throw new ArgumentException("epsilon < 0");
             }
-            return Math.Abs(other.X - X) < tolerance &&
-                   Math.Abs(other.Y - Y) < tolerance;
+
+            return Math.Abs(other.X - this.X) < tolerance &&
+                   Math.Abs(other.Y - this.Y) < tolerance;
         }
 
         public override bool Equals(object obj)
@@ -128,14 +129,15 @@ namespace MathNet.Geometry
             {
                 return false;
             }
-            return obj is Point2D && Equals((Point2D)obj);
+
+            return obj is Point2D && this.Equals((Point2D)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (X.GetHashCode() * 397) ^ Y.GetHashCode();
+                return (this.X.GetHashCode() * 397) ^ this.Y.GetHashCode();
             }
         }
 
@@ -170,15 +172,15 @@ namespace MathNet.Geometry
         /// <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized. </param>
         public void WriteXml(XmlWriter writer)
         {
-            if (SerializeAsElements)
+            if (this.SerializeAsElements)
             {
-                writer.WriteElementString("X", X.ToString(CultureInfo.InvariantCulture));
-                writer.WriteElementString("Y", Y.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("X", this.X.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("Y", this.Y.ToString(CultureInfo.InvariantCulture));
             }
             else
             {
-                writer.WriteAttribute("X", X);
-                writer.WriteAttribute("Y", Y);
+                writer.WriteAttribute("X", this.X);
+                writer.WriteAttribute("Y", this.Y);
             }
         }
 
@@ -188,10 +190,6 @@ namespace MathNet.Geometry
             v.ReadXml(reader);
             return v;
         }
-
-        #endregion Common
-
-        #region Point specific
 
         public static Point2D Origin
         {
@@ -240,21 +238,22 @@ namespace MathNet.Geometry
 
         public double DistanceTo(Point2D otherPoint)
         {
-            var vector = VectorTo(otherPoint);
+            var vector = this.VectorTo(otherPoint);
             return vector.Length;
         }
 
         public Vector2D ToVector()
         {
-            return new Vector2D(X, Y);
+            return new Vector2D(this.X, this.Y);
         }
+       
         /// <summary>
         /// return new Point3D(X, Y, 0);
         /// </summary>
         /// <returns>return new Point3D(X, Y, 0);</returns>
         public Point3D ToPoint3D()
         {
-            return new Point3D(X, Y, 0);
+            return new Point3D(this.X, this.Y, 0);
         }
 
         /// <summary>
@@ -266,7 +265,5 @@ namespace MathNet.Geometry
         {
             return cs.Transform(this.ToPoint3D());
         }
-
-        #endregion Point specific
     }
 }

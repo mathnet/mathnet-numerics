@@ -22,30 +22,32 @@
         /// <param name="endPoint"></param>
         public Line3D(Point3D startPoint, Point3D endPoint)
         {
-            StartPoint = startPoint;
-            EndPoint = endPoint;
-            if (StartPoint == EndPoint)
+            this.StartPoint = startPoint;
+            this.EndPoint = endPoint;
+            if (this.StartPoint == this.EndPoint)
             {
                 throw new ArgumentException("StartPoint == EndPoint");
             }
-            _length = -1.0;
-            _direction = new UnitVector3D();
+
+            this._length = -1.0;
+            this._direction = new UnitVector3D();
         }
 
         public double Length
         {
             get
             {
-                if (_length < 0)
+                if (this._length < 0)
                 {
-                    var vectorTo = StartPoint.VectorTo(EndPoint);
-                    _length = vectorTo.Length;
-                    if (_length > 0)
+                    var vectorTo = this.StartPoint.VectorTo(this.EndPoint);
+                    this._length = vectorTo.Length;
+                    if (this._length > 0)
                     {
-                        _direction = vectorTo.Normalize();
+                        this._direction = vectorTo.Normalize();
                     }
                 }
-                return _length;
+
+                return this._length;
             }
         }
 
@@ -53,11 +55,12 @@
         {
             get
             {
-                if (_length < 0)
+                if (this._length < 0)
                 {
-                    _length = Length; // Side effect hack
+                    this._length = this.Length; // Side effect hack
                 }
-                return _direction;
+
+                return this._direction;
             }
         }
 
@@ -84,18 +87,24 @@
         /// <returns></returns>
         public Line3D LineTo(Point3D p, bool mustStartBetweenStartAndEnd)
         {
-            Vector3D v = StartPoint.VectorTo(p);
-            double dotProduct = v.DotProduct(Direction);
+            Vector3D v = this.StartPoint.VectorTo(p);
+            double dotProduct = v.DotProduct(this.Direction);
             if (mustStartBetweenStartAndEnd)
             {
                 if (dotProduct < 0)
+                {
                     dotProduct = 0;
-                var l = Length;
+                }
+
+                var l = this.Length;
                 if (dotProduct > l)
+                {
                     dotProduct = l;
+                }
             }
-            var alongVector = dotProduct * Direction;
-            return new Line3D(StartPoint + alongVector, p);
+
+            var alongVector = dotProduct * this.Direction;
+            return new Line3D(this.StartPoint + alongVector, p);
         }
 
         public Line3D ProjectOn(Plane plane)
@@ -112,7 +121,7 @@
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(Line3D other)
         {
-            return StartPoint.Equals(other.StartPoint) && EndPoint.Equals(other.EndPoint);
+            return this.StartPoint.Equals(other.StartPoint) && this.EndPoint.Equals(other.EndPoint);
         }
 
         /// <summary>
@@ -124,8 +133,12 @@
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            return obj is Line3D && Equals((Line3D)obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            return obj is Line3D && this.Equals((Line3D)obj);
         }
 
         /// <summary>
@@ -139,15 +152,15 @@
         {
             unchecked
             {
-                var hashCode = StartPoint.GetHashCode();
-                hashCode = (hashCode * 397) ^ EndPoint.GetHashCode();
+                var hashCode = this.StartPoint.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.EndPoint.GetHashCode();
                 return hashCode;
             }
         }
 
         public override string ToString()
         {
-            return string.Format("StartPoint: {0}, EndPoint: {1}", StartPoint, EndPoint);
+            return string.Format("StartPoint: {0}, EndPoint: {1}", this.StartPoint, this.EndPoint);
         }
 
         public XmlSchema GetSchema()
@@ -165,8 +178,8 @@
         
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteElement("StartPoint", StartPoint);
-            writer.WriteElement("EndPoint", EndPoint);
+            writer.WriteElement("StartPoint", this.StartPoint);
+            writer.WriteElement("EndPoint", this.EndPoint);
         }
     }
 }

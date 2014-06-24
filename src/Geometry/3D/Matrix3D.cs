@@ -65,7 +65,10 @@ namespace MathNet.Geometry
         public static Matrix<double> RotationTo(UnitVector3D fromVector, UnitVector3D toVector, UnitVector3D? axis = null)
         {
             if (fromVector == toVector)
+            {
                 return DenseMatrix.CreateIdentity(3);
+            }
+
             if (fromVector.IsParallelTo(toVector))
             {
                 if (axis == null)
@@ -77,6 +80,7 @@ namespace MathNet.Geometry
             {
                 axis = fromVector.CrossProduct(toVector);
             }
+
             var signedAngleTo = fromVector.SignedAngleTo(toVector, axis.Value);
             return RotationAroundArbitraryVector(axis.Value, signedAngleTo);
         }
@@ -97,7 +101,7 @@ namespace MathNet.Geometry
         {
             // http://en.wikipedia.org/wiki/Rotation_matrix
             var unitTensorProduct = aboutVector.GetUnitTensorProduct();
-            var crossproductMatrix = aboutVector.CrossProductMatrix; //aboutVector.Clone().CrossProduct(aboutVector.Clone());
+            var crossproductMatrix = aboutVector.CrossProductMatrix; // aboutVector.Clone().CrossProduct(aboutVector.Clone());
 
             var r1 = DenseMatrix.CreateIdentity(3).Multiply(Math.Cos(angle.Radians));
             var r2 = crossproductMatrix.Multiply(Math.Sin(angle.Radians));

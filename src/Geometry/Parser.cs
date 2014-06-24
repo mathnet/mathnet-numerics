@@ -37,6 +37,7 @@
             {
                 throw new ArgumentException("Expected single capture");
             }
+
             return ParseDouble(@group.Value);
         }
 
@@ -54,6 +55,7 @@
                 var uv = UnitVector3D.Parse(match.Groups["v"].Value);
                 return new Plane(p, uv);
             }
+
             match = Regex.Match(s, PlaneAbcdPattern);
             {
                 var a = ParseDouble(match.Groups["a"]);

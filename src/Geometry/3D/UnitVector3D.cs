@@ -16,13 +16,6 @@ namespace MathNet.Geometry
     [Serializable]
     public struct UnitVector3D : IXmlSerializable, IEquatable<UnitVector3D>, IEquatable<Vector3D>, IFormattable
     {
-        #region Common
-
-        /// <summary>
-        /// Default is serializing as attributes, set to true for elements
-        /// </summary>
-        public bool SerializeAsElements;
-
         /// <summary>
         /// Using public fields cos: http://blogs.msdn.com/b/ricom/archive/2006/08/31/performance-quiz-11-ten-questions-on-value-based-programming.aspx
         /// </summary>
@@ -38,17 +31,23 @@ namespace MathNet.Geometry
         /// </summary>
         public readonly double Z;
 
+        /// <summary>
+        /// Default is serializing as attributes, set to true for elements
+        /// </summary>
+        public bool SerializeAsElements;
+
         public UnitVector3D(double x, double y, double z)
         {
-            var l = Math.Sqrt(x * x + y * y + z * z);
+            var l = Math.Sqrt((x * x) + (y * y) + (z * z));
             if (l < float.Epsilon)
             {
                 throw new ArgumentException("l < float.Epsilon");
             }
-            X = x / l;
-            Y = y / l;
-            Z = z / l;
-            SerializeAsElements = false;
+
+            this.X = x / l;
+            this.Y = y / l;
+            this.Z = z / l;
+            this.SerializeAsElements = false;
         }
 
         public UnitVector3D(IEnumerable<double> data)
@@ -72,12 +71,12 @@ namespace MathNet.Geometry
         {
             get
             {
-                if (-X - Y > 0.1)
+                if (-this.X - this.Y > 0.1)
                 {
-                    return new UnitVector3D(Z, Z, -X - Y);
+                    return new UnitVector3D(this.Z, this.Z, -this.X - this.Y);
                 }
 
-                return new UnitVector3D(-Y - Z, X, X);
+                return new UnitVector3D(-this.Y - this.Z, this.X, this.X);
             }
         }
 
@@ -86,7 +85,7 @@ namespace MathNet.Geometry
         /// </summary>
         public DenseVector ToDenseVector()
         {
-            return new DenseVector(new[] { X, Y, Z });
+            return new DenseVector(new[] { this.X, this.Y, this.Z });
         }
 
         public static UnitVector3D Parse(string value)
@@ -97,7 +96,7 @@ namespace MathNet.Geometry
 
         public static bool operator ==(UnitVector3D left, UnitVector3D right)
         {
-            return Equals(left, right);
+            return left.Equals(right);
         }
 
         public static bool operator ==(Vector3D left, UnitVector3D right)
@@ -109,6 +108,7 @@ namespace MathNet.Geometry
         {
             return left.Equals(right);
         }
+
         public static bool operator !=(UnitVector3D left, UnitVector3D right)
         {
             return !left.Equals(right);
@@ -143,32 +143,32 @@ namespace MathNet.Geometry
 
         public override string ToString()
         {
-            return ToString(null, CultureInfo.InvariantCulture);
+            return this.ToString(null, CultureInfo.InvariantCulture);
         }
 
         public string ToString(IFormatProvider provider)
         {
-            return ToString(null, provider);
+            return this.ToString(null, provider);
         }
 
         public string ToString(string format, IFormatProvider provider = null)
         {
             var numberFormatInfo = provider != null ? NumberFormatInfo.GetInstance(provider) : CultureInfo.InvariantCulture.NumberFormat;
             string separator = numberFormatInfo.NumberDecimalSeparator == "," ? ";" : ",";
-            return string.Format("({0}{1} {2}{1} {3})", X.ToString(format, numberFormatInfo), separator, Y.ToString(format, numberFormatInfo), Z.ToString(format, numberFormatInfo));
+            return string.Format("({0}{1} {2}{1} {3})", this.X.ToString(format, numberFormatInfo), separator, this.Y.ToString(format, numberFormatInfo), this.Z.ToString(format, numberFormatInfo));
         }
 
         public bool Equals(Vector3D other)
         {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            return X == other.X && Y == other.Y && Z == other.Z;
+            return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
         public bool Equals(UnitVector3D other)
         {
             // ReSharper disable CompareOfFloatsByEqualityOperator
-            return X == other.X && Y == other.Y && Z == other.Z;
+            return this.X == other.X && this.Y == other.Y && this.Z == other.Z;
             // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
@@ -179,9 +179,9 @@ namespace MathNet.Geometry
                 throw new ArgumentException("epsilon < 0");
             }
 
-            return Math.Abs(other.X - X) < tolerance &&
-                   Math.Abs(other.Y - Y) < tolerance &&
-                   Math.Abs(other.Z - Z) < tolerance;
+            return Math.Abs(other.X - this.X) < tolerance &&
+                   Math.Abs(other.Y - this.Y) < tolerance &&
+                   Math.Abs(other.Z - this.Z) < tolerance;
         }
 
         public bool Equals(Vector3D other, double tolerance)
@@ -191,9 +191,9 @@ namespace MathNet.Geometry
                 throw new ArgumentException("epsilon < 0");
             }
 
-            return Math.Abs(other.X - X) < tolerance &&
-                   Math.Abs(other.Y - Y) < tolerance &&
-                   Math.Abs(other.Z - Z) < tolerance;
+            return Math.Abs(other.X - this.X) < tolerance &&
+                   Math.Abs(other.Y - this.Y) < tolerance &&
+                   Math.Abs(other.Z - this.Z) < tolerance;
         }
 
         public override bool Equals(object obj)
@@ -202,16 +202,18 @@ namespace MathNet.Geometry
             {
                 return false;
             }
-            return obj is UnitVector3D && Equals((UnitVector3D)obj) || obj is Vector3D && Equals((Vector3D)obj);
+
+            return (obj is UnitVector3D && this.Equals((UnitVector3D)obj)) ||
+                   (obj is Vector3D && this.Equals((Vector3D)obj));
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                var hashCode = X.GetHashCode();
-                hashCode = (hashCode * 397) ^ Y.GetHashCode();
-                hashCode = (hashCode * 397) ^ Z.GetHashCode();
+                var hashCode = this.X.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Y.GetHashCode();
+                hashCode = (hashCode * 397) ^ this.Z.GetHashCode();
                 return hashCode;
             }
         }
@@ -222,7 +224,10 @@ namespace MathNet.Geometry
         /// <returns>
         /// An <see cref="T:System.Xml.Schema.XmlSchema"/> that describes the XML representation of the object that is produced by the <see cref="M:System.Xml.Serialization.IXmlSerializable.WriteXml(System.Xml.XmlWriter)"/> method and consumed by the <see cref="M:System.Xml.Serialization.IXmlSerializable.ReadXml(System.Xml.XmlReader)"/> method.
         /// </returns>
-        public XmlSchema GetSchema() { return null; }
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
 
         /// <summary>
         /// Generates an object from its XML representation.
@@ -245,17 +250,17 @@ namespace MathNet.Geometry
         /// <param name="writer">The <see cref="T:System.Xml.XmlWriter"/> stream to which the object is serialized. </param>
         public void WriteXml(XmlWriter writer)
         {
-            if (SerializeAsElements)
+            if (this.SerializeAsElements)
             {
-                writer.WriteElementString("X", X.ToString(CultureInfo.InvariantCulture));
-                writer.WriteElementString("Y", Y.ToString(CultureInfo.InvariantCulture));
-                writer.WriteElementString("Z", Z.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("X", this.X.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("Y", this.Y.ToString(CultureInfo.InvariantCulture));
+                writer.WriteElementString("Z", this.Z.ToString(CultureInfo.InvariantCulture));
             }
             else
             {
-                writer.WriteAttribute("X", X);
-                writer.WriteAttribute("Y", Y);
-                writer.WriteAttribute("Z", Z);
+                writer.WriteAttribute("X", this.X);
+                writer.WriteAttribute("Y", this.Y);
+                writer.WriteAttribute("Z", this.Z);
             }
         }
 
@@ -265,8 +270,6 @@ namespace MathNet.Geometry
             v.ReadXml(reader);
             return v;
         }
-
-        #endregion Common
 
         public static UnitVector3D XAxis
         {
@@ -297,14 +300,14 @@ namespace MathNet.Geometry
             get
             {
                 var matrix = new DenseMatrix(3, 3);
-                matrix[0, 1] = -Z;
-                matrix[0, 2] = Y;
+                matrix[0, 1] = -this.Z;
+                matrix[0, 2] = this.Y;
 
-                matrix[1, 0] = Z;
-                matrix[1, 2] = -X;
+                matrix[1, 0] = this.Z;
+                matrix[1, 2] = -this.X;
 
-                matrix[2, 0] = -Y;
-                matrix[2, 1] = X;
+                matrix[2, 0] = -this.Y;
+                matrix[2, 1] = this.X;
                 return matrix;
             }
         }
@@ -386,6 +389,7 @@ namespace MathNet.Geometry
             return scaleFactor * this;
         }
 
+        [Pure]
         public Ray3D ProjectOn(Plane planeToProjectOn)
         {
             return planeToProjectOn.Project(this.ToVector3D());
@@ -397,6 +401,7 @@ namespace MathNet.Geometry
             return pd * this;
         }
 
+        [Pure]
         public bool IsParallelTo(Vector3D othervector, double tolerance = 1e-6)
         {
             var other = othervector.Normalize();
@@ -411,58 +416,63 @@ namespace MathNet.Geometry
             return Math.Abs(1 - dp) < tolerance;
         }
 
+        [Pure]
         public bool IsPerpendicularTo(Vector3D othervector, double tolerance = 1e-6)
         {
             var other = othervector.Normalize();
             return Math.Abs(this.DotProduct(other)) < tolerance;
         }
 
+        [Pure]
         public bool IsPerpendicularTo(UnitVector3D othervector, double tolerance = 1e-6)
         {
             return Math.Abs(this.DotProduct(othervector)) < tolerance;
         }
 
+        [Pure]
         public UnitVector3D Negate()
         {
-            return new UnitVector3D(-1 * X, -1 * Y, -1 * Z);
+            return new UnitVector3D(-1 * this.X, -1 * this.Y, -1 * this.Z);
         }
 
+        [Pure]
         public double DotProduct(Vector3D v)
         {
-            return X * v.X + Y * v.Y + Z * v.Z;
+            return (this.X * v.X) + (this.Y * v.Y) + (this.Z * v.Z);
         }
 
+        [Pure]
         public double DotProduct(UnitVector3D v)
         {
-            return X * v.X + Y * v.Y + Z * v.Z;
+            return (this.X * v.X) + (this.Y * v.Y) + (this.Z * v.Z);
         }
 
         [Obsolete("Use - instead")]
         public Vector3D Subtract(UnitVector3D v)
         {
-            return new Vector3D(X - v.X, Y - v.Y, Z - v.Z);
+            return new Vector3D(this.X - v.X, this.Y - v.Y, this.Z - v.Z);
         }
 
         [Obsolete("Use + instead")]
         public Vector3D Add(UnitVector3D v)
         {
-            return new Vector3D(X + v.X, Y + v.Y, Z + v.Z);
+            return new Vector3D(this.X + v.X, this.Y + v.Y, this.Z + v.Z);
         }
 
         public UnitVector3D CrossProduct(UnitVector3D inVector3D)
         {
-            var x = (Y * inVector3D.Z) - (Z * inVector3D.Y);
-            var y = (Z * inVector3D.X) - (X * inVector3D.Z);
-            var z =( X * inVector3D.Y) - (Y * inVector3D.X);
+            var x = (this.Y * inVector3D.Z) - (this.Z * inVector3D.Y);
+            var y = (this.Z * inVector3D.X) - (this.X * inVector3D.Z);
+            var z = (this.X * inVector3D.Y) - (this.Y * inVector3D.X);
             var v = new UnitVector3D(x, y, z);
             return v;
         }
 
         public Vector3D CrossProduct(Vector3D inVector3D)
         {
-            var x = (Y * inVector3D.Z) - (Z * inVector3D.Y);
-            var y = (Z * inVector3D.X) - (X * inVector3D.Z);
-            var z = (X * inVector3D.Y) - (Y * inVector3D.X);
+            var x = (this.Y * inVector3D.Z) - (this.Z * inVector3D.Y);
+            var y = (this.Z * inVector3D.X) - (this.X * inVector3D.Z);
+            var z = (this.X * inVector3D.Y) - (this.Y * inVector3D.X);
             var v = new Vector3D(x, y, z);
             return v;
         }
@@ -471,17 +481,17 @@ namespace MathNet.Geometry
         {
             // unitTensorProduct:matrix([ux^2,ux*uy,ux*uz],[ux*uy,uy^2,uy*uz],[ux*uz,uy*uz,uz^2]),
             var matrix = new DenseMatrix(3, 3);
-            matrix[0, 0] = X * X;
-            matrix[0, 1] = X * Y;
-            matrix[0, 2] = X * Z;
+            matrix[0, 0] = this.X * this.X;
+            matrix[0, 1] = this.X * this.Y;
+            matrix[0, 2] = this.X * this.Z;
 
-            matrix[1, 0] = X * Y;
-            matrix[1, 1] = Y * Y;
-            matrix[1, 2] = Y * Z;
+            matrix[1, 0] = this.X * this.Y;
+            matrix[1, 1] = this.Y * this.Y;
+            matrix[1, 2] = this.Y * this.Z;
 
-            matrix[2, 0] = X * Z;
-            matrix[2, 1] = Y * Z;
-            matrix[2, 2] = Z * Z;
+            matrix[2, 0] = this.X * this.Z;
+            matrix[2, 1] = this.Y * this.Z;
+            matrix[2, 2] = this.Z * this.Z;
             return matrix;
         }
 
@@ -498,19 +508,29 @@ namespace MathNet.Geometry
         public Angle SignedAngleTo(UnitVector3D toVector3D, UnitVector3D aboutVector3D)
         {
             if (IsParallelTo(aboutVector3D))
+            {
                 throw new ArgumentException("FromVector paralell to aboutVector");
+            }
+
             if (toVector3D.IsParallelTo(aboutVector3D))
+            {
                 throw new ArgumentException("FromVector paralell to aboutVector");
+            }
+
             var rp = new Plane(new Point3D(0, 0, 0), aboutVector3D);
             var pfv = ProjectOn(rp).Direction;
             var ptv = toVector3D.ProjectOn(rp).Direction;
             var dp = pfv.DotProduct(ptv);
             if (Math.Abs(dp - 1) < 1E-15)
+            {
                 return new Angle(0, AngleUnit.Radians);
+            }
+
             if (Math.Abs(dp + 1) < 1E-15)
             {
                 return new Angle(Math.PI, AngleUnit.Radians);
             }
+
             var angle = Math.Acos(dp);
             var cpv = pfv.CrossProduct(ptv);
             var sign = cpv.DotProduct(rp.Normal);
@@ -532,7 +552,7 @@ namespace MathNet.Geometry
 
         public UnitVector3D Rotate<T>(UnitVector3D aboutVector, double angle, T angleUnit) where T : IAngleUnit
         {
-            return Rotate(aboutVector, Angle.From(angle, angleUnit));
+            return this.Rotate(aboutVector, Angle.From(angle, angleUnit));
         }
 
         public UnitVector3D Rotate(UnitVector3D aboutVector, Angle angle)
@@ -544,13 +564,13 @@ namespace MathNet.Geometry
         [Pure]
         public Point3D ToPoint3D()
         {
-            return new Point3D(X, Y, Z);
+            return new Point3D(this.X, this.Y, this.Z);
         }
 
         [Pure]
         public Vector3D ToVector3D()
         {
-            return new Vector3D(X, Y, Z);
+            return new Vector3D(this.X, this.Y, this.Z);
         }
 
         public Vector3D TransformBy(CoordinateSystem coordinateSystem)
