@@ -262,6 +262,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _location, _scale);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the Cauchy distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
@@ -275,14 +283,6 @@ namespace MathNet.Numerics.Distributions
             return location + scale*Math.Tan(Constants.Pi*(rnd.NextDouble() - 0.5));
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double location, double scale)
-        {
-            while (true)
-            {
-                yield return location + scale*Math.Tan(Constants.Pi*(rnd.NextDouble() - 0.5));
-            }
-        }
-
         static void SamplesUnchecked(System.Random rnd, double[] values, double location, double scale)
         {
             rnd.NextDoubles(values);
@@ -293,6 +293,14 @@ namespace MathNet.Numerics.Distributions
                     values[i] = location + scale*Math.Tan(Constants.Pi*(values[i] - 0.5));
                 }
             });
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double location, double scale)
+        {
+            while (true)
+            {
+                yield return location + scale*Math.Tan(Constants.Pi*(rnd.NextDouble() - 0.5));
+            }
         }
 
         /// <summary>

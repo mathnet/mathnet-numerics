@@ -290,6 +290,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _lower, _upper, _mode);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the <c>Triangular</c> distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>

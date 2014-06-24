@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -222,8 +223,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_p == 1.0) return new [] {_trials};
-                if (_p == 0.0) return new [] {0};
+                if (_p == 1.0) return new[] { _trials };
+                if (_p == 0.0) return new[] { 0 };
 
                 double td = (_trials + 1)*_p;
                 int t = (int)Math.Floor(td);
@@ -336,6 +337,32 @@ namespace MathNet.Numerics.Distributions
             return k;
         }
 
+        static void SamplesUnchecked(System.Random rnd, int[] values, double p, int n)
+        {
+            var uniform = rnd.NextDoubles(values.Length*n);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    int k = i*n;
+                    int sum = 0;
+                    for (int j = 0; j < n; j++)
+                    {
+                        sum += uniform[k + j] < p ? 1 : 0;
+                    }
+                    values[i] = sum;
+                }
+            });
+        }
+
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double p, int n)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, p, n);
+            }
+        }
+
         /// <summary>
         /// Samples a Binomially distributed random variable.
         /// </summary>
@@ -346,15 +373,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(int[] values)
+        {
+            SamplesUnchecked(_random, values, _p, _trials);
+        }
+
+        /// <summary>
         /// Samples an array of Binomially distributed random variables.
         /// </summary>
         /// <returns>a sequence of successes in N trials.</returns>
         public IEnumerable<int> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _p, _trials);
-            }
+            return SamplesUnchecked(_random, _p, _trials);
         }
 
         /// <summary>
@@ -367,6 +399,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(System.Random rnd, double p, int n)
         {
             if (!(p >= 0.0 && p <= 1.0 && n >= 0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             return SampleUnchecked(rnd, p, n);
         }
 
@@ -380,10 +413,23 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(System.Random rnd, double p, int n)
         {
             if (!(p >= 0.0 && p <= 1.0 && n >= 0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, p, n);
-            }
+
+            return SamplesUnchecked(rnd, p, n);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
+        /// <returns>a sequence of successes in <paramref name="n"/> trials.</returns>
+        public static void Samples(System.Random rnd, int[] values, double p, int n)
+        {
+            if (!(p >= 0.0 && p <= 1.0 && n >= 0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, p, n);
         }
 
         /// <summary>
@@ -395,6 +441,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(double p, int n)
         {
             if (!(p >= 0.0 && p <= 1.0 && n >= 0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             return SampleUnchecked(SystemRandomSource.Default, p, n);
         }
 
@@ -407,11 +454,22 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(double p, int n)
         {
             if (!(p >= 0.0 && p <= 1.0 && n >= 0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            SystemRandomSource rnd = SystemRandomSource.Default;
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, p, n);
-            }
+
+            return SamplesUnchecked(SystemRandomSource.Default, p, n);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
+        /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
+        /// <returns>a sequence of successes in <paramref name="n"/> trials.</returns>
+        public static void Samples(int[] values, double p, int n)
+        {
+            if (!(p >= 0.0 && p <= 1.0 && n >= 0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, p, n);
         }
     }
 }

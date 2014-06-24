@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Distributions
     {
         System.Random _random;
 
-        readonly double _shape;
+        readonly int _shape;
         readonly double _rate;
 
         /// <summary>
@@ -121,9 +121,15 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
+        public static bool IsValidParameterSet(int shape, double rate)
+        {
+            return shape >= 0 && rate >= 0.0;
+        }
+
+        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
         public static bool IsValidParameterSet(double shape, double rate)
         {
-            return shape >= 0.0 && rate >= 0.0;
+            return IsValidParameterSet((int)shape, rate);
         }
 
         /// <summary>
@@ -131,7 +137,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Shape
         {
-            get { return (int)_shape; }
+            get { return _shape; }
         }
 
         /// <summary>
@@ -319,7 +325,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
-        /// <seealso cref="PDF"/>
+        /// <seealso cref="PDF(int, double, double)"/>
         public double Density(double x)
         {
             return PDF(_shape, _rate, x);
@@ -330,7 +336,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the log density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
-        /// <seealso cref="PDFLn"/>
+        /// <seealso cref="PDFLn(int, double, double)"/>
         public double DensityLn(double x)
         {
             return PDFLn(_shape, _rate, x);
@@ -341,7 +347,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
-        /// <seealso cref="CDF"/>
+        /// <seealso cref="CDF(int, double, double)"/>
         public double CumulativeDistribution(double x)
         {
             return CDF(_shape, _rate, x);
@@ -353,7 +359,15 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(_random, _shape, _rate);
+            return Gamma.SampleUnchecked(_random, _shape, _rate);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            Gamma.SamplesUnchecked(_random, values, _shape, _rate);
         }
 
         /// <summary>
@@ -364,61 +378,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                yield return SampleUnchecked(_random, _shape, _rate);
-            }
-        }
-
-        /// <summary>
-        /// <para>Sampling implementation based on:
-        /// "A Simple Method for Generating Erlang Variables" - Marsaglia &amp; Tsang
-        /// ACM Transactions on Mathematical Software, Vol. 26, No. 3, September 2000, Pages 363–372.</para>
-        /// <para>This method performs no parameter checks.</para>
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
-        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
-        /// <returns>A sample from a Erlang distributed random variable.</returns>
-        static double SampleUnchecked(System.Random rnd, double shape, double rate)
-        {
-            if (Double.IsPositiveInfinity(rate))
-            {
-                return shape;
-            }
-
-            var a = shape;
-            var alphafix = 1.0;
-
-            // Fix when alpha is less than one.
-            if (shape < 1.0)
-            {
-                a = shape + 1.0;
-                alphafix = Math.Pow(rnd.NextDouble(), 1.0 / shape);
-            }
-
-            var d = a - (1.0 / 3.0);
-            var c = 1.0 / Math.Sqrt(9.0 * d);
-            while (true)
-            {
-                var x = Normal.Sample(rnd, 0.0, 1.0);
-                var v = 1.0 + (c * x);
-                while (v <= 0.0)
-                {
-                    x = Normal.Sample(rnd, 0.0, 1.0);
-                    v = 1.0 + (c * x);
-                }
-
-                v = v * v * v;
-                var u = rnd.NextDouble();
-                x = x * x;
-                if (u < 1.0 - (0.0331 * x * x))
-                {
-                    return alphafix * d * v / rate;
-                }
-
-                if (Math.Log(u) < (0.5 * x) + (d * (1.0 - v + Math.Log(v))))
-                {
-                    return alphafix * d * v / rate;
-                }
+                yield return Gamma.SampleUnchecked(_random, _shape, _rate);
             }
         }
 
@@ -430,7 +390,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the density at <paramref name="x"/>.</returns>
         /// <seealso cref="Density"/>
-        public static double PDF(double shape, double rate, double x)
+        public static double PDF(int shape, double rate, double x)
         {
             if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
@@ -441,6 +401,12 @@ namespace MathNet.Numerics.Distributions
             return Math.Pow(rate, shape)*Math.Pow(x, shape - 1.0)*Math.Exp(-rate*x)/SpecialFunctions.Gamma(shape);
         }
 
+        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
+        public static double PDF(double shape, double rate, double x)
+        {
+            return PDF((int)shape, rate, x);
+        }
+
         /// <summary>
         /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
         /// </summary>
@@ -449,7 +415,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="x">The location at which to compute the density.</param>
         /// <returns>the log density at <paramref name="x"/>.</returns>
         /// <seealso cref="DensityLn"/>
-        public static double PDFLn(double shape, double rate, double x)
+        public static double PDFLn(int shape, double rate, double x)
         {
             if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
@@ -460,6 +426,12 @@ namespace MathNet.Numerics.Distributions
             return (shape*Math.Log(rate)) + ((shape - 1.0)*Math.Log(x)) - (rate*x) - SpecialFunctions.GammaLn(shape);
         }
 
+        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
+        public static double PDFLn(double shape, double rate, double x)
+        {
+            return PDFLn((int)shape, rate, x);
+        }
+
         /// <summary>
         /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
         /// </summary>
@@ -468,7 +440,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double CDF(double shape, double rate, double x)
+        public static double CDF(int shape, double rate, double x)
         {
             if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
@@ -478,6 +450,12 @@ namespace MathNet.Numerics.Distributions
             return SpecialFunctions.GammaLowerRegularized(shape, x*rate);
         }
 
+        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
+        public static double CDF(double shape, double rate, double x)
+        {
+            return CDF((int)shape, rate, x);
+        }
+
         /// <summary>
         /// Generates a sample from the distribution.
         /// </summary>
@@ -485,11 +463,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <returns>a sample from the distribution.</returns>
+        public static double Sample(System.Random rnd, int shape, double rate)
+        {
+            return Gamma.Sample(rnd, shape, rate);
+        }
+
+        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
         public static double Sample(System.Random rnd, double shape, double rate)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
-
-            return SampleUnchecked(rnd, shape, rate);
+            return Sample(rnd, (int)shape, rate);
         }
 
         /// <summary>
@@ -499,14 +481,28 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(System.Random rnd, int shape, double rate)
+        {
+            return Gamma.Samples(rnd, shape, rate);
+        }
+
+        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
         public static IEnumerable<double> Samples(System.Random rnd, double shape, double rate)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            return Samples(rnd, (int)shape, rate);
+        }
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, shape, rate);
-            }
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, int shape, double rate)
+        {
+            Gamma.Samples(rnd, values, shape, rate);
         }
 
         /// <summary>
@@ -515,9 +511,15 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <returns>a sample from the distribution.</returns>
+        public static double Sample(int shape, double rate)
+        {
+            return Gamma.Sample(shape, rate);
+        }
+
+        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
         public static double Sample(double shape, double rate)
         {
-            return Sample(SystemRandomSource.Default, shape, rate);
+            return Sample((int)shape, rate);
         }
 
         /// <summary>
@@ -526,9 +528,27 @@ namespace MathNet.Numerics.Distributions
         /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
         /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
         /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(int shape, double rate)
+        {
+            return Gamma.Samples(shape, rate);
+        }
+
+        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
         public static IEnumerable<double> Samples(double shape, double rate)
         {
-            return Samples(SystemRandomSource.Default, shape, rate);
+            return Samples((int)shape, rate);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="shape">The shape (k) of the Erlang distribution. Range: k ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, int shape, double rate)
+        {
+            Gamma.Samples(values, shape, rate);
         }
     }
 }

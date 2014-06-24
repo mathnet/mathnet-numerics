@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -253,6 +254,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _location, _scale);
+        }
+
+        /// <summary>
         /// Generates a sample from the Laplace distribution.
         /// </summary>
         /// <returns>a sample from the distribution.</returns>
@@ -261,35 +270,30 @@ namespace MathNet.Numerics.Distributions
             return SamplesUnchecked(_random, _location, _scale);
         }
 
-        /// <summary>
-        /// Samples the distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="location">The location (μ) of the distribution.</param>
-        /// <param name="scale">The scale (b) of the distribution. Range: b > 0.</param>
-        /// <returns>a random number from the distribution.</returns>
         static double SampleUnchecked(System.Random rnd, double location, double scale)
         {
             var u = rnd.NextDouble() - 0.5;
             return location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
         }
 
+        static void SamplesUnchecked(System.Random rnd, double[] values, double location, double scale)
+        {
+            rnd.NextDoubles(values);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    var u = values[i] - 0.5;
+                    values[i] = location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
+                }
+            });
+        }
+
         static IEnumerable<double> SamplesUnchecked(System.Random rnd, double location, double scale)
         {
             while (true)
             {
-                var u = rnd.NextDouble() - 0.5;
-                yield return location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
-            }
-        }
-
-        static void SamplesUnchecked(System.Random rnd, double[] values, double location, double scale)
-        {
-            rnd.NextDoubles(values);
-            for (int i = 0; i < values.Length; i++)
-            {
-                var u = values[i] - 0.5;
-                values[i] = location - (scale*Math.Sign(u)*Math.Log(1.0 - (2.0*Math.Abs(u))));
+                yield return SampleUnchecked(rnd, location, scale);
             }
         }
 

@@ -74,6 +74,11 @@ namespace MathNet.Numerics.Distributions
         double Sample();
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        void Samples(double[] values);
+
+        /// <summary>
         /// Draws a sequence of random samples from the distribution.
         /// </summary>
         /// <returns>an infinite sequence of samples from the distribution.</returns>

@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.RootFinding;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -263,7 +264,7 @@ namespace MathNet.Numerics.Distributions
         {
             return SpecialFunctions.BetaRegularized(_freedom1/2.0, _freedom2/2.0, _freedom1*x/((_freedom1*x) + _freedom2));
         }
-        
+
         /// <summary>
         /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
         /// at the given probability. This is also known as the quantile or percent point function.
@@ -287,15 +288,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _freedom1, _freedom2);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the <c>FisherSnedecor</c> distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _freedom1, _freedom2);
-            }
+            return SamplesUnchecked(_random, _freedom1, _freedom2);
         }
 
         /// <summary>
@@ -307,7 +313,29 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a <c>FisherSnedecor</c> distributed random number.</returns>
         static double SampleUnchecked(System.Random rnd, double d1, double d2)
         {
-            return (ChiSquared.Sample(rnd, d1) / d1) / (ChiSquared.Sample(rnd, d2) / d2);
+            return (ChiSquared.Sample(rnd, d1)*d2)/(ChiSquared.Sample(rnd, d2)*d1);
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double d1, double d2)
+        {
+            var values2 = new double[values.Length];
+            ChiSquared.SamplesUnchecked(rnd, values, d1);
+            ChiSquared.SamplesUnchecked(rnd, values2, d2);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    values[i] = (values[i]*d2)/(values2[i]*d1);
+                }
+            });
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double d1, double d2)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, d1, d2);
+            }
         }
 
         /// <summary>
@@ -397,10 +425,22 @@ namespace MathNet.Numerics.Distributions
         {
             if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, d1, d2);
-            }
+            return SamplesUnchecked(rnd, d1, d2);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double d1, double d2)
+        {
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, d1, d2);
         }
 
         /// <summary>
@@ -411,7 +451,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double d1, double d2)
         {
-            return Sample(SystemRandomSource.Default, d1, d2);
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, d1, d2);
         }
 
         /// <summary>
@@ -422,7 +464,23 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double d1, double d2)
         {
-            return Samples(SystemRandomSource.Default, d1, d2);
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, d1, d2);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="d1">The first degree of freedom (d1) of the distribution. Range: d1 > 0.</param>
+        /// <param name="d2">The second degree of freedom (d2) of the distribution. Range: d2 > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double d1, double d2)
+        {
+            if (d1 <= 0.0 || d2 <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, d1, d2);
         }
     }
 }

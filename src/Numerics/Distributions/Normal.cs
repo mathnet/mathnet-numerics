@@ -320,6 +320,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _mean, _stdDev);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the normal distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>

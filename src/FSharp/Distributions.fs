@@ -84,8 +84,8 @@ module Sample =
     let discreteUniformSeq lower upper (rng:System.Random) = DiscreteUniform.Samples(rng, lower, upper)
 
     /// Erlang with shape (k) and rate or inverse scale (λ).
-    let erlang shape rate (rng:System.Random) = Erlang.Sample(rng, shape, rate)
-    let erlangSeq shape rate (rng:System.Random) = Erlang.Samples(rng, shape, rate)
+    let erlang (shape:int) rate (rng:System.Random) = Erlang.Sample(rng, shape, rate)
+    let erlangSeq (shape:int) rate (rng:System.Random) = Erlang.Samples(rng, shape, rate)
 
     /// Exponential with rate (λ).
     let exponential rate (rng:System.Random) = Exponential.Sample(rng, rate)

@@ -271,6 +271,72 @@ namespace MathNet.Numerics.Distributions
             return (lambda < 30.0) ? DoSampleShort(rnd, lambda) : DoSampleLarge(rnd, lambda);
         }
 
+        static void SamplesUnchecked(System.Random rnd, int[] values, double lambda)
+        {
+            if (lambda < 30.0)
+            {
+                var limit = Math.Exp(-lambda);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    var count = 0;
+                    for (var product = rnd.NextDouble(); product >= limit; product *= rnd.NextDouble())
+                    {
+                        count++;
+                    }
+                    values[i] = count;
+                }
+            }
+            else
+            {
+                var c = 0.767 - (3.36/lambda);
+                var beta = Math.PI/Math.Sqrt(3.0*lambda);
+                var alpha = beta*lambda;
+                var k = Math.Log(c) - lambda - Math.Log(beta);
+                for (int i = 0; i < values.Length; i++)
+                {
+                    for (;;)
+                    {
+                        var u = rnd.NextDouble();
+                        var x = (alpha - Math.Log((1.0 - u)/u))/beta;
+                        var n = (int)Math.Floor(x + 0.5);
+                        if (n < 0)
+                        {
+                            continue;
+                        }
+
+                        var v = rnd.NextDouble();
+                        var y = alpha - (beta*x);
+                        var temp = 1.0 + Math.Exp(y);
+                        var lhs = y + Math.Log(v/(temp*temp));
+                        var rhs = k + (n*Math.Log(lambda)) - SpecialFunctions.FactorialLn(n);
+                        if (lhs <= rhs)
+                        {
+                            values[i] = n;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double lambda)
+        {
+            if (lambda < 30.0)
+            {
+                while (true)
+                {
+                    yield return DoSampleShort(rnd, lambda);
+                }
+            }
+            else
+            {
+                while (true)
+                {
+                    yield return DoSampleLarge(rnd, lambda);
+                }
+            }
+        }
+
         /// <summary>
         /// Generates one sample from the Poisson distribution by Knuth's method.
         /// </summary>
@@ -337,15 +403,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(int[] values)
+        {
+            SamplesUnchecked(_random, values, _lambda);
+        }
+
+        /// <summary>
         /// Samples an array of Poisson distributed random variables.
         /// </summary>
         /// <returns>a sequence of successes in N trials.</returns>
         public IEnumerable<int> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _lambda);
-            }
+            return SamplesUnchecked(_random, _lambda);
         }
 
         /// <summary>
@@ -357,6 +428,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(System.Random rnd, double lambda)
         {
             if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             return SampleUnchecked(rnd, lambda);
         }
 
@@ -369,10 +441,22 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(System.Random rnd, double lambda)
         {
             if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, lambda);
-            }
+
+            return SamplesUnchecked(rnd, lambda);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, int[] values, double lambda)
+        {
+            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, lambda);
         }
 
         /// <summary>
@@ -383,6 +467,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(double lambda)
         {
             if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             return SampleUnchecked(SystemRandomSource.Default, lambda);
         }
 
@@ -394,11 +479,21 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(double lambda)
         {
             if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            SystemRandomSource rnd = SystemRandomSource.Default;
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, lambda);
-            }
+
+            return SamplesUnchecked(SystemRandomSource.Default, lambda);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="lambda">The lambda (λ) parameter of the Poisson distribution. Range: λ > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(int[] values, double lambda)
+        {
+            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, lambda);
         }
     }
 }

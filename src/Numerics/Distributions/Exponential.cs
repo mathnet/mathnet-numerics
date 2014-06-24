@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -241,6 +241,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _rate);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the Exponential distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
@@ -249,12 +257,6 @@ namespace MathNet.Numerics.Distributions
             return SamplesUnchecked(_random, _rate);
         }
 
-        /// <summary>
-        /// Samples the distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
-        /// <returns>a random number from the distribution.</returns>
         static double SampleUnchecked(System.Random rnd, double rate)
         {
             var r = rnd.NextDouble();
@@ -266,12 +268,7 @@ namespace MathNet.Numerics.Distributions
             return -Math.Log(r)/rate;
         }
 
-        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double rate)
-        {
-            return rnd.NextDoubleSequence().Where(r => r != 0.0).Select(r => -Math.Log(r)/rate);
-        }
-
-        static void SamplesUnchecked(System.Random rnd, double[] values, double rate)
+        internal static void SamplesUnchecked(System.Random rnd, double[] values, double rate)
         {
             rnd.NextDoubles(values);
             CommonParallel.For(0, values.Length, 4096, (a, b) =>
@@ -287,6 +284,11 @@ namespace MathNet.Numerics.Distributions
                     values[i] = -Math.Log(r)/rate;
                 }
             });
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double rate)
+        {
+            return rnd.NextDoubleSequence().Where(r => r != 0.0).Select(r => -Math.Log(r)/rate);
         }
 
         /// <summary>
@@ -360,19 +362,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Generates a sequence of samples from the Exponential distribution.
-        /// </summary>
-        /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(System.Random rnd, double rate)
-        {
-            if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
-
-            return SamplesUnchecked(rnd, rate);
-        }
-
-        /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
@@ -384,6 +373,19 @@ namespace MathNet.Numerics.Distributions
             if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             SamplesUnchecked(rnd, values, rate);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Exponential distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(System.Random rnd, double rate)
+        {
+            if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(rnd, rate);
         }
 
         /// <summary>
@@ -399,18 +401,6 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Generates a sequence of samples from the Exponential distribution.
-        /// </summary>
-        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
-        /// <returns>a sequence of samples from the distribution.</returns>
-        public static IEnumerable<double> Samples(double rate)
-        {
-            if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
-
-            return SamplesUnchecked(SystemRandomSource.Default, rate);
-        }
-
-        /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
         /// <param name="values">The array to fill with the samples.</param>
@@ -421,6 +411,18 @@ namespace MathNet.Numerics.Distributions
             if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
             SamplesUnchecked(SystemRandomSource.Default, values, rate);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Exponential distribution.
+        /// </summary>
+        /// <param name="rate">The rate (λ) parameter of the distribution. Range: λ ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double rate)
+        {
+            if (rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, rate);
         }
     }
 }

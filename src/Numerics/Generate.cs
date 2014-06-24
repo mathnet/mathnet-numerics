@@ -34,6 +34,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics
 {
@@ -419,6 +420,36 @@ namespace MathNet.Numerics
                     yield return mean + amplitude*Math.Sin(phase + i*step);
                 }
                 phase = (phase + 1000*step)%Constants.Pi2;
+            }
+        }
+
+        /// <summary>
+        /// Create an array with each field set to the same value.
+        /// </summary>
+        /// <param name="length">The number of samples to generate.</param>
+        /// <param name="value">The value that each field should be set to.</param>
+        public static T[] Repeat<T>(int length, T value)
+        {
+            var data = new T[length];
+            CommonParallel.For(0, data.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    data[i] = value;
+                }
+            });
+            return data;
+        }
+
+        /// <summary>
+        /// Create an infinite sequence where each element has the same value.
+        /// </summary>
+        /// <param name="value">The value that each element should be set to.</param>
+        public static IEnumerable<T> RepeatSequence<T>(T value)
+        {
+            while (true)
+            {
+                yield return value;
             }
         }
 

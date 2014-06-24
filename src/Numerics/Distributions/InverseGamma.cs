@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -264,7 +265,15 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A random number from this distribution.</returns>
         public double Sample()
         {
-            return 1.0/Gamma.Sample(_random, _shape, _scale);
+            return SampleUnchecked(_random, _shape, _scale);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _shape, _scale);
         }
 
         /// <summary>
@@ -273,7 +282,29 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            return Gamma.Samples(_random, _shape, _scale).Select(z => 1.0/z);
+            return SamplesUnchecked(_random, _shape, _scale);
+        }
+
+        static double SampleUnchecked(System.Random rnd, double shape, double scale)
+        {
+            return 1.0/Gamma.SampleUnchecked(rnd, shape, scale);
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double shape, double scale)
+        {
+            Gamma.SamplesUnchecked(rnd, values, shape, scale);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    values[i] = 1.0/values[i];
+                }
+            });
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double shape, double scale)
+        {
+            return Gamma.SamplesUnchecked(rnd, shape, scale).Select(z => 1.0/z);
         }
 
         /// <summary>
@@ -330,7 +361,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            return 1.0/Gamma.Sample(rnd, shape, scale);
+            return SampleUnchecked(rnd, shape, scale);
         }
 
         /// <summary>
@@ -344,7 +375,22 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            return Gamma.Samples(rnd, shape, scale).Select(z => 1.0/z);
+            return SamplesUnchecked(rnd, shape, scale);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double shape, double scale)
+        {
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, shape, scale);
         }
 
         /// <summary>
@@ -355,7 +401,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double shape, double scale)
         {
-            return Sample(SystemRandomSource.Default, shape, scale);
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, shape, scale);
         }
 
         /// <summary>
@@ -366,7 +414,23 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double shape, double scale)
         {
-            return Samples(SystemRandomSource.Default, shape, scale);
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, shape, scale);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="shape">The shape (α) of the distribution. Range: α > 0.</param>
+        /// <param name="scale">The scale (β) of the distribution. Range: β > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double shape, double scale)
+        {
+            if (shape <= 0.0 || scale <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, shape, scale);
         }
     }
 }

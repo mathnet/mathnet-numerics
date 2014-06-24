@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -339,6 +339,23 @@ namespace MathNet.Numerics.Distributions
             return Normal.Sample(rnd, location, scale*Math.Sqrt(freedom/gamma));
         }
 
+        static void SamplesUnchecked(System.Random rnd, double[] values, double location, double scale, double freedom)
+        {
+            Gamma.SamplesUnchecked(rnd, values, 0.5*freedom, 0.5);
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = Normal.Sample(rnd, location, scale*Math.Sqrt(freedom/values[i]));
+            }
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double location, double scale, double freedom)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, location, scale, freedom);
+            }
+        }
+
         /// <summary>
         /// Generates a sample from the Student t-distribution.
         /// </summary>
@@ -349,15 +366,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _location, _scale, _freedom);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the Student t-distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _location, _scale, _freedom);
-            }
+            return SamplesUnchecked(_random, _location, _scale, _freedom);
         }
 
         /// <summary>
@@ -484,10 +506,23 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, location, scale, freedom);
-            }
+            return SamplesUnchecked(rnd, location, scale, freedom);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double location, double scale, double freedom)
+        {
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, location, scale, freedom);
         }
 
         /// <summary>
@@ -499,7 +534,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double location, double scale, double freedom)
         {
-            return Sample(SystemRandomSource.Default, location, scale, freedom);
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, location, scale, freedom);
         }
 
         /// <summary>
@@ -511,7 +548,24 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double location, double scale, double freedom)
         {
-            return Samples(SystemRandomSource.Default, location, scale, freedom);
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, location, scale, freedom);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="freedom">The degrees of freedom (ν) for the distribution. Range: ν > 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double location, double scale, double freedom)
+        {
+            if (scale <= 0.0 || freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, location, scale, freedom);
         }
     }
 }

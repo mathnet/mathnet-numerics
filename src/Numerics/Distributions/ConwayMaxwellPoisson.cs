@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -505,6 +506,36 @@ namespace MathNet.Numerics.Distributions
             return i;
         }
 
+        static void SamplesUnchecked(System.Random rnd, int[] values, double lambda, double nu, double z)
+        {
+            var uniform = rnd.NextDoubles(values.Length);
+            CommonParallel.For(0, values.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    var u = uniform[i];
+                    var p = 1.0/z;
+                    var cdf = p;
+                    var k = 0;
+                    while (u > cdf)
+                    {
+                        k++;
+                        p = p*lambda/Math.Pow(k, nu);
+                        cdf += p;
+                    }
+                    values[i] = k;
+                }
+            });
+        }
+
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double lambda, double nu, double z)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, lambda, nu, z);
+            }
+        }
+
         /// <summary>
         /// Samples a Conway-Maxwell-Poisson distributed random variable.
         /// </summary>
@@ -515,6 +546,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(int[] values)
+        {
+            SamplesUnchecked(_random, values, _lambda, _nu, Z);
+        }
+
+        /// <summary>
         /// Samples a sequence of a Conway-Maxwell-Poisson distributed random variables.
         /// </summary>
         /// <returns>
@@ -522,10 +561,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public IEnumerable<int> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _lambda, _nu, Z);
-            }
+            return SamplesUnchecked(_random, _lambda, _nu, Z);
         }
 
         /// <summary>
@@ -537,6 +573,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(System.Random rnd, double lambda, double nu)
         {
             if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             var z = Normalization(lambda, nu);
             return SampleUnchecked(rnd, lambda, nu, z);
         }
@@ -550,11 +587,24 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(System.Random rnd, double lambda, double nu)
         {
             if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             var z = Normalization(lambda, nu);
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, lambda, nu, z);
-            }
+            return SamplesUnchecked(rnd, lambda, nu, z);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
+        public static void Samples(System.Random rnd, int[] values, double lambda, double nu)
+        {
+            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            var z = Normalization(lambda, nu);
+            SamplesUnchecked(rnd, values, lambda, nu, z);
         }
 
         /// <summary>
@@ -565,6 +615,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(double lambda, double nu)
         {
             if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             var z = Normalization(lambda, nu);
             return SampleUnchecked(SystemRandomSource.Default, lambda, nu, z);
         }
@@ -577,12 +628,23 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(double lambda, double nu)
         {
             if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             var z = Normalization(lambda, nu);
-            SystemRandomSource rnd = SystemRandomSource.Default;
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, lambda, nu, z);
-            }
+            return SamplesUnchecked(SystemRandomSource.Default, lambda, nu, z);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="lambda">The lambda (λ) parameter. Range: λ > 0.</param>
+        /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
+        public static void Samples(int[] values, double lambda, double nu)
+        {
+            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            var z = Normalization(lambda, nu);
+            SamplesUnchecked(SystemRandomSource.Default, values, lambda, nu, z);
         }
     }
 }

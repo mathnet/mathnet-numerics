@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -33,6 +33,7 @@ using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.RootFinding;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -142,7 +143,7 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (_shapeA == 0.0 && _shapeB == 0.0)  return 0.5;
+                if (_shapeA == 0.0 && _shapeB == 0.0) return 0.5;
                 if (_shapeA == 0.0) return 0.0;
                 if (_shapeB == 0.0) return 1.0;
 
@@ -353,15 +354,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _shapeA, _shapeB);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the Beta distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _shapeA, _shapeB);
-            }
+            return SamplesUnchecked(_random, _shapeA, _shapeB);
         }
 
         /// <summary>
@@ -375,7 +381,29 @@ namespace MathNet.Numerics.Distributions
         {
             var x = Gamma.SampleUnchecked(rnd, a, 1.0);
             var y = Gamma.SampleUnchecked(rnd, b, 1.0);
-            return x / (x + y);
+            return x/(x + y);
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double a, double b)
+        {
+            var y = new double[values.Length];
+            Gamma.SamplesUnchecked(rnd, values, a, 1.0);
+            Gamma.SamplesUnchecked(rnd, y, b, 1.0);
+            CommonParallel.For(0, values.Length, 4096, (aa, bb) =>
+            {
+                for (int i = aa; i < bb; i++)
+                {
+                    values[i] = values[i]/(values[i] + y[i]);
+                }
+            });
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double a, double b)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, a, b);
+            }
         }
 
         /// <summary>
@@ -421,8 +449,8 @@ namespace MathNet.Numerics.Distributions
             if (b == 0.0) return x == 1.0 ? Double.PositiveInfinity : 0.0;
             if (a == 1.0 && b == 1.0) return 1.0;
 
-            var bb = SpecialFunctions.Gamma(a + b) / (SpecialFunctions.Gamma(a) * SpecialFunctions.Gamma(b));
-            return bb * Math.Pow(x, a - 1.0) * Math.Pow(1.0 - x, b - 1.0);
+            var bb = SpecialFunctions.Gamma(a + b)/(SpecialFunctions.Gamma(a)*SpecialFunctions.Gamma(b));
+            return bb*Math.Pow(x, a - 1.0)*Math.Pow(1.0 - x, b - 1.0);
         }
 
         /// <summary>
@@ -559,10 +587,22 @@ namespace MathNet.Numerics.Distributions
         {
             if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, a, b);
-            }
+            return SamplesUnchecked(rnd, a, b);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double a, double b)
+        {
+            if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, a, b);
         }
 
         /// <summary>
@@ -573,7 +613,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double a, double b)
         {
-            return Sample(SystemRandomSource.Default, a, b);
+            if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, a, b);
         }
 
         /// <summary>
@@ -584,7 +626,23 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double a, double b)
         {
-            return Samples(SystemRandomSource.Default, a, b);
+            if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, a, b);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
+        /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double a, double b)
+        {
+            if (a < 0.0 || b < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, a, b);
         }
     }
 }

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,6 +32,7 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -133,7 +134,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(2.0 * _freedom); }
+            get { return Math.Sqrt(2.0*_freedom); }
         }
 
         /// <summary>
@@ -149,7 +150,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return Math.Sqrt(8.0 / _freedom); }
+            get { return Math.Sqrt(8.0/_freedom); }
         }
 
         /// <summary>
@@ -165,7 +166,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Median
         {
-            get { return _freedom - (2.0 / 3.0); }
+            get { return _freedom - (2.0/3.0); }
         }
 
         /// <summary>
@@ -227,15 +228,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _freedom);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the <c>ChiSquare</c> distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _freedom);
-            }
+            return SamplesUnchecked(_random, _freedom);
         }
 
         /// <summary>
@@ -246,7 +252,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a random number from the distribution.</returns>
         static double SampleUnchecked(System.Random rnd, double freedom)
         {
-            // Use the simple method if the degrees if freedom is an integer anyway
+            // Use the simple method if the degrees of freedom is an integer anyway
             if (Math.Floor(freedom) == freedom && freedom < Int32.MaxValue)
             {
                 double sum = 0;
@@ -258,9 +264,46 @@ namespace MathNet.Numerics.Distributions
                 return sum;
             }
 
-            //Call the gamma function (see http://en.wikipedia.org/wiki/Gamma_distribution#Specializations
-            //for a justification)
-            return Gamma.SampleUnchecked(rnd, freedom / 2.0, .5);
+            // Call the gamma function (see http://en.wikipedia.org/wiki/Gamma_distribution#Specializations
+            // for a justification)
+            return Gamma.SampleUnchecked(rnd, freedom/2.0, .5);
+        }
+
+        internal static void SamplesUnchecked(System.Random rnd, double[] values, double freedom)
+        {
+            // Use the simple method if the degrees of freedom is an integer anyway
+            if (Math.Floor(freedom) == freedom && freedom < Int32.MaxValue)
+            {
+                var n = (int)freedom;
+                var standard = new double[values.Length*n];
+                Normal.SamplesUnchecked(rnd, standard, 0.0, 1.0);
+                CommonParallel.For(0, values.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        int k = i*n;
+                        double sum = 0;
+                        for (int j = 0; j < n; j++)
+                        {
+                            sum += standard[k + j]*standard[k + j];
+                        }
+                        values[i] = Math.Sqrt(sum);
+                    }
+                });
+                return;
+            }
+
+            // Call the gamma function (see http://en.wikipedia.org/wiki/Gamma_distribution#Specializations
+            // for a justification)
+            Gamma.SamplesUnchecked(rnd, values, freedom/2.0, .5);
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double freedom)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, freedom);
+            }
         }
 
         /// <summary>
@@ -328,10 +371,21 @@ namespace MathNet.Numerics.Distributions
         {
             if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, freedom);
-            }
+            return SamplesUnchecked(rnd, freedom);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <returns>a sample from the distribution. </returns>
+        public static void Samples(System.Random rnd, double[] values, double freedom)
+        {
+            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, freedom);
         }
 
         /// <summary>
@@ -341,7 +395,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static double Sample(double freedom)
         {
-            return Sample(SystemRandomSource.Default, freedom);
+            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, freedom);
         }
 
         /// <summary>
@@ -351,7 +407,22 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static IEnumerable<double> Samples(double freedom)
         {
-            return Samples(SystemRandomSource.Default, freedom);
+            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, freedom);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <returns>a sample from the distribution. </returns>
+        public static void Samples(double[] values, double freedom)
+        {
+            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, freedom);
         }
     }
 }

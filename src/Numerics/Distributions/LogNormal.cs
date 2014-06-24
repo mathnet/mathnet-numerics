@@ -324,6 +324,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _mu, _sigma);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the log-normal distribution using the <i>Box-Muller</i> algorithm.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>

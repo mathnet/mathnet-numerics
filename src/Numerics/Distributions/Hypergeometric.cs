@@ -340,6 +340,22 @@ namespace MathNet.Numerics.Distributions
             return x;
         }
 
+        static void SamplesUnchecked(System.Random rnd, int[] values, int population, int success, int draws)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = SampleUnchecked(rnd, population, success, draws);
+            }
+        }
+
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, int population, int success, int draws)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, population, success, draws);
+            }
+        }
+
         /// <summary>
         /// Samples a Hypergeometric distributed random variable.
         /// </summary>
@@ -350,15 +366,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(int[] values)
+        {
+            SamplesUnchecked(_random, values, _population, _success, _draws);
+        }
+
+        /// <summary>
         /// Samples an array of Hypergeometric distributed random variables.
         /// </summary>
         /// <returns>a sequence of successes in n trials.</returns>
         public IEnumerable<int> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _population, _success, _draws);
-            }
+            return SamplesUnchecked(_random, _population, _success, _draws);
         }
 
         /// <summary>
@@ -371,9 +392,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(System.Random rnd, int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
 
             return SampleUnchecked(rnd, population, success, draws);
         }
@@ -388,14 +407,25 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(System.Random rnd, int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, population, success, draws);
-            }
+            return SamplesUnchecked(rnd, population, success, draws);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        public static void Samples(System.Random rnd, int[] values, int population, int success, int draws)
+        {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, population, success, draws);
         }
 
         /// <summary>
@@ -407,9 +437,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
 
             return SampleUnchecked(SystemRandomSource.Default, population, success, draws);
         }
@@ -423,15 +451,24 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
-            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
-            }
 
-            SystemRandomSource rnd = SystemRandomSource.Default;
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, population, success, draws);
-            }
+            return SamplesUnchecked(SystemRandomSource.Default, population, success, draws);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="population">The size of the population (N).</param>
+        /// <param name="success">The number successes within the population (K, M).</param>
+        /// <param name="draws">The number of draws without replacement (n).</param>
+        public static void Samples(int[] values, int population, int success, int draws)
+        {
+            if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, population, success, draws);
         }
     }
 }

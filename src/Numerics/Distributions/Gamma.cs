@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -373,15 +373,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _shape, _rate);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the Gamma distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _shape, _rate);
-            }
+            return SamplesUnchecked(_random, _shape, _rate);
         }
 
         /// <summary>
@@ -435,6 +440,22 @@ namespace MathNet.Numerics.Distributions
                 {
                     return alphafix * d * v / rate;
                 }
+            }
+        }
+
+        internal static void SamplesUnchecked(System.Random rnd, double[] values, double shape, double rate)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = SampleUnchecked(rnd, shape, rate);
+            }
+        }
+
+        internal static IEnumerable<double> SamplesUnchecked(System.Random rnd, double location, double scale)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, location, scale);
             }
         }
 
@@ -535,10 +556,22 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, shape, rate);
-            }
+            return SamplesUnchecked(rnd, shape, rate);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double shape, double rate)
+        {
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, shape, rate);
         }
 
         /// <summary>
@@ -549,7 +582,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double shape, double rate)
         {
-            return Sample(SystemRandomSource.Default, shape, rate);
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, shape, rate);
         }
 
         /// <summary>
@@ -560,7 +595,23 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double shape, double rate)
         {
-            return Samples(SystemRandomSource.Default, shape, rate);
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, shape, rate);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="shape">The shape (k, α) of the Gamma distribution. Range: α ≥ 0.</param>
+        /// <param name="rate">The rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double shape, double rate)
+        {
+            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, shape, rate);
         }
     }
 }

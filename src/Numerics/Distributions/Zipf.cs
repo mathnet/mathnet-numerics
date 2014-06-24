@@ -337,6 +337,22 @@ namespace MathNet.Numerics.Distributions
             return i;
         }
 
+        static void SamplesUnchecked(System.Random rnd, int[] values, double s, int n)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = SampleUnchecked(rnd, s, n);
+            }
+        }
+
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double s, int n)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, s, n);
+            }
+        }
+
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
@@ -347,15 +363,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(int[] values)
+        {
+            SamplesUnchecked(_random, values, _s, _n);
+        }
+
+        /// <summary>
         /// Samples an array of zipf distributed random variables.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<int> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _s, _n);
-            }
+            return SamplesUnchecked(_random, _s, _n);
         }
 
         /// <summary>
@@ -367,6 +388,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(System.Random rnd, double s, int n)
         {
             if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             return SampleUnchecked(rnd, s, n);
         }
 
@@ -379,10 +401,22 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(System.Random rnd, double s, int n)
         {
             if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, s, n);
-            }
+
+            return SamplesUnchecked(rnd, s, n);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        public static void Samples(System.Random rnd, int[] values, double s, int n)
+        {
+            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, s, n);
         }
 
         /// <summary>
@@ -393,6 +427,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(double s, int n)
         {
             if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             return SampleUnchecked(SystemRandomSource.Default, s, n);
         }
 
@@ -404,11 +439,21 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(double s, int n)
         {
             if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            SystemRandomSource rnd = SystemRandomSource.Default;
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, s, n);
-            }
+
+            return SamplesUnchecked(SystemRandomSource.Default, s, n);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="s">The s parameter of the distribution.</param>
+        /// <param name="n">The n parameter of the distribution.</param>
+        public static void Samples(int[] values, double s, int n)
+        {
+            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, s, n);
         }
     }
 }

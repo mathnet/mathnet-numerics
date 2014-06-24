@@ -298,6 +298,22 @@ namespace MathNet.Numerics.Distributions
             return k - 1;
         }
 
+        static void SamplesUnchecked(System.Random rnd, int[] values, double r, double p)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = SampleUnchecked(rnd, r, p);
+            }
+        }
+
+        static IEnumerable<int> SamplesUnchecked(System.Random rnd, double r, double p)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, r, p);
+            }
+        }
+
         /// <summary>
         /// Samples a <c>NegativeBinomial</c> distributed random variable.
         /// </summary>
@@ -308,15 +324,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(int[] values)
+        {
+            SamplesUnchecked(_random, values, _trials, _p);
+        }
+
+        /// <summary>
         /// Samples an array of <c>NegativeBinomial</c> distributed random variables.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<int> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _trials, _p);
-            }
+            return SamplesUnchecked(_random, _trials, _p);
         }
 
         /// <summary>
@@ -328,6 +349,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(System.Random rnd, double r, double p)
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             return SampleUnchecked(rnd, r, p);
         }
 
@@ -340,10 +362,22 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(System.Random rnd, double r, double p)
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, r, p);
-            }
+
+            return SamplesUnchecked(rnd, r, p);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        public static void Samples(System.Random rnd, int[] values, double r, double p)
+        {
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, r, p);
         }
 
         /// <summary>
@@ -354,6 +388,7 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(double r, double p)
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
             return SampleUnchecked(SystemRandomSource.Default, r, p);
         }
 
@@ -365,11 +400,21 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(double r, double p)
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            SystemRandomSource rnd = SystemRandomSource.Default;
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, r, p);
-            }
+
+            return SamplesUnchecked(SystemRandomSource.Default, r, p);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
+        public static void Samples(int[] values, double r, double p)
+        {
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, r, p);
         }
     }
 }

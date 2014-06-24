@@ -266,6 +266,14 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _lower, _upper);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the <c>ContinuousUniform</c> distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
@@ -288,7 +296,7 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
-        static void SamplesUnchecked(System.Random rnd, double[] values, double lower, double upper)
+        internal static void SamplesUnchecked(System.Random rnd, double[] values, double lower, double upper)
         {
             rnd.NextDoubles(values);
             var difference = upper - lower;

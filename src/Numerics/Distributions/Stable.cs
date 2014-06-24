@@ -356,6 +356,53 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
+        static void SamplesUnchecked(System.Random rnd, double[] values, double alpha, double beta, double scale, double location)
+        {
+            var randThetas = new double[values.Length];
+            var randWs = new double[values.Length];
+            ContinuousUniform.SamplesUnchecked(rnd, randThetas, -Constants.PiOver2, Constants.PiOver2);
+            Exponential.SamplesUnchecked(rnd, randWs, 1.0);
+
+            if (!1.0.AlmostEqual(alpha))
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    var randTheta = randThetas[i];
+
+                    var theta = (1.0/alpha)*Math.Atan(beta*Math.Tan(Constants.PiOver2*alpha));
+                    var angle = alpha*(randTheta + theta);
+                    var part1 = beta*Math.Tan(Constants.PiOver2*alpha);
+
+                    var factor = Math.Pow(1.0 + (part1*part1), 1.0/(2.0*alpha));
+                    var factor1 = Math.Sin(angle)/Math.Pow(Math.Cos(randTheta), (1.0/alpha));
+                    var factor2 = Math.Pow(Math.Cos(randTheta - angle)/randWs[i], (1 - alpha)/alpha);
+
+                    values[i] = location + scale*(factor*factor1*factor2);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < values.Length; i++)
+                {
+                    var randTheta = randThetas[i];
+
+                    var part1 = Constants.PiOver2 + (beta*randTheta);
+                    var summand = part1*Math.Tan(randTheta);
+                    var subtrahend = beta*Math.Log(Constants.PiOver2*randWs[i]*Math.Cos(randTheta)/part1);
+
+                    values[i] = location + scale*Constants.TwoInvPi*(summand - subtrahend);
+                }
+            }
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double alpha, double beta, double scale, double location)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, alpha, beta, scale, location);
+            }
+        }
+
         /// <summary>
         /// Draws a random sample from the distribution.
         /// </summary>
@@ -366,15 +413,20 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, _alpha, _beta, _scale, _location);
+        }
+
+        /// <summary>
         /// Generates a sequence of samples from the Stable distribution.
         /// </summary>
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            while (true)
-            {
-                yield return SampleUnchecked(_random, _alpha, _beta, _scale, _location);
-            }
+            return SamplesUnchecked(_random, _alpha, _beta, _scale, _location);
         }
 
         /// <summary>
@@ -486,10 +538,25 @@ namespace MathNet.Numerics.Distributions
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, alpha, beta, scale, location);
-            }
+            return SamplesUnchecked(rnd, alpha, beta, scale, location);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double alpha, double beta, double scale, double location)
+        {
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(rnd, values, alpha, beta, scale, location);
         }
 
         /// <summary>
@@ -502,7 +569,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double alpha, double beta, double scale, double location)
         {
-            return Sample(SystemRandomSource.Default, alpha, beta, scale, location);
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SampleUnchecked(SystemRandomSource.Default, alpha, beta, scale, location);
         }
 
         /// <summary>
@@ -515,7 +585,27 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double alpha, double beta, double scale, double location)
         {
-            return Samples(SystemRandomSource.Default, alpha, beta, scale, location);
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            return SamplesUnchecked(SystemRandomSource.Default, alpha, beta, scale, location);
+        }
+
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="alpha">The stability (α) of the distribution. Range: 2 ≥ α > 0.</param>
+        /// <param name="beta">The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.</param>
+        /// <param name="scale">The scale (c) of the distribution. Range: c > 0.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double alpha, double beta, double scale, double location)
+        {
+            if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+
+            SamplesUnchecked(SystemRandomSource.Default, values, alpha, beta, scale, location);
         }
     }
 }
