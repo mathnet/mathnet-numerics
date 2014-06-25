@@ -6,8 +6,8 @@ open MathNet.Numerics.Random
 open MathNet.Numerics.Distributions
 
 (**
-Random Numbers and Probability Distributions
-============================================
+Pseudo-Random Numbers
+=====================
 
 The .Net Framework base class library (BCL) includes a pseudo-random number generator
 for non-cryptography use in the form of the `System.Random` class.
@@ -233,132 +233,24 @@ let b = Random.mersenneTwisterShared
 let c = Random.shared;
 
 (**
-Probability Distributions
--------------------------
+Non-Uniform Random Numbers
+--------------------------
 
 For non-uniform random number generation you can use the wide range of probability
 distributions in the `MathNet.Numerics.Distributions` namespace.
 
-There are many ways to parametrize a distribution in the literature. When using the
-default constructor, read carefully which parameters it requires. For distributions where
-multiple ways are common there are also static methods, so you can use the one that fits best.
-For example, a normal distribution is usually parametrized with mean and standard deviation,
-but if you'd rather use mean and precision:
-
     [lang=csharp]
-    var normal = Normal.WithMeanPrecision(0.0, 0.5);
+    using MathNet.Numerics.Distributions;
 
-Since probability distributions can also be sampled to generate random numbers
-with the configured distribution, all constructors optionally accept a random generator
-as last argument. A few more examples, this time in F#:
+    // sample a single value from a standard distribution
+    double a = Normal.Sample(0.0, 1.0);
+
+    // sample using a custom random number generator
+    double b = Normal.Sample(new MersenneTwister(), 0.0, 1.0);
+
+    // sample a large number of values in one go
+    double[] c = new double[100000];
+    Normal.Samples(c, 0.0, 1.0);
+
+See [Probability Distributions](Probability.html) for details.
 *)
-
-// some probability distributions
-let normal = Normal.WithMeanVariance(3.0, 1.5, a)
-let exponential = Exponential(2.4)
-let gamma = Gamma(2.0, 1.5, Random.crypto())
-let cauchy = Cauchy(0.0, 1.0, Random.mrg32k3aWith 10 false)
-let poisson = Poisson(3.0)
-let geometric = Geometric(0.8, Random.system())
-
-// sample some random numbers from these distributions
-let continuous =
-  [ yield normal.Sample()
-    yield exponential.Sample()
-    yield! gamma.Samples() |> Seq.take 10 ]
-
-let discrete =
-  [ poisson.Sample()
-    poisson.Sample()
-    geometric.Sample() ]
-
-// direct sampling (without creating a distribution object)
-let u = Normal.Sample(Random.system(), 2.0, 4.0)
-let v = Laplace.Samples(Random.mersenneTwister(), 1.0, 3.0) |> Seq.take 100 |> List.ofSeq
-let w = Rayleigh.Sample(c, 1.5)
-let x = Hypergeometric.Sample(b, 100, 20, 5)
-
-(**
-Distribution Functions and Properties
--------------------------------------
-
-Distributions can not just be used to generate non-uniform random samples.
-Once parametrized they can compute a variety of distribution properties
-or evaluate distribution functions. Because it is often numerically more stable
-and faster to compute and work with such quantities in the logarithmic domain,
-some of them are also available with the `Ln`-suffix.
-*)
-
-// distribution properties of the gamma we've configured above
-let gammaStats =
-  ( gamma.Mean,
-    gamma.Variance,
-    gamma.StdDev,
-    gamma.Entropy,
-    gamma.Skewness,
-    gamma.Mode )
-
-// probability distribution functions of the normal we've configured above.
-let nd = normal.Density(4.0)  (* pdf *)
-let ndLn = normal.DensityLn(4.0)  (* ln(pdf) *)
-let nc = normal.CumulativeDistribution(4.0)  (* cdf *)
-let nic = normal.InverseCumulativeDistribution(0.7)  (* invcdf *)
-
-// Distribution functions can also be evaluated without creating an object,
-// but then you have to pass in the distribution parameters as first arguments:
-let nd2 = Normal.PDF(3.0, sqrt 1.5, 4.0)
-let ndLn2 = Normal.PDFLn(3.0, sqrt 1.5, 4.0)
-let nc2 = Normal.CDF(3.0, sqrt 1.5, 4.0)
-let nic2 = Normal.InvCDF(3.0, sqrt 1.5, 0.7)
-
-(**
-Some of the distributions also have routines for maximum-likelihood parameter
-estimation from a set of samples:
-*)
-
-let estimation = LogNormal.Estimate([| 2.0; 1.5; 2.1; 1.2; 3.0; 2.4; 1.8 |])
-let mean, variance = estimation.Mean, estimation.Variance
-let moreSamples = estimation.Samples() |> Seq.take 10 |> Seq.toArray
-
-(**
-or in C#:
-
-    [lang=csharp]
-    LogNormal estimation = LogNormal.Estimate(new [] {2.0, 1.5, 2.1, 1.2, 3.0, 2.4, 1.8});
-    double mean = estimation.Mean, variance = estimation.Variance;
-    double[] moreSamples = estimation.Samples().Take(10).ToArray();
-
-Let's do some random walks, using distributions and random sources defined above (TODO: Graph):
-*)
-
-Seq.scan (+) 0.0 (normal.Samples()) |> Seq.take 10 |> Seq.toArray
-Seq.scan (+) 0.0 (Sample.normalSeq 0.0 0.5 a) |> Seq.take 10 |> Seq.toArray
-
-(**
-Composing Distributions
------------------------
-
-Specifically for F# there is also a `Sample` module that allows a somewhat more functional
-view on distribution sampling functions by having the random source passed in as last argument.
-This way they can be composed and transformed arbitrarily if curried:
-*)
-
-/// Transform a sample from a distribution
-let s1 rng = tanh (Sample.normal 2.0 0.5 rng)
-
-/// But we really want to transform the function, not the resulting sample:
-let s1f rng = Sample.map tanh (Sample.normal 2.0 0.5) rng
-
-/// Exactly the same also works with functions generating full sequences
-let s1s rng = Sample.mapSeq tanh (Sample.normalSeq 2.0 0.5) rng
-
-/// Now with multiple distributions, e.g. their product:
-let s2 rng = (Sample.normal 2.0 1.5 rng) * (Sample.cauchy 2.0 0.5 rng)
-let s2f rng = Sample.map2 (*) (Sample.normal 2.0 1.5) (Sample.cauchy 2.0 0.5) rng
-let s2s rng = Sample.mapSeq2 (*) (Sample.normalSeq 2.0 1.5) (Sample.cauchySeq 2.0 0.5) rng
-
-// Taking some samples from the composed function
-Seq.take 10 (s2s (Random.system())) |> Seq.toArray
-
-// The random walk from above, but this time using the composition from above
-Seq.scan (+) 0.0 (s1s a) |> Seq.take 10 |> Seq.toArray
