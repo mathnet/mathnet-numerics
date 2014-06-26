@@ -599,7 +599,8 @@ namespace MathNet.Numerics.LinearAlgebra
             var result = Build.SameAs(this);
             for (var row = 0; row < RowCount; row++)
             {
-                for (var column = 0; column < row; column++)
+                var columns = Math.Min(row, ColumnCount);
+                for (var column = 0; column < columns; column++)
                 {
                     result.At(row, column, At(row, column));
                 }
