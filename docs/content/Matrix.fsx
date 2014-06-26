@@ -31,10 +31,10 @@ Empty matrices or vectors are not supported, i.e. each dimension must have a len
 The context and primary scenario for these types is linear algebra. Their API is broad enough
 to use them in other contexts as well, but they are *not* optimized for geometry or
 as general purpose storage structure as common in MATLAB. This is intentional, as
-spatial problems, geography and geometry have very different usage patterns and requirements
-than linear algebra. Also, all places where Math.NET Numerics can be used have a strong
+spatial problems, geography and geometry have quite different usage patterns and requirements
+to linear algebra. All places where Math.NET Numerics can be used have a strong
 programming language with their own data structures. For example, if you have a collection of vectors,
-consider to store them in a list or array, not in a matrix (unless you need matrix operations, of course).
+consider to store them in a list or array of vectors, not in a matrix (unless you need matrix operations, of course).
  
 Storage Layout
 --------------
@@ -184,15 +184,16 @@ The approach for vectors is exactly the same:
 
 ### Creating matrices and vectors in F#
 
-In F# we can use the builds just like in C#, but we can also use the F# modules:
+In F# we can use the builders just like in C#, but we can also use the F# modules:
 *)
 
 let m1 = matrix [[ 2.0; 3.0 ]
-                [ 4.0; 5.0 ]]
+                 [ 4.0; 5.0 ]]
 
 let v1 = vector [ 1.0; 2.0; 3.0 ]
 
-// dense 3x4 matrix filled with zeros
+// dense 3x4 matrix filled with zeros.
+// (usually the type is inferred, but not for zero matrices)
 let m2 = DenseMatrix.zero<float> 3 4
 
 // dense 3x4 matrix initialized by a function
@@ -227,6 +228,8 @@ let v2 = m * v
 let m2 = m + 2.0*m
 
 (**
+### Arithmetic Instance Methods
+
 All other operations are covered by methods, like `Transpose` and `Conjugate`,
 or in F# as functions in the Matrix module, e.g. `Matrix.transpose`.
 But even the operators have equivalent methods. The equivalent code from
@@ -244,6 +247,30 @@ resulting in an in-place application. For example, an in-place version of the co
     [lang=csharp]
     m.Multiply(v, v); // v <- m*v
     m.Multiply(3, m); // m <- 3*m
+
+### Shortcut Methods
+
+A typical linear algebra problem is the regression normal equation
+$\mathbf{X}^T\mathbf y = \mathbf{X}^T\mathbf X \mathbf p$ which we would like to solve
+for $p$. By matrix inversion we get $\mathbf p = (\mathbf{X}^T\mathbf X)^{-1}(\mathbf{X}^T\mathbf y)$.
+This can directly be translated to the following code:
+
+    [lang=csharp]
+    (X.Transpose() * X).Inverse() * (X.Transpose() * y)
+
+Since products where one of the arguments is transposed are common, there are a few shortcut routines
+that are more efficient:
+
+    [lang=csharp]
+    X.TransposeThisAndMultiply(X).Inverse() * X.TransposeThisAndMultiply(y)
+
+Of course in practice you would not use the matrix inverse but a decomposition:
+    
+    [lang=csharp]
+    X.TransposeThisAndMultiply(X).Cholesky().Solve(X.TransposeThisAndMultiply(y))
+    
+    // or if the problem is small enough, simply:
+    X.Solve(y);
 
 
 Norms
@@ -274,25 +301,108 @@ Vectors can be normalized to unit p-norm with the `Normalize` method, matrices c
 normalize all rows or all columns to unit p-norm with `NormalizeRows` and `NormalizeColumns`.
 
 
-Rank, Trace, Determinant & Condition
-------------------------------------
+Sums
+----
 
-Kernel and Range
+Closely related to the norms are sum functions. Vectors have a `Sum` function
+that returns the sum of all vector elements, and `SumMagnitudes` that returns
+the sum of the absolute vector elements (and is identical to the L1-norm).
+
+Matrices provide `RowSums` and `ColumnSums` functions that return the sum of each
+row or column vector.
+
+
+Condition Number
 ----------------
+
+The condition number of a function measures how much the output value can change
+for a small change in the input arguments. A problem with a low condition number
+is said to be *well-conditioned*, with a high condition number *ill-conditioned*.
+For a linear equation $Ax=b$ the condition number is the maximum ratio of the
+relative error in $x$ divided by the relative error in $b$. It therefore gives a bound on how
+inaccurate the solution $x$ will be after approximation.
+
+    [lang=csharp]
+    M.Random(4,4).ConditionNumber(); // e.g. 14.829
+
+
+Trace and Determinant
+---------------------
+
+For a square matrix, the trace of a matrix is the sum of the elements on the main diagonal,
+which is equal to the sum of all its eigenvalues with multiplicities. Similarly, the determinant
+of a square matrix is the product of all its eigenvalues with multiplicities.
+If the determinant is not zero, the matrix is invertible and the linear equation system it
+represents has a single unique solution.
+
+    [lang=csharp]
+    var m = M.DenseOfArray(new[,] {{ 1.0,  2.0, 1.0},
+                                   {-2.0, -3.0, 1.0},
+                                   { 3.0,  5.0, 0.0}});
+
+    m.Trace();       // -2
+    m.Determinant(); // ~0 hence not invertible, either none or multiple solutions
+
+
+Column Space, Rank and Range
+-----------------------------
+
+The rank of a matrix is the dimension of its column and row space, i.e. the maximum
+number of linearly independent column and row vectors of the matrix. It is a measure
+of the non-degenerateness of the linear equation system the matrix represents.
+
+An orthonormal basis of the column space can be computed with the range method.
+
+    [lang=csharp]
+    // with the same m as above
+    m.Rank();  // 2
+    m.Range(); // [-0.30519,0.503259,-0.808449], [-0.757315,-0.64296,-0.114355]
+
+
+Null Space, Nullity and Kernel
+------------------------------
+
+The null space or kernel of a matrix $A$ is the set of solutions to the equation $Ax=0$.
+It is the orthogonal complement to the row space of the matrix.
+
+The nullity of a matrix is the dimension of its null space.
+An othonormal basis of the null space can be computed with the kernel method.
+
+    [lang=csharp]
+    // with the same m as above
+    m.Nullity(); // 1
+    m.Kernel();  // [0.845154,-0.507093,0.169031]
+
+    // verify:
+    (m * (10*m.Kernel()[0])); // ~[0,0,0]
 
 
 Matrix Decompositions
 ---------------------
 
-### Cholesky Decomposition
+Most common matrix decompositions are directly available as instance methods.
+Computing a decomposition can be expensive for large matrices, so if you need
+to access multiple properties of a decomposition, consider to reuse the returned instance.
 
-### LU Decomposition
+All decompositions provide Solve methods than can be used to solve linear
+equations of the form $Ax=b$ or $AX=B$. For simplicity the Matrix class
+also provides direct `Solve` methods that automatically choose
+a decomposition. See [Linear Equation Systems](LinearEquations.html) for details.
 
-### QR Decomposition
+Currently these decompositions are optimized for dense matrices only,
+and can leverage native providers like Intel MKL if available.
+For sparse data consider to use the iterative solvers instead if appropriate,
+or convert to dense if small enough.
 
-### Singular Value Decomposition
-
-### Eigenvalue Decomposition
+* **Cholesky**: Cholesky decomposition of symmetric poritive definite matrices
+* **LU**: LU decomposition of square matrices
+* **QR(method)**: QR by Householder transformation.
+  Thin by default (Q: mxn, R: nxn) but can optionally be computed fully (Q: mxm, R: mxn).
+* **GramSchmidt**: QR by Modified Gram-Schmidt Orthogonalization
+* **Svd(computeVectors)**: Singular Value Decomposition.
+  Computation of the singular U and VT vectors can optionally be disabled.
+* **Evd(symmetricity)**: Eigenvalue Decomposition.
+  If the symmetricity of the matrix is known, the algorithm can optionally skip its own check.
 
 Manipulating Matrices and Vectors
 ---------------------------------
@@ -304,7 +414,5 @@ Higher Order Functions
 
 Printing and Strings
 --------------------
-
-
 
 *)
