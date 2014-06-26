@@ -309,7 +309,8 @@ that returns the sum of all vector elements, and `SumMagnitudes` that returns
 the sum of the absolute vector elements (and is identical to the L1-norm).
 
 Matrices provide `RowSums` and `ColumnSums` functions that return the sum of each
-row or column vector.
+row or column vector, and `RowAbsoluteSums` and `ColumnAbsoluteSums` for the
+sums of the absolute elements.
 
 
 Condition Number
@@ -366,7 +367,7 @@ The null space or kernel of a matrix $A$ is the set of solutions to the equation
 It is the orthogonal complement to the row space of the matrix.
 
 The nullity of a matrix is the dimension of its null space.
-An othonormal basis of the null space can be computed with the kernel method.
+An orthonormal basis of the null space can be computed with the kernel method.
 
     [lang=csharp]
     // with the same m as above
@@ -394,7 +395,7 @@ and can leverage native providers like Intel MKL if available.
 For sparse data consider to use the iterative solvers instead if appropriate,
 or convert to dense if small enough.
 
-* **Cholesky**: Cholesky decomposition of symmetric poritive definite matrices
+* **Cholesky**: Cholesky decomposition of symmetric positive definite matrices
 * **LU**: LU decomposition of square matrices
 * **QR(method)**: QR by Householder transformation.
   Thin by default (Q: mxn, R: nxn) but can optionally be computed fully (Q: mxm, R: mxn).
@@ -404,8 +405,75 @@ or convert to dense if small enough.
 * **Evd(symmetricity)**: Eigenvalue Decomposition.
   If the symmetricity of the matrix is known, the algorithm can optionally skip its own check.
 
+
 Manipulating Matrices and Vectors
 ---------------------------------
+
+Individual values can be get and set in matrices and vectors using the indexers
+or the `At` methods. Using `At` instead of the indexers is slightly faster but
+skips some range checks, so use it only after checking the range yourself.
+
+    [lang=csharp]
+    var m = Matrix<double>.Build.Dense(3,4,(i,j) => 10*i + j);
+    m[0,0]; // 0   (row 0, column 0)
+    m[2,0]; // 20 (row 2, column 0)
+    m[0,2]; // 2   (row 0, column 2)
+    m[0,2] = -1.0;
+    m[0,2]; // -1
+
+In F#:
+
+    [lang=fsharp]
+    m.[2,0] // 20
+
+We can also get entire column or row vectors, or a new matrix from parts of an existing one.
+
+    [lang=csharp]
+    var m = M.Dense(6,4,(i,j) => 10*i + j);
+    m.Column(2);          // [2,12,22,32,42,52]
+    m.Row(3);             // [30,31,32,33]
+    m.SubMatrix(1,2,1,2); // [11,12; 21,22]
+
+For each of these methods there is also a variant prefixed with `Set` that can be used
+to overwrite those elements with the provided data.
+
+    [lang=csharp]
+    m.SetRow(3, V.Random(4));
+
+In F# we can also use its slicing syntax:
+
+    [lang=fsharp]
+    let m = DenseMatrix.init 6 4 (fun i j -> float (10*i + j))
+    m.[0,0..3]    // vector [0,1,2,3]
+    m.[1..2,0..3] // matrix [10,11,12,13; 20,21,22,23]
+    // overwrite a sub-matrix with the content of another matrix:
+    m.[0..1,1..2] <- matrix [[ 3.0; 4.0 ]; [ 5.0; 6.0 ]]
+
+To set the whole matrix or some of its columns or rows to zero, use one of the clear methods:
+
+    [lang=csharp]
+    m.Clear(); // set all elements to 0
+    m.ClearColumn(2); // set the 3rd column to 0 (0-based indexing)
+    m.ClearColumns(1,3); // set the 2nd and 4th columns to 0 (params-array)
+    m.ClearSubMatrix(1,2,1,2); // set the 2x2 submatrix with offset 1,1 to zero
+
+Because of the limitations of floating point numbers, we may want to set very small numbers to zero:
+
+    [lang=csharp]
+    m.CoerceZero(1e-14); // set all elements smaller than 1e-14 to 0
+    m.CoerceZero(x => x < 10); // set all elements that match a predicate function to 0.
+
+Even though matrices and vectors are mutable, their dimension is fixed and cannot be changed
+after creation. However, we can still insert or remove rows or columns, or concatenate matrices together.
+But all these operations will create and return a new instance.
+
+    [lang=csharp]
+    var m2 = m.RemoveRow(2); // remove the 3rd rows
+    var m3 = m2.RemoveColumn(3); // remove the 4th column
+
+    var m4 = m.Stack(m2); // new matrix with m on top and m2 on the bottom
+    var m5 = m2.Append(m3); // new matrix with m2 on the left and m3 on the right
+    var m6 = m.DiagonalStack(m3); // m on the top left and m3 on the bottom right
 
 
 Higher Order Functions
