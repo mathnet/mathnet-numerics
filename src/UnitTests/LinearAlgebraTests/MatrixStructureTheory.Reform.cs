@@ -134,7 +134,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanRemoveRow(Matrix<T> matrix)
         {
-            var row = Vector<T>.Build.Random(matrix.ColumnCount, 0);
             for (var position = 0; position < matrix.RowCount; position++)
             {
                 var result = matrix.RemoveRow(position);
@@ -195,7 +194,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanRemoveColumn(Matrix<T> matrix)
         {
-            var column = Vector<T>.Build.Random(matrix.RowCount, 0);
             for (var position = 0; position < matrix.ColumnCount; position++)
             {
                 var result = matrix.RemoveColumn(position);

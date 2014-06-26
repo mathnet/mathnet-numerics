@@ -836,7 +836,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
         public Matrix<T> RemoveRow(int rowIndex)
         {
-            if (rowIndex < 0 || rowIndex > ColumnCount)
+            if (rowIndex < 0 || rowIndex > RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
