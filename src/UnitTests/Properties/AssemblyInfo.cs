@@ -8,8 +8,8 @@ using MathNet.Numerics.UnitTests;
 [assembly: ComVisible(false)]
 [assembly: Guid("04157581-63f3-447b-a277-83c6e69126a4")]
 
-[assembly: AssemblyVersion("3.0.1.0")]
-[assembly: AssemblyFileVersion("3.0.1.0")]
-[assembly: AssemblyInformationalVersion("3.0.1")]
+[assembly: AssemblyVersion("3.0.2.0")]
+[assembly: AssemblyFileVersion("3.0.2.0")]
+[assembly: AssemblyInformationalVersion("3.0.2")]
 
 [assembly: UseLinearAlgebraProvider]

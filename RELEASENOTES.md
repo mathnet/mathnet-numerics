@@ -1,4 +1,7 @@
-### 3.0.1 - 2014-06-22
+### 3.0.2 - 2014-06-26
+* Patch release, fixing a bug in Matrix.RemoveRow range checks.
+
+### 3.0.1 - 2014-06-24
 * Patch release, fixing a bug in new Matrix.ToMatrixString and Vector.ToVectorString routines.
 
 ### 3.0.0 - 2014-06-21
