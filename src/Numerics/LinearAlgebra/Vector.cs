@@ -288,6 +288,23 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all values of the vector.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator will include all values, even if they are zero.
+        /// </remarks>
+        public IEnumerable<T> Enumerate(Zeros zeros = Zeros.Include)
+        {
+            switch (zeros)
+            {
+                case Zeros.AllowSkip:
+                    return Storage.EnumerateNonZero();
+                default:
+                    return Storage.Enumerate();
+            }
+        }
+
+        /// <summary>
         /// Returns an IEnumerable that can be used to iterate through all values of the vector and their index.
         /// </summary>
         /// <remarks>
@@ -301,11 +318,31 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all values of the vector and their index.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator returns a Tuple with the first value being the element index
+        /// and the second value being the value of the element at that index.
+        /// The enumerator will include all values, even if they are zero.
+        /// </remarks>
+        public IEnumerable<Tuple<int, T>> EnumerateIndexed(Zeros zeros = Zeros.Include)
+        {
+            switch (zeros)
+            {
+                case Zeros.AllowSkip:
+                    return Storage.EnumerateNonZeroIndexed();
+                default:
+                    return Storage.EnumerateIndexed();
+            }
+        }
+
+        /// <summary>
         /// Returns an IEnumerable that can be used to iterate through all non-zero values of the vector.
         /// </summary>
         /// <remarks>
         /// The enumerator will skip all elements with a zero value.
         /// </remarks>
+        [Obsolete("Use Enumerate(Zeros.AllowSkip) instead. Will be removed in v4.")]
         public IEnumerable<T> EnumerateNonZero()
         {
             return Storage.EnumerateNonZero();
@@ -319,6 +356,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the second value being the value of the element at that index.
         /// The enumerator will skip all elements with a zero value.
         /// </remarks>
+        [Obsolete("Use EnumerateIndexed(Zeros.AllowSkip) instead. Will be removed in v4.")]
         public IEnumerable<Tuple<int, T>> EnumerateNonZeroIndexed()
         {
             return Storage.EnumerateNonZeroIndexed();

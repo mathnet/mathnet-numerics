@@ -1331,7 +1331,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </pre></example>
         /// <returns>An array containing the matrix's elements.</returns>
         /// <seealso cref="ToRowWiseArray"/>
-        /// <seealso cref="Enumerate"/>
+        /// <seealso cref="Enumerate(Zeros)"/>
         public T[] ToColumnWiseArray()
         {
             return Storage.ToColumnMajorArray();
@@ -1347,7 +1347,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </pre></example>
         /// <returns>An array containing the matrix's elements.</returns>
         /// <seealso cref="ToColumnWiseArray"/>
-        /// <seealso cref="Enumerate"/>
+        /// <seealso cref="Enumerate(Zeros)"/>
         public T[] ToRowWiseArray()
         {
             return Storage.ToRowMajorArray();
@@ -1368,6 +1368,26 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all values of the matrix.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator will include all values, even if they are zero.
+        /// The ordering of the values is unspecified (not necessarily column-wise or row-wise).
+        /// </remarks>
+        /// <seealso cref="ToColumnWiseArray"/>
+        /// <seealso cref="ToRowWiseArray"/>
+        public IEnumerable<T> Enumerate(Zeros zeros = Zeros.Include)
+        {
+            switch (zeros)
+            {
+                case Zeros.AllowSkip:
+                    return Storage.EnumerateNonZero();
+                default:
+                    return Storage.Enumerate();
+            }
+        }
+
+        /// <summary>
         /// Returns an IEnumerable that can be used to iterate through all values of the matrix and their index.
         /// </summary>
         /// <remarks>
@@ -1381,11 +1401,31 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Returns an IEnumerable that can be used to iterate through all values of the matrix and their index.
+        /// </summary>
+        /// <remarks>
+        /// The enumerator returns a Tuple with the first two values being the row and column index
+        /// and the third value being the value of the element at that index.
+        /// The enumerator will include all values, even if they are zero.
+        /// </remarks>
+        public IEnumerable<Tuple<int, int, T>> EnumerateIndexed(Zeros zeros = Zeros.Include)
+        {
+            switch (zeros)
+            {
+                case Zeros.AllowSkip:
+                    return Storage.EnumerateNonZeroIndexed();
+                default:
+                    return Storage.EnumerateIndexed();
+            }
+        }
+
+        /// <summary>
         /// Returns an IEnumerable that can be used to iterate through all non-zero values of the matrix.
         /// </summary>
         /// <remarks>
         /// The enumerator will skip all elements with a zero value.
         /// </remarks>
+        [Obsolete("Use Enumerate(Zeros.AllowSkip) instead. Will be removed in v4.")]
         public IEnumerable<T> EnumerateNonZero()
         {
             return Storage.EnumerateNonZero();
@@ -1399,6 +1439,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the third value being the value of the element at that index.
         /// The enumerator will skip all elements with a zero value.
         /// </remarks>
+        [Obsolete("Use EnumerateIndexed(Zeros.AllowSkip) instead. Will be removed in v4.")]
         public IEnumerable<Tuple<int, int, T>> EnumerateNonZeroIndexed()
         {
             return Storage.EnumerateNonZeroIndexed();

@@ -43,16 +43,16 @@ module Matrix =
 
 
     /// Transform a matrix into a sequence.
-    let inline toSeq (m: #Matrix<_>) = m.Enumerate()
+    let inline toSeq (m: #Matrix<_>) = m.Enumerate(Zeros.Include)
 
     /// Transform a matrix into an indexed sequence.
-    let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed()
+    let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include)
 
     /// Transform a matrix into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqSkipZeros (m: #Matrix<_>) = m.EnumerateNonZero()
+    let inline toSeqSkipZeros (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip)
 
     /// Transform a matrix into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqiSkipZeros (m: #Matrix<_>) = m.EnumerateNonZeroIndexed()
+    let inline toSeqiSkipZeros (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip)
 
     /// Transform a matrix into a column sequence.
     let inline toColSeq (m: #Matrix<_>) = m.EnumerateColumns()
@@ -68,16 +68,16 @@ module Matrix =
 
 
     /// Applies a function to all elements of the matrix.
-    let inline iter f (m: #Matrix<_>) = m.Enumerate() |> Seq.iter f
+    let inline iter f (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.iter f
 
     /// Applies a function to all indexed elements of the matrix.
-    let inline iteri f (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.iter (fun (i, j, x) -> f i j x)
+    let inline iteri f (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.iter (fun (i, j, x) -> f i j x)
 
     /// Applies a function to all non-zero elements of the matrix. Skipping zeros is efficient on sparse data.
-    let inline iterSkipZerosnz f (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.iter f
+    let inline iterSkipZerosnz f (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.iter f
 
     /// Applies a function to all non-zero indexed elements of the matrix. Skipping zeros is efficient on sparse data.
-    let inline iteriSkipZeros f (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.iter (fun (i, j, x) -> f i j x)
+    let inline iteriSkipZeros f (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.iter (fun (i, j, x) -> f i j x)
 
     /// Applies a function to all columns of the matrix.
     let inline iterCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.iter f
@@ -93,16 +93,16 @@ module Matrix =
 
 
     /// Fold all entries of a matrix.
-    let inline fold f state (m: #Matrix<_>) = m.Enumerate() |> Seq.fold f state
+    let inline fold f state (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.fold f state
 
     /// Fold all entries of a matrix with an indexed folding function.
-    let inline foldi f state (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.fold (fun s (i,j,x) -> f i j s x) state
+    let inline foldi f state (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.fold (fun s (i,j,x) -> f i j s x) state
 
     /// Fold all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
-    let inline foldSkipZeros f state (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.fold f state
+    let inline foldSkipZeros f state (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.fold f state
 
     /// Fold all non-zero entries of a matrix with an indexed folding function. Skipping zeros is efficient on sparse data.
-    let inline foldiSkipZeros f state (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.fold (fun s (i,j,x) -> f i j s x) state
+    let inline foldiSkipZeros f state (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.fold (fun s (i,j,x) -> f i j s x) state
 
     /// Fold all columns of a matrix.
     let inline foldCols f state (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.fold f state
@@ -118,16 +118,16 @@ module Matrix =
 
 
     /// Scan all entries of a matrix.
-    let inline scan f state (m: #Matrix<_>) = m.Enumerate() |> Seq.scan f state
+    let inline scan f state (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.scan f state
 
     /// Scan all entries of a matrix with an indexed folding function.
-    let inline scani f state (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.scan (fun s (i,j,x) -> f i j s x) state
+    let inline scani f state (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.scan (fun s (i,j,x) -> f i j s x) state
 
     /// Scan all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
-    let inline scanSkipZeros f state (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.scan f state
+    let inline scanSkipZeros f state (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.scan f state
 
     /// Scan all non-zero entries of a matrix with an indexed folding function. Skipping zeros is efficient on sparse data.
-    let inline scaniSkipZeros f state (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.scan (fun s (i,j,x) -> f i j s x) state
+    let inline scaniSkipZeros f state (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.scan (fun s (i,j,x) -> f i j s x) state
 
     /// Scan all columns of a matrix.
     let inline scanCols f state (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.scan f state
@@ -143,10 +143,10 @@ module Matrix =
 
 
     /// Reduce all entries of a matrix.
-    let inline reduce f (m: #Matrix<_>) = m.Enumerate() |> Seq.reduce f
+    let inline reduce f (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.reduce f
 
     /// Reduce all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
-    let inline reduceSkipZeros f (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.reduce f
+    let inline reduceSkipZeros f (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.reduce f
 
     /// Reduce all columns of a matrix.
     let inline reduceCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.reduce f
@@ -156,16 +156,16 @@ module Matrix =
 
 
     /// Checks whether there is an entry in the matrix that satisfies a predicate.
-    let inline exists p (m: #Matrix<_>) = m.Enumerate() |> Seq.exists p
+    let inline exists p (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.exists p
 
     /// Checks whether there is an entry in the matrix that satisfies a position dependent predicate.
-    let inline existsi p (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.exists (fun (i,j,x) -> p i j x)
+    let inline existsi p (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.exists (fun (i,j,x) -> p i j x)
 
     /// Checks whether there is a non-zero entry in the matrix that satisfies a predicate. Skipping zeros is efficient on sparse data.
-    let inline existsSkipZeros p (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.exists p
+    let inline existsSkipZeros p (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.exists p
 
     /// Checks whether there is a non-zero entry in the matrix that satisfies a position dependent predicate. Skipping zeros is efficient on sparse data.
-    let inline existsiSkipZeros p (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.exists (fun (i,j,x) -> p i j x)
+    let inline existsiSkipZeros p (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.exists (fun (i,j,x) -> p i j x)
 
     /// Checks whether there is a column in the matrix that satisfies a predicate.
     let inline existsCol p (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.exists p
@@ -181,16 +181,16 @@ module Matrix =
 
 
     /// Checks whether all entries in the matrix that satisfies a given predicate.
-    let inline forall p (m: #Matrix<_>) = m.Enumerate() |> Seq.forall p
+    let inline forall p (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.forall p
 
     /// Checks whether all entries in the matrix that satisfies a given position dependent predicate.
-    let inline foralli p (m: #Matrix<_>) = m.EnumerateIndexed() |> Seq.forall (fun (i,j,x) -> p i j x)
+    let inline foralli p (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.forall (fun (i,j,x) -> p i j x)
 
     /// Checks whether all non-zero entries in the matrix that satisfies a given predicate. Skipping zeros is efficient on sparse data.
-    let inline forallSkipZeros p (m: #Matrix<_>) = m.EnumerateNonZero() |> Seq.forall p
+    let inline forallSkipZeros p (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.forall p
 
     /// Checks whether all non-zero entries in the matrix that satisfies a given position dependent predicate. Skipping zeros is efficient on sparse data.
-    let inline foralliSkipZeros p (m: #Matrix<_>) = m.EnumerateNonZeroIndexed() |> Seq.forall (fun (i,j,x) -> p i j x)
+    let inline foralliSkipZeros p (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.forall (fun (i,j,x) -> p i j x)
 
     /// Checks whether all columns in the matrix that satisfy a predicate.
     let inline forallCols p (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.forall p

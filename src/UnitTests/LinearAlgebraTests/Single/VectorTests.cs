@@ -244,7 +244,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public void CanEnumerateOverVectorUsingNonZeroEnumerator()
         {
             var vector = CreateVector(Data);
-            foreach (var pair in vector.EnumerateNonZeroIndexed())
+            foreach (var pair in vector.EnumerateIndexed(Zeros.AllowSkip))
             {
                 Assert.AreEqual(Data[pair.Item1], pair.Item2);
                 Assert.AreNotEqual(0f, pair.Item2);

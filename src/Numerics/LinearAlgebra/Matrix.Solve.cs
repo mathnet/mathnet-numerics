@@ -205,7 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
                 solver.Solve(this, input.Column(column), solution, iterator, preconditioner);
 
-                foreach (var element in solution.EnumerateNonZeroIndexed())
+                foreach (var element in solution.EnumerateIndexed(Zeros.AllowSkip))
                 {
                     result.At(element.Item1, column, element.Item2);
                 }
