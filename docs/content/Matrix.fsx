@@ -476,11 +476,180 @@ But all these operations will create and return a new instance.
     var m6 = m.DiagonalStack(m3); // m on the top left and m3 on the bottom right
 
 
-Higher Order Functions
-----------------------
+Enumerators and Higher Order Functions
+--------------------------------------
+
+Since looping over all entries of a matrix or vector with direct access is inefficient,
+especially with a sparse storage layout, and working with the raw structures is non-trivial,
+both vectors and matrices provide specialized enumerators and higher order functions that
+understand the actual layout and can use it more efficiently.
+
+Most of these functions can optionally skip zero-value entries. If you do not need to handle
+zero-value elements, skipping them can massively speed up execution on sparse layouts.
+
+### Iterate
+
+Both vectors and matrices have Enumerate methods that return an `IEnumerable<T>`,
+that can be used to iterate through all elements. All these methods optionally
+accept a `Zeros` enumeration to control whether zero-values may be skipped or not.
+
+* **Enumerate**: returns a straight forward enumerator over all values.
+* **EnumerateIndexed**: returns an enumerable with index-value-tuples.
+
+Matrices can also enumerate over all column or row vectors, or all of them
+within a range:
+
+* **EnumerateColumns**: returns an enumerable with all or a range of the column vectors.
+* **EnumerateColumnsIndexed**: like EnumerateColumns buth returns index-column tuples.
+* **EnumerateRows**: returns an enumerable with all or a range of the row vectors.
+* **EnumerateRowsIndexed**: like EnumerateRows buth returns index-row tuples.
+
+### Map
+
+Similarly there are also Map methods that replace each element with the result
+of applying a function to its value. Or, if indexed, to its index and value.
+
+* **MapInplace(f,zeros)**: map in-place with a function on the element's value
+* **MapIndexedInplace(f,zeros)**: map in-place with a function on the element's index and value.
+* **Map(f,result,zeros)**: map into a result structure provided as argument.
+* **MapIndexed(f,result,zeros)**: indexed variant of Map.
+* **MapConvert(f,result,zeros)**: variant where the function can return a different type
+* **MapIndexedConvert(f,result,zeros)**: indexed variant of MapConvert.
+* **Map(f,zeros)**: like MapConvert but returns a new structure instead of the result argument.
+* **MapIndexed(f,zeros)**: indexed variant of Map.
+
+### Fold and Reduce
+
+Matrices also provide column/row fold and reduce routines:
+
+* **FoldByRow(f,state,zeros)**: fold through the values of each row, returns an column-array.
+* **FoldRows(f,state)**: fold over all row vectors, returns a row vector.
+* **ReduceRows(f)**: reduce all row vectors, returns a row vector.
 
 
 Printing and Strings
 --------------------
+
+Matrices and vectors try to print themselves to a string with the `ToString`
+in a reasonable way, without overflowing the output device on a large matrix.
+
+Note that this function is not intended to export a data structure to a string or
+file, but to give an informative summary about it. For data import/export,
+use one of the MathNet.Numerics.Data packages instead.
+
+Some matrix examples:
+
+    [lang=text]
+    // Matrix<double>.Build.Dense(3,4,(i,j) => i*10*j).ToString()
+    DenseMatrix 3x4-Double
+    0   0   0   0
+    0  10  20  30
+    0  20  40  60
+
+    // Matrix<double>.Build.Dense(100,100,(i,j) => i*10*j).ToString()
+    DenseMatrix 100x100-Double
+     0    0     0     0     0     0     0     0     0     0     0  ..      0      0
+     0   10    20    30    40    50    60    70    80    90   100  ..    980    990
+     0   20    40    60    80   100   120   140   160   180   200  ..   1960   1980
+     0   30    60    90   120   150   180   210   240   270   300  ..   2940   2970
+     0   40    80   120   160   200   240   280   320   360   400  ..   3920   3960
+     0   50   100   150   200   250   300   350   400   450   500  ..   4900   4950
+     0   60   120   180   240   300   360   420   480   540   600  ..   5880   5940
+     0   70   140   210   280   350   420   490   560   630   700  ..   6860   6930
+    ..   ..    ..    ..    ..    ..    ..    ..    ..    ..    ..  ..     ..     ..
+     0  960  1920  2880  3840  4800  5760  6720  7680  8640  9600  ..  94080  95040
+     0  970  1940  2910  3880  4850  5820  6790  7760  8730  9700  ..  95060  96030
+     0  980  1960  2940  3920  4900  5880  6860  7840  8820  9800  ..  96040  97020
+     0  990  1980  2970  3960  4950  5940  6930  7920  8910  9900  ..  97020  98010
+
+    // Matrix<double>.Build.Random(4,4).ToString()
+    DenseMatrix 4x4-Double
+      1.6286    -1.1126    1.95526  0.950545
+    0.537503  -0.465534    2.00984   1.90885
+    -1.62816    1.04109   -2.06876  0.812197
+    0.452355  -0.689394  -0.277921   2.72224
+
+    // Matrix<double>.Build.SparseOfIndexed(4,100,new[] {Tuple.Create(1,2,3.0)})
+    SparseMatrix 4x100-Double 0.25% Filled
+    0  0    0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  ..  0  0
+    0  0  3.5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  ..  0  0
+    0  0    0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  ..  0  0
+    0  0    0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  ..  0  0
+
+Vectors are printed as a column that can wrap over to multiple columns if needed:
+
+    [lang=text]
+    // Vector<double>.Build.Random(15).ToString()
+    DenseVector 15-Double
+     0.519184  0.0950414
+      1.65913    2.56783
+     0.743408   0.574037
+     -1.73394           
+    -0.906662           
+     0.853759           
+    -0.162181           
+    -0.231667           
+     -1.26393           
+    -0.434873           
+     0.693421           
+    -0.513683           
+
+    // Vector<double>.Build.Dense(500,i => i).ToString()
+    DenseVector 500-Double
+     0  12  24  36  48  60  72  84   96  108  120  132  144  156  168  180  192
+     1  13  25  37  49  61  73  85   97  109  121  133  145  157  169  181  193
+     2  14  26  38  50  62  74  86   98  110  122  134  146  158  170  182  194
+     3  15  27  39  51  63  75  87   99  111  123  135  147  159  171  183  195
+     4  16  28  40  52  64  76  88  100  112  124  136  148  160  172  184  196
+     5  17  29  41  53  65  77  89  101  113  125  137  149  161  173  185  197
+     6  18  30  42  54  66  78  90  102  114  126  138  150  162  174  186  198
+     7  19  31  43  55  67  79  91  103  115  127  139  151  163  175  187  199
+     8  20  32  44  56  68  80  92  104  116  128  140  152  164  176  188   ..
+     9  21  33  45  57  69  81  93  105  117  129  141  153  165  177  189   ..
+    10  22  34  46  58  70  82  94  106  118  130  142  154  166  178  190  498
+    11  23  35  47  59  71  83  95  107  119  131  143  155  167  179  191  499
+
+The format is customizable to some degree, for example we can choose the
+floating point format and culture, or how many rows or columns should be shown:
+
+    [lang=text]
+    // var m = Matrix<double>.Build.Random(5,100,42); // 42 = random seed
+    
+    // m.ToString()
+    DenseMatrix 5x100-Double
+     0.408388  -0.847291  -0.320552   0.162242    2.46434  ..   0.180466   -0.278793
+     -1.06988   0.063008  -0.527378    1.40716    -0.5962  ..  -0.622447   -0.488186
+    -0.734176  -0.703003    1.33158   0.286498    1.44158  ..  -0.834335  -0.0756724
+      1.78532   0.020217    1.94275  -0.742821  -0.790251  ..    1.52823     2.49427
+    -0.660645    1.28166   -1.71351   -1.33282  -0.328162  ..   0.110989    0.252272
+
+    // m.ToString("G2", CultureInfo.GetCultureInfo("de-DE"))
+    DenseMatrix 5x100-Double
+     0,41  -0,85  -0,32   0,16    2,5     -0,77   0,12   0,58  ..   0,18   -0,28
+     -1,1  0,063  -0,53    1,4   -0,6      -2,8  -0,35    0,3  ..  -0,62   -0,49
+    -0,73   -0,7    1,3   0,29    1,4  -0,00022   -0,3   0,51  ..  -0,83  -0,076
+      1,8   0,02    1,9  -0,74  -0,79     0,088   0,78  -0,94  ..    1,5     2,5
+    -0,66    1,3   -1,7   -1,3  -0,33     -0,69  -0,27  -0,68  ..   0,11    0,25
+
+    // m.ToString(3,5) // max 3 rows, 5 columns
+    DenseMatrix 5x100-Double
+     0.408388  -0.847291  -0.320552  ..   0.180466   -0.278793
+     -1.06988   0.063008  -0.527378  ..  -0.622447   -0.488186
+    -0.734176  -0.703003    1.33158  ..  -0.834335  -0.0756724
+           ..         ..         ..  ..         ..          ..
+
+    // Matrix<double>.Build.Random(100,100,42)
+    // .ToMatrixString(2,4,3,4,"=","||",@"\\"," ",Environment.NewLine,x=>x.ToString("G2"))
+     0.41   0.36  0.29  =  0.43 0.56   -0.56  0.98
+     -1.1  -0.64   0.9  =  0.49 -0.3       2  -0.5
+       ||     ||    || \\    ||   ||      ||    ||
+    -0.87   -2.2  0.79  =  0.96  1.8     1.4 0.067
+    -0.14 -0.016 -0.55  = -0.36 0.33    0.24  0.52
+     -1.3     -1 -0.81  =   1.3    1    -1.1 -0.28
+    -0.21   -1.7   2.6  =  -1.5 -1.2 -0.0014   3.4
+
+If you are using Math.NET Numerics from within F# interactive, you may want
+to load the MathNet.Numerics.fsx script of the F# package. Besides loading
+the assemblies it also adds proper FSI printers for both matrices and vectors.
 
 *)
