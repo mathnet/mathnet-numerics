@@ -9,7 +9,7 @@ In addition to the core .NET package (which is written entirely in C#), Numerics
 
 Supports Mono and .NET 4.0 and 3.5 on Linux, Mac and Windows, the portable build (PCL) also Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1, and Xamarin Android/iOS.
 
-Math.NET Numerics is covered under the terms of the [MIT/X11](http://mathnetnumerics.codeplex.com/license) license. You may therefore link to it and use it in both opensource and proprietary software projects. See also the [license](LICENSE.md) file in the root folder.
+Math.NET Numerics is covered under the terms of the [MIT/X11](LICENSE.md) license. You may therefore link to it and use it in both opensource and proprietary software projects.
 
 Maintained by [Christoph Rüegg](http://christoph.ruegg.name/) but brought to you by all our awesome [contributors](CONTRIBUTORS.md) of Math.NET Numerics and its predecessors [dnAnalytics](http://dnanalytics.codeplex.com/) and [Math.NET Iridium](http://www.mathdotnet.com/Iridium.aspx). We accept contributions!
 
