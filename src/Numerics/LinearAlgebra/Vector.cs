@@ -391,6 +391,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public void Map<TU>(Func<T, TU> f, Vector<TU> result, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
+            // TODO: in v4 update this method to replace TU with T (consistent with Matrix, see MapConvert)
             Storage.MapTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
         }
 
@@ -401,6 +402,30 @@ namespace MathNet.Numerics.LinearAlgebra
         /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
         public void MapIndexed<TU>(Func<int, T, TU> f, Vector<TU> result, Zeros zeros = Zeros.AllowSkip)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            // TODO: in v4 update this method to replace TU with T (consistent with Matrix, see MapIndexedConvert)
+            Storage.MapIndexedTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this vector and replaces the value in the result vector.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse vectors).
+        /// </summary>
+        public void MapConvert<TU>(Func<T, TU> f, Vector<TU> result, Zeros zeros = Zeros.AllowSkip)
+            where TU : struct, IEquatable<TU>, IFormattable
+        {
+            Storage.MapTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
+        }
+
+        /// <summary>
+        /// Applies a function to each value of this vector and replaces the value in the result vector.
+        /// The index of each value (zero-based) is passed as first argument to the function.
+        /// If forceMapZero is not set to true, zero values may or may not be skipped depending
+        /// on the actual data storage implementation (relevant mostly for sparse vectors).
+        /// </summary>
+        public void MapIndexedConvert<TU>(Func<int, T, TU> f, Vector<TU> result, Zeros zeros = Zeros.AllowSkip)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             Storage.MapIndexedTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
