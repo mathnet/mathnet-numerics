@@ -66,6 +66,10 @@ module FindRoots =
         | true, root -> Some root
         | false, _ -> None
 
+    let broyden maxIterations accuracy guess (f:double[]->double[]) =
+        match Broyden.TryFindRoot(tobcl f, guess, accuracy, maxIterations) with
+        | true, root -> Some root
+        | false, _ -> None
 
     // simple usage
 
