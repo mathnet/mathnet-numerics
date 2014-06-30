@@ -230,7 +230,7 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Returns the upper incomplete gamma function
-        /// Gamma(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
+        /// Gamma(a,x) = int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
         /// </summary>
         /// <param name="a">The argument for the gamma function.</param>
         /// <param name="x">The lower integral limit.</param>
