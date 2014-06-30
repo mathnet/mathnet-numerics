@@ -1008,9 +1008,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Evaluates whether this matrix is conjugate symmetric.
+        /// Evaluates whether this matrix is hermitian (conjugate symmetric).
         /// </summary>
-        public override sealed bool IsConjugateSymmetric()
+        public override sealed bool IsHermitian()
         {
             for (var k = 0; k < _data.Length; k++)
             {

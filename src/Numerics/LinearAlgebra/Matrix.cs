@@ -1308,9 +1308,18 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Evaluates whether this matrix is hermitian (conjugate symmetric).
+        /// </summary>
+        public abstract bool IsHermitian();
+
+        /// <summary>
         /// Evaluates whether this matrix is conjugate symmetric.
         /// </summary>
-        public abstract bool IsConjugateSymmetric();
+        [Obsolete("Use IsHermitian instead. Will be removed in v4.")]
+        public bool IsConjugateSymmetric()
+        {
+            return IsHermitian();
+        }
 
         /// <summary>
         /// Returns this matrix as a multidimensional array.

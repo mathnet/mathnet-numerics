@@ -91,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceConjugateSymmetric(A);
+            MatrixHelpers.ForceHermitian(A);
             var factorEvd = A.Evd();
             var V = factorEvd.EigenVectors;
             var λ = factorEvd.D;
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         public void CanSolveForRandomVectorAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceConjugateSymmetric(A);
+            MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
             var evd = A.Evd();
 
@@ -177,7 +177,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         public void CanSolveForRandomMatrixAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceConjugateSymmetric(A);
+            MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
             var evd = A.Evd();
 
@@ -210,7 +210,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceConjugateSymmetric(A);
+            MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
             var evd = A.Evd();
 
@@ -238,7 +238,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
-            MatrixHelpers.ForceConjugateSymmetric(A);
+            MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
             var evd = A.Evd();
 

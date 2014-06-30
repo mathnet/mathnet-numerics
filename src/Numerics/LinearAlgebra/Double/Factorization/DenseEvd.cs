@@ -83,7 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             switch (symmetricity)
             {
                 case Symmetricity.Symmetric:
-                case Symmetricity.ConjugateSymmetric:
+                case Symmetricity.Hermitian:
                     isSymmetric = true;
                     break;
                 case Symmetricity.Asymmetric:

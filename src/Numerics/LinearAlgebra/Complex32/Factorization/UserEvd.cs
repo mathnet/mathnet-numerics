@@ -81,14 +81,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             bool isSymmetric;
             switch (symmetricity)
             {
-                case Symmetricity.ConjugateSymmetric:
+                case Symmetricity.Hermitian:
                     isSymmetric = true;
                     break;
                 case Symmetricity.Asymmetric:
                     isSymmetric = false;
                     break;
                 default:
-                    isSymmetric = matrix.IsConjugateSymmetric();
+                    isSymmetric = matrix.IsHermitian();
                     break;
             }
 

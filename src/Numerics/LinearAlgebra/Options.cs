@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.LinearAlgebra
 {
     public enum ExistingData
@@ -72,8 +74,11 @@ namespace MathNet.Numerics.LinearAlgebra
         Symmetric = 1,
 
         /// <summary>
-        /// A matrix is complex conjugate symmetric.
+        /// A matrix is hermitian (conjugate symmetric).
         /// </summary>
+        Hermitian = 2,
+
+        [Obsolete("Use Hermitian instead. Will be removed in v4.")]
         ConjugateSymmetric = 2,
 
         /// <summary>

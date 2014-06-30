@@ -35,7 +35,7 @@ spatial problems, geography and geometry have quite different usage patterns and
 to linear algebra. All places where Math.NET Numerics can be used have a strong
 programming language with their own data structures. For example, if you have a collection of vectors,
 consider to store them in a list or array of vectors, not in a matrix (unless you need matrix operations, of course).
- 
+
 Storage Layout
 --------------
 
@@ -224,8 +224,8 @@ let m = matrix [[ 1.0; 4.0; 7.0 ]
 
 let v = vector [ 10.0; 20.0; 30.0 ]
 
-let v2 = m * v
-let m2 = m + 2.0*m
+let v' = m * v
+let m' = m + 2.0*m
 
 (**
 ### Arithmetic Instance Methods
@@ -265,7 +265,7 @@ that are more efficient:
     X.TransposeThisAndMultiply(X).Inverse() * X.TransposeThisAndMultiply(y)
 
 Of course in practice you would not use the matrix inverse but a decomposition:
-    
+
     [lang=csharp]
     X.TransposeThisAndMultiply(X).Cholesky().Solve(X.TransposeThisAndMultiply(y))
     
@@ -333,7 +333,8 @@ Trace and Determinant
 For a square matrix, the trace of a matrix is the sum of the elements on the main diagonal,
 which is equal to the sum of all its eigenvalues with multiplicities. Similarly, the determinant
 of a square matrix is the product of all its eigenvalues with multiplicities.
-If the determinant is not zero, the matrix is invertible and the linear equation system it
+A matrix is said to be *singular* if its determinant is zero and *non-singular* otherwise.
+In the latter case the matrix is invertible and the linear equation system it
 represents has a single unique solution.
 
     [lang=csharp]

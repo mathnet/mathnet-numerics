@@ -1246,9 +1246,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Evaluates whether this matrix is conjugate symmetric.
+        /// Evaluates whether this matrix is hermitian (conjugate symmetric).
         /// </summary>
-        public override bool IsConjugateSymmetric()
+        public override bool IsHermitian()
         {
             if (RowCount != ColumnCount)
             {

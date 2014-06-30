@@ -704,9 +704,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Evaluates whether this matrix is conjugate symmetric.
+        /// Evaluates whether this matrix is hermitian (conjugate symmetric).
         /// </summary>
-        public override sealed bool IsConjugateSymmetric()
+        public override sealed bool IsHermitian()
         {
             return IsSymmetric();
         }

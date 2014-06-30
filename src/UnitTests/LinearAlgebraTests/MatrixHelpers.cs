@@ -61,11 +61,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         /// <summary>
-        /// Forces a matrix elements to conjugate symmetric. Copies the conjugate of the values
+        /// Forces a matrix elements to hermitian (conjugate symmetric). Copies the conjugate of the values
         /// from the lower triangle to the upper triangle.
         /// </summary>
         /// <param name="matrix">The matrix to make conjugate symmetric.</param>
-        static public void ForceConjugateSymmetric(Matrix<Complex64> matrix)
+        static public void ForceHermitian(Matrix<Complex64> matrix)
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         /// from the lower triangle to the upper triangle.
         /// </summary>
         /// <param name="matrix">The matrix to make conjugate symmetric.</param>
-        public static void ForceConjugateSymmetric(Matrix<Numerics.Complex32> matrix)
+        public static void ForceHermitian(Matrix<Numerics.Complex32> matrix)
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {

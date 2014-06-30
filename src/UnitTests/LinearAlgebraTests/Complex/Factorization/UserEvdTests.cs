@@ -202,7 +202,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         public void CanSolveForRandomVectorAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var A = new UserDefinedMatrix(Matrix<Complex>.Build.RandomPositiveDefinite(order, 1).ToArray());
-            MatrixHelpers.ForceConjugateSymmetric(A);
+            MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
             var evd = A.Evd();
 
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         public void CanSolveForRandomMatrixAndSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var A = new UserDefinedMatrix(Matrix<Complex>.Build.RandomPositiveDefinite(order, 1).ToArray());
-            MatrixHelpers.ForceConjugateSymmetric(A);
+            MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
             var evd = A.Evd();
 
@@ -262,7 +262,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         public void CanSolveForRandomVectorAndSymmetricMatrixWhenResultVectorGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var A = new UserDefinedMatrix(Matrix<Complex>.Build.RandomPositiveDefinite(order, 1).ToArray());
-            MatrixHelpers.ForceConjugateSymmetric(A);
+            MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
             var evd = A.Evd();
 
@@ -290,7 +290,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
         public void CanSolveForRandomMatrixAndSymmetricMatrixWhenResultMatrixGiven([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var A = new UserDefinedMatrix(Matrix<Complex>.Build.RandomPositiveDefinite(order, 1).ToArray());
-            MatrixHelpers.ForceConjugateSymmetric(A);
+            MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
             var evd = A.Evd();
 

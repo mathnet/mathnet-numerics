@@ -353,7 +353,8 @@ module Matrix =
     let inline nullity (A: #Matrix<_>) = A.Nullity()
     let inline kernel (A: #Matrix<_>) = A.Kernel()
     let inline range (A: #Matrix<_>) = A.Range()
-    let inline symmetric (A: #Matrix<_>) = A.IsSymmetric
+    let inline symmetric (A: #Matrix<_>) = A.IsSymmetric()
+    let inline hermitian (A: #Matrix<_>) = A.IsHermitian()
 
     let inline cholesky (A: #Matrix<_>) = A.Cholesky()
     let inline lu (A: #Matrix<_>) = A.LU()
