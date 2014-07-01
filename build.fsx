@@ -352,12 +352,12 @@ Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
 
 let provideLicense path =
     ReadFileAsString "LICENSE.md"
-    |> ConvertTextToWindowsLineBreaks 
+    |> ConvertTextToWindowsLineBreaks
     |> ReplaceFile (path @@ "license.txt")
 
 let provideReadme title releasenotes path =
     String.concat Environment.NewLine [header; " " + title; ""; ReadFileAsString releasenotes]
-    |> ConvertTextToWindowsLineBreaks 
+    |> ConvertTextToWindowsLineBreaks
     |> ReplaceFile (path @@ "readme.txt")
 
 let provideFsLoader includes path =
@@ -394,7 +394,7 @@ let zip zipDir filesDir filesFilter bundle =
     provideZipExtraFiles workPath bundle
     Zip "obj/Zip/" (zipDir @@ sprintf "%s-%s.zip" bundle.Id bundle.Version) !! (workPath + "/**/*.*")
     CleanDir "obj/Zip"
-    
+
 Target "Zip" (fun _ ->
     CleanDir "out/packages/Zip"
     if not (hasBuildParam "signed") || hasBuildParam "release" then
@@ -550,8 +550,8 @@ Target "PublishDocs" (fun _ ->
 Target "PublishApi" (fun _ ->
     let repo = "../mathnet-websites"
     Git.Branches.pull repo "origin" "master"
-    CleanDir "../mathnet-websites/api-numerics"
-    CopyRecursive "out/api" "../mathnet-websites/api-numerics" true |> printfn "%A"
+    CleanDir "../mathnet-websites/numerics/api"
+    CopyRecursive "out/api" "../mathnet-websites/numerics/api" true |> printfn "%A"
     Git.Staging.StageAll repo
     Git.Commit.Commit repo (sprintf "Numerics: %s api update" packageVersion)
     Git.Branches.pushBranch repo "origin" "master")
