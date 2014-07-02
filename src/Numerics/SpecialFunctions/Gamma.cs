@@ -34,124 +34,181 @@
 // </contribution>
 
 // ReSharper disable CheckNamespace
+using System;
+
 namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
-    using System;
+  public static partial class SpecialFunctions
+  {
+    private const double OVERFLOW_INPUT = 171.624;
+    private const double LOWER_BREAKPOINT = 0.000005;
+    private const double UPPER_BREAKPOINT = OVERFLOW_INPUT;
+    /* The more precision your numerical type has, the further apart the lower and upper breakpoints
+     * should be.  The ones above are for a C# double, circa 2014, which has a 52-bit mantissa.  By
+     * setting UPPER_BREAKPOINT = OVERFLOW_INPUT, we are effectively using two ranges, not three.*/
+    /// <summary>
+    /// Computes the Gamma function.
+    /// </summary>
+    /// <param name="z">The argument of the gamma function.</param>
+    public static double Gamma (double x) {
+      if (x < 0.0) {
+        int offset = 0;
+        double product = 1;
+        while (x < 0.0) {
+          product *= x;
+          x++;
+          offset++;
+        }
+        if (x == 0.0) {
+          return Double.NaN;
+        }
+        double gammaPositiveArgument = Gamma (x);
+        double r = gammaPositiveArgument / product;
+        return r;
+      }
 
-    public static partial class SpecialFunctions
-    {
-        /// <summary>
-        /// The order of the <see cref="GammaLn"/> approximation.
-        /// </summary>
-        private const int GammaN = 10;
+      // Split the function domain into three intervals:
+      // (0, LOWER_BREAKPOINT), [LOWER_BREAKPOINT, UPPER_BREAKPOINT), and (UPPER_BREAKPOINT, infinity)
+      // The upper breakpoint has historically been 12, not OVERFLOW_INPUT. But changing it
+      // to OVERFLOW_INPUT produces much better results.  It may be that 12 was set back when
+      // machine epsilon was larger than it is today.
 
-        /// <summary>
-        /// Auxiliary variable when evaluating the <see cref="GammaLn"/> function.
-        /// </summary>
-        private const double GammaR = 10.900511;
+      ///////////////////////////////////////////////////////////////////////////
+      // First interval: (0, LOWER_BREAKPOINT)
+      //
+      // For small x, 1/Gamma(x) has power series x + gamma x^2  - ...
+      // So in this range, 1/Gamma(x) = x + gamma x^2 with error on the order of x^3.
+      // The relative error over this interval is less than 6e-7.
 
-        /// <summary>
-        /// Polynomial coefficients for the <see cref="GammaLn"/> approximation.
-        /// </summary>
-        static readonly double[] GammaDk =
-        {
-            2.48574089138753565546e-5,
-            1.05142378581721974210,
-            -3.45687097222016235469,
-            4.51227709466894823700,
-            -2.98285225323576655721,
-            1.05639711577126713077,
-            -1.95428773191645869583e-1,
-            1.70970543404441224307e-2,
-            -5.71926117404305781283e-4,
-            4.63399473359905636708e-6,
-            -2.71994908488607703910e-9
+      const double gamma = 0.577215664901532860606512090; // Euler's gamma constant
+
+      if (x < LOWER_BREAKPOINT)
+        return 1.0 / (x * (1.0 + gamma * x));
+
+      ///////////////////////////////////////////////////////////////////////////
+      // Second interval: [LOWER_BREAKPOINT, UPPER_BREAKPOINT)
+
+      if (x < UPPER_BREAKPOINT) {
+        // The algorithm directly approximates gamma over (1,2) and uses
+        // reduction identities to reduce other arguments to this interval.
+
+        double y = x;
+        int n = 0;
+        bool arg_was_less_than_one = (y < 1.0);
+
+        // Add or subtract integers as necessary to bring y into (1,2)
+        // Will correct for this below
+        if (arg_was_less_than_one) {
+          y += 1.0;
+        } else {
+          n = (int)(Math.Floor (y)) - 1;  // will use n later
+          y -= n;
+        }
+
+        // numerator coefficients for approximation over the interval (1,2)
+        double[] p = {
+          -1.71618513886549492533811E+0,
+          2.47656508055759199108314E+1,
+          -3.79804256470945635097577E+2,
+          6.29331155312818442661052E+2,
+          8.66966202790413211295064E+2,
+          -3.14512729688483675254357E+4,
+          -3.61444134186911729807069E+4,
+          6.64561438202405440627855E+4
         };
 
+        // denominator coefficients for approximation over the interval (1,2)
+        double[] q = {
+                    -3.08402300119738975254353E+1,
+                     3.15350626979604161529144E+2,
+                    -1.01515636749021914166146E+3,
+                    -3.10777167157231109440444E+3,
+                     2.25381184209801510330112E+4,
+                     4.75584627752788110767815E+3,
+                    -1.34659959864969306392456E+5,
+                    -1.15132259675553483497211E+5
+                };
+
+        double num = 0.0;
+        double den = 1.0;
+        int i;
+
+        double z = y - 1;
+        for (i = 0; i < 8; i++) {
+          num = (num + p[i]) * z;
+          den = den * z + q[i];
+        }
+        double result = num / den + 1.0;
+
+        // Apply correction if argument was not initially in (1,2)
+        if (arg_was_less_than_one) {
+          // Use identity gamma(z) = gamma(z+1)/z
+          // The variable "result" now holds gamma of the original y + 1
+          // Thus we use y-1 to get back the orginal y.
+          result /= (y - 1.0);
+        } else {
+          // Use the identity gamma(z+n) = z*(z+1)* ... *(z+n-1)*gamma(z)
+          for (i = 0; i < n; i++)
+            result *= y++;
+        }
+
+        return result;
+      }
+
+      ///////////////////////////////////////////////////////////////////////////
+      // Third interval: [UPPER_BREAKPOINT, infinity)
+
+      if (x > OVERFLOW_INPUT) {
+        // Correct answer too large to display. 
+        return double.PositiveInfinity;
+      }
+
+      return Math.Exp(GammaLn(x));
+    }
         /// <summary>
         /// Computes the logarithm of the Gamma function.
         /// </summary>
         /// <param name="z">The argument of the gamma function.</param>
         /// <returns>The logarithm of the gamma function.</returns>
-        /// <remarks>
-        /// <para>This implementation of the computation of the gamma and logarithm of the gamma function follows the derivation in
-        ///     "An Analysis Of The Lanczos Gamma Approximation", Glendon Ralph Pugh, 2004.
-        /// We use the implementation listed on p. 116 which achieves an accuracy of 16 floating point digits. Although 16 digit accuracy
-        /// should be sufficient for double values, improving accuracy is possible (see p. 126 in Pugh).</para>
-        /// <para>Our unit tests suggest that the accuracy of the Gamma function is correct up to 14 floating point digits.</para>
-        /// </remarks>
-        public static double GammaLn(double z)
-        {
-            if (z < 0.5)
+    public static double GammaLn(double x) {
+      if (x <= 0.0) {
+        string msg = string.Format("Invalid input argument {0}. Argument must be positive.", x);
+        throw new ArgumentOutOfRangeException(msg);
+      }
+
+      if (x < UPPER_BREAKPOINT) {
+        return Math.Log(Math.Abs(Gamma(x)));
+      }
+
+      // Abramowitz and Stegun 6.1.41
+      // Asymptotic series should be good to at least 11 or 12 figures
+      // For error analysis, see Whittiker and Watson
+      // A Course in Modern Analysis (1927), page 252
+
+      double[] c =
             {
-                double s = GammaDk[0];
-                for (int i = 1; i <= GammaN; i++)
-                {
-                    s += GammaDk[i] / (i - z);
-                }
+             1.0/12.0,
+            -1.0/360.0,
+            1.0/1260.0,
+            -1.0/1680.0,
+            1.0/1188.0,
+            -691.0/360360.0,
+            1.0/156.0,
+            -3617.0/122400.0
+            };
+      double z = 1.0 / (x * x);
+      double sum = c[7];
+      for (int i = 6; i >= 0; i--) {
+        sum *= z;
+        sum += c[i];
+      }
+      double series = sum / x;
 
-                return Constants.LnPi
-                       - Math.Log(Math.Sin(Math.PI * z))
-                       - Math.Log(s)
-                       - Constants.LogTwoSqrtEOverPi
-                       - ((0.5 - z) * Math.Log((0.5 - z + GammaR) / Math.E));
-            }
-            else
-            {
-                double s = GammaDk[0];
-                for (int i = 1; i <= GammaN; i++)
-                {
-                    s += GammaDk[i] / (z + i - 1.0);
-                }
-
-                return Math.Log(s)
-                       + Constants.LogTwoSqrtEOverPi
-                       + ((z - 0.5) * Math.Log((z - 0.5 + GammaR) / Math.E));
-            }
-        }
-
-        /// <summary>
-        /// Computes the Gamma function.
-        /// </summary>
-        /// <param name="z">The argument of the gamma function.</param>
-        /// <returns>The logarithm of the gamma function.</returns>
-        /// <remarks>
-        /// <para>
-        /// This implementation of the computation of the gamma and logarithm of the gamma function follows the derivation in
-        ///     "An Analysis Of The Lanczos Gamma Approximation", Glendon Ralph Pugh, 2004.
-        /// We use the implementation listed on p. 116 which should achieve an accuracy of 16 floating point digits. Although 16 digit accuracy
-        /// should be sufficient for double values, improving accuracy is possible (see p. 126 in Pugh).
-        /// </para>
-        /// <para>Our unit tests suggest that the accuracy of the Gamma function is correct up to 13 floating point digits.</para>
-        /// </remarks>
-        public static double Gamma(double z)
-        {
-            if (z < 0.5)
-            {
-                double s = GammaDk[0];
-                for (int i = 1; i <= GammaN; i++)
-                {
-                    s += GammaDk[i] / (i - z);
-                }
-
-                return Math.PI / (Math.Sin(Math.PI * z)
-                                  * s
-                                  * Constants.TwoSqrtEOverPi
-                                  * Math.Pow((0.5 - z + GammaR) / Math.E, 0.5 - z));
-            }
-            else
-            {
-                double s = GammaDk[0];
-                for (int i = 1; i <= GammaN; i++)
-                {
-                    s += GammaDk[i] / (z + i - 1.0);
-                }
-
-                return s * Constants.TwoSqrtEOverPi * Math.Pow((z - 0.5 + GammaR) / Math.E, z - 0.5);
-            }
-        }
-
+      double halfLogTwoPi = 0.91893853320467274178032973640562;
+      double logGamma = (x - 0.5) * Math.Log(x) - x + halfLogTwoPi + series;
+      return logGamma;
+    }
         /// <summary>
         /// Returns the upper incomplete regularized gamma function
         /// Q(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a &gt; 0, x &gt; 0.
