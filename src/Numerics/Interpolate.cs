@@ -223,5 +223,26 @@ namespace MathNet.Numerics
         {
             return Interpolation.CubicSpline.InterpolateHermite(points, values, firstDerivatives);
         }
+
+        /// <summary>
+        /// Create log linear spline interpolation based on arbitrary points.
+        /// </summary>
+        /// <param name="points">The sample points t. Optimized for arrays.</param>
+        /// <param name="values">The sample point values x(t). Optimized for arrays.</param>
+        /// <returns>
+        /// An interpolation scheme optimized for the given sample points and values,
+        /// which can then be used to compute interpolations and extrapolations
+        /// on arbitrary points.
+        /// </returns>
+        /// <remarks>
+        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
+        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
+        ///
+        /// If the values are passed as an array, they will be modified inplace, even it is already sorted.
+        /// </remarks>
+        public static IInterpolation Step(IEnumerable<double> points, IEnumerable<double> values)
+        {
+            return new StepInterpolation(points, values);
+        }
     }
 }

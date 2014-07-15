@@ -147,6 +147,7 @@
     <Compile Include="InterpolationTests\NevillePolynomialTest.cs" />
     <Compile Include="InterpolationTests\LinearInterpolationCase.cs" />
     <Compile Include="FitTests.cs" />
+    <Compile Include="InterpolationTests\StepInterpolationTest.cs" />
     <Compile Include="LinearAlgebraProviderTests\Complex32\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs" />
