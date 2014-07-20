@@ -36,52 +36,104 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.Interpolation
 {
     /// <summary>
-    /// A step function where the start of each segment is included, and last is excluded.  Segment i is [x_i, x_i+1).
+    /// A step function where the start of each segment is included, and last is excluded.
+    /// Segment i is [x_i, x_i+1).
     /// The domain of the function is all real numbers, such that y = 0 where x &lt; x_0 or x gt; x_n
     /// </summary>
+    /// <remarks>Supports both differentiation and integration.</remarks>
     public class StepInterpolation : IInterpolation
     {
         readonly double[] _x;
         readonly double[] _y;
         readonly Lazy<double[]> _indefiniteIntegral;
 
-        /// <param name="x">Sample points (N+1) sorted in ascending order</param>
-        /// <param name="y">Functional value (N) of each segment.</param>
-        public StepInterpolation(IEnumerable<double> x, IEnumerable<double> y)
+        /// <param name="x">Sample points (N+1), sorted ascending</param>
+        /// <param name="sy">Functional values (N) of each segment</param>
+        public StepInterpolation(double[] x, double[] sy)
         {
-            var xx = (x as double[]) ?? x.ToArray();
-            var yy = (y as double[]) ?? y.ToArray();
-
-            if (xx.Length != yy.Length + 1)
+            if (x.Length != sy.Length + 1)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            _x = xx;
-            _y = yy;
+            _x = x;
+            _y = sy;
             _indefiniteIntegral = new Lazy<double[]>(ComputeIndefiniteIntegral);
         }
 
-        double[] ComputeIndefiniteIntegral()
+        /// <summary>
+        /// Create a linear spline interpolation from a set of (x,y) value pairs, sorted ascendingly by x.
+        /// The y-value corresponding to the largest x-sample is ignored.
+        /// </summary>
+        public static StepInterpolation InterpolateSorted(double[] x, double[] y)
         {
-            var integral = new double[_x.Length];
-            for (int i = 0; i < integral.Length - 1; i++)
+            if (x.Length != y.Length)
             {
-                integral[i + 1] = integral[i] + (_x[i + 1] - _x[i])*_y[i];
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
-            return integral;
+
+            // drop the last value which is not part of any segment.
+            var segmentValues = new double[x.Length - 1];
+            Array.Copy(y, 0, segmentValues, 0, segmentValues.Length);
+
+            return new StepInterpolation(x, segmentValues);
         }
 
-        public bool SupportsDifferentiation
+        /// <summary>
+        /// Create a linear spline interpolation from an unsorted set of (x,y) value pairs.
+        /// The y-value corresponding to the largest x-sample is ignored.
+        /// WARNING: Works in-place and can thus causes the data array to be reordered.
+        /// </summary>
+        public static StepInterpolation InterpolateInplace(double[] x, double[] y)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            Sorting.Sort(x, y);
+            return InterpolateSorted(x, y);
+        }
+
+        /// <summary>
+        /// Create a linear spline interpolation from an unsorted set of (x,y) value pairs.
+        /// The y-value corresponding to the largest x-sample is ignored.
+        /// </summary>
+        public static StepInterpolation Interpolate(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            // note: we must make a copy, even if the input was arrays already
+            return InterpolateInplace(x.ToArray(), y.ToArray());
+        }
+
+        bool IInterpolation.SupportsDifferentiation
         {
             get { return true; }
         }
 
-        public bool SupportsIntegration
+        bool IInterpolation.SupportsIntegration
         {
             get { return true; }
         }
 
+        /// <summary>
+        /// Interpolate at point t.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <returns>Interpolated value x(t).</returns>
+        public double Interpolate(double t)
+        {
+            if (t < _x[0] || t >= _x[_x.Length - 1])
+                return 0.0;
+
+            int k = LeftBracketIndex(t);
+            return _y[k];
+        }
+
+        /// <summary>
+        /// Differentiate at point t.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <returns>Interpolated first derivative at point t.</returns>
         public double Differentiate(double t)
         {
             int index = Array.BinarySearch(_x, t);
@@ -90,6 +142,11 @@ namespace MathNet.Numerics.Interpolation
             return 0d;
         }
 
+        /// <summary>
+        /// Differentiate twice at point t.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <returns>Interpolated second derivative at point t.</returns>
         public double Differentiate2(double t)
         {
             return Differentiate(t);
@@ -122,13 +179,14 @@ namespace MathNet.Numerics.Interpolation
             return Integrate(b) - Integrate(a);
         }
 
-        public double Interpolate(double t)
+        double[] ComputeIndefiniteIntegral()
         {
-            if (t < _x[0] || t >= _x[_x.Length - 1])
-                return 0.0;
-
-            int k = LeftBracketIndex(t);
-            return _y[k];
+            var integral = new double[_x.Length];
+            for (int i = 0; i < integral.Length - 1; i++)
+            {
+                integral[i + 1] = integral[i] + (_x[i + 1] - _x[i])*_y[i];
+            }
+            return integral;
         }
 
         /// <summary>

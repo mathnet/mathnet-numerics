@@ -142,7 +142,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create a piecewise linear spline interpolation based on arbitrary points.
+        /// Create a piecewise linear interpolation based on arbitrary points.
         /// </summary>
         /// <param name="points">The sample points t.</param>
         /// <param name="values">The sample point values x(t).</param>
@@ -156,30 +156,35 @@ namespace MathNet.Numerics
         /// MathNet.Numerics.Interpolation.LinearSpline.InterpolateSorted
         /// instead, which is more efficient.
         /// </remarks>
-        public static IInterpolation LinearSpline(IEnumerable<double> points, IEnumerable<double> values)
+        public static IInterpolation Linear(IEnumerable<double> points, IEnumerable<double> values)
         {
             return Interpolation.LinearSpline.Interpolate(points, values);
         }
 
         /// <summary>
-        /// Create log linear spline interpolation based on arbitrary points.
+        /// Create piecewise log-linear interpolation based on arbitrary points.
         /// </summary>
-        /// <param name="points">The sample points t. Optimized for arrays.</param>
-        /// <param name="values">The sample point values x(t). Optimized for arrays.</param>
+        /// <param name="points">The sample points t.</param>
+        /// <param name="values">The sample point values x(t).</param>
         /// <returns>
         /// An interpolation scheme optimized for the given sample points and values,
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
         /// <remarks>
-        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
-        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
-        ///
-        /// If the values are passed as an array, they will be modified inplace, even it is already sorted.
+        /// if your data is already sorted in arrays, consider to use
+        /// MathNet.Numerics.Interpolation.LogLinear.InterpolateSorted
+        /// instead, which is more efficient.
         /// </remarks>
-        public static IInterpolation LogLinearSpline(IEnumerable<double> points, IEnumerable<double> values)
+        public static IInterpolation LogLinear(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return new LogLinearSpline(points, values);
+            return Interpolation.LogLinear.Interpolate(points, values);
+        }
+
+        [Obsolete("Use Linear instead. Will be removed in the next major version.")]
+        public static IInterpolation LinearSpline(IEnumerable<double> points, IEnumerable<double> values)
+        {
+            return Interpolation.LinearSpline.Interpolate(points, values);
         }
 
         /// <summary>
@@ -247,24 +252,23 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create log linear spline interpolation based on arbitrary points.
+        /// Create a step-interpolation based on arbitrary points.
         /// </summary>
-        /// <param name="points">The sample points t. Optimized for arrays.</param>
-        /// <param name="values">The sample point values x(t). Optimized for arrays.</param>
+        /// <param name="points">The sample points t.</param>
+        /// <param name="values">The sample point values x(t).</param>
         /// <returns>
         /// An interpolation scheme optimized for the given sample points and values,
         /// which can then be used to compute interpolations and extrapolations
         /// on arbitrary points.
         /// </returns>
         /// <remarks>
-        /// The value pairs do not have to be sorted, but if they are not sorted ascendingly
-        /// and the passed x and y arguments are arrays, they will be sorted inplace and thus modified.
-        ///
-        /// If the values are passed as an array, they will be modified inplace, even it is already sorted.
+        /// if your data is already sorted in arrays, consider to use
+        /// MathNet.Numerics.Interpolation.StepInterpolation.InterpolateSorted
+        /// instead, which is more efficient.
         /// </remarks>
         public static IInterpolation Step(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return new StepInterpolation(points, values);
+            return StepInterpolation.Interpolate(points, values);
         }
     }
 }

@@ -278,6 +278,11 @@ namespace MathNet.Numerics.Interpolation
             get { return false; }
         }
 
+        /// <summary>
+        /// Interpolate at point t.
+        /// </summary>
+        /// <param name="t">Point t to interpolate at.</param>
+        /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
             // trivial case: only one sample?

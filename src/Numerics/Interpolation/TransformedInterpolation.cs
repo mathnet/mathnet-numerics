@@ -1,4 +1,4 @@
-﻿// <copyright file="LinearSpline.cs" company="Math.NET">
+﻿// <copyright file="TransformedInterpolation.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,64 +28,56 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Interpolation
 {
-    /// <summary>
-    /// Piece-wise Linear Interpolation.
-    /// </summary>
-    /// <remarks>Supports both differentiation and integration.</remarks>
-    public class LinearSpline : IInterpolation
+    public class TransformedInterpolation : IInterpolation
     {
-        readonly double[] _x;
-        readonly double[] _c0;
-        readonly double[] _c1;
-        readonly Lazy<double[]> _indefiniteIntegral;
+        readonly IInterpolation _interpolation;
+        readonly Func<double, double> _transform;
 
-        /// <param name="x">Sample points (N+1), sorted ascending</param>
-        /// <param name="c0">Sample values (N or N+1) at the corresponding points; intercept, zero order coefficients</param>
-        /// <param name="c1">Slopes (N) at the sample points (first order coefficients): N</param>
-        public LinearSpline(double[] x, double[] c0, double[] c1)
+        public TransformedInterpolation(IInterpolation interpolation, Func<double, double> transform)
         {
-            if (x.Length != c0.Length + 1 && x.Length != c0.Length || x.Length != c1.Length + 1)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            }
-
-            _x = x;
-            _c0 = c0;
-            _c1 = c1;
-            _indefiniteIntegral = new Lazy<double[]>(ComputeIndefiniteIntegral);
+            _interpolation = interpolation;
+            _transform = transform;
         }
 
         /// <summary>
         /// Create a linear spline interpolation from a set of (x,y) value pairs, sorted ascendingly by x.
         /// </summary>
-        public static LinearSpline InterpolateSorted(double[] x, double[] y)
+        public static TransformedInterpolation InterpolateSorted(
+            Func<double, double> transform, Func<double, double> transformInverse,
+            double[] x, double[] y)
         {
             if (x.Length != y.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            var c1 = new double[x.Length - 1];
-            for (int i = 0; i < c1.Length; i++)
+            var yhat = new double[y.Length];
+            CommonParallel.For(0, y.Length, 4096, (a, b) =>
             {
-                c1[i] = (y[i + 1] - y[i])/(x[i + 1] - x[i]);
-            }
+                for (int i = a; i < b; i++)
+                {
+                    yhat[i] = transformInverse(y[i]);
+                }
+            });
 
-            return new LinearSpline(x, y, c1);
+            return new TransformedInterpolation(LinearSpline.InterpolateSorted(x, yhat), transform);
         }
 
         /// <summary>
         /// Create a linear spline interpolation from an unsorted set of (x,y) value pairs.
-        /// WARNING: Works in-place and can thus causes the data array to be reordered.
+        /// WARNING: Works in-place and can thus causes the data array to be reordered and modified.
         /// </summary>
-        public static LinearSpline InterpolateInplace(double[] x, double[] y)
+        public static TransformedInterpolation InterpolateInplace(
+            Func<double, double> transform, Func<double, double> transformInverse,
+            double[] x, double[] y)
         {
             if (x.Length != y.Length)
             {
@@ -93,16 +85,26 @@ namespace MathNet.Numerics.Interpolation
             }
 
             Sorting.Sort(x, y);
-            return InterpolateSorted(x, y);
+            CommonParallel.For(0, y.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    y[i] = transformInverse(y[i]);
+                }
+            });
+
+            return new TransformedInterpolation(LinearSpline.InterpolateSorted(x, y), transform);
         }
 
         /// <summary>
         /// Create a linear spline interpolation from an unsorted set of (x,y) value pairs.
         /// </summary>
-        public static LinearSpline Interpolate(IEnumerable<double> x, IEnumerable<double> y)
+        public static TransformedInterpolation Interpolate(
+            Func<double, double> transform, Func<double, double> transformInverse,
+            IEnumerable<double> x, IEnumerable<double> y)
         {
             // note: we must make a copy, even if the input was arrays already
-            return InterpolateInplace(x.ToArray(), y.ToArray());
+            return InterpolateInplace(transform, transformInverse, x.ToArray(), y.ToArray());
         }
 
         /// <summary>
@@ -110,7 +112,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         bool IInterpolation.SupportsDifferentiation
         {
-            get { return true; }
+            get { return false; }
         }
 
         /// <summary>
@@ -118,7 +120,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         bool IInterpolation.SupportsIntegration
         {
-            get { return true; }
+            get { return false; }
         }
 
         /// <summary>
@@ -128,85 +130,46 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            int k = LeftBracketIndex(t);
-            return _c0[k] + (t - _x[k])*_c1[k];
+            return _transform(_interpolation.Interpolate(t));
         }
 
         /// <summary>
-        /// Differentiate at point t.
+        /// Differentiate at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
-        public double Differentiate(double t)
+        double IInterpolation.Differentiate(double t)
         {
-            int k = LeftBracketIndex(t);
-            return _c1[k];
+            throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Differentiate twice at point t.
+        /// Differentiate twice at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated second derivative at point t.</returns>
-        public double Differentiate2(double t)
+        double IInterpolation.Differentiate2(double t)
         {
-            return 0d;
+            throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Indefinite integral at point t.
+        /// Indefinite integral at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to integrate at.</param>
-        public double Integrate(double t)
+        double IInterpolation.Integrate(double t)
         {
-            int k = LeftBracketIndex(t);
-            var x = (t - _x[k]);
-            return _indefiniteIntegral.Value[k] + x*(_c0[k] + x*_c1[k]/2);
+            throw new NotSupportedException();
         }
 
         /// <summary>
-        /// Definite integral between points a and b.
+        /// Definite integral between points a and b. NOT SUPPORTED.
         /// </summary>
         /// <param name="a">Left bound of the integration interval [a,b].</param>
         /// <param name="b">Right bound of the integration interval [a,b].</param>
-        public double Integrate(double a, double b)
+        double IInterpolation.Integrate(double a, double b)
         {
-            return Integrate(b) - Integrate(a);
-        }
-
-        double[] ComputeIndefiniteIntegral()
-        {
-            var integral = new double[_c1.Length];
-            for (int i = 0; i < integral.Length - 1; i++)
-            {
-                double w = _x[i + 1] - _x[i];
-                integral[i + 1] = integral[i] + w*(_c0[i] + w*_c1[i]/2);
-            }
-            return integral;
-        }
-
-        /// <summary>
-        /// Find the index of the greatest sample point smaller than t.
-        /// </summary>
-        int LeftBracketIndex(double t)
-        {
-            // Binary search in the [ t[0], ..., t[n-2] ] (t[n-1] is not included)
-            int low = 0;
-            int high = _x.Length - 1;
-            while (low != high - 1)
-            {
-                int middle = (low + high)/2;
-                if (_x[middle] > t)
-                {
-                    high = middle;
-                }
-                else
-                {
-                    low = middle;
-                }
-            }
-
-            return low;
+            throw new NotSupportedException();
         }
     }
 }
