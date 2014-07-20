@@ -53,6 +53,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// i.e. A.Multiply(V) equals V.Multiply(D).  The matrix V may be badly
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.Condition().
+    /// Matrix V is encoded in the property EigenVectors in the way that:
+    ///  - column corresponding to real eigenvalue represents real eigenvector,
+    ///  - columns corresponding to the pair of complex conjugate eigenvalues
+    ///    lambda[i] and lambda[i+1] encode real and imaginary parts of eigenvectors.
     /// </remarks>
     internal abstract class Evd : Evd<double>
     {
