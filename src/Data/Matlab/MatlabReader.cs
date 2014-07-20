@@ -37,7 +37,7 @@ using MathNet.Numerics.LinearAlgebra;
 namespace MathNet.Numerics.Data.Matlab
 {
     /// <summary>
-    /// Creates matrices from Matlab files.
+    /// Creates matrices from MATLAB files.
     /// </summary>
     public static class MatlabMatrixReader
     {

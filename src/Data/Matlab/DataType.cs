@@ -31,7 +31,7 @@
 namespace MathNet.Numerics.Data.Matlab
 {
     /// <summary>
-    /// Matlab data types
+    /// MATLAB data types
     /// </summary>
     internal enum DataType
     {

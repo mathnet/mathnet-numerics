@@ -35,13 +35,13 @@ using MathNet.Numerics.LinearAlgebra;
 namespace MathNet.Numerics.Data.Matlab
 {
     /// <summary>
-    /// Represents a Matlab file
+    /// Represents a MATLAB file
     /// </summary>
     /// <typeparam name="TDataType">The data type of the matrix to return.</typeparam>
     internal class MatlabFile<TDataType> where TDataType : struct, IEquatable<TDataType>, IFormattable
     {
         /// <summary>
-        /// Matrices in a matlab file stored as 1-D arrays
+        /// Matrices in a MATLAB file stored as 1-D arrays
         /// </summary>
         readonly IDictionary<string, Matrix<TDataType>> _matrices = new SortedList<string, Matrix<TDataType>>();
 
@@ -49,19 +49,19 @@ namespace MathNet.Numerics.Data.Matlab
         /// Gets or sets the header text.
         /// </summary>
         /// <value>The header text.</value>
-        public string HeaderText { get; set; }
+        internal string HeaderText { get; set; }
 
         /// <summary>
         /// Gets or sets the first name of the matrix.
         /// </summary>
         /// <value>The first name of the matrix.</value>
-        public string FirstMatrixName { get; set; }
+        internal string FirstMatrixName { get; set; }
 
         /// <summary>
         /// Gets the first matrix.
         /// </summary>
         /// <value>The first matrix.</value>
-        public Matrix<TDataType> FirstMatrix
+        internal Matrix<TDataType> FirstMatrix
         {
             get
             {
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Data.Matlab
         /// Gets the matrices.
         /// </summary>
         /// <value>The matrices.</value>
-        public IDictionary<string, Matrix<TDataType>> Matrices
+        internal IDictionary<string, Matrix<TDataType>> Matrices
         {
             get { return _matrices; }
         }

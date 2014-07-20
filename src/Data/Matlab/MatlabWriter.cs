@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -41,7 +41,7 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.Data.Matlab
 {
     /// <summary>
-    /// Writes matrices to a Matlab file.
+    /// Writes matrices to a MATLAB file.
     /// </summary>
     public class MatlabMatrixWriter : IDisposable
     {
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         /// Initializes a new instance of the <see cref="MatlabMatrixWriter"/> class.
         /// </summary>
-        /// <param name="filename">The name of the Matlab file to save the matrices to.</param>
+        /// <param name="filename">The name of the MATLAB file to save the matrices to.</param>
         public MatlabMatrixWriter(string filename)
         {
             if (string.IsNullOrEmpty(filename))
@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Data.Matlab
         }
 
         /// <summary>
-        /// Writes the given <see cref="Matrix{T}"/> to the file. 
+        /// Writes the given <see cref="Matrix{T}"/> to the file.
         /// </summary>
         /// <param name="matrix">The matrix to write.</param>
         /// <param name="name">The name of the matrix to store in the file.</param>
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.Data.Matlab
                 _headerWritten = true;
             }
 
-            // write datatype
+            // write data type
             _writer.Write((int)DataType.Compressed);
 
             byte[] data;
@@ -212,7 +212,7 @@ namespace MathNet.Numerics.Data.Matlab
         /// <param name="writer">The writer we are using.</param>
         /// <param name="arrayClass">The array class we are writing.</param>
         /// <param name="isComplex">if set to <c>true</c> if this a complex matrix.</param>
-        /// <param name="name">The name name of the matrix.</param>
+        /// <param name="name">The name of the matrix.</param>
         /// <param name="rows">The number of rows.</param>
         /// <param name="columns">The columns of columns.</param>
         /// <param name="nzmax">The maximum number of non-zero elements.</param>
@@ -228,7 +228,7 @@ namespace MathNet.Numerics.Data.Matlab
             writer.Write((int)DataType.UInt32);
             writer.Write(8);
 
-            // write array class and flags 
+            // write array class and flags
             writer.Write((byte)arrayClass);
             if (isComplex)
             {

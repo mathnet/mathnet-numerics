@@ -33,7 +33,7 @@ using System;
 namespace MathNet.Numerics.Data.Matlab
 {
     /// <summary>
-    /// Matlab Array Flags
+    /// MATLAB Array Flags
     /// </summary>
     [Flags]
     internal enum ArrayFlags

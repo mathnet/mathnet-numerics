@@ -31,7 +31,7 @@
 namespace MathNet.Numerics.Data.Matlab
 {
     /// <summary>
-    /// Enumeration for the Matlab array types
+    /// Enumeration for the MATLAB array types
     /// </summary>
     internal enum ArrayClass : byte
     {

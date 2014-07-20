@@ -51,6 +51,8 @@
     <Compile Include="Adler32.cs" />
     <Compile Include="ArrayClass.cs" />
     <Compile Include="ArrayFlags.cs" />
+    <Compile Include="SparseArrayReader.cs" />
+    <Compile Include="NumericArrayReader.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="MatlabFile.cs" />
     <Compile Include="MatlabParser.cs" />
