@@ -66,12 +66,14 @@ namespace MathNet.Numerics.Data.Text
                         {
                             return ReadMatrix<T>(reader);
                         }
+
                     case Compression.GZip:
                         using (var decompressed = new GZipStream(stream, CompressionMode.Decompress))
                         using (var reader = new StreamReader(decompressed))
                         {
                             return ReadMatrix<T>(reader);
                         }
+
                     default:
                         throw new NotSupportedException("Compression not supported: " + compression);
                 }
@@ -89,12 +91,14 @@ namespace MathNet.Numerics.Data.Text
                         {
                             return ReadVector<T>(reader);
                         }
+
                     case Compression.GZip:
                         using (var decompressed = new GZipStream(stream, CompressionMode.Decompress))
                         using (var reader = new StreamReader(decompressed))
                         {
                             return ReadVector<T>(reader);
                         }
+
                     default:
                         throw new NotSupportedException("Compression not supported: " + compression);
                 }
@@ -142,6 +146,7 @@ namespace MathNet.Numerics.Data.Text
                 {
                     return Matrix<T>.Build.DenseOfColumnMajor(rows, cols, columnMajor);
                 }
+
                 case MatrixMarketSymmetry.Symmetric:
                 {
                     var m = Matrix<T>.Build.Dense(rows, cols);
@@ -153,8 +158,10 @@ namespace MathNet.Numerics.Data.Text
                         m.SetRow(k, k, cols - k, vector);
                         k++;
                     }
+
                     return m;
                 }
+
                 case MatrixMarketSymmetry.Hermitian:
                 {
                     var m = Matrix<T>.Build.Dense(rows, cols);
@@ -166,8 +173,10 @@ namespace MathNet.Numerics.Data.Text
                         m.SetRow(k, k, cols - k, vector.Conjugate());
                         k++;
                     }
+
                     return m;
                 }
+
                 case MatrixMarketSymmetry.SkewSymmetric:
                 {
                     var m = Matrix<T>.Build.Dense(rows, cols);
@@ -179,8 +188,10 @@ namespace MathNet.Numerics.Data.Text
                         m.SetRow(k, k + 1, cols - 1 - k, vector);
                         k++;
                     }
+
                     return m;
                 }
+
                 default:
                     throw new NotSupportedException("Symmetry type not supported.");
             }
@@ -220,10 +231,12 @@ namespace MathNet.Numerics.Data.Text
                     {
                         throw new FormatException(@"Expected MatrixMarket Header with 2-4 attributes: object format [field] [symmetry]; see http://math.nist.gov/MatrixMarket/ for details.");
                     }
+
                     if (tokens[0] != (matrix ? "matrix" : "vector"))
                     {
                         throw new FormatException("Expected matrix content.");
                     }
+
                     switch (tokens[1])
                     {
                         case "array":
@@ -235,6 +248,7 @@ namespace MathNet.Numerics.Data.Text
                         default:
                             throw new NotSupportedException("Format type not supported.");
                     }
+
                     if (tokens.Length < 3)
                     {
                         complex = false;
@@ -255,6 +269,7 @@ namespace MathNet.Numerics.Data.Text
                                 throw new NotSupportedException("Field type not supported.");
                         }
                     }
+
                     if (tokens.Length < 4)
                     {
                         symmetry = MatrixMarketSymmetry.General;
@@ -279,9 +294,11 @@ namespace MathNet.Numerics.Data.Text
                                 throw new NotSupportedException("Symmetry type not supported");
                         }
                     }
+
                     return;
                 }
             }
+
             throw new FormatException(@"Expected MatrixMarket Header, see http://math.nist.gov/MatrixMarket/ for details.");
         }
 
@@ -338,8 +355,10 @@ namespace MathNet.Numerics.Data.Text
                     slice = new T[--initialLength];
                     nextIndex = 0;
                 }
+
                 slice[nextIndex++] = value;
             }
+
             yield return slice;
         }
 
@@ -350,32 +369,52 @@ namespace MathNet.Numerics.Data.Text
                 // ignore imaginary part if source is complex
                 return (offset, tokens) => (T)(object)double.Parse(tokens[offset], NumberStyles.Any, Format);
             }
+
             if (typeof (T) == typeof (float))
             {
                 // ignore imaginary part if source is complex
                 return (offset, tokens) => (T)(object)float.Parse(tokens[offset], NumberStyles.Any, Format);
             }
+
             if (typeof (T) == typeof (Complex))
             {
                 return sourceIsComplex
                     ? ((offset, tokens) => (T)(object)new Complex(double.Parse(tokens[offset], NumberStyles.Any, Format), double.Parse(tokens[offset + 1], NumberStyles.Any, Format)))
                     : (Func<int, string[], T>)((offset, tokens) => (T)(object)new Complex(double.Parse(tokens[offset], NumberStyles.Any, Format), 0d));
             }
+
             if (typeof (T) == typeof (Complex32))
             {
                 return sourceIsComplex
                     ? ((offset, tokens) => (T)(object)new Complex32(float.Parse(tokens[offset], NumberStyles.Any, Format), float.Parse(tokens[offset + 1], NumberStyles.Any, Format)))
                     : (Func<int, string[], T>)((offset, tokens) => (T)(object)new Complex32(float.Parse(tokens[offset], NumberStyles.Any, Format), 0f));
             }
+
             throw new NotSupportedException();
         }
 
         static Func<T, T> CreateSymmetryMap<T>(MatrixMarketSymmetry symmetry)
         {
-            if (symmetry != MatrixMarketSymmetry.Hermitian) return x => x;
-            if (typeof (T) == typeof (double) || typeof (T) == typeof (float)) return x => x;
-            if (typeof (T) == typeof (Complex)) return x => (T)(object)((Complex)(object)x).Conjugate();
-            if (typeof (T) == typeof (Complex32)) return x => (T)(object)((Complex32)(object)x).Conjugate();
+            if (symmetry != MatrixMarketSymmetry.Hermitian)
+            {
+                return x => x;
+            }
+
+            if (typeof (T) == typeof (double) || typeof (T) == typeof (float))
+            {
+                return x => x;
+            }
+
+            if (typeof (T) == typeof (Complex))
+            {
+                return x => (T)(object)((Complex)(object)x).Conjugate();
+            }
+
+            if (typeof (T) == typeof (Complex32))
+            {
+                return x => (T)(object)((Complex32)(object)x).Conjugate();
+            }
+
             throw new NotSupportedException();
         }
     }

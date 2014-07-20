@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         /// Global flag
         /// </summary>
-        Global = 4, 
+        Global = 4,
 
         /// <summary>
         /// Logical flag

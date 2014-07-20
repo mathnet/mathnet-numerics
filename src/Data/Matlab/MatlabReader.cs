@@ -53,10 +53,12 @@ namespace MathNet.Numerics.Data.Matlab
             {
                 return file.FirstMatrix;
             }
+
             if (!file.Matrices.ContainsKey(matrixName))
             {
                 throw new KeyNotFoundException("Matrix with the provided name was not found.");
             }
+
             return file.Matrices[matrixName];
         }
 

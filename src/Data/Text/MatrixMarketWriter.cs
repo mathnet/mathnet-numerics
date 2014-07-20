@@ -56,7 +56,9 @@ namespace MathNet.Numerics.Data.Text
                         {
                             WriteMatrix(writer, matrix);
                         }
+
                         break;
+
                     case Compression.GZip:
                         using (var compressed = new GZipStream(stream, CompressionMode.Compress))
                         using (var buffered = new BufferedStream(compressed, 4096))
@@ -64,7 +66,9 @@ namespace MathNet.Numerics.Data.Text
                         {
                             WriteMatrix(writer, matrix);
                         }
+
                         break;
+
                     default:
                         throw new NotSupportedException("Compression not supported: " + compression);
                 }
@@ -82,7 +86,9 @@ namespace MathNet.Numerics.Data.Text
                         {
                             WriteVector(writer, vector);
                         }
+
                         break;
+
                     case Compression.GZip:
                         using (var compressed = new GZipStream(stream, CompressionMode.Compress))
                         using (var buffered = new BufferedStream(compressed, 4096))
@@ -90,7 +96,9 @@ namespace MathNet.Numerics.Data.Text
                         {
                             WriteVector(writer, vector);
                         }
+
                         break;
+
                     default:
                         throw new NotSupportedException("Compression not supported: " + compression);
                 }
@@ -132,6 +140,7 @@ namespace MathNet.Numerics.Data.Text
                         writer.WriteLine("{0} {1} {2}", row + 1, sparse.ColumnIndices[j] + 1, format(sparse.Values[j]));
                     }
                 }
+
                 return;
             }
 
@@ -144,6 +153,7 @@ namespace MathNet.Numerics.Data.Text
                 {
                     writer.WriteLine("{0} {1} {2}", k + 1, k + 1, format(diagonal.Data[k]));
                 }
+
                 return;
             }
 
@@ -156,6 +166,7 @@ namespace MathNet.Numerics.Data.Text
                 {
                     writer.WriteLine(format(value));
                 }
+
                 return;
             }
 
@@ -182,6 +193,7 @@ namespace MathNet.Numerics.Data.Text
                 {
                     writer.WriteLine("{0} {1}", k + 1, format(sparse.Values[k]));
                 }
+
                 return;
             }
 
@@ -194,6 +206,7 @@ namespace MathNet.Numerics.Data.Text
                 {
                     writer.WriteLine(format(value));
                 }
+
                 return;
             }
 
@@ -211,10 +224,12 @@ namespace MathNet.Numerics.Data.Text
             {
                 return value => string.Format(Format, "{0:G14}", value);
             }
+
             if (typeof (T) == typeof (float))
             {
                 return value => string.Format(Format, "{0:G7}", value);
             }
+
             if (typeof (T) == typeof (Complex))
             {
                 return value =>
@@ -223,6 +238,7 @@ namespace MathNet.Numerics.Data.Text
                     return string.Format(Format, "{0:G14} {1:G14}", c.Real, c.Imaginary);
                 };
             }
+
             if (typeof (T) == typeof (Complex32))
             {
                 return value =>
@@ -231,6 +247,7 @@ namespace MathNet.Numerics.Data.Text
                     return string.Format(Format, "{0:G7} {1:G7}", c.Real, c.Imaginary);
                 };
             }
+
             throw new NotSupportedException();
         }
     }

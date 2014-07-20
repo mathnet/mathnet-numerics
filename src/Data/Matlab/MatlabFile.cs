@@ -38,13 +38,13 @@ namespace MathNet.Numerics.Data.Matlab
     /// Represents a Matlab file
     /// </summary>
     /// <typeparam name="TDataType">The data type of the matrix to return.</typeparam>
-    internal class MatlabFile<TDataType> where TDataType : struct, IEquatable<TDataType>, IFormattable 
+    internal class MatlabFile<TDataType> where TDataType : struct, IEquatable<TDataType>, IFormattable
     {
         /// <summary>
         /// Matrices in a matlab file stored as 1-D arrays
         /// </summary>
-        private readonly IDictionary<string, Matrix<TDataType>> _matrices = new SortedList<string, Matrix<TDataType>>();
-       
+        readonly IDictionary<string, Matrix<TDataType>> _matrices = new SortedList<string, Matrix<TDataType>>();
+
         /// <summary>
         /// Gets or sets the header text.
         /// </summary>

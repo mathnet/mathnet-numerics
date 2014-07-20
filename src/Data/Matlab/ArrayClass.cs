@@ -38,13 +38,13 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         /// mxUNKNOWN CLASS
         /// </summary>
-        Unknown = 0, 
+        Unknown = 0,
 
         /// <summary>
         /// mxCELL CLASS
         /// </summary>
-        Cell = 1, 
- 
+        Cell = 1,
+
         /// <summary>
         ///  mxSTRUCT CLASS
         /// </summary>
@@ -53,7 +53,7 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         ///  mxOBJECT CLASS
         /// </summary>
-        Object = 3, 
+        Object = 3,
 
         /// <summary>
         /// mxCHAR CLASS
@@ -73,37 +73,37 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         /// mxSINGLE CLASS
         /// </summary>
-        Single = 7, 
+        Single = 7,
 
         /// <summary>
         /// mxINT8 CLASS
         /// </summary>
-        Int8 = 8, 
+        Int8 = 8,
 
         /// <summary>
         /// mxUINT8 CLASS
         /// </summary>
-        UInt8 = 9, 
+        UInt8 = 9,
 
         /// <summary>
         /// mxINT16 CLASS
         /// </summary>
-        Int16 = 10, 
+        Int16 = 10,
 
         /// <summary>
         /// mxUINT16 CLASS
         /// </summary>
-        UInt16 = 11, 
+        UInt16 = 11,
 
         /// <summary>
         /// mxINT32 CLASS
         /// </summary>
-        Int32 = 12, 
+        Int32 = 12,
 
         /// <summary>
         /// mxUINT32 CLASS
         /// </summary>
-        UInt32 = 13, 
+        UInt32 = 13,
 
         /// <summary>
         ///  mxINT64 CLASS
@@ -113,11 +113,11 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         /// mxUINT64 CLASS
         /// </summary>
-        UInt64 = 15, 
+        UInt64 = 15,
 
         /// <summary>
         ///  mxFUNCTION CLASS
         /// </summary>
-        Function = 16 
+        Function = 16
     }
 }

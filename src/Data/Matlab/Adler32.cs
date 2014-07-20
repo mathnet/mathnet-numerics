@@ -28,7 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-/* This code is a port and simplification of 
+/* This code is a port and simplification of
   adler32.c -- compute the Adler-32 checksum of a data stream
   Copyright (C) 1995-2011 Mark Adler
   zlib license:
@@ -60,7 +60,7 @@ namespace MathNet.Numerics.Data.Matlab
     internal static class Adler32
     {
         /* largest prime smaller than 65536 */
-        const int Base = 65521; 
+        const int Base = 65521;
         /* NMAX is the largest n such that 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
         const int Nmax = 5552;
 
@@ -84,11 +84,13 @@ namespace MathNet.Numerics.Data.Matlab
                 {
                     adler += data[offset++];
                     sum2 += adler;
-                } while (--tlen > 0);
+                }
+                while (--tlen > 0);
 
                 adler %= Base;
                 sum2 %= Base;
             }
+
             return adler | (sum2 << 16);
         }
     }

@@ -160,7 +160,7 @@ namespace MathNet.Numerics.Data.Matlab
                 // for each data block add a Matlab object to the file.
                 while (reader.BaseStream.Position < length)
                 {
-                    var type = (DataType) reader.ReadInt16();
+                    var type = (DataType)reader.ReadInt16();
                     int size = reader.ReadInt16();
                     var smallBlock = true;
                     if (size == 0)
@@ -232,7 +232,7 @@ namespace MathNet.Numerics.Data.Matlab
                     decompressed.Position = 0;
                     var buf = new byte[4];
                     decompressed.Read(buf, 0, 4);
-                    type = (DataType) BitConverter.ToInt32(buf, 0);
+                    type = (DataType)BitConverter.ToInt32(buf, 0);
                     decompressed.Read(buf, 0, 4);
                     var size = BitConverter.ToInt32(buf, 0);
                     data = new byte[size];
@@ -257,9 +257,9 @@ namespace MathNet.Numerics.Data.Matlab
                     // skip tag - doesn't tell us anything we don't already know
                     reader.BaseStream.Seek(8, SeekOrigin.Current);
 
-                    var arrayClass = (ArrayClass) reader.ReadByte();
+                    var arrayClass = (ArrayClass)reader.ReadByte();
                     var flags = reader.ReadByte();
-                    var isComplex = (flags & (byte) ArrayFlags.Complex) == (byte) ArrayFlags.Complex;
+                    var isComplex = (flags & (byte)ArrayFlags.Complex) == (byte)ArrayFlags.Complex;
 
                     // skip unneeded bytes
                     reader.BaseStream.Seek(10, SeekOrigin.Current);
@@ -292,7 +292,7 @@ namespace MathNet.Numerics.Data.Matlab
                         return;
                     }
 
-                    var type = (DataType) reader.ReadInt16();
+                    var type = (DataType)reader.ReadInt16();
                     size = reader.ReadInt16();
                     if (size == 0)
                     {
@@ -359,7 +359,7 @@ namespace MathNet.Numerics.Data.Matlab
 
             AlignData(reader.BaseStream, jcsize, false);
 
-            var type = (DataType) reader.ReadInt32();
+            var type = (DataType)reader.ReadInt32();
             var dataSize = reader.ReadInt32();
 
             var matrix = Matrix<TDataType>.Build.Sparse(rows, columns);
@@ -372,7 +372,7 @@ namespace MathNet.Numerics.Data.Matlab
                     throw new ArgumentException("Invalid TDataType. Matrix is stored as a complex matrix, but a real data type was given.");
                 }
 
-                PopulateDoubleSparseMatrix((Matrix<double>) (object) matrix, type, ir, jc, reader);
+                PopulateDoubleSparseMatrix((Matrix<double>)(object)matrix, type, ir, jc, reader);
             }
             else if (dataType == typeof (float))
             {
@@ -381,15 +381,15 @@ namespace MathNet.Numerics.Data.Matlab
                     throw new ArgumentException("Invalid TDataType. Matrix is stored as a complex matrix, but a real data type was given.");
                 }
 
-                PopulateSingleSparseMatrix((Matrix<float>) (object) matrix, type, ir, jc, reader);
+                PopulateSingleSparseMatrix((Matrix<float>)(object)matrix, type, ir, jc, reader);
             }
             else if (dataType == typeof (Complex))
             {
-                PopulateComplexSparseMatrix((Matrix<Complex>) (object) matrix, type, isComplex, ir, jc, reader, dataSize);
+                PopulateComplexSparseMatrix((Matrix<Complex>)(object)matrix, type, isComplex, ir, jc, reader, dataSize);
             }
             else if (dataType == typeof (Complex32))
             {
-                PopulateComplex32SparseMatrix((Matrix<Complex32>) (object) matrix, type, isComplex, ir, jc, reader, dataSize);
+                PopulateComplex32SparseMatrix((Matrix<Complex32>)(object)matrix, type, isComplex, ir, jc, reader, dataSize);
             }
             else
             {
@@ -579,7 +579,7 @@ namespace MathNet.Numerics.Data.Matlab
                 reader.ReadBytes(skip);
 
                 // skip header
-                type = (DataType) reader.ReadInt32();
+                type = (DataType)reader.ReadInt32();
                 reader.ReadInt32();
                 col = 0;
                 for (var i = 0; i < ir.Count; i++)
@@ -696,7 +696,7 @@ namespace MathNet.Numerics.Data.Matlab
                 reader.ReadBytes(skip);
 
                 // skip header
-                type = (DataType) reader.ReadInt32();
+                type = (DataType)reader.ReadInt32();
                 reader.ReadInt32();
 
                 col = 0;
@@ -767,14 +767,14 @@ namespace MathNet.Numerics.Data.Matlab
                 var count = rows*columns;
                 var data = new double[count];
                 Buffer.BlockCopy(reader.ReadBytes(count*Constants.SizeOfDouble), 0, data, 0, count*Constants.SizeOfDouble);
-                matrix = (Matrix<TDataType>) (object) new LinearAlgebra.Double.DenseMatrix(rows, columns, data);
+                matrix = (Matrix<TDataType>)(object)new LinearAlgebra.Double.DenseMatrix(rows, columns, data);
             }
             else if (type == DataType.Single && dataType == typeof (float))
             {
                 var count = rows*columns;
                 var data = new float[count];
                 Buffer.BlockCopy(reader.ReadBytes(count*Constants.SizeOfFloat), 0, data, 0, count*Constants.SizeOfFloat);
-                matrix = (Matrix<TDataType>) (object) new LinearAlgebra.Single.DenseMatrix(rows, columns, data);
+                matrix = (Matrix<TDataType>)(object)new LinearAlgebra.Single.DenseMatrix(rows, columns, data);
             }
             else
             {
@@ -787,7 +787,7 @@ namespace MathNet.Numerics.Data.Matlab
                         throw new ArgumentException("Invalid TDataType. Matrix is stored as a complex matrix, but a real data type was given.");
                     }
 
-                    PopulateDoubleDenseMatrix((Matrix<double>) (object) matrix, type, reader, rows, columns);
+                    PopulateDoubleDenseMatrix((Matrix<double>)(object)matrix, type, reader, rows, columns);
                 }
                 else if (dataType == typeof (float))
                 {
@@ -796,21 +796,22 @@ namespace MathNet.Numerics.Data.Matlab
                         throw new ArgumentException("Invalid TDataType. Matrix is stored as a complex matrix, but a real data type was given.");
                     }
 
-                    PopulateSingleDenseMatrix((Matrix<float>) (object) matrix, type, reader, rows, columns);
+                    PopulateSingleDenseMatrix((Matrix<float>)(object)matrix, type, reader, rows, columns);
                 }
                 else if (dataType == typeof (Complex))
                 {
-                    PopulateComplexDenseMatrix((Matrix<Complex>) (object) matrix, type, isComplex, reader, rows, columns, size);
+                    PopulateComplexDenseMatrix((Matrix<Complex>)(object)matrix, type, isComplex, reader, rows, columns, size);
                 }
                 else if (dataType == typeof (Complex32))
                 {
-                    PopulateComplex32DenseMatrix((Matrix<Complex32>) (object) matrix, type, isComplex, reader, rows, columns, size);
+                    PopulateComplex32DenseMatrix((Matrix<Complex32>)(object)matrix, type, isComplex, reader, rows, columns, size);
                 }
                 else
                 {
                     throw new NotSupportedException();
                 }
             }
+
             return matrix;
         }
 
@@ -836,6 +837,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt8:
                     for (var j = 0; j < columns; j++)
                     {
@@ -846,6 +848,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int16:
                     for (var j = 0; j < columns; j++)
                     {
@@ -856,6 +859,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt16:
                     for (var j = 0; j < columns; j++)
                     {
@@ -866,6 +870,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int32:
                     for (var j = 0; j < columns; j++)
                     {
@@ -876,6 +881,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt32:
                     for (var j = 0; j < columns; j++)
                     {
@@ -886,6 +892,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Single:
                     for (var j = 0; j < columns; j++)
                     {
@@ -896,6 +903,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int64:
                     for (var j = 0; j < columns; j++)
                     {
@@ -906,6 +914,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt64:
                     for (var j = 0; j < columns; j++)
                     {
@@ -916,6 +925,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Double:
                     for (var j = 0; j < columns; j++)
                     {
@@ -926,6 +936,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 default:
                     throw new NotSupportedException();
             }
@@ -955,6 +966,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt8:
                     for (var j = 0; j < columns; j++)
                     {
@@ -965,6 +977,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int16:
                     for (var j = 0; j < columns; j++)
                     {
@@ -975,6 +988,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt16:
                     for (var j = 0; j < columns; j++)
                     {
@@ -985,6 +999,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int32:
                     for (var j = 0; j < columns; j++)
                     {
@@ -995,6 +1010,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt32:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1005,6 +1021,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Single:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1015,6 +1032,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int64:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1025,6 +1043,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt64:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1035,6 +1054,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Double:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1045,6 +1065,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 default:
                     throw new NotSupportedException();
             }
@@ -1057,7 +1078,7 @@ namespace MathNet.Numerics.Data.Matlab
                 reader.ReadBytes(skip);
 
                 // skip header
-                type = (DataType) reader.ReadInt32();
+                type = (DataType)reader.ReadInt32();
                 reader.ReadInt32();
 
                 switch (type)
@@ -1072,6 +1093,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.UInt8:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1082,6 +1104,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Int16:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1092,6 +1115,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.UInt16:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1102,6 +1126,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Int32:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1112,6 +1137,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.UInt32:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1122,6 +1148,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Single:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1132,6 +1159,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Int64:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1142,6 +1170,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.UInt64:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1152,6 +1181,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Double:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1162,6 +1192,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     default:
                         throw new NotSupportedException();
                 }
@@ -1192,6 +1223,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt8:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1202,6 +1234,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int16:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1212,6 +1245,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt16:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1222,6 +1256,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int32:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1232,6 +1267,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt32:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1242,6 +1278,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Single:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1252,6 +1289,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int64:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1262,6 +1300,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt64:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1272,6 +1311,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Double:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1282,6 +1322,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 default:
                     throw new NotSupportedException();
             }
@@ -1294,7 +1335,7 @@ namespace MathNet.Numerics.Data.Matlab
                 reader.ReadBytes(skip);
 
                 // skip header
-                type = (DataType) reader.ReadInt32();
+                type = (DataType)reader.ReadInt32();
                 reader.ReadInt32();
 
                 switch (type)
@@ -1309,6 +1350,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.UInt8:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1319,6 +1361,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Int16:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1329,6 +1372,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.UInt16:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1339,6 +1383,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Int32:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1349,6 +1394,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.UInt32:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1359,6 +1405,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Single:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1369,6 +1416,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Int64:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1379,6 +1427,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.UInt64:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1389,6 +1438,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     case DataType.Double:
                         for (var j = 0; j < columns; j++)
                         {
@@ -1399,6 +1449,7 @@ namespace MathNet.Numerics.Data.Matlab
                         }
 
                         break;
+
                     default:
                         throw new NotSupportedException();
                 }
@@ -1427,6 +1478,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt8:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1437,6 +1489,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int16:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1447,6 +1500,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt16:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1457,6 +1511,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int32:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1467,6 +1522,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt32:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1477,6 +1533,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Single:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1487,6 +1544,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Int64:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1497,6 +1555,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.UInt64:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1507,6 +1566,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 case DataType.Double:
                     for (var j = 0; j < columns; j++)
                     {
@@ -1517,6 +1577,7 @@ namespace MathNet.Numerics.Data.Matlab
                     }
 
                     break;
+
                 default:
                     throw new NotSupportedException();
             }

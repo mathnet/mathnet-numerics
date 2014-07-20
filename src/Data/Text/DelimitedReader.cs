@@ -49,7 +49,7 @@ namespace MathNet.Numerics.Data.Text
         /// <summary>
         /// The base regular expression.
         /// </summary>
-        private const string RegexTemplate = "\\([^\\)]*\\)|'[^']*'|\"[^\"]*\"|[^{0}]*";
+        const string RegexTemplate = "\\([^\\)]*\\)|'[^']*'|\"[^\"]*\"|[^{0}]*";
 
         /// <summary>
         /// Cached compiled regular expressions for various delimiters, as needed.
@@ -134,10 +134,11 @@ namespace MathNet.Numerics.Data.Text
         public static Matrix<TDataType> Read<TDataType>(TextReader reader, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
-            if (String.IsNullOrEmpty(delimiter))
+            if (string.IsNullOrEmpty(delimiter))
             {
                 delimiter = @"\s";
             }
+
             var regex = RegexCache.GetOrAdd(delimiter, d => new Regex(string.Format(RegexTemplate, d), RegexOptions.Compiled));
 
             var data = new List<string[]>();
@@ -147,7 +148,7 @@ namespace MathNet.Numerics.Data.Text
             // 3,4,5,6
             // 7
             // this creates a 3x4 matrix:
-            // 1, 2, 0 ,0 
+            // 1, 2, 0 ,0
             // 3, 4, 5, 6
             // 7, 0, 0, 0
             var max = -1;
@@ -235,20 +236,24 @@ namespace MathNet.Numerics.Data.Text
         {
             if (typeof (T) == typeof (double))
             {
-                return number => (T) (object) double.Parse(number, NumberStyles.Any, formatProvider);
+                return number => (T)(object)double.Parse(number, NumberStyles.Any, formatProvider);
             }
+
             if (typeof (T) == typeof (float))
             {
-                return number => (T) (object) float.Parse(number, NumberStyles.Any, formatProvider);
+                return number => (T)(object)float.Parse(number, NumberStyles.Any, formatProvider);
             }
+
             if (typeof (T) == typeof (Complex))
             {
-                return number => (T) (object) number.ToComplex(formatProvider);
+                return number => (T)(object)number.ToComplex(formatProvider);
             }
+
             if (typeof (T) == typeof (Complex32))
             {
-                return number => (T) (object) number.ToComplex32(formatProvider);
+                return number => (T)(object)number.ToComplex32(formatProvider);
             }
+
             throw new NotSupportedException();
         }
     }

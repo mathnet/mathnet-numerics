@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         ///  miINT32 type
         /// </summary>
-        Int32 = 5, 
+        Int32 = 5,
 
         /// <summary>
         ///  miUINT32 type
@@ -73,13 +73,13 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         ///  miSINGLE type
         /// </summary>
-        Single = 7, 
+        Single = 7,
 
         /// <summary>
         ///  miDOUBLE type
         /// </summary>
-        Double = 9, 
-        
+        Double = 9,
+
         /// <summary>
         ///  miINT64 type
         /// </summary>
@@ -88,8 +88,8 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         ///  miUINT6 4type
         /// </summary>
-        UInt64 = 13, 
-        
+        UInt64 = 13,
+
         /// <summary>
         /// miMATRIX type
         /// </summary>
@@ -98,21 +98,21 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         ///  miCOMPRESSED type
         /// </summary>
-        Compressed = 15, 
+        Compressed = 15,
 
         /// <summary>
         ///  miUTF8 type
         /// </summary>
-        Utf8 = 16, 
+        Utf8 = 16,
 
         /// <summary>
         ///  miUTF16 type
         /// </summary>
-        Utf16 = 17, 
-        
+        Utf16 = 17,
+
         /// <summary>
         ///  miUTF32 type
         /// </summary>
-        Utf32 = 18 
+        Utf32 = 18
     }
 }
