@@ -32,7 +32,6 @@ using System;
 
 namespace MathNet.Numerics.IntegralTransforms
 {
-
 #if !NOSYSNUMERICS
     using System.Numerics;
 #endif
@@ -151,7 +150,6 @@ namespace MathNet.Numerics.IntegralTransforms
             Bluestein(samples, -SignByOptions(options));
             InverseScaleByOptions(options, samples);
         }
-
 
         /// <summary>
         /// Extract the exponent sign to be used in forward transforms according to the

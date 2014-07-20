@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             _random = SystemRandomSource.Default;
-            _p = (double[]) p.Clone();
+            _p = (double[])p.Clone();
             _trials = n;
         }
 
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
-            _p = (double[]) p.Clone();
+            _p = (double[])p.Clone();
             _trials = n;
         }
 
@@ -132,7 +132,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            _p = (double[]) p.Clone();
+            _p = (double[])p.Clone();
             _trials = n;
             RandomSource = SystemRandomSource.Default;
         }
@@ -159,7 +159,7 @@ namespace MathNet.Numerics.Distributions
             var sum = 0.0;
             foreach (var t in p)
             {
-                if (t < 0.0 || Double.IsNaN(t))
+                if (t < 0.0 || double.IsNaN(t))
                 {
                     return false;
                 }
@@ -205,7 +205,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public Vector<double> Mean
         {
-            get { return _trials*(DenseVector) P; }
+            get { return _trials*(DenseVector)P; }
         }
 
         /// <summary>
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.Distributions
             get
             {
                 // Do not use _p, because operations below will modify _p array. Use P or _p.Clone().
-                var res = (DenseVector) P;
+                var res = (DenseVector)P;
                 for (var i = 0; i < res.Count; i++)
                 {
                     res[i] *= _trials*(1 - res[i]);
@@ -234,7 +234,7 @@ namespace MathNet.Numerics.Distributions
             get
             {
                 // Do not use _p, because operations below will modify _p array. Use P or _p.Clone().
-                var res = (DenseVector) P;
+                var res = (DenseVector)P;
                 for (var i = 0; i < res.Count; i++)
                 {
                     res[i] = (1.0 - (2.0*res[i]))/Math.Sqrt(_trials*(1.0 - res[i])*res[i]);

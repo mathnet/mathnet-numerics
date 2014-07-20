@@ -68,6 +68,7 @@ namespace MathNet.Numerics
             {
                 sum += Rosenbrock(x[i - 1], x[i]);
             }
+
             return sum;
         }
 

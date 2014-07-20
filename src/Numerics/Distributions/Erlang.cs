@@ -153,7 +153,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Scale
         {
-            get { return 1.0 / _rate; }
+            get { return 1.0/_rate; }
         }
 
         /// <summary>
@@ -172,14 +172,14 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_rate))
+                if (double.IsPositiveInfinity(_rate))
                 {
                     return _shape;
                 }
 
                 if (_rate == 0.0 && _shape == 0.0)
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
 
                 return _shape/_rate;
@@ -193,14 +193,14 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_rate))
+                if (double.IsPositiveInfinity(_rate))
                 {
                     return 0.0;
                 }
 
                 if (_rate == 0.0 && _shape == 0.0)
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
 
                 return _shape/(_rate*_rate);
@@ -214,14 +214,14 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_rate))
+                if (double.IsPositiveInfinity(_rate))
                 {
                     return 0.0;
                 }
 
                 if (_rate == 0.0 && _shape == 0.0)
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
 
                 return Math.Sqrt(_shape)/_rate;
@@ -235,14 +235,14 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_rate))
+                if (double.IsPositiveInfinity(_rate))
                 {
                     return 0.0;
                 }
 
                 if (_rate == 0.0 && _shape == 0.0)
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
 
                 return _shape - Math.Log(_rate) + SpecialFunctions.GammaLn(_shape) + ((1.0 - _shape)*SpecialFunctions.DiGamma(_shape));
@@ -256,14 +256,14 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                if (Double.IsPositiveInfinity(_rate))
+                if (double.IsPositiveInfinity(_rate))
                 {
                     return 0.0;
                 }
 
                 if (_rate == 0.0 && _shape == 0.0)
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
 
                 return 2.0/Math.Sqrt(_shape);
@@ -282,14 +282,14 @@ namespace MathNet.Numerics.Distributions
                     throw new NotSupportedException();
                 }
 
-                if (Double.IsPositiveInfinity(_rate))
+                if (double.IsPositiveInfinity(_rate))
                 {
                     return _shape;
                 }
 
                 if (_rate == 0.0 && _shape == 0.0)
                 {
-                    return Double.NaN;
+                    return double.NaN;
                 }
 
                 return (_shape - 1.0)/_rate;
@@ -392,11 +392,25 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(int shape, double rate, double x)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (shape < 0.0 || rate < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
-            if (Double.IsPositiveInfinity(rate)) return x == shape ? Double.PositiveInfinity : 0.0;
-            if (shape == 0.0 && rate == 0.0) return 0.0;
-            if (shape == 1.0) return rate*Math.Exp(-rate*x);
+            if (double.IsPositiveInfinity(rate))
+            {
+                return x == shape ? double.PositiveInfinity : 0.0;
+            }
+
+            if (shape == 0.0 && rate == 0.0)
+            {
+                return 0.0;
+            }
+
+            if (shape == 1.0)
+            {
+                return rate*Math.Exp(-rate*x);
+            }
 
             return Math.Pow(rate, shape)*Math.Pow(x, shape - 1.0)*Math.Exp(-rate*x)/SpecialFunctions.Gamma(shape);
         }
@@ -417,11 +431,25 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(int shape, double rate, double x)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (shape < 0.0 || rate < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
-            if (Double.IsPositiveInfinity(rate)) return x == shape ? Double.PositiveInfinity : Double.NegativeInfinity;
-            if (shape == 0.0 && rate == 0.0) return Double.NegativeInfinity;
-            if (shape == 1.0) return Math.Log(rate) - (rate*x);
+            if (double.IsPositiveInfinity(rate))
+            {
+                return x == shape ? double.PositiveInfinity : double.NegativeInfinity;
+            }
+
+            if (shape == 0.0 && rate == 0.0)
+            {
+                return double.NegativeInfinity;
+            }
+
+            if (shape == 1.0)
+            {
+                return Math.Log(rate) - (rate*x);
+            }
 
             return (shape*Math.Log(rate)) + ((shape - 1.0)*Math.Log(x)) - (rate*x) - SpecialFunctions.GammaLn(shape);
         }
@@ -442,10 +470,20 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(int shape, double rate, double x)
         {
-            if (shape < 0.0 || rate < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (shape < 0.0 || rate < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
-            if (Double.IsPositiveInfinity(rate)) return x >= shape ? 1.0 : 0.0;
-            if (shape == 0.0 && rate == 0.0) return 0.0;
+            if (double.IsPositiveInfinity(rate))
+            {
+                return x >= shape ? 1.0 : 0.0;
+            }
+
+            if (shape == 0.0 && rate == 0.0)
+            {
+                return 0.0;
+            }
 
             return SpecialFunctions.GammaLowerRegularized(shape, x*rate);
         }

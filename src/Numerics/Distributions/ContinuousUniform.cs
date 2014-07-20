@@ -230,7 +230,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
-            return x < _lower || x > _upper ? Double.NegativeInfinity : -Math.Log(_upper - _lower);
+            return x < _lower || x > _upper ? double.NegativeInfinity : -Math.Log(_upper - _lower);
         }
 
         /// <summary>
@@ -319,7 +319,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double lower, double upper, double x)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return x < lower || x > upper ? 0.0 : 1.0/(upper - lower);
         }
@@ -334,9 +337,12 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double lower, double upper, double x)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
-            return x < lower || x > upper ? Double.NegativeInfinity : -Math.Log(upper - lower);
+            return x < lower || x > upper ? double.NegativeInfinity : -Math.Log(upper - lower);
         }
 
         /// <summary>
@@ -349,7 +355,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double lower, double upper, double x)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return x <= lower ? 0.0 : x >= upper ? 1.0 : (x - lower)/(upper - lower);
         }
@@ -365,7 +374,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="InverseCumulativeDistribution"/>
         public static double InvCDF(double lower, double upper, double p)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return p <= 0.0 ? lower : p >= 1.0 ? upper : lower*(1.0 - p) + upper*p;
         }
@@ -379,7 +391,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a uniformly distributed sample.</returns>
         public static double Sample(System.Random rnd, double lower, double upper)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, lower, upper);
         }
@@ -393,7 +408,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of uniformly distributed samples.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double lower, double upper)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, lower, upper);
         }
@@ -408,7 +426,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(System.Random rnd, double[] values, double lower, double upper)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, lower, upper);
         }
@@ -421,7 +442,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a uniformly distributed sample.</returns>
         public static double Sample(double lower, double upper)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, lower, upper);
         }
@@ -434,7 +458,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of uniformly distributed samples.</returns>
         public static IEnumerable<double> Samples(double lower, double upper)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, lower, upper);
         }
@@ -448,7 +475,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(double[] values, double lower, double upper)
         {
-            if (upper < lower) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (upper < lower)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, lower, upper);
         }

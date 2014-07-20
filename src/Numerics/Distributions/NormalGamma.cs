@@ -165,7 +165,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="precInvScale">The inverse scale of the precision.</param>
         public static bool IsValidParameterSet(double meanLocation, double meanScale, double precShape, double precInvScale)
         {
-            return meanScale > 0.0 && precShape > 0.0 && precInvScale > 0.0 && !Double.IsNaN(meanLocation);
+            return meanScale > 0.0 && precShape > 0.0 && precInvScale > 0.0 && !double.IsNaN(meanLocation);
         }
 
         /// <summary>
@@ -215,9 +215,9 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the marginal distribution for the mean of the <c>NormalGamma</c> distribution.</returns>
         public StudentT MeanMarginal()
         {
-            if (Double.IsPositiveInfinity(_precisionInvScale))
+            if (double.IsPositiveInfinity(_precisionInvScale))
             {
-                return new StudentT(_meanLocation, 1.0/(_meanScale*_precisionShape), Double.PositiveInfinity);
+                return new StudentT(_meanLocation, 1.0/(_meanScale*_precisionShape), double.PositiveInfinity);
             }
 
             return new StudentT(_meanLocation, Math.Sqrt(_precisionInvScale/(_meanScale*_precisionShape)), 2.0*_precisionShape);
@@ -238,7 +238,7 @@ namespace MathNet.Numerics.Distributions
         /// <value>The mean of the distribution.</value>
         public MeanPrecisionPair Mean
         {
-            get { return Double.IsPositiveInfinity(_precisionInvScale) ? new MeanPrecisionPair(_meanLocation, _precisionShape) : new MeanPrecisionPair(_meanLocation, _precisionShape/_precisionInvScale); }
+            get { return double.IsPositiveInfinity(_precisionInvScale) ? new MeanPrecisionPair(_meanLocation, _precisionShape) : new MeanPrecisionPair(_meanLocation, _precisionShape/_precisionInvScale); }
         }
 
         /// <summary>
@@ -268,12 +268,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>Density value</returns>
         public double Density(double mean, double prec)
         {
-            if (Double.IsPositiveInfinity(_precisionInvScale) && _meanScale == 0.0)
+            if (double.IsPositiveInfinity(_precisionInvScale) && _meanScale == 0.0)
             {
                 throw new NotSupportedException();
             }
 
-            if (Double.IsPositiveInfinity(_precisionInvScale))
+            if (double.IsPositiveInfinity(_precisionInvScale))
             {
                 throw new NotSupportedException();
             }
@@ -308,12 +308,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>The log of the density value</returns>
         public double DensityLn(double mean, double prec)
         {
-            if (Double.IsPositiveInfinity(_precisionInvScale) && _meanScale == 0.0)
+            if (double.IsPositiveInfinity(_precisionInvScale) && _meanScale == 0.0)
             {
                 throw new NotSupportedException();
             }
 
-            if (Double.IsPositiveInfinity(_precisionInvScale))
+            if (double.IsPositiveInfinity(_precisionInvScale))
             {
                 throw new NotSupportedException();
             }
@@ -369,7 +369,7 @@ namespace MathNet.Numerics.Distributions
             var mp = new MeanPrecisionPair();
 
             // Sample the precision.
-            mp.Precision = Double.IsPositiveInfinity(precisionInverseScale) ? precisionShape : Gamma.Sample(rnd, precisionShape, precisionInverseScale);
+            mp.Precision = double.IsPositiveInfinity(precisionInverseScale) ? precisionShape : Gamma.Sample(rnd, precisionShape, precisionInverseScale);
 
             // Sample the mean.
             mp.Mean = meanScale == 0.0 ? meanLocation : Normal.Sample(rnd, meanLocation, Math.Sqrt(1.0/(meanScale*mp.Precision)));
@@ -398,7 +398,7 @@ namespace MathNet.Numerics.Distributions
                 var mp = new MeanPrecisionPair();
 
                 // Sample the precision.
-                mp.Precision = Double.IsPositiveInfinity(precisionInvScale) ? precisionShape : Gamma.Sample(rnd, precisionShape, precisionInvScale);
+                mp.Precision = double.IsPositiveInfinity(precisionInvScale) ? precisionShape : Gamma.Sample(rnd, precisionShape, precisionInvScale);
 
                 // Sample the mean.
                 mp.Mean = meanScale == 0.0 ? meanLocation : Normal.Sample(rnd, meanLocation, Math.Sqrt(1.0/(meanScale*mp.Precision)));

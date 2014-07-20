@@ -195,10 +195,10 @@ namespace MathNet.Numerics.Random
 
             // wrap negative numbers around, mapping every negative number to a distinct nonnegative number
             // MinValue -> 0, -1 -> MaxValue
-            candidate &= Int64.MaxValue;
+            candidate &= long.MaxValue;
 
             // skip candidate if it is MaxValue. Recursive since rare.
-            return (candidate == Int64.MaxValue) ? rnd.NextInt64() : candidate;
+            return (candidate == long.MaxValue) ? rnd.NextInt64() : candidate;
         }
 
         /// <summary>
@@ -268,7 +268,8 @@ namespace MathNet.Numerics.Random
                     rnd.NextFullRangeInt32(),
                     false,
                     28);
-            } while (candidate >= 1.0m);
+            }
+            while (candidate >= 1.0m);
 
             return candidate;
         }

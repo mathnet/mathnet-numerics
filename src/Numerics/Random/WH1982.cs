@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Random
     /// </summary>
     /// <remarks>See: Wichmann, B. A. &amp; Hill, I. D. (1982), "Algorithm AS 183:
     /// An efficient and portable pseudo-random number generator". Applied Statistics 31 (1982) 188-190
-    ///</remarks>
+    /// </remarks>
     public class WH1982 : RandomSource
     {
         const uint Modx = 30269;
@@ -84,6 +84,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn = (uint)seed%Modx;
         }
 
@@ -100,6 +101,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn = (uint)seed%Modx;
         }
 
@@ -130,6 +132,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             uint xn = (uint)seed%Modx;
             uint yn = 1;
             uint zn = 1;
@@ -167,6 +170,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             uint xn = (uint)seed%Modx;
             uint yn = 1;
             uint zn = 1;

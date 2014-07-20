@@ -111,7 +111,9 @@ namespace MathNet.Numerics.Interpolation
         public double Interpolate(double t)
         {
             if (t < _x[0])
+            {
                 return 0.0;
+            }
 
             int k = LeftBracketIndex(t);
             return _y[k];
@@ -126,7 +128,10 @@ namespace MathNet.Numerics.Interpolation
         {
             int index = Array.BinarySearch(_x, t);
             if (index >= 0)
+            {
                 return double.NaN;
+            }
+
             return 0d;
         }
 
@@ -147,10 +152,12 @@ namespace MathNet.Numerics.Interpolation
         public double Integrate(double t)
         {
             if (t <= _x[0])
+            {
                 return 0.0;
+            }
 
             int k = LeftBracketIndex(t);
-            var x = (t - _x[k]);
+            var x = t - _x[k];
             return _indefiniteIntegral.Value[k] + x*_y[k];
         }
 
@@ -171,6 +178,7 @@ namespace MathNet.Numerics.Interpolation
             {
                 integral[i + 1] = integral[i] + (_x[i + 1] - _x[i])*_y[i];
             }
+
             return integral;
         }
 
@@ -181,7 +189,10 @@ namespace MathNet.Numerics.Interpolation
         {
             int index = Array.BinarySearch(_x, t);
             if (index >= 0)
+            {
                 return index;
+            }
+
             index = ~index;
             return index - 1;
         }

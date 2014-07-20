@@ -169,7 +169,7 @@ namespace MathNet.Numerics.Distributions
             for (int i = 0; i < p.Length; i++)
             {
                 double t = p[i];
-                if (t < 0.0 || Double.IsNaN(t))
+                if (t < 0.0 || double.IsNaN(t))
                 {
                     return false;
                 }
@@ -191,7 +191,7 @@ namespace MathNet.Numerics.Distributions
             for (int i = 0; i < cdf.Length; i++)
             {
                 double t = cdf[i];
-                if (t < 0.0 || Double.IsNaN(t) || t < last)
+                if (t < 0.0 || double.IsNaN(t) || t < last)
                 {
                     return false;
                 }
@@ -229,12 +229,12 @@ namespace MathNet.Numerics.Distributions
             {
                 // Mean = E[X] = Sum(x * p(x), x=0..N-1)
                 // where f(x) is the probability mass function, and N is the number of categories.
-
                 var sum = 0.0;
                 for (int i = 0; i < _pmfNormalized.Length; i++)
                 {
                     sum += i*_pmfNormalized[i];
                 }
+
                 return sum;
             }
         }
@@ -262,6 +262,7 @@ namespace MathNet.Numerics.Distributions
                     var r = i - m;
                     sum += r*r*_pmfNormalized[i];
                 }
+
                 return sum;
             }
         }
@@ -384,7 +385,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>An integer between 0 and the size of the categorical (exclusive), that corresponds to the inverse CDF for the given probability.</returns>
         public int InverseCumulativeDistribution(double probability)
         {
-            if (probability < 0.0 || probability > 1.0 || Double.IsNaN(probability))
+            if (probability < 0.0 || probability > 1.0 || double.IsNaN(probability))
             {
                 throw new ArgumentOutOfRangeException("probability");
             }
@@ -413,8 +414,15 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            if (k < 0) return 0.0;
-            if (k >= probabilityMass.Length) return 0.0;
+            if (k < 0)
+            {
+                return 0.0;
+            }
+
+            if (k >= probabilityMass.Length)
+            {
+                return 0.0;
+            }
 
             return probabilityMass[k]/probabilityMass.Sum();
         }
@@ -446,8 +454,15 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            if (x < 0.0) return 0.0;
-            if (x >= probabilityMass.Length) return 1.0;
+            if (x < 0.0)
+            {
+                return 0.0;
+            }
+
+            if (x >= probabilityMass.Length)
+            {
+                return 1.0;
+            }
 
             var cdfUnnormalized = ProbabilityMassToCumulativeDistribution(probabilityMass);
             return cdfUnnormalized[(int)Math.Floor(x)]/cdfUnnormalized[cdfUnnormalized.Length - 1];
@@ -468,7 +483,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            if (probability < 0.0 || probability > 1.0 || Double.IsNaN(probability))
+            if (probability < 0.0 || probability > 1.0 || double.IsNaN(probability))
             {
                 throw new ArgumentOutOfRangeException("probability");
             }
@@ -498,7 +513,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            if (probability < 0.0 || probability > 1.0 || Double.IsNaN(probability))
+            if (probability < 0.0 || probability > 1.0 || double.IsNaN(probability))
             {
                 throw new ArgumentOutOfRangeException("probability");
             }
@@ -567,6 +582,7 @@ namespace MathNet.Numerics.Distributions
                     {
                         idx++;
                     }
+
                     values[i] = idx;
                 }
             });
@@ -615,7 +631,9 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(System.Random rnd, double[] probabilityMass)
         {
             if (Control.CheckDistributionParameters && !IsValidProbabilityMass(probabilityMass))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var cdf = ProbabilityMassToCumulativeDistribution(probabilityMass);
             return SampleUnchecked(rnd, cdf);
@@ -630,7 +648,9 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(System.Random rnd, double[] probabilityMass)
         {
             if (Control.CheckDistributionParameters && !IsValidProbabilityMass(probabilityMass))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var cdf = ProbabilityMassToCumulativeDistribution(probabilityMass);
             return SamplesUnchecked(rnd, cdf);
@@ -646,7 +666,9 @@ namespace MathNet.Numerics.Distributions
         public static void Samples(System.Random rnd, int[] values, double[] probabilityMass)
         {
             if (Control.CheckDistributionParameters && !IsValidProbabilityMass(probabilityMass))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var cdf = ProbabilityMassToCumulativeDistribution(probabilityMass);
             SamplesUnchecked(rnd, values, cdf);
@@ -660,7 +682,9 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(double[] probabilityMass)
         {
             if (Control.CheckDistributionParameters && !IsValidProbabilityMass(probabilityMass))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var cdf = ProbabilityMassToCumulativeDistribution(probabilityMass);
             return SampleUnchecked(SystemRandomSource.Default, cdf);
@@ -674,7 +698,9 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(double[] probabilityMass)
         {
             if (Control.CheckDistributionParameters && !IsValidProbabilityMass(probabilityMass))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var cdf = ProbabilityMassToCumulativeDistribution(probabilityMass);
             return SamplesUnchecked(SystemRandomSource.Default, cdf);
@@ -689,7 +715,9 @@ namespace MathNet.Numerics.Distributions
         public static void Samples(int[] values, double[] probabilityMass)
         {
             if (Control.CheckDistributionParameters && !IsValidProbabilityMass(probabilityMass))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var cdf = ProbabilityMassToCumulativeDistribution(probabilityMass);
             SamplesUnchecked(SystemRandomSource.Default, values, cdf);
@@ -704,7 +732,9 @@ namespace MathNet.Numerics.Distributions
         public static int SampleWithCumulativeDistribution(System.Random rnd, double[] cdfUnnormalized)
         {
             if (Control.CheckDistributionParameters && !IsValidCumulativeDistribution(cdfUnnormalized))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, cdfUnnormalized);
         }
@@ -718,7 +748,9 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> SamplesWithCumulativeDistribution(System.Random rnd, double[] cdfUnnormalized)
         {
             if (Control.CheckDistributionParameters && !IsValidCumulativeDistribution(cdfUnnormalized))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, cdfUnnormalized);
         }
@@ -733,7 +765,9 @@ namespace MathNet.Numerics.Distributions
         public static void SamplesWithCumulativeDistribution(System.Random rnd, int[] values, double[] cdfUnnormalized)
         {
             if (Control.CheckDistributionParameters && !IsValidCumulativeDistribution(cdfUnnormalized))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, cdfUnnormalized);
         }
@@ -746,7 +780,9 @@ namespace MathNet.Numerics.Distributions
         public static int SampleWithCumulativeDistribution(double[] cdfUnnormalized)
         {
             if (Control.CheckDistributionParameters && !IsValidCumulativeDistribution(cdfUnnormalized))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, cdfUnnormalized);
         }
@@ -759,7 +795,9 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> SamplesWithCumulativeDistribution(double[] cdfUnnormalized)
         {
             if (Control.CheckDistributionParameters && !IsValidCumulativeDistribution(cdfUnnormalized))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, cdfUnnormalized);
         }
@@ -773,7 +811,9 @@ namespace MathNet.Numerics.Distributions
         public static void SamplesWithCumulativeDistribution(int[] values, double[] cdfUnnormalized)
         {
             if (Control.CheckDistributionParameters && !IsValidCumulativeDistribution(cdfUnnormalized))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, cdfUnnormalized);
         }

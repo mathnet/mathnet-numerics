@@ -39,7 +39,6 @@ namespace MathNet.Numerics.RootFinding
         public static IEnumerable<Tuple<double, double>> FindIntervalsWithin(Func<double, double> f, double lowerBound, double upperBound, int parts)
         {
             // TODO: Consider binary-style search instead of linear scan
-
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
 
@@ -63,11 +62,13 @@ namespace MathNet.Numerics.RootFinding
                     smin = smax;
                     continue;
                 }
+
                 if (Math.Sign(sfmax) != sign)
                 {
                     yield return new Tuple<double, double>(smin, smax);
                     sign = Math.Sign(sfmax);
                 }
+
                 smin = smax;
             }
         }

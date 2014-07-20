@@ -56,6 +56,7 @@ namespace MathNet.Numerics.RootFinding
             {
                 return root;
             }
+
             throw new NonConvergenceException(Resources.RootFindingFailedRecommendRobustNewtonRaphson);
         }
 
@@ -76,6 +77,7 @@ namespace MathNet.Numerics.RootFinding
             {
                 return root;
             }
+
             throw new NonConvergenceException(Resources.RootFindingFailedRecommendRobustNewtonRaphson);
         }
 

@@ -253,7 +253,7 @@ namespace MathNet.Numerics.Distributions
         static double SampleUnchecked(System.Random rnd, double freedom)
         {
             // Use the simple method if the degrees of freedom is an integer anyway
-            if (Math.Floor(freedom) == freedom && freedom < Int32.MaxValue)
+            if (Math.Floor(freedom) == freedom && freedom < int.MaxValue)
             {
                 double sum = 0;
                 var n = (int)freedom;
@@ -261,6 +261,7 @@ namespace MathNet.Numerics.Distributions
                 {
                     sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
                 }
+
                 return sum;
             }
 
@@ -272,7 +273,7 @@ namespace MathNet.Numerics.Distributions
         internal static void SamplesUnchecked(System.Random rnd, double[] values, double freedom)
         {
             // Use the simple method if the degrees of freedom is an integer anyway
-            if (Math.Floor(freedom) == freedom && freedom < Int32.MaxValue)
+            if (Math.Floor(freedom) == freedom && freedom < int.MaxValue)
             {
                 var n = (int)freedom;
                 var standard = new double[values.Length*n];
@@ -287,6 +288,7 @@ namespace MathNet.Numerics.Distributions
                         {
                             sum += standard[k + j]*standard[k + j];
                         }
+
                         values[i] = Math.Sqrt(sum);
                     }
                 });
@@ -315,7 +317,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double freedom, double x)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return (Math.Pow(x, (freedom/2.0) - 1.0)*Math.Exp(-x/2.0))/(Math.Pow(2.0, freedom/2.0)*SpecialFunctions.Gamma(freedom/2.0));
         }
@@ -329,7 +334,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double freedom, double x)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return (-x/2.0) + (((freedom/2.0) - 1.0)*Math.Log(x)) - ((freedom/2.0)*Math.Log(2)) - SpecialFunctions.GammaLn(freedom/2.0);
         }
@@ -343,7 +351,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double freedom, double x)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SpecialFunctions.GammaLowerIncomplete(freedom/2.0, x/2.0)/SpecialFunctions.Gamma(freedom/2.0);
         }
@@ -356,7 +367,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static double Sample(System.Random rnd, double freedom)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, freedom);
         }
@@ -369,7 +383,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static IEnumerable<double> Samples(System.Random rnd, double freedom)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, freedom);
         }
@@ -383,7 +400,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static void Samples(System.Random rnd, double[] values, double freedom)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, freedom);
         }
@@ -395,7 +415,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static double Sample(double freedom)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, freedom);
         }
@@ -407,7 +430,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static IEnumerable<double> Samples(double freedom)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, freedom);
         }
@@ -420,7 +446,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution. </returns>
         public static void Samples(double[] values, double freedom)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, freedom);
         }

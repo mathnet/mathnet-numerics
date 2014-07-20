@@ -56,7 +56,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public NegativeBinomial(double r, double p)
         {
-            if (!IsValidParameterSet(r,p))
+            if (!IsValidParameterSet(r, p))
             {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public NegativeBinomial(double r, double p, System.Random randomSource)
         {
-            if (!IsValidParameterSet(r,p))
+            if (!IsValidParameterSet(r, p))
             {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
@@ -253,7 +253,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public static double PMFLn(double r, double p, int k)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SpecialFunctions.GammaLn(r + k)
                    - SpecialFunctions.GammaLn(r)
@@ -272,7 +275,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double r, double p, double x)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return 1 - SpecialFunctions.BetaRegularized(x + 1, r, 1 - p);
         }
@@ -294,7 +300,8 @@ namespace MathNet.Numerics.Distributions
             {
                 k = k + 1;
                 p1 = p1*rnd.NextDouble();
-            } while (p1 >= c);
+            }
+            while (p1 >= c);
             return k - 1;
         }
 
@@ -348,7 +355,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static int Sample(System.Random rnd, double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, r, p);
         }
@@ -361,7 +371,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, r, p);
         }
@@ -375,7 +388,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static void Samples(System.Random rnd, int[] values, double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, r, p);
         }
@@ -387,7 +403,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static int Sample(double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, r, p);
         }
@@ -399,7 +418,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static IEnumerable<int> Samples(double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, r, p);
         }
@@ -412,7 +434,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static void Samples(int[] values, double r, double p)
         {
-            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, r, p);
         }

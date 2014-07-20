@@ -241,7 +241,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public static double PMF(int lower, int upper, int k)
         {
-            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lower <= upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return k >= lower && k <= upper ? 1.0/(upper - lower + 1) : 0.0;
         }
@@ -255,9 +258,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public static double PMFLn(int lower, int upper, int k)
         {
-            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lower <= upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
-            return k >= lower && k <= upper ? -Math.Log(upper - lower + 1) : Double.NegativeInfinity;
+            return k >= lower && k <= upper ? -Math.Log(upper - lower + 1) : double.NegativeInfinity;
         }
 
         /// <summary>
@@ -270,10 +276,20 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(int lower, int upper, double x)
         {
-            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lower <= upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
-            if (x < lower) return 0.0;
-            if (x >= upper) return 1.0;
+            if (x < lower)
+            {
+                return 0.0;
+            }
+
+            if (x >= upper)
+            {
+                return 1.0;
+            }
 
             return Math.Min(1.0, (Math.Floor(x) - lower + 1)/(upper - lower + 1));
         }
@@ -335,7 +351,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the discrete uniform distribution.</returns>
         public static int Sample(System.Random rnd, int lower, int upper)
         {
-            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lower <= upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, lower, upper);
         }
@@ -349,7 +368,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the discrete uniform distribution.</returns>
         public static IEnumerable<int> Samples(System.Random rnd, int lower, int upper)
         {
-            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lower <= upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, lower, upper);
         }
@@ -364,7 +386,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the discrete uniform distribution.</returns>
         public static void Samples(System.Random rnd, int[] values, int lower, int upper)
         {
-            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lower <= upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, lower, upper);
         }
@@ -377,7 +402,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the discrete uniform distribution.</returns>
         public static int Sample(int lower, int upper)
         {
-            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lower <= upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, lower, upper);
         }
@@ -390,7 +418,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the discrete uniform distribution.</returns>
         public static IEnumerable<int> Samples(int lower, int upper)
         {
-            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lower <= upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, lower, upper);
         }
@@ -404,7 +435,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the discrete uniform distribution.</returns>
         public static void Samples(int[] values, int lower, int upper)
         {
-            if (!(lower <= upper)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lower <= upper))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, lower, upper);
         }

@@ -113,7 +113,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="location">The location (μ) of the distribution.</param>
         public static bool IsValidParameterSet(double alpha, double beta, double scale, double location)
         {
-            return alpha > 0.0 && alpha <= 2.0 && beta >= -1.0 && beta <= 1.0 && scale > 0.0 && !Double.IsNaN(location);
+            return alpha > 0.0 && alpha <= 2.0 && beta >= -1.0 && beta <= 1.0 && scale > 0.0 && !double.IsNaN(location);
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.Distributions
                     return 2.0*_scale*_scale;
                 }
 
-                return Double.PositiveInfinity;
+                return double.PositiveInfinity;
             }
         }
 
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.Distributions
                     return Constants.Sqrt2*_scale;
                 }
 
-                return Double.PositiveInfinity;
+                return double.PositiveInfinity;
             }
         }
 
@@ -277,7 +277,7 @@ namespace MathNet.Numerics.Distributions
                     return 0.0;
                 }
 
-                return Double.NegativeInfinity;
+                return double.NegativeInfinity;
             }
         }
 
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get { return Double.PositiveInfinity; }
+            get { return double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -341,7 +341,7 @@ namespace MathNet.Numerics.Distributions
                 var part1 = beta*Math.Tan(Constants.PiOver2*alpha);
 
                 var factor = Math.Pow(1.0 + (part1*part1), 1.0/(2.0*alpha));
-                var factor1 = Math.Sin(angle)/Math.Pow(Math.Cos(randTheta), (1.0/alpha));
+                var factor1 = Math.Sin(angle)/Math.Pow(Math.Cos(randTheta), 1.0/alpha);
                 var factor2 = Math.Pow(Math.Cos(randTheta - angle)/randW, (1 - alpha)/alpha);
 
                 return location + scale*(factor*factor1*factor2);
@@ -374,7 +374,7 @@ namespace MathNet.Numerics.Distributions
                     var part1 = beta*Math.Tan(Constants.PiOver2*alpha);
 
                     var factor = Math.Pow(1.0 + (part1*part1), 1.0/(2.0*alpha));
-                    var factor1 = Math.Sin(angle)/Math.Pow(Math.Cos(randTheta), (1.0/alpha));
+                    var factor1 = Math.Sin(angle)/Math.Pow(Math.Cos(randTheta), 1.0/alpha);
                     var factor2 = Math.Pow(Math.Cos(randTheta - angle)/randWs[i], (1 - alpha)/alpha);
 
                     values[i] = location + scale*(factor*factor1*factor2);
@@ -442,10 +442,19 @@ namespace MathNet.Numerics.Distributions
         public static double PDF(double alpha, double beta, double scale, double location, double x)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
-            if (alpha == 2d) return Normal.PDF(location, Constants.Sqrt2*scale, x);
-            if (alpha == 1d && beta == 0d) return Cauchy.PDF(location, scale, x);
+            if (alpha == 2d)
+            {
+                return Normal.PDF(location, Constants.Sqrt2*scale, x);
+            }
+
+            if (alpha == 1d && beta == 0d)
+            {
+                return Cauchy.PDF(location, scale, x);
+            }
 
             if (alpha == 0.5d && beta == 1d && x >= location)
             {
@@ -468,14 +477,23 @@ namespace MathNet.Numerics.Distributions
         public static double PDFLn(double alpha, double beta, double scale, double location, double x)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
-            if (alpha == 2d) return Normal.PDFLn(location, Constants.Sqrt2*scale, x);
-            if (alpha == 1d && beta == 0d) return Cauchy.PDFLn(location, scale, x);
+            if (alpha == 2d)
+            {
+                return Normal.PDFLn(location, Constants.Sqrt2*scale, x);
+            }
+
+            if (alpha == 1d && beta == 0d)
+            {
+                return Cauchy.PDFLn(location, scale, x);
+            }
 
             if (alpha == 0.5d && beta == 1d && x >= location)
             {
-                return (Math.Log(scale/Constants.Pi2))/2 - scale/(2*(x - location)) - 1.5*Math.Log(x - location);
+                return Math.Log(scale/Constants.Pi2)/2 - scale/(2*(x - location)) - 1.5*Math.Log(x - location);
             }
 
             throw new NotSupportedException();
@@ -494,10 +512,19 @@ namespace MathNet.Numerics.Distributions
         public static double CDF(double alpha, double beta, double scale, double location, double x)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
-            if (alpha == 2d) return Normal.CDF(location, Constants.Sqrt2*scale, x);
-            if (alpha == 1d && beta == 0d) return Cauchy.CDF(location, scale, x);
+            if (alpha == 2d)
+            {
+                return Normal.CDF(location, Constants.Sqrt2*scale, x);
+            }
+
+            if (alpha == 1d && beta == 0d)
+            {
+                return Cauchy.CDF(location, scale, x);
+            }
 
             if (alpha == 0.5d && beta == 1d)
             {
@@ -519,7 +546,9 @@ namespace MathNet.Numerics.Distributions
         public static double Sample(System.Random rnd, double alpha, double beta, double scale, double location)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, alpha, beta, scale, location);
         }
@@ -536,7 +565,9 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<double> Samples(System.Random rnd, double alpha, double beta, double scale, double location)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, alpha, beta, scale, location);
         }
@@ -554,7 +585,9 @@ namespace MathNet.Numerics.Distributions
         public static void Samples(System.Random rnd, double[] values, double alpha, double beta, double scale, double location)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, alpha, beta, scale, location);
         }
@@ -570,7 +603,9 @@ namespace MathNet.Numerics.Distributions
         public static double Sample(double alpha, double beta, double scale, double location)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, alpha, beta, scale, location);
         }
@@ -586,7 +621,9 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<double> Samples(double alpha, double beta, double scale, double location)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, alpha, beta, scale, location);
         }
@@ -603,7 +640,9 @@ namespace MathNet.Numerics.Distributions
         public static void Samples(double[] values, double alpha, double beta, double scale, double location)
         {
             if (alpha <= 0.0 || alpha > 2.0 || beta < -1.0 || beta > 1.0 || scale <= 0.0)
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, alpha, beta, scale, location);
         }

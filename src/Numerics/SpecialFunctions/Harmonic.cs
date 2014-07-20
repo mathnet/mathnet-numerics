@@ -44,7 +44,6 @@ namespace MathNet.Numerics
     /// </summary>
     public static partial class SpecialFunctions
     {
-        
         /// <summary>
         /// Computes the <paramref name="t"/>'th Harmonic number.
         /// </summary>
@@ -68,6 +67,7 @@ namespace MathNet.Numerics
             {
                 sum += Math.Pow(i + 1, -m);
             }
+
             return sum;
         }
     }

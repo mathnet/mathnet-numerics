@@ -231,7 +231,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public static double PMF(double lambda, int k)
         {
-            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             return Math.Exp(-lambda + (k*Math.Log(lambda)) - SpecialFunctions.FactorialLn(k));
         }
 
@@ -243,7 +247,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public static double PMFLn(double lambda, int k)
         {
-            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             return -lambda + (k*Math.Log(lambda)) - SpecialFunctions.FactorialLn(k);
         }
 
@@ -256,7 +264,11 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double lambda, double x)
         {
-            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             return 1.0 - SpecialFunctions.GammaLowerRegularized(x + 1, lambda);
         }
 
@@ -283,6 +295,7 @@ namespace MathNet.Numerics.Distributions
                     {
                         count++;
                     }
+
                     values[i] = count;
                 }
             }
@@ -427,7 +440,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the Poisson distribution.</returns>
         public static int Sample(System.Random rnd, double lambda)
         {
-            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, lambda);
         }
@@ -440,7 +456,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<int> Samples(System.Random rnd, double lambda)
         {
-            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, lambda);
         }
@@ -454,7 +473,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(System.Random rnd, int[] values, double lambda)
         {
-            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, lambda);
         }
@@ -466,7 +488,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A sample from the Poisson distribution.</returns>
         public static int Sample(double lambda)
         {
-            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, lambda);
         }
@@ -478,7 +503,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<int> Samples(double lambda)
         {
-            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, lambda);
         }
@@ -491,7 +519,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(int[] values, double lambda)
         {
-            if (!(lambda > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, lambda);
         }

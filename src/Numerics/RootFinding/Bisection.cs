@@ -69,6 +69,7 @@ namespace MathNet.Numerics.RootFinding
             {
                 return root;
             }
+
             throw new NonConvergenceException(Resources.RootFindingFailed);
         }
 
@@ -91,6 +92,7 @@ namespace MathNet.Numerics.RootFinding
                 root = lowerBound;
                 return true;
             }
+
             if (Math.Abs(fmax) < accuracy)
             {
                 root = upperBound;

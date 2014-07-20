@@ -45,8 +45,15 @@ namespace MathNet.Numerics.LinearRegression
         /// <param name="y">Response (dependent)</param>
         public static Tuple<double, double> Fit(double[] x, double[] y)
         {
-            if (x.Length != y.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            if (x.Length <= 1) throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2));
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if (x.Length <= 1)
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2));
+            }
 
             // First Pass: Mean (Less robust but faster than ArrayStatistics.Mean)
             double mx = 0.0;
@@ -56,6 +63,7 @@ namespace MathNet.Numerics.LinearRegression
                 mx += x[i];
                 my += y[i];
             }
+
             mx /= x.Length;
             my /= y.Length;
 

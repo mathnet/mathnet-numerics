@@ -39,7 +39,7 @@ namespace MathNet.Numerics.Random
     /// <summary>
     /// A 32-bit combined multiple recursive generator with 2 components of order 3.
     /// </summary>
-    ///<remarks>Based off of P. L'Ecuyer, "Combined Multiple Recursive Random Number Generators," Operations Research, 44, 5 (1996), 816--822. </remarks>
+    /// <remarks>Based off of P. L'Ecuyer, "Combined Multiple Recursive Random Number Generators," Operations Research, 44, 5 (1996), 816--822. </remarks>
     public class Mrg32k3a : RandomSource
     {
         const double A12 = 1403580;
@@ -90,6 +90,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn3 = (uint)seed;
         }
 
@@ -104,9 +105,9 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn3 = (uint)seed;
         }
-
 
         /// <summary>
         /// Returns a random number between 0.0 and 1.0.
@@ -131,6 +132,7 @@ namespace MathNet.Numerics.Random
             {
                 yn += Modulus2;
             }
+
             _xn3 = _xn2;
             _xn2 = _xn1;
             _xn1 = xn;
@@ -142,6 +144,7 @@ namespace MathNet.Numerics.Random
             {
                 return (xn - yn + Modulus1)*Reciprocal;
             }
+
             return (xn - yn)*Reciprocal;
         }
 
@@ -175,6 +178,7 @@ namespace MathNet.Numerics.Random
                 {
                     yn += Modulus2;
                 }
+
                 x3 = x2;
                 x2 = x1;
                 x1 = xn;
@@ -228,6 +232,7 @@ namespace MathNet.Numerics.Random
                 {
                     yn += Modulus2;
                 }
+
                 x3 = x2;
                 x2 = x1;
                 x1 = xn;

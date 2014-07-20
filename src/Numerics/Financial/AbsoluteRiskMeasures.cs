@@ -37,12 +37,11 @@ namespace MathNet.Numerics.Financial
 {
     public static class AbsoluteRiskMeasures
     {
-        //Note: The following statistics would be considered an absolute risk statistic in the finance realm as well.
-        // Standard Deviation 
+        // Note: The following statistics would be considered an absolute risk statistic in the finance realm as well.
+        // Standard Deviation
         // Annualized Standard Deviation = Math.Sqrt(Monthly Standard Deviation x ( 12 ))
         // Skewness
-        // Kurtosis  
-
+        // Kurtosis
 
         /// <summary>
         /// Calculation is similar to Standard Deviation , except it calculates an average (mean) return only for periods with a gain 

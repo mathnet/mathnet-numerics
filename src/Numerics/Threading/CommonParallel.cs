@@ -28,18 +28,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace MathNet.Numerics.Threading
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-
 #if NET35
     using Partitioner = MathNet.Numerics.Partitioner;
 #endif
-
 #if !PORTABLE
     using System.Collections.Concurrent;
+
 #endif
 
     /// <summary>
@@ -47,13 +47,13 @@ namespace MathNet.Numerics.Threading
     /// </summary>
     internal static class CommonParallel
     {
-        private static ParallelOptions CreateParallelOptions()
+        static ParallelOptions CreateParallelOptions()
         {
             return new ParallelOptions
-                {
-                    MaxDegreeOfParallelism = Control.MaxDegreeOfParallelism,
-                    TaskScheduler = Control.TaskScheduler,
-                };
+            {
+                MaxDegreeOfParallelism = Control.MaxDegreeOfParallelism,
+                TaskScheduler = Control.TaskScheduler,
+            };
         }
 
         /// <summary>
@@ -76,10 +76,25 @@ namespace MathNet.Numerics.Threading
         /// <param name="body">The body to be invoked for each iteration range.</param>
         public static void For(int fromInclusive, int toExclusive, int rangeSize, Action<int, int> body)
         {
-            if (body == null) throw new ArgumentNullException("body");
-            if (fromInclusive < 0) throw new ArgumentOutOfRangeException("fromInclusive");
-            if (fromInclusive > toExclusive) throw new ArgumentOutOfRangeException("toExclusive");
-            if (rangeSize < 1) throw new ArgumentOutOfRangeException("rangeSize");
+            if (body == null)
+            {
+                throw new ArgumentNullException("body");
+            }
+
+            if (fromInclusive < 0)
+            {
+                throw new ArgumentOutOfRangeException("fromInclusive");
+            }
+
+            if (fromInclusive > toExclusive)
+            {
+                throw new ArgumentOutOfRangeException("toExclusive");
+            }
+
+            if (rangeSize < 1)
+            {
+                throw new ArgumentOutOfRangeException("rangeSize");
+            }
 
             var length = toExclusive - fromInclusive;
 
@@ -90,7 +105,7 @@ namespace MathNet.Numerics.Threading
             }
 
             // Special case: not worth to parallelize, inline
-            if (Control.MaxDegreeOfParallelism < 2 || (rangeSize * 2) > length)
+            if (Control.MaxDegreeOfParallelism < 2 || (rangeSize*2) > length)
             {
                 body(fromInclusive, toExclusive);
                 return;
@@ -131,6 +146,7 @@ namespace MathNet.Numerics.Threading
                 {
                     actions[i]();
                 }
+
                 return;
             }
 
@@ -150,8 +166,15 @@ namespace MathNet.Numerics.Threading
         /// <returns>The selected value.</returns>
         public static T Aggregate<T>(int fromInclusive, int toExclusive, Func<int, T> select, Func<T[], T> reduce)
         {
-            if (select == null) throw new ArgumentNullException("select");
-            if (reduce == null) throw new ArgumentNullException("reduce");
+            if (select == null)
+            {
+                throw new ArgumentNullException("select");
+            }
+
+            if (reduce == null)
+            {
+                throw new ArgumentNullException("reduce");
+            }
 
             // Special case: no action
             if (fromInclusive >= toExclusive)
@@ -162,7 +185,7 @@ namespace MathNet.Numerics.Threading
             // Special case: single action, inline
             if (fromInclusive == (toExclusive - 1))
             {
-                return reduce(new[] {select(fromInclusive)});
+                return reduce(new[] { select(fromInclusive) });
             }
 
             // Special case: straight execution without parallelism
@@ -173,6 +196,7 @@ namespace MathNet.Numerics.Threading
                 {
                     mapped[k] = select(k + fromInclusive);
                 }
+
                 return reduce(mapped);
             }
 
@@ -184,22 +208,23 @@ namespace MathNet.Numerics.Threading
                 CreateParallelOptions(),
                 () => new List<T>(),
                 (range, loop, localData) =>
+                {
+                    var mapped = new T[range.Item2 - range.Item1];
+                    for (int k = 0; k < mapped.Length; k++)
                     {
-                        var mapped = new T[range.Item2 - range.Item1];
-                        for (int k = 0; k < mapped.Length; k++)
-                        {
-                            mapped[k] = select(k + range.Item1);
-                        }
-                        localData.Add(reduce(mapped));
-                        return localData;
-                    },
+                        mapped[k] = select(k + range.Item1);
+                    }
+
+                    localData.Add(reduce(mapped));
+                    return localData;
+                },
                 localResult =>
+                {
+                    lock (syncLock)
                     {
-                        lock (syncLock)
-                        {
-                            intermediateResults.Add(reduce(localResult.ToArray()));
-                        }
-                    });
+                        intermediateResults.Add(reduce(localResult.ToArray()));
+                    }
+                });
             return reduce(intermediateResults.ToArray());
         }
 
@@ -212,8 +237,15 @@ namespace MathNet.Numerics.Threading
         /// <returns>The selected value.</returns>
         public static TOut Aggregate<T, TOut>(T[] array, Func<int, T, TOut> select, Func<TOut[], TOut> reduce)
         {
-            if (select == null) throw new ArgumentNullException("select");
-            if (reduce == null) throw new ArgumentNullException("reduce");
+            if (select == null)
+            {
+                throw new ArgumentNullException("select");
+            }
+
+            if (reduce == null)
+            {
+                throw new ArgumentNullException("reduce");
+            }
 
             // Special case: no action
             if (array == null || array.Length == 0)
@@ -224,7 +256,7 @@ namespace MathNet.Numerics.Threading
             // Special case: single action, inline
             if (array.Length == 1)
             {
-                return reduce(new[] {select(0, array[0])});
+                return reduce(new[] { select(0, array[0]) });
             }
 
             // Special case: straight execution without parallelism
@@ -235,6 +267,7 @@ namespace MathNet.Numerics.Threading
                 {
                     mapped[k] = select(k, array[k]);
                 }
+
                 return reduce(mapped);
             }
 
@@ -246,22 +279,24 @@ namespace MathNet.Numerics.Threading
                 CreateParallelOptions(),
                 () => new List<TOut>(),
                 (range, loop, localData) =>
+                {
+                    var mapped = new TOut[range.Item2 - range.Item1];
+                    for (int k = 0; k < mapped.Length; k++)
                     {
-                        var mapped = new TOut[range.Item2 - range.Item1];
-                        for (int k = 0; k < mapped.Length; k++)
-                        {
-                            mapped[k] = select(k + range.Item1, array[k + range.Item1]);
-                        }
-                        localData.Add(reduce(mapped));
-                        return localData;
-                    },
+                        mapped[k] = select(k + range.Item1, array[k + range.Item1]);
+                    }
+
+                    localData.Add(reduce(mapped));
+                    return localData;
+                },
                 localResult =>
+                {
+                    lock (syncLock)
                     {
-                        lock (syncLock)
-                        {
-                            intermediateResults.Add(reduce(localResult.ToArray()));
-                        }
-                    });
+                        intermediateResults.Add(reduce(localResult.ToArray()));
+                    }
+                });
+
             return reduce(intermediateResults.ToArray());
         }
 
@@ -277,24 +312,25 @@ namespace MathNet.Numerics.Threading
         public static T Aggregate<T>(int fromInclusive, int toExclusive, Func<int, T> select, Func<T, T, T> reducePair, T reduceDefault)
         {
             return Aggregate(fromInclusive, toExclusive, select, results =>
+            {
+                if (results == null || results.Length == 0)
                 {
-                    if (results == null || results.Length == 0)
-                    {
-                        return reduceDefault;
-                    }
+                    return reduceDefault;
+                }
 
-                    if (results.Length == 1)
-                    {
-                        return results[0];
-                    }
+                if (results.Length == 1)
+                {
+                    return results[0];
+                }
 
-                    T result = results[0];
-                    for (int i = 1; i < results.Length; i++)
-                    {
-                        result = reducePair(result, results[i]);
-                    }
-                    return result;
-                });
+                T result = results[0];
+                for (int i = 1; i < results.Length; i++)
+                {
+                    result = reducePair(result, results[i]);
+                }
+
+                return result;
+            });
         }
 
         /// <summary>
@@ -308,24 +344,25 @@ namespace MathNet.Numerics.Threading
         public static TOut Aggregate<T, TOut>(T[] array, Func<int, T, TOut> select, Func<TOut, TOut, TOut> reducePair, TOut reduceDefault)
         {
             return Aggregate(array, select, results =>
+            {
+                if (results == null || results.Length == 0)
                 {
-                    if (results == null || results.Length == 0)
-                    {
-                        return reduceDefault;
-                    }
+                    return reduceDefault;
+                }
 
-                    if (results.Length == 1)
-                    {
-                        return results[0];
-                    }
+                if (results.Length == 1)
+                {
+                    return results[0];
+                }
 
-                    TOut result = results[0];
-                    for (int i = 1; i < results.Length; i++)
-                    {
-                        result = reducePair(result, results[i]);
-                    }
-                    return result;
-                });
+                TOut result = results[0];
+                for (int i = 1; i < results.Length; i++)
+                {
+                    result = reducePair(result, results[i]);
+                }
+
+                return result;
+            });
         }
     }
 }

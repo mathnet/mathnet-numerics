@@ -196,7 +196,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get { return Double.PositiveInfinity; }
+            get { return double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -271,6 +271,7 @@ namespace MathNet.Numerics.Distributions
             {
                 sum += Math.Pow(Normal.Sample(rnd, 0.0, 1.0), 2);
             }
+
             return Math.Sqrt(sum);
         }
 
@@ -288,6 +289,7 @@ namespace MathNet.Numerics.Distributions
                     {
                         sum += standard[k + j]*standard[k + j];
                     }
+
                     values[i] = Math.Sqrt(sum);
                 }
             });
@@ -310,7 +312,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double freedom, double x)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return (Math.Pow(2.0, 1.0 - (freedom/2.0))*Math.Pow(x, freedom - 1.0)*Math.Exp(-x*x/2.0))/SpecialFunctions.Gamma(freedom/2.0);
         }
@@ -324,7 +329,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double freedom, double x)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return ((1.0 - (freedom/2.0))*Math.Log(2.0)) + ((freedom - 1.0)*Math.Log(x)) - (x*x/2.0) - SpecialFunctions.GammaLn(freedom/2.0);
         }
@@ -338,7 +346,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double freedom, double x)
         {
-            if (freedom <= 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SpecialFunctions.GammaLowerIncomplete(freedom/2.0, x*x/2.0)/SpecialFunctions.Gamma(freedom/2.0);
         }
@@ -351,7 +362,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, int freedom)
         {
-            if (freedom <= 0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, freedom);
         }
@@ -364,7 +378,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, int freedom)
         {
-            if (freedom <= 0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, freedom);
         }
@@ -378,7 +395,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(System.Random rnd, double[] values, int freedom)
         {
-            if (freedom <= 0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, freedom);
         }
@@ -390,7 +410,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(int freedom)
         {
-            if (freedom <= 0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, freedom);
         }
@@ -402,7 +425,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(int freedom)
         {
-            if (freedom <= 0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, freedom);
         }
@@ -415,7 +441,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(double[] values, int freedom)
         {
-            if (freedom <= 0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (freedom <= 0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, freedom);
         }

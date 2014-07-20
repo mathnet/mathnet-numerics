@@ -68,8 +68,7 @@ namespace MathNet.Numerics
                     term *= power;
                     term /= k;
                     return term;
-                }
-                );
+                });
         }
 
         /// <summary>

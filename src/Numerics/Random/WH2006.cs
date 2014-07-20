@@ -87,6 +87,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn = (uint)seed%Modx;
         }
 
@@ -102,6 +103,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn = (uint)seed%Modx;
         }
 
@@ -133,6 +135,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             ulong wn = 1;
             ulong xn = (uint)seed%Modx;
             ulong yn = 1;
@@ -172,6 +175,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             ulong wn = 1;
             ulong xn = (uint)seed%Modx;
             ulong yn = 1;

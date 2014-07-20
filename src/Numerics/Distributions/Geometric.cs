@@ -195,7 +195,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public double Probability(int k)
         {
-            if (k <= 0) return 0.0;
+            if (k <= 0)
+            {
+                return 0.0;
+            }
+
             return Math.Pow(1.0 - _p, k - 1)*_p;
         }
 
@@ -206,7 +210,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            if (k <= 0) return Double.NegativeInfinity;
+            if (k <= 0)
+            {
+                return double.NegativeInfinity;
+            }
+
             return ((k - 1)*Math.Log(1.0 - _p)) + Math.Log(_p);
         }
 
@@ -228,8 +236,16 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public static double PMF(double p, int k)
         {
-            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            if (k <= 0) return 0.0;
+            if (!(p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            if (k <= 0)
+            {
+                return 0.0;
+            }
+
             return Math.Pow(1.0 - p, k - 1)*p;
         }
 
@@ -241,8 +257,16 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public static double PMFLn(double p, int k)
         {
-            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            if (k <= 0) return Double.NegativeInfinity;
+            if (!(p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            if (k <= 0)
+            {
+                return double.NegativeInfinity;
+            }
+
             return ((k - 1)*Math.Log(1.0 - p)) + Math.Log(p);
         }
 
@@ -255,7 +279,11 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double p, double x)
         {
-            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             return 1.0 - Math.Pow(1.0 - p, x);
         }
 
@@ -339,7 +367,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         public static int Sample(System.Random rnd, double p)
         {
-            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, p);
         }
@@ -351,7 +382,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double p)
         {
-            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, p);
         }
@@ -364,7 +398,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         public static void Samples(System.Random rnd, int[] values, double p)
         {
-            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, p);
         }
@@ -375,7 +412,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         public static int Sample(double p)
         {
-            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, p);
         }
@@ -386,7 +426,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         public static IEnumerable<int> Samples(double p)
         {
-            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, p);
         }
@@ -398,7 +441,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The probability (p) of generating one. Range: 0 ≤ p ≤ 1.</param>
         public static void Samples(int[] values, double p)
         {
-            if (!(p >= 0.0 && p <= 1.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(p >= 0.0 && p <= 1.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, p);
         }

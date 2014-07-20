@@ -55,6 +55,7 @@ namespace MathNet.Numerics.RootFinding
             {
                 return root;
             }
+
             throw new NonConvergenceException(Resources.RootFindingFailed);
         }
 
@@ -86,7 +87,11 @@ namespace MathNet.Numerics.RootFinding
                 {
                     double g2 = g*g;
                     double scale = g2/(g2 + gnew*gnew);
-                    if (scale == 0.0) scale = 1.0e-4;
+                    if (scale == 0.0)
+                    {
+                        scale = 1.0e-4;
+                    }
+
                     dx = scale*dx;
                     xnew = x + dx;
                     ynew = new DenseVector(f(xnew.Values));
@@ -130,7 +135,10 @@ namespace MathNet.Numerics.RootFinding
             for (int j = 0; j < dim; j++)
             {
                 double h = Math.Abs(x0[j])*1.0e-4;
-                if (h == 0.0) h = 1.0e-4;
+                if (h == 0.0)
+                {
+                    h = 1.0e-4;
+                }
 
                 var xj = x[j];
                 x[j] = xj + h;

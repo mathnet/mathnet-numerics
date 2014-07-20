@@ -87,7 +87,7 @@ namespace MathNet.Numerics.Interpolation
         public double Interpolate(double t)
         {
             int k = LeftBracketIndex(t);
-            var x = (t - _x[k]);
+            var x = t - _x[k];
             return _c0[k] + x*(_c1[k] + x*_c2[k]);
         }
 
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.Interpolation
         public double Integrate(double t)
         {
             int k = LeftBracketIndex(t);
-            var x = (t - _x[k]);
+            var x = t - _x[k];
             return _indefiniteIntegral.Value[k] + x*(_c0[k] + x*(_c1[k]/2 + x*_c2[k]/3));
         }
 
@@ -142,6 +142,7 @@ namespace MathNet.Numerics.Interpolation
                 double w = _x[i + 1] - _x[i];
                 integral[i + 1] = integral[i] + w*(_c0[i] + w*(_c1[i]/2 + w*_c2[i]/3));
             }
+
             return integral;
         }
 

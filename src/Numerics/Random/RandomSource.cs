@@ -252,6 +252,7 @@ namespace MathNet.Numerics.Random
                         buffer[i] = (byte)(((int)(DoSample()*int.MaxValue))%256);
                     }
                 }
+
                 return;
             }
 

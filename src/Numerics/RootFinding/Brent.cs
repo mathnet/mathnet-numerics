@@ -54,6 +54,7 @@ namespace MathNet.Numerics.RootFinding
             {
                 return root;
             }
+
             throw new NonConvergenceException(Resources.RootFindingFailed);
         }
 
@@ -135,6 +136,7 @@ namespace MathNet.Numerics.RootFinding
                         // Check whether in bounds
                         q = -q;
                     }
+
                     p = Math.Abs(p);
                     if (2.0*p < Math.Min(3.0*xMid*q - Math.Abs(xAcc1*q), Math.Abs(e*q)))
                     {
@@ -155,6 +157,7 @@ namespace MathNet.Numerics.RootFinding
                     d = xMid;
                     e = d;
                 }
+
                 lowerBound = root;
                 fmin = froot;
                 if (Math.Abs(d) > xAcc1)
@@ -165,6 +168,7 @@ namespace MathNet.Numerics.RootFinding
                 {
                     root += Sign(xAcc1, xMid);
                 }
+
                 froot = f(root);
             }
 

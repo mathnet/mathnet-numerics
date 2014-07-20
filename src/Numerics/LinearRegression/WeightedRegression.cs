@@ -72,6 +72,7 @@ namespace MathNet.Numerics.LinearRegression
             {
                 predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
+
             var response = Vector<T>.Build.Dense(y);
             var weights = Matrix<T>.Build.Diagonal(w);
             return predictor.TransposeThisAndMultiply(weights*predictor).Cholesky().Solve(predictor.TransposeThisAndMultiply(weights*response)).ToArray();
@@ -101,6 +102,7 @@ namespace MathNet.Numerics.LinearRegression
             {
                 w.At(i, i, kernel(Distance.Euclidean(t, x.Row(i))/radius));
             }
+
             return Weighted(x, y, w);
         }
 
@@ -116,6 +118,7 @@ namespace MathNet.Numerics.LinearRegression
             {
                 w.At(i, i, kernel(Distance.Euclidean(t, x.Row(i))/radius));
             }
+
             return Weighted(x, y, w);
         }
 

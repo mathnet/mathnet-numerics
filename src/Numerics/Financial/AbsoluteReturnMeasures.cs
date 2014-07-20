@@ -52,8 +52,9 @@ namespace MathNet.Numerics.Financial
             foreach (var item in data)
             {
                 count++;
-                compoundReturn *= (1 + item);
+                compoundReturn *= 1 + item;
             }
+
             return count == 0 ? double.NaN : Math.Pow(compoundReturn, 1.0/count) - 1.0;
         }
 

@@ -76,6 +76,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn = (uint)seed%Modulus;
         }
 
@@ -90,6 +91,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn = (uint)seed%Modulus;
         }
 
@@ -116,6 +118,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             ulong xn = (uint)seed%Modulus;
 
             for (int i = 0; i < values.Length; i++)
@@ -147,6 +150,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             ulong xn = (uint)seed%Modulus;
 
             while (true)

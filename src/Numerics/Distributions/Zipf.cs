@@ -262,7 +262,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            if (x < 1) return 0.0;
+            if (x < 1)
+            {
+                return 0.0;
+            }
+
             return SpecialFunctions.GeneralHarmonic((int)x, _s)/SpecialFunctions.GeneralHarmonic(_n, _s);
         }
 
@@ -275,7 +279,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public static double PMF(double s, int n, int k)
         {
-            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(n > 0 && s > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             return (1.0/Math.Pow(k, s))/SpecialFunctions.GeneralHarmonic(n, s);
         }
 
@@ -288,7 +296,11 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public static double PMFLn(double s, int n, int k)
         {
-            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(n > 0 && s > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
             return Math.Log(PMF(s, n, k));
         }
 
@@ -302,8 +314,16 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double s, int n, double x)
         {
-            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
-            if (x < 1) return 0.0;
+            if (!(n > 0 && s > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            if (x < 1)
+            {
+                return 0.0;
+            }
+
             return SpecialFunctions.GeneralHarmonic((int)x, s)/SpecialFunctions.GeneralHarmonic(n, s);
         }
 
@@ -387,7 +407,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static int Sample(System.Random rnd, double s, int n)
         {
-            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(n > 0 && s > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, s, n);
         }
@@ -400,7 +423,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double s, int n)
         {
-            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(n > 0 && s > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, s, n);
         }
@@ -414,7 +440,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static void Samples(System.Random rnd, int[] values, double s, int n)
         {
-            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(n > 0 && s > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, s, n);
         }
@@ -426,7 +455,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static int Sample(double s, int n)
         {
-            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(n > 0 && s > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, s, n);
         }
@@ -438,7 +470,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static IEnumerable<int> Samples(double s, int n)
         {
-            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(n > 0 && s > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, s, n);
         }
@@ -451,7 +486,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="n">The n parameter of the distribution.</param>
         public static void Samples(int[] values, double s, int n)
         {
-            if (!(n > 0 && s > 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(n > 0 && s > 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, s, n);
         }

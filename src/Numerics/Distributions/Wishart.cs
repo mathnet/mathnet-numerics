@@ -120,7 +120,7 @@ namespace MathNet.Numerics.Distributions
                 }
             }
 
-            if (degreesOfFreedom <= 0.0 || Double.IsNaN(degreesOfFreedom))
+            if (degreesOfFreedom <= 0.0 || double.IsNaN(degreesOfFreedom))
             {
                 return false;
             }

@@ -50,18 +50,18 @@ namespace MathNet.Numerics.RootFinding
         /// <summary>
         /// Q and R are transformed variables.
         /// </summary>
-        private static void QR(double a2, double a1, double a0, out double Q, out double R)
-		{
-			Q = (3 * a1 - a2 * a2)/9.0;
-			R = (9.0 * a2 * a1 - 27 * a0 - 2 * a2 * a2 * a2)/54.0;           
-		}
+        static void QR(double a2, double a1, double a0, out double Q, out double R)
+        {
+            Q = (3*a1 - a2*a2)/9.0;
+            R = (9.0*a2*a1 - 27*a0 - 2*a2*a2*a2)/54.0;
+        }
 
         /// <summary>
         /// n^(1/3) - work around a negative double raised to (1/3)
         /// </summary>
-        private static double PowThird(double n)
+        static double PowThird(double n)
         {
-            return Math.Pow(Math.Abs(n), 1d / 3d) * Math.Sign(n);
+            return Math.Pow(Math.Abs(n), 1d/3d)*Math.Sign(n);
         }
 
         /// <summary>
@@ -73,32 +73,35 @@ namespace MathNet.Numerics.RootFinding
             double Q, R;
             QR(a2, a1, a0, out Q, out R);
 
-            var Q3 = Q * Q * Q;
-            var D = Q3 + R * R;
-            var shift = -a2 / 3d;
+            var Q3 = Q*Q*Q;
+            var D = Q3 + R*R;
+            var shift = -a2/3d;
 
             double x1;
             double x2 = double.NaN;
             double x3 = double.NaN;
 
-            // when D >= 0, use eqn (54)-(56) where S and T are real
             if (D >= 0)
             {
+                // when D >= 0, use eqn (54)-(56) where S and T are real
                 double sqrtD = Math.Pow(D, 0.5);
                 double S = PowThird(R + sqrtD);
                 double T = PowThird(R - sqrtD);
                 x1 = shift + (S + T);
                 if (D == 0)
+                {
                     x2 = shift - S;
+                }
             }
-            // 3 real roots, use eqn (70)-(73) to calculate the real roots  
             else
             {
-                double theta = Math.Acos(R / Math.Sqrt(-Q3));
-                x1 = 2d * Math.Sqrt(-Q) * Math.Cos(theta / 3.0) + shift;
-                x2 = 2d * Math.Sqrt(-Q) * Math.Cos((theta + 2.0 * Constants.Pi) / 3d) + shift;
-                x3 = 2d * Math.Sqrt(-Q) * Math.Cos((theta - 2.0 * Constants.Pi) / 3d) + shift;
+                // 3 real roots, use eqn (70)-(73) to calculate the real roots
+                double theta = Math.Acos(R/Math.Sqrt(-Q3));
+                x1 = 2d*Math.Sqrt(-Q)*Math.Cos(theta/3.0) + shift;
+                x2 = 2d*Math.Sqrt(-Q)*Math.Cos((theta + 2.0*Constants.Pi)/3d) + shift;
+                x3 = 2d*Math.Sqrt(-Q)*Math.Cos((theta - 2.0*Constants.Pi)/3d) + shift;
             }
+
             return new Tuple<double, double, double>(x1, x2, x3);
         }
 

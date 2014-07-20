@@ -33,7 +33,6 @@ using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.IntegralTransforms
 {
-
 #if !NOSYSNUMERICS
     using System.Numerics;
 #endif

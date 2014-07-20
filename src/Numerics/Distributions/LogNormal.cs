@@ -143,7 +143,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="sigma">The shape (σ) of the distribution. Range: σ ≥ 0.</param>
         public static bool IsValidParameterSet(double mu, double sigma)
         {
-            return sigma >= 0.0 && !Double.IsNaN(mu);
+            return sigma >= 0.0 && !double.IsNaN(mu);
         }
 
         /// <summary>
@@ -252,7 +252,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Maximum
         {
-            get { return Double.PositiveInfinity; }
+            get { return double.PositiveInfinity; }
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (x < 0.0)
             {
-                return Double.NegativeInfinity;
+                return double.NegativeInfinity;
             }
 
             var a = (Math.Log(x) - _mu)/_sigma;
@@ -373,7 +373,10 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: lognpdf</remarks>
         public static double PDF(double mu, double sigma, double x)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             if (x < 0.0)
             {
@@ -394,11 +397,14 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="DensityLn"/>
         public static double PDFLn(double mu, double sigma, double x)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             if (x < 0.0)
             {
-                return Double.NegativeInfinity;
+                return double.NegativeInfinity;
             }
 
             var a = (Math.Log(x) - mu)/sigma;
@@ -416,7 +422,10 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: logncdf</remarks>
         public static double CDF(double mu, double sigma, double x)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return x < 0.0 ? 0.0
                 : 0.5*(1.0 + SpecialFunctions.Erf((Math.Log(x) - mu)/(sigma*Constants.Sqrt2)));
@@ -434,7 +443,10 @@ namespace MathNet.Numerics.Distributions
         /// <remarks>MATLAB: logninv</remarks>
         public static double InvCDF(double mu, double sigma, double p)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return p <= 0.0 ? 0.0 : p >= 1.0 ? double.PositiveInfinity
                 : Math.Exp(mu - sigma*Constants.Sqrt2*SpecialFunctions.ErfcInv(2.0*p));
@@ -449,7 +461,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double mu, double sigma)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, mu, sigma);
         }
@@ -463,7 +478,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double mu, double sigma)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, mu, sigma);
         }
@@ -478,7 +496,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(System.Random rnd, double[] values, double mu, double sigma)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, mu, sigma);
         }
@@ -491,7 +512,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double mu, double sigma)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, mu, sigma);
         }
@@ -504,7 +528,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double mu, double sigma)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, mu, sigma);
         }
@@ -518,7 +545,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(double[] values, double mu, double sigma)
         {
-            if (sigma < 0.0) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (sigma < 0.0)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, mu, sigma);
         }

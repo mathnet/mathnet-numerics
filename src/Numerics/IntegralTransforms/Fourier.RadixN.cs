@@ -34,7 +34,6 @@ using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.IntegralTransforms
 {
-
 #if !NOSYSNUMERICS
     using System.Numerics;
 #endif
@@ -67,7 +66,8 @@ namespace MathNet.Numerics.IntegralTransforms
                 {
                     m >>= 1;
                     j ^= m;
-                } while ((j & m) == 0);
+                }
+                while ((j & m) == 0);
             }
         }
 

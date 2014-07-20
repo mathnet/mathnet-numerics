@@ -120,6 +120,7 @@ namespace MathNet.Numerics.Integration
                 double abcissa = Math.Tanh(Constants.PiOver2*Math.Sinh(arg));
                 weights[i] = Constants.PiOver2*(1 - (abcissa*abcissa))*Math.Cosh(arg);
             }
+
             return weights;
         }
 

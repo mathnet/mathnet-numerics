@@ -86,7 +86,7 @@ namespace MathNet.Numerics
                 return _factorialCache[x];
             }
 
-            return Double.PositiveInfinity;
+            return double.PositiveInfinity;
         }
 
 #if !NOSYSNUMERICS
@@ -99,13 +99,18 @@ namespace MathNet.Numerics
             {
                 throw new ArgumentOutOfRangeException("x", Resources.ArgumentPositive);
             }
+
             if (x == 0)
             {
                 return BigInteger.One;
             }
 
             BigInteger r = x;
-            while (--x > 1) r *= x;
+            while (--x > 1)
+            {
+                r *= x;
+            }
+
             return r;
         }
 #endif
@@ -160,7 +165,7 @@ namespace MathNet.Numerics
         {
             if (k < 0 || n < 0 || k > n)
             {
-                return Double.NegativeInfinity;
+                return double.NegativeInfinity;
             }
 
             return FactorialLn(n) - FactorialLn(k) - FactorialLn(n - k);
@@ -181,6 +186,7 @@ namespace MathNet.Numerics
             {
                 throw new ArgumentException(Resources.ArgumentMustBePositive, "n");
             }
+
             if (ni == null)
             {
                 throw new ArgumentNullException("ni");
@@ -202,7 +208,7 @@ namespace MathNet.Numerics
             // Before returning, check that the sum of all elements was equal to n.
             if (sum != n)
             {
-                throw new ArgumentException(Resources.ArgumentParameterSetInvalid , "ni");
+                throw new ArgumentException(Resources.ArgumentParameterSetInvalid, "ni");
             }
 
             return Math.Floor(0.5 + Math.Exp(ret));

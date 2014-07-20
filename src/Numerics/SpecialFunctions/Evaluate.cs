@@ -186,7 +186,6 @@ namespace MathNet.Numerics
         internal static double ChebyshevA(double[] coefficients, double x)
         {
             // TODO: Unify, normalize, then make public
-
             double b2;
 
             int p = 0;
@@ -203,7 +202,7 @@ namespace MathNet.Numerics
             }
             while (--i > 0);
 
-            return (0.5 * (b0 - b2));
+            return 0.5 * (b0 - b2);
         }
 
         /// <summary>

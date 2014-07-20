@@ -165,6 +165,7 @@ namespace MathNet.Numerics.LinearRegression
             {
                 predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
+
             var response = Vector<T>.Build.Dense(y);
             return predictor.TransposeThisAndMultiply(predictor).Cholesky().Solve(predictor.TransposeThisAndMultiply(response)).ToArray();
         }
@@ -221,6 +222,7 @@ namespace MathNet.Numerics.LinearRegression
             {
                 predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
+
             return predictor.QR().Solve(Vector<T>.Build.Dense(y)).ToArray();
         }
 
@@ -276,6 +278,7 @@ namespace MathNet.Numerics.LinearRegression
             {
                 predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
             }
+
             return predictor.Svd().Solve(Vector<T>.Build.Dense(y)).ToArray();
         }
 

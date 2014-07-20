@@ -85,7 +85,6 @@ namespace MathNet.Numerics.Random
             _crypto = rng;
         }
 
-
         /// <summary>
         /// Returns a random number between 0.0 and 1.0.
         /// </summary>

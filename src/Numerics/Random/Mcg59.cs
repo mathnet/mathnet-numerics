@@ -61,7 +61,6 @@ namespace MathNet.Numerics.Random
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
         public Mcg59(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
         {
-
         }
 
         /// <summary>
@@ -77,6 +76,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn = (uint)seed%Modulus;
         }
 
@@ -92,6 +92,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             _xn = (uint)seed%Modulus;
         }
 
@@ -118,6 +119,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             ulong xn = (uint)seed%Modulus;
 
             for (int i = 0; i < values.Length; i++)
@@ -149,6 +151,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             ulong xn = (uint)seed%Modulus;
 
             while (true)

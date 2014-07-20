@@ -95,7 +95,7 @@ namespace MathNet.Numerics
             //
             //      NTERM2 - INTEGER - The no. of terms for the array ARL0AS.
             //                         The recommended value is such that
-            //                             ABS(ARL0AS(NTERM2)) < EPS/100 
+            //                             ABS(ARL0AS(NTERM2)) < EPS/100
             //
             //      NTERM3 - INTEGER - The no. of terms for the array AI0ML0.
             //                         The recommended value is such that
@@ -233,9 +233,13 @@ namespace MathNet.Numerics
             AI0ML0[23] = 0.16e-18;
 
             // MACHINE-DEPENDENT VALUES (Suitable for IEEE-arithmetic machines)
-            const int nterm1 = 25; const int nterm2 = 14; const int nterm3 = 21;
-            const double xlow = 4.4703484e-8; const double xmax = 1.797693e308;
-            const double xhigh1 = 5.1982303e8; const double xhigh2 = 2.5220158e17;
+            const int nterm1 = 25;
+            const int nterm2 = 14;
+            const int nterm3 = 21;
+            const double xlow = 4.4703484e-8;
+            const double xmax = 1.797693e308;
+            const double xhigh1 = 5.1982303e8;
+            const double xhigh2 = 2.5220158e17;
 
             // Code for |xvalue| <= 16
             if (x <= 16.0)
@@ -467,9 +471,14 @@ namespace MathNet.Numerics
             AI1ML1[25] = -0.1e-19;
 
             // MACHINE-DEPENDENT VALUES (Suitable for IEEE-arithmetic machines)
-            const int nterm1 = 24; const int nterm2 = 13; const int nterm3 = 22;
-            const double xlow1 = 5.7711949e-8; const double xlow2 = 3.3354714e-154; const double xmax = 1.797693e308;
-            const double xhigh1 = 5.19823025e8; const double xhigh2 = 2.7021597e17;
+            const int nterm1 = 24;
+            const int nterm2 = 13;
+            const int nterm3 = 22;
+            const double xlow1 = 5.7711949e-8;
+            const double xlow2 = 3.3354714e-154;
+            const double xmax = 1.797693e308;
+            const double xhigh1 = 5.19823025e8;
+            const double xhigh2 = 2.7021597e17;
 
             // CODE FOR |x| <= 16
             if (x <= 16.0)

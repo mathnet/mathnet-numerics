@@ -58,7 +58,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             _random = SystemRandomSource.Default;
-            _alpha = (double[]) alpha.Clone();
+            _alpha = (double[])alpha.Clone();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
-            _alpha = (double[]) alpha.Clone();
+            _alpha = (double[])alpha.Clone();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            _alpha = (double[]) parm.Clone();
+            _alpha = (double[])parm.Clone();
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            _alpha = (double[]) parm.Clone();
+            _alpha = (double[])parm.Clone();
         }
 
         /// <summary>
@@ -148,8 +148,15 @@ namespace MathNet.Numerics.Distributions
             for (int i = 0; i < alpha.Length; i++)
             {
                 var t = alpha[i];
-                if (t < 0.0) return false;
-                if (t > 0.0) allzero = false;
+                if (t < 0.0)
+                {
+                    return false;
+                }
+
+                if (t > 0.0)
+                {
+                    allzero = false;
+                }
             }
 
             return !allzero;

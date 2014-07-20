@@ -268,6 +268,7 @@ namespace MathNet.Numerics.Random
                             x[j] += x[j - shortLag - index];
                         }
                     }
+
                     k = 0;
                 }
 
@@ -328,6 +329,7 @@ namespace MathNet.Numerics.Random
                             x[j] += x[j - shortLag - index];
                         }
                     }
+
                     k = 0;
                 }
 

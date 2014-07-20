@@ -28,14 +28,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Interpolation
 {
+    /// <summary>
+    /// Wraps an interpolation with a transformation of the interpolated values.
+    /// </summary>
+    /// <remarks>Neither differentiation nor integration is supported.</remarks>
     public class TransformedInterpolation : IInterpolation
     {
         readonly IInterpolation _interpolation;
@@ -51,8 +55,10 @@ namespace MathNet.Numerics.Interpolation
         /// Create a linear spline interpolation from a set of (x,y) value pairs, sorted ascendingly by x.
         /// </summary>
         public static TransformedInterpolation InterpolateSorted(
-            Func<double, double> transform, Func<double, double> transformInverse,
-            double[] x, double[] y)
+            Func<double, double> transform,
+            Func<double, double> transformInverse,
+            double[] x,
+            double[] y)
         {
             if (x.Length != y.Length)
             {
@@ -76,8 +82,10 @@ namespace MathNet.Numerics.Interpolation
         /// WARNING: Works in-place and can thus causes the data array to be reordered and modified.
         /// </summary>
         public static TransformedInterpolation InterpolateInplace(
-            Func<double, double> transform, Func<double, double> transformInverse,
-            double[] x, double[] y)
+            Func<double, double> transform,
+            Func<double, double> transformInverse,
+            double[] x,
+            double[] y)
         {
             if (x.Length != y.Length)
             {
@@ -100,8 +108,10 @@ namespace MathNet.Numerics.Interpolation
         /// Create a linear spline interpolation from an unsorted set of (x,y) value pairs.
         /// </summary>
         public static TransformedInterpolation Interpolate(
-            Func<double, double> transform, Func<double, double> transformInverse,
-            IEnumerable<double> x, IEnumerable<double> y)
+            Func<double, double> transform,
+            Func<double, double> transformInverse,
+            IEnumerable<double> x,
+            IEnumerable<double> y)
         {
             // note: we must make a copy, even if the input was arrays already
             return InterpolateInplace(transform, transformInverse, x.ToArray(), y.ToArray());

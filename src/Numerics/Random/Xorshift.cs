@@ -283,6 +283,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             ulong x = (uint)seed;
 
             for (int i = 0; i < values.Length; i++)
@@ -325,6 +326,7 @@ namespace MathNet.Numerics.Random
             {
                 seed = 1;
             }
+
             ulong x = (uint)seed;
 
             while (true)

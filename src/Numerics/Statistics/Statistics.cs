@@ -52,6 +52,7 @@ namespace MathNet.Numerics.Statistics
                 ? ArrayStatistics.Minimum(array)
                 : StreamingStatistics.Minimum(data);
         }
+
         /// <summary>
         /// Returns the minimum value in the sample data.
         /// Returns NaN if data is empty or if any entry is NaN.
@@ -477,7 +478,7 @@ namespace MathNet.Numerics.Statistics
         /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
-        public static Func<double,double> QuantileFunc(this IEnumerable<double> data)
+        public static Func<double, double> QuantileFunc(this IEnumerable<double> data)
         {
             var array = data.ToArray();
             Array.Sort(array);

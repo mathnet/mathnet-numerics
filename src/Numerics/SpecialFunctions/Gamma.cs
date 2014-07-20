@@ -44,12 +44,12 @@ namespace MathNet.Numerics
         /// <summary>
         /// The order of the <see cref="GammaLn"/> approximation.
         /// </summary>
-        private const int GammaN = 10;
+        const int GammaN = 10;
 
         /// <summary>
         /// Auxiliary variable when evaluating the <see cref="GammaLn"/> function.
         /// </summary>
-        private const double GammaR = 10.900511;
+        const double GammaR = 10.900511;
 
         /// <summary>
         /// Polynomial coefficients for the <see cref="GammaLn"/> approximation.
@@ -88,26 +88,26 @@ namespace MathNet.Numerics
                 double s = GammaDk[0];
                 for (int i = 1; i <= GammaN; i++)
                 {
-                    s += GammaDk[i] / (i - z);
+                    s += GammaDk[i]/(i - z);
                 }
 
                 return Constants.LnPi
-                       - Math.Log(Math.Sin(Math.PI * z))
+                       - Math.Log(Math.Sin(Math.PI*z))
                        - Math.Log(s)
                        - Constants.LogTwoSqrtEOverPi
-                       - ((0.5 - z) * Math.Log((0.5 - z + GammaR) / Math.E));
+                       - ((0.5 - z)*Math.Log((0.5 - z + GammaR)/Math.E));
             }
             else
             {
                 double s = GammaDk[0];
                 for (int i = 1; i <= GammaN; i++)
                 {
-                    s += GammaDk[i] / (z + i - 1.0);
+                    s += GammaDk[i]/(z + i - 1.0);
                 }
 
                 return Math.Log(s)
                        + Constants.LogTwoSqrtEOverPi
-                       + ((z - 0.5) * Math.Log((z - 0.5 + GammaR) / Math.E));
+                       + ((z - 0.5)*Math.Log((z - 0.5 + GammaR)/Math.E));
             }
         }
 
@@ -132,23 +132,23 @@ namespace MathNet.Numerics
                 double s = GammaDk[0];
                 for (int i = 1; i <= GammaN; i++)
                 {
-                    s += GammaDk[i] / (i - z);
+                    s += GammaDk[i]/(i - z);
                 }
 
-                return Math.PI / (Math.Sin(Math.PI * z)
-                                  * s
-                                  * Constants.TwoSqrtEOverPi
-                                  * Math.Pow((0.5 - z + GammaR) / Math.E, 0.5 - z));
+                return Math.PI/(Math.Sin(Math.PI*z)
+                                *s
+                                *Constants.TwoSqrtEOverPi
+                                *Math.Pow((0.5 - z + GammaR)/Math.E, 0.5 - z));
             }
             else
             {
                 double s = GammaDk[0];
                 for (int i = 1; i <= GammaN; i++)
                 {
-                    s += GammaDk[i] / (z + i - 1.0);
+                    s += GammaDk[i]/(z + i - 1.0);
                 }
 
-                return s * Constants.TwoSqrtEOverPi * Math.Pow((z - 0.5 + GammaR) / Math.E, z - 0.5);
+                return s*Constants.TwoSqrtEOverPi*Math.Pow((z - 0.5 + GammaR)/Math.E, z - 0.5);
             }
         }
 
@@ -175,7 +175,7 @@ namespace MathNet.Numerics
                 return 1d - GammaLowerRegularized(a, x);
             }
 
-            double ax = a * Math.Log(x) - x - GammaLn(a);
+            double ax = a*Math.Log(x) - x - GammaLn(a);
             if (ax < -709.78271289338399)
             {
                 return a < x ? 0d : 1d;
@@ -189,20 +189,20 @@ namespace MathNet.Numerics
             double pkm2 = 1;
             double qkm2 = x;
             double pkm1 = x + 1;
-            double qkm1 = z * x;
-            double ans = pkm1 / qkm1;
+            double qkm1 = z*x;
+            double ans = pkm1/qkm1;
             do
             {
                 c = c + 1;
                 y = y + 1;
                 z = z + 2;
-                double yc = y * c;
-                double pk = pkm1 * z - pkm2 * yc;
-                double qk = qkm1 * z - qkm2 * yc;
+                double yc = y*c;
+                double pk = pkm1*z - pkm2*yc;
+                double qk = qkm1*z - qkm2*yc;
                 if (qk != 0)
                 {
-                    double r = pk / qk;
-                    t = Math.Abs((ans - r) / r);
+                    double r = pk/qk;
+                    t = Math.Abs((ans - r)/r);
                     ans = r;
                 }
                 else
@@ -217,15 +217,15 @@ namespace MathNet.Numerics
 
                 if (Math.Abs(pk) > big)
                 {
-                    pkm2 = pkm2 * bigInv;
-                    pkm1 = pkm1 * bigInv;
-                    qkm2 = qkm2 * bigInv;
-                    qkm1 = qkm1 * bigInv;
+                    pkm2 = pkm2*bigInv;
+                    pkm1 = pkm1*bigInv;
+                    qkm2 = qkm2*bigInv;
+                    qkm1 = qkm1*bigInv;
                 }
             }
             while (t > epsilon);
 
-            return ans * ax;
+            return ans*ax;
         }
 
         /// <summary>
@@ -237,7 +237,7 @@ namespace MathNet.Numerics
         /// <returns>The upper incomplete gamma function.</returns>
         public static double GammaUpperIncomplete(double a, double x)
         {
-            return GammaUpperRegularized(a, x) * Gamma(a);
+            return GammaUpperRegularized(a, x)*Gamma(a);
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace MathNet.Numerics
         /// <returns>The lower incomplete gamma function.</returns>
         public static double GammaLowerIncomplete(double a, double x)
         {
-            return GammaLowerRegularized(a, x) * Gamma(a);
+            return GammaLowerRegularized(a, x)*Gamma(a);
         }
 
         /// <summary>
@@ -269,6 +269,7 @@ namespace MathNet.Numerics
             {
                 throw new ArgumentOutOfRangeException("a", Properties.Resources.ArgumentNotNegative);
             }
+
             if (x < 0d)
             {
                 throw new ArgumentOutOfRangeException("x", Properties.Resources.ArgumentNotNegative);
@@ -279,7 +280,7 @@ namespace MathNet.Numerics
                 if (x.AlmostEqual(0.0))
                 {
                     // either 0 or 1, depending on the limit direction
-                    return Double.NaN;
+                    return double.NaN;
                 }
 
                 return 1d;
@@ -290,7 +291,7 @@ namespace MathNet.Numerics
                 return 0d;
             }
 
-            double ax = (a * Math.Log(x)) - x - GammaLn(a);
+            double ax = (a*Math.Log(x)) - x - GammaLn(a);
             if (ax < -709.78271289338399)
             {
                 return a < x ? 1d : 0d;
@@ -305,12 +306,12 @@ namespace MathNet.Numerics
                 do
                 {
                     r2 = r2 + 1;
-                    c2 = c2 * x / r2;
+                    c2 = c2*x/r2;
                     ans2 += c2;
                 }
-                while ((c2 / ans2) > epsilon);
+                while ((c2/ans2) > epsilon);
 
-                return Math.Exp(ax) * ans2 / a;
+                return Math.Exp(ax)*ans2/a;
             }
 
             int c = 0;
@@ -320,8 +321,8 @@ namespace MathNet.Numerics
             double p3 = 1;
             double q3 = x;
             double p2 = x + 1;
-            double q2 = z * x;
-            double ans = p2 / q2;
+            double q2 = z*x;
+            double ans = p2/q2;
 
             double error;
 
@@ -330,15 +331,15 @@ namespace MathNet.Numerics
                 c++;
                 y += 1;
                 z += 2;
-                double yc = y * c;
+                double yc = y*c;
 
-                double p = (p2 * z) - (p3 * yc);
-                double q = (q2 * z) - (q3 * yc);
+                double p = (p2*z) - (p3*yc);
+                double q = (q2*z) - (q3*yc);
 
                 if (q != 0)
                 {
-                    double nextans = p / q;
-                    error = Math.Abs((ans - nextans) / nextans);
+                    double nextans = p/q;
+                    error = Math.Abs((ans - nextans)/nextans);
                     ans = nextans;
                 }
                 else
@@ -364,7 +365,7 @@ namespace MathNet.Numerics
             }
             while (error > epsilon);
 
-            return 1d - (Math.Exp(ax) * ans);
+            return 1d - (Math.Exp(ax)*ans);
         }
 
         /// <summary>
@@ -387,6 +388,7 @@ namespace MathNet.Numerics
             {
                 throw new ArgumentOutOfRangeException("a");
             }
+
             if (y0 < 0 || y0 > 1)
             {
                 throw new ArgumentOutOfRangeException("y0");
@@ -399,7 +401,7 @@ namespace MathNet.Numerics
 
             if (y0.AlmostEqual(1.0))
             {
-                return Double.PositiveInfinity;
+                return double.PositiveInfinity;
             }
 
             y0 = 1 - y0;
@@ -578,48 +580,48 @@ namespace MathNet.Numerics
             const double d1 = -0.57721566490153286;
             const double d2 = 1.6449340668482264365;
             const double s = 1e-6;
-            const double s3 = 1.0 / 12.0;
-            const double s4 = 1.0 / 120.0;
-            const double s5 = 1.0 / 252.0;
-            const double s6 = 1.0 / 240.0;
-            const double s7 = 1.0 / 132.0;
+            const double s3 = 1.0/12.0;
+            const double s4 = 1.0/120.0;
+            const double s5 = 1.0/252.0;
+            const double s6 = 1.0/240.0;
+            const double s7 = 1.0/132.0;
 
-            if (Double.IsNegativeInfinity(x) || Double.IsNaN(x))
+            if (double.IsNegativeInfinity(x) || double.IsNaN(x))
             {
-                return Double.NaN;
+                return double.NaN;
             }
 
             // Handle special cases.
             if (x <= 0 && Math.Floor(x) == x)
             {
-                return Double.NegativeInfinity;
+                return double.NegativeInfinity;
             }
 
             // Use inversion formula for negative numbers.
             if (x < 0)
             {
-                return DiGamma(1.0 - x) + (Math.PI / Math.Tan(-Math.PI * x));
+                return DiGamma(1.0 - x) + (Math.PI/Math.Tan(-Math.PI*x));
             }
 
             if (x <= s)
             {
-                return d1 - (1 / x) + (d2 * x);
+                return d1 - (1/x) + (d2*x);
             }
 
             double result = 0;
             while (x < c)
             {
-                result -= 1 / x;
+                result -= 1/x;
                 x++;
             }
 
             if (x >= c)
             {
-                var r = 1 / x;
-                result += Math.Log(x) - (0.5 * r);
+                var r = 1/x;
+                result += Math.Log(x) - (0.5*r);
                 r *= r;
 
-                result -= r * (s3 - (r * (s4 - (r * (s5 - (r * (s6 - (r * s7))))))));
+                result -= r*(s3 - (r*(s4 - (r*(s5 - (r*(s6 - (r*s7))))))));
             }
 
             return result;
@@ -634,25 +636,25 @@ namespace MathNet.Numerics
         /// <returns>The positive solution to the inverse DiGamma function at <paramref name="p"/>.</returns>
         public static double DiGammaInv(double p)
         {
-            if (Double.IsNaN(p))
+            if (double.IsNaN(p))
             {
-                return Double.NaN;
+                return double.NaN;
             }
 
-            if (Double.IsNegativeInfinity(p))
+            if (double.IsNegativeInfinity(p))
             {
                 return 0.0;
             }
 
-            if (Double.IsPositiveInfinity(p))
+            if (double.IsPositiveInfinity(p))
             {
-                return Double.PositiveInfinity;
+                return double.PositiveInfinity;
             }
 
             var x = Math.Exp(p);
             for (var d = 1.0; d > 1.0e-15; d /= 2.0)
             {
-                x += d * Math.Sign(p - DiGamma(x));
+                x += d*Math.Sign(p - DiGamma(x));
             }
 
             return x;

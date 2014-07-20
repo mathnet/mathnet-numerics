@@ -111,7 +111,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="mode">Mode (most frequent value).  Range: lower ≤ mode ≤ upper</param>
         public static bool IsValidParameterSet(double lower, double upper, double mode)
         {
-            return upper >= mode && mode >= lower && !Double.IsInfinity(upper) && !Double.IsInfinity(lower) && !Double.IsInfinity(mode);
+            return upper >= mode && mode >= lower && !double.IsInfinity(upper) && !double.IsInfinity(lower) && !double.IsInfinity(mode);
         }
 
         /// <summary>
@@ -350,14 +350,25 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="Density"/>
         public static double PDF(double lower, double upper, double mode, double x)
         {
-            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var a = lower;
             var b = upper;
             var c = mode;
 
-            if (a <= x && x <= c) return 2*(x - a)/((b - a)*(c - a));
-            if (c < x & x <= b) return 2*(b - x)/((b - a)*(b - c));
+            if (a <= x && x <= c)
+            {
+                return 2*(x - a)/((b - a)*(c - a));
+            }
+
+            if (c < x & x <= b)
+            {
+                return 2*(b - x)/((b - a)*(b - c));
+            }
+
             return 0;
         }
 
@@ -386,15 +397,30 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double lower, double upper, double mode, double x)
         {
-            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var a = lower;
             var b = upper;
             var c = mode;
 
-            if (x < a) return 0;
-            if (a <= x && x <= c) return (x - a)*(x - a)/((b - a)*(c - a));
-            if (c < x & x <= b) return 1 - (b - x)*(b - x)/((b - a)*(b - c));
+            if (x < a)
+            {
+                return 0;
+            }
+
+            if (a <= x && x <= c)
+            {
+                return (x - a)*(x - a)/((b - a)*(c - a));
+            }
+
+            if (c < x & x <= b)
+            {
+                return 1 - (b - x)*(b - x)/((b - a)*(b - c));
+            }
+
             return 1;
         }
 
@@ -410,16 +436,31 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="InverseCumulativeDistribution"/>
         public static double InvCDF(double lower, double upper, double mode, double p)
         {
-            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var a = lower;
             var b = upper;
             var c = mode;
 
-            if (p <= 0) return lower;
+            if (p <= 0)
+            {
+                return lower;
+            }
+
             // Taken from http://www.ntrand.com/triangular-distribution/
-            if (p < (c - a)/(b - a)) return a + Math.Sqrt(p*(c - a)*(b - a));
-            if (p < 1) return b - Math.Sqrt((1 - p)*(b - c)*(b - a));
+            if (p < (c - a)/(b - a))
+            {
+                return a + Math.Sqrt(p*(c - a)*(b - a));
+            }
+
+            if (p < 1)
+            {
+                return b - Math.Sqrt((1 - p)*(b - c)*(b - a));
+            }
+
             return upper;
         }
 
@@ -433,7 +474,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(System.Random rnd, double lower, double upper, double mode)
         {
-            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, lower, upper, mode);
         }
@@ -448,7 +492,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(System.Random rnd, double lower, double upper, double mode)
         {
-            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, lower, upper, mode);
         }
@@ -464,7 +511,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(System.Random rnd, double[] values, double lower, double upper, double mode)
         {
-            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, lower, upper, mode);
         }
@@ -478,7 +528,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public static double Sample(double lower, double upper, double mode)
         {
-            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, lower, upper, mode);
         }
@@ -492,7 +545,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static IEnumerable<double> Samples(double lower, double upper, double mode)
         {
-            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, lower, upper, mode);
         }
@@ -507,7 +563,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public static void Samples(double[] values, double lower, double upper, double mode)
         {
-            if (!(upper >= mode && mode >= lower)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(upper >= mode && mode >= lower))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, lower, upper, mode);
         }

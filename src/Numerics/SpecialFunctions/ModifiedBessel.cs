@@ -148,14 +148,15 @@ namespace MathNet.Numerics
             {
                 x = -x;
             }
+
             if (x <= 8.0)
             {
                 double y = (x / 2.0) - 2.0;
-                return (Math.Exp(x) * Evaluate.ChebyshevA(BesselI0A, y));
+                return Math.Exp(x) * Evaluate.ChebyshevA(BesselI0A, y);
             }
 
             double x1 = 32.0 / x - 2.0;
-            return (Math.Exp(x) * Evaluate.ChebyshevA(BesselI0B, x1) / Math.Sqrt(x));
+            return Math.Exp(x) * Evaluate.ChebyshevA(BesselI0B, x1) / Math.Sqrt(x);
         }
 
         /// <summary>Returns the modified Bessel function of first kind,
@@ -182,10 +183,12 @@ namespace MathNet.Numerics
                 double x1 = 32.0 / z - 2.0;
                 z = Math.Exp(z) * Evaluate.ChebyshevA(BesselI1B, x1) / Math.Sqrt(z);
             }
+
             if (x < 0.0)
             {
                 z = -z;
             }
+
             return z;
         }
 
@@ -204,6 +207,7 @@ namespace MathNet.Numerics
             {
                 throw new ArithmeticException();
             }
+
             if (x <= 2.0)
             {
                 double y = x * x - 2.0;
@@ -225,6 +229,7 @@ namespace MathNet.Numerics
             {
                 throw new ArithmeticException();
             }
+
             if (x <= 2.0)
             {
                 double y = x * x - 2.0;
@@ -251,6 +256,7 @@ namespace MathNet.Numerics
             {
                 throw new ArithmeticException();
             }
+
             if (x <= 2.0)
             {
                 double y = x * x - 2.0;
@@ -274,6 +280,7 @@ namespace MathNet.Numerics
             {
                 throw new ArithmeticException();
             }
+
             if (x <= 2.0)
             {
                 double y = x * x - 2.0;

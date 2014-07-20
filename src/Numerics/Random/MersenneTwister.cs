@@ -223,7 +223,7 @@ namespace MathNet.Numerics.Random
             _mt[0] = s & 0xffffffff;
             for (_mti = 1; _mti < N; _mti++)
             {
-                _mt[_mti] = (1812433253*(_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + (uint)_mti);
+                _mt[_mti] = 1812433253*(_mt[_mti - 1] ^ (_mt[_mti - 1] >> 30)) + (uint)_mti;
                 /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
                 /* In the previous versions, MSBs of the seed affect   */
                 /* only MSBs of the array _mt[].                        */
@@ -232,7 +232,6 @@ namespace MathNet.Numerics.Random
                 /* for >32 bit machines */
             }
         }
-
 
         /* initialize by an array with array-length */
         /* init_key is the array for initializing keys */
@@ -287,18 +286,22 @@ namespace MathNet.Numerics.Random
                 int kk;
 
                 if (_mti == N + 1) /* if init_genrand() has not been called, */
+                {
                     init_genrand(5489); /* a default initial seed is used */
+                }
 
                 for (kk = 0; kk < N - M; kk++)
                 {
                     y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
                     _mt[kk] = _mt[kk + M] ^ (y >> 1) ^ Mag01[y & 0x1];
                 }
+
                 for (; kk < N - 1; kk++)
                 {
                     y = (_mt[kk] & UpperMask) | (_mt[kk + 1] & LowerMask);
                     _mt[kk] = _mt[kk + (M - N)] ^ (y >> 1) ^ Mag01[y & 0x1];
                 }
+
                 y = (_mt[N - 1] & UpperMask) | (_mt[0] & LowerMask);
                 _mt[N - 1] = _mt[M - 1] ^ (y >> 1) ^ Mag01[y & 0x1];
 
@@ -308,10 +311,10 @@ namespace MathNet.Numerics.Random
             y = _mt[_mti++];
 
             /* Tempering */
-            y ^= (y >> 11);
+            y ^= y >> 11;
             y ^= (y << 7) & 0x9d2c5680;
             y ^= (y << 15) & 0xefc60000;
-            y ^= (y >> 18);
+            y ^= y >> 18;
 
             return y;
         }
@@ -350,7 +353,7 @@ namespace MathNet.Numerics.Random
             t[0] = s & 0xffffffff;
             for (k = 1; k < N; k++)
             {
-                t[k] = (1812433253*(t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k);
+                t[k] = 1812433253*(t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k;
                 t[k] &= 0xffffffff;
             }
 
@@ -366,11 +369,13 @@ namespace MathNet.Numerics.Random
                         y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
                         t[kk] = t[kk + M] ^ (y >> 1) ^ Mag01[y & 0x1];
                     }
+
                     for (; kk < N - 1; kk++)
                     {
                         y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
                         t[kk] = t[kk + (M - N)] ^ (y >> 1) ^ Mag01[y & 0x1];
                     }
+
                     y = (t[N - 1] & UpperMask) | (t[0] & LowerMask);
                     t[N - 1] = t[M - 1] ^ (y >> 1) ^ Mag01[y & 0x1];
 
@@ -380,10 +385,10 @@ namespace MathNet.Numerics.Random
                 y = t[k++];
 
                 /* Tempering */
-                y ^= (y >> 11);
+                y ^= y >> 11;
                 y ^= (y << 7) & 0x9d2c5680;
                 y ^= (y << 15) & 0xefc60000;
-                y ^= (y >> 18);
+                y ^= y >> 18;
 
                 values[i] = y*Reciprocal;
             }
@@ -414,7 +419,7 @@ namespace MathNet.Numerics.Random
             t[0] = s & 0xffffffff;
             for (k = 1; k < N; k++)
             {
-                t[k] = (1812433253*(t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k);
+                t[k] = 1812433253*(t[k - 1] ^ (t[k - 1] >> 30)) + (uint)k;
                 t[k] &= 0xffffffff;
             }
 
@@ -430,11 +435,13 @@ namespace MathNet.Numerics.Random
                         y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
                         t[kk] = t[kk + M] ^ (y >> 1) ^ Mag01[y & 0x1];
                     }
+
                     for (; kk < N - 1; kk++)
                     {
                         y = (t[kk] & UpperMask) | (t[kk + 1] & LowerMask);
                         t[kk] = t[kk + (M - N)] ^ (y >> 1) ^ Mag01[y & 0x1];
                     }
+
                     y = (t[N - 1] & UpperMask) | (t[0] & LowerMask);
                     t[N - 1] = t[M - 1] ^ (y >> 1) ^ Mag01[y & 0x1];
 
@@ -444,10 +451,10 @@ namespace MathNet.Numerics.Random
                 y = t[k++];
 
                 /* Tempering */
-                y ^= (y >> 11);
+                y ^= y >> 11;
                 y ^= (y << 7) & 0x9d2c5680;
                 y ^= (y << 15) & 0xefc60000;
-                y ^= (y >> 18);
+                y ^= y >> 18;
 
                 yield return y*Reciprocal;
             }

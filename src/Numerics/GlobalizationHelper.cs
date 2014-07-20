@@ -157,7 +157,7 @@ namespace MathNet.Numerics
             }
 
             double value;
-            if (!Double.TryParse(token.Value, NumberStyles.Any, CultureInfo.CurrentCulture, out value))
+            if (!double.TryParse(token.Value, NumberStyles.Any, CultureInfo.CurrentCulture, out value))
             {
                 throw new FormatException();
             }
@@ -225,7 +225,7 @@ namespace MathNet.Numerics
             }
 
             double value;
-            if (!Double.TryParse(token.Value, NumberStyles.Any, culture, out value))
+            if (!double.TryParse(token.Value, NumberStyles.Any, culture, out value))
             {
                 throw new FormatException();
             }

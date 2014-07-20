@@ -367,6 +367,7 @@ namespace MathNet.Numerics.Distributions
             {
                 sum += Math.Pow(_lambda, i)/Math.Pow(SpecialFunctions.Factorial(i), _nu)/z;
             }
+
             return sum;
         }
 
@@ -379,7 +380,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public static double PMF(double lambda, double nu, int k)
         {
-            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0 && nu >= 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var z = Normalization(lambda, nu);
             return Math.Pow(lambda, k)/Math.Pow(SpecialFunctions.Factorial(k), nu)/z;
@@ -394,7 +398,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public static double PMFLn(double lambda, double nu, int k)
         {
-            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0 && nu >= 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var z = Normalization(lambda, nu);
             return k*Math.Log(lambda) - nu*SpecialFunctions.FactorialLn(k) - Math.Log(z);
@@ -410,7 +417,10 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CumulativeDistribution"/>
         public static double CDF(double lambda, double nu, double x)
         {
-            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0 && nu >= 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var z = Normalization(lambda, nu);
             double sum = 0;
@@ -418,6 +428,7 @@ namespace MathNet.Numerics.Distributions
             {
                 sum += Math.Pow(lambda, i)/Math.Pow(SpecialFunctions.Factorial(i), nu)/z;
             }
+
             return sum;
         }
 
@@ -523,6 +534,7 @@ namespace MathNet.Numerics.Distributions
                         p = p*lambda/Math.Pow(k, nu);
                         cdf += p;
                     }
+
                     values[i] = k;
                 }
             });
@@ -572,7 +584,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static int Sample(System.Random rnd, double lambda, double nu)
         {
-            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0 && nu >= 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var z = Normalization(lambda, nu);
             return SampleUnchecked(rnd, lambda, nu, z);
@@ -586,7 +601,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double lambda, double nu)
         {
-            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0 && nu >= 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var z = Normalization(lambda, nu);
             return SamplesUnchecked(rnd, lambda, nu, z);
@@ -601,7 +619,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static void Samples(System.Random rnd, int[] values, double lambda, double nu)
         {
-            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0 && nu >= 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var z = Normalization(lambda, nu);
             SamplesUnchecked(rnd, values, lambda, nu, z);
@@ -614,7 +635,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static int Sample(double lambda, double nu)
         {
-            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0 && nu >= 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var z = Normalization(lambda, nu);
             return SampleUnchecked(SystemRandomSource.Default, lambda, nu, z);
@@ -627,7 +651,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static IEnumerable<int> Samples(double lambda, double nu)
         {
-            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0 && nu >= 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var z = Normalization(lambda, nu);
             return SamplesUnchecked(SystemRandomSource.Default, lambda, nu, z);
@@ -641,7 +668,10 @@ namespace MathNet.Numerics.Distributions
         /// <param name="nu">The rate of decay (ν) parameter. Range: ν ≥ 0.</param>
         public static void Samples(int[] values, double lambda, double nu)
         {
-            if (!(lambda > 0.0 && nu >= 0.0)) throw new ArgumentException(Resources.InvalidDistributionParameters);
+            if (!(lambda > 0.0 && nu >= 0.0))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             var z = Normalization(lambda, nu);
             SamplesUnchecked(SystemRandomSource.Default, values, lambda, nu, z);

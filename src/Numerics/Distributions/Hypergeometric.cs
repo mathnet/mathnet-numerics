@@ -298,8 +298,15 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            if (x < Math.Max(0, draws + success - population)) return 0.0;
-            if (x >= Math.Min(success, draws)) return 1.0;
+            if (x < Math.Max(0, draws + success - population))
+            {
+                return 0.0;
+            }
+
+            if (x >= Math.Min(success, draws))
+            {
+                return 1.0;
+            }
 
             var k = (int)Math.Floor(x);
             var denominatorLn = SpecialFunctions.BinomialLn(population, draws);
@@ -308,6 +315,7 @@ namespace MathNet.Numerics.Distributions
             {
                 sum += Math.Exp(SpecialFunctions.BinomialLn(success, i) + SpecialFunctions.BinomialLn(population - success, draws - i) - denominatorLn);
             }
+
             return sum;
         }
 
@@ -335,7 +343,8 @@ namespace MathNet.Numerics.Distributions
 
                 population--;
                 draws--;
-            } while (0 < draws);
+            }
+            while (0 < draws);
 
             return x;
         }
@@ -392,7 +401,9 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(System.Random rnd, int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(rnd, population, success, draws);
         }
@@ -407,7 +418,9 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(System.Random rnd, int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(rnd, population, success, draws);
         }
@@ -423,7 +436,9 @@ namespace MathNet.Numerics.Distributions
         public static void Samples(System.Random rnd, int[] values, int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(rnd, values, population, success, draws);
         }
@@ -437,7 +452,9 @@ namespace MathNet.Numerics.Distributions
         public static int Sample(int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SampleUnchecked(SystemRandomSource.Default, population, success, draws);
         }
@@ -451,7 +468,9 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<int> Samples(int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             return SamplesUnchecked(SystemRandomSource.Default, population, success, draws);
         }
@@ -466,7 +485,9 @@ namespace MathNet.Numerics.Distributions
         public static void Samples(int[] values, int population, int success, int draws)
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
+            {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
 
             SamplesUnchecked(SystemRandomSource.Default, values, population, success, draws);
         }
