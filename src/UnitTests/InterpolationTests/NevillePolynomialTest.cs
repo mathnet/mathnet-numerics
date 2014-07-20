@@ -146,5 +146,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             var actual = interpolation.Interpolate(Math.Log(value));
             Assert.That(actual, Is.Not.NaN);
         }
+
+        [Test]
+        public void FewSamples()
+        {
+            Assert.That(() => NevillePolynomialInterpolation.Interpolate(new double[0], new double[0]), Throws.ArgumentException);
+            Assert.That(NevillePolynomialInterpolation.Interpolate(new[] { 1.0 }, new[] { 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
+        }
     }
 }

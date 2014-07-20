@@ -56,6 +56,11 @@ namespace MathNet.Numerics.Interpolation
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
+            if (x.Length < 1)
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), "x");
+            }
+
             _x = x;
             _y = sy;
             _indefiniteIntegral = new Lazy<double[]>(ComputeIndefiniteIntegral);

@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 1)
             {
-                throw new ArgumentOutOfRangeException("x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), "x");
             }
 
             for (var i = 1; i < x.Length; ++i)

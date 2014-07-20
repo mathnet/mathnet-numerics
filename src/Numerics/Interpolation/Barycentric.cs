@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 1)
             {
-                throw new ArgumentOutOfRangeException("x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), "x");
             }
 
             _x = x;
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 1)
             {
-                throw new ArgumentOutOfRangeException("x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), "x");
             }
 
             var weights = new double[x.Length];
@@ -99,11 +99,6 @@ namespace MathNet.Numerics.Interpolation
             if (x.Length != y.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            }
-
-            if (x.Length < 1)
-            {
-                throw new ArgumentOutOfRangeException("x");
             }
 
             Sorting.Sort(x, y);
@@ -141,28 +136,28 @@ namespace MathNet.Numerics.Interpolation
         /// </param>
         public static Barycentric InterpolateRationalFloaterHormannSorted(double[] x, double[] y, int order)
         {
-            var xx = (x as double[]) ?? x.ToArray();
-            var yy = (y as double[]) ?? y.ToArray();
-
-            if (xx.Length != yy.Length)
+            if (x.Length != y.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (0 > order || xx.Length <= order)
+            if (x.Length < 1)
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), "x");
+            }
+
+            if (0 > order || x.Length <= order)
             {
                 throw new ArgumentOutOfRangeException("order");
             }
 
-            Sorting.Sort(xx, yy);
-
-            var weights = new double[xx.Length];
+            var weights = new double[x.Length];
 
             // order: odd -> negative, even -> positive
             double sign = ((order & 0x1) == 0x1) ? -1.0 : 1.0;
 
             // compute barycentric weights
-            for (int k = 0; k < xx.Length; k++)
+            for (int k = 0; k < x.Length; k++)
             {
                 double s = 0;
                 for (int i = Math.Max(k - order, 0); i <= Math.Min(k, weights.Length - 1 - order); i++)
@@ -172,7 +167,7 @@ namespace MathNet.Numerics.Interpolation
                     {
                         if (j != k)
                         {
-                            v = v/Math.Abs(xx[k] - xx[j]);
+                            v = v/Math.Abs(x[k] - x[j]);
                         }
                     }
 
@@ -183,7 +178,7 @@ namespace MathNet.Numerics.Interpolation
                 sign = -sign;
             }
 
-            return new Barycentric(xx, yy, weights);
+            return new Barycentric(x, y, weights);
         }
 
         /// <summary>
@@ -201,11 +196,6 @@ namespace MathNet.Numerics.Interpolation
             if (x.Length != y.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            }
-
-            if (0 > order || x.Length <= order)
-            {
-                throw new ArgumentOutOfRangeException("order");
             }
 
             Sorting.Sort(x, y);

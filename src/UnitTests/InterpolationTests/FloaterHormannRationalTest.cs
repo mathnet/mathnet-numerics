@@ -119,5 +119,12 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 Assert.AreEqual(ytest[i], it.Interpolate(xtest[i]), 1e-14, "Linear with {0} samples, sample {1}", samples, i);
             }
         }
+
+        [Test]
+        public void FewSamples()
+        {
+            Assert.That(() => Barycentric.InterpolateRationalFloaterHormann(new double[0], new double[0]), Throws.ArgumentException);
+            Assert.That(Barycentric.InterpolateRationalFloaterHormann(new[] { 1.0 }, new[] { 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
+        }
     }
 }

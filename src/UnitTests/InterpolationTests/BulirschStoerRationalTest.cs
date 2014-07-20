@@ -92,6 +92,13 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             Assert.AreEqual(x, interpolation.Interpolate(t), maxAbsoluteError, "Interpolation at {0}", t);
         }
 
+        [Test]
+        public void FewSamples()
+        {
+            Assert.That(() => BulirschStoerRationalInterpolation.Interpolate(new double[0], new double[0]), Throws.ArgumentException);
+            Assert.That(BulirschStoerRationalInterpolation.Interpolate(new[] { 1.0 }, new[] { 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
+        }
+
         // NOTE: No test for the linear case because this algorithms is incredibly bad at this.
     }
 }

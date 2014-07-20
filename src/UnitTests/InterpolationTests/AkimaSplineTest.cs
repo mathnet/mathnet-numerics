@@ -92,5 +92,13 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 Assert.AreEqual(ytest[i], it.Interpolate(xtest[i]), 1e-15, "Linear with {0} samples, sample {1}", samples, i);
             }
         }
+
+        [Test]
+        public void FewSamples()
+        {
+            Assert.That(() => CubicSpline.InterpolateAkima(new double[0], new double[0]), Throws.ArgumentException);
+            Assert.That(() => CubicSpline.InterpolateAkima(new double[4], new double[4]), Throws.ArgumentException);
+            Assert.That(CubicSpline.InterpolateAkima(new[] { 1.0, 2.0, 3.0, 4.0, 5.0 }, new[] { 2.0, 2.0, 2.0, 2.0, 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
+        }
     }
 }

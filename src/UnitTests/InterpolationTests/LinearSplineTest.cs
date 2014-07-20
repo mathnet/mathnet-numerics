@@ -131,5 +131,13 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
                 Assert.AreEqual(ytest[i], ip.Interpolate(xtest[i]), 1e-15, "Linear with {0} samples, sample {1}", samples, i);
             }
         }
+
+        [Test]
+        public void FewSamples()
+        {
+            Assert.That(() => LinearSpline.Interpolate(new double[0], new double[0]), Throws.ArgumentException);
+            Assert.That(() => LinearSpline.Interpolate(new double[1], new double[1]), Throws.ArgumentException);
+            Assert.That(LinearSpline.Interpolate(new[] { 1.0, 2.0 }, new[] { 2.0, 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
+        }
     }
 }

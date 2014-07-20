@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.Interpolation;
 using NUnit.Framework;
 
@@ -86,6 +87,13 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             {
                 Assert.AreEqual(_y[i], ip.Interpolate(_t[i]), "A Exact Point " + i);
             }
+        }
+
+        [Test]
+        public void FewSamples()
+        {
+            Assert.That(() => StepInterpolation.Interpolate(new double[0], new double[0]), Throws.ArgumentException);
+            Assert.That(StepInterpolation.Interpolate(new[] { 1.0 }, new[] { 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
         }
     }
 }

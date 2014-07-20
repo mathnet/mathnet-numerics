@@ -176,6 +176,14 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             }
         }
 
+        [Test]
+        public void FewSamples()
+        {
+            Assert.That(() => CubicSpline.InterpolateNatural(new double[0], new double[0]), Throws.ArgumentException);
+            Assert.That(() => CubicSpline.InterpolateNatural(new double[1], new double[1]), Throws.ArgumentException);
+            Assert.That(CubicSpline.InterpolateNatural(new[] { 1.0, 2.0 }, new[] { 2.0, 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
+        }
+
 #if !NET35 && !PORTABLE
         [Test]
         public void InterpolateAkimaSorted_MustBeThreadSafe_GitHub219([Values(8, 32, 256, 1024)] int samples)

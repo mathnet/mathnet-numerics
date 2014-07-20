@@ -60,6 +60,11 @@ namespace MathNet.Numerics.Interpolation
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
+            if (x.Length < 2)
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
+            }
+
             _x = x;
             _c0 = c0;
             _c1 = c1;
@@ -80,7 +85,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 2)
             {
-                throw new ArgumentOutOfRangeException("x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
             }
 
             var c0 = new double[x.Length - 1];
@@ -113,7 +118,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 2)
             {
-                throw new ArgumentOutOfRangeException("x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
             }
 
             Sorting.Sort(x, y, firstDerivatives);
@@ -142,7 +147,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 5)
             {
-                throw new ArgumentOutOfRangeException("x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 5), "x");
             }
 
             /* Prepare divided differences (diff) and weights (w) */
@@ -193,11 +198,6 @@ namespace MathNet.Numerics.Interpolation
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (x.Length < 5)
-            {
-                throw new ArgumentOutOfRangeException("x");
-            }
-
             Sorting.Sort(x, y);
             return InterpolateAkimaSorted(x, y);
         }
@@ -227,7 +227,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 2)
             {
-                throw new ArgumentOutOfRangeException("x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
             }
 
             int n = x.Length;
@@ -335,11 +335,6 @@ namespace MathNet.Numerics.Interpolation
             if (x.Length != y.Length)
             {
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            }
-
-            if (x.Length < 2)
-            {
-                throw new ArgumentOutOfRangeException("x");
             }
 
             Sorting.Sort(x, y);
@@ -460,7 +455,7 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated value x(t).</returns>
         public double Interpolate(double t)
         {
-            int k = LeftBracketIndex(t);
+            int k = LeftSegmentIndex(t);
             var x = t - _x[k];
             return _c0[k] + x*(_c1[k] + x*(_c2[k] + x*_c3[k]));
         }
@@ -472,7 +467,7 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated first derivative at point t.</returns>
         public double Differentiate(double t)
         {
-            int k = LeftBracketIndex(t);
+            int k = LeftSegmentIndex(t);
             var x = t - _x[k];
             return _c1[k] + x*(2*_c2[k] + x*3*_c3[k]);
         }
@@ -484,7 +479,7 @@ namespace MathNet.Numerics.Interpolation
         /// <returns>Interpolated second derivative at point t.</returns>
         public double Differentiate2(double t)
         {
-            int k = LeftBracketIndex(t);
+            int k = LeftSegmentIndex(t);
             var x = t - _x[k];
             return 2*_c2[k] + x*6*_c3[k];
         }
@@ -495,7 +490,7 @@ namespace MathNet.Numerics.Interpolation
         /// <param name="t">Point t to integrate at.</param>
         public double Integrate(double t)
         {
-            int k = LeftBracketIndex(t);
+            int k = LeftSegmentIndex(t);
             var x = t - _x[k];
             return _indefiniteIntegral.Value[k] + x*(_c0[k] + x*(_c1[k]/2 + x*(_c2[k]/3 + x*_c3[k]/4)));
         }
@@ -523,11 +518,11 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Find the index of the greatest sample point smaller than t.
+        /// Find the index of the greatest sample point smaller than t,
+        /// or the left index of the closest segment for extrapolation.
         /// </summary>
-        int LeftBracketIndex(double t)
+        int LeftSegmentIndex(double t)
         {
-            // Binary search in the [ t[0], ..., t[n-2] ] (t[n-1] is not included)
             int low = 0;
             int high = _x.Length - 1;
             while (low != high - 1)
