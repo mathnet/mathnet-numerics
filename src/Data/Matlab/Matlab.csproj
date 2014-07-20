@@ -55,7 +55,7 @@
     <Compile Include="NumericArrayReader.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="MatlabFile.cs" />
-    <Compile Include="MatlabParser.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="MatlabReader.cs" />
     <Compile Include="MatlabWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
     /// Matlab matrix writer tests.
     /// </summary>
     [TestFixture]
-    public class MatlabMatrixWriterTests
+    public class MatlabWriterTests
     {
         /// <summary>
         /// Invalid constructor throws <c>ArgumentException</c>.
@@ -44,8 +44,8 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void InvalidConstructorThrowsArgumentException()
         {
-            Assert.Throws<ArgumentException>(() => new MatlabMatrixWriter(string.Empty));
-            Assert.Throws<ArgumentException>(() => new MatlabMatrixWriter(null));
+            Assert.Throws<ArgumentException>(() => new MatlabWriter(string.Empty));
+            Assert.Throws<ArgumentException>(() => new MatlabWriter(null));
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         public void WriteBadMatricesThrowsArgumentException()
         {
             var matrix = new LinearAlgebra.Single.DenseMatrix(1, 1);
-            var writer = new MatlabMatrixWriter("somefile3");
+            var writer = new MatlabWriter("somefile3");
             Assert.Throws<ArgumentException>(() => writer.WriteMatrices(new[] { matrix }, new[] { string.Empty }));
             Assert.Throws<ArgumentException>(() => writer.WriteMatrices(new[] { matrix }, new string[] { null }));
             Assert.Throws<ArgumentException>(() => writer.WriteMatrices(new[] { matrix, matrix }, new[] { "matrix" }));
@@ -69,7 +69,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void WriteNullMatricesThrowsArgumentNullException()
         {
-            var writer = new MatlabMatrixWriter("somefile4");
+            var writer = new MatlabWriter("somefile4");
             Assert.Throws<ArgumentNullException>(() => writer.WriteMatrices(new LinearAlgebra.Single.Matrix[] { null }, new[] { "matrix" }));
             var matrix = new LinearAlgebra.Single.DenseMatrix(1, 1);
             Assert.Throws<ArgumentNullException>(() => writer.WriteMatrices(new LinearAlgebra.Single.Matrix[] { matrix }, null));
@@ -112,11 +112,11 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
                 File.Delete("testd.mat");
             }
 
-            var writer = new MatlabMatrixWriter("testd.mat");
+            var writer = new MatlabWriter("testd.mat");
             writer.WriteMatrices(write, names);
             writer.Dispose();
 
-            var read = MatlabMatrixReader.ReadMatrices<double>("testd.mat", names);
+            var read = MatlabReader.ReadMatrices<double>("testd.mat", names);
 
             Assert.AreEqual(write.Length, read.Count);
 
@@ -167,11 +167,11 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
                 File.Delete("tests.mat");
             }
 
-            var writer = new MatlabMatrixWriter("tests.mat");
+            var writer = new MatlabWriter("tests.mat");
             writer.WriteMatrices(write, names);
             writer.Dispose();
 
-            var read = MatlabMatrixReader.ReadMatrices<float>("tests.mat", names);
+            var read = MatlabReader.ReadMatrices<float>("tests.mat", names);
 
             Assert.AreEqual(write.Length, read.Count);
 
@@ -222,11 +222,11 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
                 File.Delete("testc.mat");
             }
 
-            var writer = new MatlabMatrixWriter("testc.mat");
+            var writer = new MatlabWriter("testc.mat");
             writer.WriteMatrices(write, names);
             writer.Dispose();
 
-            var read = MatlabMatrixReader.ReadMatrices<Complex32>("testc.mat", names);
+            var read = MatlabReader.ReadMatrices<Complex32>("testc.mat", names);
 
             Assert.AreEqual(write.Length, read.Count);
 
@@ -277,11 +277,11 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
                 File.Delete("testz.mat");
             }
 
-            var writer = new MatlabMatrixWriter("testz.mat");
+            var writer = new MatlabWriter("testz.mat");
             writer.WriteMatrices(write, names);
             writer.Dispose();
 
-            var read = MatlabMatrixReader.ReadMatrices<Complex>("testz.mat", names);
+            var read = MatlabReader.ReadMatrices<Complex>("testz.mat", names);
 
             Assert.AreEqual(write.Length, read.Count);
 
@@ -303,7 +303,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         public void WriteBadMatrixThrowsArgumentException()
         {
             var matrix = new LinearAlgebra.Single.DenseMatrix(1, 1);
-            var writer = new MatlabMatrixWriter("somefile1");
+            var writer = new MatlabWriter("somefile1");
             Assert.Throws<ArgumentException>(() => writer.WriteMatrix(matrix, string.Empty));
             Assert.Throws<ArgumentException>(() => writer.WriteMatrix(matrix, null));
             writer.Dispose();
@@ -315,7 +315,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void WriteNullMatrixThrowsArgumentNullException()
         {
-            var writer = new MatlabMatrixWriter("somefile2");
+            var writer = new MatlabWriter("somefile2");
             Assert.Throws<ArgumentNullException>(() => writer.WriteMatrix<double>(null, "matrix"));
             writer.Dispose();
         }

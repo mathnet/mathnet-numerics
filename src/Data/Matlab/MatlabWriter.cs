@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Data.Matlab
     /// <summary>
     /// Writes matrices to a MATLAB file.
     /// </summary>
-    public class MatlabMatrixWriter : IDisposable
+    public class MatlabWriter : IDisposable
     {
         /// <summary>
         /// The file header value
@@ -66,10 +66,10 @@ namespace MathNet.Numerics.Data.Matlab
         BinaryWriter _writer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatlabMatrixWriter"/> class.
+        /// Initializes a new instance of the <see cref="MatlabWriter"/> class.
         /// </summary>
         /// <param name="filename">The name of the MATLAB file to save the matrices to.</param>
-        public MatlabMatrixWriter(string filename)
+        public MatlabWriter(string filename)
         {
             if (string.IsNullOrEmpty(filename))
             {

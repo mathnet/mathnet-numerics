@@ -1,4 +1,4 @@
-﻿// <copyright file="MatlabParser.cs" company="Math.NET">
+﻿// <copyright file="Parser.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -42,7 +42,7 @@ namespace MathNet.Numerics.Data.Matlab
     /// Parse a MATLAB file
     /// </summary>
     /// <typeparam name="TDataType">The data type of the matrix.</typeparam>
-    internal class MatlabParser<TDataType>
+    internal class Parser<TDataType>
         where TDataType : struct, IEquatable<TDataType>, IFormattable
     {
         /// <summary>
@@ -71,29 +71,29 @@ namespace MathNet.Numerics.Data.Matlab
         readonly Stream _stream;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatlabParser{TDataType}"/> class.
+        /// Initializes a new instance of the <see cref="Parser{TDataType}"/> class.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
-        internal MatlabParser(string fileName)
+        internal Parser(string fileName)
             : this(fileName, new string[0])
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatlabParser{TDataType}"/> class.
+        /// Initializes a new instance of the <see cref="Parser{TDataType}"/> class.
         /// </summary>
         /// <param name="stream">The stream to read from.</param>
-        internal MatlabParser(Stream stream)
+        internal Parser(Stream stream)
             : this(stream, new string[0])
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatlabParser{TDataType}"/> class.
+        /// Initializes a new instance of the <see cref="Parser{TDataType}"/> class.
         /// </summary>
         /// <param name="stream">The stream to read from.</param>
         /// <param name="objectNames">The name of the objects to retrieve.</param>
-        internal MatlabParser(Stream stream, IEnumerable<string> objectNames)
+        internal Parser(Stream stream, IEnumerable<string> objectNames)
         {
             if (stream == null)
             {
@@ -105,11 +105,11 @@ namespace MathNet.Numerics.Data.Matlab
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MatlabParser{TDataType}"/> class.
+        /// Initializes a new instance of the <see cref="Parser{TDataType}"/> class.
         /// </summary>
         /// <param name="fileName">Name of the file.</param>
         /// <param name="objectNames">The name of the objects to retrieve.</param>
-        MatlabParser(string fileName, IEnumerable<string> objectNames)
+        Parser(string fileName, IEnumerable<string> objectNames)
         {
             if (string.IsNullOrEmpty(fileName))
             {

@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Data.Matlab
                 ir[i] = reader.ReadInt32();
             }
 
-            MatlabParser<TDataType>.AlignData(reader.BaseStream, size, false);
+            Parser<TDataType>.AlignData(reader.BaseStream, size, false);
 
             // skip data type since it will always be int32
             reader.BaseStream.Seek(4, SeekOrigin.Current);
@@ -81,7 +81,7 @@ namespace MathNet.Numerics.Data.Matlab
                 jc[j] = reader.ReadInt32();
             }
 
-            MatlabParser<TDataType>.AlignData(reader.BaseStream, jcsize, false);
+            Parser<TDataType>.AlignData(reader.BaseStream, jcsize, false);
 
             var type = (DataType)reader.ReadInt32();
             var dataSize = reader.ReadInt32();

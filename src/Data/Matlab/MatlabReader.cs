@@ -39,14 +39,14 @@ namespace MathNet.Numerics.Data.Matlab
     /// <summary>
     /// Creates matrices from MATLAB files.
     /// </summary>
-    public static class MatlabMatrixReader
+    public static class MatlabReader
     {
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
         public static Matrix<TDataType> ReadMatrix<TDataType>(Stream stream, string matrixName = null)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
             var names = string.IsNullOrEmpty(matrixName) ? new string[] { } : new[] { matrixName };
-            var parser = new MatlabParser<TDataType>(stream, names);
+            var parser = new Parser<TDataType>(stream, names);
             var file = parser.Parse();
 
             if (string.IsNullOrEmpty(matrixName))
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Data.Matlab
         public static Dictionary<string, Matrix<TDataType>> ReadMatrices<TDataType>(Stream stream, params string[] matrixNames)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
-            var parser = new MatlabParser<TDataType>(stream, matrixNames);
+            var parser = new Parser<TDataType>(stream, matrixNames);
             var file = parser.Parse();
             return file.Matrices.ToDictionary(matrix => matrix.Key, matrix => matrix.Value);
         }
