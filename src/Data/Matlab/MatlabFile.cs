@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -37,13 +37,12 @@ namespace MathNet.Numerics.Data.Matlab
     /// <summary>
     /// Represents a MATLAB file
     /// </summary>
-    /// <typeparam name="TDataType">The data type of the matrix to return.</typeparam>
-    internal class MatlabFile<TDataType> where TDataType : struct, IEquatable<TDataType>, IFormattable
+    internal class MatlabFile
     {
         /// <summary>
         /// Matrices in a MATLAB file stored as 1-D arrays
         /// </summary>
-        readonly IDictionary<string, Matrix<TDataType>> _matrices = new SortedList<string, Matrix<TDataType>>();
+        readonly IDictionary<string, byte[]> _matrices = new SortedList<string, byte[]>();
 
         /// <summary>
         /// Gets or sets the header text.
@@ -55,32 +54,26 @@ namespace MathNet.Numerics.Data.Matlab
         /// Gets or sets the first name of the matrix.
         /// </summary>
         /// <value>The first name of the matrix.</value>
-        internal string FirstMatrixName { get; set; }
+        internal string FirstMatrixName { get; private set; }
 
-        /// <summary>
-        /// Gets the first matrix.
-        /// </summary>
-        /// <value>The first matrix.</value>
-        internal Matrix<TDataType> FirstMatrix
+        internal ICollection<string> MatrixNames
         {
-            get
-            {
-                if (string.IsNullOrEmpty(FirstMatrixName) || !_matrices.ContainsKey(FirstMatrixName))
-                {
-                    return null;
-                }
-
-                return _matrices[FirstMatrixName];
-            }
+            get { return _matrices.Keys; }
         }
 
-        /// <summary>
-        /// Gets the matrices.
-        /// </summary>
-        /// <value>The matrices.</value>
-        internal IDictionary<string, Matrix<TDataType>> Matrices
+        internal void Add(string name, byte[] data)
         {
-            get { return _matrices; }
+            if (FirstMatrixName == null)
+            {
+                FirstMatrixName = name;
+            }
+
+            _matrices.Add(name, data);
+        }
+
+        internal Matrix<TDataType> ReadMatrix<TDataType>(string name) where TDataType : struct, IEquatable<TDataType>, IFormattable
+        {
+            return Parser<TDataType>.ReadMatrix(_matrices[name]);
         }
     }
 }

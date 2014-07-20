@@ -51,15 +51,15 @@ namespace MathNet.Numerics.Data.Matlab
 
             if (string.IsNullOrEmpty(matrixName))
             {
-                return file.FirstMatrix;
+                return file.ReadMatrix<TDataType>(file.FirstMatrixName);
             }
 
-            if (!file.Matrices.ContainsKey(matrixName))
+            if (!file.MatrixNames.Contains(matrixName))
             {
                 throw new KeyNotFoundException("Matrix with the provided name was not found.");
             }
 
-            return file.Matrices[matrixName];
+            return file.ReadMatrix<TDataType>(matrixName);
         }
 
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Data.Matlab
         {
             var parser = new Parser<TDataType>(stream, matrixNames);
             var file = parser.Parse();
-            return file.Matrices.ToDictionary(matrix => matrix.Key, matrix => matrix.Value);
+            return file.MatrixNames.ToDictionary(name => name, file.ReadMatrix<TDataType>);
         }
 
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>

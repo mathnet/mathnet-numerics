@@ -136,9 +136,9 @@ namespace MathNet.Numerics.Data.Matlab
         /// Parses the file.
         /// </summary>
         /// <returns>The parsed MATLAB file as a <see cref="MatlabFile{TDataType}"/> object.</returns>
-        internal MatlabFile<TDataType> Parse()
+        internal MatlabFile Parse()
         {
-            var file = new MatlabFile<TDataType>();
+            var file = new MatlabFile();
 
             using (var reader = new BinaryReader(_stream))
             {
@@ -245,10 +245,43 @@ namespace MathNet.Numerics.Data.Matlab
         /// </summary>
         /// <param name="data">The data of the matrix.</param>
         /// <param name="file">The <see cref="MatlabFile{TDataType}"/> instance.</param>
-        void AddMatrix(byte[] data, MatlabFile<TDataType> file)
+        void AddMatrix(byte[] data, MatlabFile file)
         {
             using (var ms = new MemoryStream(data))
             using (var reader = new BinaryReader(ms))
+            {
+                // skip unneeded bytes
+                reader.BaseStream.Seek(20, SeekOrigin.Current);
+
+                var numDimensions = reader.ReadInt32()/8;
+                if (numDimensions > 2)
+                {
+                    throw new NotSupportedException(Resources.MoreThan2D);
+                }
+
+                // skip unneeded bytes
+                reader.BaseStream.Seek(10, SeekOrigin.Current);
+
+                int size = reader.ReadInt16();
+                if (size == 0)
+                {
+                    size = reader.ReadInt32();
+                }
+
+                var name = Encoding.ASCII.GetString(reader.ReadBytes(size));
+
+                // only grab wanted objects
+                if (_names.Count == 0 || _names.Contains(name))
+                {
+                    file.Add(name, data);
+                }
+            }
+        }
+
+        internal static Matrix<TDataType> ReadMatrix(byte[] data)
+        {
+            using (var stream = new MemoryStream(data))
+            using (var reader = new BinaryReader(stream))
             {
                 // skip tag - doesn't tell us anything we don't already know
                 reader.BaseStream.Seek(8, SeekOrigin.Current);
@@ -282,12 +315,6 @@ namespace MathNet.Numerics.Data.Matlab
                 var name = Encoding.ASCII.GetString(reader.ReadBytes(size));
                 AlignData(reader.BaseStream, size, smallBlock);
 
-                // only grab wanted objects
-                if (_names.Count != 0 && !_names.Contains(name))
-                {
-                    return;
-                }
-
                 var type = (DataType)reader.ReadInt16();
                 size = reader.ReadInt16();
                 if (size == 0)
@@ -313,11 +340,7 @@ namespace MathNet.Numerics.Data.Matlab
                         break;
                 }
 
-                file.Matrices.Add(name, matrix);
-                if (file.FirstMatrixName == null)
-                {
-                    file.FirstMatrixName = name;
-                }
+                return matrix;
             }
         }
     }
