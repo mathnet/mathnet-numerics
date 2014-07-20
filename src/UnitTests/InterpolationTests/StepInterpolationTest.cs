@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
     public class StepInterpolationTest
     {
         readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0, 3.0 };
-        readonly double[] _y = { 1.0, 2.0, -1.0, 0.0, 1.0 };
+        readonly double[] _y = { 1.0, 2.0, -1.0, 0.0, 1.0, 0.0 };
 
         [Test]
         public void FirstDerivative()
@@ -53,6 +53,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             Assert.That(ip.Differentiate(1.0), Is.EqualTo(double.NaN));
             Assert.That(ip.Differentiate(2.0), Is.EqualTo(double.NaN));
             Assert.That(ip.Differentiate(3.0), Is.EqualTo(double.NaN));
+            Assert.That(ip.Differentiate(4.0), Is.EqualTo(0.0));
         }
 
         [Test]
@@ -71,6 +72,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             Assert.That(ip.Integrate(-3.0, 4.0), Is.EqualTo(3.0));
             Assert.That(ip.Integrate(0.5, 1.5), Is.EqualTo(-0.5));
             Assert.That(ip.Integrate(-1.5, -0.5), Is.EqualTo(1.5));
+            Assert.That(ip.Integrate(3.0, 4.0), Is.EqualTo(0.0));
         }
 
         /// <summary>
