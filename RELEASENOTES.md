@@ -5,7 +5,7 @@
 * Linear Algebra: fix vector DoOuterProduct *~mjmckp*
 * Linear Algebra: enumerators accept Zeros-parameter (like map/fold already does)
 * Linear Algebra: Vector.MapConvert (consistency)
-* Linear Algebra: proper term for "conjugate symmetric" is "Hermitian""
+* Linear Algebra: proper term for 'conjugate symmetric' is 'Hermitian'
 * Interpolation: new Step, LogLinear and transformed interpolators *~Candy Chiu*
 * Interpolation: check for min required number of data points, throw ArgumentException if not.
 * Root Finding: F# FindRoots.broyden module function *~teramonagi*
