@@ -27,6 +27,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Andriy Bratiychuk
 - Jack Pappas
 - Artyom Baranovskiy
+- Candy Chiu
 - Phil Cleveland
 - Scott Stephens
 - Superbest
@@ -35,8 +36,8 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Patrick van der Velde
 - Robin Neatherway
 - Andrew Kazyrevich
-- Candy Chiu
 - Ethar Alali
+- Feodor Fitsner
 - Iain McDonald
 - Gregor959
 - IUser
@@ -48,8 +49,11 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Tomas Petricek
 - VicPara
 - bstrausser
+- mjmckp
 - nyuriks
 - seahearman
+- teramonagi
+- vvarychuck
 
 ### Indirect Code Contributors
 
