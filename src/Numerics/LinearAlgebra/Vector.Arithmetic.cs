@@ -125,7 +125,7 @@ namespace MathNet.Numerics.LinearAlgebra
         protected void DoOuterProduct(Vector<T> other, Matrix<T> result)
         {
             var work = Build.Dense(Count);
-            for (var i = 0; i < Count; i++)
+            for (var i = 0; i < other.Count; i++)
             {
                 DoMultiply(other.At(i), work);
                 result.SetColumn(i, work);
