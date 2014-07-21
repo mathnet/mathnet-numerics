@@ -309,5 +309,44 @@ namespace MathNet.Numerics.Statistics
             }
             return comoment/n;
         }
+
+        /// <summary>
+        /// Calculates the entropy of a stream of double values. 
+        /// Returns NaN if any of the values in the stream are NaN.
+        /// </summary>
+        /// <param name="stream">The input stream to evaluate.</param>
+        /// <returns></returns>
+        public static double Entropy(IEnumerable<double> stream)
+        {
+            // http://en.wikipedia.org/wiki/Shannon_entropy
+
+            var index = new Dictionary<double, double>();
+
+            // count the number of occurrences of each item in the stream
+            int totalCount = 0;
+            foreach (double value in stream)
+            {
+                if (double.IsNaN(value)) return double.NaN;
+
+                double currentValueCount = 0;
+                
+                if (index.TryGetValue(value, out currentValueCount))
+                    index[value] = ++currentValueCount;
+                else
+                    index.Add(value, 1);
+                
+                ++totalCount;
+            }
+
+            // calculate the entropy of the stream
+            double entropy = 0;            
+            foreach (var item in index)
+            {
+                double p = item.Value / totalCount;
+                entropy += p * Math.Log(p, 2);
+            }
+
+            return -entropy;
+        }
     }
 }
