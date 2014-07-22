@@ -211,6 +211,7 @@ namespace MathNet.Numerics.Data.Matlab
                     size = reader.ReadInt32();
                     smallBlock = false;
                 }
+
                 reader.BaseStream.Seek(size, SeekOrigin.Current);
                 AlignData(reader.BaseStream, size, smallBlock);
 

@@ -33,8 +33,14 @@ namespace MathNet.Numerics.Data.Matlab
     public class MatlabMatrix
     {
         internal byte[] Data { get; private set; }
+
+        /// <summary>Name of the matrix</summary>
         public string Name { get; private set; }
+
+        /// <summary>Matrix size in bytes</summary>
         public int Size { get; private set; }
+
+        /// <summary>Number of dimensions</summary>
         public int Dimensions { get; private set; }
 
         internal MatlabMatrix(string name, int size, int dimensions, byte[] data)

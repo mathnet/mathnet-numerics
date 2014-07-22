@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
             writer.WriteMatrices(write, names);
             writer.Dispose();
 
-            var read = MatlabReader.ReadMatrices<double>("testd.mat", names);
+            var read = MatlabReader.ReadAll<double>("testd.mat", names);
 
             Assert.AreEqual(write.Length, read.Count);
 
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
             writer.WriteMatrices(write, names);
             writer.Dispose();
 
-            var read = MatlabReader.ReadMatrices<float>("tests.mat", names);
+            var read = MatlabReader.ReadAll<float>("tests.mat", names);
 
             Assert.AreEqual(write.Length, read.Count);
 
@@ -226,7 +226,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
             writer.WriteMatrices(write, names);
             writer.Dispose();
 
-            var read = MatlabReader.ReadMatrices<Complex32>("testc.mat", names);
+            var read = MatlabReader.ReadAll<Complex32>("testc.mat", names);
 
             Assert.AreEqual(write.Length, read.Count);
 
@@ -281,7 +281,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
             writer.WriteMatrices(write, names);
             writer.Dispose();
 
-            var read = MatlabReader.ReadMatrices<Complex>("testz.mat", names);
+            var read = MatlabReader.ReadAll<Complex>("testz.mat", names);
 
             Assert.AreEqual(write.Length, read.Count);
 

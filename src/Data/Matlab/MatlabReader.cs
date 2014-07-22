@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         /// List all compatible matrices from a MATLAB file stream.
         /// </summary>
-        public static List<MatlabMatrix> ListMatrices(Stream stream)
+        public static List<MatlabMatrix> List(Stream stream)
         {
             return Parser.ParseAll(stream);
         }
@@ -52,7 +52,7 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>
         /// List all compatible matrices from a MATLAB file.
         /// </summary>
-        public static List<MatlabMatrix> ListMatrices(string filePath)
+        public static List<MatlabMatrix> List(string filePath)
         {
             using (var stream = File.OpenRead(filePath))
             {
@@ -61,10 +61,20 @@ namespace MathNet.Numerics.Data.Matlab
         }
 
         /// <summary>
+        /// Unpacks the matrix of a MATLAB matrix data object.
+        /// </summary>
+        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static Matrix<TDataType> Unpack<TDataType>(MatlabMatrix matrixData)
+            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        {
+            return Parser.ReadMatrixBlock<TDataType>(matrixData.Data);
+        }
+
+        /// <summary>
         /// Read the first or a specific matrix from a MATLAB file stream.
         /// </summary>
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<TDataType> ReadMatrix<TDataType>(Stream stream, string matrixName = null)
+        public static Matrix<TDataType> Read<TDataType>(Stream stream, string matrixName = null)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
             var matrices = Parser.ParseAll(stream);
@@ -87,30 +97,20 @@ namespace MathNet.Numerics.Data.Matlab
         /// Read the first or a specific matrix from a MATLAB file.
         /// </summary>
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<TDataType> ReadMatrix<TDataType>(string filePath, string matrixName = null)
+        public static Matrix<TDataType> Read<TDataType>(string filePath, string matrixName = null)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
             using (var stream = File.OpenRead(filePath))
             {
-                return ReadMatrix<TDataType>(stream, matrixName);
+                return Read<TDataType>(stream, matrixName);
             }
-        }
-
-        /// <summary>
-        /// Read the matrix of a MATLAB matrix data object.
-        /// </summary>
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<TDataType> ReadMatrix<TDataType>(MatlabMatrix matrixData)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
-        {
-            return Parser.ReadMatrixBlock<TDataType>(matrixData.Data);
         }
 
         /// <summary>
         /// Read all matrices or those with matching name from a MATLAB file stream.
         /// </summary>
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Dictionary<string, Matrix<TDataType>> ReadMatrices<TDataType>(Stream stream, params string[] matrixNames)
+        public static Dictionary<string, Matrix<TDataType>> ReadAll<TDataType>(Stream stream, params string[] matrixNames)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
             var names = new HashSet<string>(matrixNames);
@@ -123,12 +123,12 @@ namespace MathNet.Numerics.Data.Matlab
         /// Read all matrices or those with matching name from a MATLAB file.
         /// </summary>
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Dictionary<string, Matrix<TDataType>> ReadMatrices<TDataType>(string filePath, params string[] matrixNames)
+        public static Dictionary<string, Matrix<TDataType>> ReadAll<TDataType>(string filePath, params string[] matrixNames)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
             using (var stream = File.OpenRead(filePath))
             {
-                return ReadMatrices<TDataType>(stream, matrixNames);
+                return ReadAll<TDataType>(stream, matrixNames);
             }
         }
     }
