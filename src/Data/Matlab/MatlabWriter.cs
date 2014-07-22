@@ -37,7 +37,7 @@ using MathNet.Numerics.LinearAlgebra;
 namespace MathNet.Numerics.Data.Matlab
 {
     /// <summary>
-    /// Writes matrices to a MATLAB 5 file.
+    /// Writes matrices to a MATLAB Level-5 Mat file.
     /// </summary>
     public static class MatlabWriter
     {

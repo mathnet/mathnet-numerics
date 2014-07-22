@@ -28,7 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,11 +51,6 @@ namespace MathNet.Numerics.Data.Matlab
         const string HeaderText = "MATLAB 5.0 MAT-file, Platform: .NET 4 - Math.NET Numerics, Created on: ";
 
         /// <summary>
-        /// The length of the header text.
-        /// </summary>
-        const int HeaderTextLength = 116;
-
-        /// <summary>
         /// Format a matrix block byte array
         /// </summary>
         internal static MatlabMatrix FormatMatrix<T>(Matrix<T> matrix, string name)
@@ -77,39 +71,110 @@ namespace MathNet.Numerics.Data.Matlab
                 throw new ArgumentException(string.Format(Resources.NameCannotContainASpace, name), "name");
             }
 
-            if (typeof(T) == typeof(double))
+            var typeT = typeof (T);
+            bool sparse = matrix.Storage.GetType().GetGenericTypeDefinition() == typeof (SparseCompressedRowMatrixStorage<>);
+            bool doublePrecision = typeT == typeof (double) || typeT == typeof (Complex);
+            bool complex = typeT == typeof (Complex) || typeT == typeof (Complex32);
+
+            int sparseNonZeroValues = 0;
+            if (sparse)
             {
-                var sparse = matrix as LinearAlgebra.Double.SparseMatrix;
-                return sparse != null
-                    ? GetSparseDataArray(sparse, name)
-                    : GetDenseDataArray((LinearAlgebra.Double.Matrix)(object)matrix, name);
+                var sparseStorage = (SparseCompressedRowMatrixStorage<T>)matrix.Storage;
+                sparseNonZeroValues = sparseStorage.ValueCount;
             }
 
-            if (typeof(T) == typeof(float))
+            using (var stream = new MemoryStream())
+            using (var writer = new BinaryWriter(stream))
             {
-                var sparse = matrix as LinearAlgebra.Single.SparseMatrix;
-                return sparse != null
-                    ? GetSparseDataArray(sparse, name)
-                    : GetDenseDataArray((LinearAlgebra.Single.Matrix)(object)matrix, name);
-            }
+                // Array Flags tag: data type + size (8 bytes)
+                writer.Write((int)DataType.UInt32);
+                writer.Write(8);
 
-            if (typeof(T) == typeof(Complex))
-            {
-                var sparse = matrix as LinearAlgebra.Complex.SparseMatrix;
-                return sparse != null
-                    ? GetSparseDataArray(sparse, name)
-                    : GetDenseDataArray((LinearAlgebra.Complex.Matrix)(object)matrix, name);
-            }
+                // Array Flags data: flags (byte 3), class (byte 4) (8 bytes)
+                writer.Write((byte)(sparse ? ArrayClass.Sparse : doublePrecision ? ArrayClass.Double : ArrayClass.Single));
+                writer.Write((byte)(complex ? ArrayFlags.Complex : 0));
+                writer.Write((short)0);
+                writer.Write((int)sparseNonZeroValues);
 
-            if (typeof(T) == typeof(Complex32))
-            {
-                var sparse = matrix as LinearAlgebra.Complex32.SparseMatrix;
-                return sparse != null
-                    ? GetSparseDataArray(sparse, name)
-                    : GetDenseDataArray((LinearAlgebra.Complex32.Matrix)(object)matrix, name);
-            }
+                // Dimensions Array tag: data type + size (8 bytes)
+                writer.Write((int)DataType.Int32);
+                writer.Write(8);
 
-            throw new NotSupportedException();
+                // Dimensions Array data: row and column count (8 bytes)
+                writer.Write(matrix.RowCount);
+                writer.Write(matrix.ColumnCount);
+
+                // Array Name:
+                var nameBytes = Encoding.ASCII.GetBytes(name);
+                if (nameBytes.Length > 4)
+                {
+                    // long format
+                    writer.Write((int)DataType.Int8);
+                    writer.Write(nameBytes.Length);
+                    writer.Write(nameBytes);
+                    PadData(writer, 8 - (nameBytes.Length%8));
+                }
+                else
+                {
+                    // small format
+                    writer.Write((short)DataType.Int8);
+                    writer.Write((short)nameBytes.Length);
+                    writer.Write(nameBytes);
+                    PadData(writer, 4 - nameBytes.Length);
+                }
+
+                if (doublePrecision && !complex)
+                {
+                    var sparseMatrix = matrix as LinearAlgebra.Double.SparseMatrix;
+                    if (sparseMatrix != null)
+                    {
+                        SparseArrayFormatter.Write(writer, sparseMatrix);
+                    }
+                    else
+                    {
+                        NumericArrayFormatter.Write(writer, (LinearAlgebra.Double.Matrix)(object)matrix);
+                    }
+                }
+                else if (!doublePrecision && !complex)
+                {
+                    var sparseMatrix = matrix as LinearAlgebra.Single.SparseMatrix;
+                    if (sparseMatrix != null)
+                    {
+                        SparseArrayFormatter.Write(writer, sparseMatrix);
+                    }
+                    else
+                    {
+                        NumericArrayFormatter.Write(writer, (LinearAlgebra.Single.Matrix)(object)matrix);
+                    }
+                }
+                else if (doublePrecision)
+                {
+                    var sparseMatrix = matrix as LinearAlgebra.Complex.SparseMatrix;
+                    if (sparseMatrix != null)
+                    {
+                        SparseArrayFormatter.Write(writer, sparseMatrix);
+                    }
+                    else
+                    {
+                        NumericArrayFormatter.Write(writer, (LinearAlgebra.Complex.Matrix)(object)matrix);
+                    }
+                }
+                else
+                {
+                    var sparseMatrix = matrix as LinearAlgebra.Complex32.SparseMatrix;
+                    if (sparseMatrix != null)
+                    {
+                        SparseArrayFormatter.Write(writer, sparseMatrix);
+                    }
+                    else
+                    {
+                        NumericArrayFormatter.Write(writer, (LinearAlgebra.Complex32.Matrix)(object)matrix);
+                    }
+                }
+
+                writer.Flush();
+                return new MatlabMatrix(name, stream.ToArray());
+            }
         }
 
         /// <summary>
@@ -120,553 +185,34 @@ namespace MathNet.Numerics.Data.Matlab
             using (var buffer = new BufferedStream(stream))
             using (var writer = new BinaryWriter(buffer))
             {
-                WriteHeader(writer);
+                // write header and subsystem data offset (all space)
+                var header = Encoding.ASCII.GetBytes(HeaderText + DateTime.Now.ToString(Resources.MatlabDateHeaderFormat));
+                writer.Write(header);
+                PadData(writer, 116 - header.Length + 8, 32);
+
+                // write version
+                writer.Write((short)0x100);
+
+                // write little endian indicator
+                writer.Write((byte)0x49);
+                writer.Write((byte)0x4D);
 
                 foreach (var matrix in matrices)
                 {
                     // write data type
                     writer.Write((int)DataType.Compressed);
 
-                    WriteCompressedData(writer, matrix.Data);
+                    // compress data
+                    var compressedData = PackCompressedBlock(matrix.Data, DataType.Matrix);
+
+                    // write compressed data to file
+                    writer.Write(compressedData.Length);
+                    writer.Write(compressedData);
                 }
 
                 writer.Flush();
                 writer.Close();
             }
-        }
-
-        /// <summary>
-        /// Writes the matrix tag and name.
-        /// </summary>
-        /// <param name="writer">The writer we are using.</param>
-        /// <param name="arrayClass">The array class we are writing.</param>
-        /// <param name="isComplex">if set to <c>true</c> if this a complex matrix.</param>
-        /// <param name="name">The name of the matrix.</param>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The columns of columns.</param>
-        /// <param name="nzmax">The maximum number of non-zero elements.</param>
-        static void WriteMatrixTagAndName(BinaryWriter writer, ArrayClass arrayClass, bool isComplex,
-            string name, int rows, int columns, int nzmax)
-        {
-            writer.Write((int)DataType.Matrix);
-
-            // add place holder for data size
-            writer.Write(0);
-
-            // write flag, data type and size
-            writer.Write((int)DataType.UInt32);
-            writer.Write(8);
-
-            // write array class and flags
-            writer.Write((byte)arrayClass);
-            if (isComplex)
-            {
-                writer.Write((byte)ArrayFlags.Complex);
-            }
-            else
-            {
-                writer.Write((byte)0);
-            }
-
-            writer.Write((short)0);
-            writer.Write(nzmax);
-
-            // write dimensions
-            writer.Write((int)DataType.Int32);
-            writer.Write(8);
-            writer.Write(rows);
-            writer.Write(columns);
-
-            var nameBytes = Encoding.ASCII.GetBytes(name);
-
-            // write name
-            if (nameBytes.Length > 4)
-            {
-                writer.Write((int)DataType.Int8);
-                writer.Write(nameBytes.Length);
-                writer.Write(nameBytes);
-                var pad = 8 - (nameBytes.Length%8);
-                PadData(writer, pad);
-            }
-            else
-            {
-                writer.Write((short)DataType.Int8);
-                writer.Write((short)nameBytes.Length);
-                writer.Write(nameBytes);
-                PadData(writer, 4 - nameBytes.Length);
-            }
-        }
-
-        /// <summary>
-        /// Gets the dense data array.
-        /// </summary>
-        /// <param name="matrix">The matrix to get the data from.</param>
-        /// <param name="name">The name of the matrix.</param>
-        /// <returns>The matrix data as an array.</returns>
-        static MatlabMatrix GetDenseDataArray(Matrix<double> matrix, string name)
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
-            {
-                WriteMatrixTagAndName(writer, ArrayClass.Double, false, name, matrix.RowCount, matrix.ColumnCount, 0);
-
-                // write data
-                writer.Write((int)DataType.Double);
-                writer.Write(matrix.RowCount*matrix.ColumnCount*8);
-
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    var column = matrix.Column(j);
-                    foreach (var value in column)
-                    {
-                        writer.Write(value);
-                    }
-                }
-
-                writer.Flush();
-                return new MatlabMatrix(name, stream.ToArray());
-            }
-
-        }
-
-        /// <summary>
-        /// Gets the dense data array.
-        /// </summary>
-        /// <param name="matrix">The matrix to get the data from.</param>
-        /// <param name="name">The name of the matrix.</param>
-        /// <returns>The matrix data as an array.</returns>
-        static MatlabMatrix GetDenseDataArray(Matrix<float> matrix, string name)
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
-            {
-                WriteMatrixTagAndName(writer, ArrayClass.Single, false, name, matrix.RowCount, matrix.ColumnCount, 0);
-
-                // write data
-                int size = matrix.RowCount*matrix.ColumnCount*4;
-                writer.Write((int)DataType.Single);
-                writer.Write(size);
-
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    var column = matrix.Column(j);
-                    foreach (var value in column)
-                    {
-                        writer.Write(value);
-                    }
-                }
-
-                PadData(writer, size%8);
-
-                writer.Flush();
-                return new MatlabMatrix(name, stream.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Gets the dense data array.
-        /// </summary>
-        /// <param name="matrix">The matrix to get the data from.</param>
-        /// <param name="name">The name of the matrix.</param>
-        /// <returns>The matrix data as an array.</returns>
-        static MatlabMatrix GetDenseDataArray(Matrix<Complex> matrix, string name)
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
-            {
-                WriteMatrixTagAndName(writer, ArrayClass.Double, true, name, matrix.RowCount, matrix.ColumnCount, 0);
-
-                // write data
-                int size = matrix.RowCount*matrix.ColumnCount*8;
-                writer.Write((int)DataType.Double);
-                writer.Write(size);
-
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    var column = matrix.Column(j);
-                    foreach (var value in column)
-                    {
-                        writer.Write(value.Real);
-                    }
-                }
-
-                writer.Write((int)DataType.Double);
-                writer.Write(size);
-
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    var column = matrix.Column(j);
-                    foreach (var value in column)
-                    {
-                        writer.Write(value.Imaginary);
-                    }
-                }
-
-                writer.Flush();
-                return new MatlabMatrix(name, stream.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Gets the dense data array.
-        /// </summary>
-        /// <param name="matrix">The matrix to get the data from.</param>
-        /// <param name="name">The name of the matrix.</param>
-        /// <returns>The matrix data as an array.</returns>
-        static MatlabMatrix GetDenseDataArray(Matrix<Complex32> matrix, string name)
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
-            {
-                WriteMatrixTagAndName(writer, ArrayClass.Single, true, name, matrix.RowCount, matrix.ColumnCount, 0);
-
-                // write data
-                int size = matrix.RowCount*matrix.ColumnCount*4;
-                writer.Write((int)DataType.Single);
-                writer.Write(size);
-
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    var column = matrix.Column(j);
-                    foreach (var value in column)
-                    {
-                        writer.Write(value.Real);
-                    }
-                }
-
-                PadData(writer, size%8);
-
-                writer.Write((int)DataType.Single);
-                writer.Write(size);
-
-                for (var j = 0; j < matrix.ColumnCount; j++)
-                {
-                    var column = matrix.Column(j);
-                    foreach (var value in column)
-                    {
-                        writer.Write(value.Real);
-                    }
-                }
-
-                PadData(writer, size%8);
-
-                writer.Flush();
-                return new MatlabMatrix(name, stream.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Gets the sparse data array.
-        /// </summary>
-        /// <param name="matrix">The matrix to get the data from.</param>
-        /// <param name="name">The name of the matrix.</param>
-        /// <returns>The matrix data as an array.</returns>
-        static MatlabMatrix GetSparseDataArray(LinearAlgebra.Double.SparseMatrix matrix, string name)
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
-            {
-                var nzmax = matrix.NonZerosCount;
-                WriteMatrixTagAndName(writer, ArrayClass.Sparse, false, name, matrix.RowCount, matrix.ColumnCount, nzmax);
-
-                // write ir
-                writer.Write((int)DataType.Int32);
-                writer.Write(nzmax*4);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item1);
-                    }
-                }
-
-                // add pad if needed
-                if (nzmax%2 == 1)
-                {
-                    writer.Write(0);
-                }
-
-                // write jc
-                writer.Write((int)DataType.Int32);
-                writer.Write((matrix.ColumnCount + 1)*4);
-                writer.Write(0);
-                var count = 0;
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    count += ((SparseVectorStorage<double>)column.Storage).ValueCount;
-                    writer.Write(count);
-                }
-
-                // add pad if needed
-                if (matrix.ColumnCount%2 == 0)
-                {
-                    writer.Write(0);
-                }
-
-                // write data
-                writer.Write((int)DataType.Double);
-                writer.Write(nzmax*8);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item2);
-                    }
-                }
-
-                writer.Flush();
-                return new MatlabMatrix(name, stream.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Gets the sparse data array.
-        /// </summary>
-        /// <param name="matrix">The matrix to get the data from.</param>
-        /// <param name="name">The name of the matrix.</param>
-        /// <returns>The matrix data as an array.</returns>
-        static MatlabMatrix GetSparseDataArray(LinearAlgebra.Single.SparseMatrix matrix, string name)
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
-            {
-                var nzmax = matrix.NonZerosCount;
-                WriteMatrixTagAndName(writer, ArrayClass.Sparse, false, name, matrix.RowCount, matrix.ColumnCount,
-                    nzmax);
-
-                // write ir
-                writer.Write((int)DataType.Int32);
-                writer.Write(nzmax*4);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item1);
-                    }
-                }
-
-                // add pad if needed
-                if (nzmax%2 == 1)
-                {
-                    writer.Write(0);
-                }
-
-                // write jc
-                writer.Write((int)DataType.Int32);
-                writer.Write((matrix.ColumnCount + 1)*4);
-                writer.Write(0);
-                var count = 0;
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    count += ((SparseVectorStorage<float>)column.Storage).ValueCount;
-                    writer.Write(count);
-                }
-
-                // add pad if needed
-                if (matrix.ColumnCount%2 == 0)
-                {
-                    writer.Write(0);
-                }
-
-                // write data
-                writer.Write((int)DataType.Single);
-                writer.Write(nzmax*4);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item2);
-                    }
-                }
-
-                var pad = nzmax*4%8;
-                PadData(writer, pad);
-
-                writer.Flush();
-                return new MatlabMatrix(name, stream.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Gets the sparse data array.
-        /// </summary>
-        /// <param name="matrix">The matrix to get the data from.</param>
-        /// <param name="name">The name of the matrix.</param>
-        /// <returns>The matrix data as an array.</returns>
-        static MatlabMatrix GetSparseDataArray(LinearAlgebra.Complex.SparseMatrix matrix, string name)
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
-            {
-                var nzmax = matrix.NonZerosCount;
-                WriteMatrixTagAndName(writer, ArrayClass.Sparse, true, name, matrix.RowCount, matrix.ColumnCount,
-                    nzmax);
-
-                // write ir
-                writer.Write((int)DataType.Int32);
-                writer.Write(nzmax*4);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item1);
-                    }
-                }
-
-                // add pad if needed
-                if (nzmax%2 == 1)
-                {
-                    writer.Write(0);
-                }
-
-                // write jc
-                writer.Write((int)DataType.Int32);
-                writer.Write((matrix.ColumnCount + 1)*4);
-                writer.Write(0);
-                var count = 0;
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    count += ((SparseVectorStorage<Complex>)column.Storage).ValueCount;
-                    writer.Write(count);
-                }
-
-                // add pad if needed
-                if (matrix.ColumnCount%2 == 0)
-                {
-                    writer.Write(0);
-                }
-
-                // write data
-                writer.Write((int)DataType.Double);
-                writer.Write(nzmax*8);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item2.Real);
-                    }
-                }
-
-                writer.Write((int)DataType.Double);
-                writer.Write(nzmax*8);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item2.Imaginary);
-                    }
-                }
-
-                writer.Flush();
-                return new MatlabMatrix(name, stream.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Gets the sparse data array.
-        /// </summary>
-        /// <param name="matrix">The matrix to get the data from.</param>
-        /// <param name="name">The name of the matrix.</param>
-        /// <returns>The matrix data as an array.</returns>
-        static MatlabMatrix GetSparseDataArray(LinearAlgebra.Complex32.SparseMatrix matrix, string name)
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new BinaryWriter(stream))
-            {
-                var nzmax = matrix.NonZerosCount;
-                WriteMatrixTagAndName(writer, ArrayClass.Sparse, true, name, matrix.RowCount, matrix.ColumnCount,
-                    nzmax);
-
-                // write ir
-                writer.Write((int)DataType.Int32);
-                writer.Write(nzmax*4);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item1);
-                    }
-                }
-
-                // add pad if needed
-                if (nzmax%2 == 1)
-                {
-                    writer.Write(0);
-                }
-
-                // write jc
-                writer.Write((int)DataType.Int32);
-                writer.Write((matrix.ColumnCount + 1)*4);
-                writer.Write(0);
-                var count = 0;
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    count += ((SparseVectorStorage<Complex32>)column.Storage).ValueCount;
-                    writer.Write(count);
-                }
-
-                // add pad if needed
-                if (matrix.ColumnCount%2 == 0)
-                {
-                    writer.Write(0);
-                }
-
-                // write data
-                writer.Write((int)DataType.Single);
-                writer.Write(nzmax*4);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item2.Real);
-                    }
-                }
-
-                var pad = nzmax*4%8;
-                PadData(writer, pad);
-
-                writer.Write((int)DataType.Single);
-                writer.Write(nzmax*4);
-
-                foreach (var column in matrix.EnumerateColumns())
-                {
-                    foreach (var row in column.EnumerateNonZeroIndexed())
-                    {
-                        writer.Write(row.Item2.Imaginary);
-                    }
-                }
-
-                PadData(writer, pad);
-
-                writer.Flush();
-                return new MatlabMatrix(name, stream.ToArray());
-            }
-        }
-
-        /// <summary>
-        /// Writes the file header.
-        /// </summary>
-        static void WriteHeader(BinaryWriter writer)
-        {
-            var header = Encoding.ASCII.GetBytes(HeaderText + DateTime.Now.ToString(Resources.MatlabDateHeaderFormat));
-            writer.Write(header);
-            PadData(writer, HeaderTextLength - header.Length + 8, 32);
-
-            // write version
-            writer.Write((short)0x100);
-
-            // write little endian indicator
-            writer.Write((byte)0x49);
-            writer.Write((byte)0x4D);
         }
 
         /// <summary>
@@ -684,41 +230,22 @@ namespace MathNet.Numerics.Data.Matlab
         }
 
         /// <summary>
-        /// Writes the compressed data.
+        /// Packs a compressed block
         /// </summary>
-        /// <param name="data">The data to write.</param>
-        static void WriteCompressedData(BinaryWriter writer, byte[] data)
-        {
-            // fill in data size
-            var size = BitConverter.GetBytes(data.Length);
-            data[4] = size[0];
-            data[5] = size[1];
-            data[6] = size[2];
-            data[7] = size[3];
-
-            // compress data
-            var compressedData = CompressData(data);
-
-            // write compressed data to file
-            writer.Write(compressedData.Length);
-            writer.Write(compressedData);
-        }
-
-        /// <summary>
-        /// Compresses the data array.
-        /// </summary>
-        /// <param name="data">The data to compress.</param>
-        /// <returns>The compressed data.</returns>
-        static byte[] CompressData(byte[] data)
+        static byte[] PackCompressedBlock(byte[] data, DataType dataType)
         {
             var adler = BitConverter.GetBytes(Adler32.Compute(data));
             using (var compressedStream = new MemoryStream())
             {
                 compressedStream.WriteByte(0x58);
                 compressedStream.WriteByte(0x85);
+
                 using (var outputStream = new DeflateStream(compressedStream, CompressionMode.Compress, true))
                 {
+                    outputStream.Write(BitConverter.GetBytes((int)dataType), 0, 4);
+                    outputStream.Write(BitConverter.GetBytes(data.Length), 0, 4);
                     outputStream.Write(data, 0, data.Length);
+                    outputStream.Flush();
                 }
 
                 compressedStream.WriteByte(adler[3]);

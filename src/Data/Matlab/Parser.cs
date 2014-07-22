@@ -32,8 +32,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Numerics;
 using System.Text;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Data.Matlab
@@ -43,11 +45,6 @@ namespace MathNet.Numerics.Data.Matlab
     /// </summary>
     internal static class Parser
     {
-        /// <summary>
-        /// Large Block Size
-        /// </summary>
-        const int LargeBlockSize = 8;
-
         /// <summary>
         /// Little Endian Indicator
         /// </summary>
@@ -59,74 +56,9 @@ namespace MathNet.Numerics.Data.Matlab
         const int SmallBlockSize = 4;
 
         /// <summary>
-        /// Parse a matrix block byte array
+        /// Large Block Size
         /// </summary>
-        internal static Matrix<T> ParseMatrix<T>(byte[] data)
-            where T : struct, IEquatable<T>, IFormattable
-        {
-            using (var stream = new MemoryStream(data))
-            using (var reader = new BinaryReader(stream))
-            {
-                // skip tag - doesn't tell us anything we don't already know
-                reader.BaseStream.Seek(8, SeekOrigin.Current);
-
-                var arrayClass = (ArrayClass)reader.ReadByte();
-                var flags = reader.ReadByte();
-                var isComplex = (flags & (byte)ArrayFlags.Complex) == (byte)ArrayFlags.Complex;
-
-                // skip unneeded bytes
-                reader.BaseStream.Seek(10, SeekOrigin.Current);
-
-                var numDimensions = reader.ReadInt32()/8;
-                if (numDimensions > 2)
-                {
-                    throw new NotSupportedException(Resources.MoreThan2D);
-                }
-
-                var rows = reader.ReadInt32();
-                var columns = reader.ReadInt32();
-
-                // skip name and unneeded bytes
-                reader.BaseStream.Seek(2, SeekOrigin.Current);
-                int size = reader.ReadInt16();
-                var smallBlock = true;
-                if (size == 0)
-                {
-                    size = reader.ReadInt32();
-                    smallBlock = false;
-                }
-
-                reader.BaseStream.Seek(size, SeekOrigin.Current);
-                AlignData(reader.BaseStream, size, smallBlock);
-
-                var type = (DataType)reader.ReadInt16();
-                size = reader.ReadInt16();
-                if (size == 0)
-                {
-                    size = reader.ReadInt32();
-                }
-
-                Matrix<T> matrix;
-                switch (arrayClass)
-                {
-                    case ArrayClass.Sparse:
-                        matrix = SparseArrayReader<T>.PopulateSparseMatrix(reader, isComplex, rows, columns, size);
-                        break;
-                    case ArrayClass.Function:
-                    case ArrayClass.Character:
-                    case ArrayClass.Object:
-                    case ArrayClass.Structure:
-                    case ArrayClass.Cell:
-                    case ArrayClass.Unknown:
-                        throw new NotSupportedException();
-                    default:
-                        matrix = NumericArrayReader<T>.PopulateDenseMatrix(type, reader, isComplex, rows, columns, size);
-                        break;
-                }
-
-                return matrix;
-            }
-        }
+        const int LargeBlockSize = 8;
 
         /// <summary>
         /// Extracts all matrix blocks in a format we support from a stream.
@@ -137,38 +69,44 @@ namespace MathNet.Numerics.Data.Matlab
 
             using (var reader = new BinaryReader(stream))
             {
+                // skip header (116 bytes)
+                // skip subsystem data offset (8 bytes)
+                // skip version (2 bytes)
                 reader.BaseStream.Position = 126;
+
+                // endian indicator (2 bytes)
                 if (reader.ReadByte() != LittleEndianIndicator)
                 {
                     throw new NotSupportedException(Resources.BigEndianNotSupported);
                 }
 
-                // skip version since it is always 0x0100.
+                // set position to first data element, right after full file header (128 bytes)
                 reader.BaseStream.Position = 128;
                 var length = stream.Length;
 
-                // for each data block add a MATLAB object to the file.
+                // for each data element add a MATLAB object to the file.
                 while (reader.BaseStream.Position < length)
                 {
-                    var type = (DataType)reader.ReadInt16();
-                    int size = reader.ReadInt16();
-                    var smallBlock = true;
-                    if (size == 0)
-                    {
-                        size = reader.ReadInt32();
-                        smallBlock = false;
-                    }
+                    // small format: size (2 bytes), type (2 bytes), data (4 bytes)
+                    // long format: type (4 bytes), size (4 bytes), data (size, aligned to 8 bytes)
 
+                    DataType type;
+                    int size;
+                    bool smallBlock;
+                    ReadElementTag(reader, out type, out size, out smallBlock);
+
+                    // read element data of the size provided in the element header
+                    // uncompress if compressed
                     byte[] data;
                     if (type == DataType.Compressed)
                     {
-                        data = DecompressBlock(reader.ReadBytes(size), out type);
+                        data = UnpackCompressedBlock(reader.ReadBytes(size), out type);
                     }
                     else
                     {
                         data = new byte[size];
                         reader.Read(data, 0, size);
-                        AlignData(reader.BaseStream, size, smallBlock);
+                        SkipElementPadding(reader.BaseStream, size, smallBlock);
                     }
 
                     if (type == DataType.Matrix)
@@ -202,12 +140,330 @@ namespace MathNet.Numerics.Data.Matlab
         }
 
         /// <summary>
-        /// Aligns the data.
+        /// Parse a matrix block byte array
         /// </summary>
-        /// <param name="stream">The stream.</param>
-        /// <param name="size">The size of the array.</param>
-        /// <param name="smallBlock">if set to <c>true</c> if reading from a small block.</param>
-        internal static void AlignData(Stream stream, int size, bool smallBlock)
+        internal static Matrix<T> ParseMatrix<T>(byte[] data)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            using (var stream = new MemoryStream(data))
+            using (var reader = new BinaryReader(stream))
+            {
+                // Array Flags tag (8 bytes)
+                reader.BaseStream.Seek(8, SeekOrigin.Current);
+
+                // Array Flags data: flags (byte 3), class (byte 4) (8 bytes)
+                var arrayClass = (ArrayClass)reader.ReadByte();
+                var flags = reader.ReadByte();
+                var complex = (flags & (byte)ArrayFlags.Complex) == (byte)ArrayFlags.Complex;
+                reader.BaseStream.Seek(6, SeekOrigin.Current);
+
+                // Dimensions Array tag (8 bytes)
+                reader.BaseStream.Seek(4, SeekOrigin.Current);
+                var numDimensions = reader.ReadInt32()/8;
+                if (numDimensions > 2)
+                {
+                    throw new NotSupportedException(Resources.MoreThan2D);
+                }
+
+                // Dimensions Array data: row and column count (8 bytes)
+                var rows = reader.ReadInt32();
+                var columns = reader.ReadInt32();
+
+                // Array name
+                DataType type;
+                int size;
+                bool smallBlock;
+                ReadElementTag(reader, out type, out size, out smallBlock);
+                reader.BaseStream.Seek(size, SeekOrigin.Current);
+                SkipElementPadding(reader.BaseStream, size, smallBlock);
+
+                Matrix<T> matrix;
+                switch (arrayClass)
+                {
+                    case ArrayClass.Sparse:
+                        matrix = PopulateSparseMatrix<T>(reader, complex, rows, columns);
+                        break;
+                    case ArrayClass.Function:
+                    case ArrayClass.Character:
+                    case ArrayClass.Object:
+                    case ArrayClass.Structure:
+                    case ArrayClass.Cell:
+                    case ArrayClass.Unknown:
+                        throw new NotSupportedException();
+                    default:
+                        matrix = PopulateDenseMatrix<T>(reader, complex, rows, columns);
+                        break;
+                }
+
+                return matrix;
+            }
+        }
+
+        /// <summary>
+        /// Populates a dense matrix.
+        /// </summary>
+        /// <param name="reader">The reader to read from.</param>
+        /// <param name="complex">if set to <c>true</c> if the MATLAB complex flag is set.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <returns>Returns a populated dense matrix.</returns>
+        static Matrix<T> PopulateDenseMatrix<T>(BinaryReader reader, bool complex, int rows, int columns)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            var dataType = typeof(T);
+            var count = rows*columns;
+            var data = new T[count];
+
+            DataType type;
+            int size;
+            bool smallBlock;
+
+            // read real part array
+            ReadElementTag(reader, out type, out size, out smallBlock);
+
+            // direct copy if possible
+            if (type == DataType.Double && dataType == typeof(double) || type == DataType.Single && dataType == typeof(float))
+            {
+                Buffer.BlockCopy(reader.ReadBytes(size), 0, data, 0, size);
+            }
+            else if (dataType == typeof(double))
+            {
+                if (complex)
+                {
+                    throw new ArgumentException("Invalid TDataType. Matrix is stored as a complex matrix, but a real data type was given.");
+                }
+
+                PopulateDoubleArray(reader, (double[])(object)data, type);
+            }
+            else if (dataType == typeof(float))
+            {
+                if (complex)
+                {
+                    throw new ArgumentException("Invalid TDataType. Matrix is stored as a complex matrix, but a real data type was given.");
+                }
+
+                PopulateSingleArray(reader, (float[])(object)data, type);
+            }
+            else if (dataType == typeof(Complex))
+            {
+                PopulateComplexArray(reader, (Complex[])(object)data, complex, type, ref size, ref smallBlock);
+            }
+            else if (dataType == typeof(Complex32))
+            {
+                PopulateComplex32Array(reader, (Complex32[])(object)data, complex, type, ref size, ref smallBlock);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+            SkipElementPadding(reader.BaseStream, size, smallBlock);
+            return Matrix<T>.Build.Dense(rows, columns, data);
+        }
+
+        /// <summary>
+        /// Populates a sparse matrix.
+        /// </summary>
+        /// <param name="reader">The reader.</param>
+        /// <param name="complex">if set to <c>true</c> if the MATLAB complex flag is set.</param>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <returns>A populated sparse matrix.</returns>
+        static Matrix<T> PopulateSparseMatrix<T>(BinaryReader reader, bool complex, int rows, int columns)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            // Create matrix with CSR storage.
+            var matrix = Matrix<T>.Build.Sparse(columns, rows);
+
+            // MATLAB sparse matrices are actually stored as CSC, so just read the data and then transpose.
+            var storage = matrix.Storage as SparseCompressedRowMatrixStorage<T>;
+
+            DataType type;
+            int size;
+            bool smallBlock;
+
+            // populate the row data array
+            ReadElementTag(reader, out type, out size, out smallBlock);
+            var ir = storage.ColumnIndices = new int[size/4];
+            for (var i = 0; i < ir.Length; i++)
+            {
+                ir[i] = reader.ReadInt32();
+            }
+
+            SkipElementPadding(reader.BaseStream, size, smallBlock);
+
+            // populate the column data array
+            ReadElementTag(reader, out type, out size, out smallBlock);
+            var jc = storage.RowPointers;
+            if (jc.Length != size/4)
+            {
+                throw new Exception("invalid jcsize");
+            }
+
+            for (var j = 0; j < jc.Length; j++)
+            {
+                jc[j] = reader.ReadInt32();
+            }
+
+            SkipElementPadding(reader.BaseStream, size, smallBlock);
+
+            // populate the values
+            ReadElementTag(reader, out type, out size, out smallBlock);
+            var dataType = typeof(T);
+            var data = storage.Values = new T[jc[columns]];
+
+            if (dataType == typeof(double))
+            {
+                if (complex)
+                {
+                    throw new ArgumentException("Invalid TDataType. Matrix is stored as a complex matrix, but a real data type was given.");
+                }
+
+                PopulateDoubleArray(reader, (double[])(object)data, type);
+            }
+            else if (dataType == typeof(float))
+            {
+                if (complex)
+                {
+                    throw new ArgumentException("Invalid TDataType. Matrix is stored as a complex matrix, but a real data type was given.");
+                }
+
+                PopulateSingleArray(reader, (float[])(object)data, type);
+            }
+            else if (dataType == typeof(Complex))
+            {
+                PopulateComplexArray(reader, (Complex[])(object)data, complex, type, ref size, ref smallBlock);
+            }
+            else if (dataType == typeof(Complex32))
+            {
+                PopulateComplex32Array(reader, (Complex32[])(object)data, complex, type, ref size, ref smallBlock);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
+
+            SkipElementPadding(reader.BaseStream, size, smallBlock);
+            return matrix.Transpose();
+        }
+
+        /// <summary>
+        /// Populates the double dense matrix.
+        /// </summary>
+        static void PopulateDoubleArray(BinaryReader reader, double[] data, DataType type)
+        {
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = ReadDoubleValue(reader, type);
+            }
+        }
+
+        /// <summary>
+        /// Populates the float dense matrix.
+        /// </summary>
+        static void PopulateSingleArray(BinaryReader reader, float[] data, DataType type)
+        {
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = (float)ReadDoubleValue(reader, type);
+            }
+        }
+
+        /// <summary>
+        /// Populates the complex dense matrix.
+        /// </summary>
+        static void PopulateComplexArray(BinaryReader reader, Complex[] data, bool complex, DataType type, ref int size, ref bool smallBlock)
+        {
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = ReadDoubleValue(reader, type);
+            }
+
+            if (complex)
+            {
+                SkipElementPadding(reader.BaseStream, size, smallBlock);
+                ReadElementTag(reader, out type, out size, out smallBlock);
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = new Complex(data[i].Real, ReadDoubleValue(reader, type));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Populates the complex32 dense matrix.
+        /// </summary>
+        static void PopulateComplex32Array(BinaryReader reader, Complex32[] data, bool complex, DataType type, ref int size, ref bool smallBlock)
+        {
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = (float)ReadDoubleValue(reader, type);
+            }
+
+            if (complex)
+            {
+                SkipElementPadding(reader.BaseStream, size, smallBlock);
+                ReadElementTag(reader, out type, out size, out smallBlock);
+
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = new Complex32(data[i].Real, (float)ReadDoubleValue(reader, type));
+                }
+            }
+        }
+
+        static double ReadDoubleValue(BinaryReader reader, DataType type)
+        {
+            switch (type)
+            {
+                case DataType.Double:
+                    return reader.ReadDouble();
+                case DataType.Int8:
+                    return reader.ReadSByte();
+                case DataType.UInt8:
+                    return reader.ReadByte();
+                case DataType.Int16:
+                    return reader.ReadInt16();
+                case DataType.UInt16:
+                    return reader.ReadUInt16();
+                case DataType.Int32:
+                    return reader.ReadInt32();
+                case DataType.UInt32:
+                    return reader.ReadUInt32();
+                case DataType.Single:
+                    return reader.ReadSingle();
+                case DataType.Int64:
+                    return reader.ReadInt64();
+                case DataType.UInt64:
+                    return reader.ReadUInt64();
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        static void ReadElementTag(BinaryReader reader, out DataType dataType, out int size, out bool smallBlock)
+        {
+            // assume small format
+            smallBlock = true;
+
+            // small type (2 bytes)
+            dataType = (DataType)reader.ReadInt16();
+
+            // small size (2 bytes)
+            size = reader.ReadInt16();
+
+            if (size == 0)
+            {
+                // long format detected
+                smallBlock = false;
+
+                // long size (4 bytes)
+                size = reader.ReadInt32();
+            }
+        }
+
+        static void SkipElementPadding(Stream stream, int size, bool smallBlock)
         {
             var blockSize = smallBlock ? SmallBlockSize : LargeBlockSize;
             var offset = 0;
@@ -221,19 +477,22 @@ namespace MathNet.Numerics.Data.Matlab
         }
 
         /// <summary>
-        /// Decompresses the block.
+        /// Unpacks a compressed block.
         /// </summary>
         /// <param name="compressed">The compressed data.</param>
         /// <param name="type">The type data type contained in the block.</param>
         /// <returns>The decompressed block.</returns>
-        static byte[] DecompressBlock(byte[] compressed, out DataType type)
+        static byte[] UnpackCompressedBlock(byte[] compressed, out DataType type)
         {
             byte[] data;
-            using (var compressedStream = new MemoryStream(compressed, 2, compressed.Length - 6))
-            using (var decompressor = new DeflateStream(compressedStream, CompressionMode.Decompress))
             using (var decompressed = new MemoryStream())
             {
-                decompressor.CopyTo(decompressed);
+                using (var compressedStream = new MemoryStream(compressed, 2, compressed.Length - 6))
+                using (var decompressor = new DeflateStream(compressedStream, CompressionMode.Decompress))
+                {
+                    decompressor.CopyTo(decompressed);
+                }
+
                 decompressed.Position = 0;
                 var buf = new byte[4];
                 decompressed.Read(buf, 0, 4);
