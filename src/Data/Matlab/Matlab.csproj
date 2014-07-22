@@ -53,13 +53,11 @@
     <Compile Include="ArrayFlags.cs" />
     <Compile Include="MatlabMatrix.cs" />
     <Compile Include="Formatter.cs" />
-    <Compile Include="NumericArrayFormatter.cs" />
     <Compile Include="DataType.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="MatlabReader.cs" />
     <Compile Include="MatlabWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SparseArrayFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

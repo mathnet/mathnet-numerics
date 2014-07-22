@@ -51,6 +51,54 @@ namespace MathNet.Numerics.Data.Matlab
         const string HeaderText = "MATLAB 5.0 MAT-file, Platform: .NET 4 - Math.NET Numerics, Created on: ";
 
         /// <summary>
+        /// Small Block Size
+        /// </summary>
+        const int SmallBlockSize = 4;
+
+        /// <summary>
+        /// Large Block Size
+        /// </summary>
+        const int LargeBlockSize = 8;
+
+        /// <summary>
+        /// Writes all matrix blocks to a stream.
+        /// </summary>
+        internal static void FormatFile(Stream stream, IEnumerable<MatlabMatrix> matrices)
+        {
+            using (var buffer = new BufferedStream(stream))
+            using (var writer = new BinaryWriter(buffer))
+            {
+                // write header and subsystem data offset (116+8 bytes)
+                var header = Encoding.ASCII.GetBytes(HeaderText + DateTime.Now.ToString(Resources.MatlabDateHeaderFormat));
+                writer.Write(header);
+                Pad(writer, 116 - header.Length + 8, 32);
+
+                // write version (2 bytes)
+                writer.Write((short)0x100);
+
+                // write little endian indicator (2 bytes)
+                writer.Write((byte)0x49);
+                writer.Write((byte)0x4D);
+
+                foreach (var matrix in matrices)
+                {
+                    // write data type
+                    writer.Write((int)DataType.Compressed);
+
+                    // compress data
+                    var compressedData = PackCompressedBlock(matrix.Data, DataType.Matrix);
+
+                    // write compressed data to file
+                    writer.Write(compressedData.Length);
+                    writer.Write(compressedData);
+                }
+
+                writer.Flush();
+                writer.Close();
+            }
+        }
+
+        /// <summary>
         /// Format a matrix block byte array
         /// </summary>
         internal static MatlabMatrix FormatMatrix<T>(Matrix<T> matrix, string name)
@@ -71,10 +119,36 @@ namespace MathNet.Numerics.Data.Matlab
                 throw new ArgumentException(string.Format(Resources.NameCannotContainASpace, name), "name");
             }
 
-            var typeT = typeof (T);
-            bool sparse = matrix.Storage.GetType().GetGenericTypeDefinition() == typeof (SparseCompressedRowMatrixStorage<>);
-            bool doublePrecision = typeT == typeof (double) || typeT == typeof (Complex);
-            bool complex = typeT == typeof (Complex) || typeT == typeof (Complex32);
+            var dataType = typeof(T);
+            bool doublePrecision = dataType == typeof(double) || dataType == typeof(Complex);
+            bool complex = dataType == typeof(Complex) || dataType == typeof(Complex32);
+
+            bool sparse;
+            Type storageType = matrix.Storage.GetType().GetGenericTypeDefinition();
+            if (storageType == typeof (DenseColumnMajorMatrixStorage<>))
+            {
+                sparse = false;
+            }
+            else if (storageType == typeof (SparseCompressedRowMatrixStorage<>))
+            {
+                sparse = true;
+            }
+            else if (storageType == typeof (DiagonalMatrixStorage<>))
+            {
+                // convert diagonal matrices to sparse
+                sparse = true;
+                var sparseMatrix = Matrix<T>.Build.Sparse(matrix.RowCount, matrix.ColumnCount);
+                matrix.CopyTo(sparseMatrix);
+                matrix = sparseMatrix;
+            }
+            else
+            {
+                // convert unknown matrices to dense
+                sparse = false;
+                var denseMatrix = Matrix<T>.Build.Dense(matrix.RowCount, matrix.ColumnCount);
+                matrix.CopyTo(denseMatrix);
+                matrix = denseMatrix;
+            }
 
             int sparseNonZeroValues = 0;
             if (sparse)
@@ -105,71 +179,19 @@ namespace MathNet.Numerics.Data.Matlab
                 writer.Write(matrix.ColumnCount);
 
                 // Array Name:
+                bool smallBlock;
                 var nameBytes = Encoding.ASCII.GetBytes(name);
-                if (nameBytes.Length > 4)
-                {
-                    // long format
-                    writer.Write((int)DataType.Int8);
-                    writer.Write(nameBytes.Length);
-                    writer.Write(nameBytes);
-                    PadData(writer, 8 - (nameBytes.Length%8));
-                }
-                else
-                {
-                    // small format
-                    writer.Write((short)DataType.Int8);
-                    writer.Write((short)nameBytes.Length);
-                    writer.Write(nameBytes);
-                    PadData(writer, 4 - nameBytes.Length);
-                }
+                WriteElementTag(writer, DataType.Int8, nameBytes.Length, out smallBlock);
+                writer.Write(nameBytes);
+                PadElement(writer, nameBytes.Length, smallBlock);
 
-                if (doublePrecision && !complex)
+                if (sparse)
                 {
-                    var sparseMatrix = matrix as LinearAlgebra.Double.SparseMatrix;
-                    if (sparseMatrix != null)
-                    {
-                        SparseArrayFormatter.Write(writer, sparseMatrix);
-                    }
-                    else
-                    {
-                        NumericArrayFormatter.Write(writer, (LinearAlgebra.Double.Matrix)(object)matrix);
-                    }
-                }
-                else if (!doublePrecision && !complex)
-                {
-                    var sparseMatrix = matrix as LinearAlgebra.Single.SparseMatrix;
-                    if (sparseMatrix != null)
-                    {
-                        SparseArrayFormatter.Write(writer, sparseMatrix);
-                    }
-                    else
-                    {
-                        NumericArrayFormatter.Write(writer, (LinearAlgebra.Single.Matrix)(object)matrix);
-                    }
-                }
-                else if (doublePrecision)
-                {
-                    var sparseMatrix = matrix as LinearAlgebra.Complex.SparseMatrix;
-                    if (sparseMatrix != null)
-                    {
-                        SparseArrayFormatter.Write(writer, sparseMatrix);
-                    }
-                    else
-                    {
-                        NumericArrayFormatter.Write(writer, (LinearAlgebra.Complex.Matrix)(object)matrix);
-                    }
+                    WriteSparseMatrix(writer, matrix, complex, doublePrecision);
                 }
                 else
                 {
-                    var sparseMatrix = matrix as LinearAlgebra.Complex32.SparseMatrix;
-                    if (sparseMatrix != null)
-                    {
-                        SparseArrayFormatter.Write(writer, sparseMatrix);
-                    }
-                    else
-                    {
-                        NumericArrayFormatter.Write(writer, (LinearAlgebra.Complex32.Matrix)(object)matrix);
-                    }
+                    WriteDenseMatrix(writer, matrix, complex, doublePrecision);
                 }
 
                 writer.Flush();
@@ -177,55 +199,177 @@ namespace MathNet.Numerics.Data.Matlab
             }
         }
 
-        /// <summary>
-        /// Writes all matrix blocks to a stream.
-        /// </summary>
-        internal static void FormatFile(Stream stream, IEnumerable<MatlabMatrix> matrices)
+        static void WriteDenseMatrix<T>(BinaryWriter writer, Matrix<T> matrix, bool complex, bool doublePrecision)
+            where T : struct, IEquatable<T>, IFormattable
         {
-            using (var buffer = new BufferedStream(stream))
-            using (var writer = new BinaryWriter(buffer))
+            int count = matrix.RowCount*matrix.ColumnCount;
+
+            bool smallBlock;
+            int size = doublePrecision ? count*8 : count*4;
+            WriteElementTag(writer, doublePrecision ? DataType.Double : DataType.Single, size, out smallBlock);
+
+            var data = ((DenseColumnMajorMatrixStorage<T>)matrix.Storage).Data;
+
+            if (doublePrecision && !complex)
             {
-                // write header and subsystem data offset (all space)
-                var header = Encoding.ASCII.GetBytes(HeaderText + DateTime.Now.ToString(Resources.MatlabDateHeaderFormat));
-                writer.Write(header);
-                PadData(writer, 116 - header.Length + 8, 32);
+                WriteDoubleArray(writer, (double[])(object)data, data.Length);
+            }
+            else if (!doublePrecision && !complex)
+            {
+                WriteSingleArray(writer, (float[])(object)data, data.Length);
+            }
+            else if (doublePrecision)
+            {
+                WriteComplexArray(writer, (Complex[])(object)data, data.Length, size, ref smallBlock);
+            }
+            else
+            {
+                WriteComplex32Array(writer, (Complex32[])(object)data, data.Length, size, ref smallBlock);
+            }
 
-                // write version
-                writer.Write((short)0x100);
+            PadElement(writer, size, smallBlock);
+        }
 
-                // write little endian indicator
-                writer.Write((byte)0x49);
-                writer.Write((byte)0x4D);
+        static void WriteSparseMatrix<T>(BinaryWriter writer, Matrix<T> matrix, bool complex, bool doublePrecision)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            var transposed = matrix.Transpose();
+            var storage = ((SparseCompressedRowMatrixStorage<T>)transposed.Storage);
 
-                foreach (var matrix in matrices)
-                {
-                    // write data type
-                    writer.Write((int)DataType.Compressed);
+            bool smallBlock;
+            int nzcount = storage.ValueCount;
 
-                    // compress data
-                    var compressedData = PackCompressedBlock(matrix.Data, DataType.Matrix);
+            // row data array
+            var ir = storage.ColumnIndices;
+            WriteElementTag(writer, DataType.Int32, nzcount*4, out smallBlock);
+            for (var i = 0; i < nzcount; i++)
+            {
+                writer.Write(ir[i]);
+            }
 
-                    // write compressed data to file
-                    writer.Write(compressedData.Length);
-                    writer.Write(compressedData);
-                }
+            PadElement(writer, nzcount*4, smallBlock);
 
-                writer.Flush();
-                writer.Close();
+            // column data array
+            var jc = storage.RowPointers;
+            WriteElementTag(writer, DataType.Int32, jc.Length*4, out smallBlock);
+            for (var i = 0; i < jc.Length; i++)
+            {
+                writer.Write(jc[i]);
+            }
+
+            PadElement(writer, jc.Length*4, smallBlock);
+
+            // values
+            int size = doublePrecision ? nzcount*8 : nzcount*4;
+            WriteElementTag(writer, doublePrecision ? DataType.Double : DataType.Single, size, out smallBlock);
+
+            if (doublePrecision && !complex)
+            {
+                WriteDoubleArray(writer, (double[])(object)storage.Values, nzcount);
+            }
+            else if (!doublePrecision && !complex)
+            {
+                WriteSingleArray(writer, (float[])(object)storage.Values, nzcount);
+            }
+            else if (doublePrecision)
+            {
+                WriteComplexArray(writer, (Complex[])(object)storage.Values, nzcount, size, ref smallBlock);
+            }
+            else
+            {
+                WriteComplex32Array(writer, (Complex32[])(object)storage.Values, nzcount, size, ref smallBlock);
+            }
+
+            PadElement(writer, size, smallBlock);
+        }
+
+        static void WriteDoubleArray(BinaryWriter writer, double[] data, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                writer.Write(data[i]);
             }
         }
 
-        /// <summary>
-        /// Pads the data with the given byte.
-        /// </summary>
-        /// <param name="writer">Where to write the pad values.</param>
-        /// <param name="bytes">The number of bytes to pad.</param>
-        /// <param name="pad">What value to pad with.</param>
-        static void PadData(BinaryWriter writer, int bytes, byte pad = (byte)0)
+        static void WriteSingleArray(BinaryWriter writer, float[] data, int count)
         {
-            for (var i = 0; i < bytes; i++)
+            for (int i = 0; i < count; i++)
             {
-                writer.Write(pad);
+                writer.Write(data[i]);
+            }
+        }
+
+        static void WriteComplexArray(BinaryWriter writer, Complex[] data, int count, int size, ref bool smallBlock)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                writer.Write(data[i].Real);
+            }
+
+            PadElement(writer, size, smallBlock);
+            WriteElementTag(writer, DataType.Double, size, out smallBlock);
+
+            for (int i = 0; i < count; i++)
+            {
+                writer.Write(data[i].Imaginary);
+            }
+        }
+
+        static void WriteComplex32Array(BinaryWriter writer, Complex32[] data, int count, int size, ref bool smallBlock)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                writer.Write(data[i].Real);
+            }
+
+            PadElement(writer, size, smallBlock);
+            WriteElementTag(writer, DataType.Single, size, out smallBlock);
+
+            for (int i = 0; i < count; i++)
+            {
+                writer.Write(data[i].Imaginary);
+            }
+        }
+
+        static void WriteElementTag(BinaryWriter writer, DataType dataType, int size, out bool smallBlock)
+        {
+            if (size > 4)
+            {
+                // long format
+                smallBlock = false;
+                writer.Write((int)dataType);
+                writer.Write(size);
+            }
+            else
+            {
+                // small format
+                smallBlock = true;
+                writer.Write((short)dataType);
+                writer.Write((short)size);
+            }
+        }
+
+        static void PadElement(BinaryWriter writer, int size, bool smallBlock, byte padValue = (byte)0)
+        {
+            var blockSize = smallBlock ? SmallBlockSize : LargeBlockSize;
+            var offset = 0;
+            var mod = size%blockSize;
+            if (mod != 0)
+            {
+                offset = blockSize - mod;
+            }
+
+            for (var i = 0; i < offset; i++)
+            {
+                writer.Write(padValue);
+            }
+        }
+
+        static void Pad(BinaryWriter writer, int count, byte padValue = (byte)0)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                writer.Write(padValue);
             }
         }
 

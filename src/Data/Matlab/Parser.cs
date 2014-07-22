@@ -106,7 +106,7 @@ namespace MathNet.Numerics.Data.Matlab
                     {
                         data = new byte[size];
                         reader.Read(data, 0, size);
-                        SkipElementPadding(reader.BaseStream, size, smallBlock);
+                        SkipElementPadding(reader, size, smallBlock);
                     }
 
                     if (type == DataType.Matrix)
@@ -175,14 +175,13 @@ namespace MathNet.Numerics.Data.Matlab
                 bool smallBlock;
                 ReadElementTag(reader, out type, out size, out smallBlock);
                 reader.BaseStream.Seek(size, SeekOrigin.Current);
-                SkipElementPadding(reader.BaseStream, size, smallBlock);
+                SkipElementPadding(reader, size, smallBlock);
 
-                Matrix<T> matrix;
+                // Data
                 switch (arrayClass)
                 {
                     case ArrayClass.Sparse:
-                        matrix = PopulateSparseMatrix<T>(reader, complex, rows, columns);
-                        break;
+                        return PopulateSparseMatrix<T>(reader, complex, rows, columns);
                     case ArrayClass.Function:
                     case ArrayClass.Character:
                     case ArrayClass.Object:
@@ -191,11 +190,8 @@ namespace MathNet.Numerics.Data.Matlab
                     case ArrayClass.Unknown:
                         throw new NotSupportedException();
                     default:
-                        matrix = PopulateDenseMatrix<T>(reader, complex, rows, columns);
-                        break;
+                        return PopulateDenseMatrix<T>(reader, complex, rows, columns);
                 }
-
-                return matrix;
             }
         }
 
@@ -257,7 +253,7 @@ namespace MathNet.Numerics.Data.Matlab
                 throw new NotSupportedException();
             }
 
-            SkipElementPadding(reader.BaseStream, size, smallBlock);
+            SkipElementPadding(reader, size, smallBlock);
             return Matrix<T>.Build.Dense(rows, columns, data);
         }
 
@@ -290,7 +286,7 @@ namespace MathNet.Numerics.Data.Matlab
                 ir[i] = reader.ReadInt32();
             }
 
-            SkipElementPadding(reader.BaseStream, size, smallBlock);
+            SkipElementPadding(reader, size, smallBlock);
 
             // populate the column data array
             ReadElementTag(reader, out type, out size, out smallBlock);
@@ -305,7 +301,7 @@ namespace MathNet.Numerics.Data.Matlab
                 jc[j] = reader.ReadInt32();
             }
 
-            SkipElementPadding(reader.BaseStream, size, smallBlock);
+            SkipElementPadding(reader, size, smallBlock);
 
             // populate the values
             ReadElementTag(reader, out type, out size, out smallBlock);
@@ -343,7 +339,7 @@ namespace MathNet.Numerics.Data.Matlab
                 throw new NotSupportedException();
             }
 
-            SkipElementPadding(reader.BaseStream, size, smallBlock);
+            SkipElementPadding(reader, size, smallBlock);
             return matrix.Transpose();
         }
 
@@ -381,7 +377,7 @@ namespace MathNet.Numerics.Data.Matlab
 
             if (complex)
             {
-                SkipElementPadding(reader.BaseStream, size, smallBlock);
+                SkipElementPadding(reader, size, smallBlock);
                 ReadElementTag(reader, out type, out size, out smallBlock);
 
                 for (int i = 0; i < data.Length; i++)
@@ -403,7 +399,7 @@ namespace MathNet.Numerics.Data.Matlab
 
             if (complex)
             {
-                SkipElementPadding(reader.BaseStream, size, smallBlock);
+                SkipElementPadding(reader, size, smallBlock);
                 ReadElementTag(reader, out type, out size, out smallBlock);
 
                 for (int i = 0; i < data.Length; i++)
@@ -463,7 +459,7 @@ namespace MathNet.Numerics.Data.Matlab
             }
         }
 
-        static void SkipElementPadding(Stream stream, int size, bool smallBlock)
+        static void SkipElementPadding(BinaryReader reader, int size, bool smallBlock)
         {
             var blockSize = smallBlock ? SmallBlockSize : LargeBlockSize;
             var offset = 0;
@@ -473,7 +469,7 @@ namespace MathNet.Numerics.Data.Matlab
                 offset = blockSize - mod;
             }
 
-            stream.Seek(offset, SeekOrigin.Current);
+            reader.BaseStream.Seek(offset, SeekOrigin.Current);
         }
 
         /// <summary>
