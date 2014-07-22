@@ -28,32 +28,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using MathNet.Numerics.LinearAlgebra;
-
 namespace MathNet.Numerics.Data.Matlab
 {
     public class MatlabMatrix
     {
-        byte[] _data;
-
+        internal byte[] Data { get; private set; }
         public string Name { get; private set; }
         public int Size { get; private set; }
         public int Dimensions { get; private set; }
 
         internal MatlabMatrix(string name, int size, int dimensions, byte[] data)
         {
-            _data = data;
-
+            Data = data;
             Name = name;
             Size = size;
             Dimensions = dimensions;
-        }
-
-        internal Matrix<TDataType> Read<TDataType>()
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
-        {
-            return Parser.ReadMatrixBlock<TDataType>(_data);
         }
     }
 }

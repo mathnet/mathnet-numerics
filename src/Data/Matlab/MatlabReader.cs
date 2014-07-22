@@ -41,6 +41,28 @@ namespace MathNet.Numerics.Data.Matlab
     /// </summary>
     public static class MatlabReader
     {
+        /// <summary>
+        /// List all compatible matrices from a MATLAB file stream.
+        /// </summary>
+        public static List<MatlabMatrix> ListMatrices(Stream stream)
+        {
+            return Parser.ParseAll(stream);
+        }
+
+        /// <summary>
+        /// List all compatible matrices from a MATLAB file.
+        /// </summary>
+        public static List<MatlabMatrix> ListMatrices(string filePath)
+        {
+            using (var stream = File.OpenRead(filePath))
+            {
+                return Parser.ParseAll(stream);
+            }
+        }
+
+        /// <summary>
+        /// Read the first or a specific matrix from a MATLAB file stream.
+        /// </summary>
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
         public static Matrix<TDataType> ReadMatrix<TDataType>(Stream stream, string matrixName = null)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
@@ -49,7 +71,7 @@ namespace MathNet.Numerics.Data.Matlab
 
             if (string.IsNullOrEmpty(matrixName))
             {
-                return matrices.First().Read<TDataType>();
+                return Parser.ReadMatrixBlock<TDataType>(matrices.First().Data);
             }
 
             var matrix = matrices.Find(m => m.Name == matrixName);
@@ -58,9 +80,12 @@ namespace MathNet.Numerics.Data.Matlab
                 throw new KeyNotFoundException("Matrix with the provided name was not found.");
             }
 
-            return matrix.Read<TDataType>();
+            return Parser.ReadMatrixBlock<TDataType>(matrix.Data);
         }
 
+        /// <summary>
+        /// Read the first or a specific matrix from a MATLAB file.
+        /// </summary>
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
         public static Matrix<TDataType> ReadMatrix<TDataType>(string filePath, string matrixName = null)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
@@ -71,17 +96,32 @@ namespace MathNet.Numerics.Data.Matlab
             }
         }
 
+        /// <summary>
+        /// Read the matrix of a MATLAB matrix data object.
+        /// </summary>
+        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static Matrix<TDataType> ReadMatrix<TDataType>(MatlabMatrix matrixData)
+            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        {
+            return Parser.ReadMatrixBlock<TDataType>(matrixData.Data);
+        }
+
+        /// <summary>
+        /// Read all matrices or those with matching name from a MATLAB file stream.
+        /// </summary>
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
         public static Dictionary<string, Matrix<TDataType>> ReadMatrices<TDataType>(Stream stream, params string[] matrixNames)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
             var names = new HashSet<string>(matrixNames);
-
             return Parser.ParseAll(stream)
                 .Where(m => names.Count == 0 || names.Contains(m.Name))
-                .ToDictionary(m => m.Name, m => m.Read<TDataType>());
+                .ToDictionary(m => m.Name, m => Parser.ReadMatrixBlock<TDataType>(m.Data));
         }
 
+        /// <summary>
+        /// Read all matrices or those with matching name from a MATLAB file.
+        /// </summary>
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
         public static Dictionary<string, Matrix<TDataType>> ReadMatrices<TDataType>(string filePath, params string[] matrixNames)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
