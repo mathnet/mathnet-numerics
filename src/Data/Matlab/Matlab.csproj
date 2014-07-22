@@ -52,6 +52,7 @@
     <Compile Include="ArrayClass.cs" />
     <Compile Include="ArrayFlags.cs" />
     <Compile Include="MatlabMatrix.cs" />
+    <Compile Include="Formatter.cs" />
     <Compile Include="SparseArrayReader.cs" />
     <Compile Include="NumericArrayReader.cs" />
     <Compile Include="DataType.cs" />

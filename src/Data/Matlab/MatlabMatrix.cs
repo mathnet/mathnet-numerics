@@ -37,18 +37,16 @@ namespace MathNet.Numerics.Data.Matlab
         /// <summary>Name of the matrix</summary>
         public string Name { get; private set; }
 
-        /// <summary>Matrix size in bytes</summary>
-        public int Size { get; private set; }
+        /// <summary>Size of the packed matrix in bytes</summary>
+        public int ByteSize
+        {
+            get { return Data.Length; }
+        }
 
-        /// <summary>Number of dimensions</summary>
-        public int Dimensions { get; private set; }
-
-        internal MatlabMatrix(string name, int size, int dimensions, byte[] data)
+        internal MatlabMatrix(string name, byte[] data)
         {
             Data = data;
             Name = name;
-            Size = size;
-            Dimensions = dimensions;
         }
     }
 }

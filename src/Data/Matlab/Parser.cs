@@ -59,9 +59,79 @@ namespace MathNet.Numerics.Data.Matlab
         const int SmallBlockSize = 4;
 
         /// <summary>
-        /// Extracts all matrix blocks in a format we support.
+        /// Parse a matrix block byte array
         /// </summary>
-        internal static List<MatlabMatrix> ParseAll(Stream stream)
+        internal static Matrix<T> ParseMatrix<T>(byte[] data)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            using (var stream = new MemoryStream(data))
+            using (var reader = new BinaryReader(stream))
+            {
+                // skip tag - doesn't tell us anything we don't already know
+                reader.BaseStream.Seek(8, SeekOrigin.Current);
+
+                var arrayClass = (ArrayClass)reader.ReadByte();
+                var flags = reader.ReadByte();
+                var isComplex = (flags & (byte)ArrayFlags.Complex) == (byte)ArrayFlags.Complex;
+
+                // skip unneeded bytes
+                reader.BaseStream.Seek(10, SeekOrigin.Current);
+
+                var numDimensions = reader.ReadInt32()/8;
+                if (numDimensions > 2)
+                {
+                    throw new NotSupportedException(Resources.MoreThan2D);
+                }
+
+                var rows = reader.ReadInt32();
+                var columns = reader.ReadInt32();
+
+                // skip name and unneeded bytes
+                reader.BaseStream.Seek(2, SeekOrigin.Current);
+                int size = reader.ReadInt16();
+                var smallBlock = true;
+                if (size == 0)
+                {
+                    size = reader.ReadInt32();
+                    smallBlock = false;
+                }
+
+                reader.BaseStream.Seek(size, SeekOrigin.Current);
+                AlignData(reader.BaseStream, size, smallBlock);
+
+                var type = (DataType)reader.ReadInt16();
+                size = reader.ReadInt16();
+                if (size == 0)
+                {
+                    size = reader.ReadInt32();
+                }
+
+                Matrix<T> matrix;
+                switch (arrayClass)
+                {
+                    case ArrayClass.Sparse:
+                        matrix = SparseArrayReader<T>.PopulateSparseMatrix(reader, isComplex, rows, columns, size);
+                        break;
+                    case ArrayClass.Function:
+                    case ArrayClass.Character:
+                    case ArrayClass.Object:
+                    case ArrayClass.Structure:
+                    case ArrayClass.Cell:
+                    case ArrayClass.Unknown:
+                        throw new NotSupportedException();
+                    default:
+                        matrix = NumericArrayReader<T>.PopulateDenseMatrix(type, reader, isComplex, rows, columns, size);
+                        break;
+                }
+
+                return matrix;
+            }
+        }
+
+        /// <summary>
+        /// Extracts all matrix blocks in a format we support from a stream.
+        /// </summary>
+        internal static List<MatlabMatrix> ParseFile(Stream stream)
         {
             var matrices = new List<MatlabMatrix>();
 
@@ -122,7 +192,7 @@ namespace MathNet.Numerics.Data.Matlab
 
                             var matrixName = Encoding.ASCII.GetString(matrixReader.ReadBytes(matrixSize));
 
-                            matrices.Add(new MatlabMatrix(matrixName, matrixSize, matrixDim, data));
+                            matrices.Add(new MatlabMatrix(matrixName, data));
                         }
                     }
                 }
@@ -175,73 +245,6 @@ namespace MathNet.Numerics.Data.Matlab
             }
 
             return data;
-        }
-
-        internal static Matrix<TDataType> ReadMatrixBlock<TDataType>(byte[] data)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
-        {
-            using (var stream = new MemoryStream(data))
-            using (var reader = new BinaryReader(stream))
-            {
-                // skip tag - doesn't tell us anything we don't already know
-                reader.BaseStream.Seek(8, SeekOrigin.Current);
-
-                var arrayClass = (ArrayClass)reader.ReadByte();
-                var flags = reader.ReadByte();
-                var isComplex = (flags & (byte)ArrayFlags.Complex) == (byte)ArrayFlags.Complex;
-
-                // skip unneeded bytes
-                reader.BaseStream.Seek(10, SeekOrigin.Current);
-
-                var numDimensions = reader.ReadInt32()/8;
-                if (numDimensions > 2)
-                {
-                    throw new NotSupportedException(Resources.MoreThan2D);
-                }
-
-                var rows = reader.ReadInt32();
-                var columns = reader.ReadInt32();
-
-                // skip name and unneeded bytes
-                reader.BaseStream.Seek(2, SeekOrigin.Current);
-                int size = reader.ReadInt16();
-                var smallBlock = true;
-                if (size == 0)
-                {
-                    size = reader.ReadInt32();
-                    smallBlock = false;
-                }
-
-                reader.BaseStream.Seek(size, SeekOrigin.Current);
-                AlignData(reader.BaseStream, size, smallBlock);
-
-                var type = (DataType)reader.ReadInt16();
-                size = reader.ReadInt16();
-                if (size == 0)
-                {
-                    size = reader.ReadInt32();
-                }
-
-                Matrix<TDataType> matrix;
-                switch (arrayClass)
-                {
-                    case ArrayClass.Sparse:
-                        matrix = SparseArrayReader<TDataType>.PopulateSparseMatrix(reader, isComplex, rows, columns, size);
-                        break;
-                    case ArrayClass.Function:
-                    case ArrayClass.Character:
-                    case ArrayClass.Object:
-                    case ArrayClass.Structure:
-                    case ArrayClass.Cell:
-                    case ArrayClass.Unknown:
-                        throw new NotSupportedException();
-                    default:
-                        matrix = NumericArrayReader<TDataType>.PopulateDenseMatrix(type, reader, isComplex, rows, columns, size);
-                        break;
-                }
-
-                return matrix;
-            }
         }
     }
 }

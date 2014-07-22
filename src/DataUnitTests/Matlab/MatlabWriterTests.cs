@@ -28,158 +28,120 @@ using System;
 using System.IO;
 using System.Numerics;
 using MathNet.Numerics.Data.Matlab;
+using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.Data.UnitTests.Matlab
 {
     /// <summary>
-    /// Matlab matrix writer tests.
+    /// MATLAB matrix writer tests.
     /// </summary>
     [TestFixture]
     public class MatlabWriterTests
     {
-        /// <summary>
-        /// Invalid constructor throws <c>ArgumentException</c>.
-        /// </summary>
-        [Test]
-        public void InvalidConstructorThrowsArgumentException()
-        {
-            Assert.Throws<ArgumentException>(() => new MatlabWriter(string.Empty));
-            Assert.Throws<ArgumentException>(() => new MatlabWriter(null));
-        }
-
-        /// <summary>
-        /// Write bad matrices throws <c>ArgumentException</c>.
-        /// </summary>
         [Test]
         public void WriteBadMatricesThrowsArgumentException()
         {
-            var matrix = new LinearAlgebra.Single.DenseMatrix(1, 1);
-            var writer = new MatlabWriter("somefile3");
-            Assert.Throws<ArgumentException>(() => writer.WriteMatrices(new[] { matrix }, new[] { string.Empty }));
-            Assert.Throws<ArgumentException>(() => writer.WriteMatrices(new[] { matrix }, new string[] { null }));
-            Assert.Throws<ArgumentException>(() => writer.WriteMatrices(new[] { matrix, matrix }, new[] { "matrix" }));
-            Assert.Throws<ArgumentException>(() => writer.WriteMatrices(new[] { matrix }, new[] { "some matrix" }));
-            writer.Dispose();
+            Matrix<float> matrix = Matrix<float>.Build.Dense(1, 1);
+            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", matrix, string.Empty));
+            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", matrix, null));
+            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", matrix, "some matrix"));
+            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", new[] { matrix }, new[] { string.Empty }));
+            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", new[] { matrix }, new string[] { null }));
+            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", new[] { matrix, matrix }, new[] { "matrix" }));
+            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", new[] { matrix }, new[] { "some matrix" }));
         }
 
-        /// <summary>
-        /// Write <c>null</c> matrices throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void WriteNullMatricesThrowsArgumentNullException()
-        {
-            var writer = new MatlabWriter("somefile4");
-            Assert.Throws<ArgumentNullException>(() => writer.WriteMatrices(new LinearAlgebra.Single.Matrix[] { null }, new[] { "matrix" }));
-            var matrix = new LinearAlgebra.Single.DenseMatrix(1, 1);
-            Assert.Throws<ArgumentNullException>(() => writer.WriteMatrices(new LinearAlgebra.Single.Matrix[] { matrix }, null));
-            writer.Dispose();
-        }
-
-        /// <summary>
-        /// Can write double matrices.
-        /// </summary>
         [Test]
         public void CanWriteDoubleMatrices()
         {
-            var mat1 = new LinearAlgebra.Double.DenseMatrix(5, 3);
+            Matrix<double> mat1 = Matrix<double>.Build.Dense(5, 5);
             for (var i = 0; i < mat1.ColumnCount; i++)
             {
                 mat1[i, i] = i + .1;
             }
 
-            var mat2 = new LinearAlgebra.Double.DenseMatrix(4, 5);
+            Matrix<double> mat2 = Matrix<double>.Build.Dense(4, 5);
             for (var i = 0; i < mat2.RowCount; i++)
             {
                 mat2[i, i] = i + .1;
             }
 
-            var mat3 = new LinearAlgebra.Double.SparseMatrix(5, 4);
+            Matrix<double> mat3 = Matrix<double>.Build.Sparse(5, 4);
             mat3[0, 0] = 1.1;
             mat3[0, 2] = 2.2;
             mat3[4, 3] = 3.3;
 
-            var mat4 = new LinearAlgebra.Double.SparseMatrix(3, 5);
+            Matrix<double> mat4 = Matrix<double>.Build.Sparse(3, 5);
             mat4[0, 0] = 1.1;
             mat4[0, 2] = 2.2;
             mat4[2, 4] = 3.3;
 
-            var write = new LinearAlgebra.Double.Matrix[] { mat1, mat2, mat3, mat4 };
+            Matrix<double>[] write = { mat1, mat2, mat3, mat4 };
+            string[] names = { "mat1", "dense_matrix_2", "s1", "sparse2" };
 
-            var names = new[] { "mat1", "dense_matrix_2", "s1", "sparse2" };
             if (File.Exists("testd.mat"))
             {
                 File.Delete("testd.mat");
             }
 
-            var writer = new MatlabWriter("testd.mat");
-            writer.WriteMatrices(write, names);
-            writer.Dispose();
+            MatlabWriter.Write("testd.mat", write, names);
 
             var read = MatlabReader.ReadAll<double>("testd.mat", names);
-
             Assert.AreEqual(write.Length, read.Count);
 
             for (var i = 0; i < write.Length; i++)
             {
                 var w = write[i];
                 var r = read[names[i]];
-
                 Assert.AreEqual(w.RowCount, r.RowCount);
                 Assert.AreEqual(w.ColumnCount, r.ColumnCount);
                 Assert.IsTrue(w.Equals(r));
             }
         }
 
-        /// <summary>
-        /// Can write float matrices.
-        /// </summary>
         [Test]
         public void CanWriteFloatMatrices()
         {
-            var mat1 = new LinearAlgebra.Single.DenseMatrix(5, 3);
+            Matrix<float> mat1 = Matrix<float>.Build.Dense(5, 3);
             for (var i = 0; i < mat1.ColumnCount; i++)
             {
                 mat1[i, i] = i + .1f;
             }
 
-            var mat2 = new LinearAlgebra.Single.DenseMatrix(4, 5);
+            Matrix<float> mat2 = Matrix<float>.Build.Dense(4, 5);
             for (var i = 0; i < mat2.RowCount; i++)
             {
                 mat2[i, i] = i + .1f;
             }
 
-            var mat3 = new LinearAlgebra.Single.SparseMatrix(5, 4);
+            Matrix<float> mat3 = Matrix<float>.Build.Sparse(5, 4);
             mat3[0, 0] = 1.1f;
             mat3[0, 2] = 2.2f;
             mat3[4, 3] = 3.3f;
 
-            var mat4 = new LinearAlgebra.Single.SparseMatrix(3, 5);
+            Matrix<float> mat4 = Matrix<float>.Build.Sparse(3, 5);
             mat4[0, 0] = 1.1f;
             mat4[0, 2] = 2.2f;
             mat4[2, 4] = 3.3f;
 
-            var write = new LinearAlgebra.Single.Matrix[] { mat1, mat2, mat3, mat4 };
+            Matrix<float>[] write = { mat1, mat2, mat3, mat4 };
+            string[] names = { "mat1", "dense_matrix_2", "s1", "sparse2" };
 
-            var names = new[] { "mat1", "dense_matrix_2", "s1", "sparse2" };
             if (File.Exists("tests.mat"))
             {
                 File.Delete("tests.mat");
             }
 
-            var writer = new MatlabWriter("tests.mat");
-            writer.WriteMatrices(write, names);
-            writer.Dispose();
+            MatlabWriter.Write("tests.mat", write, names);
 
             var read = MatlabReader.ReadAll<float>("tests.mat", names);
-
             Assert.AreEqual(write.Length, read.Count);
 
             for (var i = 0; i < write.Length; i++)
             {
                 var w = write[i];
                 var r = read[names[i]];
-
                 Assert.AreEqual(w.RowCount, r.RowCount);
                 Assert.AreEqual(w.ColumnCount, r.ColumnCount);
                 Assert.IsTrue(w.Equals(r));
@@ -192,40 +154,37 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanWriteComplex32Matrices()
         {
-            var mat1 = new LinearAlgebra.Complex32.DenseMatrix(5, 3);
+            Matrix<Complex32> mat1 = Matrix<Complex32>.Build.Dense(5, 3);
             for (var i = 0; i < mat1.ColumnCount; i++)
             {
                 mat1[i, i] = new Complex32(i + .1f, i + .1f);
             }
 
-            var mat2 = new LinearAlgebra.Complex32.DenseMatrix(4, 5);
+            Matrix<Complex32> mat2 = Matrix<Complex32>.Build.Dense(4, 5);
             for (var i = 0; i < mat2.RowCount; i++)
             {
                 mat2[i, i] = new Complex32(i + .1f, i + .1f);
             }
 
-            var mat3 = new LinearAlgebra.Complex32.SparseMatrix(5, 4);
+            Matrix<Complex32> mat3 = Matrix<Complex32>.Build.Sparse(5, 4);
             mat3[0, 0] = new Complex32(1.1f, 1.1f);
             mat3[0, 2] = new Complex32(2.2f, 2.2f);
             mat3[4, 3] = new Complex32(3.3f, 3.3f);
 
-            var mat4 = new LinearAlgebra.Complex32.SparseMatrix(3, 5);
+            Matrix<Complex32> mat4 = Matrix<Complex32>.Build.Sparse(3, 5);
             mat4[0, 0] = new Complex32(1.1f, 1.1f);
             mat4[0, 2] = new Complex32(2.2f, 2.2f);
             mat4[2, 4] = new Complex32(3.3f, 3.3f);
 
-            var write = new LinearAlgebra.Complex32.Matrix[] { mat1, mat2, mat3, mat4 };
+            Matrix<Complex32>[] write = { mat1, mat2, mat3, mat4 };
+            string[] names = { "mat1", "dense_matrix_2", "s1", "sparse2" };
 
-            var names = new[] { "mat1", "dense_matrix_2", "s1", "sparse2" };
             if (File.Exists("testc.mat"))
             {
                 File.Delete("testc.mat");
             }
 
-            var writer = new MatlabWriter("testc.mat");
-            writer.WriteMatrices(write, names);
-            writer.Dispose();
-
+            MatlabWriter.Write("testc.mat", write, names);
             var read = MatlabReader.ReadAll<Complex32>("testc.mat", names);
 
             Assert.AreEqual(write.Length, read.Count);
@@ -234,7 +193,6 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
             {
                 var w = write[i];
                 var r = read[names[i]];
-
                 Assert.AreEqual(w.RowCount, r.RowCount);
                 Assert.AreEqual(w.ColumnCount, r.ColumnCount);
                 Assert.IsTrue(w.Equals(r));
@@ -247,49 +205,45 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void CanWriteComplexMatrices()
         {
-            var mat1 = new LinearAlgebra.Complex.DenseMatrix(5, 3);
+            Matrix<Complex> mat1 = Matrix<Complex>.Build.Dense(5, 3);
             for (var i = 0; i < mat1.ColumnCount; i++)
             {
                 mat1[i, i] = new Complex(i + .1, i + .1);
             }
 
-            var mat2 = new LinearAlgebra.Complex.DenseMatrix(4, 5);
+            Matrix<Complex> mat2 = Matrix<Complex>.Build.Dense(4, 5);
             for (var i = 0; i < mat2.RowCount; i++)
             {
                 mat2[i, i] = new Complex(i + .1, i + .1);
             }
 
-            var mat3 = new LinearAlgebra.Complex.SparseMatrix(5, 4);
+            Matrix<Complex> mat3 = Matrix<Complex>.Build.Sparse(5, 4);
             mat3[0, 0] = new Complex(1.1, 1.1);
             mat3[0, 2] = new Complex(2.2, 2.2);
             mat3[4, 3] = new Complex(3.3, 3.3);
 
-            var mat4 = new LinearAlgebra.Complex.SparseMatrix(3, 5);
+            Matrix<Complex> mat4 = Matrix<Complex>.Build.Sparse(3, 5);
             mat4[0, 0] = new Complex(1.1, 1.1);
             mat4[0, 2] = new Complex(2.2, 2.2);
             mat4[2, 4] = new Complex(3.3, 3.3);
 
-            var write = new LinearAlgebra.Complex.Matrix[] { mat1, mat2, mat3, mat4 };
+            Matrix<Complex>[] write = { mat1, mat2, mat3, mat4 };
+            string[] names = { "mat1", "dense_matrix_2", "s1", "sparse2" };
 
-            var names = new[] { "mat1", "dense_matrix_2", "s1", "sparse2" };
             if (File.Exists("testz.mat"))
             {
                 File.Delete("testz.mat");
             }
 
-            var writer = new MatlabWriter("testz.mat");
-            writer.WriteMatrices(write, names);
-            writer.Dispose();
+            MatlabWriter.Write("testz.mat", write, names);
 
             var read = MatlabReader.ReadAll<Complex>("testz.mat", names);
-
             Assert.AreEqual(write.Length, read.Count);
 
             for (var i = 0; i < write.Length; i++)
             {
                 var w = write[i];
                 var r = read[names[i]];
-
                 Assert.AreEqual(w.RowCount, r.RowCount);
                 Assert.AreEqual(w.ColumnCount, r.ColumnCount);
                 Assert.IsTrue(w.Equals(r));
@@ -302,11 +256,9 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void WriteBadMatrixThrowsArgumentException()
         {
-            var matrix = new LinearAlgebra.Single.DenseMatrix(1, 1);
-            var writer = new MatlabWriter("somefile1");
-            Assert.Throws<ArgumentException>(() => writer.WriteMatrix(matrix, string.Empty));
-            Assert.Throws<ArgumentException>(() => writer.WriteMatrix(matrix, null));
-            writer.Dispose();
+            var matrix = Matrix<float>.Build.Dense(1, 1);
+            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile1", matrix, string.Empty));
+            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile1", matrix, null));
         }
 
         /// <summary>
@@ -315,9 +267,7 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         [Test]
         public void WriteNullMatrixThrowsArgumentNullException()
         {
-            var writer = new MatlabWriter("somefile2");
-            Assert.Throws<ArgumentNullException>(() => writer.WriteMatrix<double>(null, "matrix"));
-            writer.Dispose();
+            Assert.Throws<ArgumentNullException>(() => MatlabWriter.Write<double>("somefile2", null, "matrix"));
         }
     }
 }

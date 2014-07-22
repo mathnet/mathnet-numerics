@@ -37,7 +37,7 @@ using MathNet.Numerics.LinearAlgebra;
 namespace MathNet.Numerics.Data.Matlab
 {
     /// <summary>
-    /// Creates matrices from MATLAB files.
+    /// Creates matrices from MATLAB 5 files.
     /// </summary>
     public static class MatlabReader
     {
@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Data.Matlab
         /// </summary>
         public static List<MatlabMatrix> List(Stream stream)
         {
-            return Parser.ParseAll(stream);
+            return Parser.ParseFile(stream);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace MathNet.Numerics.Data.Matlab
         {
             using (var stream = File.OpenRead(filePath))
             {
-                return Parser.ParseAll(stream);
+                return List(stream);
             }
         }
 
@@ -67,7 +67,7 @@ namespace MathNet.Numerics.Data.Matlab
         public static Matrix<TDataType> Unpack<TDataType>(MatlabMatrix matrixData)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
-            return Parser.ReadMatrixBlock<TDataType>(matrixData.Data);
+            return Parser.ParseMatrix<TDataType>(matrixData.Data);
         }
 
         /// <summary>
@@ -77,11 +77,11 @@ namespace MathNet.Numerics.Data.Matlab
         public static Matrix<TDataType> Read<TDataType>(Stream stream, string matrixName = null)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
-            var matrices = Parser.ParseAll(stream);
+            var matrices = List(stream);
 
             if (string.IsNullOrEmpty(matrixName))
             {
-                return Parser.ReadMatrixBlock<TDataType>(matrices.First().Data);
+                return Unpack<TDataType>(matrices.First());
             }
 
             var matrix = matrices.Find(m => m.Name == matrixName);
@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Data.Matlab
                 throw new KeyNotFoundException("Matrix with the provided name was not found.");
             }
 
-            return Parser.ReadMatrixBlock<TDataType>(matrix.Data);
+            return Unpack<TDataType>(matrix);
         }
 
         /// <summary>
@@ -114,9 +114,9 @@ namespace MathNet.Numerics.Data.Matlab
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
             var names = new HashSet<string>(matrixNames);
-            return Parser.ParseAll(stream)
+            return List(stream)
                 .Where(m => names.Count == 0 || names.Contains(m.Name))
-                .ToDictionary(m => m.Name, m => Parser.ReadMatrixBlock<TDataType>(m.Data));
+                .ToDictionary(m => m.Name, Unpack<TDataType>);
         }
 
         /// <summary>
