@@ -1,4 +1,4 @@
-﻿// <copyright file="MatlabFile.cs" company="Math.NET">
+﻿// <copyright file="MatlabMatrix.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -29,51 +29,31 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Data.Matlab
 {
-    /// <summary>
-    /// Represents a MATLAB file
-    /// </summary>
-    internal class MatlabFile
+    public class MatlabMatrix
     {
-        /// <summary>
-        /// Matrices in a MATLAB file stored as 1-D arrays
-        /// </summary>
-        readonly IDictionary<string, MatlabMatrix> _matrices = new SortedList<string, MatlabMatrix>();
+        byte[] _data;
 
-        /// <summary>
-        /// Gets or sets the header text.
-        /// </summary>
-        /// <value>The header text.</value>
-        internal string HeaderText { get; set; }
+        public string Name { get; private set; }
+        public int Size { get; private set; }
+        public int Dimensions { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the first name of the matrix.
-        /// </summary>
-        /// <value>The first name of the matrix.</value>
-        internal string FirstMatrixName { get; private set; }
-
-        internal ICollection<string> MatrixNames
+        internal MatlabMatrix(string name, int size, int dimensions, byte[] data)
         {
-            get { return _matrices.Keys; }
+            _data = data;
+
+            Name = name;
+            Size = size;
+            Dimensions = dimensions;
         }
 
-        internal void Add(string name, MatlabMatrix data)
+        internal Matrix<TDataType> Read<TDataType>()
+            where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
-            if (FirstMatrixName == null)
-            {
-                FirstMatrixName = name;
-            }
-
-            _matrices.Add(name, data);
-        }
-
-        internal Matrix<TDataType> ReadMatrix<TDataType>(string name) where TDataType : struct, IEquatable<TDataType>, IFormattable
-        {
-            return _matrices[name].Read<TDataType>();
+            return Parser<TDataType>.ReadMatrixBlock(_data);
         }
     }
 }

@@ -47,19 +47,20 @@ namespace MathNet.Numerics.Data.Matlab
         {
             var names = string.IsNullOrEmpty(matrixName) ? new string[] { } : new[] { matrixName };
             var parser = new Parser<TDataType>(stream, names);
-            var file = parser.Parse();
+            var file = parser.ParseAll();
 
             if (string.IsNullOrEmpty(matrixName))
             {
-                return file.ReadMatrix<TDataType>(file.FirstMatrixName);
+                return file.First().Read<TDataType>();
             }
 
-            if (!file.MatrixNames.Contains(matrixName))
+            var matrix = file.Find(m => m.Name == matrixName);
+            if (matrix == null)
             {
                 throw new KeyNotFoundException("Matrix with the provided name was not found.");
             }
 
-            return file.ReadMatrix<TDataType>(matrixName);
+            return matrix.Read<TDataType>();
         }
 
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
@@ -76,9 +77,10 @@ namespace MathNet.Numerics.Data.Matlab
         public static Dictionary<string, Matrix<TDataType>> ReadMatrices<TDataType>(Stream stream, params string[] matrixNames)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
+            var names = new HashSet<string>(matrixNames);
             var parser = new Parser<TDataType>(stream, matrixNames);
-            var file = parser.Parse();
-            return file.MatrixNames.ToDictionary(name => name, file.ReadMatrix<TDataType>);
+            var file = parser.ParseAll();
+            return file.Where(m => names.Count == 0 || names.Contains(m.Name)).ToDictionary(m => m.Name, m => m.Read<TDataType>());
         }
 
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>

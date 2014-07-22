@@ -133,20 +133,15 @@ namespace MathNet.Numerics.Data.Matlab
         }
 
         /// <summary>
-        /// Parses the file.
+        /// Extracts all matrix blocks in a format we support.
         /// </summary>
-        /// <returns>The parsed MATLAB file as a <see cref="MatlabFile{TDataType}"/> object.</returns>
-        internal MatlabFile Parse()
+        internal List<MatlabMatrix> ParseAll()
         {
-            var file = new MatlabFile();
+            var matrices = new List<MatlabMatrix>();
 
             using (var reader = new BinaryReader(_stream))
             {
-                file.HeaderText = Encoding.ASCII.GetString(reader.ReadBytes(116));
-
-                // skipping subsystem offsets
                 reader.BaseStream.Position = 126;
-
                 if (reader.ReadByte() != LittleEndianIndicator)
                 {
                     throw new NotSupportedException(Resources.BigEndianNotSupported);
@@ -182,16 +177,32 @@ namespace MathNet.Numerics.Data.Matlab
 
                     if (type == DataType.Matrix)
                     {
-                        AddMatrix(data, file);
-                    }
-                    else
-                    {
-                        throw new NotSupportedException(string.Format(Resources.NotSupportedType, type));
+                        using (var matrixStream = new MemoryStream(data))
+                        using (var matrixReader = new BinaryReader(matrixStream))
+                        {
+                            matrixReader.BaseStream.Seek(20, SeekOrigin.Current);
+                            var matrixDim = matrixReader.ReadInt32()/8;
+                            if (matrixDim > 2)
+                            {
+                                continue;
+                            }
+
+                            matrixReader.BaseStream.Seek(10, SeekOrigin.Current);
+                            int matrixSize = matrixReader.ReadInt16();
+                            if (matrixSize == 0)
+                            {
+                                matrixSize = matrixReader.ReadInt32();
+                            }
+
+                            var matrixName = Encoding.ASCII.GetString(matrixReader.ReadBytes(matrixSize));
+
+                            matrices.Add(new MatlabMatrix(matrixName, matrixSize, matrixDim, data));
+                        }
                     }
                 }
             }
 
-            return file;
+            return matrices;
         }
 
         /// <summary>
@@ -240,45 +251,7 @@ namespace MathNet.Numerics.Data.Matlab
             return data;
         }
 
-        /// <summary>
-        /// Adds a matrix from the actual file into our presentation of a MATLAB file.
-        /// </summary>
-        /// <param name="data">The data of the matrix.</param>
-        /// <param name="file">The <see cref="MatlabFile{TDataType}"/> instance.</param>
-        void AddMatrix(byte[] data, MatlabFile file)
-        {
-            using (var ms = new MemoryStream(data))
-            using (var reader = new BinaryReader(ms))
-            {
-                // skip unneeded bytes
-                reader.BaseStream.Seek(20, SeekOrigin.Current);
-
-                var numDimensions = reader.ReadInt32()/8;
-                if (numDimensions > 2)
-                {
-                    throw new NotSupportedException(Resources.MoreThan2D);
-                }
-
-                // skip unneeded bytes
-                reader.BaseStream.Seek(10, SeekOrigin.Current);
-
-                int size = reader.ReadInt16();
-                if (size == 0)
-                {
-                    size = reader.ReadInt32();
-                }
-
-                var name = Encoding.ASCII.GetString(reader.ReadBytes(size));
-
-                // only grab wanted objects
-                if (_names.Count == 0 || _names.Contains(name))
-                {
-                    file.Add(name, data);
-                }
-            }
-        }
-
-        internal static Matrix<TDataType> ReadMatrix(byte[] data)
+        internal static Matrix<TDataType> ReadMatrixBlock(byte[] data)
         {
             using (var stream = new MemoryStream(data))
             using (var reader = new BinaryReader(stream))
@@ -302,7 +275,7 @@ namespace MathNet.Numerics.Data.Matlab
                 var rows = reader.ReadInt32();
                 var columns = reader.ReadInt32();
 
-                // skip unneeded bytes
+                // skip name and unneeded bytes
                 reader.BaseStream.Seek(2, SeekOrigin.Current);
                 int size = reader.ReadInt16();
                 var smallBlock = true;
@@ -311,8 +284,7 @@ namespace MathNet.Numerics.Data.Matlab
                     size = reader.ReadInt32();
                     smallBlock = false;
                 }
-
-                var name = Encoding.ASCII.GetString(reader.ReadBytes(size));
+                reader.BaseStream.Seek(size, SeekOrigin.Current);
                 AlignData(reader.BaseStream, size, smallBlock);
 
                 var type = (DataType)reader.ReadInt16();
