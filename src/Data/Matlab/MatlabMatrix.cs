@@ -53,7 +53,7 @@ namespace MathNet.Numerics.Data.Matlab
         internal Matrix<TDataType> Read<TDataType>()
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
-            return Parser<TDataType>.ReadMatrixBlock(_data);
+            return Parser.ReadMatrixBlock<TDataType>(_data);
         }
     }
 }

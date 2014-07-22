@@ -41,9 +41,7 @@ namespace MathNet.Numerics.Data.Matlab
     /// <summary>
     /// Parse a MATLAB file
     /// </summary>
-    /// <typeparam name="TDataType">The data type of the matrix.</typeparam>
-    internal class Parser<TDataType>
-        where TDataType : struct, IEquatable<TDataType>, IFormattable
+    internal static class Parser
     {
         /// <summary>
         /// Large Block Size
@@ -61,85 +59,13 @@ namespace MathNet.Numerics.Data.Matlab
         const int SmallBlockSize = 4;
 
         /// <summary>
-        /// Holds the names of the matrices in the file.
-        /// </summary>
-        readonly IList<string> _names = new List<string>();
-
-        /// <summary>
-        /// The stream to read the MATLAB file from.
-        /// </summary>
-        readonly Stream _stream;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Parser{TDataType}"/> class.
-        /// </summary>
-        /// <param name="fileName">Name of the file.</param>
-        internal Parser(string fileName)
-            : this(fileName, new string[0])
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Parser{TDataType}"/> class.
-        /// </summary>
-        /// <param name="stream">The stream to read from.</param>
-        internal Parser(Stream stream)
-            : this(stream, new string[0])
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Parser{TDataType}"/> class.
-        /// </summary>
-        /// <param name="stream">The stream to read from.</param>
-        /// <param name="objectNames">The name of the objects to retrieve.</param>
-        internal Parser(Stream stream, IEnumerable<string> objectNames)
-        {
-            if (stream == null)
-            {
-                throw new ArgumentNullException("stream");
-            }
-
-            _stream = stream;
-            SetNames(objectNames);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Parser{TDataType}"/> class.
-        /// </summary>
-        /// <param name="fileName">Name of the file.</param>
-        /// <param name="objectNames">The name of the objects to retrieve.</param>
-        Parser(string fileName, IEnumerable<string> objectNames)
-        {
-            if (string.IsNullOrEmpty(fileName))
-            {
-                throw new ArgumentException(Resources.StringNullOrEmpty, "fileName");
-            }
-
-            _stream = File.OpenRead(fileName);
-            SetNames(objectNames);
-        }
-
-        /// <summary>
-        /// Copies the names of the objects to retrieve to a local field.
-        /// </summary>
-        /// <param name="objectNames">The name of the objects to retrieve.</param>
-        void SetNames(IEnumerable<string> objectNames)
-        {
-            foreach (var name in objectNames)
-            {
-                _names.Add(name);
-            }
-        }
-
-        /// <summary>
         /// Extracts all matrix blocks in a format we support.
         /// </summary>
-        internal List<MatlabMatrix> ParseAll()
+        internal static List<MatlabMatrix> ParseAll(Stream stream)
         {
             var matrices = new List<MatlabMatrix>();
 
-            using (var reader = new BinaryReader(_stream))
+            using (var reader = new BinaryReader(stream))
             {
                 reader.BaseStream.Position = 126;
                 if (reader.ReadByte() != LittleEndianIndicator)
@@ -149,7 +75,7 @@ namespace MathNet.Numerics.Data.Matlab
 
                 // skip version since it is always 0x0100.
                 reader.BaseStream.Position = 128;
-                var length = _stream.Length;
+                var length = stream.Length;
 
                 // for each data block add a MATLAB object to the file.
                 while (reader.BaseStream.Position < length)
@@ -251,7 +177,8 @@ namespace MathNet.Numerics.Data.Matlab
             return data;
         }
 
-        internal static Matrix<TDataType> ReadMatrixBlock(byte[] data)
+        internal static Matrix<TDataType> ReadMatrixBlock<TDataType>(byte[] data)
+            where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
             using (var stream = new MemoryStream(data))
             using (var reader = new BinaryReader(stream))

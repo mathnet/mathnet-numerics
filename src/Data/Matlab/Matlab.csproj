@@ -55,7 +55,6 @@
     <Compile Include="SparseArrayReader.cs" />
     <Compile Include="NumericArrayReader.cs" />
     <Compile Include="DataType.cs" />
-    <Compile Include="MatlabFile.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="MatlabReader.cs" />
     <Compile Include="MatlabWriter.cs" />

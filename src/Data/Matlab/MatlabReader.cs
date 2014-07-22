@@ -45,16 +45,14 @@ namespace MathNet.Numerics.Data.Matlab
         public static Matrix<TDataType> ReadMatrix<TDataType>(Stream stream, string matrixName = null)
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
-            var names = string.IsNullOrEmpty(matrixName) ? new string[] { } : new[] { matrixName };
-            var parser = new Parser<TDataType>(stream, names);
-            var file = parser.ParseAll();
+            var matrices = Parser.ParseAll(stream);
 
             if (string.IsNullOrEmpty(matrixName))
             {
-                return file.First().Read<TDataType>();
+                return matrices.First().Read<TDataType>();
             }
 
-            var matrix = file.Find(m => m.Name == matrixName);
+            var matrix = matrices.Find(m => m.Name == matrixName);
             if (matrix == null)
             {
                 throw new KeyNotFoundException("Matrix with the provided name was not found.");
@@ -78,9 +76,10 @@ namespace MathNet.Numerics.Data.Matlab
             where TDataType : struct, IEquatable<TDataType>, IFormattable
         {
             var names = new HashSet<string>(matrixNames);
-            var parser = new Parser<TDataType>(stream, matrixNames);
-            var file = parser.ParseAll();
-            return file.Where(m => names.Count == 0 || names.Contains(m.Name)).ToDictionary(m => m.Name, m => m.Read<TDataType>());
+
+            return Parser.ParseAll(stream)
+                .Where(m => names.Count == 0 || names.Contains(m.Name))
+                .ToDictionary(m => m.Name, m => m.Read<TDataType>());
         }
 
         /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
