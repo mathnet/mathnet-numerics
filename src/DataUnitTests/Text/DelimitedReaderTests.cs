@@ -55,14 +55,7 @@ namespace MathNet.Numerics.Data.UnitTests.Text
                        + "\"2.2\",0.3e1" + Environment.NewLine
                        + "'4',5,6" + Environment.NewLine;
 
-            var reader = new DelimitedReader
-                {
-                    Delimiter = ",",
-                    HasHeaderRow = true,
-                    FormatProvider = CultureInfo.InvariantCulture
-                };
-
-            var matrix = reader.ReadMatrix<double>(new MemoryStream(Encoding.UTF8.GetBytes(data)));
+            var matrix = DelimitedReader.Read<double>(new MemoryStream(Encoding.UTF8.GetBytes(data)), delimiter: ",", hasHeaders: true, formatProvider: CultureInfo.InvariantCulture);
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
             Assert.AreEqual(1.0, matrix[0, 0]);
@@ -86,7 +79,7 @@ namespace MathNet.Numerics.Data.UnitTests.Text
                        + "\"2.2\"\t\t0.3e1" + Environment.NewLine
                        + "'4'\t5\t6";
 
-            var matrix = DelimitedReader.ReadStream<float>(new MemoryStream(Encoding.UTF8.GetBytes(data)), delimiter: "\t", formatProvider: CultureInfo.InvariantCulture);
+            var matrix = DelimitedReader.Read<float>(new MemoryStream(Encoding.UTF8.GetBytes(data)), delimiter: "\t", formatProvider: CultureInfo.InvariantCulture);
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
             Assert.AreEqual(1.0f, matrix[0, 0]);
@@ -110,12 +103,7 @@ namespace MathNet.Numerics.Data.UnitTests.Text
                        + "\"2.2\" 0.3e1" + Environment.NewLine
                        + "'4'   5      6" + Environment.NewLine;
 
-            var reader = new DelimitedReader
-                {
-                    FormatProvider = CultureInfo.InvariantCulture
-                };
-
-            var matrix = reader.ReadMatrix<float>(new MemoryStream(Encoding.UTF8.GetBytes(data)));
+            var matrix = DelimitedReader.Read<float>(new MemoryStream(Encoding.UTF8.GetBytes(data)), formatProvider: CultureInfo.InvariantCulture);
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
             Assert.AreEqual(1.0f, matrix[0, 0]);
@@ -140,13 +128,7 @@ namespace MathNet.Numerics.Data.UnitTests.Text
                        + "\"2,2\".0,3e1" + Environment.NewLine
                        + "'4,0'.5,0.6,0" + Environment.NewLine;
 
-            var reader = new DelimitedReader
-                {
-                    Delimiter = ".",
-                    HasHeaderRow = true,
-                    FormatProvider = new CultureInfo("tr-TR")
-                };
-            var matrix = reader.ReadMatrix<double>(new MemoryStream(Encoding.UTF8.GetBytes(data)));
+            var matrix = DelimitedReader.Read<double>(new MemoryStream(Encoding.UTF8.GetBytes(data)), delimiter: ".", hasHeaders: true, formatProvider: new CultureInfo("tr-TR"));
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
             Assert.AreEqual(1.0, matrix[0, 0]);
@@ -199,14 +181,7 @@ namespace MathNet.Numerics.Data.UnitTests.Text
                        + "\"2.2\",0.3e1" + Environment.NewLine
                        + "'(4,-5)',5,6" + Environment.NewLine;
 
-            var reader = new DelimitedReader
-            {
-                Delimiter = ",",
-                HasHeaderRow = true,
-                FormatProvider = CultureInfo.InvariantCulture
-            };
-
-            var matrix = reader.ReadMatrix<Complex32>(new MemoryStream(Encoding.UTF8.GetBytes(data)));
+            var matrix = DelimitedReader.Read<Complex32>(new MemoryStream(Encoding.UTF8.GetBytes(data)), delimiter: ",", hasHeaders: true, formatProvider: CultureInfo.InvariantCulture);
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
             Assert.AreEqual(1.0f, matrix[0, 0].Real);

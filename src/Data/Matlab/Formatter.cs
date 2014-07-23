@@ -234,7 +234,7 @@ namespace MathNet.Numerics.Data.Matlab
             where T : struct, IEquatable<T>, IFormattable
         {
             var transposed = matrix.Transpose();
-            var storage = ((SparseCompressedRowMatrixStorage<T>)transposed.Storage);
+            var storage = (SparseCompressedRowMatrixStorage<T>)transposed.Storage;
 
             bool smallBlock;
             int nzcount = storage.ValueCount;

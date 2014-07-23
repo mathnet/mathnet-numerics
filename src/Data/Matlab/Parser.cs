@@ -218,7 +218,7 @@ namespace MathNet.Numerics.Data.Matlab
             ReadElementTag(reader, out type, out size, out smallBlock);
 
             // direct copy if possible
-            if (type == DataType.Double && dataType == typeof(double) || type == DataType.Single && dataType == typeof(float))
+            if ((type == DataType.Double && dataType == typeof(double)) || (type == DataType.Single && dataType == typeof(float)))
             {
                 Buffer.BlockCopy(reader.ReadBytes(size), 0, data, 0, size);
             }

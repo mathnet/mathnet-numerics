@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Data.Text
     /// Creates a <see cref="Matrix{T}"/> from a delimited text file. If the user does not
     /// specify a delimiter, then any whitespace is used.
     /// </summary>
-    public class DelimitedReader
+    public static class DelimitedReader
     {
         /// <summary>
         /// The base regular expression.
@@ -57,82 +57,17 @@ namespace MathNet.Numerics.Data.Text
         static readonly ConcurrentDictionary<string, Regex> RegexCache = new ConcurrentDictionary<string, Regex>();
 
         /// <summary>
-        /// The delimiter to use for parsing. Defaults to any whitespace.
-        /// </summary>
-        public string Delimiter { get; set; }
-
-        /// <summary>
-        /// Whether to create sparse matrices or not. Defaults to false.
-        /// </summary>
-        public bool Sparse { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the files has a header row.
-        /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance has a header row; otherwise, <c>false</c>.
-        /// </value>
-        /// <remarks>Defaults to <see langword="false"/>.</remarks>
-        public bool HasHeaderRow { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="FormatProvider"/> to use when parsing the numbers.
-        /// </summary>
-        /// <value>The culture info.</value>
-        /// <remarks>Defaults to <c>CultureInfo.CurrentCulture</c>.</remarks>
-        public IFormatProvider FormatProvider { get; set; }
-
-        /// <summary>
-        /// Performs the actual reading.
-        /// </summary>
-        /// <param name="filePath">The path and name of the file to read the matrix from.</param>
-        /// <returns>
-        /// A matrix containing the data from the <see cref="Stream"/>.
-        /// </returns>
-        public Matrix<TDataType> ReadMatrix<TDataType>(string filePath)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
-        {
-            return ReadFile<TDataType>(filePath, Sparse, Delimiter, HasHeaderRow, FormatProvider);
-        }
-
-        /// <summary>
-        /// Performs the actual reading.
-        /// </summary>
-        /// <param name="stream">The <see cref="Stream"/> to read the matrix from.</param>
-        /// <returns>
-        /// A matrix containing the data from the <see cref="Stream"/>.
-        /// </returns>
-        public Matrix<TDataType> ReadMatrix<TDataType>(Stream stream)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
-        {
-            return ReadStream<TDataType>(stream, Sparse, Delimiter, HasHeaderRow, FormatProvider);
-        }
-
-        /// <summary>
-        /// Performs the actual reading.
-        /// </summary>
-        /// <param name="reader">The <see cref="TextReader"/> to read the matrix from.</param>
-        /// <returns>
-        /// A matrix containing the data from the <see cref="Stream"/>.
-        /// </returns>
-        public Matrix<TDataType> ReadMatrix<TDataType>(TextReader reader)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
-        {
-            return Read<TDataType>(reader, Sparse, Delimiter, HasHeaderRow, FormatProvider);
-        }
-
-        /// <summary>
         /// Reads a <see cref="Matrix{TDataType}"/> from the given <see cref="TextReader"/>.
         /// </summary>
         /// <param name="reader">The <see cref="TextReader"/> to read the matrix from.</param>
-        /// <param name="sparse">Whether the the returned matrix should be constructed as sparse (true) or dense (false). Default: false.</param>
+        /// <param name="sparse">Whether the returned matrix should be constructed as sparse (true) or dense (false). Default: false.</param>
         /// <param name="delimiter">Number delimiter between numbers of the same line. Supports Regex groups. Default: "\s" (white space).</param>
         /// <param name="hasHeaders">Whether the first row contains column headers or not. Default: false.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
         /// <returns>A matrix containing the data from the <see cref="TextReader"/>.</returns>
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<TDataType> Read<TDataType>(TextReader reader, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static Matrix<T> Read<T>(TextReader reader, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
+            where T : struct, IEquatable<T>, IFormattable
         {
             if (string.IsNullOrEmpty(delimiter))
             {
@@ -173,8 +108,8 @@ namespace MathNet.Numerics.Data.Text
                 line = reader.ReadLine();
             }
 
-            var parse = CreateParser<TDataType>(formatProvider);
-            var matrix = sparse ? Matrix<TDataType>.Build.Sparse(data.Count, max) : Matrix<TDataType>.Build.Dense(data.Count, max);
+            var parse = CreateParser<T>(formatProvider);
+            var matrix = sparse ? Matrix<T>.Build.Sparse(data.Count, max) : Matrix<T>.Build.Dense(data.Count, max);
             var storage = matrix.Storage;
 
             for (var i = 0; i < data.Count; i++)
@@ -198,18 +133,18 @@ namespace MathNet.Numerics.Data.Text
         /// Reads a <see cref="Matrix{TDataType}"/> from the given file.
         /// </summary>
         /// <param name="filePath">The path and name of the file to read the matrix from.</param>
-        /// <param name="sparse">Whether the the returned matrix should be constructed as sparse (true) or dense (false). Default: false.</param>
+        /// <param name="sparse">Whether the returned matrix should be constructed as sparse (true) or dense (false). Default: false.</param>
         /// <param name="delimiter">Number delimiter between numbers of the same line. Supports Regex groups. Default: "\s" (white space).</param>
         /// <param name="hasHeaders">Whether the first row contains column headers or not. Default: false.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
         /// <returns>A matrix containing the data from the <see cref="TextReader"/>.</returns>
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<TDataType> ReadFile<TDataType>(string filePath, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static Matrix<T> Read<T>(string filePath, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
+            where T : struct, IEquatable<T>, IFormattable
         {
             using (var reader = new StreamReader(filePath))
             {
-                return Read<TDataType>(reader, sparse, delimiter, hasHeaders, formatProvider);
+                return Read<T>(reader, sparse, delimiter, hasHeaders, formatProvider);
             }
         }
 
@@ -217,18 +152,18 @@ namespace MathNet.Numerics.Data.Text
         /// Reads a <see cref="Matrix{TDataType}"/> from the given <see cref="Stream"/>.
         /// </summary>
         /// <param name="stream">The <see cref="Stream"/> to read the matrix from.</param>
-        /// <param name="sparse">Whether the the returned matrix should be constructed as sparse (true) or dense (false). Default: false.</param>
+        /// <param name="sparse">Whether the returned matrix should be constructed as sparse (true) or dense (false). Default: false.</param>
         /// <param name="delimiter">Number delimiter between numbers of the same line. Supports Regex groups. Default: "\s" (white space).</param>
         /// <param name="hasHeaders">Whether the first row contains column headers or not. Default: false.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
         /// <returns>A matrix containing the data from the <see cref="TextReader"/>.</returns>
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<TDataType> ReadStream<TDataType>(Stream stream, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static Matrix<T> Read<T>(Stream stream, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
+            where T : struct, IEquatable<T>, IFormattable
         {
             using (var reader = new StreamReader(stream))
             {
-                return Read<TDataType>(reader, sparse, delimiter, hasHeaders, formatProvider);
+                return Read<T>(reader, sparse, delimiter, hasHeaders, formatProvider);
             }
         }
 

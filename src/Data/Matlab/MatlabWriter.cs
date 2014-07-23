@@ -54,30 +54,30 @@ namespace MathNet.Numerics.Data.Matlab
             }
         }
 
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static MatlabMatrix Pack<TDataType>(Matrix<TDataType> matrix, string matrixName)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static MatlabMatrix Pack<T>(Matrix<T> matrix, string matrixName)
+            where T : struct, IEquatable<T>, IFormattable
         {
             return Formatter.FormatMatrix(matrix, matrixName);
         }
 
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static void Write<TDataType>(Stream stream, Matrix<TDataType> matrix, string matrixName)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static void Write<T>(Stream stream, Matrix<T> matrix, string matrixName)
+            where T : struct, IEquatable<T>, IFormattable
         {
             Store(stream, new[] { Pack(matrix, matrixName) });
         }
 
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static void Write<TDataType>(string filePath, Matrix<TDataType> matrix, string matrixName)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static void Write<T>(string filePath, Matrix<T> matrix, string matrixName)
+            where T : struct, IEquatable<T>, IFormattable
         {
             Store(filePath, new[] { Pack(matrix, matrixName) });
         }
 
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static void Write<TDataType>(Stream stream, IList<Matrix<TDataType>> matrices, IList<string> names)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static void Write<T>(Stream stream, IList<Matrix<T>> matrices, IList<string> names)
+            where T : struct, IEquatable<T>, IFormattable
         {
             if (matrices.Count != names.Count)
             {
@@ -87,9 +87,9 @@ namespace MathNet.Numerics.Data.Matlab
             Store(stream, matrices.Zip(names, Pack));
         }
 
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static void Write<TDataType>(string filePath, IList<Matrix<TDataType>> matrices, IList<string> names)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static void Write<T>(string filePath, IList<Matrix<T>> matrices, IList<string> names)
+            where T : struct, IEquatable<T>, IFormattable
         {
             if (matrices.Count != names.Count)
             {
@@ -99,16 +99,16 @@ namespace MathNet.Numerics.Data.Matlab
             Store(filePath, matrices.Zip(names, Pack));
         }
 
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static void Write<TDataType>(Stream stream, IEnumerable<KeyValuePair<string, Matrix<TDataType>>> matrices)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static void Write<T>(Stream stream, IEnumerable<KeyValuePair<string, Matrix<T>>> matrices)
+            where T : struct, IEquatable<T>, IFormattable
         {
             Store(stream, matrices.Select(kv => Pack(kv.Value, kv.Key)));
         }
 
-        /// <typeparam name="TDataType">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static void Write<TDataType>(string filePath, IEnumerable<KeyValuePair<string, Matrix<TDataType>>> matrices)
-            where TDataType : struct, IEquatable<TDataType>, IFormattable
+        /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
+        public static void Write<T>(string filePath, IEnumerable<KeyValuePair<string, Matrix<T>>> matrices)
+            where T : struct, IEquatable<T>, IFormattable
         {
             Store(filePath, matrices.Select(kv => Pack(kv.Value, kv.Key)));
         }
