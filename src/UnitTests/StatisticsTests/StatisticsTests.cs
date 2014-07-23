@@ -115,6 +115,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => StreamingStatistics.PopulationStandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Covariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.PopulationCovariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.Entropy(data), Throws.Exception.TypeOf<NullReferenceException>());
 
             Assert.That(() => new RunningStatistics(data), Throws.Exception);
             Assert.That(() => new RunningStatistics().PushRange(data), Throws.Exception);
@@ -173,6 +174,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => StreamingStatistics.PopulationStandardDeviation(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Covariance(data, data));
             Assert.DoesNotThrow(() => StreamingStatistics.PopulationCovariance(data, data));
+            Assert.DoesNotThrow(() => StreamingStatistics.Entropy(data));
 
             Assert.That(() => new RunningStatistics(data), Throws.Nothing);
             Assert.That(() => new RunningStatistics().PushRange(data), Throws.Nothing);
@@ -1012,6 +1014,33 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(Statistics.Kurtosis(longer), Is.EqualTo(-1.36).Within(1e-4), "Statistics.Kurtosis: longer");
             Assert.That(new DescriptiveStatistics(shorter).Kurtosis, Is.EqualTo(-1.36).Within(1e-4), "DescriptiveStatistics.Kurtosis: shorter");
             Assert.That(new DescriptiveStatistics(longer).Kurtosis, Is.EqualTo(-1.36).Within(1e-4), "DescriptiveStatistics.Kurtosis: longer");
+        }
+
+        [Test]
+        public void EntropyIsMinimum()
+        {
+            var data1 = new double[] { 1, 1, 1, 1, 1 };
+            Assert.That(StreamingStatistics.Entropy(data1) == 0);
+
+            var data2 = new double[] { 0, 0 };
+            Assert.That(StreamingStatistics.Entropy(data2) == 0);
+        }
+
+        [Test]
+        public void EntropyIsMaximum()
+        {
+            var data1 = new double[] { 1, 2  };
+            Assert.That(StreamingStatistics.Entropy(data1) == 1.0);
+
+            var data2 = new double[] { 1, 2, 3, 4 };
+            Assert.That(StreamingStatistics.Entropy(data2) == 2.0);
+        }
+
+        [Test]
+        public void EntropyOfNaNIsNaN()
+        {
+            var data = new double[] { 1, 2, double.NaN };
+            Assert.That(double.IsNaN(StreamingStatistics.Entropy(data)));
         }
     }
 }
