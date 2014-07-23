@@ -29,6 +29,7 @@ using System.IO;
 using System.Numerics;
 using MathNet.Numerics.Data.Matlab;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Storage;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.Data.UnitTests.Matlab
@@ -98,6 +99,8 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
                 Assert.AreEqual(w.ColumnCount, r.ColumnCount);
                 Assert.IsTrue(w.Equals(r));
             }
+
+            File.Delete("testd.mat");
         }
 
         [Test]
@@ -146,6 +149,8 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
                 Assert.AreEqual(w.ColumnCount, r.ColumnCount);
                 Assert.IsTrue(w.Equals(r));
             }
+
+            File.Delete("tests.mat");
         }
 
         /// <summary>
@@ -197,6 +202,8 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
                 Assert.AreEqual(w.ColumnCount, r.ColumnCount);
                 Assert.IsTrue(w.Equals(r));
             }
+
+            File.Delete("testc.mat");
         }
 
         /// <summary>
@@ -248,6 +255,8 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
                 Assert.AreEqual(w.ColumnCount, r.ColumnCount);
                 Assert.IsTrue(w.Equals(r));
             }
+
+            File.Delete("testz.mat");
         }
 
         /// <summary>
@@ -268,6 +277,49 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         public void WriteNullMatrixThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => MatlabWriter.Write<double>("somefile2", null, "matrix"));
+        }
+
+        [Test]
+        public void MatlabMatrixRoundtrip()
+        {
+            var denseDouble = Matrix<double>.Build.Random(20, 20);
+            var denseComplex = Matrix<Complex>.Build.Random(10, 10);
+            var diagonalDouble = Matrix<double>.Build.DiagonalOfDiagonalArray(new[] { 1.0, 2.0, 3.0 });
+            var sparseDouble = Matrix<double>.Build.Sparse(20, 20, (i, j) => i%(j+1) == 2 ? i + 10*j : 0);
+
+            var denseDoubleP = MatlabWriter.Pack(denseDouble, "denseDouble");
+            var denseComplexP = MatlabWriter.Pack(denseComplex, "denseComplex");
+            var diagonalDoubleP = MatlabWriter.Pack(diagonalDouble, "diagonalDouble");
+            var sparseDoubleP = MatlabWriter.Pack(sparseDouble, "sparseDouble");
+
+            Assert.That(MatlabReader.Unpack<double>(denseDoubleP).Equals(denseDouble));
+            Assert.That(MatlabReader.Unpack<Complex>(denseComplexP).Equals(denseComplex));
+            Assert.That(MatlabReader.Unpack<double>(diagonalDoubleP).Equals(diagonalDouble));
+            Assert.That(MatlabReader.Unpack<double>(sparseDoubleP).Equals(sparseDouble));
+
+            Assert.That(MatlabReader.Unpack<double>(denseDoubleP).Storage, Is.TypeOf<DenseColumnMajorMatrixStorage<double>>());
+            Assert.That(MatlabReader.Unpack<Complex>(denseComplexP).Storage, Is.TypeOf<DenseColumnMajorMatrixStorage<Complex>>());
+            Assert.That(MatlabReader.Unpack<double>(diagonalDoubleP).Storage, Is.TypeOf<SparseCompressedRowMatrixStorage<double>>());
+            Assert.That(MatlabReader.Unpack<double>(sparseDoubleP).Storage, Is.TypeOf<SparseCompressedRowMatrixStorage<double>>());
+
+            if (File.Exists("testrt.mat"))
+            {
+                File.Delete("testrt.mat");
+            }
+
+            MatlabWriter.Store("testrt.mat", new[] { denseDoubleP, denseComplexP, diagonalDoubleP, sparseDoubleP });
+
+            Assert.That(MatlabReader.Read<double>("testrt.mat", "denseDouble").Equals(denseDouble));
+            Assert.That(MatlabReader.Read<Complex>("testrt.mat", "denseComplex").Equals(denseComplex));
+            Assert.That(MatlabReader.Read<double>("testrt.mat", "diagonalDouble").Equals(diagonalDouble));
+            Assert.That(MatlabReader.Read<double>("testrt.mat", "sparseDouble").Equals(sparseDouble));
+
+            Assert.That(MatlabReader.Read<double>("testrt.mat", "denseDouble").Storage, Is.TypeOf<DenseColumnMajorMatrixStorage<double>>());
+            Assert.That(MatlabReader.Read<Complex>("testrt.mat", "denseComplex").Storage, Is.TypeOf<DenseColumnMajorMatrixStorage<Complex>>());
+            Assert.That(MatlabReader.Read<double>("testrt.mat", "diagonalDouble").Storage, Is.TypeOf<SparseCompressedRowMatrixStorage<double>>());
+            Assert.That(MatlabReader.Read<double>("testrt.mat", "sparseDouble").Storage, Is.TypeOf<SparseCompressedRowMatrixStorage<double>>());
+
+            File.Delete("testrt.mat");
         }
     }
 }
