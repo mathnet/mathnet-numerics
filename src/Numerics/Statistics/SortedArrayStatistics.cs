@@ -235,7 +235,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the tau-th quantile from the sorted data array (ascending).
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
@@ -338,7 +338,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empirical cummulative distribution function (CDF) at x from the sorted data array (ascending).
+        /// Estimates the empirical cumulative distribution function (CDF) at x from the sorted data array (ascending).
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         /// <param name="x">The value where to estimate the CDF at.</param>
@@ -371,7 +371,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the quantile tau from the sorted data array (ascending).
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -444,7 +444,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Evaluates the rank of each entry of the sorted data array (ascending).
-        /// The rank definition can be specificed to be compatible
+        /// The rank definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         public static double[] Ranks(double[] data, RankDefinition definition = RankDefinition.Default)

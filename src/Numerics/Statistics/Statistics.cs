@@ -502,7 +502,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the tau-th quantile from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -517,7 +517,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the tau-th quantile from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -532,7 +532,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the tau-th quantile from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -547,7 +547,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the tau-th quantile from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -723,7 +723,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Evaluates the rank of each entry of the provided samples.
-        /// The rank definition can be specificed to be compatible
+        /// The rank definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -736,7 +736,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Evaluates the rank of each entry of the provided samples.
-        /// The rank definition can be specificed to be compatible
+        /// The rank definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -749,7 +749,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the quantile tau from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -765,7 +765,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the quantile tau from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -779,7 +779,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the quantile tau from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -794,7 +794,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the quantile tau from the provided samples.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
@@ -805,7 +805,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empirical cummulative distribution function (CDF) at x from the provided samples.
+        /// Estimates the empirical cumulative distribution function (CDF) at x from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         /// <param name="x">The value where to estimate the CDF at.</param>
@@ -817,7 +817,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empirical cummulative distribution function (CDF) at x from the provided samples.
+        /// Estimates the empirical cumulative distribution function (CDF) at x from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         /// <param name="x">The value where to estimate the CDF at.</param>
@@ -827,7 +827,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empirical cummulative distribution function (CDF) at x from the provided samples.
+        /// Estimates the empirical cumulative distribution function (CDF) at x from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> EmpiricalCDFFunc(this IEnumerable<double> data)
@@ -838,7 +838,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Estimates the empirical cummulative distribution function (CDF) at x from the provided samples.
+        /// Estimates the empirical cumulative distribution function (CDF) at x from the provided samples.
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> EmpiricalCDFFunc(this IEnumerable<double?> data)
@@ -885,6 +885,27 @@ namespace MathNet.Numerics.Statistics
         public static Func<double, double> EmpiricalInvCDFFunc(this IEnumerable<double?> data)
         {
             return EmpiricalInvCDFFunc(data.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
+        /// Calculates the entropy of a stream of double values in bits.
+        /// Returns NaN if any of the values in the stream are NaN.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double Entropy(IEnumerable<double> data)
+        {
+            return StreamingStatistics.Entropy(data);
+        }
+
+        /// <summary>
+        /// Calculates the entropy of a stream of double values in bits.
+        /// Returns NaN if any of the values in the stream are NaN.
+        /// Null-entries are ignored.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static double Entropy(IEnumerable<double?> data)
+        {
+            return StreamingStatistics.Entropy(data.Where(d => d.HasValue).Select(d => d.Value));
         }
     }
 }

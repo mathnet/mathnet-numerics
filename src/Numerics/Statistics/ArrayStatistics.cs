@@ -499,7 +499,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the tau-th quantile from the unsorted data array.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile definition can be specificed to be compatible
+        /// function crosses tau. The quantile definition can be specified to be compatible
         /// with an existing system.
         /// WARNING: Works inplace and can thus causes the data array to be reordered.
         /// </summary>
@@ -706,7 +706,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Evaluates the rank of each entry of the unsorted data array.
-        /// The rank definition can be specificed to be compatible
+        /// The rank definition can be specified to be compatible
         /// with an existing system.
         /// WARNING: Works inplace and can thus causes the data array to be reordered.
         /// </summary>
