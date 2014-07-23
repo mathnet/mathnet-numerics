@@ -32,11 +32,12 @@ Reading a matrix from a delimited file
 --------------------------------------
 
 The `DelimitedReader` class provides static functions to read a matrix from a file or string in delimited form.
+It can read from:
 
-* **Read**: read from a TextReader. If you have your delimited data already in memory in a string,
+* **TextReader**: If you have your delimited data already in memory in a string,
   you can use this method using a StringReader.
-* **ReadStream**: read directly from a stream, e.g. a MemoryStream, FileStream or NetworkStream.
-* **ReadFile**: read from a file, specified by the file system path.
+* **Stream**: read directly from a stream, e.g. a MemoryStream, FileStream or NetworkStream.
+* **File Path (string)**: read from a file, specified by the file system path.
 
 All these functions expect the data type of the matrix to be generated as generic type argument.
 Only Double, Single, Complex and Complex32 are supported.
@@ -44,6 +45,8 @@ Only Double, Single, Complex and Complex32 are supported.
 Example:
 
     [lang=csharp]
+    using MathNet.Numerics.Data.Text;
+
     Matrix<double> matrix = DelimitedReader.Read<double>("data.csv", false, ",", true);
 
 Unfortunately the lack of standard means that the parsing logic needs to be parametrized accordingly.
@@ -64,7 +67,7 @@ but for simplicity the Read functions expects those parameters explicitly as opt
 Writing a matrix to a delimited file
 ------------------------------------
 
-The dual to the delimiter above is the `DelimitedWriter` class that can serialize a matrix
+The dual to the reader above is the `DelimitedWriter` class that can serialize a matrix
 to a delimited text file, stream or TextWriter.
 
 The static Write functions accept the following optional arguments to control the output format:
@@ -82,7 +85,7 @@ The static Write functions accept the following optional arguments to control th
 Example:
 
     [lang=csharp]
-    DelimitedWriter.WriteFile(matrix, "data.csv", ",");
+    DelimitedWriter.Write("data.csv", matrix, ",");
 
 
 Alternatives
@@ -91,7 +94,7 @@ Alternatives
 The data extension packages also offer other ways to serialize a matrix to a binary stream or file.
 Among others:
 
-* NIST MatrixMarket text files
-* MATLAB mat files
+* [NIST MatrixMarket text files](MatrixMarket.html)
+* [MATLAB Level-5 Mat files](MatlabFiles.html)
 
 *)
