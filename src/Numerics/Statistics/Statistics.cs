@@ -721,7 +721,6 @@ namespace MathNet.Numerics.Statistics
             return order => SortedArrayStatistics.OrderStatistic(array, order);
         }
 
-
         /// <summary>
         /// Evaluates the rank of each entry of the provided samples.
         /// The rank definition can be specificed to be compatible
@@ -746,7 +745,6 @@ namespace MathNet.Numerics.Statistics
         {
             return Ranks(data.Where(d => d.HasValue).Select(d => d.Value), definition);
         }
-
 
         /// <summary>
         /// Estimates the quantile tau from the provided samples.
@@ -806,7 +804,6 @@ namespace MathNet.Numerics.Statistics
             return QuantileRankFunc(data.Where(d => d.HasValue).Select(d => d.Value), definition);
         }
 
-
         /// <summary>
         /// Estimates the empirical cummulative distribution function (CDF) at x from the provided samples.
         /// </summary>
@@ -848,7 +845,6 @@ namespace MathNet.Numerics.Statistics
         {
             return EmpiricalCDFFunc(data.Where(d => d.HasValue).Select(d => d.Value));
         }
-
 
         /// <summary>
         /// Estimates the empirical inverse CDF at tau from the provided samples.

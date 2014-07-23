@@ -160,9 +160,10 @@ namespace MathNet.Numerics.Statistics
             double variance = 0;
             double skewness = 0;
             double kurtosis = 0;
-            double minimum = Double.PositiveInfinity;
-            double maximum = Double.NegativeInfinity;
+            double minimum = double.PositiveInfinity;
+            double maximum = double.NegativeInfinity;
             long n = 0;
+
             foreach (var xi in data)
             {
                 double delta = xi - mean;
@@ -182,11 +183,13 @@ namespace MathNet.Numerics.Statistics
                 {
                     minimum = xi;
                 }
+
                 if (maximum < xi)
                 {
                     maximum = xi;
                 }
             }
+
             SetStatistics(mean, variance, skewness, kurtosis, minimum, maximum, n);
         }
 
@@ -200,9 +203,10 @@ namespace MathNet.Numerics.Statistics
             double variance = 0;
             double skewness = 0;
             double kurtosis = 0;
-            double minimum = Double.PositiveInfinity;
-            double maximum = Double.NegativeInfinity;
+            double minimum = double.PositiveInfinity;
+            double maximum = double.NegativeInfinity;
             long n = 0;
+
             foreach (var xi in data)
             {
                 if (xi.HasValue)
@@ -219,16 +223,19 @@ namespace MathNet.Numerics.Statistics
 
                     skewness += tmpDelta*scaleDeltaSqr*(n - 2) - 3*scaleDelta*variance;
                     variance += tmpDelta*scaleDelta;
+
                     if (minimum > xi)
                     {
                         minimum = xi.Value;
                     }
+
                     if (maximum < xi)
                     {
                         maximum = xi.Value;
                     }
                 }
             }
+
             SetStatistics(mean, variance, skewness, kurtosis, minimum, maximum, n);
         }
 
@@ -242,9 +249,10 @@ namespace MathNet.Numerics.Statistics
             decimal variance = 0;
             decimal skewness = 0;
             decimal kurtosis = 0;
-            decimal minimum = Decimal.MaxValue;
-            decimal maximum = Decimal.MinValue;
+            decimal minimum = decimal.MaxValue;
+            decimal maximum = decimal.MinValue;
             long n = 0;
+
             foreach (double x in data)
             {
                 decimal xi = (decimal)x;
@@ -260,15 +268,18 @@ namespace MathNet.Numerics.Statistics
 
                 skewness += tmpDelta*scaleDelta2*(n - 2) - 3*scaleDelta*variance;
                 variance += tmpDelta*scaleDelta;
+
                 if (minimum > xi)
                 {
                     minimum = xi;
                 }
+
                 if (maximum < xi)
                 {
                     maximum = xi;
                 }
             }
+
             SetStatistics((double)mean, (double)variance, (double)skewness, (double)kurtosis, (double)minimum, (double)maximum, n);
         }
 
@@ -282,9 +293,10 @@ namespace MathNet.Numerics.Statistics
             decimal variance = 0;
             decimal skewness = 0;
             decimal kurtosis = 0;
-            decimal minimum = Decimal.MaxValue;
-            decimal maximum = Decimal.MinValue;
+            decimal minimum = decimal.MaxValue;
+            decimal maximum = decimal.MinValue;
             long n = 0;
+
             foreach (double? x in data)
             {
                 if (x.HasValue)
@@ -302,16 +314,19 @@ namespace MathNet.Numerics.Statistics
 
                     skewness += tmpDelta*scaleDeltaSQR*(n - 2) - 3*scaleDelta*variance;
                     variance += tmpDelta*scaleDelta;
+
                     if (minimum > xi)
                     {
                         minimum = xi;
                     }
+
                     if (maximum < xi)
                     {
                         maximum = xi;
                     }
                 }
             }
+
             SetStatistics((double)mean, (double)variance, (double)skewness, (double)kurtosis, (double)minimum, (double)maximum, n);
         }
 
@@ -341,11 +356,13 @@ namespace MathNet.Numerics.Statistics
             {
                 Minimum = minimum;
                 Maximum = maximum;
+
                 if (n > 1)
                 {
                     Variance = variance/(n - 1);
                     StandardDeviation = Math.Sqrt(Variance);
                 }
+
                 if (Variance != 0)
                 {
                     if (n > 2)

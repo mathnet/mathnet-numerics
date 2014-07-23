@@ -47,8 +47,8 @@ namespace MathNet.Numerics.Statistics
         double _m2;
         double _m3;
         double _m4;
-        double _min = Double.PositiveInfinity;
-        double _max = Double.NegativeInfinity;
+        double _min = double.PositiveInfinity;
+        double _max = double.NegativeInfinity;
 
         public RunningStatistics()
         {
@@ -194,6 +194,7 @@ namespace MathNet.Numerics.Statistics
             {
                 _min = value;
             }
+
             if (_max < value)
             {
                 _max = value;

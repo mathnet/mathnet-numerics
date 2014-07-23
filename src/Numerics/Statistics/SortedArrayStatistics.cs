@@ -46,7 +46,10 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double Minimum(double[] data)
         {
-            if (data.Length == 0) return double.NaN;
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
 
             return data[0];
         }
@@ -57,7 +60,10 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double Maximum(double[] data)
         {
-            if (data.Length == 0) return double.NaN;
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
 
             return data[data.Length - 1];
         }
@@ -69,7 +75,10 @@ namespace MathNet.Numerics.Statistics
         /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
         public static double OrderStatistic(double[] data, int order)
         {
-            if (order < 1 || order > data.Length) return double.NaN;
+            if (order < 1 || order > data.Length)
+            {
+                return double.NaN;
+            }
 
             return data[order - 1];
         }
@@ -81,7 +90,10 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double Median(double[] data)
         {
-            if (data.Length == 0) return double.NaN;
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
 
             var k = data.Length/2;
             return data.Length.IsOdd()
@@ -138,7 +150,11 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         public static double[] FiveNumberSummary(double[] data)
         {
-            if (data.Length == 0) return new[] { double.NaN, double.NaN, double.NaN, double.NaN, double.NaN };
+            if (data.Length == 0)
+            {
+                return new[] { double.NaN, double.NaN, double.NaN, double.NaN, double.NaN };
+            }
+
             return new[] { data[0], Quantile(data, 0.25), Quantile(data, 0.50), Quantile(data, 0.75), data[data.Length - 1] };
         }
 
@@ -157,9 +173,20 @@ namespace MathNet.Numerics.Statistics
         /// </remarks>
         public static double Quantile(double[] data, double tau)
         {
-            if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
-            if (tau == 0d || data.Length == 1) return data[0];
-            if (tau == 1d) return data[data.Length - 1];
+            if (tau < 0d || tau > 1d || data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            if (tau == 0d || data.Length == 1)
+            {
+                return data[0];
+            }
+
+            if (tau == 1d)
+            {
+                return data[data.Length - 1];
+            }
 
             double h = (data.Length + 1/3d)*tau + 1/3d;
             var hf = (int)h;
@@ -182,7 +209,10 @@ namespace MathNet.Numerics.Statistics
         /// <param name="d">d-parameter</param>
         public static double QuantileCustom(double[] data, double tau, double a, double b, double c, double d)
         {
-            if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
+            if (tau < 0d || tau > 1d || data.Length == 0)
+            {
+                return double.NaN;
+            }
 
             var x = a + (data.Length + b)*tau - 1;
 #if PORTABLE
@@ -213,9 +243,20 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static double QuantileCustom(double[] data, double tau, QuantileDefinition definition)
         {
-            if (tau < 0d || tau > 1d || data.Length == 0) return double.NaN;
-            if (tau == 0d || data.Length == 1) return data[0];
-            if (tau == 1d) return data[data.Length - 1];
+            if (tau < 0d || tau > 1d || data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            if (tau == 0d || data.Length == 1)
+            {
+                return data[0];
+            }
+
+            if (tau == 1d)
+            {
+                return data[data.Length - 1];
+            }
 
             switch (definition)
             {
@@ -224,16 +265,19 @@ namespace MathNet.Numerics.Statistics
                     double h = data.Length*tau + 0.5d;
                     return data[(int)Math.Ceiling(h - 0.5d) - 1];
                 }
+
                 case QuantileDefinition.R2:
                 {
                     double h = data.Length*tau + 0.5d;
                     return (data[(int)Math.Ceiling(h - 0.5d) - 1] + data[(int)(h + 0.5d) - 1])*0.5d;
                 }
+
                 case QuantileDefinition.R3:
                 {
                     double h = data.Length*tau;
                     return data[Math.Max((int)Math.Round(h) - 1, 0)];
                 }
+
                 case QuantileDefinition.R4:
                 {
                     double h = data.Length*tau;
@@ -242,6 +286,7 @@ namespace MathNet.Numerics.Statistics
                     var upper = data[Math.Min(hf, data.Length - 1)];
                     return lower + (h - hf)*(upper - lower);
                 }
+
                 case QuantileDefinition.R5:
                 {
                     double h = data.Length*tau + 0.5d;
@@ -250,6 +295,7 @@ namespace MathNet.Numerics.Statistics
                     var upper = data[Math.Min(hf, data.Length - 1)];
                     return lower + (h - hf)*(upper - lower);
                 }
+
                 case QuantileDefinition.R6:
                 {
                     double h = (data.Length + 1)*tau;
@@ -258,6 +304,7 @@ namespace MathNet.Numerics.Statistics
                     var upper = data[Math.Min(hf, data.Length - 1)];
                     return lower + (h - hf)*(upper - lower);
                 }
+
                 case QuantileDefinition.R7:
                 {
                     double h = (data.Length - 1)*tau + 1d;
@@ -266,6 +313,7 @@ namespace MathNet.Numerics.Statistics
                     var upper = data[Math.Min(hf, data.Length - 1)];
                     return lower + (h - hf)*(upper - lower);
                 }
+
                 case QuantileDefinition.R8:
                 {
                     double h = (data.Length + 1/3d)*tau + 1/3d;
@@ -274,6 +322,7 @@ namespace MathNet.Numerics.Statistics
                     var upper = data[Math.Min(hf, data.Length - 1)];
                     return lower + (h - hf)*(upper - lower);
                 }
+
                 case QuantileDefinition.R9:
                 {
                     double h = (data.Length + 0.25d)*tau + 0.375d;
@@ -282,6 +331,7 @@ namespace MathNet.Numerics.Statistics
                     var upper = data[Math.Min(hf, data.Length - 1)];
                     return lower + (h - hf)*(upper - lower);
                 }
+
                 default:
                     throw new NotSupportedException();
             }
@@ -294,8 +344,15 @@ namespace MathNet.Numerics.Statistics
         /// <param name="x">The value where to estimate the CDF at.</param>
         public static double EmpiricalCDF(double[] data, double x)
         {
-            if (x < data[0]) return 0.0;
-            if (x >= data[data.Length - 1]) return 1.0;
+            if (x < data[0])
+            {
+                return 0.0;
+            }
+
+            if (x >= data[data.Length - 1])
+            {
+                return 1.0;
+            }
 
             int right = Array.BinarySearch(data, x);
             if (right >= 0)
@@ -304,10 +361,11 @@ namespace MathNet.Numerics.Statistics
                 {
                     right++;
                 }
-                return (right + 1)/(double)(data.Length);
+
+                return (right + 1)/(double)data.Length;
             }
 
-            return (~right)/(double)(data.Length);
+            return (~right)/(double)data.Length;
         }
 
         /// <summary>
@@ -321,17 +379,26 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
         public static double QuantileRank(double[] data, double x, RankDefinition definition = RankDefinition.Default)
         {
-            if (x < data[0]) return 0.0;
-            if (x >= data[data.Length - 1]) return 1.0;
+            if (x < data[0])
+            {
+                return 0.0;
+            }
+
+            if (x >= data[data.Length - 1])
+            {
+                return 1.0;
+            }
 
             int right = Array.BinarySearch(data, x);
             if (right >= 0)
             {
                 int left = right;
+
                 while (left > 0 && data[left - 1] == data[left])
                 {
                     left--;
                 }
+
                 while (right < data.Length - 1 && data[right + 1] == data[right])
                 {
                     right++;
@@ -340,13 +407,17 @@ namespace MathNet.Numerics.Statistics
                 switch (definition)
                 {
                     case RankDefinition.EmpiricalCDF:
-                        return (right + 1)/(double)(data.Length);
+                        return (right + 1)/(double)data.Length;
+
                     case RankDefinition.Max:
                         return right/(double)(data.Length - 1);
+
                     case RankDefinition.Min:
                         return left/(double)(data.Length - 1);
+
                     case RankDefinition.Average:
                         return (left/(double)(data.Length - 1) + right/(double)(data.Length - 1))/2;
+
                     default:
                         throw new NotSupportedException();
                 }
@@ -359,7 +430,8 @@ namespace MathNet.Numerics.Statistics
                 switch (definition)
                 {
                     case RankDefinition.EmpiricalCDF:
-                        return (left + 1)/(double)(data.Length);
+                        return (left + 1)/(double)data.Length;
+
                     default:
                     {
                         var a = left/(double)(data.Length - 1);
@@ -385,6 +457,7 @@ namespace MathNet.Numerics.Statistics
                 {
                     ranks[i] = i + 1;
                 }
+
                 return ranks;
             }
 
@@ -424,16 +497,19 @@ namespace MathNet.Numerics.Statistics
                     rank = (b + a - 1)/2d + 1;
                     break;
                 }
+
                 case RankDefinition.Min:
                 {
                     rank = a + 1;
                     break;
                 }
+
                 case RankDefinition.Max:
                 {
                     rank = b;
                     break;
                 }
+
                 default:
                     throw new NotSupportedException();
             }

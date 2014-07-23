@@ -69,6 +69,7 @@ namespace MathNet.Numerics.Statistics
                     {
                         throw new ArgumentOutOfRangeException("dataB", Resources.ArgumentArraysSameLength);
                     }
+
                     double currentA = ieA.Current;
                     double currentB = ieB.Current;
 
@@ -83,8 +84,9 @@ namespace MathNet.Numerics.Statistics
 
                     varA += scaleDeltaA * deltaA * (n - 1);
                     varB += scaleDeltaB * deltaB * (n - 1);
-                    r += ((deltaA * deltaB * (n - 1)) / n);
+                    r += (deltaA * deltaB * (n - 1)) / n;
                 }
+
                 if (ieB.MoveNext())
                 {
                     throw new ArgumentOutOfRangeException("dataA", Resources.ArgumentArraysSameLength);
@@ -103,12 +105,15 @@ namespace MathNet.Numerics.Statistics
         {
             var m = Matrix<double>.Build.DenseIdentity(vectors.Length);
             for (int i = 0; i < vectors.Length; i++)
+            {
                 for (int j = i + 1; j < vectors.Length; j++)
                 {
                     var c = Pearson(vectors[i], vectors[j]);
                     m.At(i, j, c);
                     m.At(j, i, c);
                 }
+            }
+
             return m;
         }
 

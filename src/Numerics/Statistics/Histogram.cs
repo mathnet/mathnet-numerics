@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Statistics
     using Properties;
 
     /// <summary>
-    /// A <see cref="Histogram"/> consists of a series of <see cref="Bucket"/>s, 
+    /// A <see cref="Histogram"/> consists of a series of <see cref="Bucket"/>s,
     /// each representing a region limited by a lower bound (exclusive) and an upper bound (inclusive).
     /// </summary>
     [Serializable]
@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Statistics
    IComparable<Bucket>
 #else
     IComparable<Bucket>, ICloneable
-#endif        
+#endif
     {
         /// <summary>
         /// This <c>IComparer</c> performs comparisons between a point and a bucket.
@@ -159,7 +159,7 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentException(Resources.PartialOrderException);
             }
 
-            if (UpperBound.AlmostEqual(bucket.UpperBound) 
+            if (UpperBound.AlmostEqual(bucket.UpperBound)
                 && LowerBound.AlmostEqual(bucket.LowerBound))
             {
                 return 0;
@@ -175,7 +175,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Checks whether two Buckets are equal; this method tolerates a difference in lowerbound, upperbound
-        /// and count given by <seealso cref="Precision.AlmostEqual(double,double)"/>. 
+        /// and count given by <seealso cref="Precision.AlmostEqual(double,double)"/>.
         /// </summary>
         public override bool Equals(object obj)
         {
@@ -206,7 +206,7 @@ namespace MathNet.Numerics.Statistics
             return "(" + LowerBound + ";" + UpperBound + "] = " + Count;
         }
     }
-    
+
     /// <summary>
     /// A class which computes histograms of data.
     /// </summary>
@@ -359,7 +359,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Returns the <c>Bucket</c> that contains the value <c>v</c>. 
+        /// Returns the <c>Bucket</c> that contains the value <c>v</c>.
         /// </summary>
         /// <param name="v">The point to search the bucket for.</param>
         /// <returns>A copy of the bucket containing point <paramref name="v"/>.</returns>
@@ -427,7 +427,7 @@ namespace MathNet.Numerics.Statistics
                 return (Bucket) _buckets[n].Clone();
             }
         }
-        
+
         /// <summary>
         /// Gets the number of buckets.
         /// </summary>
@@ -444,7 +444,7 @@ namespace MathNet.Numerics.Statistics
             get
             {
                 double totalCount = 0;
-               
+
                 for (int i = 0; i < BucketCount; i++)
                 {
                     totalCount += this[i].Count;
@@ -464,6 +464,7 @@ namespace MathNet.Numerics.Statistics
             {
                 sb.Append(b);
             }
+
             return sb.ToString();
         }
     }

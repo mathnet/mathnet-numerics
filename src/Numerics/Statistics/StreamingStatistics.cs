@@ -52,14 +52,17 @@ namespace MathNet.Numerics.Statistics
         {
             var min = double.PositiveInfinity;
             bool any = false;
+
             foreach (var d in stream)
             {
                 if (d < min || double.IsNaN(d))
                 {
                     min = d;
                 }
+
                 any = true;
             }
+
             return any ? min : double.NaN;
         }
 
@@ -72,14 +75,17 @@ namespace MathNet.Numerics.Statistics
         {
             var max = double.NegativeInfinity;
             bool any = false;
+
             foreach (var d in stream)
             {
                 if (d > max || double.IsNaN(d))
                 {
                     max = d;
                 }
+
                 any = true;
             }
+
             return any ? max : double.NaN;
         }
 
@@ -93,11 +99,13 @@ namespace MathNet.Numerics.Statistics
             double mean = 0;
             ulong m = 0;
             bool any = false;
+
             foreach (var d in stream)
             {
                 mean += (d - mean)/++m;
                 any = true;
             }
+
             return any ? mean : double.NaN;
         }
 
@@ -112,6 +120,7 @@ namespace MathNet.Numerics.Statistics
             double variance = 0;
             double sum = 0;
             ulong count = 0;
+
             using (var iterator = samples.GetEnumerator())
             {
                 if (iterator.MoveNext())
@@ -129,6 +138,7 @@ namespace MathNet.Numerics.Statistics
                     variance += (diff*diff)/(count*(count - 1));
                 }
             }
+
             return count > 1 ? variance/(count - 1) : double.NaN;
         }
 
@@ -143,6 +153,7 @@ namespace MathNet.Numerics.Statistics
             double variance = 0;
             double sum = 0;
             ulong count = 0;
+
             using (var iterator = population.GetEnumerator())
             {
                 if (iterator.MoveNext())
@@ -160,6 +171,7 @@ namespace MathNet.Numerics.Statistics
                     variance += (diff*diff)/(count*(count - 1));
                 }
             }
+
             return variance/count;
         }
 
@@ -197,6 +209,7 @@ namespace MathNet.Numerics.Statistics
             double variance = 0;
             double sum = 0;
             ulong count = 0;
+
             using (var iterator = samples.GetEnumerator())
             {
                 if (iterator.MoveNext())
@@ -215,6 +228,7 @@ namespace MathNet.Numerics.Statistics
                     mean += (xi - mean) / count;
                 }
             }
+
             return new Tuple<double, double>(
                 count > 0 ? mean : double.NaN,
                 count > 1 ? variance/(count - 1) : double.NaN);
@@ -246,6 +260,7 @@ namespace MathNet.Numerics.Statistics
             var mean1 = 0.0;
             var mean2 = 0.0;
             var comoment = 0.0;
+
             using (var s1 = samples1.GetEnumerator())
             using (var s2 = samples2.GetEnumerator())
             {
@@ -261,13 +276,14 @@ namespace MathNet.Numerics.Statistics
                     mean1 += (s1.Current - mean1)/n;
                     mean2 += (s2.Current - mean2)/n;
                     comoment += (s1.Current - mean1)*(s2.Current - mean2Prev);
-
                 }
+
                 if (s2.MoveNext())
                 {
                     throw new ArgumentException(Resources.ArgumentVectorsSameLength);
                 }
             }
+
             return n > 1 ? comoment/(n - 1) : double.NaN;
         }
 
@@ -285,6 +301,7 @@ namespace MathNet.Numerics.Statistics
             var mean1 = 0.0;
             var mean2 = 0.0;
             var comoment = 0.0;
+
             using (var p1 = population1.GetEnumerator())
             using (var p2 = population2.GetEnumerator())
             {
@@ -300,18 +317,19 @@ namespace MathNet.Numerics.Statistics
                     mean1 += (p1.Current - mean1) / n;
                     mean2 += (p2.Current - mean2) / n;
                     comoment += (p1.Current - mean1) * (p2.Current - mean2Prev);
-
                 }
+
                 if (p2.MoveNext())
                 {
                     throw new ArgumentException(Resources.ArgumentVectorsSameLength);
                 }
             }
+
             return comoment/n;
         }
 
         /// <summary>
-        /// Calculates the entropy of a stream of double values. 
+        /// Calculates the entropy of a stream of double values.
         /// Returns NaN if any of the values in the stream are NaN.
         /// </summary>
         /// <param name="stream">The input stream to evaluate.</param>
@@ -326,20 +344,26 @@ namespace MathNet.Numerics.Statistics
             int totalCount = 0;
             foreach (double value in stream)
             {
-                if (double.IsNaN(value)) return double.NaN;
+                if (double.IsNaN(value))
+                {
+                    return double.NaN;
+                }
 
-                double currentValueCount = 0;
-                
+                double currentValueCount;
                 if (index.TryGetValue(value, out currentValueCount))
+                {
                     index[value] = ++currentValueCount;
+                }
                 else
+                {
                     index.Add(value, 1);
-                
+                }
+
                 ++totalCount;
             }
 
             // calculate the entropy of the stream
-            double entropy = 0;            
+            double entropy = 0;
             foreach (var item in index)
             {
                 double p = item.Value / totalCount;
