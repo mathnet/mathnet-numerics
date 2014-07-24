@@ -193,13 +193,7 @@ namespace MathNet.Numerics.Interpolation
         int LeftBracketIndex(double t)
         {
             int index = Array.BinarySearch(_x, t);
-            if (index >= 0)
-            {
-                return index;
-            }
-
-            index = ~index;
-            return index - 1;
+            return index >= 0 ? index : ~index - 1;
         }
     }
 }

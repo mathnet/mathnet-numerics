@@ -157,22 +157,13 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         int LeftSegmentIndex(double t)
         {
-            int low = 0;
-            int high = _x.Length - 1;
-            while (low != high - 1)
+            int index = Array.BinarySearch(_x, t);
+            if (index < 0)
             {
-                int middle = (low + high)/2;
-                if (_x[middle] > t)
-                {
-                    high = middle;
-                }
-                else
-                {
-                    low = middle;
-                }
+                index = ~index - 1;
             }
 
-            return low;
+            return Math.Min(Math.Max(index, 0), _x.Length - 2);
         }
     }
 }
