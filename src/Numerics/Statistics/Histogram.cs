@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (lowerBound > upperBound)
             {
-                throw new ArgumentException(Resources.ArgumentLowerBoundLargerThanUpperBound);
+                throw new ArgumentException(Resources.ArgumentUpperBoundMustBeLargerThanOrEqualToLowerBound);
             }
 
             if (count < 0.0)

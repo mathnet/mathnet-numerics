@@ -276,8 +276,8 @@
   <data name="ArgumentMinValueGreaterThanMaxValue" xml:space="preserve">
     <value>In the specified range, the minimum is greater than maximum.</value>
   </data>
-  <data name="ArgumentLowerBoundLargerThanUpperBound" xml:space="preserve">
-    <value>han the given upper bound.</value>
+  <data name="ArgumentUpperBoundMustBeLargerThanOrEqualToLowerBound" xml:space="preserve">
+    <value>The upper bound must be at least as large as the lower bound.</value>
   </data>
   <data name="PartialOrderException" xml:space="preserve">
     <value>The two arguments can't be compared (maybe they are part of a partial ordering?)</value>
@@ -402,5 +402,8 @@
   </data>
   <data name="MatrixMustBeSparse" xml:space="preserve">
     <value>Matrix must be in sparse storage format</value>
+  </data>
+  <data name="ArgumentUpperBoundMustBeLargerThanLowerBound" xml:space="preserve">
+    <value>The upper bound must be strictly larger than the lower bound.</value>
   </data>
 </root>

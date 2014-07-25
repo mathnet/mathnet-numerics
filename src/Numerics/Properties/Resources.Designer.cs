@@ -151,15 +151,6 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to han the given upper bound..
-        /// </summary>
-        public static string ArgumentLowerBoundLargerThanUpperBound {
-            get {
-                return ResourceManager.GetString("ArgumentLowerBoundLargerThanUpperBound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Matrix dimensions must agree..
         /// </summary>
         public static string ArgumentMatrixDimensions {
@@ -480,6 +471,24 @@ namespace MathNet.Numerics.Properties {
         public static string ArgumentTypeMismatch {
             get {
                 return ResourceManager.GetString("ArgumentTypeMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The upper bound must be strictly larger than the lower bound..
+        /// </summary>
+        public static string ArgumentUpperBoundMustBeLargerThanLowerBound {
+            get {
+                return ResourceManager.GetString("ArgumentUpperBoundMustBeLargerThanLowerBound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The upper bound must be at least as large as the lower bound..
+        /// </summary>
+        public static string ArgumentUpperBoundMustBeLargerThanOrEqualToLowerBound {
+            get {
+                return ResourceManager.GetString("ArgumentUpperBoundMustBeLargerThanOrEqualToLowerBound", resourceCulture);
             }
         }
         
