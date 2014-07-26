@@ -38,7 +38,94 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     public class VectorStorageTests
     {
         [Test]
-        public void Map2SkipZeros()
+        public void MapToSkipZeros()
+        {
+            double[] a = { 1.0, 2.0, 0.0, 4.0 };
+            var adense = DenseVectorStorage<double>.OfEnumerable(a);
+            var asparse = SparseVectorStorage<double>.OfEnumerable(a);
+
+            var rdense = new DenseVectorStorage<double>(a.Length);
+            var rsparse = new SparseVectorStorage<double>(a.Length);
+
+            var expected = new DenseVectorStorage<double>(4, new[] { -1.0, -2.0, 0.0, -4.0 });
+
+            rdense.Clear();
+            adense.MapTo(rdense, u => -u, Zeros.AllowSkip);
+            Assert.That(rdense.Equals(expected), "dense->dense");
+
+            rsparse.Clear();
+            adense.MapTo(rsparse, u => -u, Zeros.AllowSkip);
+            Assert.That(rsparse.Equals(expected), "dense->sparse");
+
+            rdense.Clear();
+            asparse.MapTo(rdense, u => -u, Zeros.AllowSkip);
+            Assert.That(rdense.Equals(expected), "sparse->dense");
+
+            rsparse.Clear();
+            asparse.MapTo(rsparse, u => -u, Zeros.AllowSkip);
+            Assert.That(rsparse.Equals(expected), "sparse->sparse");
+        }
+
+        [Test]
+        public void MapToForceIncludeZeros()
+        {
+            double[] a = { 1.0, 2.0, 0.0, 4.0 };
+            var adense = DenseVectorStorage<double>.OfEnumerable(a);
+            var asparse = SparseVectorStorage<double>.OfEnumerable(a);
+
+            var rdense = new DenseVectorStorage<double>(a.Length);
+            var rsparse = new SparseVectorStorage<double>(a.Length);
+
+            var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
+
+            rdense.Clear();
+            adense.MapTo(rdense, u => -u + 1.0, Zeros.Include);
+            Assert.That(rdense.Equals(expected), "dense->dense");
+
+            rsparse.Clear();
+            adense.MapTo(rsparse, u => -u + 1.0, Zeros.Include);
+            Assert.That(rsparse.Equals(expected), "dense->sparse");
+
+            rdense.Clear();
+            asparse.MapTo(rdense, u => -u + 1.0, Zeros.Include);
+            Assert.That(rdense.Equals(expected), "sparse->dense");
+
+            rsparse.Clear();
+            asparse.MapTo(rsparse, u => -u + 1.0, Zeros.Include);
+            Assert.That(rsparse.Equals(expected), "sparse->sparse");
+        }
+
+        [Test]
+        public void MapToAutoIncludeZeros()
+        {
+            double[] a = { 1.0, 2.0, 0.0, 4.0 };
+            var adense = DenseVectorStorage<double>.OfEnumerable(a);
+            var asparse = SparseVectorStorage<double>.OfEnumerable(a);
+
+            var rdense = new DenseVectorStorage<double>(a.Length);
+            var rsparse = new SparseVectorStorage<double>(a.Length);
+
+            var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
+
+            rdense.Clear();
+            adense.MapTo(rdense, u => -u + 1.0, Zeros.AllowSkip);
+            Assert.That(rdense.Equals(expected), "dense->dense");
+
+            rsparse.Clear();
+            adense.MapTo(rsparse, u => -u + 1.0, Zeros.AllowSkip);
+            Assert.That(rsparse.Equals(expected), "dense->sparse");
+
+            rdense.Clear();
+            asparse.MapTo(rdense, u => -u + 1.0, Zeros.AllowSkip);
+            Assert.That(rdense.Equals(expected), "sparse->dense");
+
+            rsparse.Clear();
+            asparse.MapTo(rsparse, u => -u + 1.0, Zeros.AllowSkip);
+            Assert.That(rsparse.Equals(expected), "sparse->sparse");
+        }
+
+        [Test]
+        public void Map2ToSkipZeros()
         {
             double[] a = { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 };
             double[] b = { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 };
@@ -53,40 +140,40 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var expected = new DenseVectorStorage<double>(6, new[] { 12.0, 14.0, 13.0, 4.0, 0.0, 22.0 });
 
             rdense.Clear();
-            adense.Map2To(rdense, bdense, (u, v) => u+v, Zeros.AllowSkip);
+            adense.Map2To(rdense, bdense, (u, v) => u + v, Zeros.AllowSkip);
             Assert.That(rdense.Equals(expected), "dense*dense->dense");
 
             rsparse.Clear();
-            adense.Map2To(rsparse, bdense, (u, v) => u+v, Zeros.AllowSkip);
+            adense.Map2To(rsparse, bdense, (u, v) => u + v, Zeros.AllowSkip);
             Assert.That(rsparse.Equals(expected), "dense*dense->sparse");
 
             rdense.Clear();
-            adense.Map2To(rdense, bsparse, (u, v) => u+v, Zeros.AllowSkip);
+            adense.Map2To(rdense, bsparse, (u, v) => u + v, Zeros.AllowSkip);
             Assert.That(rdense.Equals(expected), "dense*sparse->dense");
 
             rsparse.Clear();
-            adense.Map2To(rsparse, bsparse, (u, v) => u+v, Zeros.AllowSkip);
+            adense.Map2To(rsparse, bsparse, (u, v) => u + v, Zeros.AllowSkip);
             Assert.That(rsparse.Equals(expected), "dense*sparse->sparse");
 
             rdense.Clear();
-            asparse.Map2To(rdense, bdense, (u, v) => u+v, Zeros.AllowSkip);
+            asparse.Map2To(rdense, bdense, (u, v) => u + v, Zeros.AllowSkip);
             Assert.That(rdense.Equals(expected), "sparse*dense->dense");
 
             rsparse.Clear();
-            asparse.Map2To(rsparse, bdense, (u, v) => u+v, Zeros.AllowSkip);
+            asparse.Map2To(rsparse, bdense, (u, v) => u + v, Zeros.AllowSkip);
             Assert.That(rsparse.Equals(expected), "sparse*dense->sparse");
 
             rdense.Clear();
-            asparse.Map2To(rdense, bsparse, (u, v) => u+v, Zeros.AllowSkip);
+            asparse.Map2To(rdense, bsparse, (u, v) => u + v, Zeros.AllowSkip);
             Assert.That(rdense.Equals(expected), "sparse*sparse->dense");
 
             rsparse.Clear();
-            asparse.Map2To(rsparse, bsparse, (u, v) => u+v, Zeros.AllowSkip);
+            asparse.Map2To(rsparse, bsparse, (u, v) => u + v, Zeros.AllowSkip);
             Assert.That(rsparse.Equals(expected), "sparse*sparse->sparse");
         }
 
         [Test]
-        public void Map2ForceIncludeZeros()
+        public void Map2ToForceIncludeZeros()
         {
             double[] a = { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 };
             double[] b = { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 };
@@ -101,40 +188,40 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var expected = new DenseVectorStorage<double>(6, new[] { 13.0, 15.0, 14.0, 5.0, 1.0, 23.0 });
 
             rdense.Clear();
-            adense.Map2To(rdense, bdense, (u, v) => u+v+1.0, Zeros.Include);
+            adense.Map2To(rdense, bdense, (u, v) => u + v + 1.0, Zeros.Include);
             Assert.That(rdense.Equals(expected), "dense*dense->dense");
 
             rsparse.Clear();
-            adense.Map2To(rsparse, bdense, (u, v) => u+v+1.0, Zeros.Include);
+            adense.Map2To(rsparse, bdense, (u, v) => u + v + 1.0, Zeros.Include);
             Assert.That(rsparse.Equals(expected), "dense*dense->sparse");
 
             rdense.Clear();
-            adense.Map2To(rdense, bsparse, (u, v) => u+v+1.0, Zeros.Include);
+            adense.Map2To(rdense, bsparse, (u, v) => u + v + 1.0, Zeros.Include);
             Assert.That(rdense.Equals(expected), "dense*sparse->dense");
 
             rsparse.Clear();
-            adense.Map2To(rsparse, bsparse, (u, v) => u+v+1.0, Zeros.Include);
+            adense.Map2To(rsparse, bsparse, (u, v) => u + v + 1.0, Zeros.Include);
             Assert.That(rsparse.Equals(expected), "dense*sparse->sparse");
 
             rdense.Clear();
-            asparse.Map2To(rdense, bdense, (u, v) => u+v+1.0, Zeros.Include);
+            asparse.Map2To(rdense, bdense, (u, v) => u + v + 1.0, Zeros.Include);
             Assert.That(rdense.Equals(expected), "sparse*dense->dense");
 
             rsparse.Clear();
-            asparse.Map2To(rsparse, bdense, (u, v) => u+v+1.0, Zeros.Include);
+            asparse.Map2To(rsparse, bdense, (u, v) => u + v + 1.0, Zeros.Include);
             Assert.That(rsparse.Equals(expected), "sparse*dense->sparse");
 
             rdense.Clear();
-            asparse.Map2To(rdense, bsparse, (u, v) => u+v+1.0, Zeros.Include);
+            asparse.Map2To(rdense, bsparse, (u, v) => u + v + 1.0, Zeros.Include);
             Assert.That(rdense.Equals(expected), "sparse*sparse->dense");
 
             rsparse.Clear();
-            asparse.Map2To(rsparse, bsparse, (u, v) => u+v+1.0, Zeros.Include);
+            asparse.Map2To(rsparse, bsparse, (u, v) => u + v + 1.0, Zeros.Include);
             Assert.That(rsparse.Equals(expected), "sparse*sparse->sparse");
         }
 
         [Test]
-        public void Map2AutoIncludeZeros()
+        public void Map2ToAutoIncludeZeros()
         {
             double[] a = { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 };
             double[] b = { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 };
@@ -149,35 +236,35 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var expected = new DenseVectorStorage<double>(6, new[] { 13.0, 15.0, 14.0, 5.0, 1.0, 23.0 });
 
             rdense.Clear();
-            adense.Map2To(rdense, bdense, (u, v) => u+v+1.0, Zeros.AllowSkip);
+            adense.Map2To(rdense, bdense, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(rdense.Equals(expected), "dense*dense->dense");
 
             rsparse.Clear();
-            adense.Map2To(rsparse, bdense, (u, v) => u+v+1.0, Zeros.AllowSkip);
+            adense.Map2To(rsparse, bdense, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(rsparse.Equals(expected), "dense*dense->sparse");
 
             rdense.Clear();
-            adense.Map2To(rdense, bsparse, (u, v) => u+v+1.0, Zeros.AllowSkip);
+            adense.Map2To(rdense, bsparse, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(rdense.Equals(expected), "dense*sparse->dense");
 
             rsparse.Clear();
-            adense.Map2To(rsparse, bsparse, (u, v) => u+v+1.0, Zeros.AllowSkip);
+            adense.Map2To(rsparse, bsparse, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(rsparse.Equals(expected), "dense*sparse->sparse");
 
             rdense.Clear();
-            asparse.Map2To(rdense, bdense, (u, v) => u+v+1.0, Zeros.AllowSkip);
+            asparse.Map2To(rdense, bdense, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(rdense.Equals(expected), "sparse*dense->dense");
 
             rsparse.Clear();
-            asparse.Map2To(rsparse, bdense, (u, v) => u+v+1.0, Zeros.AllowSkip);
+            asparse.Map2To(rsparse, bdense, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(rsparse.Equals(expected), "sparse*dense->sparse");
 
             rdense.Clear();
-            asparse.Map2To(rdense, bsparse, (u, v) => u+v+1.0, Zeros.AllowSkip);
+            asparse.Map2To(rdense, bsparse, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(rdense.Equals(expected), "sparse*sparse->dense");
 
             rsparse.Clear();
-            asparse.Map2To(rsparse, bsparse, (u, v) => u+v+1.0, Zeros.AllowSkip);
+            asparse.Map2To(rsparse, bsparse, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(rsparse.Equals(expected), "sparse*sparse->sparse");
         }
     }

@@ -161,6 +161,14 @@ module Vector =
     let inline mapiSkipZeros f (v: #Vector<_>) = v.MapIndexed((fun i x -> f i x), Zeros.AllowSkip)
 
 
+    /// Maps two vectors to a new vector by applying a function to every element pair.
+    let inline map2 f (u: #Vector<_>) (v: #Vector<_>) = u.Map2((fun x y -> f x y), v, Zeros.Include)
+
+    /// Maps two vectors to a new vector by applying a function to every element pair.
+    /// Zero-Zero value-pairs may be skipped (relevant mostly for sparse vectors).
+    let inline map2SkipZeros f (u: #Vector<_>) (v: #Vector<_>) = u.Map2((fun x y -> f x y), v, Zeros.AllowSkip)
+
+
 
     /// Fold all entries of a vector in reverse order.
     let inline foldBack f state (v: #Vector<_>) =

@@ -897,7 +897,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     }
                     else
                     {
-                        Debug.Assert(Indices[p] == otherIndices[q]);
                         var value = f(Values[p], otherValues[q]);
                         if (!Zero.Equals(value))
                         {
