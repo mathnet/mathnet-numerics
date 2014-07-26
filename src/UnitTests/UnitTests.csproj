@@ -152,6 +152,7 @@
     <Compile Include="LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Single\LinearAlgebraProviderTests.cs" />
+    <Compile Include="LinearAlgebraTests\Build.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTests.cs" />
@@ -350,7 +351,7 @@
     <Compile Include="EuclidTests\GcdRelatedTest.cs" />
     <Compile Include="EuclidTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
-    <Compile Include="LinearAlgebraTests\VectorStorageTests.cs" />
+    <Compile Include="LinearAlgebraTests\VectorStorageCombinatorsTests.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />
