@@ -457,5 +457,23 @@ namespace MathNet.Numerics.LinearAlgebra
             Storage.MapIndexedToUnchecked(result.Storage, f, zeros, ExistingData.AssumeZeros);
             return result;
         }
+
+        /// <summary>
+        /// Applies a function to each value pair of two vectors and replaces the value in the result vector.
+        /// </summary>
+        public void Map2(Func<T, T, T> f, Vector<T> other, Vector<T> result, Zeros zeros = Zeros.AllowSkip)
+        {
+            Storage.Map2To(result.Storage, other.Storage, f, zeros, ExistingData.Clear);
+        }
+
+        /// <summary>
+        /// Applies a function to each value pair of two vectors and returns the results as a new vector.
+        /// </summary>
+        public Vector<T> Map2(Func<T, T, T> f, Vector<T> other, Zeros zeros = Zeros.AllowSkip)
+        {
+            var result = Build.SameAs(this);
+            Storage.Map2To(result.Storage, other.Storage, f, zeros, ExistingData.AssumeZeros);
+            return result;
+        }
     }
 }

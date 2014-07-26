@@ -172,6 +172,29 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 {
                     Array.Copy(Data, 0, denseTarget.Data, 0, Data.Length);
                 }
+
+                return;
+            }
+
+            var sparseTarget = target as SparseVectorStorage<T>;
+            if (sparseTarget != null)
+            {
+                var indices = new List<int>();
+                var values = new List<T>();
+
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    var item = Data[i];
+                    if (!Zero.Equals(item))
+                    {
+                        values.Add(item);
+                        indices.Add(i);
+                    }
+                }
+
+                sparseTarget.Indices = indices.ToArray();
+                sparseTarget.Values = values.ToArray();
+                sparseTarget.ValueCount = values.Count;
                 return;
             }
 
@@ -363,6 +386,61 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 target.At(i, f(i, Data[i]));
             }
+        }
+
+        internal override void Map2ToUnchecked(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f, Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        {
+            if (target is SparseVectorStorage<T>)
+            {
+                // Recursive to dense target at first, since the operation is
+                // effectively dense anyway because at least one operand is dense
+                var intermediate = new DenseVectorStorage<T>(target.Length);
+                Map2ToUnchecked(intermediate, other, f, zeros, ExistingData.AssumeZeros);
+                intermediate.CopyTo(target, existingData);
+                return;
+            }
+
+            var denseTarget = target as DenseVectorStorage<T>;
+            var denseOther = other as DenseVectorStorage<T>;
+            if (denseTarget != null && denseOther != null)
+            {
+                CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        denseTarget.Data[i] = f(Data[i], denseOther.Data[i]);
+                    }
+                });
+
+                return;
+            }
+
+            var sparseOther = other as SparseVectorStorage<T>;
+            if (denseTarget != null && sparseOther != null)
+            {
+                T[] targetData = denseTarget.Data;
+                int[] otherIndices = sparseOther.Indices;
+                T[] otherValues = sparseOther.Values;
+                int otherValueCount = sparseOther.ValueCount;
+
+                int k = 0;
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    if (k < otherValueCount && otherIndices[k] == i)
+                    {
+                        targetData[i] = f(Data[i], otherValues[k]);
+                        k++;
+                    }
+                    else
+                    {
+                        targetData[i] = f(Data[i], Zero);
+                    }
+                }
+
+                return;
+            }
+
+            base.Map2ToUnchecked(target, other, f, zeros, existingData);
         }
     }
 }

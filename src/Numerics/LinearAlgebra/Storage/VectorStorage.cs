@@ -469,5 +469,40 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.At(i, f(i, At(i)));
             }
         }
+
+        public void Map2To(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Length != target.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+            }
+
+            if (Length != other.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            Map2ToUnchecked(target, other, f, zeros, existingData);
+        }
+
+        internal virtual void Map2ToUnchecked(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f,
+            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                target.At(i, f(At(i), other.At(i)));
+            }
+        }
     }
 }

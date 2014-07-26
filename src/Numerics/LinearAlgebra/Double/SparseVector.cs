@@ -153,7 +153,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (ReferenceEquals(this, result))
             {
-                //populate a new vector with the scalar
+                // populate a new vector with the scalar
                 var vnonZeroValues = new double[Count];
                 var vnonZeroIndices = new int[Count];
                 for (int index = 0; index < Count; index++)
@@ -162,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     vnonZeroValues[index] = scalar;
                 }
 
-                //populate the non zero values from this
+                // populate the non zero values from this
                 var indices = _storage.Indices;
                 var values = _storage.Values;
                 for (int j = 0; j < _storage.ValueCount; j++)
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     vnonZeroValues[indices[j]] = values[j] + scalar;
                 }
 
-                //assign this vectors arrary to the new arrays.
+                // assign this vectors array to the new arrays.
                 _storage.Values = vnonZeroValues;
                 _storage.Indices = vnonZeroIndices;
                 _storage.ValueCount = Count;

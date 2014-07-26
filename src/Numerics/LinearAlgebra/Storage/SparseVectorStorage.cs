@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
@@ -767,6 +768,157 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             // FALL BACK
 
             base.MapIndexedToUnchecked(target, f, zeros, existingData);
+        }
+
+        internal override void Map2ToUnchecked(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f, Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        {
+            var processZeros = zeros == Zeros.Include || !Zero.Equals(f(Zero, Zero));
+
+            var denseTarget = target as DenseVectorStorage<T>;
+            var denseOther = other as DenseVectorStorage<T>;
+
+            if (denseTarget == null && (denseOther != null || processZeros))
+            {
+                // The handling is effectively dense but we're supposed to push
+                // to a sparse target. Let's use a dense target instead,
+                // then copy it normalized back to the sparse target.
+                var intermediate = new DenseVectorStorage<T>(target.Length);
+                Map2ToUnchecked(intermediate, other, f, zeros, ExistingData.AssumeZeros);
+                intermediate.CopyTo(target, existingData);
+                return;
+            }
+
+            if (denseOther != null)
+            {
+                T[] targetData = denseTarget.Data;
+                T[] otherData = denseOther.Data;
+
+                int k = 0;
+                for (int i = 0; i < otherData.Length; i++)
+                {
+                    if (k < ValueCount && Indices[k] == i)
+                    {
+                        targetData[i] = f(Values[k], otherData[i]);
+                        k++;
+                    }
+                    else
+                    {
+                        targetData[i] = f(Zero, otherData[i]);
+                    }
+                }
+
+                return;
+            }
+
+            var sparseOther = other as SparseVectorStorage<T>;
+            if (sparseOther != null && denseTarget != null)
+            {
+                T[] targetData = denseTarget.Data;
+                int[] otherIndices = sparseOther.Indices;
+                T[] otherValues = sparseOther.Values;
+                int otherValueCount = sparseOther.ValueCount;
+
+                if (processZeros)
+                {
+                    int p = 0, q = 0;
+                    for (int i = 0; i < targetData.Length; i++)
+                    {
+                        var left = p < ValueCount && Indices[p] == i ? Values[p++] : Zero;
+                        var right = q < otherValueCount && otherIndices[q] == i ? otherValues[q++] : Zero;
+                        targetData[i] = f(left, right);
+                    }
+                }
+                else
+                {
+                    if (existingData == ExistingData.Clear)
+                    {
+                        denseTarget.Clear();
+                    }
+
+                    int p = 0, q = 0;
+                    while (p < ValueCount || q < otherValueCount)
+                    {
+                        if (q >= otherValueCount || p < ValueCount && Indices[p] < otherIndices[q])
+                        {
+                            targetData[Indices[p]] = f(Values[p], Zero);
+                            p++;
+                        }
+                        else if (p >= ValueCount || q < otherValueCount && Indices[p] > otherIndices[q])
+                        {
+                            targetData[otherIndices[q]] = f(Zero, otherValues[q]);
+                            q++;
+                        }
+                        else
+                        {
+                            Debug.Assert(Indices[p] == otherIndices[q]);
+                            targetData[Indices[p]] = f(Values[p], otherValues[q]);
+                            p++;
+                            q++;
+                        }
+                    }
+                }
+
+                return;
+            }
+
+            var sparseTarget = target as SparseVectorStorage<T>;
+            if (sparseOther != null && sparseTarget != null)
+            {
+                var indices = new List<int>();
+                var values = new List<T>();
+                int[] otherIndices = sparseOther.Indices;
+                T[] otherValues = sparseOther.Values;
+                int otherValueCount = sparseOther.ValueCount;
+
+                int p = 0, q = 0;
+                while (p < ValueCount || q < otherValueCount)
+                {
+                    if (q >= otherValueCount || p < ValueCount && Indices[p] < otherIndices[q])
+                    {
+                        var value = f(Values[p], Zero);
+                        if (!Zero.Equals(value))
+                        {
+                            indices.Add(Indices[p]);
+                            values.Add(value);
+                        }
+
+                        p++;
+                    }
+                    else if (p >= ValueCount || q < otherValueCount && Indices[p] > otherIndices[q])
+                    {
+                        var value = f(Zero, otherValues[q]);
+                        if (!Zero.Equals(value))
+                        {
+                            indices.Add(otherIndices[q]);
+                            values.Add(value);
+                        }
+
+                        q++;
+                    }
+                    else
+                    {
+                        Debug.Assert(Indices[p] == otherIndices[q]);
+                        var value = f(Values[p], otherValues[q]);
+                        if (!Zero.Equals(value))
+                        {
+                            indices.Add(Indices[p]);
+                            values.Add(value);
+                        }
+
+                        p++;
+                        q++;
+                    }
+                }
+
+                sparseTarget.Indices = indices.ToArray();
+                sparseTarget.Values = values.ToArray();
+                sparseTarget.ValueCount = values.Count;
+                return;
+            }
+
+            // FALL BACK
+
+            base.Map2ToUnchecked(target, other, f, zeros, existingData);
         }
     }
 }
