@@ -718,10 +718,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="columnIndex">The index of the column to remove.</param>
         /// <returns>A new matrix without the chosen column.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt; the number of columns.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt;= the number of columns.</exception>
         public Matrix<T> RemoveColumn(int columnIndex)
         {
-            if (columnIndex < 0 || columnIndex > ColumnCount)
+            if (columnIndex < 0 || columnIndex >= ColumnCount)
             {
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
@@ -834,10 +834,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="rowIndex">The index of the row to remove.</param>
         /// <returns>A new matrix without the chosen row.</returns>
-        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt; the number of rows.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt;= the number of rows.</exception>
         public Matrix<T> RemoveRow(int rowIndex)
         {
-            if (rowIndex < 0 || rowIndex > RowCount)
+            if (rowIndex < 0 || rowIndex >= RowCount)
             {
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
