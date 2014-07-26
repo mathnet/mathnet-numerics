@@ -85,9 +85,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterion = new FailureStopCriterion<double>();
             Assert.IsNotNull(criterion, "There should be a criterion");
 
-            var solution = new DenseVector(new[] { 1.0, 1.0, 2.0 });
-            var source = new DenseVector(new[] { 1001.0, 0, 2003.0 });
-            var residual = new DenseVector(new[] { 1000, double.NaN, 2001 });
+            var solution = Vector<double>.Build.Dense(new[] { 1.0, 1.0, 2.0 });
+            var source = Vector<double>.Build.Dense(new[] { 1001.0, 0, 2003.0 });
+            var residual = Vector<double>.Build.Dense(new[] { 1000, double.NaN, 2001 });
 
             var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Failure, status, "Should be failed");
@@ -102,9 +102,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterion = new FailureStopCriterion<double>();
             Assert.IsNotNull(criterion, "There should be a criterion");
 
-            var solution = new DenseVector(new[] { 1.0, 1.0, double.NaN });
-            var source = new DenseVector(new[] { 1001.0, 0.0, 2003.0 });
-            var residual = new DenseVector(new[] { 1000.0, 1000.0, 2001.0 });
+            var solution = Vector<double>.Build.Dense(new[] { 1.0, 1.0, double.NaN });
+            var source = Vector<double>.Build.Dense(new[] { 1001.0, 0.0, 2003.0 });
+            var residual = Vector<double>.Build.Dense(new[] { 1000.0, 1000.0, 2001.0 });
 
             var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Failure, status, "Should be failed");
@@ -119,9 +119,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterion = new FailureStopCriterion<double>();
             Assert.IsNotNull(criterion, "There should be a criterion");
 
-            var solution = new DenseVector(new[] { 3.0, 2.0, 1.0 });
-            var source = new DenseVector(new[] { 1001.0, 0.0, 2003.0 });
-            var residual = new DenseVector(new[] { 1.0, 2.0, 3.0 });
+            var solution = Vector<double>.Build.Dense(new[] { 3.0, 2.0, 1.0 });
+            var source = Vector<double>.Build.Dense(new[] { 1001.0, 0.0, 2003.0 });
+            var residual = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
 
             var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
@@ -136,9 +136,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             var criterion = new FailureStopCriterion<double>();
             Assert.IsNotNull(criterion, "There should be a criterion");
 
-            var solution = new DenseVector(new[] { 1.0, 1.0, 2.0 });
-            var source = new DenseVector(new[] { 1001.0, 0.0, 2003.0 });
-            var residual = new DenseVector(new[] { 1000.0, 1000.0, 2001.0 });
+            var solution = Vector<double>.Build.Dense(new[] { 1.0, 1.0, 2.0 });
+            var source = Vector<double>.Build.Dense(new[] { 1001.0, 0.0, 2003.0 });
+            var residual = Vector<double>.Build.Dense(new[] { 1000.0, 1000.0, 2001.0 });
 
             var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");

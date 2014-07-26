@@ -213,7 +213,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             sparseResult.Add(sparseResult, sparseResult);
             Assert.IsTrue(sparseResult.Equals(2*sum1));
 
-            Matrix<double> denseResult = new DenseMatrix(1, 3);
+            Matrix<double> denseResult = Matrix<double>.Build.Dense(1, 3);
             denseResult.Add(m2, denseResult);
             Assert.IsTrue(denseResult.Equals(sum1));
 
@@ -257,7 +257,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             sparseResult.Subtract(sparseResult, sparseResult);
             Assert.IsTrue(sparseResult.Equals(0*diff1));
 
-            Matrix<double> denseResult = new DenseMatrix(1, 3);
+            Matrix<double> denseResult = Matrix<double>.Build.Dense(1, 3);
             denseResult.Subtract(m2, denseResult);
             Assert.IsTrue(denseResult.Equals(diff1));
 

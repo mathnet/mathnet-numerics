@@ -152,7 +152,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateDenseMatrix()
         {
-            var vector = new DenseVector(3);
+            var vector = Vector<double>.Build.Dense(3);
             var matrix = Matrix<double>.Build.SameAs(vector, 2, 3);
             Assert.IsInstanceOf<DenseMatrix>(matrix);
             Assert.AreEqual(2, matrix.RowCount);
@@ -189,7 +189,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCallUnaryPlusOperatorOnDenseVector()
         {
-            var vector = new DenseVector(Data);
+            var vector = Vector<double>.Build.Dense(Data);
             var other = +vector;
             for (var i = 0; i < Data.Length; i++)
             {
@@ -203,8 +203,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanAddTwoDenseVectorsUsingOperator()
         {
-            var vector = new DenseVector(Data);
-            var other = new DenseVector(Data);
+            var vector = Vector<double>.Build.Dense(Data);
+            var other = Vector<double>.Build.Dense(Data);
             var result = vector + other;
             CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
             CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
@@ -221,7 +221,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCallUnaryNegationOperatorOnDenseVector()
         {
-            var vector = new DenseVector(Data);
+            var vector = Vector<double>.Build.Dense(Data);
             var other = -vector;
             for (var i = 0; i < Data.Length; i++)
             {
@@ -235,8 +235,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanSubtractTwoDenseVectorsUsingOperator()
         {
-            var vector = new DenseVector(Data);
-            var other = new DenseVector(Data);
+            var vector = Vector<double>.Build.Dense(Data);
+            var other = Vector<double>.Build.Dense(Data);
             var result = vector - other;
             CollectionAssert.AreEqual(Data, vector, "Making sure the original vector wasn't modified.");
             CollectionAssert.AreEqual(Data, other, "Making sure the original vector wasn't modified.");
@@ -253,7 +253,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanMultiplyDenseVectorByScalarUsingOperators()
         {
-            var vector = new DenseVector(Data);
+            var vector = Vector<double>.Build.Dense(Data);
             vector = vector * 2.0;
 
             for (var i = 0; i < Data.Length; i++)
@@ -267,7 +267,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 Assert.AreEqual(Data[i] * 2.0, vector[i]);
             }
 
-            vector = new DenseVector(Data);
+            vector = Vector<double>.Build.Dense(Data);
             vector = 2.0 * vector;
 
             for (var i = 0; i < Data.Length; i++)
@@ -288,7 +288,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanDivideDenseVectorByScalarUsingOperators()
         {
-            var vector = new DenseVector(Data);
+            var vector = Vector<double>.Build.Dense(Data);
             vector = vector / 2.0;
 
             for (var i = 0; i < Data.Length; i++)

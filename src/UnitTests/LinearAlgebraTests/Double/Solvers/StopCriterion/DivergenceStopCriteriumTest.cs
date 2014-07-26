@@ -103,9 +103,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             {
                 var status = criterion.DetermineStatus(
                     i,
-                    new DenseVector(new[] { 1.0 }),
-                    new DenseVector(new[] { 1.0 }),
-                    new DenseVector(new[] { (i + 1)*(Increase + 0.1) }));
+                    Vector<double>.Build.Dense(new[] { 1.0 }),
+                    Vector<double>.Build.Dense(new[] { 1.0 }),
+                    Vector<double>.Build.Dense(new[] { (i + 1)*(Increase + 0.1) }));
 
                 Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
@@ -127,9 +127,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             {
                 var status = criterion.DetermineStatus(
                     i,
-                    new DenseVector(new[] { 1.0 }),
-                    new DenseVector(new[] { 1.0 }),
-                    new DenseVector(new[] { (i + 1)*(Increase - 0.01) }));
+                    Vector<double>.Build.Dense(new[] { 1.0 }),
+                    Vector<double>.Build.Dense(new[] { 1.0 }),
+                    Vector<double>.Build.Dense(new[] { (i + 1)*(Increase - 0.01) }));
 
                 Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
@@ -151,9 +151,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             {
                 var status = criterion.DetermineStatus(
                     i,
-                    new DenseVector(new[] { 1.0 }),
-                    new DenseVector(new[] { 1.0 }),
-                    new DenseVector(new[] { (i + 1)*(Increase - 0.01) }));
+                    Vector<double>.Build.Dense(new[] { 1.0 }),
+                    Vector<double>.Build.Dense(new[] { 1.0 }),
+                    Vector<double>.Build.Dense(new[] { (i + 1)*(Increase - 0.01) }));
 
                 Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
@@ -161,9 +161,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             // Now make it fail by throwing in a NaN
             var status2 = criterion.DetermineStatus(
                 Iterations,
-                new DenseVector(new[] { 1.0 }),
-                new DenseVector(new[] { 1.0 }),
-                new DenseVector(new[] { double.NaN }));
+                Vector<double>.Build.Dense(new[] { 1.0 }),
+                Vector<double>.Build.Dense(new[] { 1.0 }),
+                Vector<double>.Build.Dense(new[] { double.NaN }));
 
             Assert.AreEqual(IterationStatus.Diverged, status2, "Status check fail.");
         }
@@ -186,9 +186,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
                 previous *= 1 + Increase + 0.01;
                 var status = criterion.DetermineStatus(
                     i,
-                    new DenseVector(new[] { 1.0 }),
-                    new DenseVector(new[] { 1.0 }),
-                    new DenseVector(new[] { previous }));
+                    Vector<double>.Build.Dense(new[] { 1.0 }),
+                    Vector<double>.Build.Dense(new[] { 1.0 }),
+                    Vector<double>.Build.Dense(new[] { previous }));
 
                 Assert.AreEqual(IterationStatus.Continue, status, "Status check fail.");
             }
@@ -197,9 +197,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             previous *= 1 + Increase + 0.01;
             var status2 = criterion.DetermineStatus(
                 Iterations - 1,
-                new DenseVector(new[] { 1.0 }),
-                new DenseVector(new[] { 1.0 }),
-                new DenseVector(new[] { previous }));
+                Vector<double>.Build.Dense(new[] { 1.0 }),
+                Vector<double>.Build.Dense(new[] { 1.0 }),
+                Vector<double>.Build.Dense(new[] { previous }));
 
             Assert.AreEqual(IterationStatus.Diverged, status2, "Status check fail.");
         }
@@ -218,9 +218,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Solvers.StopCrite
             // Add residuals. Blow it up instantly
             var status = criterion.DetermineStatus(
                 1,
-                new DenseVector(new[] { 1.0 }),
-                new DenseVector(new[] { 1.0 }),
-                new DenseVector(new[] { double.NaN }));
+                Vector<double>.Build.Dense(new[] { 1.0 }),
+                Vector<double>.Build.Dense(new[] { 1.0 }),
+                Vector<double>.Build.Dense(new[] { double.NaN }));
 
             Assert.AreEqual(IterationStatus.Diverged, status, "Status check fail.");
 

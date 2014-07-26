@@ -560,7 +560,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
         [Test]
         public void CanSolveUsingCholesky()
         {
-            var matrix = new DenseMatrix(3, 3, new double[] {1, 1, 1, 1, 2, 3, 1, 3, 6});
+            var matrix = Matrix<double>.Build.Dense(3, 3, new double[] { 1, 1, 1, 1, 2, 3, 1, 3, 6 });
             var a = new double[] {1, 1, 1, 1, 2, 3, 1, 3, 6};
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
@@ -611,8 +611,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var q = new double[matrix.RowCount*matrix.RowCount];
             Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
 
-            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
-            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
             var a = mq*mr;
 
             for (var row = 0; row < matrix.RowCount; row++)
@@ -638,8 +638,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var q = new double[matrix.RowCount*matrix.RowCount];
             Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
 
-            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
-            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, q);
             var a = mq*mr;
 
             for (var row = 0; row < matrix.RowCount; row++)
@@ -665,8 +665,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var q = new double[matrix.RowCount*matrix.RowCount];
             Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
 
-            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
-            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, q);
             var a = mq*mr;
 
             for (var row = 0; row < matrix.RowCount; row++)
@@ -693,8 +693,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var work = new double[matrix.ColumnCount*Control.BlockSize];
             Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work);
 
-            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
-            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
             var a = mq*mr;
 
             for (var row = 0; row < matrix.RowCount; row++)
@@ -721,8 +721,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var work = new double[matrix.ColumnCount*Control.BlockSize];
             Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work);
 
-            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
-            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, q);
             var a = mq*mr;
 
             for (var row = 0; row < matrix.RowCount; row++)
@@ -749,8 +749,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var work = new double[matrix.ColumnCount*Control.BlockSize];
             Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work);
 
-            var mr = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
-            var mq = new DenseMatrix(matrix.RowCount, matrix.RowCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, q);
             var a = mq*mr;
 
             for (var row = 0; row < matrix.RowCount; row++)
@@ -776,8 +776,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
 
-            var mq = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, q);
-            var mr = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, r);
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, r);
             var a = mq*mr;
 
             for (var row = 0; row < matrix.RowCount; row++)
@@ -803,8 +803,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
 
-            var mq = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, q);
-            var mr = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, r);
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, r);
             var a = mq*mr;
 
             for (var row = 0; row < matrix.RowCount; row++)
@@ -831,8 +831,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var work = new double[matrix.ColumnCount*Control.BlockSize];
             Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work);
 
-            var mq = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, q);
-            var mr = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, r);
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, r);
             var a = mq*mr;
 
             for (var row = 0; row < matrix.RowCount; row++)
@@ -859,8 +859,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var work = new double[matrix.ColumnCount*Control.BlockSize];
             Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work);
 
-            var mq = new DenseMatrix(matrix.RowCount, matrix.ColumnCount, q);
-            var mr = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, r);
+            var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, q);
+            var mr = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, r);
             var a = mq*mr;
             for (var row = 0; row < matrix.RowCount; row++)
             {
@@ -887,7 +887,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 3, a, matrix);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 13);
@@ -914,7 +914,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 2, a, matrix);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 13);
@@ -941,7 +941,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 3, a, matrix);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 13);
@@ -970,7 +970,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 2, a, matrix);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 13);
@@ -998,7 +998,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 13);
@@ -1028,7 +1028,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 13);
@@ -1057,7 +1057,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 13);
@@ -1088,7 +1088,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 13);
@@ -1113,7 +1113,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 3, a, matrix);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 13);
@@ -1140,7 +1140,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 2, a, matrix);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 13);
@@ -1167,7 +1167,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 3, a, matrix);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 13);
@@ -1196,7 +1196,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 2, a, matrix);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 13);
@@ -1224,7 +1224,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 13);
@@ -1254,7 +1254,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 13);
@@ -1283,7 +1283,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work, QRMethod.Thin);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqualRelative(mb[0, 0], b[0], 13);
@@ -1314,7 +1314,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work, QRMethod.Thin);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqualRelative(test[0, 0], x[0], 13);
@@ -1345,8 +1345,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 w[index, index] = s[index];
             }
 
-            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
-            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var mU = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, u);
+            var mV = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
             AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 14);
@@ -1382,8 +1382,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 w[index, index] = s[index];
             }
 
-            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
-            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var mU = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, u);
+            var mV = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
             AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 14);
@@ -1416,8 +1416,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 w[index, index] = s[index];
             }
 
-            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
-            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var mU = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, u);
+            var mV = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
             AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 14);
@@ -1452,8 +1452,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 w[index, index] = s[index];
             }
 
-            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
-            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var mU = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, u);
+            var mV = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
             AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 14);
@@ -1491,8 +1491,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 w[index, index] = s[index];
             }
 
-            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
-            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var mU = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, u);
+            var mV = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
             AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 14);
@@ -1527,8 +1527,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
                 w[index, index] = s[index];
             }
 
-            var mU = new DenseMatrix(matrix.RowCount, matrix.RowCount, u);
-            var mV = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount, vt);
+            var mU = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, u);
+            var mV = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, vt);
             var result = mU*w*mV;
 
             AssertHelpers.AlmostEqualRelative(matrix[0, 0], result[0, 0], 14);
@@ -1555,7 +1555,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 3, a, matrix);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqual(mb[0, 0], b[0], 13);
@@ -1582,7 +1582,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
 
             NotModified(3, 2, a, matrix);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqual(test[0, 0], x[0], 14);
@@ -1612,7 +1612,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x);
 
-            var mx = new DenseMatrix(matrix.ColumnCount, 2, x);
+            var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
 
             AssertHelpers.AlmostEqual(mb[0, 0], b[0], 13);
@@ -1644,7 +1644,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Double
             var x = new double[matrix.ColumnCount*2];
             Control.LinearAlgebraProvider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x);
 
-            var mb = new DenseMatrix(matrix.RowCount, 2, b);
+            var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
 
             AssertHelpers.AlmostEqual(test[0, 0], x[0], 14);

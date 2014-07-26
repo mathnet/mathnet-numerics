@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanMultiplyWithVector()
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
+            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
             var y = matrix*x;
 
             Assert.AreEqual(matrix.RowCount, y.Count);
@@ -86,8 +86,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanMultiplyWithVectorIntoResult()
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
-            var y = new DenseVector(3);
+            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            var y = Vector<double>.Build.Dense(3);
             matrix.Multiply(x, y);
 
             for (var i = 0; i < matrix.RowCount; i++)
@@ -105,13 +105,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
+            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
             var y = x;
             matrix.Multiply(x, x);
 
             Assert.AreSame(y, x);
 
-            y = new DenseVector(new[] { 1.0, 2.0, 3.0 });
+            y = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 var ar = matrix.Row(i);
@@ -127,8 +127,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void MultiplyWithVectorIntoLargerResultThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
-            Vector<double> y = new DenseVector(4);
+            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            Vector<double> y = Vector<double>.Build.Dense(4);
             Assert.That(() => matrix.Multiply(x, y), Throws.ArgumentException);
         }
 
@@ -569,7 +569,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanTransposeThisAndMultiplyWithVector()
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
+            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
             var y = matrix.TransposeThisAndMultiply(x);
 
             Assert.AreEqual(matrix.ColumnCount, y.Count);
@@ -589,8 +589,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanTransposeThisAndMultiplyWithVectorIntoResult()
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
-            var y = new DenseVector(3);
+            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            var y = Vector<double>.Build.Dense(3);
             matrix.TransposeThisAndMultiply(x, y);
 
             for (var j = 0; j < matrix.ColumnCount; j++)
@@ -608,13 +608,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void CanTransposeThisAndMultiplyWithVectorIntoResultWhenUpdatingInputArgument()
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
+            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
             var y = x;
             matrix.TransposeThisAndMultiply(x, x);
 
             Assert.AreSame(y, x);
 
-            y = new DenseVector(new[] { 1.0, 2.0, 3.0 });
+            y = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
             for (var j = 0; j < matrix.ColumnCount; j++)
             {
                 var ar = matrix.Column(j);
@@ -630,8 +630,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         public void TransposeThisAndMultiplyWithVectorIntoLargerResultThrowsArgumentException()
         {
             var matrix = TestMatrices["Singular3x3"];
-            var x = new DenseVector(new[] { 1.0, 2.0, 3.0 });
-            Vector<double> y = new DenseVector(4);
+            var x = Vector<double>.Build.Dense(new[] { 1.0, 2.0, 3.0 });
+            Vector<double> y = Vector<double>.Build.Dense(4);
             Assert.That(() => matrix.TransposeThisAndMultiply(x, y), Throws.ArgumentException);
         }
 

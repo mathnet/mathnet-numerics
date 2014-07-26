@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         public void ConstructorWideMatrixThrowsInvalidMatrixOperationException()
         {
-            Assert.That(() => UserQR.Create(new DenseMatrix(3, 4)), Throws.ArgumentException);
+            Assert.That(() => UserQR.Create(Matrix<double>.Build.Dense(3, 4)), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -394,7 +394,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var matrixB = Matrix<double>.Build.Random(order, order, 1);
             var matrixBCopy = matrixB.Clone();
 
-            var matrixX = new DenseMatrix(order, order);
+            var matrixX = Matrix<double>.Build.Dense(order, order);
             factorQR.Solve(matrixB, matrixX);
 
             // The solution X row dimension is equal to the column dimension of A
@@ -583,7 +583,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var matrixB = Matrix<double>.Build.Random(order, order, 1);
             var matrixBCopy = matrixB.Clone();
 
-            var matrixX = new DenseMatrix(order, order);
+            var matrixX = Matrix<double>.Build.Dense(order, order);
             factorQR.Solve(matrixB, matrixX);
 
             // The solution X row dimension is equal to the column dimension of A

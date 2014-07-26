@@ -44,14 +44,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     internal sealed class DenseGramSchmidt : GramSchmidt
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an orthogonal matrix 
+        /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an orthogonal matrix
         /// using the modified Gram-Schmidt method.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> row count is less then column count</exception>
         /// <exception cref="ArgumentException">If <paramref name="matrix"/> is rank deficient</exception>
-        public static DenseGramSchmidt Create(DenseMatrix matrix)
+        public static DenseGramSchmidt Create(Matrix<double> matrix)
         {
             if (matrix.RowCount < matrix.ColumnCount)
             {
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                     {
                         dot += q[(k1 * rowsQ) + index] * q[(j1 * rowsQ) + index];
                     }
-                    
+
                     r[(j * columnsQ) + k] = dot;
                     for (var i = 0; i < rowsQ; i++)
                     {

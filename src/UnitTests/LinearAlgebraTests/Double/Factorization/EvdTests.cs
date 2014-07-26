@@ -116,7 +116,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         public void CanCheckRankOfSquareSingular([Values(10, 50, 100)] int order)
         {
-            var A = new DenseMatrix(order, order);
+            var A = Matrix<double>.Build.Dense(order, order);
             A[0, 0] = 1;
             A[order - 1, order - 1] = 1;
             for (var i = 1; i < order - 1; i++)
@@ -245,7 +245,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var B = Matrix<double>.Build.Random(order, order, 2);
             var BCopy = B.Clone();
 
-            var X = new DenseMatrix(order, order);
+            var X = Matrix<double>.Build.Dense(order, order);
             evd.Solve(B, X);
 
             // The solution X row dimension is equal to the column dimension of A

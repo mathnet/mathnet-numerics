@@ -241,12 +241,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [TestCase(5.0, 0.12204152134938706)]
         public void ValidateDensity(double nu, double density)
         {
-            const int Order = 1;
-            var matrix = new DenseMatrix(Order);
-            matrix[0, 0] = 1;
-
-            var x = new DenseMatrix(Order);
-            x[0, 0] = 5;
+            var matrix = Matrix<double>.Build.Dense(1, 1, 1.0);
+            var x = Matrix<double>.Build.Dense(1, 1, 5.0);
 
             var d = new Wishart(nu, matrix);
             AssertHelpers.AlmostEqualRelative(density, d.Density(x), 16);

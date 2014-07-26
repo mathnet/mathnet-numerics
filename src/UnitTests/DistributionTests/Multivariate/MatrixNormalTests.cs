@@ -223,26 +223,27 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         {
             const int Rows = 2;
             const int Cols = 2;
-            var m = new DenseMatrix(Rows, Cols);
+            var m = Matrix<double>.Build.Dense(Rows, Cols);
             m[0, 0] = 0.156065579983862;
             m[0, 1] = -0.568039841576594;
             m[1, 0] = -0.806288628097313;
             m[1, 1] = -1.20004405005077;
 
-            var v = new DenseMatrix(Rows, Rows);
+            var v = Matrix<double>.Build.Dense(Rows, Rows);
             v[0, 0] = 0.674457817054746;
             v[0, 1] = 0.878930403442185;
             v[1, 0] = 0.878930403442185;
             v[1, 1] = 1.76277498368061;
 
-            var k = new DenseMatrix(Cols, Cols);
+            var k = Matrix<double>.Build.Dense(Cols, Cols);
             k[0, 0] = 0.674457817054746;
             k[0, 1] = 0.878930403442185;
             k[1, 0] = 0.878930403442185;
             k[1, 1] = 1.76277498368061;
+
             var d = new MatrixNormal(m, v, k);
 
-            var x = new DenseMatrix(Rows, Cols);
+            var x = Matrix<double>.Build.Dense(Rows, Cols);
             x[0, 0] = 2;
             x[0, 1] = 2;
 

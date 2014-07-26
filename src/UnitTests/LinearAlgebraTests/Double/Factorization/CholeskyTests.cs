@@ -77,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
         [Test]
         public void CholeskyFailsWithNonSquareMatrix()
         {
-            var matrix = new DenseMatrix(3, 2);
+            var matrix = Matrix<double>.Build.Dense(3, 2);
             Assert.That(() => matrix.Cholesky(), Throws.ArgumentException);
         }
 
@@ -281,7 +281,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var chol = matrixA.Cholesky();
             var matrixB = Matrix<double>.Build.Random(row, col, 1);
             var matrixBCopy = matrixB.Clone();
-            var matrixX = new DenseMatrix(row, col);
+            var matrixX = Matrix<double>.Build.Dense(row, col);
             chol.Solve(matrixB, matrixX);
 
             Assert.AreEqual(matrixB.RowCount, matrixX.RowCount);

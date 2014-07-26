@@ -375,13 +375,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             // [ 0 0 ]
             // [ 2 0 ]
             var subM2 = diagMatrix.SubMatrix(0, 2, 1, 2);
-            Assert.IsTrue(subM2.Equals(new DenseMatrix(2, 2, new[] {0d, 2d, 0d, 0d})));
+            Assert.IsTrue(subM2.Equals(Matrix<double>.Build.Dense(2, 2, new[] { 0d, 2d, 0d, 0d })));
 
             // [ 0 0 ]
             // [ 2 0 ]
             // [ 0 3 ]
             var subM3 = diagMatrix.SubMatrix(0, 3, 1, 2);
-            Assert.IsTrue(subM3.Equals(new DenseMatrix(3, 2, new[] {0d, 2d, 0d, 0d, 0d, 3d})));
+            Assert.IsTrue(subM3.Equals(Matrix<double>.Build.Dense(3, 2, new[] { 0d, 2d, 0d, 0d, 0d, 3d })));
         }
 
         [Test]
