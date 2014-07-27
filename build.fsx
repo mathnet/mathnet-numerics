@@ -312,7 +312,6 @@ let test target =
             OutputFile = "TestResults.xml" } |> quick) target
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
-"Build" ==> "Test"
 
 Target "Native32Test" (fun _ ->
     ActivateFinalTarget "CloseTestRunner"
@@ -339,11 +338,10 @@ FinalTarget "CloseTestRunner" (fun _ ->
     ProcessHelper.killProcess "nunit-agent-x86.exe"
 )
 
-"Native32Build" ==> "Native32Test" ==> "NativeTest"
-"Native64Build" ==> "Native64Test" ==> "NativeTest"
+"Native32Test" ==> "NativeTest"
+"Native64Test" ==> "NativeTest"
 
 Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
-"DataBuild" ==> "DataTest"
 
 
 // --------------------------------------------------------------------------------------
@@ -401,17 +399,15 @@ Target "Zip" (fun _ ->
         coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics."))
     if hasBuildParam "signed" || hasBuildParam "release" then
         coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
-"Build" ==> "Zip"
 
 Target "NativeZip" (fun _ ->
     CleanDir "out/MKL/packages/Zip"
     nativeBundle |> zip "out/MKL/packages/Zip" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
-"NativeBuild" ==> "NativeZip"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
-"DataBuild" ==> "DataZip"
+
 
 // NUGET
 
@@ -461,17 +457,14 @@ Target "NuGet" (fun _ ->
         nugetPack coreSignedBundle "out/packages/NuGet"
     if hasBuildParam "all" || hasBuildParam "release" then
         nugetPack coreBundle "out/packages/NuGet")
-"Build" ==> "NuGet"
 
 Target "NativeNuGet" (fun _ ->
     CleanDir "out/MKL/packages/NuGet"
     nugetPackExtension nativeBundle "out/MKL/packages/NuGet")
-"NativeBuild" ==> "NativeNuGet"
 
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
     nugetPackExtension dataBundle "out/Data/packages/NuGet")
-"DataBuild" ==> "DataNuGet"
 
 
 // --------------------------------------------------------------------------------------
@@ -490,7 +483,7 @@ Target "DocsDev" (fun _ ->
     executeFSIWithArgs "docs/tools" "build-docs.fsx" [] [] |> ignore
 )
 
-"Build" ==> "CleanDocs" ==> "Docs"
+"CleanDocs" ==> "Docs"
 
 "Start"
   =?> ("CleanDocs", not (hasBuildParam "incremental"))
@@ -510,7 +503,7 @@ Target "Api" (fun _ ->
             TimeOut = TimeSpan.FromMinutes 10.
             OutputPath = "out/api/" }))
 
-"Build" ==> "CleanApi" ==> "Api"
+"CleanApi" ==> "Api"
 
 
 // --------------------------------------------------------------------------------------
@@ -590,6 +583,49 @@ Target "NativePublish" DoNothing
 Target "DataPublish" DoNothing
 "DataPublishTag" ==> "DataPublish"
 "DataPublishNuGet" ==> "DataPublish"
+
+
+// --------------------------------------------------------------------------------------
+// ENVIRONMENT DEPENDENCIES
+// --------------------------------------------------------------------------------------
+
+match buildServer with
+
+| AppVeyor ->
+    trace "AppVeyor Continuous Integration Build"
+    // In AppVeyor we let its engine managed task dependencies
+    // an let it call into this script multiple times, incrementally.
+
+    // build --> test: do not enforce
+    // build --> package: do not enforce
+    // build --> docs: do not enforce
+    ()
+
+| _ ->
+    trace "Normal Build"
+    // In normal builds we need to set up proper dependencies between
+    // the targets so FAKE can build up and order the full work-flow properly
+
+    // build --> test
+    "Build" ==> "Test"
+    "Native32Build" ==> "Native32Test"
+    "Native64Build" ==> "Native64Test"
+    "DataBuild" ==> "DataTest"
+
+    // build --> package
+    "Build" ==> "Zip"
+    "NativeBuild" ==> "NativeZip"
+    "DataBuild" ==> "DataZip"
+    "Build" ==> "NuGet"
+    "NativeBuild" ==> "NativeNuGet"
+    "DataBuild" ==> "DataNuGet"
+
+    // build --> docs
+    "Build" ==> "CleanDocs"
+    "Build" ==> "Docs"
+    "Build" ==> "CleanApi"
+    "Build" ==> "Api"
+    ()
 
 
 // --------------------------------------------------------------------------------------

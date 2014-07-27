@@ -5,15 +5,16 @@ Math.NET Numerics is an opensource **numerical library for .Net, Silverlight and
 
 Math.NET Numerics is the numerical foundation of the Math.NET initiative, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Covered topics include special functions, linear algebra, probability models, random numbers, statistics, interpolation, integration, regression, curve fitting, integral transforms (FFT) and more.
 
-In addition to the core .NET package (which is written entirely in C#), Numerics specifically supports F# 3.0 and 3.1 with idiomatic extension modules and maintains mathematical data structures like BigRational that originated in the F# PowerPack. If a performance boost is needed, the managed-code provider backing its linear algebra routines and decompositions can be exchanged with wrappers for optimized native implementations such as Intel MKL.
+In addition to the core .NET package (which is written entirely in C#), Numerics specifically supports F# with idiomatic extension modules and maintains mathematical data structures like BigRational that originated in the F# PowerPack. If a performance boost is needed, the managed-code provider backing its linear algebra routines and decompositions can be exchanged with wrappers for optimized native implementations such as Intel MKL.
 
-Supports Mono and .NET 4.0 and 3.5 on Linux, Mac and Windows, the portable build (PCL) also Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1, and Xamarin Android/iOS.
-
-Math.NET Numerics is covered under the terms of the [MIT/X11](LICENSE.md) license. You may therefore link to it and use it in both opensource and proprietary software projects.
-
-Maintained by [Christoph Rüegg](http://christoph.ruegg.name/) but brought to you by all our awesome [contributors](CONTRIBUTORS.md) of Math.NET Numerics and its predecessors [dnAnalytics](http://dnanalytics.codeplex.com/) and [Math.NET Iridium](http://www.mathdotnet.com/Iridium.aspx). We accept contributions!
+Math.NET Numerics is covered under the terms of the [MIT/X11](LICENSE.md) license. You may therefore link to it and use it in both opensource and proprietary software projects. We accept contributions!
 
 **[Release Notes & Changes](RELEASENOTES.md)**
+
+![Math.NET Numerics Version](http://img.shields.io/nuget/v/MathNet.Numerics.svg?style=flat) Math.NET Numerics
+![Native Providers Version](http://img.shields.io/nuget/v/MathNet.Numerics.MKL.Win-x64.svg?style=flat) Native Providers
+![Data Extensions Version](http://img.shields.io/nuget/v/MathNet.Numerics.Data.Text.svg?style=flat) Data Extensions
+
 
 Installation Instructions
 -------------------------
@@ -39,6 +40,7 @@ Supported Platforms:
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
 - PCL Portable Profiles 47 and 344: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
 - Xamarin: Android, iOS
+
 
 Building Math.NET Numerics
 --------------------------
@@ -91,27 +93,14 @@ If you do not want to use the official binaries, or if you like to modify, debug
 
 FAKE itself is not included in the repository but it will download and bootstrap itself automatically when build.cmd is run the first time. Note that this step is *not* required when using Visual Studio or `msbuild` directly.
 
+
 Quick Links
 -----------
 
 * [**Project Website**](http://numerics.mathdotnet.com)
 * [Source Code](http://github.com/mathnet/mathnet-numerics)
-* [Downloads](http://mathnetnumerics.codeplex.com/releases)
-* [Documentation](http://numerics.mathdotnet.com/docs/)
-* [API Reference](http://numerics.mathdotnet.com/api/)
-* [Discussions](http://mathnetnumerics.codeplex.com/discussions)
-* [Work Items and Bug Tracker](http://github.com/mathnet/mathnet-numerics/issues)
-* [Ideas & Feedback](http://feedback.mathdotnet.com/forums/2060-math-net-numerics)
-
-Feeds:
-
-* [Blog Feed](http://christoph.ruegg.name/blog/categories/math-net-numerics/atom.xml)
-* [Activity Feed](http://feeds.mathdotnet.com/MathNetNumericsActivity)
-
-Math.NET Numerics on other sites:
-
-* [Twitter @MathDotNet](http://twitter.com/MathDotNet)
-* [Google+](https://plus.google.com/112484567926928665204)
-* [Ohloh](https://www.ohloh.net/p/mathnet)
-* [Stack Overflow](http://stackoverflow.com/questions/tagged/mathdotnet)
-* [Wikipedia](http://en.wikipedia.org/wiki/Math.NET_Numerics)
+* [NuGet Packages](https://www.nuget.org/profiles/mathnet/) | [Downloads](http://mathnetnumerics.codeplex.com/releases)
+* [Documentation](http://numerics.mathdotnet.com/docs/) | [API Reference](http://numerics.mathdotnet.com/api/)
+* [Issues & Bugs](http://github.com/mathnet/mathnet-numerics/issues) | [Ideas](http://feedback.mathdotnet.com/forums/2060-math-net-numerics)
+* [Discussions](http://mathnetnumerics.codeplex.com/discussions) | [Stack Overflow](http://stackoverflow.com/questions/tagged/mathdotnet) | [Chat](https://gitter.im/mathnet/mathnet-numerics) | [Twitter](http://twitter.com/MathDotNet) | [Google+](https://plus.google.com/112484567926928665204)
+* [Wikipedia](http://en.wikipedia.org/wiki/Math.NET_Numerics) | [OpenHUB](https://www.ohloh.net/p/mathnet)
