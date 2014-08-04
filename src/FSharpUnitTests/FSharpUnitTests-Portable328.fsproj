@@ -7,9 +7,9 @@
     <ProjectGuid>{EC24DA9F-8772-491D-BA56-3ADA75072B3D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>FSharpPortableUnitTests</RootNamespace>
-    <AssemblyName>MathNet.Numerics.FSharp.UnitTests344</AssemblyName>
+    <AssemblyName>MathNet.Numerics.FSharp.UnitTests328</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <Name>FSharpUnitTests-Portable344</Name>
+    <Name>FSharpUnitTests-Portable328</Name>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -17,9 +17,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\test\Profile344\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Profile344\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Profile344\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\test\Profile328\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test\Profile328\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test\Profile328\</BaseIntermediateOutputPath>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
     <DebugType>pdbonly</DebugType>
@@ -29,9 +29,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>DEBUG;TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\test-debug\Profile344\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Profile344\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile344\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\test-debug\Profile328\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test-debug\Profile328\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile328\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
     <DebugSymbols>true</DebugSymbols>
@@ -75,12 +75,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FSharp\FSharp-Portable344.fsproj">
-      <Name>FSharp-Portable344</Name>
+    <ProjectReference Include="..\FSharp\FSharp-Portable328.fsproj">
+      <Name>FSharp-Portable328</Name>
       <Project>{8A60894F-D090-4FC5-9535-E244E90A44C1}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Numerics\Numerics-Portable344.csproj">
-      <Name>Numerics-Portable344</Name>
+    <ProjectReference Include="..\Numerics\Numerics-Portable328.csproj">
+      <Name>Numerics-Portable328</Name>
       <Project>{1A3065FD-105D-4AF1-85B9-0A4A26FFB353}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -32,15 +32,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable47", "src
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Portable47", "src\FSharpUnitTests\FSharpUnitTests-Portable47.fsproj", "{90CE8E32-354E-4728-8FE6-87342F469321}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portable344", "Portable344", "{9D409E95-D567-4C2F-A0DF-87A6DF5B3A2E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portable328", "Portable328", "{9D409E95-D567-4C2F-A0DF-87A6DF5B3A2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable344", "src\Numerics\Numerics-Portable344.csproj", "{1A3065FD-105D-4AF1-85B9-0A4A26FFB353}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable328", "src\Numerics\Numerics-Portable328.csproj", "{1A3065FD-105D-4AF1-85B9-0A4A26FFB353}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable344", "src\UnitTests\UnitTests-Portable344.csproj", "{2B6BE5F8-843E-4E36-8B8E-9CA3C9503198}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable328", "src\UnitTests\UnitTests-Portable328.csproj", "{2B6BE5F8-843E-4E36-8B8E-9CA3C9503198}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Portable344", "src\FSharp\FSharp-Portable344.fsproj", "{8A60894F-D090-4FC5-9535-E244E90A44C1}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Portable328", "src\FSharp\FSharp-Portable328.fsproj", "{8A60894F-D090-4FC5-9535-E244E90A44C1}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Portable344", "src\FSharpUnitTests\FSharpUnitTests-Portable344.fsproj", "{EC24DA9F-8772-491D-BA56-3ADA75072B3D}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Portable328", "src\FSharpUnitTests\FSharpUnitTests-Portable328.fsproj", "{EC24DA9F-8772-491D-BA56-3ADA75072B3D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Net35", "Net35", "{14DAACDA-AD68-4AAE-B65F-9F6C60866327}"
 EndProject

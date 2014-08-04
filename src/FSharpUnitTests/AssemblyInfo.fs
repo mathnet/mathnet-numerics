@@ -8,6 +8,7 @@ open System.Runtime.InteropServices
 [<assembly: AssemblyTitle("Math.NET Numerics for F# Unit Tests")>]
 [<assembly: AssemblyCompany("Math.NET Project")>]
 [<assembly: AssemblyProduct("Math.NET Numerics")>]
+[<assembly: AssemblyCopyright("Copyright (c) Math.NET Project")>]
 
 [<assembly: AssemblyVersion("3.1.0.0")>]
 [<assembly: AssemblyFileVersion("3.1.0.0")>]

@@ -65,15 +65,15 @@ trace (sprintf " Math.NET Numerics                    v%s" packageVersion)
 
 let summary = "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use."
 let description = "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. "
-let support = "Supports .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL Portable Profiles 47 and 344; Android/iOS with Xamarin."
-let supportFsharp = "Supports F# 3.0 on .Net 4.0 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL Portable Profiles 47 and 344; Android/iOS with Xamarin."
+let support = "Supports .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL Portable Profiles 47 and 328; Android/iOS with Xamarin."
+let supportFsharp = "Supports F# 3.0 on .Net 4.0 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL Portable Profiles 47 and 328; Android/iOS with Xamarin."
 let supportSigned = "Supports .Net 4.0."
 let tags = "math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft"
 
 let libnet35 = "lib/net35"
 let libnet40 = "lib/net40"
 let libpcl47 = "lib/portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1"
-let libpcl344 = "lib/portable-net45+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
+let libpcl328 = "lib/portable-net40+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
 
 let numericsPack =
     { Id = "MathNet.Numerics"
@@ -88,7 +88,7 @@ let numericsPack =
       Files = [ @"..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some @"**\MathNet.Numerics.FSharp.*";
                 @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
                 @"..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some @"**\MathNet.Numerics.FSharp.*";
-                @"..\..\out\lib\Profile344\MathNet.Numerics.*", Some libpcl344, Some @"**\MathNet.Numerics.FSharp.*";
+                @"..\..\out\lib\Profile328\MathNet.Numerics.*", Some libpcl328, Some @"**\MathNet.Numerics.FSharp.*";
                 @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
 
 let fsharpPack =
@@ -100,8 +100,8 @@ let fsharpPack =
                         Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion ] }]
                         Files = [ @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
                                   @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
-                                  @"..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
-                                  @"..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
+                                  @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;
+                                  @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;
                                   @"MathNet.Numerics.fsx", None, None;
                                   @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
@@ -232,8 +232,8 @@ Target "Start" DoNothing
 Target "Clean" (fun _ ->
     CleanDirs [ "obj" ]
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
-    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile344" ]
-    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile344" ]
+    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile328" ]
+    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile328" ]
     CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
     CleanDirs [ "out/MKL"; "out/ATLAS" ] // Native Providers
     CleanDirs [ "out/Data" ]) // Data Extensions

@@ -40,7 +40,7 @@ open System.Runtime.InteropServices
 [<assembly: AssemblyConfiguration("")>]
 [<assembly: AssemblyCompany("Math.NET Project")>]
 [<assembly: AssemblyProduct("Math.NET Numerics")>]
-[<assembly: AssemblyCopyright("Copyright © Math.NET Project")>]
+[<assembly: AssemblyCopyright("Copyright (c) Math.NET Project")>]
 [<assembly: AssemblyTrademark("")>]
 [<assembly: AssemblyCulture("")>]
 [<assembly: NeutralResourcesLanguage("en")>]

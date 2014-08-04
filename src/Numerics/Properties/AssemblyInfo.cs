@@ -39,7 +39,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Math.NET Project")]
 [assembly: AssemblyProduct("Math.NET Numerics")]
-[assembly: AssemblyCopyright("Copyright © Math.NET Project")]
+[assembly: AssemblyCopyright("Copyright (c) Math.NET Project")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
@@ -54,8 +54,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Math.NET Numerics - Portable Edition")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests47")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests136")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests344")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests328")]
 
 #elif NET35
 

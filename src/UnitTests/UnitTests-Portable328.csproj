@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
-    <AssemblyName>MathNet.Numerics.UnitTests344</AssemblyName>
+    <AssemblyName>MathNet.Numerics.UnitTests328</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -16,9 +16,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\test\Profile344\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Profile344\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Profile344\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\test\Profile328\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test\Profile328\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test\Profile328\</BaseIntermediateOutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -28,9 +28,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\test-debug\Profile344\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Profile344\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile344\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\test-debug\Profile328\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test-debug\Profile328\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile328\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -332,9 +332,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Numerics\Numerics-Portable344.csproj">
+    <ProjectReference Include="..\Numerics\Numerics-Portable328.csproj">
       <Project>{1A3065FD-105D-4AF1-85B9-0A4A26FFB353}</Project>
-      <Name>Numerics-Portable344</Name>
+      <Name>Numerics-Portable328</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

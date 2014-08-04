@@ -45,13 +45,13 @@ Alternatively you can also download the binaries in Zip packages, available on [
 Supported Platforms:
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
-- PCL Portable Profiles 47 and 344: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
+- PCL Portable Profiles 47 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
 - Xamarin: Android, iOS
 
 Dependencies:
 
 - .Net 4.0 and higher, Mono, PCL Profile 47: `System.Numerics` (part of the .Net framework, usually in the GAC)
-- PCL Profile 344: None
+- PCL Profile 328: None
 - .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
 
 Building Math.NET Numerics

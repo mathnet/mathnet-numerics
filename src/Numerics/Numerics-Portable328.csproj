@@ -11,7 +11,7 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <AssemblyName>MathNet.Numerics</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile344</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -19,10 +19,10 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\lib\Profile344\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib\Profile344\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib\Profile344\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib\Profile344\MathNet.Numerics.XML</DocumentationFile>
+    <OutputPath>..\..\out\lib\Profile328\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib\Profile328\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib\Profile328\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\..\out\lib\Profile328\MathNet.Numerics.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -32,9 +32,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\lib-debug\Profile344\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-debug\Profile344\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Profile344\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\lib-debug\Profile328\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib-debug\Profile328\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Profile328\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
