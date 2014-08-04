@@ -32,6 +32,12 @@ Alternatively you can also download the binaries in Zip packages, available on [
 - Binaries - core package and F# extensions, including .Net 4, .Net 3.5 and portable/PCL builds.
 - Signed Binaries - strong-named version of the core package *(not recommended)*.
 
+Dependencies:
+
+- .Net 4.0 and higher, Mono, PCL Profile 47: `System.Numerics` (part of the .Net framework, usually in the GAC)
+- PCL Profile 344: None
+- .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
+
 
 Using Math.NET Numerics with C#
 -------------------------------

@@ -48,6 +48,12 @@ Supported Platforms:
 - PCL Portable Profiles 47 and 344: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
 - Xamarin: Android, iOS
 
+Dependencies:
+
+- .Net 4.0 and higher, Mono, PCL Profile 47: `System.Numerics` (part of the .Net framework, usually in the GAC)
+- PCL Profile 344: None
+- .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
+
 Building Math.NET Numerics
 --------------------------
 
