@@ -45,7 +45,7 @@ type Package =
       ReleaseNotes: string
       Tags: string
       Authors: string list
-      Dependencies: (string*string) list
+      Dependencies: NugetFrameworkDependencies list
       Files: (string * string option * string option) list }
 
 type Bundle =
@@ -84,7 +84,7 @@ let numericsPack =
       ReleaseNotes = releaseNotes
       Tags = tags
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies = []
+      Dependencies = [{ FrameworkVersion="net35"; Dependencies=getDependencies "src/Numerics/packages.config" }]
       Files = [ @"..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some @"**\MathNet.Numerics.FSharp.*";
                 @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
                 @"..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some @"**\MathNet.Numerics.FSharp.*";
@@ -97,7 +97,7 @@ let fsharpPack =
                         Summary = "F# Modules for " + summary
                         Description = description + supportFsharp
                         Tags = "fsharp F# " + tags
-                        Dependencies = [ "MathNet.Numerics", "[" + packageVersion + "]" ]
+                        Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion ] }]
                         Files = [ @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
                                   @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
                                   @"..\..\out\lib\Profile344\MathNet.Numerics.FSharp.*", Some libpcl344, None;
@@ -110,6 +110,7 @@ let numericsSignedPack =
                         Title = numericsPack.Title + " - Signed Edition"
                         Description = description + supportSigned
                         Tags = numericsPack.Tags + " signed"
+                        Dependencies = []
                         Files = [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
                                   @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
 
@@ -118,7 +119,7 @@ let fsharpSignedPack =
                       Title = fsharpPack.Title + " - Signed Edition"
                       Description = description + supportSigned
                       Tags = fsharpPack.Tags + " signed"
-                      Dependencies = [ "MathNet.Numerics.Signed", "[" + packageVersion + "]" ]
+                      Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics.Signed", RequireExactly packageVersion ] }]
                       Files = [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
                                 @"MathNet.Numerics.fsx", None, None;
                                 @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
@@ -158,7 +159,7 @@ let nativeMKLWin32Pack =
       ReleaseNotes = nativeReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies = [ "MathNet.Numerics", "2.4.0" ]
+      Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics", "2.4.0" ] }]
       Files = [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
                 @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
 
@@ -196,7 +197,7 @@ let dataTextPack =
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data text csv tsv json xml"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies = getDependencies "src/Data/Text/packages.config"
+      Dependencies = [{ FrameworkVersion=""; Dependencies=getDependencies "src/Data/Text/packages.config" }]
       Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.dll", Some libnet40, None;
                 @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml", Some libnet40, None ] }
 
@@ -209,7 +210,7 @@ let dataMatlabPack =
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data matlab"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies = getDependencies "src/Data/Matlab/packages.config"
+      Dependencies = [{ FrameworkVersion=""; Dependencies=getDependencies "src/Data/Matlab/packages.config" }]
       Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
                 @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
 
@@ -423,7 +424,7 @@ let updateNuspec (pack:Package) outPath symbols updateFiles spec =
                 Description = pack.Description
                 Tags = pack.Tags
                 Authors = pack.Authors
-                Dependencies = pack.Dependencies
+                DependenciesByFramework = pack.Dependencies
                 SymbolPackage = symbols
                 Files = updateFiles pack.Files
                 Publish = false }
