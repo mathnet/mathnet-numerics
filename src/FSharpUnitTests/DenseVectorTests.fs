@@ -18,7 +18,7 @@ module DenseVectorTests =
     [<Test>]
     let ``DenseVector.zero`` () =
         (DenseVector.zero 100) + largev |> should equal largev
-        
+
     [<Test>]
     let ``DenseVector.random`` () =
         let m = DenseVector.random 100 (Normal.WithMeanStdDev(100.0,0.1))

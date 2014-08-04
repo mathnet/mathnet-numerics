@@ -171,14 +171,14 @@ module VectorTests =
     [<Test>]
     let ``Pointwise Multiplication using .* Operator`` () =
         let z = largev .* largev
-        z |> should equal (DenseVector.init 100 (fun i -> (float i / 100.0) ** 2.0))
+        z |> should (approximately_equal 14) (DenseVector.init 100 (fun i -> (float i / 100.0) ** 2.0))
 
     [<Test>]
     let ``Pointwise Division using ./ Operator`` () =
         let z = largev ./ DenseVector.create 100 2.0
-        z |> should equal (largev * 0.5)
+        z |> should (approximately_equal 14) (largev * 0.5)
 
     [<Test>]
     let ``Pointwise Modulus using .% Operator`` () =
         let z = largev .% DenseVector.create 100 2.0
-        z |> should equal (largev % 2.0)
+        z |> should (approximately_equal 14) (largev % 2.0)

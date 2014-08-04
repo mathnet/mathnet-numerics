@@ -9,7 +9,7 @@ module FindRootsTests =
 
     let f x = (x - 3.0)*(x - 4.0)
     let df x = 2.0*x - 7.0
-    let g (xa:float[]) = 
+    let g (xa:float[]) =
         let x = xa.[0];
         let T = xa.[1];
         let k = 0.12 * Math.Exp(12581.0 * (T - 298.0) / (298.0 * T));
@@ -36,7 +36,7 @@ module FindRootsTests =
     let ``Newton-Raphson by Guess should find both roots of (x - 3) * (x - 4)``() =
         (f, df) ||> FindRoots.newtonRaphsonGuess 100 1e-14 2.8 |> should equal (Some 3.0)
         (f, df) ||> FindRoots.newtonRaphsonGuess 100 1e-14 3.7 |> should equal (Some 4.0)
-        
+
     [<Test>]
     let ``Robust Newton-Raphson should find both roots of (x - 3) * (x - 4)``() =
         (f, df) ||> FindRoots.newtonRaphsonRobust 100 20 1e-14 -5.0 3.5 |> should equal (Some 3.0)

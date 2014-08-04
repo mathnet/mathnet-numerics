@@ -66,7 +66,7 @@ trace (sprintf " Math.NET Numerics                    v%s" packageVersion)
 let summary = "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use."
 let description = "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. "
 let support = "Supports .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL Portable Profiles 47 and 328; Android/iOS with Xamarin."
-let supportFsharp = "Supports F# 3.0 on .Net 4.0 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL Portable Profiles 47 and 328; Android/iOS with Xamarin."
+let supportFsharp = "Supports F# 3.0 on .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL Portable Profiles 47 and 328; Android/iOS with Xamarin."
 let supportSigned = "Supports .Net 4.0."
 let tags = "math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft"
 
@@ -98,7 +98,8 @@ let fsharpPack =
                         Description = description + supportFsharp
                         Tags = "fsharp F# " + tags
                         Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion ] }]
-                        Files = [ @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
+                        Files = [ @"..\..\out\lib\Net35\MathNet.Numerics.FSharp.*", Some libnet35, None;
+                                  @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
                                   @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
                                   @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;
                                   @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;

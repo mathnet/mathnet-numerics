@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
@@ -54,6 +54,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40
 		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
 		build\packages.config = build\packages.config
 	EndProjectSection
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Net35", "src\FSharp\FSharp-Net35.fsproj", "{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Net35", "src\FSharpUnitTests\FSharpUnitTests-Net35.fsproj", "{8C96F2E9-681B-4201-8BDD-0AA901203725}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +147,18 @@ Global
 		{9014A0CE-725D-4718-918C-923C0CA19FEE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9014A0CE-725D-4718-918C-923C0CA19FEE}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
 		{9014A0CE-725D-4718-918C-923C0CA19FEE}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
+		{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
+		{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{8C96F2E9-681B-4201-8BDD-0AA901203725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C96F2E9-681B-4201-8BDD-0AA901203725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C96F2E9-681B-4201-8BDD-0AA901203725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C96F2E9-681B-4201-8BDD-0AA901203725}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C96F2E9-681B-4201-8BDD-0AA901203725}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
+		{8C96F2E9-681B-4201-8BDD-0AA901203725}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -158,6 +174,8 @@ Global
 		{EC24DA9F-8772-491D-BA56-3ADA75072B3D} = {9D409E95-D567-4C2F-A0DF-87A6DF5B3A2E}
 		{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC} = {14DAACDA-AD68-4AAE-B65F-9F6C60866327}
 		{9014A0CE-725D-4718-918C-923C0CA19FEE} = {14DAACDA-AD68-4AAE-B65F-9F6C60866327}
+		{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4} = {14DAACDA-AD68-4AAE-B65F-9F6C60866327}
+		{8C96F2E9-681B-4201-8BDD-0AA901203725} = {14DAACDA-AD68-4AAE-B65F-9F6C60866327}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\Numerics\Numerics.csproj

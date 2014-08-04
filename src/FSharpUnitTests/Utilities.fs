@@ -124,5 +124,3 @@ module Utilities =
     let checkThrowsKeyNotFoundException  f = checkThrowsExn<KeyNotFoundException>     f
     let checkThrowsDivideByZeroException f = checkThrowsExn<DivideByZeroException>    f
     let checkThrowsInvalidOperationExn   f = checkThrowsExn<InvalidOperationException> f
-
-       

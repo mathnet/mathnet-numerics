@@ -3,25 +3,26 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{37E8E802-A354-4114-BFC1-6E1357DA605B}</ProjectGuid>
+    <ProjectGuid>{d5dbcec0-9d9d-4a62-9ee0-f78e1895d4f4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <AssemblyName>MathNet.Numerics.FSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <Name>FSharp</Name>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
     <!-- Conditional Strong Name -->
     <AssemblyOriginatorKeyFile>..\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
-    <OutputPath>..\..\out\lib\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib\Net40\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib\Net40\MathNet.Numerics.FSharp.xml</DocumentationFile>
-    <DefineConstants>TRACE</DefineConstants>
+    <OutputPath>..\..\out\lib\Net35\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib\Net35\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\..\out\lib\Net35\MathNet.Numerics.FSharp.xml</DocumentationFile>
+    <DefineConstants>TRACE;NET35;NOSYSNUMERICS</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <!-- Conditional Strong Name: NO -->
   </PropertyGroup>
@@ -30,10 +31,10 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
-    <OutputPath>..\..\out\lib-debug\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-debug\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Net40\</BaseIntermediateOutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <OutputPath>..\..\out\lib-debug\Net35\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib-debug\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Net35\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NET35;NOSYSNUMERICS</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <!-- Conditional Strong Name: NO -->
   </PropertyGroup>
@@ -41,12 +42,12 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
-    <DefineConstants>TRACE;STRONGNAME</DefineConstants>
+    <DefineConstants>TRACE;NET35;NOSYSNUMERICS;STRONGNAME</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <OutputPath>..\..\out\lib-signed\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-signed\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-signed\Net40\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.xml</DocumentationFile>
+    <OutputPath>..\..\out\lib-signed\Net35\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib-signed\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib-signed\Net35\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\..\out\lib-signed\Net35\MathNet.Numerics.FSharp.xml</DocumentationFile>
     <!-- Conditional Strong Name: YES -->
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
@@ -76,14 +77,18 @@
     <None Include="MathNet.Numerics.fsx" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FSharp.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\Numerics\Numerics.csproj">
-      <Name>Numerics</Name>
-      <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Numerics\Numerics-Net35.csproj">
+      <Name>Numerics-Net35</Name>
+      <Project>{e54e712d-eb6b-4fbf-b29a-6bb95e719bac}</Project>
+      <Private>True</Private>
     </ProjectReference>
-    <Reference Include="FSharp.Core, Version=4.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   </ItemGroup>
 </Project>

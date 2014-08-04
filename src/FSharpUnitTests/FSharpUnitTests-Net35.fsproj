@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8c96f2e9-681b-4201-8bdd-0aa901203725}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>FSharpUnitTests</RootNamespace>
+    <AssemblyName>MathNet.Numerics.FSharp.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <Name>FSharpUnitTests</Name>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <OutputPath>..\..\out\test\Net40\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test\Net40\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test\Net40\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;NET35;NOSYSNUMERICS</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <OutputPath>..\..\out\test-debug\Net40\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test-debug\Net40\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test-debug\Net40\</BaseIntermediateOutputPath>
+    <DefineConstants>DEBUG;TRACE;NET35;NOSYSNUMERICS</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <DefineConstants>TRACE;NET35;NOSYSNUMERICS</DefineConstants>
+    <WarningLevel>3</WarningLevel>
+    <OutputPath>..\..\out\test-signed\Net40\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test-signed\Net40\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test-signed\Net40\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Workaround - remove once no longer needed! -->
+    <DefineConstants>$(DefineConstants);NOFSSLICESET1D</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FSharp.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="FsUnit.NUnit">
+      <HintPath>..\..\packages\FsUnit.1.2.1.0\Lib\Net20\FsUnit.NUnit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="VectorTests.fs" />
+    <Compile Include="SparseVectorTests.fs" />
+    <Compile Include="DenseVectorTests.fs" />
+    <Compile Include="MatrixTests.fs" />
+    <Compile Include="SparseMatrixTests.fs" />
+    <Compile Include="DenseMatrixTests.fs" />
+    <Compile Include="Utilities.fs" />
+    <Compile Include="BigRationalTests.fs" />
+    <Compile Include="RandomVariableTests.fs" />
+    <Compile Include="PokerTests.fs" />
+    <Compile Include="FitTests.fs" />
+    <Compile Include="FindRootsTests.fs" />
+    <None Include="packages.config" />
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FSharp\FSharp-Net35.fsproj">
+      <Name>FSharp-Net35</Name>
+      <Project>{d5dbcec0-9d9d-4a62-9ee0-f78e1895d4f4}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Numerics\Numerics-Net35.csproj">
+      <Name>Numerics-Net35</Name>
+      <Project>{e54e712d-eb6b-4fbf-b29a-6bb95e719bac}</Project>
+      <Private>True</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '11.0' Or $(OS) != 'Windows_NT'">
+    <FSharpTargetsPath>$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets</FSharpTargetsPath>
+  </PropertyGroup>
+  <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
+</Project>

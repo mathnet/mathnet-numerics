@@ -31,6 +31,7 @@
 namespace MathNet.Numerics.LinearAlgebra
 
 open System
+open MathNet.Numerics
 open MathNet.Numerics.LinearAlgebra
 
 
@@ -46,163 +47,163 @@ module Matrix =
     let inline toSeq (m: #Matrix<_>) = m.Enumerate(Zeros.Include)
 
     /// Transform a matrix into an indexed sequence.
-    let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include)
+    let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> properTuple3Seq
 
     /// Transform a matrix into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
     let inline toSeqSkipZeros (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip)
 
     /// Transform a matrix into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqiSkipZeros (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip)
+    let inline toSeqiSkipZeros (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> properTuple3Seq
 
     /// Transform a matrix into a column sequence.
     let inline toColSeq (m: #Matrix<_>) = m.EnumerateColumns()
 
     /// Transform a matrix into an indexed column sequence.
-    let inline toColSeqi (m: #Matrix<_>) = m.EnumerateColumnsIndexed()
+    let inline toColSeqi (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> properTuple2Seq
 
     /// Transform a matrix into a row sequence.
     let inline toRowSeq (m: #Matrix<_>) = m.EnumerateRows()
 
     /// Transform a matrix into an indexed row sequence.
-    let inline toRowSeqi (m: #Matrix<_>) = m.EnumerateRowsIndexed()
+    let inline toRowSeqi (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> properTuple2Seq
 
 
     /// Applies a function to all elements of the matrix.
-    let inline iter f (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.iter f
+    let inline iter f (m: #Matrix<_>) = m |> toSeq |> Seq.iter f
 
     /// Applies a function to all indexed elements of the matrix.
-    let inline iteri f (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.iter (fun (i, j, x) -> f i j x)
+    let inline iteri f (m: #Matrix<_>) = m |> toSeqi |> Seq.iter (fun (i, j, x) -> f i j x)
 
     /// Applies a function to all non-zero elements of the matrix. Skipping zeros is efficient on sparse data.
-    let inline iterSkipZerosnz f (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.iter f
+    let inline iterSkipZerosnz f (m: #Matrix<_>) = m |> toSeqSkipZeros |> Seq.iter f
 
     /// Applies a function to all non-zero indexed elements of the matrix. Skipping zeros is efficient on sparse data.
-    let inline iteriSkipZeros f (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.iter (fun (i, j, x) -> f i j x)
+    let inline iteriSkipZeros f (m: #Matrix<_>) = m |> toSeqiSkipZeros |> Seq.iter (fun (i, j, x) -> f i j x)
 
     /// Applies a function to all columns of the matrix.
-    let inline iterCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.iter f
+    let inline iterCols f (m: #Matrix<_>) = m |> toColSeq |> Seq.iter f
 
     /// Applies a function to all indexed columns of the matrix.
-    let inline iteriCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.iteri f
+    let inline iteriCols f (m: #Matrix<_>) = m |> toColSeq |> Seq.iteri f
 
     /// Applies a function to all rows of the matrix.
-    let inline iterRows f (m: #Matrix<_>) = m.EnumerateRows() |> Seq.iter f
+    let inline iterRows f (m: #Matrix<_>) = m |> toRowSeq |> Seq.iter f
 
     /// Applies a function to all indexed rows of the matrix.
-    let inline iteriRows f (m: #Matrix<_>) = m.EnumerateRows() |> Seq.iteri f
+    let inline iteriRows f (m: #Matrix<_>) = m |> toRowSeq |> Seq.iteri f
 
 
     /// Fold all entries of a matrix.
-    let inline fold f state (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.fold f state
+    let inline fold f state (m: #Matrix<_>) = m |> toSeq |> Seq.fold f state
 
     /// Fold all entries of a matrix with an indexed folding function.
-    let inline foldi f state (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.fold (fun s (i,j,x) -> f i j s x) state
+    let inline foldi f state (m: #Matrix<_>) = m |> toSeqi |> Seq.fold (fun s (i,j,x) -> f i j s x) state
 
     /// Fold all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
-    let inline foldSkipZeros f state (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.fold f state
+    let inline foldSkipZeros f state (m: #Matrix<_>) = m |> toSeqSkipZeros |> Seq.fold f state
 
     /// Fold all non-zero entries of a matrix with an indexed folding function. Skipping zeros is efficient on sparse data.
-    let inline foldiSkipZeros f state (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.fold (fun s (i,j,x) -> f i j s x) state
+    let inline foldiSkipZeros f state (m: #Matrix<_>) = m |> toSeqiSkipZeros |> Seq.fold (fun s (i,j,x) -> f i j s x) state
 
     /// Fold all columns of a matrix.
-    let inline foldCols f state (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.fold f state
+    let inline foldCols f state (m: #Matrix<_>) = m |> toColSeq |> Seq.fold f state
 
     /// Fold all columns of a matrix with an indexed folding function.
-    let inline foldiCols f state (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> Seq.fold (fun s (j,x) -> f j s x) state
+    let inline foldiCols f state (m: #Matrix<_>) = m |> toColSeqi |> Seq.fold (fun s (j,x) -> f j s x) state
 
     /// Fold all rows of a matrix.
-    let inline foldRows f state (m: #Matrix<_>) = m.EnumerateRows() |> Seq.fold f state
+    let inline foldRows f state (m: #Matrix<_>) = m |> toRowSeq |> Seq.fold f state
 
     /// Fold all rows of a matrix with an indexed folding function.
-    let inline foldiRows f state (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> Seq.fold (fun s (i,x) -> f i s x) state
+    let inline foldiRows f state (m: #Matrix<_>) = m |> toRowSeqi |> Seq.fold (fun s (i,x) -> f i s x) state
 
 
     /// Scan all entries of a matrix.
-    let inline scan f state (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.scan f state
+    let inline scan f state (m: #Matrix<_>) = m |> toSeq |> Seq.scan f state
 
     /// Scan all entries of a matrix with an indexed folding function.
-    let inline scani f state (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.scan (fun s (i,j,x) -> f i j s x) state
+    let inline scani f state (m: #Matrix<_>) = m |> toSeqi |> Seq.scan (fun s (i,j,x) -> f i j s x) state
 
     /// Scan all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
-    let inline scanSkipZeros f state (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.scan f state
+    let inline scanSkipZeros f state (m: #Matrix<_>) = m |> toSeqSkipZeros |> Seq.scan f state
 
     /// Scan all non-zero entries of a matrix with an indexed folding function. Skipping zeros is efficient on sparse data.
-    let inline scaniSkipZeros f state (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.scan (fun s (i,j,x) -> f i j s x) state
+    let inline scaniSkipZeros f state (m: #Matrix<_>) = m |> toSeqiSkipZeros |> Seq.scan (fun s (i,j,x) -> f i j s x) state
 
     /// Scan all columns of a matrix.
-    let inline scanCols f state (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.scan f state
+    let inline scanCols f state (m: #Matrix<_>) = m |> toColSeq |> Seq.scan f state
 
     /// Scan all columns of a matrix with an indexed folding function.
-    let inline scaniCols f state (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> Seq.scan (fun s (j,x) -> f j s x) state
+    let inline scaniCols f state (m: #Matrix<_>) = m |> toColSeqi |> Seq.scan (fun s (j,x) -> f j s x) state
 
     /// Scan all rows of a matrix.
-    let inline scanRows f state (m: #Matrix<_>) = m.EnumerateRows() |> Seq.scan f state
+    let inline scanRows f state (m: #Matrix<_>) = m |> toRowSeq |> Seq.scan f state
 
     /// Scan all rows of a matrix with an indexed folding function.
-    let inline scaniRows f state (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> Seq.scan (fun s (i,x) -> f i s x) state
+    let inline scaniRows f state (m: #Matrix<_>) = m |> toRowSeqi |> Seq.scan (fun s (i,x) -> f i s x) state
 
 
     /// Reduce all entries of a matrix.
-    let inline reduce f (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.reduce f
+    let inline reduce f (m: #Matrix<_>) = m |> toSeq |> Seq.reduce f
 
     /// Reduce all non-zero entries of a matrix. Skipping zeros is efficient on sparse data.
-    let inline reduceSkipZeros f (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.reduce f
+    let inline reduceSkipZeros f (m: #Matrix<_>) = m |> toSeqSkipZeros |> Seq.reduce f
 
     /// Reduce all columns of a matrix.
-    let inline reduceCols f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.reduce f
+    let inline reduceCols f (m: #Matrix<_>) = m |> toColSeq |> Seq.reduce f
 
     /// Reduce all rows of a matrix.
-    let inline reduceRows f (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.reduce f
+    let inline reduceRows f (m: #Matrix<_>) = m |> toColSeq |> Seq.reduce f
 
 
     /// Checks whether there is an entry in the matrix that satisfies a predicate.
-    let inline exists p (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.exists p
+    let inline exists p (m: #Matrix<_>) = m |> toSeq |> Seq.exists p
 
     /// Checks whether there is an entry in the matrix that satisfies a position dependent predicate.
-    let inline existsi p (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.exists (fun (i,j,x) -> p i j x)
+    let inline existsi p (m: #Matrix<_>) = m |> toSeqi |> Seq.exists (fun (i,j,x) -> p i j x)
 
     /// Checks whether there is a non-zero entry in the matrix that satisfies a predicate. Skipping zeros is efficient on sparse data.
-    let inline existsSkipZeros p (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.exists p
+    let inline existsSkipZeros p (m: #Matrix<_>) = m |> toSeqSkipZeros |> Seq.exists p
 
     /// Checks whether there is a non-zero entry in the matrix that satisfies a position dependent predicate. Skipping zeros is efficient on sparse data.
-    let inline existsiSkipZeros p (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.exists (fun (i,j,x) -> p i j x)
+    let inline existsiSkipZeros p (m: #Matrix<_>) = m |> toSeqiSkipZeros |> Seq.exists (fun (i,j,x) -> p i j x)
 
     /// Checks whether there is a column in the matrix that satisfies a predicate.
-    let inline existsCol p (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.exists p
+    let inline existsCol p (m: #Matrix<_>) = m |> toColSeq |> Seq.exists p
 
     /// Checks whether there is a column in the matrix that satisfies a position dependent predicate.
-    let inline existsiCol p (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> Seq.exists (fun (j,x) -> p j x)
+    let inline existsiCol p (m: #Matrix<_>) = m |> toColSeqi |> Seq.exists (fun (j,x) -> p j x)
 
     /// Checks whether there is a row in the matrix that satisfies a predicate.
-    let inline existsRow p (m: #Matrix<_>) = m.EnumerateRows() |> Seq.exists p
+    let inline existsRow p (m: #Matrix<_>) = m |> toRowSeq |> Seq.exists p
 
     /// Checks whether there is a row in the matrix that satisfies a position dependent predicate.
-    let inline existsiRow p (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> Seq.exists (fun (i,x) -> p i x)
+    let inline existsiRow p (m: #Matrix<_>) = m |> toRowSeqi |> Seq.exists (fun (i,x) -> p i x)
 
 
     /// Checks whether all entries in the matrix that satisfies a given predicate.
-    let inline forall p (m: #Matrix<_>) = m.Enumerate(Zeros.Include) |> Seq.forall p
+    let inline forall p (m: #Matrix<_>) = m |> toSeq |> Seq.forall p
 
     /// Checks whether all entries in the matrix that satisfies a given position dependent predicate.
-    let inline foralli p (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.forall (fun (i,j,x) -> p i j x)
+    let inline foralli p (m: #Matrix<_>) = m |> toSeqi |> Seq.forall (fun (i,j,x) -> p i j x)
 
     /// Checks whether all non-zero entries in the matrix that satisfies a given predicate. Skipping zeros is efficient on sparse data.
-    let inline forallSkipZeros p (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip) |> Seq.forall p
+    let inline forallSkipZeros p (m: #Matrix<_>) = m |> toSeqSkipZeros |> Seq.forall p
 
     /// Checks whether all non-zero entries in the matrix that satisfies a given position dependent predicate. Skipping zeros is efficient on sparse data.
-    let inline foralliSkipZeros p (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.forall (fun (i,j,x) -> p i j x)
+    let inline foralliSkipZeros p (m: #Matrix<_>) = m |> toSeqiSkipZeros |> Seq.forall (fun (i,j,x) -> p i j x)
 
     /// Checks whether all columns in the matrix that satisfy a predicate.
-    let inline forallCols p (m: #Matrix<_>) = m.EnumerateColumns() |> Seq.forall p
+    let inline forallCols p (m: #Matrix<_>) = m |> toColSeq |> Seq.forall p
 
     /// Checks whether all columns in the matrix that satisfy a position dependent predicate.
-    let inline foralliCols p (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> Seq.forall (fun (j,x) -> p j x)
+    let inline foralliCols p (m: #Matrix<_>) = m |> toColSeqi |> Seq.forall (fun (j,x) -> p j x)
 
     /// Checks whether all rows in the matrix that satisfy a predicate.
-    let inline forallRows p (m: #Matrix<_>) = m.EnumerateRows() |> Seq.forall p
+    let inline forallRows p (m: #Matrix<_>) = m |> toRowSeq |> Seq.forall p
 
     /// Checks whether all rows in the matrix that satisfy a position dependent predicate.
-    let inline foralliRows p (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> Seq.forall (fun (i,x) -> p i x)
+    let inline foralliRows p (m: #Matrix<_>) = m |> toRowSeqi |> Seq.forall (fun (i,x) -> p i x)
 
 
 
@@ -327,11 +328,11 @@ module Matrix =
 
     /// Returns the sum of the results generated by applying a position dependent function to each column of the matrix.
     let inline sumColsBy f (A: #Matrix<_>) =
-        A.EnumerateColumnsIndexed() |> Seq.map (fun (j,col) -> f j col) |> Seq.reduce (+)
+        A |> toColSeqi |> Seq.map (fun (j,col) -> f j col) |> Seq.reduce (+)
 
     /// Returns the sum of the results generated by applying a position dependent function to each row of the matrix.
     let inline sumRowsBy f (A: #Matrix<_>) =
-        A.EnumerateRowsIndexed() |> Seq.map (fun (i,row) -> f i row)  |> Seq.reduce (+)
+        A |> toRowSeqi |> Seq.map (fun (i,row) -> f i row)  |> Seq.reduce (+)
 
 
     let inline rowCount (A: #Matrix<_>) = A.RowCount
@@ -457,10 +458,10 @@ module DenseMatrix =
     let inline ofColumnSeq2 (rows: int) (cols: int) (seqOfCols: #seq<seq<'T>>) = Matrix<'T>.Build.DenseOfColumns(rows, cols, seqOfCols)
 
     /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
-    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, Seq.ofList indexed)
+    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, Seq.ofList indexed |> internalTuple3Seq)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
-    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, indexed)
+    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, indexed |> internalTuple3Seq)
 
     /// Create a square matrix with the vector elements on the diagonal.
     let inline ofDiag (v: Vector<'T>) = Matrix<'T>.Build.DenseOfDiagonalVector(v)
@@ -552,10 +553,10 @@ module SparseMatrix =
     let inline ofColumnSeq2 (rows: int) (cols: int) (seqOfCols: #seq<seq<'T>>) = Matrix<'T>.Build.SparseOfColumns(rows, cols, seqOfCols)
 
     /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
-    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, Seq.ofList indexed)
+    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, Seq.ofList indexed |> internalTuple3Seq)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
-    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, indexed)
+    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, indexed |> internalTuple3Seq)
 
     /// Create a square matrix with the vector elements on the diagonal.
     let inline ofDiag (v: Vector<'T>) = Matrix<'T>.Build.SparseOfDiagonalVector(v)
@@ -576,7 +577,7 @@ module DiagonalMatrix =
 
     /// Create a matrix that directly binds to a storage object.
     let inline ofStorage (storage:Storage.DiagonalMatrixStorage<_>) = Matrix<'T>.Build.Diagonal(storage)
-    
+
     /// Create a square matrix that directly binds to a raw storage array that represents the diagonal, without copying.
     let inline raw (diagonal: 'T[]) = Matrix<'T>.Build.Diagonal(diagonal)
 

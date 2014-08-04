@@ -83,7 +83,7 @@ module DenseMatrixTests =
     let ``DenseMatrix.ofListi`` () =
         [ for i in 0 .. 99 do for j in 0 .. 119 -> (i,j, float i * 100.0 + float j) ]
         |> DenseMatrix.ofListi 100 120 |> should equal largeM
-        
+
     [<Test>]
     let ``DenseMatrix.diag`` () =
         DenseMatrix.diag 100 2.0 |> should equal (2.0 * (DenseMatrix.identity 100))

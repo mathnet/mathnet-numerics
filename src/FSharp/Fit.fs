@@ -31,6 +31,7 @@
 namespace MathNet.Numerics
 
 open System
+open MathNet.Numerics
 open MathNet.Numerics.LinearAlgebra
 open MathNet.Numerics.LinearAlgebra.Factorization
 
@@ -41,7 +42,7 @@ module Fit =
 
     /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
     /// returning its best fitting parameters as (a, b) tuple.
-    let line x y = Fit.Line(x,y)
+    let line x y = Fit.Line(x,y) |> properTuple2
 
     /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
     /// returning a function y' for the best fitting line.

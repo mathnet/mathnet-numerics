@@ -53,7 +53,7 @@ module SparseMatrixTests =
     [<Test>]
     let ``SparseMatrix.ofListi`` () =
         SparseMatrix.ofListi 4 6 [(1,2,1.0)] |> should equal smallM
-        
+
     [<Test>]
     let ``SparseMatrix.diag`` () =
         SparseMatrix.diag 100 2.0 |> should equal (2.0 * (SparseMatrix.identity 100))

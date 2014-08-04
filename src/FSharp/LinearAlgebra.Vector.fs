@@ -31,6 +31,7 @@
 namespace MathNet.Numerics.LinearAlgebra
 
 open System
+open MathNet.Numerics
 open MathNet.Numerics.LinearAlgebra
 
 
@@ -49,85 +50,85 @@ module Vector =
     let inline toSeq (v: #Vector<_>) = v.Enumerate(Zeros.Include)
 
     /// Transform a vector into an indexed sequence.
-    let inline toSeqi (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include)
+    let inline toSeqi (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include) |> properTuple2Seq
 
     /// Transform a vector into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
     let inline toSeqSkipZeros (v: #Vector<_>) = v.Enumerate(Zeros.AllowSkip)
 
     /// Transform a vector into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqiSkipZeros (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip)
+    let inline toSeqiSkipZeros (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip) |> properTuple2Seq
 
 
     /// Applies a function to all elements of the vector.
-    let inline iter f (v: #Vector<_>) = v.Enumerate(Zeros.Include) |> Seq.iter f
+    let inline iter f (v: #Vector<_>) = v |> toSeq |> Seq.iter f
 
     /// Applies a function to all indexed elements of the vector.
-    let inline iteri f (v: #Vector<_>) = v.Enumerate(Zeros.Include) |> Seq.iteri f
+    let inline iteri f (v: #Vector<_>) = v |> toSeq |> Seq.iteri f
 
     /// Applies a function to all non-zero elements of the vector. Skipping zeros is efficient on sparse data.
-    let inline iterSkipZeros f (v: #Vector<_>) = v.Enumerate(Zeros.AllowSkip) |> Seq.iter f
+    let inline iterSkipZeros f (v: #Vector<_>) = v |> toSeqSkipZeros |> Seq.iter f
 
     /// Applies a function to all non-zero indexed elements of the vector. Skipping zeros is efficient on sparse data.
-    let inline iteriSkipZeros f (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip) |> Seq.iter (fun (i,x) -> f i x)
+    let inline iteriSkipZeros f (v: #Vector<_>) = v |> toSeqiSkipZeros |> Seq.iter (fun (i,x) -> f i x)
 
 
     /// Fold all entries of a vector.
-    let inline fold f state (v: #Vector<_>) = v.Enumerate(Zeros.Include) |> Seq.fold f state
+    let inline fold f state (v: #Vector<_>) = v |> toSeq |> Seq.fold f state
 
     /// Fold all entries of a vector using a position dependent folding function.
-    let inline foldi f state (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include) |> Seq.fold (fun s (i,x) -> f i s x) state
+    let inline foldi f state (v: #Vector<_>) = v |> toSeqi |> Seq.fold (fun s (i,x) -> f i s x) state
 
     /// Fold all non-zero entries of a vector. Skipping zeros is efficient on sparse data.
-    let inline foldSkipZeros f state (v: #Vector<_>) = v.Enumerate(Zeros.AllowSkip) |> Seq.fold f state
+    let inline foldSkipZeros f state (v: #Vector<_>) = v |> toSeqSkipZeros |> Seq.fold f state
 
     /// Fold all non-zero entries of a vector using a position dependent folding function. Skipping zeros is efficient on sparse data.
-    let inline foldiSkipZeros f state (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip) |> Seq.fold (fun s (i,x) -> f i s x) state
+    let inline foldiSkipZeros f state (v: #Vector<_>) = v |> toSeqiSkipZeros |> Seq.fold (fun s (i,x) -> f i s x) state
 
 
     /// Scan all entries of a vector.
-    let inline scan f state (v: #Vector<_>) = v.Enumerate(Zeros.Include) |> Seq.scan f state
+    let inline scan f state (v: #Vector<_>) = v |> toSeq |> Seq.scan f state
 
     /// Scan all entries of a vector using a position dependent folding function.
-    let inline scani f state (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include) |> Seq.scan (fun s (i,x) -> f i s x) state
+    let inline scani f state (v: #Vector<_>) = v |> toSeqi |> Seq.scan (fun s (i,x) -> f i s x) state
 
     /// Scan all non-zero entries of a vector. Skipping zeros is efficient on sparse data.
-    let inline scanSkipZeros f state (v: #Vector<_>) = v.Enumerate(Zeros.AllowSkip) |> Seq.scan f state
+    let inline scanSkipZeros f state (v: #Vector<_>) = v |> toSeqSkipZeros |> Seq.scan f state
 
     /// Scan all non-zero entries of a vector using a position dependent folding function. Skipping zeros is efficient on sparse data.
-    let inline scaniSkipZeros f state (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip) |> Seq.scan (fun s (i,x) -> f i s x) state
+    let inline scaniSkipZeros f state (v: #Vector<_>) = v |> toSeqiSkipZeros |> Seq.scan (fun s (i,x) -> f i s x) state
 
 
     /// Reduce all entries of a vector.
-    let inline reduce f (v: #Vector<_>) = v.Enumerate(Zeros.Include) |> Seq.reduce f
+    let inline reduce f (v: #Vector<_>) = v |> toSeq |> Seq.reduce f
 
     /// Reduce all non-zero entries of a vector. Skipping zeros is efficient on sparse data.
-    let inline reduceSkipZeros f (v: #Vector<_>) = v.Enumerate(Zeros.AllowSkip) |> Seq.reduce f
+    let inline reduceSkipZeros f (v: #Vector<_>) = v |> toSeqSkipZeros |> Seq.reduce f
 
 
     /// Checks whether there is an entry in the vector that satisfies a predicate.
-    let inline exists p (v: #Vector<_>) = v.Enumerate(Zeros.Include) |> Seq.exists p
+    let inline exists p (v: #Vector<_>) = v |> toSeq |> Seq.exists p
 
     /// Checks whether there is an entry in the vector that satisfies a position dependent predicate.
-    let inline existsi p (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include) |> Seq.exists (fun (i,x) -> p i x)
+    let inline existsi p (v: #Vector<_>) = v |> toSeqi |> Seq.exists (fun (i,x) -> p i x)
 
     /// Checks whether there is a non-zero entry in the vector that satisfies a predicate. Skipping zeros is efficient on sparse data.
-    let inline existsSkipZeros p (v: #Vector<_>) = v.Enumerate(Zeros.AllowSkip) |> Seq.exists p
+    let inline existsSkipZeros p (v: #Vector<_>) = v |> toSeqSkipZeros |> Seq.exists p
 
     /// Checks whether there is a non-zero entry in the vector that satisfies a position dependent predicate. Skipping zeros is efficient on sparse data.
-    let inline existsiSkipZeros p (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip) |> Seq.exists (fun (i,x) -> p i x)
+    let inline existsiSkipZeros p (v: #Vector<_>) = v |> toSeqiSkipZeros |> Seq.exists (fun (i,x) -> p i x)
 
 
     /// Checks whether all entries in the vector that satisfies a given predicate.
-    let inline forall p (v: #Vector<_>) = v.Enumerate(Zeros.Include) |> Seq.forall p
+    let inline forall p (v: #Vector<_>) = v |> toSeq |> Seq.forall p
 
     /// Checks whether all entries in the vector that satisfies a given position dependent predicate.
-    let inline foralli p (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include) |> Seq.forall (fun (i,x) -> p i x)
+    let inline foralli p (v: #Vector<_>) = v |> toSeqi |> Seq.forall (fun (i,x) -> p i x)
 
     /// Checks whether all non-zero entries in the vector that satisfies a given predicate. Skipping zeros is efficient on sparse data.
-    let inline forallSkipZeros p (v: #Vector<_>) = v.Enumerate(Zeros.AllowSkip) |> Seq.forall p
+    let inline forallSkipZeros p (v: #Vector<_>) = v |> toSeqSkipZeros |> Seq.forall p
 
     /// Checks whether all non-zero entries in the vector that satisfies a given position dependent predicate. Skipping zeros is efficient on sparse data.
-    let inline foralliSkipZeros p (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip) |> Seq.forall (fun (i,x) -> p i x)
+    let inline foralliSkipZeros p (v: #Vector<_>) = v |> toSeqiSkipZeros |> Seq.forall (fun (i,x) -> p i x)
 
 
 
@@ -272,10 +273,10 @@ module DenseVector =
     let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.DenseOfEnumerable(fs)
 
     /// Create a vector with a given dimension from an indexed list of index, value pairs.
-    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, Seq.ofList fl)
+    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, Seq.ofList fl |> internalTuple2Seq)
 
     /// Create a vector with a given dimension from an indexed sequences of index, value pairs.
-    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, fs)
+    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, fs |> internalTuple2Seq)
 
     /// Create a vector with integer entries in the given range.
     let inline range (start: int) (step: int) (stop: int) = raw [| for i in start..step..stop -> float i |]
@@ -311,10 +312,10 @@ module SparseVector =
     let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.SparseOfEnumerable(fs)
 
     /// Create a sparse vector with a given dimension from an indexed list of index, value pairs.
-    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, Seq.ofList fl)
+    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, Seq.ofList fl |> internalTuple2Seq)
 
     /// Create a sparse vector with a given dimension from an indexed sequence of index, value pairs.
-    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, fs)
+    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, fs |> internalTuple2Seq)
 
 
 /// Module that contains implementation of useful F#-specific extension members for generic vectors
