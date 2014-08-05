@@ -84,7 +84,8 @@ let numericsPack =
       ReleaseNotes = releaseNotes
       Tags = tags
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies = [{ FrameworkVersion="net35"; Dependencies=getDependencies "src/Numerics/packages.config" }]
+      Dependencies = [{ FrameworkVersion="net35"; Dependencies=getDependencies "src/Numerics/packages.config" }
+                      { FrameworkVersion="net40"; Dependencies=[] }]
       Files = [ @"..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some @"**\MathNet.Numerics.FSharp.*";
                 @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
                 @"..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some @"**\MathNet.Numerics.FSharp.*";

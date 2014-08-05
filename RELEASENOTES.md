@@ -1,3 +1,6 @@
+### 3.2.1 - 2014-08-05
+* Package fix: make sure .Net 3.5-only dependencies are not installed on .Net 4 and newer.
+
 ### 3.2.0 - 2014-08-05
 * Linear Algebra: Vector.Map2 (map2 in F#), storage-optimized
 * Linear Algebra: fix RemoveColumn/Row early index bound check (was not strict enough)
