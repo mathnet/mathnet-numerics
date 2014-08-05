@@ -1,3 +1,13 @@
+### 3.2.0 - 2014-08-05
+* Linear Algebra: Vector.Map2 (map2 in F#), storage-optimized
+* Linear Algebra: fix RemoveColumn/Row early index bound check (was not strict enough)
+* Statistics: Entropy *~Jeff Mastry*
+* Interpolation: use Array.BinarySearch instead of local implementation *~Candy Chiu*
+* Resources: fix a corrupted exception message string
+* Portable Build: support .Net 4.0 as well by using profile 328 instead of 344.
+* .Net 3.5: F# extensions now support .Net 3.5 as well
+* .Net 3.5: NuGet package now contains proper 3.5-only TPL package dependency; also in Zip package
+
 ### 3.1.0 - 2014-07-20
 * Random: generate a sequence of integers within a range in one go
 * Distributions: all distributions must have static routines to sample an array in one go

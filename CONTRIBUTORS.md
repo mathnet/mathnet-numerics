@@ -42,6 +42,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Gregor959
 - IUser
 - Iain Sproat
+- Jeff Mastry
 - Kosei ABE
 - Martin Posch
 - Paul Varkey
