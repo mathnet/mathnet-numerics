@@ -73,6 +73,7 @@ using System.Runtime.InteropServices;
 #else
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsMKL")]
+[assembly: InternalsVisibleTo("Performance")]
 #endif
 
 #endif
