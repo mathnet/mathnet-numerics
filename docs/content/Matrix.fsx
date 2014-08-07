@@ -3,6 +3,7 @@
 #r "MathNet.Numerics.dll"
 #r "MathNet.Numerics.FSharp.dll"
 open MathNet.Numerics.LinearAlgebra
+open MathNet.Numerics.Distributions
 
 (**
 Matrices and Vectors
@@ -205,6 +206,14 @@ let m4 = DiagonalMatrix.identity<float32> 4
 // dense 3x4 matrix created from a sequence of sequence-columns
 let x = Seq.init 4 (fun c -> Seq.init 3 (fun r -> float (100*r + c)))
 let m5 = DenseMatrix.ofColumnSeq x
+
+// random matrix with standard distribution:
+let m6 = DenseMatrix.randomStandard<float> 3 4
+
+// random matrix with a uniform and one with a Gamma distribution:
+let m7a = DenseMatrix.random<float> 3 4 (ContinuousUniform(-2.0, 4.0))
+let m7b = DenseMatrix.random<float> 3 4 (Gamma(1.0, 2.0))
+
 
 (**
 Or using any other of all the available functions.
