@@ -66,7 +66,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public VectorStorage<T> Storage { get; private set; }
 
         /// <summary>
-        /// Gets the number of items.
+        /// Gets the length or number of dimensions of this vector.
         /// </summary>
         public int Count { get; private set; }
 

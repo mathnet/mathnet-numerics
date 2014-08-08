@@ -28,6 +28,7 @@ namespace Performance.LinearAlgebra
 #if NATIVEMKL
             mkl.InitializeVerify();
             Console.WriteLine("MklProvider: {0}", mkl);
+            //Control.LinearAlgebraProvider = mkl;
 #endif
         }
 
@@ -78,7 +79,7 @@ namespace Performance.LinearAlgebra
             var aa = ((DenseVectorStorage<double>)a.Storage).Data;
             var ab = ((DenseVectorStorage<double>)b.Storage).Data;
             var ar = new Double[aa.Length];
-            CommonParallel.For(0, ar.Length, 32768*32, (u, v) =>
+            CommonParallel.For(0, ar.Length, 32768, (u, v) =>
             {
                 for (int i = u; i < v; i++)
                 {
