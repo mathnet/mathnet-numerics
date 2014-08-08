@@ -442,5 +442,47 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             base.Map2ToUnchecked(target, other, f, zeros, existingData);
         }
+
+        internal override TState Fold2Unchecked<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros = Zeros.AllowSkip)
+        {
+            var denseOther = other as DenseVectorStorage<TOther>;
+            if (denseOther != null)
+            {
+                var otherData = denseOther.Data;
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    state = f(state, Data[i], otherData[i]);
+                }
+
+                return state;
+            }
+
+            var sparseOther = other as SparseVectorStorage<TOther>;
+            if (sparseOther != null)
+            {
+                int[] otherIndices = sparseOther.Indices;
+                TOther[] otherValues = sparseOther.Values;
+                int otherValueCount = sparseOther.ValueCount;
+                TOther otherZero = BuilderInstance<TOther>.Vector.Zero;
+
+                int k = 0;
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    if (k < otherValueCount && otherIndices[k] == i)
+                    {
+                        state = f(state, Data[i], otherValues[k]);
+                        k++;
+                    }
+                    else
+                    {
+                        state = f(state, Data[i], otherZero);
+                    }
+                }
+
+                return state;
+            }
+
+            return base.Fold2Unchecked(other, f, state, zeros);
+        }
     }
 }

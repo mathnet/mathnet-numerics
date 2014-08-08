@@ -919,5 +919,78 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             base.Map2ToUnchecked(target, other, f, zeros, existingData);
         }
+
+        internal override TState Fold2Unchecked<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros = Zeros.AllowSkip)
+        {
+            var sparseOther = other as SparseVectorStorage<TOther>;
+            if (sparseOther != null)
+            {
+                int[] otherIndices = sparseOther.Indices;
+                TOther[] otherValues = sparseOther.Values;
+                int otherValueCount = sparseOther.ValueCount;
+                TOther otherZero = BuilderInstance<TOther>.Vector.Zero;
+
+                if (zeros == Zeros.Include)
+                {
+                    int p = 0, q = 0;
+                    for (int i = 0; i < Length; i++)
+                    {
+                        var left = p < ValueCount && Indices[p] == i ? Values[p++] : Zero;
+                        var right = q < otherValueCount && otherIndices[q] == i ? otherValues[q++] : otherZero;
+                        state = f(state, left, right);
+                    }
+                }
+                else
+                {
+                    int p = 0, q = 0;
+                    while (p < ValueCount || q < otherValueCount)
+                    {
+                        if (q >= otherValueCount || p < ValueCount && Indices[p] < otherIndices[q])
+                        {
+                            state = f(state, Values[p], otherZero);
+                            p++;
+                        }
+                        else if (p >= ValueCount || q < otherValueCount && Indices[p] > otherIndices[q])
+                        {
+                            state = f(state, Zero, otherValues[q]);
+                            q++;
+                        }
+                        else
+                        {
+                            Debug.Assert(Indices[p] == otherIndices[q]);
+                            state = f(state, Values[p], otherValues[q]);
+                            p++;
+                            q++;
+                        }
+                    }
+                }
+
+                return state;
+            }
+
+            var denseOther = other as DenseVectorStorage<TOther>;
+            if (denseOther != null)
+            {
+                TOther[] otherData = denseOther.Data;
+
+                int k = 0;
+                for (int i = 0; i < otherData.Length; i++)
+                {
+                    if (k < ValueCount && Indices[k] == i)
+                    {
+                        state = f(state, Values[k], otherData[i]);
+                        k++;
+                    }
+                    else
+                    {
+                        state = f(state, Zero, otherData[i]);
+                    }
+                }
+
+                return state;
+            }
+
+            return base.Fold2Unchecked(other, f, state, zeros);
+        }
     }
 }

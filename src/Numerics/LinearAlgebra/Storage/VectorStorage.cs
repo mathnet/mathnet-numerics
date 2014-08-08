@@ -504,5 +504,32 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.At(i, f(At(i), other.At(i)));
             }
         }
+
+        public TState Fold2<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros = Zeros.AllowSkip)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Length != other.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            return Fold2Unchecked(other, f, state, zeros);
+        }
+
+        internal virtual TState Fold2Unchecked<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros = Zeros.AllowSkip)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                state = f(state, At(i), other.At(i));
+            }
+
+            return state;
+        }
     }
 }

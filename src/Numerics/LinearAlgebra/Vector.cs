@@ -475,5 +475,14 @@ namespace MathNet.Numerics.LinearAlgebra
             Storage.Map2To(result.Storage, other.Storage, f, zeros, ExistingData.AssumeZeros);
             return result;
         }
+
+        /// <summary>
+        /// Applies a function to update the status with each value pair of two vectors and returns the resulting status.
+        /// </summary>
+        public TState Fold2<TOther, TState>(Func<TState, T, TOther, TState> f, TState state, Vector<TOther> other, Zeros zeros = Zeros.AllowSkip)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            return Storage.Fold2(other.Storage, f, state, zeros);
+        }
     }
 }

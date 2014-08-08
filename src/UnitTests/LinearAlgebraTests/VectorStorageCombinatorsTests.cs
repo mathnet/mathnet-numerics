@@ -136,5 +136,23 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             a.Map2To(result, b, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(result.Equals(expected));
         }
+
+        [Theory]
+        public void Fold2SkipZeros(VectorStorageType aType, VectorStorageType bType)
+        {
+            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
+            var b = Build.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
+            var result = a.Fold2(b, (acc, u, v) => acc + u + v, 0.0, Zeros.AllowSkip);
+            Assert.That(result, Is.EqualTo(65));
+        }
+
+        [Theory]
+        public void Fold2ForceIncludeZeros(VectorStorageType aType, VectorStorageType bType)
+        {
+            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
+            var b = Build.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
+            var result = a.Fold2(b, (acc, u, v) => acc + u + v + 1.0, 0.0, Zeros.Include);
+            Assert.That(result, Is.EqualTo(71));
+        }
     }
 }

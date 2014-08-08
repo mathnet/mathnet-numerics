@@ -169,6 +169,13 @@ module Vector =
     /// Zero-Zero value-pairs may be skipped (relevant mostly for sparse vectors).
     let inline map2SkipZeros f (u: #Vector<_>) (v: #Vector<_>) = u.Map2((fun x y -> f x y), v, Zeros.AllowSkip)
 
+    /// Folds two vectors by applying a function to update the status for each element pair.
+    let inline fold2 f status (u: #Vector<_>) (v: #Vector<_>) = u.Fold2((fun s x y -> f s x y), status, v, Zeros.Include)
+
+    /// Folds two vectors by applying a function to update the status for each element pair.
+    /// Zero-Zero value-pairs may be skipped (relevant mostly for sparse vectors).
+    let inline fold2SkipZeros f status (u: #Vector<_>) (v: #Vector<_>) = u.Fold2((fun s x y -> f s x y), status, v, Zeros.AllowSkip)
+
 
 
     /// Fold all entries of a vector in reverse order.
