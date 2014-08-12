@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -315,6 +315,28 @@ namespace MathNet.Numerics.Statistics
             }
 
             return covariance/population1.Length;
+        }
+
+        /// <summary>
+        /// Estimates the root mean square (RMS) also known as quadratic mean from the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double RootMeanSquare(double[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double mean = 0;
+            ulong m = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                mean += (data[i]*data[i] - mean)/++m;
+            }
+
+            return Math.Sqrt(mean);
         }
 
         /// <summary>

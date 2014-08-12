@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -421,6 +421,30 @@ namespace MathNet.Numerics.Statistics
         public static double PopulationCovariance(this IEnumerable<double?> population1, IEnumerable<double?> population2)
         {
             return StreamingStatistics.PopulationCovariance(population1.Where(d => d.HasValue).Select(d => d.Value), population2.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
+        /// Evaluates the root mean square (RMS) also known as quadratic mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the RMS of.</param>
+        public static double RootMeanSquare(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.RootMeanSquare(array)
+                : StreamingStatistics.RootMeanSquare(data);
+        }
+
+        /// <summary>
+        /// Evaluates the root mean square (RMS) also known as quadratic mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// Null-entries are ignored.
+        /// </summary>
+        /// <param name="data">The data to calculate the mean of.</param>
+        public static double RootMeanSquare(this IEnumerable<double?> data)
+        {
+            return StreamingStatistics.RootMeanSquare(data.Where(d => d.HasValue).Select(d => d.Value));
         }
 
         /// <summary>

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -326,6 +326,26 @@ namespace MathNet.Numerics.Statistics
             }
 
             return comoment/n;
+        }
+
+        /// <summary>
+        /// Estimates the root mean square (RMS) also known as quadratic mean from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double RootMeanSquare(IEnumerable<double> stream)
+        {
+            double mean = 0;
+            ulong m = 0;
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                mean += (d*d - mean)/++m;
+                any = true;
+            }
+
+            return any ? Math.Sqrt(mean) : double.NaN;
         }
 
         /// <summary>

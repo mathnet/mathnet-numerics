@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -78,6 +78,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => Statistics.PopulationStandardDeviation(data), Throws.Exception);
             Assert.That(() => Statistics.Covariance(data, data), Throws.Exception);
             Assert.That(() => Statistics.PopulationCovariance(data, data), Throws.Exception);
+            Assert.That(() => Statistics.RootMeanSquare(data), Throws.Exception);
 
             Assert.That(() => SortedArrayStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => SortedArrayStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
@@ -103,6 +104,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => ArrayStatistics.PopulationStandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.Covariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.PopulationCovariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.RootMeanSquare(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.MedianInplace(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.QuantileInplace(data, 0.3), Throws.Exception.TypeOf<NullReferenceException>());
 
@@ -115,6 +117,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => StreamingStatistics.PopulationStandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Covariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.PopulationCovariance(data, data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.RootMeanSquare(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Entropy(data), Throws.Exception.TypeOf<NullReferenceException>());
 
             Assert.That(() => new RunningStatistics(data), Throws.Exception);
@@ -138,6 +141,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => Statistics.PopulationStandardDeviation(data));
             Assert.DoesNotThrow(() => Statistics.Covariance(data, data));
             Assert.DoesNotThrow(() => Statistics.PopulationCovariance(data, data));
+            Assert.DoesNotThrow(() => Statistics.RootMeanSquare(data));
 
             Assert.DoesNotThrow(() => SortedArrayStatistics.Minimum(data));
             Assert.DoesNotThrow(() => SortedArrayStatistics.Maximum(data));
@@ -162,6 +166,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => ArrayStatistics.PopulationStandardDeviation(data));
             Assert.DoesNotThrow(() => ArrayStatistics.Covariance(data, data));
             Assert.DoesNotThrow(() => ArrayStatistics.PopulationCovariance(data, data));
+            Assert.DoesNotThrow(() => ArrayStatistics.RootMeanSquare(data));
             Assert.DoesNotThrow(() => ArrayStatistics.MedianInplace(data));
             Assert.DoesNotThrow(() => ArrayStatistics.QuantileInplace(data, 0.3));
 
@@ -174,6 +179,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => StreamingStatistics.PopulationStandardDeviation(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Covariance(data, data));
             Assert.DoesNotThrow(() => StreamingStatistics.PopulationCovariance(data, data));
+            Assert.DoesNotThrow(() => StreamingStatistics.RootMeanSquare(data));
             Assert.DoesNotThrow(() => StreamingStatistics.Entropy(data));
 
             Assert.That(() => new RunningStatistics(data), Throws.Nothing);
@@ -780,14 +786,17 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqualRelative(1e+9, Statistics.Mean(gaussian.Samples().Take(10000)), 10);
             AssertHelpers.AlmostEqualRelative(4d, Statistics.Variance(gaussian.Samples().Take(10000)), 0);
             AssertHelpers.AlmostEqualRelative(2d, Statistics.StandardDeviation(gaussian.Samples().Take(10000)), 1);
+            AssertHelpers.AlmostEqualRelative(1e+9, Statistics.RootMeanSquare(gaussian.Samples().Take(10000)), 10);
 
             AssertHelpers.AlmostEqualRelative(1e+9, ArrayStatistics.Mean(gaussian.Samples().Take(10000).ToArray()), 10);
             AssertHelpers.AlmostEqualRelative(4d, ArrayStatistics.Variance(gaussian.Samples().Take(10000).ToArray()), 0);
             AssertHelpers.AlmostEqualRelative(2d, ArrayStatistics.StandardDeviation(gaussian.Samples().Take(10000).ToArray()), 1);
+            AssertHelpers.AlmostEqualRelative(1e+9, ArrayStatistics.RootMeanSquare(gaussian.Samples().Take(10000).ToArray()), 10);
 
             AssertHelpers.AlmostEqualRelative(1e+9, StreamingStatistics.Mean(gaussian.Samples().Take(10000)), 10);
             AssertHelpers.AlmostEqualRelative(4d, StreamingStatistics.Variance(gaussian.Samples().Take(10000)), 0);
             AssertHelpers.AlmostEqualRelative(2d, StreamingStatistics.StandardDeviation(gaussian.Samples().Take(10000)), 1);
+            AssertHelpers.AlmostEqualRelative(1e+9, StreamingStatistics.RootMeanSquare(gaussian.Samples().Take(10000)), 10);
 
             AssertHelpers.AlmostEqualRelative(1e+9, new RunningStatistics(gaussian.Samples().Take(10000)).Mean, 10);
             AssertHelpers.AlmostEqualRelative(4d, new RunningStatistics(gaussian.Samples().Take(10000)).Variance, 0);
@@ -852,6 +861,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(ArrayStatistics.PopulationStandardDeviation(data.Data), Is.EqualTo(StreamingStatistics.PopulationStandardDeviation(data.Data)).Within(1e-15), "PopulationStandardDeviation");
             Assert.That(ArrayStatistics.Covariance(data.Data, data.Data), Is.EqualTo(StreamingStatistics.Covariance(data.Data, data.Data)).Within(1e-10), "Covariance");
             Assert.That(ArrayStatistics.PopulationCovariance(data.Data, data.Data), Is.EqualTo(StreamingStatistics.PopulationCovariance(data.Data, data.Data)).Within(1e-10), "PopulationCovariance");
+            Assert.That(ArrayStatistics.RootMeanSquare(data.Data), Is.EqualTo(StreamingStatistics.RootMeanSquare(data.Data)).Within(1e-15), "RootMeanSquare");
         }
 
         [TestCase("lottery")]
@@ -916,6 +926,17 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(StreamingStatistics.Mean(new[] { 2d }), Is.Not.NaN);
             Assert.That(new RunningStatistics(new double[0]).Mean, Is.NaN);
             Assert.That(new RunningStatistics(new[] { 2d }).Mean, Is.Not.NaN);
+        }
+
+        [Test]
+        public void RootMeanSquareOfEmptyMustBeNaN()
+        {
+            Assert.That(Statistics.RootMeanSquare(new double[0]), Is.NaN);
+            Assert.That(Statistics.RootMeanSquare(new[] { 2d }), Is.Not.NaN);
+            Assert.That(ArrayStatistics.RootMeanSquare(new double[0]), Is.NaN);
+            Assert.That(ArrayStatistics.RootMeanSquare(new[] { 2d }), Is.Not.NaN);
+            Assert.That(StreamingStatistics.RootMeanSquare(new double[0]), Is.NaN);
+            Assert.That(StreamingStatistics.RootMeanSquare(new[] { 2d }), Is.Not.NaN);
         }
 
         [Test]
@@ -1005,6 +1026,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(new DescriptiveStatistics(shorter).Mean, Is.EqualTo(0.375).Within(1e-14), "DescriptiveStatistics.Mean: shorter");
             Assert.That(new DescriptiveStatistics(longer).Mean, Is.EqualTo(00.375).Within(1e-14), "DescriptiveStatistics.Mean: longer");
 
+            Assert.That(Statistics.RootMeanSquare(shorter), Is.EqualTo(Math.Sqrt(0.21875)).Within(1e-14), "Statistics.RootMeanSquare: shorter");
+            Assert.That(Statistics.RootMeanSquare(longer), Is.EqualTo(Math.Sqrt(0.21875)).Within(1e-14), "Statistics.RootMeanSquare: longer");
+
             Assert.That(Statistics.Skewness(shorter), Is.EqualTo(0.0).Within(1e-12), "Statistics.Skewness: shorter");
             Assert.That(Statistics.Skewness(longer), Is.EqualTo(0.0).Within(1e-12), "Statistics.Skewness: longer");
             Assert.That(new DescriptiveStatistics(shorter).Skewness, Is.EqualTo(0.0).Within(1e-12), "DescriptiveStatistics.Skewness: shorter");
@@ -1014,6 +1038,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(Statistics.Kurtosis(longer), Is.EqualTo(-1.36).Within(1e-4), "Statistics.Kurtosis: longer");
             Assert.That(new DescriptiveStatistics(shorter).Kurtosis, Is.EqualTo(-1.36).Within(1e-4), "DescriptiveStatistics.Kurtosis: shorter");
             Assert.That(new DescriptiveStatistics(longer).Kurtosis, Is.EqualTo(-1.36).Within(1e-4), "DescriptiveStatistics.Kurtosis: longer");
+        }
+
+        [Test]
+        public void RootMeanSquareOfSinusoidal()
+        {
+            var data = Generate.Sinusoidal(128, 64, 16, 2.0);
+            Assert.That(Statistics.RootMeanSquare(data), Is.EqualTo(2.0/Constants.Sqrt2).Within(1e-12));
         }
 
         [Test]
