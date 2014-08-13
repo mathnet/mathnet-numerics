@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
-// Copyright (c) 2009-2013 Math.NET
-// 
+//
+// Copyright (c) 2009-2014 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -146,6 +146,28 @@ namespace MathNet.Numerics.UnitTests
             const double isq2 = Constants.Sqrt1Over2;
             Assert.That(Generate.Periodic(8, 2.0, 0.5, Constants.Pi2).Select(Math.Sin), Is.EqualTo(new[] { 0.0, 1.0, 0.0, -1.0, 0.0, 1.0, 0.0, -1.0 }).Within(1e-12).AsCollection);
             Assert.That(Generate.Periodic(8, 2.0, 0.25, Constants.Pi2).Select(Math.Sin), Is.EqualTo(new[] { 0.0, isq2, 1.0, isq2, 0.0, -isq2, -1.0, -isq2 }).Within(1e-12).AsCollection);
+        }
+
+        [Test]
+        public void StandardWaves()
+        {
+            Assert.That(Generate.Square(12, 3, 7, -1.0, 1.0, delay: 1), Is.EqualTo(new[] { -1.0, 1, 1, 1, -1, -1, -1, -1, -1, -1, -1, 1 }).Within(1e-12).AsCollection);
+            Assert.That(Generate.Triangle(12, 4, 7, -1.0, 1.0, delay: 1), Is.EqualTo(new[] { -0.714, -1, -0.5, 0, 0.5, 1, 0.714, 0.429, 0.143, -0.143, -0.429, -0.714 }).Within(1e-3).AsCollection);
+            Assert.That(Generate.Sawtooth(12, 5, -1.0, 1.0, delay: 1), Is.EqualTo(new[] { 1.0, -1, -0.5, 0, 0.5, 1, -1, -0.5, 0, 0.5, 1, -1 }).Within(1e-12).AsCollection);
+        }
+
+        [Test]
+        public void StandardWavesConsistentWithSequence()
+        {
+            Assert.That(
+                Generate.SquareSequence(3, 7, -1.0, 1.0, delay: -2).Take(1000).ToArray(),
+                Is.EqualTo(Generate.Square(1000, 3, 7, -1.0, 1.0, delay: -2)).Within(1e-12).AsCollection);
+            Assert.That(
+                Generate.TriangleSequence(4, 7, -1.0, 1.0, delay: -2).Take(1000).ToArray(),
+                Is.EqualTo(Generate.Triangle(1000, 4, 7, -1.0, 1.0, delay: -2)).Within(1e-12).AsCollection);
+            Assert.That(
+                Generate.SawtoothSequence(5, -1.0, 1.0, delay: -2).Take(1000).ToArray(),
+                Is.EqualTo(Generate.Sawtooth(1000, 5, -1.0, 1.0, delay: -2)).Within(1e-12).AsCollection);
         }
 
         [Test]

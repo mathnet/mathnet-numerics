@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -259,12 +259,12 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create a periodic sample vector.
+        /// Create a periodic wave.
         /// </summary>
         /// <param name="length">The number of samples to generate.</param>
         /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
         /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
-        /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
+        /// <param name="amplitude">The length of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
         /// <param name="phase">Optional phase offset.</param>
         /// <param name="delay">Optional delay, relative to the phase.</param>
         public static double[] Periodic(int length, double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
@@ -289,13 +289,13 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create a periodic sample vector.
+        /// Create a periodic wave.
         /// </summary>
         /// <param name="length">The number of samples to generate.</param>
         /// <param name="map">The function to apply to each of the values and evaluate the resulting sample.</param>
         /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
         /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
-        /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
+        /// <param name="amplitude">The length of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
         /// <param name="phase">Optional phase offset.</param>
         /// <param name="delay">Optional delay, relative to the phase.</param>
         public static T[] PeriodicMap<T>(int length, Func<double, T> map, double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
@@ -320,11 +320,11 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create an infinite periodic sample sequence.
+        /// Create an infinite periodic wave sequence.
         /// </summary>
         /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
         /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
-        /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
+        /// <param name="amplitude">The length of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
         /// <param name="phase">Optional phase offset.</param>
         /// <param name="delay">Optional delay, relative to the phase.</param>
         public static IEnumerable<double> PeriodicSequence(double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
@@ -348,12 +348,12 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create an infinite periodic sample sequence.
+        /// Create an infinite periodic wave sequence.
         /// </summary>
         /// <param name="map">The function to apply to each of the values and evaluate the resulting sample.</param>
         /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
         /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
-        /// <param name="amplitude">The lenght of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
+        /// <param name="amplitude">The length of the period when sampled at one sample per time unit. This is the interval of the periodic domain, a typical value is 1.0, or 2*Pi for angular functions.</param>
         /// <param name="phase">Optional phase offset.</param>
         /// <param name="delay">Optional delay, relative to the phase.</param>
         public static IEnumerable<T> PeriodicMapSequence<T>(Func<double, T> map, double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
@@ -377,13 +377,13 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create a Sine sample vector.
+        /// Create a Sine wave.
         /// </summary>
         /// <param name="length">The number of samples to generate.</param>
         /// <param name="samplingRate">Samples per time unit (Hz). Must be larger than twice the frequency to satisfy the Nyquist criterion.</param>
         /// <param name="frequency">Frequency in periods per time unit (Hz).</param>
         /// <param name="amplitude">The maximal reached peak.</param>
-        /// <param name="mean">The mean, or dc part, of the signal.</param>
+        /// <param name="mean">The mean, or DC part, of the signal.</param>
         /// <param name="phase">Optional phase offset.</param>
         /// <param name="delay">Optional delay, relative to the phase.</param>
         public static double[] Sinusoidal(int length, double samplingRate, double frequency, double amplitude, double mean = 0.0, double phase = 0.0, int delay = 0)
@@ -400,12 +400,12 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create an infinite Sine sample sequence.
+        /// Create an infinite Sine wave sequence.
         /// </summary>
         /// <param name="samplingRate">Samples per unit.</param>
         /// <param name="frequency">Frequency in samples per unit.</param>
         /// <param name="amplitude">The maximal reached peak.</param>
-        /// <param name="mean">The mean, or dc part, of the signal.</param>
+        /// <param name="mean">The mean, or DC part, of the signal.</param>
         /// <param name="phase">Optional phase offset.</param>
         /// <param name="delay">Optional delay, relative to the phase.</param>
         public static IEnumerable<double> SinusoidalSequence(double samplingRate, double frequency, double amplitude, double mean = 0.0, double phase = 0.0, int delay = 0)
@@ -421,6 +421,97 @@ namespace MathNet.Numerics
                 }
                 phase = (phase + 1000*step)%Constants.Pi2;
             }
+        }
+
+        /// <summary>
+        /// Create a periodic square wave, starting with the high phase.
+        /// </summary>
+        /// <param name="length">The number of samples to generate.</param>
+        /// <param name="highDuration">Number of samples of the high phase.</param>
+        /// <param name="lowDuration">Number of samples of the low phase.</param>
+        /// <param name="lowValue">Sample value to be emitted during the low phase.</param>
+        /// <param name="highValue">Sample value to be emitted during the high phase.</param>
+        /// <param name="delay">Optional delay.</param>
+        public static double[] Square(int length, int highDuration, int lowDuration, double lowValue, double highValue, int delay = 0)
+        {
+            var duration = highDuration + lowDuration;
+            return PeriodicMap(length, x => x < highDuration ? highValue : lowValue, 1.0, 1.0/duration, duration, 0.0, delay);
+        }
+
+        /// <summary>
+        /// Create an infinite periodic square wave sequence, starting with the high phase.
+        /// </summary>
+        /// <param name="highDuration">Number of samples of the high phase.</param>
+        /// <param name="lowDuration">Number of samples of the low phase.</param>
+        /// <param name="lowValue">Sample value to be emitted during the low phase.</param>
+        /// <param name="highValue">Sample value to be emitted during the high phase.</param>
+        /// <param name="delay">Optional delay.</param>
+        public static IEnumerable<double> SquareSequence(int highDuration, int lowDuration, double lowValue, double highValue, int delay = 0)
+        {
+            var duration = highDuration + lowDuration;
+            return PeriodicMapSequence(x => x < highDuration ? highValue : lowValue, 1.0, 1.0/duration, duration, 0.0, delay);
+        }
+
+        /// <summary>
+        /// Create a periodic triangle wave, starting with the raise phase from the lowest sample.
+        /// </summary>
+        /// <param name="length">The number of samples to generate.</param>
+        /// <param name="raiseDuration">Number of samples of the raise phase.</param>
+        /// <param name="fallDuration">Number of samples of the fall phase.</param>
+        /// <param name="lowValue">Lowest sample value.</param>
+        /// <param name="highValue">Highest sample value.</param>
+        /// <param name="delay">Optional delay.</param>
+        public static double[] Triangle(int length, int raiseDuration, int fallDuration, double lowValue, double highValue, int delay = 0)
+        {
+            var duration = raiseDuration + fallDuration;
+            var height = highValue - lowValue;
+            var raise = height / raiseDuration;
+            var fall = height / fallDuration;
+            return PeriodicMap(length, x => x < raiseDuration ? lowValue + x*raise : highValue - (x-raiseDuration)*fall, 1.0, 1.0/duration, duration, 0.0, delay);
+        }
+
+        /// <summary>
+        /// Create an infinite periodic triangle wave sequence, starting with the raise phase from the lowest sample.
+        /// </summary>
+        /// <param name="raiseDuration">Number of samples of the raise phase.</param>
+        /// <param name="fallDuration">Number of samples of the fall phase.</param>
+        /// <param name="lowValue">Lowest sample value.</param>
+        /// <param name="highValue">Highest sample value.</param>
+        /// <param name="delay">Optional delay.</param>
+        public static IEnumerable<double> TriangleSequence(int raiseDuration, int fallDuration, double lowValue, double highValue, int delay = 0)
+        {
+            var duration = raiseDuration + fallDuration;
+            var height = highValue - lowValue;
+            var raise = height / raiseDuration;
+            var fall = height / fallDuration;
+            return PeriodicMapSequence(x => x < raiseDuration ? lowValue + x*raise : highValue - (x-raiseDuration)*fall, 1.0, 1.0/duration, duration, 0.0, delay);
+        }
+
+        /// <summary>
+        /// Create a periodic sawtooth wave, starting with the lowest sample.
+        /// </summary>
+        /// <param name="length">The number of samples to generate.</param>
+        /// <param name="period">Number of samples a full sawtooth period.</param>
+        /// <param name="lowValue">Lowest sample value.</param>
+        /// <param name="highValue">Highest sample value.</param>
+        /// <param name="delay">Optional delay.</param>
+        public static double[] Sawtooth(int length, int period, double lowValue, double highValue, int delay = 0)
+        {
+            var height = highValue - lowValue;
+            return PeriodicMap(length, x => x + lowValue, 1.0, 1.0/period, height*period/(period-1), 0.0, delay);
+        }
+
+        /// <summary>
+        /// Create an infinite periodic sawtooth wave sequence, starting with the lowest sample.
+        /// </summary>
+        /// <param name="period">Number of samples a full sawtooth period.</param>
+        /// <param name="lowValue">Lowest sample value.</param>
+        /// <param name="highValue">Highest sample value.</param>
+        /// <param name="delay">Optional delay.</param>
+        public static IEnumerable<double> SawtoothSequence(int period, double lowValue, double highValue, int delay = 0)
+        {
+            var height = highValue - lowValue;
+            return PeriodicMapSequence(x => x + lowValue, 1.0, 1.0/period, height*period/(period-1), 0.0, delay);
         }
 
         /// <summary>
