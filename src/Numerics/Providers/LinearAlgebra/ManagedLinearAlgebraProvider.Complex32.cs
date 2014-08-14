@@ -493,7 +493,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 ydata = y;
             }
 
-            MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, xdata, rowsX, columnsX, ydata, rowsY, columnsY, Complex32.Zero, result);
+            Array.Clear(result, 0, result.Length);
+
+            CacheObliviousMatrixMultiply(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, xdata, 0, 0, ydata, 0, 0, result, 0, 0, rowsX, columnsY, columnsX, rowsX, columnsY, columnsX, true);
         }
 
         /// <summary>

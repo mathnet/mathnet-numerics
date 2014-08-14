@@ -584,17 +584,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                    Providers.LinearAlgebra.Transpose.DontTranspose,
-                    Providers.LinearAlgebra.Transpose.DontTranspose,
-                    1.0,
+                Control.LinearAlgebraProvider.MatrixMultiply(
                     _values,
                     _rowCount,
                     _columnCount,
                     denseRight.Values,
                     denseRight.Count,
                     1,
-                    0.0,
                     denseResult.Values);
             }
         }
@@ -610,17 +606,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var denseResult = result as DenseMatrix;
             if (denseOther != null && denseResult != null)
             {
-                Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(
-                    Providers.LinearAlgebra.Transpose.DontTranspose,
-                    Providers.LinearAlgebra.Transpose.DontTranspose,
-                    1.0,
+                Control.LinearAlgebraProvider.MatrixMultiply(
                     _values,
                     _rowCount,
                     _columnCount,
                     denseOther._values,
                     denseOther._rowCount,
                     denseOther._columnCount,
-                    0.0,
                     denseResult._values);
                 return;
             }

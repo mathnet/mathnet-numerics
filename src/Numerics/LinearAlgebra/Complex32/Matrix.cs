@@ -392,16 +392,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<Complex32> other, Matrix<Complex32> result)
         {
-            for (var j = 0; j < RowCount; j++)
+            for (var i = 0; i < RowCount; i++)
             {
-                for (var i = 0; i != other.ColumnCount; i++)
+                for (var j = 0; j != other.ColumnCount; j++)
                 {
                     var s = Complex32.Zero;
-                    for (var l = 0; l < ColumnCount; l++)
+                    for (var k = 0; k < ColumnCount; k++)
                     {
-                        s += At(j, l)*other.At(l, i);
+                        s += At(i, k)*other.At(k, j);
                     }
-                    result.At(j, i, s);
+                    result.At(i, j, s);
                 }
             }
         }
@@ -418,9 +418,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 for (var i = 0; i < RowCount; i++)
                 {
                     var s = Complex32.Zero;
-                    for (var l = 0; l < ColumnCount; l++)
+                    for (var k = 0; k < ColumnCount; k++)
                     {
-                        s += At(i, l)*other.At(j, l);
+                        s += At(i, k)*other.At(j, k);
                     }
                     result.At(i, j, s);
                 }
@@ -439,9 +439,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 for (var i = 0; i < RowCount; i++)
                 {
                     var s = Complex32.Zero;
-                    for (var l = 0; l < ColumnCount; l++)
+                    for (var k = 0; k < ColumnCount; k++)
                     {
-                        s += At(i, l)*other.At(j, l).Conjugate();
+                        s += At(i, k)*other.At(j, k).Conjugate();
                     }
                     result.At(i, j, s);
                 }
@@ -460,9 +460,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 for (var i = 0; i < ColumnCount; i++)
                 {
                     var s = Complex32.Zero;
-                    for (var l = 0; l < RowCount; l++)
+                    for (var k = 0; k < RowCount; k++)
                     {
-                        s += At(l, i)*other.At(l, j);
+                        s += At(k, i)*other.At(k, j);
                     }
                     result.At(i, j, s);
                 }
@@ -481,9 +481,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 for (var i = 0; i < ColumnCount; i++)
                 {
                     var s = Complex32.Zero;
-                    for (var l = 0; l < RowCount; l++)
+                    for (var k = 0; k < RowCount; k++)
                     {
-                        s += At(l, i).Conjugate()*other.At(l, j);
+                        s += At(k, i).Conjugate()*other.At(k, j);
                     }
                     result.At(i, j, s);
                 }
@@ -497,14 +497,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
         {
-            for (var i = 0; i < ColumnCount; i++)
+            for (var j = 0; j < ColumnCount; j++)
             {
                 var s = Complex32.Zero;
-                for (var j = 0; j < RowCount; j++)
+                for (var i = 0; i < RowCount; i++)
                 {
-                    s += At(j, i)*rightSide[j];
+                    s += At(i, j)*rightSide[i];
                 }
-                result[i] = s;
+                result[j] = s;
             }
         }
 
@@ -515,14 +515,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoConjugateTransposeThisAndMultiply(Vector<Complex32> rightSide, Vector<Complex32> result)
         {
-            for (var i = 0; i < ColumnCount; i++)
+            for (var j = 0; j < ColumnCount; j++)
             {
                 var s = Complex32.Zero;
-                for (var j = 0; j < RowCount; j++)
+                for (var i = 0; i < RowCount; i++)
                 {
-                    s += At(j, i).Conjugate()*rightSide[j];
+                    s += At(i, j).Conjugate()*rightSide[i];
                 }
-                result[i] = s;
+                result[j] = s;
             }
         }
 

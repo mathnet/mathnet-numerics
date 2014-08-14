@@ -361,16 +361,16 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<float> other, Matrix<float> result)
         {
-            for (var j = 0; j < RowCount; j++)
+            for (var i = 0; i < RowCount; i++)
             {
-                for (var i = 0; i < other.ColumnCount; i++)
+                for (var j = 0; j < other.ColumnCount; j++)
                 {
                     var s = 0.0f;
-                    for (var l = 0; l < ColumnCount; l++)
+                    for (var k = 0; k < ColumnCount; k++)
                     {
-                        s += At(j, l)*other.At(l, i);
+                        s += At(i, k)*other.At(k, j);
                     }
-                    result.At(j, i, s);
+                    result.At(i, j, s);
                 }
             }
         }
@@ -413,9 +413,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 for (var i = 0; i < RowCount; i++)
                 {
                     var s = 0.0f;
-                    for (var l = 0; l < ColumnCount; l++)
+                    for (var k = 0; k < ColumnCount; k++)
                     {
-                        s += At(i, l)*other.At(j, l);
+                        s += At(i, k)*other.At(j, k);
                     }
                     result.At(i, j, s);
                 }
@@ -444,9 +444,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 for (var i = 0; i < ColumnCount; i++)
                 {
                     var s = 0.0f;
-                    for (var l = 0; l < RowCount; l++)
+                    for (var k = 0; k < RowCount; k++)
                     {
-                        s += At(l, i)*other.At(l, j);
+                        s += At(k, i)*other.At(k, j);
                     }
                     result.At(i, j, s);
                 }
@@ -470,14 +470,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeThisAndMultiply(Vector<float> rightSide, Vector<float> result)
         {
-            for (var i = 0; i < ColumnCount; i++)
+            for (var j = 0; j < ColumnCount; j++)
             {
                 var s = 0.0f;
-                for (var j = 0; j < RowCount; j++)
+                for (var i = 0; i < RowCount; i++)
                 {
-                    s += At(j, i)*rightSide[j];
+                    s += At(i, j)*rightSide[i];
                 }
-                result[i] = s;
+                result[j] = s;
             }
         }
 
