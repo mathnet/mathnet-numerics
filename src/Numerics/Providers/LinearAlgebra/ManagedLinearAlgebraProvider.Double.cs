@@ -624,7 +624,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
             else if (beta != 1.0)
             {
-                Control.LinearAlgebraProvider.ScaleArray(beta, c, c);
+                ScaleArray(beta, c, c);
             }
 
             if (alpha == 0.0)

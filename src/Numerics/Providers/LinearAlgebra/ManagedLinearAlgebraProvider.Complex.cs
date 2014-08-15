@@ -632,7 +632,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
             else if (!beta.IsOne())
             {
-                Control.LinearAlgebraProvider.ScaleArray(beta, c, c);
+                ScaleArray(beta, c, c);
             }
 
             if (alpha.IsZero())

@@ -772,6 +772,16 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.AreEqual(0.2d, SortedArrayStatistics.Median(odd), 1e-14);
         }
 
+        [Test]
+        public void MedianOnLongConstantSequence()
+        {
+            var even = Generate.Repeat(100000, 2.0);
+            Assert.AreEqual(2.0,SortedArrayStatistics.Median(even), 1e-14);
+
+            var odd = Generate.Repeat(100001, 2.0);
+            Assert.AreEqual(2.0, SortedArrayStatistics.Median(odd), 1e-14);
+        }
+
         /// <summary>
         /// Validate Median/Variance/StdDev on a longer fixed-random sequence of a,
         /// large mean but only a very small variance, verifying the numerical stability.
