@@ -41,9 +41,9 @@ Papers and Thesis
 * Parma, Alessio (2013). *Una libreria per la simulazione a eventi discreti in .NET.* Università Degli Studi Di Genova.
 * Singh, Rohit; Gulwani, Sumit; Rajamani Sriram (2012). *Automatically Generating Algebra Problems.* Microsoft Research. Association for the Advancement of Artificial Intelligence.
 * Grahl Pereira, André; Petry, Adriano (2012). *Data Assimilation using NeuroEvolution of Augmenting Topologies.* IJCNN. WCCI 2012 IEEE World Congress on Computational Intelligence.
-* Lauppe, Joost (2012). *Reinforcement Toolbox: A Parametric Reinforcement Modelling Tool for Curved Surface Structures.* Delft University of Technology.
+* Lauppe, Joost (2012). *Reinforcement Toolbox: A Parametric Reinforcement Modeling Tool for Curved Surface Structures.* Delft University of Technology.
 * Lundström, Lukas (2012). *Weather data for building simulation: New actual weather files for North Europe combining observed weather and modeled solar radiation.* School of Sustainable Development of Society and Technology, HST.
-* AT Council (2012). *Seismic Performance Assesment of Buildings Volume 2 - Implementation Guide.* FEMA, U.S. Department of Homeland Security.
+* AT Council (2012). *Seismic Performance Assessment of Buildings Volume 2 - Implementation Guide.* FEMA, U.S. Department of Homeland Security.
 * Ma, Jiangshan (2012). *Hyperpath-based Strategic Route Guidance Considering Travel Time Uncertainty.* Transportation Studies Unit, Tokyo Institute of Transportation.
 * Fisher, Michael (2012). *Research and Development of a VST Plugin for the Autonomous Post Production of a Stereo Piano Recording.* University of Huddersfield.
 * Williams, Liam (2012). *Spotting The Wisdom In The Crowds.* Imperial College London.
