@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
@@ -58,6 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-A
 		docs\content\Random.fsx = docs\content\Random.fsx
 		docs\content\Regression.fsx = docs\content\Regression.fsx
 		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
+		docs\content\Users.fsx = docs\content\Users.fsx
 	EndProjectSection
 EndProject
 Global
