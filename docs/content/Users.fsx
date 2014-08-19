@@ -29,6 +29,31 @@ Closed Source
 * [SpectraFox](http://www.spectrafox.com/) STM / AFM spectroscopy analysis
 * [Colymp](http://colymp.com/) Color Management Software
 
+Blogs, Tutorials & Examples
+---------------------------
+
+* [Yin Zhu: Tutorial: Using Math.NET Numerics in F#](http://msdn.microsoft.com/en-us/library/hh304363.aspx)
+* [Don Syme: Getting Started with Math.NET and F# Programming](http://blogs.msdn.com/b/dsyme/archive/2012/07/06/getting-started-with-math-net-and-f-programming.aspx)
+* [Libor Tinka: Linear and Nonlinear Least-Squares with Math.NET](http://www.imagingshop.com/articles/least-squares)
+* [Carl Nolan: Co-occurrence Approach to an Item Based Recommender](http://code.msdn.microsoft.com/Co-occurrence-Approach-to-57027db7)
+* [Gustavo Guerra: F# as a Octave/Matlab Replacement for Machine Learning](http://functionalflow.co.uk/blog/2011/10/27/f-as-a-octavematlab-replacement-for-machine-learning/)
+* [Mathias Brandewinder: Simplify data with SVD and Math.NET in F#](http://clear-lines.com/blog/post/Simplify-data-with-SVD-and-MathNET-in-FSharp.aspx)
+* [Mathias Brandewinder: Recommendation Engine using Math.NET, SVD and F#](http://clear-lines.com/blog/post/Recommendation-Engine-with-SVD-and-MathNET-in-FSharp.aspx)
+* [Thomas Jungblut: Stochastic Logistic Regression in F#](http://codingwiththomas.blogspot.ch/2014/05/stochastic-logistic-regression-in-f.html)
+* [Calvin Bottoms: Set-Based Operations: They’re Not Just For Databases](http://calvinbottoms.blogspot.ch/2012/01/set-based-operations-theyre-not-just.html)
+* [Chao-Jen Chen: F#: Simulate entire GBM path](http://programmingcradle.blogspot.ch/2012/09/f-simulate-entire-gbm-path.html)
+* [Chao-Jen Chen: F#: K-S test on final prices of GBM paths ](http://programmingcradle.blogspot.ch/2012/09/f-k-s-test-on-final-prices-of-gbm-paths.html)
+* [Dawid Kowalski: F#, Deedle and Computational Investing](http://dkowalski.com/blog/archive/2014/01/11/f-deedle-and-computational-investing.aspx)
+* [Christoph Rüegg: Linear Regression With Math.NET Numerics](http://christoph.ruegg.name/blog/linear-regression-mathnet-numerics.html)
+
+Books
+-----
+
+* Expert F# 3.0 *by Don Syme, Adam Granicz, Antonio Cisternino*. Apress.
+* F# for Quantitative Finance *by Johan Astborg*. Packt Publishing.
+* F# Deep Dives *by Tomas Petricek, Philip Trelford*. Manning Publications.
+* Computer Graphics: Principles and Practices *by John F. Hughes, Andries van Dam, Morgan McGuire, David F. Sklar, James D. Foley, Steven K. Feiner, Kurt Akeley*. Addison-Wesley Professional, 3rd edition.
+
 Papers and Thesis
 -----------------
 
@@ -62,26 +87,5 @@ Papers and Thesis
 * Team Limawai (2010). *Ka`imiolakai ROV.* 2010 MATE International UROV Competition. Kapi`olani Community College.
 * Hebel, Tobias (2010). *Location Provider.* Universität Koblenz Landau.
 * Bischoff, Sebastian (2009). *Konzeption und Umsetzung einer RIA zur untersuchungsbegleitenden Erfassung von RNFLT-Scans und Untersuchung von Klassifikatoren für die diagnostische Unterstützung bei neurodegenerativen Erkrankungen am Beispiel der Multiplen Sklerose.* Fachhochschule Brandenburg.
-
-Blogs, Tutorials & Examples
----------------------------
-
-* [Yin Zhu: Tutorial: Using Math.NET Numerics in F#](http://msdn.microsoft.com/en-us/library/hh304363.aspx)
-* [Don Syme: Getting Started with Math.NET and F# Programming](http://blogs.msdn.com/b/dsyme/archive/2012/07/06/getting-started-with-math-net-and-f-programming.aspx)
-* [Carl Nolan: Co-occurrence Approach to an Item Based Recommender](http://code.msdn.microsoft.com/Co-occurrence-Approach-to-57027db7)
-* [Gustavo Guerra: F# as a Octave/Matlab Replacement for Machine Learning](http://functionalflow.co.uk/blog/2011/10/27/f-as-a-octavematlab-replacement-for-machine-learning/)
-* [Thomas Jungblut: Stochastic Logistic Regression in F#](http://codingwiththomas.blogspot.ch/2014/05/stochastic-logistic-regression-in-f.html)
-* [Calvin Bottoms: Set-Based Operations: They’re Not Just For Databases](http://calvinbottoms.blogspot.ch/2012/01/set-based-operations-theyre-not-just.html)
-* [Chao-Jen Chen: F#: Simulate entire GBM path](http://programmingcradle.blogspot.ch/2012/09/f-simulate-entire-gbm-path.html)
-* [Chao-Jen Chen: F#: K-S test on final prices of GBM paths ](http://programmingcradle.blogspot.ch/2012/09/f-k-s-test-on-final-prices-of-gbm-paths.html)
-* [Christoph Rüegg: Linear Regression With Math.NET Numerics](http://christoph.ruegg.name/blog/linear-regression-mathnet-numerics.html)
-
-Books
------
-
-* Expert F# 3.0 *by Don Syme, Adam Granicz, Antonio Cisternino*. Apress.
-* F# for Quantitative Finance *by Johan Astborg*. Packt Publishing.
-* F# Deep Dives *by Tomas Petricek, Philip Trelford*. Manning Publications.
-* Computer Graphics: Principles and Practices *by John F. Hughes, Andries van Dam, Morgan McGuire, David F. Sklar, James D. Foley, Steven K. Feiner, Kurt Akeley*. Addison-Wesley Professional, 3rd edition.
 
 *)
