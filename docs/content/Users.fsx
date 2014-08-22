@@ -6,6 +6,7 @@ Who is using Math.NET Numerics?
 
 Open Source
 -----------
+
 * [MyMediaLite Recommender System Library](http://www.ismll.uni-hildesheim.de/mymedialite/)
 * [FermiSim, studying potential solutions to the Fermi paradox via computational simulation of models for space colonisation](https://launchpad.net/fermisim)
 * [Three-Dimensional Model Shape Description and Retrieval Based on LightField Descriptors](https://code.google.com/p/lightfieldretrieval/)
@@ -24,7 +25,8 @@ Open Source
 * [Math.NET Symbolics](http://symbolics.mathdotnet.com) and other [Math.NET](http://www.mathdotnet.com) projects.
 
 Closed Source
-----------
+-------------
+
 * [Instarange Simulation](http://instarange.com) by Instarange (Pty) Ltd
 * [SpectraFox](http://www.spectrafox.com/) STM / AFM spectroscopy analysis
 * [Colymp](http://colymp.com/) Color Management Software
