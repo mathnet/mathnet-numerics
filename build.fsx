@@ -105,6 +105,7 @@ let fsharpPack =
                                   @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;
                                   @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;
                                   @"MathNet.Numerics.fsx", None, None;
+                                  @"MathNet.Numerics.IfSharp.fsx", None, None;
                                   @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 let numericsSignedPack =
@@ -124,6 +125,7 @@ let fsharpSignedPack =
                       Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics.Signed", RequireExactly packageVersion ] }]
                       Files = [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
                                 @"MathNet.Numerics.fsx", None, None;
+                                @"MathNet.Numerics.IfSharp.fsx", None, None;
                                 @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 let coreBundle =
@@ -371,12 +373,18 @@ let provideFsLoader includes path =
     let references = [ for assembly in assemblies -> sprintf "#r \"%s\"" assembly ]
     ReplaceFile (path @@ "MathNet.Numerics.fsx") (nowarn @ includes @ references @ extraScript |> toLines)
 
+let provideFsIfSharpLoader path =
+    let fullScript = ReadFile "src/FSharp/MathNet.Numerics.IfSharp.fsx" |> Array.ofSeq
+    let startIndex = fullScript |> Seq.findIndex (fun s -> s.Contains "***MathNet.Numerics.IfSharp.fsx***")
+    ReplaceFile (path @@ "MathNet.Numerics.IfSharp.fsx") (fullScript .[startIndex + 1 ..] |> toLines)
+
 let provideZipExtraFiles path (bundle:Bundle) =
     provideLicense path
     provideReadme (sprintf "%s v%s" bundle.Title bundle.Version) bundle.ReleaseNotesFile path
     if bundle.FsLoader then
         let includes = [ for root in [ ""; "../"; "../../" ] -> sprintf "#I \"%sNet40\"" root ]
         provideFsLoader includes path
+        provideFsIfSharpLoader path
 
 let provideNuGetExtraFiles path (bundle:Bundle) (pack:Package) =
     provideLicense path
@@ -385,6 +393,7 @@ let provideNuGetExtraFiles path (bundle:Bundle) (pack:Package) =
         let includes = [ for root in [ ""; "../"; "../../"; "../../../" ] do
                          for package in bundle.Packages -> sprintf "#I \"%spackages/%s.%s/lib/net40/\"" root package.Id package.Version ]
         provideFsLoader includes path
+        provideFsIfSharpLoader path
 
 // ZIP
 

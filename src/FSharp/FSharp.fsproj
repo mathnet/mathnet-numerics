@@ -74,6 +74,7 @@
     <Compile Include="FindRoots.fs" />
     <Compile Include="RandomVariable.fs" />
     <None Include="MathNet.Numerics.fsx" />
+    <None Include="MathNet.Numerics.IfSharp.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

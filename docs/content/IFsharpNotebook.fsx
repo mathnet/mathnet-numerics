@@ -33,11 +33,12 @@ Display Printers for Matrices and Vectors
 -----------------------------------------
 
 By itself IfSharp does not know how to display matrices and vectors in a nice way, but we can tell it how to do so by providing our own display printers for them.
+Since v3.3 the Math.NET Numerics F# package includes a script `MathNet.Numerics.IfSharp.fsx` to do so.
+Unfortunately loading this script requires the exact version in the path - if you know a way to avoid this please let us know.
 
 ![Screenshot](img/IfSharp-MatrixVector.png)
 
-Run the following snipped once within a notebook to render matrices and vectors with LaTeX/MathJax, and adapt it to your needs e.g. if you want it to show more rows.
-Alternatively you can add it to an Includes.fsx file within the IfSharp installation to make it always available.
+Alternatively you can also use the code below and adapt it to your needs, e.g. if you want it to show more rows.
 
     open MathNet.Numerics.LinearAlgebra
 
@@ -85,6 +86,5 @@ Alternatively you can add it to an Includes.fsx file within the IfSharp installa
         { ContentType = "text/latex"; Data = formatVector x })
     App.AddDisplayPrinter (fun (x:Vector<float32>) ->
         { ContentType = "text/latex"; Data = formatVector x })
-
 
 *)
