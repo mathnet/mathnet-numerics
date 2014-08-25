@@ -28,14 +28,22 @@ Installation Instructions
 
 The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/):
 
+Core Package:
+
 - **MathNet.Numerics** - core package, including .Net 4, .Net 3.5 and portable/PCL builds.
 - **MathNet.Numerics.FSharp** - optional extensions for a better F# experience. BigRational.
-- **MathNet.Numerics.Data.Text** - optional extensions for text-based matrix input/output.
-- **MathNet.Numerics.Data.Matlab** - optional extensions for MATLAB matrix file input/output.
-- **MathNet.Numerics.MKL.Win-x86** - optional Linear Algebra MKL native provider.
-- **MathNet.Numerics.MKL.Win-x64** - optional Linear Algebra MKL native provider.
 - **MathNet.Numerics.Signed** - strong-named version of the core package *(not recommended)*.
 - **MathNet.Numerics.FSharp.Signed** - strong-named version of the F# package *(not recommended)*.
+
+Alternative Provider Packages (optional):
+
+- **MathNet.Numerics.MKL.Win-x86** - Native Intel MKL Linear Algebra provider (Windows/32-bit).
+- **MathNet.Numerics.MKL.Win-x64** - Native Intel MKL Linear Algebra provider (Windows/64-bit).
+
+Data/IO Packages for reading and writing data (optional):
+
+- **MathNet.Numerics.Data.Text** - Text-based matrix formats like CSV and MatrixMarket.
+- **MathNet.Numerics.Data.Matlab** - MATLAB Level-5 matrix file format.
 
 Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
 
@@ -48,11 +56,16 @@ Supported Platforms:
 - PCL Portable Profiles 47 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
 - Xamarin: Android, iOS
 
-Dependencies:
+Package Dependencies:
 
-- .Net 4.0 and higher, Mono, PCL Profile 47: `System.Numerics` (part of the .Net framework, usually in the GAC)
-- PCL Profile 328: None
 - .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
+- .Net 4.0 and higher, Mono, PCL Profiles: None
+
+Framework Dependencies (part of the .NET Framework):
+
+- .Net 4.0 and higher, Mono, PCL Profile 47: `System.Numerics`
+- .Net 3.5, PCL Profile 328: None
+
 
 Building Math.NET Numerics
 --------------------------
