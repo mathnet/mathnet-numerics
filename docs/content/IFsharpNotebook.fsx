@@ -24,10 +24,6 @@ Essentially:
 
 3. Install [IfSharp](https://github.com/BayardRock/IfSharp/releases).
 
-*Note that while IfSharp does have support for custom display printers in the repository,
-the v2.0-Beta release does not include this yet. Until a newer release is available you may have to compile
-IfSharp yourself from [master](https://github.com/BayardRock/IfSharp) and replace the installed binaries.*
-
 
 Display Printers for Matrices and Vectors
 -----------------------------------------
