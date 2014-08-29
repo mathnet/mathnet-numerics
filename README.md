@@ -26,7 +26,7 @@ Math.NET Numerics is covered under the terms of the [MIT/X11](LICENSE.md) licens
 Installation Instructions
 -------------------------
 
-The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/):
+The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/). Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases).
 
 Core Package:
 
@@ -45,12 +45,7 @@ Data/IO Packages for reading and writing data (optional):
 - **MathNet.Numerics.Data.Text** - Text-based matrix formats like CSV and MatrixMarket.
 - **MathNet.Numerics.Data.Matlab** - MATLAB Level-5 matrix file format.
 
-Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases):
-
-- Binaries - core package and F# extensions, including .Net 4, .Net 3.5 and portable/PCL builds.
-- Signed Binaries - strong-named version of the core package *(not recommended)*.
-
-Supported Platforms:
+### Platform Support and Dependencies
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
 - PCL Portable Profiles 47 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
@@ -63,7 +58,7 @@ Package Dependencies:
 
 Framework Dependencies (part of the .NET Framework):
 
-- .Net 4.0 and higher, Mono, PCL Profile 47: `System.Numerics`
+- .Net 4.0 and higher, Mono, PCL Profile 47: System.Numerics
 - .Net 3.5, PCL Profile 328: None
 
 
