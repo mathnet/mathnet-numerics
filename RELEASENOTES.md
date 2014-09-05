@@ -1,3 +1,6 @@
+### 3.2.2 - 3014-09-05
+* Bug fix: MatrixNormal distribution: density computation switched row and column covariance *~Evelina Gabasova*
+
 ### 3.2.1 - 2014-08-05
 * Package fix: make sure .Net 3.5-only dependencies are not installed on .Net 4 and newer.
 
