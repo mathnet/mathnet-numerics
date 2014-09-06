@@ -37,6 +37,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Robin Neatherway
 - Andrew Kazyrevich
 - Ethar Alali
+- Evelina Gabasova
 - Feodor Fitsner
 - Iain McDonald
 - Gregor959
