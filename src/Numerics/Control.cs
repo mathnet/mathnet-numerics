@@ -178,6 +178,12 @@ namespace MathNet.Numerics
             }
         }
 
+        internal static IExperimentalLinearAlgebraProvider<T> ExperimentalLinearAlgebraProviderFor<T>()
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return (IExperimentalLinearAlgebraProvider<T>)_experimentalLinearAlgebraProvider;
+        }
+
         /// <summary>
         /// Gets or sets a value indicating how many parallel worker threads shall be used
         /// when parallelization is applicable.

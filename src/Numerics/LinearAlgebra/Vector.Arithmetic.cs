@@ -69,7 +69,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="other">The vector to add to this one.</param>
         /// <param name="result">The vector to store the result of the addition.</param>
-        protected abstract void DoAdd(Vector<T> other, Vector<T> result);
+        void DoAdd(Vector<T> other, Vector<T> result)
+        {
+            Control.ExperimentalLinearAlgebraProviderFor<T>().AddVectors(Storage, other.Storage, result.Storage);
+        }
 
         /// <summary>
         /// Subtracts a scalar from each element of the vector and stores the result in the result vector.

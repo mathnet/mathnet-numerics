@@ -74,20 +74,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Adds another vector to this vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">
-        /// The vector to add to this one.
-        /// </param>
-        /// <param name="result">
-        /// The vector to store the result of the addition.
-        /// </param>
-        protected override sealed void DoAdd(Vector<double> other, Vector<double> result)
-        {
-            Control.ExperimentalLinearAlgebraProvider.AddVectors(Storage, other.Storage, result.Storage);
-        }
-
-        /// <summary>
         /// Subtracts a scalar from each element of the vector and stores the result in the result vector.
         /// </summary>
         /// <param name="scalar">
