@@ -148,6 +148,12 @@
     <Compile Include="LinearRegression\WeightedRegression.cs" />
     <Compile Include="LinearRegression\SimpleRegression.cs" />
     <Compile Include="LinearRegression\Util.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\IExperimentalLinearAlgebraProvider.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\ReferenceExperimentalLinearAlgebraProvider.Single.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\ReferenceExperimentalLinearAlgebraProvider.Complex.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\ReferenceExperimentalLinearAlgebraProvider.Complex32.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\ReferenceExperimentalLinearAlgebraProvider.Double.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\ReferenceExperimentalLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />

@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.Providers.ExperimentalLinearAlgebra;
 using MathNet.Numerics.Providers.LinearAlgebra;
 using System;
 using System.Threading.Tasks;
@@ -44,6 +45,7 @@ namespace MathNet.Numerics
         static int _parallelizeOrder;
         static int _parallelizeElements;
         static ILinearAlgebraProvider _linearAlgebraProvider;
+        static IExperimentalLinearAlgebraProvider _experimentalLinearAlgebraProvider;
 
         static Control()
         {
@@ -85,6 +87,9 @@ namespace MathNet.Numerics
                 LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
             }
 #endif
+
+            // Experimental Linear Algebra Provider
+            ExperimentalLinearAlgebraProvider = new ReferenceExperimentalLinearAlgebraProvider();
         }
 
         public static void UseSingleThread()
@@ -153,6 +158,19 @@ namespace MathNet.Numerics
 
                 // only actually set if verification did not throw
                 _linearAlgebraProvider = value;
+            }
+        }
+
+        [Obsolete("Experimental with breaking changes expected between minor version. Do not use until properly released.")]
+        public static IExperimentalLinearAlgebraProvider ExperimentalLinearAlgebraProvider
+        {
+            get { return _experimentalLinearAlgebraProvider; }
+            set
+            {
+                value.InitializeVerify();
+
+                // only actually set if verification did not throw
+                _experimentalLinearAlgebraProvider = value;
             }
         }
 
