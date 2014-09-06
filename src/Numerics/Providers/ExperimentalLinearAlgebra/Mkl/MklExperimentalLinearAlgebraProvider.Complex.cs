@@ -1,4 +1,4 @@
-﻿// <copyright file="ReferenceExperimentalLinearAlgebraProvider.Complex.cs" company="Math.NET">
+﻿// <copyright file="MklExperimentalLinearAlgebraProvider.Complex.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,21 +28,42 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra;
+using System;
 using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.LinearAlgebra.Mkl;
 
-namespace MathNet.Numerics.Providers.ExperimentalLinearAlgebra
+namespace MathNet.Numerics.Providers.ExperimentalLinearAlgebra.Mkl
 {
 
 #if !NOSYSNUMERICS
     using Complex = System.Numerics.Complex;
 #endif
 
-    public partial class ReferenceExperimentalLinearAlgebraProvider
+    public partial class MklExperimentalLinearAlgebraProvider
     {
-        public virtual void AddVectors(VectorStorage<Complex> x, VectorStorage<Complex> y, VectorStorage<Complex> result)
+        public override void AddVectors(VectorStorage<Complex> x, VectorStorage<Complex> y, VectorStorage<Complex> result)
         {
-            x.Map2To(result, y, (u, v) => u+v, Zeros.AllowSkip, ExistingData.Clear);
+            var xd = x as DenseVectorStorage<Complex>;
+            var yd = y as DenseVectorStorage<Complex>;
+            var rd = result as DenseVectorStorage<Complex>;
+            if (xd != null && yd != null && rd != null)
+            {
+                if (xd.Length != yd.Length)
+                {
+                    throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                }
+
+                if (xd.Length != rd.Length)
+                {
+                    throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                }
+
+                SafeNativeMethods.z_vector_add(xd.Length, xd.Data, yd.Data, rd.Data);
+                return;
+            }
+
+            base.AddVectors(x, y, result);
         }
     }
 }

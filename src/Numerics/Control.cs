@@ -67,6 +67,8 @@ namespace MathNet.Numerics
 
             // Linear Algebra Provider
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+            ExperimentalLinearAlgebraProvider = new Providers.ExperimentalLinearAlgebra.Managed.ManagedExperimentalLinearAlgebraProvider();
+
 #if !PORTABLE && NATIVEMKL
             try
             {
@@ -77,6 +79,7 @@ namespace MathNet.Numerics
 #if NATIVEMKL
                     case "MKL":
                         LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+                        ExperimentalLinearAlgebraProvider = new Providers.ExperimentalLinearAlgebra.Mkl.MklExperimentalLinearAlgebraProvider();
                         break;
 #endif
                 }
@@ -85,11 +88,9 @@ namespace MathNet.Numerics
             {
                 // We don't care about any failures here at all (because "auto")
                 LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+                ExperimentalLinearAlgebraProvider = new Providers.ExperimentalLinearAlgebra.Managed.ManagedExperimentalLinearAlgebraProvider();
             }
 #endif
-
-            // Experimental Linear Algebra Provider
-            ExperimentalLinearAlgebraProvider = new ReferenceExperimentalLinearAlgebraProvider();
         }
 
         public static void UseSingleThread()
@@ -111,12 +112,14 @@ namespace MathNet.Numerics
         public static void UseManaged()
         {
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+            ExperimentalLinearAlgebraProvider = new Providers.ExperimentalLinearAlgebra.Managed.ManagedExperimentalLinearAlgebraProvider();
         }
 
 #if NATIVEMKL
         public static void UseNativeMKL()
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+            ExperimentalLinearAlgebraProvider = new Providers.ExperimentalLinearAlgebra.Mkl.MklExperimentalLinearAlgebraProvider();
         }
 
         [CLSCompliant(false)]
@@ -126,6 +129,7 @@ namespace MathNet.Numerics
             Providers.LinearAlgebra.Mkl.MklAccuracy accuracy = Providers.LinearAlgebra.Mkl.MklAccuracy.High)
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
+            ExperimentalLinearAlgebraProvider = new Providers.ExperimentalLinearAlgebra.Mkl.MklExperimentalLinearAlgebraProvider(consistency, precision, accuracy);
         }
 #endif
 

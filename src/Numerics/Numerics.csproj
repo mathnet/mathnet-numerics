@@ -149,6 +149,16 @@
     <Compile Include="LinearRegression\SimpleRegression.cs" />
     <Compile Include="LinearRegression\Util.cs" />
     <Compile Include="Providers\ExperimentalLinearAlgebra\IExperimentalLinearAlgebraProvider.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Managed\ManagedExperimentalLinearAlgebraProvider.Complex.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Managed\ManagedExperimentalLinearAlgebraProvider.Complex32.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Managed\ManagedExperimentalLinearAlgebraProvider.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Managed\ManagedExperimentalLinearAlgebraProvider.Double.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Managed\ManagedExperimentalLinearAlgebraProvider.Single.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Mkl\MklExperimentalLinearAlgebraProvider.Complex.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Mkl\MklExperimentalLinearAlgebraProvider.Complex32.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Mkl\MklExperimentalLinearAlgebraProvider.Single.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Mkl\MklExperimentalLinearAlgebraProvider.Double.cs" />
+    <Compile Include="Providers\ExperimentalLinearAlgebra\Mkl\MklExperimentalLinearAlgebraProvider.cs" />
     <Compile Include="Providers\ExperimentalLinearAlgebra\ReferenceExperimentalLinearAlgebraProvider.Single.cs" />
     <Compile Include="Providers\ExperimentalLinearAlgebra\ReferenceExperimentalLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\ExperimentalLinearAlgebra\ReferenceExperimentalLinearAlgebraProvider.Complex32.cs" />

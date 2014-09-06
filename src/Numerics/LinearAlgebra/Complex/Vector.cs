@@ -89,12 +89,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">
         /// The vector to store the result of the addition.
         /// </param>
-        protected override void DoAdd(Vector<Complex> other, Vector<Complex> result)
+        protected override sealed void DoAdd(Vector<Complex> other, Vector<Complex> result)
         {
-            for (var index = 0; index < Count; index++)
-            {
-                result.At(index, At(index) + other.At(index));
-            }
+            Control.ExperimentalLinearAlgebraProvider.AddVectors(Storage, other.Storage, result.Storage);
         }
 
         /// <summary>

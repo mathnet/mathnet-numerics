@@ -82,12 +82,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">
         /// The vector to store the result of the addition.
         /// </param>
-        protected override void DoAdd(Vector<double> other, Vector<double> result)
+        protected override sealed void DoAdd(Vector<double> other, Vector<double> result)
         {
-            for (var index = 0; index < Count; index++)
-            {
-                result.At(index, At(index) + other.At(index));
-            }
+            Control.ExperimentalLinearAlgebraProvider.AddVectors(Storage, other.Storage, result.Storage);
         }
 
         /// <summary>

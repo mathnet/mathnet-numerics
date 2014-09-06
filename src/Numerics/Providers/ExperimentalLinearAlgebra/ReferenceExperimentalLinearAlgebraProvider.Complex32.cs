@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Providers.ExperimentalLinearAlgebra
 {
     public partial class ReferenceExperimentalLinearAlgebraProvider
     {
-        public void AddVectors(VectorStorage<Complex32> x, VectorStorage<Complex32> y, VectorStorage<Complex32> result)
+        public virtual void AddVectors(VectorStorage<Complex32> x, VectorStorage<Complex32> y, VectorStorage<Complex32> result)
         {
             x.Map2To(result, y, (u, v) => u+v, Zeros.AllowSkip, ExistingData.Clear);
         }

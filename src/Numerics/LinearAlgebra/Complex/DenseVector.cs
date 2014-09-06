@@ -232,26 +232,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Adds another vector to this vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="other">The vector to add to this one.</param>
-        /// <param name="result">The vector to store the result of the addition.</param>
-        protected override void DoAdd(Vector<Complex> other, Vector<Complex> result)
-        {
-            var otherDense = other as DenseVector;
-            var resultDense = result as DenseVector;
-
-            if (otherDense == null || resultDense == null)
-            {
-                base.DoAdd(other, result);
-            }
-            else
-            {
-                Control.LinearAlgebraProvider.AddArrays(_values, otherDense._values, resultDense._values);
-            }
-        }
-
-        /// <summary>
         /// Adds two <strong>Vectors</strong> together and returns the results.
         /// </summary>
         /// <param name="leftSide">One of the vectors to add.</param>

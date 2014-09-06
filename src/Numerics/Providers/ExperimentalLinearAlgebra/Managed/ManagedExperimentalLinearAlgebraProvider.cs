@@ -1,4 +1,4 @@
-﻿// <copyright file="ReferenceExperimentalLinearAlgebraProvider.Complex.cs" company="Math.NET">
+﻿// <copyright file="ManagedExperimentalLinearAlgebraProvider.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,21 +28,24 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Storage;
+using System;
 
-namespace MathNet.Numerics.Providers.ExperimentalLinearAlgebra
+namespace MathNet.Numerics.Providers.ExperimentalLinearAlgebra.Managed
 {
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
-    public partial class ReferenceExperimentalLinearAlgebraProvider
+    [Obsolete("Experimental with breaking changes expected between minor version. Do not use until properly released.")]
+    public partial class ManagedExperimentalLinearAlgebraProvider : ReferenceExperimentalLinearAlgebraProvider
     {
-        public virtual void AddVectors(VectorStorage<Complex> x, VectorStorage<Complex> y, VectorStorage<Complex> result)
+        /// <summary>
+        /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
+        /// </summary>
+        public override void InitializeVerify()
         {
-            x.Map2To(result, y, (u, v) => u+v, Zeros.AllowSkip, ExistingData.Clear);
+            base.InitializeVerify();
+        }
+
+        public override string ToString()
+        {
+            return "Managed";
         }
     }
 }
