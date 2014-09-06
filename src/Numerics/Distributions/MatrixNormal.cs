@@ -207,8 +207,8 @@ namespace MathNet.Numerics.Distributions
 
             return Math.Exp(-0.5*cholK.Solve(a.Transpose()*cholV.Solve(a)).Trace())
                    /Math.Pow(2.0*Constants.Pi, x.RowCount*x.ColumnCount/2.0)
-                   /Math.Pow(cholV.Determinant, x.RowCount/2.0)
-                   /Math.Pow(cholK.Determinant, x.ColumnCount/2.0);
+                   /Math.Pow(cholK.Determinant, x.RowCount/2.0)
+                   /Math.Pow(cholV.Determinant, x.ColumnCount/2.0);
         }
 
         /// <summary>
