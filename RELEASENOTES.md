@@ -1,4 +1,7 @@
-### 3.2.2 - 3014-09-05
+### 3.2.3 - 2014-09-06
+* Bug fix: MatrixNormal distribution: density for non-square matrices *~Evelina Gabasova*
+
+### 3.2.2 - 2014-09-05
 * Bug fix: MatrixNormal distribution: density computation switched row and column covariance *~Evelina Gabasova*
 
 ### 3.2.1 - 2014-08-05
