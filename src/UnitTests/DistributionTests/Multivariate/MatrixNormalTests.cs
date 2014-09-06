@@ -251,6 +251,36 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         }
 
         /// <summary>
+        /// Validate density with non-square matrices.
+        /// </summary>
+        [Test]
+        public void ValidateNonsquareDensity()
+        {
+            const int Rows = 2;
+            const int Cols = 1;
+            var m = Matrix<double>.Build.Dense(Rows, Cols);
+            m[0, 0] = 0.156065579983862;
+            m[1, 0] = -0.806288628097313;
+
+            var v = Matrix<double>.Build.Dense(Rows, Rows);
+            v[0, 0] = 0.674457817054746;
+            v[0, 1] = 0.878930403442185;
+            v[1, 0] = 0.878930403442185;
+            v[1, 1] = 1.76277498368061;
+
+            var k = Matrix<double>.Build.Dense(Cols, Cols);
+            k[0, 0] = 0.674457817054746;
+
+            var d = new MatrixNormal(m, v, k);
+
+            var x = Matrix<double>.Build.Dense(Rows, Cols);
+            x[0, 0] = 2;
+            x[1, 0] = 1.5;
+
+            AssertHelpers.AlmostEqualRelative(0.008613384131384546, d.Density(x), 12);
+        }
+
+        /// <summary>
         /// Can sample.
         /// </summary>
         /// <param name="n">Matrix rows count.</param>
