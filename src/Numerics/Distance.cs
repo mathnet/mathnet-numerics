@@ -388,5 +388,97 @@ namespace MathNet.Numerics
         {
             return 1.0 - Correlation.Pearson(a, b);
         }
+
+        /// <summary>
+        /// Jaccard distance, i.e. 1 - the Jaccard index.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown if a or b are null.</exception>
+        /// <exception cref="ArgumentException">Throw if a and b are of different lengths.</exception>
+        /// <returns>Jaccard distance.</returns>
+        public static double Jaccard(double[] a, double[] b)
+        {
+            Int32 intersection = 0, union = 0;
+
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != b.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if ((a.Length == 0 && b.Length == 0) || (a == null && b == null))
+            {
+                return 0;
+            }
+
+            for (Int32 x = 0, len = a.Length; x < len; x++)
+            {
+                if (a[x] != 0 && b[x] != 0)
+                {
+                    if (a[x] == b[x])
+                    {
+                        intersection++;
+                    }
+
+                    union++;
+                }
+            }
+
+            return 1.0 - ((double)intersection / (double)union);
+        }
+
+        /// <summary>
+        /// Jaccard distance, i.e. 1 - the Jaccard index.
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Thrown if a or b are null.</exception>
+        /// <exception cref="ArgumentException">Throw if a and b are of different lengths.</exception>
+        /// <returns>Jaccard distance.</returns>
+        public static double Jaccard(float[] a, float[] b)
+        {
+            Int32 intersection = 0, union = 0;
+
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (a.Length != b.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            if ((a.Length == 0 && b.Length == 0) || (a == null && b == null))
+            {
+                return 0;
+            }
+
+            for (Int32 x = 0, len = a.Length; x < len; x++)
+            {
+                if (a[x] != 0 && b[x] != 0)
+                {
+                    if (a[x] == b[x])
+                    {
+                        intersection++;
+                    }
+
+                    union++;
+                }
+            }
+
+            return 1.0 - ((float)intersection / (float)union);
+        }
     }
 }
