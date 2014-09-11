@@ -1230,7 +1230,7 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Diagonally stacks his matrix on top of the given matrix. The new matrix is a M-by-N matrix,
+        /// Diagonally stacks this matrix on top of the given matrix. The new matrix is a M-by-N matrix,
         /// where M = this.Rows + lower.Rows and N = this.Columns + lower.Columns.
         /// The values of off the off diagonal matrices/blocks are set to zero.
         /// </summary>

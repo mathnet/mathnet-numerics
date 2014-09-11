@@ -53,7 +53,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Initializes a new instance of the Permutation class.
         /// </summary>
-        /// <param name="indices">An array which represents where each integer is permuted too: indices[i] represents that integer i
+        /// <param name="indices">An array which represents where each integer is permuted to: indices[i] represents that integer i
         /// is permuted to location indices[i].</param>
         public Permutation(int[] indices)
         {
