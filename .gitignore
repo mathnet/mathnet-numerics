@@ -52,14 +52,10 @@ Desktop.ini
 packages/*
 !packages/.gitattributes
 !packages/repositories.config
-!packages/NUnit.*
 !packages/NUnit
-!packages/FsUnit.*
 !packages/FsUnit
-!packages/TaskParallelLibrary.*
 !packages/TaskParallelLibrary
 !packages/FSharp.Core.Microsoft.Signed
-packages/NUnit.Runners.*
 
 # FAKE & Paket
 packages/FAKE

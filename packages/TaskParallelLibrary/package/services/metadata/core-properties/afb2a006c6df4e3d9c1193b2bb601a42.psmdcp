@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?><coreProperties xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.openxmlformats.org/package/2006/metadata/core-properties"><dc:creator>Microsoft Corporation</dc:creator><dc:description>The package includes:
+* Task&lt;T&gt; for executing asynchronous operations.
+* Concurrent Collections such as ConcurrentStack, ConcurentQueue ad ConcurrentDictionary.
+* PLINQ for writing parallel queries.
+* additional Threading operations such as Barrier,SpinLock and SpinWait.</dc:description><dc:identifier>TaskParallelLibrary</dc:identifier><version>1.0.2856.0</version><dc:language>en-us</dc:language><keywords>tpl plinq pfx task parallel extensions .net35 backport</keywords></coreProperties>
