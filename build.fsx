@@ -242,8 +242,6 @@ Target "Clean" (fun _ ->
     CleanDirs [ "out/MKL"; "out/ATLAS" ] // Native Providers
     CleanDirs [ "out/Data" ]) // Data Extensions
 
-Target "RestorePackages" RestorePackages
-
 Target "ApplyVersion" (fun _ ->
     let patchAssemblyInfo path assemblyVersion packageVersion =
         BulkReplaceAssemblyInfoVersions path (fun f ->
@@ -265,7 +263,6 @@ Target "ApplyVersion" (fun _ ->
 Target "Prepare" DoNothing
 "Start"
   =?> ("Clean", not (hasBuildParam "incremental"))
-  ==> "RestorePackages"
   ==> "ApplyVersion"
   ==> "Prepare"
 
