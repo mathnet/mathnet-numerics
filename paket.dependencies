@@ -1,5 +1,6 @@
 source http://nuget.org/api/v2
 
+nuget FSharp.Core.Microsoft.Signed ~> 3.1.1
 nuget TaskParallelLibrary 1.0.2856.0
 
 nuget FAKE ~> 3.5
