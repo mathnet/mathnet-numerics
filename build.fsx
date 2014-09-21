@@ -619,24 +619,24 @@ match buildServer with
     // the targets so FAKE can build up and order the full work-flow properly
 
     // build --> test
-    "Build" ==> "Test"
-    "Native32Build" ==> "Native32Test"
-    "Native64Build" ==> "Native64Test"
-    "DataBuild" ==> "DataTest"
+    "Build" ==> "Test" |> ignore
+    "Native32Build" ==> "Native32Test" |> ignore
+    "Native64Build" ==> "Native64Test" |> ignore
+    "DataBuild" ==> "DataTest" |> ignore
 
     // build --> package
-    "Build" ==> "Zip"
-    "NativeBuild" ==> "NativeZip"
-    "DataBuild" ==> "DataZip"
-    "Build" ==> "NuGet"
-    "NativeBuild" ==> "NativeNuGet"
-    "DataBuild" ==> "DataNuGet"
+    "Build" ==> "Zip" |> ignore
+    "NativeBuild" ==> "NativeZip" |> ignore
+    "DataBuild" ==> "DataZip" |> ignore
+    "Build" ==> "NuGet" |> ignore
+    "NativeBuild" ==> "NativeNuGet" |> ignore
+    "DataBuild" ==> "DataNuGet" |> ignore
 
     // build --> docs
-    "Build" ==> "CleanDocs"
-    "Build" ==> "Docs"
-    "Build" ==> "CleanApi"
-    "Build" ==> "Api"
+    "Build" ==> "CleanDocs" |> ignore
+    "Build" ==> "Docs" |> ignore
+    "Build" ==> "CleanApi" |> ignore
+    "Build" ==> "Api" |> ignore
     ()
 
 
