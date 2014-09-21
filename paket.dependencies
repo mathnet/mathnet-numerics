@@ -4,7 +4,7 @@ nuget TaskParallelLibrary 1.0.2856.0
 
 nuget FAKE ~> 3.5
 nuget NUnit.Runners ~> 2.6
-nuget FSharp.Formatting != 2.4.4
+nuget FSharp.Formatting !~> 2.4
 nuget NUnit ~> 2.6
 nuget FsUnit ~> 1.3
 
