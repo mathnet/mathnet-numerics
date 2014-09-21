@@ -84,7 +84,7 @@ let numericsPack =
       ReleaseNotes = releaseNotes
       Tags = tags
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies = [{ FrameworkVersion="net35"; Dependencies=getDependencies "src/Numerics/packages.config" }
+      Dependencies = [{ FrameworkVersion="net35"; Dependencies=[ "TaskParallelLibrary", GetPackageVersion "packages" "TaskParallelLibrary" ] }
                       { FrameworkVersion="net40"; Dependencies=[] }]
       Files = [ @"..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some @"**\MathNet.Numerics.FSharp.*";
                 @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
@@ -201,7 +201,7 @@ let dataTextPack =
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data text csv tsv json xml"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies = [{ FrameworkVersion=""; Dependencies=getDependencies "src/Data/Text/packages.config" }]
+      Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics", GetPackageVersion "packages" "MathNet.Numerics" ] }]
       Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.dll", Some libnet40, None;
                 @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml", Some libnet40, None ] }
 
@@ -214,7 +214,7 @@ let dataMatlabPack =
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data matlab"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies = [{ FrameworkVersion=""; Dependencies=getDependencies "src/Data/Matlab/packages.config" }]
+      Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics", GetPackageVersion "packages" "MathNet.Numerics" ]  }]
       Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
                 @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
 
