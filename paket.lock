@@ -15,6 +15,7 @@ NUGET
       NUnit (>= 2.6.3)
     MathNet.Numerics (3.0.0)
     Microsoft.AspNet.Razor (2.0.30506.0)
+    NuGet.CommandLine (2.8.2)
     NUnit (2.6.3)
     NUnit.Runners (2.6.3)
     RazorEngine (3.3.0)
