@@ -73,11 +73,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         int Sample();
 
-        // TODO: Add for v4 (adding it in v3 would break compatibility)
-        // /// <summary>
-        // /// Fills an array with samples generated from the distribution.
-        // /// </summary>
-        // void Samples(int[] values);
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        void Samples(int[] values);
 
         /// <summary>
         /// Draws a sequence of random samples from the distribution.

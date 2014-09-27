@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -73,11 +73,10 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         double Sample();
 
-        // TODO: Add for v4 (adding it in v3 would break compatibility)
-        // /// <summary>
-        // /// Fills an array with samples generated from the distribution.
-        // /// </summary>
-        // void Samples(double[] values);
+        /// <summary>
+        /// Fills an array with samples generated from the distribution.
+        /// </summary>
+        void Samples(double[] values);
 
         /// <summary>
         /// Draws a sequence of random samples from the distribution.

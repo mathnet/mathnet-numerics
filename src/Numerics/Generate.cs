@@ -688,12 +688,7 @@ namespace MathNet.Numerics
         public static T[] UniformMap<T>(int length, Func<double, T> map)
         {
             var samples = SystemRandomSource.FastDoubles(length);
-            var data = new T[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = map(samples[i]);
-            }
-            return data;
+            return Map(samples, map);
         }
 
         /// <summary>
@@ -713,12 +708,7 @@ namespace MathNet.Numerics
         {
             var samples1 = SystemRandomSource.FastDoubles(length);
             var samples2 = SystemRandomSource.FastDoubles(length);
-            var data = new T[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = map(samples1[i], samples2[i]);
-            }
-            return data;
+            return Map2(samples1, samples2, map);
         }
 
         /// <summary>
@@ -745,7 +735,9 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] Gaussian(int length, double mean, double standardDeviation)
         {
-            return Normal.Samples(SystemRandomSource.Default, mean, standardDeviation).Take(length).ToArray();
+            var samples = new double[length];
+            Normal.Samples(SystemRandomSource.Default, samples, mean, standardDeviation);
+            return samples;
         }
 
         /// <summary>
@@ -766,7 +758,9 @@ namespace MathNet.Numerics
         /// <param name="location">Location mu-parameter of the stable distribution</param>
         public static double[] Stable(int length, double alpha, double beta, double scale, double location)
         {
-            return Distributions.Stable.Samples(SystemRandomSource.Default, alpha, beta, scale, location).Take(length).ToArray();
+            var samples = new double[length];
+            Distributions.Stable.Samples(SystemRandomSource.Default, samples, alpha, beta, scale, location);
+            return samples;
         }
 
         /// <summary>
@@ -786,7 +780,9 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] Random(int length, IContinuousDistribution distribution)
         {
-            return distribution.Samples().Take(length).ToArray();
+            var samples = new double[length];
+            distribution.Samples(samples);
+            return samples;
         }
 
         /// <summary>
@@ -818,12 +814,9 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] RandomMap<T>(int length, IContinuousDistribution distribution, Func<double, T> map)
         {
-            var data = new T[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = map(distribution.Sample());
-            }
-            return data;
+            var samples = new double[length];
+            distribution.Samples(samples);
+            return Map(samples, map);
         }
 
         /// <summary>
@@ -839,12 +832,11 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] RandomMap2<T>(int length, IContinuousDistribution distribution, Func<double, double, T> map)
         {
-            var data = new T[length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                data[i] = map(distribution.Sample(), distribution.Sample());
-            }
-            return data;
+            var samples1 = new double[length];
+            var samples2 = new double[length];
+            distribution.Samples(samples1);
+            distribution.Samples(samples2);
+            return Map2(samples1, samples2, map);
         }
 
         /// <summary>
