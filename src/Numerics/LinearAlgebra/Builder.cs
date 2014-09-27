@@ -67,7 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override Matrix<double> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return Dense(rows, columns, (i, j) => distribution.Sample());
+            return Dense(rows, columns, Generate.Random(rows*columns, distribution));
         }
 
         public override IIterationStopCriterion<double>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override Vector<double> Random(int length, IContinuousDistribution distribution)
         {
-            return Dense(length, i => distribution.Sample());
+            return Dense(Generate.Random(length, distribution));
         }
     }
 }
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override Matrix<float> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return Dense(rows, columns, (i, j) => (float) distribution.Sample());
+            return Dense(rows, columns, Generate.RandomSingle(rows*columns, distribution));
         }
 
         public override IIterationStopCriterion<float>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override Vector<float> Random(int length, IContinuousDistribution distribution)
         {
-            return Dense(length, i => (float) distribution.Sample());
+            return Dense(Generate.RandomSingle(length, distribution));
         }
     }
 }
@@ -223,7 +223,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override Matrix<Complex> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return Dense(rows, columns, (i, j) => new Complex(distribution.Sample(), distribution.Sample()));
+            return Dense(rows, columns, Generate.RandomComplex(rows*columns, distribution));
         }
 
         public override IIterationStopCriterion<Complex>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -262,7 +262,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override Vector<Complex> Random(int length, IContinuousDistribution distribution)
         {
-            return Dense(length, i => new Complex(distribution.Sample(), distribution.Sample()));
+            return Dense(Generate.RandomComplex(length, distribution));
         }
     }
 }
@@ -298,7 +298,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override Matrix<Numerics.Complex32> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return Dense(rows, columns, (i, j) => new Numerics.Complex32((float) distribution.Sample(), (float) distribution.Sample()));
+            return Dense(rows, columns, Generate.RandomComplex32(rows*columns, distribution));
         }
 
         public override IIterationStopCriterion<Numerics.Complex32>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -337,7 +337,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override Vector<Numerics.Complex32> Random(int length, IContinuousDistribution distribution)
         {
-            return Dense(length, i => new Numerics.Complex32((float) distribution.Sample(), (float) distribution.Sample()));
+            return Dense(Generate.RandomComplex32(length, distribution));
         }
     }
 }
@@ -526,7 +526,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> Dense(int rows, int columns, T value)
         {
             if (Zero.Equals(value)) return Dense(rows, columns);
-            return Dense(DenseColumnMajorMatrixStorage<T>.OfInit(rows, columns, (i, j) => value));
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfValue(rows, columns, value));
         }
 
         /// <summary>
@@ -860,7 +860,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> Sparse(int rows, int columns, T value)
         {
             if (Zero.Equals(value)) return Sparse(rows, columns);
-            return Sparse(SparseCompressedRowMatrixStorage<T>.OfInit(rows, columns, (i, j) => value));
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfValue(rows, columns, value));
         }
 
         /// <summary>
@@ -1229,7 +1229,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Matrix<T> Diagonal(int rows, int columns, T value)
         {
             if (Zero.Equals(value)) return Diagonal(rows, columns);
-            return Diagonal(DiagonalMatrixStorage<T>.OfInit(rows, columns, i => value));
+            return Diagonal(DiagonalMatrixStorage<T>.OfValue(rows, columns, value));
         }
 
         /// <summary>
@@ -1245,7 +1245,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> DiagonalIdentity(int rows, int columns)
         {
-            return Diagonal(DiagonalMatrixStorage<T>.OfInit(rows, columns, i => One));
+            return Diagonal(DiagonalMatrixStorage<T>.OfValue(rows, columns, One));
         }
 
         /// <summary>
@@ -1253,7 +1253,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> DiagonalIdentity(int order)
         {
-            return Diagonal(DiagonalMatrixStorage<T>.OfInit(order, order, i => One));
+            return Diagonal(DiagonalMatrixStorage<T>.OfValue(order, order, One));
         }
 
 
@@ -1445,7 +1445,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Vector<T> Dense(int length, T value)
         {
             if (Zero.Equals(value)) return Dense(length);
-            return Dense(DenseVectorStorage<T>.OfInit(length, i => value));
+            return Dense(DenseVectorStorage<T>.OfValue(length, value));
         }
 
         /// <summary>
@@ -1520,7 +1520,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public Vector<T> Sparse(int length, T value)
         {
             if (Zero.Equals(value)) return Sparse(length);
-            return Sparse(SparseVectorStorage<T>.OfInit(length, i => value));
+            return Sparse(SparseVectorStorage<T>.OfValue(length, value));
         }
 
         /// <summary>

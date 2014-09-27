@@ -348,7 +348,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public static DenseMatrix Create(int rows, int columns, Complex32 value)
         {
             if (value == Complex32.Zero) return new DenseMatrix(rows, columns);
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfInit(rows, columns, (i, j) => value));
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfValue(rows, columns, value));
         }
 
         /// <summary>
@@ -389,8 +389,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex32>.OfInit(rows, columns,
-                (i, j) => new Complex32((float) distribution.Sample(), (float) distribution.Sample())));
+            return new DenseMatrix(new DenseColumnMajorMatrixStorage<Complex32>(rows, columns, Generate.RandomComplex32(rows*columns, distribution)));
         }
 
         /// <summary>

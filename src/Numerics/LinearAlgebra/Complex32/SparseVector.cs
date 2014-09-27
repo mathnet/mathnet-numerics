@@ -116,8 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static SparseVector Create(int length, Complex32 value)
         {
-            if (value == Complex32.Zero) return new SparseVector(length);
-            return new SparseVector(SparseVectorStorage<Complex32>.OfInit(length, i => value));
+            return new SparseVector(SparseVectorStorage<Complex32>.OfValue(length, value));
         }
 
         /// <summary>

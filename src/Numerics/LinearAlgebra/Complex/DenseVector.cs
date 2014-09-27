@@ -143,7 +143,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static DenseVector Create(int length, Complex value)
         {
             if (value == Complex.Zero) return new DenseVector(length);
-            return new DenseVector(DenseVectorStorage<Complex>.OfInit(length, i => value));
+            return new DenseVector(DenseVectorStorage<Complex>.OfValue(length, value));
         }
 
         /// <summary>
@@ -159,8 +159,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static DenseVector CreateRandom(int length, IContinuousDistribution distribution)
         {
-            return new DenseVector(DenseVectorStorage<Complex>.OfInit(length,
-                i => new Complex(distribution.Sample(), distribution.Sample())));
+            var samples = Generate.RandomComplex(length, distribution);
+            return new DenseVector(new DenseVectorStorage<Complex>(length, samples));
         }
 
         /// <summary>

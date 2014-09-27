@@ -302,6 +302,34 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static SparseVectorStorage<T> OfValue(int length, T value)
+        {
+            if (Zero.Equals(value))
+            {
+                return new SparseVectorStorage<T>(length);
+            }
+
+            if (length < 1)
+            {
+                throw new ArgumentOutOfRangeException("length", string.Format(Resources.ArgumentLessThanOne, length));
+            }
+
+            var indices = new int[length];
+            var values = new T[length];
+            for (int i = 0; i < indices.Length; i++)
+            {
+                indices[i] = i;
+                values[i] = value;
+            }
+
+            return new SparseVectorStorage<T>(length)
+            {
+                Indices = indices,
+                Values = values,
+                ValueCount = length
+            };
+        }
+
         public static SparseVectorStorage<T> OfInit(int length, Func<int, T> init)
         {
             if (length < 1)

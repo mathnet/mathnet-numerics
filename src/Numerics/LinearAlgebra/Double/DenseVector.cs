@@ -138,7 +138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public static DenseVector Create(int length, double value)
         {
             if (value == 0d) return new DenseVector(length);
-            return new DenseVector(DenseVectorStorage<double>.OfInit(length, i => value));
+            return new DenseVector(DenseVectorStorage<double>.OfValue(length, value));
         }
 
         /// <summary>
@@ -154,8 +154,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public static DenseVector CreateRandom(int length, IContinuousDistribution distribution)
         {
-            return new DenseVector(DenseVectorStorage<double>.OfInit(length,
-                i => distribution.Sample()));
+            var samples = Generate.Random(length, distribution);
+            return new DenseVector(new DenseVectorStorage<double>(length, samples));
         }
 
         /// <summary>

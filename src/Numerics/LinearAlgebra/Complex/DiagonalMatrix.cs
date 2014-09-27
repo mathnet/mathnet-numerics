@@ -180,7 +180,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static DiagonalMatrix CreateIdentity(int order)
         {
-            return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfInit(order, order, i => One));
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfValue(order, order, One));
         }
 
         /// <summary>
@@ -188,8 +188,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DiagonalMatrix(DiagonalMatrixStorage<Complex>.OfInit(rows, columns,
-                i => new Complex(distribution.Sample(), distribution.Sample())));
+            return new DiagonalMatrix(new DiagonalMatrixStorage<Complex>(rows, columns, Generate.RandomComplex(Math.Min(rows, columns), distribution)));
         }
 
         /// <summary>

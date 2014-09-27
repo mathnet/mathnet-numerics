@@ -444,6 +444,44 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static SparseCompressedRowMatrixStorage<T> OfValue(int rows, int columns, T value)
+        {
+            if (Zero.Equals(value))
+            {
+                return new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            }
+
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+
+            var values = new T[rows * columns];
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = value;
+            }
+
+            var rowPointers = storage.RowPointers;
+            for (int i = 0; i <= rows; i++)
+            {
+                rowPointers[i] = i*columns;
+            }
+
+            var columnIndices = new int[values.Length];
+            for (int row = 0; row < rows; row++)
+            {
+                int offset = row*columns;
+                for (int col = 0; col < columns; col++)
+                {
+                    columnIndices[offset + col] = col;
+                }
+            }
+
+            rowPointers[rows] = values.Length;
+            storage.ColumnIndices = columnIndices;
+            storage.Values = values;
+            return storage;
+        }
+
+
         public static SparseCompressedRowMatrixStorage<T> OfInit(int rows, int columns, Func<int, int, T> init)
         {
             var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);

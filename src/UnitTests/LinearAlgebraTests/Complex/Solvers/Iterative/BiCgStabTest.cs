@@ -96,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             var matrix = SparseMatrix.CreateIdentity(100);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => Complex.One);
+            var y = DenseVector.Create(matrix.RowCount, Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex>(
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             matrix.Multiply(new Complex(Math.PI, Math.PI), matrix);
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => Complex.One);
+            var y = DenseVector.Create(matrix.RowCount, Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex>(new IterationCountStopCriterion<Complex>(MaximumIterations),
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Iterativ
             }
 
             // Create the y vector
-            var y = DenseVector.Create(matrix.RowCount, i => Complex.One);
+            var y = DenseVector.Create(matrix.RowCount, Complex.One);
 
             // Create an iteration monitor which will keep track of iterative convergence
             var monitor = new Iterator<Complex>(new IterationCountStopCriterion<Complex>(MaximumIterations),

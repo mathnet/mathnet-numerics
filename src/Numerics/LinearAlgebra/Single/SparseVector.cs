@@ -116,8 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         public static SparseVector Create(int length, float value)
         {
-            if (value == 0f) return new SparseVector(length);
-            return new SparseVector(SparseVectorStorage<float>.OfInit(length, i => value));
+            return new SparseVector(SparseVectorStorage<float>.OfValue(length, value));
         }
 
         /// <summary>

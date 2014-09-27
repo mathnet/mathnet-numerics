@@ -173,7 +173,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         public static DiagonalMatrix CreateIdentity(int order)
         {
-            return new DiagonalMatrix(DiagonalMatrixStorage<float>.OfInit(order, order, i => One));
+            return new DiagonalMatrix(DiagonalMatrixStorage<float>.OfValue(order, order, One));
         }
 
         /// <summary>
@@ -181,8 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DiagonalMatrix(DiagonalMatrixStorage<float>.OfInit(rows, columns,
-                i => (float) distribution.Sample()));
+            return new DiagonalMatrix(new DiagonalMatrixStorage<float>(rows, columns, Generate.RandomSingle(Math.Min(rows, columns), distribution)));
         }
 
         /// <summary>

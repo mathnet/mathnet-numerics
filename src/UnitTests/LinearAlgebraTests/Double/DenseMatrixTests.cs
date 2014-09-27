@@ -136,7 +136,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void CanCreateMatrixWithUniformValues()
         {
-            var matrix = Matrix<double>.Build.Dense(10, 10, (i, j) => 10.0);
+            var matrix = Matrix<double>.Build.Dense(10, 10, 10.0);
             Assert.That(matrix, Is.TypeOf<DenseMatrix>());
             for (var i = 0; i < matrix.RowCount; i++)
             {

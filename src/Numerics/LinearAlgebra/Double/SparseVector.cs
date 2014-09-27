@@ -116,8 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public static SparseVector Create(int length, double value)
         {
-            if (value == 0d) return new SparseVector(new SparseVectorStorage<double>(length));
-            return new SparseVector(SparseVectorStorage<double>.OfInit(length, i => value));
+            return new SparseVector(SparseVectorStorage<double>.OfValue(length, value));
         }
 
         /// <summary>

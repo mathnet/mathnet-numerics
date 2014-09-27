@@ -346,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public static DenseMatrix Create(int rows, int columns, double value)
         {
             if (value == 0d) return new DenseMatrix(rows, columns);
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfInit(rows, columns, (i, j) => value));
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfValue(rows, columns, value));
         }
 
         /// <summary>
@@ -387,7 +387,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<double>.OfInit(rows, columns, (i, j) => distribution.Sample()));
+            return new DenseMatrix(new DenseColumnMajorMatrixStorage<double>(rows, columns, Generate.Random(rows*columns, distribution)));
         }
 
         /// <summary>

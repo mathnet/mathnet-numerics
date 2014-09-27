@@ -796,6 +796,24 @@ namespace MathNet.Numerics
         /// <summary>
         /// Create random samples.
         /// </summary>
+        public static float[] RandomSingle(int length, IContinuousDistribution distribution)
+        {
+            var samples = new double[length];
+            distribution.Samples(samples);
+            return Map(samples, v => (float)v);
+        }
+
+        /// <summary>
+        /// Create an infinite random sample sequence.
+        /// </summary>
+        public static IEnumerable<float> RandomSingle(IContinuousDistribution distribution)
+        {
+            return distribution.Samples().Select(v => (float)v);
+        }
+
+        /// <summary>
+        /// Create random samples.
+        /// </summary>
         public static Complex[] RandomComplex(int length, IContinuousDistribution distribution)
         {
             return RandomMap2(length, distribution, (r, i) => new Complex(r, i));
@@ -807,6 +825,22 @@ namespace MathNet.Numerics
         public static IEnumerable<Complex> RandomComplex(IContinuousDistribution distribution)
         {
             return RandomMap2Sequence(distribution, (r, i) => new Complex(r, i));
+        }
+
+        /// <summary>
+        /// Create random samples.
+        /// </summary>
+        public static Complex32[] RandomComplex32(int length, IContinuousDistribution distribution)
+        {
+            return RandomMap2(length, distribution, (r, i) => new Complex32((float)r, (float)i));
+        }
+
+        /// <summary>
+        /// Create an infinite random sample sequence.
+        /// </summary>
+        public static IEnumerable<Complex32> RandomComplex32(IContinuousDistribution distribution)
+        {
+            return RandomMap2Sequence(distribution, (r, i) => new Complex32((float)r, (float)i));
         }
 
         /// <summary>

@@ -156,6 +156,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return storage;
         }
 
+        public static DenseColumnMajorMatrixStorage<T> OfValue(int rows, int columns, T value)
+        {
+            var storage = new DenseColumnMajorMatrixStorage<T>(rows, columns);
+            var data = storage.Data;
+            CommonParallel.For(0, data.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    data[i] = value;
+                }
+            });
+            return storage;
+        }
+
         public static DenseColumnMajorMatrixStorage<T> OfInit(int rows, int columns, Func<int, int, T> init)
         {
             var storage = new DenseColumnMajorMatrixStorage<T>(rows, columns);

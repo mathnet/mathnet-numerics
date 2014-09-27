@@ -145,7 +145,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void CanCreateDenseVectorWithConstantValues()
         {
-            var vector = DenseVector.Create(5, i => 5);
+            var vector = DenseVector.Create(5, 5);
             foreach (var t in vector)
             {
                 Assert.AreEqual(t, new Complex(5.0, 0));

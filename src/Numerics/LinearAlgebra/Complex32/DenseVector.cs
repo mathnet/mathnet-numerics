@@ -138,7 +138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public static DenseVector Create(int length, Complex32 value)
         {
             if (value == Complex32.Zero) return new DenseVector(length);
-            return new DenseVector(DenseVectorStorage<Complex32>.OfInit(length, i => value));
+            return new DenseVector(DenseVectorStorage<Complex32>.OfValue(length, value));
         }
 
         /// <summary>
@@ -154,8 +154,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static DenseVector CreateRandom(int length, IContinuousDistribution distribution)
         {
-            return new DenseVector(DenseVectorStorage<Complex32>.OfInit(length,
-                i => new Complex32((float)distribution.Sample(), (float)distribution.Sample())));
+            var samples = Generate.RandomComplex32(length, distribution);
+            return new DenseVector(new DenseVectorStorage<Complex32>(length, samples));
         }
 
         /// <summary>

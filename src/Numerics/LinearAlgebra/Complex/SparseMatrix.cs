@@ -340,7 +340,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static SparseMatrix Create(int rows, int columns, Complex value)
         {
             if (value == Complex.Zero) return new SparseMatrix(rows, columns);
-            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfInit(rows, columns, (i, j) => value));
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex>.OfValue(rows, columns, value));
         }
 
         /// <summary>

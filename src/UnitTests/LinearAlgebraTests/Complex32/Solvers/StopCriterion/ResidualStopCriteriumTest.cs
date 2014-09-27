@@ -131,7 +131,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Solvers.StopCr
                 1,
                 Vector<Complex32>.Build.Dense(3, 4),
                 Vector<Complex32>.Build.Dense(3, 4),
-                DenseVector.Create(4, i => 4)), Throws.ArgumentException);
+                DenseVector.Create(4, 4)), Throws.ArgumentException);
         }
 
         /// <summary>

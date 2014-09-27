@@ -335,7 +335,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         public static SparseMatrix Create(int rows, int columns, Complex32 value)
         {
             if (value == Complex32.Zero) return new SparseMatrix(rows, columns);
-            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfInit(rows, columns, (i, j) => value));
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<Complex32>.OfValue(rows, columns, value));
         }
 
         /// <summary>

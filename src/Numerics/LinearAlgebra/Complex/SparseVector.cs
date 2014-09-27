@@ -121,8 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static SparseVector Create(int length, Complex value)
         {
-            if (value == Complex.Zero) return new SparseVector(length);
-            return new SparseVector(SparseVectorStorage<Complex>.OfInit(length, i => value));
+            return new SparseVector(SparseVectorStorage<Complex>.OfValue(length, value));
         }
 
         /// <summary>

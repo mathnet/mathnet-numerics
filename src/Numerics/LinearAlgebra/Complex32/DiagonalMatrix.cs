@@ -175,7 +175,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static DiagonalMatrix CreateIdentity(int order)
         {
-            return new DiagonalMatrix(DiagonalMatrixStorage<Complex32>.OfInit(order, order, i => One));
+            return new DiagonalMatrix(DiagonalMatrixStorage<Complex32>.OfValue(order, order, One));
         }
 
         /// <summary>
@@ -183,8 +183,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DiagonalMatrix(DiagonalMatrixStorage<Complex32>.OfInit(rows, columns,
-                i => new Complex32((float) distribution.Sample(), (float) distribution.Sample())));
+            return new DiagonalMatrix(new DiagonalMatrixStorage<Complex32>(rows, columns, Generate.RandomComplex32(Math.Min(rows, columns), distribution)));
         }
 
         /// <summary>

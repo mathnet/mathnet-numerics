@@ -333,7 +333,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         public static SparseMatrix Create(int rows, int columns, double value)
         {
             if (value == 0d) return new SparseMatrix(rows, columns);
-            return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfInit(rows, columns, (i, j) => value));
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<double>.OfValue(rows, columns, value));
         }
 
         /// <summary>

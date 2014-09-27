@@ -140,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         [Test]
         public void CanCreateMatrixWithUniformValues()
         {
-            var matrix = DenseMatrix.Create(10, 10, (i, j) => new Complex(10.0, 1));
+            var matrix = DenseMatrix.Create(10, 10, new Complex(10.0, 1));
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)

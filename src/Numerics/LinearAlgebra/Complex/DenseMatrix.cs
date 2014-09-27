@@ -353,7 +353,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         public static DenseMatrix Create(int rows, int columns, Complex value)
         {
             if (value == Complex.Zero) return new DenseMatrix(rows, columns);
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfInit(rows, columns, (i, j) => value));
+            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfValue(rows, columns, value));
         }
 
         /// <summary>
@@ -394,8 +394,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<Complex>.OfInit(rows, columns,
-                (i, j) => new Complex(distribution.Sample(), distribution.Sample())));
+            return new DenseMatrix(new DenseColumnMajorMatrixStorage<Complex>(rows, columns, Generate.RandomComplex(rows*columns, distribution)));
         }
 
         /// <summary>
