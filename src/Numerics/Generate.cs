@@ -97,7 +97,12 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LinearSpaced(int length, double start, double stop)
         {
-            if (length <= 0) return new double[0];
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            if (length == 0) return new double[0];
             if (length == 1) return new[] { stop };
 
             double step = (stop - start)/(length - 1);
@@ -116,7 +121,12 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] LinearSpacedMap<T>(int length, double start, double stop, Func<double, T> map)
         {
-            if (length <= 0) return new T[0];
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            if (length == 0) return new T[0];
             if (length == 1) return new[] { map(stop) };
 
             double step = (stop - start)/(length - 1);
@@ -136,7 +146,12 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] LogSpaced(int length, double startExponent, double stopExponent)
         {
-            if (length <= 0) return new double[0];
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            if (length == 0) return new double[0];
             if (length == 1) return new[] { Math.Pow(10, stopExponent) };
 
             double step = (stopExponent - startExponent)/(length - 1);
@@ -155,7 +170,12 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] LogSpacedMap<T>(int length, double startExponent, double stopExponent, Func<double, T> map)
         {
-            if (length <= 0) return new T[0];
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            if (length == 0) return new T[0];
             if (length == 1) return new[] { map(Math.Pow(10, stopExponent)) };
 
             double step = (stopExponent - startExponent)/(length - 1);
@@ -269,6 +289,11 @@ namespace MathNet.Numerics
         /// <param name="delay">Optional delay, relative to the phase.</param>
         public static double[] Periodic(int length, double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             double step = frequency/samplingRate*amplitude;
             phase = Euclid.Modulus(phase - delay*step, amplitude);
 
@@ -300,6 +325,11 @@ namespace MathNet.Numerics
         /// <param name="delay">Optional delay, relative to the phase.</param>
         public static T[] PeriodicMap<T>(int length, Func<double, T> map, double samplingRate, double frequency, double amplitude = 1.0, double phase = 0.0, int delay = 0)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             double step = frequency/samplingRate*amplitude;
             phase = Euclid.Modulus(phase - delay*step, amplitude);
 
@@ -388,6 +418,11 @@ namespace MathNet.Numerics
         /// <param name="delay">Optional delay, relative to the phase.</param>
         public static double[] Sinusoidal(int length, double samplingRate, double frequency, double amplitude, double mean = 0.0, double phase = 0.0, int delay = 0)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             double step = frequency/samplingRate*Constants.Pi2;
             phase = (phase - delay*step)%Constants.Pi2;
 
@@ -521,6 +556,11 @@ namespace MathNet.Numerics
         /// <param name="value">The value that each field should be set to.</param>
         public static T[] Repeat<T>(int length, T value)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var data = new T[length];
             CommonParallel.For(0, data.Length, 4096, (a, b) =>
             {
@@ -552,6 +592,11 @@ namespace MathNet.Numerics
         /// <param name="delay">Offset to the time axis.</param>
         public static double[] Step(int length, double amplitude, int delay)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var data = new double[length];
             for (int i = Math.Max(0, delay); i < data.Length; i++)
             {
@@ -586,6 +631,11 @@ namespace MathNet.Numerics
         /// <param name="delay">Offset to the time axis. Zero or positive.</param>
         public static double[] Impulse(int length, double amplitude, int delay)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var data = new double[length];
             if (delay >= 0 && delay < length)
             {
@@ -626,6 +676,11 @@ namespace MathNet.Numerics
         /// <param name="delay">Offset to the time axis. Zero or positive.</param>
         public static double[] PeriodicImpulse(int length, int period, double amplitude, int delay)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var data = new double[length];
             delay = Euclid.Modulus(delay, period);
             while (delay < length)
@@ -668,6 +723,11 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] Uniform(int length)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             return SystemRandomSource.FastDoubles(length);
         }
 
@@ -687,6 +747,11 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] UniformMap<T>(int length, Func<double, T> map)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var samples = SystemRandomSource.FastDoubles(length);
             return Map(samples, map);
         }
@@ -706,6 +771,11 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] UniformMap2<T>(int length, Func<double, double, T> map)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var samples1 = SystemRandomSource.FastDoubles(length);
             var samples2 = SystemRandomSource.FastDoubles(length);
             return Map2(samples1, samples2, map);
@@ -735,6 +805,11 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] Gaussian(int length, double mean, double standardDeviation)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var samples = new double[length];
             Normal.Samples(SystemRandomSource.Default, samples, mean, standardDeviation);
             return samples;
@@ -758,6 +833,11 @@ namespace MathNet.Numerics
         /// <param name="location">Location mu-parameter of the stable distribution</param>
         public static double[] Stable(int length, double alpha, double beta, double scale, double location)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var samples = new double[length];
             Distributions.Stable.Samples(SystemRandomSource.Default, samples, alpha, beta, scale, location);
             return samples;
@@ -780,6 +860,11 @@ namespace MathNet.Numerics
         /// </summary>
         public static double[] Random(int length, IContinuousDistribution distribution)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var samples = new double[length];
             distribution.Samples(samples);
             return samples;
@@ -798,6 +883,11 @@ namespace MathNet.Numerics
         /// </summary>
         public static float[] RandomSingle(int length, IContinuousDistribution distribution)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var samples = new double[length];
             distribution.Samples(samples);
             return Map(samples, v => (float)v);
@@ -848,6 +938,11 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] RandomMap<T>(int length, IContinuousDistribution distribution, Func<double, T> map)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var samples = new double[length];
             distribution.Samples(samples);
             return Map(samples, map);
@@ -866,6 +961,11 @@ namespace MathNet.Numerics
         /// </summary>
         public static T[] RandomMap2<T>(int length, IContinuousDistribution distribution, Func<double, double, T> map)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
             var samples1 = new double[length];
             var samples2 = new double[length];
             distribution.Samples(samples1);
