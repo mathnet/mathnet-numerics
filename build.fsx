@@ -441,7 +441,7 @@ let zip zipDir filesDir filesFilter bundle =
 Target "Zip" (fun _ ->
     CleanDir "out/packages/Zip"
     if not (hasBuildParam "signed") || hasBuildParam "release" then
-        coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading."))
+        coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if hasBuildParam "signed" || hasBuildParam "release" then
         coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
 

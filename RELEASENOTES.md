@@ -1,3 +1,19 @@
+### 3.3.0-beta1 - 2014-09-28
+* Linear Algebra: Vector.Fold2 (fold2 in F#), storage optimized
+* Linear Algebra: Minor change how matrix products call the LA provider
+* Linear Algebra: Random generation now leveraging array sampling routines
+* Linear Algebra: fix bug when manually assigning System.Random to random distribution
+* Statistics: RootMeanSquare (RMS)
+* Distributions: Array sampling routines now available through interface
+* Distributions: Categorical sampling now explicitly skips p=0 categories
+* Generate: leverage array sampling routines for random data generation
+* Generate: square, triangle and sawtooth waves
+* Distance: Jaccard Index
+* F#: explicitly depend on official FSharp.Core NuGet packages
+* F#: NuGet package with iPython IfSharp F# module integration load script
+* Build: unified build.sh and buildn.sh into combined build.sh
+* Build: use Paket instead of NuGet to maintain NuGet dependencies
+
 ### 3.2.3 - 2014-09-06
 * Bug fix: MatrixNormal distribution: density for non-square matrices *~Evelina Gabasova*
 
