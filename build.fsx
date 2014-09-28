@@ -34,6 +34,31 @@ trace header
 // PROJECT INFO
 // --------------------------------------------------------------------------------------
 
+// VERSION OVERVIEW
+
+let release = LoadReleaseNotes "RELEASENOTES.md"
+let buildPart = "0"
+let assemblyVersion = release.AssemblyVersion + "." + buildPart
+let packageVersion = release.NugetVersion
+let releaseNotes = release.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf " Math.NET Numerics                    v%s" packageVersion)
+
+let nativeRelease = LoadReleaseNotes "RELEASENOTES-Native.md"
+let nativeBuildPart = "0"
+let nativeAssemblyVersion = nativeRelease.AssemblyVersion + "." + nativeBuildPart
+let nativePackageVersion = nativeRelease.NugetVersion
+let nativeReleaseNotes = nativeRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf " Math.NET Numerics Native Providers   v%s" nativePackageVersion)
+
+let dataRelease = LoadReleaseNotes "RELEASENOTES-Data.md"
+let dataBuildPart = "0"
+let dataAssemblyVersion = dataRelease.AssemblyVersion + "." + dataBuildPart
+let dataPackageVersion = dataRelease.NugetVersion
+let dataReleaseNotes = dataRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf " Math.NET Numerics Data Extensions    v%s" dataPackageVersion)
+trace ""
+
+
 // CORE PACKAGES
 
 type Package =
@@ -55,13 +80,6 @@ type Bundle =
       ReleaseNotesFile: string
       FsLoader: bool
       Packages: Package list }
-
-let release = LoadReleaseNotes "RELEASENOTES.md"
-let buildPart = "0"
-let assemblyVersion = release.AssemblyVersion + "." + buildPart
-let packageVersion = release.NugetVersion
-let releaseNotes = release.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
-trace (sprintf " Math.NET Numerics                    v%s" packageVersion)
 
 let summary = "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use."
 let description = "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. "
@@ -169,13 +187,6 @@ let coreSignedBundle =
 
 // NATIVE PROVIDER PACKAGES
 
-let nativeRelease = LoadReleaseNotes "RELEASENOTES-Native.md"
-let nativeBuildPart = "0"
-let nativeAssemblyVersion = nativeRelease.AssemblyVersion + "." + nativeBuildPart
-let nativePackageVersion = nativeRelease.NugetVersion
-let nativeReleaseNotes = nativeRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
-trace (sprintf " Math.NET Numerics Native Providers   v%s" nativePackageVersion)
-
 let nativeMKLWin32Pack =
     { Id = "MathNet.Numerics.MKL.Win-x86"
       Version = nativePackageVersion
@@ -210,14 +221,6 @@ let nativeBundle =
 
 
 // DATA EXTENSION PACKAGES
-
-let dataRelease = LoadReleaseNotes "RELEASENOTES-Data.md"
-let dataBuildPart = "0"
-let dataAssemblyVersion = dataRelease.AssemblyVersion + "." + dataBuildPart
-let dataPackageVersion = dataRelease.NugetVersion
-let dataReleaseNotes = dataRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
-trace (sprintf " Math.NET Numerics Data Extensions    v%s" dataPackageVersion)
-trace ""
 
 let dataTextPack =
     { Id = "MathNet.Numerics.Data.Text"
