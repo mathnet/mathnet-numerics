@@ -556,9 +556,18 @@ namespace MathNet.Numerics.Distributions
         internal static int SampleUnchecked(System.Random rnd, double[] cdfUnnormalized)
         {
             // TODO : use binary search to speed up this procedure.
-            var u = rnd.NextDouble()*cdfUnnormalized[cdfUnnormalized.Length - 1];
-
+            double u = rnd.NextDouble()*cdfUnnormalized[cdfUnnormalized.Length - 1];
             var idx = 0;
+
+            if (u == 0.0d)
+            {
+                // skip zero-probability categories
+                while (0.0d == cdfUnnormalized[idx])
+                {
+                    idx++;
+                }
+            }
+
             while (u > cdfUnnormalized[idx])
             {
                 idx++;
@@ -570,7 +579,7 @@ namespace MathNet.Numerics.Distributions
         static void SamplesUnchecked(System.Random rnd, int[] values, double[] cdfUnnormalized)
         {
             // TODO : use binary search to speed up this procedure.
-            var uniform = rnd.NextDoubles(values.Length);
+            double[] uniform = rnd.NextDoubles(values.Length);
             double w = cdfUnnormalized[cdfUnnormalized.Length - 1];
             CommonParallel.For(0, values.Length, 4096, (a, b) =>
             {
@@ -578,6 +587,16 @@ namespace MathNet.Numerics.Distributions
                 {
                     var u = uniform[i]*w;
                     var idx = 0;
+
+                    if (u == 0.0d)
+                    {
+                        // skip zero-probability categories
+                        while (0.0d == cdfUnnormalized[idx])
+                        {
+                            idx++;
+                        }
+                    }
+
                     while (u > cdfUnnormalized[idx])
                     {
                         idx++;
