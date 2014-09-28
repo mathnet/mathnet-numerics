@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>FsUnit</id>
+    <version>1.3.0.1</version>
+    <authors>Ray Vernagus and Daniel Mohl</authors>
+    <owners>Ray Vernagus and Daniel Mohl</owners>
+    <licenseUrl>http://fsunit.codeplex.com/license</licenseUrl>
+    <projectUrl>http://fsunit.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>FsUnit is a set of extensions that add special testing syntax to NUnit.</description>
+    <summary>The goals of FsUnit are to make unit-testing feel more functional while leverage existing testing frameworks.</summary>
+    <language>en-US</language>
+    <tags>F# fsharp NUnit FsUnit</tags>
+    <dependencies>
+      <dependency id="NUnit" version="2.6.3" />
+    </dependencies>
+  </metadata>
+</package>

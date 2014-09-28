@@ -20,10 +20,10 @@ let info =
 // For typical project, no changes are needed below
 // --------------------------------------------------------------------------------------
 
-#I "../../packages/FSharp.Compiler.Service.0.0.44/lib/net40"
-#I "../../packages/RazorEngine.3.3.0/lib/net40/"
-#r "../../packages/Microsoft.AspNet.Razor.2.0.30506.0/lib/net40/System.Web.Razor.dll"
-#I "../../packages/FSharp.Formatting.2.4.4/lib/net40"
+#I "../../packages/FSharp.Compiler.Service/lib/net40"
+#I "../../packages/RazorEngine/lib/net40/"
+#r "../../packages/Microsoft.AspNet.Razor/lib/net40/System.Web.Razor.dll"
+#I "../../packages/FSharp.Formatting/lib/net40"
 #r "../../packages/FAKE/tools/FakeLib.dll"
 #r "FSharp.Compiler.Service.dll"
 #r "RazorEngine.dll"
@@ -53,7 +53,7 @@ let content    = __SOURCE_DIRECTORY__ @@ "../content"
 let output     = __SOURCE_DIRECTORY__ @@ "../../out/docs"
 let files      = __SOURCE_DIRECTORY__ @@ "../files"
 let templates  = __SOURCE_DIRECTORY__ @@ "templates"
-let formatting = __SOURCE_DIRECTORY__ @@ "../../packages/FSharp.Formatting.2.4.4/"
+let formatting = __SOURCE_DIRECTORY__ @@ "../../packages/FSharp.Formatting/"
 let docTemplate = formatting @@ "templates/docpage.cshtml"
 
 // Where to look for *.csproj templates (in this order)
@@ -106,7 +106,7 @@ let buildDocumentation() =
         let sub = if dir.Length > content.Length then dir.Substring(content.Length + 1) else "."
         Literate.ProcessDirectory
             (dir, docTemplate, output @@ sub, replacements = ("root", root) :: info, layoutRoots = layoutRoots,
-             references = false, lineNumbers = true)
+             references = false, lineNumbers = true, generateAnchors = true)
 
 let cleanup() =
     for (_, docName) in extraDocs do DeleteFile (content @@ docName)

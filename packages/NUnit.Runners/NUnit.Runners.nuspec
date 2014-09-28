@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>NUnit.Runners</id>
+    <version>2.6.3</version>
+    <title>NUnit.Runners</title>
+    <authors>Charlie Poole</authors>
+    <owners>Charlie Poole</owners>
+    <licenseUrl>http://nunit.org/nuget/license.html</licenseUrl>
+    <projectUrl>http://nunit.org</projectUrl>
+    <iconUrl>http://nunit.org/nuget/nunit_32x32.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NUnit features a fluent assert syntax, parameterized, generic and theory tests and is user-extensible. A number of runners, both from the NUnit project and by third parties, are able to execute NUnit tests.
+Version 2.6 is the seventh major release of this well-known and well-tested programming tool.
+This package includes the NUnit console, gui and pnunit runners and is compatible with all NUnit framework versions 2.0 through 2.6. The NUnit project editor is also included.</description>
+    <summary>NUnit is a unit-testing framework for all .Net languages with a strong TDD focus.</summary>
+    <language>en-US</language>
+    <tags>nunit test testing tdd runner</tags>
+  </metadata>
+</package>

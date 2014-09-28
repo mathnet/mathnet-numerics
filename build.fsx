@@ -84,49 +84,71 @@ let numericsPack =
       ReleaseNotes = releaseNotes
       Tags = tags
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies = [{ FrameworkVersion="net35"; Dependencies=getDependencies "src/Numerics/packages.config" }
-                      { FrameworkVersion="net40"; Dependencies=[] }]
-      Files = [ @"..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some @"**\MathNet.Numerics.FSharp.*";
-                @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
-                @"..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some @"**\MathNet.Numerics.FSharp.*";
-                @"..\..\out\lib\Profile328\MathNet.Numerics.*", Some libpcl328, Some @"**\MathNet.Numerics.FSharp.*";
-                @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
+      Dependencies =
+        [ { FrameworkVersion="net35"
+            Dependencies=[ "TaskParallelLibrary", GetPackageVersion "packages" "TaskParallelLibrary" ] }
+          { FrameworkVersion="net40"
+            Dependencies=[] } ]
+      Files =
+        [ @"..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some @"**\MathNet.Numerics.FSharp.*";
+          @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
+          @"..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some @"**\MathNet.Numerics.FSharp.*";
+          @"..\..\out\lib\Profile328\MathNet.Numerics.*", Some libpcl328, Some @"**\MathNet.Numerics.FSharp.*";
+          @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
 
 let fsharpPack =
-    { numericsPack with Id = "MathNet.Numerics.FSharp"
-                        Title = "Math.NET Numerics for F#"
-                        Summary = "F# Modules for " + summary
-                        Description = description + supportFsharp
-                        Tags = "fsharp F# " + tags
-                        Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion ] }]
-                        Files = [ @"..\..\out\lib\Net35\MathNet.Numerics.FSharp.*", Some libnet35, None;
-                                  @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
-                                  @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
-                                  @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;
-                                  @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;
-                                  @"MathNet.Numerics.fsx", None, None;
-                                  @"MathNet.Numerics.IfSharp.fsx", None, None;
-                                  @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
+    { numericsPack with
+        Id = "MathNet.Numerics.FSharp"
+        Title = "Math.NET Numerics for F#"
+        Summary = "F# Modules for " + summary
+        Description = description + supportFsharp
+        Tags = "fsharp F# " + tags
+        Dependencies =
+          [ { FrameworkVersion="net35"
+              Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion
+                             "FSharp.Core.4.3.0.0.Microsoft.Signed", GetPackageVersion "packages" "FSharp.Core.4.3.0.0.Microsoft.Signed" ] }
+            { FrameworkVersion="net40"
+              Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion
+                             "FSharp.Core.Microsoft.Signed", GetPackageVersion "packages" "FSharp.Core.Microsoft.Signed" ] }
+            { FrameworkVersion=""
+              Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion
+                             "FSharp.Core.Microsoft.Signed", GetPackageVersion "packages" "FSharp.Core.Microsoft.Signed" ] } ]
+        Files =
+          [ @"..\..\out\lib\Net35\MathNet.Numerics.FSharp.*", Some libnet35, None;
+            @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
+            @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
+            @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;
+            @"..\..\out\lib\Profile328\MathNet.Numerics.FSharp.*", Some libpcl328, None;
+            @"MathNet.Numerics.fsx", None, None;
+            @"MathNet.Numerics.IfSharp.fsx", None, None;
+            @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 let numericsSignedPack =
-    { numericsPack with Id = numericsPack.Id + ".Signed"
-                        Title = numericsPack.Title + " - Signed Edition"
-                        Description = description + supportSigned
-                        Tags = numericsPack.Tags + " signed"
-                        Dependencies = []
-                        Files = [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
-                                  @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
+    { numericsPack with
+        Id = numericsPack.Id + ".Signed"
+        Title = numericsPack.Title + " - Signed Edition"
+        Description = description + supportSigned
+        Tags = numericsPack.Tags + " signed"
+        Dependencies = []
+        Files =
+          [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
+            @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
 
 let fsharpSignedPack =
-    { fsharpPack with Id = fsharpPack.Id + ".Signed"
-                      Title = fsharpPack.Title + " - Signed Edition"
-                      Description = description + supportSigned
-                      Tags = fsharpPack.Tags + " signed"
-                      Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics.Signed", RequireExactly packageVersion ] }]
-                      Files = [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
-                                @"MathNet.Numerics.fsx", None, None;
-                                @"MathNet.Numerics.IfSharp.fsx", None, None;
-                                @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
+    { fsharpPack with
+        Id = fsharpPack.Id + ".Signed"
+        Title = fsharpPack.Title + " - Signed Edition"
+        Description = description + supportSigned
+        Tags = fsharpPack.Tags + " signed"
+        Dependencies =
+          [ { FrameworkVersion=""
+              Dependencies=[ "MathNet.Numerics.Signed", RequireExactly packageVersion
+                             "FSharp.Core.Microsoft.Signed", GetPackageVersion "packages" "FSharp.Core.Microsoft.Signed" ] } ]
+        Files =
+          [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
+            @"MathNet.Numerics.fsx", None, None;
+            @"MathNet.Numerics.IfSharp.fsx", None, None;
+            @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
 
 let coreBundle =
     { Id = numericsPack.Id
@@ -163,15 +185,20 @@ let nativeMKLWin32Pack =
       ReleaseNotes = nativeReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies = [{ FrameworkVersion=""; Dependencies=[ "MathNet.Numerics", "2.4.0" ] }]
-      Files = [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
-                @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
+      Dependencies =
+        [ { FrameworkVersion=""
+            Dependencies=[ "MathNet.Numerics", "2.4.0" ] } ]
+      Files =
+        [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
+          @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
 
 let nativeMKLWin64Pack =
-    { nativeMKLWin32Pack with Id = "MathNet.Numerics.MKL.Win-x64"
-                              Title = "Math.NET Numerics - MKL Native Providers (Windows 64-bit)"
-                              Files = [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
-                                        @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
+    { nativeMKLWin32Pack with
+        Id = "MathNet.Numerics.MKL.Win-x64"
+        Title = "Math.NET Numerics - MKL Native Providers (Windows 64-bit)"
+        Files =
+          [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
+            @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
 
 let nativeBundle =
     { Id = "MathNet.Numerics.NativeProviders"
@@ -201,9 +228,12 @@ let dataTextPack =
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data text csv tsv json xml"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies = [{ FrameworkVersion=""; Dependencies=getDependencies "src/Data/Text/packages.config" }]
-      Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.dll", Some libnet40, None;
-                @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml", Some libnet40, None ] }
+      Dependencies =
+        [ { FrameworkVersion=""
+            Dependencies=[ "MathNet.Numerics", GetPackageVersion "packages" "MathNet.Numerics" ] } ]
+      Files =
+        [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.dll", Some libnet40, None;
+          @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml", Some libnet40, None ] }
 
 let dataMatlabPack =
     { Id = "MathNet.Numerics.Data.Matlab"
@@ -214,9 +244,12 @@ let dataMatlabPack =
       ReleaseNotes = dataReleaseNotes
       Tags = "math numeric data matlab"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies = [{ FrameworkVersion=""; Dependencies=getDependencies "src/Data/Matlab/packages.config" }]
-      Files = [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
-                @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
+      Dependencies =
+        [ { FrameworkVersion=""
+            Dependencies=[ "MathNet.Numerics", GetPackageVersion "packages" "MathNet.Numerics" ] } ]
+      Files =
+        [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
+          @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
 
 let dataBundle =
     { Id = "MathNet.Numerics.Data"
@@ -242,8 +275,6 @@ Target "Clean" (fun _ ->
     CleanDirs [ "out/MKL"; "out/ATLAS" ] // Native Providers
     CleanDirs [ "out/Data" ]) // Data Extensions
 
-Target "RestorePackages" RestorePackages
-
 Target "ApplyVersion" (fun _ ->
     let patchAssemblyInfo path assemblyVersion packageVersion =
         BulkReplaceAssemblyInfoVersions path (fun f ->
@@ -265,7 +296,6 @@ Target "ApplyVersion" (fun _ ->
 Target "Prepare" DoNothing
 "Start"
   =?> ("Clean", not (hasBuildParam "incremental"))
-  ==> "RestorePackages"
   ==> "ApplyVersion"
   ==> "Prepare"
 
@@ -424,7 +454,7 @@ Target "DataZip" (fun _ ->
 // NUGET
 
 let updateNuspec (pack:Package) outPath symbols updateFiles spec =
-    { spec with ToolPath = "tools/NuGet/NuGet.exe"
+    { spec with ToolPath = "packages/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
                 Version = pack.Version
@@ -569,7 +599,7 @@ let publishNuGet packageFiles =
             let args = sprintf "push \"%s\"" (FullName file)
             let result =
                 ExecProcess (fun info ->
-                    info.FileName <- "tools/NuGet/NuGet.exe"
+                    info.FileName <- "packages/NuGet.CommandLine/tools/NuGet.exe"
                     info.WorkingDirectory <- FullName "obj/NuGet"
                     info.Arguments <- args) (TimeSpan.FromMinutes 10.)
             if result <> 0 then failwith "Error during NuGet push."
@@ -619,24 +649,24 @@ match buildServer with
     // the targets so FAKE can build up and order the full work-flow properly
 
     // build --> test
-    "Build" ==> "Test"
-    "Native32Build" ==> "Native32Test"
-    "Native64Build" ==> "Native64Test"
-    "DataBuild" ==> "DataTest"
+    "Build" ==> "Test" |> ignore
+    "Native32Build" ==> "Native32Test" |> ignore
+    "Native64Build" ==> "Native64Test" |> ignore
+    "DataBuild" ==> "DataTest" |> ignore
 
     // build --> package
-    "Build" ==> "Zip"
-    "NativeBuild" ==> "NativeZip"
-    "DataBuild" ==> "DataZip"
-    "Build" ==> "NuGet"
-    "NativeBuild" ==> "NativeNuGet"
-    "DataBuild" ==> "DataNuGet"
+    "Build" ==> "Zip" |> ignore
+    "NativeBuild" ==> "NativeZip" |> ignore
+    "DataBuild" ==> "DataZip" |> ignore
+    "Build" ==> "NuGet" |> ignore
+    "NativeBuild" ==> "NativeNuGet" |> ignore
+    "DataBuild" ==> "DataNuGet" |> ignore
 
     // build --> docs
-    "Build" ==> "CleanDocs"
-    "Build" ==> "Docs"
-    "Build" ==> "CleanApi"
-    "Build" ==> "Api"
+    "Build" ==> "CleanDocs" |> ignore
+    "Build" ==> "Docs" |> ignore
+    "Build" ==> "CleanApi" |> ignore
+    "Build" ==> "Api" |> ignore
     ()
 
 

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?><coreProperties xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.openxmlformats.org/package/2006/metadata/core-properties"><dc:creator>F# Software Foundation, Dave Thomas</dc:creator><dc:description>Microsoft signed versions of FSharp.Core for F# 3.1 and above, for
+      .Net 4.0
+      .Net 4.5
+      profile7
+      profile47
+      profile78
+      profile259</dc:description><dc:identifier>FSharp.Core.Microsoft.Signed</dc:identifier><version>3.1.1.1</version><keywords>F#, FSharp, FSharp.Core</keywords><dc:title>FSharp.Core for F# 3.1+, Microsoft signed</dc:title></coreProperties>
