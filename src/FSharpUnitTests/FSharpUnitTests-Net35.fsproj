@@ -18,9 +18,9 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
-    <OutputPath>..\..\out\test\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Net40\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\test\Net35\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test\Net35\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE;NET35;NOSYSNUMERICS</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
@@ -29,9 +29,9 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
-    <OutputPath>..\..\out\test-debug\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Net40\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\test-debug\Net35\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test-debug\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test-debug\Net35\</BaseIntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE;NET35;NOSYSNUMERICS</DefineConstants>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
@@ -41,19 +41,21 @@
     <Tailcalls>true</Tailcalls>
     <DefineConstants>TRACE;NET35;NOSYSNUMERICS</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <OutputPath>..\..\out\test-signed\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-signed\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-signed\Net40\</BaseIntermediateOutputPath>
+    <OutputPath>..\..\out\test-signed\Net35\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test-signed\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test-signed\Net35\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup>
     <!-- Workaround - remove once no longer needed! -->
     <DefineConstants>$(DefineConstants);NOFSSLICESET1D</DefineConstants>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-  </ItemGroup>
+  <PropertyGroup>
+    <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(VisualStudioVersion)' == '11.0' Or $(OS) != 'Windows_NT'">
+    <FSharpTargetsPath>$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets</FSharpTargetsPath>
+  </PropertyGroup>
+  <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="VectorTests.fs" />
@@ -69,9 +71,11 @@
     <Compile Include="FitTests.fs" />
     <Compile Include="FindRootsTests.fs" />
     <None Include="paket.references" />
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
     <ProjectReference Include="..\FSharp\FSharp-Net35.fsproj">
       <Name>FSharp-Net35</Name>
       <Project>{d5dbcec0-9d9d-4a62-9ee0-f78e1895d4f4}</Project>
@@ -83,13 +87,6 @@
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
-  <PropertyGroup>
-    <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(VisualStudioVersion)' == '11.0' Or $(OS) != 'Windows_NT'">
-    <FSharpTargetsPath>$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets</FSharpTargetsPath>
-  </PropertyGroup>
-  <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">
       <ItemGroup>

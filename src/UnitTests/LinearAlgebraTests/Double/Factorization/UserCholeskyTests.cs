@@ -202,7 +202,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-9);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-8);
                 }
             }
 
@@ -293,7 +293,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixB.ColumnCount; j++)
                 {
-                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-9);
+                    Assert.AreEqual(matrixB[i, j], matrixBReconstruct[i, j], 1e-8);
                 }
             }
 

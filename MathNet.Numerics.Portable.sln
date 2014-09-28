@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
@@ -45,17 +45,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40-DE22-49FB-B1C0-6E5BDA3B0B2F}"
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
-		build\packages.config = build\packages.config
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{305FCCF4-B205-4E98-B58A-48117C3CA4E3}"
-	ProjectSection(SolutionItems) = preProject
-		build\NuGet\FSharp\MathNet.Numerics.FSharp.nuspec = build\NuGet\FSharp\MathNet.Numerics.FSharp.nuspec
-		build\NuGet\FSharp.Signed\MathNet.Numerics.FSharp.Signed.nuspec = build\NuGet\FSharp.Signed\MathNet.Numerics.FSharp.Signed.nuspec
-		build\NuGet\Numerics\MathNet.Numerics.nuspec = build\NuGet\Numerics\MathNet.Numerics.nuspec
-		build\NuGet\Numerics.Signed\MathNet.Numerics.Signed.nuspec = build\NuGet\Numerics.Signed\MathNet.Numerics.Signed.nuspec
-		build\NuGet\nuget-signed.proj = build\NuGet\nuget-signed.proj
-		build\NuGet\nuget.proj = build\NuGet\nuget.proj
+		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
 	EndProjectSection
 EndProject
 Global
@@ -147,7 +138,6 @@ Global
 		{2B6BE5F8-843E-4E36-8B8E-9CA3C9503198} = {9D409E95-D567-4C2F-A0DF-87A6DF5B3A2E}
 		{8A60894F-D090-4FC5-9535-E244E90A44C1} = {9D409E95-D567-4C2F-A0DF-87A6DF5B3A2E}
 		{EC24DA9F-8772-491D-BA56-3ADA75072B3D} = {9D409E95-D567-4C2F-A0DF-87A6DF5B3A2E}
-		{305FCCF4-B205-4E98-B58A-48117C3CA4E3} = {B54A0B40-DE22-49FB-B1C0-6E5BDA3B0B2F}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\Numerics\Numerics.csproj

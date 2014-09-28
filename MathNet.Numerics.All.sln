@@ -52,7 +52,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
 		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
-		build\packages.config = build\packages.config
+		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
 	EndProjectSection
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Net35", "src\FSharp\FSharp-Net35.fsproj", "{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}"
