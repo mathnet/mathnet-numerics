@@ -160,7 +160,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreEqual(b[i], matrixBReconstruct[i], 1e-10);
+                Assert.AreEqual(b[i], matrixBReconstruct[i], 1e-9);
             }
 
             // Make sure A didn't change.
@@ -243,7 +243,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                Assert.AreEqual(b[i], matrixBReconstruct[i], 1e-10);
+                Assert.AreEqual(b[i], matrixBReconstruct[i], 1e-9);
             }
 
             // Make sure A didn't change.

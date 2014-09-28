@@ -485,7 +485,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             // Check the reconstruction.
             for (var i = 0; i < order; i++)
             {
-                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 3);
+                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 2);
             }
 
             // Make sure A didn't change.
@@ -572,7 +572,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             // Check the reconstruction.
             for (var i = 0; i < vectorb.Count; i++)
             {
-                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 3);
+                AssertHelpers.AlmostEqualRelative(vectorb[i], matrixBReconstruct[i], 2);
             }
 
             // Make sure A didn't change.
