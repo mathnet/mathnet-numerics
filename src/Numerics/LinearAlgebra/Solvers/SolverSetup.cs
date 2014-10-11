@@ -45,11 +45,18 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Assembly assembly, bool ignoreFailed = true, params Type[] typesToExclude)
         {
-            var excludedTypes = new List<Type>(typesToExclude);
-            var setupInterfaceType = typeof (IIterativeSolverSetup<T>);
-            var candidates = assembly.GetTypes()
+#if NET45REFLECTION
+            TypeInfo setupInterfaceType = typeof(IIterativeSolverSetup<T>).GetTypeInfo();
+            IEnumerable<Type> candidates = assembly.DefinedTypes
+                .Where(typeInfo => !typeInfo.IsAbstract && !typeInfo.IsEnum && !typeInfo.IsInterface && typeInfo.IsVisible)
+                .Where(setupInterfaceType.IsAssignableFrom)
+                .Select(typeInfo => typeInfo.GetType());
+#else
+            Type setupInterfaceType = typeof (IIterativeSolverSetup<T>);
+            IEnumerable<Type> candidates = assembly.GetTypes()
                 .Where(type => !type.IsAbstract && !type.IsEnum && !type.IsInterface && type.IsVisible)
                 .Where(type => type.GetInterfaces().Any(setupInterfaceType.IsAssignableFrom));
+#endif
 
             var setups = new List<IIterativeSolverSetup<T>>();
             foreach (var type in candidates)
@@ -67,9 +74,17 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
                 }
             }
 
+#if NET45REFLECTION
+            var excludedTypes = new List<TypeInfo>(typesToExclude.Select(type => type.GetTypeInfo()));
+            return setups
+                .Where(s => !excludedTypes.Any(t => t.IsAssignableFrom(s.SolverType.GetTypeInfo()) || t.IsAssignableFrom(s.PreconditionerType.GetTypeInfo())))
+                .OrderBy(s => s.SolutionSpeed/s.Reliability);
+#else
+            var excludedTypes = new List<Type>(typesToExclude);
             return setups
                 .Where(s => !excludedTypes.Any(t => t.IsAssignableFrom(s.SolverType) || t.IsAssignableFrom(s.PreconditionerType)))
                 .OrderBy(s => s.SolutionSpeed/s.Reliability);
+#endif
         }
 
         /// <summary>
@@ -80,7 +95,11 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Type typeInAssembly, bool ignoreFailed = true, params Type[] typesToExclude)
         {
+#if NET45REFLECTION
+            return LoadFromAssembly(typeInAssembly.GetTypeInfo().Assembly, ignoreFailed, typesToExclude);
+#else
             return LoadFromAssembly(typeInAssembly.Assembly, ignoreFailed, typesToExclude);
+#endif
         }
 
         /// <summary>
@@ -91,7 +110,11 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(AssemblyName assemblyName, bool ignoreFailed = true, params Type[] typesToExclude)
         {
+#if NET45REFLECTION
+            return LoadFromAssembly(Assembly.Load(assemblyName), ignoreFailed, typesToExclude);
+#else
             return LoadFromAssembly(Assembly.Load(assemblyName.FullName), ignoreFailed, typesToExclude);
+#endif
         }
 
         /// <summary>
@@ -100,7 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static IEnumerable<IIterativeSolverSetup<T>> Load(Type[] typesToExclude)
         {
-            return LoadFromAssembly(Assembly.GetExecutingAssembly(), false, typesToExclude);
+            return LoadFromAssembly(typeof(SolverSetup<T>), false, typesToExclude);
         }
 
         /// <summary>
@@ -108,7 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// </summary>
         public static IEnumerable<IIterativeSolverSetup<T>> Load()
         {
-            return LoadFromAssembly(Assembly.GetExecutingAssembly(), false);
+            return LoadFromAssembly(typeof(SolverSetup<T>), false);
         }
     }
 }

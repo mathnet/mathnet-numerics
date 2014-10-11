@@ -118,7 +118,7 @@ module Complex =
     /// Cosine
     let cos x = Complex.Cos(x)
 
-    /// Tagent
+    /// Tangent
     let tan x = Complex.Tan(x)
 
     /// Cotangent
@@ -141,7 +141,7 @@ module Complex =
         // numerically more stable than Complex.Acos
         Trig.Acos(x)
 
-    /// Arc Tagent
+    /// Arc Tangent
     let atan x = Complex.Atan(x)
 
     /// Arc Cotangent
@@ -160,7 +160,7 @@ module Complex =
     /// Hyperbolic Cosine
     let cosh x = Complex.Cosh(x)
 
-    /// Hyperbolic Tagent
+    /// Hyperbolic Tangent
     let tanh x = Complex.Tanh(x)
 
     /// Hyperbolic Cotangent
@@ -179,7 +179,7 @@ module Complex =
     /// Inverse Hyperbolic Cosine
     let acosh (x : complex) = Trig.Acosh(x)
 
-    /// Inverse Hyperbolic Tagent
+    /// Inverse Hyperbolic Tangent
     let atanh (x : complex) = Trig.Atanh(x)
 
     /// Inverse Hyperbolic Cotangent
@@ -301,7 +301,7 @@ module Complex32 =
     /// Cosine
     let cos x = Complex32.Cos(x)
 
-    /// Tagent
+    /// Tangent
     let tan x = Complex32.Tan(x)
 
     /// Cotangent
@@ -324,7 +324,7 @@ module Complex32 =
         // numerically more stable than Complex.Acos
         ofComplex <| Trig.Acos(x.ToComplex())
 
-    /// Arc Tagent
+    /// Arc Tangent
     let atan x = Complex32.Atan(x)
 
     /// Arc Cotangent
@@ -343,7 +343,7 @@ module Complex32 =
     /// Hyperbolic Cosine
     let cosh x = Complex32.Cosh(x)
 
-    /// Hyperbolic Tagent
+    /// Hyperbolic Tangent
     let tanh x = Complex32.Tanh(x)
 
     /// Hyperbolic Cotangent
@@ -362,7 +362,7 @@ module Complex32 =
     /// Inverse Hyperbolic Cosine
     let acosh (x:complex32) = ofComplex <| Trig.Acosh(x.ToComplex())
 
-    /// Inverse Hyperbolic Tagent
+    /// Inverse Hyperbolic Tangent
     let atanh (x:complex32) = ofComplex <| Trig.Atanh(x.ToComplex())
 
     /// Inverse Hyperbolic Cotangent

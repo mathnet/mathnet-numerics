@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Reflection;
+
 namespace MathNet.Numerics.Properties {
     using System;
     
@@ -38,10 +40,18 @@ namespace MathNet.Numerics.Properties {
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
+#if NET45REFLECTION
+                if (object.ReferenceEquals(resourceMan, null))
+                {
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MathNet.Numerics.Properties.Resources", typeof(Resources).GetTypeInfo().Assembly);
+                    resourceMan = temp;
+                }
+#else
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MathNet.Numerics.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
+#endif
                 return resourceMan;
             }
         }

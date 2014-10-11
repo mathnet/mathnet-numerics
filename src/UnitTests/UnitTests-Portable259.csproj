@@ -4,20 +4,20 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2B6BE5F8-843E-4E36-8B8E-9CA3C9503198}</ProjectGuid>
+    <ProjectGuid>{FCB9D3B5-FEFF-4ACB-BDA9-2FA4AB7E85E5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
-    <AssemblyName>MathNet.Numerics.UnitTests328</AssemblyName>
+    <AssemblyName>MathNet.Numerics.UnitTests259</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\test\Profile328\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Profile328\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Profile328\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS;NET45REFLECTION</DefineConstants>
+    <OutputPath>..\..\out\test\Profile259\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test\Profile259\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test\Profile259\</BaseIntermediateOutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -26,10 +26,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS</DefineConstants>
-    <OutputPath>..\..\out\test-debug\Profile328\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Profile328\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile328\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS;NET45REFLECTION</DefineConstants>
+    <OutputPath>..\..\out\test-debug\Profile259\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\test-debug\Profile259\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile259\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -324,9 +324,9 @@
     <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Numerics\Numerics-Portable328.csproj">
-      <Project>{1A3065FD-105D-4AF1-85B9-0A4A26FFB353}</Project>
-      <Name>Numerics-Portable328</Name>
+    <ProjectReference Include="..\Numerics\Numerics-Portable259.csproj">
+      <Project>{1C8DBFB2-DB75-4C4B-888B-4AF314FCE3C3}</Project>
+      <Name>Numerics-Portable259</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

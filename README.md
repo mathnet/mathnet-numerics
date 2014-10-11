@@ -48,13 +48,15 @@ Data/IO Packages for reading and writing data (optional):
 ### Platform Support and Dependencies
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
-- PCL Portable Profiles 47 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
+- PCL Portable Profiles 47, 259 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
 - Xamarin: Android, iOS
 
 Package Dependencies:
 
 - .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
 - .Net 4.0 and higher, Mono, PCL Profiles: None
+- F# .Net 3.5: additionally [FSharp.Core.4.3.0.0.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.4.3.0.0.Microsoft.Signed
+- F# .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.Microsoft.Signed)
 
 Framework Dependencies (part of the .NET Framework):
 

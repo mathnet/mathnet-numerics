@@ -54,6 +54,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Math.NET Numerics - Portable Edition")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests47")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests259")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests328")]
 
 #elif NET35
