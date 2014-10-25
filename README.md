@@ -62,35 +62,48 @@ The F# extensions support a slightly reduced platform set:
 
 Package Dependencies:
 
-- .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
 - .Net 4.0 and higher, Mono, PCL Profiles: None
-- F# on .Net 3.5: additionally [FSharp.Core.4.3.0.0.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.4.3.0.0.Microsoft.Signed)
+- .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
 - F# on  .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.Microsoft.Signed)
+- F# on .Net 3.5: additionally [FSharp.Core.4.3.0.0.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.4.3.0.0.Microsoft.Signed)
 
 Framework Dependencies (part of the .NET Framework):
 
 - .Net 4.0 and higher, Mono, PCL profiles 7 and 47: System.Numerics
 - .Net 3.5, PCL profiles 78, 259 and 328: None
 
-Platform Discrepancies:
+Platform Discrepancies
+----------------------
 
-Compilation symbols used to deal with the platform differences:
+Compilation symbols used to deal with platform differences:
 
-* **NOSYSNUMERICS** - The `System.Numerics` framework assembly is not available. We provide our own double-precision complex number type and disable all arbitrary precision numbers support (BigInteger, BigRational).
 * **NET35** - Some framework attributes are not available and we provide our own Tuple types, generic comparer, LINQ Zip routine and thread partitioner. The crypto random source is not disposable.
 * **PORTABLE** - Some framework attributes are not available and we provide our own parallelization routines and partitioning using TPL Tasks. Reduced globalization and serialization support. Work around some missing routines like `Math.DivRem`, `Array.FindIndex` and `BitConverter`. There is no `ICloneable`. The crypto random source is not available; simpler random seeding.
+* **NOSYSNUMERICS** - The `System.Numerics` framework assembly is not available. We provide our own double-precision complex number type and disable all arbitrary precision numbers support (BigInteger, BigRational).
 * **NET45REFLECTION** - we use the new .Net 4.5 reflection API where type information is split into `Type` and `TypeInfo`.
 * **NATIVEMKL** - we can support the Intel MKL native provider.
 
-Configuration | NoSysNumerics | Net35 | Portable | Net45Reflection | NativeMKL
-------------- | ------------- | ----- | -------- | --------------- | ---------
-.Net 4.0      | -             | -     | -        | -               | Yes
-.Net 3.5      | Yes           | Yes   | -        | -               | -
-Portable 7    | -             | -     | Yes      | Yes             | -
-Portable 47   | -             | -     | Yes      | -               | -
-Portable 78   | Yes           | -     | Yes      | Yes             | -
-Portable 259  | Yes           | -     | Yes      | Yes             | -
-Portable 328  | Yes           | -     | Yes      | -               | -
+Configuration | Net35 | Portable | NoSysNumerics | Net45Reflection | NativeMKL
+------------- | ----- | -------- | ------------- | --------------- | ---------
+.Net 4.0      | -     | -        | -             | -               | Yes
+.Net 3.5      | Yes   | -        | Yes           | -               | -
+Portable 7    | -     | Yes      | -             | Yes             | -
+Portable 47   | -     | Yes      | -             | -               | -
+Portable 78   | -     | Yes      | Yes           | Yes             | -
+Portable 259  | -     | Yes      | Yes           | Yes             | -
+Portable 328  | -     | Yes      | Yes           | -               | -
+
+Compatibility Matrix:
+
+Configuration | Net35 | Net40 | Net45 | SL5  | Win8 | WP8/SL | WP8.1 | Xamarin
+------------- | ----- | ----- | ----- | ---- | ---- | ------ | ----- | -------
+.Net 4.0      | -     | Best  | Best  | -    | -    | -      | -     | -
+.Net 3.5      | Best  | OK    | OK    | -    | -    | -      | -     | -
+Portable 7    | -     | -     | OK    | -    | Best | -      | -     | OK
+Portable 47   | -     | -     | OK    | Best | OK   | -      | -     | OK
+Portable 78   | -     | -     | OK    | -    | OK   | Best   | -     | OK
+Portable 259  | -     | -     | OK    | -    | OK   | OK     | Best  | OK
+Portable 328  | -     | OK    | OK    | OK   | OK   | OK     | OK    | OK
 
 
 Building Math.NET Numerics

@@ -28,6 +28,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Jack Pappas
 - Artyom Baranovskiy
 - Candy Chiu
+- Evelina Gabasova
 - Phil Cleveland
 - Scott Stephens
 - Superbest
@@ -37,9 +38,9 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Robin Neatherway
 - Andrew Kazyrevich
 - Ethar Alali
-- Evelina Gabasova
 - Feodor Fitsner
 - Iain McDonald
+- Kyle Parrigan
 - Gregor959
 - IUser
 - Iain Sproat
