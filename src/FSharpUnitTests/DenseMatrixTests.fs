@@ -14,7 +14,7 @@ module DenseMatrixTests =
 
     /// A large matrix with increasingly large entries
     let largeM =
-        Array.init (100*120) (fun k -> let (j,i) = System.Math.DivRem(k,100) in float i * 100.0 + float j)
+        Array.init (100*120) (fun k -> let i, j = (k%100),(k/100) in float i * 100.0 + float j)
         |> DenseMatrix.raw 100 120
 
     [<Test>]

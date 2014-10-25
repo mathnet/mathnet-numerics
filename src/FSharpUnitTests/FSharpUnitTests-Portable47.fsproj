@@ -2,20 +2,20 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <Name>FSharpUnitTests-Portable47</Name>
+    <AssemblyName>MathNet.Numerics.FSharp.UnitTests47</AssemblyName>
+    <RootNamespace>FSharpPortableUnitTests</RootNamespace>
+    <OutputType>Library</OutputType>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>90CE8E32-354E-4728-8FE6-87342F469321</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>FSharpPortableUnitTests</RootNamespace>
-    <AssemblyName>MathNet.Numerics.FSharp.UnitTests47</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <Name>FSharpUnitTests-Portable47</Name>
-    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
+    <DefineConstants>TRACE;PORTABLE;NOFSSLICESET1D</DefineConstants>
     <OutputPath>..\..\out\test\Profile47\</OutputPath>
     <IntermediateOutputPath>..\..\obj\test\Profile47\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\test\Profile47\</BaseIntermediateOutputPath>
@@ -27,7 +27,7 @@
     </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>DEBUG;TRACE;PORTABLE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;PORTABLE;NOFSSLICESET1D</DefineConstants>
     <OutputPath>..\..\out\test-debug\Profile47\</OutputPath>
     <IntermediateOutputPath>..\..\obj\test-debug\Profile47\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile47\</BaseIntermediateOutputPath>
@@ -38,10 +38,6 @@
     <WarningLevel>3</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <!-- Workaround - remove once no longer needed! -->
-    <DefineConstants>$(DefineConstants);NOFSSLICESET1D</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -93,6 +89,13 @@
         <When Condition="$(TargetFrameworkVersion) == 'v3.5'">
         </When>
         <When Condition="$(TargetFrameworkVersion) == 'v4.0' And $(TargetFrameworkProfile) == 'Client'">
+          <ItemGroup>
+            <Reference Include="FSharp.Core">
+              <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\net40\FSharp.Core.dll</HintPath>
+              <Private>True</Private>
+              <Paket>True</Paket>
+            </Reference>
+          </ItemGroup>
         </When>
         <When Condition="$(TargetFrameworkVersion) == 'v4.0'">
           <ItemGroup>
@@ -154,8 +157,75 @@
         </Otherwise>
       </Choose>
     </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoAndroid'">
+      <ItemGroup>
+        <Reference Include="FSharp.Core">
+          <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoTouch'">
+      <ItemGroup>
+        <Reference Include="FSharp.Core">
+          <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Silverlight'">
+      <Choose>
+        <When Condition="$(SilverlightVersion) == 'v3.0'">
+          <ItemGroup>
+            <Reference Include="FSharp.Core">
+              <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+              <Private>True</Private>
+              <Paket>True</Paket>
+            </Reference>
+          </ItemGroup>
+        </When>
+        <When Condition="$(SilverlightVersion) == 'v4.0'">
+          <ItemGroup>
+            <Reference Include="FSharp.Core">
+              <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+              <Private>True</Private>
+              <Paket>True</Paket>
+            </Reference>
+          </ItemGroup>
+        </When>
+        <Otherwise>
+          <ItemGroup>
+            <Reference Include="FSharp.Core">
+              <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\FSharp.Core.dll</HintPath>
+              <Private>True</Private>
+              <Paket>True</Paket>
+            </Reference>
+          </ItemGroup>
+        </Otherwise>
+      </Choose>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Windows'">
+      <ItemGroup>
+        <Reference Include="FSharp.Core">
+          <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
     <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhoneApp'">
       <Choose>
+        <When Condition="$(TargetPlatformVersion) == '7.1'">
+          <ItemGroup>
+            <Reference Include="FSharp.Core">
+              <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+              <Private>True</Private>
+              <Paket>True</Paket>
+            </Reference>
+          </ItemGroup>
+        </When>
         <When Condition="$(TargetPlatformVersion) == 'v8.0'">
           <ItemGroup>
             <Reference Include="FSharp.Core">
@@ -176,15 +246,15 @@
         </Otherwise>
       </Choose>
     </When>
-    <When Condition="$(TargetFrameworkIdentifier) == 'Silverlight'">
+    <Otherwise>
       <ItemGroup>
         <Reference Include="FSharp.Core">
-          <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\FSharp.Core.dll</HintPath>
+          <HintPath>..\..\packages\FSharp.Core.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
-    </When>
+    </Otherwise>
   </Choose>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework'">
@@ -211,15 +281,6 @@
             </Reference>
           </ItemGroup>
         </When>
-        <When Condition="$(TargetFrameworkVersion) == 'v4.0' And $(TargetFrameworkProfile) == 'Client'">
-          <ItemGroup>
-            <Reference Include="FsUnit.NUnit">
-              <HintPath>..\..\packages\FsUnit\lib\Net20\FsUnit.NUnit.dll</HintPath>
-              <Private>True</Private>
-              <Paket>True</Paket>
-            </Reference>
-          </ItemGroup>
-        </When>
         <Otherwise>
           <ItemGroup>
             <Reference Include="FsUnit.NUnit">
@@ -231,16 +292,66 @@
         </Otherwise>
       </Choose>
     </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework'">
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoAndroid'">
       <ItemGroup>
-        <Reference Include="nunit.framework">
-          <HintPath>..\..\packages\NUnit\lib\nunit.framework.dll</HintPath>
+        <Reference Include="FsUnit.NUnit">
+          <HintPath>..\..\packages\FsUnit\lib\Net40\FsUnit.NUnit.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
     </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoTouch'">
+      <ItemGroup>
+        <Reference Include="FsUnit.NUnit">
+          <HintPath>..\..\packages\FsUnit\lib\Net40\FsUnit.NUnit.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Silverlight'">
+      <ItemGroup>
+        <Reference Include="FsUnit.NUnit">
+          <HintPath>..\..\packages\FsUnit\lib\Net40\FsUnit.NUnit.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Windows'">
+      <ItemGroup>
+        <Reference Include="FsUnit.NUnit">
+          <HintPath>..\..\packages\FsUnit\lib\Net40\FsUnit.NUnit.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhoneApp'">
+      <ItemGroup>
+        <Reference Include="FsUnit.NUnit">
+          <HintPath>..\..\packages\FsUnit\lib\Net40\FsUnit.NUnit.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="FsUnit.NUnit">
+          <HintPath>..\..\packages\FsUnit\lib\Net40\FsUnit.NUnit.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
   </Choose>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\NUnit\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
 </Project>

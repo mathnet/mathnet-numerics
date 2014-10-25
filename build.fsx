@@ -275,6 +275,8 @@ Target "Clean" (fun _ ->
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
     CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile259"; "out/lib/Profile328" ]
     CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile259"; "out/test/Profile328" ]
+    CleanDirs [ "out/lib-debug/Net35"; "out/lib-debug/Net40"; "out/lib-debug/Profile47"; "out/lib-debug/Profile259"; "out/lib-debug/Profile328" ]
+    CleanDirs [ "out/test-debug/Net35"; "out/test-debug/Net40"; "out/test-debug/Profile47"; "out/test-debug/Profile259"; "out/test-debug/Profile328" ]
     CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
     CleanDirs [ "out/MKL"; "out/ATLAS" ] // Native Providers
     CleanDirs [ "out/Data" ]) // Data Extensions

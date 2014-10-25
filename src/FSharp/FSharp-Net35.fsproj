@@ -1,18 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
+    <Name>FSharp-Net35</Name>
+    <AssemblyName>MathNet.Numerics.FSharp</AssemblyName>
+    <RootNamespace>MathNet.Numerics</RootNamespace>
+    <OutputType>Library</OutputType>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{d5dbcec0-9d9d-4a62-9ee0-f78e1895d4f4}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <RootNamespace>MathNet.Numerics</RootNamespace>
-    <AssemblyName>MathNet.Numerics.FSharp</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <Name>FSharp</Name>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
-    <!-- Conditional Strong Name -->
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <AssemblyOriginatorKeyFile>..\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -109,7 +108,7 @@
         <When Condition="$(TargetFrameworkVersion) == 'v4.0' And $(TargetFrameworkProfile) == 'Client'">
           <ItemGroup>
             <Reference Include="FSharp.Core">
-              <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\net35\FSharp.Core.dll</HintPath>
+              <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\net40\FSharp.Core.dll</HintPath>
               <Private>True</Private>
               <Paket>True</Paket>
             </Reference>
@@ -144,14 +143,156 @@
         </Reference>
       </ItemGroup>
     </When>
-    <When Condition="$(TargetFrameworkIdentifier) == 'Silverlight'">
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoAndroid'">
       <ItemGroup>
         <Reference Include="FSharp.Core">
-          <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\FSharp.Core.dll</HintPath>
+          <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
     </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoTouch'">
+      <ItemGroup>
+        <Reference Include="FSharp.Core">
+          <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Silverlight'">
+      <Choose>
+        <When Condition="$(SilverlightVersion) == 'v3.0'">
+          <ItemGroup>
+            <Reference Include="FSharp.Core">
+              <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+              <Private>True</Private>
+              <Paket>True</Paket>
+            </Reference>
+          </ItemGroup>
+        </When>
+        <When Condition="$(SilverlightVersion) == 'v4.0'">
+          <ItemGroup>
+            <Reference Include="FSharp.Core">
+              <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+              <Private>True</Private>
+              <Paket>True</Paket>
+            </Reference>
+          </ItemGroup>
+        </When>
+        <Otherwise>
+          <ItemGroup>
+            <Reference Include="FSharp.Core">
+              <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1\FSharp.Core.dll</HintPath>
+              <Private>True</Private>
+              <Paket>True</Paket>
+            </Reference>
+          </ItemGroup>
+        </Otherwise>
+      </Choose>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Windows'">
+      <ItemGroup>
+        <Reference Include="FSharp.Core">
+          <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhoneApp'">
+      <ItemGroup>
+        <Reference Include="FSharp.Core">
+          <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="FSharp.Core">
+          <HintPath>..\..\packages\FSharp.Core.4.3.0.0.Microsoft.Signed\lib\net45\FSharp.Core.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework'">
+      <Choose>
+        <When Condition="$(TargetFrameworkVersion) == 'v1.0'">
+        </When>
+        <When Condition="$(TargetFrameworkVersion) == 'v1.1'">
+        </When>
+        <When Condition="$(TargetFrameworkVersion) == 'v2.0'">
+        </When>
+        <Otherwise>
+          <ItemGroup>
+            <Reference Include="System.Threading">
+              <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
+              <Private>True</Private>
+              <Paket>True</Paket>
+            </Reference>
+          </ItemGroup>
+        </Otherwise>
+      </Choose>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoAndroid'">
+      <ItemGroup>
+        <Reference Include="System.Threading">
+          <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoTouch'">
+      <ItemGroup>
+        <Reference Include="System.Threading">
+          <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Silverlight'">
+      <ItemGroup>
+        <Reference Include="System.Threading">
+          <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Windows'">
+      <ItemGroup>
+        <Reference Include="System.Threading">
+          <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhoneApp'">
+      <ItemGroup>
+        <Reference Include="System.Threading">
+          <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="System.Threading">
+          <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
   </Choose>
 </Project>

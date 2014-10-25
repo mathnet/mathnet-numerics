@@ -88,17 +88,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework'">
-      <ItemGroup>
-        <Reference Include="Benchmark">
-          <HintPath>..\..\packages\BenchShark\lib\Benchmark.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
+  <ItemGroup>
+    <Reference Include="Benchmark">
+      <HintPath>..\..\packages\BenchShark\lib\Benchmark.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework'">
       <Choose>
@@ -121,5 +117,59 @@
         </Otherwise>
       </Choose>
     </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoAndroid'">
+      <ItemGroup>
+        <Reference Include="ConsoleDump">
+          <HintPath>..\..\packages\ConsoleDump\lib\net40-Client\ConsoleDump.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'MonoTouch'">
+      <ItemGroup>
+        <Reference Include="ConsoleDump">
+          <HintPath>..\..\packages\ConsoleDump\lib\net40-Client\ConsoleDump.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Silverlight'">
+      <ItemGroup>
+        <Reference Include="ConsoleDump">
+          <HintPath>..\..\packages\ConsoleDump\lib\net40-Client\ConsoleDump.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'Windows'">
+      <ItemGroup>
+        <Reference Include="ConsoleDump">
+          <HintPath>..\..\packages\ConsoleDump\lib\net40-Client\ConsoleDump.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == 'WindowsPhoneApp'">
+      <ItemGroup>
+        <Reference Include="ConsoleDump">
+          <HintPath>..\..\packages\ConsoleDump\lib\net40-Client\ConsoleDump.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="ConsoleDump">
+          <HintPath>..\..\packages\ConsoleDump\lib\net40-Client\ConsoleDump.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </Otherwise>
   </Choose>
 </Project>
