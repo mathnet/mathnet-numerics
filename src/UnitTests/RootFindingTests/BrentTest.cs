@@ -41,17 +41,17 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void MultipleRoots()
         {
             // Roots at -2, 2
-            Func<double, double> f1 = x => x*x - 4;
-            Assert.AreEqual(0, f1(Brent.FindRoot(f1, -5, 5, 1e-14, 100)));
+            Func<double, double> f1 = x => x * x - 4;
+            Assert.AreEqual(0, f1(Brent.FindRoot(f1, 1, 5, 1e-14, 100)));
             Assert.AreEqual(-2, Brent.FindRoot(f1, -5, -1, 1e-14, 100));
             Assert.AreEqual(2, Brent.FindRoot(f1, 1, 4, 1e-14, 100));
-            Assert.AreEqual(0, f1(Brent.FindRoot(x => -f1(x), -5, 5, 1e-14, 100)));
+            Assert.AreEqual(0, f1(Brent.FindRoot(x => -f1(x), 1, 5, 1e-14, 100)));
             Assert.AreEqual(-2, Brent.FindRoot(x => -f1(x), -5, -1, 1e-14, 100));
             Assert.AreEqual(2, Brent.FindRoot(x => -f1(x), 1, 4, 1e-14, 100));
 
             // Roots at 3, 4
-            Func<double, double> f2 = x => (x - 3)*(x - 4);
-            Assert.AreEqual(0, f2(Brent.FindRoot(f2, -5, 5, 1e-14, 100)));
+            Func<double, double> f2 = x => (x - 3) * (x - 4);
+            Assert.AreEqual(0, f2(Brent.FindRoot(f2, -5, 3.5, 1e-14, 100)));
             Assert.AreEqual(3, Brent.FindRoot(f2, -5, 3.5, 1e-14, 100));
             Assert.AreEqual(4, Brent.FindRoot(f2, 3.2, 5, 1e-14, 100));
             Assert.AreEqual(3, Brent.FindRoot(f2, 2.1, 3.9, 0.001, 50), 0.001);
@@ -151,9 +151,8 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void Oneeq3()
         {
             // Test case from http://www.polymath-software.com/library/nle/Oneeq3.htm
-            // not solvable with this method
             Func<double, double> f1 = T => Math.Exp(21000 / T) / (T * T) - 1.11e11;
-            Assert.That(() => Brent.FindRoot(f1, 550, 560, 1e-2), Throws.TypeOf<NonConvergenceException>());
+            Assert.AreEqual(551.773822885233, Brent.FindRoot(f1, 550, 560, 1e-2), 1e-2);
         }
 
         [Test]
@@ -195,7 +194,6 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void Oneeq6a()
         {
             // Test case from http://www.polymath-software.com/library/nle/Oneeq6a.htm
-            // not solvable with this method
             Func<double, double> f1 = V =>
             {
                 const double R = 0.08205;
@@ -213,7 +211,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return R * T / V + Beta / (V * V) + Gama / (V * V * V) + Delta / (V * V * V * V) - P;
             };
 
-            Assert.That(() => Brent.FindRoot(f1, 0.1, 1), Throws.TypeOf<NonConvergenceException>());
+            Assert.AreEqual(0.174749531708621, Brent.FindRoot(f1, 0.1, 1), 1e-8);
         }
 
         [Test]
@@ -246,16 +244,14 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void Oneeq7()
         {
             // Test case from http://www.polymath-software.com/library/nle/Oneeq7.htm
-            // not solvable with this method
             Func<double, double> f1 = x => x / (1 - x) - 5 * Math.Log(0.4 * (1 - x) / (0.4 - 0.5 * x)) + 4.45977;
-            Assert.That(() => Brent.FindRoot(f1, 0, 0.79, 1e-2), Throws.TypeOf<NonConvergenceException>());
+            Assert.AreEqual(0.757396293891, Brent.FindRoot(f1, 0, 0.79, 1e-2), 1e-2);
         }
 
         [Test]
         public void Oneeq8()
         {
             // Test case from http://www.polymath-software.com/library/nle/Oneeq8.htm
-            // not solvable with this method
             Func<double, double> f1 = v =>
             {
                 const double a = 240;
@@ -265,7 +261,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return a * v * v + b * Math.Pow(v, 7 / 4) - c;
             };
 
-            Assert.That(() => Brent.FindRoot(f1, 0.01, 1, 1e-2), Throws.TypeOf<NonConvergenceException>());
+            Assert.AreEqual(0.842524411168525, Brent.FindRoot(f1, 0.01, 1, 1e-2), 1e-2);
         }
 
         [Test]
@@ -301,7 +297,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, f1(r), 1e-14);
             r = Brent.FindRoot(f1, 0.35, 0.7);
             Assert.AreEqual(0.5, r, 1e-5);
-            Assert.AreEqual(0, f1(r), 1e-14);
+            Assert.AreEqual(0, f1(r), 1e-9);
         }
 
         [Test]
@@ -509,7 +505,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             double x = Brent.FindRoot(f1, 500, 725);
             Assert.AreEqual(690.4486645013260, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-12);
+            Assert.AreEqual(0, f1(x), 1e-9);
             x = Brent.FindRoot(f1, 725, 850, 1e-12);
             Assert.AreEqual(758.3286948959860, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-12);
@@ -534,7 +530,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
 
             double x = Brent.FindRoot(f1, 500, 1500);
             Assert.AreEqual(1208.2863599396200, x, 1e-4);
-            Assert.AreEqual(0, f1(x), 1e-12);
+            Assert.AreEqual(0, f1(x), 1e-8);
         }
 
         [Test]
@@ -634,8 +630,8 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             };
 
             double x = Brent.FindRoot(f1, 0.75, 1.02);
-            Assert.AreEqual(0.999251497006000, x, 1e-3);
-            Assert.AreEqual(0, f1(x), 1e-14);
+            Assert.AreEqual(0.999251497006000, x, 1e-2);
+            Assert.AreEqual(0, f1(x), 1e-8);
         }
 
         [Test]
@@ -655,9 +651,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return -ra / FA0;
             };
 
-            double x = Brent.FindRoot(f1, 0.75, 1.02);
+            double x = Brent.FindRoot(f1, 0.75, 1.02, 1e-10);
             Assert.AreEqual(0.999984253901100, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-14);
+            Assert.AreEqual(0, f1(x), 1e-11);
         }
 
         [Test]
