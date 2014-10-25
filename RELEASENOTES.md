@@ -1,3 +1,6 @@
+### 3.3.0-beta2 - 2014-10-25
+* Build: for core add PCL profiles 7, 78 and 259; for F# extensions drop PCL profile 328
+
 ### 3.3.0-beta1 - 2014-09-28
 * Linear Algebra: Vector.Fold2 (fold2 in F#), storage optimized
 * Linear Algebra: Minor change how matrix products call the LA provider
