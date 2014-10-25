@@ -45,23 +45,52 @@ Data/IO Packages for reading and writing data (optional):
 - **MathNet.Numerics.Data.Text** - Text-based matrix formats like CSV and MatrixMarket.
 - **MathNet.Numerics.Data.Matlab** - MATLAB Level-5 matrix file format.
 
-### Platform Support and Dependencies
+Platform Support and Dependencies
+---------------------------------
+
+### Supported Platforms
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
-- PCL Portable Profiles 47, 259 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
+- PCL Portable Profiles 7, 47, 78, 259 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
 - Xamarin: Android, iOS
 
-Package Dependencies:
+The F# extensions support a slightly reduced platform set:
+- .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
+- PCL Portable Profile 47: Windows 8, Silverlight 5
+- Xamarin: Android, iOS
+
+### Package Dependencies
 
 - .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
 - .Net 4.0 and higher, Mono, PCL Profiles: None
-- F# .Net 3.5: additionally [FSharp.Core.4.3.0.0.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.4.3.0.0.Microsoft.Signed
-- F# .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.Microsoft.Signed)
+- F# on .Net 3.5: additionally [FSharp.Core.4.3.0.0.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.4.3.0.0.Microsoft.Signed)
+- F# on  .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.Microsoft.Signed)
 
-Framework Dependencies (part of the .NET Framework):
+### Framework Dependencies (part of the .NET Framework)
 
-- .Net 4.0 and higher, Mono, PCL Profile 47: System.Numerics
-- .Net 3.5, PCL Profile 328: None
+- .Net 4.0 and higher, Mono, PCL profiles 7 and 47: System.Numerics
+- .Net 3.5, PCL profiles 78, 259 and 328: None
+
+### Platform Discrepancies
+
+Compilation symbols used to deal with the platform differences:
+
+* **NOSYSNUMERICS** - The `System.Numerics` framework assembly is not available. We need to provide our own double-prevision Complex type but disable all support for arbitrary precision numbers (BigInteger, BigRational).
+* **NET35** - Some framework attributes are not available and we need to provide our own Tuple types, generic comparer, LINQ Zip routine and thread partitioner. The Crypto random source is not disposable.
+* **PORTABLE** - Some framework attributes are not available and we  need to provide our own parallelization routines and partitioning using TPL Tasks. Reduced globalization and serialization support. Work around some missing routines like `Math.DivRem`, `Array.FindIndex` and `BitConverter`. There is no `ICloneable`. No crypto random source; simpler random seeding.
+* **NET45REFLECTION** - we use the new .Net 4.5 reflection API where type information is split into `Type` and `TypeInfo`.
+* **NATIVEMKL** - we can support the Intel MKL native provider.
+
+Configuration     | NOSYSNUMERICS | NET35 | PORTABLE | NET45REFLECTION | NATIVEMKL
+----------------- | ------------- | ----- | -------- | --------------- | ---------
+Master (.Net 4.0) | -             | -     | -        | -               | Yes
+.Net 3.5          | Yes           | Yes   | -        | -               | -
+Portable PCL 7    | -             | -     | Yes      | Yes             | -
+Portable PCL 47   | -             | -     | Yes      | -               | -
+Portable PCL 78   | Yes           | -     | Yes      | Yes             | -
+Portable PCL 259  | Yes           | -     | Yes      | Yes             | -
+Portable PCL 328  | Yes           | -     | Yes      | -               | -
+
 
 
 Building Math.NET Numerics
@@ -113,4 +142,3 @@ If you do not want to use the official binaries, or if you like to modify, debug
     build.cmd All release  # release build
 
 FAKE itself is not included in the repository but it will download and bootstrap itself automatically when build.cmd is run the first time. Note that this step is *not* required when using Visual Studio or `msbuild` directly.
-

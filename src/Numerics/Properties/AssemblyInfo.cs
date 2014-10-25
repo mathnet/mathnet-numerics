@@ -53,7 +53,9 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Math.NET Numerics - Portable Edition")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests7")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests47")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests78")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests259")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests328")]
 

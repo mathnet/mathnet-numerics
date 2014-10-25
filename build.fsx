@@ -90,9 +90,12 @@ let tags = "math numeric statistics probability integration interpolation regres
 
 let libnet35 = "lib/net35"
 let libnet40 = "lib/net40"
+let libnet45 = "lib/net45"
+let libpcl7 = "lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1"
 let libpcl47 = "lib/portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1"
+let libpcl78 = "lib/portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1"
 let libpcl259 = "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
-let libpcl328 = "lib/portable-net40+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
+let libpcl328 = "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
 
 let numericsPack =
     { Id = "MathNet.Numerics"
@@ -111,7 +114,9 @@ let numericsPack =
       Files =
         [ @"..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some @"**\MathNet.Numerics.FSharp.*";
           @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
+          @"..\..\out\lib\Profile7\MathNet.Numerics.*", Some libpcl7, Some @"**\MathNet.Numerics.FSharp.*";
           @"..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some @"**\MathNet.Numerics.FSharp.*";
+          @"..\..\out\lib\Profile78\MathNet.Numerics.*", Some libpcl78, Some @"**\MathNet.Numerics.FSharp.*";
           @"..\..\out\lib\Profile259\MathNet.Numerics.*", Some libpcl259, Some @"**\MathNet.Numerics.FSharp.*";
           @"..\..\out\lib\Profile328\MathNet.Numerics.*", Some libpcl328, Some @"**\MathNet.Numerics.FSharp.*";
           @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
@@ -137,7 +142,6 @@ let fsharpPack =
           [ @"..\..\out\lib\Net35\MathNet.Numerics.FSharp.*", Some libnet35, None;
             @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
             @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
-            @"..\..\out\lib\Profile259\MathNet.Numerics.FSharp.*", Some libpcl259, None;
             @"MathNet.Numerics.fsx", None, None;
             @"MathNet.Numerics.IfSharp.fsx", None, None;
             @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
@@ -273,10 +277,10 @@ Target "Start" DoNothing
 Target "Clean" (fun _ ->
     CleanDirs [ "obj" ]
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
-    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile47"; "out/lib/Profile259"; "out/lib/Profile328" ]
-    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile47"; "out/test/Profile259"; "out/test/Profile328" ]
-    CleanDirs [ "out/lib-debug/Net35"; "out/lib-debug/Net40"; "out/lib-debug/Profile47"; "out/lib-debug/Profile259"; "out/lib-debug/Profile328" ]
-    CleanDirs [ "out/test-debug/Net35"; "out/test-debug/Net40"; "out/test-debug/Profile47"; "out/test-debug/Profile259"; "out/test-debug/Profile328" ]
+    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile7"; "out/lib/Profile47"; "out/lib/Profile78"; "out/lib/Profile259"; "out/lib/Profile328" ]
+    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile7"; "out/test/Profile47"; "out/test/Profile78"; "out/test/Profile259"; "out/test/Profile328" ]
+    CleanDirs [ "out/lib-debug/Net35"; "out/lib-debug/Net40"; "out/lib-debug/Profile7"; "out/lib-debug/Profile47"; "out/lib-debug/Profile78"; "out/lib-debug/Profile259"; "out/lib-debug/Profile328" ]
+    CleanDirs [ "out/test-debug/Net35"; "out/test-debug/Net40"; "out/test-debug/Profile7"; "out/test-debug/Profile47"; "out/test-debug/Profile78"; "out/test-debug/Profile259"; "out/test-debug/Profile328" ]
     CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
     CleanDirs [ "out/MKL"; "out/ATLAS" ] // Native Providers
     CleanDirs [ "out/Data" ]) // Data Extensions

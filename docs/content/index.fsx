@@ -30,22 +30,31 @@ Data/IO Packages for reading and writing data (optional):
 - **MathNet.Numerics.Data.Text** - Text-based matrix formats like CSV and MatrixMarket.
 - **MathNet.Numerics.Data.Matlab** - MATLAB Level-5 matrix file format.
 
+
 Platform Support and Dependencies
 ---------------------------------
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
-- PCL Portable Profiles 47 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
+- PCL Portable Profiles 7, 47, 78, 259 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
+- Xamarin: Android, iOS
+
+The F# extensions support a slightly reduced platform set:
+
+- .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
+- PCL Portable Profile 47: Windows 8, Silverlight 5
 - Xamarin: Android, iOS
 
 Package Dependencies:
 
 - .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
 - .Net 4.0 and higher, Mono, PCL Profiles: None
+- F# on .Net 3.5: additionally [FSharp.Core.4.3.0.0.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.4.3.0.0.Microsoft.Signed)
+- F# on  .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.Microsoft.Signed)
 
 Framework Dependencies (part of the .NET Framework):
 
-- .Net 4.0 and higher, Mono, PCL Profile 47: System.Numerics
-- .Net 3.5, PCL Profile 328: None
+- .Net 4.0 and higher, Mono, PCL profiles 7 and 47: System.Numerics
+- .Net 3.5, PCL profiles 78, 259 and 328: None
 
 
 Using Math.NET Numerics with C#
