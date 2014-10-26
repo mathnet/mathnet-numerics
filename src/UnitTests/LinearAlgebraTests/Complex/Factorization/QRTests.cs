@@ -288,8 +288,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
                     var parts = value.Split(new[] { ',' });
                     var firstPart = parts[0].Substring(1);
                     var secondPart = parts[1].Substring(1, parts[1].LastIndexOf(')') - 1);
-                    var realValue = System.Double.Parse(firstPart);
-                    var imaginaryValue = System.Double.Parse(secondPart);
+                    var realValue = System.Double.Parse(firstPart, CultureInfo.InvariantCulture);
+                    var imaginaryValue = System.Double.Parse(secondPart, CultureInfo.InvariantCulture);
                     var valueConverted = new Complex(realValue, imaginaryValue);
 
                     if (valueConverted.Magnitude > 0)
