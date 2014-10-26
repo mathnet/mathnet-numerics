@@ -392,6 +392,10 @@
     <Compile Include="UseLinearAlgebraProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\data\admittance_matrix.csv">
+      <Link>data\admittance_matrix.csv</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="..\..\data\Codeplex-5667.csv">
       <Link>data\Codeplex-5667.csv</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

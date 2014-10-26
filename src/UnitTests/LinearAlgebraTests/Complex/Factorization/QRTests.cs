@@ -24,6 +24,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Globalization;
+using System.IO;
+using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
 using MathNet.Numerics.LinearAlgebra.Complex.Factorization;
@@ -224,6 +228,90 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             // Make sure the Q has the right dimensions.
             Assert.AreEqual(row, q.RowCount);
             Assert.AreEqual(column, q.ColumnCount);
+
+            // Make sure the R factor is upper triangular.
+            for (var i = 0; i < r.RowCount; i++)
+            {
+                for (var j = 0; j < r.ColumnCount; j++)
+                {
+                    if (i > j)
+                    {
+                        Assert.AreEqual(Complex.Zero, r[i, j]);
+                    }
+                }
+            }
+
+            // Make sure the Q*R is the original matrix.
+            var matrixQfromR = q * r;
+            for (var i = 0; i < matrixQfromR.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQfromR.ColumnCount; j++)
+                {
+                    AssertHelpers.AlmostEqualRelative(matrixA[i, j], matrixQfromR[i, j], 9);
+                }
+            }
+
+            // Make sure the Q is unitary --> (Q*)x(Q) = I
+            var matrixQсtQ = q.ConjugateTranspose() * q;
+            for (var i = 0; i < matrixQсtQ.RowCount; i++)
+            {
+                for (var j = 0; j < matrixQсtQ.ColumnCount; j++)
+                {
+                    if (i == j)
+                    {
+                        Assert.AreEqual(matrixQсtQ[i, j].Real, 1.0, 1e-3);
+                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0, 1e-3);
+                    }
+                    else
+                    {
+                        Assert.AreEqual(matrixQсtQ[i, j].Real, 0.0, 1e-3);
+                        Assert.AreEqual(matrixQсtQ[i, j].Imaginary, 0.0, 1e-3);
+                    }
+                }
+            }
+        }
+
+        [Test]
+        public void CanFactorizeAdmittanceMatrix()
+        {
+            var matrixA = new SparseMatrix(293);
+            var dataRaw = File.ReadAllLines(@"./data/admittance_matrix.csv");
+
+            var currentRow = 0;
+            foreach (var line in dataRaw)
+            {
+                var values = line.Split(new[] { ';' });
+                var currentColumn = 0;
+
+                foreach (var value in values)
+                {
+                    var parts = value.Split(new[] { ',' });
+                    var firstPart = parts[0].Substring(1);
+                    var secondPart = parts[1].Substring(1, parts[1].LastIndexOf(')') - 1);
+                    var realValue = System.Double.Parse(firstPart);
+                    var imaginaryValue = System.Double.Parse(secondPart);
+                    var valueConverted = new Complex(realValue, imaginaryValue);
+
+                    if (valueConverted.Magnitude > 0)
+                        matrixA[currentRow, currentColumn] = valueConverted;
+
+                    ++currentColumn;
+                }
+
+                ++currentRow;
+            }
+
+            var factorQR = matrixA.QR();
+            var q = factorQR.Q;
+            var r = factorQR.R;
+
+            // Make sure the R has the right dimensions.
+            Assert.AreEqual(matrixA.RowCount, r.RowCount);
+            Assert.AreEqual(matrixA.ColumnCount, r.ColumnCount);
+
+            // Make sure the Q has the right dimensions.
+            Assert.AreEqual(matrixA.RowCount, q.RowCount);
+            Assert.AreEqual(matrixA.ColumnCount, q.ColumnCount);
 
             // Make sure the R factor is upper triangular.
             for (var i = 0; i < r.RowCount; i++)
