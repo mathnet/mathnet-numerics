@@ -510,7 +510,7 @@ namespace MathNet.Numerics.Distributions
                 var h = freedom/(freedom + (k*k));
                 var ib = 0.5*SpecialFunctions.BetaRegularized(freedom/2.0, 0.5, h);
                 return x <= location ? ib - p : 1.0 - ib - p;
-            }, -800, 800, accuracy: 1e-8);
+            }, -800, 800, accuracy: 1e-12);
         }
 
         /// <summary>

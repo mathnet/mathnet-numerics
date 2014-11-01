@@ -406,7 +406,7 @@ namespace MathNet.Numerics.Distributions
 
             return Brent.FindRoot(
                 x => SpecialFunctions.BetaRegularized(d1/2.0, d2/2.0, d1*x/(d1*x + d2)) - p,
-                0, 1000, accuracy: 1e-8);
+                0, 1000, accuracy: 1e-12);
         }
 
         /// <summary>
