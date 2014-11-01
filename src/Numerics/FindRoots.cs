@@ -50,6 +50,11 @@ namespace MathNet.Numerics
         {
             double root;
 
+            if (!ZeroCrossingBracketing.Expand(f, ref lowerBound, ref upperBound, 1.6, 100))
+            {
+                throw new NonConvergenceException(Resources.RootFindingFailed);
+            }
+
             if (Brent.TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
             {
                 return root;
@@ -79,12 +84,7 @@ namespace MathNet.Numerics
                 return root;
             }
 
-            if (Bisection.TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
-            {
-                return root;
-            }
-
-            throw new NonConvergenceException(Resources.RootFindingFailed);
+            return OfFunction(f, lowerBound, upperBound, accuracy, maxIterations);
         }
 
         /// <summary>
