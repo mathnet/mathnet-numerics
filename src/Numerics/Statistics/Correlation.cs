@@ -97,6 +97,73 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Computes the Weighted Pearson Product-Moment Correlation coefficient.
+        /// </summary>
+        /// <param name="dataA">Sample data A.</param>
+        /// <param name="dataB">Sample data B.</param>
+        /// <param name="weights">Corresponding weights of data.</param>
+        /// <returns>The Weighted Pearson product-moment correlation coefficient.</returns>
+        public static double WeightedPearson(IEnumerable<double> dataA, IEnumerable<double> dataB, IEnumerable<double> weights)
+        {
+            int n = 0;
+
+            double meanA = 0;
+            double meanB = 0;
+            double varA = 0;
+            double varB = 0;
+            double sumWeight = 0;
+
+            double covariance = 0;
+
+            using (IEnumerator<double> ieA = dataA.GetEnumerator())
+            using (IEnumerator<double> ieB = dataB.GetEnumerator())
+            using (IEnumerator<double> ieW = weights.GetEnumerator())
+            {
+                while (ieA.MoveNext())
+                {
+                    if (!ieB.MoveNext())
+                    {
+                        throw new ArgumentOutOfRangeException("dataB", Resources.ArgumentArraysSameLength);
+                    }
+                    if (!ieW.MoveNext())
+                    {
+                        throw new ArgumentOutOfRangeException("weights", Resources.ArgumentArraysSameLength);
+                    }
+                    ++n;
+
+                    double xi = ieA.Current;
+                    double yi = ieB.Current;
+                    double wi = ieW.Current;
+
+                    double temp = sumWeight + wi;
+
+                    double deltaX = xi - meanA;
+                    double rX = deltaX * wi / temp;
+                    meanA += rX;
+                    varA += sumWeight * deltaX * rX;
+
+                    double deltaY = yi - meanB;
+                    double rY = deltaY * wi / temp;
+                    meanB += rY;
+                    varB += sumWeight * deltaY * rY;
+
+                    sumWeight = temp;
+
+                    covariance += deltaX * deltaY * (n - 1) * wi / n;
+                }
+                if (ieB.MoveNext())
+                {
+                    throw new ArgumentOutOfRangeException("dataB", Resources.ArgumentArraysSameLength);
+                }
+                if (ieW.MoveNext())
+                {
+                    throw new ArgumentOutOfRangeException("weights", Resources.ArgumentArraysSameLength);
+                }
+            }
+            return covariance / Math.Sqrt(varA * varB);
+        }
+
+        /// <summary>
         /// Computes the Pearson Product-Moment Correlation matrix.
         /// </summary>
         /// <param name="vectors">Array of sample data vectors.</param>
