@@ -968,7 +968,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if PORTABLE
+#if (PORTABLE || ASPNETCORE50)
             var value = GlobalizationHelper.ParseSingle(ref token);
 #else
             var value = GlobalizationHelper.ParseSingle(ref token, format.GetCultureInfo());

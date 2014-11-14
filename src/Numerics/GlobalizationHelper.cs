@@ -132,7 +132,7 @@ namespace MathNet.Numerics
             }
         }
 
-#if PORTABLE
+#if (PORTABLE || ASPNETCORE50)
         /// <summary>
         /// Globalized Parsing: Parse a double number
         /// </summary>

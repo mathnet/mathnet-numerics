@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Statistics
     /// </summary>
     [Serializable]
     public class Bucket :
-#if PORTABLE
+#if (PORTABLE || ASPNETCORE50)
    IComparable<Bucket>
 #else
     IComparable<Bucket>, ICloneable

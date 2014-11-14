@@ -6,7 +6,7 @@ namespace MathNet.Numerics.Random
     {
         static readonly object Lock = new object();
 
-#if PORTABLE
+#if (PORTABLE || ASPNETCORE50)
         static readonly System.Random MasterRng = new System.Random();
 #else
         static readonly System.Security.Cryptography.RandomNumberGenerator MasterRng = new System.Security.Cryptography.RNGCryptoServiceProvider();
@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Random
         {
             lock (Lock)
             {
-#if PORTABLE
+#if (PORTABLE || ASPNETCORE50)
                 return MasterRng.NextFullRangeInt32() ^ Environment.TickCount ^ System.Guid.NewGuid().GetHashCode();
 #else
                 var bytes = new byte[4];

@@ -20,7 +20,7 @@ namespace MathNet.Numerics
         public NonConvergenceException(string message, Exception innerException) : base(message, innerException)
         {
         }
-#if !PORTABLE
+#if !(PORTABLE || ASPNETCORE50)
         protected NonConvergenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
@@ -48,7 +48,7 @@ namespace MathNet.Numerics
             : base(message, innerException)
         {
         }
-#if !PORTABLE
+#if !(PORTABLE || ASPNETCORE50)
         protected NumericalBreakdownException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
