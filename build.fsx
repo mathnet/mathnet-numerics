@@ -431,7 +431,9 @@ let provideNuGetExtraFiles path (bundle:Bundle) (pack:Package) =
     provideReadme (sprintf "%s v%s" pack.Title pack.Version) bundle.ReleaseNotesFile path
     if pack = fsharpPack || pack = fsharpSignedPack then
         let includes = [ for root in [ ""; "../"; "../../"; "../../../" ] do
-                         for package in bundle.Packages -> sprintf "#I \"%spackages/%s.%s/lib/net40/\"" root package.Id package.Version ]
+                         for package in bundle.Packages do
+                         yield sprintf "#I \"%spackages/%s/lib/net40/\"" root package.Id
+                         yield sprintf "#I \"%spackages/%s.%s/lib/net40/\"" root package.Id package.Version ]
         provideFsLoader includes path
         provideFsIfSharpLoader path
 

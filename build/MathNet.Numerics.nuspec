@@ -15,7 +15,7 @@
     <releaseNotes>@releaseNotes@</releaseNotes>
     @dependencies@
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System.Numerics" targetFramework="net40, net45, netcore45, sl5, MonoAndroid1, MonoTouch1" />
+      <frameworkAssembly assemblyName="System.Numerics" targetFramework="net40, win8, sl5, MonoAndroid1, MonoTouch1" />
     </frameworkAssemblies>
   </metadata>
   @files@
