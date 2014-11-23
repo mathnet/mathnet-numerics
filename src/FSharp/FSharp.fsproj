@@ -57,35 +57,6 @@
     <FSharpTargetsPath>$(MSBuildExtensionsPath32)\..\Microsoft SDKs\F#\3.0\Framework\v4.0\Microsoft.FSharp.Targets</FSharpTargetsPath>
   </PropertyGroup>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Compatibility.fs" />
-    <Compile Include="Statistics.fs" />
-    <Compile Include="Random.fs" />
-    <Compile Include="Distributions.fs" />
-    <Compile Include="Generate.fs" />
-    <Compile Include="LinearAlgebra.Vector.fs" />
-    <Compile Include="LinearAlgebra.Matrix.fs" />
-    <Compile Include="Complex.fs" />
-    <Compile Include="BigIntegerExtensions.fs" />
-    <Compile Include="BigRational.fsi" />
-    <Compile Include="BigRational.fs" />
-    <Compile Include="Fit.fs" />
-    <Compile Include="FindRoots.fs" />
-    <Compile Include="RandomVariable.fs" />
-    <None Include="MathNet.Numerics.fsx" />
-    <None Include="MathNet.Numerics.IfSharp.fsx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <ProjectReference Include="..\Numerics\Numerics.csproj">
-      <Name>Numerics</Name>
-      <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework'">
       <Choose>
@@ -265,4 +236,33 @@
       </ItemGroup>
     </Otherwise>
   </Choose>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Compatibility.fs" />
+    <Compile Include="Statistics.fs" />
+    <Compile Include="Random.fs" />
+    <Compile Include="Distributions.fs" />
+    <Compile Include="Generate.fs" />
+    <Compile Include="LinearAlgebra.Vector.fs" />
+    <Compile Include="LinearAlgebra.Matrix.fs" />
+    <Compile Include="Complex.fs" />
+    <Compile Include="BigIntegerExtensions.fs" />
+    <Compile Include="BigRational.fsi" />
+    <Compile Include="BigRational.fs" />
+    <Compile Include="Fit.fs" />
+    <Compile Include="FindRoots.fs" />
+    <Compile Include="RandomVariable.fs" />
+    <None Include="MathNet.Numerics.fsx" />
+    <None Include="MathNet.Numerics.IfSharp.fsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <ProjectReference Include="..\Numerics\Numerics.csproj">
+      <Name>Numerics</Name>
+      <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
