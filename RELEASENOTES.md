@@ -1,11 +1,10 @@
-### 3.3.0-beta2 - 2014-10-25
-* Build: for core add PCL profiles 7, 78 and 259; for F# extensions drop PCL profile 328
-
-### 3.3.0-beta1 - 2014-09-28
+### 3.3.0 - 2014-11-26
 * Linear Algebra: Vector.Fold2 (fold2 in F#), storage optimized
 * Linear Algebra: Minor change how matrix products call the LA provider
 * Linear Algebra: Random generation now leveraging array sampling routines
 * Linear Algebra: fix bug when manually assigning System.Random to random distribution
+* Root Finding: Change Brent tolerance check, add bracked check *~Hythen Sidky*
+* Root Finding: Auto zero-crossing bracketing in FindRoots facade (not in algorithms)
 * Statistics: RootMeanSquare (RMS)
 * Distributions: Array sampling routines now available through interface
 * Distributions: Categorical sampling now explicitly skips p=0 categories
@@ -14,8 +13,10 @@
 * Distance: Jaccard Index
 * F#: explicitly depend on official FSharp.Core NuGet packages
 * F#: NuGet package with iPython IfSharp F# module integration load script
+* F#: load scripts with better packet support (and NuGet with -ExcludeVersion)
 * Build: unified build.sh and buildn.sh into combined build.sh
 * Build: use Paket instead of NuGet to maintain NuGet dependencies
+* Build: for core add PCL profiles 7, 78 and 259; for F# extensions drop PCL profile 328
 
 ### 3.2.3 - 2014-09-06
 * Bug fix: MatrixNormal distribution: density for non-square matrices *~Evelina Gabasova*

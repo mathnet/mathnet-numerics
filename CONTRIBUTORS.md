@@ -42,6 +42,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Iain McDonald
 - Kyle Parrigan
 - Gregor959
+- Hythem Sidky
 - IUser
 - Iain Sproat
 - Jeff Mastry
