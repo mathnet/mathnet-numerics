@@ -3,7 +3,7 @@
 * Linear Algebra: Minor change how matrix products call the LA provider
 * Linear Algebra: Random generation now leveraging array sampling routines
 * Linear Algebra: fix bug when manually assigning System.Random to random distribution
-* Root Finding: Change Brent tolerance check, add bracked check *~Hythen Sidky*
+* Root Finding: Change Brent tolerance check, add bracket check *~Hythen Sidky*
 * Root Finding: Auto zero-crossing bracketing in FindRoots facade (not in algorithms)
 * Statistics: RootMeanSquare (RMS)
 * Distributions: Array sampling routines now available through interface
