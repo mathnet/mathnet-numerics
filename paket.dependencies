@@ -2,7 +2,6 @@ source http://nuget.org/api/v2
 
 # Core Dependencies
 nuget FSharp.Core.Microsoft.Signed ~> 3.1.1
-nuget FSharp.Core.4.3.0.0.Microsoft.Signed ~> 3.0.0
 nuget TaskParallelLibrary 1.0.2856.0
 
 # Data Dependencies

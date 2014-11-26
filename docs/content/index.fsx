@@ -49,7 +49,6 @@ Package Dependencies:
 - .Net 4.0 and higher, Mono, PCL Profiles: None
 - .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
 - F# on  .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.Microsoft.Signed)
-- F# on .Net 3.5: additionally [FSharp.Core.4.3.0.0.Microsoft.Signed](http://www.nuget.org/packages/FSharp.Core.4.3.0.0.Microsoft.Signed)
 
 Framework Dependencies (part of the .NET Framework):
 

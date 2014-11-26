@@ -130,8 +130,7 @@ let fsharpPack =
         Tags = "fsharp F# " + tags
         Dependencies =
           [ { FrameworkVersion="net35"
-              Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion
-                             "FSharp.Core.4.3.0.0.Microsoft.Signed", GetPackageVersion "packages" "FSharp.Core.4.3.0.0.Microsoft.Signed" ] }
+              Dependencies=[ ] }
             { FrameworkVersion="net40"
               Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion
                              "FSharp.Core.Microsoft.Signed", GetPackageVersion "packages" "FSharp.Core.Microsoft.Signed" ] }
