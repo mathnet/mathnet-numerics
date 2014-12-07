@@ -375,6 +375,7 @@
     <Compile Include="RootFindingTests\NewtonRaphsonTest.cs" />
     <Compile Include="SortingTests.cs" />
     <Compile Include="ExcelTests.cs" />
+    <Compile Include="SpecialFunctionsTests\ExponentialIntegralTests.cs" />
     <Compile Include="SpecialFunctionsTests\ModifiedStruveTests.cs" />
     <Compile Include="SpecialFunctionsTests\ModifiedBesselTests.cs" />
     <Compile Include="SpecialFunctionsTests\ErfTests.cs" />
