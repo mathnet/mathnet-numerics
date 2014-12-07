@@ -5,7 +5,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
     using NUnit.Framework;
 
     /// <summary>
-    /// Factorial tests.
+    /// Exponential Integral tests.
     /// </summary>
     [TestFixture, Category("Distributions")]
     public class ExponentialIntegralTests
