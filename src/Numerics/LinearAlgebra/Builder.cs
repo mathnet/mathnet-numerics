@@ -186,6 +186,82 @@ namespace MathNet.Numerics.LinearAlgebra.Single
     }
 }
 
+namespace MathNet.Numerics.LinearAlgebra.Integer
+{
+    internal class MatrixBuilder : MatrixBuilder<int>
+    {
+        public override int Zero
+        {
+            get { return 0; }
+        }
+
+        public override int One
+        {
+            get { return 1; }
+        }
+
+        public override Matrix<int> Dense(DenseColumnMajorMatrixStorage<int> storage)
+        {
+            return new DenseMatrix(storage);
+        }
+
+        public override Matrix<int> Sparse(SparseCompressedRowMatrixStorage<int> storage)
+        {
+            return new SparseMatrix(storage);
+        }
+
+        public override Matrix<int> Diagonal(DiagonalMatrixStorage<int> storage)
+        {
+            return new DiagonalMatrix(storage);
+        }
+
+        public override Matrix<int> Random(int rows, int columns, IContinuousDistribution distribution)
+        {
+            return Dense(rows, columns, (i, j) => (int)distribution.Sample());
+        }
+
+        public override IIterationStopCriterion<int>[] IterativeSolverStopCriteria(int maxIterations = 1000)
+        {
+            return new IIterationStopCriterion<int>[]
+            {
+                new FailureStopCriterion<int>(),
+                new DivergenceStopCriterion<int>(),
+                new IterationCountStopCriterion<int>(maxIterations),
+                new ResidualStopCriterion<int>(1e-6)
+            };
+        }
+    }
+
+    internal class VectorBuilder : VectorBuilder<int>
+    {
+        public override int Zero
+        {
+            get { return 0; }
+        }
+
+        public override int One
+        {
+            get { return 1; }
+        }
+
+        public override Vector<int> Dense(DenseVectorStorage<int> storage)
+        {
+            return new DenseVector(storage);
+        }
+
+        public override Vector<int> Sparse(SparseVectorStorage<int> storage)
+        {
+            return new SparseVector(storage);
+        }
+
+        public override Vector<int> Random(int length, IContinuousDistribution distribution)
+        {
+            return Dense(length, i => (int)distribution.Sample());
+        }
+    }
+}
+
+
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
 #if NOSYSNUMERICS

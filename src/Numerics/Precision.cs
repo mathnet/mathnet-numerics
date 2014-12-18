@@ -234,7 +234,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Returns a 'directional' int value. This is a int value which acts the same as a float,
+        /// Returns a 'directional' int value. This is an int value which acts the same as a float,
         /// e.g. a negative float value will return a negative int value starting at 0 and going
         /// more negative as the float value gets more negative.
         /// </summary>

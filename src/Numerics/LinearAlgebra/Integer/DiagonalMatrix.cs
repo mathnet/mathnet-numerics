@@ -1,0 +1,965 @@
+﻿// <copyright file="DiagonalMatrix.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2014 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
+
+namespace MathNet.Numerics.LinearAlgebra.Integer
+{
+    /// <summary>
+    /// A matrix type for diagonal matrices.
+    /// </summary>
+    /// <remarks>
+    /// Diagonal matrices can be non-square matrices but the diagonal always starts
+    /// at element 0,0. A diagonal matrix will throw an exception if non diagonal
+    /// entries are set. The exception to this is when the off diagonal elements are
+    /// 0.0 or NaN; these settings will cause no change to the diagonal matrix.
+    /// </remarks>
+    [Serializable]
+    [DebuggerDisplay("DiagonalMatrix {RowCount}x{ColumnCount}-Integer")]
+    public class DiagonalMatrix : Matrix
+    {
+        /// <summary>
+        /// Gets the matrix's data.
+        /// </summary>
+        /// <value>The matrix's data.</value>
+        readonly int[] _data;
+
+        /// <summary>
+        /// Create a new diagonal matrix straight from an initialized matrix storage instance.
+        /// The storage is used directly without copying.
+        /// Intended for advanced scenarios where you're working directly with
+        /// storage for performance or interop reasons.
+        /// </summary>
+        public DiagonalMatrix(DiagonalMatrixStorage<int> storage)
+            : base(storage)
+        {
+            _data = storage.Data;
+        }
+
+        /// <summary>
+        /// Create a new square diagonal matrix with the given number of rows and columns.
+        /// All cells of the matrix will be initialized to zero.
+        /// Zero-length matrices are not supported.
+        /// </summary>
+        /// <exception cref="ArgumentException">If the order is less than one.</exception>
+        public DiagonalMatrix(int order)
+            : this(new DiagonalMatrixStorage<int>(order, order))
+        {
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with the given number of rows and columns.
+        /// All cells of the matrix will be initialized to zero.
+        /// Zero-length matrices are not supported.
+        /// </summary>
+        /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
+        public DiagonalMatrix(int rows, int columns)
+            : this(new DiagonalMatrixStorage<int>(rows, columns))
+        {
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with the given number of rows and columns.
+        /// All diagonal cells of the matrix will be initialized to the provided value, all non-diagonal ones to zero.
+        /// Zero-length matrices are not supported.
+        /// </summary>
+        /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
+        public DiagonalMatrix(int rows, int columns, int diagonalValue)
+            : this(rows, columns)
+        {
+            for (var i = 0; i < _data.Length; i++)
+            {
+                _data[i] = diagonalValue;
+            }
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with the given number of rows and columns directly binding to a raw array.
+        /// The array is assumed to contain the diagonal elements only and is used directly without copying.
+        /// Very efficient, but changes to the array and the matrix will affect each other.
+        /// </summary>
+        public DiagonalMatrix(int rows, int columns, int[] diagonalStorage)
+            : this(new DiagonalMatrixStorage<int>(rows, columns, diagonalStorage))
+        {
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix as a copy of the given other matrix.
+        /// This new matrix will be independent from the other matrix.
+        /// The matrix to copy from must be diagonal as well.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DiagonalMatrix OfMatrix(Matrix<int> matrix)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfMatrix(matrix.Storage));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix as a copy of the given two-dimensional array.
+        /// This new matrix will be independent from the provided array.
+        /// The array to copy from must be diagonal as well.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DiagonalMatrix OfArray(int[,] array)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfArray(array));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value from the provided indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DiagonalMatrix OfIndexedDiagonal(int rows, int columns, IEnumerable<Tuple<int, int>> diagonal)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfIndexedEnumerable(rows, columns, diagonal));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value from the provided enumerable.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DiagonalMatrix OfDiagonal(int rows, int columns, IEnumerable<int> diagonal)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfEnumerable(rows, columns, diagonal));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value using the provided init function.
+        /// </summary>
+        public static DiagonalMatrix Create(int rows, int columns, Func<int, int> init)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfInit(rows, columns, init));
+        }
+
+        /// <summary>
+        /// Create a new square sparse identity matrix where each diagonal value is set to One.
+        /// </summary>
+        public static DiagonalMatrix CreateIdentity(int order)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfInit(order, order, i => One));
+        }
+
+        /// <summary>
+        /// Create a new diagonal matrix with diagonal values sampled from the provided random distribution.
+        /// </summary>
+        public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfInit(rows, columns,
+                i => (int) distribution.Sample()));
+        }
+
+        /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<int> result)
+        {
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult != null)
+            {
+                Control.LinearAlgebraProvider.ScaleArray(-1, _data, diagResult._data);
+                return;
+            }
+
+            result.Clear();
+            for (var i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, -_data[i]);
+            }
+        }
+
+        /// <summary>
+        /// Adds another matrix to this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to add to this matrix.</param>
+        /// <param name="result">The matrix to store the result of the addition.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        protected override void DoAdd(Matrix<int> other, Matrix<int> result)
+        {
+            // diagonal + diagonal = diagonal
+            var diagOther = other as DiagonalMatrix;
+            var diagResult = result as DiagonalMatrix;
+            if (diagOther != null && diagResult != null)
+            {
+                Control.LinearAlgebraProvider.AddArrays(_data, diagOther._data, diagResult._data);
+                return;
+            }
+
+            other.CopyTo(result);
+            for (int i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, result.At(i, i) + _data[i]);
+            }
+        }
+
+        /// <summary>
+        /// Subtracts another matrix from this matrix.
+        /// </summary>
+        /// <param name="other">The matrix to subtract.</param>
+        /// <param name="result">The matrix to store the result of the subtraction.</param>
+        /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
+        protected override void DoSubtract(Matrix<int> other, Matrix<int> result)
+        {
+            // diagonal - diagonal = diagonal
+            var diagOther = other as DiagonalMatrix;
+            var diagResult = result as DiagonalMatrix;
+            if (diagOther != null && diagResult != null)
+            {
+                Control.LinearAlgebraProvider.SubtractArrays(_data, diagOther._data, diagResult._data);
+                return;
+            }
+
+            other.Negate(result);
+            for (int i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, result.At(i, i) + _data[i]);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="scalar">The scalar to multiply the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the multiplication.</param>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        protected override void DoMultiply(int scalar, Matrix<int> result)
+        {
+            if (scalar == 0.0)
+            {
+                result.Clear();
+                return;
+            }
+
+            if (scalar == 1.0)
+            {
+                CopyTo(result);
+                return;
+            }
+
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult == null)
+            {
+                base.DoMultiply(scalar, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.ScaleArray(scalar, _data, diagResult._data);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Vector<int> rightSide, Vector<int> result)
+        {
+            var d = Math.Min(ColumnCount, RowCount);
+            if (d < RowCount)
+            {
+                result.ClearSubVector(ColumnCount, RowCount - ColumnCount);
+            }
+
+            if (d == ColumnCount)
+            {
+                var denseOther = rightSide.Storage as DenseVectorStorage<int>;
+                var denseResult = result.Storage as DenseVectorStorage<int>;
+                if (denseOther != null && denseResult != null)
+                {
+                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
+                    return;
+                }
+            }
+
+            for (var i = 0; i < d; i++)
+            {
+                result.At(i, _data[i]*rightSide.At(i));
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Matrix<int> other, Matrix<int> result)
+        {
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
+            {
+                var thisDataCopy = new int[diagonalResult._data.Length];
+                var otherDataCopy = new int[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
+            }
+
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<int>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.RowCount, RowCount);
+                if (d < RowCount)
+                {
+                    result.ClearSubMatrix(denseOther.RowCount, RowCount - denseOther.RowCount, 0, denseOther.ColumnCount);
+                }
+                int index = 0;
+                for (int i = 0; i < denseOther.ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(j, i, dense[index]*diagonal[j]);
+                        index++;
+                    }
+                    index += (denseOther.RowCount - d);
+                }
+                return;
+            }
+
+            if (ColumnCount == RowCount)
+            {
+                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], Zeros.AllowSkip, ExistingData.Clear);
+            }
+            else
+            {
+                result.Clear();
+                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with transpose of another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeAndMultiply(Matrix<int> other, Matrix<int> result)
+        {
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
+            {
+                var thisDataCopy = new int[diagonalResult._data.Length];
+                var otherDataCopy = new int[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
+            }
+
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<int>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.ColumnCount, RowCount);
+                if (d < RowCount)
+                {
+                    result.ClearSubMatrix(denseOther.ColumnCount, RowCount - denseOther.ColumnCount, 0, denseOther.RowCount);
+                }
+                int index = 0;
+                for (int j = 0; j < d; j++)
+                {
+                    for (int i = 0; i < denseOther.RowCount; i++)
+                    {
+                        result.At(j, i, dense[index]*diagonal[j]);
+                        index++;
+                    }
+                }
+                return;
+            }
+
+            base.DoTransposeAndMultiply(other, result);
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Matrix<int> other, Matrix<int> result)
+        {
+            var diagonalOther = other as DiagonalMatrix;
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalOther != null && diagonalResult != null)
+            {
+                var thisDataCopy = new int[diagonalResult._data.Length];
+                var otherDataCopy = new int[diagonalResult._data.Length];
+                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                return;
+            }
+
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<int>;
+            if (denseOther != null)
+            {
+                var dense = denseOther.Data;
+                var diagonal = _data;
+                var d = Math.Min(denseOther.RowCount, ColumnCount);
+                if (d < ColumnCount)
+                {
+                    result.ClearSubMatrix(denseOther.RowCount, ColumnCount - denseOther.RowCount, 0, denseOther.ColumnCount);
+                }
+                int index = 0;
+                for (int i = 0; i < denseOther.ColumnCount; i++)
+                {
+                    for (int j = 0; j < d; j++)
+                    {
+                        result.At(j, i, dense[index]*diagonal[j]);
+                        index++;
+                    }
+                    index += (denseOther.RowCount - d);
+                }
+                return;
+            }
+
+            if (ColumnCount == RowCount)
+            {
+                other.Storage.MapIndexedTo(result.Storage, (i, j, x) => x*_data[i], Zeros.AllowSkip, ExistingData.Clear);
+            }
+            else
+            {
+                result.Clear();
+                other.Storage.MapSubMatrixIndexedTo(result.Storage, (i, j, x) => x*_data[i], 0, 0, other.RowCount, 0, 0, other.ColumnCount, Zeros.AllowSkip, ExistingData.AssumeZeros);
+            }
+        }
+
+        /// <summary>
+        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Vector<int> rightSide, Vector<int> result)
+        {
+            var d = Math.Min(ColumnCount, RowCount);
+            if (d < ColumnCount)
+            {
+                result.ClearSubVector(RowCount, ColumnCount - RowCount);
+            }
+
+            if (d == RowCount)
+            {
+                var denseOther = rightSide.Storage as DenseVectorStorage<int>;
+                var denseResult = result.Storage as DenseVectorStorage<int>;
+                if (denseOther != null && denseResult != null)
+                {
+                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
+                    return;
+                }
+            }
+
+            for (var i = 0; i < d; i++)
+            {
+                result.At(i, _data[i]*rightSide.At(i));
+            }
+        }
+
+        /// <summary>
+        /// Divides each element of the matrix by a scalar and places results into the result matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar to divide the matrix with.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        protected override void DoDivide(int divisor, Matrix<int> result)
+        {
+            if (divisor == 0)
+            {
+                throw new DivideByZeroException();
+            }
+            if (divisor == 1)
+            {
+                CopyTo(result);
+                return;
+            }
+
+            ////var diagResult = result as DiagonalMatrix;
+            ////if (diagResult != null)
+            ////{
+            ////    Control.LinearAlgebraProvider.ScaleArray(1.0f/divisor, _data, diagResult._data);
+            ////    return;
+            ////}
+
+            result.Clear();
+            for (int i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, _data[i]/divisor);
+            }
+        }
+
+        /// <summary>
+        /// Divides a scalar by each element of the matrix and stores the result in the result matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar to add.</param>
+        /// <param name="result">The matrix to store the result of the division.</param>
+        protected override void DoDivideByThis(int dividend, Matrix<int> result)
+        {
+            var diagResult = result as DiagonalMatrix;
+            if (diagResult != null)
+            {
+                var resultData = diagResult._data;
+                CommonParallel.For(0, _data.Length, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        resultData[i] = dividend/_data[i];
+                    }
+                });
+                return;
+            }
+
+            result.Clear();
+            for (int i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, dividend/_data[i]);
+            }
+        }
+
+        /// <summary>
+        /// Computes the determinant of this matrix.
+        /// </summary>
+        /// <returns>The determinant of this matrix.</returns>
+        public override int Determinant()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            }
+
+            return _data.Aggregate(1, (current, t) => current * t);
+        }
+
+        /// <summary>
+        /// Returns the elements of the diagonal in a <see cref="DenseVector"/>.
+        /// </summary>
+        /// <returns>The elements of the diagonal.</returns>
+        /// <remarks>For non-square matrices, the method returns Min(Rows, Columns) elements where
+        /// i == j (i is the row index, and j is the column index).</remarks>
+        public override Vector<int> Diagonal()
+        {
+            return new DenseVector(_data).Clone();
+        }
+
+        /// <summary>
+        /// Copies the values of the given array to the diagonal.
+        /// </summary>
+        /// <param name="source">The array to copy the values from. The length of the vector should be
+        /// Min(Rows, Columns).</param>
+        /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
+        /// equal Min(Rows, Columns).</exception>
+        /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
+        /// this[i,i].</remarks>
+        public override void SetDiagonal(int[] source)
+        {
+            if (source.Length != _data.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
+            }
+
+            Buffer.BlockCopy(source, 0, _data, 0, source.Length * Constants.SizeOfFloat);
+        }
+
+        /// <summary>
+        /// Copies the values of the given <see cref="Vector{T}"/> to the diagonal.
+        /// </summary>
+        /// <param name="source">The vector to copy the values from. The length of the vector should be
+        /// Min(Rows, Columns).</param>
+        /// <exception cref="ArgumentException">If the length of <paramref name="source"/> does not
+        /// equal Min(Rows, Columns).</exception>
+        /// <remarks>For non-square matrices, the elements of <paramref name="source"/> are copied to
+        /// this[i,i].</remarks>
+        public override void SetDiagonal(Vector<int> source)
+        {
+            var denseSource = source as DenseVector;
+            if (denseSource == null)
+            {
+                base.SetDiagonal(source);
+                return;
+            }
+
+            if (_data.Length != denseSource.Values.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
+            }
+
+            Buffer.BlockCopy(denseSource.Values, 0, _data, 0, denseSource.Values.Length * Constants.SizeOfFloat);
+        }
+
+        /// <summary>Calculates the induced L1 norm of this matrix.</summary>
+        /// <returns>The maximum absolute column sum of the matrix.</returns>
+        public override double L1Norm()
+        {
+            return _data.Aggregate(0f, (current, t) => Math.Max(current, Math.Abs(t)));
+        }
+
+        /// <summary>Calculates the induced L2 norm of the matrix.</summary>
+        /// <returns>The largest singular value of the matrix.</returns>
+        public override double L2Norm()
+        {
+            return _data.Aggregate(0f, (current, t) => Math.Max(current, Math.Abs(t)));
+        }
+
+        /// <summary>Calculates the induced infinity norm of this matrix.</summary>
+        /// <returns>The maximum absolute row sum of the matrix.</returns>
+        public override double InfinityNorm()
+        {
+            return L1Norm();
+        }
+
+        /// <summary>Calculates the entry-wise Frobenius norm of this matrix.</summary>
+        /// <returns>The square root of the sum of the squared values.</returns>
+        public override double FrobeniusNorm()
+        {
+            return Math.Sqrt(_data.Sum(t => t * t));
+        }
+
+        /// <summary>Calculates the condition number of this matrix.</summary>
+        /// <returns>The condition number of the matrix.</returns>
+        public override int ConditionNumber()
+        {
+            throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
+            ////var maxSv = int.MinValue;
+            ////var minSv = int.MaxValue;
+            ////foreach (var t in _data)
+            ////{
+            ////    maxSv = Math.Max(maxSv, Math.Abs(t));
+            ////    minSv = Math.Min(minSv, Math.Abs(t));
+            ////}
+
+            ////return maxSv / minSv;
+        }
+
+        /// <summary>Computes the inverse of this matrix.</summary>
+        /// <exception cref="ArgumentException">If <see cref="DiagonalMatrix"/> is not a square matrix.</exception>
+        /// <exception cref="ArgumentException">If <see cref="DiagonalMatrix"/> is singular.</exception>
+        /// <returns>The inverse of this matrix.</returns>
+        public override Matrix<int> Inverse()
+        {
+            throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
+            ////if (RowCount != ColumnCount)
+            ////{
+            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            ////}
+
+            ////var inverse = (DiagonalMatrix)Clone();
+            ////for (var i = 0; i < _data.Length; i++)
+            ////{
+            ////    if (_data[i] != 0.0)
+            ////    {
+            ////        inverse._data[i] = 1.0f / _data[i];
+            ////    }
+            ////    else
+            ////    {
+            ////        throw new ArgumentException(Resources.ArgumentMatrixNotSingular);
+            ////    }
+            ////}
+
+            ////return inverse;
+        }
+
+        /// <summary>
+        /// Returns a new matrix containing the lower triangle of this matrix.
+        /// </summary>
+        /// <returns>The lower triangle of this matrix.</returns>
+        public override Matrix<int> LowerTriangle()
+        {
+            return Clone();
+        }
+
+        /// <summary>
+        /// Puts the lower triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public override void LowerTriangle(Matrix<int> result)
+        {
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
+            }
+
+            if (ReferenceEquals(this, result))
+            {
+                return;
+            }
+
+            result.Clear();
+            for (var i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, _data[i]);
+            }
+        }
+
+        /// <summary>
+        /// Returns a new matrix containing the lower triangle of this matrix. The new matrix
+        /// does not contain the diagonal elements of this matrix.
+        /// </summary>
+        /// <returns>The lower triangle of this matrix.</returns>
+        public override Matrix<int> StrictlyLowerTriangle()
+        {
+            return new DiagonalMatrix(RowCount, ColumnCount);
+        }
+
+        /// <summary>
+        /// Puts the strictly lower triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public override void StrictlyLowerTriangle(Matrix<int> result)
+        {
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
+            }
+
+            result.Clear();
+        }
+
+        /// <summary>
+        /// Returns a new matrix containing the upper triangle of this matrix.
+        /// </summary>
+        /// <returns>The upper triangle of this matrix.</returns>
+        public override Matrix<int> UpperTriangle()
+        {
+            return Clone();
+        }
+
+        /// <summary>
+        /// Puts the upper triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public override void UpperTriangle(Matrix<int> result)
+        {
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
+            }
+
+            result.Clear();
+            for (var i = 0; i < _data.Length; i++)
+            {
+                result.At(i, i, _data[i]);
+            }
+        }
+
+        /// <summary>
+        /// Returns a new matrix containing the upper triangle of this matrix. The new matrix
+        /// does not contain the diagonal elements of this matrix.
+        /// </summary>
+        /// <returns>The upper triangle of this matrix.</returns>
+        public override Matrix<int> StrictlyUpperTriangle()
+        {
+            return new DiagonalMatrix(RowCount, ColumnCount);
+        }
+
+        /// <summary>
+        /// Puts the strictly upper triangle of this matrix into the result matrix.
+        /// </summary>
+        /// <param name="result">Where to store the lower triangle.</param>
+        /// <exception cref="ArgumentException">If the result matrix's dimensions are not the same as this matrix.</exception>
+        public override void StrictlyUpperTriangle(Matrix<int> result)
+        {
+            if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result, "result");
+            }
+
+            result.Clear();
+        }
+
+        /// <summary>
+        /// Creates a matrix that contains the values from the requested sub-matrix.
+        /// </summary>
+        /// <param name="rowIndex">The row to start copying from.</param>
+        /// <param name="rowCount">The number of rows to copy. Must be positive.</param>
+        /// <param name="columnIndex">The column to start copying from.</param>
+        /// <param name="columnCount">The number of columns to copy. Must be positive.</param>
+        /// <returns>The requested sub-matrix.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">If: <list><item><paramref name="rowIndex"/> is
+        /// negative, or greater than or equal to the number of rows.</item>
+        /// <item><paramref name="columnIndex"/> is negative, or greater than or equal to the number
+        /// of columns.</item>
+        /// <item><c>(columnIndex + columnLength) &gt;= Columns</c></item>
+        /// <item><c>(rowIndex + rowLength) &gt;= Rows</c></item></list></exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowCount"/> or <paramref name="columnCount"/>
+        /// is not positive.</exception>
+        public override Matrix<int> SubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            var target = rowIndex == columnIndex
+                ? (Matrix<int>)new DiagonalMatrix(rowCount, columnCount)
+                : new SparseMatrix(rowCount, columnCount);
+
+            Storage.CopySubMatrixTo(target.Storage, rowIndex, 0, rowCount, columnIndex, 0, columnCount, ExistingData.AssumeZeros);
+            return target;
+        }
+
+        /// <summary>
+        /// Permute the columns of a matrix according to a permutation.
+        /// </summary>
+        /// <param name="p">The column permutation to apply to this matrix.</param>
+        /// <exception cref="InvalidOperationException">Always thrown</exception>
+        /// <remarks>Permutation in diagonal matrix are senseless, because of matrix nature</remarks>
+        public override void PermuteColumns(Permutation p)
+        {
+            throw new InvalidOperationException("Permutations in diagonal matrix are not allowed");
+        }
+
+        /// <summary>
+        /// Permute the rows of a matrix according to a permutation.
+        /// </summary>
+        /// <param name="p">The row permutation to apply to this matrix.</param>
+        /// <exception cref="InvalidOperationException">Always thrown</exception>
+        /// <remarks>Permutation in diagonal matrix are senseless, because of matrix nature</remarks>
+        public override void PermuteRows(Permutation p)
+        {
+            throw new InvalidOperationException("Permutations in diagonal matrix are not allowed");
+        }
+
+        /// <summary>
+        /// Evaluates whether this matrix is symmetric.
+        /// </summary>
+        public override sealed bool IsSymmetric()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given divisor each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoModulus(int divisor, Matrix<int> result)
+        {
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalResult == null)
+            {
+                base.DoModulus(divisor, result);
+                return;
+            }
+
+            CommonParallel.For(0, _data.Length, (a, b) =>
+            {
+                var r = diagonalResult._data;
+                for (var i = a; i < b; i++)
+                {
+                    r[i] = Euclid.Modulus(_data[i], divisor);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Computes the canonical modulus, where the result has the sign of the divisor,
+        /// for the given dividend for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoModulusByThis(int dividend, Matrix<int> result)
+        {
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalResult == null)
+            {
+                base.DoModulusByThis(dividend, result);
+                return;
+            }
+
+            CommonParallel.For(0, _data.Length, (a, b) =>
+            {
+                var r = diagonalResult._data;
+                for (var i = a; i < b; i++)
+                {
+                    r[i] = Euclid.Modulus(dividend, _data[i]);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given divisor each element of the matrix.
+        /// </summary>
+        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="result">Matrix to store the results in.</param>
+        protected override void DoRemainder(int divisor, Matrix<int> result)
+        {
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalResult == null)
+            {
+                base.DoRemainder(divisor, result);
+                return;
+            }
+
+            CommonParallel.For(0, _data.Length, (a, b) =>
+            {
+                var r = diagonalResult._data;
+                for (var i = a; i < b; i++)
+                {
+                    r[i] = _data[i]%divisor;
+                }
+            });
+        }
+
+        /// <summary>
+        /// Computes the remainder (% operator), where the result has the sign of the dividend,
+        /// for the given dividend for each element of the matrix.
+        /// </summary>
+        /// <param name="dividend">The scalar numerator to use.</param>
+        /// <param name="result">A vector to store the results in.</param>
+        protected override void DoRemainderByThis(int dividend, Matrix<int> result)
+        {
+            var diagonalResult = result as DiagonalMatrix;
+            if (diagonalResult == null)
+            {
+                base.DoRemainderByThis(dividend, result);
+                return;
+            }
+
+            CommonParallel.For(0, _data.Length, (a, b) =>
+            {
+                var r = diagonalResult._data;
+                for (var i = a; i < b; i++)
+                {
+                    r[i] = dividend%_data[i];
+                }
+            });
+        }
+    }
+}

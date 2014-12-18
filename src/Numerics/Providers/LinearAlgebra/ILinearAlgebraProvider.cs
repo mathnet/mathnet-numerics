@@ -91,6 +91,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     public interface ILinearAlgebraProvider :
         ILinearAlgebraProvider<double>,
         ILinearAlgebraProvider<float>,
+        ILinearAlgebraProvider<int>,
         ILinearAlgebraProvider<Complex>,
         ILinearAlgebraProvider<Complex32>
     {

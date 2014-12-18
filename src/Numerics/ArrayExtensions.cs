@@ -43,7 +43,7 @@ namespace MathNet.Numerics
     internal static class ArrayExtensions
     {
         /// <summary>
-        /// Copies the values from on array to another.
+        /// Copies the values from one array to another.
         /// </summary>
         /// <param name="source">The source array.</param>
         /// <param name="dest">The destination array.</param>
@@ -53,7 +53,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Copies the values from on array to another.
+        /// Copies the values from one array to another.
         /// </summary>
         /// <param name="source">The source array.</param>
         /// <param name="dest">The destination array.</param>
@@ -63,7 +63,17 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Copies the values from on array to another.
+        /// Copies the values from one array to another.
+        /// </summary>
+        /// <param name="source">The source array.</param>
+        /// <param name="dest">The destination array.</param>
+        public static void Copy(this int[] source, int[] dest)
+        {
+            Buffer.BlockCopy(source, 0, dest, 0, source.Length * Constants.SizeOfInt);
+        }
+
+        /// <summary>
+        /// Copies the values from one array to another.
         /// </summary>
         /// <param name="source">The source array.</param>
         /// <param name="dest">The destination array.</param>
@@ -73,7 +83,7 @@ namespace MathNet.Numerics
         }
         
         /// <summary>
-        /// Copies the values from on array to another.
+        /// Copies the values from one array to another.
         /// </summary>
         /// <param name="source">The source array.</param>
         /// <param name="dest">The destination array.</param>

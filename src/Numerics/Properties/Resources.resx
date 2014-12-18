@@ -406,4 +406,10 @@
   <data name="ArgumentUpperBoundMustBeLargerThanLowerBound" xml:space="preserve">
     <value>The upper bound must be strictly larger than the lower bound.</value>
   </data>
+  <data name="NotSupportedForIntegerMatrices" xml:space="preserve">
+    <value>This operation is not supported for integer matrices.</value>
+  </data>
+  <data name="NotSupportedForIntegerVectors" xml:space="preserve">
+    <value>This operation is not supported for integer vectors.</value>
+  </data>
 </root>
