@@ -5,7 +5,7 @@ NUGET
     ConsoleDump (0.6.0.1)
     FAKE (3.9.9)
     FSharp.Compiler.Service (0.0.67)
-    FSharp.Core.Microsoft.Signed (3.1.1.1)
+    FSharp.Core (3.1.2.1)
     FSharp.Formatting (2.4.36)
       FSharp.Compiler.Service (0.0.67)
       Microsoft.AspNet.Razor (2.0.30506.0)

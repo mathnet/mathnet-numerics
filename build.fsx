@@ -133,10 +133,10 @@ let fsharpPack =
               Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion ] }
             { FrameworkVersion="net40"
               Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion
-                             "FSharp.Core.Microsoft.Signed", GetPackageVersion "packages" "FSharp.Core.Microsoft.Signed" ] }
+                             "FSharp.Core", GetPackageVersion "packages" "FSharp.Core" ] }
             { FrameworkVersion=""
               Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion
-                             "FSharp.Core.Microsoft.Signed", GetPackageVersion "packages" "FSharp.Core.Microsoft.Signed" ] } ]
+                             "FSharp.Core", GetPackageVersion "packages" "FSharp.Core" ] } ]
         Files =
           [ @"..\..\out\lib\Net35\MathNet.Numerics.FSharp.*", Some libnet35, None;
             @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
@@ -165,7 +165,7 @@ let fsharpSignedPack =
         Dependencies =
           [ { FrameworkVersion=""
               Dependencies=[ "MathNet.Numerics.Signed", RequireExactly packageVersion
-                             "FSharp.Core.Microsoft.Signed", GetPackageVersion "packages" "FSharp.Core.Microsoft.Signed" ] } ]
+                             "FSharp.Core", GetPackageVersion "packages" "FSharp.Core" ] } ]
         Files =
           [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
             @"MathNet.Numerics.fsx", None, None;

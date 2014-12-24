@@ -55,8 +55,7 @@ packages/*
 !packages/NUnit
 !packages/FsUnit
 !packages/TaskParallelLibrary
-!packages/FSharp.Core.Microsoft.Signed
-!packages/FSharp.Core.4.3.0.0.Microsoft.Signed
+!packages/FSharp.Core
 
 # FAKE & Paket
 packages/FAKE
