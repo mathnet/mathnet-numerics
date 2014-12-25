@@ -89,6 +89,22 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             AssertHelpers.AlmostEqual(covariance, direct, 14);
         }
 
+
+        /// <summary>
+        /// Constant-weighted Pearson correlation test.
+        /// </summary>
+        [Test]
+        public void ConstantWeightedPearsonCorrelationTest()
+        {
+            var dataA = _data["lottery"].Data.Take(200);
+            var dataB = _data["lew"].Data.Take(200);
+            var weights = Generate.Repeat(200, 2.0);
+
+            var corr = Correlation.Pearson(dataA, dataB);
+            var corr2 = Correlation.WeightedPearson(dataA, dataB, weights);
+            AssertHelpers.AlmostEqual(corr, corr2, 14);
+        }
+
         /// <summary>
         /// Pearson correlation test fail.
         /// </summary>

@@ -53,6 +53,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Sunny Ahuwanya
 - Till Hoffmann
 - Tomas Petricek
+- ViK
 - VicPara
 - bstrausser
 - mjmckp

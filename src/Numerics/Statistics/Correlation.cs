@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2014 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -74,17 +74,17 @@ namespace MathNet.Numerics.Statistics
                     double currentB = ieB.Current;
 
                     double deltaA = currentA - meanA;
-                    double scaleDeltaA = deltaA / ++n;
+                    double scaleDeltaA = deltaA/++n;
 
                     double deltaB = currentB - meanB;
-                    double scaleDeltaB = deltaB / n;
+                    double scaleDeltaB = deltaB/n;
 
                     meanA += scaleDeltaA;
                     meanB += scaleDeltaB;
 
-                    varA += scaleDeltaA * deltaA * (n - 1);
-                    varB += scaleDeltaB * deltaB * (n - 1);
-                    r += (deltaA * deltaB * (n - 1)) / n;
+                    varA += scaleDeltaA*deltaA*(n - 1);
+                    varB += scaleDeltaB*deltaB*(n - 1);
+                    r += (deltaA*deltaB*(n - 1))/n;
                 }
 
                 if (ieB.MoveNext())
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            return r / Math.Sqrt(varA * varB);
+            return r/Math.Sqrt(varA*varB);
         }
 
         /// <summary>
@@ -138,18 +138,18 @@ namespace MathNet.Numerics.Statistics
                     double temp = sumWeight + wi;
 
                     double deltaX = xi - meanA;
-                    double rX = deltaX * wi / temp;
+                    double rX = deltaX*wi/temp;
                     meanA += rX;
-                    varA += sumWeight * deltaX * rX;
+                    varA += sumWeight*deltaX*rX;
 
                     double deltaY = yi - meanB;
-                    double rY = deltaY * wi / temp;
+                    double rY = deltaY*wi/temp;
                     meanB += rY;
-                    varB += sumWeight * deltaY * rY;
+                    varB += sumWeight*deltaY*rY;
 
                     sumWeight = temp;
 
-                    covariance += deltaX * deltaY * (n - 1) * wi / n;
+                    covariance += deltaX*deltaY*(n - 1)*wi/n;
                 }
                 if (ieB.MoveNext())
                 {
@@ -160,7 +160,7 @@ namespace MathNet.Numerics.Statistics
                     throw new ArgumentOutOfRangeException("weights", Resources.ArgumentArraysSameLength);
                 }
             }
-            return covariance / Math.Sqrt(varA * varB);
+            return covariance/Math.Sqrt(varA*varB);
         }
 
         /// <summary>
@@ -225,7 +225,7 @@ namespace MathNet.Numerics.Statistics
             return PearsonMatrix(vectors.Select(Rank).ToArray());
         }
 
-        private static double[] Rank(IEnumerable<double> series)
+        static double[] Rank(IEnumerable<double> series)
         {
             if (series == null)
             {
