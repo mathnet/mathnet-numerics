@@ -49,8 +49,19 @@ $$$
 \binom{n}{k_1,k_2,\dots,k_r} = \frac{n!}{k_1! k_2! \cdots k_r!} = \frac{n!}{\prod_{i=1}^{r}k_i!}
 
 
-Gamma-related functions
------------------------
+Exponential Integral
+--------------------
+
+* `ExponentialIntegral(x,n)`
+
+Generalized Exponential Integral
+
+$$$
+E_n(x) = \int_1^\infty t^{-n} e^{-xt}\,\mathrm{d}t
+
+
+Gamma functions
+---------------
 
 #### Gamma
 * `Gamma(a)`
@@ -117,8 +128,8 @@ $$$
 \psi^{-1}(p)
 
 
-Euler Beta-related functions
-----------------------------
+Euler Beta functions
+--------------------
 
 #### Euler Beta
 * `Beta(a,b)`
