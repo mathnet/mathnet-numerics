@@ -41,8 +41,8 @@ namespace MathNet.Numerics
 {
     public partial class SpecialFunctions
     {
-        private const int FactorialMaxArgument = 170;
-        private static double[] _factorialCache;
+        const int FactorialMaxArgument = 170;
+        static double[] _factorialCache;
 
         /// <summary>
         /// Initializes static members of the SpecialFunctions class.
@@ -52,13 +52,13 @@ namespace MathNet.Numerics
             InitializeFactorial();
         }
 
-        private static void InitializeFactorial()
+        static void InitializeFactorial()
         {
             _factorialCache = new double[FactorialMaxArgument + 1];
             _factorialCache[0] = 1.0;
             for (int i = 1; i < _factorialCache.Length; i++)
             {
-                _factorialCache[i] = _factorialCache[i - 1] * i;
+                _factorialCache[i] = _factorialCache[i - 1]*i;
             }
         }
 

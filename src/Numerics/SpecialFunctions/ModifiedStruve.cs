@@ -44,12 +44,12 @@
 //    ALGLIB 2.0.1, Sergey Bochkanov
 // </contribution>
 
+using System;
+
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
-    using System;
-
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the modified bessel function.
     /// </summary>
@@ -246,11 +246,11 @@ namespace MathNet.Numerics
             {
                 if (x < xlow)
                 {
-                    return Constants.TwoInvPi * x;
+                    return Constants.TwoInvPi*x;
                 }
 
-                double T = (4.0 * x - 24.0) / (x + 24.0);
-                return Constants.TwoInvPi * x * Evaluate.ChebyshevSum(nterm1, ARL0, T) * Math.Exp(x);
+                double T = (4.0*x - 24.0)/(x + 24.0);
+                return Constants.TwoInvPi*x*Evaluate.ChebyshevSum(nterm1, ARL0, T)*Math.Exp(x);
             }
 
             // Code for |xvalue| > 16
@@ -261,7 +261,7 @@ namespace MathNet.Numerics
             }
             else
             {
-                double T = (x - 28.0) / (4.0 - x);
+                double T = (x - 28.0)/(4.0 - x);
                 ch1 = Evaluate.ChebyshevSum(nterm2, ARL0AS, T);
             }
 
@@ -272,18 +272,18 @@ namespace MathNet.Numerics
             }
             else
             {
-                double xsq = x * x;
-                double T = (800.0 - xsq) / (288.0 + xsq);
+                double xsq = x*x;
+                double T = (800.0 - xsq)/(288.0 + xsq);
                 ch2 = Evaluate.ChebyshevSum(nterm3, AI0ML0, T);
             }
 
-            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x) / 2.0 + x;
+            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x)/2.0 + x;
             if (test > Math.Log(xmax))
             {
                 throw new ArithmeticException("ERROR IN MISCFUN FUNCTION STRVL0: ARGUMENT CAUSES OVERFLOW");
             }
 
-            return Math.Exp(test) - Constants.TwoInvPi * ch2 / x;
+            return Math.Exp(test) - Constants.TwoInvPi*ch2/x;
         }
 
         /// <summary>
@@ -488,14 +488,14 @@ namespace MathNet.Numerics
                     return 0.0;
                 }
 
-                double xsq = x * x;
+                double xsq = x*x;
                 if (x < xlow1)
                 {
-                    return xsq / Constants.Pi3Over2;
+                    return xsq/Constants.Pi3Over2;
                 }
 
-                double t = (4.0 * x - 24.0) / (x + 24.0);
-                return xsq * Evaluate.ChebyshevSum(nterm1, ARL1, t) * Math.Exp(x) / Constants.Pi3Over2;
+                double t = (4.0*x - 24.0)/(x + 24.0);
+                return xsq*Evaluate.ChebyshevSum(nterm1, ARL1, t)*Math.Exp(x)/Constants.Pi3Over2;
             }
 
             // CODE FOR |x| > 16
@@ -506,7 +506,7 @@ namespace MathNet.Numerics
             }
             else
             {
-                double t = (x - 30.0) / (2.0 - x);
+                double t = (x - 30.0)/(2.0 - x);
                 ch1 = Evaluate.ChebyshevSum(nterm2, ARL1AS, t);
             }
 
@@ -517,18 +517,18 @@ namespace MathNet.Numerics
             }
             else
             {
-                double xsq = x * x;
-                double t = (800.0 - xsq) / (288.0 + xsq);
+                double xsq = x*x;
+                double t = (800.0 - xsq)/(288.0 + xsq);
                 ch2 = Evaluate.ChebyshevSum(nterm3, AI1ML1, t);
             }
 
-            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x) / 2.0 + x;
+            double test = Math.Log(ch1) - Constants.LogSqrt2Pi - Math.Log(x)/2.0 + x;
             if (test > Math.Log(xmax))
             {
                 throw new ArithmeticException("ERROR IN MISCFUN FUNCTION STRVL1: ARGUMENT CAUSES OVERFLOW");
             }
 
-            return Math.Exp(test) - Constants.TwoInvPi * ch2;
+            return Math.Exp(test) - Constants.TwoInvPi*ch2;
         }
 
         /// <summary>

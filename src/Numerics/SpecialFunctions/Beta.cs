@@ -33,12 +33,13 @@
 //    ALGLIB 2.0.1, Sergey Bochkanov
 // </contribution>
 
+using System;
+using MathNet.Numerics.Properties;
+
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
-    using System;
-    using Properties;
 
     public static partial class SpecialFunctions
     {

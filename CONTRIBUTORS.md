@@ -33,6 +33,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Scott Stephens
 - Superbest
 - Anders Gustafsson
+- Ashley Messer
 - Gauthier Segay
 - Patrick van der Velde
 - Robin Neatherway
@@ -49,6 +50,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Kosei ABE
 - Martin Posch
 - Paul Varkey
+- Sunny Ahuwanya
 - Till Hoffmann
 - Tomas Petricek
 - VicPara

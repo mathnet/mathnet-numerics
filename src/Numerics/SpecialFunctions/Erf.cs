@@ -37,12 +37,12 @@
 //  * double ErfInvImpl(double p, double q, double s)
 // </copyright>
 
+using System;
+
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
-    using System;
-
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the error function.
     /// </summary>

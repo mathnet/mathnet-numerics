@@ -44,12 +44,12 @@
 //    ALGLIB 2.0.1, Sergey Bochkanov
 // </contribution>
 
+using System;
+
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
-    using System;
-
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the modified bessel function.
     /// </summary>

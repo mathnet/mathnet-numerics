@@ -28,16 +28,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
+#if !NOSYSNUMERICS
+using System.Numerics;
+#endif
+
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
-    using System;
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     public partial class SpecialFunctions
     {
         /// <summary>
@@ -81,15 +81,15 @@ namespace MathNet.Numerics
         {
             if (a.Magnitude > b.Magnitude)
             {
-                var r = b.Magnitude / a.Magnitude;
-                return a.Magnitude * Math.Sqrt(1 + (r * r));
+                var r = b.Magnitude/a.Magnitude;
+                return a.Magnitude*Math.Sqrt(1 + (r*r));
             }
 
             if (b != 0.0)
             {
                 // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
-                var r = a.Magnitude / b.Magnitude;
-                return b.Magnitude * Math.Sqrt(1 + (r * r));
+                var r = a.Magnitude/b.Magnitude;
+                return b.Magnitude*Math.Sqrt(1 + (r*r));
             }
 
             return 0d;
@@ -105,15 +105,15 @@ namespace MathNet.Numerics
         {
             if (a.Magnitude > b.Magnitude)
             {
-                var r = b.Magnitude / a.Magnitude;
-                return a.Magnitude * (float)Math.Sqrt(1 + (r * r));
+                var r = b.Magnitude/a.Magnitude;
+                return a.Magnitude*(float)Math.Sqrt(1 + (r*r));
             }
 
             if (b != 0.0f)
             {
                 // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
-                var r = a.Magnitude / b.Magnitude;
-                return b.Magnitude * (float)Math.Sqrt(1 + (r * r));
+                var r = a.Magnitude/b.Magnitude;
+                return b.Magnitude*(float)Math.Sqrt(1 + (r*r));
             }
 
             return 0f;
@@ -129,15 +129,15 @@ namespace MathNet.Numerics
         {
             if (Math.Abs(a) > Math.Abs(b))
             {
-                double r = b / a;
-                return Math.Abs(a) * Math.Sqrt(1 + (r * r));
+                double r = b/a;
+                return Math.Abs(a)*Math.Sqrt(1 + (r*r));
             }
 
             if (b != 0.0)
             {
                 // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
-                double r = a / b;
-                return Math.Abs(b) * Math.Sqrt(1 + (r * r));
+                double r = a/b;
+                return Math.Abs(b)*Math.Sqrt(1 + (r*r));
             }
 
             return 0d;
@@ -153,15 +153,15 @@ namespace MathNet.Numerics
         {
             if (Math.Abs(a) > Math.Abs(b))
             {
-                float r = b / a;
-                return Math.Abs(a) * (float)Math.Sqrt(1 + (r * r));
+                float r = b/a;
+                return Math.Abs(a)*(float)Math.Sqrt(1 + (r*r));
             }
 
             if (b != 0.0)
             {
                 // NOTE (ruegg): not "!b.AlmostZero()" to avoid convergence issues (e.g. in SVD algorithm)
-                float r = a / b;
-                return Math.Abs(b) * (float)Math.Sqrt(1 + (r * r));
+                float r = a/b;
+                return Math.Abs(b)*(float)Math.Sqrt(1 + (r*r));
             }
 
             return 0f;
