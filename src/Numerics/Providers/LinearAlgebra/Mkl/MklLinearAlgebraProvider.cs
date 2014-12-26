@@ -67,6 +67,29 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         Double = 0x20
     }
 
+    public enum MklMemoryRequestMode : int
+    {
+        /// <summary>
+        /// Disable gathering memory usage
+        /// </summary>
+        Disable = 0,
+
+        /// <summary>
+        /// Enable gathering memory usage
+        /// </summary>
+        Enable = 1,
+
+        /// <summary>
+        /// Return peak memory usage
+        /// </summary>
+        PeakMemory = 2, 
+
+        /// <summary>
+        /// Return peak memory usage and reset counter
+        /// </summary>
+        PeakMemoryReset = -1
+    }
+
     /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
@@ -163,10 +186,55 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             }
         }
 
+        /// <summary>
+        /// Frees the memory allocated to the MKL memory pool.
+        /// </summary>
+        public void FreeBuffers()
+        {
+            SafeNativeMethods.free_buffers();
+        }
+
+        /// <summary>
+        /// Frees the memory allocated to the MKL memory pool on the current thread.
+        /// </summary>
+        public void ThreadFreeBuffers()
+        {
+            SafeNativeMethods.thread_free_buffers();
+        }
+
+        /// <summary>
+        /// Disable the MKL memory pool. May impact performance.
+        /// </summary>
+        public void DisableMklMemoryPool() 
+        {
+            SafeNativeMethods.disable_fast_mm();
+        }
+
+        /// <summary>
+        /// Retrieves information about the the MKL memory pool.
+        /// </summary>
+        /// <param name="allocatedBuffers">On output, returns the number of memory buffers allocated.</param>
+        /// <returns>Returns the number of bytes allocated to all memory buffers.</returns>
+        public long MemoryStatistics(out int allocatedBuffers)
+        {
+           return SafeNativeMethods.mem_stat(out allocatedBuffers);
+        }
+
+        /// <summary>
+        /// Measures peak memory usage of the MKL memory pool.
+        /// </summary>
+        /// <param name="mode">The request mode.</param>
+        /// <returns>The peak memory usage.</returns>
+        public long PeakMemoryUsage(MklMemoryRequestMode mode)
+        {
+            return SafeNativeMethods.peak_mem_usage((int)mode);
+        }
+
         public override string ToString()
         {
             return string.Format("Intel MKL ({1}; revision {0})", _nativeRevision, _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
         }
+
     }
 }
 

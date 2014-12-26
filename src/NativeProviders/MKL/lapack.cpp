@@ -1,4 +1,4 @@
-﻿#include <algorithm>
+#include <algorithm>
 #include <complex>
 #define MKL_Complex8 std::complex<float>
 #define MKL_Complex16 std::complex<double>
