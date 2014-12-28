@@ -293,6 +293,7 @@
     <ClCompile Include="..\..\MKL\capabilities.cpp" />
     <ClCompile Include="..\..\MKL\blas.c" />
     <ClCompile Include="..\..\MKL\lapack.cpp" />
+    <ClCompile Include="..\..\MKL\memory.c" />
     <ClCompile Include="..\..\MKL\vector_functions.c" />
   </ItemGroup>
   <ItemGroup>
