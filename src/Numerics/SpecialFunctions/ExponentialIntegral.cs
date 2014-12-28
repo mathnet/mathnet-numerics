@@ -41,9 +41,10 @@ namespace MathNet.Numerics
     public static partial class SpecialFunctions
     {
         /// <summary>
-        /// Computes the Exponential Integral function.
+        /// Computes the generalized Exponential Integral function (En).
         /// </summary>
         /// <param name="x">The argument of the Exponential Integral function.</param>
+        /// <param name="n">Integer power of the denominator term. Generalization index.</param>
         /// <returns>The value of the Exponential Integral function.</returns>
         /// <remarks>
         /// <para>This implementation of the computation of the Exponential Integral function follows the derivation in
@@ -70,7 +71,7 @@ namespace MathNet.Numerics
             int maxIterations = 100;
             int i, ii;
             double ndbl = (double)n;
-            double result = double.NaN;
+            double result;
             double nearDoubleMin = 1e-100; //needs a very small value that is not quite as small as the lowest value double can take
             double factorial = 1.0d;
             double del;
@@ -80,13 +81,11 @@ namespace MathNet.Numerics
             //special cases
             if (n == 0)
             {
-                result = Math.Exp(-1.0d*x)/x;
-                return result;
+                return Math.Exp(-1.0d*x)/x;
             }
             else if (x == 0.0d)
             {
-                result = 1.0d/(ndbl - 1.0d);
-                return result;
+                return 1.0d/(ndbl - 1.0d);
             }
             //general cases
             //continued fraction for large x
@@ -106,13 +105,12 @@ namespace MathNet.Numerics
                     h = h*del;
                     if (Math.Abs(del - 1.0d) < epsilon)
                     {
-                        result = h*Math.Exp(-x);
-                        return result;
+                        return h*Math.Exp(-x);
                     }
                 }
                 throw new ArithmeticException(string.Format("continued fraction failed to converge for x={0}, n={1})", x, n));
             }
-                //series computation for small x
+            //series computation for small x
             else
             {
                 result = ((ndbl - 1.0d) != 0 ? 1.0/(ndbl - 1.0d) : (-1.0d*Math.Log(x) - Constants.EulerMascheroni)); //Set first term.
