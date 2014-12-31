@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <summary>
         /// Return peak memory usage
         /// </summary>
-        PeakMemory = 2, 
+        PeakMemory = 2,
 
         /// <summary>
         /// Return peak memory usage and reset counter
