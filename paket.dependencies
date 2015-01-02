@@ -2,7 +2,7 @@ source http://nuget.org/api/v2
 
 # Core Dependencies
 nuget FSharp.Core ~> 3.1.2
-nuget TaskParallelLibrary 1.0.2856.0
+nuget TaskParallelLibrary 1.0.2856
 
 # Data Dependencies
 nuget MathNet.Numerics 3.0.0

@@ -19,4 +19,4 @@ NUGET
     NUnit.Runners (2.6.4)
     RazorEngine (3.3.0)
       Microsoft.AspNet.Razor (>= 2.0.30506.0)
-    TaskParallelLibrary (1.0.2856.0)
+    TaskParallelLibrary (1.0.2856)
