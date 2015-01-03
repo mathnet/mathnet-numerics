@@ -43,12 +43,12 @@ let packageVersion = release.NugetVersion
 let releaseNotes = release.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
 trace (sprintf " Math.NET Numerics                    v%s" packageVersion)
 
-let nativeRelease = LoadReleaseNotes "RELEASENOTES-Native.md"
-let nativeBuildPart = "0"
-let nativeAssemblyVersion = nativeRelease.AssemblyVersion + "." + nativeBuildPart
-let nativePackageVersion = nativeRelease.NugetVersion
-let nativeReleaseNotes = nativeRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
-trace (sprintf " Math.NET Numerics Native Providers   v%s" nativePackageVersion)
+let mklRelease = LoadReleaseNotes "RELEASENOTES-MKL.md"
+let mklBuildPart = "0"
+let mklAssemblyVersion = mklRelease.AssemblyVersion + "." + mklBuildPart
+let mklPackageVersion = mklRelease.NugetVersion
+let mklReleaseNotes = mklRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf " Math.NET Numerics MKL Provider       v%s" mklPackageVersion)
 
 let dataRelease = LoadReleaseNotes "RELEASENOTES-Data.md"
 let dataBuildPart = "0"
@@ -186,13 +186,13 @@ let coreSignedBundle =
 
 // NATIVE PROVIDER PACKAGES
 
-let nativeMKLWin32Pack =
+let mklWin32Pack =
     { Id = "MathNet.Numerics.MKL.Win-x86"
-      Version = nativePackageVersion
+      Version = mklPackageVersion
       Title = "Math.NET Numerics - MKL Native Providers (Windows 32-bit)"
       Summary = ""
       Description = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
-      ReleaseNotes = nativeReleaseNotes
+      ReleaseNotes = mklReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       Dependencies =
@@ -202,21 +202,53 @@ let nativeMKLWin32Pack =
         [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
           @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
 
-let nativeMKLWin64Pack =
-    { nativeMKLWin32Pack with
+let mklWin64Pack =
+    { mklWin32Pack with
         Id = "MathNet.Numerics.MKL.Win-x64"
         Title = "Math.NET Numerics - MKL Native Providers (Windows 64-bit)"
         Files =
           [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
             @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
 
-let nativeBundle =
-    { Id = "MathNet.Numerics.NativeProviders"
-      Version = nativePackageVersion
-      Title = "Math.NET Numerics Native Providers"
-      ReleaseNotesFile = "RELEASENOTES-Native.md"
+let mklLinux32Pack =
+    { Id = "MathNet.Numerics.MKL.Linux-x86"
+      Version = mklPackageVersion
+      Title = "Math.NET Numerics - MKL Native Providers (Linux 32-bit)"
+      Summary = ""
+      Description = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
+      ReleaseNotes = mklReleaseNotes
+      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
+      Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
+      Dependencies =
+        [ { FrameworkVersion=""
+            Dependencies=[ "MathNet.Numerics", "2.4.0" ] } ]
+      Files =
+        [ @"..\..\out\MKL\Linux\x86\libiomp5.so", Some "content", None;
+          @"..\..\out\MKL\Linux\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
+
+let mklLinux64Pack =
+    { mklLinux32Pack with
+        Id = "MathNet.Numerics.MKL.Linux-x64"
+        Title = "Math.NET Numerics - MKL Native Providers (Linux 64-bit)"
+        Files =
+          [ @"..\..\out\MKL\Linux\x64\libiomp5.so", Some "content", None;
+            @"..\..\out\MKL\Linux\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
+
+let mklWinBundle =
+    { Id = "MathNet.Numerics.MKL.Win"
+      Version = mklPackageVersion
+      Title = "Math.NET Numerics MKL Native Provider for Windows"
+      ReleaseNotesFile = "RELEASENOTES-MKL.md"
       FsLoader = false
-      Packages = [ nativeMKLWin32Pack; nativeMKLWin64Pack ] }
+      Packages = [ mklWin32Pack; mklWin64Pack ] }
+
+let mklLinuxBundle =
+    { Id = "MathNet.Numerics.MKL.Linux"
+      Version = mklPackageVersion
+      Title = "Math.NET Numerics MKL Native Provider for Linux"
+      ReleaseNotesFile = "RELEASENOTES-MKL.md"
+      FsLoader = false
+      Packages = [ mklLinux32Pack; mklLinux64Pack ] }
 
 
 // DATA EXTENSION PACKAGES
@@ -293,8 +325,8 @@ Target "ApplyVersion" (fun _ ->
     patchAssemblyInfo "src/Data" dataAssemblyVersion dataPackageVersion
     patchAssemblyInfo "src/DataUnitTests" dataAssemblyVersion dataPackageVersion
     ReplaceInFile
-        (regex_replace @"\d+\.\d+\.\d+\.\d+" nativeAssemblyVersion
-         >> regex_replace @"\d+,\d+,\d+,\d+" (replace "." "," nativeAssemblyVersion))
+        (regex_replace @"\d+\.\d+\.\d+\.\d+" mklAssemblyVersion
+         >> regex_replace @"\d+,\d+,\d+,\d+" (replace "." "," mklAssemblyVersion))
         "src/NativeProviders/Common/resource.rc")
 
 Target "Prepare" DoNothing
@@ -311,8 +343,8 @@ Target "Prepare" DoNothing
 let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
 let build subject = buildConfig "Release" subject
 let buildSigned subject = buildConfig "Release-Signed" subject
-let native32Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
-let native64Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
+let nativeWin32Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
+let nativeWin64Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
 
 Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
 Target "BuildNet35" (fun _ -> build !! "MathNet.Numerics.Net35Only.sln")
@@ -327,12 +359,12 @@ Target "Build" DoNothing
   =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "net35" || hasBuildParam "signed"))
   ==> "Build"
 
-Target "Native32Build" (fun _ -> native32Build !! "MathNet.Numerics.NativeProviders.sln")
-Target "Native64Build" (fun _ -> native64Build !! "MathNet.Numerics.NativeProviders.sln")
+Target "MklWin32Build" (fun _ -> nativeWin32Build !! "MathNet.Numerics.NativeProviders.sln")
+Target "MklWin64Build" (fun _ -> nativeWin64Build !! "MathNet.Numerics.NativeProviders.sln")
 
-Target "NativeBuild" DoNothing
-"Prepare" ==> "Native32Build" ==> "NativeBuild"
-"Prepare" ==> "Native64Build" ==> "NativeBuild"
+Target "MklWinBuild" DoNothing
+"Prepare" ==> "MklWin32Build" ==> "MklWinBuild"
+"Prepare" ==> "MklWin64Build" ==> "MklWinBuild"
 
 Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
 "Prepare" ==> "DataBuild"
@@ -352,7 +384,7 @@ let test target =
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 
-Target "Native32Test" (fun _ ->
+Target "MklWin32Test" (fun _ ->
     ActivateFinalTarget "CloseTestRunner"
     !! "out/MKL/Windows/x86/*UnitTests*.dll"
     |> NUnit (fun p ->
@@ -361,7 +393,7 @@ Target "Native32Test" (fun _ ->
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 30.
             OutputFile = "TestResults.xml" }))
-Target "Native64Test" (fun _ ->
+Target "MklWin64Test" (fun _ ->
     ActivateFinalTarget "CloseTestRunner"
     !! "out/MKL/Windows/x64/*UnitTests*.dll"
     |> NUnit (fun p ->
@@ -370,15 +402,15 @@ Target "Native64Test" (fun _ ->
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 30.
             OutputFile = "TestResults.xml" }))
-Target "NativeTest" DoNothing
+Target "MklWinTest" DoNothing
 
 FinalTarget "CloseTestRunner" (fun _ ->
     ProcessHelper.killProcess "nunit-agent.exe"
     ProcessHelper.killProcess "nunit-agent-x86.exe"
 )
 
-"Native32Test" ==> "NativeTest"
-"Native64Test" ==> "NativeTest"
+"MklWin32Test" ==> "MklWinTest"
+"MklWin64Test" ==> "MklWinTest"
 
 Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
 
@@ -448,9 +480,13 @@ Target "Zip" (fun _ ->
     if hasBuildParam "signed" || hasBuildParam "release" then
         coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
 
-Target "NativeZip" (fun _ ->
-    CleanDir "out/MKL/packages/Zip"
-    nativeBundle |> zip "out/MKL/packages/Zip" "out/MKL" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
+Target "MklWinZip" (fun _ ->
+    CreateDir "out/MKL/packages/Zip"
+    mklWinBundle |> zip "out/MKL/packages/Zip" "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
+
+Target "MklLinuxZip" (fun _ ->
+    CreateDir "out/MKL/packages/Zip"
+    mklLinuxBundle |> zip "out/MKL/packages/Zip" "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
@@ -506,9 +542,13 @@ Target "NuGet" (fun _ ->
     if hasBuildParam "all" || hasBuildParam "release" then
         nugetPack coreBundle "out/packages/NuGet")
 
-Target "NativeNuGet" (fun _ ->
-    CleanDir "out/MKL/packages/NuGet"
-    nugetPackExtension nativeBundle "out/MKL/packages/NuGet")
+Target "MklWinNuGet" (fun _ ->
+    CreateDir "out/MKL/packages/NuGet"
+    nugetPackExtension mklWinBundle "out/MKL/packages/NuGet")
+
+Target "MklLinuxNuGet" (fun _ ->
+    CreateDir "out/MKL/packages/NuGet"
+    nugetPackExtension mklLinuxBundle "out/MKL/packages/NuGet")
 
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
@@ -571,7 +611,7 @@ let publishReleaseTag title prefix version notes =
     Git.Branches.pushTag "." remoteName tagName
 
 Target "PublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics" "" packageVersion releaseNotes)
-Target "NativePublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Native Providers" "native-" nativePackageVersion nativeReleaseNotes)
+Target "MklPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics MKL Provider" "mkl-" mklPackageVersion mklReleaseNotes)
 Target "DataPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Data Extensions" "data-" dataPackageVersion dataReleaseNotes)
 
 Target "PublishMirrors" (fun _ ->
@@ -615,7 +655,7 @@ let publishNuGet packageFiles =
     Seq.iter (impl 3) packageFiles
 
 Target "PublishNuGet" (fun _ -> !! "out/packages/NuGet/*.nupkg" -- "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
-Target "NativePublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.nupkg" |> publishNuGet)
+Target "MklPublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.nupkg" |> publishNuGet)
 Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.nupkg" |> publishNuGet)
 
 Target "Publish" DoNothing
@@ -624,9 +664,9 @@ Target "Publish" DoNothing
 "PublishDocs" ==> "Publish"
 "PublishApi" ==> "Publish"
 
-Target "NativePublish" DoNothing
-"NativePublishTag" ==> "NativePublish"
-"NativePublishNuGet" ==> "NativePublish"
+Target "MklPublish" DoNothing
+"MklPublishTag" ==> "MklPublish"
+"MklPublishNuGet" ==> "MklPublish"
 
 Target "DataPublish" DoNothing
 "DataPublishTag" ==> "DataPublish"
@@ -656,16 +696,16 @@ match buildServer with
 
     // build --> test
     "Build" ==> "Test" |> ignore
-    "Native32Build" ==> "Native32Test" |> ignore
-    "Native64Build" ==> "Native64Test" |> ignore
+    "MklWin32Build" ==> "MklWin32Test" |> ignore
+    "MklWin64Build" ==> "MklWin64Test" |> ignore
     "DataBuild" ==> "DataTest" |> ignore
 
     // build --> package
     "Build" ==> "Zip" |> ignore
-    "NativeBuild" ==> "NativeZip" |> ignore
+    "MklWinBuild" ==> "MklWinZip" |> ignore
     "DataBuild" ==> "DataZip" |> ignore
     "Build" ==> "NuGet" |> ignore
-    "NativeBuild" ==> "NativeNuGet" |> ignore
+    "MklWinBuild" ==> "MklWinNuGet" |> ignore
     "DataBuild" ==> "DataNuGet" |> ignore
 
     // build --> docs
@@ -688,42 +728,16 @@ Target "All" DoNothing
 "Api" ==> "All"
 "Test" ==> "All"
 
-Target "NativeAll" DoNothing
-"NativeBuild" ==> "NativeAll"
-"NativeZip" ==> "NativeAll"
-"NativeNuGet" ==> "NativeAll"
-"NativeTest" ==> "NativeAll"
+Target "MklWinAll" DoNothing
+"MklWinBuild" ==> "MklWinAll"
+"MklWinZip" ==> "MklWinAll"
+"MklWinNuGet" ==> "MklWinAll"
+"MklWinTest" ==> "MklWinAll"
 
 Target "DataAll" DoNothing
 "DataBuild" ==> "DataAll"
 "DataZip" ==> "DataAll"
 "DataNuGet" ==> "DataAll"
 "DataTest" ==> "DataAll"
-
-Target "UltimateBuild" DoNothing
-"Build" ==> "UltimateBuild"
-"NativeBuild" ==> "UltimateBuild"
-"DataBuild" ==> "UltimateBuild"
-
-Target "UltimateTest" DoNothing
-"UltimateBuild" ==> "UltimateTest"
-"Test" ==> "UltimateTest"
-"NativeTest" ==> "UltimateTest"
-"DataTest" ==> "UltimateTest"
-
-Target "UltimatePack" DoNothing
-"UltimateBuild" ==> "UltimatePack"
-"Zip" ==> "UltimatePack"
-"NuGet" ==> "UltimatePack"
-"NativeZip" ==> "UltimatePack"
-"NativeNuGet" ==> "UltimatePack"
-"DataZip" ==> "UltimatePack"
-"DataNuGet" ==> "UltimatePack"
-
-Target "Ultimate" DoNothing
-"All" ==> "Ultimate"
-"UltimateBuild" ==> "Ultimate"
-"UltimatePack" ==> "Ultimate"
-"UltimateTest" ==> "Ultimate"
 
 RunTargetOrDefault "Test"

@@ -70,7 +70,7 @@ let extraDocs =
 let releaseNotesDocs =
     [ "RELEASENOTES.md", "ReleaseNotes.md", "Release Notes"
       "RELEASENOTES-Data.md", "ReleaseNotes-Data.md", "Data Extensions Release Notes"
-      "RELEASENOTES-Native.md", "ReleaseNotes-Native.md", "Native Providers Release Notes" ]
+      "RELEASENOTES-MKL.md", "ReleaseNotes-MKL.md", "MKL Native Provider Release Notes" ]
 
 // Copy static files and CSS + JS from F# Formatting
 let copySupportFiles() =
@@ -85,7 +85,7 @@ let prepareReleaseNotes() =
     for (fileName, docName, title) in releaseNotesDocs do
         String.concat Environment.NewLine
           [ "# " + title
-            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [Native Providers](ReleaseNotes-Native.html)"
+            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [MML Native Provider](ReleaseNotes-MKL.html)"
             ""
             ReadFileAsString (top @@ fileName) ]
         |> ReplaceFile (content @@ docName)
