@@ -85,7 +85,7 @@ let prepareReleaseNotes() =
     for (fileName, docName, title) in releaseNotesDocs do
         String.concat Environment.NewLine
           [ "# " + title
-            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [MML Native Provider](ReleaseNotes-MKL.html)"
+            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [MKL Native Provider](ReleaseNotes-MKL.html)"
             ""
             ReadFileAsString (top @@ fileName) ]
         |> ReplaceFile (content @@ docName)
