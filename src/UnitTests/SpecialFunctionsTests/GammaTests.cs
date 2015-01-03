@@ -233,5 +233,34 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         {
             AssertHelpers.AlmostEqualRelative(f, SpecialFunctions.GammaUpperIncomplete(a, x), 13);
         }
+
+        [TestCase(0.0, 0.0, 0.0)]
+        [TestCase(0.0, 1.0, 0.0)]
+        [TestCase(0.0, 2.0, 0.0)]
+        public void GammaUpperIncomplete_SpecialCases(double a, double x, double f)
+        {
+            double actual = SpecialFunctions.GammaUpperRegularized(a, x);
+            AssertHelpers.AlmostEqualRelative(f, actual, 13);
+        }
+
+        [TestCase(0.0, 0.0, 1.0)]
+        [TestCase(0.0, 1.0, 1.0)]
+        [TestCase(0.0, 2.0, 1.0)]
+        public void GammaLowerIncomplete_SpecialCases(double a, double x, double f)
+        {
+            double actual = SpecialFunctions.GammaLowerRegularized(a, x);
+            AssertHelpers.AlmostEqualRelative(f, actual, 13);
+        }
+
+        [TestCase(0.0, 0.0, 1.0)]
+        [TestCase(0.0, 1.0, 1.0)]
+        [TestCase(0.0, 2.0, 1.0)]
+        public void GammaIncompleteRegularized_CheckSum(double a, double x, double f)
+        {
+            double actualLower = SpecialFunctions.GammaLowerRegularized(a, x);
+            double actualUpper = SpecialFunctions.GammaUpperRegularized(a, x);
+            AssertHelpers.AlmostEqualRelative(f, actualLower + actualUpper, 13);
+        }
+
     }
 }

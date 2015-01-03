@@ -165,12 +165,8 @@ namespace MathNet.Numerics
             const double big = 4503599627370496.0;
             const double bigInv = 2.22044604925031308085e-16;
 
-            if (x <= 0d || a <= 0d)
-            {
-                return 1d;
-            }
 
-            if (x < 1d || x < a)
+            if (x < 1d || x <= a)
             {
                 return 1d - GammaLowerRegularized(a, x);
             }
@@ -279,8 +275,8 @@ namespace MathNet.Numerics
             {
                 if (x.AlmostEqual(0.0))
                 {
-                    // either 0 or 1, depending on the limit direction
-                    return double.NaN;
+                    //use right hand limit value because so that regularized upper/lower gamma definition holds.
+                    return 1d;
                 }
 
                 return 1d;
