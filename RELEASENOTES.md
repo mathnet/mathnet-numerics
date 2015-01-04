@@ -1,6 +1,7 @@
 ### 3.4.0 - 2015-01-04
 * Special Functions: Generalized Exponential Integral *~Ashley Messer*
 * Special Functions: Regularized Incomplete Gamma domain extended to a=0 *~Ashley Messer*
+* Statistics: weighted Pearson correlation *~ViK*
 * MKL Native Provider: memory functions to free buffers and gather usage statistics *~Marcus Cuda*
 * F#: depend on new official FSharp.Core NuGet package instead of FSharp.Core.Microsoft.Signed
 * F#: simpler NuGet package dependencies (no more need for framework groups)
