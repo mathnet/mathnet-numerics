@@ -1,3 +1,11 @@
+### 3.4.0 - 2015-01-04
+* Special Functions: Generalized Exponential Integral *~Ashley Messer*
+* Special Functions: Regularized Incomplete Gamma domain extended to a=0 *~Ashley Messer*
+* MKL Native Provider: memory functions to free buffers and gather usage statistics *~Marcus Cuda*
+* F#: depend on new official FSharp.Core NuGet package instead of FSharp.Core.Microsoft.Signed
+* F#: simpler NuGet package dependencies (no more need for framework groups)
+* Build: vagrant bootstrap now uses the latest xamarin mono packages
+
 ### 3.3.0 - 2014-11-26
 * Linear Algebra: Vector.Fold2 (fold2 in F#), storage optimized
 * Linear Algebra: Minor change how matrix products call the LA provider

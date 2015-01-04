@@ -27,13 +27,13 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Andriy Bratiychuk
 - Jack Pappas
 - Artyom Baranovskiy
+- Ashley Messer
 - Candy Chiu
 - Evelina Gabasova
 - Phil Cleveland
 - Scott Stephens
 - Superbest
 - Anders Gustafsson
-- Ashley Messer
 - Gauthier Segay
 - Patrick van der Velde
 - Robin Neatherway
