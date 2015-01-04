@@ -159,17 +159,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             }
             catch (EntryPointNotFoundException e)
             {
-                // we currently accept this to continue to support the old version for a while.
-                // however, this is planned to be dropped for the final v3 release at latest.
-                // TODO: drop return statement and instead fail with the exception below
-                return;
-
-                throw new NotSupportedException("MKL Native Provider found but does not support capability querying and is therefore not compatible. Try to upgrade to a newer version.", e);
+                throw new NotSupportedException("MKL Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
             }
 
             if (a != 0 || b != -1 || linearAlgebra <=0 || _nativeRevision < 4)
             {
-                throw new NotSupportedException("MKL Native Provider found but too old or not compatible.");
+                throw new NotSupportedException("MKL Native Provider too old or not compatible. Consider upgrading to a newer version.");
             }
 
             // set numerical consistency, precision and accuracy modes, if supported
@@ -191,6 +186,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void FreeBuffers()
         {
+            if (SafeNativeMethods.query_capability(67) < 1)
+            {
+                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
+            }
+
             SafeNativeMethods.free_buffers();
         }
 
@@ -199,14 +199,24 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void ThreadFreeBuffers()
         {
+            if (SafeNativeMethods.query_capability(67) < 1)
+            {
+                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
+            }
+
             SafeNativeMethods.thread_free_buffers();
         }
 
         /// <summary>
         /// Disable the MKL memory pool. May impact performance.
         /// </summary>
-        public void DisableMklMemoryPool() 
+        public void DisableMklMemoryPool()
         {
+            if (SafeNativeMethods.query_capability(67) < 1)
+            {
+                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
+            }
+
             SafeNativeMethods.disable_fast_mm();
         }
 
@@ -217,6 +227,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <returns>Returns the number of bytes allocated to all memory buffers.</returns>
         public long MemoryStatistics(out int allocatedBuffers)
         {
+            if (SafeNativeMethods.query_capability(67) < 1)
+            {
+                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
+            }
+
            return SafeNativeMethods.mem_stat(out allocatedBuffers);
         }
 
@@ -227,6 +242,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <returns>The peak memory usage.</returns>
         public long PeakMemoryUsage(MklMemoryRequestMode mode)
         {
+            if (SafeNativeMethods.query_capability(67) < 1)
+            {
+                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
+            }
+
             return SafeNativeMethods.peak_mem_usage((int)mode);
         }
 
