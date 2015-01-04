@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -67,7 +67,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         Double = 0x20
     }
 
-    public enum MklMemoryRequestMode : int
+    internal enum MklMemoryRequestMode : int
     {
         /// <summary>
         /// Disable gathering memory usage
@@ -210,7 +210,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <summary>
         /// Disable the MKL memory pool. May impact performance.
         /// </summary>
-        public void DisableMklMemoryPool()
+        public void DisableMemoryPool()
         {
             if (SafeNativeMethods.query_capability(67) < 1)
             {
@@ -221,7 +221,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         }
 
         /// <summary>
-        /// Retrieves information about the the MKL memory pool.
+        /// Retrieves information about the MKL memory pool.
         /// </summary>
         /// <param name="allocatedBuffers">On output, returns the number of memory buffers allocated.</param>
         /// <returns>Returns the number of bytes allocated to all memory buffers.</returns>
@@ -236,18 +236,44 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         }
 
         /// <summary>
-        /// Measures peak memory usage of the MKL memory pool.
+        /// Enable gathering of peak memory statistics of the MKL memory pool.
         /// </summary>
-        /// <param name="mode">The request mode.</param>
-        /// <returns>The peak memory usage.</returns>
-        public long PeakMemoryUsage(MklMemoryRequestMode mode)
+        public void EnablePeakMemoryStatistics()
         {
             if (SafeNativeMethods.query_capability(67) < 1)
             {
                 throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
             }
 
-            return SafeNativeMethods.peak_mem_usage((int)mode);
+            SafeNativeMethods.peak_mem_usage((int)MklMemoryRequestMode.Enable);
+        }
+
+        /// <summary>
+        /// Disable gathering of peak memory statistics of the MKL memory pool.
+        /// </summary>
+        public void DisablePeakMemoryStatistics()
+        {
+            if (SafeNativeMethods.query_capability(67) < 1)
+            {
+                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
+            }
+
+            SafeNativeMethods.peak_mem_usage((int)MklMemoryRequestMode.Disable);
+        }
+
+        /// <summary>
+        /// Measures peak memory usage of the MKL memory pool.
+        /// </summary>
+        /// <param name="reset">Whether the usage counter should be reset.</param>
+        /// <returns>The peak number of bytes allocated to all memory buffers.</returns>
+        public long PeakMemoryStatistics(bool reset = true)
+        {
+            if (SafeNativeMethods.query_capability(67) < 1)
+            {
+                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
+            }
+
+            return SafeNativeMethods.peak_mem_usage((int)(reset ? MklMemoryRequestMode.PeakMemoryReset : MklMemoryRequestMode.PeakMemory));
         }
 
         public override string ToString()

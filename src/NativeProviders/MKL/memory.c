@@ -1,7 +1,7 @@
 #include "wrapper_common.h"
 #include "mkl.h"
 
-#if GCC 
+#if GCC
 extern "C" {
 #endif
 
@@ -18,13 +18,13 @@ DLLEXPORT int disable_fast_mm(void) {
 }
 
 DLLEXPORT MKL_INT64 mem_stat(int* AllocatedBuffers) {
-	return mkl_mem_stat(AllocatedBuffers); 
+	return mkl_mem_stat(AllocatedBuffers);
 }
 
 DLLEXPORT MKL_INT64 peak_mem_usage(int mode) {
 	return mkl_peak_mem_usage(mode);
 }
 
-#if GCC 
+#if GCC
 }
 #endif
