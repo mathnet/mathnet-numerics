@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -173,7 +173,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </summary>
         public static DiagonalMatrix CreateIdentity(int order)
         {
-            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfInit(order, order, i => One));
+            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfValue(order, order, One));
         }
 
         /// <summary>
@@ -181,8 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </summary>
         public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DiagonalMatrix(DiagonalMatrixStorage<int>.OfInit(rows, columns,
-                i => (int) distribution.Sample()));
+            return new DiagonalMatrix(new DiagonalMatrixStorage<int>(rows, columns, Generate.RandomInteger(Math.Min(rows, columns), distribution)));
         }
 
         /// <summary>
@@ -536,7 +535,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             if (diagResult != null)
             {
                 var resultData = diagResult._data;
-                CommonParallel.For(0, _data.Length, (a, b) =>
+                CommonParallel.For(0, _data.Length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
@@ -594,7 +593,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
             }
 
-            Buffer.BlockCopy(source, 0, _data, 0, source.Length * Constants.SizeOfFloat);
+            Buffer.BlockCopy(source, 0, _data, 0, source.Length * Constants.SizeOfInt);
         }
 
         /// <summary>
@@ -620,21 +619,21 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
             }
 
-            Buffer.BlockCopy(denseSource.Values, 0, _data, 0, denseSource.Values.Length * Constants.SizeOfFloat);
+            Buffer.BlockCopy(denseSource.Values, 0, _data, 0, denseSource.Values.Length * Constants.SizeOfInt);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()
         {
-            return _data.Aggregate(0f, (current, t) => Math.Max(current, Math.Abs(t)));
+            return _data.Aggregate(0, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
         /// <summary>Calculates the induced L2 norm of the matrix.</summary>
         /// <returns>The largest singular value of the matrix.</returns>
         public override double L2Norm()
         {
-            return _data.Aggregate(0f, (current, t) => Math.Max(current, Math.Abs(t)));
+            return _data.Aggregate(0, (current, t) => Math.Max(current, Math.Abs(t)));
         }
 
         /// <summary>Calculates the induced infinity norm of this matrix.</summary>
@@ -877,7 +876,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return;
             }
 
-            CommonParallel.For(0, _data.Length, (a, b) =>
+            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
             {
                 var r = diagonalResult._data;
                 for (var i = a; i < b; i++)
@@ -902,7 +901,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return;
             }
 
-            CommonParallel.For(0, _data.Length, (a, b) =>
+            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
             {
                 var r = diagonalResult._data;
                 for (var i = a; i < b; i++)
@@ -927,7 +926,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return;
             }
 
-            CommonParallel.For(0, _data.Length, (a, b) =>
+            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
             {
                 var r = diagonalResult._data;
                 for (var i = a; i < b; i++)
@@ -952,7 +951,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return;
             }
 
-            CommonParallel.For(0, _data.Length, (a, b) =>
+            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
             {
                 var r = diagonalResult._data;
                 for (var i = a; i < b; i++)

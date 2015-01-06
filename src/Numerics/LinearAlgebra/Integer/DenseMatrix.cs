@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -389,7 +389,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </summary>
         public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseMatrix(DenseColumnMajorMatrixStorage<int>.OfInit(rows, columns, (i, j) => (int)distribution.Sample()));
+            return new DenseMatrix(new DenseColumnMajorMatrixStorage<int>(rows, columns, Generate.RandomInteger(rows*columns, distribution)));
         }
 
         /// <summary>
@@ -452,7 +452,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return;
             }
 
-            CommonParallel.For(0, _values.Length, (a, b) => {
+            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+            {
                 var v = denseResult._values;
                 for (int i = a; i < b; i++)
                 {
@@ -509,7 +510,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return;
             }
 
-            CommonParallel.For(0, _values.Length, (a, b) => {
+            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+            {
                 var v = denseResult._values;
                 for (int i = a; i < b; i++)
                 {
@@ -802,7 +804,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                         CopyTo(result);
                     }
 
-                    CommonParallel.For(0, _values.Length, (a, b) => {
+                    CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                    {
                         var v = denseResult._values;
                         for (int i = a; i < b; i++)
                         {
@@ -873,7 +876,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 CopyTo(result);
             }
 
-            CommonParallel.For(0, _values.Length, (a, b) => {
+            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+            {
                 var v = denseResult._values;
                 for (int i = a; i < b; i++)
                 {
@@ -897,7 +901,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return;
             }
 
-            CommonParallel.For(0, _values.Length, (a, b) => {
+            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+            {
                 var v = denseResult._values;
                 for (int i = a; i < b; i++)
                 {
@@ -926,7 +931,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 CopyTo(result);
             }
 
-            CommonParallel.For(0, _values.Length, (a, b) => {
+            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+            {
                 var v = denseResult._values;
                 for (int i = a; i < b; i++)
                 {
@@ -950,7 +956,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return;
             }
 
-            CommonParallel.For(0, _values.Length, (a, b) => {
+            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+            {
                 var v = denseResult._values;
                 for (int i = a; i < b; i++)
                 {
@@ -1133,7 +1140,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
 
             if (leftSide._columnCount != rightSide._rowCount)
             {
-                throw DimensionsDontMatch<ArgumentException>(leftSide, rightSide);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return (DenseMatrix)leftSide.Multiply(rightSide);

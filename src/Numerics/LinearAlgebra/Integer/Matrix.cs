@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -203,6 +203,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             Storage.MapIndexedTo(result.Storage, (i, j, x) => (int)norminv[j]*x, Zeros.AllowSkip, ExistingData.AssumeZeros);
             return result;
         }
+
         /// <summary>
         /// Calculates the value sum of each row vector.
         /// </summary>
@@ -355,27 +356,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         }
 
         /// <summary>
-        /// Multiplies this matrix with another matrix and places the results into the result matrix.
-        /// </summary>
-        /// <param name="other">The matrix to multiply with.</param>
-        /// <param name="result">The result of the multiplication.</param>
-        protected override void DoMultiply(Matrix<int> other, Matrix<int> result)
-        {
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < other.ColumnCount; j++)
-                {
-                    var s = 0;
-                    for (var k = 0; k < ColumnCount; k++)
-                    {
-                        s += At(i, k)*other.At(k, j);
-                    }
-                    result.At(i, j, s);
-                }
-            }
-        }
-
-        /// <summary>
         /// Divides each element of the matrix by a scalar and places results into the result matrix.
         /// </summary>
         /// <param name="divisor">The scalar to divide the matrix with.</param>
@@ -403,6 +383,27 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 for (var j = 0; j < ColumnCount; j++)
                 {
                     result.At(i, j, dividend/At(i, j));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Multiplies this matrix with another matrix and places the results into the result matrix.
+        /// </summary>
+        /// <param name="other">The matrix to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoMultiply(Matrix<int> other, Matrix<int> result)
+        {
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < other.ColumnCount; j++)
+                {
+                    var s = 0;
+                    for (var k = 0; k < ColumnCount; k++)
+                    {
+                        s += At(i, k)*other.At(k, j);
+                    }
+                    result.At(i, j, s);
                 }
             }
         }
@@ -498,6 +499,35 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         }
 
         /// <summary>
+        /// Negate each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the negation.</param>
+        protected override void DoNegate(Matrix<int> result)
+        {
+          for (var i = 0; i < RowCount; i++)
+          {
+            for (var j = 0; j < ColumnCount; j++)
+            {
+              result.At(i, j, -At(i, j));
+            }
+          }
+        }
+
+        /// <summary>
+        /// Complex conjugates each element of this matrix and place the results into the result matrix.
+        /// </summary>
+        /// <param name="result">The result of the conjugation.</param>
+        protected override sealed void DoConjugate(Matrix<int> result)
+        {
+          if (ReferenceEquals(this, result))
+          {
+            return;
+          }
+
+          CopyTo(result);
+        }
+
+        /// <summary>
         /// Computes the canonical modulus, where the result has the sign of the divisor,
         /// for the given divisor each element of the matrix.
         /// </summary>
@@ -563,35 +593,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                     result.At(row, column, dividend%At(row, column));
                 }
             }
-        }
-
-        /// <summary>
-        /// Negate each element of this matrix and place the results into the result matrix.
-        /// </summary>
-        /// <param name="result">The result of the negation.</param>
-        protected override void DoNegate(Matrix<int> result)
-        {
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    result.At(i, j, -At(i, j));
-                }
-            }
-        }
-
-        /// <summary>
-        /// Complex conjugates each element of this matrix and place the results into the result matrix.
-        /// </summary>
-        /// <param name="result">The result of the conjugation.</param>
-        protected override sealed void DoConjugate(Matrix<int> result)
-        {
-            if (ReferenceEquals(this, result))
-            {
-                return;
-            }
-
-            CopyTo(result);
         }
 
         /// <summary>

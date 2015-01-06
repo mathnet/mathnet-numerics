@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -332,8 +332,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </summary>
         public static SparseMatrix Create(int rows, int columns, int value)
         {
-            if (value == 0f) return new SparseMatrix(rows, columns);
-            return new SparseMatrix(SparseCompressedRowMatrixStorage<int>.OfInit(rows, columns, (i, j) => value));
+            if (value == 0) return new SparseMatrix(rows, columns);
+            return new SparseMatrix(SparseCompressedRowMatrixStorage<int>.OfValue(rows, columns, value));
         }
 
         /// <summary>
@@ -349,7 +349,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </summary>
         public static SparseMatrix CreateDiagonal(int rows, int columns, int value)
         {
-            if (value == 0f) return new SparseMatrix(rows, columns);
+            if (value == 0) return new SparseMatrix(rows, columns);
             return new SparseMatrix(SparseCompressedRowMatrixStorage<int>.OfDiagonalInit(rows, columns, i => value));
         }
 
@@ -769,6 +769,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         {
             var sparseOther = other as SparseMatrix;
             var sparseResult = result as SparseMatrix;
+
             if (sparseOther == null || sparseResult == null)
             {
                 base.DoSubtract(other, result);
@@ -1138,7 +1139,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 for (var j = rowPointers[i]; j < endIndex; j++)
                 {
                     var resVal = values[j]*other.At(i, columnIndices[j]);
-                    if (resVal != 0f)
+                    if (resVal != 0)
                     {
                         result.At(i, columnIndices[j], resVal);
                     }
@@ -1164,7 +1165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 var endIndex = rowPointers[i + 1];
                 for (var j = rowPointers[i]; j < endIndex; j++)
                 {
-                    if (values[j] != 0f)
+                    if (values[j] != 0)
                     {
                         result.At(i, columnIndices[j], values[j]/divisor.At(i, columnIndices[j]));
                     }
@@ -1198,7 +1199,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 var endIndex = rowPointers[i + 1];
                 for (var j = rowPointers[i]; j < endIndex; j++)
                 {
-                    if (values[j] != 0f)
+                    if (values[j] != 0)
                     {
                         result.SetSubMatrix(i*other.RowCount, other.RowCount, columnIndices[j]*other.ColumnCount, other.ColumnCount, values[j]*other);
                     }
@@ -1270,7 +1271,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return false;
             }
 
-            // todo: we might be able to speed this up by caching one half of the matrix
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
@@ -1288,8 +1288,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 for (var index = start; index < end; index++)
                 {
                     var column = columnIndices[index];
-                    var opposite = At(column, row);
-                    if (!values[index].Equals(opposite))
+                    if (!values[index].Equals(At(column, row)))
                     {
                         return false;
                     }
@@ -1324,7 +1323,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
 
             if (leftSide.RowCount != rightSide.RowCount || leftSide.ColumnCount != rightSide.ColumnCount)
             {
-                throw DimensionsDontMatch<ArgumentException>(leftSide, rightSide);
+                throw DimensionsDontMatch<ArgumentOutOfRangeException>(leftSide, rightSide);
             }
 
             return (SparseMatrix)leftSide.Add(rightSide);

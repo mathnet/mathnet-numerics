@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,13 +28,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Integer
 {
@@ -116,8 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </summary>
         public static SparseVector Create(int length, int value)
         {
-            if (value == 0f) return new SparseVector(length);
-            return new SparseVector(SparseVectorStorage<int>.OfInit(length, i => value));
+            return new SparseVector(SparseVectorStorage<int>.OfValue(length, value));
         }
 
         /// <summary>
@@ -141,7 +140,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </param>
         protected override void DoAdd(int scalar, Vector<int> result)
         {
-            if (scalar == 0.0f)
+            if (scalar == 0)
             {
                 if (!ReferenceEquals(this, result))
                 {
@@ -153,7 +152,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
 
             if (ReferenceEquals(this, result))
             {
-                //populate a new vector with the scalar
+                // populate a new vector with the scalar
                 var vnonZeroValues = new int[Count];
                 var vnonZeroIndices = new int[Count];
                 for (int index = 0; index < Count; index++)
@@ -162,7 +161,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                     vnonZeroValues[index] = scalar;
                 }
 
-                //populate the non zero values from this
+                // populate the non zero values from this
                 var indices = _storage.Indices;
                 var values = _storage.Values;
                 for (int j = 0; j < _storage.ValueCount; j++)
@@ -170,12 +169,11 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                     vnonZeroValues[indices[j]] = values[j] + scalar;
                 }
 
-                //assign this vectors arrary to the new arrays.
+                // assign this vectors array to the new arrays.
                 _storage.Values = vnonZeroValues;
                 _storage.Indices = vnonZeroIndices;
                 _storage.ValueCount = Count;
             }
-
             else
             {
                 for (var index = 0; index < Count; index++)
@@ -221,7 +219,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                     if (i >= _storage.ValueCount || _storage.Indices[i] > otherStorage.Indices[j])
                     {
                         var otherValue = otherStorage.Values[j];
-                        if (otherValue != 0.0f)
+                        if (otherValue != 0)
                         {
                             _storage.InsertAtIndexUnchecked(i++, otherStorage.Indices[j], otherValue);
                         }
@@ -324,7 +322,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                     if (i >= _storage.ValueCount || _storage.Indices[i] > otherStorage.Indices[j])
                     {
                         var otherValue = otherStorage.Values[j];
-                        if (otherValue != 0.0f)
+                        if (otherValue != 0)
                         {
                             _storage.InsertAtIndexUnchecked(i++, otherStorage.Indices[j], -otherValue);
                         }
@@ -746,7 +744,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// <returns>The sum of the absolute values.</returns>
         public override double L1Norm()
         {
-            double result = 0d;
+            var result = 0d;
             for (var i = 0; i < _storage.ValueCount; i++)
             {
                 result += Math.Abs(_storage.Values[i]);
@@ -760,7 +758,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
-            return CommonParallel.Aggregate(0, _storage.ValueCount, i => Math.Abs(_storage.Values[i]), Math.Max, 0f);
+            return CommonParallel.Aggregate(0, _storage.ValueCount, i => Math.Abs(_storage.Values[i]), Math.Max, 0);
         }
 
         /// <summary>
@@ -781,7 +779,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             if (p == 2d) return L2Norm();
             if (double.IsPositiveInfinity(p)) return InfinityNorm();
 
-            double sum = 0d;
+            var sum = 0d;
             for (var index = 0; index < _storage.ValueCount; index++)
             {
                 sum += Math.Pow(Math.Abs(_storage.Values[index]), p);
@@ -890,7 +888,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             var tokens = value.Split(new[] { formatProvider.GetTextInfo().ListSeparator, " ", "\t" }, StringSplitOptions.RemoveEmptyEntries);
             var data = tokens.Select(t => int.Parse(t, NumberStyles.Any, formatProvider)).ToList();
             if (data.Count == 0) throw new FormatException();
-            return OfEnumerable(data);
+            return new SparseVector(SparseVectorStorage<int>.OfEnumerable(data));
         }
 
         /// <summary>

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,14 +28,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Integer
 {
@@ -136,8 +137,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </summary>
         public static DenseVector Create(int length, int value)
         {
-            if (value == 0f) return new DenseVector(length);
-            return new DenseVector(DenseVectorStorage<int>.OfInit(length, i => value));
+            if (value == 0) return new DenseVector(length);
+            return new DenseVector(DenseVectorStorage<int>.OfValue(length, value));
         }
 
         /// <summary>
@@ -153,8 +154,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </summary>
         public static DenseVector CreateRandom(int length, IContinuousDistribution distribution)
         {
-            return new DenseVector(DenseVectorStorage<int>.OfInit(length,
-                i => (int)distribution.Sample()));
+            var samples = Generate.RandomInteger(length, distribution);
+            return new DenseVector(new DenseVectorStorage<int>(length, samples));
         }
 
         /// <summary>
@@ -215,7 +216,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             }
             else
             {
-                CommonParallel.For(0, _values.Length, (a, b) =>
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {
@@ -255,9 +256,19 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> or <paramref name="rightSide"/> is <see langword="null" />.</exception>
         public static DenseVector operator +(DenseVector leftSide, DenseVector rightSide)
         {
+            if (rightSide == null)
+            {
+                throw new ArgumentNullException("rightSide");
+            }
+
             if (leftSide == null)
             {
                 throw new ArgumentNullException("leftSide");
+            }
+
+            if (leftSide.Count != rightSide.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rightSide");
             }
 
             return (DenseVector)leftSide.Add(rightSide);
@@ -277,7 +288,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             }
             else
             {
-                CommonParallel.For(0, _values.Length, (a, b) =>
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
                     {
                         for (int i = a; i < b; i++)
                         {
@@ -461,7 +472,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// Computes the canonical modulus, where the result has the sign of the divisor,
         /// for each element of the vector for the given divisor.
         /// </summary>
-        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="divisor">The divisor to use.</param>
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(int divisor, Vector<int> result)
         {
@@ -472,7 +483,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             }
             else
             {
-                CommonParallel.For(0, _length, (a, b) =>
+                CommonParallel.For(0, _length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
@@ -486,7 +497,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// Computes the remainder (% operator), where the result has the sign of the dividend,
         /// for each element of the vector for the given divisor.
         /// </summary>
-        /// <param name="divisor">The scalar denominator to use.</param>
+        /// <param name="divisor">The divisor to use.</param>
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoRemainder(int divisor, Vector<int> result)
         {
@@ -497,7 +508,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             }
             else
             {
-                CommonParallel.For(0, _length, (a, b) =>
+                CommonParallel.For(0, _length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
@@ -511,7 +522,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// Computes the remainder (% operator), where the result has the sign of the dividend,
         /// of each element of the vector of the given divisor.
         /// </summary>
-        /// <param name="leftSide">The vector whose elements we want to compute the modulus of.</param>
+        /// <param name="leftSide">The vector whose elements we want to compute the remainder of.</param>
         /// <param name="rightSide">The divisor to use,</param>
         /// <returns>The result of the calculation</returns>
         /// <exception cref="ArgumentNullException">If <paramref name="leftSide"/> is <see langword="null" />.</exception>
@@ -632,9 +643,9 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         public override int Sum()
         {
             var sum = 0;
-            for (var i = 0; i < _length; i++)
+            for (var index = 0; index < _length; index++)
             {
-                sum += _values[i];
+                sum += _values[index];
             }
             return sum;
         }
@@ -645,10 +656,10 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// <returns>The sum of the absolute values.</returns>
         public override double L1Norm()
         {
-            double sum = 0d;
-            for (var i = 0; i < _length; i++)
+            var sum = 0d;
+            for (var index = 0; index < _length; index++)
             {
-                sum += Math.Abs(_values[i]);
+                sum += Math.Abs(_values[index]);
             }
             return sum;
         }
@@ -669,7 +680,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
-            return CommonParallel.Aggregate(_values, (i, v) => Math.Abs(v), Math.Max, 0f);
+            return CommonParallel.Aggregate(_values, (i, v) => Math.Abs(v), Math.Max, 0);
         }
 
         /// <summary>
@@ -685,7 +696,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             if (p == 2d) return L2Norm();
             if (double.IsPositiveInfinity(p)) return InfinityNorm();
 
-            double sum = 0d;
+            var sum = 0d;
             for (var index = 0; index < _length; index++)
             {
                 sum += Math.Pow(Math.Abs(_values[index]), p);

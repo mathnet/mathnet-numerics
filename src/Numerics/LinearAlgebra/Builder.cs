@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -1683,7 +1683,14 @@ namespace MathNet.Numerics.LinearAlgebra
                     (VectorBuilder<T>)(object)new Single.VectorBuilder());
             }
 
-            throw new NotSupportedException(string.Format("Matrices and vectors of type '{0}' are not supported. Only Double, Single, Complex or Complex32 are supported at this point.", typeof(T).Name));
+            if (typeof (T) == typeof (int))
+            {
+                return new Tuple<MatrixBuilder<T>, VectorBuilder<T>>(
+                    (MatrixBuilder<T>)(object)new Integer.MatrixBuilder(),
+                    (VectorBuilder<T>)(object)new Integer.VectorBuilder());
+            }
+
+            throw new NotSupportedException(string.Format("Matrices and vectors of type '{0}' are not supported. Only Double, Single, Integer(Int32), Complex or Complex32 are supported at this point.", typeof(T).Name));
         }
 
         public static void Register(MatrixBuilder<T> matrixBuilder, VectorBuilder<T> vectorBuilder)

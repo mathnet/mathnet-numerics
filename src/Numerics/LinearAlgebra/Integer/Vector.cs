@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,9 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Threading;
-using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Integer
 {
@@ -408,7 +408,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// <returns>The sum of the absolute values.</returns>
         public override double L1Norm()
         {
-            double sum = 0d;
+            var sum = 0.0;
             for (var i = 0; i < Count; i++)
             {
                 sum += Math.Abs(At(i));
@@ -431,7 +431,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// <returns>The maximum absolute value.</returns>
         public override double InfinityNorm()
         {
-            return CommonParallel.Aggregate(0, Count, i => Math.Abs(At(i)), Math.Max, 0f);
+            return CommonParallel.Aggregate(0, Count, i => Math.Abs(At(i)), Math.Max, 0);
         }
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
             if (p == 2d) return L2Norm();
             if (double.IsPositiveInfinity(p)) return InfinityNorm();
 
-            double sum = 0d;
+            var sum = 0d;
             for (var index = 0; index < Count; index++)
             {
                 sum += Math.Pow(Math.Abs(At(index)), p);

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,13 +28,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
 {
-    using System;
-    using MathNet.Numerics.Properties;
-
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization.</para>
     /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
