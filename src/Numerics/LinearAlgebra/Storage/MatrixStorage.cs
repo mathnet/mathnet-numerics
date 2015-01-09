@@ -472,6 +472,36 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return ret;
         }
 
+        public virtual T[][] ToRowArrays()
+        {
+            var ret = new T[RowCount][];
+            for (int i = 0; i < RowCount; i++)
+            {
+                var row = new T[ColumnCount];
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    row[j] = At(i, j);
+                }
+                ret[i] = row;
+            }
+            return ret;
+        }
+
+        public virtual T[][] ToColumnArrays()
+        {
+            var ret = new T[ColumnCount][];
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                var column = new T[RowCount];
+                for (int i = 0; i < RowCount; i++)
+                {
+                    column[i] = At(i, j);
+                }
+                ret[j] = column;
+            }
+            return ret;
+        }
+
         public virtual T[,] ToArray()
         {
             var ret = new T[RowCount, ColumnCount];

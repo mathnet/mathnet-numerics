@@ -197,6 +197,36 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
+        public void CanToColumnArrays(Matrix<T> matrix)
+        {
+            var columnArrays = matrix.ToColumnArrays();
+            Assert.That(columnArrays.Length, Is.EqualTo(matrix.ColumnCount));
+            Assert.That(columnArrays[0].Length, Is.EqualTo(matrix.RowCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(columnArrays[j][i], Is.EqualTo(matrix[i, j]));
+                }
+            }
+        }
+
+        [Theory]
+        public void CanToRowArrays(Matrix<T> matrix)
+        {
+            var rowArrays = matrix.ToRowArrays();
+            Assert.That(rowArrays.Length, Is.EqualTo(matrix.RowCount));
+            Assert.That(rowArrays[0].Length, Is.EqualTo(matrix.ColumnCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(rowArrays[i][j], Is.EqualTo(matrix[i, j]));
+                }
+            }
+        }
+
+        [Theory]
         public void CanToColumnWiseArray(Matrix<T> matrix)
         {
             var array = matrix.ToColumnWiseArray();

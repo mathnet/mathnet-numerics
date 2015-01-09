@@ -31,6 +31,13 @@ module SparseMatrixTests =
         a.[8..11,0..5] |> should equal smallM
 
     [<Test>]
+    let ``SparseMatrix.ofMatrixList2`` () =
+        let a = SparseMatrix.ofMatrixList2 [[smallM; smallM]; [smallM; smallM]; [smallM; smallM]]
+        a.[0..3,0..5] |> should equal smallM
+        a.[4..7,6..11] |> should equal smallM
+        a.[8..11,0..5] |> should equal smallM
+
+    [<Test>]
     let ``SparseMatrix.ofRowSeq`` () =
         SparseMatrix.ofRowSeq (Seq.ofList [[0.;0.;0.;0.;0.;0.];[0.;0.;1.;0.;0.;0.];[0.;0.;0.;0.;0.;0.];[0.;0.;0.;0.;0.;0.]]) |> should equal smallM
 

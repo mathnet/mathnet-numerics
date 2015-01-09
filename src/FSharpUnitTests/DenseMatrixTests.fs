@@ -51,6 +51,13 @@ module DenseMatrixTests =
         a.[6..8,0..1] |> should equal smallM
 
     [<Test>]
+    let ``DenseMatrix.ofMatrixList2`` () =
+        let a = DenseMatrix.ofMatrixList2 [[smallM; smallM]; [smallM; smallM]; [smallM; smallM]]
+        a.[0..2,0..1] |> should equal smallM
+        a.[3..5,2..3] |> should equal smallM
+        a.[6..8,0..1] |> should equal smallM
+
+    [<Test>]
     let ``DenseMatrix.ofRowSeq`` () =
         DenseMatrix.ofRowSeq (Seq.ofList [[0.3;0.3];[0.3;0.3];[0.3;0.3]]) |> should equal smallM
 

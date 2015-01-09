@@ -1363,6 +1363,22 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Returns this matrix as array of row arrays.
+        /// </summary>
+        public T[][] ToRowArrays()
+        {
+            return Storage.ToRowArrays();
+        }
+
+        /// <summary>
+        /// Returns this matrix as array of column arrays.
+        /// </summary>
+        public T[][] ToColumnArrays()
+        {
+            return Storage.ToColumnArrays();
+        }
+
+        /// <summary>
         /// Returns an IEnumerable that can be used to iterate through all values of the matrix.
         /// </summary>
         /// <remarks>

@@ -42,6 +42,12 @@ module Matrix =
     /// Transform a matrix into a 2D array.
     let inline toArray2 (A: #Matrix<_>) = A.ToArray()
 
+    /// Transform a matrix into an array of column arrays.
+    let inline toColArrays (m: #Matrix<_>) = m.ToColumnArrays()
+
+    /// Transform a matrix into an array of row arrays.
+    let inline toRowArrays (m: #Matrix<_>) = m.ToRowArrays()
+
 
     /// Transform a matrix into a sequence.
     let inline toSeq (m: #Matrix<_>) = m.Enumerate(Zeros.Include)

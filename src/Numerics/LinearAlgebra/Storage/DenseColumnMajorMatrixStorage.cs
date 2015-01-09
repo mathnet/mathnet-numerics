@@ -557,6 +557,39 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return ret;
         }
 
+        public override T[][] ToRowArrays()
+        {
+            var ret = new T[RowCount][];
+            CommonParallel.For(0, RowCount, Math.Max(4096/ColumnCount, 32), (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    var row = new T[ColumnCount];
+                    for (int j = 0; j < ColumnCount; j++)
+                    {
+                        row[j] = Data[j*RowCount + i];
+                    }
+                    ret[i] = row;
+                }
+            });
+            return ret;
+        }
+
+        public override T[][] ToColumnArrays()
+        {
+            var ret = new T[ColumnCount][];
+            CommonParallel.For(0, ColumnCount, Math.Max(4096/RowCount, 32), (a, b) =>
+            {
+                for (int j = a; j < b; j++)
+                {
+                    var column = new T[RowCount];
+                    Array.Copy(Data, j*RowCount, column, 0, RowCount);
+                    ret[j] = column;
+                }
+            });
+            return ret;
+        }
+
         public override T[,] ToArray()
         {
             var ret = new T[RowCount, ColumnCount];

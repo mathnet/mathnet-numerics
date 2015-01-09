@@ -551,6 +551,34 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return ret;
         }
 
+        public override T[][] ToRowArrays()
+        {
+            var ret = new T[RowCount][];
+            for (int i = 0; i < RowCount; i++)
+            {
+                ret[i] = new T[ColumnCount];
+            }
+            for (int i = 0; i < Data.Length; i++)
+            {
+                ret[i][i] = Data[i];
+            }
+            return ret;
+        }
+
+        public override T[][] ToColumnArrays()
+        {
+            var ret = new T[ColumnCount][];
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                ret[j] = new T[RowCount];
+            }
+            for (int i = 0; i < Data.Length; i++)
+            {
+                ret[i][i] = Data[i];
+            }
+            return ret;
+        }
+
         public override T[,] ToArray()
         {
             var ret = new T[RowCount, ColumnCount];

@@ -1216,6 +1216,48 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return ret;
         }
 
+        public override T[][] ToRowArrays()
+        {
+            var ret = new T[RowCount][];
+            if (ValueCount != 0)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var array = new T[ColumnCount];
+                    var startIndex = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        array[ColumnIndices[j]] = Values[j];
+                    }
+                    ret[row] = array;
+                }
+            }
+            return ret;
+        }
+
+        public override T[][] ToColumnArrays()
+        {
+            var ret = new T[ColumnCount][];
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                ret[j] = new T[RowCount];
+            }
+            if (ValueCount != 0)
+            {
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var startIndex = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        ret[ColumnIndices[j]][row] = Values[j];
+                    }
+                }
+            }
+            return ret;
+        }
+
         public override T[,] ToArray()
         {
             var ret = new T[RowCount, ColumnCount];
