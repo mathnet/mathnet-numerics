@@ -315,6 +315,16 @@ module Matrix =
         v :> _ Vector
 
 
+    let inline insertRow rowIndex (rowVector: #Vector<_>) (matrix: #Matrix<_>) = matrix.InsertRow(rowIndex, rowVector)
+    let inline insertCol columnIndex (columnVector: #Vector<_>) (matrix: #Matrix<_>) = matrix.InsertColumn(columnIndex, columnVector)
+
+    let inline appendRow (rowVector: #Vector<_>) (matrix: #Matrix<_>) = matrix.InsertRow(matrix.RowCount, rowVector)
+    let inline appendCol (columnVector: #Vector<_>) (matrix: #Matrix<_>) = matrix.InsertColumn(matrix.ColumnCount, columnVector)
+
+    let inline prependRow (rowVector: #Vector<_>) (matrix: #Matrix<_>) = matrix.InsertRow(0, rowVector)
+    let inline prependCol (columnVector: #Vector<_>) (matrix: #Matrix<_>) = matrix.InsertColumn(0, columnVector)
+
+
     /// In-place matrix addition.
     let inline addInPlace (v: #Matrix<_>) (w: #Matrix<_>) = v.Add(w, v)
 
