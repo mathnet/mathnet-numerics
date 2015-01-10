@@ -84,7 +84,7 @@ namespace MathNet.Numerics.Differentiation
             if (order >= _coefficients.Length)
                 throw new ArgumentOutOfRangeException("order", "Maximum difference order is points-1.");
 
-            // Return proper row 
+            // Return proper row
             var columns = _coefficients[center].GetLength(1);
             var array = new double[columns];
             for (int i = 0; i < columns; ++i)

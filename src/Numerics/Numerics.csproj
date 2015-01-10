@@ -80,6 +80,7 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Differentiate.cs" />
     <Compile Include="Differentiation\FiniteDifferenceCoefficients.cs" />
     <Compile Include="Differentiation\NumericalDerivative.cs" />
     <Compile Include="Differentiation\NumericalHessian.cs" />

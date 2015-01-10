@@ -34,7 +34,7 @@ using MathNet.Numerics.Integration;
 namespace MathNet.Numerics
 {
     /// <summary>
-    /// Numeric Integration (Quadrature).
+    /// Numerical Integration (Quadrature).
     /// </summary>
     public static class Integrate
     {

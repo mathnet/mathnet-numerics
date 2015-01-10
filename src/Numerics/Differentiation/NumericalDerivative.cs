@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Differentiation
     /// <summary>
     /// Class to evaluate the numerical derivative of a function using finite difference approximations.
     /// Variable point and center methods can be initialized <seealso cref="FiniteDifferenceCoefficients"/>.
-    /// This class can also be used to return function handles (delagates) for a fixed derivative order and variable.
+    /// This class can also be used to return function handles (delegates) for a fixed derivative order and variable.
     /// It is possible to evaluate the derivative and partial derivative of univariate and multivariate functions respectively.
     /// </summary>
     public class NumericalDerivative
@@ -94,7 +94,7 @@ namespace MathNet.Numerics.Differentiation
         public double BaseStepSize
         {
             get { return _baseStepSize; }
-            set 
+            set
             {
                 //Base 2 yields more accurate results...
                 var p = Math.Log(Math.Abs(value)) / Math.Log(2);
