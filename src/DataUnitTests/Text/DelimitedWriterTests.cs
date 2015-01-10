@@ -151,5 +151,42 @@ namespace MathNet.Numerics.Data.UnitTests.Text
                            + "0 0 9.9";
             Assert.AreEqual(expected, text);
         }
+
+        /// <summary>
+        /// Can write comma delimited data with missing values.
+        /// </summary>
+        [Test]
+        public void CanWriteCommaDelimitedDataWithMissingValues()
+        {
+            var matrix = SparseMatrix.OfArray(new[,] { { 1.1, 0, 0 }, { 0, 5.5, 0 }, { 0, 0, 9.9 } });
+            var stream = new MemoryStream();
+            DelimitedWriter.Write(stream, matrix, ",", missingValue: 0);
+            var data = stream.ToArray();
+            var reader = new StreamReader(new MemoryStream(data));
+            var text = reader.ReadToEnd();
+            var expected = @"1.1,," + Environment.NewLine
+                           + ",5.5," + Environment.NewLine
+                           + ",,9.9";
+            Assert.AreEqual(expected, text);
+        }
+
+
+        /// <summary>
+        /// Can write space delimited data with missing values.
+        /// </summary>
+        [Test]
+        public void CanWriteTabDelimitedDataWithMissingValues()
+        {
+            var matrix = DenseMatrix.OfArray(new[,] { { 1.1, Double.NaN, 0 }, { 0, 5.5, 0 }, { Double.NaN, Double.NaN, 9.9 } });
+            var stream = new MemoryStream();
+            DelimitedWriter.Write(stream, matrix, "\t", missingValue: Double.NaN);
+            var data = stream.ToArray();
+            var reader = new StreamReader(new MemoryStream(data));
+            var text = reader.ReadToEnd();
+            var expected = "1.1\t\t0" + Environment.NewLine
+                           + "0\t5.5\t0" + Environment.NewLine
+                           + "\t\t9.9";
+            Assert.AreEqual(expected, text);
+        }
     }
 }

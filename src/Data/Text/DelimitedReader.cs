@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -45,11 +45,16 @@ namespace MathNet.Numerics.Data.Text
     /// specify a delimiter, then any whitespace is used.
     /// </summary>
     public static class DelimitedReader
-    {
+    { 
         /// <summary>
         /// The base regular expression.
         /// </summary>
-        const string RegexTemplate = "\\([^\\)]*\\)|'[^']*'|\"[^\"]*\"|[^{0}]*";
+        const string RegexTemplate = "\\([^\\)]*\\)|'[^']*'|\"[^\"]*\"|^{0}{{1,}}|{0}$|{0}{{2,}}|[^{0}]*";
+
+        /// <summary>
+        /// Regular expression to match whitespace.
+        /// </summary>
+        const string WhiteSpaceRegexTemplate = "\\([^\\)]*\\)|'[^']*'|\"[^\"]*\"|[^\\s]*";
 
         /// <summary>
         /// Cached compiled regular expressions for various delimiters, as needed.
@@ -64,17 +69,19 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="delimiter">Number delimiter between numbers of the same line. Supports Regex groups. Default: "\s" (white space).</param>
         /// <param name="hasHeaders">Whether the first row contains column headers or not. Default: false.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
+        /// <param name="missingValue">The value to represent missing values. Default: NaN.</param>
         /// <returns>A matrix containing the data from the <see cref="TextReader"/>.</returns>
         /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<T> Read<T>(TextReader reader, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
+        public static Matrix<T> Read<T>(TextReader reader, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null, T? missingValue = null)
             where T : struct, IEquatable<T>, IFormattable
         {
-            if (string.IsNullOrEmpty(delimiter))
-            {
-                delimiter = @"\s";
-            }
-
-            var regex = RegexCache.GetOrAdd(delimiter, d => new Regex(string.Format(RegexTemplate, d), RegexOptions.Compiled));
+            delimiter = CleanDelimiter(delimiter);
+            var mv = missingValue ?? NaN<T>();
+            var mvStr = mv.ToString();
+          
+            var regex = delimiter == @"\s" ? 
+                RegexCache.GetOrAdd(delimiter, d => new Regex(WhiteSpaceRegexTemplate, RegexOptions.Compiled)) : 
+                RegexCache.GetOrAdd(delimiter, d => new Regex(string.Format(RegexTemplate, d), RegexOptions.Compiled));
 
             var data = new List<string[]>();
 
@@ -83,9 +90,9 @@ namespace MathNet.Numerics.Data.Text
             // 3,4,5,6
             // 7
             // this creates a 3x4 matrix:
-            // 1, 2, 0 ,0
+            // 1, 2, MISSING, MISSING
             // 3, 4, 5, 6
-            // 7, 0, 0, 0
+            // 7, MISSING, MISSING, MISSING
             var max = -1;
 
             var line = reader.ReadLine();
@@ -97,19 +104,49 @@ namespace MathNet.Numerics.Data.Text
             while (line != null)
             {
                 line = line.Trim();
+
                 if (line.Length > 0)
                 {
                     var matches = regex.Matches(line);
-                    var row = (from Match match in matches where match.Length > 0 select match.Value).ToArray();
-                    max = Math.Max(max, row.Length);
-                    data.Add(row);
-                }
 
+                    if (delimiter == @"\s")
+                    {
+                        var row = (from Match match in matches where match.Length > 0 select match.Value).ToArray();
+                        max = Math.Max(max, row.Length);
+                        data.Add(row);
+                    }
+                    else
+                    {
+                       var offset = 0;
+                       var row = new List<string>();
+                 
+                        foreach (var value in (from Match match in matches where match.Length > 0 select match.Value))
+                        {
+                            var delimterCount = value.StartsWith(delimiter) ? value.CountDelimiters(delimiter) : 0;
+
+                            if (delimterCount > 0)
+                            {
+                                for (var i = offset; i < delimterCount; i++)
+                                {
+                                    row.Add(mvStr);
+                                }
+                            }
+                            else
+                            {
+                                row.Add(string.IsNullOrWhiteSpace(value) ? mvStr : value);
+                            }
+                            offset = 1;
+                        }
+
+                        max = Math.Max(max, row.Count);
+                        data.Add(row.ToArray());
+                    }
+                }
                 line = reader.ReadLine();
             }
 
             var parse = CreateParser<T>(formatProvider);
-            var matrix = sparse ? Matrix<T>.Build.Sparse(data.Count, max) : Matrix<T>.Build.Dense(data.Count, max);
+            var matrix = sparse ? Matrix<T>.Build.Sparse(data.Count, max, mv) : Matrix<T>.Build.Dense(data.Count, max, mv);
             var storage = matrix.Storage;
 
             for (var i = 0; i < data.Count; i++)
@@ -137,14 +174,15 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="delimiter">Number delimiter between numbers of the same line. Supports Regex groups. Default: "\s" (white space).</param>
         /// <param name="hasHeaders">Whether the first row contains column headers or not. Default: false.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
+        /// <param name="missingValue">The value to represent missing values. Default: NaN.</param>
         /// <returns>A matrix containing the data from the <see cref="TextReader"/>.</returns>
         /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<T> Read<T>(string filePath, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
+        public static Matrix<T> Read<T>(string filePath, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null, T? missingValue = null)
             where T : struct, IEquatable<T>, IFormattable
         {
             using (var reader = new StreamReader(filePath))
             {
-                return Read<T>(reader, sparse, delimiter, hasHeaders, formatProvider);
+                return Read(reader, sparse, delimiter, hasHeaders, formatProvider, missingValue);
             }
         }
 
@@ -156,15 +194,44 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="delimiter">Number delimiter between numbers of the same line. Supports Regex groups. Default: "\s" (white space).</param>
         /// <param name="hasHeaders">Whether the first row contains column headers or not. Default: false.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
+        /// <param name="missingValue">The value to represent missing values. Default: NaN.</param>
         /// <returns>A matrix containing the data from the <see cref="TextReader"/>.</returns>
         /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<T> Read<T>(Stream stream, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null)
+        public static Matrix<T> Read<T>(Stream stream, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null, T? missingValue=null)
             where T : struct, IEquatable<T>, IFormattable
         {
             using (var reader = new StreamReader(stream))
             {
-                return Read<T>(reader, sparse, delimiter, hasHeaders, formatProvider);
+                return Read(reader, sparse, delimiter, hasHeaders, formatProvider, missingValue);
             }
+        }
+
+        /// <summary>
+        /// NaN for the given numeric type.
+        /// </summary>
+        private static T NaN<T>()
+        {
+            if (typeof (T) == typeof (double))
+            {
+                return (T)(object)double.NaN;
+            }
+
+            if (typeof (T) == typeof (float))
+            {
+                return (T)(object)float.NaN;
+            }
+
+            if (typeof (T) == typeof (Complex))
+            {
+                return (T)(object)new Complex(double.NaN, double.NaN);
+            }
+
+            if (typeof (T) == typeof (Complex32))
+            {
+                return (T)(object)new Complex32(float.NaN, float.NaN);
+            }
+
+            throw new NotSupportedException();
         }
 
         static Func<string, T> CreateParser<T>(IFormatProvider formatProvider)
@@ -190,6 +257,43 @@ namespace MathNet.Numerics.Data.Text
             }
 
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Counts the number of delimiters in a row.
+        /// </summary>
+        private static int CountDelimiters(this string obj, string demlimiter)
+        {
+            var pos = 0;
+            var count = 0;
+
+            while ((pos = obj.IndexOf(demlimiter, pos, StringComparison.InvariantCultureIgnoreCase)) != -1)
+            {
+                count++;
+                pos++;
+            }
+
+            return count;
+         }
+
+        /// <summary>
+        /// Returns a regex friendly delimter.
+        /// </summary>
+        private static string CleanDelimiter(string delimiter)
+        {
+            if (string.IsNullOrEmpty(delimiter))
+            {
+                return @"\s";
+            }
+            switch (delimiter)
+            {
+                case "." :
+                    return "\\.";
+                case "\\" :
+                    return "\\\\";
+                default:
+                    return delimiter;
+            }
         }
     }
 }

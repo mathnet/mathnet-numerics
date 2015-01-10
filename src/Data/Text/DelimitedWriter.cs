@@ -50,9 +50,11 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="columnHeaders">Custom column header. Headers are only written if non-null and non-empty headers are provided. Default: null.</param>
         /// <param name="format">The number format to use on each element. Default: null.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
+        /// <param name="missingValue">A value that represents a missing value. If not null, then elemements of the matrix that have this value
+        /// are not written to the output file.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="writer"/> is <c>null</c>.</exception>
         /// <typeparam name="T">The data type of the Matrix. It can be either: Double, Single, Complex, or Complex32.</typeparam>
-        public static void Write<T>(TextWriter writer, Matrix<T> matrix, string delimiter = "\t", IList<string> columnHeaders = null, string format = null, IFormatProvider formatProvider = null)
+        public static void Write<T>(TextWriter writer, Matrix<T> matrix, string delimiter = "\t", IList<string> columnHeaders = null, string format = null, IFormatProvider formatProvider = null, T? missingValue = null)
             where T : struct, IEquatable<T>, IFormattable
         {
             if (matrix == null)
@@ -78,20 +80,49 @@ namespace MathNet.Numerics.Data.Text
 
             var cols = matrix.ColumnCount - 1;
             var rows = matrix.RowCount - 1;
-            for (var i = 0; i < matrix.RowCount; i++)
+            if (!missingValue.HasValue)
             {
-                for (var j = 0; j < matrix.ColumnCount; j++)
+                for (var i = 0; i < matrix.RowCount; i++)
                 {
-                    writer.Write(matrix[i, j].ToString(format, formatProvider));
-                    if (j != cols)
+                    for (var j = 0; j < matrix.ColumnCount; j++)
                     {
-                        writer.Write(delimiter);
+                        writer.Write(matrix[i, j].ToString(format, formatProvider));
+
+                        if (j != cols)
+                        {
+                            writer.Write(delimiter);
+                        }
+                    }
+
+                    if (i != rows)
+                    {
+                        writer.Write(Environment.NewLine);
                     }
                 }
-
-                if (i != rows)
+            }
+            else
+            {
+                var missing = missingValue.Value;
+                
+                for (var i = 0; i < matrix.RowCount; i++)
                 {
-                    writer.Write(Environment.NewLine);
+                    for (var j = 0; j < matrix.ColumnCount; j++)
+                    {
+                        if (!matrix[i, j].Equals(missing))
+                        {
+                            writer.Write(matrix[i, j].ToString(format, formatProvider));
+                        }
+
+                        if (j != cols)
+                        {
+                            writer.Write(delimiter);
+                        }
+                    }
+
+                    if (i != rows)
+                    {
+                        writer.Write(Environment.NewLine);
+                    }
                 }
             }
         }
@@ -105,14 +136,16 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="columnHeaders">Custom column header. Headers are only written if non-null and non-empty headers are provided. Default: null.</param>
         /// <param name="format">The number format to use on each element. Default: null.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
+        /// <param name="missingValue">A value that represents a missing value. If not null, then elemements of the matrix that have this value
+        /// are not written to the output file.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="filePath"/> is <c>null</c>.</exception>
         /// <typeparam name="T">The data type of the Matrix. It can be either: Double, Single, Complex, or Complex32.</typeparam>
-        public static void Write<T>(string filePath, Matrix<T> matrix, string delimiter = "\t", IList<string> columnHeaders = null, string format = null, IFormatProvider formatProvider = null)
+        public static void Write<T>(string filePath, Matrix<T> matrix, string delimiter = "\t", IList<string> columnHeaders = null, string format = null, IFormatProvider formatProvider = null, T? missingValue = null)
             where T : struct, IEquatable<T>, IFormattable
         {
             using (var writer = new StreamWriter(filePath))
             {
-                Write(writer, matrix, delimiter: delimiter, columnHeaders: columnHeaders, format: format, formatProvider: formatProvider);
+                Write(writer, matrix, delimiter: delimiter, columnHeaders: columnHeaders, format: format, formatProvider: formatProvider, missingValue: missingValue);
             }
         }
 
@@ -125,14 +158,16 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="columnHeaders">Custom column header. Headers are only written if non-null and non-empty headers are provided. Default: null.</param>
         /// <param name="format">The number format to use on each element. Default: null.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
+        /// <param name="missingValue">A value that represents a missing value. If not null, then elemements of the matrix that have this value
+        /// are not written to the output file.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="stream"/> is <c>null</c>.</exception>
         /// <typeparam name="T">The data type of the Matrix. It can be either: Double, Single, Complex, or Complex32.</typeparam>
-        public static void Write<T>(Stream stream, Matrix<T> matrix, string delimiter = "\t", IList<string> columnHeaders = null, string format = null, IFormatProvider formatProvider = null)
+        public static void Write<T>(Stream stream, Matrix<T> matrix, string delimiter = "\t", IList<string> columnHeaders = null, string format = null, IFormatProvider formatProvider = null, T? missingValue = null)
             where T : struct, IEquatable<T>, IFormattable
         {
             using (var writer = new StreamWriter(stream))
             {
-                Write(writer, matrix, delimiter: delimiter, columnHeaders: columnHeaders, format: format, formatProvider: formatProvider);
+                Write(writer, matrix, delimiter: delimiter, columnHeaders: columnHeaders, format: format, formatProvider: formatProvider, missingValue: missingValue);
             }
         }
     }
