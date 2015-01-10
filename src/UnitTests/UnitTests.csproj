@@ -77,6 +77,10 @@
     <Compile Include="ComplexTests\Complex32Test.TextHandling.cs" />
     <Compile Include="ComplexTests\ComplexTest.cs" />
     <Compile Include="ComplexTests\ComplexTest.TextHandling.cs" />
+    <Compile Include="DifferentiationTests\FiniteDifferenceCoefficientsTests.cs" />
+    <Compile Include="DifferentiationTests\NumericalDerivativeTests.cs" />
+    <Compile Include="DifferentiationTests\NumericalHessianTests.cs" />
+    <Compile Include="DifferentiationTests\NumericalJacobianTests.cs" />
     <Compile Include="DistanceTests.cs" />
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
     <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
