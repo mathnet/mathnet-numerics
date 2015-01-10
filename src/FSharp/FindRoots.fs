@@ -37,46 +37,46 @@ open MathNet.Numerics.RootFinding
 module FindRoots =
 
     let private tobcl (f:'a->'b) = Func<'a,'b>(f)
-    let private (|>|) option orElse = match option with | Some x -> Some x | None -> orElse() 
+    let private (|>|) option orElse = match option with | Some x -> Some x | None -> orElse()
 
     // direct algorithms
 
-    let bisection maxIterations accuracy lowerBound upperBound (f:double->double) =
+    let bisection maxIterations accuracy lowerBound upperBound (f:float->float) =
         match Bisection.TryFindRoot(tobcl f, lowerBound, upperBound, accuracy, maxIterations) with
         | true, root -> Some root
         | false, _ -> None
 
-    let brent maxIterations accuracy lowerBound upperBound (f:double->double) =
+    let brent maxIterations accuracy lowerBound upperBound (f:float->float) =
         match Brent.TryFindRoot(tobcl f, lowerBound, upperBound, accuracy, maxIterations) with
         | true, root -> Some root
         | false, _ -> None
 
-    let newtonRaphson maxIterations accuracy lowerBound upperBound (f:double->double) (df:double->double) =
+    let newtonRaphson maxIterations accuracy lowerBound upperBound (f:float->float) (df:float->float) =
         match NewtonRaphson.TryFindRoot(tobcl f, tobcl df, 0.5 * (lowerBound + upperBound), lowerBound, upperBound, accuracy, maxIterations) with
         | true, root -> Some root
         | false, _ -> None
 
-    let newtonRaphsonGuess maxIterations accuracy guess (f:double->double) (df:double->double) =
+    let newtonRaphsonGuess maxIterations accuracy guess (f:float->float) (df:float->float) =
         match NewtonRaphson.TryFindRoot(tobcl f, tobcl df, guess, Double.MinValue, Double.MaxValue, accuracy, maxIterations) with
         | true, root -> Some root
         | false, _ -> None
 
-    let newtonRaphsonRobust maxIterations subdivision accuracy lowerBound upperBound (f:double->double) (df:double->double) =
+    let newtonRaphsonRobust maxIterations subdivision accuracy lowerBound upperBound (f:float->float) (df:float->float) =
         match RobustNewtonRaphson.TryFindRoot(tobcl f, tobcl df, lowerBound, upperBound, accuracy, maxIterations, subdivision) with
         | true, root -> Some root
         | false, _ -> None
 
-    let broyden maxIterations accuracy guess (f:double[]->double[]) =
+    let broyden maxIterations accuracy guess (f:float[]->float[]) =
         match Broyden.TryFindRoot(tobcl f, guess, accuracy, maxIterations) with
         | true, root -> Some root
         | false, _ -> None
 
     // simple usage
 
-    let ofFunction lowerBound upperBound (f:double->double) =
+    let ofFunction lowerBound upperBound (f:float->float) =
         brent 100 1e-8 lowerBound upperBound f
         |>| fun () -> bisection 100 1e-8 lowerBound upperBound f
 
-    let ofFunctionDerivative lowerBound upperBound (f:double->double) (df:double->double) =
+    let ofFunctionDerivative lowerBound upperBound (f:float->float) (df:float->float) =
         newtonRaphsonRobust 100 20 1e-8 lowerBound upperBound f df
         |>| fun () -> bisection 100 1e-8 lowerBound upperBound f
