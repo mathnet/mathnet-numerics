@@ -34,13 +34,13 @@ using MathNet.Numerics.LinearAlgebra.Double;
 namespace MathNet.Numerics.Differentiation
 {
     /// <summary>
-    /// Class to calculate finite difference coefficients using Taylor series expansion method. 
+    /// Class to calculate finite difference coefficients using Taylor series expansion method.
     /// <remarks>
     /// <para>
     /// For n points, coefficients are calculated up to the maximum derivative order possible (n-1).
-    /// The current function value position specifies the "center" for surrounding coefficients.  
+    /// The current function value position specifies the "center" for surrounding coefficients.
     /// Selecting the first, middle or last positions represent forward, backwards and central difference methods.
-    /// </para> 
+    /// </para>
     /// </remarks>
     /// </summary>
     public class FiniteDifferenceCoefficients
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.Differentiation
         {
             var c = new double[points][,];
 
-            // For ever possible center given the number of points, compute ever possible coefficeint for all possible orders.
+            // For ever possible center given the number of points, compute ever possible coefficient for all possible orders.
             for (int center = 0; center < points; center++)
             {
                 // Deltas matrix for center located at 'center'.
@@ -131,7 +131,11 @@ namespace MathNet.Numerics.Differentiation
                 var fac = SpecialFunctions.Factorial(points);
                 for (int j = 0; j < points; j++)
                     for (int k = 0; k < points; k++)
+#if PORTABLE
+                        c[center][j, k] = (Math.Round(c[center][j, k] * fac)) / fac;
+#else
                         c[center][j, k] = (Math.Round(c[center][j, k] * fac, MidpointRounding.AwayFromZero)) / fac;
+#endif
             }
 
             _coefficients = c;
