@@ -45,23 +45,23 @@ namespace MathNet.Numerics.Differentiation
         Absolute,
 
         /// <summary>
-        /// A base step size value, h, will be scaled according to the function input parameter. A common example is hx = h*(1+abs(x)), however 
+        /// A base step size value, h, will be scaled according to the function input parameter. A common example is hx = h*(1+abs(x)), however
         /// this may vary depending on implementation. This definition only guarantees that the only scaling will be relative to the
         /// function input parameter and not the order of the finite difference derivative.
         /// </summary>
         RelativeX,
 
         /// <summary>
-        /// A base step size value, eps (typically machine precision), is scaled according to the finite difference coefficient order 
-        /// and function input parameter. The initial scaling according to finite different coefficient order can be thought of as producing a 
-        /// base step size, h, that is equivalent to <see cref="RelativeX"/> scaling. This stepsize is then scaled according to the function 
+        /// A base step size value, eps (typically machine precision), is scaled according to the finite difference coefficient order
+        /// and function input parameter. The initial scaling according to finite different coefficient order can be thought of as producing a
+        /// base step size, h, that is equivalent to <see cref="RelativeX"/> scaling. This stepsize is then scaled according to the function
         /// input parameter. Although implementation may vary, an example of second order accurate scaling may be (eps)^(1/3)*(1+abs(x)).
         /// </summary>
         Relative
     };
 
     /// <summary>
-    /// Class to evaluate the numerical derivative of a function using finite difference approximations. 
+    /// Class to evaluate the numerical derivative of a function using finite difference approximations.
     /// Variable point and center methods can be initialized <seealso cref="FiniteDifferenceCoefficients"/>.
     /// This class can also be used to return function handles (delagates) for a fixed derivative order and variable.
     /// It is possible to evaluate the derivative and partial derivative of univariate and multivariate functions respectively.
@@ -69,12 +69,12 @@ namespace MathNet.Numerics.Differentiation
     public class NumericalDerivative
     {
         /// <summary>
-        /// Sets and gets the finite difference step size. This value is for each function evaluation if relative stepsize types are used. 
-        /// If the base step size used in scaling is desired, see <see cref="Epsilon"/>. 
+        /// Sets and gets the finite difference step size. This value is for each function evaluation if relative stepsize types are used.
+        /// If the base step size used in scaling is desired, see <see cref="Epsilon"/>.
         /// </summary>
         /// <remarks>
-        /// Setting then getting the StepSize may return a different value. This is not unusual since a user-defined step size is converted to a 
-        /// base-2 representable number to improve finite difference accuracy. 
+        /// Setting then getting the StepSize may return a different value. This is not unusual since a user-defined step size is converted to a
+        /// base-2 representable number to improve finite difference accuracy.
         /// </remarks>
         public double StepSize
         {
@@ -138,7 +138,7 @@ namespace MathNet.Numerics.Differentiation
 
         /// <summary>
         /// Type of step size for computing finite differences. If set to absolute, dx = h.
-        /// If set to relative, dx = (1+abs(x))*h^(2/(order+1)). This provides accurate results when 
+        /// If set to relative, dx = (1+abs(x))*h^(2/(order+1)). This provides accurate results when
         /// h is approximately equal to the square-root of machine accuracy, epsilon.
         /// </summary>
         public StepType StepType
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.Differentiation
                 throw new ArgumentOutOfRangeException("points", "Points must be two or greater.");
             _points = points;
             Center = center;
-            _epsilon = CalculateMachineEpsilon();
+            _epsilon = Precision.PositiveMachineEpsilon;
             _coefficients = new FiniteDifferenceCoefficients(points);
         }
 
@@ -224,7 +224,7 @@ namespace MathNet.Numerics.Differentiation
                 else if(c[i] != 0) // Only evaluate function if it will actually be used.
                 {
                     points[i] = f(x + (i - Center) * h);
-                    Evaluations++;    
+                    Evaluations++;
                 }
             }
 
@@ -266,7 +266,7 @@ namespace MathNet.Numerics.Differentiation
                 {
                     x[parameterIndex] = xi + (i - Center) * h;
                     points[i] = f(x);
-                    Evaluations++;    
+                    Evaluations++;
                 }
             }
 
@@ -351,7 +351,7 @@ namespace MathNet.Numerics.Differentiation
 
             if (order == 1)
                 return EvaluatePartialDerivative(f, x, parameterIndex[0], order, currentValue);
-            
+
             int reducedOrder = order - 1;
             var reducedParameterIndex = new int[reducedOrder];
             Array.Copy(parameterIndex, 0, reducedParameterIndex, 0, reducedOrder);
@@ -367,7 +367,7 @@ namespace MathNet.Numerics.Differentiation
                 points[i] = EvaluateMixedPartialDerivative(f, x, reducedParameterIndex, reducedOrder);
             }
 
-            // restore original value 
+            // restore original value
             x[currentParameterIndex] = xi;
 
             // This will always be to the first order
@@ -379,7 +379,7 @@ namespace MathNet.Numerics.Differentiation
         /// </summary>
         /// <remarks>
         /// This function recursively uses <see cref="EvaluatePartialDerivative(Func&lt;double[], double&gt;[], double[], int, int, double?[])"/> to evaluate mixed partial derivative.
-        /// Therefore, it is more efficient to call <see cref="EvaluatePartialDerivative(Func&lt;double[], double&gt;[], double[], int, int, double?[])"/> for higher order derivatives of 
+        /// Therefore, it is more efficient to call <see cref="EvaluatePartialDerivative(Func&lt;double[], double&gt;[], double[], int, int, double?[])"/> for higher order derivatives of
         /// a single independent variable.
         /// </remarks>
         /// <param name="f">Multivariate function array handle.</param>
@@ -437,21 +437,6 @@ namespace MathNet.Numerics.Differentiation
             Evaluations = 0;
         }
 
-        /// <summary>
-        /// Calculates machine epsilon - the smallest number that can be added to 1, yeilding a results different than 1.
-        /// This is also known as roundoff error.
-        /// </summary>
-        /// <returns>Machine epislon</returns>
-        public static double CalculateMachineEpsilon()
-        {
-            double eps = 1;
-
-            while ((1.0d + (eps / 2.0d)) > 1.0d)
-                eps /= 2.0d;
-
-            return eps;
-        }
-
         private double[] CalculateStepSize(int points, double[] x, double order)
         {
             var h = new double[x.Length];
@@ -463,12 +448,12 @@ namespace MathNet.Numerics.Differentiation
 
         private double CalculateStepSize(int points, double x, double order)
         {
-            // Step size relative to function input parameter 
+            // Step size relative to function input parameter
             if (StepType == StepType.RelativeX)
             {
                 StepSize = BaseStepSize*(1 + Math.Abs(x));
             }
-            // Step size relative to function input parameter and order 
+            // Step size relative to function input parameter and order
             else if (StepType == StepType.Relative)
             {
                 var accuracy = points - order;

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -91,14 +91,42 @@ namespace MathNet.Numerics
         const int SingleWidth = 24;
 
         /// <summary>
-        /// The maximum relative precision of of double-precision floating numbers (64 bit)
+        /// Standard epsilon, the maximum relative precision of IEEE 754 double-precision floating numbers (64 bit).
+        /// According to the definition of Prof. Demmel and used in LAPACK and Scilab.
         /// </summary>
         public static readonly double DoublePrecision = Math.Pow(2, -DoubleWidth);
 
         /// <summary>
-        /// The maximum relative precision of of single-precision floating numbers (32 bit)
+        /// Standard epsilon, the maximum relative precision of IEEE 754 double-precision floating numbers (64 bit).
+        /// According to the definition of Prof. Higham and used in the ISO C standard and MATLAB.
+        /// </summary>
+        public static readonly double PositiveDoublePrecision = 2*DoublePrecision;
+
+        /// <summary>
+        /// Standard epsilon, the maximum relative precision of IEEE 754 single-precision floating numbers (32 bit).
+        /// According to the definition of Prof. Demmel and used in LAPACK and Scilab.
         /// </summary>
         public static readonly double SinglePrecision = Math.Pow(2, -SingleWidth);
+
+        /// <summary>
+        /// Standard epsilon, the maximum relative precision of IEEE 754 single-precision floating numbers (32 bit).
+        /// According to the definition of Prof. Higham and used in the ISO C standard and MATLAB.
+        /// </summary>
+        public static readonly double PositiveSinglePrecision = 2*SinglePrecision;
+
+        /// <summary>
+        /// Actual machine epsilon, the smallest number that can be subtracted from 1, yielding a results different than 1.
+        /// This is also known as unit roundoff error. According to the definition of Prof. Demmel.
+        /// On a standard machine this is equivalent to `DoublePrecision`.
+        /// </summary>
+        public static readonly double MachineEpsilon = MeasureMachineEpsilon();
+
+        /// <summary>
+        /// Actual machine epsilon, the smallest number that can be added to 1, yielding a results different than 1.
+        /// This is also known as unit roundoff error. According to the definition of Prof. Higham.
+        /// On a standard machine this is equivalent to `PositiveDoublePrecision`.
+        /// </summary>
+        public static readonly double PositiveMachineEpsilon = MeasurePositiveMachineEpsilon();
 
         /// <summary>
         /// The number of significant decimal places of double-precision floating numbers (64 bit).
@@ -761,13 +789,43 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Converts a float valut to a bit array stored in an int.
+        /// Converts a float value to a bit array stored in an int.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The bit array.</returns>
         static int FloatToInt32Bits(float value)
         {
             return BitConverter.ToInt32(BitConverter.GetBytes(value), 0);
+        }
+
+        /// <summary>
+        /// Calculates the actual positive double precision machine epsilon - the smallest number that can be added to 1, yielding a results different than 1.
+        /// This is also known as unit roundoff error. According to the definition of Prof. Demmel.
+        /// </summary>
+        /// <returns>Positive Machine epsilon</returns>
+        static double MeasureMachineEpsilon()
+        {
+            double eps = 1.0d;
+
+            while ((1.0d - (eps / 2.0d)) < 1.0d)
+                eps /= 2.0d;
+
+            return eps;
+        }
+
+        /// <summary>
+        /// Calculates the actual positive double precision machine epsilon - the smallest number that can be added to 1, yielding a results different than 1.
+        /// This is also known as unit roundoff error. According to the definition of Prof. Higham.
+        /// </summary>
+        /// <returns>Machine epsilon</returns>
+        static double MeasurePositiveMachineEpsilon()
+        {
+            double eps = 1.0d;
+
+            while ((1.0d + (eps / 2.0d)) > 1.0d)
+                eps /= 2.0d;
+
+            return eps;
         }
 
 #if PORTABLE
