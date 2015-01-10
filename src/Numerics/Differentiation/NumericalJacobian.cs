@@ -33,7 +33,7 @@ using System;
 namespace MathNet.Numerics.Differentiation
 {
     /// <summary>
-    /// Class for evaluating the Jacobian of a function using finite differences. 
+    /// Class for evaluating the Jacobian of a function using finite differences.
     /// By default, a central 3-point method is used.
     /// </summary>
     public class NumericalJacobian
@@ -57,14 +57,14 @@ namespace MathNet.Numerics.Differentiation
         /// Creates a numerical Jacobian with a specified differentiation scheme.
         /// </summary>
         /// <param name="points">Number of points for Jacobian evaluation.</param>
-        /// <param name="center">Center point for differentation.</param>
+        /// <param name="center">Center point for differentiation.</param>
         public NumericalJacobian(int points, int center)
         {
             _df = new NumericalDerivative(points, center);
         }
 
         /// <summary>
-        /// Evaluates the Jacbian of scalar univariate function f at point x.
+        /// Evaluates the Jacobian of scalar univariate function f at point x.
         /// </summary>
         /// <param name="f">Scalar univariate function handle.</param>
         /// <param name="x">Point at which to evaluate Jacobian.</param>
@@ -97,9 +97,9 @@ namespace MathNet.Numerics.Differentiation
         /// Evaluates the Jacobian of a multivariate function f at vector x given a current function value.
         /// </summary>
         /// <remarks>
-        /// To minimize the number of function evaluations, a user can supply the current value of the function 
-        /// to be used in computing the Jacobian. This value must correspond to the "center" location for the 
-        /// finite differencing. If a scheme is used where the center value is not evaluated, this will provide no 
+        /// To minimize the number of function evaluations, a user can supply the current value of the function
+        /// to be used in computing the Jacobian. This value must correspond to the "center" location for the
+        /// finite differencing. If a scheme is used where the center value is not evaluated, this will provide no
         /// added efficiency. This method also assumes that the length of vector x consistent with the argument count of f.
         /// </remarks>
         /// <param name="f">Multivariate function handle.</param>
@@ -139,9 +139,9 @@ namespace MathNet.Numerics.Differentiation
         /// Evaluates the Jacobian of a multivariate function array f at vector x given a vector of current function values.
         /// </summary>
         /// <remarks>
-        /// To minimize the number of function evaluations, a user can supply a vector of current values of the functions 
-        /// to be used in computing the Jacobian. These value must correspond to the "center" location for the 
-        /// finite differencing. If a scheme is used where the center value is not evaluated, this will provide no 
+        /// To minimize the number of function evaluations, a user can supply a vector of current values of the functions
+        /// to be used in computing the Jacobian. These value must correspond to the "center" location for the
+        /// finite differencing. If a scheme is used where the center value is not evaluated, this will provide no
         /// added efficiency. This method also assumes that the length of vector x consistent with the argument count of f.
         /// </remarks>
         /// <param name="f">Multivariate function array handle.</param>

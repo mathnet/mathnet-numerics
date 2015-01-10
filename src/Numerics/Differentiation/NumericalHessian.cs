@@ -33,7 +33,7 @@ using System;
 namespace MathNet.Numerics.Differentiation
 {
     /// <summary>
-    /// Class for evaluating the Hessian of a smooth continuously differentiable function using finite differences. 
+    /// Class for evaluating the Hessian of a smooth continuously differentiable function using finite differences.
     /// By default, a central 3-point method is used.
     /// </summary>
     public class NumericalHessian
@@ -78,8 +78,8 @@ namespace MathNet.Numerics.Differentiation
         /// Evaluates the Hessian of a multivariate function f at points x.
         /// </summary>
         /// <remarks>
-        /// This method of computing the Hessian is only vaid for Lipschitz continuous functions. 
-        /// The function mirrors the Hessian along the diagonal since d2f/dxdy = d2f/dydx for continuously differentiable functions. 
+        /// This method of computing the Hessian is only vaid for Lipschitz continuous functions.
+        /// The function mirrors the Hessian along the diagonal since d2f/dxdy = d2f/dydx for continuously differentiable functions.
         /// </remarks>
         /// <param name="f">Multivariate function handle.></param>
         /// <param name="x">Points at which to evaluate Hessian.></param>

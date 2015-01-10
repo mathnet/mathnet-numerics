@@ -35,6 +35,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Superbest
 - Anders Gustafsson
 - Gauthier Segay
+- Hythem Sidky
 - Patrick van der Velde
 - Robin Neatherway
 - Andrew Kazyrevich
@@ -43,7 +44,6 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Iain McDonald
 - Kyle Parrigan
 - Gregor959
-- Hythem Sidky
 - IUser
 - Iain Sproat
 - Jeff Mastry
