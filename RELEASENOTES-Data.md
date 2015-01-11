@@ -1,3 +1,6 @@
+### 3.1.0 - 2015-01-11
+* Text: support for missing values in delimited reader *~Marcus Cuda*
+
 ### 3.0.0 - 2014-07-23
 * Requires at least Math.NET Numerics v3.0.0
 * Text: static-only DelimitedReader/Writer api
