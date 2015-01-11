@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Data.Text
             where T : struct, IEquatable<T>, IFormattable
         {
             delimiter = CleanDelimiter(delimiter);
-            var mv = missingValue ?? NaN<T>();
+            var mv = missingValue ?? (sparse ? Zero<T>() : NaN<T>());
             var mvStr = mv.ToString("G", formatProvider);
 
             var regex = delimiter == @"\s" ?
@@ -232,6 +232,14 @@ namespace MathNet.Numerics.Data.Text
             }
 
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Zero for the given numeric type.
+        /// </summary>
+        static T Zero<T>() where T : struct
+        {
+            return default(T);
         }
 
         static Func<string, T> CreateParser<T>(IFormatProvider formatProvider)

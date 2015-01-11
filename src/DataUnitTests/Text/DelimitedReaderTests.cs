@@ -33,6 +33,7 @@ using System.Globalization;
 using System.IO;
 using System.Numerics;
 using System.Text;
+using MathNet.Numerics.LinearAlgebra.Storage;
 using NUnit.Framework;
 using MathNet.Numerics.Data.Text;
 
@@ -255,7 +256,7 @@ namespace MathNet.Numerics.Data.UnitTests.Text
             Assert.AreEqual(double.NaN, matrix[1, 1]);
             Assert.AreEqual(double.NaN, matrix[1, 2]);
             Assert.AreEqual(3.0, matrix[1, 3]);
-            Assert.AreEqual(double.NaN, matrix[1, 4]); 
+            Assert.AreEqual(double.NaN, matrix[1, 4]);
             Assert.AreEqual(4.0, matrix[2, 0]);
             Assert.AreEqual(0.0, matrix[2, 1]);
             Assert.AreEqual(6.0, matrix[2, 2]);
@@ -265,7 +266,7 @@ namespace MathNet.Numerics.Data.UnitTests.Text
             Assert.AreEqual(double.NaN, matrix[3, 1]);
             Assert.AreEqual(double.NaN, matrix[3, 2]);
             Assert.AreEqual(double.NaN, matrix[3, 3]);
-            Assert.AreEqual(double.NaN, matrix[3, 4]); 
+            Assert.AreEqual(double.NaN, matrix[3, 4]);
             Assert.AreEqual(double.NaN, matrix[4, 0]);
             Assert.AreEqual(double.NaN, matrix[4, 1]);
             Assert.AreEqual(3.0, matrix[4, 2]);
@@ -304,10 +305,11 @@ namespace MathNet.Numerics.Data.UnitTests.Text
                        + "\"2.2\"\\0.3e1" + Environment.NewLine
                        + "'4'\\0\\6" + Environment.NewLine;
 
-            var matrix = DelimitedReader.Read<double>(new StringReader(data), true, "\\", true, CultureInfo.InvariantCulture, missingValue:0.0);
+            var matrix = DelimitedReader.Read<double>(new StringReader(data), true, "\\", true, CultureInfo.InvariantCulture);
             Assert.IsTrue(matrix is LinearAlgebra.Double.SparseMatrix);
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
+            Assert.AreEqual(5, ((SparseCompressedRowMatrixStorage<double>)matrix.Storage).ValueCount);
             Assert.AreEqual(1.0, matrix[0, 0]);
             Assert.AreEqual(0.0, matrix[0, 1]);
             Assert.AreEqual(0.0, matrix[0, 2]);
@@ -334,6 +336,7 @@ namespace MathNet.Numerics.Data.UnitTests.Text
             Assert.IsTrue(matrix is LinearAlgebra.Double.SparseMatrix);
             Assert.AreEqual(3, matrix.RowCount);
             Assert.AreEqual(3, matrix.ColumnCount);
+            Assert.AreEqual(5, ((SparseCompressedRowMatrixStorage<double>)matrix.Storage).ValueCount);
             Assert.AreEqual(1.0, matrix[0, 0]);
             Assert.AreEqual(0.0, matrix[0, 1]);
             Assert.AreEqual(0.0, matrix[0, 2]);
