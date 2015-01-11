@@ -50,7 +50,7 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="columnHeaders">Custom column header. Headers are only written if non-null and non-empty headers are provided. Default: null.</param>
         /// <param name="format">The number format to use on each element. Default: null.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
-        /// <param name="missingValue">A value that represents a missing value. If not null, then elemements of the matrix that have this value
+        /// <param name="missingValue">A value that represents a missing value. If not null, then elements of the matrix that have this value
         /// are not written to the output file.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="writer"/> is <c>null</c>.</exception>
         /// <typeparam name="T">The data type of the Matrix. It can be either: Double, Single, Complex, or Complex32.</typeparam>
@@ -103,7 +103,7 @@ namespace MathNet.Numerics.Data.Text
             else
             {
                 var missing = missingValue.Value;
-                
+
                 for (var i = 0; i < matrix.RowCount; i++)
                 {
                     for (var j = 0; j < matrix.ColumnCount; j++)
@@ -136,7 +136,7 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="columnHeaders">Custom column header. Headers are only written if non-null and non-empty headers are provided. Default: null.</param>
         /// <param name="format">The number format to use on each element. Default: null.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
-        /// <param name="missingValue">A value that represents a missing value. If not null, then elemements of the matrix that have this value
+        /// <param name="missingValue">A value that represents a missing value. If not null, then elements of the matrix that have this value
         /// are not written to the output file.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="filePath"/> is <c>null</c>.</exception>
         /// <typeparam name="T">The data type of the Matrix. It can be either: Double, Single, Complex, or Complex32.</typeparam>
@@ -158,7 +158,7 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="columnHeaders">Custom column header. Headers are only written if non-null and non-empty headers are provided. Default: null.</param>
         /// <param name="format">The number format to use on each element. Default: null.</param>
         /// <param name="formatProvider">The culture to use. Default: null.</param>
-        /// <param name="missingValue">A value that represents a missing value. If not null, then elemements of the matrix that have this value
+        /// <param name="missingValue">A value that represents a missing value. If not null, then elements of the matrix that have this value
         /// are not written to the output file.</param>
         /// <exception cref="ArgumentNullException">If either <paramref name="matrix"/> or <paramref name="stream"/> is <c>null</c>.</exception>
         /// <typeparam name="T">The data type of the Matrix. It can be either: Double, Single, Complex, or Complex32.</typeparam>

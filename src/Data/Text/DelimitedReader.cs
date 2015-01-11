@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Data.Text
     /// specify a delimiter, then any whitespace is used.
     /// </summary>
     public static class DelimitedReader
-    { 
+    {
         /// <summary>
         /// The base regular expression.
         /// </summary>
@@ -77,10 +77,10 @@ namespace MathNet.Numerics.Data.Text
         {
             delimiter = CleanDelimiter(delimiter);
             var mv = missingValue ?? NaN<T>();
-            var mvStr = mv.ToString();
-          
-            var regex = delimiter == @"\s" ? 
-                RegexCache.GetOrAdd(delimiter, d => new Regex(WhiteSpaceRegexTemplate, RegexOptions.Compiled)) : 
+            var mvStr = mv.ToString("G", formatProvider);
+
+            var regex = delimiter == @"\s" ?
+                RegexCache.GetOrAdd(delimiter, d => new Regex(WhiteSpaceRegexTemplate, RegexOptions.Compiled)) :
                 RegexCache.GetOrAdd(delimiter, d => new Regex(string.Format(RegexTemplate, d), RegexOptions.Compiled));
 
             var data = new List<string[]>();
@@ -117,9 +117,9 @@ namespace MathNet.Numerics.Data.Text
                     }
                     else
                     {
-                       var offset = 0;
-                       var row = new List<string>();
-                 
+                        var offset = 0;
+                        var row = new List<string>();
+
                         foreach (var value in (from Match match in matches where match.Length > 0 select match.Value))
                         {
                             var delimterCount = value.StartsWith(delimiter) ? value.CountDelimiters(delimiter) : 0;
@@ -197,7 +197,7 @@ namespace MathNet.Numerics.Data.Text
         /// <param name="missingValue">The value to represent missing values. Default: NaN.</param>
         /// <returns>A matrix containing the data from the <see cref="TextReader"/>.</returns>
         /// <typeparam name="T">The data type of the Matrix. It can be either: double, float, Complex, or Complex32.</typeparam>
-        public static Matrix<T> Read<T>(Stream stream, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null, T? missingValue=null)
+        public static Matrix<T> Read<T>(Stream stream, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null, T? missingValue = null)
             where T : struct, IEquatable<T>, IFormattable
         {
             using (var reader = new StreamReader(stream))
@@ -209,7 +209,7 @@ namespace MathNet.Numerics.Data.Text
         /// <summary>
         /// NaN for the given numeric type.
         /// </summary>
-        private static T NaN<T>()
+        static T NaN<T>()
         {
             if (typeof (T) == typeof (double))
             {
@@ -262,7 +262,7 @@ namespace MathNet.Numerics.Data.Text
         /// <summary>
         /// Counts the number of delimiters in a row.
         /// </summary>
-        private static int CountDelimiters(this string obj, string demlimiter)
+        static int CountDelimiters(this string obj, string demlimiter)
         {
             var pos = 0;
             var count = 0;
@@ -274,12 +274,12 @@ namespace MathNet.Numerics.Data.Text
             }
 
             return count;
-         }
+        }
 
         /// <summary>
-        /// Returns a regex friendly delimter.
+        /// Returns a regex friendly delimiter.
         /// </summary>
-        private static string CleanDelimiter(string delimiter)
+        static string CleanDelimiter(string delimiter)
         {
             if (string.IsNullOrEmpty(delimiter))
             {
@@ -287,9 +287,9 @@ namespace MathNet.Numerics.Data.Text
             }
             switch (delimiter)
             {
-                case "." :
+                case ".":
                     return "\\.";
-                case "\\" :
+                case "\\":
                     return "\\\\";
                 default:
                     return delimiter;
