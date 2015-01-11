@@ -20,12 +20,11 @@ let info =
 // For typical project, no changes are needed below
 // --------------------------------------------------------------------------------------
 
-#I "../../packages/FSharp.Compiler.Service/lib/net40"
-#I "../../packages/RazorEngine/lib/net40/"
-#r "../../packages/Microsoft.AspNet.Razor/lib/net40/System.Web.Razor.dll"
 #I "../../packages/FSharp.Formatting/lib/net40"
+#I "../../packages/RazorEngine/lib/net40"
+#I "../../packages/FSharp.Compiler.Service/lib/net40"
+#r "../../packages/Microsoft.AspNet.Razor/lib/net40/System.Web.Razor.dll"
 #r "../../packages/FAKE/tools/FakeLib.dll"
-#r "FSharp.Compiler.Service.dll"
 #r "RazorEngine.dll"
 #r "FSharp.Literate.dll"
 #r "FSharp.CodeFormat.dll"
@@ -62,33 +61,11 @@ let layoutRoots =
       formatting @@ "templates"
       formatting @@ "templates/reference" ]
 
-let extraDocs =
-    [ "LICENSE.md", "License.md"
-      "CONTRIBUTING.md", "Contributing.md"
-      "CONTRIBUTORS.md", "Contributors.md" ]
-
-let releaseNotesDocs =
-    [ "RELEASENOTES.md", "ReleaseNotes.md", "Release Notes"
-      "RELEASENOTES-Data.md", "ReleaseNotes-Data.md", "Data Extensions Release Notes"
-      "RELEASENOTES-MKL.md", "ReleaseNotes-MKL.md", "MKL Native Provider Release Notes" ]
-
 // Copy static files and CSS + JS from F# Formatting
 let copySupportFiles() =
     CopyRecursive files output true |> Log "Copying file: "
     ensureDirectory (output @@ "content")
     CopyRecursive (formatting @@ "styles") (output @@ "content") true |> Log "Copying styles and scripts: "
-
-let copyExtraDocs() =
-    for (fileName, docName) in extraDocs do CopyFile (content @@ docName) (top @@ fileName)
-
-let prepareReleaseNotes() =
-    for (fileName, docName, title) in releaseNotesDocs do
-        String.concat Environment.NewLine
-          [ "# " + title
-            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [MKL Native Provider](ReleaseNotes-MKL.html)"
-            ""
-            ReadFileAsString (top @@ fileName) ]
-        |> ReplaceFile (content @@ docName)
 
 // Build API reference from XML comments
 let buildReference() =
@@ -97,7 +74,7 @@ let buildReference() =
         MetadataFormat.Generate
             (bin @@ lib, output @@ "reference", layoutRoots, parameters = ("root", root) :: info,
              sourceRepo = "https://github.com/mathnet/mathnet-numerics/tree/master/src", sourceFolder = @"..\..\src",
-             publicOnly = true)
+             publicOnly = true, libDirs = [bin])
 
 // Build documentation from `fsx` and `md` files in `docs/content`
 let buildDocumentation() =
@@ -108,14 +85,8 @@ let buildDocumentation() =
             (dir, docTemplate, output @@ sub, replacements = ("root", root) :: info, layoutRoots = layoutRoots,
              references = false, lineNumbers = true, generateAnchors = true)
 
-let cleanup() =
-    for (_, docName) in extraDocs do DeleteFile (content @@ docName)
-    for (_, docName, _) in releaseNotesDocs do DeleteFile (content @@ docName)
 
 // Generate
 copySupportFiles()
-copyExtraDocs()
-prepareReleaseNotes()
 buildDocumentation()
 buildDocumentation()
-cleanup()

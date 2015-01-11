@@ -1,7 +1,7 @@
 Math.NET Numerics License (MIT/X11)
 ===================================
 
-Copyright (c) 2002-2014 Math.NET
+Copyright (c) 2002-2015 Math.NET
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation

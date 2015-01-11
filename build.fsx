@@ -24,6 +24,7 @@ open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
 open Fake.StringHelper
 open System
+open System.IO
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
 let header = ReadFile(__SOURCE_DIRECTORY__ @@ "build.fsx") |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> toLines
@@ -563,19 +564,61 @@ Target "DataNuGet" (fun _ ->
 
 Target "CleanDocs" (fun _ -> CleanDirs ["out/docs"])
 
-Target "Docs" (fun _ ->
-    executeFSIWithArgs "docs/tools" "build-docs.fsx" ["--define:RELEASE"] [] |> ignore
-)
+let extraDocs =
+    [ "LICENSE.md", "License.md"
+      "CONTRIBUTING.md", "Contributing.md"
+      "CONTRIBUTORS.md", "Contributors.md" ]
 
+let releaseNotesDocs =
+    [ "RELEASENOTES.md", "ReleaseNotes.md", "Release Notes"
+      "RELEASENOTES-Data.md", "ReleaseNotes-Data.md", "Data Extensions Release Notes"
+      "RELEASENOTES-MKL.md", "ReleaseNotes-MKL.md", "MKL Native Provider Release Notes" ]
+
+let provideDocExtraFiles() =
+    for (fileName, docName) in extraDocs do CopyFile ("docs/content" @@ docName) fileName
+    for (fileName, docName, title) in releaseNotesDocs do
+        String.concat Environment.NewLine
+          [ "# " + title
+            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [MKL Native Provider](ReleaseNotes-MKL.html)"
+            ""
+            ReadFileAsString fileName ]
+        |> ReplaceFile ("docs/content" @@ docName)
+
+let generateDocs fail local =
+    let args = if local then [] else ["--define:RELEASE"]
+    if executeFSIWithArgs "docs/tools" "build-docs.fsx" args [] then
+         traceImportant "Docs generated"
+    else
+        if fail then
+            failwith "Generating documentation failed"
+        else
+            traceImportant "generating documentation failed"
+
+Target "Docs" (fun _ ->
+    provideDocExtraFiles ()
+    generateDocs true false)
 Target "DocsDev" (fun _ ->
-    executeFSIWithArgs "docs/tools" "build-docs.fsx" [] [] |> ignore
-)
+    provideDocExtraFiles ()
+    generateDocs true true)
+Target "DocsWatch" (fun _ ->
+    provideDocExtraFiles ()
+    use watcher = new FileSystemWatcher(DirectoryInfo("docs/content").FullName, "*.*")
+    watcher.EnableRaisingEvents <- true
+    watcher.Changed.Add(fun e -> generateDocs false true)
+    watcher.Created.Add(fun e -> generateDocs false true)
+    watcher.Renamed.Add(fun e -> generateDocs false true)
+    watcher.Deleted.Add(fun e -> generateDocs false true)
+    traceImportant "Waiting for docs edits. Press any key to stop."
+    System.Console.ReadKey() |> ignore
+    watcher.EnableRaisingEvents <- false
+    watcher.Dispose())
 
 "CleanDocs" ==> "Docs"
 
 "Start"
   =?> ("CleanDocs", not (hasBuildParam "incremental"))
   ==> "DocsDev"
+  ==> "DocsWatch"
 
 
 // API REFERENCE

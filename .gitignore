@@ -24,6 +24,7 @@ coverage.*
 
 # Caches
 _ReSharper*
+_TeamCity*
 *.[Rr]e[Ss]harper
 *.ide/
 *.[Cc]ache
@@ -39,6 +40,7 @@ Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 *.bak
+*.orig
 
 # OS
 $RECYCLE.BIN/
@@ -60,3 +62,10 @@ packages/*
 # FAKE & Paket
 packages/FAKE
 tools/paket/paket.exe
+
+# Generated Doc Files
+docs/content/License.md
+docs/content/Contributing.md
+docs/content/Contributors.md
+docs/content/ReleaseNotes.md
+docs/content/ReleaseNotes-*.md
