@@ -48,12 +48,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers
         [Test]
         public void DetermineStatusWithoutStopCriteriaDoesNotThrow()
         {
-            var iterator = new Iterator<float>();
+            var iterator = new Iterator<int>();
             Assert.DoesNotThrow(() => iterator.DetermineStatus(
                 0,
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 5),
-                Vector<float>.Build.Dense(3, 6)));
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 5),
+                Vector<int>.Build.Dense(3, 6)));
         }
 
         /// <summary>
@@ -62,20 +62,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers
         [Test]
         public void DetermineStatusWithNegativeIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criteria = new List<IIterationStopCriterion<float>>
+            var criteria = new List<IIterationStopCriterion<int>>
             {
-                new FailureStopCriterion<float>(),
-                new DivergenceStopCriterion<float>(),
-                new IterationCountStopCriterion<float>(),
-                new ResidualStopCriterion<float>(1e-6)
+                new FailureStopCriterion<int>(),
+                new DivergenceStopCriterion<int>(),
+                new IterationCountStopCriterion<int>(),
+                new ResidualStopCriterion<int>(1e-6)
             };
-            var iterator = new Iterator<float>(criteria);
+            var iterator = new Iterator<int>(criteria);
 
             Assert.That(() => iterator.DetermineStatus(
                 -1,
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 5),
-                Vector<float>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 5),
+                Vector<int>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -84,29 +84,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers
         [Test]
         public void DetermineStatus()
         {
-            var criteria = new List<IIterationStopCriterion<float>>
+            var criteria = new List<IIterationStopCriterion<int>>
             {
-                new FailureStopCriterion<float>(),
-                new DivergenceStopCriterion<float>(),
-                new IterationCountStopCriterion<float>(1)
+                new FailureStopCriterion<int>(),
+                new DivergenceStopCriterion<int>(),
+                new IterationCountStopCriterion<int>(1)
             };
 
-            var iterator = new Iterator<float>(criteria);
+            var iterator = new Iterator<int>(criteria);
 
             // First step, nothing should happen.
             iterator.DetermineStatus(
                 0,
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 4));
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 4));
             Assert.AreEqual(IterationStatus.Continue, iterator.Status, "Incorrect status");
 
             // Second step, should run out of iterations.
             iterator.DetermineStatus(
                 1,
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 4));
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 4));
             Assert.AreEqual(IterationStatus.StoppedWithoutConvergence, iterator.Status, "Incorrect status");
         }
 
@@ -116,21 +116,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers
         [Test]
         public void ResetToPrecalculationState()
         {
-            var criteria = new List<IIterationStopCriterion<float>>
+            var criteria = new List<IIterationStopCriterion<int>>
             {
-                new FailureStopCriterion<float>(),
-                new DivergenceStopCriterion<float>(),
-                new IterationCountStopCriterion<float>(1)
+                new FailureStopCriterion<int>(),
+                new DivergenceStopCriterion<int>(),
+                new IterationCountStopCriterion<int>(1)
             };
 
-            var iterator = new Iterator<float>(criteria);
+            var iterator = new Iterator<int>(criteria);
 
             // First step, nothing should happen.
             iterator.DetermineStatus(
                 0,
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 4));
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 4));
             Assert.AreEqual(IterationStatus.Continue, iterator.Status, "Incorrect status");
 
             iterator.Reset();

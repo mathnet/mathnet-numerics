@@ -48,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void CreateWithNegativeMaximumThrowsArgumentOutOfRangeException()
         {
-            Assert.That(() => new ResidualStopCriterion<float>(-0.1f), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new ResidualStopCriterion<int>(-0.1f), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void CreateWithIllegalMinimumIterationsThrowsArgumentOutOfRangeException()
         {
-            Assert.That(() => new ResidualStopCriterion<float>(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
+            Assert.That(() => new ResidualStopCriterion<int>(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void Create()
         {
-            var criterion = new ResidualStopCriterion<float>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<int>(1e-6f, 50);
 
             Assert.AreEqual(1e-6f, criterion.Maximum, "Incorrect maximum");
             Assert.AreEqual(50, criterion.MinimumIterationsBelowMaximum, "Incorrect iteration count");
@@ -78,13 +78,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithIllegalIterationNumberThrowsArgumentOutOfRangeException()
         {
-            var criterion = new ResidualStopCriterion<float>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<int>(1e-6f, 50);
 
             Assert.That(() => criterion.DetermineStatus(
                 -1,
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 5),
-                Vector<float>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 5),
+                Vector<int>.Build.Dense(3, 6)), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>
@@ -93,13 +93,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithNonMatchingSolutionVectorThrowsArgumentException()
         {
-            var criterion = new ResidualStopCriterion<float>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<int>(1e-6f, 50);
 
             Assert.That(() => criterion.DetermineStatus(
                 1,
-                Vector<float>.Build.Dense(4, 4),
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 4)), Throws.ArgumentException);
+                Vector<int>.Build.Dense(4, 4),
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 4)), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -108,13 +108,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithNonMatchingSourceVectorThrowsArgumentException()
         {
-            var criterion = new ResidualStopCriterion<float>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<int>(1e-6f, 50);
 
             Assert.That(() => criterion.DetermineStatus(
                 1,
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(4, 4),
-                Vector<float>.Build.Dense(3, 4)), Throws.ArgumentException);
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(4, 4),
+                Vector<int>.Build.Dense(3, 4)), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -123,46 +123,46 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithNonMatchingResidualVectorThrowsArgumentException()
         {
-            var criterion = new ResidualStopCriterion<float>(1e-6f, 50);
+            var criterion = new ResidualStopCriterion<int>(1e-6f, 50);
 
             Assert.That(() => criterion.DetermineStatus(
                 1,
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(3, 4),
-                Vector<float>.Build.Dense(4, 4)), Throws.ArgumentException);
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(3, 4),
+                Vector<int>.Build.Dense(4, 4)), Throws.ArgumentException);
         }
 
-        /// <summary>
-        /// Can determine status with source NaN.
-        /// </summary>
-        [Test]
-        public void DetermineStatusWithSourceNaN()
-        {
-            var criterion = new ResidualStopCriterion<float>(1e-3f, 10);
+		/////// <summary>
+		/////// Can determine status with source NaN.
+		/////// </summary>
+		////[Test]
+		////public void DetermineStatusWithSourceNaN()
+		////{
+		////	var criterion = new ResidualStopCriterion<int>(1e-3f, 10);
 
-            var solution = new DenseVector(new[] { 1, 1, 2 });
-            var source = new DenseVector(new[] { 1, 1, float.NaN });
-            var residual = new DenseVector(new[] { 1000, 1000, 2001 });
+		////	var solution = new DenseVector(new[] { 1, 1, 2 });
+		////	var source = new DenseVector(new[] { 1, 1, float.NaN });
+		////	var residual = new DenseVector(new[] { 1000, 1000, 2001 });
 
-            var status = criterion.DetermineStatus(5, solution, source, residual);
-            Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
-        }
+		////	var status = criterion.DetermineStatus(5, solution, source, residual);
+		////	Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
+		////}
 
-        /// <summary>
-        /// Can determine status with residual NaN.
-        /// </summary>
-        [Test]
-        public void DetermineStatusWithResidualNaN()
-        {
-            var criterion = new ResidualStopCriterion<float>(1e-3f, 10);
+		/////// <summary>
+		/////// Can determine status with residual NaN.
+		/////// </summary>
+		////[Test]
+		////public void DetermineStatusWithResidualNaN()
+		////{
+		////	var criterion = new ResidualStopCriterion<int>(1e-3f, 10);
 
-            var solution = new DenseVector(new[] { 1, 1, 2 });
-            var source = new DenseVector(new[] { 1, 1, 2 });
-            var residual = new DenseVector(new[] { 1000, float.NaN, 2001 });
+		////	var solution = new DenseVector(new[] { 1, 1, 2 });
+		////	var source = new DenseVector(new[] { 1, 1, 2 });
+		////	var residual = new DenseVector(new[] { 1000, float.NaN, 2001 });
 
-            var status = criterion.DetermineStatus(5, solution, source, residual);
-            Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
-        }
+		////	var status = criterion.DetermineStatus(5, solution, source, residual);
+		////	Assert.AreEqual(IterationStatus.Diverged, status, "Should be diverged");
+		////}
 
         /// <summary>
         /// Can determine status with convergence at first iteration.
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithConvergenceAtFirstIteration()
         {
-            var criterion = new ResidualStopCriterion<float>(1e-6);
+            var criterion = new ResidualStopCriterion<int>(1e-6);
 
             var solution = new DenseVector(new[] { 1, 1, 1 });
             var source = new DenseVector(new[] { 1, 1, 1 });
@@ -186,16 +186,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void DetermineStatus()
         {
-            var criterion = new ResidualStopCriterion<float>(1e-3f, 10);
+            var criterion = new ResidualStopCriterion<int>(1e-3f, 10);
 
             // the solution vector isn't actually being used so ...
-            var solution = new DenseVector(new[] { float.NaN, float.NaN, float.NaN });
+            var solution = new DenseVector(new[] { 0, 0, 0 });
 
             // Set the source values
-            var source = new DenseVector(new[] { 1.000f, 1.000f, 2.001f });
+            var source = new DenseVector(new[] { 1000, 1000, 2001 });
 
             // Set the residual values
-            var residual = new DenseVector(new[] { 0.001f, 0.001f, 0.002f });
+            var residual = new DenseVector(new[] { 1, 1, 2 });
 
             var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should still be running");
@@ -210,11 +210,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void ResetCalculationState()
         {
-            var criterion = new ResidualStopCriterion<float>(1e-3f, 10);
+            var criterion = new ResidualStopCriterion<int>(1e-3f, 10);
 
-            var solution = new DenseVector(new[] { 0.001f, 0.001f, 0.002f });
-            var source = new DenseVector(new[] { 0.001f, 0.001f, 0.002f });
-            var residual = new DenseVector(new[] { 1.000f, 1.000f, 2.001f });
+            var solution = new DenseVector(new[] { 1, 1, 2 });
+            var source = new DenseVector(new[] { 1, 1, 2 });
+            var residual = new DenseVector(new[] { 1000, 1000, 2001 });
 
             var status = criterion.DetermineStatus(5, solution, source, residual);
             Assert.AreEqual(IterationStatus.Continue, status, "Should be running");
@@ -229,12 +229,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void Clone()
         {
-            var criterion = new ResidualStopCriterion<float>(1e-3f, 10);
+            var criterion = new ResidualStopCriterion<int>(1e-3f, 10);
 
             var clone = criterion.Clone();
-            Assert.IsInstanceOf(typeof (ResidualStopCriterion<float>), clone, "Wrong criterion type");
+            Assert.IsInstanceOf(typeof (ResidualStopCriterion<int>), clone, "Wrong criterion type");
 
-            var clonedCriterion = clone as ResidualStopCriterion<float>;
+            var clonedCriterion = clone as ResidualStopCriterion<int>;
             Assert.IsNotNull(clonedCriterion);
 
             // ReSharper disable PossibleNullReferenceException

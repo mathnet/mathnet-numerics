@@ -361,10 +361,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the LU factor of a matrix.
+		/// Compute the LU factor of a matrix always throws <c>InvalidOperationException</c>
         /// </summary>
         [Test]
-        public void CanComputeLuFactor()
+		public void ComputeLuFactorThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -376,10 +376,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the inverse of a matrix using LU factorization.
+        /// Compute the inverse of a matrix using LU factorization always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeLuInverse()
+		public void ComputeLuInverseThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -389,11 +389,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the inverse of a matrix using LU factorization
-        /// using a previously factored matrix.
+        /// Compute the inverse of a matrix using LU factorization
+        /// using a previously factored matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeLuInverseOnFactoredMatrix()
+		public void ComputeLuInverseOnFactoredMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -407,11 +407,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the inverse of a matrix using LU factorization
-        /// with a work array.
+        /// Compute the inverse of a matrix using LU factorization
+        /// with a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeLuInverseWithWorkArray()
+		public void ComputeLuInverseWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -422,11 +422,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the inverse of a matrix using LU factorization
-        /// using a previously factored matrix with a work array.
+        /// Compute the inverse of a matrix using LU factorization
+        /// using a previously factored matrix with a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeLuInverseOnFactoredMatrixWithWorkArray()
+		public void ComputeLuInverseOnFactoredMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -442,10 +442,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using LU factorization.
+        /// Solve Ax=b using LU factorization always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingLU()
+		public void SolveUsingLUThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -456,10 +456,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using LU factorization using a factored matrix.
+        /// Solve Ax=b using LU factorization using a factored matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingLUOnFactoredMatrix()
+		public void SolveUsingLUOnFactoredMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -473,20 +473,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the <c>Cholesky</c> factorization.
+        /// Compute the <c>Cholesky</c> factorization always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeCholeskyFactor()
+		public void ComputeCholeskyFactorThrowsInvalidOperationException()
         {
             var matrix = new int[] {1, 1, 1, 1, 1, 5, 5, 5, 1, 5, 14, 14, 1, 5, 14, 15};
             Assert.That(() => Control.LinearAlgebraProvider.CholeskyFactor(matrix, 4), Throws.InvalidOperationException);
         }
 
         /// <summary>
-        /// Can solve Ax=b using Cholesky factorization.
+        /// Solve Ax=b using Cholesky factorization always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingCholesky()
+		public void SolveUsingCholeskyThrowsInvalidOperationException()
         {
             var matrix = new DenseMatrix(3, 3, new int[] {1, 1, 1, 1, 2, 3, 1, 3, 6});
             var a = new int[] {1, 1, 1, 1, 2, 3, 1, 3, 6};
@@ -496,10 +496,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using LU factorization using a factored matrix.
+        /// Solve Ax=b using LU factorization using a factored matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingCholeskyOnFactoredMatrix()
+		public void SolveUsingCholeskyOnFactoredMatrixThrowsInvalidOperationException()
         {
             var a = new int[] {1, 1, 1, 1, 2, 3, 1, 3, 6};
 
@@ -510,10 +510,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute QR factorization of a square matrix.
+        /// Compute QR factorization of a square matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeQRFactorSquareMatrix()
+		public void ComputeQRFactorSquareMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -525,10 +525,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute QR factorization of a tall matrix.
+		/// Compute QR factorization of a tall matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeQRFactorTallMatrix()
+        public void ComputeQRFactorTallMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -540,10 +540,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute QR factorization of a wide matrix.
+		/// Compute QR factorization of a wide matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeQRFactorWideMatrix()
+        public void ComputeQRFactorWideMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Wide2x3"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -555,10 +555,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute QR factorization of a square matrix using a work array.
+		/// Compute QR factorization of a square matrix using a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeQRFactorSquareMatrixWithWorkArray()
+        public void ComputeQRFactorSquareMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -571,10 +571,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute QR factorization of a tall matrix using a work matrix.
+		/// Compute QR factorization of a tall matrix using a work matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeQRFactorTallMatrixWithWorkArray()
+        public void CanComputeQRFactorTallMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -587,10 +587,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute QR factorization of a wide matrix using a work matrix.
+		/// Compute QR factorization of a wide matrix using a work matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeQRFactorWideMatrixWithWorkArray()
+        public void ComputeQRFactorWideMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Wide2x3"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -603,10 +603,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute thin QR factorization of a square matrix.
+		/// Compute thin QR factorization of a square matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeThinQRFactorSquareMatrix()
+        public void ComputeThinQRFactorSquareMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
@@ -618,10 +618,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute thin QR factorization of a tall matrix.
+		/// Compute thin QR factorization of a tall matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeThinQRFactorTallMatrix()
+        public void ComputeThinQRFactorTallMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
@@ -633,10 +633,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute thin QR factorization of a square matrix using a work array.
+		/// Compute thin QR factorization of a square matrix using a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeThinQRFactorSquareMatrixWithWorkArray()
+        public void ComputeThinQRFactorSquareMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
@@ -649,10 +649,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute thin QR factorization of a tall matrix using a work matrix.
+		/// Compute thin QR factorization of a tall matrix using a work matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeThinQRFactorTallMatrixWithWorkArray()
+        public void ComputeThinQRFactorTallMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
@@ -665,10 +665,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using QR factorization with a square A matrix.
+		/// Solve Ax=b using QR factorization with a square A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingQRSquareMatrix()
+        public void SolveUsingQRSquareMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -680,10 +680,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using QR factorization with a tall A matrix.
+		/// Solve Ax=b using QR factorization with a tall A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingQRTallMatrix()
+        public void SolveUsingQRTallMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -695,11 +695,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using QR factorization with a square A matrix
-        /// using a work array.
+        /// Solve Ax=b using QR factorization with a square A matrix
+		/// using a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingQRSquareMatrixUsingWorkArray()
+        public void SolveUsingQRSquareMatrixUsingWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -712,11 +712,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using QR factorization with a tall A matrix
-        /// using a work array.
+        /// Solve Ax=b using QR factorization with a tall A matrix
+		/// using a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingQRTallMatrixUsingWorkArray()
+        public void SolveUsingQRTallMatrixUsingWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -729,11 +729,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using QR factorization with a square A matrix
-        /// using a factored A matrix.
+        /// Solve Ax=b using QR factorization with a square A matrix
+		/// using a factored A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingQRSquareMatrixOnFactoredMatrix()
+        public void SolveUsingQRSquareMatrixOnFactoredMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -749,11 +749,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using QR factorization with a tall A matrix
-        /// using a factored A matrix.
+        /// Solve Ax=b using QR factorization with a tall A matrix
+		/// using a factored A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingQRTallMatrixOnFactoredMatrix()
+        public void SolveUsingQRTallMatrixOnFactoredMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -769,11 +769,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using QR factorization with a square A matrix
-        /// using a factored A matrix with a work array.
+        /// Solve Ax=b using QR factorization with a square A matrix
+		/// using a factored A matrix with a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingQRSquareMatrixOnFactoredMatrixWithWorkArray()
+        public void SolveUsingQRSquareMatrixOnFactoredMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -790,11 +790,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using QR factorization with a tall A matrix
-        /// using a factored A matrix with a work array.
+        /// Solve Ax=b using QR factorization with a tall A matrix
+		/// using a factored A matrix with a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingQRTallMatrixOnFactoredMatrixWithWorkArray()
+        public void SolveUsingQRTallMatrixOnFactoredMatrixWithWorkArray()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -811,10 +811,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using thin QR factorization with a square A matrix.
+		/// Solve Ax=b using thin QR factorization with a square A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingThinQRSquareMatrix()
+        public void SolveUsingThinQRSquareMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -826,10 +826,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using thin QR factorization with a tall A matrix.
+		/// Solve Ax=b using thin QR factorization with a tall A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingThinQRTallMatrix()
+        public void SolveUsingThinQRTallMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -841,11 +841,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using thin QR factorization with a square A matrix
-        /// using a work array.
+        /// Solve Ax=b using thin QR factorization with a square A matrix
+		/// using a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingThinQRSquareMatrixUsingWorkArray()
+        public void SolveUsingThinQRSquareMatrixUsingWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -858,11 +858,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using thin QR factorization with a tall A matrix
-        /// using a work array.
+        /// Solve Ax=b using thin QR factorization with a tall A matrix
+		/// using a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingThinQRTallMatrixUsingWorkArray()
+        public void SolveUsingThinQRTallMatrixUsingWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -875,11 +875,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using thin QR factorization with a square A matrix
-        /// using a factored A matrix.
+        /// Solve Ax=b using thin QR factorization with a square A matrix
+		/// using a factored A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingThinQRSquareMatrixOnFactoredMatrix()
+        public void SolveUsingThinQRSquareMatrixOnFactoredMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -895,11 +895,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using thin QR factorization with a tall A matrix
-        /// using a factored A matrix.
+        /// Solve Ax=b using thin QR factorization with a tall A matrix
+		/// using a factored A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingThinQRTallMatrixOnFactoredMatrix()
+        public void SolveUsingThinQRTallMatrixOnFactoredMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -915,11 +915,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using thin QR factorization with a square A matrix
-        /// using a factored A matrix with a work array.
+        /// Solve Ax=b using thin QR factorization with a square A matrix
+		/// using a factored A matrix with a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingThinQRSquareMatrixOnFactoredMatrixWithWorkArray()
+        public void SolveUsingThinQRSquareMatrixOnFactoredMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -936,11 +936,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using thin QR factorization with a tall A matrix
-        /// using a factored A matrix with a work array.
+        /// Solve Ax=b using thin QR factorization with a tall A matrix
+		/// using a factored A matrix with a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingThinQRTallMatrixOnFactoredMatrixWithWorkArray()
+        public void SolveUsingThinQRTallMatrixOnFactoredMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -957,10 +957,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the SVD factorization of a square matrix.
+		/// Compute the SVD factorization of a square matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeSVDFactorizationOfSquareMatrix()
+        public void ComputeSVDFactorizationOfSquareMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -974,10 +974,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the SVD factorization of a tall matrix.
+		/// Compute the SVD factorization of a tall matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeSVDFactorizationOfTallMatrix()
+        public void ComputeSVDFactorizationOfTallMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -991,10 +991,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the SVD factorization of a wide matrix.
+		/// Compute the SVD factorization of a wide matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeSVDFactorizationOfWideMatrix()
+        public void ComputeSVDFactorizationOfWideMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Wide2x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1008,11 +1008,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the SVD factorization of a square matrix using
-        /// a work array.
+        /// Compute the SVD factorization of a square matrix using
+		/// a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeSVDFactorizationOfSquareMatrixWithWorkArray()
+        public void ComputeSVDFactorizationOfSquareMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1027,11 +1027,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the SVD factorization of a tall matrix using
-        /// a work array.
+        /// Compute the SVD factorization of a tall matrix using
+		/// a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeSVDFactorizationOfTallMatrixWithWorkArray()
+        public void ComputeSVDFactorizationOfTallMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1046,11 +1046,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can compute the SVD factorization of a wide matrix using
-        /// a work array.
+        /// Compute the SVD factorization of a wide matrix using
+		/// a work array always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanComputeSVDFactorizationOfWideMatrixWithWorkArray()
+        public void ComputeSVDFactorizationOfWideMatrixWithWorkArrayThrowsInvalidOperationException()
         {
             var matrix = _matrices["Wide2x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1065,10 +1065,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using SVD factorization with a square A matrix.
+		/// Solve Ax=b using SVD factorization with a square A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingSVDSquareMatrix()
+        public void SolveUsingSVDSquareMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1080,10 +1080,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using SVD factorization with a tall A matrix.
+		/// Solve Ax=b using SVD factorization with a tall A matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingSVDTallMatrix()
+        public void SolveUsingSVDTallMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1095,11 +1095,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using SVD factorization with a square A matrix
-        /// using a factored matrix.
+        /// Solve Ax=b using SVD factorization with a square A matrix
+		/// using a factored matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingSVDSquareMatrixOnFactoredMatrix()
+        public void SolveUsingSVDSquareMatrixOnFactoredMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1117,11 +1117,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-        /// Can solve Ax=b using SVD factorization with a tall A matrix
-        /// using a factored matrix.
+        /// Solve Ax=b using SVD factorization with a tall A matrix
+		/// using a factored matrix always throws <c>InvalidOperationException</c>.
         /// </summary>
         [Test]
-        public void CanSolveUsingSVDTallMatrixOnFactoredMatrix()
+        public void SolveUsingSVDTallMatrixOnFactoredMatrixThrowsInvalidOperationException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
