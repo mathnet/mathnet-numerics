@@ -348,6 +348,8 @@
     <Compile Include="EuclidTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
     <Compile Include="LinearAlgebraTests\VectorStorageCombinatorsTests.cs" />
+    <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
+    <Compile Include="OptimizationTests\TestNewtonMinimizer.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />
