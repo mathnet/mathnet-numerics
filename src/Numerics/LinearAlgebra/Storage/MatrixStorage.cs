@@ -164,7 +164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public virtual void ClearColumns(int[] columnIndices)
         {
-            for (var k = 0; k < ColumnCount; k++)
+            for (var k = 0; k < columnIndices.Length; k++)
             {
                 int column = columnIndices[k];
                 for (var i = 0; i < RowCount; i++)
