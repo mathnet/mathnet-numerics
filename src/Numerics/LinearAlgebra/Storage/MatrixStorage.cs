@@ -128,52 +128,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
         public abstract void At(int row, int column, T value);
 
-        public virtual void Clear()
-        {
-            for (var i = 0; i < RowCount; i++)
-            {
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    At(i, j, Zero);
-                }
-            }
-        }
-
-        public virtual void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
-        {
-            for (var i = rowIndex; i < rowIndex + rowCount; i++)
-            {
-                for (var j = columnIndex; j < columnIndex + columnCount; j++)
-                {
-                    At(i, j, Zero);
-                }
-            }
-        }
-
-        public virtual void ClearRows(int[] rowIndices)
-        {
-            for (var k = 0; k < rowIndices.Length; k++)
-            {
-                int row = rowIndices[k];
-                for (var j = 0; j < ColumnCount; j++)
-                {
-                    At(row, j, Zero);
-                }
-            }
-        }
-
-        public virtual void ClearColumns(int[] columnIndices)
-        {
-            for (var k = 0; k < columnIndices.Length; k++)
-            {
-                int column = columnIndices[k];
-                for (var i = 0; i < RowCount; i++)
-                {
-                    At(i, column, Zero);
-                }
-            }
-        }
-
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -248,6 +202,110 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return hash;
+        }
+
+        // CLEARING
+
+        public virtual void Clear()
+        {
+            for (var i = 0; i < RowCount; i++)
+            {
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    At(i, j, Zero);
+                }
+            }
+        }
+
+        public void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            if (rowCount < 1 || columnCount < 1)
+            {
+                return;
+            }
+
+            if (rowIndex + rowCount > RowCount || rowIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("rowIndex");
+            }
+
+            if (columnIndex + columnCount > ColumnCount || columnIndex < 0)
+            {
+                throw new ArgumentOutOfRangeException("columnIndex");
+            }
+
+            ClearUnchecked(rowIndex, rowCount, columnIndex, columnCount);
+        }
+
+        internal virtual void ClearUnchecked(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            for (var i = rowIndex; i < rowIndex + rowCount; i++)
+            {
+                for (var j = columnIndex; j < columnIndex + columnCount; j++)
+                {
+                    At(i, j, Zero);
+                }
+            }
+        }
+
+        public void ClearRows(int[] rowIndices)
+        {
+            if (rowIndices.Length == 0)
+            {
+                return;
+            }
+
+            for (int k = 0; k < rowIndices.Length; k++)
+            {
+                if (rowIndices[k] < 0 || rowIndices[k] >= RowCount)
+                {
+                    throw new ArgumentOutOfRangeException("rowIndices");
+                }
+            }
+
+            ClearRowsUnchecked(rowIndices);
+        }
+
+        public void ClearColumns(int[] columnIndices)
+        {
+            if (columnIndices.Length == 0)
+            {
+                return;
+            }
+
+            for (int k = 0; k < columnIndices.Length; k++)
+            {
+                if (columnIndices[k] < 0 || columnIndices[k] >= ColumnCount)
+                {
+                    throw new ArgumentOutOfRangeException("columnIndices");
+                }
+            }
+
+            ClearColumnsUnchecked(columnIndices);
+        }
+
+        internal virtual void ClearRowsUnchecked(int[] rowIndices)
+        {
+            for (var k = 0; k < rowIndices.Length; k++)
+            {
+                int row = rowIndices[k];
+                for (var j = 0; j < ColumnCount; j++)
+                {
+                    At(row, j, Zero);
+                }
+            }
+        }
+
+        internal virtual void ClearColumnsUnchecked(int[] columnIndices)
+        {
+            for (var k = 0; k < columnIndices.Length; k++)
+            {
+                int column = columnIndices[k];
+                for (var i = 0; i < RowCount; i++)
+                {
+                    At(i, column, Zero);
+                }
+            }
         }
 
         // MATRIX COPY

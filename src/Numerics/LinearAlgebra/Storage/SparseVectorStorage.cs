@@ -472,7 +472,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (existingData == ExistingData.Clear)
             {
-                target.Clear(rowIndex, 1, 0, Length);
+                target.ClearUnchecked(rowIndex, 1, 0, Length);
             }
 
             if (ValueCount == 0)
@@ -492,7 +492,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (existingData == ExistingData.Clear)
             {
-                target.Clear(0, Length, columnIndex, 1);
+                target.ClearUnchecked(0, Length, columnIndex, 1);
             }
 
             if (ValueCount == 0)

@@ -108,16 +108,18 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Data[(column*RowCount) + row] = value;
         }
 
+        // CLEARING
+
         public override void Clear()
         {
             Array.Clear(Data, 0, Data.Length);
         }
 
-        public override void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        internal override void ClearUnchecked(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
             if (rowIndex == 0 && columnIndex == 0 && rowCount == RowCount && columnCount == ColumnCount)
             {
-                Clear();
+                Array.Clear(Data, 0, Data.Length);
                 return;
             }
 
@@ -127,7 +129,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override void ClearRows(int[] rowIndices)
+        internal override void ClearRowsUnchecked(int[] rowIndices)
         {
             for (var j = 0; j < ColumnCount; j++)
             {
@@ -139,7 +141,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override void ClearColumns(int[] columnIndices)
+        internal override void ClearColumnsUnchecked(int[] columnIndices)
         {
             for (int k = 0; k < columnIndices.Length; k++)
             {

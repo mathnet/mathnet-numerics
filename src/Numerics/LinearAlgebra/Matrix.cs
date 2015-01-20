@@ -158,7 +158,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentOutOfRangeException("rowIndex");
             }
 
-            Storage.Clear(rowIndex, 1, 0, ColumnCount);
+            Storage.ClearUnchecked(rowIndex, 1, 0, ColumnCount);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentOutOfRangeException("columnIndex");
             }
 
-            Storage.Clear(0, RowCount, columnIndex, 1);
+            Storage.ClearUnchecked(0, RowCount, columnIndex, 1);
         }
 
         /// <summary>
@@ -179,19 +179,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void ClearRows(params int[] rowIndices)
         {
-            if (rowIndices.Length == 0)
-            {
-                return;
-            }
-
-            for (int k = 0; k < rowIndices.Length; k++)
-            {
-                if (rowIndices[k] < 0 || rowIndices[k] >= RowCount)
-                {
-                    throw new ArgumentOutOfRangeException("rowIndices");
-                }
-            }
-
             Storage.ClearRows(rowIndices);
         }
 
@@ -200,43 +187,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void ClearColumns(params int[] columnIndices)
         {
-            if (columnIndices.Length == 0)
-            {
-                return;
-            }
-
-            for (int k = 0; k < columnIndices.Length; k++)
-            {
-                if (columnIndices[k] < 0 || columnIndices[k] >= ColumnCount)
-                {
-                    throw new ArgumentOutOfRangeException("columnIndices");
-                }
-            }
-
             Storage.ClearColumns(columnIndices);
         }
 
         /// <summary>
-        /// Sets all values of a submatrix to zero.
+        /// Sets all values of a sub-matrix to zero.
         /// </summary>
         public void ClearSubMatrix(int rowIndex, int rowCount, int columnIndex, int columnCount)
         {
-            if (rowCount < 1 || columnCount < 1)
-            {
-                // nothing to do (but no need to fail either)
-                return;
-            }
-
-            if (rowIndex + rowCount > RowCount || rowIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("rowIndex");
-            }
-
-            if (columnIndex + columnCount > ColumnCount || columnIndex < 0)
-            {
-                throw new ArgumentOutOfRangeException("columnIndex");
-            }
-
             Storage.Clear(rowIndex, rowCount, columnIndex, columnCount);
         }
 

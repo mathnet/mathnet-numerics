@@ -115,37 +115,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override void Clear()
-        {
-            Array.Clear(Data, 0, Data.Length);
-        }
-
-        public override void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
-        {
-            var beginInclusive = Math.Max(rowIndex, columnIndex);
-            var endExclusive = Math.Min(rowIndex + rowCount, columnIndex + columnCount);
-            if (endExclusive > beginInclusive)
-            {
-                Array.Clear(Data, beginInclusive, endExclusive - beginInclusive);
-            }
-        }
-
-        public override void ClearRows(int[] rowIndices)
-        {
-            for (int i = 0; i < rowIndices.Length; i++)
-            {
-                Data[rowIndices[i]] = Zero;
-            }
-        }
-
-        public override void ClearColumns(int[] columnIndices)
-        {
-            for (int i = 0; i < columnIndices.Length; i++)
-            {
-                Data[columnIndices[i]] = Zero;
-            }
-        }
-
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -202,6 +171,39 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return hash;
+        }
+
+        // CLEARING
+
+        public override void Clear()
+        {
+            Array.Clear(Data, 0, Data.Length);
+        }
+
+        internal override void ClearUnchecked(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            var beginInclusive = Math.Max(rowIndex, columnIndex);
+            var endExclusive = Math.Min(rowIndex + rowCount, columnIndex + columnCount);
+            if (endExclusive > beginInclusive)
+            {
+                Array.Clear(Data, beginInclusive, endExclusive - beginInclusive);
+            }
+        }
+
+        internal override void ClearRowsUnchecked(int[] rowIndices)
+        {
+            for (int i = 0; i < rowIndices.Length; i++)
+            {
+                Data[rowIndices[i]] = Zero;
+            }
+        }
+
+        internal override void ClearColumnsUnchecked(int[] columnIndices)
+        {
+            for (int i = 0; i < columnIndices.Length; i++)
+            {
+                Data[columnIndices[i]] = Zero;
+            }
         }
 
         // INITIALIZATION
@@ -381,7 +383,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (existingData == ExistingData.Clear)
             {
-                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                target.ClearUnchecked(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             if (sourceRowIndex == sourceColumnIndex)
@@ -422,7 +424,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     throw new NotSupportedException();
                 }
 
-                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                target.ClearUnchecked(targetRowIndex, rowCount, targetColumnIndex, columnCount);
                 return;
             }
 
@@ -442,7 +444,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (existingData == ExistingData.Clear)
             {
-                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                target.ClearUnchecked(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             if (sourceRowIndex > sourceColumnIndex && sourceColumnIndex + columnCount > sourceRowIndex)
@@ -790,7 +792,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (existingData == ExistingData.Clear)
             {
-                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                target.ClearUnchecked(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             if (sourceRowIndex == sourceColumnIndex)
@@ -870,7 +872,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var processZeros = zeros == Zeros.Include || !Zero.Equals(f(0, 1, Zero));
             if (existingData == ExistingData.Clear && !processZeros)
             {
-                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                target.ClearUnchecked(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             if (processZeros)

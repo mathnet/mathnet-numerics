@@ -287,85 +287,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             MapInplace(x => x, Zeros.AllowSkip);
         }
 
-        public override void Clear()
-        {
-            Array.Clear(RowPointers, 0, RowPointers.Length);
-        }
-
-        public override void Clear(int rowIndex, int rowCount, int columnIndex, int columnCount)
-        {
-            if (rowIndex == 0 && columnIndex == 0 && rowCount == RowCount && columnCount == ColumnCount)
-            {
-                Clear();
-                return;
-            }
-
-            var valueCount = RowPointers[RowPointers.Length - 1];
-
-            for (int row = rowIndex + rowCount - 1; row >= rowIndex; row--)
-            {
-                var startIndex = RowPointers[row];
-                var endIndex = RowPointers[row + 1];
-
-                // empty row
-                if (startIndex == endIndex)
-                {
-                    continue;
-                }
-
-                // multiple entries in row
-                var first = Array.BinarySearch(ColumnIndices, startIndex, endIndex - startIndex, columnIndex);
-                var last = Array.BinarySearch(ColumnIndices, startIndex, endIndex - startIndex, columnIndex + columnCount - 1);
-                if (first < 0) first = ~first;
-                if (last < 0) last = ~last - 1;
-                int count = last - first + 1;
-
-                if (count > 0)
-                {
-                    // Move all values (with a position larger than index) in the value array to the previous position
-                    // move all values (with a position larger than index) in the columIndices array to the previous position
-                    Array.Copy(Values, first + count, Values, first, valueCount - first - count);
-                    Array.Copy(ColumnIndices, first + count, ColumnIndices, first, valueCount - first - count);
-
-                    // Decrease value in Row
-                    for (var k = row + 1; k < RowPointers.Length; k++)
-                    {
-                        RowPointers[k] -= count;
-                    }
-
-                    valueCount -= count;
-                }
-            }
-
-            // Check whether we need to shrink the arrays. This is reasonable to do if
-            // there are a lot of non-zero elements and storage is two times bigger
-            if ((valueCount > 1024) && (valueCount < Values.Length/2))
-            {
-                Array.Resize(ref Values, valueCount);
-                Array.Resize(ref ColumnIndices, valueCount);
-            }
-        }
-
-        public override void ClearRows(int[] rowIndices)
-        {
-            var rows = new bool[RowCount];
-            for (int i = 0; i < rowIndices.Length; i++)
-            {
-                rows[rowIndices[i]] = true;
-            }
-            MapIndexedInplace((i, j, x) => rows[i] ? Zero : x, Zeros.AllowSkip);
-        }
-
-        public override void ClearColumns(int[] columnIndices)
-        {
-            var columns = new bool[ColumnCount];
-            for (int i = 0; i < columnIndices.Length; i++)
-            {
-                columns[columnIndices[i]] = true;
-            }
-            MapIndexedInplace((i, j, x) => columns[j] ? Zero : x, Zeros.AllowSkip);
-        }
-
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -433,6 +354,87 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return hash;
+        }
+
+        // CLEARING
+
+        public override void Clear()
+        {
+            Array.Clear(RowPointers, 0, RowPointers.Length);
+        }
+
+        internal override void ClearUnchecked(int rowIndex, int rowCount, int columnIndex, int columnCount)
+        {
+            if (rowIndex == 0 && columnIndex == 0 && rowCount == RowCount && columnCount == ColumnCount)
+            {
+                Clear();
+                return;
+            }
+
+            var valueCount = RowPointers[RowPointers.Length - 1];
+
+            for (int row = rowIndex + rowCount - 1; row >= rowIndex; row--)
+            {
+                var startIndex = RowPointers[row];
+                var endIndex = RowPointers[row + 1];
+
+                // empty row
+                if (startIndex == endIndex)
+                {
+                    continue;
+                }
+
+                // multiple entries in row
+                var first = Array.BinarySearch(ColumnIndices, startIndex, endIndex - startIndex, columnIndex);
+                var last = Array.BinarySearch(ColumnIndices, startIndex, endIndex - startIndex, columnIndex + columnCount - 1);
+                if (first < 0) first = ~first;
+                if (last < 0) last = ~last - 1;
+                int count = last - first + 1;
+
+                if (count > 0)
+                {
+                    // Move all values (with a position larger than index) in the value array to the previous position
+                    // move all values (with a position larger than index) in the columIndices array to the previous position
+                    Array.Copy(Values, first + count, Values, first, valueCount - first - count);
+                    Array.Copy(ColumnIndices, first + count, ColumnIndices, first, valueCount - first - count);
+
+                    // Decrease value in Row
+                    for (var k = row + 1; k < RowPointers.Length; k++)
+                    {
+                        RowPointers[k] -= count;
+                    }
+
+                    valueCount -= count;
+                }
+            }
+
+            // Check whether we need to shrink the arrays. This is reasonable to do if
+            // there are a lot of non-zero elements and storage is two times bigger
+            if ((valueCount > 1024) && (valueCount < Values.Length/2))
+            {
+                Array.Resize(ref Values, valueCount);
+                Array.Resize(ref ColumnIndices, valueCount);
+            }
+        }
+
+        internal override void ClearRowsUnchecked(int[] rowIndices)
+        {
+            var rows = new bool[RowCount];
+            for (int i = 0; i < rowIndices.Length; i++)
+            {
+                rows[rowIndices[i]] = true;
+            }
+            MapIndexedInplace((i, j, x) => rows[i] ? Zero : x, Zeros.AllowSkip);
+        }
+
+        internal override void ClearColumnsUnchecked(int[] columnIndices)
+        {
+            var columns = new bool[ColumnCount];
+            for (int i = 0; i < columnIndices.Length; i++)
+            {
+                columns[columnIndices[i]] = true;
+            }
+            MapIndexedInplace((i, j, x) => columns[j] ? Zero : x, Zeros.AllowSkip);
         }
 
         // INITIALIZATION
@@ -959,7 +961,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (existingData == ExistingData.Clear)
             {
-                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                target.ClearUnchecked(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             for (int i = sourceRowIndex, row = 0; i < sourceRowIndex + rowCount; i++, row++)
@@ -1029,7 +1031,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (existingData == ExistingData.Clear)
             {
-                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                target.ClearUnchecked(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             // NOTE: potential for more efficient implementation
@@ -1642,7 +1644,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var processZeros = zeros == Zeros.Include || !Zero.Equals(f(0, 1, Zero));
             if (existingData == ExistingData.Clear && !processZeros)
             {
-                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                target.ClearUnchecked(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             if (processZeros)
@@ -1699,7 +1701,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var processZeros = zeros == Zeros.Include || !Zero.Equals(f(0, 1, Zero));
             if (existingData == ExistingData.Clear && !processZeros)
             {
-                target.Clear(targetRowIndex, rowCount, targetColumnIndex, columnCount);
+                target.ClearUnchecked(targetRowIndex, rowCount, targetColumnIndex, columnCount);
             }
 
             var rowOffset = targetRowIndex - sourceRowIndex;
