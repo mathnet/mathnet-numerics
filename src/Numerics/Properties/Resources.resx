@@ -319,7 +319,7 @@
     <value>The singular vectors were not computed.</value>
   </data>
   <data name="WorkArrayTooSmall" xml:space="preserve">
-    <value>The given work array is too small. Check work[0] for the corret size.</value>
+    <value>The given work array is too small. Check work[0] for the correct size.</value>
   </data>
   <data name="StringNullOrEmpty" xml:space="preserve">
     <value>String parameter cannot be empty or null.</value>

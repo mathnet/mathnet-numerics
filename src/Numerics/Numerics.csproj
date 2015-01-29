@@ -113,6 +113,7 @@
     <Compile Include="LinearAlgebra\Integer\Factorization\UserLU.cs" />
     <Compile Include="LinearAlgebra\Integer\Factorization\UserQR.cs" />
     <Compile Include="LinearAlgebra\Integer\Factorization\UserSvd.cs" />
+    <Compile Include="LinearAlgebra\Integer\IndexingExtensionMethods.cs" />
     <Compile Include="LinearAlgebra\Integer\Matrix.cs" />
     <Compile Include="LinearAlgebra\Integer\Solvers\BiCgStab.cs" />
     <Compile Include="LinearAlgebra\Integer\Solvers\CompositeSolver.cs" />
