@@ -4,31 +4,46 @@
 #r "MathNet.Numerics.FSharp.dll"
 
 (**
-Getting Started
-===============
+Math.NET Numerics
+=================
+
+Math.NET Numerics aims to provide methods and algorithms for numerical computations
+in science, engineering and every day use. Covered topics include special functions,
+linear algebra, probability models, random numbers, interpolation, integration,
+regression, optimization problems and more.
+
+Math.NET Numerics is part of the [Math.NET initiative](http://www.mathdotnet.com/)
+and is the result of merging dnAnalytics with Math.NET Iridium, replacing both.
+It targets Microsoft .Net 4, .Net 3.5 and Mono (Windows, Linux and Mac),
+Silverlight 5, WindowsPhone 8, Windows 8/Store (PCL 47, 136) and Android/iOS (Xamarin).
+In addition to a purely managed implementation it also supports native hardware
+optimization. Available for free under the [MIT/X11 License](License.html).
 
 NuGet Packages
 --------------
 
-The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/).
-Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases).
+The recommended way to get Math.NET Numerics is to use NuGet. The following
+packages are provided and maintained in the public
+[NuGet Gallery](https://nuget.org/profiles/mathnet/).
+Alternatively you can also download the binaries in Zip packages, available on
+[CodePlex](http://mathnetnumerics.codeplex.com/releases).
 
 Core Package:
 
-- **MathNet.Numerics** - core package, including .Net 4, .Net 3.5 and portable/PCL builds.
-- **MathNet.Numerics.FSharp** - optional extensions for a better F# experience. BigRational.
-- **MathNet.Numerics.Signed** - strong-named version of the core package *(not recommended)*.
-- **MathNet.Numerics.FSharp.Signed** - strong-named version of the F# package *(not recommended)*.
+- [**MathNet.Numerics**](https://www.nuget.org/packages/MathNet.Numerics/) - core package, including .Net 4, .Net 3.5 and portable/PCL builds.
+- [**MathNet.Numerics.FSharp**](https://www.nuget.org/packages/MathNet.Numerics.FSharp/) - optional extensions for a better F# experience. BigRational.
+- [**MathNet.Numerics.Signed**](https://www.nuget.org/packages/MathNet.Numerics.Signed/) - strong-named version of the core package *(not recommended)*.
+- [**MathNet.Numerics.FSharp.Signed**](https://www.nuget.org/packages/MathNet.Numerics.FSharp.Signed/) - strong-named version of the F# package *(not recommended)*.
 
 Alternative Provider Packages (optional):
 
-- **MathNet.Numerics.MKL.Win-x86** - Native Intel MKL Linear Algebra provider (Windows/32-bit).
-- **MathNet.Numerics.MKL.Win-x64** - Native Intel MKL Linear Algebra provider (Windows/64-bit).
+- [**MathNet.Numerics.MKL.Win-x86**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x86/) - Native Intel MKL Linear Algebra provider (Windows/32-bit).
+- [**MathNet.Numerics.MKL.Win-x64**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x64/) - Native Intel MKL Linear Algebra provider (Windows/64-bit).
 
 Data/IO Packages for reading and writing data (optional):
 
-- **MathNet.Numerics.Data.Text** - Text-based matrix formats like CSV and MatrixMarket.
-- **MathNet.Numerics.Data.Matlab** - MATLAB Level-5 matrix file format.
+- [**MathNet.Numerics.Data.Text**](https://www.nuget.org/packages/MathNet.Numerics.Data.Text/) - Text-based matrix formats like CSV and MatrixMarket.
+- [**MathNet.Numerics.Data.Matlab**](https://www.nuget.org/packages/MathNet.Numerics.Data.Matlab/) - MATLAB Level-5 matrix file format.
 
 
 Platform Support and Dependencies
@@ -199,57 +214,5 @@ Which will print something like the following to the output:
         -2.01044      4.06481    -0.128382      0.51167     -1.70276          ...
 
 See [Intel MKL](MKL.html) for details how to use native providers on Linux.
-
-
-Building Math.NET Numerics
---------------------------
-
-If you do not want to use the official binaries, or if you like to modify, debug or contribute, you can compile Math.NET Numerics locally either using Visual Studio or manually with the build scripts.
-
-* The Visual Studio solutions should build out of the box, without any preparation steps or package restores.
-* Instead of a compatible IDE you can also build the solutions with `msbuild`, or on Mono with `xbuild`.
-* The full build including unit tests, docs, NuGet and Zip packages is using [FAKE](http://fsharp.github.io/FAKE/).
-
-### How to build with MSBuild/XBuild
-
-    [lang=sh]
-    msbuild MathNet.Numerics.sln            # only build for .Net 4 (main solution)
-    msbuild MathNet.Numerics.Net35Only.sln  # only build for .Net 3.5
-    msbuild MathNet.Numerics.All.sln        # full build with .Net 4, 3.5 and PCL profiles
-    xbuild MathNet.Numerics.sln             # build with Mono, e.g. on Linux or Mac
-
-### How to build with FAKE
-
-    [lang=sh]
-    build.cmd    # normal build (.Net 4.0), run unit tests (.Net on Windows)
-    ./build.sh   # normal build (.Net 4.0), run unit tests (Mono on Linux/Mac, .Net on Windows)
-    
-    build.cmd Build              # normal build (.Net 4.0)
-    build.cmd Build incremental  # normal build, incremental (.Net 4.0)
-    build.cmd Build all          # full build (.Net 4.0, 3.5, PCL)
-    build.cmd Build net35        # compatibility build (.Net 3.5
-    build.cmd Build signed       # normal build, signed/strong named (.Net 4.0)
-    
-    build.cmd Test        # normal build (.Net 4.0), run unit tests
-    build.cmd Test quick  # normal build (.Net 4.0), run unit tests except long running ones
-    build.cmd Test all    # full build (.Net 4.0, 3.5, PCL), run all unit tests
-    build.cmd Test net35  # compatibility build (.Net 3.5), run unit tests
-    
-    build.cmd Clean  # cleanup build artifacts
-    build.cmd Docs   # generate documentation
-    build.cmd Api    # generate api reference
-    
-    build.cmd NuGet all     # generate normal NuGet packages (.Net 4.0, 3.5, PCL)
-    build.cmd NuGet signed  # generate signed/strong named NuGet packages (.Net 4.0)
-    
-    build.cmd NativeBuild      # build native providers for all platforms
-    build.cmd NativeTest       # test native providers for all platforms
-
-    build.cmd All          # build, test, docs, api reference (.Net 4.0)
-    build.cmd All release  # release build
-
-FAKE itself is not included in the repository but it will download and bootstrap itself automatically when build.cmd is run the first time. Note that this step is *not* required when using Visual Studio or `msbuild` directly.
-
-If the build or tests fail claiming that FSharp.Core was not be found, see [fsharp.org](http://fsharp.org/use/windows/) or install the [Visual F# 3.0 Tools](http://go.microsoft.com/fwlink/?LinkId=261286) directly.
 
 *)

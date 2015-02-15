@@ -35,6 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A4A66FA9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-AFDA-48DB-B7FC-B064691DEE96}"
 	ProjectSection(SolutionItems) = preProject
+		docs\content\Build.md = docs\content\Build.md
 		docs\content\CSV.fsx = docs\content\CSV.fsx
 		docs\content\DescriptiveStatistics.fsx = docs\content\DescriptiveStatistics.fsx
 		docs\content\Distance.fsx = docs\content\Distance.fsx

@@ -665,8 +665,7 @@ Target "PublishMirrors" (fun _ ->
 Target "PublishDocs" (fun _ ->
     let repo = "../mathnet-websites"
     Git.Branches.pull repo "origin" "master"
-    CleanDir "../mathnet-websites/numerics/docs"
-    CopyRecursive "out/docs" "../mathnet-websites/numerics/docs" true |> printfn "%A"
+    CopyRecursive "out/docs" "../mathnet-websites/numerics" true |> printfn "%A"
     Git.Staging.StageAll repo
     Git.Commit.Commit repo (sprintf "Numerics: %s docs update" packageVersion)
     Git.Branches.pushBranch repo "origin" "master")
