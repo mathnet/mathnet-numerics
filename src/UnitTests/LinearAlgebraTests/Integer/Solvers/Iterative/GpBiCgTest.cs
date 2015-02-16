@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Integer.Solvers;
 using NUnit.Framework;
 
@@ -40,12 +41,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.Iterativ
     public class GpBiCgTest
     {
         /// <summary>
-		/// Integer GpBiCg always throws <c>InvalidOperationException</c>
+		/// Integer GpBiCg always throws <c>NotSupportedException</c>
         /// </summary>
         [Test]
-		public void GpBiCgThrowsInvalidOperationException()
+		public void GpBiCgThrowsNotSupportedException()
         {
-			Assert.That(() => new GpBiCg(), Throws.InvalidOperationException);
+			Assert.Throws<NotSupportedException>(() => new GpBiCg());
         }
 
     }

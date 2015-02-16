@@ -28,10 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Integer;
+using System;
 using MathNet.Numerics.LinearAlgebra.Integer.Solvers;
-using MathNet.Numerics.LinearAlgebra.Solvers;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.Preconditioners
@@ -40,37 +38,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.Precondi
     /// Diagonal preconditioner test.
     /// </summary>
     [TestFixture, Category("LASolver")]
-    public sealed class DiagonalTest : PreconditionerTest
+    public sealed class DiagonalTest
     {
         /// <summary>
-        /// Create preconditioner.
+        /// Constructor throws <c>NotSupportedException</c>.
         /// </summary>
-        /// <returns>New preconditioner instance.</returns>
-        internal override IPreconditioner<int> CreatePreconditioner()
+        [Test]
+        public void ConstructorThrowsNotSupportedException()
         {
-            return new DiagonalPreconditioner();
-        }
-
-        /// <summary>
-        /// Check the result.
-        /// </summary>
-        /// <param name="preconditioner">Specific preconditioner.</param>
-        /// <param name="matrix">Source matrix.</param>
-        /// <param name="vector">Initial vector.</param>
-        /// <param name="result">Result vector.</param>
-        protected override void CheckResult(IPreconditioner<int> preconditioner, SparseMatrix matrix, Vector<int> vector, Vector<int> result)
-        {
-            Assert.AreEqual(typeof (DiagonalPreconditioner), preconditioner.GetType(), "#01");
-
-            // Compute M * result = product
-            // compare vector and product. Should be equal
-            var product = new DenseVector(result.Count);
-            matrix.Multiply(result, product);
-
-            for (var i = 0; i < product.Count; i++)
-            {
-                Assert.IsTrue(((double) vector[i]).AlmostEqualNumbersBetween(product[i], -Epsilon.Magnitude()), "#02-" + i);
-            }
+            Assert.Throws<NotSupportedException>(() => { var preconditioner = new DiagonalPreconditioner(); });
         }
     }
 }

@@ -149,7 +149,10 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         /// </param>
         protected override void DoDivide(int divisor, Vector<int> result)
         {
-            DoMultiply(1 / divisor, result);
+            for (var index = 0; index < Count; index++)
+            {
+                result.At(index, At(index) / divisor);
+            }
         }
 
         /// <summary>

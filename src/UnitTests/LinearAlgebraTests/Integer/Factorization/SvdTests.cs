@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Integer;
 using NUnit.Framework;
 
@@ -36,16 +37,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Factorization
     public class SvdTests
     {
         /// <summary>
-		/// Svd factorization always throws <c>InvalidOperationException</c>.
+		/// Svd factorization always throws <c>NotSupportedException</c>.
         /// </summary>
         /// <param name="order">Matrix order.</param>
         [TestCase(1)]
         [TestCase(10)]
         [TestCase(100)]
-        public void SvdFactorizizationThrowsInvalidOperationException(int order)
+        public void SvdFactorizizationThrowsNotSupportedException(int order)
         {
             var matrixI = DenseMatrix.CreateIdentity(order);
-            Assert.That(() => matrixI.Svd(), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => matrixI.Svd());
         }
     }
 }

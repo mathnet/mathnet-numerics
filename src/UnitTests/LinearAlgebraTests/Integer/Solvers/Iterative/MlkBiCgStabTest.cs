@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Integer.Solvers;
 using NUnit.Framework;
 
@@ -41,12 +42,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.Iterativ
     {
 
         /// <summary>
-		/// Integer MlkBiCgStab always throws <c>InvalidOperationException</c>
+		/// Integer MlkBiCgStab always throws <c>NotSupportedException</c>
         /// </summary>
         [Test]
-		public void MlkBiCgStabThrowsInvalidOperationException()
+		public void MlkBiCgStabThrowsNotSupportedException()
         {
-			Assert.That(() => new MlkBiCgStab(), Throws.InvalidOperationException);
+			Assert.Throws<NotSupportedException>(() => new MlkBiCgStab());
         }
 
     }

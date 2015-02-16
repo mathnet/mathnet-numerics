@@ -45,76 +45,16 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
         }
 
-        /////// <summary>
-        /////// The inverse of the matrix diagonal.
-        /////// </summary>
-        ////int[] _inverseDiagonals;
-
-        /// <summary>
-        /// Returns the decomposed matrix diagonal.
-        /// </summary>
-        /// <returns>The matrix diagonal.</returns>
-        internal DiagonalMatrix DiagonalEntries()
-        {
-            // Shouldn't be possible as this cannot be constructed
-            throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////// For integer this will return only +/-1 or 0 on the diagonal, or throw DivideByZeroException
-            ////var result = new DiagonalMatrix(_inverseDiagonals.Length);
-            ////for (var i = 0; i < _inverseDiagonals.Length; i++)
-            ////{
-            ////    result[i, i] = 1/_inverseDiagonals[i];
-            ////}
-
-            ////return result;
-        }
-
-        /// <summary>
-        /// Initializes the preconditioner and loads the internal data structures.
-        /// </summary>
-        /// <param name="matrix">
-        /// The <see cref="Matrix"/> upon which this preconditioner is based.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <see langword="null" />. </exception>
-        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
         public void Initialize(Matrix<int> matrix)
         {
-            // Shouldn't be possible as this cannot be constructed
+            // Not possible since this cannot be constructed.
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////// For integer this will return only +/-1 or 0 on the diagonal, or throw DivideByZeroException
-            ////if (matrix.RowCount != matrix.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
-            ////}
-
-            ////_inverseDiagonals = new int[matrix.RowCount];
-            ////for (var i = 0; i < matrix.RowCount; i++)
-            ////{
-            ////    _inverseDiagonals[i] = 1/matrix[i, i];
-            ////}
         }
 
-        /// <summary>
-        /// Approximates the solution to the matrix equation <b>Ax = b</b>.
-        /// </summary>
-        /// <param name="rhs">The right hand side vector.</param>
-        /// <param name="lhs">The left hand side vector. Also known as the result vector.</param>
         public void Approximate(Vector<int> rhs, Vector<int> lhs)
         {
-            // Shouldn't be possible as this cannot be constructed
+            // Not possible since this cannot be constructed.
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (_inverseDiagonals == null)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
-            ////}
-
-            ////if ((lhs.Count != rhs.Count) || (lhs.Count != _inverseDiagonals.Length))
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
-            ////}
-
-            ////for (var i = 0; i < _inverseDiagonals.Length; i++)
-            ////{
-            ////    lhs[i] = rhs[i]*_inverseDiagonals[i];
-            ////}
         }
     }
 }

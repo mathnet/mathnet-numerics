@@ -671,7 +671,14 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         public override double L2Norm()
         {
             // TODO: native provider
-            return _values.Cast<double>().Aggregate(0.0, SpecialFunctions.Hypotenuse);
+            double normL2 = 0.0;
+            foreach (var v in _values)
+            {
+                double dv = v;
+                normL2 += dv * dv;
+            }
+            normL2 = Math.Sqrt(normL2);
+            return normL2;
         }
 
         /// <summary>

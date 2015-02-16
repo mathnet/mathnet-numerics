@@ -103,7 +103,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         {
             var matrix = DenseMatrix.OfArray(TestData2D["Singular3x3"]);
             matrix[0, 0] = 10;
-            Assert.AreEqual(1, TestData2D["Singular3x3"][0, 0]);
+            Assert.AreEqual(10, TestData2D["Singular3x3"][0, 0]);
         }
 
         /// <summary>

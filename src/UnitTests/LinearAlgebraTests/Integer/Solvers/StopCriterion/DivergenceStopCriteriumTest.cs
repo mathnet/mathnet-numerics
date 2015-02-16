@@ -176,8 +176,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
         [Test]
         public void DetermineStatusWithDivergence()
         {
-			// for Integer use 100x the values for Increase and the residuals (previous) as used in Single
-			const int Increase = 50;
+			// for Integer scale the values up to be integral for Increase and the residuals (previous) as used in Single
+			const int Increase = 5;
 			const int Iterations = 10;
 
             var criterion = new DivergenceStopCriterion<int>(Increase, Iterations);
@@ -223,7 +223,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Solvers.StopCrit
                 1,
                 new DenseVector(new[] { 1 }),
                 new DenseVector(new[] { 1 }),
-                new DenseVector(new[] { int.MaxValue }));		//CONSIDER: was NaN... Will this cause the expected blow up?
+                new DenseVector(new[] { int.MaxValue }));
 
             Assert.AreEqual(IterationStatus.Diverged, status, "Status check fail.");
 

@@ -419,7 +419,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j], 5);
+                    Assert.AreEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j]);
                 }
             }
         }
@@ -445,7 +445,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 5);
+                    Assert.AreEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j]);
                 }
             }
         }
@@ -479,7 +479,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j], 6);
+                    Assert.AreEqual(matrixA.Row(i) * matrixB.Row(j), matrixC[i, j]);
                 }
             }
         }
@@ -817,18 +817,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         /// <summary>
         /// Can normalize columns of a matrix.
         /// </summary>
-        /// <param name="p">The norm under which to normalize the columns under.</param>
+        /// <param name="p">The norm under which to normalize the columns.</param>
         [TestCase(1)]
         [TestCase(2)]
         public void CanNormalizeColumns(int p)
         {
-            var matrix = TestMatrices["Square4x4"];
-            var result = matrix.NormalizeColumns(p);
-            for (var j = 0; j < result.ColumnCount; j++)
-            {
-                var col = result.Column(j);
-                Assert.AreEqual(1, col.Norm(p), 10e-6f);
-            }
+            Assert.Ignore("Normalization is not sensible in integer space");
         }
 
         /// <summary>
@@ -848,12 +842,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         [TestCase(2)]
         public void CanNormalizeRows(int p)
         {
-            var matrix = TestMatrices["Square4x4"].NormalizeRows(p);
-            for (var i = 0; i < matrix.RowCount; i++)
-            {
-                var row = matrix.Row(i);
-                Assert.AreEqual(1, row.Norm(p));
-            }
+            Assert.Ignore("Normalization is not sensible in integer space");
         }
 
         /// <summary>

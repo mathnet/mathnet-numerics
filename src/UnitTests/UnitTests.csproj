@@ -303,6 +303,7 @@
     <Compile Include="LinearAlgebraTests\Integer\Factorization\UserLUTests.cs" />
     <Compile Include="LinearAlgebraTests\Integer\Factorization\UserQRTests.cs" />
     <Compile Include="LinearAlgebraTests\Integer\Factorization\UserSvdTests.cs" />
+    <Compile Include="LinearAlgebraTests\Integer\IndexingExtensionMethodsTests.cs" />
     <Compile Include="LinearAlgebraTests\Integer\MatrixLoader.cs" />
     <Compile Include="LinearAlgebraTests\Integer\MatrixStructureTheory.cs" />
     <Compile Include="LinearAlgebraTests\Integer\MatrixTests.Arithmetic.cs" />

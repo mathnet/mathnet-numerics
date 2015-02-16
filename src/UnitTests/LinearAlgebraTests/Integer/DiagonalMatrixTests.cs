@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Integer;
@@ -114,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         [Test]
         public void MatrixFrom1DArrayIsReference()
         {
-            var data = new int[] {1, 2, 3, 4, 5};
+            var data = new int[] { 1, 2, 3, 4, 5 };
             var matrix = new DiagonalMatrix(5, 5, data);
             matrix[0, 0] = 10;
             Assert.AreEqual(10, data[0]);
@@ -201,7 +202,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    AssertHelpers.AlmostEqualRelative(matrixA.Row(i)*matrixB.Column(j), matrixC[i, j], 15);
+                    Assert.AreEqual(matrixA.Row(i) * matrixB.Column(j), matrixC[i, j]);
                 }
             }
         }
@@ -213,7 +214,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         public void PermuteMatrixRowsThrowsInvalidOperationException()
         {
             var matrixp = DiagonalMatrix.OfArray(TestData2D["Singular3x3"]);
-            var permutation = new Permutation(new[] {2, 0, 1});
+            var permutation = new Permutation(new[] { 2, 0, 1 });
             Assert.That(() => matrixp.PermuteRows(permutation), Throws.InvalidOperationException);
         }
 
@@ -224,7 +225,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         public void PermuteMatrixColumnsThrowsInvalidOperationException()
         {
             var matrixp = DiagonalMatrix.OfArray(TestData2D["Singular3x3"]);
-            var permutation = new Permutation(new[] {2, 0, 1});
+            var permutation = new Permutation(new[] { 2, 0, 1 });
             Assert.That(() => matrixp.PermuteColumns(permutation), Throws.InvalidOperationException);
         }
 
@@ -241,13 +242,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
                 var min = Math.Min(data.RowCount, data.ColumnCount);
                 for (var i = 0; i < min; i++)
                 {
-                    Assert.AreEqual(data[i, i]/other[i, i], result[i, i]);
+                    Assert.AreEqual(data[i, i] / other[i, i], result[i, i]);
                 }
 
                 result = data.PointwiseDivide(other);
                 for (var i = 0; i < min; i++)
                 {
-                    Assert.AreEqual(data[i, i]/other[i, i], result[i, i]);
+                    Assert.AreEqual(data[i, i] / other[i, i], result[i, i]);
                 }
             }
         }
@@ -309,19 +310,34 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         /// <summary>
         /// Can compute L2 norm.
         /// </summary>
-        public override void CanComputeL2Norm()
+        [Test]
+        public void CanComputeL2Norm()
         {
+            Func<int[,], double> calcDiagL2 = _data => {
+                int l2 = 0;
+                int dim = Math.Min(_data.GetLength(0), _data.GetLength(1));
+                for (int rc = 0; rc < dim; rc++)
+                {
+                    l2 = Math.Max(l2, Math.Abs(_data[rc, rc]));
+                }
+                return (double)l2;
+            };
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
-            AssertHelpers.AlmostEqualRelative(denseMatrix.L2Norm(), matrix.L2Norm(), 7);
+            var data = TestData2D["Square3x3"];
+            AssertHelpers.AlmostEqualRelative(calcDiagL2(data), matrix.L2Norm(), 14);
 
             matrix = TestMatrices["Wide2x3"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Wide2x3"]);
-            AssertHelpers.AlmostEqualRelative(denseMatrix.L2Norm(), matrix.L2Norm(), 7);
+            data = TestData2D["Wide2x3"];
+            AssertHelpers.AlmostEqualRelative(calcDiagL2(data), matrix.L2Norm(), 14);
 
             matrix = TestMatrices["Tall3x2"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Tall3x2"]);
-            AssertHelpers.AlmostEqualRelative(denseMatrix.L2Norm(), matrix.L2Norm(), 7);
+            data = TestData2D["Tall3x2"];
+            AssertHelpers.AlmostEqualRelative(calcDiagL2(data), matrix.L2Norm(), 14);
+        }
+
+        public override void ComputeL2NormThrowsNotSupportedException()
+        {
+            Assert.Ignore("DiagonalMatrices CAN safely compute L2Norm");
         }
 
         /// <summary>
@@ -330,23 +346,21 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         [Test]
         public void CanComputeDeterminant()
         {
+            Func<int[,], int> calcDiagDet = _data => {
+                int det = 1;
+                for (int rc = 0; rc < _data.GetLength(0); rc++)
+                {
+                    det *= _data[rc, rc];
+                }
+                return det;
+            };
             var matrix = TestMatrices["Square3x3"];
-            var denseMatrix = DenseMatrix.OfArray(TestData2D["Square3x3"]);
-            AssertHelpers.AlmostEqualRelative(denseMatrix.Determinant(), matrix.Determinant(), 7);
+            var data = TestData2D["Square3x3"];
+            Assert.AreEqual(calcDiagDet(data), matrix.Determinant());
 
             matrix = TestMatrices["Square4x4"];
-            denseMatrix = DenseMatrix.OfArray(TestData2D["Square4x4"]);
-            AssertHelpers.AlmostEqualRelative(denseMatrix.Determinant(), matrix.Determinant(), 7);
-        }
-
-        /// <summary>
-        /// Determinant of  non-square matrix throws <c>ArgumentException</c>.
-        /// </summary>
-        [Test]
-        public void DeterminantNotSquareMatrixThrowsArgumentException()
-        {
-            var matrix = TestMatrices["Tall3x2"];
-            Assert.That(() => matrix.Determinant(), Throws.ArgumentException);
+            data = TestData2D["Square4x4"];
+            Assert.AreEqual(calcDiagDet(data), matrix.Determinant());
         }
 
         /// <summary>
@@ -366,14 +380,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
             Assert.IsInstanceOf<DiagonalMatrix>(Matrix<int>.Build.DiagonalIdentity(3, 3));
 
             var tall = Matrix<int>.Build.Random(8, 3, dist);
-            Assert.IsTrue((tall*Matrix<int>.Build.DiagonalIdentity(3).Multiply(2)).Equals(tall.Multiply(2)));
-            Assert.IsTrue((tall*Matrix<int>.Build.Diagonal(3, 5, 2)).Equals(tall.Multiply(2).Append(Matrix<int>.Build.Dense(8, 2))));
-            Assert.IsTrue((tall*Matrix<int>.Build.Diagonal(3, 2, 2)).Equals(tall.Multiply(2).SubMatrix(0, 8, 0, 2)));
+            Assert.IsTrue((tall * Matrix<int>.Build.DiagonalIdentity(3).Multiply(2)).Equals(tall.Multiply(2)));
+            Assert.IsTrue((tall * Matrix<int>.Build.Diagonal(3, 5, 2)).Equals(tall.Multiply(2).Append(Matrix<int>.Build.Dense(8, 2))));
+            Assert.IsTrue((tall * Matrix<int>.Build.Diagonal(3, 2, 2)).Equals(tall.Multiply(2).SubMatrix(0, 8, 0, 2)));
 
             var wide = Matrix<int>.Build.Random(3, 8, dist);
-            Assert.IsTrue((wide*Matrix<int>.Build.DiagonalIdentity(8).Multiply(2)).Equals(wide.Multiply(2)));
-            Assert.IsTrue((wide*Matrix<int>.Build.Diagonal(8, 10, 2)).Equals(wide.Multiply(2).Append(Matrix<int>.Build.Dense(3, 2))));
-            Assert.IsTrue((wide*Matrix<int>.Build.Diagonal(8, 2, 2)).Equals(wide.Multiply(2).SubMatrix(0, 3, 0, 2)));
+            Assert.IsTrue((wide * Matrix<int>.Build.DiagonalIdentity(8).Multiply(2)).Equals(wide.Multiply(2)));
+            Assert.IsTrue((wide * Matrix<int>.Build.Diagonal(8, 10, 2)).Equals(wide.Multiply(2).Append(Matrix<int>.Build.Dense(3, 2))));
+            Assert.IsTrue((wide * Matrix<int>.Build.Diagonal(8, 2, 2)).Equals(wide.Multiply(2).SubMatrix(0, 3, 0, 2)));
         }
 
         [Test]
@@ -417,14 +431,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
             Assert.IsInstanceOf<DiagonalMatrix>(Matrix<int>.Build.DiagonalIdentity(3, 3));
 
             var wide = Matrix<int>.Build.Random(3, 8, dist);
-            Assert.IsTrue((Matrix<int>.Build.DiagonalIdentity(3).Multiply(2)*wide).Equals(wide.Multiply(2)));
-            Assert.IsTrue((Matrix<int>.Build.Diagonal(5, 3, 2)*wide).Equals(wide.Multiply(2).Stack(Matrix<int>.Build.Dense(2, 8))));
-            Assert.IsTrue((Matrix<int>.Build.Diagonal(2, 3, 2)*wide).Equals(wide.Multiply(2).SubMatrix(0, 2, 0, 8)));
+            Assert.IsTrue((Matrix<int>.Build.DiagonalIdentity(3).Multiply(2) * wide).Equals(wide.Multiply(2)));
+            Assert.IsTrue((Matrix<int>.Build.Diagonal(5, 3, 2) * wide).Equals(wide.Multiply(2).Stack(Matrix<int>.Build.Dense(2, 8))));
+            Assert.IsTrue((Matrix<int>.Build.Diagonal(2, 3, 2) * wide).Equals(wide.Multiply(2).SubMatrix(0, 2, 0, 8)));
 
             var tall = Matrix<int>.Build.Random(8, 3, dist);
-            Assert.IsTrue((Matrix<int>.Build.DiagonalIdentity(8).Multiply(2)*tall).Equals(tall.Multiply(2)));
-            Assert.IsTrue((Matrix<int>.Build.Diagonal(10, 8, 2)*tall).Equals(tall.Multiply(2).Stack(Matrix<int>.Build.Dense(2, 3))));
-            Assert.IsTrue((Matrix<int>.Build.Diagonal(2, 8, 2)*tall).Equals(tall.Multiply(2).SubMatrix(0, 2, 0, 3)));
+            Assert.IsTrue((Matrix<int>.Build.DiagonalIdentity(8).Multiply(2) * tall).Equals(tall.Multiply(2)));
+            Assert.IsTrue((Matrix<int>.Build.Diagonal(10, 8, 2) * tall).Equals(tall.Multiply(2).Stack(Matrix<int>.Build.Dense(2, 3))));
+            Assert.IsTrue((Matrix<int>.Build.Diagonal(2, 8, 2) * tall).Equals(tall.Multiply(2).SubMatrix(0, 2, 0, 3)));
         }
 
         [Test]

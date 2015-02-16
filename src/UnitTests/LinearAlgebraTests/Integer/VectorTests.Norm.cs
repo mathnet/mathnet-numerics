@@ -41,8 +41,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         public void CanComputeNorm()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqualRelative(7.416198487095663f, vector.L2Norm(), 6);
-            AssertHelpers.AlmostEqualRelative(7.416198487095663f, vector.Norm(2), 6);
+            AssertHelpers.AlmostEqualRelative(7.416198487095663, vector.L2Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(7.416198487095663, vector.Norm(2), 6);
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         public void CanComputeNorm1()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqualRelative(15, vector.L1Norm(), 7);
-            AssertHelpers.AlmostEqualRelative(15, vector.Norm(1), 7);
+            AssertHelpers.AlmostEqualRelative(15.0, vector.L1Norm(), 7);
+            AssertHelpers.AlmostEqualRelative(15.0, vector.Norm(1), 7);
         }
 
         /// <summary>
@@ -63,8 +63,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         public void CanComputeSquareNorm()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqualRelative(55, vector.L2Norm() * vector.L2Norm(), 6);
-            AssertHelpers.AlmostEqualRelative(55, vector.Norm(2) * vector.Norm(2), 6);
+            AssertHelpers.AlmostEqualRelative(55.0, vector.L2Norm() * vector.L2Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(55.0, vector.Norm(2) * vector.Norm(2), 6);
         }
 
         /// <summary>
@@ -89,8 +89,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         public void CanComputeNormInfinity()
         {
             var vector = CreateVector(Data);
-            AssertHelpers.AlmostEqualRelative(5, vector.InfinityNorm(), 7);
-            AssertHelpers.AlmostEqualRelative(5, vector.Norm(Single.PositiveInfinity), 7);
+            AssertHelpers.AlmostEqualRelative(5.0, vector.InfinityNorm(), 7);
+            AssertHelpers.AlmostEqualRelative(5.0, vector.Norm(Single.PositiveInfinity), 7);
         }
 
         /// <summary>
@@ -99,13 +99,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         [Test]
         public void CanNormalizeVector()
         {
-            var vector = CreateVector(Data);
-            var result = vector.Normalize(2);
-            AssertHelpers.AlmostEqual(0.134839972492648f, result[0], 6);
-            AssertHelpers.AlmostEqual(0.269679944985297f, result[1], 6);
-            AssertHelpers.AlmostEqual(0.404519917477945f, result[2], 6);
-            AssertHelpers.AlmostEqual(0.539359889970594f, result[3], 6);
-            AssertHelpers.AlmostEqual(0.674199862463242f, result[4], 6);
+            Assert.Ignore("Normalization is not sensible in integer space");
         }
     }
 }

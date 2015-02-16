@@ -468,7 +468,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
                 Assert.AreEqual(Data[i] / 2, vector[i]);
             }
 
-            vector.Divide(1);
+            vector = vector.Divide(1);
             for (var i = 0; i < Data.Length; i++)
             {
                 Assert.AreEqual(Data[i] / 2, vector[i]);

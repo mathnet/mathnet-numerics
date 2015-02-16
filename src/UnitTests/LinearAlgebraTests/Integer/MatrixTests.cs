@@ -26,6 +26,7 @@
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
 {
+    using System;
     using NUnit.Framework;
 
     /// <summary>
@@ -66,13 +67,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         public virtual void CanComputeFrobeniusNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(10.77775486824598f, matrix.FrobeniusNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(107.7775486824598f, matrix.FrobeniusNorm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(4.79478883789474f, matrix.FrobeniusNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(47.9478883789474f, matrix.FrobeniusNorm(), 6);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(7.54122006044115f, matrix.FrobeniusNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(75.4122006044115f, matrix.FrobeniusNorm(), 6);
         }
 
         /// <summary>
@@ -82,13 +83,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         public virtual void CanComputeInfinityNorm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(16.5f, matrix.InfinityNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(165f, matrix.InfinityNorm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(6.6f, matrix.InfinityNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(66f, matrix.InfinityNorm(), 6);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(9.9f, matrix.InfinityNorm(), 6);
+            AssertHelpers.AlmostEqualRelative(99f, matrix.InfinityNorm(), 6);
         }
 
         /// <summary>
@@ -98,28 +99,29 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         public virtual void CanComputeL1Norm()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(12.1f, matrix.L1Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(121f, matrix.L1Norm(), 6);
 
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(5.5f, matrix.L1Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(55f, matrix.L1Norm(), 6);
 
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(8.8f, matrix.L1Norm(), 6);
+            AssertHelpers.AlmostEqualRelative(88f, matrix.L1Norm(), 6);
         }
 
         /// <summary>
-        /// Can compute L2 norm.
+        /// Can NOT compute L2 norm.
+        /// Throws <code>NotSupportedException</code> due to use of Svd internally
+        /// EXCEPT for DiagonalMatrix, which CAN compute this value safely!
         /// </summary>
         [Test]
-        public virtual void CanComputeL2Norm()
+        public virtual void ComputeL2NormThrowsNotSupportedException()
         {
             var matrix = TestMatrices["Square3x3"];
-            AssertHelpers.AlmostEqualRelative(10.391347375312632f, matrix.L2Norm(), 6);
-
+            Assert.Throws<NotSupportedException>(() =>  matrix.L2Norm());
             matrix = TestMatrices["Wide2x3"];
-            AssertHelpers.AlmostEqualRelative(4.7540849434107635f, matrix.L2Norm(), 6);
+            Assert.Throws<NotSupportedException>(() => matrix.L2Norm());
             matrix = TestMatrices["Tall3x2"];
-            AssertHelpers.AlmostEqualRelative(7.182727033856683f, matrix.L2Norm(), 5);
+            Assert.Throws<NotSupportedException>(() => matrix.L2Norm());
         }
 
         /// <summary>

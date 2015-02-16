@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Factorization
@@ -35,16 +36,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Factorization
     public class UserCholeskyTests
     {
 		/// <summary>
-		/// Cholesky factorization always throws <c>InvalidOperationException</c>.
+		/// Cholesky factorization always throws <c>NotSupportedException</c>.
 		/// </summary>
         /// <param name="order">Matrix order.</param>
         [TestCase(1)]
         [TestCase(10)]
         [TestCase(100)]
-		public void UserCholeskyThrowsInvalidOperationException(int order)
+		public void UserCholeskyThrowsNotSupportedException(int order)
 		{
 			var matrix = UserDefinedMatrix.Identity(order);
-			Assert.That(() => matrix.Cholesky(), Throws.InvalidOperationException);
+			Assert.Throws<NotSupportedException>(() => matrix.Cholesky());
 		}
     }
 }

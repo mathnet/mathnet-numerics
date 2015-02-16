@@ -28,22 +28,23 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Factorization
 {
 	/// <summary>
-	/// Integer Evd always throws <c>InvalidOperationException</c>
+	/// Integer Evd always throws <c>NotSupportedException</c>
 	/// </summary>
 	[TestFixture, Category("LAFactorization")]
 	public class EvdTests
 	{
 		[Test]
-		public void EvdThrowsInvalidOperationException([Values(1, 10, 100)] int order)
+		public void EvdThrowsNotSupportedException([Values(1, 10, 100)] int order)
 		{
 			var matrix = Matrix<int>.Build.DenseIdentity(order);
-			Assert.That(() => matrix.Evd(), Throws.InvalidOperationException);
+			Assert.Throws<NotSupportedException>(() => matrix.Evd());
 		}
 
 	}

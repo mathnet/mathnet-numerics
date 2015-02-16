@@ -100,7 +100,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             Control.LinearAlgebraProvider.AddVectorToScaledVector(result, _scale, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
-                AssertHelpers.AlmostEqualRelative(_y[i] + (_scale*_x[i]), result[i], 5);
+                Assert.AreEqual(_y[i] + (_scale*_x[i]), result[i]);
             }
         }
 
@@ -122,7 +122,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             Control.LinearAlgebraProvider.ScaleArray(_scale, result, result);
             for (var i = 0; i < _y.Length; i++)
             {
-              AssertHelpers.AlmostEqualRelative(_y[i] * _scale, result[i], 5);
+              Assert.AreEqual(_y[i] * _scale, result[i]);
             }
         }
 
@@ -361,10 +361,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
         }
 
         /// <summary>
-		/// Compute the LU factor of a matrix always throws <c>InvalidOperationException</c>
+        /// Compute the LU factor of a matrix always throws <c>NotSupportedException</c>
         /// </summary>
         [Test]
-		public void ComputeLuFactorThrowsInvalidOperationException()
+        public void ComputeLuFactorThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -372,28 +372,28 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var ipiv = new int[matrix.RowCount];
 
-            Assert.That(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv));
         }
 
         /// <summary>
-        /// Compute the inverse of a matrix using LU factorization always throws <c>InvalidOperationException</c>.
+        /// Compute the inverse of a matrix using LU factorization always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void ComputeLuInverseThrowsInvalidOperationException()
+        public void ComputeLuInverseThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
             Array.Copy(matrix.Values, a, a.Length);
 
-            Assert.That(() => Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount));
         }
 
         /// <summary>
         /// Compute the inverse of a matrix using LU factorization
-        /// using a previously factored matrix always throws <c>InvalidOperationException</c>.
+        /// using a previously factored matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void ComputeLuInverseOnFactoredMatrixThrowsInvalidOperationException()
+        public void ComputeLuInverseOnFactoredMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -402,31 +402,31 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var ipiv = new int[matrix.RowCount];
 
             // The first of these is irrelevant since LUInverseFactored should immediately throw the exception
-            Assert.That(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv), Throws.InvalidOperationException);
-            Assert.That(() => Control.LinearAlgebraProvider.LUInverseFactored(a, matrix.RowCount, ipiv), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv));
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUInverseFactored(a, matrix.RowCount, ipiv));
         }
 
         /// <summary>
         /// Compute the inverse of a matrix using LU factorization
-        /// with a work array always throws <c>InvalidOperationException</c>.
+        /// with a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void ComputeLuInverseWithWorkArrayThrowsInvalidOperationException()
+        public void ComputeLuInverseWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
             Array.Copy(matrix.Values, a, a.Length);
 
             var work = new int[matrix.RowCount];
-            Assert.That(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, work));
         }
 
         /// <summary>
         /// Compute the inverse of a matrix using LU factorization
-        /// using a previously factored matrix with a work array always throws <c>InvalidOperationException</c>.
+        /// using a previously factored matrix with a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void ComputeLuInverseOnFactoredMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void ComputeLuInverseOnFactoredMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -435,85 +435,85 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var ipiv = new int[matrix.RowCount];
 
             // The first of these is irrelevant since LUInverseFactored should immediately throw the exception
-            Assert.That(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv));
 
             var work = new int[matrix.RowCount];
-            Assert.That(() => Control.LinearAlgebraProvider.LUInverseFactored(a, matrix.RowCount, ipiv, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUInverseFactored(a, matrix.RowCount, ipiv, work));
         }
 
         /// <summary>
-        /// Solve Ax=b using LU factorization always throws <c>InvalidOperationException</c>.
+        /// Solve Ax=b using LU factorization always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void SolveUsingLUThrowsInvalidOperationException()
+        public void SolveUsingLUThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
             Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] {1, 2, 3, 4, 5, 6};
-            Assert.That(() => Control.LinearAlgebraProvider.LUSolve(2, a, matrix.RowCount, b), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUSolve(2, a, matrix.RowCount, b));
         }
 
         /// <summary>
-        /// Solve Ax=b using LU factorization using a factored matrix always throws <c>InvalidOperationException</c>.
+        /// Solve Ax=b using LU factorization using a factored matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void SolveUsingLUOnFactoredMatrixThrowsInvalidOperationException()
+        public void SolveUsingLUOnFactoredMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
             Array.Copy(matrix.Values, a, a.Length);
 
             var ipiv = new int[matrix.RowCount];
-            Assert.That(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
-            Assert.That(() => Control.LinearAlgebraProvider.LUSolveFactored(2, a, matrix.RowCount, ipiv, b), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.LUSolveFactored(2, a, matrix.RowCount, ipiv, b));
         }
 
         /// <summary>
-        /// Compute the <c>Cholesky</c> factorization always throws <c>InvalidOperationException</c>.
+        /// Compute the <c>Cholesky</c> factorization always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void ComputeCholeskyFactorThrowsInvalidOperationException()
+        public void ComputeCholeskyFactorThrowsNotSupportedException()
         {
             var matrix = new int[] {1, 1, 1, 1, 1, 5, 5, 5, 1, 5, 14, 14, 1, 5, 14, 15};
-            Assert.That(() => Control.LinearAlgebraProvider.CholeskyFactor(matrix, 4), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.CholeskyFactor(matrix, 4));
         }
 
         /// <summary>
-        /// Solve Ax=b using Cholesky factorization always throws <c>InvalidOperationException</c>.
+        /// Solve Ax=b using Cholesky factorization always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void SolveUsingCholeskyThrowsInvalidOperationException()
+        public void SolveUsingCholeskyThrowsNotSupportedException()
         {
             var matrix = new DenseMatrix(3, 3, new int[] {1, 1, 1, 1, 2, 3, 1, 3, 6});
             var a = new int[] {1, 1, 1, 1, 2, 3, 1, 3, 6};
 
             var b = new[] {1, 2, 3, 4, 5, 6};
-            Assert.That(() => Control.LinearAlgebraProvider.CholeskySolve(a, 3, b, 2), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.CholeskySolve(a, 3, b, 2));
         }
 
         /// <summary>
-        /// Solve Ax=b using LU factorization using a factored matrix always throws <c>InvalidOperationException</c>.
+        /// Solve Ax=b using LU factorization using a factored matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void SolveUsingCholeskyOnFactoredMatrixThrowsInvalidOperationException()
+        public void SolveUsingCholeskyOnFactoredMatrixThrowsNotSupportedException()
         {
             var a = new int[] {1, 1, 1, 1, 2, 3, 1, 3, 6};
 
-            Control.LinearAlgebraProvider.CholeskyFactor(a, 3);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.CholeskyFactor(a, 3));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
-            Assert.That(() => Control.LinearAlgebraProvider.CholeskySolveFactored(a, 3, b, 2), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.CholeskySolveFactored(a, 3, b, 2));
         }
 
         /// <summary>
-        /// Compute QR factorization of a square matrix always throws <c>InvalidOperationException</c>.
+        /// Compute QR factorization of a square matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-		public void ComputeQRFactorSquareMatrixThrowsInvalidOperationException()
+        public void ComputeQRFactorSquareMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -521,14 +521,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var tau = new int[3];
             var q = new int[matrix.RowCount*matrix.RowCount];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau));
         }
 
         /// <summary>
-		/// Compute QR factorization of a tall matrix always throws <c>InvalidOperationException</c>.
+        /// Compute QR factorization of a tall matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeQRFactorTallMatrixThrowsInvalidOperationException()
+        public void ComputeQRFactorTallMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -536,14 +536,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var tau = new int[3];
             var q = new int[matrix.RowCount*matrix.RowCount];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau));
         }
 
         /// <summary>
-		/// Compute QR factorization of a wide matrix always throws <c>InvalidOperationException</c>.
+        /// Compute QR factorization of a wide matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeQRFactorWideMatrixThrowsInvalidOperationException()
+        public void ComputeQRFactorWideMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Wide2x3"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -551,14 +551,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var tau = new int[3];
             var q = new int[matrix.RowCount*matrix.RowCount];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau));
         }
 
         /// <summary>
-		/// Compute QR factorization of a square matrix using a work array always throws <c>InvalidOperationException</c>.
+        /// Compute QR factorization of a square matrix using a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeQRFactorSquareMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void ComputeQRFactorSquareMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -567,14 +567,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var tau = new int[3];
             var q = new int[matrix.RowCount*matrix.RowCount];
             var work = new int[matrix.ColumnCount*Control.BlockSize];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work));
         }
 
         /// <summary>
-		/// Compute QR factorization of a tall matrix using a work matrix always throws <c>InvalidOperationException</c>.
+        /// Compute QR factorization of a tall matrix using a work matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void CanComputeQRFactorTallMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void CanComputeQRFactorTallMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -583,14 +583,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var tau = new int[3];
             var q = new int[matrix.RowCount*matrix.RowCount];
             var work = new int[matrix.ColumnCount*Control.BlockSize];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work));
         }
 
         /// <summary>
-		/// Compute QR factorization of a wide matrix using a work matrix always throws <c>InvalidOperationException</c>.
+        /// Compute QR factorization of a wide matrix using a work matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeQRFactorWideMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void ComputeQRFactorWideMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Wide2x3"];
             var r = new int[matrix.RowCount*matrix.ColumnCount];
@@ -599,14 +599,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var tau = new int[3];
             var q = new int[matrix.RowCount*matrix.RowCount];
             var work = new int[matrix.ColumnCount*Control.BlockSize];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau, work));
         }
 
         /// <summary>
-		/// Compute thin QR factorization of a square matrix always throws <c>InvalidOperationException</c>.
+        /// Compute thin QR factorization of a square matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeThinQRFactorSquareMatrixThrowsInvalidOperationException()
+        public void ComputeThinQRFactorSquareMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
@@ -614,14 +614,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var q = new int[matrix.RowCount*matrix.ColumnCount];
             Array.Copy(matrix.Values, q, q.Length);
 
-            Assert.That(() => Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau));
         }
 
         /// <summary>
-		/// Compute thin QR factorization of a tall matrix always throws <c>InvalidOperationException</c>.
+        /// Compute thin QR factorization of a tall matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeThinQRFactorTallMatrixThrowsInvalidOperationException()
+        public void ComputeThinQRFactorTallMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
@@ -629,14 +629,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var q = new int[matrix.RowCount*matrix.ColumnCount];
             Array.Copy(matrix.Values, q, q.Length);
 
-            Assert.That(() => Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau));
         }
 
         /// <summary>
-		/// Compute thin QR factorization of a square matrix using a work array always throws <c>InvalidOperationException</c>.
+        /// Compute thin QR factorization of a square matrix using a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeThinQRFactorSquareMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void ComputeThinQRFactorSquareMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
@@ -645,14 +645,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             Array.Copy(matrix.Values, q, q.Length);
 
             var work = new int[matrix.ColumnCount*Control.BlockSize];
-            Assert.That(() => Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work));
         }
 
         /// <summary>
-		/// Compute thin QR factorization of a tall matrix using a work matrix always throws <c>InvalidOperationException</c>.
+        /// Compute thin QR factorization of a tall matrix using a work matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeThinQRFactorTallMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void ComputeThinQRFactorTallMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
@@ -661,14 +661,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             Array.Copy(matrix.Values, q, q.Length);
 
             var work = new int[matrix.ColumnCount*Control.BlockSize];
-            Assert.That(() => Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau, work));
         }
 
         /// <summary>
-		/// Solve Ax=b using QR factorization with a square A matrix always throws <c>InvalidOperationException</c>.
+        /// Solve Ax=b using QR factorization with a square A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingQRSquareMatrixThrowsInvalidOperationException()
+        public void SolveUsingQRSquareMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -676,14 +676,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x));
         }
 
         /// <summary>
-		/// Solve Ax=b using QR factorization with a tall A matrix always throws <c>InvalidOperationException</c>.
+        /// Solve Ax=b using QR factorization with a tall A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingQRTallMatrixThrowsInvalidOperationException()
+        public void SolveUsingQRTallMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -691,15 +691,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x));
         }
 
         /// <summary>
         /// Solve Ax=b using QR factorization with a square A matrix
-		/// using a work array always throws <c>InvalidOperationException</c>.
+        /// using a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingQRSquareMatrixUsingWorkArrayThrowsInvalidOperationException()
+        public void SolveUsingQRSquareMatrixUsingWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -708,15 +708,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
             var work = new int[matrix.RowCount*matrix.RowCount];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work));
         }
 
         /// <summary>
         /// Solve Ax=b using QR factorization with a tall A matrix
-		/// using a work array always throws <c>InvalidOperationException</c>.
+        /// using a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingQRTallMatrixUsingWorkArrayThrowsInvalidOperationException()
+        public void SolveUsingQRTallMatrixUsingWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -725,15 +725,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
             var work = new int[matrix.RowCount*matrix.RowCount];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work));
         }
 
         /// <summary>
         /// Solve Ax=b using QR factorization with a square A matrix
-		/// using a factored A matrix always throws <c>InvalidOperationException</c>.
+		/// using a factored A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingQRSquareMatrixOnFactoredMatrixThrowsInvalidOperationException()
+        public void SolveUsingQRSquareMatrixOnFactoredMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -741,19 +741,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var tau = new int[matrix.ColumnCount];
             var q = new int[matrix.ColumnCount*matrix.ColumnCount];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x));
         }
 
         /// <summary>
         /// Solve Ax=b using QR factorization with a tall A matrix
-		/// using a factored A matrix always throws <c>InvalidOperationException</c>.
+		/// using a factored A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingQRTallMatrixOnFactoredMatrixThrowsInvalidOperationException()
+        public void SolveUsingQRTallMatrixOnFactoredMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -761,19 +761,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var tau = new int[matrix.ColumnCount];
             var q = new int[matrix.RowCount*matrix.RowCount];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x));
         }
 
         /// <summary>
         /// Solve Ax=b using QR factorization with a square A matrix
-		/// using a factored A matrix with a work array always throws <c>InvalidOperationException</c>.
+		/// using a factored A matrix with a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingQRSquareMatrixOnFactoredMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void SolveUsingQRSquareMatrixOnFactoredMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.RowCount];
@@ -782,16 +782,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var tau = new int[matrix.ColumnCount];
             var q = new int[matrix.ColumnCount*matrix.ColumnCount];
             var work = new int[2048];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau, work));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work));
         }
 
         /// <summary>
         /// Solve Ax=b using QR factorization with a tall A matrix
-		/// using a factored A matrix with a work array always throws <c>InvalidOperationException</c>.
+		/// using a factored A matrix with a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
         public void SolveUsingQRTallMatrixOnFactoredMatrixWithWorkArray()
@@ -803,18 +803,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var tau = new int[matrix.ColumnCount];
             var q = new int[matrix.RowCount*matrix.RowCount];
             var work = new int[2048];
-            Assert.That(() => Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau, work));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work));
         }
 
         /// <summary>
-		/// Solve Ax=b using thin QR factorization with a square A matrix always throws <c>InvalidOperationException</c>.
+		/// Solve Ax=b using thin QR factorization with a square A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingThinQRSquareMatrixThrowsInvalidOperationException()
+        public void SolveUsingThinQRSquareMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -822,14 +822,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin));
         }
 
         /// <summary>
-		/// Solve Ax=b using thin QR factorization with a tall A matrix always throws <c>InvalidOperationException</c>.
+		/// Solve Ax=b using thin QR factorization with a tall A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingThinQRTallMatrixThrowsInvalidOperationException()
+        public void SolveUsingThinQRTallMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -837,15 +837,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin));
         }
 
         /// <summary>
         /// Solve Ax=b using thin QR factorization with a square A matrix
-		/// using a work array always throws <c>InvalidOperationException</c>.
+		/// using a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingThinQRSquareMatrixUsingWorkArrayThrowsInvalidOperationException()
+        public void SolveUsingThinQRSquareMatrixUsingWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -854,15 +854,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
             var work = new int[matrix.RowCount*matrix.ColumnCount];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work, QRMethod.Thin), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work, QRMethod.Thin));
         }
 
         /// <summary>
         /// Solve Ax=b using thin QR factorization with a tall A matrix
-		/// using a work array always throws <c>InvalidOperationException</c>.
+		/// using a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingThinQRTallMatrixUsingWorkArrayThrowsInvalidOperationException()
+        public void SolveUsingThinQRTallMatrixUsingWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -871,15 +871,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
             var work = new int[matrix.RowCount*matrix.ColumnCount];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work, QRMethod.Thin), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, work, QRMethod.Thin));
         }
 
         /// <summary>
         /// Solve Ax=b using thin QR factorization with a square A matrix
-		/// using a factored A matrix always throws <c>InvalidOperationException</c>.
+		/// using a factored A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingThinQRSquareMatrixOnFactoredMatrixThrowsInvalidOperationException()
+        public void SolveUsingThinQRSquareMatrixOnFactoredMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -887,19 +887,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var tau = new int[matrix.ColumnCount];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
-            Assert.That(() => Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin));
         }
 
         /// <summary>
         /// Solve Ax=b using thin QR factorization with a tall A matrix
-		/// using a factored A matrix always throws <c>InvalidOperationException</c>.
+		/// using a factored A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingThinQRTallMatrixOnFactoredMatrixThrowsInvalidOperationException()
+        public void SolveUsingThinQRTallMatrixOnFactoredMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -907,19 +907,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var tau = new int[matrix.ColumnCount];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
-            Assert.That(() => Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin));
         }
 
         /// <summary>
         /// Solve Ax=b using thin QR factorization with a square A matrix
-		/// using a factored A matrix with a work array always throws <c>InvalidOperationException</c>.
+		/// using a factored A matrix with a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingThinQRSquareMatrixOnFactoredMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void SolveUsingThinQRSquareMatrixOnFactoredMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -928,19 +928,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var tau = new int[matrix.ColumnCount];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
             var work = new int[2048];
-            Assert.That(() => Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau, work));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work, QRMethod.Thin), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work, QRMethod.Thin));
         }
 
         /// <summary>
         /// Solve Ax=b using thin QR factorization with a tall A matrix
-		/// using a factored A matrix with a work array always throws <c>InvalidOperationException</c>.
+		/// using a factored A matrix with a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingThinQRTallMatrixOnFactoredMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void SolveUsingThinQRTallMatrixOnFactoredMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -949,18 +949,18 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var tau = new int[matrix.ColumnCount];
             var r = new int[matrix.ColumnCount*matrix.ColumnCount];
             var work = new int[2048];
-            Assert.That(() => Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau, work));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work, QRMethod.Thin), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, work, QRMethod.Thin));
         }
 
         /// <summary>
-		/// Compute the SVD factorization of a square matrix always throws <c>InvalidOperationException</c>.
+		/// Compute the SVD factorization of a square matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeSVDFactorizationOfSquareMatrixThrowsInvalidOperationException()
+        public void ComputeSVDFactorizationOfSquareMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -970,14 +970,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var u = new int[matrix.RowCount*matrix.RowCount];
             var vt = new int[matrix.ColumnCount*matrix.ColumnCount];
 
-            Assert.That(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt));
         }
 
         /// <summary>
-		/// Compute the SVD factorization of a tall matrix always throws <c>InvalidOperationException</c>.
+		/// Compute the SVD factorization of a tall matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeSVDFactorizationOfTallMatrixThrowsInvalidOperationException()
+        public void ComputeSVDFactorizationOfTallMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -987,14 +987,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var u = new int[matrix.RowCount*matrix.RowCount];
             var vt = new int[matrix.ColumnCount*matrix.ColumnCount];
 
-            Assert.That(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt));
         }
 
         /// <summary>
-		/// Compute the SVD factorization of a wide matrix always throws <c>InvalidOperationException</c>.
+		/// Compute the SVD factorization of a wide matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeSVDFactorizationOfWideMatrixThrowsInvalidOperationException()
+        public void ComputeSVDFactorizationOfWideMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Wide2x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1004,15 +1004,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var u = new int[matrix.RowCount*matrix.RowCount];
             var vt = new int[matrix.ColumnCount*matrix.ColumnCount];
 
-            Assert.That(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt));
         }
 
         /// <summary>
         /// Compute the SVD factorization of a square matrix using
-		/// a work array always throws <c>InvalidOperationException</c>.
+		/// a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeSVDFactorizationOfSquareMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void ComputeSVDFactorizationOfSquareMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1023,15 +1023,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var vt = new int[matrix.ColumnCount*matrix.ColumnCount];
             var work = new int[100];
 
-            Assert.That(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work));
         }
 
         /// <summary>
         /// Compute the SVD factorization of a tall matrix using
-		/// a work array always throws <c>InvalidOperationException</c>.
+		/// a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeSVDFactorizationOfTallMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void ComputeSVDFactorizationOfTallMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1042,15 +1042,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var vt = new int[matrix.ColumnCount*matrix.ColumnCount];
             var work = new int[100];
 
-            Assert.That(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work));
         }
 
         /// <summary>
         /// Compute the SVD factorization of a wide matrix using
-		/// a work array always throws <c>InvalidOperationException</c>.
+		/// a work array always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void ComputeSVDFactorizationOfWideMatrixWithWorkArrayThrowsInvalidOperationException()
+        public void ComputeSVDFactorizationOfWideMatrixWithWorkArrayThrowsNotSupportedException()
         {
             var matrix = _matrices["Wide2x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1061,14 +1061,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var vt = new int[matrix.ColumnCount*matrix.ColumnCount];
             var work = new int[100];
 
-            Assert.That(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work));
         }
 
         /// <summary>
-		/// Solve Ax=b using SVD factorization with a square A matrix always throws <c>InvalidOperationException</c>.
+		/// Solve Ax=b using SVD factorization with a square A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingSVDSquareMatrixThrowsInvalidOperationException()
+        public void SolveUsingSVDSquareMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1076,14 +1076,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x));
         }
 
         /// <summary>
-		/// Solve Ax=b using SVD factorization with a tall A matrix always throws <c>InvalidOperationException</c>.
+		/// Solve Ax=b using SVD factorization with a tall A matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingSVDTallMatrixThrowsInvalidOperationException()
+        public void SolveUsingSVDTallMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1091,15 +1091,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x));
         }
 
         /// <summary>
         /// Solve Ax=b using SVD factorization with a square A matrix
-		/// using a factored matrix always throws <c>InvalidOperationException</c>.
+		/// using a factored matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingSVDSquareMatrixOnFactoredMatrixThrowsInvalidOperationException()
+        public void SolveUsingSVDSquareMatrixOnFactoredMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Square3x3"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1109,19 +1109,19 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var u = new int[matrix.RowCount*matrix.RowCount];
             var vt = new int[matrix.ColumnCount*matrix.ColumnCount];
 
-            Assert.That(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x));
         }
 
         /// <summary>
         /// Solve Ax=b using SVD factorization with a tall A matrix
-		/// using a factored matrix always throws <c>InvalidOperationException</c>.
+		/// using a factored matrix always throws <c>NotSupportedException</c>.
         /// </summary>
         [Test]
-        public void SolveUsingSVDTallMatrixOnFactoredMatrixThrowsInvalidOperationException()
+        public void SolveUsingSVDTallMatrixOnFactoredMatrixThrowsNotSupportedException()
         {
             var matrix = _matrices["Tall3x2"];
             var a = new int[matrix.RowCount*matrix.ColumnCount];
@@ -1131,11 +1131,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Integer
             var u = new int[matrix.RowCount*matrix.RowCount];
             var vt = new int[matrix.ColumnCount*matrix.ColumnCount];
 
-            Assert.That(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt));
 
             var b = new[] {1, 2, 3, 4, 5, 6};
             var x = new int[matrix.ColumnCount*2];
-            Assert.That(() => Control.LinearAlgebraProvider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => Control.LinearAlgebraProvider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x));
         }
 
         [TestCase("Wide10x50000", "Tall50000x10")]

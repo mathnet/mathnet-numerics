@@ -935,6 +935,24 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vector length must equal corresponding {0}Matrix dimension.
+        /// </summary>
+        public static string VectorLengthMustEqualMatrixDimension {
+            get {
+                return ResourceManager.GetString("VectorLengthMustEqualMatrixDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vector length must not exceed corresponding {0}Matrix dimension.
+        /// </summary>
+        public static string VectorLengthMustNotExceedMatrixDimension {
+            get {
+                return ResourceManager.GetString("VectorLengthMustNotExceedMatrixDimension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The given work array is too small. Check work[0] for the correct size..
         /// </summary>
         public static string WorkArrayTooSmall {

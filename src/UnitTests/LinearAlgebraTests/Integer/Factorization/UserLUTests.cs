@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Factorization
@@ -35,16 +36,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Factorization
     public class UserLUTests
     {
 		/// <summary>
-		/// Integer LU always throws <c>InvalidOperationException</c>
+		/// Integer LU always throws <c>NotSupportedException</c>
 		/// </summary>
 		/// <param name="order">Matrix order.</param>
 		[TestCase(1)]
 		[TestCase(10)]
 		[TestCase(100)]
-		public void UserLUThrowsInvalidOperationException(int order)
+		public void UserLUThrowsNotSupportedException(int order)
 		{
 			var matrixI = UserDefinedMatrix.Identity(order);
-			Assert.That(() => matrixI.LU(), Throws.InvalidOperationException);
+			Assert.Throws<NotSupportedException>(() => matrixI.LU());
 		}
 
     }

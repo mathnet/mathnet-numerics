@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Integer;
 using MathNet.Numerics.LinearAlgebra.Integer.Factorization;
 using NUnit.Framework;
@@ -37,25 +38,25 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Factorization
     public class QRTests
     {
         /// <summary>
-		/// Integer UserQR construction throws <c>InvalidOperationException</c>
+		/// Integer UserQR construction throws <c>NotSupportedException</c>
         /// </summary>
         [Test]
-        public void ConstructorThrowsInvalidOperationException()
+        public void ConstructorThrowsNotSupportedException()
         {
-			Assert.That(() => UserQR.Create(new DenseMatrix(3, 3)), Throws.InvalidOperationException);
+			Assert.Throws<NotSupportedException>(() => UserQR.Create(new DenseMatrix(3, 3)));
         }
 
         /// <summary>
-		/// Integer QR always throws <c>InvalidOperationException</c>
+		/// Integer QR always throws <c>NotSupportedException</c>
         /// </summary>
         /// <param name="order">Matrix order.</param>
         [TestCase(1)]
         [TestCase(10)]
         [TestCase(100)]
-		public void QRThrowsInvalidOperationException(int order)
+		public void QRThrowsNotSupportedException(int order)
         {
             var matrixI = DenseMatrix.CreateIdentity(order);
-            Assert.That(() => matrixI.QR(), Throws.InvalidOperationException);
+            Assert.Throws<NotSupportedException>(() => matrixI.QR());
         }
 
     }

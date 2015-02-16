@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         {
             var testData = new Dictionary<string, Matrix<int>>
                 {
-                    {"Singular3x3", SparseMatrix.OfColumnMajor(3, 3, new int[] {1, 1, 1, 1, 1, 1, 2, 2, 2})},
+                    {"Singular3x3", SparseMatrix.OfColumnMajor(3, 3, new int[] {10, 10, 10, 10, 10, 10, 20, 20, 20})},
                     {"Square3x3", SparseMatrix.OfColumnMajor(3, 3, new[] {-11, 00, -44, -22, 11, 55, -33, 22, 66})},
                     {"Square4x4", SparseMatrix.OfColumnMajor(4, 4, new[] {-11, 00, 10, -44, -22, 11, 21, 55, -33, 22, 62, 66, -44, 33, 43, -77})},
                     {"Tall3x2", SparseMatrix.OfColumnMajor(3, 2, new[] {-11, 00, -44, -22, 11, 55})},
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer
         {
             var matrix = SparseMatrix.OfArray(TestData2D["Singular3x3"]);
             matrix[0, 0] = 10;
-            Assert.AreEqual(1, TestData2D["Singular3x3"][0, 0]);
+            Assert.AreEqual(10, TestData2D["Singular3x3"][0, 0]);
         }
 
         /// <summary>

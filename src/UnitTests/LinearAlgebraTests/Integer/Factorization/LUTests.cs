@@ -24,6 +24,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Integer;
 using NUnit.Framework;
 
@@ -36,16 +37,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Integer.Factorization
     public class LUTests
     {
         /// <summary>
-		/// Integer LU always throws <c>InvalidOperationException</c>
+		/// Integer LU always throws <c>NotSupportedException</c>
         /// </summary>
         /// <param name="order">Matrix order.</param>
         [TestCase(1)]
         [TestCase(10)]
         [TestCase(100)]
-		public void LUThrowsInvalidOperationException(int order)
+		public void LUThrowsNotSupportedException(int order)
         {
             var matrixI = DenseMatrix.CreateIdentity(order);
-			Assert.That(() => matrixI.LU(), Throws.InvalidOperationException);
+			Assert.Throws<NotSupportedException>(() => matrixI.LU());
         }
 
     }
