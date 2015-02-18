@@ -31,6 +31,7 @@
 #if NATIVEMKL
 
 using System;
+using System.CodeDom;
 using System.Numerics;
 using System.Security;
 using MathNet.Numerics.LinearAlgebra.Factorization;
@@ -1366,7 +1367,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixD");
             }
 
-            SafeNativeMethods.z_eigen(isSymmetric, order, matrix, matrixEv, vectorEv, matrixD);
+            if (SafeNativeMethods.z_eigen(isSymmetric, order, matrix, matrixEv, vectorEv, matrixD) > 0)
+                throw new NonConvergenceException();
         }
     }
 }

@@ -115,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         public void CanFactorizeRandomSymmetricMatrix([Values(1, 2, 5, 10, 50, 100)] int order)
         {
             var matrixA = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1).ToArray());
-            var factorEvd = matrixA.Evd();
+            var factorEvd = matrixA.Evd(Symmetricity.Hermitian);
             var eigenVectors = factorEvd.EigenVectors;
             var d = factorEvd.D;
 
@@ -203,7 +203,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var A = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1).ToArray());
             MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
-            var evd = A.Evd();
+            var evd = A.Evd(Symmetricity.Hermitian);
 
             var b = new UserDefinedVector(Vector<Complex32>.Build.Random(order, 1).ToArray());
             var bCopy = b.Clone();
@@ -230,7 +230,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var A = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1).ToArray());
             MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
-            var evd = A.Evd();
+            var evd = A.Evd(Symmetricity.Hermitian);
 
             var B = new UserDefinedMatrix(Matrix<Complex32>.Build.Random(order, order, 1).ToArray());
             var BCopy = B.Clone();
@@ -263,7 +263,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var A = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1).ToArray());
             MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
-            var evd = A.Evd();
+            var evd = A.Evd(Symmetricity.Hermitian);
 
             var b = new UserDefinedVector(Vector<Complex32>.Build.Random(order, 1).ToArray());
             var bCopy = b.Clone();
@@ -291,7 +291,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var A = new UserDefinedMatrix(Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1).ToArray());
             MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
-            var evd = A.Evd();
+            var evd = A.Evd(Symmetricity.Hermitian);
 
             var B = new UserDefinedMatrix(Matrix<Complex32>.Build.Random(order, order, 1).ToArray());
             var BCopy = B.Clone();

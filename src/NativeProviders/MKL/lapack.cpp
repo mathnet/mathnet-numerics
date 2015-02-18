@@ -356,7 +356,7 @@ inline MKL_INT sym_eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 val
 		delete[] w;
 		return info;
 	}
-
+	
 	memcpy(vectors, clone_a, n*n*sizeof(T));
 
 	for (MKL_INT index = 0; index < n; ++index)
@@ -364,7 +364,7 @@ inline MKL_INT sym_eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 val
 		values[index] = MKL_Complex16(w[index]);
 	}
     
-	for (MKL_INT j = 0; j < n; j++)
+	for (MKL_INT j = 0; j < n; ++j)
     {
         MKL_INT jn = j*n;
 

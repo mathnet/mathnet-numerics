@@ -92,7 +92,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
         {
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceHermitian(A);
-            var factorEvd = A.Evd();
+            var factorEvd = A.Evd(Symmetricity.Hermitian);
             var V = factorEvd.EigenVectors;
             var λ = factorEvd.D;
 
@@ -152,7 +152,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
-            var evd = A.Evd();
+            var evd = A.Evd(Symmetricity.Hermitian);
 
             var b = Vector<Complex32>.Build.Random(order, 2);
             var bCopy = b.Clone();
@@ -179,7 +179,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
-            var evd = A.Evd();
+            var evd = A.Evd(Symmetricity.Hermitian);
 
             var B = Matrix<Complex32>.Build.Random(order, order, 2);
             var BCopy = B.Clone();
@@ -212,7 +212,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
-            var evd = A.Evd();
+            var evd = A.Evd(Symmetricity.Hermitian);
 
             var b = Vector<Complex32>.Build.Random(order, 2);
             var bCopy = b.Clone();
@@ -240,7 +240,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             var A = Matrix<Complex32>.Build.RandomPositiveDefinite(order, 1);
             MatrixHelpers.ForceHermitian(A);
             var ACopy = A.Clone();
-            var evd = A.Evd();
+            var evd = A.Evd(Symmetricity.Hermitian);
 
             var B = Matrix<Complex32>.Build.Random(order, order, 2);
             var BCopy = B.Clone();
