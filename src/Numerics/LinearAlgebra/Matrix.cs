@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
-    /// <typeparam name="T">Supported data types are <c>double</c>, <c>single</c>, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
+    /// <typeparam name="T">Supported data types are <c>double</c>, <c>single</c>, <c>integer(Int32)</c>, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
     public abstract partial class Matrix<T> :
         IFormattable, IEquatable<Matrix<T>>

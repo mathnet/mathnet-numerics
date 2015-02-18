@@ -46,6 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
     /// entries Σ(i,i) in descending order. In this case, the diagonal matrix Σ is uniquely determined 
     /// by M (though the matrices U and V are not). The diagonal entries of Σ are known as the singular values of M.</para>
     /// </summary>
+    /// <exception cref="NotSupportedException">at construction: Not Supported For Integer Matrices</exception>
     /// <remarks>
     /// The computation of the singular value decomposition is done at construction time.
     /// </remarks>

@@ -42,6 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
     /// <summary>
     /// Eigenvalues and eigenvectors of a real matrix.
     /// </summary>
+    /// <exception cref="NotSupportedException">at construction: Not Supported For Integer Matrices</exception>
     /// <remarks>
     /// If A is symmetric, then A = V*D*V' where the eigenvalue matrix D is
     /// diagonal and the eigenvector matrix V is orthogonal.

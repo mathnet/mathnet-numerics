@@ -40,6 +40,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// <remarks>
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.
+    /// If the typeparameter is integer, the constructor will throw an exception.
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class Cholesky<T> : ISolver<T>

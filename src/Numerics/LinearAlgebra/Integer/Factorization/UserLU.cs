@@ -38,6 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
     /// <para>For a matrix A, the LU factorization is a pair of lower triangular matrix L and
     /// upper triangular matrix U so that A = L*U.</para>
     /// </summary>
+    /// <exception cref="NotSupportedException">at construction: Not Supported For Integer Matrices</exception>
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>

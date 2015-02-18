@@ -38,6 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
     /// <para>For a symmetric, positive definite matrix A, the Cholesky factorization
     /// is an lower triangular matrix L so that A = L*L'.</para>
     /// </summary>
+    /// <exception cref="NotSupportedException">at construction: Not Supported For Integer Matrices</exception>
     /// <remarks>
     /// The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
     /// or positive definite, the constructor will throw an exception.

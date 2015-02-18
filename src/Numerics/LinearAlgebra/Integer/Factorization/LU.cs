@@ -41,6 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
     /// <para>In the Math.Net implementation we also store a set of pivot elements for increased 
     /// numerical stability. The pivot elements encode a permutation matrix P such that P*A = L*U.</para>
     /// </summary>
+    /// <exception cref="NotSupportedException">at construction: Not Supported For Integer Matrices</exception>
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
     /// </remarks>

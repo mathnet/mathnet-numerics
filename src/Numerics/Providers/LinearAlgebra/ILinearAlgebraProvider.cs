@@ -104,7 +104,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// <summary>
     /// Interface to linear algebra algorithms that work off 1-D arrays.
     /// </summary>
-    /// <typeparam name="T">Supported data types are Double, Single, Complex, and Complex32.</typeparam>
+    /// <typeparam name="T">Supported data types are Double, Single, Integer(Int32), Complex, and Complex32.</typeparam>
     public interface ILinearAlgebraProvider<T>
         where T : struct
     {
