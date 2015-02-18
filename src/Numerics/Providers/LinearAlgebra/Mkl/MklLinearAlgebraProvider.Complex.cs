@@ -31,7 +31,6 @@
 #if NATIVEMKL
 
 using System;
-using System.CodeDom;
 using System.Numerics;
 using System.Security;
 using MathNet.Numerics.LinearAlgebra.Factorization;
@@ -1173,7 +1172,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length);
+            if (SafeNativeMethods.z_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length) > 0)
+            {
+                throw new NonConvergenceException();
+            }
         }
 
         /// <summary>
@@ -1368,7 +1370,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             }
 
             if (SafeNativeMethods.z_eigen(isSymmetric, order, matrix, matrixEv, vectorEv, matrixD) > 0)
+            {
                 throw new NonConvergenceException();
+            }
         }
     }
 }
