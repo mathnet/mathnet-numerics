@@ -255,8 +255,8 @@ inline MKL_INT complex_svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, T 
     return info;
 }
 
-template<typename T, typename GEES, typename TREVC>
-inline MKL_INT eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[], T d[], GEES gees, TREVC trevc)
+template<typename T, typename R, typename GEES, typename TREVC>
+inline MKL_INT eigen_factor(MKL_INT n, T a[], T vectors[], R values[], T d[], GEES gees, TREVC trevc)
 {
     T* clone_a = Clone(n, n, a);
     T* wr = new T[n];
@@ -284,7 +284,7 @@ inline MKL_INT eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[
 
     for (MKL_INT index = 0; index < n; ++index)
     {
-        values[index] = MKL_Complex16(wr[index], wi[index]);
+        values[index] = R(wr[index], wi[index]);
     }
 
     for (MKL_INT  i = 0; i < n; ++i)
@@ -343,11 +343,11 @@ inline MKL_INT eigen_complex_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16
 	return info;
 }
 
-template<typename T, typename R, typename SYEV>
+template<typename R, typename T, typename SYEV>
 inline MKL_INT sym_eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[], T d[], SYEV syev)
 {
     T* clone_a = Clone(n, n, a);
-    R* w = new R[n];
+	R* w = new R[n];
 
 	MKL_INT info = syev(LAPACK_COL_MAJOR, 'V', 'U', n, clone_a, n, w);
 	if (info != 0)
@@ -668,7 +668,7 @@ extern "C" {
     {
 		if (isSymmetric)
 		{
-			return sym_eigen_factor<float, float>(n, a, vectors, values, d, LAPACKE_ssyev);
+			return sym_eigen_factor<float>(n, a, vectors, values, d, LAPACKE_ssyev);
 		}
 		else
 		{
@@ -676,15 +676,15 @@ extern "C" {
 		}
     }
 
-    DLLEXPORT MKL_INT d_eigen(bool isSymmetric, MKL_INT n, double a[], double vectors[], MKL_Complex16 values[], double d[])
+   DLLEXPORT MKL_INT d_eigen(bool isSymmetric, MKL_INT n, double a[], double vectors[], MKL_Complex16 values[], double d[])
     {
         if (isSymmetric)
         {
-            return sym_eigen_factor<double, double>(n, a, vectors, values, d, LAPACKE_dsyev);
+			return sym_eigen_factor<double>(n, a, vectors, values, d, LAPACKE_dsyev);
         }
         else
         {
-            return eigen_factor(n, a, vectors, values, d, LAPACKE_dgees, LAPACKE_dtrevc);
+			return eigen_factor(n, a, vectors, values, d, LAPACKE_dgees, LAPACKE_dtrevc);
         }
     }
 
@@ -692,20 +692,19 @@ extern "C" {
     {
 		if (isSymmetric)
 		{
-			return sym_eigen_factor<MKL_Complex8, float>(n, a, vectors, values, d, LAPACKE_cheev);
+			return sym_eigen_factor<float>(n, a, vectors, values, d, LAPACKE_cheev);
 		}
 		else
 		{
-			return -1;
-			//return eigen_factor<MKL_Complex16, LAPACK_Z_SELECT1>(n, a, vectors, values, d, LAPACKE_zgees, LAPACKE_ztrevc);
+			return eigen_complex_factor(n, a, vectors, values, d, LAPACKE_cgees, LAPACKE_ctrevc);
 		}
     }
-
+	
     DLLEXPORT MKL_INT z_eigen(bool isSymmetric, MKL_INT n, MKL_Complex16 a[], MKL_Complex16 vectors[], MKL_Complex16 values[], MKL_Complex16 d[])
     {
 		if (isSymmetric)
 		{
-			return sym_eigen_factor<MKL_Complex16, double>(n, a, vectors, values, d, LAPACKE_zheev);
+			return sym_eigen_factor<double>(n, a, vectors, values, d, LAPACKE_zheev);
 		}
 		else
 		{
