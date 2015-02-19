@@ -1172,7 +1172,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.z_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length);
+            if (SafeNativeMethods.z_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length) > 0)
+            {
+                throw new NonConvergenceException();
+            }
         }
 
         /// <summary>
@@ -1313,6 +1316,63 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             }
 
             SafeNativeMethods.z_vector_divide(x.Length, x, y, result);
+        }
+
+        /// <summary>
+        /// Computes the eigenvalues and eigenvectors of a matrix.
+        /// </summary>
+        /// <param name="isSymmetric">Wether the matrix is symmetric or not.</param>
+        /// <param name="order">The order of the matrix.</param>
+        /// <param name="matrix">The matrix to decompose. The lenth of the array must be order * order.</param>
+        /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The lenth of the array must be order * order.</param>
+        /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the arry must <paramref name="order"/>.</param>
+        /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The lenth of the array must be order * order.</param>
+        public override void EigenDecomp(bool isSymmetric, int order, Complex[] matrix, Complex[] matrixEv, Complex[] vectorEv, Complex[] matrixD)
+        {
+            if (matrix == null)
+            {
+                throw new ArgumentNullException("matrix");
+            }
+
+            if (matrix.Length != order * order)
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrix");
+            }
+
+            if (matrixEv == null)
+            {
+                throw new ArgumentNullException("matrixEv");
+            }
+
+            if (matrixEv.Length != order * order)
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixEv");
+            }
+
+            if (vectorEv == null)
+            {
+                throw new ArgumentNullException("vectorEv");
+            }
+
+            if (vectorEv.Length != order)
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order), "vectorEv");
+            }
+
+            if (matrixD == null)
+            {
+                throw new ArgumentNullException("matrixD");
+            }
+
+            if (matrixD.Length != order * order)
+            {
+                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order * order), "matrixD");
+            }
+
+            if (SafeNativeMethods.z_eigen(isSymmetric, order, matrix, matrixEv, vectorEv, matrixD) > 0)
+            {
+                throw new NonConvergenceException();
+            }
         }
     }
 }

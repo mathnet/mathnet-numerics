@@ -1172,7 +1172,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
             }
 
-            SafeNativeMethods.d_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length);
+            if (SafeNativeMethods.d_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length) > 0)
+            {
+                throw new NonConvergenceException();
+            }
         }
 
         /// <summary>
@@ -1366,7 +1369,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), "matrixD");
             }
 
-            SafeNativeMethods.d_eigen(isSymmetric, order, matrix, matrixEv, vectorEv, matrixD);
+            if (SafeNativeMethods.d_eigen(isSymmetric, order, matrix, matrixEv, vectorEv, matrixD) > 0)
+            {
+                throw new NonConvergenceException();
+            }
         }
     }
 }

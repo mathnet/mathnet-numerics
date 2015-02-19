@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <complex>
+
 #define MKL_Complex8 std::complex<float>
 #define MKL_Complex16 std::complex<double>
 
@@ -11,21 +12,17 @@
 #include "mkl.h"
 #include "mkl_trans.h"
 
-template<typename T>
-inline MKL_INT lu_factor(MKL_INT m, T a[], MKL_INT ipiv[],
-                         void (*getrf)(const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*, MKL_INT*))
+template<typename T, typename GETRF>
+inline MKL_INT lu_factor(MKL_INT m, T a[], MKL_INT ipiv[], GETRF getrf)
 {
-    std::complex<double> x = 5;
 	MKL_INT info = 0;
     getrf(&m, &m, a, &m, ipiv, &info);
     shift_ipiv_down(m, ipiv);
     return info;
 };
 
-template<typename T>
-inline MKL_INT lu_inverse(MKL_INT n, T a[], T work[], MKL_INT lwork,
-                          void (*getrf)(const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*, MKL_INT*),
-                          void (*getri)(const MKL_INT*, T*, const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename GETRF, typename GETRI>
+inline MKL_INT lu_inverse(MKL_INT n, T a[], T work[], MKL_INT lwork, GETRF getrf, GETRI getri)
 {
     MKL_INT* ipiv = new MKL_INT[n];
     MKL_INT info = 0;
@@ -42,9 +39,8 @@ inline MKL_INT lu_inverse(MKL_INT n, T a[], T work[], MKL_INT lwork,
     return info;
 };
 
-template<typename T>
-inline MKL_INT lu_inverse_factored(MKL_INT n, T a[], MKL_INT ipiv[], T work[], MKL_INT lwork,
-                                   void (*getri)(const MKL_INT*, T*, const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename GETRI>
+inline MKL_INT lu_inverse_factored(MKL_INT n, T a[], MKL_INT ipiv[], T work[], MKL_INT lwork, GETRI getri)
 {
     shift_ipiv_up(n, ipiv);
     MKL_INT info = 0;
@@ -53,9 +49,8 @@ inline MKL_INT lu_inverse_factored(MKL_INT n, T a[], MKL_INT ipiv[], T work[], M
     return info;
 }
 
-template<typename T>
-inline MKL_INT lu_solve_factored(MKL_INT n, MKL_INT nrhs, T a[], MKL_INT ipiv[], T b[],
-                                 void (*getrs)(const char*, const MKL_INT*, const MKL_INT*, const T*, const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename GETRS>
+inline MKL_INT lu_solve_factored(MKL_INT n, MKL_INT nrhs, T a[], MKL_INT ipiv[], T b[], GETRS getrs)
 {
     shift_ipiv_up(n, ipiv);
     MKL_INT info = 0;
@@ -65,10 +60,8 @@ inline MKL_INT lu_solve_factored(MKL_INT n, MKL_INT nrhs, T a[], MKL_INT ipiv[],
     return info;
 }
 
-template<typename T>
-inline MKL_INT lu_solve(MKL_INT n, MKL_INT nrhs, T a[], T b[],
-                        void (*getrf)(const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*, MKL_INT*),
-                        void (*getrs)(const char*, const MKL_INT*, const MKL_INT*, const T*, const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename GETRF, typename GETRS>
+inline MKL_INT lu_solve(MKL_INT n, MKL_INT nrhs, T a[], T b[], GETRF getrf, GETRS getrs)
 {
     T* clone = Clone(n, n, a);
     MKL_INT* ipiv = new MKL_INT[n];
@@ -90,9 +83,8 @@ inline MKL_INT lu_solve(MKL_INT n, MKL_INT nrhs, T a[], T b[],
 }
 
 
-template<typename T>
-inline MKL_INT cholesky_factor(MKL_INT n, T* a,
-                               void (*potrf)(const char*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename POTRF>
+inline MKL_INT cholesky_factor(MKL_INT n, T* a, POTRF potrf)
 {
     char uplo = 'L';
     MKL_INT info = 0;
@@ -112,10 +104,8 @@ inline MKL_INT cholesky_factor(MKL_INT n, T* a,
     return info;
 }
 
-template<typename T>
-inline MKL_INT cholesky_solve(MKL_INT n, MKL_INT nrhs, T a[], T b[],
-                              void (*potrf)(const char*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*),
-                              void (*potrs)(const char*, const MKL_INT*, const MKL_INT*, const T*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename POTRF, typename POTRS>
+inline MKL_INT cholesky_solve(MKL_INT n, MKL_INT nrhs, T a[], T b[], POTRF potrf, POTRS potrs)
 {
     T* clone = Clone(n, n, a);
     char uplo = 'L';
@@ -133,9 +123,8 @@ inline MKL_INT cholesky_solve(MKL_INT n, MKL_INT nrhs, T a[], T b[],
     return info;
 }
 
-template<typename T>
-inline MKL_INT cholesky_solve_factored(MKL_INT n, MKL_INT nrhs, T a[], T b[],
-                                       void (*potrs)(const char*, const MKL_INT*, const MKL_INT*, const T*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename POTRS>
+inline MKL_INT cholesky_solve_factored(MKL_INT n, MKL_INT nrhs, T a[], T b[], POTRS potrs)
 {
     char uplo = 'L';
     MKL_INT info = 0;
@@ -143,10 +132,8 @@ inline MKL_INT cholesky_solve_factored(MKL_INT n, MKL_INT nrhs, T a[], T b[],
     return info;
 }
 
-template<typename T>
-inline MKL_INT qr_factor(MKL_INT m, MKL_INT n, T r[], T tau[], T q[], T work[], MKL_INT len,
-                         void (*geqrf)(const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, T*, T*, const MKL_INT*, MKL_INT*),
-                         void (*orgqr)(const MKL_INT*, const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, const T*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename GEQRF, typename ORGQR>
+inline MKL_INT qr_factor(MKL_INT m, MKL_INT n, T r[], T tau[], T q[], T work[], MKL_INT len, GEQRF geqrf, ORGQR orgqr)
 {
     MKL_INT info = 0;
     geqrf(&m, &n, r, &m, tau, work, &len, &info);
@@ -175,10 +162,8 @@ inline MKL_INT qr_factor(MKL_INT m, MKL_INT n, T r[], T tau[], T q[], T work[], 
     return info;
 }
 
-template<typename T>
-inline MKL_INT qr_thin_factor(MKL_INT m, MKL_INT n, T q[], T tau[], T r[], T work[], MKL_INT len,
-                              void (*geqrf)(const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, T*, T*, const MKL_INT*, MKL_INT*),
-                              void (*orgqr)(const MKL_INT*, const MKL_INT*, const MKL_INT*, T*, const MKL_INT*, const T*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename GEQRF, typename ORGQR>
+inline MKL_INT qr_thin_factor(MKL_INT m, MKL_INT n, T q[], T tau[], T r[], T work[], MKL_INT len, GEQRF geqrf, ORGQR orgqr)
 {
     MKL_INT info = 0;
     geqrf(&m, &n, q, &m, tau, work, &len, &info);
@@ -198,10 +183,8 @@ inline MKL_INT qr_thin_factor(MKL_INT m, MKL_INT n, T q[], T tau[], T r[], T wor
     return info;
 }
 
-template<typename T>
-inline MKL_INT qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, T a[], T b[], T x[], T work[], MKL_INT len,
-                        void (*gels)(const char*, const MKL_INT*, const MKL_INT*, const MKL_INT*, T*,
-                                     const MKL_INT*, T* b, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename GELS>
+inline MKL_INT qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, T a[], T b[], T x[], T work[], MKL_INT len, GELS gels)
 {
     T* clone_a = Clone(m, n, a);
     T* clone_b = Clone(m, bn, b);
@@ -214,12 +197,8 @@ inline MKL_INT qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, T a[], T b[], T x[], T
     return info;
 }
 
-template<typename T>
-inline MKL_INT qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, T r[], T b[], T tau[], T x[], T work[], MKL_INT len,
-                                 void (*ormqr)(const char*, const char*, const MKL_INT*, const MKL_INT*, const MKL_INT*,
-                                         const T*, const MKL_INT*, const T*, T*, const MKL_INT*, T*, const MKL_INT*, MKL_INT* info),
-                                 void (*trsm)(const CBLAS_ORDER, const CBLAS_SIDE, const CBLAS_UPLO, const CBLAS_TRANSPOSE, const CBLAS_DIAG,
-                                         const MKL_INT, const MKL_INT, const T, const T*, const MKL_INT, T*, const MKL_INT))
+template<typename T, typename ORMQR, typename TRSM>
+inline MKL_INT qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, T r[], T b[], T tau[], T x[], T work[], MKL_INT len, ORMQR ormqr, TRSM trsm)
 {
     T* clone_b = Clone(m, bn, b);
     char side ='L';
@@ -232,12 +211,8 @@ inline MKL_INT qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, T r[], T b[],
     return info;
 }
 
-template<typename T>
-inline MKL_INT complex_qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, T r[], T b[], T tau[], T x[], T work[], MKL_INT len,
-        void (*unmqr)(const char*, const char*, const MKL_INT*, const MKL_INT*, const MKL_INT*,
-                      const T*, const MKL_INT*, const T*, T*, const MKL_INT*, T*, const MKL_INT*, MKL_INT* info),
-        void (*trsm)(const CBLAS_ORDER, const CBLAS_SIDE, const CBLAS_UPLO, const CBLAS_TRANSPOSE, const CBLAS_DIAG,
-                     const MKL_INT, const MKL_INT, const void*, const void*, const MKL_INT, void*, const MKL_INT ldb))
+template<typename T, typename UNMQR, typename TRSM>
+inline MKL_INT complex_qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, T r[], T b[], T tau[], T x[], T work[], MKL_INT len, UNMQR unmqr, TRSM trsm)
 {
     T* clone_b = Clone(m, bn, b);
     char side ='L';
@@ -251,10 +226,8 @@ inline MKL_INT complex_qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, T r[]
     return info;
 }
 
-template<typename T>
-inline MKL_INT svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, T a[], T s[], T u[], T v[], T work[], MKL_INT len,
-                          void (*gesvd)(const char*, const char*, const MKL_INT*, const MKL_INT*, T*, const MKL_INT*,
-                                        T*, T*, const MKL_INT*, T*, const MKL_INT*, T*, const MKL_INT*, MKL_INT*))
+template<typename T, typename GESVD>
+inline MKL_INT svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, T a[], T s[], T u[], T v[], T work[], MKL_INT len, GESVD gesvd)
 {
     MKL_INT info = 0;
     char job = compute_vectors ? 'A' : 'N';
@@ -262,10 +235,8 @@ inline MKL_INT svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, T a[], T s
     return info;
 }
 
-template<typename T, typename R>
-inline MKL_INT complex_svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, T a[], T s[], T u[], T v[], T work[], MKL_INT len,
-                                  void (*gesvd)(const char*, const char*, const MKL_INT*, const MKL_INT*, T*, const MKL_INT*,
-                                          R*, T*, const MKL_INT*, T*, const MKL_INT*, T*, const MKL_INT*, R*, MKL_INT*))
+template<typename T, typename R, typename GESVD>
+inline MKL_INT complex_svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, T a[], T s[], T u[], T v[], T work[], MKL_INT len, GESVD gesvd)
 {
     MKL_INT info = 0;
     MKL_INT dim_s = std::min(m,n);
@@ -284,12 +255,8 @@ inline MKL_INT complex_svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, T 
     return info;
 }
 
-template<typename T>
-inline MKL_INT eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[], T d[],
-                    MKL_INT(*gees)(MKL_INT, char, char, int(*)(const T*, const T*), MKL_INT, T* a,
-                                   MKL_INT, MKL_INT*, T*, T*, T*, MKL_INT),
-                    MKL_INT(*trevc)(MKL_INT, char, char, lapack_logical*, MKL_INT, const T*,
-                                    MKL_INT, T*, MKL_INT, T*, MKL_INT, MKL_INT, MKL_INT*))
+template<typename T, typename R, typename GEES, typename TREVC>
+inline MKL_INT eigen_factor(MKL_INT n, T a[], T vectors[], R values[], T d[], GEES gees, TREVC trevc)
 {
     T* clone_a = Clone(n, n, a);
     T* wr = new T[n];
@@ -317,7 +284,7 @@ inline MKL_INT eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[
 
     for (MKL_INT index = 0; index < n; ++index)
     {
-        values[index] = MKL_Complex16(wr[index], wi[index]);
+        values[index] = R(wr[index], wi[index]);
     }
 
     for (MKL_INT  i = 0; i < n; ++i)
@@ -341,12 +308,8 @@ inline MKL_INT eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[
     return info;
 }
 
-template<typename T>
-inline MKL_INT eigen_complex_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[], T d[],
-							MKL_INT(*gees)(MKL_INT, char, char, int(*)(const T*), MKL_INT, T* a,
-							MKL_INT, MKL_INT*, T*, T*, MKL_INT),
-							MKL_INT(*trevc)(MKL_INT, char, char, const lapack_logical*, MKL_INT, T*,
-							MKL_INT, T*, MKL_INT, T*, MKL_INT, MKL_INT, MKL_INT*))
+template<typename T, typename GEES, typename TREVC>
+inline MKL_INT eigen_complex_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[], T d[], GEES gees, TREVC trevc)
 {
 	T* clone_a = Clone(n, n, a);
 	T* w = new T[n];
@@ -380,12 +343,11 @@ inline MKL_INT eigen_complex_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16
 	return info;
 }
 
-template<typename T, typename R>
-inline MKL_INT sym_eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[], T d[],
-                    MKL_INT(*syev)(int, char, char, int, T*, int, R*))
+template<typename R, typename T, typename SYEV>
+inline MKL_INT sym_eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 values[], T d[], SYEV syev)
 {
     T* clone_a = Clone(n, n, a);
-    R* w = new R[n];
+	R* w = new R[n];
 
 	MKL_INT info = syev(LAPACK_COL_MAJOR, 'V', 'U', n, clone_a, n, w);
 	if (info != 0)
@@ -394,7 +356,7 @@ inline MKL_INT sym_eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 val
 		delete[] w;
 		return info;
 	}
-
+	
 	memcpy(vectors, clone_a, n*n*sizeof(T));
 
 	for (MKL_INT index = 0; index < n; ++index)
@@ -402,7 +364,7 @@ inline MKL_INT sym_eigen_factor(MKL_INT n, T a[], T vectors[], MKL_Complex16 val
 		values[index] = MKL_Complex16(w[index]);
 	}
     
-	for (MKL_INT j = 0; j < n; j++)
+	for (MKL_INT j = 0; j < n; ++j)
     {
         MKL_INT jn = j*n;
 
@@ -444,252 +406,252 @@ extern "C" {
 
     DLLEXPORT MKL_INT s_lu_factor(MKL_INT m, float a[], MKL_INT ipiv[])
     {
-        return lu_factor<float>(m, a, ipiv, sgetrf);
+        return lu_factor(m, a, ipiv, sgetrf);
     }
 
     DLLEXPORT MKL_INT d_lu_factor(MKL_INT m, double a[], MKL_INT ipiv[])
     {
-        return lu_factor<double>(m, a, ipiv, dgetrf);
+        return lu_factor(m, a, ipiv, dgetrf);
     }
 
     DLLEXPORT MKL_INT c_lu_factor(MKL_INT m, MKL_Complex8 a[], MKL_INT ipiv[])
     {
-        return lu_factor<MKL_Complex8>(m, a, ipiv, cgetrf);
+        return lu_factor(m, a, ipiv, cgetrf);
     }
 
     DLLEXPORT MKL_INT z_lu_factor(MKL_INT m, MKL_Complex16 a[], MKL_INT ipiv[])
     {
-        return lu_factor<MKL_Complex16>(m, a, ipiv, zgetrf);
+        return lu_factor(m, a, ipiv, zgetrf);
     }
 
     DLLEXPORT MKL_INT s_lu_inverse(MKL_INT n, float a[], float work[], MKL_INT lwork)
     {
-        return lu_inverse<float>(n, a, work, lwork, sgetrf, sgetri);
+        return lu_inverse(n, a, work, lwork, sgetrf, sgetri);
     }
 
     DLLEXPORT MKL_INT d_lu_inverse(MKL_INT n, double a[], double work[], MKL_INT lwork)
     {
-        return lu_inverse<double>(n, a, work, lwork, dgetrf, dgetri);
+        return lu_inverse(n, a, work, lwork, dgetrf, dgetri);
     }
 
     DLLEXPORT MKL_INT c_lu_inverse(MKL_INT n, MKL_Complex8 a[], MKL_Complex8 work[], MKL_INT lwork)
     {
-        return lu_inverse<MKL_Complex8>(n, a, work, lwork, cgetrf, cgetri);
+        return lu_inverse(n, a, work, lwork, cgetrf, cgetri);
     }
 
     DLLEXPORT MKL_INT z_lu_inverse(MKL_INT n, MKL_Complex16 a[], MKL_Complex16 work[], MKL_INT lwork)
     {
-        return lu_inverse<MKL_Complex16>(n, a, work, lwork, zgetrf, zgetri);
+        return lu_inverse(n, a, work, lwork, zgetrf, zgetri);
     }
 
     DLLEXPORT MKL_INT s_lu_inverse_factored(MKL_INT n, float a[], MKL_INT ipiv[], float work[], MKL_INT lwork)
     {
-        return lu_inverse_factored<float>(n, a, ipiv, work, lwork, sgetri);
+        return lu_inverse_factored(n, a, ipiv, work, lwork, sgetri);
     }
 
     DLLEXPORT MKL_INT d_lu_inverse_factored(MKL_INT n, double a[], MKL_INT ipiv[], double work[], MKL_INT lwork)
     {
-        return lu_inverse_factored<double>(n, a, ipiv, work, lwork, dgetri);
+        return lu_inverse_factored(n, a, ipiv, work, lwork, dgetri);
     }
 
     DLLEXPORT MKL_INT c_lu_inverse_factored(MKL_INT n, MKL_Complex8 a[], MKL_INT ipiv[], MKL_Complex8 work[], MKL_INT lwork)
     {
-        return lu_inverse_factored<MKL_Complex8>(n, a, ipiv, work, lwork, cgetri);
+        return lu_inverse_factored(n, a, ipiv, work, lwork, cgetri);
     }
 
     DLLEXPORT MKL_INT z_lu_inverse_factored(MKL_INT n, MKL_Complex16 a[], MKL_INT ipiv[], MKL_Complex16 work[], MKL_INT lwork)
     {
-        return lu_inverse_factored<MKL_Complex16>(n, a, ipiv, work, lwork, zgetri);
+        return lu_inverse_factored(n, a, ipiv, work, lwork, zgetri);
     }
 
     DLLEXPORT MKL_INT s_lu_solve_factored(MKL_INT n, MKL_INT nrhs, float a[], MKL_INT ipiv[], float b[])
     {
-        return lu_solve_factored<float>(n, nrhs, a, ipiv, b, sgetrs);
+        return lu_solve_factored(n, nrhs, a, ipiv, b, sgetrs);
     }
 
     DLLEXPORT MKL_INT  d_lu_solve_factored(MKL_INT n, MKL_INT nrhs, double a[], MKL_INT ipiv[], double b[])
     {
-        return lu_solve_factored<double>(n, nrhs, a, ipiv, b, dgetrs);
+        return lu_solve_factored(n, nrhs, a, ipiv, b, dgetrs);
     }
 
     DLLEXPORT MKL_INT c_lu_solve_factored(MKL_INT n, MKL_INT nrhs, MKL_Complex8 a[], MKL_INT ipiv[], MKL_Complex8 b[])
     {
-        return lu_solve_factored<MKL_Complex8>(n, nrhs, a, ipiv, b, cgetrs);
+        return lu_solve_factored(n, nrhs, a, ipiv, b, cgetrs);
     }
 
     DLLEXPORT MKL_INT z_lu_solve_factored(MKL_INT n, MKL_INT nrhs, MKL_Complex16 a[], MKL_INT ipiv[], MKL_Complex16 b[])
     {
-        return lu_solve_factored<MKL_Complex16>(n, nrhs, a, ipiv, b, zgetrs);
+        return lu_solve_factored(n, nrhs, a, ipiv, b, zgetrs);
     }
 
     DLLEXPORT MKL_INT s_lu_solve(MKL_INT n, MKL_INT nrhs, float a[], float b[])
     {
-        return lu_solve<float>(n, nrhs, a, b, sgetrf, sgetrs);
+        return lu_solve(n, nrhs, a, b, sgetrf, sgetrs);
     }
 
     DLLEXPORT MKL_INT d_lu_solve(MKL_INT n, MKL_INT nrhs, double a[], double b[])
     {
-        return lu_solve<double>(n, nrhs, a, b, dgetrf, dgetrs);
+        return lu_solve(n, nrhs, a, b, dgetrf, dgetrs);
     }
 
     DLLEXPORT MKL_INT c_lu_solve(MKL_INT n, MKL_INT nrhs, MKL_Complex8 a[], MKL_Complex8 b[])
     {
-        return lu_solve<MKL_Complex8>(n, nrhs, a, b, cgetrf, cgetrs);
+        return lu_solve(n, nrhs, a, b, cgetrf, cgetrs);
     }
 
     DLLEXPORT MKL_INT z_lu_solve(MKL_INT n, MKL_INT nrhs, MKL_Complex16 a[],  MKL_Complex16 b[])
     {
-        return lu_solve<MKL_Complex16>(n, nrhs, a, b, zgetrf, zgetrs);
+        return lu_solve(n, nrhs, a, b, zgetrf, zgetrs);
     }
 
     DLLEXPORT MKL_INT s_cholesky_factor(MKL_INT n, float a[])
     {
-        return cholesky_factor<float>(n, a, spotrf);
+        return cholesky_factor(n, a, spotrf);
     }
 
     DLLEXPORT MKL_INT d_cholesky_factor(MKL_INT n, double* a)
     {
-        return cholesky_factor<double>(n, a, dpotrf);
+        return cholesky_factor(n, a, dpotrf);
     }
 
     DLLEXPORT MKL_INT c_cholesky_factor(MKL_INT n, MKL_Complex8 a[])
     {
-        return cholesky_factor<MKL_Complex8>(n, a, cpotrf);
+        return cholesky_factor(n, a, cpotrf);
     }
 
     DLLEXPORT MKL_INT z_cholesky_factor(MKL_INT n, MKL_Complex16 a[])
     {
-        return cholesky_factor<MKL_Complex16>(n, a, zpotrf);
+        return cholesky_factor(n, a, zpotrf);
     }
 
     DLLEXPORT MKL_INT s_cholesky_solve(MKL_INT n, MKL_INT nrhs, float a[], float b[])
     {
-        return cholesky_solve<float>(n, nrhs, a, b, spotrf, spotrs);
+        return cholesky_solve(n, nrhs, a, b, spotrf, spotrs);
     }
 
     DLLEXPORT MKL_INT d_cholesky_solve(MKL_INT n, MKL_INT nrhs, double a[], double b[])
     {
-        return cholesky_solve<double>(n, nrhs, a, b, dpotrf, dpotrs);
+        return cholesky_solve(n, nrhs, a, b, dpotrf, dpotrs);
     }
 
     DLLEXPORT MKL_INT c_cholesky_solve(MKL_INT n, MKL_INT nrhs, MKL_Complex8 a[], MKL_Complex8 b[])
     {
-        return cholesky_solve<MKL_Complex8>(n, nrhs, a, b, cpotrf, cpotrs);
+        return cholesky_solve(n, nrhs, a, b, cpotrf, cpotrs);
     }
 
     DLLEXPORT MKL_INT z_cholesky_solve(MKL_INT n, MKL_INT nrhs, MKL_Complex16 a[], MKL_Complex16 b[])
     {
-        return cholesky_solve<MKL_Complex16>(n, nrhs, a, b, zpotrf, zpotrs);
+        return cholesky_solve(n, nrhs, a, b, zpotrf, zpotrs);
     }
 
     DLLEXPORT MKL_INT s_cholesky_solve_factored(MKL_INT n, MKL_INT nrhs, float a[], float b[])
     {
-        return cholesky_solve_factored<float>(n, nrhs, a, b, spotrs);
+        return cholesky_solve_factored(n, nrhs, a, b, spotrs);
     }
 
     DLLEXPORT MKL_INT d_cholesky_solve_factored(MKL_INT n, MKL_INT nrhs, double a[], double b[])
     {
-        return cholesky_solve_factored<double>(n, nrhs, a, b, dpotrs);
+        return cholesky_solve_factored(n, nrhs, a, b, dpotrs);
     }
 
     DLLEXPORT MKL_INT c_cholesky_solve_factored(MKL_INT n, MKL_INT nrhs, MKL_Complex8 a[], MKL_Complex8 b[])
     {
-        return cholesky_solve_factored<MKL_Complex8>(n, nrhs, a, b, cpotrs);
+        return cholesky_solve_factored(n, nrhs, a, b, cpotrs);
     }
 
     DLLEXPORT MKL_INT z_cholesky_solve_factored(MKL_INT n, MKL_INT nrhs, MKL_Complex16 a[], MKL_Complex16 b[])
     {
-        return cholesky_solve_factored<MKL_Complex16>(n, nrhs, a, b, zpotrs);
+        return cholesky_solve_factored(n, nrhs, a, b, zpotrs);
     }
 
     DLLEXPORT MKL_INT s_qr_factor(MKL_INT m, MKL_INT n, float r[], float tau[], float q[], float work[], MKL_INT len)
     {
-        return qr_factor<float>(m, n, r, tau, q, work, len, sgeqrf, sorgqr);
+        return qr_factor(m, n, r, tau, q, work, len, sgeqrf, sorgqr);
     }
 
     DLLEXPORT MKL_INT s_qr_thin_factor(MKL_INT m, MKL_INT n, float q[], float tau[], float r[], float work[], MKL_INT len)
     {
-        return qr_thin_factor<float>(m, n, q, tau, r, work, len, sgeqrf, sorgqr);
+        return qr_thin_factor(m, n, q, tau, r, work, len, sgeqrf, sorgqr);
     }
 
     DLLEXPORT MKL_INT d_qr_factor(MKL_INT m, MKL_INT n, double r[], double tau[], double q[], double work[], MKL_INT len)
     {
-        return qr_factor<double>(m, n, r, tau, q, work, len, dgeqrf, dorgqr);
+        return qr_factor(m, n, r, tau, q, work, len, dgeqrf, dorgqr);
     }
 
     DLLEXPORT MKL_INT d_qr_thin_factor(MKL_INT m, MKL_INT n, double q[], double tau[], double r[], double work[], MKL_INT len)
     {
-        return qr_thin_factor<double>(m, n, q, tau, r, work, len, dgeqrf, dorgqr);
+        return qr_thin_factor(m, n, q, tau, r, work, len, dgeqrf, dorgqr);
     }
 
     DLLEXPORT MKL_INT c_qr_factor(MKL_INT m, MKL_INT n, MKL_Complex8 r[], MKL_Complex8 tau[], MKL_Complex8 q[], MKL_Complex8 work[], MKL_INT len)
     {
-        return qr_factor<MKL_Complex8>(m, n, r, tau, q, work, len, cgeqrf, cungqr);
+        return qr_factor(m, n, r, tau, q, work, len, cgeqrf, cungqr);
     }
 
     DLLEXPORT MKL_INT c_qr_thin_factor(MKL_INT m, MKL_INT n, MKL_Complex8 q[], MKL_Complex8 tau[], MKL_Complex8 r[], MKL_Complex8 work[], MKL_INT len)
     {
-        return qr_thin_factor<MKL_Complex8>(m, n, q, tau, r, work, len, cgeqrf, cungqr);
+        return qr_thin_factor(m, n, q, tau, r, work, len, cgeqrf, cungqr);
     }
 
     DLLEXPORT MKL_INT z_qr_factor(MKL_INT m, MKL_INT n, MKL_Complex16 r[], MKL_Complex16 tau[], MKL_Complex16 q[], MKL_Complex16 work[], MKL_INT len)
     {
-        return qr_factor<MKL_Complex16>(m, n, r, tau, q, work, len, zgeqrf, zungqr);
+        return qr_factor(m, n, r, tau, q, work, len, zgeqrf, zungqr);
     }
 
     DLLEXPORT MKL_INT z_qr_thin_factor(MKL_INT m, MKL_INT n, MKL_Complex16 q[], MKL_Complex16 tau[], MKL_Complex16 r[], MKL_Complex16 work[], MKL_INT len)
     {
-        return qr_thin_factor<MKL_Complex16>(m, n, q, tau, r, work, len, zgeqrf, zungqr);
+        return qr_thin_factor(m, n, q, tau, r, work, len, zgeqrf, zungqr);
     }
 
     DLLEXPORT MKL_INT s_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, float a[], float b[], float x[], float work[], MKL_INT len)
     {
-        return qr_solve<float>(m, n, bn, a, b, x, work, len, sgels);
+        return qr_solve(m, n, bn, a, b, x, work, len, sgels);
     }
 
     DLLEXPORT MKL_INT d_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, double a[], double b[], double x[], double work[], MKL_INT len)
     {
-        return qr_solve<double>(m, n, bn, a, b, x, work, len, dgels);
+        return qr_solve(m, n, bn, a, b, x, work, len, dgels);
     }
 
     DLLEXPORT MKL_INT c_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex8 a[], MKL_Complex8 b[], MKL_Complex8 x[], MKL_Complex8 work[], MKL_INT len)
     {
-        return qr_solve<MKL_Complex8>(m, n, bn, a, b, x, work, len, cgels);
+        return qr_solve(m, n, bn, a, b, x, work, len, cgels);
     }
 
     DLLEXPORT MKL_INT z_qr_solve(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex16 a[], MKL_Complex16 b[], MKL_Complex16 x[], MKL_Complex16 work[], MKL_INT len)
     {
-        return qr_solve<MKL_Complex16>(m, n, bn, a, b, x, work, len, zgels);
+        return qr_solve(m, n, bn, a, b, x, work, len, zgels);
     }
 
     DLLEXPORT MKL_INT s_qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, float r[], float b[], float tau[], float x[], float work[], MKL_INT len)
     {
-        return qr_solve_factored<float>(m, n, bn, r, b, tau, x, work, len, sormqr, cblas_strsm);
+        return qr_solve_factored(m, n, bn, r, b, tau, x, work, len, sormqr, cblas_strsm);
     }
 
     DLLEXPORT MKL_INT d_qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, double r[], double b[], double tau[], double x[], double work[], MKL_INT len)
     {
-        return qr_solve_factored<double>(m, n, bn, r, b, tau, x, work, len, dormqr, cblas_dtrsm);
+        return qr_solve_factored(m, n, bn, r, b, tau, x, work, len, dormqr, cblas_dtrsm);
     }
 
     DLLEXPORT MKL_INT c_qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex8 r[], MKL_Complex8 b[], MKL_Complex8 tau[], MKL_Complex8 x[], MKL_Complex8 work[], MKL_INT len)
     {
-        return complex_qr_solve_factored<MKL_Complex8>(m, n, bn, r, b, tau, x, work, len, cunmqr, cblas_ctrsm);
+        return complex_qr_solve_factored(m, n, bn, r, b, tau, x, work, len, cunmqr, cblas_ctrsm);
     }
 
     DLLEXPORT MKL_INT z_qr_solve_factored(MKL_INT m, MKL_INT n, MKL_INT bn, MKL_Complex16 r[], MKL_Complex16 b[], MKL_Complex16 tau[], MKL_Complex16 x[], MKL_Complex16 work[], MKL_INT len)
     {
-        return complex_qr_solve_factored<MKL_Complex16>(m, n, bn, r, b, tau, x, work, len, zunmqr, cblas_ztrsm);
+        return complex_qr_solve_factored(m, n, bn, r, b, tau, x, work, len, zunmqr, cblas_ztrsm);
     }
 
     DLLEXPORT MKL_INT s_svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, float a[], float s[], float u[], float v[], float work[], MKL_INT len)
     {
-        return svd_factor<float>(compute_vectors, m, n, a, s, u, v, work, len, sgesvd);
+        return svd_factor(compute_vectors, m, n, a, s, u, v, work, len, sgesvd);
     }
 
     DLLEXPORT MKL_INT d_svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, double a[], double s[], double u[], double v[], double work[], MKL_INT len)
     {
-        return svd_factor<double>(compute_vectors, m, n, a, s, u, v, work, len, dgesvd);
+        return svd_factor(compute_vectors, m, n, a, s, u, v, work, len, dgesvd);
     }
 
     DLLEXPORT MKL_INT c_svd_factor(bool compute_vectors, MKL_INT m, MKL_INT n, MKL_Complex8 a[], MKL_Complex8 s[], MKL_Complex8 u[], MKL_Complex8 v[], MKL_Complex8 work[], MKL_INT len)
@@ -706,23 +668,23 @@ extern "C" {
     {
 		if (isSymmetric)
 		{
-			return sym_eigen_factor<float, float>(n, a, vectors, values, d, LAPACKE_ssyev);
+			return sym_eigen_factor<float>(n, a, vectors, values, d, LAPACKE_ssyev);
 		}
 		else
 		{
-			return eigen_factor<float>(n, a, vectors, values, d, LAPACKE_sgees, LAPACKE_strevc);
+			return eigen_factor(n, a, vectors, values, d, LAPACKE_sgees, LAPACKE_strevc);
 		}
     }
 
-    DLLEXPORT MKL_INT d_eigen(bool isSymmetric, MKL_INT n, double a[], double vectors[], MKL_Complex16 values[], double d[])
+   DLLEXPORT MKL_INT d_eigen(bool isSymmetric, MKL_INT n, double a[], double vectors[], MKL_Complex16 values[], double d[])
     {
         if (isSymmetric)
         {
-            return sym_eigen_factor<double, double>(n, a, vectors, values, d, LAPACKE_dsyev);
+			return sym_eigen_factor<double>(n, a, vectors, values, d, LAPACKE_dsyev);
         }
         else
         {
-            return eigen_factor<double>(n, a, vectors, values, d, LAPACKE_dgees, LAPACKE_dtrevc);
+			return eigen_factor(n, a, vectors, values, d, LAPACKE_dgees, LAPACKE_dtrevc);
         }
     }
 
@@ -730,24 +692,23 @@ extern "C" {
     {
 		if (isSymmetric)
 		{
-			return sym_eigen_factor<MKL_Complex8, float>(n, a, vectors, values, d, LAPACKE_cheev);
+			return sym_eigen_factor<float>(n, a, vectors, values, d, LAPACKE_cheev);
 		}
 		else
 		{
-			return -1;
-			//return eigen_factor<MKL_Complex16, LAPACK_Z_SELECT1>(n, a, vectors, values, d, LAPACKE_zgees, LAPACKE_ztrevc);
+			return eigen_complex_factor(n, a, vectors, values, d, LAPACKE_cgees, LAPACKE_ctrevc);
 		}
     }
-
+	
     DLLEXPORT MKL_INT z_eigen(bool isSymmetric, MKL_INT n, MKL_Complex16 a[], MKL_Complex16 vectors[], MKL_Complex16 values[], MKL_Complex16 d[])
     {
 		if (isSymmetric)
 		{
-			return sym_eigen_factor<MKL_Complex16, double>(n, a, vectors, values, d, LAPACKE_zheev);
+			return sym_eigen_factor<double>(n, a, vectors, values, d, LAPACKE_zheev);
 		}
 		else
 		{
-			return eigen_complex_factor<MKL_Complex16>(n, a, vectors, values, d, LAPACKE_zgees, LAPACKE_ztrevc);
+			return eigen_complex_factor(n, a, vectors, values, d, LAPACKE_zgees, LAPACKE_ztrevc);
 		}
     }
 }
