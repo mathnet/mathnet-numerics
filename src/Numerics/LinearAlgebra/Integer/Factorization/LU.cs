@@ -62,20 +62,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////var det = 1.0f;
-                ////for (var j = 0; j < Factors.RowCount; j++)
-                ////{
-                ////    if (Pivots[j] != j)
-                ////    {
-                ////        det *= -Factors.At(j, j);
-                ////    }
-                ////    else
-                ////    {
-                ////        det *= Factors.At(j, j);
-                ////    }
-                ////}
-
-                ////return det;
             }
         }
     }

@@ -59,22 +59,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////if (FullR.RowCount != FullR.ColumnCount)
-                ////{
-                ////    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-                ////}
-
-                ////var det = 1.0;
-                ////for (var i = 0; i < FullR.ColumnCount; i++)
-                ////{
-                ////    det *= FullR.At(i, i);
-                ////    if (Math.Abs(FullR.At(i, i)).AlmostEqual(0.0f))
-                ////    {
-                ////        return 0;
-                ////    }
-                ////}
-
-                ////return Convert.ToSingle(Math.Abs(det));
             }
         }
 
@@ -88,15 +72,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////for (var i = 0; i < FullR.ColumnCount; i++)
-                ////{
-                ////    if (Math.Abs(FullR.At(i, i)).AlmostEqual(0.0f))
-                ////    {
-                ////        return false;
-                ////    }
-                ////}
-
-                ////return true;
             }
         }
     }

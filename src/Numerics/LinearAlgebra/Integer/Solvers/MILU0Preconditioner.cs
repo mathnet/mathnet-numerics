@@ -43,25 +43,10 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
     /// </remarks>
     public sealed class MILU0Preconditioner : IPreconditioner<int>
     {
-        ////// Matrix stored in Modified Sparse Row (MSR) format containing the L and U
-        ////// factors together.
-
-        ////// The diagonal (stored in alu(0:n-1) ) is inverted. Each i-th row of the matrix
-        ////// contains the i-th row of L (excluding the diagonal entry = 1) followed by
-        ////// the i-th row of U.
-        ////private int[] _alu;
-
-        ////// The row pointers (stored in jlu(0:n) ) and column indices to off-diagonal elements.
-        ////private int[] _jlu;
-
-        ////// Pointer to the diagonal elements in MSR storage (for faster LU solving).
-        ////private int[] _diag;
-
         /// <param name="modified">Use modified or standard ILU(0)</param>
         public MILU0Preconditioner(bool modified = true)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////UseModified = modified;
         }
 
         /// <summary>
@@ -87,35 +72,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////var csr = matrix.Storage as SparseCompressedRowMatrixStorage<int>;
-            ////if (csr == null)
-            ////{
-            ////    throw new ArgumentException(Resources.MatrixMustBeSparse, "matrix");
-            ////}
-
-            ////// Dimension of matrix
-            ////int n = csr.RowCount;
-            ////if (n != csr.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
-            ////}
-
-            ////// Original matrix compressed sparse row storage.
-            ////int[] a = csr.Values;
-            ////int[] ja = csr.ColumnIndices;
-            ////int[] ia = csr.RowPointers;
-
-            ////_alu = new int[ia[n] + 1];
-            ////_jlu = new int[ia[n] + 1];
-            ////_diag = new int[n];
-
-            ////int code = Compute(n, a, ja, ia, _alu, _jlu, _diag, UseModified);
-            ////if (code > -1)
-            ////{
-            ////    throw new NumericalBreakdownException("Zero pivot encountered on row " + code + " during ILU process");
-            ////}
-
-            ////IsInitialized = true;
         }
 
         /// <summary>
@@ -127,142 +83,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerVectors);
-            ////if (_alu == null)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
-            ////}
-
-            ////if ((result.Count != input.Count) || (result.Count != _diag.Length))
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////int n = _diag.Length;
-
-            ////// Forward solve.
-            ////for (int i = 0; i < n; i++)
-            ////{
-            ////    result[i] = input[i];
-            ////    for (int k = _jlu[i]; k < _diag[i]; k++)
-            ////    {
-            ////        result[i] = result[i] - _alu[k] * result[_jlu[k]];
-            ////    }
-            ////}
-
-            ////// Backward solve.
-            ////for (int i = n - 1; i >= 0; i--)
-            ////{
-            ////    for (int k = _diag[i]; k < _jlu[i + 1]; k++)
-            ////    {
-            ////        result[i] = result[i] - _alu[k] * result[_jlu[k]];
-            ////    }
-            ////    result[i] = _alu[i] * result[i];
-            ////}
         }
-
-        /////// <summary>
-        /////// MILU0 is a simple milu(0) preconditioner.
-        /////// </summary>
-        /////// <param name="n">Order of the matrix.</param>
-        /////// <param name="a">Matrix values in CSR format (input).</param>
-        /////// <param name="ja">Column indices (input).</param>
-        /////// <param name="ia">Row pointers (input).</param>
-        /////// <param name="alu">Matrix values in MSR format (output).</param>
-        /////// <param name="jlu">Row pointers and column indices (output).</param>
-        /////// <param name="ju">Pointer to diagonal elements (output).</param>
-        /////// <param name="modified">True if the modified/MILU algorithm should be used (recommended)</param>
-        /////// <returns>Returns 0 on success or k > 0 if a zero pivot was encountered at step k.</returns>
-        ////private int Compute(int n, int[] a, int[] ja, int[] ia, int[] alu, int[] jlu, int[] ju, bool modified)
-        ////{
-        ////    var iw = new int[n];
-        ////    int i;
-
-        ////    // Set initial pointer value.
-        ////    int p = n + 1;
-        ////    jlu[0] = p;
-
-        ////    // Initialize work vector.
-        ////    for (i = 0; i < n; i++)
-        ////    {
-        ////        iw[i] = -1;
-        ////    }
-
-        ////    // The main loop.
-        ////    for (i = 0; i < n; i++)
-        ////    {
-        ////        int pold = p;
-
-        ////        // Generating row i of L and U.
-        ////        int j;
-        ////        for (j = ia[i]; j < ia[i + 1]; j++)
-        ////        {
-        ////            // Copy row i of A, JA, IA into row i of ALU, JLU (LU matrix).
-        ////            int jcol = ja[j];
-
-        ////            if (jcol == i)
-        ////            {
-        ////                alu[i] = a[j];
-        ////                iw[jcol] = i;
-        ////                ju[i] = p;
-        ////            }
-        ////            else
-        ////            {
-        ////                alu[p] = a[j];
-        ////                jlu[p] = ja[j];
-        ////                iw[jcol] = p;
-        ////                p = p + 1;
-        ////            }
-        ////        }
-
-        ////        jlu[i + 1] = p;
-
-        ////        int s = 0.0f;
-
-        ////        int k;
-        ////        for (j = pold; j < ju[i]; j++)
-        ////        {
-        ////            int jrow = jlu[j];
-        ////            int tl = alu[j] * alu[jrow];
-        ////            alu[j] = tl;
-
-        ////            // Perform linear combination.
-        ////            for (k = ju[jrow]; k < jlu[jrow + 1]; k++)
-        ////            {
-        ////                int jw = iw[jlu[k]];
-        ////                if (jw != -1)
-        ////                {
-        ////                    alu[jw] = alu[jw] - tl * alu[k];
-        ////                }
-        ////                else
-        ////                {
-        ////                    // Accumulate fill-in values.
-        ////                    s = s + tl * alu[k];
-        ////                }
-        ////            }
-        ////        }
-
-        ////        if (modified)
-        ////        {
-        ////            alu[i] = alu[i] - s;
-        ////        }
-
-        ////        if (alu[i] == 0.0f)
-        ////        {
-        ////            return i;
-        ////        }
-
-        ////        // Invert and store diagonal element.
-        ////        alu[i] = 1.0f / alu[i];
-
-        ////        // Reset pointers in work array.
-        ////        iw[i] = -1;
-        ////        for (k = pold; k < p; k++)
-        ////        {
-        ////            iw[jlu[k]] = -1;
-        ////        }
-        ////    }
-
-        ////    return -1;
-        ////}
     }
 }

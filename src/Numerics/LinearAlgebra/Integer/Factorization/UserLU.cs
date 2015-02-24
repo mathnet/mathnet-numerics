@@ -54,83 +54,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         public static UserLU Create(Matrix<int> matrix)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (matrix == null)
-            ////{
-            ////    throw new ArgumentNullException("matrix");
-            ////}
-
-            ////if (matrix.RowCount != matrix.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            ////}
-
-            ////// Create an array for the pivot indices.
-            ////var order = matrix.RowCount;
-            ////var factors = matrix.Clone();
-            ////var pivots = new int[order];
-
-            ////// Initialize the pivot matrix to the identity permutation.
-            ////for (var i = 0; i < order; i++)
-            ////{
-            ////    pivots[i] = i;
-            ////}
-
-            ////var vectorLUcolj = new int[order];
-            ////for (var j = 0; j < order; j++)
-            ////{
-            ////    // Make a copy of the j-th column to localize references.
-            ////    for (var i = 0; i < order; i++)
-            ////    {
-            ////        vectorLUcolj[i] = factors.At(i, j);
-            ////    }
-
-            ////    // Apply previous transformations.
-            ////    for (var i = 0; i < order; i++)
-            ////    {
-            ////        var kmax = Math.Min(i, j);
-            ////        var s = 0.0f;
-            ////        for (var k = 0; k < kmax; k++)
-            ////        {
-            ////            s += factors.At(i, k)*vectorLUcolj[k];
-            ////        }
-
-            ////        vectorLUcolj[i] -= s;
-            ////        factors.At(i, j, vectorLUcolj[i]);
-            ////    }
-
-            ////    // Find pivot and exchange if necessary.
-            ////    var p = j;
-            ////    for (var i = j + 1; i < order; i++)
-            ////    {
-            ////        if (Math.Abs(vectorLUcolj[i]) > Math.Abs(vectorLUcolj[p]))
-            ////        {
-            ////            p = i;
-            ////        }
-            ////    }
-
-            ////    if (p != j)
-            ////    {
-            ////        for (var k = 0; k < order; k++)
-            ////        {
-            ////            var temp = factors.At(p, k);
-            ////            factors.At(p, k, factors.At(j, k));
-            ////            factors.At(j, k, temp);
-            ////        }
-
-            ////        pivots[j] = p;
-            ////    }
-
-            ////    // Compute multipliers.
-            ////    if (j < order & factors.At(j, j) != 0.0)
-            ////    {
-            ////        for (var i = j + 1; i < order; i++)
-            ////        {
-            ////            factors.At(i, j, (factors.At(i, j)/factors.At(j, j)));
-            ////        }
-            ////    }
-            ////}
-
-            ////return new UserLU(factors, pivots);
         }
 
         UserLU(Matrix<int> factors, int[] pivots)
@@ -148,83 +71,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////// Check for proper arguments.
-            ////if (input == null)
-            ////{
-            ////    throw new ArgumentNullException("input");
-            ////}
-
-            ////if (result == null)
-            ////{
-            ////    throw new ArgumentNullException("result");
-            ////}
-
-            ////// Check for proper dimensions.
-            ////if (result.RowCount != input.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            ////}
-
-            ////if (result.ColumnCount != input.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////if (input.RowCount != Factors.RowCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factors);
-            ////}
-
-            ////// Copy the contents of input to result.
-            ////input.CopyTo(result);
-            ////for (var i = 0; i < Pivots.Length; i++)
-            ////{
-            ////    if (Pivots[i] == i)
-            ////    {
-            ////        continue;
-            ////    }
-
-            ////    var p = Pivots[i];
-            ////    for (var j = 0; j < result.ColumnCount; j++)
-            ////    {
-            ////        var temp = result.At(p, j);
-            ////        result.At(p, j, result.At(i, j));
-            ////        result.At(i, j, temp);
-            ////    }
-            ////}
-
-            ////var order = Factors.RowCount;
-
-            ////// Solve L*Y = P*B
-            ////for (var k = 0; k < order; k++)
-            ////{
-            ////    for (var i = k + 1; i < order; i++)
-            ////    {
-            ////        for (var j = 0; j < result.ColumnCount; j++)
-            ////        {
-            ////            var temp = result.At(k, j)*Factors.At(i, k);
-            ////            result.At(i, j, result.At(i, j) - temp);
-            ////        }
-            ////    }
-            ////}
-
-            ////// Solve U*X = Y;
-            ////for (var k = order - 1; k >= 0; k--)
-            ////{
-            ////    for (var j = 0; j < result.ColumnCount; j++)
-            ////    {
-            ////        result.At(k, j, (result.At(k, j)/Factors.At(k, k)));
-            ////    }
-
-            ////    for (var i = 0; i < k; i++)
-            ////    {
-            ////        for (var j = 0; j < result.ColumnCount; j++)
-            ////        {
-            ////            var temp = result.At(k, j)*Factors.At(i, k);
-            ////            result.At(i, j, result.At(i, j) - temp);
-            ////        }
-            ////    }
-            ////}
         }
 
         /// <summary>
@@ -236,63 +82,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerVectors);
-            ////// Check for proper arguments.
-            ////if (input == null)
-            ////{
-            ////    throw new ArgumentNullException("input");
-            ////}
-
-            ////if (result == null)
-            ////{
-            ////    throw new ArgumentNullException("result");
-            ////}
-
-            ////// Check for proper dimensions.
-            ////if (input.Count != result.Count)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////if (input.Count != Factors.RowCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factors);
-            ////}
-
-            ////// Copy the contents of input to result.
-            ////input.CopyTo(result);
-            ////for (var i = 0; i < Pivots.Length; i++)
-            ////{
-            ////    if (Pivots[i] == i)
-            ////    {
-            ////        continue;
-            ////    }
-
-            ////    var p = Pivots[i];
-            ////    var temp = result[p];
-            ////    result[p] = result[i];
-            ////    result[i] = temp;
-            ////}
-
-            ////var order = Factors.RowCount;
-
-            ////// Solve L*Y = P*B
-            ////for (var k = 0; k < order; k++)
-            ////{
-            ////    for (var i = k + 1; i < order; i++)
-            ////    {
-            ////        result[i] -= result[k]*Factors.At(i, k);
-            ////    }
-            ////}
-
-            ////// Solve U*X = Y;
-            ////for (var k = order - 1; k >= 0; k--)
-            ////{
-            ////    result[k] /= Factors.At(k, k);
-            ////    for (var i = 0; i < k; i++)
-            ////    {
-            ////        result[i] -= result[k]*Factors.At(i, k);
-            ////    }
-            ////}
         }
 
         /// <summary>
@@ -303,14 +92,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////var order = Factors.RowCount;
-            ////var inverse = Matrix<int>.Build.SameAs(Factors, order, order);
-            ////for (var i = 0; i < order; i++)
-            ////{
-            ////    inverse.At(i, i, 1.0f);
-            ////}
-
-            ////return Solve(inverse);
         }
     }
 }

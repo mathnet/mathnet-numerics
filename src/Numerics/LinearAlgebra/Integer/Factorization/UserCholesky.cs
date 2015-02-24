@@ -57,50 +57,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         public static UserCholesky Create(Matrix<int> matrix)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (matrix.RowCount != matrix.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            ////}
-
-            ////// Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
-            ////var factor = matrix.Clone();
-            ////var tmpColumn = new int[factor.RowCount];
-
-            ////// Main loop - along the diagonal
-            ////for (var ij = 0; ij < factor.RowCount; ij++)
-            ////{
-            ////    // "Pivot" element
-            ////    var tmpVal = factor.At(ij, ij);
-
-            ////    if (tmpVal > 0.0)
-            ////    {
-            ////        tmpVal = (int) Math.Sqrt(tmpVal);
-            ////        factor.At(ij, ij, tmpVal);
-            ////        tmpColumn[ij] = tmpVal;
-
-            ////        // Calculate multipliers and copy to local column
-            ////        // Current column, below the diagonal
-            ////        for (var i = ij + 1; i < factor.RowCount; i++)
-            ////        {
-            ////            factor.At(i, ij, factor.At(i, ij)/tmpVal);
-            ////            tmpColumn[i] = factor.At(i, ij);
-            ////        }
-
-            ////        // Remaining columns, below the diagonal
-            ////        DoCholeskyStep(factor, factor.RowCount, ij + 1, factor.RowCount, tmpColumn, Control.MaxDegreeOfParallelism);
-            ////    }
-            ////    else
-            ////    {
-            ////        throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
-            ////    }
-
-            ////    for (var i = ij + 1; i < factor.RowCount; i++)
-            ////    {
-            ////        factor.At(ij, i, 0.0f);
-            ////    }
-            ////}
-
-            ////return new UserCholesky(factor);
         }
 
         UserCholesky(Matrix<int> factor)
@@ -108,41 +64,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
         }
-
-        /////// <summary>
-        /////// Calculate Cholesky step
-        /////// </summary>
-        /////// <param name="data">Factor matrix</param>
-        /////// <param name="rowDim">Number of rows</param>
-        /////// <param name="firstCol">Column start</param>
-        /////// <param name="colLimit">Total columns</param>
-        /////// <param name="multipliers">Multipliers calculated previously</param>
-        /////// <param name="availableCores">Number of available processors</param>
-        ////static void DoCholeskyStep(Matrix<int> data, int rowDim, int firstCol, int colLimit, int[] multipliers, int availableCores)
-        ////{
-        ////    var tmpColCount = colLimit - firstCol;
-
-        ////    if ((availableCores > 1) && (tmpColCount > 200))
-        ////    {
-        ////        var tmpSplit = firstCol + (tmpColCount / 3);
-        ////        var tmpCores = availableCores / 2;
-
-        ////        CommonParallel.Invoke(
-        ////            () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
-        ////            () => DoCholeskyStep(data, rowDim, tmpSplit, colLimit, multipliers, tmpCores));
-        ////    }
-        ////    else
-        ////    {
-        ////        for (var j = firstCol; j < colLimit; j++)
-        ////        {
-        ////            var tmpVal = multipliers[j];
-        ////            for (var i = j; i < rowDim; i++)
-        ////            {
-        ////                data.At(i, j, data.At(i, j) - (multipliers[i] * tmpVal));
-        ////            }
-        ////        }
-        ////    }
-        ////}
 
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
@@ -153,51 +74,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (result.RowCount != input.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            ////}
-
-            ////if (result.ColumnCount != input.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////if (input.RowCount != Factor.RowCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
-            ////}
-
-            ////input.CopyTo(result);
-            ////var order = Factor.RowCount;
-
-            ////for (var c = 0; c < result.ColumnCount; c++)
-            ////{
-            ////    // Solve L*Y = B;
-            ////    int sum;
-            ////    for (var i = 0; i < order; i++)
-            ////    {
-            ////        sum = result.At(i, c);
-            ////        for (var k = i - 1; k >= 0; k--)
-            ////        {
-            ////            sum -= Factor.At(i, k)*result.At(k, c);
-            ////        }
-
-            ////        result.At(i, c, sum/Factor.At(i, i));
-            ////    }
-
-            ////    // Solve L'*X = Y;
-            ////    for (var i = order - 1; i >= 0; i--)
-            ////    {
-            ////        sum = result.At(i, c);
-            ////        for (var k = i + 1; k < order; k++)
-            ////        {
-            ////            sum -= Factor.At(k, i)*result.At(k, c);
-            ////        }
-
-            ////        result.At(i, c, sum/Factor.At(i, i));
-            ////    }
-            ////}
         }
 
         /// <summary>
@@ -209,43 +85,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerVectors);
-            ////if (input.Count != result.Count)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////if (input.Count != Factor.RowCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
-            ////}
-
-            ////input.CopyTo(result);
-            ////var order = Factor.RowCount;
-
-            ////// Solve L*Y = B;
-            ////int sum;
-            ////for (var i = 0; i < order; i++)
-            ////{
-            ////    sum = result[i];
-            ////    for (var k = i - 1; k >= 0; k--)
-            ////    {
-            ////        sum -= Factor.At(i, k)*result[k];
-            ////    }
-
-            ////    result[i] = sum/Factor.At(i, i);
-            ////}
-
-            ////// Solve L'*X = Y;
-            ////for (var i = order - 1; i >= 0; i--)
-            ////{
-            ////    sum = result[i];
-            ////    for (var k = i + 1; k < order; k++)
-            ////    {
-            ////        sum -= Factor.At(k, i)*result[k];
-            ////    }
-
-            ////    result[i] = sum/Factor.At(i, i);
-            ////}
         }
     }
 }

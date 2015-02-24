@@ -46,11 +46,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
     /// </remarks>
     internal sealed class DenseQR : QR
     {
-        /////// <summary>
-        ///////  Gets or sets Tau vector. Contains additional information on Q - used for native solver.
-        /////// </summary>
-        ////int[] Tau { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DenseQR"/> class. This object will compute the
         /// QR factorization when the constructor is called and cache it's factorization.
@@ -62,36 +57,12 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         public static DenseQR Create(DenseMatrix matrix, QRMethod method = QRMethod.Full)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (matrix.RowCount < matrix.ColumnCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
-            ////}
-
-            ////var tau = new int[Math.Min(matrix.RowCount, matrix.ColumnCount)];
-            ////Matrix<int> q;
-            ////Matrix<int> r;
-
-            ////if (method == QRMethod.Full)
-            ////{
-            ////    r = matrix.Clone();
-            ////    q = new DenseMatrix(matrix.RowCount);
-            ////    Control.LinearAlgebraProvider.QRFactor(((DenseMatrix) r).Values, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix) q).Values, tau);
-            ////}
-            ////else
-            ////{
-            ////    q = matrix.Clone();
-            ////    r = new DenseMatrix(matrix.ColumnCount);
-            ////    Control.LinearAlgebraProvider.ThinQRFactor(((DenseMatrix) q).Values, matrix.RowCount, matrix.ColumnCount, ((DenseMatrix) r).Values, tau);
-            ////}
-
-            ////return new DenseQR(q, r, method, tau);
         }
 
         DenseQR(Matrix<int> q, Matrix<int> rFull, QRMethod method, int[] tau)
             : base(q, rFull, method)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////Tau = tau;
         }
 
         /// <summary>
@@ -103,37 +74,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////// The solution X should have the same number of columns as B
-            ////if (input.ColumnCount != result.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////// The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            ////if (Q.RowCount != input.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            ////}
-
-            ////// The solution X row dimension is equal to the column dimension of A
-            ////if (FullR.ColumnCount != result.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////var dinput = input as DenseMatrix;
-            ////if (dinput == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do QR factorization for dense matrices at the moment.");
-            ////}
-
-            ////var dresult = result as DenseMatrix;
-            ////if (dresult == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do QR factorization for dense matrices at the moment.");
-            ////}
-
-            ////Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix) Q).Values, ((DenseMatrix) FullR).Values, Q.RowCount, FullR.ColumnCount, Tau, dinput.Values, input.ColumnCount, dresult.Values, Method);
         }
 
         /// <summary>
@@ -145,32 +85,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerVectors);
-            ////// Ax=b where A is an m x n matrix
-            ////// Check that b is a column vector with m entries
-            ////if (Q.RowCount != input.Count)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////// Check that x is a column vector with n entries
-            ////if (FullR.ColumnCount != result.Count)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(FullR, result);
-            ////}
-
-            ////var dinput = input as DenseVector;
-            ////if (dinput == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do QR factorization for dense vectors at the moment.");
-            ////}
-
-            ////var dresult = result as DenseVector;
-            ////if (dresult == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do QR factorization for dense vectors at the moment.");
-            ////}
-
-            ////Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix) Q).Values, ((DenseMatrix) FullR).Values, Q.RowCount, FullR.ColumnCount, Tau, dinput.Values, 1, dresult.Values, Method);
         }
     }
 }

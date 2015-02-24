@@ -68,7 +68,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////return S.Count(t => !Math.Abs(t).AlmostEqual(0.0f));
             }
         }
 
@@ -82,7 +81,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////return Math.Abs(S[0]);
             }
         }
 
@@ -96,8 +94,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////var tmp = Math.Min(U.RowCount, VT.ColumnCount) - 1;
-                ////return Math.Abs(S[0]) / Math.Abs(S[tmp]);
             }
         }
 
@@ -110,22 +106,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////if (U.RowCount != VT.ColumnCount)
-                ////{
-                ////    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-                ////}
-
-                ////var det = 1.0;
-                ////foreach (var value in S)
-                ////{
-                ////    det *= value;
-                ////    if (Math.Abs(value).AlmostEqual(0.0f))
-                ////    {
-                ////        return 0;
-                ////    }
-                ////}
-
-                ////return Convert.ToSingle(Math.Abs(det));
             }
         }
     }

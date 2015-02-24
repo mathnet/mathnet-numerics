@@ -56,15 +56,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         public static DenseCholesky Create(DenseMatrix matrix)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (matrix.RowCount != matrix.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            ////}
-
-            ////// Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
-            ////var factor = (DenseMatrix) matrix.Clone();
-            ////Control.LinearAlgebraProvider.CholeskyFactor(factor.Values, factor.RowCount);
-            ////return new DenseCholesky(factor);
         }
 
         DenseCholesky(Matrix<int> factor)
@@ -82,39 +73,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (result.RowCount != input.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            ////}
-
-            ////if (result.ColumnCount != input.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////if (input.RowCount != Factor.RowCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
-            ////}
-
-            ////var dinput = input as DenseMatrix;
-            ////if (dinput == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do Cholesky factorization for dense matrices at the moment.");
-            ////}
-
-            ////var dresult = result as DenseMatrix;
-            ////if (dresult == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do Cholesky factorization for dense matrices at the moment.");
-            ////}
-
-            ////// Copy the contents of input to result.
-            ////Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length*Constants.SizeOfFloat);
-
-            ////// Cholesky solve by overwriting result.
-            ////var dfactor = (DenseMatrix) Factor;
-            ////Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, dresult.ColumnCount);
         }
 
         /// <summary>
@@ -126,34 +84,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (input.Count != result.Count)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////if (input.Count != Factor.RowCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
-            ////}
-
-            ////var dinput = input as DenseVector;
-            ////if (dinput == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do Cholesky factorization for dense vectors at the moment.");
-            ////}
-
-            ////var dresult = result as DenseVector;
-            ////if (dresult == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do Cholesky factorization for dense vectors at the moment.");
-            ////}
-
-            ////// Copy the contents of input to result.
-            ////Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length*Constants.SizeOfFloat);
-
-            ////// Cholesky solve by overwriting result.
-            ////var dfactor = (DenseMatrix) Factor;
-            ////Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, 1);
         }
     }
 }

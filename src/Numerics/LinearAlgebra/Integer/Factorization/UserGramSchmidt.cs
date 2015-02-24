@@ -54,41 +54,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         public static UserGramSchmidt Create(Matrix<int> matrix)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (matrix.RowCount < matrix.ColumnCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
-            ////}
-
-            ////var q = matrix.Clone();
-            ////var r = Matrix<int>.Build.SameAs(matrix, matrix.ColumnCount, matrix.ColumnCount);
-
-            ////for (var k = 0; k < q.ColumnCount; k++)
-            ////{
-            ////    var norm = (int) q.Column(k).L2Norm();
-            ////    if (norm == 0f)
-            ////    {
-            ////        throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
-            ////    }
-
-            ////    r.At(k, k, norm);
-            ////    for (var i = 0; i < q.RowCount; i++)
-            ////    {
-            ////        q.At(i, k, q.At(i, k) / norm);
-            ////    }
-
-            ////    for (var j = k + 1; j < q.ColumnCount; j++)
-            ////    {
-            ////        var dot = q.Column(k).DotProduct(q.Column(j));
-            ////        r.At(k, j, dot);
-            ////        for (var i = 0; i < q.RowCount; i++)
-            ////        {
-            ////            var value = q.At(i, j) - (q.At(i, k) * dot);
-            ////            q.At(i, j, value);
-            ////        }
-            ////    }
-            ////}
-
-            ////return new UserGramSchmidt(q, r);
         }
 
         UserGramSchmidt(Matrix<int> q, Matrix<int> rFull)
@@ -106,71 +71,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////// The solution X should have the same number of columns as B
-            ////if (input.ColumnCount != result.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////// The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            ////if (Q.RowCount != input.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            ////}
-
-            ////// The solution X row dimension is equal to the column dimension of A
-            ////if (Q.ColumnCount != result.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////var inputCopy = input.Clone();
-            
-            ////// Compute Y = transpose(Q)*B
-            ////var column = new int[Q.RowCount];
-            ////for (var j = 0; j < input.ColumnCount; j++)
-            ////{
-            ////    for (var k = 0; k < Q.RowCount; k++)
-            ////    {
-            ////        column[k] = inputCopy.At(k, j);
-            ////    }
-
-            ////    for (var i = 0; i < Q.ColumnCount; i++)
-            ////    {
-            ////        int s = 0;
-            ////        for (var k = 0; k < Q.RowCount; k++)
-            ////        {
-            ////            s += Q.At(k, i) * column[k];
-            ////        }
-
-            ////        inputCopy.At(i, j, s);
-            ////    }
-            ////}
-
-            ////// Solve R*X = Y;
-            ////for (var k = Q.ColumnCount - 1; k >= 0; k--)
-            ////{
-            ////    for (var j = 0; j < input.ColumnCount; j++)
-            ////    {
-            ////        inputCopy.At(k, j, inputCopy.At(k, j) / FullR.At(k, k));
-            ////    }
-
-            ////    for (var i = 0; i < k; i++)
-            ////    {
-            ////        for (var j = 0; j < input.ColumnCount; j++)
-            ////        {
-            ////            inputCopy.At(i, j, inputCopy.At(i, j) - (inputCopy.At(k, j) * FullR.At(i, k)));
-            ////        }
-            ////    }
-            ////}
-
-            ////for (var i = 0; i < FullR.ColumnCount; i++)
-            ////{
-            ////    for (var j = 0; j < input.ColumnCount; j++)
-            ////    {
-            ////        result.At(i, j, inputCopy.At(i, j));
-            ////    }
-            ////}
         }
 
         /// <summary>
@@ -182,53 +82,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerVectors);
-            ////// Ax=b where A is an m x n matrix
-            ////// Check that b is a column vector with m entries
-            ////if (Q.RowCount != input.Count)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////// Check that x is a column vector with n entries
-            ////if (Q.ColumnCount != result.Count)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(Q, result);
-            ////}
-
-            ////var inputCopy = input.Clone();
-
-            ////// Compute Y = transpose(Q)*B
-            ////var column = new int[Q.RowCount];
-            ////for (var k = 0; k < Q.RowCount; k++)
-            ////{
-            ////    column[k] = inputCopy[k];
-            ////}
-
-            ////for (var i = 0; i < Q.ColumnCount; i++)
-            ////{
-            ////    int s = 0;
-            ////    for (var k = 0; k < Q.RowCount; k++)
-            ////    {
-            ////        s += Q.At(k, i) * column[k];
-            ////    }
-
-            ////    inputCopy[i] = s;
-            ////}
-
-            ////// Solve R*X = Y;
-            ////for (var k = Q.ColumnCount - 1; k >= 0; k--)
-            ////{
-            ////    inputCopy[k] /= FullR.At(k, k);
-            ////    for (var i = 0; i < k; i++)
-            ////    {
-            ////        inputCopy[i] -= inputCopy[k] * FullR.At(i, k);
-            ////    }
-            ////}
-
-            ////for (var i = 0; i < FullR.ColumnCount; i++)
-            ////{
-            ////    result[i] = inputCopy[i];
-            ////}
         }
     }
 }

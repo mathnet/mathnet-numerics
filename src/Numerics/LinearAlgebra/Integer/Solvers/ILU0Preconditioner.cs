@@ -50,12 +50,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
         }
 
-        /////// <summary>
-        /////// The matrix holding the lower (L) and upper (U) matrices. The
-        /////// decomposition matrices are combined to reduce storage.
-        /////// </summary>
-        ////SparseMatrix _decompositionLU;
-
         /// <summary>
         /// Returns the upper triagonal matrix that was created during the LU decomposition.
         /// </summary>
@@ -64,16 +58,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////var result = new SparseMatrix(_decompositionLU.RowCount);
-            ////for (var i = 0; i < _decompositionLU.RowCount; i++)
-            ////{
-            ////    for (var j = i; j < _decompositionLU.ColumnCount; j++)
-            ////    {
-            ////        result[i, j] = _decompositionLU[i, j];
-            ////    }
-            ////}
-
-            ////return result;
         }
 
         /// <summary>
@@ -84,23 +68,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////var result = new SparseMatrix(_decompositionLU.RowCount);
-            ////for (var i = 0; i < _decompositionLU.RowCount; i++)
-            ////{
-            ////    for (var j = 0; j <= i; j++)
-            ////    {
-            ////        if (i == j)
-            ////        {
-            ////            result[i, j] = 1.0f;
-            ////        }
-            ////        else
-            ////        {
-            ////            result[i, j] = _decompositionLU[i, j];
-            ////        }
-            ////    }
-            ////}
-
-            ////return result;
         }
 
         /// <summary>
@@ -113,59 +80,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (matrix == null)
-            ////{
-            ////    throw new ArgumentNullException("matrix");
-            ////}
-
-            ////if (matrix.RowCount != matrix.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
-            ////}
-
-            ////_decompositionLU = SparseMatrix.OfMatrix(matrix);
-
-            ////// M == A
-            ////// for i = 2, ... , n do
-            //////     for k = 1, .... , i - 1 do
-            //////         if (i,k) == NZ(Z) then
-            //////             compute z(i,k) = z(i,k) / z(k,k);
-            //////             for j = k + 1, ...., n do
-            //////                 if (i,j) == NZ(Z) then
-            //////                     compute z(i,j) = z(i,j) - z(i,k) * z(k,j)
-            //////                 end
-            //////             end
-            //////         end
-            //////     end
-            ////// end
-            ////for (var i = 0; i < _decompositionLU.RowCount; i++)
-            ////{
-            ////    for (var k = 0; k < i; k++)
-            ////    {
-            ////        if (_decompositionLU[i, k] != 0.0)
-            ////        {
-            ////            var t = _decompositionLU[i, k]/_decompositionLU[k, k];
-            ////            _decompositionLU[i, k] = t;
-            ////            if (_decompositionLU[k, i] != 0.0)
-            ////            {
-            ////                _decompositionLU[i, i] = _decompositionLU[i, i] - (t*_decompositionLU[k, i]);
-            ////            }
-
-            ////            for (var j = k + 1; j < _decompositionLU.RowCount; j++)
-            ////            {
-            ////                if (j == i)
-            ////                {
-            ////                    continue;
-            ////                }
-
-            ////                if (_decompositionLU[i, j] != 0.0)
-            ////                {
-            ////                    _decompositionLU[i, j] = _decompositionLU[i, j] - (t*_decompositionLU[k, j]);
-            ////                }
-            ////            }
-            ////        }
-            ////    }
-            ////}
         }
 
         /// <summary>
@@ -177,59 +91,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerVectors);
-            ////if (_decompositionLU == null)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
-            ////}
-
-            ////if ((lhs.Count != rhs.Count) || (lhs.Count != _decompositionLU.RowCount))
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////// Solve:
-            ////// Lz = y
-            ////// Which gives
-            ////// for (int i = 1; i < matrix.RowLength; i++)
-            ////// {
-            //////     z_i = l_ii^-1 * (y_i - SUM_(j<i) l_ij * z_j)
-            ////// }
-            ////// NOTE: l_ii should be 1 because u_ii has to be the value
-            ////var rowValues = new DenseVector(_decompositionLU.RowCount);
-            ////for (var i = 0; i < _decompositionLU.RowCount; i++)
-            ////{
-            ////    // Clear the rowValues 
-            ////    rowValues.Clear();
-            ////    _decompositionLU.Row(i, rowValues);
-
-            ////    var sum = 0.0f;
-            ////    for (var j = 0; j < i; j++)
-            ////    {
-            ////        sum += rowValues[j]*lhs[j];
-            ////    }
-
-            ////    lhs[i] = rhs[i] - sum;
-            ////}
-
-            ////// Solve:
-            ////// Ux = z
-            ////// Which gives
-            ////// for (int i = matrix.RowLength - 1; i > -1; i--)
-            ////// {
-            //////     x_i = u_ii^-1 * (z_i - SUM_(j > i) u_ij * x_j)
-            ////// }
-            ////for (var i = _decompositionLU.RowCount - 1; i > -1; i--)
-            ////{
-            ////    _decompositionLU.Row(i, rowValues);
-
-            ////    var sum = 0.0f;
-            ////    for (var j = _decompositionLU.RowCount - 1; j > i; j--)
-            ////    {
-            ////        sum += rowValues[j]*lhs[j];
-            ////    }
-
-            ////    lhs[i] = 1/rowValues[i]*(lhs[i] - sum);
-            ////}
         }
     }
 }

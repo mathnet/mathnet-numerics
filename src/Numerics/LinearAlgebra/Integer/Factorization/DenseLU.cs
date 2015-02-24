@@ -54,24 +54,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         public static DenseLU Create(DenseMatrix matrix)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (matrix == null)
-            ////{
-            ////    throw new ArgumentNullException("matrix");
-            ////}
-
-            ////if (matrix.RowCount != matrix.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            ////}
-
-            ////// Create an array for the pivot indices.
-            ////var pivots = new int[matrix.RowCount];
-
-            ////// Create a new matrix for the LU factors, then perform factorization (while overwriting).
-            ////var factors = (DenseMatrix) matrix.Clone();
-            ////Control.LinearAlgebraProvider.LUFactor(factors.Values, factors.RowCount, pivots);
-
-            ////return new DenseLU(factors, pivots);
         }
 
         DenseLU(Matrix<int> factors, int[] pivots)
@@ -89,51 +71,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////// Check for proper arguments.
-            ////if (input == null)
-            ////{
-            ////    throw new ArgumentNullException("input");
-            ////}
-
-            ////if (result == null)
-            ////{
-            ////    throw new ArgumentNullException("result");
-            ////}
-
-            ////// Check for proper dimensions.
-            ////if (result.RowCount != input.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            ////}
-
-            ////if (result.ColumnCount != input.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////if (input.RowCount != Factors.RowCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factors);
-            ////}
-
-            ////var dinput = input as DenseMatrix;
-            ////if (dinput == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do LU factorization for dense matrices at the moment.");
-            ////}
-
-            ////var dresult = result as DenseMatrix;
-            ////if (dresult == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do LU factorization for dense matrices at the moment.");
-            ////}
-
-            ////// Copy the contents of input to result.
-            ////Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length*Constants.SizeOfFloat);
-
-            ////// LU solve by overwriting result.
-            ////var dfactors = (DenseMatrix) Factors;
-            ////Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
         }
 
         /// <summary>
@@ -145,46 +82,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerVectors);
-            ////// Check for proper arguments.
-            ////if (input == null)
-            ////{
-            ////    throw new ArgumentNullException("input");
-            ////}
-
-            ////if (result == null)
-            ////{
-            ////    throw new ArgumentNullException("result");
-            ////}
-
-            ////// Check for proper dimensions.
-            ////if (input.Count != result.Count)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////if (input.Count != Factors.RowCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factors);
-            ////}
-
-            ////var dinput = input as DenseVector;
-            ////if (dinput == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do LU factorization for dense vectors at the moment.");
-            ////}
-
-            ////var dresult = result as DenseVector;
-            ////if (dresult == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do LU factorization for dense vectors at the moment.");
-            ////}
-
-            ////// Copy the contents of input to result.
-            ////Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length*Constants.SizeOfFloat);
-
-            ////// LU solve by overwriting result.
-            ////var dfactors = (DenseMatrix) Factors;
-            ////Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
         }
 
         /// <summary>
@@ -195,9 +92,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible since this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////var result = (DenseMatrix)Factors.Clone();
-            ////Control.LinearAlgebraProvider.LUInverseFactored(result.Values, result.RowCount, Pivots);
-            ////return result;
         }
     }
 }

@@ -73,18 +73,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////var det = Complex.One;
-                ////for (var i = 0; i < EigenValues.Count; i++)
-                ////{
-                ////    det *= EigenValues[i];
-
-                ////    if (((Numerics.Complex32) EigenValues[i]).AlmostEqual(Numerics.Complex32.Zero))
-                ////    {
-                ////        return 0;
-                ////    }
-                ////}
-
-                ////return Convert.ToSingle(det.Magnitude);
             }
         }
 
@@ -98,18 +86,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////var rank = 0;
-                ////for (var i = 0; i < EigenValues.Count; i++)
-                ////{
-                ////    if (((Numerics.Complex32) EigenValues[i]).AlmostEqual(Numerics.Complex32.Zero))
-                ////    {
-                ////        continue;
-                ////    }
-
-                ////    rank++;
-                ////}
-
-                ////return rank;
             }
         }
 
@@ -123,15 +99,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////for (var i = 0; i < EigenValues.Count; i++)
-                ////{
-                ////    if (EigenValues[i].AlmostEqual(Complex.Zero))
-                ////    {
-                ////        return false;
-                ////    }
-                ////}
-
-                ////return true;
             }
         }
     }

@@ -510,13 +510,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
                 return;
             }
 
-            ////var diagResult = result as DiagonalMatrix;
-            ////if (diagResult != null)
-            ////{
-            ////    Control.LinearAlgebraProvider.ScaleArray(1.0f/divisor, _data, diagResult._data);
-            ////    return;
-            ////}
-
             result.Clear();
             for (int i = 0; i < _data.Length; i++)
             {
@@ -655,15 +648,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         public override int ConditionNumber()
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////var maxSv = int.MinValue;
-            ////var minSv = int.MaxValue;
-            ////foreach (var t in _data)
-            ////{
-            ////    maxSv = Math.Max(maxSv, Math.Abs(t));
-            ////    minSv = Math.Min(minSv, Math.Abs(t));
-            ////}
-
-            ////return maxSv / minSv;
         }
 
         /// <summary>Computes the inverse of this matrix.</summary>
@@ -673,25 +657,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer
         public override Matrix<int> Inverse()
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (RowCount != ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            ////}
-
-            ////var inverse = (DiagonalMatrix)Clone();
-            ////for (var i = 0; i < _data.Length; i++)
-            ////{
-            ////    if (_data[i] != 0.0)
-            ////    {
-            ////        inverse._data[i] = 1.0f / _data[i];
-            ////    }
-            ////    else
-            ////    {
-            ////        throw new ArgumentException(Resources.ArgumentMatrixNotSingular);
-            ////    }
-            ////}
-
-            ////return inverse;
         }
 
         /// <summary>

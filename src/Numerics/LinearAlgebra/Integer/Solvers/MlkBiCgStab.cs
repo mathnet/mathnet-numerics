@@ -67,21 +67,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
         }
 
-        /////// <summary>
-        /////// The default number of starting vectors.
-        /////// </summary>
-        ////const int DefaultNumberOfStartingVectors = 50;
-
-        /////// <summary>
-        /////// The collection of starting vectors which are used as the basis for the Krylov sub-space.
-        /////// </summary>
-        ////IList<Vector<int>> _startingVectors;
-
-        /////// <summary>
-        /////// The number of starting vectors used by the algorithm
-        /////// </summary>
-        ////int _numberOfStartingVectors = DefaultNumberOfStartingVectors;
-
         /// <summary>
         /// Gets or sets the number of starting vectors.
         /// </summary>
@@ -96,7 +81,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                //return _numberOfStartingVectors;
             }
 
             [DebuggerStepThrough]
@@ -104,12 +88,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////if (value <= 1)
-                ////{
-                ////    throw new ArgumentOutOfRangeException("value");
-                ////}
-
-                ////_numberOfStartingVectors = value;
             }
         }
 
@@ -120,7 +98,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            //_numberOfStartingVectors = DefaultNumberOfStartingVectors;
         }
 
         /// <summary>
@@ -134,7 +111,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                //return _startingVectors;
             }
 
             [DebuggerStepThrough]
@@ -142,114 +118,8 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
             {
                 // Shouldn't be possible as this cannot be constructed
                 throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-                ////if ((value == null) || (value.Count == 0))
-                ////{
-                ////    _startingVectors = null;
-                ////}
-                ////else
-                ////{
-                ////    _startingVectors = value;
-                ////}
             }
         }
-
-        /////// <summary>
-        /////// Gets the number of starting vectors to create
-        /////// </summary>
-        /////// <param name="maximumNumberOfStartingVectors">Maximum number</param>
-        /////// <param name="numberOfVariables">Number of variables</param>
-        /////// <returns>Number of starting vectors to create</returns>
-        ////static int NumberOfStartingVectorsToCreate(int maximumNumberOfStartingVectors, int numberOfVariables)
-        ////{
-        ////    // Create no more starting vectors than the size of the problem - 1
-        ////    return Math.Min(maximumNumberOfStartingVectors, (numberOfVariables - 1));
-        ////}
-
-        /////// <summary>
-        /////// Returns an array of starting vectors.
-        /////// </summary>
-        /////// <param name="maximumNumberOfStartingVectors">The maximum number of starting vectors that should be created.</param>
-        /////// <param name="numberOfVariables">The number of variables.</param>
-        /////// <returns>
-        ///////  An array with starting vectors. The array will never be larger than the
-        ///////  <paramref name="maximumNumberOfStartingVectors"/> but it may be smaller if
-        ///////  the <paramref name="numberOfVariables"/> is smaller than 
-        ///////  the <paramref name="maximumNumberOfStartingVectors"/>.
-        /////// </returns>
-        ////static IList<Vector<int>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
-        ////{
-        ////    // Create no more starting vectors than the size of the problem - 1
-        ////    // Get random values and then orthogonalize them with
-        ////    // modified Gramm - Schmidt
-        ////    var count = NumberOfStartingVectorsToCreate(maximumNumberOfStartingVectors, numberOfVariables);
-
-        ////    // Get a random set of samples based on the standard normal distribution with
-        ////    // mean = 0 and sd = 1
-        ////    var distribution = new Normal();
-
-        ////    var matrix = new DenseMatrix(numberOfVariables, count);
-        ////    for (var i = 0; i < matrix.ColumnCount; i++)
-        ////    {
-        ////        var samples = new int[matrix.RowCount];
-        ////        for (var j = 0; j < matrix.RowCount; j++)
-        ////        {
-        ////            samples[j] = (int)distribution.Sample();
-        ////        }
-
-        ////        // Set the column
-        ////        matrix.SetColumn(i, samples);
-        ////    }
-
-        ////    // Compute the orthogonalization.
-        ////    var gs = matrix.GramSchmidt();
-        ////    var orthogonalMatrix = gs.Q;
-
-        ////    // Now transfer this to vectors
-        ////    var result = new List<Vector<int>>();
-        ////    for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
-        ////    {
-        ////        result.Add(orthogonalMatrix.Column(i));
-
-        ////        // Normalize the result vector
-        ////        result[i].Multiply(1/(int) result[i].L2Norm(), result[i]);
-        ////    }
-
-        ////    return result;
-        ////}
-
-        /////// <summary>
-        /////// Create random vectors array
-        /////// </summary>
-        /////// <param name="arraySize">Number of vectors</param>
-        /////// <param name="vectorSize">Size of each vector</param>
-        /////// <returns>Array of random vectors</returns>
-        ////static Vector<int>[] CreateVectorArray(int arraySize, int vectorSize)
-        ////{
-        ////    var result = new Vector<int>[arraySize];
-        ////    for (var i = 0; i < result.Length; i++)
-        ////    {
-        ////        result[i] = new DenseVector(vectorSize);
-        ////    }
-
-        ////    return result;
-        ////}
-
-        /////// <summary>
-        /////// Calculates the <c>true</c> residual of the matrix equation Ax = b according to: residual = b - Ax
-        /////// </summary>
-        /////// <param name="matrix">Source <see cref="Matrix"/>A.</param>
-        /////// <param name="residual">Residual <see cref="Vector"/> data.</param>
-        /////// <param name="x">x <see cref="Vector"/> data.</param>
-        /////// <param name="b">b <see cref="Vector"/> data.</param>
-        ////static void CalculateTrueResidual(Matrix<int> matrix, Vector<int> residual, Vector<int> x, Vector<int> b)
-        ////{
-        ////    // -Ax = residual
-        ////    matrix.Multiply(x, residual);
-        ////    residual.Multiply(-1, residual);
-
-        ////    // residual + b
-        ////    residual.Add(b, residual);
-        ////}
 
         /// <summary>
         /// Solves the matrix equation Ax = b, where A is the coefficient matrix, b is the
@@ -264,300 +134,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Solvers
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (matrix.RowCount != matrix.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
-            ////}
-
-            ////if (result.Count != input.Count)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////if (input.Count != matrix.RowCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(input, matrix);
-            ////}
-
-            ////if (iterator == null)
-            ////{
-            ////    iterator = new Iterator<int>();
-            ////}
-
-            ////if (preconditioner == null)
-            ////{
-            ////    preconditioner = new UnitPreconditioner<int>();
-            ////}
-
-            ////preconditioner.Initialize(matrix);
-
-            ////// Choose an initial guess x_0
-            ////// Take x_0 = 0
-            ////var xtemp = new DenseVector(input.Count);
-
-            ////// Choose k vectors q_1, q_2, ..., q_k
-            ////// Build a new set if:
-            ////// a) the stored set doesn't exist (i.e. == null)
-            ////// b) Is of an incorrect length (i.e. too long)
-            ////// c) The vectors are of an incorrect length (i.e. too long or too short)
-            ////var useOld = false;
-            ////if (_startingVectors != null)
-            ////{
-            ////    // We don't accept collections with zero starting vectors so ...
-            ////    if (_startingVectors.Count <= NumberOfStartingVectorsToCreate(_numberOfStartingVectors, input.Count))
-            ////    {
-            ////        // Only check the first vector for sizing. If that matches we assume the 
-            ////        // other vectors match too. If they don't the process will crash
-            ////        if (_startingVectors[0].Count == input.Count)
-            ////        {
-            ////            useOld = true;
-            ////        }
-            ////    }
-            ////}
-
-            ////_startingVectors = useOld ? _startingVectors : CreateStartingVectors(_numberOfStartingVectors, input.Count);
-
-            ////// Store the number of starting vectors. Not really necessary but easier to type :)
-            ////var k = _startingVectors.Count;
-
-            ////// r_0 = b - Ax_0
-            ////// This is basically a SAXPY so it could be made a lot faster
-            ////var residuals = new DenseVector(matrix.RowCount);
-            ////CalculateTrueResidual(matrix, residuals, xtemp, input);
-
-            ////// Define the temporary scalars
-            ////var c = new int[k];
-
-            ////// Define the temporary vectors
-            ////var gtemp = new DenseVector(residuals.Count);
-
-            ////var u = new DenseVector(residuals.Count);
-            ////var utemp = new DenseVector(residuals.Count);
-            ////var temp = new DenseVector(residuals.Count);
-            ////var temp1 = new DenseVector(residuals.Count);
-            ////var temp2 = new DenseVector(residuals.Count);
-
-            ////var zd = new DenseVector(residuals.Count);
-            ////var zg = new DenseVector(residuals.Count);
-            ////var zw = new DenseVector(residuals.Count);
-
-            ////var d = CreateVectorArray(_startingVectors.Count, residuals.Count);
-
-            ////// g_0 = r_0
-            ////var g = CreateVectorArray(_startingVectors.Count, residuals.Count);
-            ////residuals.CopyTo(g[k - 1]);
-
-            ////var w = CreateVectorArray(_startingVectors.Count, residuals.Count);
-
-            ////// FOR (j = 0, 1, 2 ....)
-            ////var iterationNumber = 0;
-            ////while (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) == IterationStatus.Continue)
-            ////{
-            ////    // SOLVE M g~_((j-1)k+k) = g_((j-1)k+k)
-            ////    preconditioner.Approximate(g[k - 1], gtemp);
-
-            ////    // w_((j-1)k+k) = A g~_((j-1)k+k)
-            ////    matrix.Multiply(gtemp, w[k - 1]);
-
-            ////    // c_((j-1)k+k) = q^T_1 w_((j-1)k+k)
-            ////    c[k - 1] = _startingVectors[0].DotProduct(w[k - 1]);
-            ////    if (c[k - 1].AlmostEqualNumbersBetween(0, 1))
-            ////    {
-            ////        throw new NumericalBreakdownException();
-            ////    }
-
-            ////    // alpha_(jk+1) = q^T_1 r_((j-1)k+k) / c_((j-1)k+k)
-            ////    var alpha = _startingVectors[0].DotProduct(residuals)/c[k - 1];
-
-            ////    // u_(jk+1) = r_((j-1)k+k) - alpha_(jk+1) w_((j-1)k+k)
-            ////    w[k - 1].Multiply(-alpha, temp);
-            ////    residuals.Add(temp, u);
-
-            ////    // SOLVE M u~_(jk+1) = u_(jk+1)
-            ////    preconditioner.Approximate(u, temp1);
-            ////    temp1.CopyTo(utemp);
-
-            ////    // rho_(j+1) = -u^t_(jk+1) A u~_(jk+1) / ||A u~_(jk+1)||^2
-            ////    matrix.Multiply(temp1, temp);
-            ////    var rho = temp.DotProduct(temp);
-
-            ////    // If rho is zero then temp is a zero vector and we're probably
-            ////    // about to have zero residuals (i.e. an exact solution).
-            ////    // So set rho to 1.0 because in the next step it will turn to zero.
-            ////    if (rho.AlmostEqualNumbersBetween(0, 1))
-            ////    {
-            ////        rho = 1.0f;
-            ////    }
-
-            ////    rho = -u.DotProduct(temp)/rho;
-
-            ////    // r_(jk+1) = rho_(j+1) A u~_(jk+1) + u_(jk+1)
-            ////    u.CopyTo(residuals);
-
-            ////    // Reuse temp
-            ////    temp.Multiply(rho, temp);
-            ////    residuals.Add(temp, temp2);
-            ////    temp2.CopyTo(residuals);
-
-            ////    // x_(jk+1) = x_((j-1)k_k) - rho_(j+1) u~_(jk+1) + alpha_(jk+1) g~_((j-1)k+k)
-            ////    utemp.Multiply(-rho, temp);
-            ////    xtemp.Add(temp, temp2);
-            ////    temp2.CopyTo(xtemp);
-
-            ////    gtemp.Multiply(alpha, gtemp);
-            ////    xtemp.Add(gtemp, temp2);
-            ////    temp2.CopyTo(xtemp);
-
-            ////    // Check convergence and stop if we are converged.
-            ////    if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue)
-            ////    {
-            ////        // Calculate the true residual
-            ////        CalculateTrueResidual(matrix, residuals, xtemp, input);
-
-            ////        // Now recheck the convergence
-            ////        if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue)
-            ////        {
-            ////            // We're all good now.
-            ////            // Exit from the while loop.
-            ////            break;
-            ////        }
-            ////    }
-
-            ////    // FOR (i = 1,2, ...., k)
-            ////    for (var i = 0; i < k; i++)
-            ////    {
-            ////        // z_d = u_(jk+1)
-            ////        u.CopyTo(zd);
-
-            ////        // z_g = r_(jk+i)
-            ////        residuals.CopyTo(zg);
-
-            ////        // z_w = 0
-            ////        zw.Clear();
-
-            ////        // FOR (s = i, ...., k-1) AND j >= 1
-            ////        int beta;
-            ////        if (iterationNumber >= 1)
-            ////        {
-            ////            for (var s = i; s < k - 1; s++)
-            ////            {
-            ////                // beta^(jk+i)_((j-1)k+s) = -q^t_(s+1) z_d / c_((j-1)k+s)
-            ////                beta = -_startingVectors[s + 1].DotProduct(zd)/c[s];
-
-            ////                // z_d = z_d + beta^(jk+i)_((j-1)k+s) d_((j-1)k+s)
-            ////                d[s].Multiply(beta, temp);
-            ////                zd.Add(temp, temp2);
-            ////                temp2.CopyTo(zd);
-
-            ////                // z_g = z_g + beta^(jk+i)_((j-1)k+s) g_((j-1)k+s)
-            ////                g[s].Multiply(beta, temp);
-            ////                zg.Add(temp, temp2);
-            ////                temp2.CopyTo(zg);
-
-            ////                // z_w = z_w + beta^(jk+i)_((j-1)k+s) w_((j-1)k+s)
-            ////                w[s].Multiply(beta, temp);
-            ////                zw.Add(temp, temp2);
-            ////                temp2.CopyTo(zw);
-            ////            }
-            ////        }
-
-            ////        beta = rho*c[k - 1];
-            ////        if (beta.AlmostEqualNumbersBetween(0, 1))
-            ////        {
-            ////            throw new NumericalBreakdownException();
-            ////        }
-
-            ////        // beta^(jk+i)_((j-1)k+k) = -(q^T_1 (r_(jk+1) + rho_(j+1) z_w)) / (rho_(j+1) c_((j-1)k+k))
-            ////        zw.Multiply(rho, temp2);
-            ////        residuals.Add(temp2, temp);
-            ////        beta = -_startingVectors[0].DotProduct(temp)/beta;
-
-            ////        // z_g = z_g + beta^(jk+i)_((j-1)k+k) g_((j-1)k+k)
-            ////        g[k - 1].Multiply(beta, temp);
-            ////        zg.Add(temp, temp2);
-            ////        temp2.CopyTo(zg);
-
-            ////        // z_w = rho_(j+1) (z_w + beta^(jk+i)_((j-1)k+k) w_((j-1)k+k))
-            ////        w[k - 1].Multiply(beta, temp);
-            ////        zw.Add(temp, temp2);
-            ////        temp2.CopyTo(zw);
-            ////        zw.Multiply(rho, zw);
-
-            ////        // z_d = r_(jk+i) + z_w
-            ////        residuals.Add(zw, zd);
-
-            ////        // FOR (s = 1, ... i - 1)
-            ////        for (var s = 0; s < i - 1; s++)
-            ////        {
-            ////            // beta^(jk+i)_(jk+s) = -q^T_s+1 z_d / c_(jk+s)
-            ////            beta = -_startingVectors[s + 1].DotProduct(zd)/c[s];
-
-            ////            // z_d = z_d + beta^(jk+i)_(jk+s) * d_(jk+s)
-            ////            d[s].Multiply(beta, temp);
-            ////            zd.Add(temp, temp2);
-            ////            temp2.CopyTo(zd);
-
-            ////            // z_g = z_g + beta^(jk+i)_(jk+s) * g_(jk+s)
-            ////            g[s].Multiply(beta, temp);
-            ////            zg.Add(temp, temp2);
-            ////            temp2.CopyTo(zg);
-            ////        }
-
-            ////        // d_(jk+i) = z_d - u_(jk+i)
-            ////        zd.Subtract(u, d[i]);
-
-            ////        // g_(jk+i) = z_g + z_w
-            ////        zg.Add(zw, g[i]);
-
-            ////        // IF (i < k - 1)
-            ////        if (i < k - 1)
-            ////        {
-            ////            // c_(jk+1) = q^T_i+1 d_(jk+i)
-            ////            c[i] = _startingVectors[i + 1].DotProduct(d[i]);
-            ////            if (c[i].AlmostEqualNumbersBetween(0, 1))
-            ////            {
-            ////                throw new NumericalBreakdownException();
-            ////            }
-
-            ////            // alpha_(jk+i+1) = q^T_(i+1) u_(jk+i) / c_(jk+i)
-            ////            alpha = _startingVectors[i + 1].DotProduct(u)/c[i];
-
-            ////            // u_(jk+i+1) = u_(jk+i) - alpha_(jk+i+1) d_(jk+i)
-            ////            d[i].Multiply(-alpha, temp);
-            ////            u.Add(temp, temp2);
-            ////            temp2.CopyTo(u);
-
-            ////            // SOLVE M g~_(jk+i) = g_(jk+i)
-            ////            preconditioner.Approximate(g[i], gtemp);
-
-            ////            // x_(jk+i+1) = x_(jk+i) + rho_(j+1) alpha_(jk+i+1) g~_(jk+i)
-            ////            gtemp.Multiply(rho*alpha, temp);
-            ////            xtemp.Add(temp, temp2);
-            ////            temp2.CopyTo(xtemp);
-
-            ////            // w_(jk+i) = A g~_(jk+i)
-            ////            matrix.Multiply(gtemp, w[i]);
-
-            ////            // r_(jk+i+1) = r_(jk+i) - rho_(j+1) alpha_(jk+i+1) w_(jk+i)
-            ////            w[i].Multiply(-rho*alpha, temp);
-            ////            residuals.Add(temp, temp2);
-            ////            temp2.CopyTo(residuals);
-
-            ////            // We can check the residuals here if they're close
-            ////            if (iterator.DetermineStatus(iterationNumber, xtemp, input, residuals) != IterationStatus.Continue)
-            ////            {
-            ////                // Recalculate the residuals and go round again. This is done to ensure that
-            ////                // we have the proper residuals.
-            ////                CalculateTrueResidual(matrix, residuals, xtemp, input);
-            ////            }
-            ////        }
-            ////    } // END ITERATION OVER i
-
-            ////    iterationNumber++;
-            ////}
-
-            ////// copy the temporary result to the real result vector
-            ////xtemp.CopyTo(result);
         }
     }
 }

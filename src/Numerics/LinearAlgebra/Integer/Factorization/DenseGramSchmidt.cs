@@ -55,16 +55,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         public static DenseGramSchmidt Create(Matrix<int> matrix)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////if (matrix.RowCount < matrix.ColumnCount)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(matrix);
-            ////}
-
-            ////var q = (DenseMatrix)matrix.Clone();
-            ////var r = new DenseMatrix(matrix.ColumnCount, matrix.ColumnCount);
-            ////Factorize(q.Values, q.RowCount, q.ColumnCount, r.Values);
-
-            ////return new DenseGramSchmidt(q, r);
         }
 
         DenseGramSchmidt(Matrix<int> q, Matrix<int> rFull)
@@ -83,45 +73,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         private static void Factorize(int[] q, int rowsQ, int columnsQ, int[] r)
         {
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////for (var k = 0; k < columnsQ; k++)
-            ////{
-            ////    var norm = 0.0f;
-            ////    for (var i = 0; i < rowsQ; i++)
-            ////    {
-            ////        norm += q[(k * rowsQ) + i] * q[(k * rowsQ) + i];
-            ////    }
-
-            ////    norm = (int)Math.Sqrt(norm);
-            ////    if (norm == 0.0)
-            ////    {
-            ////        throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
-            ////    }
-
-            ////    r[(k * columnsQ) + k] = norm;
-            ////    for (var i = 0; i < rowsQ; i++)
-            ////    {
-            ////        q[(k * rowsQ) + i] /= norm;
-            ////    }
-
-            ////    for (var j = k + 1; j < columnsQ; j++)
-            ////    {
-            ////        var k1 = k;
-            ////        var j1 = j;
-                    
-            ////        var dot = 0.0f;
-            ////        for (var index = 0; index < rowsQ; index++)
-            ////        {
-            ////            dot += q[(k1 * rowsQ) + index] * q[(j1 * rowsQ) + index];
-            ////        }
-
-            ////        r[(j * columnsQ) + k] = dot;
-            ////        for (var i = 0; i < rowsQ; i++)
-            ////        {
-            ////            var value = q[(j * rowsQ) + i] - (q[(k * rowsQ) + i] * dot);
-            ////            q[(j * rowsQ) + i] = value;
-            ////        }
-            ////    }
-            ////}
         }
 
         /// <summary>
@@ -133,37 +84,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerMatrices);
-            ////// The solution X should have the same number of columns as B
-            ////if (input.ColumnCount != result.ColumnCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////// The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
-            ////if (Q.RowCount != input.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
-            ////}
-
-            ////// The solution X row dimension is equal to the column dimension of A
-            ////if (Q.ColumnCount != result.RowCount)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
-            ////}
-
-            ////var dinput = input as DenseMatrix;
-            ////if (dinput == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
-            ////}
-
-            ////var dresult = result as DenseMatrix;
-            ////if (dresult == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do GramSchmidt factorization for dense matrices at the moment.");
-            ////}
-
-            ////Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)Q).Values, ((DenseMatrix)FullR).Values, Q.RowCount, FullR.ColumnCount, null, dinput.Values, input.ColumnCount, dresult.Values, QRMethod.Thin);
         }
 
         /// <summary>
@@ -175,32 +95,6 @@ namespace MathNet.Numerics.LinearAlgebra.Integer.Factorization
         {
             // Shouldn't be possible as this cannot be constructed
             throw new NotSupportedException(Resources.NotSupportedForIntegerVectors);
-            ////// Ax=b where A is an m x n matrix
-            ////// Check that b is a column vector with m entries
-            ////if (Q.RowCount != input.Count)
-            ////{
-            ////    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            ////}
-
-            ////// Check that x is a column vector with n entries
-            ////if (Q.ColumnCount != result.Count)
-            ////{
-            ////    throw Matrix.DimensionsDontMatch<ArgumentException>(Q, result);
-            ////}
-
-            ////var dinput = input as DenseVector;
-            ////if (dinput == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
-            ////}
-
-            ////var dresult = result as DenseVector;
-            ////if (dresult == null)
-            ////{
-            ////    throw new NotSupportedException("Can only do GramSchmidt factorization for dense vectors at the moment.");
-            ////}
-
-            ////Control.LinearAlgebraProvider.QRSolveFactored(((DenseMatrix)Q).Values, ((DenseMatrix)FullR).Values, Q.RowCount, FullR.ColumnCount, null, dinput.Values, 1, dresult.Values, QRMethod.Thin);
         }
     }
 }
