@@ -2883,7 +2883,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <summary>
         /// Computes the eigenvalues and eigenvectors of a matrix.
         /// </summary>
-        /// <param name="isSymmetric">Wether the matrix is symmetric or not.</param>
+        /// <param name="isSymmetric">Whether the matrix is symmetric or not.</param>
         /// <param name="order">The order of the matrix.</param>
         /// <param name="matrix">The matrix to decompose. The lenth of the array must be order * order.</param>
         /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The lenth of the array must be order * order.</param>
