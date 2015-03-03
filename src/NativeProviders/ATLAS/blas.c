@@ -1,7 +1,7 @@
 #include "wrapper_common.h"
 #include "blas.h"
 
-#if GCC 
+#if __cplusplus
 extern "C" { 
 #endif
 DLLEXPORT void s_axpy(const int n, const float alpha, const float x[], float y[]){
@@ -84,18 +84,6 @@ DLLEXPORT void z_matrix_multiply(const enum CBLAS_TRANSPOSE transA, const enum C
 	cblas_zgemm(CblasColMajor, transA, transB, m, n, k, &alpha, x, lda, y, ldb, &beta, c, m);
 }
 
-/*char getTransChar(enum TRANSPOSE trans){
-	char cTrans;
-	switch( trans ){
-		case  CblasNoTrans : cTrans = 'N';
-			break;
-		case  CblasTrans : cTrans = 'T';
-			break;
-		case  CblasConjTrans : cTrans = 'C';
-			break;
-	}
-	return cTrans;
-}*/
-#if GCC 
+#if __cplusplus 
 }
 #endif
