@@ -2065,5 +2065,127 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
         }
+
+        internal override TState Fold2Unchecked<TOther, TState>(MatrixStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
+        {
+            var denseOther = other as DenseColumnMajorMatrixStorage<TOther>;
+            if (denseOther != null)
+            {
+                TOther[] otherData = denseOther.Data;
+                int k = 0;
+                for (int row = 0; row < RowCount; row++)
+                {
+                    for (int col = 0; col < ColumnCount; col++)
+                    {
+                        bool available = k < RowPointers[row + 1] && ColumnIndices[k] == col;
+                        state = f(state, available ? Values[k++] : Zero, otherData[col*RowCount + row]);
+                    }
+                }
+                return state;
+            }
+
+            var diagonalOther = other as DiagonalMatrixStorage<TOther>;
+            if (diagonalOther != null)
+            {
+                TOther[] otherData = diagonalOther.Data;
+                TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+
+                if (zeros == Zeros.Include)
+                {
+                    int k = 0;
+                    for (int row = 0; row < RowCount; row++)
+                    {
+                        for (int col = 0; col < ColumnCount; col++)
+                        {
+                            bool available = k < RowPointers[row + 1] && ColumnIndices[k] == col;
+                            state = f(state, available ? Values[k++] : Zero, row == col ? otherData[row] : otherZero);
+                        }
+                    }
+                    return state;
+                }
+
+                for (int row = 0; row < RowCount; row++)
+                {
+                    bool diagonal = false;
+
+                    var startIndex = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        if (ColumnIndices[j] == row)
+                        {
+                            diagonal = true;
+                            state = f(state, Values[j], otherData[row]);
+                        }
+                        else
+                        {
+                            state = f(state, Values[j], otherZero);
+                        }
+                    }
+
+                    if (!diagonal && row < ColumnCount)
+                    {
+                        state = f(state, Zero, otherData[row]);
+                    }
+                }
+                return state;
+            }
+
+            var sparseOther = other as SparseCompressedRowMatrixStorage<TOther>;
+            if (sparseOther != null)
+            {
+                int[] otherRowPointers = sparseOther.RowPointers;
+                int[] otherColumnIndices = sparseOther.ColumnIndices;
+                TOther[] otherValues = sparseOther.Values;
+                TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+
+                if (zeros == Zeros.Include)
+                {
+                    int k = 0, otherk = 0;
+                    for (int row = 0; row < RowCount; row++)
+                    {
+                        for (int col = 0; col < ColumnCount; col++)
+                        {
+                            bool available = k < RowPointers[row + 1] && ColumnIndices[k] == col;
+                            bool otherAvailable = otherk < otherRowPointers[row + 1] && otherColumnIndices[otherk] == col;
+                            state = f(state, available ? Values[k++] : Zero, otherAvailable ? otherValues[otherk++] : otherZero);
+                        }
+                    }
+                    return state;
+                }
+
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var startIndex = RowPointers[row];
+                    var endIndex = RowPointers[row + 1];
+                    var otherStartIndex = otherRowPointers[row];
+                    var otherEndIndex = otherRowPointers[row + 1];
+
+                    var j1 = startIndex;
+                    var j2 = otherStartIndex;
+
+                    while (j1 < endIndex || j2 < otherEndIndex)
+                    {
+                        if (j1 == endIndex || j2 < otherEndIndex && ColumnIndices[j1] > otherColumnIndices[j2])
+                        {
+                            state = f(state, Zero, otherValues[j2++]);
+                        }
+                        else if (j2 == otherEndIndex || ColumnIndices[j1] < otherColumnIndices[j2])
+                        {
+                            state = f(state, Values[j1++], otherZero);
+                        }
+                        else
+                        {
+                            state = f(state, Values[j1++], otherValues[j2++]);
+                        }
+                    }
+                }
+                return state;
+            }
+
+            // FALL BACK
+
+            return base.Fold2Unchecked(other, f, state, zeros);
+        }
     }
 }

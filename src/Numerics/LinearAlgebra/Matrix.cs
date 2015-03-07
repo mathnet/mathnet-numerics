@@ -1735,5 +1735,47 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             return EnumerateColumns().Aggregate(f);
         }
+
+        /// <summary>
+        /// Applies a function to update the status with each value pair of two matrices and returns the resulting status.
+        /// </summary>
+        public TState Fold2<TOther, TState>(Func<TState, T, TOther, TState> f, TState state, Matrix<TOther> other, Zeros zeros = Zeros.AllowSkip)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            return Storage.Fold2(other.Storage, f, state, zeros);
+        }
+
+        public Tuple<int, int, T> Find(Func<T, bool> predicate, Zeros zeros = Zeros.AllowSkip)
+        {
+            return Storage.Find(predicate, zeros);
+        }
+
+        public Tuple<int, int, T, TOther> Find2<TOther>(Func<T, TOther, bool> predicate, Matrix<TOther> other, Zeros zeros = Zeros.AllowSkip)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            return Storage.Find2(other.Storage, predicate, zeros);
+        }
+
+        public bool Exists(Func<T, bool> predicate, Zeros zeros = Zeros.AllowSkip)
+        {
+            return Storage.Find(predicate, zeros) != null;
+        }
+
+        public bool Exists2<TOther>(Func<T, TOther, bool> predicate, Matrix<TOther> other, Zeros zeros = Zeros.AllowSkip)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            return Storage.Find2(other.Storage, predicate, zeros) != null;
+        }
+
+        public bool ForAll(Func<T, bool> predicate, Zeros zeros = Zeros.AllowSkip)
+        {
+            return Storage.Find(x => !predicate(x), zeros) == null;
+        }
+
+        public bool ForAll2<TOther>(Func<T, TOther, bool> predicate, Matrix<TOther> other, Zeros zeros = Zeros.AllowSkip)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            return Storage.Find2(other.Storage, (x, y) => !predicate(x, y), zeros) == null;
+        }
     }
 }

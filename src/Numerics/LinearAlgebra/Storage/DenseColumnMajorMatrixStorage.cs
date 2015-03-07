@@ -907,5 +907,65 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target[j] = finalize(s, RowCount);
             }
         }
+
+        internal override TState Fold2Unchecked<TOther, TState>(MatrixStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
+        {
+            var denseOther = other as DenseColumnMajorMatrixStorage<TOther>;
+            if (denseOther != null)
+            {
+                TOther[] otherData = denseOther.Data;
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    state = f(state, Data[i], otherData[i]);
+                }
+                return state;
+            }
+
+            var diagonalOther = other as DiagonalMatrixStorage<TOther>;
+            if (diagonalOther != null)
+            {
+                TOther[] otherData = diagonalOther.Data;
+                TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+                int k = 0;
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        state = f(state, Data[k], i == j ? otherData[i] : otherZero);
+                        k++;
+                    }
+                }
+                return state;
+            }
+
+            var sparseOther = other as SparseCompressedRowMatrixStorage<TOther>;
+            if (sparseOther != null)
+            {
+                int[] otherRowPointers = sparseOther.RowPointers;
+                int[] otherColumnIndices = sparseOther.ColumnIndices;
+                TOther[] otherValues = sparseOther.Values;
+                TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+                int k = 0;
+                for (int row = 0; row < RowCount; row++)
+                {
+                    for (int col = 0; col < ColumnCount; col++)
+                    {
+                        if (k < otherRowPointers[row + 1] && otherColumnIndices[k] == col)
+                        {
+                            state = f(state, Data[col*RowCount + row], otherValues[k++]);
+                        }
+                        else
+                        {
+                            state = f(state, Data[col*RowCount + row], otherZero);
+                        }
+                    }
+                }
+                return state;
+            }
+
+            // FALL BACK
+
+            return base.Fold2Unchecked(other, f, state, zeros);
+        }
     }
 }

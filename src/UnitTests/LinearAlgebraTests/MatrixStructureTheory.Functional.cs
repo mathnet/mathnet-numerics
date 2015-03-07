@@ -298,5 +298,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(matrix.FoldByColumn((s, x) => s + 1.0, 0.0, Zeros.Include),
                 Is.EqualTo(Vector<double>.Build.Dense(matrix.ColumnCount, matrix.RowCount)), "forced - full coverage");
         }
+
+        [Theory]
+        public void CanFold2(Matrix<T> matrix)
+        {
+            var other = -matrix;
+            other.Multiply(Operator.Convert<int, T>(2), other);
+
+            // not forced
+            T sum = matrix.Fold2((s, x, y) => Operator.Add(Operator.Add(x, y), s), Operator<T>.Zero, other, Zeros.AllowSkip);
+            Assert.That(sum, Is.EqualTo(Operator.Negate(matrix.Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b)))));
+
+            // forced
+            T sum2 = matrix.Fold2((s, x, y) => Operator.Add(Operator.Add(x, y), s), Operator<T>.Zero, other, Zeros.Include);
+            Assert.That(sum2, Is.EqualTo(Operator.Negate(matrix.Enumerate().Aggregate((a, b) => Operator<T>.Add(a, b)))));
+        }
     }
 }

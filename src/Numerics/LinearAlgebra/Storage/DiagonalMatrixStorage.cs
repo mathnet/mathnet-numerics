@@ -1087,5 +1087,107 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
         }
+
+        internal override TState Fold2Unchecked<TOther, TState>(MatrixStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
+        {
+            var denseOther = other as DenseColumnMajorMatrixStorage<TOther>;
+            if (denseOther != null)
+            {
+                TOther[] otherData = denseOther.Data;
+                int k = 0;
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        state = f(state, i == j ? Data[i] : Zero, otherData[k]);
+                        k++;
+                    }
+                }
+                return state;
+            }
+
+            var diagonalOther = other as DiagonalMatrixStorage<TOther>;
+            if (diagonalOther != null)
+            {
+                TOther[] otherData = diagonalOther.Data;
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    state = f(state, Data[i], otherData[i]);
+                }
+
+                // Do we really need to do this?
+                if (zeros == Zeros.Include)
+                {
+                    TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+                    int count = RowCount*ColumnCount - Data.Length;
+                    for (int i = 0; i < count; i++)
+                    {
+                        state = f(state, Zero, otherZero);
+                    }
+                }
+
+                return state;
+            }
+
+            var sparseOther = other as SparseCompressedRowMatrixStorage<TOther>;
+            if (sparseOther != null)
+            {
+                int[] otherRowPointers = sparseOther.RowPointers;
+                int[] otherColumnIndices = sparseOther.ColumnIndices;
+                TOther[] otherValues = sparseOther.Values;
+                TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+
+                if (zeros == Zeros.Include)
+                {
+                    int k = 0;
+                    for (int row = 0; row < RowCount; row++)
+                    {
+                        for (int col = 0; col < ColumnCount; col++)
+                        {
+                            if (k < otherRowPointers[row + 1] && otherColumnIndices[k] == col)
+                            {
+                                state = f(state, row == col ? Data[row] : Zero, otherValues[k++]);
+                            }
+                            else
+                            {
+                                state = f(state, row == col ? Data[row] : Zero, otherZero);
+                            }
+                        }
+                    }
+                    return state;
+                }
+
+                for (int row = 0; row < RowCount; row++)
+                {
+                    bool diagonal = false;
+
+                    var startIndex = otherRowPointers[row];
+                    var endIndex = otherRowPointers[row + 1];
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        if (otherColumnIndices[j] == row)
+                        {
+                            diagonal = true;
+                            state = f(state, Data[row], otherValues[j]);
+                        }
+                        else
+                        {
+                            state = f(state, Zero, otherValues[j]);
+                        }
+                    }
+
+                    if (!diagonal && row < ColumnCount)
+                    {
+                        state = f(state, Data[row], otherZero);
+                    }
+                }
+
+                return state;
+            }
+
+            // FALL BACK
+
+            return base.Fold2Unchecked(other, f, state, zeros);
+        }
     }
 }

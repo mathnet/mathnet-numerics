@@ -871,5 +871,36 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target[j] = finalize(s, RowCount);
             }
         }
+
+        public TState Fold2<TOther, TState>(MatrixStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (RowCount != other.RowCount || ColumnCount != other.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, other.RowCount + "x" + other.ColumnCount);
+                throw new ArgumentException(message, "other");
+            }
+
+            return Fold2Unchecked(other, f, state, zeros);
+        }
+
+        internal virtual TState Fold2Unchecked<TOther, TState>(MatrixStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    state = f(state, At(i, j), other.At(i, j));
+                }
+            }
+
+            return state;
+        }
     }
 }
