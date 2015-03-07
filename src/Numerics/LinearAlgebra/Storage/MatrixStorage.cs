@@ -137,7 +137,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <returns>
         /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
         /// </returns>
-        public virtual bool Equals(MatrixStorage<T> other)
+        public bool Equals(MatrixStorage<T> other)
         {
             // Reject equality when the argument is null or has a different shape.
             if (other == null)
@@ -155,19 +155,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return true;
             }
 
-            // If all else fails, perform element wise comparison.
-            for (var row = 0; row < RowCount; row++)
-            {
-                for (var column = 0; column < ColumnCount; column++)
-                {
-                    if (!At(row, column).Equals(other.At(row, column)))
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            // Perform element wise comparison.
+            return Find2Unchecked(other, (a, b) => !a.Equals(b), Zeros.AllowSkip) == null;
         }
 
         /// <summary>
@@ -625,6 +614,59 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     }
                 }
             }
+        }
+
+        // FIND
+
+        public virtual Tuple<int, int, T> Find(Func<T, bool> predicate, Zeros zeros)
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    var item = At(i, j);
+                    if (predicate(item))
+                    {
+                        return new Tuple<int, int, T>(i, j, item);
+                    }
+                }
+            }
+            return null;
+        }
+
+        public Tuple<int, int, T, TOther> Find2<TOther>(MatrixStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (RowCount != other.RowCount || ColumnCount != other.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, other.RowCount + "x" + other.ColumnCount);
+                throw new ArgumentException(message, "other");
+            }
+
+            return Find2Unchecked(other, predicate, zeros);
+        }
+
+        internal virtual Tuple<int, int, T, TOther> Find2Unchecked<TOther>(MatrixStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    var item = At(i, j);
+                    var otherItem = other.At(i, j);
+                    if (predicate(item, otherItem))
+                    {
+                        return new Tuple<int, int, T, TOther>(i, j, item, otherItem);
+                    }
+                }
+            }
+            return null;
         }
 
         // FUNCTIONAL COMBINATORS: MAP

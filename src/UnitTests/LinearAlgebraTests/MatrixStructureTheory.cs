@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
@@ -78,6 +79,38 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.IsFalse(((object)left).Equals(right));
             Assert.IsFalse(left == (object)right);
             Assert.IsFalse((object)left == right);
+        }
+
+        [Theory]
+        public void IsNotEqualToPermutation(Matrix<T> matrix)
+        {
+            if (!matrix.Storage.IsFullyMutable)
+            {
+                return;
+            }
+
+            Matrix<T> permutation;
+            if (matrix.RowCount >= 2 && matrix.Row(1).Any(x => !Zero.Equals(x)))
+            {
+                matrix.ClearRow(0);
+                permutation = matrix.Clone();
+                permutation.ClearRow(1);
+                permutation.SetRow(0, matrix.Row(1));
+            }
+            else if (matrix.ColumnCount >= 2 && matrix.Column(1).Any(x => !Zero.Equals(x)))
+            {
+                matrix.ClearColumn(0);
+                permutation = matrix.Clone();
+                permutation.ClearColumn(1);
+                permutation.SetColumn(0, matrix.Column(1));
+            }
+            else
+            {
+                return;
+            }
+
+            Assert.That(matrix, Is.Not.EqualTo(permutation));
+            Assert.IsFalse(matrix.Equals(permutation));
         }
 
         [Theory]

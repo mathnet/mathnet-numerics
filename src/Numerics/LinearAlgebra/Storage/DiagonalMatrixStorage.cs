@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -113,44 +113,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 throw new IndexOutOfRangeException("Cannot set an off-diagonal element in a diagonal matrix.");
             }
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <param name="other">
-        /// An object to compare with this object.
-        /// </param>
-        /// <returns>
-        /// <c>true</c> if the current object is equal to the <paramref name="other"/> parameter; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(MatrixStorage<T> other)
-        {
-            var diagonal = other as DiagonalMatrixStorage<T>;
-            if (diagonal == null)
-            {
-                return base.Equals(other);
-            }
-
-            // Reject equality when the argument is null or has a different shape.
-            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
-            {
-                return false;
-            }
-
-            // Accept if the argument is the same object as this.
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            if (diagonal.Data.Length != Data.Length)
-            {
-                return false;
-            }
-
-            // If all else fails, perform element wise comparison.
-            return !Data.Where((t, i) => !t.Equals(diagonal.Data[i])).Any();
         }
 
         /// <summary>
@@ -633,6 +595,137 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     yield return new Tuple<int, int, T>(i, i, Data[i]);
                 }
             }
+        }
+
+        // FIND
+
+        public override Tuple<int, int, T> Find(Func<T, bool> predicate, Zeros zeros)
+        {
+            for (int i = 0; i < Data.Length; i++)
+            {
+                if (predicate(Data[i]))
+                {
+                    return new Tuple<int, int, T>(i, i, Data[i]);
+                }
+            }
+            if (zeros == Zeros.Include && (RowCount > 1 || ColumnCount > 1))
+            {
+                if (predicate(Zero))
+                {
+                    return new Tuple<int, int, T>(RowCount > 1 ? 1 : 0, RowCount > 1 ? 0 : 1, Zero);
+                }
+            }
+            return null;
+        }
+
+        internal override Tuple<int, int, T, TOther> Find2Unchecked<TOther>(MatrixStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
+        {
+            var denseOther = other as DenseColumnMajorMatrixStorage<TOther>;
+            if (denseOther != null)
+            {
+                TOther[] otherData = denseOther.Data;
+                int k = 0;
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    for (int i = 0; i < RowCount; i++)
+                    {
+                        if (predicate(i == j ? Data[i] : Zero, otherData[k]))
+                        {
+                            return new Tuple<int, int, T, TOther>(i, j, i == j ? Data[i] : Zero, otherData[k]);
+                        }
+                        k++;
+                    }
+                }
+                return null;
+            }
+
+            var diagonalOther = other as DiagonalMatrixStorage<TOther>;
+            if (diagonalOther != null)
+            {
+                TOther[] otherData = diagonalOther.Data;
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    if (predicate(Data[i], otherData[i]))
+                    {
+                        return new Tuple<int, int, T, TOther>(i, i, Data[i], otherData[i]);
+                    }
+                }
+                if (zeros == Zeros.Include && (RowCount > 1 || ColumnCount > 1))
+                {
+                    TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+                    if (predicate(Zero, otherZero))
+                    {
+                        return new Tuple<int, int, T, TOther>(RowCount > 1 ? 1 : 0, RowCount > 1 ? 0 : 1, Zero, otherZero);
+                    }
+                }
+                return null;
+            }
+
+            var sparseOther = other as SparseCompressedRowMatrixStorage<TOther>;
+            if (sparseOther != null)
+            {
+                int[] otherRowPointers = sparseOther.RowPointers;
+                int[] otherColumnIndices = sparseOther.ColumnIndices;
+                TOther[] otherValues = sparseOther.Values;
+                TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+                for (int row = 0; row < RowCount; row++)
+                {
+                    bool diagonal = false;
+                    var startIndex = otherRowPointers[row];
+                    var endIndex = otherRowPointers[row + 1];
+                    for (var j = startIndex; j < endIndex; j++)
+                    {
+                        if (otherColumnIndices[j] == row)
+                        {
+                            diagonal = true;
+                            if (predicate(Data[row], otherValues[j]))
+                            {
+                                return new Tuple<int, int, T, TOther>(row, row, Data[row], otherValues[j]);
+                            }
+                        }
+                        else
+                        {
+                            if (predicate(Zero, otherValues[j]))
+                            {
+                                return new Tuple<int, int, T, TOther>(row, otherColumnIndices[j], Zero, otherValues[j]);
+                            }
+                        }
+                    }
+                    if (!diagonal && row < ColumnCount)
+                    {
+                        if (predicate(Data[row], otherZero))
+                        {
+                            return new Tuple<int, int, T, TOther>(row, row, Data[row], otherZero);
+                        }
+                    }
+                }
+                if (zeros == Zeros.Include && sparseOther.ValueCount < (RowCount * ColumnCount))
+                {
+                    if (predicate(Zero, otherZero))
+                    {
+                        int k = 0;
+                        for (int row = 0; row < RowCount; row++)
+                        {
+                            for (int col = 0; col < ColumnCount; col++)
+                            {
+                                if (k < otherRowPointers[row + 1] && otherColumnIndices[k] == col)
+                                {
+                                    k++;
+                                }
+                                else if (row != col)
+                                {
+                                    return new Tuple<int, int, T, TOther>(row, col, Zero, otherZero);
+                                }
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+
+            // FALL BACK
+
+            return base.Find2Unchecked(other, predicate, zeros);
         }
 
         // FUNCTIONAL COMBINATORS: MAP

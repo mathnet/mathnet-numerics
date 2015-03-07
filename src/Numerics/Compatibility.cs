@@ -233,6 +233,41 @@ namespace MathNet.Numerics
         }
     }
 
+    public class Tuple<T1, T2, T3, T4> : IComparable, IComparable<Tuple<T1, T2, T3, T4>>
+    {
+        public T1 Item1 { get; set; }
+        public T2 Item2 { get; set; }
+        public T3 Item3 { get; set; }
+        public T4 Item4 { get; set; }
+
+        public Tuple(T1 item1, T2 item2, T3 item3, T4 item4)
+        {
+            Item1 = item1;
+            Item2 = item2;
+            Item3 = item3;
+            Item4 = item4;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj == null) return 1;
+            var other = obj as Tuple<T1, T2, T3, T4>;
+            if (other == null) throw new ArgumentException();
+            return CompareTo(other);
+        }
+
+        public int CompareTo(Tuple<T1, T2, T3, T4> other)
+        {
+            if (other == null) return 1;
+            int a = ObjectComparer.Compare(Item1, other.Item1);
+            if (a != 0) return a;
+            int b = ObjectComparer.Compare(Item2, other.Item2);
+            if (b != 0) return b;
+            int c = ObjectComparer.Compare(Item3, other.Item3);
+            return c != 0 ? c : ObjectComparer.Compare(Item4, other.Item4);
+        }
+    }
+
     public static class EnumerableExtensions
     {
         public static IEnumerable<T> Zip<TA, TB, T>(this IEnumerable<TA> seqA, IEnumerable<TB> seqB, Func<TA, TB, T> func)
