@@ -207,7 +207,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             CopyToUnchecked(target, existingData);
         }
 
-        internal virtual void CopyToUnchecked(VectorStorage<T> target, ExistingData existingData = ExistingData.Clear)
+        internal virtual void CopyToUnchecked(VectorStorage<T> target, ExistingData existingData)
         {
             for (int i = 0; i < Length; i++)
             {
@@ -233,7 +233,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             CopyToRowUnchecked(target, rowIndex, existingData);
         }
 
-        internal virtual void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, ExistingData existingData = ExistingData.Clear)
+        internal virtual void CopyToRowUnchecked(MatrixStorage<T> target, int rowIndex, ExistingData existingData)
         {
             for (int j = 0; j < Length; j++)
             {
@@ -259,7 +259,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             CopyToColumnUnchecked(target, columnIndex, existingData);
         }
 
-        internal virtual void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, ExistingData existingData = ExistingData.Clear)
+        internal virtual void CopyToColumnUnchecked(MatrixStorage<T> target, int columnIndex, ExistingData existingData)
         {
             for (int i = 0; i < Length; i++)
             {
@@ -288,8 +288,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual void CopySubVectorToUnchecked(VectorStorage<T> target,
-            int sourceIndex, int targetIndex, int count,
-            ExistingData existingData = ExistingData.Clear)
+            int sourceIndex, int targetIndex, int count, ExistingData existingData)
         {
             if (ReferenceEquals(this, target))
             {
@@ -333,8 +332,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual void CopyToSubRowUnchecked(MatrixStorage<T> target, int rowIndex,
-            int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            ExistingData existingData = ExistingData.Clear)
+            int sourceColumnIndex, int targetColumnIndex, int columnCount, ExistingData existingData)
         {
             for (int j = sourceColumnIndex, jj = targetColumnIndex; j < sourceColumnIndex + columnCount; j++, jj++)
             {
@@ -363,8 +361,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal virtual void CopyToSubColumnUnchecked(MatrixStorage<T> target, int columnIndex,
-            int sourceRowIndex, int targetRowIndex, int rowCount,
-            ExistingData existingData = ExistingData.Clear)
+            int sourceRowIndex, int targetRowIndex, int rowCount, ExistingData existingData)
         {
             for (int i = sourceRowIndex, ii = targetRowIndex; i < sourceRowIndex + rowCount; i++, ii++)
             {
@@ -433,8 +430,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             MapToUnchecked(target, f, zeros, existingData);
         }
 
-        internal virtual void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f,
-            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        internal virtual void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f, Zeros zeros, ExistingData existingData)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int i = 0; i < Length; i++)
@@ -460,8 +456,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             MapIndexedToUnchecked(target, f, zeros, existingData);
         }
 
-        internal virtual void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f,
-            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        internal virtual void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f, Zeros zeros, ExistingData existingData)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             for (int i = 0; i < Length; i++)
@@ -496,8 +491,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Map2ToUnchecked(target, other, f, zeros, existingData);
         }
 
-        internal virtual void Map2ToUnchecked(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f,
-            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        internal virtual void Map2ToUnchecked(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f, Zeros zeros, ExistingData existingData)
         {
             for (int i = 0; i < Length; i++)
             {
@@ -521,7 +515,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return Fold2Unchecked(other, f, state, zeros);
         }
 
-        internal virtual TState Fold2Unchecked<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros = Zeros.AllowSkip)
+        internal virtual TState Fold2Unchecked<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
             where TOther : struct, IEquatable<TOther>, IFormattable
         {
             for (int i = 0; i < Length; i++)

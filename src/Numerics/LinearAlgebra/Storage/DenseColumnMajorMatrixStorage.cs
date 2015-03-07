@@ -376,7 +376,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // MATRIX COPY
 
-        internal override void CopyToUnchecked(MatrixStorage<T> target, ExistingData existingData = ExistingData.Clear)
+        internal override void CopyToUnchecked(MatrixStorage<T> target, ExistingData existingData)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
@@ -405,7 +405,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void CopySubMatrixToUnchecked(MatrixStorage<T> target,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            ExistingData existingData = ExistingData.Clear)
+            ExistingData existingData)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
@@ -442,7 +442,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         // ROW COPY
 
         internal override void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex, int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            ExistingData existingData = ExistingData.Clear)
+            ExistingData existingData)
         {
             var targetDense = target as DenseVectorStorage<T>;
             if (targetDense != null)
@@ -465,7 +465,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         // COLUMN COPY
 
         internal override void CopySubColumnToUnchecked(VectorStorage<T> target, int columnIndex, int sourceRowIndex, int targetRowIndex, int rowCount,
-            ExistingData existingData = ExistingData.Clear)
+            ExistingData existingData)
         {
             var targetDense = target as DenseVectorStorage<T>;
             if (targetDense != null)
@@ -485,7 +485,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // TRANSPOSE
 
-        internal override void TransposeToUnchecked(MatrixStorage<T> target, ExistingData existingData = ExistingData.Clear)
+        internal override void TransposeToUnchecked(MatrixStorage<T> target, ExistingData existingData)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
             if (denseTarget != null)
@@ -782,7 +782,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal override void MapToUnchecked<TU>(MatrixStorage<TU> target, Func<T, TU> f,
-            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+            Zeros zeros, ExistingData existingData)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
             if (denseTarget != null)
@@ -810,7 +810,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f,
-            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+            Zeros zeros, ExistingData existingData)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
             if (denseTarget != null)
@@ -845,7 +845,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void MapSubMatrixIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f,
             int sourceRowIndex, int targetRowIndex, int rowCount,
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
-            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+            Zeros zeros, ExistingData existingData)
         {
             var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
             if (denseTarget != null)
@@ -881,7 +881,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: FOLD
 
-        internal override void FoldByRowUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
+        internal override void FoldByRowUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros)
         {
             for (int i = 0; i < RowCount; i++)
             {
@@ -894,7 +894,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        internal override void FoldByColumnUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros = Zeros.AllowSkip)
+        internal override void FoldByColumnUnchecked<TU>(TU[] target, Func<TU, T, TU> f, Func<TU, int, TU> finalize, TU[] state, Zeros zeros)
         {
             for (int j = 0; j < ColumnCount; j++)
             {

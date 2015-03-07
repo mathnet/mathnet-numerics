@@ -500,7 +500,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var diagonalOther = other.Storage as DiagonalMatrixStorage<Complex32>;
             if (diagonalOther != null)
             {
-                Storage.CopyToUnchecked(result.Storage);
+                Storage.CopyToUnchecked(result.Storage, ExistingData.Clear);
                 var diagonal = diagonalOther.Data;
                 for (int i = 0; i < diagonal.Length; i++)
                 {

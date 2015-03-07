@@ -261,7 +261,7 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var ret = Vector<T>.Build.SameAs(this, ColumnCount);
-            Storage.CopySubRowToUnchecked(ret.Storage, index, 0, 0, ColumnCount);
+            Storage.CopySubRowToUnchecked(ret.Storage, index, 0, 0, ColumnCount, ExistingData.AssumeZeros);
             return ret;
         }
 
@@ -346,7 +346,7 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var ret = Vector<T>.Build.SameAs(this, RowCount);
-            Storage.CopySubColumnToUnchecked(ret.Storage, index, 0, 0, RowCount);
+            Storage.CopySubColumnToUnchecked(ret.Storage, index, 0, 0, RowCount, ExistingData.AssumeZeros);
             return ret;
         }
 
@@ -1121,8 +1121,8 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
-            right.Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, ExistingData.Clear);
+            right.Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, right.RowCount, 0, ColumnCount, right.ColumnCount, ExistingData.Clear);
         }
 
         /// <summary>
@@ -1183,8 +1183,8 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
-            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
-            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, ExistingData.Clear);
+            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, 0, lower.ColumnCount, ExistingData.Clear);
         }
 
         /// <summary>
@@ -1205,8 +1205,8 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var result = Build.SameAs(this, lower, RowCount + lower.RowCount, ColumnCount + lower.ColumnCount, RowCount != ColumnCount);
-            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
-            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, ExistingData.AssumeZeros);
+            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount, ExistingData.AssumeZeros);
             return result;
         }
 
@@ -1237,8 +1237,8 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw DimensionsDontMatch<ArgumentException>(this, result, "result");
             }
 
-            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount);
-            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount);
+            Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, ExistingData.Clear);
+            lower.Storage.CopySubMatrixToUnchecked(result.Storage, 0, RowCount, lower.RowCount, 0, ColumnCount, lower.ColumnCount, ExistingData.Clear);
         }
 
         /// <summary>
