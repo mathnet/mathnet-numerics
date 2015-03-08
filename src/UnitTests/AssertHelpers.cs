@@ -227,6 +227,17 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
+        /// <remarks>
+        /// There's no "Almost" about integer comparisons
+        /// </remarks>
+        public static void AreEqual(IList<int> expected, IList<int> actual)
+        {
+            for (var i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i], actual[i]);
+            }
+        }
+
         public static void AlmostEqualRelative(IList<double> expected, IList<double> actual, int decimalPlaces)
         {
             for (var i = 0; i < expected.Count; i++)
@@ -347,6 +358,105 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
+        /// <remarks>
+        /// There's no "Almost" about integer comparisons
+        /// </remarks>
+        public static void AreEqual(Matrix<int> expected, Matrix<int> actual)
+        {
+            if (expected.ColumnCount != actual.ColumnCount || expected.RowCount != actual.RowCount)
+            {
+                Assert.Fail("Matrix dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.RowCount; i++)
+            {
+                for (var j = 0; j < expected.ColumnCount; j++)
+                {
+                    Assert.AreEqual(expected.At(i, j), actual.At(i, j));
+                }
+            }
+        }
+
+        /// <remarks>
+        /// There's no "Almost" about integer comparisons
+        /// </remarks>
+        public static void AreEqual(Vector<int> expected, Vector<int> actual)
+        {
+            if (expected.Count != actual.Count)
+            {
+                Assert.Fail("Vector dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected.At(i), actual.At(i));
+            }
+        }
+
+        public static void AlmostEqual(Vector<double> expected, Vector<double> actual, int decimalPlaces)
+        {
+            if (expected.Count != actual.Count)
+            {
+                Assert.Fail("Vector dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                if (!actual.At(i).AlmostEqual(expected.At(i), decimalPlaces))
+                {
+                    Assert.Fail("Not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.At(i), actual.At(i));
+                }
+            }
+        }
+
+        public static void AlmostEqual(Vector<float> expected, Vector<float> actual, int decimalPlaces)
+        {
+            if (expected.Count != actual.Count)
+            {
+                Assert.Fail("Vector dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                if (!actual.At(i).AlmostEqual(expected.At(i), decimalPlaces))
+                {
+                    Assert.Fail("Not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.At(i), actual.At(i));
+                }
+            }
+        }
+
+        public static void AlmostEqual(Vector<Complex> expected, Vector<Complex> actual, int decimalPlaces)
+        {
+            if (expected.Count != actual.Count)
+            {
+                Assert.Fail("Vector dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                if (!actual.At(i).AlmostEqual(expected.At(i), decimalPlaces))
+                {
+                    Assert.Fail("Not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.At(i), actual.At(i));
+                }
+            }
+        }
+
+        public static void AlmostEqual(Vector<Complex32> expected, Vector<Complex32> actual, int decimalPlaces)
+        {
+            if (expected.Count != actual.Count)
+            {
+                Assert.Fail("Vector dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                if (!actual.At(i).AlmostEqual(expected.At(i), decimalPlaces))
+                {
+                    Assert.Fail("Not equal within {0} places. Expected:{1}; Actual:{2}", decimalPlaces, expected.At(i), actual.At(i));
+                }
+            }
+        }
+
         public static void AlmostEqualRelative(Matrix<double> expected, Matrix<double> actual, int decimalPlaces)
         {
             if (expected.ColumnCount != actual.ColumnCount || expected.RowCount != actual.RowCount)
@@ -419,6 +529,70 @@ namespace MathNet.Numerics.UnitTests
                     {
                         Assert.Fail("Not equal within {0} relative places. Expected:{1}; Actual:{2}", decimalPlaces, expected.At(i, j), actual.At(i, j));
                     }
+                }
+            }
+        }
+
+        public static void AlmostEqualRelative(Vector<double> expected, Vector<double> actual, int decimalPlaces)
+        {
+            if (expected.Count != actual.Count)
+            {
+                Assert.Fail("Vector dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                if (!actual.At(i).AlmostEqualRelative(expected.At(i), decimalPlaces))
+                {
+                    Assert.Fail("Not equal within {0} relative places. Expected:{1}; Actual:{2}", decimalPlaces, expected.At(i), actual.At(i));
+                }
+            }
+        }
+
+        public static void AlmostEqualRelative(Vector<float> expected, Vector<float> actual, int decimalPlaces)
+        {
+            if (expected.Count != actual.Count)
+            {
+                Assert.Fail("Vector dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                if (!actual.At(i).AlmostEqualRelative(expected.At(i), decimalPlaces))
+                {
+                    Assert.Fail("Not equal within {0} relative places. Expected:{1}; Actual:{2}", decimalPlaces, expected.At(i), actual.At(i));
+                }
+            }
+        }
+
+        public static void AlmostEqualRelative(Vector<Complex> expected, Vector<Complex> actual, int decimalPlaces)
+        {
+            if (expected.Count != actual.Count)
+            {
+                Assert.Fail("Vector dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                if (!actual.At(i).AlmostEqualRelative(expected.At(i), decimalPlaces))
+                {
+                    Assert.Fail("Not equal within {0} relative places. Expected:{1}; Actual:{2}", decimalPlaces, expected.At(i), actual.At(i));
+                }
+            }
+        }
+
+        public static void AlmostEqualRelative(Vector<Complex32> expected, Vector<Complex32> actual, int decimalPlaces)
+        {
+            if (expected.Count != actual.Count)
+            {
+                Assert.Fail("Vector dimensions mismatch. Expected: {0}; Actual: {1}", expected.ToTypeString(), actual.ToTypeString());
+            }
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                if (!actual.At(i).AlmostEqualRelative(expected.At(i), decimalPlaces))
+                {
+                    Assert.Fail("Not equal within {0} relative places. Expected:{1}; Actual:{2}", decimalPlaces, expected.At(i), actual.At(i));
                 }
             }
         }

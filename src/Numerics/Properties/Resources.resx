@@ -319,7 +319,7 @@
     <value>The singular vectors were not computed.</value>
   </data>
   <data name="WorkArrayTooSmall" xml:space="preserve">
-    <value>The given work array is too small. Check work[0] for the corret size.</value>
+    <value>The given work array is too small. Check work[0] for the correct size.</value>
   </data>
   <data name="StringNullOrEmpty" xml:space="preserve">
     <value>String parameter cannot be empty or null.</value>
@@ -405,5 +405,19 @@
   </data>
   <data name="ArgumentUpperBoundMustBeLargerThanLowerBound" xml:space="preserve">
     <value>The upper bound must be strictly larger than the lower bound.</value>
+  </data>
+  <data name="NotSupportedForIntegerMatrices" xml:space="preserve">
+    <value>This operation is not supported for integer matrices.</value>
+  </data>
+  <data name="NotSupportedForIntegerVectors" xml:space="preserve">
+    <value>This operation is not supported for integer vectors.</value>
+  </data>
+  <data name="VectorLengthMustEqualMatrixDimension" xml:space="preserve">
+    <value>Vector length must equal corresponding {0}Matrix dimension</value>
+    <comment>Note that there is no whitespace after the {0} (to allow for string.Empty there), so any value formatted into that position should include appropriate trailing whitespace.</comment>
+  </data>
+  <data name="VectorLengthMustNotExceedMatrixDimension" xml:space="preserve">
+    <value>Vector length must not exceed corresponding {0}Matrix dimension</value>
+    <comment>Note that there is no whitespace after the {0} (to allow for string.Empty there), so any value formatted into that position should include appropriate trailing whitespace.</comment>
   </data>
 </root>

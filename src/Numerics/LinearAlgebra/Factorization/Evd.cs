@@ -52,6 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// i.e. A.Multiply(V) equals V.Multiply(D).  The matrix V may be badly
     /// conditioned, or even singular, so the validity of the equation
     /// A = V*D*Inverse(V) depends upon V.Condition().
+    /// If the typeparameter is integer, the constructor will throw an exception.
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class Evd<T> : ISolver<T>

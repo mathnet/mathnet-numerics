@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 // 
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 // 
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -91,6 +91,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     public interface ILinearAlgebraProvider :
         ILinearAlgebraProvider<double>,
         ILinearAlgebraProvider<float>,
+        ILinearAlgebraProvider<int>,
         ILinearAlgebraProvider<Complex>,
         ILinearAlgebraProvider<Complex32>
     {
@@ -103,7 +104,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// <summary>
     /// Interface to linear algebra algorithms that work off 1-D arrays.
     /// </summary>
-    /// <typeparam name="T">Supported data types are Double, Single, Complex, and Complex32.</typeparam>
+    /// <typeparam name="T">Supported data types are Double, Single, Integer(Int32), Complex, and Complex32.</typeparam>
     public interface ILinearAlgebraProvider<T>
         where T : struct
     {

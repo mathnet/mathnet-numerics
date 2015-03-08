@@ -38,6 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </summary>
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by modified Gram-Schmidt Orthogonalization.
+    /// If the typeparameter is integer, the constructor will throw an exception.
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class GramSchmidt<T> : QR<T>

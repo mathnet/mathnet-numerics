@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -899,6 +899,29 @@ namespace MathNet.Numerics
         public static IEnumerable<float> RandomSingle(IContinuousDistribution distribution)
         {
             return distribution.Samples().Select(v => (float)v);
+        }
+
+        /// <summary>
+        /// Create random samples.
+        /// </summary>
+        public static int[] RandomInteger(int length, IContinuousDistribution distribution)
+        {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException("length");
+            }
+
+            var samples = new double[length];
+            distribution.Samples(samples);
+            return Map(samples, v => (int)v);
+        }
+
+        /// <summary>
+        /// Create an infinite random sample sequence.
+        /// </summary>
+        public static IEnumerable<int> RandomInteger(IContinuousDistribution distribution)
+        {
+            return distribution.Samples().Select(v => (int)v);
         }
 
         /// <summary>

@@ -59,6 +59,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// If a <seealso cref="QRMethod.Full"/> factorization is performed, the resulting Q matrix is an m x m matrix
     /// and the R matrix is an m x n matrix. If a <seealso cref="QRMethod.Thin"/> factorization is performed, the
     /// resulting Q matrix is an m x n matrix and the R matrix is an n x n matrix.
+    /// If the typeparameter is integer, the constructor will throw an exception.
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class QR<T> : ISolver<T>

@@ -41,6 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// </summary>
     /// <remarks>
     /// The computation of the LU factorization is done at construction time.
+    /// If the typeparameter is integer, the constructor will throw an exception.
     /// </remarks>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     public abstract class LU<T> : ISolver<T>

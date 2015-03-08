@@ -162,21 +162,26 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
             {
                 _residualHistory = new double[RequiredHistoryLength];
             }
-
-            // We always track the residual.
-            // Move the old versions one element up in the array.
-            for (var i = 1; i < _residualHistory.Length; i++)
+            else
             {
-                _residualHistory[i - 1] = _residualHistory[i];
+                // no need to move the elements if they are all 0.0 from the array creation, above.
+                // We always track the residual.
+                // Move the old versions one element up in the array.
+                for (var i = 1; i < _residualHistory.Length; i++)
+                {
+                    _residualHistory[i - 1] = _residualHistory[i];
+                }
             }
 
             // Store the infinity norms of both the solution and residual vectors
             // These values will be used to calculate the relative drop in residuals later on.
-            _residualHistory[_residualHistory.Length - 1] = residualVector.InfinityNorm();
+            double currentInfNorm = residualVector.InfinityNorm();
+            _residualHistory[_residualHistory.Length - 1] = currentInfNorm;
 
-            // Check if we have NaN's. If so we've gone way beyond normal divergence.
+            // Check if we have NaN's. (int.MaxValue for the integer case.
+            // If so we've gone way beyond normal divergence.
             // Stop the iteration.
-            if (double.IsNaN(_residualHistory[_residualHistory.Length - 1]))
+            if (typeof(T) == typeof(int) ? currentInfNorm >= int.MaxValue : double.IsNaN(currentInfNorm))
             {
                 _status = IterationStatus.Diverged;
                 return _status;
@@ -203,7 +208,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
                 // Divergence is occurring if:
                 // - the last residual is larger than the previous one
                 // - the relative increase of the residual is larger than the setting allows
-                if ((difference < 0) || (_residualHistory[i - 1]*(1 + _maximumRelativeIncrease) >= _residualHistory[i]))
+                if ((difference < 0) || (_residualHistory[i - 1] * (1 + _maximumRelativeIncrease) >= _residualHistory[i]))
                 {
                     // No divergence taking place within the required number of iterations
                     // So reset and stop the iteration. There is no way we can get to the

@@ -384,23 +384,23 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     return normMax;
                 case Norm.InfinityNorm:
                     var r = new double[rows];
-	                for (var j = 0; j < columns; j++)
-	                {
-		                for (var i = 0; i < rows; i++)
-		                {
+                    for (var j = 0; j < columns; j++)
+                    {
+                        for (var i = 0; i < rows; i++)
+                        {
                             r[i] += Math.Abs(matrix[(j * rows) + i]);
-		                }
-	                }
+                        }
+                    }
                     // TODO: reuse
                     var max = r[0];
-	                for (int i = 0; i < r.Length; i++)
-	                {
-		                if (r[i] > max)
-		                {
-			                max = r[i];
-		                }
-	                }
-	                return max;
+                    for (int i = 0; i < r.Length; i++)
+                    {
+                        if (r[i] > max)
+                        {
+                            max = r[i];
+                        }
+                    }
+                    return max;
                 case Norm.FrobeniusNorm:
                     var aat = new double[rows*rows];
                     MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.Transpose, 1.0, matrix, rows, columns, matrix, rows, columns, 0.0, aat);

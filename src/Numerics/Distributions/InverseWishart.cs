@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -188,7 +188,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Evaluates the probability density function for the inverse Wishart distribution.
         /// </summary>
-        /// <param name="x">The matrix at which to evaluate the density at.</param>
+        /// <param name="x">The matrix at which to evaluate the density.</param>
         /// <exception cref="ArgumentOutOfRangeException">If the argument does not have the same dimensions as the scale matrix.</exception>
         /// <returns>the density at <paramref name="x"/>.</returns>
         public double Density(Matrix<double> x)
@@ -197,7 +197,7 @@ namespace MathNet.Numerics.Distributions
 
             if (x.RowCount != p || x.ColumnCount != p)
             {
-                throw new ArgumentOutOfRangeException("x", Resources.ArgumentMatrixDimensions);
+              throw Matrix<double>.DimensionsDontMatch<ArgumentOutOfRangeException>(_scale, x, "x");
             }
 
             var chol = x.Cholesky();
