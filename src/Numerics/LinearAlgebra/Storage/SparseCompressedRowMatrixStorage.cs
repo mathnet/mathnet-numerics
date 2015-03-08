@@ -516,6 +516,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static SparseCompressedRowMatrixStorage<T> OfRowArrays(T[][] data)
         {
+            if (data.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+            }
+
             var storage = new SparseCompressedRowMatrixStorage<T>(data.Length, data[0].Length);
             var rowPointers = storage.RowPointers;
             var columnIndices = new List<int>();
@@ -543,6 +548,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static SparseCompressedRowMatrixStorage<T> OfColumnArrays(T[][] data)
         {
+            if (data.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+            }
+
             var storage = new SparseCompressedRowMatrixStorage<T>(data[0].Length, data.Length);
             var rowPointers = storage.RowPointers;
             var columnIndices = new List<int>();
@@ -570,6 +580,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static SparseCompressedRowMatrixStorage<T> OfRowVectors(VectorStorage<T>[] data)
         {
+            if (data.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+            }
+
             var storage = new SparseCompressedRowMatrixStorage<T>(data.Length, data[0].Length);
             var rowPointers = storage.RowPointers;
             var columnIndices = new List<int>();
@@ -599,6 +614,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static SparseCompressedRowMatrixStorage<T> OfColumnVectors(VectorStorage<T>[] data)
         {
+            if (data.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+            }
+
             var storage = new SparseCompressedRowMatrixStorage<T>(data[0].Length, data.Length);
             var rowPointers = storage.RowPointers;
             var columnIndices = new List<int>();

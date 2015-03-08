@@ -406,4 +406,10 @@
   <data name="ArgumentUpperBoundMustBeLargerThanLowerBound" xml:space="preserve">
     <value>The upper bound must be strictly larger than the lower bound.</value>
   </data>
+  <data name="MatrixCanNotBeEmpty" xml:space="preserve">
+    <value>Matrices can not be empty and must have at least one row and column.</value>
+  </data>
+  <data name="VectorCanNotBeEmpty" xml:space="preserve">
+    <value>Vectors can not be empty and must have at least one element.</value>
+  </data>
 </root>

@@ -228,6 +228,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static DenseColumnMajorMatrixStorage<T> OfColumnArrays(T[][] data)
         {
+            if (data.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+            }
+
             int columns = data.Length;
             int rows = data[0].Length;
             var array = new T[rows*columns];
@@ -240,6 +245,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static DenseColumnMajorMatrixStorage<T> OfRowArrays(T[][] data)
         {
+            if (data.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+            }
+
             int rows = data.Length;
             int columns = data[0].Length;
             var array = new T[rows*columns];
@@ -256,6 +266,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static DenseColumnMajorMatrixStorage<T> OfColumnVectors(VectorStorage<T>[] data)
         {
+            if (data.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+            }
+
             int columns = data.Length;
             int rows = data[0].Length;
             var array = new T[rows*columns];
@@ -282,6 +297,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static DenseColumnMajorMatrixStorage<T> OfRowVectors(VectorStorage<T>[] data)
         {
+            if (data.Length <= 0)
+            {
+                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+            }
+
             int rows = data.Length;
             int columns = data[0].Length;
             var array = new T[rows*columns];
