@@ -467,5 +467,30 @@ namespace MathNet.Numerics.Statistics
 
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Calculate the Minkowski Distance between two histograms
+        /// </summary>
+        /// <param name="h">The histogram that will be compared with this histogram</param>
+        /// <param name="power">The power used for calculating the distance (e.g. 2 for Ecludian distance)</param>
+        /// <returns>The distance between the two histograms</returns>
+        public double MinkowskiDistance(Histogram h, int power)
+        {
+            if (this.BucketCount != h.BucketCount)
+            {
+                throw new ArgumentException("The two histograms must have the same number of buckets");
+            }
+            if (power < 1)
+            {
+                throw new ArgumentException("The power must be greater than zero");
+            }
+            double dist = 0;
+            for (int i = 0; i < this.BucketCount; i++)
+            {
+                dist += Math.Pow(Math.Abs(this[i].Count - h[i].Count), power);
+            }
+            double f = 1 / power;
+            return Math.Pow(dist, f);
+        }
     }
 }
