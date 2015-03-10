@@ -134,11 +134,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public override void InitializeVerify()
         {
-            // TODO: Choose x86 or x64 based on Environment.Is64BitProcess
-
             int a, b, linearAlgebra;
             try
             {
+                // Load the native library
+                NativeProviderLoader.LoadNativeLibrary(SafeNativeMethods.DllName);
+
                 a = SafeNativeMethods.query_capability(0);
                 b = SafeNativeMethods.query_capability(1);
 
