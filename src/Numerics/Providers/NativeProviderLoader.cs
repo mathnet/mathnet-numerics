@@ -40,11 +40,9 @@ namespace MathNet.Numerics.Providers
     /// <summary>
     /// Helper class to load native libraries depending on the architecture of the OS and process.
     /// </summary>
-    [SuppressUnmanagedCodeSecurity]
-    [SecurityCritical]
     static internal class NativeProviderLoader
     {
-        private static Lazy<Dictionary<string, string>> _platformDirectories
+        private static Lazy<Dictionary<string, string>> _ArchitectureDirectories
                             = new Lazy<Dictionary<string, string>>(
                                 () => new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                                 {
@@ -55,9 +53,9 @@ namespace MathNet.Numerics.Providers
                                 },
                                 true);
         /// <summary>
-        /// Default directories for each platform.
+        /// Default directories for each architecture.
         /// </summary>
-        private static Dictionary<string, string> PlatformDirectories { get { return _platformDirectories.Value; } }
+        private static Dictionary<string, string> ArchitectureDirectories { get { return _ArchitectureDirectories.Value; } }
 
         private static Lazy<Dictionary<string, IntPtr>> _nativeHandles = new Lazy<Dictionary<string,IntPtr>>(true);
         /// <summary>
@@ -65,39 +63,48 @@ namespace MathNet.Numerics.Providers
         /// </summary>
         private static Dictionary<string, IntPtr> NativeHandles { get { return _nativeHandles.Value; } }
 
-        private static string _Platform = null;
+        private static string _ArchDirectory = null;
         /// <summary>
-        /// Gets a string indicating the platform of the current process.
+        /// Gets a string indicating the architecture and bitness of the current process.
         /// </summary>
-        private static string Platform
+        private static string ArchDirectory
         {
             get
             {
-                if (string.IsNullOrEmpty(_Platform))
+                if (string.IsNullOrEmpty(_ArchDirectory))
                 {
                     string architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
                     if (!Environment.Is64BitProcess && Environment.Is64BitOperatingSystem)
                     {
-                        _Platform = string.Equals(architecture, "ARM", StringComparison.OrdinalIgnoreCase) ? "ARM" : "x86";
+                        architecture = string.Equals(architecture, "ARM", StringComparison.OrdinalIgnoreCase) ? "ARM" : "x86";
                     }
-                    else
-                    {
-                        _Platform = architecture;
-                    }
+
+                    // Fallback to using the architecture name if unknown
+                    if (!ArchitectureDirectories.TryGetValue(architecture, out _ArchDirectory))
+                        _ArchDirectory = architecture;
                 }
 
-                return _Platform;
+                return _ArchDirectory;
+            }
+        }
+
+        private static bool IsUnix
+        {
+            get
+            {
+                var p = Environment.OSVersion.Platform;
+                return p == PlatformID.Unix || p == PlatformID.MacOSX;
             }
         }
 
         /// <summary>
         /// If the last native library failed to load then gets the corresponding exception which occurred or null if the library was successfully loaded.
         /// </summary>
-        private static Exception LastException { get; private set; }
+        public static Exception LastException { get; private set; }
 
         private static object staticLock = new Object();
         /// <summary>
-        /// Load the native library with the given filename,
+        /// Load the native library with the given filename.
         /// </summary>
         /// <param name="fileName">The file name of the library to load.</param>
         /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
@@ -113,9 +120,9 @@ namespace MathNet.Numerics.Providers
                     return true;
 
                 string path = null;
-                if (PlatformDirectories.TryGetValue(Platform, out path))
+                if (!IsUnix)
                 {
-                    path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), path, fileName);
+                    path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ArchDirectory, fileName);
                 }
                 if (string.IsNullOrEmpty(path) || !File.Exists(path))
                 {
@@ -125,7 +132,7 @@ namespace MathNet.Numerics.Providers
                 }
 
                 // If successful this will return a handle to the library
-                libraryHandle = LoadLibrary(path);
+                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(path) : UnixLoader.LoadLibrary(path);
                 if (libraryHandle == IntPtr.Zero)
                 {
                     int lastError = Marshal.GetLastWin32Error();
@@ -142,7 +149,27 @@ namespace MathNet.Numerics.Providers
             }
         }
 
-        [DllImport("kernel32", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr LoadLibrary(string fileName);
+        [SuppressUnmanagedCodeSecurity]
+        [SecurityCritical]
+        private static class WindowsLoader
+        {
+            [DllImport("kernel32", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Auto, SetLastError = true)]
+            public static extern IntPtr LoadLibrary(string fileName);
+        }
+
+        [SuppressUnmanagedCodeSecurity]
+        [SecurityCritical]
+        private static class UnixLoader
+        {
+            public static IntPtr LoadLibrary(string fileName)
+            {
+                return dlopen(fileName, RTLD_NOW);
+            }
+
+            const int RTLD_NOW = 2;
+
+            [DllImport("libdl.so")]
+            private static extern IntPtr dlopen(String fileName, int flags);
+        }
     }
 }
