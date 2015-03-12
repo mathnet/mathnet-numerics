@@ -49,7 +49,7 @@ namespace MathNet.Numerics.Providers
                                     {"x86", "x86"},
                                     {"AMD64", "amd64"},
                                     {"IA64", "ia64"},
-                                    {"ARM", "arm"} // Is there an ARM64?
+                                    {"ARM", "arm"}
                                 },
                                 true);
         /// <summary>
@@ -73,10 +73,19 @@ namespace MathNet.Numerics.Providers
             {
                 if (string.IsNullOrEmpty(_ArchDirectory))
                 {
-                    string architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
-                    if (!Environment.Is64BitProcess && Environment.Is64BitOperatingSystem)
+                    string architecture;
+                    if (IsUnix)
                     {
-                        architecture = string.Equals(architecture, "ARM", StringComparison.OrdinalIgnoreCase) ? "ARM" : "x86";
+                        // Only support x86 and amd64 on Unix as there isn't a reliable way to detect the architecture
+                        architecture = Environment.Is64BitProcess ? "AMD64" : "x86";
+                    }
+                    else
+                    {
+                        architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
+                        if (!Environment.Is64BitProcess && string.Equals(architecture, "AMD64", StringComparison.OrdinalIgnoreCase))
+                        {
+                            architecture = "x86";
+                        }
                     }
 
                     // Fallback to using the architecture name if unknown
@@ -98,7 +107,8 @@ namespace MathNet.Numerics.Providers
         }
 
         /// <summary>
-        /// If the last native library failed to load then gets the corresponding exception which occurred or null if the library was successfully loaded.
+        /// If the last native library failed to load then gets the corresponding exception
+        /// which occurred or null if the library was successfully loaded.
         /// </summary>
         public static Exception LastException { get; private set; }
 
@@ -119,20 +129,17 @@ namespace MathNet.Numerics.Providers
                 if (NativeHandles.TryGetValue(fileName, out libraryHandle))
                     return true;
 
-                string path = null;
-                if (!IsUnix)
+                string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ArchDirectory, fileName);
+
+                if (string.IsNullOrEmpty(ArchDirectory) || !File.Exists(path))
                 {
-                    path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ArchDirectory, fileName);
-                }
-                if (string.IsNullOrEmpty(path) || !File.Exists(path))
-                {
-                    // Even if we haven't found the library try and load it using LoadLibrary's normal
-                    // search rules by just using the filename without a path
-                    path = fileName;
+                    // If the library isn't found within an architecture specific folder then return false
+                    // to allow normal P/Invoke searching behaviour when the library is called
+                    return false;
                 }
 
                 // If successful this will return a handle to the library
-                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(path) : UnixLoader.LoadLibrary(path);
+                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(path) : WindowsLoader.LoadLibrary(path);
                 if (libraryHandle == IntPtr.Zero)
                 {
                     int lastError = Marshal.GetLastWin32Error();
@@ -168,7 +175,7 @@ namespace MathNet.Numerics.Providers
 
             const int RTLD_NOW = 2;
 
-            [DllImport("libdl.so")]
+            [DllImport("libdl.so", CharSet = CharSet.Auto, SetLastError = true)]
             private static extern IntPtr dlopen(String fileName, int flags);
         }
     }
