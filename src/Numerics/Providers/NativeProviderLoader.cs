@@ -35,6 +35,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
 
+#if NATIVEMKL
+
 namespace MathNet.Numerics.Providers
 {
     /// <summary>
@@ -180,3 +182,5 @@ namespace MathNet.Numerics.Providers
         }
     }
 }
+
+#endif
