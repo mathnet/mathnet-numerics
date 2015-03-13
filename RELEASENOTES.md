@@ -20,7 +20,7 @@
 * Linear Algebra: Vector.Fold2 (fold2 in F#), storage optimized
 * Linear Algebra: Minor change how matrix products call the LA provider
 * Linear Algebra: Random generation now leveraging array sampling routines
-* Linear Algebra: fix bug when manually assigning System.Random to random distribution
+* BUG: Linear Algebra: fix bug when manually assigning System.Random to random distribution
 * Root Finding: Change Brent tolerance check, add bracket check *~Hythen Sidky*
 * Root Finding: Auto zero-crossing bracketing in FindRoots facade (not in algorithms)
 * Statistics: RootMeanSquare (RMS)
@@ -37,10 +37,10 @@
 * Build: for core add PCL profiles 7, 78 and 259; for F# extensions drop PCL profile 328
 
 ### 3.2.3 - 2014-09-06
-* Bug fix: MatrixNormal distribution: density for non-square matrices *~Evelina Gabasova*
+* BUG: MatrixNormal distribution: fix density for non-square matrices *~Evelina Gabasova*
 
 ### 3.2.2 - 2014-09-05
-* Bug fix: MatrixNormal distribution: density computation switched row and column covariance *~Evelina Gabasova*
+* BUG: MatrixNormal distribution: density computation switched row and column covariance *~Evelina Gabasova*
 
 ### 3.2.1 - 2014-08-05
 * Package fix: make sure .Net 3.5-only dependencies are not installed on .Net 4 and newer.
@@ -69,10 +69,10 @@
 * Misc docs fixes
 
 ### 3.0.2 - 2014-06-26
-* Patch release, fixing a bug in Matrix.RemoveRow range checks.
+* BUG: fixing a bug in Matrix.RemoveRow range checks.
 
 ### 3.0.1 - 2014-06-24
-* Patch release, fixing a bug in new Matrix.ToMatrixString and Vector.ToVectorString routines.
+* BUG: fixing a bug in new Matrix.ToMatrixString and Vector.ToVectorString routines.
 
 ### 3.0.0 - 2014-06-21
 * First stable v3 release:
@@ -84,7 +84,7 @@
 
 ### 3.0.0-beta05 - 2014-06-20
 * 2nd Candidate for v3.0 Release
-* Distance: fix bug in Hamming distance that skipped the first pair.
+* BUG: Distance: fix bug in Hamming distance that skipped the first pair.
 * F#: packages now include a MathNet.Numerics.fsx script that includes FSI printers and references the assemblies.
 * Linear Algebra: improved matrix and vector ToString formatting, more compact, adaptive to actual numbers.
 * Linear Algebra: CoerceZero for matrix and vector to replace small numbers with zero.
@@ -281,7 +281,7 @@
 * Patch release, fixing the NuGet package to work better in WindowsPhone 8 projects. Assemblies are not changed.
 
 ### 2.6.1 - 2013-08-13
-* Patch release, fixing a bug in `ArrayStatistics.Variance` on arrays longer than 46341 entries.
+* BUG: fixing a bug in `ArrayStatistics.Variance` on arrays longer than 46341 entries.
 
 ### 2.6.0 - 2013-07-26
 * See also: [What's New in Math.NET Numerics 2.6](http://christoph.ruegg.name/blog/new-in-mathnet-numerics-2-6.html)
@@ -308,7 +308,7 @@
 * Statistics: Covariance function, in Array-, Streaming- and common Statistics.
 * Distributions: Categorical: distribution more consistent, no longer requires normalized pdf/cdf parameters
 * Distributions: Categorical: inverse CDF function *~Paul Varkey*
-* Distributions: BUG: Fixed static sampling methods of the `Stable` distribution. *~Artyom Baranovskiy*
+* BUG: Distributions: Fixed static sampling methods of the `Stable` distribution. *~Artyom Baranovskiy*
 * BUG: Fixed a bug in the Gamma Regularized special function where in some cases with large values it returned 1 instead of 0 and vice versa.
 * The F# extensions now have a strong name in (and only in) the signed package as well (previously had not been signed). *~Gauthier Segay*
 * Evaluate.Polynomial with new overload which is easier to use.
@@ -330,7 +330,7 @@
    * More reasonable ToString behavior for matrices and vectors: `ToString` methods no longer render the whole structure to a string for large data, among others because they used to wreak havoc in debugging and interactive scenarios like F# FSI. Instead, ToString now only renders an excerpt of the data, together with a line about dimension, type and in case of sparse data a sparseness indicator. The intention is to give a good idea about the data in a visually useful way. How much data is shown can be adjusted in the Control class. See also ToTypeString and ToVector/MatrixString.
    * Performance: reworked and tuned common parallelization. Some operations are up to 3 magnitudes faster in some extreme cases. Replaced copy loops with native routines. More algorithms are storage-aware (and should thus perform better especially on sparse data). *~Thomas Ibel, Iain McDonald, Marcus Cuda*
    * Fixed range checks in the Thin-QR decomposition. *~Marcus Cuda*
-   * Fixed bug in Gram Schmidt for solving tall matrices. *~Marcus Cuda*
+   * BUG: Fixed bug in Gram Schmidt for solving tall matrices. *~Marcus Cuda*
    * Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .Net code. *~Scott Stephens*
    * Matrix/Vector parsing has been updated to be able to parse the new visual format as well (see ToMatrixString).
    * DebuggerDisplay attributes for matrices and vectors.
@@ -350,7 +350,7 @@
 ### 2.4.0 - 2013-02-03
 * Drops the dependency on the zlib library. We thus no longer have any dependencies on other packages. *~Marcus Cuda, Thomas Ibel*
 * Adds Modified Bessel & Struve special functions *~Wei Wu*
-* Fixes a bug in our iterative kurtosis statistics formula *~Artyom Baranovskiy*
+* BUG: Fixes a bug in our iterative kurtosis statistics formula *~Artyom Baranovskiy*
 * Linear Algebra: Performance work, this time mostly around accessing matrix rows/columns as vectors. Opting out from targeted patching in our matrix and vector indexers to allow inlining.
 * Linear Algebra: Fixes an issue around Thin-QR solve *~Marcus Cuda*
 * Linear Algebra: Simplifications around using native linear algebra providers (see Math.NET Numerics With Native Linear Algebra)

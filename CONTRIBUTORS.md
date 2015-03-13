@@ -36,6 +36,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Anders Gustafsson
 - Gauthier Segay
 - Hythem Sidky
+- Kuan Bartel
 - Patrick van der Velde
 - Robin Neatherway
 - Andrew Kazyrevich
