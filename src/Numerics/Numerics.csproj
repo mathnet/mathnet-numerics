@@ -192,6 +192,7 @@
     <Compile Include="LinearAlgebra\Vector.BCL.cs" />
     <Compile Include="LinearAlgebra\Vector.Operators.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Providers\NativeProviderLoader.cs" />
     <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />
     <Compile Include="RootFinding\Broyden.cs" />
