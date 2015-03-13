@@ -1,12 +1,12 @@
 NUGET
-  remote: http://nuget.org/api/v2
+  remote: http://www.nuget.org/api/v2
   specs:
     BenchShark (1.0.0)
     ConsoleDump (0.6.0.1)
-    FAKE (3.17.0)
+    FAKE (3.23.0)
     FSharp.Compiler.Service (0.0.82)
     FSharp.Core (3.1.2.1)
-    FSharp.Formatting (2.7.4)
+    FSharp.Formatting (2.7.5)
       FSharp.Compiler.Service (>= 0.0.82)
       FSharpVSPowerTools.Core (>= 1.7.0)
     FSharpVSPowerTools.Core (1.7.0)

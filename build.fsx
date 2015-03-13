@@ -27,7 +27,7 @@ open System
 open System.IO
 
 Environment.CurrentDirectory <- __SOURCE_DIRECTORY__
-let header = ReadFile(__SOURCE_DIRECTORY__ @@ "build.fsx") |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> toLines
+let header = ReadFile(__SOURCE_DIRECTORY__ </> "build.fsx") |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> toLines
 trace header
 
 
@@ -423,12 +423,12 @@ Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
 let provideLicense path =
     ReadFileAsString "LICENSE.md"
     |> ConvertTextToWindowsLineBreaks
-    |> ReplaceFile (path @@ "license.txt")
+    |> ReplaceFile (path </> "license.txt")
 
 let provideReadme title releasenotes path =
     String.concat Environment.NewLine [header; " " + title; ""; ReadFileAsString releasenotes]
     |> ConvertTextToWindowsLineBreaks
-    |> ReplaceFile (path @@ "readme.txt")
+    |> ReplaceFile (path </> "readme.txt")
 
 let provideFsLoader includes path =
     // inspired by FsLab/tpetricek
@@ -438,12 +438,12 @@ let provideFsLoader includes path =
     let assemblies = [ "MathNet.Numerics.dll"; "MathNet.Numerics.FSharp.dll" ]
     let nowarn = ["#nowarn \"211\""]
     let references = [ for assembly in assemblies -> sprintf "#r \"%s\"" assembly ]
-    ReplaceFile (path @@ "MathNet.Numerics.fsx") (nowarn @ includes @ references @ extraScript |> toLines)
+    ReplaceFile (path </> "MathNet.Numerics.fsx") (nowarn @ includes @ references @ extraScript |> toLines)
 
 let provideFsIfSharpLoader path =
     let fullScript = ReadFile "src/FSharp/MathNet.Numerics.IfSharp.fsx" |> Array.ofSeq
     let startIndex = fullScript |> Seq.findIndex (fun s -> s.Contains "***MathNet.Numerics.IfSharp.fsx***")
-    ReplaceFile (path @@ "MathNet.Numerics.IfSharp.fsx") (fullScript .[startIndex + 1 ..] |> toLines)
+    ReplaceFile (path </> "MathNet.Numerics.IfSharp.fsx") (fullScript .[startIndex + 1 ..] |> toLines)
 
 let provideZipExtraFiles path (bundle:Bundle) =
     provideLicense path
@@ -471,7 +471,7 @@ let zip zipDir filesDir filesFilter bundle =
     let workPath = "obj/Zip/" + bundle.Id
     CopyDir workPath filesDir filesFilter
     provideZipExtraFiles workPath bundle
-    Zip "obj/Zip/" (zipDir @@ sprintf "%s-%s.zip" bundle.Id bundle.Version) !! (workPath + "/**/*.*")
+    Zip "obj/Zip/" (zipDir </> sprintf "%s-%s.zip" bundle.Id bundle.Version) !! (workPath + "/**/*.*")
     CleanDir "obj/Zip"
 
 Target "Zip" (fun _ ->
@@ -575,14 +575,14 @@ let releaseNotesDocs =
       "RELEASENOTES-MKL.md", "ReleaseNotes-MKL.md", "MKL Native Provider Release Notes" ]
 
 let provideDocExtraFiles() =
-    for (fileName, docName) in extraDocs do CopyFile ("docs/content" @@ docName) fileName
+    for (fileName, docName) in extraDocs do CopyFile ("docs/content" </> docName) fileName
     for (fileName, docName, title) in releaseNotesDocs do
         String.concat Environment.NewLine
           [ "# " + title
             "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [MKL Native Provider](ReleaseNotes-MKL.html)"
             ""
             ReadFileAsString fileName ]
-        |> ReplaceFile ("docs/content" @@ docName)
+        |> ReplaceFile ("docs/content" </> docName)
 
 let generateDocs fail local =
     let args = if local then [] else ["--define:RELEASE"]

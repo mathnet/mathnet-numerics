@@ -1,4 +1,4 @@
-source http://nuget.org/api/v2
+source http://www.nuget.org/api/v2
 
 # Core Dependencies
 nuget FSharp.Core ~> 3.1.2
