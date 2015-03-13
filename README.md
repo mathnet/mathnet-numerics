@@ -80,10 +80,10 @@ Compilation symbols used to deal with platform differences:
 * **PORTABLE** - Some framework attributes are not available and we provide our own parallelization routines and partitioning using TPL Tasks. Reduced globalization and serialization support. Work around some missing routines like `Math.DivRem`, `Array.FindIndex` and `BitConverter`. There is no `ICloneable`. The crypto random source is not available; simpler random seeding.
 * **NOSYSNUMERICS** - The `System.Numerics` framework assembly is not available. We provide our own double-precision complex number type and disable all arbitrary precision numbers support (BigInteger, BigRational).
 * **NET45REFLECTION** - we use the new .Net 4.5 reflection API where type information is split into `Type` and `TypeInfo`.
-* **NATIVEMKL** - we can support the Intel MKL native provider.
+* **NATIVE** - we can support native providers like Intel MKL.
 
-Configuration | Net35 | Portable | NoSysNumerics | Net45Reflection | NativeMKL
-------------- | ----- | -------- | ------------- | --------------- | ---------
+Configuration | Net35 | Portable | NoSysNumerics | Net45Reflection | Native
+------------- | ----- | -------- | ------------- | --------------- | ------
 .Net 4.0      | -     | -        | -             | -               | Yes
 .Net 3.5      | Yes   | -        | Yes           | -               | -
 Portable 7    | -     | Yes      | -             | Yes             | -

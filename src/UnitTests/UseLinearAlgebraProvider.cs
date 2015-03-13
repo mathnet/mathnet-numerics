@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests
     {
         public void BeforeTest(TestDetails testDetails)
         {
-#if !NET35 && NATIVEMKL
+#if !NET35 && NATIVE
             Control.UseNativeMKL();
 #endif
         }

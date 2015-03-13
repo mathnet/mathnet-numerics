@@ -28,7 +28,7 @@ namespace Performance.LinearAlgebra
             _managed.InitializeVerify();
             Control.LinearAlgebraProvider = _managed;
 
-#if NATIVEMKL
+#if NATIVE
             _mkl.InitializeVerify();
 #endif
         }

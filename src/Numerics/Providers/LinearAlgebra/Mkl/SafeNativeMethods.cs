@@ -26,7 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if NATIVEMKL
+#if NATIVE
 
 using System.Numerics;
 using System.Runtime.InteropServices;

@@ -32,7 +32,7 @@ namespace Performance.LinearAlgebra
             _unsafeProvider.InitializeVerify();
             _experimentalProvider.InitializeVerify();
 
-#if NATIVEMKL
+#if NATIVE
             _mkl.InitializeVerify();
 #endif
         }

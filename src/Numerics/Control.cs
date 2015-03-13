@@ -64,19 +64,23 @@ namespace MathNet.Numerics
             TaskScheduler = TaskScheduler.Default;
 
             // Linear Algebra Provider
+#if PORTABLE
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-#if !PORTABLE && NATIVEMKL
+#else
             try
             {
                 const string name = "MathNetNumericsLAProvider";
                 var value = Environment.GetEnvironmentVariable(name);
                 switch (value != null ? value.ToUpperInvariant() : string.Empty)
                 {
-#if NATIVEMKL
+#if NATIVE
                     case "MKL":
                         LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
                         break;
 #endif
+                    default:
+                        LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+                        break;
                 }
             }
             catch
@@ -108,7 +112,7 @@ namespace MathNet.Numerics
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
         }
 
-#if NATIVEMKL
+#if NATIVE
         public static void UseNativeMKL()
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();

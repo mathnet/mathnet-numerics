@@ -16,7 +16,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
+    <DefineConstants>TRACE;NATIVE</DefineConstants>
     <OutputPath>..\..\out\MKL\Windows\AnyCPU\</OutputPath>
     <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
@@ -28,7 +28,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NATIVE</DefineConstants>
     <OutputPath>..\..\out\MKL\Windows\AnyCPU\</OutputPath>
     <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
@@ -44,7 +44,7 @@
     <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
     <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
-    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
+    <DefineConstants>TRACE;NATIVE</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>1591</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -57,7 +57,7 @@
     <OutputPath>..\..\out\MKL\Windows\x86\</OutputPath>
     <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
-    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NATIVE</DefineConstants>
     <NoWarn>1591</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
@@ -68,7 +68,7 @@
     <OutputPath>..\..\out\MKL\Windows\x64\</OutputPath>
     <IntermediateOutputPath>..\..\obj\MKL\Windows\x64\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x64\</BaseIntermediateOutputPath>
-    <DefineConstants>TRACE;NATIVEMKL</DefineConstants>
+    <DefineConstants>TRACE;NATIVE</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>1591</NoWarn>
     <DebugType>pdbonly</DebugType>
@@ -81,7 +81,7 @@
     <OutputPath>..\..\out\MKL\Windows\x64\</OutputPath>
     <IntermediateOutputPath>..\..\obj\MKL\Windows\x64\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x64\</BaseIntermediateOutputPath>
-    <DefineConstants>TRACE;DEBUG;NATIVEMKL</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NATIVE</DefineConstants>
     <NoWarn>1591</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>

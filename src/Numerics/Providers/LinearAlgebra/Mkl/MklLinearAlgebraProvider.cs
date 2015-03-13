@@ -30,7 +30,7 @@
 
 using System;
 
-#if NATIVEMKL
+#if NATIVE
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 {
