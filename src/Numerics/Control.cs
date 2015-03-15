@@ -127,6 +127,12 @@ namespace MathNet.Numerics
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
         }
+
+        public static void UseNativeOpenBLAS()
+        {
+            LinearAlgebraProvider = new Providers.LinearAlgebra.OpenBlas.OpenBlasLinearAlgebraProvider();
+        }
+
 #endif
 
         /// <summary>

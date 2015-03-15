@@ -1,47 +1,7 @@
 #include "cblas.h"
 
+#include "complex.h"
 #define LAPACK_COMPLEX_CUSTOM
-
-template <typename T>
-struct complex
-{
-	T real, imag;
-
-	complex(T _real = 0, T _imag = 0)
-	{
-		real = _real;
-		imag = _imag;
-	}
-
-	complex(const complex<T>& right)
-	{
-		real = right.real;
-		imag = right.imag;
-	}
-	
-	complex& operator=(const complex& right)
-	{
-		real = right.real;
-		imag = right.imag;
-		return *this;
-	}
-
-	complex& operator=(const T& right)
-	{
-		real = right;
-		imag = 0;
-		return *this;
-	}
-
-	template<typename _Other> inline
-	complex& operator=(const complex<_Other>& right)
-	{
-		real = (T)right.real;
-		imag = (T)right.imag;
-		return *this;
-	}
-};
-
 #define lapack_complex_float complex<float>
 #define lapack_complex_double complex<double>
 
@@ -258,7 +218,7 @@ inline lapack_int complex_qr_solve_factored(lapack_int m, lapack_int n, lapack_i
     lapack_int info = 0;
     unmqr(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
     T one = { 1.0f, 0.0f };
-	trsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &(one.real), &(r->real), m, &(clone_b->real), m);
+    trsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &(one.real), &(r->real), m, &(clone_b->real), m);
     copyBtoX(m, n, bn, clone_b, x);
     delete[] clone_b;
     return info;
