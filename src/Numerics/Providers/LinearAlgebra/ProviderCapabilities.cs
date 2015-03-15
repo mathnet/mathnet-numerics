@@ -1,10 +1,10 @@
-﻿// <copyright file="UseLinearAlgebraProvider.cs" company="Math.NET">
+﻿// <copyright file="ProviderCapabilities.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2012 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,32 +28,28 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using NUnit.Framework;
-
-namespace MathNet.Numerics.UnitTests
+namespace MathNet.Numerics.Providers.LinearAlgebra
 {
-    [AttributeUsage(AttributeTargets.Assembly)]
-    public class UseLinearAlgebraProvider : Attribute, ITestAction
+    public enum ProviderPlatform : int
     {
-        public void BeforeTest(TestDetails testDetails)
-        {
-#if !NET35
-#if NATIVEMKL
-            Control.UseNativeMKL();
-#elif NATIVEOPENBLAS
-            Control.UseNativeOpenBLAS();
-#endif
-#endif
-        }
+        x86 = 8,
+        x64 = 9,
+        ia64 = 10,
+        arm = 11,
+    }
 
-        public void AfterTest(TestDetails details)
-        {
-        }
+    public enum ProviderConfig : int
+    {
+        Revision = 64,
+        Precision = 65,
+        Threading = 66,
+        Memory = 67,
+    }
 
-        public ActionTargets Targets
-        {
-            get { return ActionTargets.Suite; }
-        }
+    public enum ProviderCapability : int
+    {
+        LinearAlgebra = 128,
+        Optimization = 256,
+        FFT = 384,
     }
 }

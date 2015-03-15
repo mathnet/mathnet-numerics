@@ -62,9 +62,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
-    <OpenBLASIncludeDir>$(ProjectDir)..\..\..\..\libs\OpenBLAS\include</OpenBLASIncludeDir>
-    <OpenBLASLibDir>$(ProjectDir)..\..\..\..\libs\OpenBLAS\x86</OpenBLASLibDir>
-    <OpenBLASLibDir_x64>$(ProjectDir)..\..\..\..\libs\OpenBLAS\x64</OpenBLASLibDir_x64>
+    <OpenBLASIncludeDir>$(ProjectDir)..\..\..\..\libs\OpenBLAS\include\</OpenBLASIncludeDir>
+    <OpenBLASLibDir>$(ProjectDir)..\..\..\..\libs\OpenBLAS\x86\</OpenBLASLibDir>
+    <OpenBLASLibDir_x64>$(ProjectDir)..\..\..\..\libs\OpenBLAS\x64\</OpenBLASLibDir_x64>
   </PropertyGroup>
   <PropertyGroup>
     <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
@@ -114,8 +114,7 @@
       <AdditionalLibraryDirectories>$(OpenBLASLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(OpenBLASLibDir)*.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -142,8 +141,7 @@
       <AdditionalLibraryDirectories>$(OpenBLASLibDir_x64);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(OpenBLASLibDir_x64)*.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -170,8 +168,7 @@
       <AdditionalLibraryDirectories>$(OpenBLASLibDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(OpenBLASLibDir)*.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -201,17 +198,20 @@
       <AdditionalLibraryDirectories>$(OpenBLASLibDir_x64);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>copy "$(OpenBLASLibDir_x64)*.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
     <ClCompile Include="..\..\OpenBLAS\blas.c" />
+    <ClCompile Include="..\..\OpenBLAS\capabilities.cpp" />
     <ClCompile Include="..\..\OpenBLAS\lapack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Common\resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\OpenBLAS\complex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
