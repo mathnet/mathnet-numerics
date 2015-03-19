@@ -209,7 +209,7 @@ inline lapack_int qr_solve_factored(lapack_int m, lapack_int n, lapack_int bn, T
     return info;
 }
 
-template<typename T, typename UNMQR, typename TRSM>
+template<typename T, typename R, typename UNMQR, typename TRSM>
 inline lapack_int complex_qr_solve_factored(lapack_int m, lapack_int n, lapack_int bn, T r[], T b[], T tau[], T x[], T work[], lapack_int len, UNMQR unmqr, TRSM trsm)
 {
     T* clone_b = Clone(m, bn, b);
@@ -218,7 +218,7 @@ inline lapack_int complex_qr_solve_factored(lapack_int m, lapack_int n, lapack_i
     lapack_int info = 0;
     unmqr(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
     T one = { 1.0f, 0.0f };
-    trsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &(one.real), &(r->real), m, &(clone_b->real), m);
+    trsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, reinterpret_cast<R*>(&one), reinterpret_cast<R*>(r), m, reinterpret_cast<R*>(clone_b), m);
     copyBtoX(m, n, bn, clone_b, x);
     delete[] clone_b;
     return info;
@@ -354,14 +354,14 @@ inline lapack_int sym_eigen_factor(lapack_int n, T a[], T vectors[], lapack_comp
         delete[] w;
         return info;
     }
-    
+
     memcpy(vectors, clone_a, n*n*sizeof(T));
 
     for (lapack_int index = 0; index < n; ++index)
     {
         values[index] = lapack_complex_double(w[index]);
     }
-    
+
     for (lapack_int j = 0; j < n; ++j)
     {
         lapack_int jn = j*n;
@@ -634,12 +634,12 @@ extern "C" {
 
     DLLEXPORT lapack_int c_qr_solve_factored(lapack_int m, lapack_int n, lapack_int bn, lapack_complex_float r[], lapack_complex_float b[], lapack_complex_float tau[], lapack_complex_float x[], lapack_complex_float work[], lapack_int len)
     {
-        return complex_qr_solve_factored(m, n, bn, r, b, tau, x, work, len, LAPACK_cunmqr, cblas_ctrsm);
+        return complex_qr_solve_factored<lapack_complex_float, float>(m, n, bn, r, b, tau, x, work, len, LAPACK_cunmqr, cblas_ctrsm);
     }
 
     DLLEXPORT lapack_int z_qr_solve_factored(lapack_int m, lapack_int n, lapack_int bn, lapack_complex_double r[], lapack_complex_double b[], lapack_complex_double tau[], lapack_complex_double x[], lapack_complex_double work[], lapack_int len)
     {
-        return complex_qr_solve_factored(m, n, bn, r, b, tau, x, work, len, LAPACK_zunmqr, cblas_ztrsm);
+        return complex_qr_solve_factored<lapack_complex_double, double>(m, n, bn, r, b, tau, x, work, len, LAPACK_zunmqr, cblas_ztrsm);
     }
 
     DLLEXPORT lapack_int s_svd_factor(bool compute_vectors, lapack_int m, lapack_int n, float a[], float s[], float u[], float v[], float work[], lapack_int len)
@@ -697,7 +697,7 @@ extern "C" {
             return eigen_complex_factor(n, a, vectors, values, d, LAPACKE_cgees, LAPACKE_ctrevc);
         }
     }
-    
+
     DLLEXPORT lapack_int z_eigen(bool isSymmetric, lapack_int n, lapack_complex_double a[], lapack_complex_double vectors[], lapack_complex_double values[], lapack_complex_double d[])
     {
         if (isSymmetric)
