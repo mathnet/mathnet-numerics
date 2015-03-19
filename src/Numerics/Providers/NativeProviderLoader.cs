@@ -115,6 +115,7 @@ namespace MathNet.Numerics.Providers
         public static Exception LastException { get; private set; }
 
         private static object staticLock = new Object();
+
         /// <summary>
         /// Load the native library with the given filename.
         /// </summary>
@@ -125,15 +126,21 @@ namespace MathNet.Numerics.Providers
             if (string.IsNullOrEmpty(fileName))
                 throw new ArgumentNullException("fileName");
 
-            lock(staticLock)
+            lock (staticLock)
             {
                 IntPtr libraryHandle = IntPtr.Zero;
                 if (NativeHandles.TryGetValue(fileName, out libraryHandle))
                     return true;
 
-                string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ArchDirectory, fileName);
+                if (string.IsNullOrEmpty(ArchDirectory))
+                    return false;
 
-                if (string.IsNullOrEmpty(ArchDirectory) || !File.Exists(path))
+                // Look for the library in a acrhtecture directory under the current AppDomain's base directory or this assembly's directory
+                string path = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), ArchDirectory, fileName);
+                if (!File.Exists(path))
+                    path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ArchDirectory, fileName);
+
+                if (!File.Exists(path))
                 {
                     // If the library isn't found within an architecture specific folder then return false
                     // to allow normal P/Invoke searching behaviour when the library is called
@@ -162,8 +169,16 @@ namespace MathNet.Numerics.Providers
         [SecurityCritical]
         private static class WindowsLoader
         {
+            public static IntPtr LoadLibrary(string fileName)
+            {
+                return LoadLibraryEx(fileName, IntPtr.Zero, LOAD_WITH_ALTERED_SEARCH_PATH);
+            }
+
+            // Search for dependencies in the library's directory rather than the calling process's directory
+            const uint LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008;
+
             [DllImport("kernel32", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Auto, SetLastError = true)]
-            public static extern IntPtr LoadLibrary(string fileName);
+            private static extern IntPtr LoadLibraryEx(string fileName, IntPtr reservedNull, uint flags);
         }
 
         [SuppressUnmanagedCodeSecurity]
