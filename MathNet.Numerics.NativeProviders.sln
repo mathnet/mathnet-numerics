@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
@@ -97,18 +97,14 @@ Global
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Win32.ActiveCfg = Debug|x86
-		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Win32.Build.0 = Debug|x86
-		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|x64.ActiveCfg = Debug|x64
-		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|x64.Build.0 = Debug|x64
+		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Win32.ActiveCfg = Release|x86
-		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Win32.Build.0 = Release|x86
-		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|x64.ActiveCfg = Release|x64
-		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|x64.Build.0 = Release|x64
+		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Win32.ActiveCfg = Release|Any CPU
+		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|x64.ActiveCfg = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release-Signed|Mixed Platforms.ActiveCfg = Release|Any CPU

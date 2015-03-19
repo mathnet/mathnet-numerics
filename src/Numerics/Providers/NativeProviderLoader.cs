@@ -49,7 +49,7 @@ namespace MathNet.Numerics.Providers
                                 () => new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                                 {
                                     {"x86", "x86"},
-                                    {"AMD64", "amd64"},
+                                    {"AMD64", "x64"},
                                     {"IA64", "ia64"},
                                     {"ARM", "arm"}
                                 },
