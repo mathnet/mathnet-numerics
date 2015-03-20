@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -138,7 +138,7 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Gets or sets a value indicating whether to use thread safe random number generators (RNG).
-        /// Thread safe RNG about two and half time slower than non-thread safe RNG. 
+        /// Thread safe RNG about two and half time slower than non-thread safe RNG.
         /// </summary>
         /// <value>
         ///     <c>true</c> to use thread safe random number generators ; otherwise, <c>false</c>.
@@ -148,7 +148,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Optional path to try to load native provider binaries from.
         /// </summary>
-        public static DirectoryInfo NativeProviderPath { get; set; }
+        public static string NativeProviderPath { get; set; }
 
         /// <summary>
         /// Gets or sets the linear algebra provider. Consider to use UseNativeMKL or UseManaged instead.

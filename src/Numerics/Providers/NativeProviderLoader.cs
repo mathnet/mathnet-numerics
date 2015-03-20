@@ -34,6 +34,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Threading;
 
 #if NATIVE
 
@@ -44,69 +45,29 @@ namespace MathNet.Numerics.Providers
     /// </summary>
     internal static class NativeProviderLoader
     {
-        static Lazy<Dictionary<string, string>> _ArchitectureDirectories
-            = new Lazy<Dictionary<string, string>>(
-                () => new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-                {
-                    { "x86", "x86" },
-                    { "AMD64", "x64" },
-                    { "IA64", "ia64" },
-                    { "ARM", "arm" }
-                },
-                true);
+        static readonly object StaticLock = new Object();
 
-        /// <summary>
-        /// Default directories for each architecture.
-        /// </summary>
-        static Dictionary<string, string> ArchitectureDirectories
-        {
-            get { return _ArchitectureDirectories.Value; }
-        }
-
-        static Lazy<Dictionary<string, IntPtr>> _nativeHandles = new Lazy<Dictionary<string, IntPtr>>(true);
+        const string X86 = "x86";
+        const string X64 = "x64";
+        const string IA64 = "ia64";
+        const string ARM = "arm";
+        const string ARM64 = "arm64";
 
         /// <summary>
         /// Dictionary of handles to previously loaded libraries,
         /// </summary>
-        static Dictionary<string, IntPtr> NativeHandles
-        {
-            get { return _nativeHandles.Value; }
-        }
-
-        static string _ArchDirectory = null;
+        static readonly Lazy<Dictionary<string, IntPtr>> NativeHandles = new Lazy<Dictionary<string, IntPtr>>(LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
         /// Gets a string indicating the architecture and bitness of the current process.
         /// </summary>
-        static string ArchDirectory
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_ArchDirectory))
-                {
-                    string architecture;
-                    if (IsUnix)
-                    {
-                        // Only support x86 and amd64 on Unix as there isn't a reliable way to detect the architecture
-                        architecture = Environment.Is64BitProcess ? "AMD64" : "x86";
-                    }
-                    else
-                    {
-                        architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
-                        if (!Environment.Is64BitProcess && string.Equals(architecture, "AMD64", StringComparison.OrdinalIgnoreCase))
-                        {
-                            architecture = "x86";
-                        }
-                    }
+        static readonly Lazy<string> ArchitectureKey = new Lazy<string>(EvaluateArchitectureKey, LazyThreadSafetyMode.PublicationOnly);
 
-                    // Fallback to using the architecture name if unknown
-                    if (!ArchitectureDirectories.TryGetValue(architecture, out _ArchDirectory))
-                        _ArchDirectory = architecture;
-                }
-
-                return _ArchDirectory;
-            }
-        }
+        /// <summary>
+        /// If the last native library failed to load then gets the corresponding exception
+        /// which occurred or null if the library was successfully loaded.
+        /// </summary>
+        public static Exception LastException { get; private set; }
 
         static bool IsUnix
         {
@@ -117,13 +78,40 @@ namespace MathNet.Numerics.Providers
             }
         }
 
-        /// <summary>
-        /// If the last native library failed to load then gets the corresponding exception
-        /// which occurred or null if the library was successfully loaded.
-        /// </summary>
-        public static Exception LastException { get; private set; }
+        static string EvaluateArchitectureKey()
+        {
+            if (IsUnix)
+            {
+                // Only support x86 and amd64 on Unix as there isn't a reliable way to detect the architecture
+                return Environment.Is64BitProcess ? X64 : X86;
+            }
 
-        static readonly object StaticLock = new Object();
+            var architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
+
+            if (string.Equals(architecture, "x86", StringComparison.OrdinalIgnoreCase))
+            {
+                return X86;
+            }
+
+            if (string.Equals(architecture, "amd64", StringComparison.OrdinalIgnoreCase)
+                || string.Equals(architecture, "x64", StringComparison.OrdinalIgnoreCase))
+            {
+                return Environment.Is64BitProcess ? X64 : X86;
+            }
+
+            if (string.Equals(architecture, "ia64", StringComparison.OrdinalIgnoreCase))
+            {
+                return IA64;
+            }
+
+            if (string.Equals(architecture, "arm", StringComparison.OrdinalIgnoreCase))
+            {
+                return Environment.Is64BitProcess ? ARM64 : ARM;
+            }
+
+            // Fallback if unknown
+            return architecture;
+        }
 
         /// <summary>
         /// Load the native library with the given filename.
@@ -138,21 +126,19 @@ namespace MathNet.Numerics.Providers
             }
 
             // If we have an extra path provided by the user, look there first
-            var userDir = Control.NativeProviderPath;
-            if (userDir != null && userDir.Exists && TryLoad(fileName, userDir))
+            if (TryLoad(fileName, Control.NativeProviderPath))
             {
                 return true;
             }
 
             // Look under the current AppDomain's base directory
-            if (TryLoad(fileName, new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)))
+            if (TryLoad(fileName, AppDomain.CurrentDomain.BaseDirectory))
             {
                 return true;
             }
 
             // Look at this assembly's directory
-            var assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            if (!string.IsNullOrEmpty(assemblyDir) && TryLoad(fileName, new DirectoryInfo(assemblyDir)))
+            if (TryLoad(fileName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
             {
                 return true;
             }
@@ -166,22 +152,24 @@ namespace MathNet.Numerics.Providers
         /// and process mode if there is a matching subfolder.
         /// </summary>
         /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
-        public static bool TryLoad(string fileName, DirectoryInfo directory)
+        public static bool TryLoad(string fileName, string directory)
         {
-            if (!directory.Exists)
+            if (!Directory.Exists(directory))
             {
                 return false;
             }
 
+            directory = Path.GetFullPath(directory);
+
             // If we have a know architecture, try the matching subdirectory first
-            var architecture = ArchDirectory;
-            if (!string.IsNullOrEmpty(architecture) && TryLoadFile(new FileInfo(Path.Combine(directory.FullName, architecture, fileName))))
+            var architecture = ArchitectureKey.Value;
+            if (!string.IsNullOrEmpty(architecture) && TryLoadFile(new FileInfo(Path.Combine(directory, architecture, fileName))))
             {
                 return true;
             }
 
             // Otherwise try to load directly from the provided directory
-            return TryLoadFile(new FileInfo(Path.Combine(directory.FullName, fileName)));
+            return TryLoadFile(new FileInfo(Path.Combine(directory, fileName)));
         }
 
         /// <summary>
@@ -193,7 +181,7 @@ namespace MathNet.Numerics.Providers
             lock (StaticLock)
             {
                 IntPtr libraryHandle;
-                if (NativeHandles.TryGetValue(file.Name, out libraryHandle))
+                if (NativeHandles.Value.TryGetValue(file.Name, out libraryHandle))
                 {
                     return true;
                 }
@@ -201,7 +189,7 @@ namespace MathNet.Numerics.Providers
                 if (!file.Exists)
                 {
                     // If the library isn't found within an architecture specific folder then return false
-                    // to allow normal P/Invoke searching behaviour when the library is called
+                    // to allow normal P/Invoke searching behavior when the library is called
                     return false;
                 }
 
@@ -216,7 +204,7 @@ namespace MathNet.Numerics.Providers
                 else
                 {
                     LastException = null;
-                    NativeHandles[file.Name] = libraryHandle;
+                    NativeHandles.Value[file.Name] = libraryHandle;
                 }
 
                 return libraryHandle != IntPtr.Zero;
