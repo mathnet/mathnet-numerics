@@ -42,34 +42,43 @@ namespace MathNet.Numerics.Providers
     /// <summary>
     /// Helper class to load native libraries depending on the architecture of the OS and process.
     /// </summary>
-    static internal class NativeProviderLoader
+    internal static class NativeProviderLoader
     {
-        private static Lazy<Dictionary<string, string>> _ArchitectureDirectories
-                            = new Lazy<Dictionary<string, string>>(
-                                () => new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-                                {
-                                    {"x86", "x86"},
-                                    {"AMD64", "x64"},
-                                    {"IA64", "ia64"},
-                                    {"ARM", "arm"}
-                                },
-                                true);
+        static Lazy<Dictionary<string, string>> _ArchitectureDirectories
+            = new Lazy<Dictionary<string, string>>(
+                () => new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    { "x86", "x86" },
+                    { "AMD64", "x64" },
+                    { "IA64", "ia64" },
+                    { "ARM", "arm" }
+                },
+                true);
+
         /// <summary>
         /// Default directories for each architecture.
         /// </summary>
-        private static Dictionary<string, string> ArchitectureDirectories { get { return _ArchitectureDirectories.Value; } }
+        static Dictionary<string, string> ArchitectureDirectories
+        {
+            get { return _ArchitectureDirectories.Value; }
+        }
 
-        private static Lazy<Dictionary<string, IntPtr>> _nativeHandles = new Lazy<Dictionary<string,IntPtr>>(true);
+        static Lazy<Dictionary<string, IntPtr>> _nativeHandles = new Lazy<Dictionary<string, IntPtr>>(true);
+
         /// <summary>
         /// Dictionary of handles to previously loaded libraries,
         /// </summary>
-        private static Dictionary<string, IntPtr> NativeHandles { get { return _nativeHandles.Value; } }
+        static Dictionary<string, IntPtr> NativeHandles
+        {
+            get { return _nativeHandles.Value; }
+        }
 
-        private static string _ArchDirectory = null;
+        static string _ArchDirectory = null;
+
         /// <summary>
         /// Gets a string indicating the architecture and bitness of the current process.
         /// </summary>
-        private static string ArchDirectory
+        static string ArchDirectory
         {
             get
             {
@@ -99,7 +108,7 @@ namespace MathNet.Numerics.Providers
             }
         }
 
-        private static bool IsUnix
+        static bool IsUnix
         {
             get
             {
@@ -114,33 +123,82 @@ namespace MathNet.Numerics.Providers
         /// </summary>
         public static Exception LastException { get; private set; }
 
-        private static object staticLock = new Object();
+        static readonly object StaticLock = new Object();
 
         /// <summary>
         /// Load the native library with the given filename.
         /// </summary>
         /// <param name="fileName">The file name of the library to load.</param>
         /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
-        public static bool LoadNativeLibrary(string fileName)
+        public static bool TryLoad(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
-                throw new ArgumentNullException("fileName");
-
-            lock (staticLock)
             {
-                IntPtr libraryHandle = IntPtr.Zero;
-                if (NativeHandles.TryGetValue(fileName, out libraryHandle))
+                throw new ArgumentNullException("fileName");
+            }
+
+            // If we have an extra path provided by the user, look there first
+            var userDir = Control.NativeProviderPath;
+            if (userDir != null && userDir.Exists && TryLoad(fileName, userDir))
+            {
+                return true;
+            }
+
+            // Look under the current AppDomain's base directory
+            if (TryLoad(fileName, new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)))
+            {
+                return true;
+            }
+
+            // Look at this assembly's directory
+            var assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            if (!string.IsNullOrEmpty(assemblyDir) && TryLoad(fileName, new DirectoryInfo(assemblyDir)))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Try to load a native library by providing its name and a directory.
+        /// Tries to load an implementation suitable for the current CPU architecture
+        /// and process mode if there is a matching subfolder.
+        /// </summary>
+        /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
+        public static bool TryLoad(string fileName, DirectoryInfo directory)
+        {
+            if (!directory.Exists)
+            {
+                return false;
+            }
+
+            // If we have a know architecture, try the matching subdirectory first
+            var architecture = ArchDirectory;
+            if (!string.IsNullOrEmpty(architecture) && TryLoadFile(new FileInfo(Path.Combine(directory.FullName, architecture, fileName))))
+            {
+                return true;
+            }
+
+            // Otherwise try to load directly from the provided directory
+            return TryLoadFile(new FileInfo(Path.Combine(directory.FullName, fileName)));
+        }
+
+        /// <summary>
+        /// Try to load a native library by providing the full path including the file name of the library.
+        /// </summary>
+        /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
+        public static bool TryLoadFile(FileInfo file)
+        {
+            lock (StaticLock)
+            {
+                IntPtr libraryHandle;
+                if (NativeHandles.TryGetValue(file.Name, out libraryHandle))
+                {
                     return true;
+                }
 
-                if (string.IsNullOrEmpty(ArchDirectory))
-                    return false;
-
-                // Look for the library in a acrhtecture directory under the current AppDomain's base directory or this assembly's directory
-                string path = Path.Combine(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory), ArchDirectory, fileName);
-                if (!File.Exists(path))
-                    path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), ArchDirectory, fileName);
-
-                if (!File.Exists(path))
+                if (!file.Exists)
                 {
                     // If the library isn't found within an architecture specific folder then return false
                     // to allow normal P/Invoke searching behaviour when the library is called
@@ -148,7 +206,7 @@ namespace MathNet.Numerics.Providers
                 }
 
                 // If successful this will return a handle to the library
-                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(path) : WindowsLoader.LoadLibrary(path);
+                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(file.FullName) : WindowsLoader.LoadLibrary(file.FullName);
                 if (libraryHandle == IntPtr.Zero)
                 {
                     int lastError = Marshal.GetLastWin32Error();
@@ -158,7 +216,7 @@ namespace MathNet.Numerics.Providers
                 else
                 {
                     LastException = null;
-                    NativeHandles[fileName] = libraryHandle;
+                    NativeHandles[file.Name] = libraryHandle;
                 }
 
                 return libraryHandle != IntPtr.Zero;
@@ -167,7 +225,7 @@ namespace MathNet.Numerics.Providers
 
         [SuppressUnmanagedCodeSecurity]
         [SecurityCritical]
-        private static class WindowsLoader
+        static class WindowsLoader
         {
             public static IntPtr LoadLibrary(string fileName)
             {
@@ -178,12 +236,12 @@ namespace MathNet.Numerics.Providers
             const uint LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008;
 
             [DllImport("kernel32", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Auto, SetLastError = true)]
-            private static extern IntPtr LoadLibraryEx(string fileName, IntPtr reservedNull, uint flags);
+            static extern IntPtr LoadLibraryEx(string fileName, IntPtr reservedNull, uint flags);
         }
 
         [SuppressUnmanagedCodeSecurity]
         [SecurityCritical]
-        private static class UnixLoader
+        static class UnixLoader
         {
             public static IntPtr LoadLibrary(string fileName)
             {
@@ -193,7 +251,7 @@ namespace MathNet.Numerics.Providers
             const int RTLD_NOW = 2;
 
             [DllImport("libdl.so", CharSet = CharSet.Auto, SetLastError = true)]
-            private static extern IntPtr dlopen(String fileName, int flags);
+            static extern IntPtr dlopen(String fileName, int flags);
         }
     }
 }

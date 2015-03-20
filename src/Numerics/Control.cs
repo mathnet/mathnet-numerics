@@ -30,6 +30,7 @@
 
 using MathNet.Numerics.Providers.LinearAlgebra;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace MathNet.Numerics
@@ -143,6 +144,11 @@ namespace MathNet.Numerics
         ///     <c>true</c> to use thread safe random number generators ; otherwise, <c>false</c>.
         /// </value>
         public static bool ThreadSafeRandomNumberGenerators { get; set; }
+
+        /// <summary>
+        /// Optional path to try to load native provider binaries from.
+        /// </summary>
+        public static DirectoryInfo NativeProviderPath { get; set; }
 
         /// <summary>
         /// Gets or sets the linear algebra provider. Consider to use UseNativeMKL or UseManaged instead.

@@ -138,7 +138,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             try
             {
                 // Load the native library
-                NativeProviderLoader.LoadNativeLibrary(SafeNativeMethods.DllName);
+                NativeProviderLoader.TryLoad(SafeNativeMethods.DllName);
 
                 a = SafeNativeMethods.query_capability(0);
                 b = SafeNativeMethods.query_capability(1);
