@@ -380,7 +380,7 @@ let test target =
     NUnit (fun p ->
         { p with
             DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 30.
+            TimeOut = TimeSpan.FromMinutes 60.
             OutputFile = "TestResults.xml" } |> quick) target
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
@@ -392,7 +392,7 @@ Target "MklWin32Test" (fun _ ->
         { p with
             ToolName = "nunit-console-x86.exe"
             DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 30.
+            TimeOut = TimeSpan.FromMinutes 60.
             OutputFile = "TestResults.xml" }))
 Target "MklWin64Test" (fun _ ->
     ActivateFinalTarget "CloseTestRunner"
@@ -401,7 +401,7 @@ Target "MklWin64Test" (fun _ ->
         { p with
             ToolName = "nunit-console.exe"
             DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 30.
+            TimeOut = TimeSpan.FromMinutes 60.
             OutputFile = "TestResults.xml" }))
 Target "MklWinTest" DoNothing
 
