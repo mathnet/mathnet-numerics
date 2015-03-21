@@ -1737,6 +1737,24 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Applies a function to each value pair of two matrices and replaces the value in the result vector.
+        /// </summary>
+        public void Map2(Func<T, T, T> f, Matrix<T> other, Matrix<T> result, Zeros zeros = Zeros.AllowSkip)
+        {
+            Storage.Map2To(result.Storage, other.Storage, f, zeros, ExistingData.Clear);
+        }
+
+        /// <summary>
+        /// Applies a function to each value pair of two matrices and returns the results as a new vector.
+        /// </summary>
+        public Matrix<T> Map2(Func<T, T, T> f, Matrix<T> other, Zeros zeros = Zeros.AllowSkip)
+        {
+            var result = Build.SameAs(this);
+            Storage.Map2To(result.Storage, other.Storage, f, zeros, ExistingData.AssumeZeros);
+            return result;
+        }
+
+        /// <summary>
         /// Applies a function to update the status with each value pair of two matrices and returns the resulting status.
         /// </summary>
         public TState Fold2<TOther, TState>(Func<TState, T, TOther, TState> f, TState state, Matrix<TOther> other, Zeros zeros = Zeros.AllowSkip)

@@ -369,6 +369,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
+            // TODO: actual in-place
             Storage.MapToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
         }
 
@@ -380,6 +381,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void MapIndexedInplace(Func<int, T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
+            // TODO: actual in-place
             Storage.MapIndexedToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
         }
 
@@ -392,6 +394,7 @@ namespace MathNet.Numerics.LinearAlgebra
             where TU : struct, IEquatable<TU>, IFormattable
         {
             // TODO: in v4 update this method to replace TU with T (consistent with Matrix, see MapConvert)
+            //       then automatically do in-place if possible.
             Storage.MapTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
         }
 
@@ -405,6 +408,7 @@ namespace MathNet.Numerics.LinearAlgebra
             where TU : struct, IEquatable<TU>, IFormattable
         {
             // TODO: in v4 update this method to replace TU with T (consistent with Matrix, see MapIndexedConvert)
+            //       then automatically do in-place if possible.
             Storage.MapIndexedTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
         }
 
