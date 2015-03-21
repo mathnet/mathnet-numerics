@@ -801,9 +801,25 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Create samples with independent amplitudes of standard distribution.
+        /// </summary>
+        public static double[] Standard(int length)
+        {
+            return Normal(length, 0.0, 1.0);
+        }
+
+        /// <summary>
+        /// Create an infinite sample sequence with independent amplitudes of standard distribution.
+        /// </summary>
+        public static IEnumerable<double> StandardSequence()
+        {
+            return NormalSequence(0.0, 1.0);
+        }
+
+        /// <summary>
         /// Create samples with independent amplitudes of normal distribution and a flat spectral density.
         /// </summary>
-        public static double[] Gaussian(int length, double mean, double standardDeviation)
+        public static double[] Normal(int length, double mean, double standardDeviation)
         {
             if (length < 0)
             {
@@ -811,16 +827,34 @@ namespace MathNet.Numerics
             }
 
             var samples = new double[length];
-            Normal.Samples(SystemRandomSource.Default, samples, mean, standardDeviation);
+            Distributions.Normal.Samples(SystemRandomSource.Default, samples, mean, standardDeviation);
             return samples;
         }
 
         /// <summary>
         /// Create an infinite sample sequence with independent amplitudes of normal distribution and a flat spectral density.
         /// </summary>
+        public static IEnumerable<double> NormalSequence(double mean, double standardDeviation)
+        {
+            return Distributions.Normal.Samples(SystemRandomSource.Default, mean, standardDeviation);
+        }
+
+        /// <summary>
+        /// Create samples with independent amplitudes of normal distribution and a flat spectral density.
+        /// </summary>
+        [Obsolete("Use Normal instead. Will be removed in v4.")]
+        public static double[] Gaussian(int length, double mean, double standardDeviation)
+        {
+            return Normal(length, mean, standardDeviation);
+        }
+
+        /// <summary>
+        /// Create an infinite sample sequence with independent amplitudes of normal distribution and a flat spectral density.
+        /// </summary>
+        [Obsolete("Use NormalSequence instead. Will be removed in v4.")]
         public static IEnumerable<double> GaussianSequence(double mean, double standardDeviation)
         {
-            return Normal.Samples(SystemRandomSource.Default, mean, standardDeviation);
+            return NormalSequence(mean, standardDeviation);
         }
 
         /// <summary>
@@ -831,6 +865,7 @@ namespace MathNet.Numerics
         /// <param name="beta">Skewness beta-parameter of the stable distribution</param>
         /// <param name="scale">Scale c-parameter of the stable distribution</param>
         /// <param name="location">Location mu-parameter of the stable distribution</param>
+        [Obsolete("Will be removed in v4.")]
         public static double[] Stable(int length, double alpha, double beta, double scale, double location)
         {
             if (length < 0)
@@ -850,6 +885,7 @@ namespace MathNet.Numerics
         /// <param name="beta">Skewness beta-parameter of the stable distribution</param>
         /// <param name="scale">Scale c-parameter of the stable distribution</param>
         /// <param name="location">Location mu-parameter of the stable distribution</param>
+        [Obsolete("Will be removed in v4.")]
         public static IEnumerable<double> StableSequence(double alpha, double beta, double scale, double location)
         {
             return Distributions.Stable.Samples(SystemRandomSource.Default, alpha, beta, scale, location);
