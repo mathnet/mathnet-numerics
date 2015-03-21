@@ -30,6 +30,7 @@
 
 using System;
 using System.Linq;
+using System.Numerics;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
@@ -216,6 +217,34 @@ namespace MathNet.Numerics.UnitTests
             Assert.That(
                 Generate.PeriodicImpulseSequence(100, 5, 40).Take(1000).ToArray(),
                 Is.EqualTo(Generate.PeriodicImpulse(1000, 100, 5, 40)).AsCollection);
+        }
+
+        [Test]
+        public void UnfoldConsistentWithSequence()
+        {
+            Assert.That(
+                Generate.UnfoldSequence((s => Tuple.Create(s + 1, s + 1)), 0).Take(250).ToArray(),
+                Is.EqualTo(Generate.Unfold(250, (s => Tuple.Create(s + 1, s + 1)), 0)).AsCollection);
+        }
+
+        [Test]
+        public void FibonacciConsistentWithSequence()
+        {
+            Assert.That(
+                Generate.FibonacciSequence().Take(250).ToArray(),
+                Is.EqualTo(Generate.Fibonacci(250)).AsCollection);
+        }
+
+        [Test]
+        public void FibonacciConsistentWithUnfold()
+        {
+            Assert.That(
+                Generate.FibonacciSequence().Take(250).ToArray(),
+                Is.EqualTo(new[] { BigInteger.Zero, BigInteger.One }.Concat(Generate.Unfold(248, (s =>
+                {
+                    var z = s.Item1 + s.Item2;
+                    return Tuple.Create(z, Tuple.Create(s.Item2, z));
+                }), Tuple.Create(BigInteger.Zero, BigInteger.One)))).AsCollection);
         }
     }
 }
