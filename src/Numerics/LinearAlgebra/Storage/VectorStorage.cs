@@ -98,22 +98,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <remarks>WARNING: This method is not thread safe. Use "lock" with it and be sure to avoid deadlocks.</remarks>
         public abstract void At(int index, T value);
 
-        public virtual void Clear()
-        {
-            for (var i = 0; i < Length; i++)
-            {
-                At(i, Zero);
-            }
-        }
-
-        public virtual void Clear(int index, int count)
-        {
-            for (var i = index; i < index + count; i++)
-            {
-                At(i, Zero);
-            }
-        }
-
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -183,6 +167,24 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return hash;
+        }
+
+        // CLEARING
+
+        public virtual void Clear()
+        {
+            for (var i = 0; i < Length; i++)
+            {
+                At(i, Zero);
+            }
+        }
+
+        public virtual void Clear(int index, int count)
+        {
+            for (var i = index; i < index + count; i++)
+            {
+                At(i, Zero);
+            }
         }
 
         // VECTOR COPY
@@ -409,6 +411,52 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     yield return new Tuple<int, T>(i, x);
                 }
             }
+        }
+
+        // FIND
+
+        public virtual Tuple<int, T> Find(Func<T, bool> predicate, Zeros zeros)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                var item = At(i);
+                if (predicate(item))
+                {
+                    return new Tuple<int, T>(i, item);
+                }
+            }
+            return null;
+        }
+
+        public Tuple<int, T, TOther> Find2<TOther>(VectorStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (Length != other.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            return Find2Unchecked(other, predicate, zeros);
+        }
+
+        internal virtual Tuple<int, T, TOther> Find2Unchecked<TOther>(VectorStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
+            where TOther : struct, IEquatable<TOther>, IFormattable
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                var item = At(i);
+                var otherItem = other.At(i);
+                if (predicate(item, otherItem))
+                {
+                    return new Tuple<int, T, TOther>(i, item, otherItem);
+                }
+            }
+            return null;
         }
 
         // FUNCTIONAL COMBINATORS

@@ -183,42 +183,6 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return delta;
         }
 
-        public override void Clear()
-        {
-            ValueCount = 0;
-        }
-
-        public override void Clear(int index, int count)
-        {
-            if (index == 0 && count == Length)
-            {
-                Clear();
-                return;
-            }
-
-            var first = Array.BinarySearch(Indices, 0, ValueCount, index);
-            var last = Array.BinarySearch(Indices, 0, ValueCount, index + count - 1);
-            if (first < 0) first = ~first;
-            if (last < 0) last = ~last - 1;
-            int itemCount = last - first + 1;
-
-            if (itemCount > 0)
-            {
-                Array.Copy(Values, first + count, Values, first, ValueCount - first - count);
-                Array.Copy(Indices, first + count, Indices, first, ValueCount - first - count);
-
-                ValueCount -= count;
-            }
-
-            // Check whether we need to shrink the arrays. This is reasonable to do if
-            // there are a lot of non-zero elements and storage is two times bigger
-            if ((ValueCount > 1024) && (ValueCount < Indices.Length / 2))
-            {
-                Array.Resize(ref Values, ValueCount);
-                Array.Resize(ref Indices, ValueCount);
-            }
-        }
-
         public override bool Equals(VectorStorage<T> other)
         {
             // Reject equality when the argument is null or has a different shape.
@@ -291,6 +255,44 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return hash;
+        }
+
+        // CLEARING
+
+        public override void Clear()
+        {
+            ValueCount = 0;
+        }
+
+        public override void Clear(int index, int count)
+        {
+            if (index == 0 && count == Length)
+            {
+                Clear();
+                return;
+            }
+
+            var first = Array.BinarySearch(Indices, 0, ValueCount, index);
+            var last = Array.BinarySearch(Indices, 0, ValueCount, index + count - 1);
+            if (first < 0) first = ~first;
+            if (last < 0) last = ~last - 1;
+            int itemCount = last - first + 1;
+
+            if (itemCount > 0)
+            {
+                Array.Copy(Values, first + count, Values, first, ValueCount - first - count);
+                Array.Copy(Indices, first + count, Indices, first, ValueCount - first - count);
+
+                ValueCount -= count;
+            }
+
+            // Check whether we need to shrink the arrays. This is reasonable to do if
+            // there are a lot of non-zero elements and storage is two times bigger
+            if ((ValueCount > 1024) && (ValueCount < Indices.Length / 2))
+            {
+                Array.Resize(ref Values, ValueCount);
+                Array.Resize(ref Indices, ValueCount);
+            }
         }
 
         // INITIALIZATION
@@ -643,6 +645,117 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     yield return new Tuple<int, T>(Indices[i], Values[i]);
                 }
             }
+        }
+
+        // FIND
+
+        public override Tuple<int, T> Find(Func<T, bool> predicate, Zeros zeros)
+        {
+            for (int i = 0; i < ValueCount; i++)
+            {
+                if (predicate(Values[i]))
+                {
+                    return new Tuple<int, T>(Indices[i], Values[i]);
+                }
+            }
+            if (zeros == Zeros.Include && ValueCount < Length && predicate(Zero))
+            {
+                for (int i = 0; i < Length; i++)
+                {
+                    if (i >= ValueCount || Indices[i] != i)
+                    {
+                        return new Tuple<int, T>(i, Zero);
+                    }
+                }
+            }
+            return null;
+        }
+
+        internal override Tuple<int, T, TOther> Find2Unchecked<TOther>(VectorStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
+        {
+            var denseOther = other as DenseVectorStorage<TOther>;
+            if (denseOther != null)
+            {
+                TOther[] otherData = denseOther.Data;
+                int k = 0;
+                for (int i = 0; i < otherData.Length; i++)
+                {
+                    if (k < ValueCount && Indices[k] == i)
+                    {
+                        if (predicate(Values[k], otherData[i]))
+                        {
+                            return new Tuple<int, T, TOther>(i, Values[k], otherData[i]);
+                        }
+                        k++;
+                    }
+                    else
+                    {
+                        if (predicate(Zero, otherData[i]))
+                        {
+                            return new Tuple<int, T, TOther>(i, Zero, otherData[i]);
+                        }
+                    }
+                }
+                return null;
+            }
+
+            var sparseOther = other as SparseVectorStorage<TOther>;
+            if (sparseOther != null)
+            {
+                int[] otherIndices = sparseOther.Indices;
+                TOther[] otherValues = sparseOther.Values;
+                int otherValueCount = sparseOther.ValueCount;
+                TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+
+                // Full Scan
+                int k = 0, otherk = 0;
+                if (zeros == Zeros.Include && ValueCount < Length && sparseOther.ValueCount < Length && predicate(Zero, otherZero))
+                {
+                    for (int i = 0; i < Length; i++)
+                    {
+                        var left = k < ValueCount && Indices[k] == i ? Values[k++] : Zero;
+                        var right = otherk < otherValueCount && otherIndices[otherk] == i ? otherValues[otherk++] : otherZero;
+                        if (predicate(left, right))
+                        {
+                            return new Tuple<int, T, TOther>(i, left, right);
+                        }
+                    }
+                    return null;
+                }
+
+                // Sparse Scan
+                k = 0;
+                otherk = 0;
+                while (k < ValueCount || otherk < otherValueCount)
+                {
+                    if (k == ValueCount || otherk < otherValueCount && Indices[k] > otherIndices[otherk])
+                    {
+                        if (predicate(Zero, otherValues[otherk++]))
+                        {
+                            return new Tuple<int, T, TOther>(otherIndices[otherk - 1], Zero, otherValues[otherk - 1]);
+                        }
+                    }
+                    else if (otherk == otherValueCount || Indices[k] < otherIndices[otherk])
+                    {
+                        if (predicate(Values[k++], otherZero))
+                        {
+                            return new Tuple<int, T, TOther>(Indices[k - 1], Values[k - 1], otherZero);
+                        }
+                    }
+                    else
+                    {
+                        if (predicate(Values[k++], otherValues[otherk++]))
+                        {
+                            return new Tuple<int, T, TOther>(Indices[k - 1], Values[k - 1], otherValues[otherk - 1]);
+                        }
+                    }
+                }
+                return null;
+            }
+
+            // FALL BACK
+
+            return base.Find2Unchecked(other, predicate, zeros);
         }
 
         // FUNCTIONAL COMBINATORS

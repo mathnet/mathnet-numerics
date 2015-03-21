@@ -1745,33 +1745,57 @@ namespace MathNet.Numerics.LinearAlgebra
             return Storage.Fold2(other.Storage, f, state, zeros);
         }
 
+        /// <summary>
+        /// Returns a tuple with the index and value of the first element satisfying a predicate, or null if none is found.
+        /// Zero elements may be skipped on sparse data structures if allowed (default).
+        /// </summary>
         public Tuple<int, int, T> Find(Func<T, bool> predicate, Zeros zeros = Zeros.AllowSkip)
         {
             return Storage.Find(predicate, zeros);
         }
 
+        /// <summary>
+        /// Returns a tuple with the index and values of the first element pair of two matrices of the same size satisfying a predicate, or null if none is found.
+        /// Zero elements may be skipped on sparse data structures if allowed (default).
+        /// </summary>
         public Tuple<int, int, T, TOther> Find2<TOther>(Func<T, TOther, bool> predicate, Matrix<TOther> other, Zeros zeros = Zeros.AllowSkip)
             where TOther : struct, IEquatable<TOther>, IFormattable
         {
             return Storage.Find2(other.Storage, predicate, zeros);
         }
 
+        /// <summary>
+        /// Returns true if at least one element satisfies a predicate.
+        /// Zero elements may be skipped on sparse data structures if allowed (default).
+        /// </summary>
         public bool Exists(Func<T, bool> predicate, Zeros zeros = Zeros.AllowSkip)
         {
             return Storage.Find(predicate, zeros) != null;
         }
 
+        /// <summary>
+        /// Returns true if at least one element pairs of two matrices of the same size satisfies a predicate.
+        /// Zero elements may be skipped on sparse data structures if allowed (default).
+        /// </summary>
         public bool Exists2<TOther>(Func<T, TOther, bool> predicate, Matrix<TOther> other, Zeros zeros = Zeros.AllowSkip)
             where TOther : struct, IEquatable<TOther>, IFormattable
         {
             return Storage.Find2(other.Storage, predicate, zeros) != null;
         }
 
+        /// <summary>
+        /// Returns true if all elements satisfy a predicate.
+        /// Zero elements may be skipped on sparse data structures if allowed (default).
+        /// </summary>
         public bool ForAll(Func<T, bool> predicate, Zeros zeros = Zeros.AllowSkip)
         {
             return Storage.Find(x => !predicate(x), zeros) == null;
         }
 
+        /// <summary>
+        /// Returns true if all element pairs of two matrices of the same size satisfy a predicate.
+        /// Zero elements may be skipped on sparse data structures if allowed (default).
+        /// </summary>
         public bool ForAll2<TOther>(Func<T, TOther, bool> predicate, Matrix<TOther> other, Zeros zeros = Zeros.AllowSkip)
             where TOther : struct, IEquatable<TOther>, IFormattable
         {

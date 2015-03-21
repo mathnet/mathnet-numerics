@@ -794,6 +794,44 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        public void Map2To(MatrixStorage<T> target, MatrixStorage<T> other, Func<T, T, T> f, Zeros zeros, ExistingData existingData)
+        {
+            if (target == null)
+            {
+                throw new ArgumentNullException("target");
+            }
+
+            if (other == null)
+            {
+                throw new ArgumentNullException("other");
+            }
+
+            if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                throw new ArgumentException(message, "target");
+            }
+
+            if (RowCount != other.RowCount || ColumnCount != other.ColumnCount)
+            {
+                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, other.RowCount + "x" + other.ColumnCount);
+                throw new ArgumentException(message, "other");
+            }
+
+            Map2ToUnchecked(target, other, f, zeros, existingData);
+        }
+
+        internal virtual void Map2ToUnchecked(MatrixStorage<T> target, MatrixStorage<T> other, Func<T, T, T> f, Zeros zeros, ExistingData existingData)
+        {
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int j = 0; j < ColumnCount; j++)
+                {
+                    target.At(i, j, f(At(i, j), other.At(i, j)));
+                }
+            }
+        }
+
         // FUNCTIONAL COMBINATORS: FOLD
 
         /// <remarks>The state array will not be modified, unless it is the same instance as the target array (which is allowed).</remarks>

@@ -90,6 +90,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Data[index] = value;
         }
 
+        // CLEARING
+
         public override void Clear()
         {
             Array.Clear(Data, 0, Data.Length);
@@ -351,6 +353,71 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     yield return new Tuple<int, T>(i, Data[i]);
                 }
             }
+        }
+
+        // FIND
+
+        public override Tuple<int, T> Find(Func<T, bool> predicate, Zeros zeros)
+        {
+            for (int i = 0; i < Data.Length; i++)
+            {
+                if (predicate(Data[i]))
+                {
+                    return new Tuple<int, T>(i, Data[i]);
+                }
+            }
+            return null;
+        }
+
+        internal override Tuple<int, T, TOther> Find2Unchecked<TOther>(VectorStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
+        {
+            var denseOther = other as DenseVectorStorage<TOther>;
+            if (denseOther != null)
+            {
+                TOther[] otherData = denseOther.Data;
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    if (predicate(Data[i], otherData[i]))
+                    {
+                        return new Tuple<int, T, TOther>(i, Data[i], otherData[i]);
+
+                    }
+                }
+                return null;
+            }
+
+            var sparseOther = other as SparseVectorStorage<TOther>;
+            if (sparseOther != null)
+            {
+                int[] otherIndices = sparseOther.Indices;
+                TOther[] otherValues = sparseOther.Values;
+                int otherValueCount = sparseOther.ValueCount;
+                TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
+                int k = 0;
+                for (int i = 0; i < Data.Length; i++)
+                {
+                    if (k < otherValueCount && otherIndices[k] == i)
+                    {
+                        if (predicate(Data[i], otherValues[k]))
+                        {
+                            return new Tuple<int, T, TOther>(i, Data[i], otherValues[k]);
+                        }
+                        k++;
+                    }
+                    else
+                    {
+                        if (predicate(Data[i], otherZero))
+                        {
+                            return new Tuple<int, T, TOther>(i, Data[i], otherZero);
+                        }
+                    }
+                }
+                return null;
+            }
+
+            // FALLBACK
+
+            return base.Find2Unchecked(other, predicate, zeros);
         }
 
         // FUNCTIONAL COMBINATORS

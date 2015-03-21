@@ -1367,7 +1367,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 TOther[] otherData = diagonalOther.Data;
                 TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
 
-                if (zeros == Zeros.Include)
+                // Full Scan
+                if (zeros == Zeros.Include && predicate(Zero, otherZero))
                 {
                     int k = 0;
                     for (int row = 0; row < RowCount; row++)
@@ -1384,6 +1385,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     return null;
                 }
 
+                // Sparse Scan
                 for (int row = 0; row < RowCount; row++)
                 {
                     bool diagonal = false;
@@ -1446,35 +1448,31 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
                 for (int row = 0; row < RowCount; row++)
                 {
-                    var startIndex = RowPointers[row];
                     var endIndex = RowPointers[row + 1];
-                    var otherStartIndex = otherRowPointers[row];
                     var otherEndIndex = otherRowPointers[row + 1];
-
-                    var j1 = startIndex;
-                    var j2 = otherStartIndex;
-
-                    while (j1 < endIndex || j2 < otherEndIndex)
+                    var k = RowPointers[row];
+                    var otherk = otherRowPointers[row];
+                    while (k < endIndex || otherk < otherEndIndex)
                     {
-                        if (j1 == endIndex || j2 < otherEndIndex && ColumnIndices[j1] > otherColumnIndices[j2])
+                        if (k == endIndex || otherk < otherEndIndex && ColumnIndices[k] > otherColumnIndices[otherk])
                         {
-                            if (predicate(Zero, otherValues[j2++]))
+                            if (predicate(Zero, otherValues[otherk++]))
                             {
-                                return new Tuple<int, int, T, TOther>(row, otherColumnIndices[j2 - 1], Zero, otherValues[j2 - 1]);
+                                return new Tuple<int, int, T, TOther>(row, otherColumnIndices[otherk - 1], Zero, otherValues[otherk - 1]);
                             }
                         }
-                        else if (j2 == otherEndIndex || ColumnIndices[j1] < otherColumnIndices[j2])
+                        else if (otherk == otherEndIndex || ColumnIndices[k] < otherColumnIndices[otherk])
                         {
-                            if (predicate(Values[j1++], otherZero))
+                            if (predicate(Values[k++], otherZero))
                             {
-                                return new Tuple<int, int, T, TOther>(row, ColumnIndices[j1 - 1], Values[j1 - 1], otherZero);
+                                return new Tuple<int, int, T, TOther>(row, ColumnIndices[k - 1], Values[k - 1], otherZero);
                             }
                         }
                         else
                         {
-                            if (predicate(Values[j1++], otherValues[j2++]))
+                            if (predicate(Values[k++], otherValues[otherk++]))
                             {
-                                return new Tuple<int, int, T, TOther>(row, ColumnIndices[j1 - 1], Values[j1 - 1], otherValues[j2 - 1]);
+                                return new Tuple<int, int, T, TOther>(row, ColumnIndices[k - 1], Values[k - 1], otherValues[otherk - 1]);
                             }
                         }
                     }
