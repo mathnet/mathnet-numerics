@@ -107,5 +107,37 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                     throw new NotSupportedException();
             }
         }
+
+        public static MatrixStorage<T> MatrixStorage<T>(TestMatrixStorage type, T[,] data)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            switch (type)
+            {
+                case TestMatrixStorage.DenseMatrix:
+                    return DenseColumnMajorMatrixStorage<T>.OfArray(data);
+                case TestMatrixStorage.SparseMatrix:
+                    return SparseCompressedRowMatrixStorage<T>.OfArray(data);
+                case TestMatrixStorage.DiagonalMatrix:
+                    return DiagonalMatrixStorage<T>.OfArray(data);
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        public static MatrixStorage<T> MatrixStorage<T>(TestMatrixStorage type, int rows, int columns)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            switch (type)
+            {
+                case TestMatrixStorage.DenseMatrix:
+                    return new DenseColumnMajorMatrixStorage<T>(rows, columns);
+                case TestMatrixStorage.SparseMatrix:
+                    return new SparseCompressedRowMatrixStorage<T>(rows, columns);
+                case TestMatrixStorage.DiagonalMatrix:
+                    return new DiagonalMatrixStorage<T>(rows, columns);
+                default:
+                    throw new NotSupportedException();
+            }
+        }
     }
 }

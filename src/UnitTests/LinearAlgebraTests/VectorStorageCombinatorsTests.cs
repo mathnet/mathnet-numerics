@@ -38,6 +38,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     [TestFixture, Category("LA")]
     public class VectorStorageCombinatorsTests
     {
+        [Datapoints]
+        TestVectorStorage[] _storage =
+        {
+            TestVectorStorage.DenseVector,
+            TestVectorStorage.SparseVector,
+        };
+
         [Theory]
         public void MapToSkipZeros(TestVectorStorage aType, TestVectorStorage resultType)
         {
