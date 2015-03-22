@@ -36,9 +36,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     [TestFixture, Category("LA")]
     public class MatrixStructureTheory : MatrixStructureTheory<float>
     {
-        protected override Matrix<float> GetMatrix(TestMatrix matrix)
+        protected override Matrix<float> Get(TestMatrix matrix)
         {
-            return TestData.GetMatrix(matrix);
+            return TestData.Matrix(matrix);
         }
 
         [Datapoints]

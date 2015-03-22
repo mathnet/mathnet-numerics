@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         static readonly MatrixBuilder<double> M = Matrix<double>.Build;
         static readonly VectorBuilder<double> V = Vector<double>.Build;
 
-        public static Matrix<double> GetMatrix(TestMatrix matrix)
+        public static Matrix<double> Matrix(TestMatrix matrix)
         {
             switch (matrix)
             {
@@ -63,7 +63,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             }
         }
 
-        public static Vector<double> GetVector(TestVector vector)
+        public static Vector<double> Vector(TestVector vector)
         {
             switch (vector)
             {

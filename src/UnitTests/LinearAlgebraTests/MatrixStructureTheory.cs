@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     public abstract partial class MatrixStructureTheory<T>
         where T : struct, IEquatable<T>, IFormattable
     {
-        protected abstract Matrix<T> GetMatrix(TestMatrix matrix);
+        protected abstract Matrix<T> Get(TestMatrix matrix);
 
         protected readonly T Zero = Matrix<T>.Build.Zero;
 
@@ -60,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void IsEqualToItself(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             Assert.That(matrix, Is.EqualTo(matrix));
             Assert.IsTrue(matrix.Equals(matrix));
             Assert.IsTrue(matrix.Equals((object)matrix));
@@ -72,10 +72,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void IsNotEqualToOthers(TestMatrix leftTestMatrix, TestMatrix rightTestmatrix)
         {
-            Matrix<T> left = GetMatrix(leftTestMatrix);
-            Matrix<T> right = GetMatrix(rightTestmatrix);
-
-            // IF (assuming we don't have duplicate data points)
+            Matrix<T> left = Get(leftTestMatrix);
+            Matrix<T> right = Get(rightTestmatrix);
             Assume.That(leftTestMatrix, Is.Not.EqualTo(rightTestmatrix));
 
             // THEN
@@ -90,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void IsNotEqualToPermutation(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             if (!matrix.Storage.IsFullyMutable)
             {
                 return;
@@ -123,7 +121,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void IsNotEqualToNonMatrixType(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             Assert.That(matrix, Is.Not.EqualTo(2));
             Assert.IsFalse(matrix.Equals(2));
             Assert.IsFalse(matrix.Equals((object)2));
@@ -134,7 +132,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanClone(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var clone = matrix.Clone();
             Assert.That(clone, Is.Not.SameAs(matrix));
             Assert.That(clone, Is.EqualTo(matrix));
@@ -146,7 +144,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanCloneUsingICloneable(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var clone = (Matrix<T>)((ICloneable)matrix).Clone();
             Assert.That(clone, Is.Not.SameAs(matrix));
             Assert.That(clone, Is.EqualTo(matrix));
@@ -158,7 +156,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanCopyTo(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var dense = Matrix<T>.Build.Dense(matrix.RowCount, matrix.ColumnCount);
             matrix.CopyTo(dense);
             Assert.That(dense, Is.EqualTo(matrix));
@@ -178,14 +176,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanGetHashCode(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             Assert.That(matrix.GetHashCode(), Is.Not.EqualTo(Matrix<T>.Build.SameAs(matrix).GetHashCode()));
         }
 
         [Theory]
         public void CanClear(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var cleared = matrix.Clone();
             cleared.Clear();
             Assert.That(cleared, Is.EqualTo(Matrix<T>.Build.SameAs(matrix)));
@@ -194,7 +192,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanClearSubMatrix(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             Assume.That(matrix.RowCount, Is.GreaterThanOrEqualTo(2));
             Assume.That(matrix.ColumnCount, Is.GreaterThanOrEqualTo(2));
 
@@ -209,7 +207,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanClearRows(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             Assume.That(matrix.RowCount, Is.GreaterThanOrEqualTo(2));
 
             var cleared = matrix.Clone();
@@ -221,7 +219,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanClearColumns(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             Assume.That(matrix.ColumnCount, Is.GreaterThanOrEqualTo(2));
 
             var cleared = matrix.Clone();
@@ -233,7 +231,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanToArray(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var array = matrix.ToArray();
             Assert.That(array.GetLength(0), Is.EqualTo(matrix.RowCount));
             Assert.That(array.GetLength(1), Is.EqualTo(matrix.ColumnCount));
@@ -249,7 +247,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanToColumnArrays(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var columnArrays = matrix.ToColumnArrays();
             Assert.That(columnArrays.Length, Is.EqualTo(matrix.ColumnCount));
             Assert.That(columnArrays[0].Length, Is.EqualTo(matrix.RowCount));
@@ -265,7 +263,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanToRowArrays(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var rowArrays = matrix.ToRowArrays();
             Assert.That(rowArrays.Length, Is.EqualTo(matrix.RowCount));
             Assert.That(rowArrays[0].Length, Is.EqualTo(matrix.ColumnCount));
@@ -281,7 +279,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanToColumnWiseArray(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var array = matrix.ToColumnWiseArray();
             Assert.That(array.Length, Is.EqualTo(matrix.RowCount*matrix.ColumnCount));
             for (int i = 0; i < array.Length; i++)
@@ -293,7 +291,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanToRowWiseArray(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var array = matrix.ToRowWiseArray();
             Assert.That(array.Length, Is.EqualTo(matrix.RowCount*matrix.ColumnCount));
             for (int i = 0; i < array.Length; i++)
@@ -305,7 +303,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanCreateSameKind(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var empty = Matrix<T>.Build.SameAs(matrix, 5, 6);
             Assert.That(empty, Is.EqualTo(Matrix<T>.Build.Dense(5, 6)));
             Assert.That(empty.Storage.IsDense, Is.EqualTo(matrix.Storage.IsDense));

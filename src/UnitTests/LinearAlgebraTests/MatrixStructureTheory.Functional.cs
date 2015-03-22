@@ -39,7 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanMap(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             Matrix<T> a = matrix.Map(x => x, Zeros.AllowSkip);
             Assert.That(a, Is.EqualTo(matrix));
             Assert.That(a.Storage.IsDense, Is.EqualTo(matrix.Storage.IsDense));
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanMapIndexed(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             Matrix<T> a = matrix.MapIndexed((i, j, x) =>
             {
                 if (i != 0 || j != 1) Assert.That(matrix.At(i, j), Is.EqualTo(x));
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanMapInplace(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var a = matrix.Clone();
             a.MapInplace(x => x, Zeros.AllowSkip);
             Assert.That(a, Is.EqualTo(matrix));
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanMapIndexedInplace(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             var a = matrix.Clone();
             a.MapIndexedInplace((i, j, x) =>
             {
@@ -152,7 +152,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanMapSubMatrixToSame(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             T one = Matrix<T>.Build.One;
 
             // Full Range - not forced
@@ -176,7 +176,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanMapSubMatrixToDense(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             T one = Matrix<T>.Build.One;
 
             // Full Range - not forced
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanMapSubMatrixToSparse(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
             T one = Matrix<T>.Build.One;
 
             // Full Range - filled, not forced
@@ -267,7 +267,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanFoldRows(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
 
             // not forced
             T[] rowSum = matrix.FoldByRow((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
@@ -290,7 +290,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanFoldColumns(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
 
             // not forced
             T[] colSum = matrix.FoldByColumn((s, x) => Operator<T>.Add(s, x), Operator<T>.Zero, Zeros.AllowSkip);
@@ -313,7 +313,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Theory]
         public void CanFold2(TestMatrix testMatrix)
         {
-            Matrix<T> matrix = GetMatrix(testMatrix);
+            Matrix<T> matrix = Get(testMatrix);
 
             var other = -matrix;
             other.Multiply(Operator.Convert<int, T>(2), other);

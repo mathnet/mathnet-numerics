@@ -36,13 +36,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     [TestFixture, Category("LA")]
     public class VectorArithmeticTheory : VectorArithmeticTheory<float>
     {
-        protected override Vector<float> GetVector(TestVector vector)
+        protected override Vector<float> Get(TestVector vector)
         {
-            return TestData.GetVector(vector);
+            return TestData.Vector(vector);
         }
-
-        protected override float Minus(float value) { return -value; }
-        protected override float Add(float first, float second) { return first + second; }
 
         [Datapoints]
         TestVector[] _vectors =

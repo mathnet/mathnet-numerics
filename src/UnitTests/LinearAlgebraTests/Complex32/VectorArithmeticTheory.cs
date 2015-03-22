@@ -38,13 +38,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     [TestFixture, Category("LA")]
     public class VectorArithmeticTheory : VectorArithmeticTheory<Complex32>
     {
-        protected override Vector<Complex32> GetVector(TestVector vector)
+        protected override Vector<Complex32> Get(TestVector vector)
         {
-            return TestData.GetVector(vector);
+            return TestData.Vector(vector);
         }
-
-        protected override Complex32 Minus(Complex32 value) { return -value; }
-        protected override Complex32 Add(Complex32 first, Complex32 second) { return first + second; }
 
         [Datapoints]
         TestVector[] _vectors =

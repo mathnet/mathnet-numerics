@@ -28,6 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using MathNet.Numerics.LinearAlgebra.Storage;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
     public enum TestMatrix
@@ -50,6 +54,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         UserSquare3x3
     }
 
+    public enum TestMatrixStorage
+    {
+        DenseMatrix = 1,
+        SparseMatrix = 2,
+        DiagonalMatrix = 3
+    }
+
     public enum TestVector
     {
         Dense5,
@@ -59,5 +70,42 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         Sparse5WithZeros,
         Sparse5AllZeros,
         SparseMaxLengthAllZeros
+    }
+
+    public enum TestVectorStorage
+    {
+        DenseVector = 1,
+        SparseVector = 2
+    }
+
+    public static class TestData
+    {
+        public static VectorStorage<T> VectorStorage<T>(TestVectorStorage type, IEnumerable<T> data)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            switch (type)
+            {
+                case TestVectorStorage.DenseVector:
+                    return DenseVectorStorage<T>.OfEnumerable(data);
+                case TestVectorStorage.SparseVector:
+                    return SparseVectorStorage<T>.OfEnumerable(data);
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        public static VectorStorage<T> VectorStorage<T>(TestVectorStorage type, int length)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            switch (type)
+            {
+                case TestVectorStorage.DenseVector:
+                    return new DenseVectorStorage<T>(length);
+                case TestVectorStorage.SparseVector:
+                    return new SparseVectorStorage<T>(length);
+                default:
+                    throw new NotSupportedException();
+            }
+        }
     }
 }

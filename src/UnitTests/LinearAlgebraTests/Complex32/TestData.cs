@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         static readonly MatrixBuilder<Complex32> M = Matrix<Complex32>.Build;
         static readonly VectorBuilder<Complex32> V = Vector<Complex32>.Build;
 
-        public static Matrix<Complex32> GetMatrix(TestMatrix matrix)
+        public static Matrix<Complex32> Matrix(TestMatrix matrix)
         {
             switch (matrix)
             {
@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             }
         }
 
-        public static Vector<Complex32> GetVector(TestVector vector)
+        public static Vector<Complex32> Vector(TestVector vector)
         {
             switch (vector)
             {

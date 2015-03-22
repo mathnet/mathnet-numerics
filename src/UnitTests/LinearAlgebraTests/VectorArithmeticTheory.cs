@@ -28,10 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Globalization;
+using System;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
-using System;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
@@ -39,16 +38,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     public abstract class VectorArithmeticTheory<T>
         where T : struct, IEquatable<T>, IFormattable
     {
-        protected abstract Vector<T> GetVector(TestVector vector);
+        protected abstract Vector<T> Get(TestVector vector);
 
-        protected abstract T Minus(T value);
-        protected abstract T Add(T first, T second);
-        private T Subtract(T first, T second) { return Add(first, Minus(second)); }
-
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanEqualVector(TestVector testVector, T scalar)
         {
-            Vector<T> vector = GetVector(testVector);
+            Vector<T> vector = Get(testVector);
 
             Assert.That(vector.Equals(vector));
 
@@ -80,10 +75,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(c.Equals(Vector<T>.Build.SameAs(vector)));
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanNegateVector(TestVector testVector)
         {
-            Vector<T> vector = GetVector(testVector);
+            Vector<T> vector = Get(testVector);
 
             var hash = vector.GetHashCode();
 
@@ -99,16 +94,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             for (var i = 0; i < Math.Min(vector.Count, 20); i++)
             {
-                Assert.That(result1[i], Is.EqualTo(Minus(vector[i])), i.ToString(CultureInfo.InvariantCulture));
-                Assert.That(result2[i], Is.EqualTo(Minus(vector[i])), i.ToString(CultureInfo.InvariantCulture));
+                Assert.That(result1[i], Is.EqualTo(Operator.Negate(vector[i])));
+                Assert.That(result2[i], Is.EqualTo(Operator.Negate(vector[i])));
             }
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanAddTwoVectors(TestVector testVectorA, TestVector testVectorB)
         {
-            Vector<T> a = GetVector(testVectorA);
-            Vector<T> b = GetVector(testVectorB);
+            Vector<T> a = Get(testVectorA);
+            Vector<T> b = Get(testVectorB);
             Assume.That(a.Count, Is.EqualTo(b.Count));
 
             var hasha = a.GetHashCode();
@@ -132,16 +127,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             for (var i = 0; i < Math.Min(a.Count, 20); i++)
             {
-                Assert.That(result1[i], Is.EqualTo(Add(a[i], b[i])), i.ToString(CultureInfo.InvariantCulture));
-                Assert.That(result2[i], Is.EqualTo(Add(a[i], b[i])), i.ToString(CultureInfo.InvariantCulture));
-                Assert.That(result3[i], Is.EqualTo(Add(a[i], b[i])), i.ToString(CultureInfo.InvariantCulture));
+                Assert.That(result1[i], Is.EqualTo(Operator.Add(a[i], b[i])));
+                Assert.That(result2[i], Is.EqualTo(Operator.Add(a[i], b[i])));
+                Assert.That(result3[i], Is.EqualTo(Operator.Add(a[i], b[i])));
             }
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanAddScalarToVector(TestVector testVector, T scalar)
         {
-            Vector<T> vector = GetVector(testVector);
+            Vector<T> vector = Get(testVector);
             Assume.That(vector.Count, Is.LessThan(100));
 
             var hash = vector.GetHashCode();
@@ -157,16 +152,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             for (var i = 0; i < Math.Min(vector.Count, 20); i++)
             {
-                Assert.That(result1[i], Is.EqualTo(Add(vector[i], scalar)), i.ToString(CultureInfo.InvariantCulture));
-                Assert.That(result2[i], Is.EqualTo(Add(vector[i], scalar)), i.ToString(CultureInfo.InvariantCulture));
+                Assert.That(result1[i], Is.EqualTo(Operator.Add(vector[i], scalar)));
+                Assert.That(result2[i], Is.EqualTo(Operator.Add(vector[i], scalar)));
             }
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanSubtractTwoVectors(TestVector testVectorA, TestVector testVectorB)
         {
-            Vector<T> a = GetVector(testVectorA);
-            Vector<T> b = GetVector(testVectorB);
+            Vector<T> a = Get(testVectorA);
+            Vector<T> b = Get(testVectorB);
             Assume.That(a.Count, Is.EqualTo(b.Count));
 
             var hasha = a.GetHashCode();
@@ -190,16 +185,16 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             for (var i = 0; i < Math.Min(a.Count, 20); i++)
             {
-                Assert.That(result1[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString(CultureInfo.InvariantCulture));
-                Assert.That(result2[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString(CultureInfo.InvariantCulture));
-                Assert.That(result3[i], Is.EqualTo(Subtract(a[i], b[i])), i.ToString(CultureInfo.InvariantCulture));
+                Assert.That(result1[i], Is.EqualTo(Operator.Subtract(a[i], b[i])));
+                Assert.That(result2[i], Is.EqualTo(Operator.Subtract(a[i], b[i])));
+                Assert.That(result3[i], Is.EqualTo(Operator.Subtract(a[i], b[i])));
             }
         }
 
-        [Theory, Timeout(200)]
+        [Theory]
         public void CanSubtractScalarFromVector(TestVector testVector, T scalar)
         {
-            Vector<T> vector = GetVector(testVector);
+            Vector<T> vector = Get(testVector);
             Assume.That(vector.Count, Is.LessThan(100));
 
             var hash = vector.GetHashCode();
@@ -215,8 +210,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 
             for (var i = 0; i < Math.Min(vector.Count, 20); i++)
             {
-                Assert.That(result1[i], Is.EqualTo(Subtract(vector[i], scalar)), i.ToString(CultureInfo.InvariantCulture));
-                Assert.That(result2[i], Is.EqualTo(Subtract(vector[i], scalar)), i.ToString(CultureInfo.InvariantCulture));
+                Assert.That(result1[i], Is.EqualTo(Operator.Subtract(vector[i], scalar)));
+                Assert.That(result2[i], Is.EqualTo(Operator.Subtract(vector[i], scalar)));
             }
         }
     }

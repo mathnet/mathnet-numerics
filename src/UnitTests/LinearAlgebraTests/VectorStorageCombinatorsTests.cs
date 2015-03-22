@@ -39,40 +39,40 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     public class VectorStorageCombinatorsTests
     {
         [Theory]
-        public void MapToSkipZeros(VectorStorageType aType, VectorStorageType resultType)
+        public void MapToSkipZeros(TestVectorStorage aType, TestVectorStorage resultType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
-            var result = Build.VectorStorage<double>(resultType, 4);
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
+            var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { -1.0, -2.0, 0.0, -4.0 });
             a.MapTo(result, u => -u, Zeros.AllowSkip);
             Assert.That(result.Equals(expected));
         }
 
         [Theory]
-        public void MapToForceIncludeZeros(VectorStorageType aType, VectorStorageType resultType)
+        public void MapToForceIncludeZeros(TestVectorStorage aType, TestVectorStorage resultType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
-            var result = Build.VectorStorage<double>(resultType, 4);
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
+            var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
             a.MapTo(result, u => -u + 1.0, Zeros.Include);
             Assert.That(result.Equals(expected));
         }
 
         [Theory]
-        public void MapToAutoIncludeZeros(VectorStorageType aType, VectorStorageType resultType)
+        public void MapToAutoIncludeZeros(TestVectorStorage aType, TestVectorStorage resultType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
-            var result = Build.VectorStorage<double>(resultType, 4);
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
+            var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
             a.MapTo(result, u => -u + 1.0, Zeros.AllowSkip);
             Assert.That(result.Equals(expected));
         }
 
         [Theory]
-        public void MapIndexedToSkipZeros(VectorStorageType aType, VectorStorageType resultType)
+        public void MapIndexedToSkipZeros(TestVectorStorage aType, TestVectorStorage resultType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
-            var result = Build.VectorStorage<double>(resultType, 4);
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
+            var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { -1.0, -2.0, 0.0, -4.0 });
             int badValueCount = 0; // one time is OK for zero-check
             a.MapIndexedTo(result, (i, u) => { if (a.At(i) != u) Interlocked.Increment(ref badValueCount); return -u; }, Zeros.AllowSkip);
@@ -81,10 +81,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void MapIndexedToForceIncludeZeros(VectorStorageType aType, VectorStorageType resultType)
+        public void MapIndexedToForceIncludeZeros(TestVectorStorage aType, TestVectorStorage resultType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
-            var result = Build.VectorStorage<double>(resultType, 4);
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
+            var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
             int badValueCount = 0; // one time is OK for zero-check
             a.MapIndexedTo(result, (i, u) => { if (a.At(i) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.Include);
@@ -93,10 +93,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void MapIndexedToAutoIncludeZeros(VectorStorageType aType, VectorStorageType resultType)
+        public void MapIndexedToAutoIncludeZeros(TestVectorStorage aType, TestVectorStorage resultType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
-            var result = Build.VectorStorage<double>(resultType, 4);
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
+            var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
             int badValueCount = 0; // one time is OK for zero-check
             a.MapIndexedTo(result, (i, u) => { if (a.At(i) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.AllowSkip);
@@ -105,52 +105,52 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void Map2ToSkipZeros(VectorStorageType aType, VectorStorageType bType, VectorStorageType resultType)
+        public void Map2ToSkipZeros(TestVectorStorage aType, TestVectorStorage bType, TestVectorStorage resultType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
-            var b = Build.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
-            var result = Build.VectorStorage<double>(resultType, 6);
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
+            var b = TestData.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
+            var result = TestData.VectorStorage<double>(resultType, 6);
             var expected = new DenseVectorStorage<double>(6, new[] { 12.0, 14.0, 13.0, 4.0, 0.0, 22.0 });
             a.Map2To(result, b, (u, v) => u + v, Zeros.AllowSkip);
             Assert.That(result.Equals(expected));
         }
 
         [Theory]
-        public void Map2ToForceIncludeZeros(VectorStorageType aType, VectorStorageType bType, VectorStorageType resultType)
+        public void Map2ToForceIncludeZeros(TestVectorStorage aType, TestVectorStorage bType, TestVectorStorage resultType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
-            var b = Build.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
-            var result = Build.VectorStorage<double>(resultType, 6);
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
+            var b = TestData.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
+            var result = TestData.VectorStorage<double>(resultType, 6);
             var expected = new DenseVectorStorage<double>(6, new[] { 13.0, 15.0, 14.0, 5.0, 1.0, 23.0 });
             a.Map2To(result, b, (u, v) => u + v + 1.0, Zeros.Include);
             Assert.That(result.Equals(expected));
         }
 
         [Theory]
-        public void Map2ToAutoIncludeZeros(VectorStorageType aType, VectorStorageType bType, VectorStorageType resultType)
+        public void Map2ToAutoIncludeZeros(TestVectorStorage aType, TestVectorStorage bType, TestVectorStorage resultType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
-            var b = Build.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
-            var result = Build.VectorStorage<double>(resultType, 6);
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
+            var b = TestData.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
+            var result = TestData.VectorStorage<double>(resultType, 6);
             var expected = new DenseVectorStorage<double>(6, new[] { 13.0, 15.0, 14.0, 5.0, 1.0, 23.0 });
             a.Map2To(result, b, (u, v) => u + v + 1.0, Zeros.AllowSkip);
             Assert.That(result.Equals(expected));
         }
 
         [Theory]
-        public void Fold2SkipZeros(VectorStorageType aType, VectorStorageType bType)
+        public void Fold2SkipZeros(TestVectorStorage aType, TestVectorStorage bType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
-            var b = Build.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
+            var b = TestData.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
             var result = a.Fold2(b, (acc, u, v) => acc + u + v, 0.0, Zeros.AllowSkip);
             Assert.That(result, Is.EqualTo(65));
         }
 
         [Theory]
-        public void Fold2ForceIncludeZeros(VectorStorageType aType, VectorStorageType bType)
+        public void Fold2ForceIncludeZeros(TestVectorStorage aType, TestVectorStorage bType)
         {
-            var a = Build.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
-            var b = Build.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
+            var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0, 0.0, 6.0 });
+            var b = TestData.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
             var result = a.Fold2(b, (acc, u, v) => acc + u + v + 1.0, 0.0, Zeros.Include);
             Assert.That(result, Is.EqualTo(71));
         }

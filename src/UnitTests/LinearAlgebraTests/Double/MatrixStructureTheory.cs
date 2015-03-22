@@ -36,9 +36,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     [TestFixture, Category("LA")]
     public class MatrixStructureTheory : MatrixStructureTheory<double>
     {
-        protected override Matrix<double> GetMatrix(TestMatrix matrix)
+        protected override Matrix<double> Get(TestMatrix matrix)
         {
-            return TestData.GetMatrix(matrix);
+            return TestData.Matrix(matrix);
         }
 
         [Datapoints]

@@ -42,9 +42,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     [TestFixture, Category("LA")]
     public class MatrixStructureTheory : MatrixStructureTheory<Complex>
     {
-        protected override Matrix<Complex> GetMatrix(TestMatrix matrix)
+        protected override Matrix<Complex> Get(TestMatrix matrix)
         {
-            return TestData.GetMatrix(matrix);
+            return TestData.Matrix(matrix);
         }
 
         [Datapoints]

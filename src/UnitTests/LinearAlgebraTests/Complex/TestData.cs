@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         static readonly MatrixBuilder<Complex> M = Matrix<Complex>.Build;
         static readonly VectorBuilder<Complex> V = Vector<Complex>.Build;
 
-        public static Matrix<Complex> GetMatrix(TestMatrix matrix)
+        public static Matrix<Complex> Matrix(TestMatrix matrix)
         {
             switch (matrix)
             {
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             }
         }
 
-        public static Vector<Complex> GetVector(TestVector vector)
+        public static Vector<Complex> Vector(TestVector vector)
         {
             switch (vector)
             {

@@ -38,9 +38,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     [TestFixture, Category("LA")]
     public class MatrixStructureTheory : MatrixStructureTheory<Complex32>
     {
-        protected override Matrix<Complex32> GetMatrix(TestMatrix matrix)
+        protected override Matrix<Complex32> Get(TestMatrix matrix)
         {
-            return TestData.GetMatrix(matrix);
+            return TestData.Matrix(matrix);
         }
 
         [Datapoints]

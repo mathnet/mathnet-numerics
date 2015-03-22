@@ -148,7 +148,6 @@
     <Compile Include="LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraProviderTests\Single\LinearAlgebraProviderTests.cs" />
-    <Compile Include="LinearAlgebraTests\Build.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DiagonalMatrixTests.cs" />
