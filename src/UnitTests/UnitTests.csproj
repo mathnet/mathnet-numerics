@@ -343,6 +343,7 @@
     <Compile Include="EuclidTests\GcdRelatedTest.cs" />
     <Compile Include="EuclidTests\GcdRelatedTestBigInteger.cs" />
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
+    <Compile Include="LinearAlgebraTests\MatrixStorageCombinatorsTests.cs" />
     <Compile Include="LinearAlgebraTests\VectorStorageCombinatorsTests.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />

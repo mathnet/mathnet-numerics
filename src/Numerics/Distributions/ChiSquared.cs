@@ -215,7 +215,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.GammaLowerIncomplete(_freedom/2.0, x/2.0)/SpecialFunctions.Gamma(_freedom/2.0);
+            return SpecialFunctions.GammaLowerRegularized(_freedom/2.0, x/2.0);
         }
 
         /// <summary>

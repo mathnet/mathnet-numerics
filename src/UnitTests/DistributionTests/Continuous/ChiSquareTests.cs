@@ -293,36 +293,30 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// </summary>
         /// <param name="dof">Degrees of freedom.</param>
         /// <param name="x">Input X value.</param>
-        [TestCase(1.0, 0.0)]
-        [TestCase(1.0, 0.1)]
-        [TestCase(1.0, 1.0)]
-        [TestCase(1.0, 5.5)]
-        [TestCase(1.0, 110.1)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(2.0, 0.0)]
-        [TestCase(2.0, 0.1)]
-        [TestCase(2.0, 1.0)]
-        [TestCase(2.0, 5.5)]
-        [TestCase(2.0, 110.1)]
-        [TestCase(2.0, Double.PositiveInfinity)]
-        [TestCase(2.5, 0.0)]
-        [TestCase(2.5, 0.1)]
-        [TestCase(2.5, 1.0)]
-        [TestCase(2.5, 5.5)]
-        [TestCase(2.5, 110.1)]
-        [TestCase(2.5, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, 0.0)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(Double.PositiveInfinity, 5.5)]
-        [TestCase(Double.PositiveInfinity, 110.1)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateCumulativeDistribution(double dof, double x)
+        /// <param name="expected">N[CDF[ChiSquare[dof], x],20]</param>
+        [TestCase(1.0, 0.0, 0.0)]
+        [TestCase(1.0, 0.1, 0.24817036595415071751)]
+        [TestCase(1.0, 1.0, 0.68268949213708589717)]
+        [TestCase(1.0, 5.5, 0.98098352632769945624)]
+        [TestCase(1.0, 110.1, 1.0)]
+        [TestCase(2.0, 0.0, 0.0)]
+        [TestCase(2.0, 0.1, 0.048770575499285990909)]
+        [TestCase(2.0, 1.0, 0.39346934028736657640)]
+        [TestCase(2.0, 5.5, 0.93607213879329242730)]
+        [TestCase(2.0, 110.1, 1.0)]
+        [TestCase(2.5, 0.0, 0.0)]
+        [TestCase(2.5, 0.1, 0.020298266579604156571)]
+        [TestCase(2.5, 1.0, 0.28378995266531297417)]
+        [TestCase(2.5, 5.5, 0.90239512593899828629)]
+        [TestCase(2.5, 110.1, 1.0)]
+        [TestCase(10000.0, 1.0, 0.0)]
+        [TestCase(10000.0, 7500.0, 3.3640453687878842514e-84)]
+        [TestCase(20000.0, 1.0, 0.0)]
+        public void ValidateCumulativeDistribution(double dof, double x, double expected)
         {
             var n = new ChiSquared(dof);
-            double expected = SpecialFunctions.GammaLowerIncomplete(dof / 2.0, x / 2.0) / SpecialFunctions.Gamma(dof / 2.0);
-            Assert.AreEqual(expected, n.CumulativeDistribution(x));
-            Assert.AreEqual(expected, ChiSquared.CDF(dof, x));
+            Assert.That(n.CumulativeDistribution(x), Is.EqualTo(expected).Within(1e-14));
+            Assert.That(ChiSquared.CDF(dof, x), Is.EqualTo(expected).Within(1e-14));
         }
     }
 }
