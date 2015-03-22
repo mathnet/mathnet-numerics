@@ -1,3 +1,18 @@
+### 3.6.0 - 2015-03-22
+* Distributions: ChiSquare.CDF more robust for large numbers *~Baltazar Bieniek*
+* Linear Algebra: MatrixStorage.Map2 equivalent to VectorStorage.Map2
+* Linear Algebra: Matrix and Vector Find/Find2, Exists/Exists2, ForAll/ForAll2
+* Linear Algebra: more consistent range checking in MatrixStorage.Clear and related
+* Linear Algebra: mixed-storage fall back implementations now leverage higher-order functions
+* BUG: Linear Algebra: fix loop range in MatrixStorage.ClearColumns (built-in storage not affected)
+* BUG: Linear Algebra: fix sparse matrix equality.
+* BUG: Linear Algebra: ArgumentException instead of index exception when trying to create an empty matrix.
+* Generate: Unfold, Fibonacci; Normal and Standard replacing Gaussian and Stable.
+* Native Providers: NativeProviderLoader to automatically load the provider for the matching processor architecture (x86, x64) *~Kuan Bartel*
+* Native Providers: Control.NativeProviderPath allowing to explicitly declare where to load binaries from.
+* MKL Native Provider: support for native complex eigen-value decomposition *~Marcus Cuda*
+* MKL Native Provider: non-convergence checks in singular-value and eigen-value decompositions *~Marcus Cuda*
+
 ### 3.5.0 - 2015-01-10
 * Differentiation: derivative, partial and mixed partial; hessian & jacobian *~Hythem Sidky*
 * Differentiation: Differentiate facade class for simple use cases

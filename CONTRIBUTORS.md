@@ -26,6 +26,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - David Prince
 - Andriy Bratiychuk
 - Jack Pappas
+- Kuan Bartel
 - Artyom Baranovskiy
 - Ashley Messer
 - Candy Chiu
@@ -36,7 +37,6 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Anders Gustafsson
 - Gauthier Segay
 - Hythem Sidky
-- Kuan Bartel
 - Patrick van der Velde
 - Robin Neatherway
 - Andrew Kazyrevich
@@ -56,6 +56,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Tomas Petricek
 - ViK
 - VicPara
+- Baltazar Bieniek
 - bstrausser
 - mjmckp
 - nyuriks
