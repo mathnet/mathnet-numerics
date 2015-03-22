@@ -39,13 +39,19 @@ which will return something along the lines of `Intel MKL (x86; revision 7)`.
 Native Binaries
 ---------------
 
-Native binaries like the MKL provider are platform specific and we need to load
-them into the executing process with services of the platform, not of the .Net Runtime.
+In .Net, the fusion engine is responsible for finding referenced
+assemblies in the file system and loading them into the executing process.
+However, native binaries like our MKL provider are platform specific,
+so we need to load them with services of the platform instead of the .Net runtime.
 We use P/Invoke to talk to the binaries, but for this to work they must
-have already been loaded or the platform needs a way to find them, which works
-very different to how the .Net Runtime finds referenced assemblies (called "Fusion").
+have already been loaded or the platform service needs to be able to find and
+load them on its own.
 
-Since v3.6.0 the following directories are probed in order for the expected binary:
+In order to make providers easier to use, since v3.6.0 Math.NET Numerics 
+first tries to load native providers from a set of known directories before
+falling back to the platform's default behavior. In each of these directories
+it first looks for a processor-architecture specific folder within the directory,
+before looking at the directory itself:
 
 1. If `Control.NativeProviderPath` is set: `{NativeProviderPath}/{Platform}/`
 2. If `Control.NativeProviderPath` is set: `{NativeProviderPath}/`
@@ -57,10 +63,11 @@ Since v3.6.0 the following directories are probed in order for the expected bina
 
 Where `{Platform}` can be one of the following: `x86`, `x64`, `ia64`, `arm` or `arm64`.
 
-This means that you can place the MKL provider binaries e.g. into `C:\MKL\x86`
-and `C:\MKL\x64` for the 32 and 64 bit builds, and then set `Control.NativeProviderPath = @"C:\MKL";`.
-It will automatically choose the right one depending on whether your process is
-running in 32 or 64 bit mode. No more need to copy these large binaries to every project.
+This means that you can, for example, place the 32 bit MKL provider binaries into `C:\MKL\x86`
+and the 64 bit ones into `C:\MKL\x64`, and then set `Control.NativeProviderPath = @"C:\MKL";`.
+Numerics will automatically choose the right one depending on whether your process is
+running in 32 or 64 bit mode, and there is no more need to copy the large binaries to the
+output folder of every script or project.
 
 
 Default Behavior on Windows
@@ -100,12 +107,17 @@ For details see Mono's [Interop with Native Libraries](http://www.mono-project.c
 F# Interactive
 --------------
 
-If you're working from within VisualStudio with an F# project, you can NuGet-reference both
-`MathNet.Numerics.FSharp` and `MathNet.Numerics.MKL.Win-x64` (provided you have configured it to run
-as 64 bit process, see `System.Environment.Is64BitProcess` to find out). VisualStudio with the F#
-power tools installed then offers in the context menu to generated reference scripts for F# Interactive.
-These will not include the native binaries out of the box, but you can go from there by extending
-`load-references.fsx` as follows:
+In F# Interactive, the easiest way to use native providers is to copy them to a shared
+directory somewhere and use them directly from there:
+
+    [lang=fsharp]
+    Control.NativeProviderPath <- @"C:\MKL"
+    Control.UseNativeMKL()
+
+If you are using the F# Power Tools in VisualStudio, you can also let it generate "Reference
+scripts for F# Interactive" right from the context menu. This will generate a script called
+`load-references.fsx` in a `Scripts` folder, which you can extend as follows to load the
+MKL provider automatically.
 
     [lang=fsharp]
     open System.IO
@@ -114,16 +126,9 @@ These will not include the native binaries out of the box, but you can go from t
     Control.NativeProviderPath <- Path.Combine(__SOURCE_DIRECTORY__,"../")
     Control.UseNativeMKL()
 
-This will work provided the MKL NuGet package will copy the native binaries to the root directory
-and the generated load script is located in the Scripts subfolder.
-
-Alternatively just copy the native providers to a shared directory and use them
-directly from there, without referencing the MKL NuGet package separately,
-and execute something along the lines of:
-
-    [lang=fsharp]
-    Control.NativeProviderPath <- @"C:\MKL"
-    Control.UseNativeMKL()
+This script assumes that the MKL binaries have been copied to the project directory,
+which is also where the NuGet packages place them by default. If you place them somewhere
+else, adapt the path accordingly.
 
 See also [Loading Native DLLs in F# Interactive](http://christoph.ruegg.name/blog/loading-native-dlls-in-fsharp-interactive.html)
 for more alternatives.
