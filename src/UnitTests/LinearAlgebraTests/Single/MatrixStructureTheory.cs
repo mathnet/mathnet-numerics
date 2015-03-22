@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -36,25 +36,30 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     [TestFixture, Category("LA")]
     public class MatrixStructureTheory : MatrixStructureTheory<float>
     {
-        [Datapoints]
-        Matrix<float>[] _matrices =
+        protected override Matrix<float> GetMatrix(TestMatrix matrix)
         {
-            Matrix<float>.Build.DenseOfArray(new[,] { { 1f, 1f, 2f }, { 1f, 1f, 2f }, { 1f, 1f, 2f } }),
-            Matrix<float>.Build.DenseOfArray(new[,] { { -1.1f, -2.2f, -3.3f }, { 0f, 1.1f, 2.2f }, { -4.4f, 5.5f, 6.6f } }),
-            Matrix<float>.Build.DenseOfArray(new[,] { { -1.1f, -2.2f, -3.3f, -4.4f }, { 0f, 1.1f, 2.2f, 3.3f }, { 1f, 2.1f, 6.2f, 4.3f }, { -4.4f, 5.5f, 6.6f, -7.7f } }),
-            Matrix<float>.Build.DenseOfArray(new[,] { { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f }, { -1.1f, -2.2f, -3.3f, -4.4f } }),
-            Matrix<float>.Build.DenseOfArray(new[,] { { -1.1f, -2.2f }, { 0f, 1.1f }, { -4.4f, 5.5f } }),
-            Matrix<float>.Build.DenseOfArray(new[,] { { -1.1f, -2.2f, -3.3f }, { 0f, 1.1f, 2.2f } }),
-            Matrix<float>.Build.DenseOfArray(new[,] { { 1f, 2f, 3f }, { 2f, 2f, 0f }, { 3f, 0f, 3f } }),
+            return TestData.GetMatrix(matrix);
+        }
 
-            Matrix<float>.Build.SparseOfArray(new[,] { { 7f, 1f, 2f }, { 1f, 1f, 2f }, { 1f, 1f, 2f } }),
-            Matrix<float>.Build.SparseOfArray(new[,] { { 7f, 1f, 2f }, { 1f, 0f, 0f }, { -2f, 0f, 0f } }),
-            Matrix<float>.Build.SparseOfArray(new[,] { { -1.1f, 0f, 0f }, { 0f, 1.1f, 2.2f } }),
+        [Datapoints]
+        TestMatrix[] _matrices =
+        {
+            TestMatrix.DenseSquare3x3,
+            TestMatrix.DenseSquare3x3b,
+            TestMatrix.DenseSquare4x4,
+            TestMatrix.DenseSquare4x4b,
+            TestMatrix.DenseTall3x2,
+            TestMatrix.DenseWide2x3,
+            TestMatrix.DenseSquare3x3c,
 
-            Matrix<float>.Build.Diagonal(3, 3, new[] { 1f, -2f, 1.5f }),
-            Matrix<float>.Build.Diagonal(3, 3, new[] { 1f, 0f, -1.5f }),
+            TestMatrix.SparseSquare3x3,
+            TestMatrix.SparseSquare3x3b,
+            TestMatrix.SparseWide2x3,
 
-            new UserDefinedMatrix(new[,] { { 0f, 1f, 2f }, { -1f, 7.7f, 0f }, { -2f, 0f, 0f } })
+            TestMatrix.DiagonalSquare3x3,
+            TestMatrix.DiagonalSquare3x3b,
+
+            TestMatrix.UserSquare3x3
         };
 
         [Datapoints]

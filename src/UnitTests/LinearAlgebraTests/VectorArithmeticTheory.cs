@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2011 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -39,13 +39,17 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     public abstract class VectorArithmeticTheory<T>
         where T : struct, IEquatable<T>, IFormattable
     {
+        protected abstract Vector<T> GetVector(TestVector vector);
+
         protected abstract T Minus(T value);
         protected abstract T Add(T first, T second);
         private T Subtract(T first, T second) { return Add(first, Minus(second)); }
 
         [Theory, Timeout(200)]
-        public void CanEqualVector(Vector<T> vector, T scalar)
+        public void CanEqualVector(TestVector testVector, T scalar)
         {
+            Vector<T> vector = GetVector(testVector);
+
             Assert.That(vector.Equals(vector));
 
             var a = vector.Clone();
@@ -77,8 +81,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(200)]
-        public void CanNegateVector(Vector<T> vector)
+        public void CanNegateVector(TestVector testVector)
         {
+            Vector<T> vector = GetVector(testVector);
+
             var hash = vector.GetHashCode();
 
             var result1 = -vector;
@@ -99,8 +105,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(200)]
-        public void CanAddTwoVectors(Vector<T> a, Vector<T> b)
+        public void CanAddTwoVectors(TestVector testVectorA, TestVector testVectorB)
         {
+            Vector<T> a = GetVector(testVectorA);
+            Vector<T> b = GetVector(testVectorB);
             Assume.That(a.Count, Is.EqualTo(b.Count));
 
             var hasha = a.GetHashCode();
@@ -131,8 +139,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(200)]
-        public void CanAddScalarToVector(Vector<T> vector, T scalar)
+        public void CanAddScalarToVector(TestVector testVector, T scalar)
         {
+            Vector<T> vector = GetVector(testVector);
             Assume.That(vector.Count, Is.LessThan(100));
 
             var hash = vector.GetHashCode();
@@ -154,8 +163,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(200)]
-        public void CanSubtractTwoVectors(Vector<T> a, Vector<T> b)
+        public void CanSubtractTwoVectors(TestVector testVectorA, TestVector testVectorB)
         {
+            Vector<T> a = GetVector(testVectorA);
+            Vector<T> b = GetVector(testVectorB);
             Assume.That(a.Count, Is.EqualTo(b.Count));
 
             var hasha = a.GetHashCode();
@@ -186,8 +197,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory, Timeout(200)]
-        public void CanSubtractScalarFromVector(Vector<T> vector, T scalar)
+        public void CanSubtractScalarFromVector(TestVector testVector, T scalar)
         {
+            Vector<T> vector = GetVector(testVector);
             Assume.That(vector.Count, Is.LessThan(100));
 
             var hash = vector.GetHashCode();

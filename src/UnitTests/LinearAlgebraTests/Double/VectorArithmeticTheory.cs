@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2011 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,13 +28,19 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
-    using NUnit.Framework;
-
     [TestFixture, Category("LA")]
     public abstract class VectorArithmeticTheory : VectorArithmeticTheory<double>
     {
+        protected override Vector<double> GetVector(TestVector vector)
+        {
+            return TestData.GetVector(vector);
+        }
+
         protected override double Minus(double value) { return -value; }
         protected override double Add(double first, double second) { return first + second; }
     }

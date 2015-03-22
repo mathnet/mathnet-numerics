@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2011 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,7 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
@@ -43,10 +42,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     public class DenseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<Complex>[] denseVectors =
+        TestVector[] _denseVectors =
         {
-            Vector<Complex>.Build.Dense(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1), new Complex(4, 1), new Complex(5, 1) }),
-            Vector<Complex>.Build.Dense(new[] { new Complex(2, -1), new Complex(0, 0), new Complex(0, 2), new Complex(-5, 1), new Complex(0, 0) })
+            TestVector.Dense5,
+            TestVector.Dense5WithZeros
         };
 
         [Datapoints]

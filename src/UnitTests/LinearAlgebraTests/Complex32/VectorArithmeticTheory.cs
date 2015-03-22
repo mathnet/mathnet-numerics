@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2011 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,14 +28,21 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 {
     using Numerics;
-    using NUnit.Framework;
 
     [TestFixture, Category("LA")]
     public abstract class VectorArithmeticTheory : VectorArithmeticTheory<Complex32>
     {
+        protected override Vector<Complex32> GetVector(TestVector vector)
+        {
+            return TestData.GetVector(vector);
+        }
+
         protected override Complex32 Minus(Complex32 value) { return -value; }
         protected override Complex32 Add(Complex32 first, Complex32 second) { return first + second; }
     }

@@ -38,8 +38,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     partial class MatrixStructureTheory<T>
     {
         [Theory]
-        public void CanPermuteRows(Matrix<T> matrix)
+        public void CanPermuteRows(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
             var m = matrix.Clone();
             var rnd = new System.Random(0);
             var permutation = new Permutation(Enumerable.Range(0, matrix.RowCount).OrderBy(i => rnd.Next()).ToArray());
@@ -67,8 +68,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanPermuteColumns(Matrix<T> matrix)
+        public void CanPermuteColumns(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
             var m = matrix.Clone();
             var rnd = new System.Random(0);
             var permutation = new Permutation(Enumerable.Range(0, matrix.ColumnCount).OrderBy(i => rnd.Next()).ToArray());
@@ -96,8 +98,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanInsertRow(Matrix<T> matrix)
+        public void CanInsertRow(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
             var row = Vector<T>.Build.Random(matrix.ColumnCount, 0);
             for (var position = 0; position < matrix.RowCount + 1; position++)
             {
@@ -132,8 +135,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanRemoveRow(Matrix<T> matrix)
+        public void CanRemoveRow(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
             for (var position = 0; position < matrix.RowCount; position++)
             {
                 var result = matrix.RemoveRow(position);
@@ -156,8 +160,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanInsertColumn(Matrix<T> matrix)
+        public void CanInsertColumn(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
             var column = Vector<T>.Build.Random(matrix.RowCount, 0);
             for (var position = 0; position < matrix.ColumnCount + 1; position++)
             {
@@ -192,8 +197,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanRemoveColumn(Matrix<T> matrix)
+        public void CanRemoveColumn(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
             for (var position = 0; position < matrix.ColumnCount; position++)
             {
                 var result = matrix.RemoveColumn(position);
@@ -217,8 +223,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanAppend(Matrix<T> left, Matrix<T> right)
+        public void CanAppend(TestMatrix leftTestMatrix, TestMatrix rightTestMatrix)
         {
+            Matrix<T> left = GetMatrix(leftTestMatrix);
+            Matrix<T> right = GetMatrix(rightTestMatrix);
+
             // IF
             Assume.That(left.RowCount, Is.EqualTo(right.RowCount));
 
@@ -239,8 +248,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanAppendIntoResult(Matrix<T> left, Matrix<T> right)
+        public void CanAppendIntoResult(TestMatrix leftTestMatrix, TestMatrix rightTestMatrix)
         {
+            Matrix<T> left = GetMatrix(leftTestMatrix);
+            Matrix<T> right = GetMatrix(rightTestMatrix);
+
             // IF
             Assume.That(left.RowCount, Is.EqualTo(right.RowCount));
 
@@ -266,8 +278,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanStack(Matrix<T> top, Matrix<T> bottom)
+        public void CanStack(TestMatrix topTestMatrix, TestMatrix bottomTestMatrix)
         {
+            Matrix<T> top = GetMatrix(topTestMatrix);
+            Matrix<T> bottom = GetMatrix(bottomTestMatrix);
+
             // IF
             Assume.That(top.ColumnCount, Is.EqualTo(bottom.ColumnCount));
 
@@ -288,8 +303,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanStackIntoResult(Matrix<T> top, Matrix<T> bottom)
+        public void CanStackIntoResult(TestMatrix topTestMatrix, TestMatrix bottomTestMatrix)
         {
+            Matrix<T> top = GetMatrix(topTestMatrix);
+            Matrix<T> bottom = GetMatrix(bottomTestMatrix);
+
             // IF
             Assume.That(top.ColumnCount, Is.EqualTo(bottom.ColumnCount));
 
@@ -315,8 +333,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanDiagonalStack(Matrix<T> left, Matrix<T> right)
+        public void CanDiagonalStack(TestMatrix leftTestMatrix, TestMatrix rightTestMatrix)
         {
+            Matrix<T> left = GetMatrix(leftTestMatrix);
+            Matrix<T> right = GetMatrix(rightTestMatrix);
+
             var result = left.DiagonalStack(right);
 
             Assert.That(result.RowCount, Is.EqualTo(left.RowCount + right.RowCount));
@@ -341,8 +362,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanDiagonalStackIntoResult(Matrix<T> left, Matrix<T> right)
+        public void CanDiagonalStackIntoResult(TestMatrix leftTestMatrix, TestMatrix rightTestMatrix)
         {
+            Matrix<T> left = GetMatrix(leftTestMatrix);
+            Matrix<T> right = GetMatrix(rightTestMatrix);
+
             var result = Matrix<T>.Build.Dense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount);
             left.DiagonalStack(right, result);
 

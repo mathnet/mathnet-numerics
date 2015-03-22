@@ -37,8 +37,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
     partial class MatrixStructureTheory<T>
     {
         [Theory]
-        public void CanGetFieldsByIndex(Matrix<T> matrix)
+        public void CanGetFieldsByIndex(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             Assert.That(() => matrix[0, 0], Throws.Nothing);
             Assert.That(() => matrix[0, matrix.ColumnCount - 1], Throws.Nothing);
             Assert.That(() => matrix[matrix.RowCount - 1, 0], Throws.Nothing);
@@ -49,8 +51,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetRow(Matrix<T> matrix)
+        public void CanGetRow(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // First Row
             var firstrow = matrix.Row(0);
             Assert.That(firstrow.Count, Is.EqualTo(matrix.ColumnCount));
@@ -73,8 +77,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetRowIntoResult(Matrix<T> matrix)
+        public void CanGetRowIntoResult(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var row = Vector<T>.Build.Dense(matrix.ColumnCount);
             matrix.Row(0, row);
 
@@ -89,8 +95,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetRowWithRange(Matrix<T> matrix)
+        public void CanGetRowWithRange(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // First Row, Columns 0..1
             var firstrow = matrix.Row(0, 0, 2);
             Assert.That(firstrow.Count, Is.EqualTo(2));
@@ -124,8 +132,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetRowWithRangeIntoResult(Matrix<T> matrix)
+        public void CanGetRowWithRangeIntoResult(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var row = Vector<T>.Build.Dense(matrix.ColumnCount - 1);
             matrix.Row(0, 1, matrix.ColumnCount - 1, row);
 
@@ -141,8 +151,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetColumn(Matrix<T> matrix)
+        public void CanGetColumn(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // First Column
             var firstcol = matrix.Column(0);
             Assert.That(firstcol.Count, Is.EqualTo(matrix.RowCount));
@@ -165,8 +177,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetColumnIntoResult(Matrix<T> matrix)
+        public void CanGetColumnIntoResult(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var col = Vector<T>.Build.Dense(matrix.RowCount);
             matrix.Column(0, col);
 
@@ -181,8 +195,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetColumnWithRange(Matrix<T> matrix)
+        public void CanGetColumnWithRange(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // First Column, Rows 0..1
             var firstcol = matrix.Column(0, 0, 2);
             Assert.That(firstcol.Count, Is.EqualTo(2));
@@ -216,8 +232,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetColumnWithRangeIntoResult(Matrix<T> matrix)
+        public void CanGetColumnWithRangeIntoResult(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var col = Vector<T>.Build.Dense(matrix.RowCount - 1);
             matrix.Column(0, 1, matrix.RowCount - 1, col);
 
@@ -233,8 +251,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanSetRow(Matrix<T> matrix)
+        public void CanSetRow(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // First Row
             var m = matrix.Clone();
             var v = CreateVectorFor(m, matrix.ColumnCount);
@@ -268,8 +288,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanSetRowArray(Matrix<T> matrix)
+        public void CanSetRowArray(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // First Row
             var m = matrix.Clone();
             m.SetRow(0, Vector<T>.Build.Dense(matrix.ColumnCount).ToArray());
@@ -301,8 +323,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanSetColumn(Matrix<T> matrix)
+        public void CanSetColumn(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // First Column
             var m = matrix.Clone();
             var v = CreateVectorFor(m, matrix.RowCount);
@@ -336,8 +360,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanSetColumnArray(Matrix<T> matrix)
+        public void CanSetColumnArray(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // First Column
             var m = matrix.Clone();
             m.SetColumn(0, Vector<T>.Build.Dense(matrix.RowCount).ToArray());
@@ -369,8 +395,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetUpperTriangle(Matrix<T> matrix)
+        public void CanGetUpperTriangle(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var upper = matrix.UpperTriangle();
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -382,8 +410,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetUpperTriangleIntoResult(Matrix<T> matrix)
+        public void CanGetUpperTriangleIntoResult(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var dense = Matrix<T>.Build.Dense(matrix.RowCount, matrix.ColumnCount);
             matrix.UpperTriangle(dense);
             for (var i = 0; i < matrix.RowCount; i++)
@@ -410,8 +440,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetLowerTriangle(Matrix<T> matrix)
+        public void CanGetLowerTriangle(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var upper = matrix.LowerTriangle();
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -423,8 +455,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetLowerTriangleIntoResult(Matrix<T> matrix)
+        public void CanGetLowerTriangleIntoResult(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var dense = Matrix<T>.Build.Dense(matrix.RowCount, matrix.ColumnCount);
             matrix.LowerTriangle(dense);
             for (var i = 0; i < matrix.RowCount; i++)
@@ -451,8 +485,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetStrictlyUpperTriangle(Matrix<T> matrix)
+        public void CanGetStrictlyUpperTriangle(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var upper = matrix.StrictlyUpperTriangle();
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -464,8 +500,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetStrictlyUpperTriangleIntoResult(Matrix<T> matrix)
+        public void CanGetStrictlyUpperTriangleIntoResult(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var dense = Matrix<T>.Build.Dense(matrix.RowCount, matrix.ColumnCount);
             matrix.StrictlyUpperTriangle(dense);
             for (var i = 0; i < matrix.RowCount; i++)
@@ -492,8 +530,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetStrictlyLowerTriangle(Matrix<T> matrix)
+        public void CanGetStrictlyLowerTriangle(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var upper = matrix.StrictlyLowerTriangle();
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -505,8 +545,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetStrictlyLowerTriangleIntoResult(Matrix<T> matrix)
+        public void CanGetStrictlyLowerTriangleIntoResult(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var dense = Matrix<T>.Build.Dense(matrix.RowCount, matrix.ColumnCount);
             matrix.StrictlyLowerTriangle(dense);
             for (var i = 0; i < matrix.RowCount; i++)
@@ -533,8 +575,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetDiagonal(Matrix<T> matrix)
+        public void CanGetDiagonal(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var diag = matrix.Diagonal();
             Assert.That(diag.Count, Is.EqualTo(Math.Min(matrix.RowCount, matrix.ColumnCount)));
             for (var i = 0; i < Math.Min(matrix.RowCount, matrix.ColumnCount); i++)
@@ -544,8 +588,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanSetDiagonal(Matrix<T> matrix)
+        public void CanSetDiagonal(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var m = matrix.Clone();
             var v = CreateVectorFor(m, Math.Min(matrix.RowCount, matrix.ColumnCount));
             m.SetDiagonal(v);
@@ -564,8 +610,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanSetDiagonalArray(Matrix<T> matrix)
+        public void CanSetDiagonalArray(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             var m = matrix.Clone();
             m.SetDiagonal(new T[Math.Min(matrix.RowCount, matrix.ColumnCount)]);
             for (var i = 0; i < matrix.RowCount; i++)
@@ -583,8 +631,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanGetSubmatrix(Matrix<T> matrix)
+        public void CanGetSubmatrix(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // Top Left Corner 2x2
             var topleft = matrix.SubMatrix(0, 2, 0, 2);
             Assert.That(topleft.RowCount, Is.EqualTo(2));
@@ -625,8 +675,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanSetSubmatrix(Matrix<T> matrix)
+        public void CanSetSubmatrix(TestMatrix testMatrix)
         {
+            Matrix<T> matrix = GetMatrix(testMatrix);
+
             // Top Left Corner 2x2
             var topleft = CreateDenseFor(matrix, 2, 2);
             var m = matrix.Clone();
@@ -658,7 +710,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => m.SetSubMatrix(matrix.RowCount, 1, 0, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => m.SetSubMatrix(0, 1, -1, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => m.SetSubMatrix(0, 1, matrix.ColumnCount, 1, Matrix<T>.Build.Dense(1, 1)), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            
+
             // Usually invalid, but not for SetSubMatrix (since size is explicitly provided)
             Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, Matrix<T>.Build.Dense(1, 2)), Throws.Nothing);
             Assert.That(() => m.SetSubMatrix(0, 1, 0, 1, Matrix<T>.Build.Dense(2, 1)), Throws.Nothing);

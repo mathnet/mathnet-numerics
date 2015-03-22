@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,7 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
@@ -43,15 +42,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     public class SparseVectorArithmeticTheory : VectorArithmeticTheory
     {
         [Datapoints]
-        Vector<Complex>[] denseVectors =
+        TestVector[] _sparseVectors =
         {
-            Vector<Complex>.Build.SparseOfEnumerable(new[] { new Complex(1, 1), new Complex(2, 1), new Complex(3, 1), new Complex(4, 1), new Complex(5, 1) }),
-            Vector<Complex>.Build.SparseOfEnumerable(new[] { new Complex(2, -1), new Complex(0, 0), new Complex(0, 2), new Complex(-5, 1), new Complex(0, 0) }),
-            Vector<Complex>.Build.Sparse(5),
-            Vector<Complex>.Build.Sparse(int.MaxValue)
+            TestVector.Sparse5,
+            TestVector.Sparse5WithZeros,
+            TestVector.Sparse5AllZeros,
+            TestVector.SparseMaxLengthAllZeros
         };
 
         [Datapoints]
-        Complex[] scalars = { new Complex(2d, -1d) };
+        Complex[] _scalars = { new Complex(2d, -1d) };
     }
 }

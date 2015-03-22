@@ -1,4 +1,4 @@
-﻿// <copyright file="MatrixStructureTheory.cs" company="Math.NET">
+// <copyright file="TestData.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,47 +28,36 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra;
-using NUnit.Framework;
-
-namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
+namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-#endif
-
-    [TestFixture, Category("LA")]
-    public class MatrixStructureTheory : MatrixStructureTheory<Complex>
+    public enum TestMatrix
     {
-        protected override Matrix<Complex> GetMatrix(TestMatrix matrix)
-        {
-            return TestData.GetMatrix(matrix);
-        }
+        DenseSquare3x3,
+        DenseSquare3x3b,
+        DenseSquare4x4,
+        DenseSquare4x4b,
+        DenseTall3x2,
+        DenseWide2x3,
+        DenseSquare3x3c,
 
-        [Datapoints]
-        TestMatrix[] _matrices =
-        {
-            TestMatrix.DenseSquare3x3,
-            TestMatrix.DenseSquare3x3b,
-            TestMatrix.DenseSquare4x4,
-            TestMatrix.DenseSquare4x4b,
-            TestMatrix.DenseTall3x2,
-            TestMatrix.DenseWide2x3,
-            TestMatrix.DenseSquare3x3c,
+        SparseSquare3x3,
+        SparseSquare3x3b,
+        SparseWide2x3,
 
-            TestMatrix.SparseSquare3x3,
-            TestMatrix.SparseSquare3x3b,
-            TestMatrix.SparseWide2x3,
+        DiagonalSquare3x3,
+        DiagonalSquare3x3b,
 
-            TestMatrix.DiagonalSquare3x3,
-            TestMatrix.DiagonalSquare3x3b,
+        UserSquare3x3
+    }
 
-            TestMatrix.UserSquare3x3
-        };
+    public enum TestVector
+    {
+        Dense5,
+        Dense5WithZeros,
 
-        [Datapoints]
-        Complex[] _scalars = { new Complex(2d, 0d), new Complex(-1.5d, 3.5d), Complex.Zero };
+        Sparse5,
+        Sparse5WithZeros,
+        Sparse5AllZeros,
+        SparseMaxLengthAllZeros
     }
 }
