@@ -36,7 +36,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     using Numerics;
 
     [TestFixture, Category("LA")]
-    public abstract class VectorArithmeticTheory : VectorArithmeticTheory<Complex32>
+    public class VectorArithmeticTheory : VectorArithmeticTheory<Complex32>
     {
         protected override Vector<Complex32> GetVector(TestVector vector)
         {
@@ -45,5 +45,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
 
         protected override Complex32 Minus(Complex32 value) { return -value; }
         protected override Complex32 Add(Complex32 first, Complex32 second) { return first + second; }
+
+        [Datapoints]
+        TestVector[] _vectors =
+        {
+            TestVector.Dense5,
+            TestVector.Dense5WithZeros,
+
+            TestVector.Sparse5,
+            TestVector.Sparse5WithZeros,
+            TestVector.Sparse5AllZeros,
+            TestVector.SparseMaxLengthAllZeros
+        };
+
+        [Datapoints]
+        Complex32[] _scalars = { new Complex32(2f, -1f) };
     }
 }

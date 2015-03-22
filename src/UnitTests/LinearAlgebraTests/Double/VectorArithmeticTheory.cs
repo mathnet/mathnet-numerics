@@ -34,7 +34,7 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     [TestFixture, Category("LA")]
-    public abstract class VectorArithmeticTheory : VectorArithmeticTheory<double>
+    public class VectorArithmeticTheory : VectorArithmeticTheory<double>
     {
         protected override Vector<double> GetVector(TestVector vector)
         {
@@ -43,5 +43,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
         protected override double Minus(double value) { return -value; }
         protected override double Add(double first, double second) { return first + second; }
+
+        [Datapoints]
+        TestVector[] _vectors =
+        {
+            TestVector.Dense5,
+            TestVector.Dense5WithZeros,
+
+            TestVector.Sparse5,
+            TestVector.Sparse5WithZeros,
+            TestVector.Sparse5AllZeros,
+            TestVector.SparseMaxLengthAllZeros
+        };
+
+        [Datapoints]
+        double[] _scalars = { 2d };
     }
 }

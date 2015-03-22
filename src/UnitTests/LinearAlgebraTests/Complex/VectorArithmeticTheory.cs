@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 #endif
 
     [TestFixture, Category("LA")]
-    public abstract class VectorArithmeticTheory : VectorArithmeticTheory<Complex>
+    public class VectorArithmeticTheory : VectorArithmeticTheory<Complex>
     {
         protected override Vector<Complex> GetVector(TestVector vector)
         {
@@ -49,5 +49,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 
         protected override Complex Minus(Complex value) { return -value; }
         protected override Complex Add(Complex first, Complex second) { return first + second; }
+
+        [Datapoints]
+        TestVector[] _vectors =
+        {
+            TestVector.Dense5,
+            TestVector.Dense5WithZeros,
+
+            TestVector.Sparse5,
+            TestVector.Sparse5WithZeros,
+            TestVector.Sparse5AllZeros,
+            TestVector.SparseMaxLengthAllZeros
+        };
+
+        [Datapoints]
+        Complex[] _scalars = { new Complex(2d, -1d) };
     }
 }
