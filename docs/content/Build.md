@@ -61,6 +61,39 @@ If the build or tests fail claiming that FSharp.Core was not be found, see
 [fsharp.org](http://fsharp.org/use/windows/) or install the
 [Visual F# 3.0 Tools](http://go.microsoft.com/fwlink/?LinkId=261286) directly.
 
+Dependencies
+------------
+
+We manage NuGet and other dependencies with [Paket](http://fsprojects.github.io/Paket/).
+You do not normally have to do anything with Paket as it is integrated into our
+FAKE build tools, unless you want to actively manage the dependencies.
+
+You can bootstrap or update Paket by calling `tools/paket/paket.bootstrapper.exe`.
+After bootstrapping, `tools/paket/paket.exe restore` will restore the packages
+to the exact version specified in the `paket.lock` file,
+`tools/paket/paket.exe install` will install or migrate packages after you have
+made changes to the `paket.dependencies` file, `tools/paket/paket.exe outdated`
+will show whether any packages are out of date and `tools/paket/paket.exe update`
+will update all packages within the defined constraints. Have a look at the Paket
+website for more commands and details.
+
+
+Documentation
+-------------
+
+This website and documentation is automatically generated from of a set of
+[CommonMark](http://commonmark.org/) structured files in `doc/content/` using
+[FSharp.Formatting](http://tpetricek.github.io/FSharp.Formatting/).
+The final documentation can be built by calling `build.sh Docs`.
+
+However, for editing and previewing the docs on your local machine it is more
+convenient to run `build.sh DocsWatch` in a separate console instead, which
+monitors the content files and incrementally regenerates the HTML output
+automatically. DocsWatch will also use local/relative URIs instead of absolute
+ones, so that the links and styles will work as expected locally. This can
+also be enabled in a full one-time build with `build.sh DocsDev` instead
+of just `Docs`.
+
 Creating a Release
 ------------------
 
