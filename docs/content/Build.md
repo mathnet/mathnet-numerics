@@ -77,7 +77,6 @@ will show whether any packages are out of date and `tools/paket/paket.exe update
 will update all packages within the defined constraints. Have a look at the Paket
 website for more commands and details.
 
-
 Documentation
 -------------
 

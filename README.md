@@ -54,56 +54,7 @@ Supported Platforms:
 - PCL Portable Profiles 7, 47, 78, 259 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
 - Xamarin: Android, iOS
 
-The F# extensions support a slightly reduced platform set:
-
-- .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
-- PCL Portable Profile 47: Windows 8, Silverlight 5
-- Xamarin: Android, iOS
-
-Package Dependencies:
-
-- .Net 4.0 and higher, Mono, PCL Profiles: None
-- .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
-- F# on  .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core](http://www.nuget.org/packages/FSharp.Core)
-
-Framework Dependencies (part of the .NET Framework):
-
-- .Net 4.0 and higher, Mono, PCL profiles 7 and 47: System.Numerics
-- .Net 3.5, PCL profiles 78, 259 and 328: None
-
-Platform Discrepancies
-----------------------
-
-Compilation symbols used to deal with platform differences:
-
-* **NET35** - Some framework attributes are not available and we provide our own Tuple types, generic comparer, LINQ Zip routine and thread partitioner. The crypto random source is not disposable.
-* **PORTABLE** - Some framework attributes are not available and we provide our own parallelization routines and partitioning using TPL Tasks. Reduced globalization and serialization support. Work around some missing routines like `Math.DivRem`, `Array.FindIndex` and `BitConverter`. There is no `ICloneable`. The crypto random source is not available; simpler random seeding.
-* **NOSYSNUMERICS** - The `System.Numerics` framework assembly is not available. We provide our own double-precision complex number type and disable all arbitrary precision numbers support (BigInteger, BigRational).
-* **NET45REFLECTION** - we use the new .Net 4.5 reflection API where type information is split into `Type` and `TypeInfo`.
-* **NATIVE** - we can support native providers like Intel MKL.
-
-Configuration | Net35 | Portable | NoSysNumerics | Net45Reflection | Native
-------------- | ----- | -------- | ------------- | --------------- | ------
-.Net 4.0      | -     | -        | -             | -               | Yes
-.Net 3.5      | Yes   | -        | Yes           | -               | -
-Portable 7    | -     | Yes      | -             | Yes             | -
-Portable 47   | -     | Yes      | -             | -               | -
-Portable 78   | -     | Yes      | Yes           | Yes             | -
-Portable 259  | -     | Yes      | Yes           | Yes             | -
-Portable 328  | -     | Yes      | Yes           | -               | -
-
-Compatibility Matrix:
-
-Configuration | Net35 | Net40 | Net45 | SL5  | Win8 | WP8/SL | WP8.1 | Xamarin
-------------- | ----- | ----- | ----- | ---- | ---- | ------ | ----- | -------
-.Net 4.0      | -     | Best  | Best  | -    | -    | -      | -     | -
-.Net 3.5      | Best  | OK    | OK    | -    | -    | -      | -     | -
-Portable 7    | -     | -     | OK    | -    | Best | -      | -     | OK
-Portable 47   | -     | -     | OK    | Best | OK   | -      | -     | OK
-Portable 78   | -     | -     | OK    | -    | OK   | Best   | -     | OK
-Portable 259  | -     | -     | OK    | -    | OK   | OK     | Best  | OK
-Portable 328  | -     | OK    | OK    | OK   | OK   | OK     | OK    | OK
-
+For full details, dependencies and platform discrepancies see [Platform Compatibility](http://numerics.mathdotnet.com/Compatibility.html).
 
 Building Math.NET Numerics
 --------------------------
@@ -111,46 +62,18 @@ Building Math.NET Numerics
 Windows (.Net): [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics)  
 Linux (Mono): [![Travis Build Status](https://travis-ci.org/mathnet/mathnet-numerics.svg?branch=master)](https://travis-ci.org/mathnet/mathnet-numerics)
 
-If you do not want to use the official binaries, or if you like to modify, debug or contribute, you can compile Math.NET Numerics locally either using Visual Studio or manually with the build scripts.
+You can build Math.NET Numerics with an IDE like VisualStudio or Xamarin,
+with MsBuild or with FAKE.
 
-* The Visual Studio solutions should build out of the box, without any preparation steps or package restores.
-* Instead of a compatible IDE you can also build the solutions with `msbuild`, or on Mono with `xbuild`.
-* The full build including unit tests, docs, NuGet and Zip packages is using [FAKE](http://fsharp.github.io/FAKE/).
+MsBuild/XBuild:
 
-### How to build with MSBuild/XBuild
+    msbuild MathNet.Numerics.sln
 
-    msbuild MathNet.Numerics.sln            # only build for .Net 4 (main solution)
-    msbuild MathNet.Numerics.Net35Only.sln  # only build for .Net 3.5
-    msbuild MathNet.Numerics.All.sln        # full build with .Net 4, 3.5 and PCL profiles
-    xbuild MathNet.Numerics.sln             # build with Mono, e.g. on Linux or Mac
+FAKE:
 
-### How to build with FAKE
+    build.cmd Build    # build from the Windows console with .Net
+    ./build.sh Build   # build from Bash, with Mono on Linux/Mac or .Net on Windows
+    ./build.sh Test    # build and run unit tests
 
-    build.cmd    # normal build (.Net 4.0), run unit tests (.Net on Windows)
-    ./build.sh   # normal build (.Net 4.0), run unit tests (Mono on Linux/Mac, .Net on Windows)
-    
-    build.cmd Build              # normal build (.Net 4.0)
-    build.cmd Build incremental  # normal build, incremental (.Net 4.0)
-    build.cmd Build all          # full build (.Net 4.0, 3.5, PCL)
-    build.cmd Build net35        # compatibility build (.Net 3.5)
-    build.cmd Build signed       # normal build, signed/strong named (.Net 4.0)
-    
-    build.cmd Test        # normal build (.Net 4.0), run unit tests
-    build.cmd Test quick  # normal build (.Net 4.0), run unit tests except long running ones
-    build.cmd Test all    # full build (.Net 4.0, 3.5, PCL), run all unit tests
-    build.cmd Test net35  # compatibility build (.Net 3.5), run unit testss
-    
-    build.cmd Clean  # cleanup build artifacts
-    build.cmd Docs   # generate documentation
-    build.cmd Api    # generate api reference
-    
-    build.cmd NuGet all     # generate normal NuGet packages (.Net 4.0, 3.5, PCL)
-    build.cmd NuGet signed  # generate signed/strong named NuGet packages (.Net 4.0)
-    
-    build.cmd NativeBuild      # build native providers for all platforms
-    build.cmd NativeTest       # test native providers for all platforms
-    
-    build.cmd All          # build, test, docs, api reference (.Net 4.0)
-    build.cmd All release  # release build
-
-FAKE itself is not included in the repository but it will download and bootstrap itself automatically when build.cmd is run the first time. Note that this step is *not* required when using Visual Studio or `msbuild` directly.
+See [Build & Tools](http://numerics.mathdotnet.com/Build.html) for full details
+on how to build, generate documentation or even create a full release.

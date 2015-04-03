@@ -14,7 +14,25 @@
 
         <link type="text/css" rel="stylesheet" href="@Root/content/style.css" />
         <style>
-            td {padding-right: 15px;}
+          #main table:not(.pre) {
+              border: 1px dolid #dddddd;
+              max-width: 100%;
+              border-style: solid;
+              border-width: 1px;
+              border-color: gray;
+              border-collapse: collapse;
+              border-right-width: 1px;
+              border-bottom-width: 1px;
+              margin-top: 15px;
+              margin-bottom: 25px;
+          }
+          #main table:not(.pre) th, #main table:not(.pre) td {
+              border: 1px solid #dddddd;
+              padding: 6px;
+          }
+          #main table:not(.pre) th p, #main table:not(.pre) td p {
+              margin-bottom: 5px;
+          }
         </style>
         <script type="text/javascript" src="@Root/content/tips.js"></script>
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -48,6 +66,7 @@
                         <li><a href="@Root/ReleaseNotes.html">Release Notes</a></li>
                         <li><a href="@Root/License.html">MIT/X11 License</a></li>
                         <li><a href="http://numerics.mathdotnet.com/api/">Class Reference</a></li>
+                        <li><a href="@Root/Compatibility.html">Platform Compatibility</a></li>
                         <li><a href="https://github.com/mathnet/mathnet-numerics/issues">Issues & Bugs</a></li>
                         <li><a href="@Root/Users.html">Who is using Math.NET?</a></li>
 
