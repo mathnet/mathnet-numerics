@@ -3,7 +3,7 @@ NUGET
   specs:
     BenchShark (1.0.0)
     ConsoleDump (0.6.0.1)
-    FAKE (3.23.0)
+    FAKE (3.26.7)
     FSharp.Compiler.Service (0.0.82)
     FSharp.Core (3.1.2.1)
     FSharp.Formatting (2.7.5)
@@ -14,7 +14,7 @@ NUGET
     FsUnit (1.3.0.1)
       NUnit (>= 2.6.3)
     MathNet.Numerics (3.0.0)
-    NuGet.CommandLine (2.8.3)
+    NuGet.CommandLine (2.8.5)
     NUnit (2.6.4)
     NUnit.Runners (2.6.4)
     TaskParallelLibrary (1.0.2856)
