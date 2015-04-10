@@ -36,6 +36,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-AFDA-48DB-B7FC-B064691DEE96}"
 	ProjectSection(SolutionItems) = preProject
 		docs\content\Build.md = docs\content\Build.md
+		docs\content\Compatibility.md = docs\content\Compatibility.md
 		docs\content\CSV.fsx = docs\content\CSV.fsx
 		docs\content\DescriptiveStatistics.fsx = docs\content\DescriptiveStatistics.fsx
 		docs\content\Distance.fsx = docs\content\Distance.fsx
@@ -52,6 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-A
 		docs\content\Matrix.fsx = docs\content\Matrix.fsx
 		docs\content\MatrixMarket.fsx = docs\content\MatrixMarket.fsx
 		docs\content\MKL.md = docs\content\MKL.md
+		docs\content\Packages.md = docs\content\Packages.md
 		docs\content\Probability.fsx = docs\content\Probability.fsx
 		docs\content\Random.fsx = docs\content\Random.fsx
 		docs\content\Regression.fsx = docs\content\Regression.fsx

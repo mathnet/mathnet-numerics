@@ -1,5 +1,5 @@
-Platform Compatibility
-======================
+Platform Support
+================
 
 Supported Platforms:
 

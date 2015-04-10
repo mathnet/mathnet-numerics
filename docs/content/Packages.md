@@ -1,0 +1,56 @@
+NuGet Packages & Binaries
+=========================
+
+The recommended way to get Math.NET Numerics is NuGet. The following packages are
+provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/).
+
+Some but not all releases are also available as Zip files on
+[CodePlex Downloads](http://mathnetnumerics.codeplex.com/releases) or in the
+[GitHub Releases](https://github.com/mathnet/mathnet-numerics/releases).
+The complete set of Zip and NuGet packages including symbol packages is available in
+[release archive](http://1drv.ms/1NlUeDT).
+
+Math.NET Numerics
+-----------------
+
+In most scenarios you'll only need the primary package named `MathNet.Numerics`.
+If you are working with F# we recommend to also use the F# extension package
+for a more natural and idiomatic experience.
+
+[MathNet.NET Numerics Release Notes](ReleaseNotes.html)
+
+- [**MathNet.Numerics**](https://www.nuget.org/packages/MathNet.Numerics/) - core package, including .Net 4, .Net 3.5 and portable/PCL builds.
+- [**MathNet.Numerics.FSharp**](https://www.nuget.org/packages/MathNet.Numerics.FSharp/) - optional extensions for a better F# experience. BigRational.
+
+Both packages above do not have a strong name. While we do not recommend it,
+there are valid scenarios where strong named assemblies are required. That's why
+we also provide strong-named variants with the `.Signed` suffix. Note that signed
+packages do not contain portable builds.
+
+- [**MathNet.Numerics.Signed**](https://www.nuget.org/packages/MathNet.Numerics.Signed/) - strong-named version of the core package.
+- [**MathNet.Numerics.FSharp.Signed**](https://www.nuget.org/packages/MathNet.Numerics.FSharp.Signed/) - strong-named version of the F# package.
+
+Intel MKL Native Provider
+-------------------------
+
+Since v3.6.0 Math.NET Numerics can automatically choose the 64- or 32-bit version
+of native providers depending on the operating system and process. But we do not
+provide combined NuGet packages yet. If you intend to [maintain the native binaries
+manually](MKL.html#Native-Binaries) it may be easier to download the combined Zip file in the release archive.
+
+[Intel MKL Native Provider Release Notes](ReleaseNotes-MKL.html)
+
+- [**MathNet.Numerics.MKL.Win-x64**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x64/) - Windows 64-bit.
+- [**MathNet.Numerics.MKL.Win-x86**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x86/) - Windows 32-bit.
+- [**MathNet.Numerics.MKL.Linux-x64**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Linux-x64/) - Linux 64-bit.
+- [**MathNet.Numerics.MKL.Linux-x86**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Linux-x86/) - Linux 32-bit.
+
+Data Extensions
+---------------
+
+Data/IO Packages for reading and writing data.
+
+[Data Extensions Release Notes](ReleaseNotes-Data.html)
+
+- [**MathNet.Numerics.Data.Text**](https://www.nuget.org/packages/MathNet.Numerics.Data.Text/) - Text-based matrix formats like [CSV](CSV.html) and [MatrixMarket](MatrixMarket.html).
+- [**MathNet.Numerics.Data.Matlab**](https://www.nuget.org/packages/MathNet.Numerics.Data.Matlab/) - [MATLAB Level-5](MatlabFiles.html) matrix file format.

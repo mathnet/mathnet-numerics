@@ -1,9 +1,3 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-
-(**
 Math.NET Numerics
 =================
 
@@ -22,54 +16,16 @@ optimization. Available for free under the [MIT/X11 License](License.html).
 NuGet Packages
 --------------
 
-The recommended way to get Math.NET Numerics is to use NuGet. The following
-packages are provided and maintained in the public
-[NuGet Gallery](https://nuget.org/profiles/mathnet/).
-Alternatively you can also download the binaries in Zip packages, available on
-[CodePlex](http://mathnetnumerics.codeplex.com/releases).
+- [**MathNet.Numerics**](https://www.nuget.org/packages/MathNet.Numerics/) - core package
+- [**MathNet.Numerics.FSharp**](https://www.nuget.org/packages/MathNet.Numerics.FSharp/) - optional extensions for a better F# experience.
 
-Core Package:
+The packages support .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac,
+as well as PCL Portable Profiles 7, 47, 78, 259 and 328 for Windows 8, Silverlight 5,
+Windows Phone/SL 8, Windows Phone 8.1.
 
-- [**MathNet.Numerics**](https://www.nuget.org/packages/MathNet.Numerics/) - core package, including .Net 4, .Net 3.5 and portable/PCL builds.
-- [**MathNet.Numerics.FSharp**](https://www.nuget.org/packages/MathNet.Numerics.FSharp/) - optional extensions for a better F# experience. BigRational.
-- [**MathNet.Numerics.Signed**](https://www.nuget.org/packages/MathNet.Numerics.Signed/) - strong-named version of the core package *(not recommended)*.
-- [**MathNet.Numerics.FSharp.Signed**](https://www.nuget.org/packages/MathNet.Numerics.FSharp.Signed/) - strong-named version of the F# package *(not recommended)*.
-
-Alternative Provider Packages (optional):
-
-- [**MathNet.Numerics.MKL.Win-x86**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x86/) - Native Intel MKL Linear Algebra provider (Windows/32-bit).
-- [**MathNet.Numerics.MKL.Win-x64**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x64/) - Native Intel MKL Linear Algebra provider (Windows/64-bit).
-
-Data/IO Packages for reading and writing data (optional):
-
-- [**MathNet.Numerics.Data.Text**](https://www.nuget.org/packages/MathNet.Numerics.Data.Text/) - Text-based matrix formats like CSV and MatrixMarket.
-- [**MathNet.Numerics.Data.Matlab**](https://www.nuget.org/packages/MathNet.Numerics.Data.Matlab/) - MATLAB Level-5 matrix file format.
-
-
-Platform Support and Dependencies
----------------------------------
-
-- .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
-- PCL Portable Profiles 7, 47, 78, 259 and 328: Windows 8, Silverlight 5, Windows Phone/SL 8, Windows Phone 8.1.
-- Xamarin: Android, iOS
-
-The F# extensions support a slightly reduced platform set:
-
-- .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.
-- PCL Portable Profile 47: Windows 8, Silverlight 5
-- Xamarin: Android, iOS
-
-Package Dependencies:
-
-- .Net 4.0 and higher, Mono, PCL Profiles: None
-- .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
-- F# on  .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core](http://www.nuget.org/packages/FSharp.Core)
-
-Framework Dependencies (part of the .NET Framework):
-
-- .Net 4.0 and higher, Mono, PCL profiles 7 and 47: System.Numerics
-- .Net 3.5, PCL profiles 78, 259 and 328: None
-
+See [NuGet & Binaries](Packages.html) for a complete list of our NuGet packages,
+Zip files and the release archive, and [Platform Support](Compatibility.html)
+for details on what platforms are supported and how their limitations are handled.
 
 Using Math.NET Numerics with C#
 -------------------------------
@@ -112,6 +68,8 @@ immediately and print the result to the output. Use the tab key for auto-complet
 For convenience our F# packages include a small script that sets everything up properly:
 
     [lang=fsharp]
+    // this load statement is only needed in F# interactive,
+    // in a compiled F# project you'd use normal .Net assembly references.
     #load "../packages/MathNet.Numerics.FSharp.3.0.0/MathNet.Numerics.fsx"
 
     open MathNet.Numerics
@@ -214,5 +172,3 @@ Which will print something like the following to the output:
         -2.01044      4.06481    -0.128382      0.51167     -1.70276          ...
 
 See [Intel MKL](MKL.html) for details how to use native providers on Linux.
-
-*)
