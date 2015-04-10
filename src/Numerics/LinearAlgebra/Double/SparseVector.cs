@@ -678,6 +678,33 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>
+        public override int AbsoluteMaximumIndex()
+        {
+            if (_storage.ValueCount == 0)
+            {
+                // No non-zero elements. Return 0
+                return 0;
+            }
+
+            var index = 0;
+            var max = Math.Abs(_storage.Values[index]);
+            for (var i = 1; i < _storage.ValueCount; i++)
+            {
+                var test = Math.Abs(_storage.Values[i]);
+                if (test > max)
+                {
+                    index = i;
+                    max = test;
+                }
+            }
+
+            return _storage.Indices[index];
+        }
+
+        /// <summary>
+        /// Returns the index of the maximum element.
+        /// </summary>
+        /// <returns>The index of maximum element.</returns>
         public override int MaximumIndex()
         {
             if (_storage.ValueCount == 0)
