@@ -683,6 +683,33 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Returns the index of the absolute maximum element.
+        /// </summary>
+        /// <returns>The index of absolute maximum element.</returns>
+        public override int AbsoluteMaximumIndex()
+        {
+            if (_storage.ValueCount == 0)
+            {
+                // No non-zero elements. Return 0
+                return 0;
+            }
+
+            var index = 0;
+            var max = _storage.Values[index].Magnitude;
+            for (var i = 1; i < _storage.ValueCount; i++)
+            {
+                var test = _storage.Values[i].Magnitude;
+                if (test > max)
+                {
+                    index = i;
+                    max = test;
+                }
+            }
+
+            return _storage.Indices[index];
+        }
+
+        /// <summary>
         /// Computes the sum of the vector's elements.
         /// </summary>
         /// <returns>The sum of the vector's elements.</returns>
