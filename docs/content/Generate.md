@@ -1,12 +1,12 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-open System
-open MathNet.Numerics
-let a = [| 2.0; 4.0; 3.0; 6.0 |]
+    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
+    open System.Numerics
+    open MathNet.Numerics
+    open MathNet.Numerics.Statistics
+    let a = [| 2.0; 4.0; 3.0; 6.0 |]
 
-(**
 Generating Data
 ===============
 
@@ -28,14 +28,13 @@ and either a provided step or a step of 1.0. Linear range is equivalent to the
 single colon `:` and double colon `::` operators in MATLAB.
 
 F# has built in linear range support in array comprehensions with the colon operator:
-*)
 
-[ 10.0 .. 2.0 .. 15.0 ]
-// [fsi:val it : float list = [10.0; 12.0; 14.0] ]
-[ for x in 10.0 .. 2.0 .. 15.0 -> sin x ]
-// [fsi:val it : float list = [-0.5440211109; -0.536572918; 0.9906073557] ]
+    [lang=fsharp]
+    [ 10.0 .. 2.0 .. 15.0 ]
+    // [fsi:val it : float list = [10.0; 12.0; 14.0] ]
+    [ for x in 10.0 .. 2.0 .. 15.0 -> sin x ]
+    // [fsi:val it : float list = [-0.5440211109; -0.536572918; 0.9906073557] ]
 
-(**
 In C# you can get the same result with `LinearRange`:
 
     [lang=csharp]
@@ -61,15 +60,14 @@ This is equivalent to the linspace and logspace operators in MATLAB.
     Generate.LinearSpacedMap(15, 0.0, Math.Pi, Math.Sin); // applies sin(x) to each value
 
 In F# you can also use:
-*)
 
-Generate.linearSpacedMap 15 0.0 Math.PI sin
-// [fsi:val it : float [] = ]
-// [fsi:  [|0.0; 0.222520934; 0.4338837391; 0.6234898019; 0.7818314825; 0.9009688679; ]
-// [fsi:    0.9749279122; 1.0; 0.9749279122; 0.9009688679; 0.7818314825; 0.6234898019; ]
-// [fsi:    0.4338837391; 0.222520934; 1.224606354e-16|] ]
+    [lang=fsharp]
+    Generate.linearSpacedMap 15 0.0 Math.PI sin
+    // [fsi:val it : float [] = ]
+    // [fsi:  [|0.0; 0.222520934; 0.4338837391; 0.6234898019; 0.7818314825; 0.9009688679; ]
+    // [fsi:    0.9749279122; 1.0; 0.9749279122; 0.9009688679; 0.7818314825; 0.6234898019; ]
+    // [fsi:    0.4338837391; 0.222520934; 1.224606354e-16|] ]
 
-(**
 `LogSpaced` works the same way but instead of the values $10^x$ it spaces the decade exponents $x$ linearly
 between the provided two exponents.
 
@@ -94,15 +92,15 @@ $$$
 s[n] = A\cdot\delta[n-d] = \begin{cases} 0 &\mbox{if } n \ne d \\ A & \mbox{if } n = d\end{cases}
 
 There is also a periodic version in `PeriodicImpulse` which accepts an additional `period` parameter.
-*)
 
-Generate.Impulse(8, 2.0, 3)
-// [fsi:val it : float [] = [|0.0; 0.0; 0.0; 2.0; 0.0; 0.0; 0.0; 0.0|] ]
+    [lang=fsharp]
+    Generate.Impulse(8, 2.0, 3)
+    // [fsi:val it : float [] = [|0.0; 0.0; 0.0; 2.0; 0.0; 0.0; 0.0; 0.0|] ]
 
-Generate.PeriodicImpulse(8, 3, 10.0, 1)
-// [fsi:val it : float [] = [|0.0; 10.0; 0.0; 0.0; 10.0; 0.0; 0.0; 10.0|] ]
+    Generate.PeriodicImpulse(8, 3, 10.0, 1)
+    // [fsi:val it : float [] = [|0.0; 10.0; 0.0; 0.0; 10.0; 0.0; 0.0; 10.0|] ]
 
-(**
+
 Heaviside Step
 --------------
 
@@ -118,13 +116,12 @@ The `Step` routines generates a Heaviside step, but just like the Kronecker Delt
 
 $$$
 s[n] = A\cdot H[n-d] = \begin{cases} 0 &\mbox{if } n < d \\ A & \mbox{if } n \ge d\end{cases}
-*)
 
-Generate.Step(8, 2.0, 3)
-// [fsi:val it : float [] = [|0.0; 0.0; 0.0; 2.0; 2.0; 2.0; 2.0; 2.0|] ]
+    [lang=fsharp]
+    Generate.Step(8, 2.0, 3)
+    // [fsi:val it : float [] = [|0.0; 0.0; 0.0; 2.0; 2.0; 2.0; 2.0; 2.0|] ]
 
 
-(**
 Periodic Sawtooth
 -----------------
 
@@ -154,14 +151,14 @@ normalized to strictly $0\le\alpha < A$.
 * **Delay**: Optional initial delay, in samples. Contributes to $\theta$.
 
 The equivalent map function accepts a custom map lambda as second argument after the length:
-*)
 
-Generate.periodicMap 15 ((+) 100.0) 1000.0 100.0 10.0 0.0 0
-// [fsi:val it : float [] = ]
-// [fsi:  [|100.0; 101.0; 102.0; 103.0; 104.0; 105.0; 106.0; 107.0; 108.0; 109.0; ]
-// [fsi:    100.0; 101.0; 102.0; 103.0; 104.0|] ]
+    [lang=fsharp]
+    Generate.periodicMap 15 ((+) 100.0) 1000.0 100.0 10.0 0.0 0
+    // [fsi:val it : float [] = ]
+    // [fsi:  [|100.0; 101.0; 102.0; 103.0; 104.0; 105.0; 106.0; 107.0; 108.0; 109.0; ]
+    // [fsi:    100.0; 101.0; 102.0; 103.0; 104.0|] ]
 
-(**
+
 Sinusoidal
 ----------
 
@@ -200,8 +197,8 @@ generated using the variants with the `Sequence` suffix, e.g. `UniformMap2Sequen
 
 Instead of uniform we can also sample from other distributions.
 
-* `Gaussian` - sample an array or sequence form a normal or standard distribution
-* `Stable` - sample from a Levy alpha-stable distribution.
+* `Normal` - sample an array or sequence form a normal distribution
+* `Standard` - sample an array or sequence form a standard distribution
 
 In addition, the `Random` functions accept a custom distribution instance to sample
 from. See the section about random numbers and probability distributions for details.
@@ -218,12 +215,11 @@ the the corresponding value in the input data.
     Generate.Map(a, x => x + 1.0); // returns array { 3.0, 5.0, 4.0, 7.0 }
 
 In F# you'd typically use the Array module to the same effect (and should continue to do so):
-*)
 
-Array.map ((+) 1.0) a
-// [fsi:val it : float [] = [|3.0; 5.0; 4.0; 7.0|] ]
+    [lang=fsharp]
+    Array.map ((+) 1.0) a
+    // [fsi:val it : float [] = [|3.0; 5.0; 4.0; 7.0|] ]
 
-(**
 ...but no equivalent operation is available in the .NET base class libraries (BCL) for C#.
 You can use LINQ, but that operates on sequences instead of arrays:
 
@@ -231,22 +227,19 @@ You can use LINQ, but that operates on sequences instead of arrays:
     a.Select(x => x + 1.0).ToArray();
 
 Similarly, with `Map2` you can also map a function accepting two inputs to two input arrays:
-*)
 
-let b = [| 1.0; -1.0; 2.0; -2.0 |]
-Generate.Map2(a, b, fun x y -> x + y)
-// [fsi:val it : float [] = [|3.0; 3.0; 5.0; 4.0|] ]
+    [lang=fsharp]
+    let b = [| 1.0; -1.0; 2.0; -2.0 |]
+    Generate.Map2(a, b, fun x y -> x + y)
+    // [fsi:val it : float [] = [|3.0; 3.0; 5.0; 4.0|] ]
 
-(**
 Typical F# equivalent:
-*)
 
-Array.map2 (+) a b
-// [fsi:val it : float [] = [|3.0; 3.0; 5.0; 4.0|] ]
+    [lang=fsharp]
+    Array.map2 (+) a b
+    // [fsi:val it : float [] = [|3.0; 3.0; 5.0; 4.0|] ]
 
-(**
 And in C# with LINQ:
 
     [lang=csharp]
     a.Zip(b, (x, y) => x + y).ToArray();
-*)

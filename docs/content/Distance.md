@@ -1,9 +1,3 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-
-(**
 Distance Metrics
 ================
 
@@ -195,4 +189,3 @@ It is a fundamental distance measure in information theory but less relevant in 
 
     [lang=csharp]
     double d = Distance.Hamming(x, y);
-*)

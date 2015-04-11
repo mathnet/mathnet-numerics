@@ -1,4 +1,11 @@
-﻿(**
+﻿    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
+    open System.Numerics
+    open MathNet.Numerics
+    open MathNet.Numerics.LinearAlgebra
+
 IF# Notebook
 ============
 
@@ -36,6 +43,7 @@ Unfortunately loading this script requires the exact version in the path - if yo
 
 Alternatively you can also use the code below and adapt it to your needs, e.g. if you want it to show more rows.
 
+    [lang=fsharp]
     open MathNet.Numerics.LinearAlgebra
 
     let inline (|Float|_|) (v:obj) =
@@ -82,5 +90,3 @@ Alternatively you can also use the code below and adapt it to your needs, e.g. i
         { ContentType = "text/latex"; Data = formatVector x })
     App.AddDisplayPrinter (fun (x:Vector<float32>) ->
         { ContentType = "text/latex"; Data = formatVector x })
-
-*)

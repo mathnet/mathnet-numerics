@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matlab", "src\Data\Matlab\Matlab.csproj", "{550FB330-C86F-4C9D-9B4C-6D830CEB7520}"
 EndProject
@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{F510F0
 		CONTRIBUTING.md = CONTRIBUTING.md
 		CONTRIBUTORS.md = CONTRIBUTORS.md
 		LICENSE.md = LICENSE.md
-		MAINTAINING.md = MAINTAINING.md
 		README.md = README.md
 		RELEASENOTES-Data.md = RELEASENOTES-Data.md
 		RELEASENOTES.md = RELEASENOTES.md

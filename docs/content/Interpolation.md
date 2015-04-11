@@ -1,9 +1,11 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
+    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
+    open System.Numerics
+    open MathNet.Numerics
+    open MathNet.Numerics.Interpolation
 
-(**
 Interpolation
 =============
 
@@ -24,10 +26,12 @@ If unsure, we recommend using _RationalWithoutPoles_ for most cases.
 
 Alternatively you can also use the algorithms directly, they're publicly available in the _Algorithms_ sub-namespace for those who want to use a specific algorithm. The following algorithms are available:
 
+
 Interpolation on equidistant sample points
 ------------------------------------------
 
 * *Polynomial*: Barycentric Algorithm
+
 
 Interpolation on arbitrary sample points
 ----------------------------------------
@@ -40,11 +44,10 @@ Interpolation on arbitrary sample points
 * *Natural Cubic Spline*
 * *Akima Cubic Spline*
 
+
 Interpolation with additional data
 ----------------------------------
 
 * *Generic Barycentric Interpolation*, requires barycentric weights
 * *Generic Spline*, requires spline coefficients
 * *Generic Cubic Hermite Spline*, requires the derivatives
-
-*)
