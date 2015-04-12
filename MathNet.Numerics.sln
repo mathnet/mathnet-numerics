@@ -36,6 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-A
 	ProjectSection(SolutionItems) = preProject
 		docs\content\Build.md = docs\content\Build.md
 		docs\content\Compatibility.md = docs\content\Compatibility.md
+		docs\content\Constants.md = docs\content\Constants.md
 		docs\content\CSV.md = docs\content\CSV.md
 		docs\content\DescriptiveStatistics.md = docs\content\DescriptiveStatistics.md
 		docs\content\Distance.md = docs\content\Distance.md
