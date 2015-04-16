@@ -42,17 +42,16 @@ namespace MathNet.Numerics
   public static partial class SpecialFunctions
   {
     private const double OVERFLOW_INPUT = 171.624;
-    private const double LOWER_BREAKPOINT = 0.000005;
+    private const double LOWER_BREAKPOINT = 0.004;
     private const double UPPER_BREAKPOINT = OVERFLOW_INPUT;
     /* The more precision your numerical type has, the further apart the lower and upper breakpoints
      * should be.  The ones above are for a C# double, circa 2014, which has a 52-bit mantissa.  By
      * setting UPPER_BREAKPOINT = OVERFLOW_INPUT, we are effectively using two ranges, not three.*/
-    /// <summary>
-    /// Computes the Gamma function.
-    /// </summary>
-    /// <param name="z">The argument of the gamma function.</param>
-    public static double Gamma (double x) {
-      if (x < 0.0) {
+    public static double Gamma
+    (
+      double x
+    ) {
+      if (x <= 0.0) {
         int offset = 0;
         double product = 1;
         while (x < 0.0) {
@@ -63,7 +62,7 @@ namespace MathNet.Numerics
         if (x == 0.0) {
           return Double.NaN;
         }
-        double gammaPositiveArgument = Gamma (x);
+        double gammaPositiveArgument = SpecialFunctions.Gamma(x);
         double r = gammaPositiveArgument / product;
         return r;
       }
@@ -71,7 +70,7 @@ namespace MathNet.Numerics
       // Split the function domain into three intervals:
       // (0, LOWER_BREAKPOINT), [LOWER_BREAKPOINT, UPPER_BREAKPOINT), and (UPPER_BREAKPOINT, infinity)
       // The upper breakpoint has historically been 12, not OVERFLOW_INPUT. But changing it
-      // to OVERFLOW_INPUT produces much better results.  It may be that 12 was set back when
+      // to OVERFLOW_INPUT produces much better results.  It may be that 12 was notify back when
       // machine epsilon was larger than it is today.
 
       ///////////////////////////////////////////////////////////////////////////
@@ -82,9 +81,16 @@ namespace MathNet.Numerics
       // The relative error over this interval is less than 6e-7.
 
       const double gamma = 0.577215664901532860606512090; // Euler's gamma constant
+      const double coefX3 = -0.65587807152025388107701951514539048127976638047858; //(gamma ^ 2/2) - pi ^ 2/12
+      const double coefX4 = -0.04200263503409523552900393487; // formula gets messy . . .
+      const double coefX5 = 0.166538611382291489501700795102;
 
-      if (x < LOWER_BREAKPOINT)
-        return 1.0 / (x * (1.0 + gamma * x));
+      if (x < LOWER_BREAKPOINT) {
+        double inverseOfGamma = x * (1.0 +  x * (gamma + x * (coefX3 + x * (coefX4 + x * coefX5))));
+        double r = 1.0 / inverseOfGamma;
+        return r;
+      }
+
 
       ///////////////////////////////////////////////////////////////////////////
       // Second interval: [LOWER_BREAKPOINT, UPPER_BREAKPOINT)
@@ -102,7 +108,7 @@ namespace MathNet.Numerics
         if (arg_was_less_than_one) {
           y += 1.0;
         } else {
-          n = (int)(Math.Floor (y)) - 1;  // will use n later
+          n = (int) (Math.Floor(y)) - 1;  // will use n later
           y -= n;
         }
 
@@ -119,16 +125,17 @@ namespace MathNet.Numerics
         };
 
         // denominator coefficients for approximation over the interval (1,2)
-        double[] q = {
-                    -3.08402300119738975254353E+1,
-                     3.15350626979604161529144E+2,
-                    -1.01515636749021914166146E+3,
-                    -3.10777167157231109440444E+3,
-                     2.25381184209801510330112E+4,
-                     4.75584627752788110767815E+3,
-                    -1.34659959864969306392456E+5,
-                    -1.15132259675553483497211E+5
-                };
+        double[] q =
+          {
+            -3.08402300119738975254353E+1,
+            3.15350626979604161529144E+2,
+            -1.01515636749021914166146E+3,
+            -3.10777167157231109440444E+3,
+            2.25381184209801510330112E+4,
+            4.75584627752788110767815E+3,
+            -1.34659959864969306392456E+5,
+            -1.15132259675553483497211E+5
+          };
 
         double num = 0.0;
         double den = 1.0;
@@ -166,15 +173,43 @@ namespace MathNet.Numerics
 
       return Math.Exp(GammaLn(x));
     }
-        /// <summary>
-        /// Computes the logarithm of the Gamma function.
-        /// </summary>
-        /// <param name="z">The argument of the gamma function.</param>
-        /// <returns>The logarithm of the gamma function.</returns>
-    public static double GammaLn(double x) {
+    /// <summary>Computes Sin(pi x).  
+    private static double SinPiTimes(double xIn) {
+      if (xIn < 0) {
+        return -SinPiTimes(-xIn);
+      }
+      double x = xIn % 2;
+      if (x > 1) {
+        return -SinPiTimes(x - 1);
+      }
+      if (x > 0.5) {
+        return SinPiTimes(1 - x);
+      }
+      // x is now known to be between 0 and 0.5.  This avoids the roundoff error
+      // magnification that would happen if we were to compute something like
+      // Math.Sin(Math.Pi * 1).
+      return Math.Sin(Math.PI * x);
+    }
+    private static double LogPi = 1.1447298858494001741434273513;
+    public static double GammaLn
+    (
+      double x
+    ) {
       if (x <= 0.0) {
-        string msg = string.Format("Invalid input argument {0}. Argument must be positive.", x);
-        throw new ArgumentOutOfRangeException(msg);
+        // We use Euler's Reflection Formula:
+        // Gamma(z) * Gamma(1-z) = pi / sin (pi z).
+        // Taking logs gives us
+        // LogGamma(z) + LogGamma(1-z) = Log(pi) - Log(sin(pi z)).
+        // However, we need to be careful with the Sine function.  The problem is that if
+        // we multiply by pi and use Math.Sin, we will get very bad answers when
+        // z is close to an integer.
+        double reflectedValue = GammaLn(1-x);
+        double sinPiX = SpecialFunctions.SinPiTimes(x);
+        if (sinPiX <= 0) {
+          return double.NaN;
+        }
+        double r = SpecialFunctions.LogPi - Math.Log(sinPiX) - reflectedValue;
+        return r;
       }
 
       if (x < UPPER_BREAKPOINT) {
@@ -187,16 +222,16 @@ namespace MathNet.Numerics
       // A Course in Modern Analysis (1927), page 252
 
       double[] c =
-            {
-             1.0/12.0,
-            -1.0/360.0,
-            1.0/1260.0,
-            -1.0/1680.0,
-            1.0/1188.0,
-            -691.0/360360.0,
-            1.0/156.0,
-            -3617.0/122400.0
-            };
+        {
+          1.0/12.0,
+          -1.0/360.0,
+          1.0/1260.0,
+          -1.0/1680.0,
+          1.0/1188.0,
+          -691.0/360360.0,
+          1.0/156.0,
+          -3617.0/122400.0
+        };
       double z = 1.0 / (x * x);
       double sum = c[7];
       for (int i = 6; i >= 0; i--) {
