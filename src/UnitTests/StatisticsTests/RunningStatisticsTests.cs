@@ -34,7 +34,6 @@ using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
-#if !PORTABLE
     using System.Collections.Generic;
     using NUnit.Framework;
     using Statistics;
@@ -228,5 +227,4 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(z.PopulationKurtosis, Is.EqualTo(x.PopulationKurtosis).Within(1e-12), "PopulationKurtosis z");
         }
     }
-#endif
 }
