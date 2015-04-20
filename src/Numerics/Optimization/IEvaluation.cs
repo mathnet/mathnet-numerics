@@ -17,7 +17,6 @@ namespace MathNet.Numerics.Optimization
         // Used by algorithm
         bool GradientSupported { get; }
         bool HessianSupported { get; }
-        EvaluationStatus Status { get; }
         double Value { get; }
         Vector<double> Gradient { get; }
         Matrix<double> Hessian { get; }

@@ -31,14 +31,6 @@ namespace MathNet.Numerics.Optimization.Implementation
             set { this.InnerEvaluation.Point = value; }
         }
 
-        public EvaluationStatus Status
-        {
-            get
-            {
-                return this.InnerEvaluation.Status;
-            }
-        }
-
         public double Value
         {
             get
