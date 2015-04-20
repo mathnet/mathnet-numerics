@@ -122,8 +122,6 @@
     <Compile Include="Optimization\Implementation\NullEvaluation.cs" />
     <Compile Include="Optimization\Implementation\ObjectiveChecker.cs" />
     <Compile Include="Optimization\Implementation\WeakWolfeLineSearch.cs" />
-    <Compile Include="Optimization\IObjectiveFunction.cs" />
-    <Compile Include="Optimization\BaseObjectiveFunction.cs" />
     <Compile Include="Optimization\IUnconstrainedMinimizer.cs" />
     <Compile Include="Optimization\MinimizationOutput.cs" />
     <Compile Include="Optimization\MinimizationWithLineSearchOutput.cs" />

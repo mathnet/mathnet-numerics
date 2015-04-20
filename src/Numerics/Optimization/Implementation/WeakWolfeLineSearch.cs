@@ -23,11 +23,11 @@ namespace MathNet.Numerics.Optimization.Implementation
         }
 
         // Implemented following http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
-        public LineSearchOutput FindConformingStep(IObjectiveFunction objective, IEvaluation starting_point, Vector<double> search_direction, double initial_step)
+        public LineSearchOutput FindConformingStep(IEvaluation objective, IEvaluation starting_point, Vector<double> search_direction, double initial_step)
         {
 
-            if (!(objective is ObjectiveChecker))
-                objective = new ObjectiveChecker(objective, this.ValidateValue, this.ValidateGradient, null);
+            if (!(objective is CheckedEvaluation))
+                objective = new CheckedEvaluation(objective, this.ValidateValue, this.ValidateGradient, null);
 
             double lower_bound = 0.0;
             double upper_bound = Double.PositiveInfinity;
@@ -39,11 +39,11 @@ namespace MathNet.Numerics.Optimization.Implementation
             double initial_dd = search_direction * initial_gradient;
 
             int ii;
-            IEvaluation candidate_eval = objective.CreateEvaluationObject();
+            IEvaluation candidate_eval = objective.CreateNew();
             MinimizationOutput.ExitCondition reason_for_exit = MinimizationOutput.ExitCondition.None;
             for (ii = 0; ii < this.MaximumIterations; ++ii)
             {
-                objective.Evaluate(starting_point.Point + search_direction * step, candidate_eval);
+                candidate_eval.Point = starting_point.Point + search_direction * step;
 
                 double step_dd = search_direction * candidate_eval.Gradient;
 

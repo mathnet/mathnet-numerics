@@ -12,17 +12,14 @@ namespace MathNet.Numerics.Optimization
     public interface IEvaluation
     {
         Vector<double> Point { get; set; }
-        EvaluationStatus Status { get; set; }
+        IEvaluation CreateNew();
 
         // Used by algorithm
+        bool GradientSupported { get; }
+        bool HessianSupported { get; }
+        EvaluationStatus Status { get; }
         double Value { get; }
         Vector<double> Gradient { get; }
         Matrix<double> Hessian { get; }
-
-        // Used by ObjectiveFunction
-        void Reset(Vector<double> new_point);
-        double ValueRaw { get; set; }
-        Vector<double> GradientRaw { get; set; }
-        Matrix<double> HessianRaw { get; set; }
     }
 }

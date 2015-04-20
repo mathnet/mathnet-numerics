@@ -10,7 +10,7 @@ namespace MathNet.Numerics.Optimization.Implementation
     public class NullEvaluation : BaseEvaluation
     {
         public NullEvaluation(Vector<double> point) 
-            : base()
+            : base(false, false)
         {
             this.Point = point;
         }
@@ -25,6 +25,11 @@ namespace MathNet.Numerics.Optimization.Implementation
         }
 
         protected override void setHessian()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEvaluation CreateNew()
         {
             throw new NotImplementedException();
         }

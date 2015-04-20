@@ -21,7 +21,7 @@ namespace MathNet.Numerics.Optimization
             this.UseLineSearch = use_line_search;
         }
 
-        public MinimizationOutput FindMinimum(IObjectiveFunction objective, Vector<double> initial_guess)
+        public MinimizationOutput FindMinimum(IEvaluation objective, Vector<double> initial_guess)
         {
             if (!objective.GradientSupported)
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for Newton minimization.");
@@ -29,11 +29,11 @@ namespace MathNet.Numerics.Optimization
             if (!objective.HessianSupported)
                 throw new IncompatibleObjectiveException("Hessian not supported in objective function, but required for Newton minimization.");
 
-            if (!(objective is ObjectiveChecker))
-                objective = new ObjectiveChecker(objective, this.ValidateObjective, this.ValidateGradient, this.ValidateHessian);
+            if (!(objective is CheckedEvaluation))
+                objective = new CheckedEvaluation(objective, this.ValidateObjective, this.ValidateGradient, this.ValidateHessian);
 
-            IEvaluation initial_eval = objective.CreateEvaluationObject();
-            objective.Evaluate(initial_guess, initial_eval);
+            IEvaluation initial_eval = objective.CreateNew();
+            initial_eval.Point = initial_guess;
 
             // Check that we're not already done
             if (this.ExitCriteriaSatisfied(initial_guess, initial_eval.Gradient))
@@ -81,7 +81,7 @@ namespace MathNet.Numerics.Optimization
                 }
                 else
                 {
-                    objective.Evaluate(candidate_point.Point + search_direction, candidate_point);
+                    candidate_point.Point = candidate_point.Point + search_direction;
                 }
 
                 tmp_line_search = false;
