@@ -11,9 +11,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
     public class RosenbrockEvaluation : BaseEvaluation
     {
-        public const bool SupportsGradient = true;
-        public const bool SupportsHessian = true;
-                
+        public RosenbrockEvaluation()
+            : base(true, true) { }
+
         protected override void setValue()
         {
             this.ValueRaw = RosenbrockFunction.Value(this.Point);
@@ -28,6 +28,11 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             this.HessianRaw = RosenbrockFunction.Hessian(this.Point);
         }
+
+        public override IEvaluation CreateNew()
+        {
+            return new RosenbrockEvaluation();
+        }
     }
 
     [TestFixture]
@@ -37,7 +42,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Rosenbrock_Easy()
         {
-            var obj = new BaseObjectiveFunction<RosenbrockEvaluation>(RosenbrockEvaluation.SupportsGradient, RosenbrockEvaluation.SupportsHessian);
+            var obj = new RosenbrockEvaluation();
 
             var solver = new NewtonMinimizer(1e-5, 1000);
             var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { 1.2, 1.2 }));
@@ -49,7 +54,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Rosenbrock_Hard()
         {
-            var obj = new BaseObjectiveFunction<RosenbrockEvaluation>(RosenbrockEvaluation.SupportsGradient, RosenbrockEvaluation.SupportsHessian);
+            var obj = new RosenbrockEvaluation();
             var solver = new NewtonMinimizer(1e-5, 1000);
             var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { -1.2, 1.0 }));
 
@@ -60,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Rosenbrock_Overton()
         {
-            var obj = new BaseObjectiveFunction<RosenbrockEvaluation>(RosenbrockEvaluation.SupportsGradient, RosenbrockEvaluation.SupportsHessian);
+            var obj = new RosenbrockEvaluation();
             var solver = new NewtonMinimizer(1e-5, 1000);
             var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { -0.9, -0.5 }));
 
@@ -71,7 +76,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Linesearch_Rosenbrock_Easy()
         {
-            var obj = new BaseObjectiveFunction<RosenbrockEvaluation>(RosenbrockEvaluation.SupportsGradient, RosenbrockEvaluation.SupportsHessian);
+            var obj = new RosenbrockEvaluation();
             var solver = new NewtonMinimizer(1e-5, 1000, true);
             var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { 1.2, 1.2 }));
 
@@ -82,7 +87,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Linesearch_Rosenbrock_Hard()
         {
-            var obj = new BaseObjectiveFunction<RosenbrockEvaluation>(RosenbrockEvaluation.SupportsGradient, RosenbrockEvaluation.SupportsHessian);
+            var obj = new RosenbrockEvaluation();
             var solver = new NewtonMinimizer(1e-5, 1000, true);
             var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { -1.2, 1.0 }));
 
@@ -93,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Linesearch_Rosenbrock_Overton()
         {
-            var obj = new BaseObjectiveFunction<RosenbrockEvaluation>(RosenbrockEvaluation.SupportsGradient, RosenbrockEvaluation.SupportsHessian);
+            var obj = new RosenbrockEvaluation();
             var solver = new NewtonMinimizer(1e-5, 1000, true);
             var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { -0.9, -0.5 }));
 

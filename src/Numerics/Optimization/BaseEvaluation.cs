@@ -9,15 +9,34 @@ namespace MathNet.Numerics.Optimization
 {
     public abstract class BaseEvaluation : IEvaluation
     {
-        public EvaluationStatus Status { get; set; }
-        public Vector<double> Point { get; set; }
-        public double ValueRaw { get; set; }
-        public Vector<double> GradientRaw { get; set; }
-        public Matrix<double> HessianRaw { get; set; }
-                
-        protected BaseEvaluation()
+        public EvaluationStatus Status { get; protected set; }
+
+        protected Vector<double> PointRaw { get; set; }
+        protected double ValueRaw { get; set; }
+        protected Vector<double> GradientRaw { get; set; }
+        protected Matrix<double> HessianRaw { get; set; }
+
+        public bool GradientSupported { get; private set; }
+        public bool HessianSupported { get; private set; }
+
+        protected BaseEvaluation(bool gradient_supported, bool hessian_supported)
         {
             Status = EvaluationStatus.None;
+            this.GradientSupported = gradient_supported;
+            this.HessianSupported = hessian_supported;
+        }
+
+        public Vector<double> Point
+        {
+            get
+            {
+                return this.PointRaw;
+            }
+            set
+            {
+                this.PointRaw = value;
+                this.Status = EvaluationStatus.None;
+            }
         }
 
         public double Value
@@ -57,14 +76,9 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        public void Reset(Vector<double> new_point)
-        {
-            this.Point = new_point;
-            this.Status = EvaluationStatus.None;
-        }
-
         protected abstract void setValue();
         protected abstract void setGradient();
         protected abstract void setHessian();
+        public abstract IEvaluation CreateNew();
     }
 }
