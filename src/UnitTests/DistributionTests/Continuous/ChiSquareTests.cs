@@ -318,5 +318,31 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             Assert.That(n.CumulativeDistribution(x), Is.EqualTo(expected).Within(1e-14));
             Assert.That(ChiSquared.CDF(dof, x), Is.EqualTo(expected).Within(1e-14));
         }
+		
+        [TestCase(1.0, 0.0, 0.0)]
+        [TestCase(1.0, 0.24817036595415071751, 0.1)]
+        [TestCase(1.0, 0.68268949213708589717, 1.0)]
+        [TestCase(1.0, 0.98098352632769945624, 5.5)]
+        [TestCase(1.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(2.0, 0.0, 0.0)]
+        [TestCase(2.0, 0.048770575499285990909, 0.1)]
+        [TestCase(2.0, 0.39346934028736657640, 1.0)]
+        [TestCase(2.0, 0.93607213879329242730, 5.5)]
+        [TestCase(2.0, 1.0, Double.PositiveInfinity)]
+        [TestCase(2.5, 0.0, 0.0)]
+        [TestCase(2.5, 0.020298266579604156571, 0.1)]
+        [TestCase(2.5, 0.28378995266531297417, 1.0)]
+        [TestCase(2.5, 0.90239512593899828629, 5.5)]
+        [TestCase(2.5, 1.0, Double.PositiveInfinity)]
+        [TestCase(10000.0, 0.0, 0.0)]
+        [TestCase(10000.0, 0.5, 9999.3333412343982)]
+        [TestCase(20000.0, 0.0, 0.0)]
+        [TestCase(100000, 0.1, 99427.302671875732)]
+        public void ValidateInverseCumulativeDistribution(double dof, double x, double expected)
+        {
+            var n = new ChiSquared(dof);
+            Assert.That(n.InverseCumulativeDistribution(x), Is.EqualTo(expected).Within(1e-14));
+            Assert.That(ChiSquared.InvCDF(dof, x), Is.EqualTo(expected).Within(1e-14));
+        }
     }
 }

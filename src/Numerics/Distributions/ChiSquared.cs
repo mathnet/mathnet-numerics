@@ -326,6 +326,18 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        /// <seealso cref="InvCDF"/>
+        public double InverseCumulativeDistribution(double p)
+        {
+            return InvCDF(_freedom, p);
+        }
+
+        /// <summary>
         /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
         /// </summary>
         /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
@@ -357,6 +369,23 @@ namespace MathNet.Numerics.Distributions
             }
 
             return SpecialFunctions.GammaLowerRegularized(freedom/2.0, x/2.0);
+        }
+
+        /// <summary>
+        /// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+        /// at the given probability. This is also known as the quantile or percent point function.
+        /// </summary>
+        /// <param name="freedom">The degrees of freedom (k) of the distribution. Range: k > 0.</param>
+        /// <param name="p">The location at which to compute the inverse cumulative density.</param>
+        /// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+        public static double InvCDF(double freedom, double p)
+        {
+            if(!IsValidParameterSet(freedom))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            return SpecialFunctions.GammaLowerRegularizedInv(freedom / 2.0, p) / 0.5;
         }
 
         /// <summary>
