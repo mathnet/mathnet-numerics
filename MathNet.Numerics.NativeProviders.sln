@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics", "src\Numerics\Nu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-MKL", "src\UnitTests\UnitTests-MKL.csproj", "{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CUDA", "src\NativeProviders\Windows\CUDA\CUDAWrapper.vcxproj", "{5A52B796-7F41-4C90-8DE2-F3F391C4482C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,24 @@ Global
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release-Signed|Mixed Platforms.Build.0 = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release-Signed|Win32.ActiveCfg = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release-Signed|x64.ActiveCfg = Release|Any CPU
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Debug|Win32.Build.0 = Debug|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Debug|x64.ActiveCfg = Debug|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release|Any CPU.ActiveCfg = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release|Win32.ActiveCfg = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release|Win32.Build.0 = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release|x64.ActiveCfg = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release-Signed|Any CPU.ActiveCfg = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release-Signed|Mixed Platforms.ActiveCfg = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release-Signed|Mixed Platforms.Build.0 = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release-Signed|Win32.ActiveCfg = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release-Signed|Win32.Build.0 = Release|Win32
+		{5A52B796-7F41-4C90-8DE2-F3F391C4482C}.Release-Signed|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
