@@ -23,16 +23,10 @@
     <ClCompile Include="..\..\Common\WindowsDLL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CUDA\blas.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\CUDA\capabilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\CUDA\lapack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CUDA\memory.c">
+    <ClCompile Include="..\..\CUDA\blas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

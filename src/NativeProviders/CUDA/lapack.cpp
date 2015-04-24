@@ -1,521 +1,976 @@
-#include "lapack_common.h"
-#include "wrapper_common.h"
-#include "cublas.h"
-#include "cusolverDn.h"
 #include <algorithm>
 
-template<typename T, typename K>
-inline int lu_factor(int m, T a[], int ipiv[],
-	int(*getrf) (CBLAS_ORDER, const int, const int, K*, const int, int*))
+#include "lapack_common.h"
+#include "wrapper_common.h"
+#include "cublas_v2.h"
+#include "cusolverDn.h"
+#include "cuda_runtime.h"
+
+template<typename T, typename GETRF, typename GETRFBSIZE>
+inline int lu_factor(cusolverDnHandle_t solverHandle, int m, T a[], int ipiv[], GETRF getrf, GETRFBSIZE getrfbsize)
 {
-	int info = getrf(CblasColMajor, m, m, a, m, ipiv);
+	int info = 0;
+	T* work = NULL;
+	int lwork = 0;
+
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, m*m*sizeof(T));
+	cublasSetMatrix(m, m, sizeof(T), a, m, d_A, m);
+
+	int* d_I = NULL;
+	cudaMalloc((void**)&d_I, m*sizeof(int));
+
+	getrfbsize(solverHandle, m, m, a, m, &lwork);
+	cudaMalloc((void**)lwork, sizeof(T)*lwork);
+
+	getrf(solverHandle, m, m, d_A, m, work, d_I, &info);
+
+	cublasGetMatrix(m, m, sizeof(T), d_A, m, a, m);
+	cublasGetVector(m, sizeof(T), d_I, 1, ipiv, 1);
+
 	shift_ipiv_down(m, ipiv);
+
+	cudaFree(d_A);
+	cudaFree(d_I);
+	cudaFree(work);
+
 	return info;
 };
 
-template<typename T, typename K>
-inline int lu_inverse(int n, T a[],
-	int(*getrf) (CBLAS_ORDER, const int, const int, K*, const int, int*),
-	int(*getri) (CBLAS_ORDER, const int, K*, const int, const int*))
+template<typename T, typename GETRF, typename GETRI, typename GETRFBSIZE>
+inline int lu_inverse(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle, int n, T a[], GETRF getrf, GETRI getri, GETRFBSIZE getrfbsize)
 {
-	int* ipiv = new int[n];
-	int info = getrf(CblasColMajor, n, n, a, n, ipiv);
+	int info = 0;
+	T* work = NULL;
+	int lwork = 0;
 
-	if (info != 0){
-		delete[] ipiv;
+	int* d_I = NULL;
+	cudaMalloc((void**)&d_I, n*sizeof(T));
+
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, n*n*sizeof(T));
+	cublasSetMatrix(n, n, sizeof(T), a, n, d_A, n);
+
+	getrfbsize(solverHandle, n, n, d_A, n, &lwork);
+	cudaMalloc((void**)lwork, sizeof(T)*lwork);
+
+	getrf(solverHandle, n, n, d_A, n, work, d_I, &info);
+
+	cudaFree(work);
+
+	if (info != 0)
+	{
+		cudaFree(d_A);
+		cudaFree(d_I);
 		return info;
 	}
 
-	info = getri(CblasColMajor, n, a, n, ipiv);
-	delete[] ipiv;
+	T* d_C = NULL;
+	cudaMalloc((void**)&d_C, n*n*sizeof(T));
+	
+	getri(blasHandle, n, d_A, n, d_I, d_C, n, &info);
+
+	cublasGetMatrix(n, n, sizeof(T), d_C, n, a, n);
+
+	cudaFree(d_A);
+	cudaFree(d_I);
+	cudaFree(d_C);
+
 	return info;
 };
 
-template<typename T, typename K>
-inline int lu_inverse_factored(int n, T a[], int ipiv[],
-	int(*getri) (CBLAS_ORDER, const int, K*, const int, const int*))
+template<typename T, typename GETRI>
+inline int lu_inverse_factored(cublasHandle_t blasHandle, int n, T a[], int ipiv[], GETRI getri)
 {
 	shift_ipiv_up(n, ipiv);
-	int info = getri(CblasColMajor, n, a, n, ipiv);
+	int info = 0;
+
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, n*n*sizeof(T));
+	cublasSetMatrix(n, n, sizeof(T), a, n, d_A, n);
+
+	T* d_C = NULL;
+	cudaMalloc((void**)&d_C, n*n*sizeof(T));
+
+	int* d_I = NULL;
+	cudaMalloc((void**)&d_I, n*sizeof(int));
+	cublasSetVector(n, sizeof(int), ipiv, 1, d_I, 1);
+
+	getri(blasHandle, n, d_A, n, d_I, d_C, n, &info);
+
+	cublasGetMatrix(n, n, sizeof(T), d_C, n, a, n);	
+	cublasGetVector(n, sizeof(int), d_I, 1, ipiv, 1);
+
 	shift_ipiv_down(n, ipiv);
+
+	cudaFree(d_A);
+	cudaFree(d_I);
+	cudaFree(d_C);
+
 	return info;
 }
 
-template<typename T, typename K>
-inline int lu_solve_factored(int n, int nrhs, T a[], int ipiv[], T b[],
-	int(*getrs) (CBLAS_ORDER, CBLAS_TRANSPOSE, const int, const int, const K*, const int, const int*, K*, const int))
+template<typename T, typename GETRS>
+inline int lu_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], int ipiv[], T b[], GETRS getrs)
 {
 	shift_ipiv_up(n, ipiv);
-	int info = getrs(CblasColMajor, CblasNoTrans, n, nrhs, a, n, ipiv, b, n);
+	int info = 0;
+
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, n*n*sizeof(T));
+	cublasSetMatrix(n, n, sizeof(T), a, n, d_A, n);
+
+	T* d_B = NULL;
+	cudaMalloc((void**)&d_B, n*nrhs*sizeof(T));
+	cublasSetMatrix(n, nrhs, sizeof(T), b, n, d_B, n);
+
+	int* d_I = NULL;
+	cudaMalloc((void**)&d_I, n*sizeof(int));
+	cublasSetVector(n, sizeof(int), ipiv, 1, d_I, 1);
+
+	getrs(solverHandle, CUBLAS_OP_N, n, nrhs, d_A, n, d_I, d_B, n, &info);
+
+	cublasGetMatrix(n, nrhs, sizeof(T), d_B, n, b, n);
+
 	shift_ipiv_down(n, ipiv);
+
+	cudaFree(d_A);
+	cudaFree(d_B);
+	cudaFree(d_I);
+
 	return info;
 }
 
-template<typename T, typename K>
-inline int lu_solve(int n, int nrhs, T a[], T b[],
-	int(*getrf) (CBLAS_ORDER, const int, const int, K*, const int, int*),
-	int(*getrs) (CBLAS_ORDER, CBLAS_TRANSPOSE, const int, const int, const K*, const int, const int*, K*, const int))
+template<typename T, typename GETRF, typename GETRS, typename GETRFBSIZE>
+inline int lu_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], T b[], GETRF getrf, GETRS getrs, GETRFBSIZE getrfbsize)
 {
-	T* clone = Clone(n, n, a);
-	int* ipiv = new int[n];
-	int info = getrf(CblasColMajor, n, n, clone, n, ipiv);
+	int info = 0;
+	T* work = NULL;
+	int lwork = 0;
 
-	if (info != 0){
-		delete[] ipiv;
-		delete[] clone;
+	int* d_I = NULL;
+	cudaMalloc((void**)&d_I, n*sizeof(T));
+
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, n*n*sizeof(T));
+	cublasSetMatrix(n, n, sizeof(T), a, n, d_A, n);
+
+	getrfbsize(solverHandle, n, n, a, n, &lwork);
+	cudaMalloc((void**)lwork, sizeof(T)*lwork);
+
+	getrf(solverHandle, n, n, d_A, n, work, d_I, &info);
+
+	if (info != 0)
+	{
+		cudaFree(d_I);
+		cudaFree(d_A);
 		return info;
 	}
 
-	info = getrs(CblasColMajor, CblasNoTrans, n, nrhs, clone, n, ipiv, b, n);
-	delete[] ipiv;
-	delete[] clone;
+	T* d_B = NULL;
+	cudaMalloc((void**)&d_B, n*nrhs*sizeof(T));
+	cublasSetMatrix(n, nrhs, sizeof(T), b, n, d_B, n);
+
+	getrs(solverHandle, CUBLAS_OP_N, n, nrhs, d_A, n, d_I, d_B, n, &info);
+
+	cublasGetMatrix(n, nrhs, sizeof(T), d_B, n, b, n);
+
+	cudaFree(d_A);
+	cudaFree(d_B);
+	cudaFree(d_I);
+
 	return info;
 }
 
-template<typename T, typename K>
-inline int cholesky_factor(int n, T* a, int(*potrf) (CBLAS_ORDER, CBLAS_UPLO, const int, K*, const int))
+
+template<typename T, typename POTRF, typename POTRFBSIZE>
+inline int cholesky_factor(cusolverDnHandle_t solverHandle, int n, T* a, POTRF potrf, POTRFBSIZE potrfbsize)
 {
-	int info = potrf(CblasColMajor, CblasLower, n, a, n);
+	int info = 0;
+
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, n*n*sizeof(T));
+	cublasSetMatrix(n, n, sizeof(T), a, n, d_A, n);
+
+	T* work = NULL;
+	int lWork = 0;
+	potrfbsize(solverHandle, CUBLAS_FILL_MODE_LOWER, n, d_A, n, &lWork);
+	cudaMalloc((void**)&work, sizeof(T)*lWork);
+
+	potrf(solverHandle, CUBLAS_FILL_MODE_LOWER, n, d_A, n, work, lWork, &info);
+
+	cublasGetMatrix(n, n, sizeof(T), d_A, n, a, n);
+
 	T zero = T();
+
 	for (int i = 0; i < n; ++i)
 	{
 		int index = i * n;
+
 		for (int j = 0; j < n && i > j; ++j)
 		{
 			a[index + j] = zero;
 		}
 	}
+
+	cudaFree(d_A);
+	cudaFree(work);
+
 	return info;
 }
 
-template<typename T, typename K>
-inline int cholesky_solve(int n, int nrhs, T a[], T b[],
-	int(*potrf) (CBLAS_ORDER, CBLAS_UPLO, const int, K*, const int),
-	int(*potrs) (CBLAS_ORDER, CBLAS_UPLO, const int, const int, const K*, const int, K*, const int))
+template<typename T, typename POTRF, typename POTRS, typename POTRFBSIZE>
+inline int cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], T b[], POTRF potrf, POTRS potrs, POTRFBSIZE potrfbsize)
 {
-	T* clone = Clone(n, n, a);
-	int info = potrf(CblasColMajor, CblasLower, n, clone, n);
+	int info;
 
-	if (info != 0){
-		delete[] clone;
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, n*n*sizeof(T));
+	cublasSetMatrix(n, n, sizeof(T), a, n, d_A, n);
+
+	T* work = NULL;
+	int lWork = 0;
+	potrfbsize(solverHandle, CUBLAS_FILL_MODE_LOWER, n, d_A, n, &lWork);
+	cudaMalloc((void**)&work, sizeof(T)*lWork);
+
+	potrf(solverHandle, CUBLAS_FILL_MODE_LOWER, n, d_A, n, work, lWork, &info);
+
+	cudaFree(work);
+		
+	if (info != 0)
+	{
+		cudaFree(d_A);
 		return info;
 	}
 
-	info = potrs(CblasColMajor, CblasLower, n, nrhs, clone, n, b, n);
-	delete[] clone;
-	return info;
-}
+	T* d_B = NULL;
+	cudaMalloc((void**)d_B, n*nrhs*sizeof(T));
+	cublasSetMatrix(n, nrhs, sizeof(T), b, n, d_B, n);
 
-template<typename T, typename K>
-inline int cholesky_solve_factored(int n, int nrhs, T a[], T b[],
-	int(*potrs) (CBLAS_ORDER, CBLAS_UPLO, const int, const int, const K*, const int, K*, const int))
-{
-	return potrs(CblasColMajor, CblasLower, n, nrhs, a, n, b, n);
-}
+	potrs(solverHandle, CUBLAS_FILL_MODE_LOWER, n, nrhs, d_A, n, d_B, n, &info);
 
-template<typename T, typename K>
-inline int qr_factor(int m, int n, T r[], T tau[], T q[], T work[], int len,
-	int(*geqrf) (const int, const int, K*, const int, T*),
-	int(*orgqr) (const int, const int, const int, K*, const int, const K*))
-{
-	int info = geqrf(m, n, r, m, tau);
+	cublasGetMatrix(n, nrhs, sizeof(T), d_B, n, b, n);
 
-	for (int i = 0; i < m; ++i)
-	{
-		for (int j = 0; j < m && j < n; ++j)
-		{
-			if (i > j)
-			{
-				q[j * m + i] = r[j * m + i];
-			}
-		}
-	}
-
-	//compute the q elements explicitly
-	if (m <= n)
-	{
-		info = orgqr(m, m, m, q, m, tau);
-	}
-	else
-	{
-		info = orgqr(m, m, n, q, m, tau);
-	}
+	cudaFree(d_A);
+	cudaFree(d_B);
 
 	return info;
 }
 
-template<typename T>
-inline int qr_thin_factor(int m, int n, T q[], T tau[], T r[], T work[], int len,
-	void(*geqrf) (const int*, const int*, T*, const int*, T*, T*, const int*, int*),
-	void(*orgqr) (const int*, const int*, const int*, T*, const int*, const T*, T*, const int*, int*))
+template<typename T, typename POTRS>
+inline int cholesky_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], T b[], POTRS potrs)
 {
-	int info = 0;
-	geqrf(&m, &n, q, &m, tau, work, &len, &info);
+	int info;
 
-	for (int i = 0; i < n; ++i)
-	{
-		for (int j = 0; j < n; ++j)
-		{
-			if (i <= j) {
-				r[j * n + i] = q[j * m + i];
-			}
-		}
-	}
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, n*n*sizeof(T));
+	cublasSetMatrix(n, n, sizeof(T), a, n, d_A, n);
 
-	orgqr(&m, &n, &n, q, &m, tau, work, &len, &info);
+	T* d_B = NULL;
+	cudaMalloc((void**)d_B, n*nrhs*sizeof(T));
+	cublasSetMatrix(n, nrhs, sizeof(T), b, n, d_B, n);
+
+	potrs(solverHandle, CUBLAS_FILL_MODE_LOWER, n, nrhs, d_A, n, d_B, n, &info);
+
+	cublasGetMatrix(n, nrhs, sizeof(T), d_B, n, b, n);
+
+	cudaFree(d_A);
+	cudaFree(d_B);
 
 	return info;
 }
 
-template<typename T>
-inline int qr_solve(int m, int n, int bn, T a[], T b[], T x[], T work[], int len,
-	void(*gels) (const char*, const int*, const int*, const int*, T*,
-	const int*, T* b, const int*, T*, const int*, int*))
-{
-	T* clone_a = new T[m*n];
-	std::memcpy(clone_a, a, m*n*sizeof(T));
+//template<typename T, typename GEQRF, typename ORGQR>
+//inline int qr_factor(int m, int n, T r[], T tau[], T q[], T work[], int len, GEQRF geqrf, ORGQR orgqr)
+//{
+//	int info = 0;
+//	geqrf(&m, &n, r, &m, tau, work, &len, &info);
+//
+//	for (int i = 0; i < m; ++i)
+//	{
+//		for (int j = 0; j < m && j < n; ++j)
+//		{
+//			if (i > j)
+//			{
+//				q[j * m + i] = r[j * m + i];
+//			}
+//		}
+//	}
+//
+//	//compute the q elements explicitly
+//	if (m <= n)
+//	{
+//		orgqr(&m, &m, &m, q, &m, tau, work, &len, &info);
+//	}
+//	else
+//	{
+//		orgqr(&m, &m, &n, q, &m, tau, work, &len, &info);
+//	}
+//
+//	return info;
+//}
+//
+//template<typename T, typename GEQRF, typename ORGQR>
+//inline int qr_thin_factor(int m, int n, T q[], T tau[], T r[], T work[], int len, GEQRF geqrf, ORGQR orgqr)
+//{
+//	int info = 0;
+//	geqrf(&m, &n, q, &m, tau, work, &len, &info);
+//
+//	for (int i = 0; i < n; ++i)
+//	{
+//		for (int j = 0; j < n; ++j)
+//		{
+//			if (i <= j)
+//			{
+//				r[j * n + i] = q[j * m + i];
+//			}
+//		}
+//	}
+//
+//	orgqr(&m, &n, &n, q, &m, tau, work, &len, &info);
+//	return info;
+//}
+//
+//template<typename T, typename GELS>
+//inline int qr_solve(int m, int n, int bn, T a[], T b[], T x[], T work[], int len, GELS gels)
+//{
+//	T* clone_a = Clone(m, n, a);
+//	T* clone_b = Clone(m, bn, b);
+//	char N = 'N';
+//	int info = 0;
+//	gels(&N, &m, &n, &bn, clone_a, &m, clone_b, &m, work, &len, &info);
+//	copyBtoX(m, n, bn, clone_b, x);
+//	delete[] clone_a;
+//	delete[] clone_b;
+//	return info;
+//}
 
-	T* clone_b = new T[m*bn];
-	std::memcpy(clone_b, b, m*bn*sizeof(T));
+//template<typename T, typename ORMQR, typename TRSM>
+//inline int qr_solve_factored(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle, int m, int n, int bn, T r[], T b[], T tau[], T x[], T work[], int len, ORMQR ormqr, TRSM trsm)
+//{
+//	T* clone_b = Clone(m, bn, b);
+//	char side = 'L';
+//	char tran = 'T';
+//	int info = 0;
+//	ormqr(solverHandle, &side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
+//	trsm(blasHandle, CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, r, m, clone_b, m);
+//		
+//	copyBtoX(m, n, bn, clone_b, x);
+//	delete[] clone_b;
+//	return info;
+//}
 
-	char N = 'N';
-	int info = 0;
-	gels(&N, &m, &n, &bn, clone_a, &m, clone_b, &m, work, &len, &info);
-	copyBtoX(n, n, bn, clone_b, x);
+//template<typename T, typename UNMQR, typename TRSM>
+//inline int complex_qr_solve_factored(int m, int n, int bn, T r[], T b[], T tau[], T x[], T work[], int len, UNMQR unmqr, TRSM trsm)
+//{
+//	T* clone_b = Clone(m, bn, b);
+//	char side = 'L';
+//	char tran = 'C';
+//	int info = 0;
+//	unmqr(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
+//	T one = 1.0f;
+//	trsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, r, m, clone_b, m);
+//	copyBtoX(m, n, bn, clone_b, x);
+//	delete[] clone_b;
+//	return info;
+//}
 
-	delete[] clone_a;
-	delete[] clone_b;
-	return info;
-}
-
-template<typename T>
-inline int qr_solve_factored(int m, int n, int bn, T r[], T b[], T tau[], T x[], T work[], int len,
-	void(*ormqr) (const char*, const char*, const int*, const int*, const int*,
-	const T*, const int*, const T*, T*, const int*, T*, const int*, int* info),
-	void(*trsm) (const CBLAS_ORDER, const CBLAS_SIDE, const CBLAS_UPLO, const CBLAS_TRANSPOSE, const CBLAS_DIAG,
-	const int, const int, const T, const T*, const int, T*, const int))
-{
-	T* clone_b = new T[m*bn];
-	std::memcpy(clone_b, b, m*bn*sizeof(T));
-
-	char side = 'L';
-	char tran = 'T';
-	int info = 0;
-	ormqr(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
-	trsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, r, m, clone_b, m);
-	copyBtoX(n, n, bn, clone_b, x);
-
-	delete[] clone_b;
-	return info;
-}
-
-template<typename T>
-inline int complex_qr_solve_factored(int m, int n, int bn, T r[], T b[], T tau[], T x[], T work[], int len,
-	void(*unmqr) (const char*, const char*, const int*, const int*, const int*,
-	const T*, const int*, const T*, T*, const int*, T*, const int*, int* info),
-	void(*trsm) (const CBLAS_ORDER, const CBLAS_SIDE, const CBLAS_UPLO, const CBLAS_TRANSPOSE, const CBLAS_DIAG,
-	const int, const int, const void*, const void*, const int, void*, const int ldb))
-{
-	T* clone_b = new T[m*bn];
-	std::memcpy(clone_b, b, m*bn*sizeof(T));
-
-	char side = 'L';
-	char tran = 'C';
-	int info = 0;
-	unmqr(&side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
-
-	T one = { 1.0f, 0.0f };
-	trsm(CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, &one, r, m, clone_b, m);
-	copyBtoX(n, n, bn, clone_b, x);
-
-	delete[] clone_b;
-	return info;
-}
-
-template<typename T>
-inline int svd_factor(bool compute_vectors, int m, int n, T a[], T s[], T u[], T v[], T work[], int len,
-	void(*gesvd) (const char*, const char*, const int*, const int*, T*, const int*,
-	T*, T*, const int*, T*, const int*, T*, const int*, int*))
-{
-	int info = 0;
-	char job = compute_vectors ? 'A' : 'N';
-	gesvd(&job, &job, &m, &n, a, &m, s, u, &m, v, &n, work, &len, &info);
-	return info;
-}
-
-
-template<typename T, typename R>
-inline int complex_svd_factor(bool compute_vectors, int m, int n, T a[], T s[], T u[], T v[], T work[], int len,
-	void(*gesvd) (const char*, const char*, const int*, const int*, T*, const int*,
-	R*, T*, const int*, T*, const int*, T*, const int*, R*, int*))
+template<typename T, typename GESVD, typename GESVDBSIZE>
+inline int svd_factor(cusolverDnHandle_t solverHandle, bool compute_vectors, int m, int n, T a[], T s[], T u[], T v[], GESVD gesvd, GESVDBSIZE gesvdbsize)
 {
 	int info = 0;
 	int dim_s = std::min(m, n);
-	R* rwork = new R[5 * dim_s];
-	R* s_local = new R[dim_s];
+
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, m*n*sizeof(T));
+	cublasSetMatrix(m, n, sizeof(T), a, m, d_A, m);
+
+	T* d_S = NULL;
+	cudaMalloc((void**)&d_S, dim_s*sizeof(T));
+
+	T* d_U = NULL;
+	cudaMalloc((void**)&d_U, m*m*sizeof(T));
+
+	T* d_V = NULL;
+	cudaMalloc((void**)&d_V, n*m*sizeof(T));
+
+	T* work = NULL;
+	int lWork = 0;
+	gesvdbsize(solverHandle, m, n, &lWork);
+	cudaMalloc((void**)&work, lWork*sizeof(T));
+
+	T* rwork = NULL;
+	cudaMalloc((void**)&rwork, 5 * dim_s * sizeof(T));
+
 	char job = compute_vectors ? 'A' : 'N';
-	gesvd(&job, &job, &m, &n, a, &m, s_local, u, &m, v, &n, work, &len, rwork, &info);
+	gesvd(solverHandle, job, job, m, n, d_A, m, d_S, d_U, m, d_V, n, work, lWork, rwork, &info);
 
-	for (int index = 0; index < dim_s; ++index){
-		T value = { s_local[index], 0.0f };
-		s[index] = value;
-	}
+	cublasGetVector(dim_s, sizeof(T), d_S, 1, s, 1);
+	cublasGetMatrix(m, m, sizeof(T), d_U, m, u, m);
+	cublasGetMatrix(n, n, sizeof(T), d_V, n, v, n);
 
-	delete[] rwork;
-	delete[] s_local;
+	cudaFree(d_A);
+	cudaFree(d_S);
+	cudaFree(d_U);
+	cudaFree(d_V);
+	cudaFree(work);
+	cudaFree(rwork);
+
 	return info;
 }
 
+template<typename T, typename R, typename GESVD, typename GESVDBSIZE>
+inline int complex_svd_factor(cusolverDnHandle_t solverHandle, bool compute_vectors, int m, int n, T a[], T s[], T u[], T v[], GESVD gesvd, GESVDBSIZE gesvdbsize)
+{
+	int info = 0;
+	int dim_s = std::min(m, n);
+
+	T* d_A = NULL;
+	cudaMalloc((void**)&d_A, m*n*sizeof(T));
+	cublasSetMatrix(m, n, sizeof(T), a, m, d_A, m);
+
+	R* s_local = new R[dim_s];
+	R* d_S = NULL;
+	cudaMalloc((void**)&d_S, dim_s*sizeof(R));
+
+	T* d_U = NULL;
+	cudaMalloc((void**)&d_U, m*m*sizeof(T));
+
+	T* d_V = NULL;
+	cudaMalloc((void**)&d_V, n*m*sizeof(T));
+
+	T* work = NULL;
+	int lWork = 0;
+	gesvdbsize(solverHandle, m, n, &lWork);
+	cudaMalloc((void**)&work, lWork*sizeof(T));
+
+	R* rwork = NULL;
+	cudaMalloc((void**)&rwork, 5 * dim_s * sizeof(R));
+
+	char job = compute_vectors ? 'A' : 'N';
+	gesvd(solverHandle, job, job, m, n, d_A, m, d_S, d_U, m, d_V, n, work, lWork, rwork, &info);
+
+	cublasGetVector(dim_s, sizeof(T), d_S, 1, s_local, 1);
+	cublasGetMatrix(m, m, sizeof(T), d_U, m, u, m);
+	cublasGetMatrix(n, n, sizeof(T), d_V, n, v, n);
+
+	for (int index = 0; index < dim_s; ++index)
+	{
+		s[index].x = s_local[index];
+	}
+
+	delete[] s_local;
+	cudaFree(d_A);
+	cudaFree(d_S);
+	cudaFree(d_U);
+	cudaFree(d_V);
+	cudaFree(work);
+	cudaFree(rwork);
+
+	return info;
+}
+
+//template<typename T, typename R, typename GEES, typename TREVC>
+//inline int eigen_factor(int n, T a[], T vectors[], R values[], T d[], GEES gees, TREVC trevc)
+//{
+//	T* clone_a = Clone(n, n, a);
+//	T* wr = new T[n];
+//	T* wi = new T[n];
+//
+//	int sdim;
+//	int info = gees(LAPACK_COL_MAJOR, 'V', 'N', nullptr, n, clone_a, n, &sdim, wr, wi, vectors, n);
+//	if (info != 0)
+//	{
+//		delete[] clone_a;
+//		delete[] wr;
+//		delete[] wi;
+//		return info;
+//	}
+//
+//	int m;
+//	info = trevc(LAPACK_COL_MAJOR, 'R', 'B', nullptr, n, clone_a, n, nullptr, n, vectors, n, n, &m);
+//	if (info != 0)
+//	{
+//		delete[] clone_a;
+//		delete[] wr;
+//		delete[] wi;
+//		return info;
+//	}
+//
+//	for (int index = 0; index < n; ++index)
+//	{
+//		values[index] = R(wr[index], wi[index]);
+//	}
+//
+//	for (int i = 0; i < n; ++i)
+//	{
+//		int in = i * n;
+//		d[in + i] = wr[i];
+//
+//		if (wi[i] > 0)
+//		{
+//			d[in + n + i] = wi[i];
+//		}
+//		else if (wi[i] < 0)
+//		{
+//			d[in - n + i] = wi[i];
+//		}
+//	}
+//
+//	delete[] clone_a;
+//	delete[] wr;
+//	delete[] wi;
+//	return info;
+//}
+//
+//template<typename T, typename GEES, typename TREVC>
+//inline int eigen_complex_factor(int n, T a[], T vectors[], cuDoubleComplex values[], T d[], GEES gees, TREVC trevc)
+//{
+//	T* clone_a = Clone(n, n, a);
+//	T* w = new T[n];
+//
+//	int sdim;
+//	int info = gees(LAPACK_COL_MAJOR, 'V', 'N', nullptr, n, clone_a, n, &sdim, w, vectors, n);
+//	if (info != 0)
+//	{
+//		delete[] clone_a;
+//		delete[] w;
+//		return info;
+//	}
+//
+//	int m;
+//	info = trevc(LAPACK_COL_MAJOR, 'R', 'B', nullptr, n, clone_a, n, nullptr, n, vectors, n, n, &m);
+//	if (info != 0)
+//	{
+//		delete[] clone_a;
+//		delete[] w;
+//		return info;
+//	}
+//
+//	for (int i = 0; i < n; ++i)
+//	{
+//		values[i] = w[i];
+//		d[i * n + i] = w[i];
+//	}
+//
+//	delete[] clone_a;
+//	delete[] w;
+//	return info;
+//}
+//
+//template<typename R, typename T, typename SYEV>
+//inline int sym_eigen_factor(int n, T a[], T vectors[], cuDoubleComplex values[], T d[], SYEV syev)
+//{
+//	T* clone_a = Clone(n, n, a);
+//	R* w = new R[n];
+//
+//	int info = syev(LAPACK_COL_MAJOR, 'V', 'U', n, clone_a, n, w);
+//	if (info != 0)
+//	{
+//		delete[] clone_a;
+//		delete[] w;
+//		return info;
+//	}
+//
+//	memcpy(vectors, clone_a, n*n*sizeof(T));
+//
+//	for (int index = 0; index < n; ++index)
+//	{
+//		values[index] = cuDoubleComplex(w[index]);
+//	}
+//
+//	for (int j = 0; j < n; ++j)
+//	{
+//		int jn = j*n;
+//
+//		for (int i = 0; i < n; ++i)
+//		{
+//			if (i == j)
+//			{
+//				d[jn + i] = w[i];
+//			}
+//		}
+//	}
+//
+//	delete[] clone_a;
+//	delete[] w;
+//	return info;
+//}
+
+#define sgetrf cusolverDnSgetrf
+#define dgetrf cusolverDnDgetrf
+#define cgetrf cusolverDnCgetrf
+#define zgetrf cusolverDnZgetrf
+#define sgetrfbsize cusolverDnSgetrf_bufferSize
+#define dgetrfbsize cusolverDnDgetrf_bufferSize
+#define cgetrfbsize cusolverDnCgetrf_bufferSize
+#define zgetrfbsize cusolverDnZgetrf_bufferSize
+
+#define sgetrs cusolverDnSgetrs
+#define dgetrs cusolverDnDgetrs
+#define cgetrs cusolverDnCgetrs
+#define zgetrs cusolverDnZgetrs
+
+#define spotrf cusolverDnSpotrf
+#define dpotrf cusolverDnDpotrf
+#define cpotrf cusolverDnCpotrf
+#define zpotrf cusolverDnZpotrf
+#define spotrfbsize cusolverDnSpotrf_bufferSize
+#define dpotrfbsize cusolverDnDpotrf_bufferSize
+#define cpotrfbsize cusolverDnCpotrf_bufferSize
+#define zpotrfbsize cusolverDnZpotrf_bufferSize
+
+#define spotrs cusolverDnSpotrs
+#define dpotrs cusolverDnDpotrs
+#define cpotrs cusolverDnCpotrs
+#define zpotrs cusolverDnZpotrs
+
+#define sgeqrf cusolverDnSgeqrf
+#define dgeqrf cusolverDnDgeqrf
+#define cgeqrf cusolverDnCgeqrf
+#define zgeqrf cusolverDnZgeqrf
+
+#define sormqr cusolverDnSormqr
+#define dormqr cusolverDnDormqr
+
+#define sgesvd cusolverDnSgesvd
+#define dgesvd cusolverDnDgesvd
+#define cgesvd cusolverDnCgesvd
+#define zgesvd cusolverDnZgesvd
+#define sgesvdbsize cusolverDnSgesvd_bufferSize
+#define dgesvdbsize cusolverDnDgesvd_bufferSize
+#define cgesvdbsize cusolverDnCgesvd_bufferSize
+#define zgesvdbsize cusolverDnZgesvd_bufferSize
+
+
+inline int sgetri(cublasHandle_t handle, int n, const float a[], int lda, const int *ipiv, float c[], int ldc, int *info)
+{
+	return cublasSgetriBatched(handle, n, &a, lda, ipiv, &c, ldc, info, 1);
+}
+
+inline int dgetri(cublasHandle_t handle, int n, const double a[], int lda, const int *ipiv, double c[], int ldc, int *info)
+{
+	return cublasDgetriBatched(handle, n, &a, lda, ipiv, &c, ldc, info, 1);
+}
+
+inline int cgetri(cublasHandle_t handle, int n, const cuComplex a[], int lda, const int *ipiv, cuComplex c[], int ldc, int *info)
+{
+	return cublasCgetriBatched(handle, n, &a, lda, ipiv, &c, ldc, info, 1);
+}
+
+inline int zgetri(cublasHandle_t handle, int n, const cuDoubleComplex a[], int lda, const int *ipiv, cuDoubleComplex c[], int ldc, int *info)
+{
+	return cublasZgetriBatched(handle, n, &a, lda, ipiv, &c, ldc, info, 1);
+}
+
 extern "C" {
-	DLLEXPORT int s_lu_factor(int m, float a[], int ipiv[]) {
-		return lu_factor<float, float>(m, a, ipiv, cusolverDnSgetrf);
-	}
 
-	DLLEXPORT int d_lu_factor(int m, double a[], int ipiv[]) {
-		return lu_factor<double, double>(m, a, ipiv, cusolverDnDgetrf);
-	}
-
-	DLLEXPORT int c_lu_factor(int m, cuComplex a[], int ipiv[]) {
-		return lu_factor<cuComplex, void>(m, a, ipiv, cusolverDnCgetrf);
-	}
-
-	DLLEXPORT int z_lu_factor(int m, cuDoubleComplex a[], int ipiv[]) {
-		return lu_factor(m, a, ipiv, cusolverDnZgetrf);
-	}
-
-	DLLEXPORT int s_lu_inverse(int n, float a[])
+	DLLEXPORT int s_lu_factor(cusolverDnHandle_t solverHandle, int m, float a[], int ipiv[])
 	{
-		return lu_inverse<float, float>(n, a, cusolverDnSgetrf, cusolverDnSgetri);
+		return lu_factor(solverHandle, m, a, ipiv, sgetrf, sgetrfbsize);
 	}
 
-	DLLEXPORT int d_lu_inverse(int n, double a[])
+	DLLEXPORT int d_lu_factor(cusolverDnHandle_t solverHandle, int m, double a[], int ipiv[])
 	{
-		return lu_inverse<double, double>(n, a, cusolverDnDgetrf, cusolverDnDgetri);
+		return lu_factor(solverHandle, m, a, ipiv, dgetrf, dgetrfbsize);
 	}
 
-	DLLEXPORT int c_lu_inverse(int n, cuComplex a[])
+	DLLEXPORT int c_lu_factor(cusolverDnHandle_t solverHandle, int m, cuComplex a[], int ipiv[])
 	{
-		return lu_inverse<cuComplex, void>(n, a, cusolverDnCgetrf, cusolverDnCgetri);
+		return lu_factor(solverHandle, m, a, ipiv, cgetrf, cgetrfbsize);
 	}
 
-	DLLEXPORT int z_lu_inverse(int n, cuDoubleComplex a[])
+	DLLEXPORT int z_lu_factor(cusolverDnHandle_t solverHandle, int m, cuDoubleComplex a[], int ipiv[])
 	{
-		return lu_inverse<cuDoubleComplex, void>(n, a, cusolverDnZgetrf, cusolverDnZgetri);
+		return lu_factor(solverHandle, m, a, ipiv, zgetrf, zgetrfbsize);
 	}
 
-	DLLEXPORT int s_lu_inverse_factored(int n, float a[], int ipiv[], float work[], int lwork)
+	DLLEXPORT int s_lu_inverse(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle, int n, float a[])
 	{
-		return lu_inverse_factored<float, float>(n, a, ipiv, cusolverDnSgetri);
+		return lu_inverse(solverHandle, blasHandle, n, a, sgetrf, sgetri, sgetrfbsize);
 	}
 
-	DLLEXPORT int d_lu_inverse_factored(int n, double a[], int ipiv[], double work[], int lwork)
+	DLLEXPORT int d_lu_inverse(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle, int n, double a[])
 	{
-		return lu_inverse_factored<double, double>(n, a, ipiv, cusolverDnDgetri);
+		return lu_inverse(solverHandle, blasHandle, n, a, dgetrf, dgetri, dgetrfbsize);
 	}
 
-	DLLEXPORT int c_lu_inverse_factored(int n, cuComplex a[], int ipiv[], cuComplex work[], int lwork)
+	DLLEXPORT int c_lu_inverse(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle, int n, cuComplex a[])
 	{
-		return lu_inverse_factored<cuComplex, void>(n, a, ipiv, cusolverDnCgetri);
+		return lu_inverse(solverHandle, blasHandle, n, a, cgetrf, cgetri, cgetrfbsize);
 	}
 
-	DLLEXPORT int z_lu_inverse_factored(int n, cuDoubleComplex a[], int ipiv[], cuDoubleComplex work[], int lwork)
+	DLLEXPORT int z_lu_inverse(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle, int n, cuDoubleComplex a[])
 	{
-		return lu_inverse_factored<cuDoubleComplex, void>(n, a, ipiv, cusolverDnZgetri);
+		return lu_inverse(solverHandle, blasHandle, n, a, zgetrf, zgetri, zgetrfbsize);
 	}
 
-	DLLEXPORT int s_lu_solve_factored(int n, int nrhs, float a[], int ipiv[], float b[])
+	DLLEXPORT int s_lu_inverse_factored(cublasHandle_t blasHandle, int n, float a[], int ipiv[])
 	{
-		return lu_solve_factored<float, float>(n, nrhs, a, ipiv, b, cusolverDnSgetrs);
+		return lu_inverse_factored(blasHandle, n, a, ipiv, sgetri);
 	}
 
-	DLLEXPORT int  d_lu_solve_factored(int n, int nrhs, double a[], int ipiv[], double b[])
+	DLLEXPORT int d_lu_inverse_factored(cublasHandle_t blasHandle, int n, double a[], int ipiv[])
 	{
-		return lu_solve_factored<double, double>(n, nrhs, a, ipiv, b, cusolverDnDgetrs);
+		return lu_inverse_factored(blasHandle, n, a, ipiv, dgetri);
 	}
 
-	DLLEXPORT int c_lu_solve_factored(int n, int nrhs, cuComplex a[], int ipiv[], cuComplex b[])
+	DLLEXPORT int c_lu_inverse_factored(cublasHandle_t blasHandle, int n, cuComplex a[], int ipiv[])
 	{
-		return lu_solve_factored<cuComplex, void>(n, nrhs, a, ipiv, b, cusolverDnCgetrs);
+		return lu_inverse_factored(blasHandle, n, a, ipiv, cgetri);
 	}
 
-	DLLEXPORT int z_lu_solve_factored(int n, int nrhs, cuDoubleComplex a[], int ipiv[], cuDoubleComplex b[])
+	DLLEXPORT int z_lu_inverse_factored(cublasHandle_t blasHandle, int n, cuDoubleComplex a[], int ipiv[])
 	{
-		return lu_solve_factored<cuDoubleComplex, void>(n, nrhs, a, ipiv, b, cusolverDnZgetrs);
+		return lu_inverse_factored(blasHandle, n, a, ipiv, zgetri);
 	}
 
-	DLLEXPORT int s_lu_solve(int n, int nrhs, float a[], float b[])
+	DLLEXPORT int s_lu_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, float a[], int ipiv[], float b[])
 	{
-		return lu_solve<float, float>(n, nrhs, a, b, cusolverDnSgetrf, cusolverDnSgetrs);
+		return lu_solve_factored(solverHandle, n, nrhs, a, ipiv, b, sgetrs);
 	}
 
-	DLLEXPORT int d_lu_solve(int n, int nrhs, double a[], double b[])
+	DLLEXPORT int  d_lu_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, double a[], int ipiv[], double b[])
 	{
-		return lu_solve<double, double>(n, nrhs, a, b, cusolverDnDgetrf, cusolverDnDgetrs);
+		return lu_solve_factored(solverHandle, n, nrhs, a, ipiv, b, dgetrs);
 	}
 
-	DLLEXPORT int c_lu_solve(int n, int nrhs, cuComplex a[], cuComplex b[])
+	DLLEXPORT int c_lu_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, cuComplex a[], int ipiv[], cuComplex b[])
 	{
-		return lu_solve<cuComplex, void>(n, nrhs, a, b, cusolverDnCgetrf, cusolverDnCgetrs);
+		return lu_solve_factored(solverHandle, n, nrhs, a, ipiv, b, cgetrs);
 	}
 
-	DLLEXPORT int z_lu_solve(int n, int nrhs, cuDoubleComplex a[], cuDoubleComplex b[])
+	DLLEXPORT int z_lu_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, cuDoubleComplex a[], int ipiv[], cuDoubleComplex b[])
 	{
-		return lu_solve<cuDoubleComplex, void>(n, nrhs, a, b, cusolverDnZgetrf, cusolverDnZgetrs);
+		return lu_solve_factored(solverHandle, n, nrhs, a, ipiv, b, zgetrs);
 	}
 
-	DLLEXPORT int s_cholesky_factor(int n, float a[]){
-		return cholesky_factor<float, float>(n, a, cusolverDnSpotrf);
-	}
-
-	DLLEXPORT int d_cholesky_factor(int n, double* a){
-		return cholesky_factor<double, double>(n, a, cusolverDnDpotrf);
-	}
-
-	DLLEXPORT int c_cholesky_factor(int n, cuComplex a[]){
-		return cholesky_factor<cuComplex, void>(n, a, cusolverDnCpotrf);
-	}
-
-	DLLEXPORT int z_cholesky_factor(int n, cuDoubleComplex a[]){
-		return cholesky_factor<cuDoubleComplex, void>(n, a, cusolverDnZpotrf);
-	}
-
-	DLLEXPORT int s_cholesky_solve(int n, int nrhs, float a[], float b[])
+	DLLEXPORT int s_lu_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, float a[], float b[])
 	{
-		return cholesky_solve<float, float>(n, nrhs, a, b, cusolverDnSpotrf, cusolverDnSpotrs);
+		return lu_solve(solverHandle, n, nrhs, a, b, sgetrf, sgetrs, sgetrfbsize);
 	}
 
-	DLLEXPORT int d_cholesky_solve(int n, int nrhs, double a[], double b[])
+	DLLEXPORT int d_lu_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, double a[], double b[])
 	{
-		return cholesky_solve<double, double>(n, nrhs, a, b, cusolverDnDpotrf, cusolverDnDpotrs);
+		return lu_solve(solverHandle, n, nrhs, a, b, dgetrf, dgetrs, dgetrfbsize);
 	}
 
-	DLLEXPORT int c_cholesky_solve(int n, int nrhs, cuComplex a[], cuComplex b[])
+	DLLEXPORT int c_lu_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, cuComplex a[], cuComplex b[])
 	{
-		return cholesky_solve<cuComplex, void>(n, nrhs, a, b, cusolverDnCpotrf, cusolverDnCpotrs);
+		return lu_solve(solverHandle, n, nrhs, a, b, cgetrf, cgetrs, cgetrfbsize);
 	}
 
-	DLLEXPORT int z_cholesky_solve(int n, int nrhs, cuDoubleComplex a[], cuDoubleComplex b[])
+	DLLEXPORT int z_lu_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, cuDoubleComplex a[], cuDoubleComplex b[])
 	{
-		return cholesky_solve<cuDoubleComplex, void>(n, nrhs, a, b, cusolverDnZpotrf, cusolverDnZpotrs);
+		return lu_solve(solverHandle, n, nrhs, a, b, zgetrf, zgetrs, zgetrfbsize);
 	}
 
-	DLLEXPORT int s_cholesky_solve_factored(int n, int nrhs, float a[], float b[])
+	DLLEXPORT int s_cholesky_factor(cusolverDnHandle_t solverHandle, int n, float a[])
 	{
-		return cholesky_solve_factored<float, float>(n, nrhs, a, b, cusolverDnSpotrs);
+		return cholesky_factor(solverHandle, n, a, spotrf, spotrfbsize);
 	}
 
-	DLLEXPORT int d_cholesky_solve_factored(int n, int nrhs, double a[], double b[])
+	DLLEXPORT int d_cholesky_factor(cusolverDnHandle_t solverHandle, int n, double* a)
 	{
-		return cholesky_solve_factored<double, double>(n, nrhs, a, b, cusolverDnDpotrs);
+		return cholesky_factor(solverHandle, n, a, dpotrf, dpotrfbsize);
 	}
 
-	DLLEXPORT int c_cholesky_solve_factored(int n, int nrhs, cuComplex a[], cuComplex b[])
+	DLLEXPORT int c_cholesky_factor(cusolverDnHandle_t solverHandle, int n, cuComplex a[])
 	{
-		return cholesky_solve_factored<cuComplex, void>(n, nrhs, a, b, cusolverDnCpotrs);
+		return cholesky_factor(solverHandle, n, a, cpotrf, cpotrfbsize);
 	}
 
-	DLLEXPORT int z_cholesky_solve_factored(int n, int nrhs, cuDoubleComplex a[], cuDoubleComplex b[])
+	DLLEXPORT int z_cholesky_factor(cusolverDnHandle_t solverHandle, int n, cuDoubleComplex a[])
 	{
-		return cholesky_solve_factored<cuDoubleComplex, void>(n, nrhs, a, b, cusolverDnZpotrs);
+		return cholesky_factor(solverHandle, n, a, zpotrf, zpotrfbsize);
 	}
 
+	DLLEXPORT int s_cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, float a[], float b[])
+	{
+		return cholesky_solve(solverHandle, n, nrhs, a, b, spotrf, spotrs, spotrfbsize);
+	}
+
+	DLLEXPORT int d_cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, double a[], double b[])
+	{
+		return cholesky_solve(solverHandle, n, nrhs, a, b, dpotrf, dpotrs, dpotrfbsize);
+	}
+
+	DLLEXPORT int c_cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, cuComplex a[], cuComplex b[])
+	{
+		return cholesky_solve(solverHandle, n, nrhs, a, b, cpotrf, cpotrs, cpotrfbsize);
+	}
+
+	DLLEXPORT int z_cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, cuDoubleComplex a[], cuDoubleComplex b[])
+	{
+		return cholesky_solve(solverHandle, n, nrhs, a, b, zpotrf, zpotrs, zpotrfbsize);
+	}
+
+	DLLEXPORT int s_cholesky_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, float a[], float b[])
+	{
+		return cholesky_solve_factored(solverHandle, n, nrhs, a, b, spotrs);
+	}
+
+	DLLEXPORT int d_cholesky_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, double a[], double b[])
+	{
+		return cholesky_solve_factored(solverHandle, n, nrhs, a, b, dpotrs);
+	}
+
+	DLLEXPORT int c_cholesky_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, cuComplex a[], cuComplex b[])
+	{
+		return cholesky_solve_factored(solverHandle, n, nrhs, a, b, cpotrs);
+	}
+
+	DLLEXPORT int z_cholesky_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, cuDoubleComplex a[], cuDoubleComplex b[])
+	{
+		return cholesky_solve_factored(solverHandle, n, nrhs, a, b, zpotrs);
+	}
+
+	// MJ: I am fairly certain that it would be straightforward to implement ?orgqr and ?gels but I'm focusing on getting the low-hanging fruit working first
 	/*DLLEXPORT int s_qr_factor(int m, int n, float r[], float tau[], float q[], float work[], int len)
 	{
-	return qr_factor<float, float>(m, n, r, tau, q, work, len, cusolverDnSgeqrf, cusolverDnSorgqr);
+		return qr_factor(m, n, r, tau, q, work, len, sgeqrf, sorgqr);
 	}
 
 	DLLEXPORT int s_qr_thin_factor(int m, int n, float q[], float tau[], float r[], float work[], int len)
 	{
-	return qr_thin_factor<float>(m, n, q, tau, r, work, len, cusolverDnSgeqrf, cusolverDnSorgqr);
+		return qr_thin_factor(m, n, q, tau, r, work, len, sgeqrf, sorgqr);
 	}
 
 	DLLEXPORT int d_qr_factor(int m, int n, double r[], double tau[], double q[], double work[], int len)
 	{
-	return qr_factor<double>(m, n, r, tau, q, work, len, cusolverDnDgeqrf, cusolverDnDorgqr);
+		return qr_factor(m, n, r, tau, q, work, len, dgeqrf, dorgqr);
 	}
 
 	DLLEXPORT int d_qr_thin_factor(int m, int n, double q[], double tau[], double r[], double work[], int len)
 	{
-	return qr_thin_factor<double>(m, n, q, tau, r, work, len, cusolverDnDgeqrf, cusolverDnDorgqr);
+		return qr_thin_factor(m, n, q, tau, r, work, len, dgeqrf, dorgqr);
 	}
 
 	DLLEXPORT int c_qr_factor(int m, int n, cuComplex r[], cuComplex tau[], cuComplex q[], cuComplex work[], int len)
 	{
-	return qr_factor<cuComplex>(m, n, r, tau, q, work, len, cusolverDnCgeqrf, cusolverDnCungqr);
+		return qr_factor(m, n, r, tau, q, work, len, cgeqrf, cungqr);
 	}
 
 	DLLEXPORT int c_qr_thin_factor(int m, int n, cuComplex q[], cuComplex tau[], cuComplex r[], cuComplex work[], int len)
 	{
-	return qr_thin_factor<cuComplex>(m, n, q, tau, r, work, len, cusolverDnCgeqrf, cusolverDnCungqr);
+		return qr_thin_factor(m, n, q, tau, r, work, len, cgeqrf, cungqr);
 	}
 
-	DLLEXPORT int z_qr_factor(int m, int n, cuDoubleComplex r[], cuDoubleComplex tau[], cuDoubleComplex q[])
+	DLLEXPORT int z_qr_factor(int m, int n, cuDoubleComplex r[], cuDoubleComplex tau[], cuDoubleComplex q[], cuDoubleComplex work[], int len)
 	{
-	return qr_factor<cuDoubleComplex>(m, n, r, tau, q, work, len, cusolverDnZgeqrf, cusolverDnZungqr);
+		return qr_factor(m, n, r, tau, q, work, len, zgeqrf, zungqr);
 	}
 
-	DLLEXPORT int z_qr_thin_factor(int m, int n, cuDoubleComplex q[], cuDoubleComplex tau[], cuDoubleComplex r[])
+	DLLEXPORT int z_qr_thin_factor(int m, int n, cuDoubleComplex q[], cuDoubleComplex tau[], cuDoubleComplex r[], cuDoubleComplex work[], int len)
 	{
-	return qr_thin_factor<cuDoubleComplex>(m, n, q, tau, r, work, len, cusolverDnZgeqrf, cusolverDnZungqr);
+		return qr_thin_factor(m, n, q, tau, r, work, len, zgeqrf, zungqr);
 	}
 
 	DLLEXPORT int s_qr_solve(int m, int n, int bn, float a[], float b[], float x[], float work[], int len)
 	{
-	return qr_solve<float>(m, n, bn, a, b, x, work, len, sgels);
+		return qr_solve(m, n, bn, a, b, x, work, len, sgels);
 	}
 
 	DLLEXPORT int d_qr_solve(int m, int n, int bn, double a[], double b[], double x[], double work[], int len)
 	{
-	return qr_solve<double>(m, n, bn, a, b, x, work, len, dgels);
+		return qr_solve(m, n, bn, a, b, x, work, len, dgels);
 	}
 
 	DLLEXPORT int c_qr_solve(int m, int n, int bn, cuComplex a[], cuComplex b[], cuComplex x[], cuComplex work[], int len)
 	{
-	return qr_solve<cuComplex>(m, n, bn, a, b, x, work, len, cgels);
+		return qr_solve(m, n, bn, a, b, x, work, len, cgels);
 	}
 
 	DLLEXPORT int z_qr_solve(int m, int n, int bn, cuDoubleComplex a[], cuDoubleComplex b[], cuDoubleComplex x[], cuDoubleComplex work[], int len)
 	{
-	return qr_solve<cuDoubleComplex>(m, n, bn, a, b, x, work, len, zgels);
+		return qr_solve(m, n, bn, a, b, x, work, len, zgels);
+	}*/
+
+	//DLLEXPORT int s_qr_solve_factored(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle, int m, int n, int bn, float r[], float b[], float tau[], float x[], float work[], int len)
+	//{
+	//	return qr_solve_factored(solverHandle, blasHandle, m, n, bn, r, b, tau, x, work, len, sormqr, cublasStrsm);
+	//}
+
+	//DLLEXPORT int d_qr_solve_factored(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle, int m, int n, int bn, double r[], double b[], double tau[], double x[], double work[], int len)
+	//{
+	//	return qr_solve_factored(solverHandle, blasHandle, m, n, bn, r, b, tau, x, work, len, dormqr, cublasDtrsm);
+	//}
+
+	//DLLEXPORT int c_qr_solve_factored(int m, int n, int bn, cuComplex r[], cuComplex b[], cuComplex tau[], cuComplex x[], cuComplex work[], int len)
+	//{
+	//	return complex_qr_solve_factored(m, n, bn, r, b, tau, x, work, len, cunmqr, cublasCtrsm);
+	//}
+
+	//DLLEXPORT int z_qr_solve_factored(int m, int n, int bn, cuDoubleComplex r[], cuDoubleComplex b[], cuDoubleComplex tau[], cuDoubleComplex x[], cuDoubleComplex work[], int len)
+	//{
+	//	return complex_qr_solve_factored(m, n, bn, r, b, tau, x, work, len, zunmqr, cublasZtrsm);
+	//}
+
+	DLLEXPORT int s_svd_factor(cusolverDnHandle_t solverHandle, bool compute_vectors, int m, int n, float a[], float s[], float u[], float v[])
+	{
+		return svd_factor(solverHandle, compute_vectors, m, n, a, s, u, v, sgesvd, sgesvdbsize);
 	}
 
-	DLLEXPORT int s_qr_solve_factored(int m, int n, int bn, float r[], float b[], float tau[], float x[], float work[], int len)
+	DLLEXPORT int d_svd_factor(cusolverDnHandle_t solverHandle, bool compute_vectors, int m, int n, double a[], double s[], double u[], double v[])
 	{
-	return qr_solve_factored<float>(m, n, bn, r, b, tau, x, work, len, sormqr, cblas_strsm);
+		return svd_factor(solverHandle, compute_vectors, m, n, a, s, u, v,dgesvd, dgesvdbsize);
 	}
 
-	DLLEXPORT int d_qr_solve_factored(int m, int n, int bn, double r[], double b[], double tau[], double x[], double work[], int len)
+	DLLEXPORT int c_svd_factor(cusolverDnHandle_t solverHandle, bool compute_vectors, int m, int n, cuComplex a[], cuComplex s[], cuComplex u[], cuComplex v[])
 	{
-	return qr_solve_factored<double>(m, n, bn, r, b, tau, x, work, len, dormqr, cblas_dtrsm);
+		return complex_svd_factor<cuComplex, float>(solverHandle, compute_vectors, m, n, a, s, u, v, cgesvd, cgesvdbsize);
 	}
 
-	DLLEXPORT int c_qr_solve_factored(int m, int n, int bn, cuComplex r[], cuComplex b[], cuComplex tau[], cuComplex x[], cuComplex work[], int len)
+	DLLEXPORT int z_svd_factor(cusolverDnHandle_t solverHandle, bool compute_vectors, int m, int n, cuDoubleComplex a[], cuDoubleComplex s[], cuDoubleComplex u[], cuDoubleComplex v[])
 	{
-	return complex_qr_solve_factored<cuComplex>(m, n, bn, r, b, tau, x, work, len, cunmqr, cblas_ctrsm);
+		return complex_svd_factor<cuDoubleComplex, double>(solverHandle, compute_vectors, m, n, a, s, u, v, zgesvd, zgesvdbsize);
 	}
 
-	DLLEXPORT int z_qr_solve_factored(int m, int n, int bn, cuDoubleComplex r[], cuDoubleComplex b[], cuDoubleComplex tau[], cuDoubleComplex x[], cuDoubleComplex work[], int len)
+	/*DLLEXPORT int s_eigen(bool isSymmetric, int n, float a[], float vectors[], cuDoubleComplex values[], float d[])
 	{
-	return complex_qr_solve_factored<cuDoubleComplex>(m, n, bn, r, b, tau, x, work, len, zunmqr, cblas_ztrsm);
+		if (isSymmetric)
+		{
+			return sym_eigen_factor<float>(n, a, vectors, values, d, LAPACKE_ssyev);
+		}
+		else
+		{
+			return eigen_factor(n, a, vectors, values, d, LAPACKE_sgees, LAPACKE_strevc);
+		}
 	}
 
-	DLLEXPORT int s_svd_factor(bool compute_vectors, int m, int n, float a[], float s[], float u[], float v[], float work[], int len)
+	DLLEXPORT int d_eigen(bool isSymmetric, int n, double a[], double vectors[], cuDoubleComplex values[], double d[])
 	{
-	return svd_factor<float>(compute_vectors, m, n, a, s, u, v, work, len, sgesvd);
+		if (isSymmetric)
+		{
+			return sym_eigen_factor<double>(n, a, vectors, values, d, LAPACKE_dsyev);
+		}
+		else
+		{
+			return eigen_factor(n, a, vectors, values, d, LAPACKE_dgees, LAPACKE_dtrevc);
+		}
 	}
 
-	DLLEXPORT int d_svd_factor(bool compute_vectors, int m, int n, double a[], double s[], double u[], double v[], double work[], int len)
+	DLLEXPORT int c_eigen(bool isSymmetric, int n, cuComplex a[], cuComplex vectors[], cuDoubleComplex values[], cuComplex d[])
 	{
-	return svd_factor<double>(compute_vectors, m, n, a, s, u, v, work, len, dgesvd);
+		if (isSymmetric)
+		{
+			return sym_eigen_factor<float>(n, a, vectors, values, d, LAPACKE_cheev);
+		}
+		else
+		{
+			return eigen_complex_factor(n, a, vectors, values, d, LAPACKE_cgees, LAPACKE_ctrevc);
+		}
 	}
 
-	DLLEXPORT int c_svd_factor(bool compute_vectors, int m, int n, cuComplex a[], cuComplex s[], cuComplex u[], cuComplex v[], cuComplex work[], int len)
+	DLLEXPORT int z_eigen(bool isSymmetric, int n, cuDoubleComplex a[], cuDoubleComplex vectors[], cuDoubleComplex values[], cuDoubleComplex d[])
 	{
-	return complex_svd_factor<cuComplex, float>(compute_vectors, m, n, a, s, u, v, work, len, cgesvd);
-	}
-
-	DLLEXPORT int z_svd_factor(bool compute_vectors, int m, int n, cuDoubleComplex a[], cuDoubleComplex s[], cuDoubleComplex u[], cuDoubleComplex v[], cuDoubleComplex work[], int len)
-	{
-	return complex_svd_factor<cuDoubleComplex, double>(compute_vectors, m, n, a, s, u, v, work, len, zgesvd);
+		if (isSymmetric)
+		{
+			return sym_eigen_factor<double>(n, a, vectors, values, d, LAPACKE_zheev);
+		}
+		else
+		{
+			return eigen_complex_factor(n, a, vectors, values, d, LAPACKE_zgees, LAPACKE_ztrevc);
+		}
 	}*/
 }

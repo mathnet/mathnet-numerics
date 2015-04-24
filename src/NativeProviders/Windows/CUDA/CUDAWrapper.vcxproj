@@ -23,10 +23,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
-    <ClCompile Include="..\..\CUDA\blas.c" />
-    <ClCompile Include="..\..\CUDA\capabilities.cpp" />
+    <ClCompile Include="..\..\CUDA\blas.cpp" />
     <ClCompile Include="..\..\CUDA\lapack.cpp" />
-    <ClCompile Include="..\..\CUDA\memory.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5A52B796-7F41-4C90-8DE2-F3F391C4482C}</ProjectGuid>
@@ -118,7 +116,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>cusolver.lib;cublas.lib;cublas_device.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cudart.lib;cusolver.lib;cublas.lib;cublas_device.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -152,7 +150,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>cusolver.lib;cublas.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>cudart.lib;cusolver.lib;cublas.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
