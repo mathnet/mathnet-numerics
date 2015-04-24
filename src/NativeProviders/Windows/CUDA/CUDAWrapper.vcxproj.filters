@@ -35,8 +35,5 @@
     <ClCompile Include="..\..\CUDA\memory.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\CUDA\vector_functions.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
