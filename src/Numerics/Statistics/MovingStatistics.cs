@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
+//
 // Copyright (c) 2009-2015 Math.NET
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -41,7 +41,12 @@ namespace MathNet.Numerics.Statistics
     {
         readonly double[] _oldValues;
         readonly int _windowSize;
+
+        long _count;
+        long _totalCountOffset;
         int _lastIndex;
+        int _lastNaNTimeToLive;
+
         double _m1;
         double _m2;
         double _m3;
@@ -72,7 +77,10 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Gets the total number of samples.
         /// </summary>
-        public long Count { get; private set; }
+        public long Count
+        {
+            get { return _totalCountOffset + _count; }
+        }
 
         /// <summary>
         /// Returns the minimum value in the sample data.
@@ -80,7 +88,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double Minimum
         {
-            get { return Count > 0 ? _min : double.NaN; }
+            get { return _count > 0 && _lastNaNTimeToLive == 0 ? _min : double.NaN; }
         }
 
         /// <summary>
@@ -89,7 +97,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double Maximum
         {
-            get { return Count > 0 ? _max : double.NaN; }
+            get { return _count > 0 && _lastNaNTimeToLive == 0 ? _max : double.NaN; }
         }
 
         /// <summary>
@@ -98,7 +106,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double Mean
         {
-            get { return Count > 0 ? _m1 : double.NaN; }
+            get { return _count > 0 && _lastNaNTimeToLive == 0 ? _m1 : double.NaN; }
         }
 
         /// <summary>
@@ -108,7 +116,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double Variance
         {
-            get { return Count < 2 ? double.NaN : _m2/(Count - 1); }
+            get { return _count < 2 || _lastNaNTimeToLive > 0 ? double.NaN : _m2/(_count - 1); }
         }
 
         /// <summary>
@@ -118,7 +126,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double PopulationVariance
         {
-            get { return Count < 2 ? double.NaN : _m2/Count; }
+            get { return _count < 2 || _lastNaNTimeToLive > 0  ? double.NaN : _m2/_count; }
         }
 
         /// <summary>
@@ -128,7 +136,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double StandardDeviation
         {
-            get { return Count < 2 ? double.NaN : Math.Sqrt(_m2/(Count - 1)); }
+            get { return _count < 2 || _lastNaNTimeToLive > 0  ? double.NaN : Math.Sqrt(_m2/(_count - 1)); }
         }
 
         /// <summary>
@@ -138,7 +146,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double PopulationStandardDeviation
         {
-            get { return Count < 2 ? double.NaN : Math.Sqrt(_m2/Count); }
+            get { return _count < 2 || _lastNaNTimeToLive > 0  ? double.NaN : Math.Sqrt(_m2/_count); }
         }
 
 /*        /// <summary>
@@ -186,26 +194,46 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public void Push(double value)
         {
-            if (Count < _windowSize)
+            if (double.IsNaN(value))
             {
-                _oldValues[Count] = value;
-                Count++;
+                _totalCountOffset += _count + 1;
+                _count = 0;
+                _lastNaNTimeToLive = _windowSize;
+
+                _m1 = 0.0;
+                _m2 = 0.0;
+                _m3 = 0.0;
+                _m4 = 0.0;
+                _max = double.NegativeInfinity;
+                _min = double.PositiveInfinity;
+                return;
+            }
+
+            if (_lastNaNTimeToLive > 0)
+            {
+                _lastNaNTimeToLive--;
+            }
+
+            if (_count < _windowSize)
+            {
+                _oldValues[_count] = value;
+                _count++;
                 var d = value - _m1;
-                var s = d/Count;
+                var s = d/_count;
 //               var s2 = s * s;
-                var t = d*s*(Count - 1);
+                var t = d*s*(_count - 1);
 
                 _m1 += s;
 //               _m4 += t * s2 * (Count * Count - 3 * Count + 3) + 6 * s2 * _m2 - 4 * s * _m3;
 //               _m3 += t * s * (Count - 2) - 3 * s * _m2;
                 _m2 += t;
 
-                if (value < _min || double.IsNaN(value))
+                if (value < _min)
                 {
                     _min = value;
                 }
 
-                if (value > _max || double.IsNaN(value))
+                if (value > _max)
                 {
                     _max = value;
                 }
@@ -214,7 +242,7 @@ namespace MathNet.Numerics.Statistics
             {
                 var oldValue = _oldValues[_lastIndex];
                 var d = value - oldValue;
-                var s = d/Count;
+                var s = d/_count;
 //                var s2 = s * s;
                 var oldM1 = _m1;
                 _m1 += s;
@@ -232,8 +260,8 @@ namespace MathNet.Numerics.Statistics
                 {
                     _lastIndex = 0;
                 }
-                _max = value > _max || double.IsNaN(value) ? value : _oldValues.Maximum();
-                _min = value < _min || double.IsNaN(value)? value : _oldValues.Minimum();
+                _max = value > _max ? value : _oldValues.Maximum();
+                _min = value < _min ? value : _oldValues.Minimum();
             }
         }
 
