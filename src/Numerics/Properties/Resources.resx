@@ -412,4 +412,7 @@
   <data name="VectorCanNotBeEmpty" xml:space="preserve">
     <value>Vectors can not be empty and must have at least one element.</value>
   </data>
+  <data name="UserWorkBufferNotSupported" xml:space="preserve">
+    <value>User work buffers are not supported by this provider.</value>
+  </data>
 </root>

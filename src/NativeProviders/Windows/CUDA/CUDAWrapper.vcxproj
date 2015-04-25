@@ -24,6 +24,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
     <ClCompile Include="..\..\CUDA\blas.cpp" />
+    <ClCompile Include="..\..\CUDA\capabilities.cpp" />
     <ClCompile Include="..\..\CUDA\lapack.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -111,14 +112,20 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(CUDA_PATH)\include;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\CUDA;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>cudart.lib;cusolver.lib;cublas.lib;cublas_device.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(CUDA_PATH)\bin\cublas64_70.dll" $(OutputPath)
+copy "$(CUDA_PATH)\bin\cusolver64_70.dll" $(OutputPath)
+copy "$(CUDA_PATH)\bin\cudart64_70.dll" $(OutputPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -143,8 +150,10 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(CUDA_PATH)\include;$(ProjectDir)..\..\Common;$(ProjectDir)..\..\CUDA;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>/Qvec-report:1 </AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -153,6 +162,11 @@
       <AdditionalDependencies>cudart.lib;cusolver.lib;cublas.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(CUDA_PATH)\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(CUDA_PATH)\bin\cublas64_70.dll" $(OutputPath)
+copy "$(CUDA_PATH)\bin\cusolver64_70.dll" $(OutputPath)
+copy "$(CUDA_PATH)\bin\cudart64_70.dll" $(OutputPath)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -75,9 +75,8 @@ void cuda_gemm(const cublasHandle_t handle, const cublasOperation_t transa, cons
 	cudaFree(d_C);
 }
 
-#if GCC 
 extern "C" {
-#endif
+
 	DLLEXPORT void s_axpy(const cublasHandle_t blasHandle, const int n, const float alpha, const float x[], float y[]){
 		cuda_axpy(blasHandle, n, &alpha, x, 1, y, 1, cublasSaxpy);
 	}
@@ -162,6 +161,5 @@ extern "C" {
 		cuda_gemm(blasHandle, transA, transB, m, n, k, &alpha, x, lda, y, ldb, &beta, c, m, cublasZgemm);
 	}
 
-#if GCC 
 }
-#endif
+

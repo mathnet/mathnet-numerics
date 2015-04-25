@@ -78,6 +78,10 @@ namespace MathNet.Numerics
                     case "MKL":
                         LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
                         break;
+
+                    case "CUDA":
+                        LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
+                        break;
 #endif
                     default:
                         LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
@@ -126,6 +130,11 @@ namespace MathNet.Numerics
             Providers.LinearAlgebra.Mkl.MklAccuracy accuracy = Providers.LinearAlgebra.Mkl.MklAccuracy.High)
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
+        }
+
+        public static void UseNativeCUDA()
+        {
+            LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
         }
 #endif
 

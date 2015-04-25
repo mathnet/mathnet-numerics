@@ -157,6 +157,12 @@
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Single.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\SafeNativeMethods.cs" />
+    <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Complex.cs" />
+    <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Complex32.cs" />
+    <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.cs" />
+    <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Double.cs" />
+    <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Single.cs" />
+    <Compile Include="Providers\LinearAlgebra\Cuda\SafeNativeMethods.cs" />
     <Compile Include="Providers\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex32.cs" />

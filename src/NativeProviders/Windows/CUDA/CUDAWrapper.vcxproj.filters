@@ -29,5 +29,8 @@
     <ClCompile Include="..\..\CUDA\blas.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\CUDA\capabilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
