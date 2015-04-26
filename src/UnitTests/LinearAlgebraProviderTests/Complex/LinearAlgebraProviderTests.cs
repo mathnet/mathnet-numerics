@@ -444,7 +444,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             var a = new Complex[matrix.RowCount*matrix.RowCount];
             Array.Copy(matrix.Values, a, a.Length);
 
+#if CUDA
+            Complex[] work = null;
+#else 
             var work = new Complex[matrix.RowCount];
+#endif
             Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount, work);
 
             AssertHelpers.AlmostEqualRelative(a[0], -0.454545454545454, 13);
@@ -473,7 +477,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
 
             Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv);
 
+#if CUDA
+            Complex[] work = null;
+#else
             var work = new Complex[matrix.RowCount];
+#endif
             Control.LinearAlgebraProvider.LUInverseFactored(a, matrix.RowCount, ipiv, work);
 
             AssertHelpers.AlmostEqualRelative(a[0], -0.454545454545454, 13);
@@ -1447,7 +1455,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             var s = new Complex[matrix.RowCount];
             var u = new Complex[matrix.RowCount*matrix.RowCount];
             var vt = new Complex[matrix.ColumnCount*matrix.ColumnCount];
+#if CUDA
+            Complex[] work = null;
+#else
             var work = new Complex[100];
+#endif
 
             Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work);
 
@@ -1486,7 +1498,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             var s = new Complex[matrix.ColumnCount];
             var u = new Complex[matrix.RowCount*matrix.RowCount];
             var vt = new Complex[matrix.ColumnCount*matrix.ColumnCount];
+#if CUDA
+            Complex[] work = null;
+#else
             var work = new Complex[100];
+#endif
 
             Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work);
 
@@ -1522,7 +1538,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             var s = new Complex[matrix.RowCount];
             var u = new Complex[matrix.RowCount*matrix.RowCount];
             var vt = new Complex[matrix.ColumnCount*matrix.ColumnCount];
+#if CUDA
+            Complex[] work = null;
+#else
             var work = new Complex[100];
+#endif
 
             Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work);
 

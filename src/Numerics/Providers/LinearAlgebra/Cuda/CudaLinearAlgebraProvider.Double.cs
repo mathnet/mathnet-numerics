@@ -317,7 +317,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (work != null)
             {
-                throw new NotSupportedException(Resources.UserWorkBufferNotSupported);
+                throw new ArgumentException(Resources.UserWorkBufferNotSupported);
             }
 
             Solver(SafeNativeMethods.d_lu_inverse(_solverHandle, _blasHandle, order, a));
@@ -356,7 +356,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (work != null)
             {
-                throw new NotSupportedException(Resources.UserWorkBufferNotSupported);
+                throw new ArgumentException(Resources.UserWorkBufferNotSupported);
             }
 
             BLAS(SafeNativeMethods.d_lu_inverse_factored(_blasHandle, order, a, ipiv));
@@ -589,7 +589,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt);
+            SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, null);
         }
 
         /// <summary>
@@ -677,7 +677,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (work != null)
             {
-                throw new NotSupportedException(Resources.UserWorkBufferNotSupported);
+                throw new ArgumentException(Resources.UserWorkBufferNotSupported);
             }
 
             if (u.Length != rowsA*rowsA)
@@ -695,8 +695,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            
-            Solver (SafeNativeMethods.d_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt));
+            if (columnsA > rowsA || !computeVectors) // see remarks http://docs.nvidia.com/cuda/cusolver/index.html#cuds-lt-t-gt-gesvd
+                base.SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, new double[rowsA]);
+            else Solver (SafeNativeMethods.d_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt));
         }        
     }
 }

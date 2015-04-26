@@ -168,13 +168,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                     throw new Exception("Mapping error");
 
                 case 6: // CUSOLVER_STATUS_EXECUTION_FAILED
-                    throw new Exception("Execution failed");
+                    throw new NonConvergenceException("Execution failed");
 
                 case 7: //CUSOLVER_STATUS_INTERNAL_ERROR
                     throw new Exception("Internal error");
 
                 case 8: // CUSOLVER_STATUS_MATRIX_TYPE_NOT_SUPPORTED
-                    throw new NotSupportedException("Matrix type not supported");
+                    throw new ArgumentException("Matrix type not supported");
 
                 case 9: // CUSOLVER_STATUS_NOT_SUPPORTED
                     throw new NotSupportedException();

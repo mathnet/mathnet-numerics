@@ -317,7 +317,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (work != null)
             {
-                throw new NotSupportedException(Resources.UserWorkBufferNotSupported);
+                throw new ArgumentException(Resources.UserWorkBufferNotSupported);
             }
 
             Solver(SafeNativeMethods.s_lu_inverse(_solverHandle, _blasHandle, order, a));
@@ -356,7 +356,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (work != null)
             {
-                throw new NotSupportedException(Resources.UserWorkBufferNotSupported);
+                throw new ArgumentException(Resources.UserWorkBufferNotSupported);
             }
 
             BLAS(SafeNativeMethods.s_lu_inverse_factored(_blasHandle, order, a, ipiv));
@@ -695,7 +695,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            Solver(SafeNativeMethods.s_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt));
+            if (columnsA > rowsA || !computeVectors) // see remarks http://docs.nvidia.com/cuda/cusolver/index.html#cuds-lt-t-gt-gesvd
+                base.SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, new float[rowsA]);
+            else Solver(SafeNativeMethods.s_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt));
         }        
     }
 }

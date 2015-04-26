@@ -31,7 +31,7 @@ inline int lu_factor(cusolverDnHandle_t solverHandle, int m, T a[], int ipiv[], 
 	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetMatrix(m, m, sizeof(T), d_A, m, a, m);
-	cublasGetVector(m, sizeof(T), d_I, 1, ipiv, 1);
+	cublasGetVector(m, sizeof(int), d_I, 1, ipiv, 1);
 
 	shift_ipiv_down(m, ipiv);
 
@@ -49,7 +49,7 @@ inline int lu_inverse(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle
 	int info = 0;
 
 	int* d_I = NULL;
-	cudaMalloc((void**)&d_I, n*sizeof(T));
+	cudaMalloc((void**)&d_I, n*sizeof(int));
 
 	T* d_A = NULL;
 	cudaMalloc((void**)&d_A, n*n*sizeof(T));
@@ -192,7 +192,7 @@ inline int lu_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], T b
 	int info = 0;
 
 	int* d_I = NULL;
-	cudaMalloc((void**)&d_I, n*sizeof(T));
+	cudaMalloc((void**)&d_I, n*sizeof(int));
 
 	T* d_A = NULL;
 	cudaMalloc((void**)&d_A, n*n*sizeof(T));
@@ -306,7 +306,7 @@ inline int cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[
 	}
 
 	T* d_B = NULL;
-	cudaMalloc((void**)d_B, n*nrhs*sizeof(T));
+	cudaMalloc((void**)&d_B, n*nrhs*sizeof(T));
 	cublasSetMatrix(n, nrhs, sizeof(T), b, n, d_B, n);
 
 	potrs(solverHandle, CUBLAS_FILL_MODE_LOWER, n, nrhs, d_A, n, d_B, n, d_info);
@@ -331,7 +331,7 @@ inline int cholesky_solve_factored(cusolverDnHandle_t solverHandle, int n, int n
 	cublasSetMatrix(n, n, sizeof(T), a, n, d_A, n);
 
 	T* d_B = NULL;
-	cudaMalloc((void**)d_B, n*nrhs*sizeof(T));
+	cudaMalloc((void**)&d_B, n*nrhs*sizeof(T));
 	cublasSetMatrix(n, nrhs, sizeof(T), b, n, d_B, n);
 
 	int* d_info = NULL;
@@ -461,7 +461,7 @@ inline int svd_factor(cusolverDnHandle_t solverHandle, bool compute_vectors, int
 	cudaMalloc((void**)&d_U, m*m*sizeof(T));
 
 	T* d_V = NULL;
-	cudaMalloc((void**)&d_V, n*m*sizeof(T));
+	cudaMalloc((void**)&d_V, n*n*sizeof(T));
 
 	T* work = NULL;
 	int lWork = 0;
@@ -473,7 +473,6 @@ inline int svd_factor(cusolverDnHandle_t solverHandle, bool compute_vectors, int
 
 	int* d_info = NULL;
 	cudaMalloc((void**)&d_info, sizeof(int));
-
 
 	char job = compute_vectors ? 'A' : 'N';
 	gesvd(solverHandle, job, job, m, n, d_A, m, d_S, d_U, m, d_V, n, work, lWork, rwork, d_info);
@@ -529,7 +528,7 @@ inline int complex_svd_factor(cusolverDnHandle_t solverHandle, bool compute_vect
 	gesvd(solverHandle, job, job, m, n, d_A, m, d_S, d_U, m, d_V, n, work, lWork, rwork, d_info);
 	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
-	cublasGetVector(dim_s, sizeof(T), d_S, 1, s_local, 1);
+	cublasGetVector(dim_s, sizeof(R), d_S, 1, s_local, 1);
 	cublasGetMatrix(m, m, sizeof(T), d_U, m, u, m);
 	cublasGetMatrix(n, n, sizeof(T), d_V, n, v, n);
 
