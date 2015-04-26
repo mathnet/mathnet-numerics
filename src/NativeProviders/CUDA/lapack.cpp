@@ -28,7 +28,7 @@ inline int lu_factor(cusolverDnHandle_t solverHandle, int m, T a[], int ipiv[], 
 
 	getrf(solverHandle, m, m, d_A, m, work, d_I, d_info);
 
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetMatrix(m, m, sizeof(T), d_A, m, a, m);
 	cublasGetVector(m, sizeof(T), d_I, 1, ipiv, 1);
@@ -64,7 +64,7 @@ inline int lu_inverse(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle
 	cudaMalloc((void**)&d_info, sizeof(int));
 
 	getrf(solverHandle, n, n, d_A, n, work, d_I, d_info);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 	
 	cudaFree(work);
 
@@ -88,7 +88,7 @@ inline int lu_inverse(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle
 	cudaMemcpy(d_Carray, &d_C, sizeof(T*), cudaMemcpyHostToDevice);
 
 	getribatched(blasHandle, n, d_Aarray, n, d_I, d_Carray, n, d_info, 1);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetMatrix(n, n, sizeof(T), d_C, n, a, n);
 
@@ -132,7 +132,7 @@ inline int lu_inverse_factored(cublasHandle_t blasHandle, int n, T a[], int ipiv
 	cudaMemcpy(d_Carray, &d_C, sizeof(T*), cudaMemcpyHostToDevice);
 
 	getri(blasHandle, n, d_Aarray, n, d_I, d_Carray, n, d_info, 1);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetMatrix(n, n, sizeof(T), d_C, n, a, n);	
 	cublasGetVector(n, sizeof(int), d_I, 1, ipiv, 1);
@@ -172,7 +172,7 @@ inline int lu_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, T
 	cudaMalloc((void**)&d_info, sizeof(int));
 
 	getrs(solverHandle, CUBLAS_OP_N, n, nrhs, d_A, n, d_I, d_B, n, d_info);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetMatrix(n, nrhs, sizeof(T), d_B, n, b, n);
 
@@ -207,7 +207,7 @@ inline int lu_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], T b
 	cudaMalloc((void**)&d_info, sizeof(int));
 
 	getrf(solverHandle, n, n, d_A, n, work, d_I, d_info);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	if (info != 0)
 	{
@@ -236,7 +236,7 @@ inline int lu_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], T b
 
 
 template<typename T, typename POTRF, typename POTRFBSIZE>
-inline int cholesky_factor(cusolverDnHandle_t solverHandle, int n, T* a, POTRF potrf, POTRFBSIZE potrfbsize)
+inline int cholesky_factor(cusolverDnHandle_t solverHandle, int n, T a[], POTRF potrf, POTRFBSIZE potrfbsize)
 {
 	int info = 0;
 
@@ -253,7 +253,7 @@ inline int cholesky_factor(cusolverDnHandle_t solverHandle, int n, T* a, POTRF p
 	cudaMalloc((void**)&d_info, sizeof(int));
 
 	potrf(solverHandle, CUBLAS_FILL_MODE_LOWER, n, d_A, n, work, lWork, d_info);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetMatrix(n, n, sizeof(T), d_A, n, a, n);
 
@@ -279,7 +279,7 @@ inline int cholesky_factor(cusolverDnHandle_t solverHandle, int n, T* a, POTRF p
 template<typename T, typename POTRF, typename POTRS, typename POTRFBSIZE>
 inline int cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], T b[], POTRF potrf, POTRS potrs, POTRFBSIZE potrfbsize)
 {
-	int info;
+	int info = 0;
 
 	T* d_A = NULL;
 	cudaMalloc((void**)&d_A, n*n*sizeof(T));
@@ -294,7 +294,7 @@ inline int cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[
 	cudaMalloc((void**)&d_info, sizeof(int));
 
 	potrf(solverHandle, CUBLAS_FILL_MODE_LOWER, n, d_A, n, work, lWork, d_info);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cudaFree(work);
 		
@@ -310,7 +310,7 @@ inline int cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[
 	cublasSetMatrix(n, nrhs, sizeof(T), b, n, d_B, n);
 
 	potrs(solverHandle, CUBLAS_FILL_MODE_LOWER, n, nrhs, d_A, n, d_B, n, d_info);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetMatrix(n, nrhs, sizeof(T), d_B, n, b, n);
 
@@ -324,7 +324,7 @@ inline int cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[
 template<typename T, typename POTRS>
 inline int cholesky_solve_factored(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], T b[], POTRS potrs)
 {
-	int info;
+	int info = 0;
 
 	T* d_A = NULL;
 	cudaMalloc((void**)&d_A, n*n*sizeof(T));
@@ -338,7 +338,7 @@ inline int cholesky_solve_factored(cusolverDnHandle_t solverHandle, int n, int n
 	cudaMalloc((void**)&d_info, sizeof(int));
 
 	potrs(solverHandle, CUBLAS_FILL_MODE_LOWER, n, nrhs, d_A, n, d_B, n, d_info);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetMatrix(n, nrhs, sizeof(T), d_B, n, b, n);
 
@@ -477,7 +477,7 @@ inline int svd_factor(cusolverDnHandle_t solverHandle, bool compute_vectors, int
 
 	char job = compute_vectors ? 'A' : 'N';
 	gesvd(solverHandle, job, job, m, n, d_A, m, d_S, d_U, m, d_V, n, work, lWork, rwork, d_info);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetVector(dim_s, sizeof(T), d_S, 1, s, 1);
 	cublasGetMatrix(m, m, sizeof(T), d_U, m, u, m);
@@ -527,7 +527,7 @@ inline int complex_svd_factor(cusolverDnHandle_t solverHandle, bool compute_vect
 
 	char job = compute_vectors ? 'A' : 'N';
 	gesvd(solverHandle, job, job, m, n, d_A, m, d_S, d_U, m, d_V, n, work, lWork, rwork, d_info);
-	cudaMemcpy(&info, d_info, 1, cudaMemcpyDeviceToHost);
+	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cublasGetVector(dim_s, sizeof(T), d_S, 1, s_local, 1);
 	cublasGetMatrix(m, m, sizeof(T), d_U, m, u, m);
@@ -834,7 +834,7 @@ extern "C" {
 		return cholesky_factor(solverHandle, n, a, spotrf, spotrfbsize);
 	}
 
-	DLLEXPORT int d_cholesky_factor(cusolverDnHandle_t solverHandle, int n, double* a)
+	DLLEXPORT int d_cholesky_factor(cusolverDnHandle_t solverHandle, int n, double a[])
 	{
 		return cholesky_factor(solverHandle, n, a, dpotrf, dpotrfbsize);
 	}
