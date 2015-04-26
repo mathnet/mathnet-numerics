@@ -1,4 +1,4 @@
-﻿// <copyright file="MklLinearAlgebraProvider.cs" company="Math.NET">
+﻿// <copyright file="CudaLinearAlgebraProvider.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -35,12 +35,7 @@ using System;
 namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 {
     /// <summary>
-    /// Consistency vs. performance trade-off between runs on different machines.
-    /// </summary>
-    
-
-    /// <summary>
-    /// Intel's Math Kernel Library (MKL) linear algebra provider.
+    /// NVidia's CUDA Toolkit linear algebra provider.
     /// </summary>
     public partial class CudaLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
     {

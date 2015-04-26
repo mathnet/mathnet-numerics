@@ -1,4 +1,4 @@
-﻿// <copyright file="MklLinearAlgebraProvider.Complex.cs" company="Math.NET">
+﻿// <copyright file="NudaLinearAlgebraProvider.Complex.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -39,7 +39,7 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 {
     /// <summary>
-    /// Intel's Math Kernel Library (MKL) linear algebra provider.
+    /// NVidia's CUDA Toolkit linear algebra provider.
     /// </summary>
     public partial class CudaLinearAlgebraProvider
     {
