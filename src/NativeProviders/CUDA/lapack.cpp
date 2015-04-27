@@ -209,6 +209,8 @@ inline int lu_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[], T b
 	getrf(solverHandle, n, n, d_A, n, work, d_I, d_info);
 	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
+	cudaFree(work);
+
 	if (info != 0)
 	{
 		cudaFree(d_I);
