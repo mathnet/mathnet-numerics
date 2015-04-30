@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\Common\resource.rc" />
+    <ResourceCompile Include="..\..\CUDA\resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />

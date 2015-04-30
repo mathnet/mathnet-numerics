@@ -148,7 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\Common\resource.rc" />
+    <ResourceCompile Include="..\..\ATLAS\resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\ATLAS\blas.c" />
