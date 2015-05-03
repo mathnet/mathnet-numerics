@@ -28,6 +28,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
@@ -38,6 +39,153 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     [TestFixture, Category("Statistics")]
     public class MovingStatisticsTests
     {
+        [Test]
+        public void PositiveInfinityTest()
+        {
+            var ms = new MovingStatistics(3);
+
+            ms.Push(1.0);
+            ms.Push(2.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.Not.EqualTo(double.PositiveInfinity));
+
+            ms.Push(double.PositiveInfinity);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Maximum, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.EqualTo(double.PositiveInfinity));
+
+            ms.Push(1.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Maximum, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.EqualTo(double.PositiveInfinity));
+
+            ms.Push(double.PositiveInfinity);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Maximum, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.EqualTo(double.PositiveInfinity));
+
+            ms.Push(2.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Maximum, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.EqualTo(double.PositiveInfinity));
+
+            ms.Push(3.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Maximum, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.EqualTo(double.PositiveInfinity));
+
+            ms.Push(4.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.Not.EqualTo(double.PositiveInfinity));
+        }
+
+        [Test]
+        public void NegativeInfinityTest()
+        {
+            var ms = new MovingStatistics(3);
+
+            ms.Push(1.0);
+            ms.Push(2.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Mean, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.Not.EqualTo(double.NegativeInfinity));
+
+            ms.Push(double.NegativeInfinity);
+            Assert.That(ms.Minimum, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.NaN);
+
+            ms.Push(1.0);
+            Assert.That(ms.Minimum, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.NaN);
+
+            ms.Push(double.NegativeInfinity);
+            Assert.That(ms.Minimum, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.NaN);
+
+            ms.Push(2.0);
+            Assert.That(ms.Minimum, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.NaN);
+
+            ms.Push(3.0);
+            Assert.That(ms.Minimum, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.NaN);
+
+            ms.Push(4.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Mean, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.Not.NaN);
+        }
+
+        [Test]
+        public void MixedInfinityTest()
+        {
+            var ms = new MovingStatistics(3);
+
+            ms.Push(1.0);
+            ms.Push(2.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.Not.EqualTo(double.PositiveInfinity));
+
+            ms.Push(double.NegativeInfinity);
+            Assert.That(ms.Minimum, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.NaN);
+
+            ms.Push(1.0);
+            Assert.That(ms.Minimum, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.StandardDeviation, Is.NaN);
+
+            ms.Push(double.PositiveInfinity);
+            Assert.That(ms.Minimum, Is.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.NaN);
+            Assert.That(ms.StandardDeviation, Is.NaN);
+
+            ms.Push(2.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.EqualTo(double.PositiveInfinity));
+
+            ms.Push(3.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.EqualTo(double.PositiveInfinity));
+
+            ms.Push(4.0);
+            Assert.That(ms.Minimum, Is.Not.EqualTo(double.NegativeInfinity));
+            Assert.That(ms.Maximum, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.Mean, Is.Not.EqualTo(double.PositiveInfinity));
+            Assert.That(ms.StandardDeviation, Is.Not.EqualTo(double.PositiveInfinity));
+        }
+
         [Test]
         public void StabilityTest()
         {
@@ -53,10 +201,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Assert.AreEqual(33.33, ms.Mean, 1e-11);
             Assert.AreEqual(308.58025, ms.Variance, 1e-10);
-
-            //AssertHelpers.AlmostEqualRelative(stats0.Mean, ms.Mean, 14);
-            //AssertHelpers.AlmostEqualRelative(stats0.Variance, ms.Variance, 14);
-            //AssertHelpers.AlmostEqualRelative(stats0.StandardDeviation, ms.StandardDeviation, 14);
+            Assert.AreEqual(17.5664524022354, ms.StandardDeviation, 1e-11);
+            Assert.AreEqual(246.8642, ms.PopulationVariance, 1e-10);
+            Assert.AreEqual(15.7119126779651, ms.PopulationStandardDeviation, 1e-10);
         }
 
         [Test]

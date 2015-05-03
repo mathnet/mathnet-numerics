@@ -46,11 +46,11 @@ namespace MathNet.Numerics.Statistics
         long _totalCountOffset;
         int _lastIndex;
         int _lastNaNTimeToLive;
+        int _lastPosInfTimeToLive;
+        int _lastNegInfTimeToLive;
 
         double _m1;
         double _m2;
-        double _m3;
-        double _m4;
         double _max = double.NegativeInfinity;
         double _min = double.PositiveInfinity;
 
@@ -64,7 +64,8 @@ namespace MathNet.Numerics.Statistics
             _oldValues = new double[_windowSize];
         }
 
-        public MovingStatistics(int windowSize, IEnumerable<double> values) : this(windowSize)
+        public MovingStatistics(int windowSize, IEnumerable<double> values)
+            : this(windowSize)
         {
             PushRange(values);
         }
@@ -88,7 +89,20 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double Minimum
         {
-            get { return _count > 0 && _lastNaNTimeToLive == 0 ? _min : double.NaN; }
+            get
+            {
+                if (_lastNaNTimeToLive > 0)
+                {
+                    return double.NaN;
+                }
+
+                if (_lastNegInfTimeToLive > 0)
+                {
+                    return double.NegativeInfinity;
+                }
+
+                return (_count > 0 || _lastPosInfTimeToLive > 0) ? _min : double.NaN;
+            }
         }
 
         /// <summary>
@@ -97,7 +111,20 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double Maximum
         {
-            get { return _count > 0 && _lastNaNTimeToLive == 0 ? _max : double.NaN; }
+            get
+            {
+                if (_lastNaNTimeToLive > 0)
+                {
+                    return double.NaN;
+                }
+
+                if (_lastPosInfTimeToLive > 0)
+                {
+                    return double.PositiveInfinity;
+                }
+
+                return (_count > 0 || _lastNegInfTimeToLive > 0) ? _max : double.NaN;
+            }
         }
 
         /// <summary>
@@ -106,7 +133,25 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double Mean
         {
-            get { return _count > 0 && _lastNaNTimeToLive == 0 ? _m1 : double.NaN; }
+            get
+            {
+                if (_lastNaNTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
+                {
+                    return double.NaN;
+                }
+
+                if (_lastPosInfTimeToLive > 0)
+                {
+                    return double.PositiveInfinity;
+                }
+
+                if (_lastNegInfTimeToLive > 0)
+                {
+                    return double.NegativeInfinity;
+                }
+
+                return _count == 0 ? double.NaN : _m1;
+            }
         }
 
         /// <summary>
@@ -116,7 +161,20 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double Variance
         {
-            get { return _count < 2 || _lastNaNTimeToLive > 0 ? double.NaN : _m2/(_count - 1); }
+            get
+            {
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
+                {
+                    return double.NaN;
+                }
+
+                if (_lastPosInfTimeToLive > 0)
+                {
+                    return double.PositiveInfinity;
+                }
+
+                return _count < 2 ? double.NaN : _m2 / (_count - 1);
+            }
         }
 
         /// <summary>
@@ -126,7 +184,20 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double PopulationVariance
         {
-            get { return _count < 2 || _lastNaNTimeToLive > 0  ? double.NaN : _m2/_count; }
+            get
+            {
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
+                {
+                    return double.NaN;
+                }
+
+                if (_lastPosInfTimeToLive > 0)
+                {
+                    return double.PositiveInfinity;
+                }
+
+                return _count < 2 ? double.NaN : _m2 / _count;
+            }
         }
 
         /// <summary>
@@ -136,7 +207,20 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double StandardDeviation
         {
-            get { return _count < 2 || _lastNaNTimeToLive > 0  ? double.NaN : Math.Sqrt(_m2/(_count - 1)); }
+            get
+            {
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
+                {
+                    return double.NaN;
+                }
+
+                if (_lastPosInfTimeToLive > 0)
+                {
+                    return double.PositiveInfinity;
+                }
+
+                return _count < 2 ? double.NaN : Math.Sqrt(_m2 / (_count - 1));
+            }
         }
 
         /// <summary>
@@ -146,72 +230,48 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         public double PopulationStandardDeviation
         {
-            get { return _count < 2 || _lastNaNTimeToLive > 0  ? double.NaN : Math.Sqrt(_m2/_count); }
-        }
+            get
+            {
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
+                {
+                    return double.NaN;
+                }
 
-/*        /// <summary>
-        /// Estimates the unbiased population skewness from the provided samples.
-        /// Uses a normalizer (Bessel's correction; type 2).
-        /// Returns NaN if data has less than three entries or if any entry is NaN.
-        /// </summary>
-        public double Skewness
-        {
-            get { return Count < 3 ? double.NaN : (Count*_m3*Math.Sqrt(_m2/(Count - 1))/(_m2*_m2*(Count - 2)))*(Count - 1); }
-        }
+                if (_lastPosInfTimeToLive > 0)
+                {
+                    return double.PositiveInfinity;
+                }
 
-        /// <summary>
-        /// Evaluates the population skewness from the full population.
-        /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
-        /// Returns NaN if data has less than two entries or if any entry is NaN.
-        /// </summary>
-        public double PopulationSkewness
-        {
-            get { return Count < 2 ? double.NaN : Math.Sqrt(Count)*_m3/Math.Pow(_m2, 1.5); }
+                return _count < 2 ? double.NaN : Math.Sqrt(_m2 / _count);
+            }
         }
-
-        /// <summary>
-        /// Estimates the unbiased population kurtosis from the provided samples.
-        /// Uses a normalizer (Bessel's correction; type 2).
-        /// Returns NaN if data has less than four entries or if any entry is NaN.
-        /// </summary>
-        public double Kurtosis
-        {
-            get { return Count < 4 ? double.NaN : ((double) Count*Count - 1)/((Count - 2)*(Count - 3))*(Count*_m4/(_m2*_m2) - 3 + 6.0/(Count + 1)); }
-        }
-
-        /// <summary>
-        /// Evaluates the population kurtosis from the full population.
-        /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
-        /// Returns NaN if data has less than three entries or if any entry is NaN.
-        /// </summary>
-        public double PopulationKurtosis
-        {
-            get { return Count < 3 ? double.NaN : Count*_m4/(_m2*_m2) - 3.0; }
-        }*/
 
         /// <summary>
         /// Update the running statistics by adding another observed sample (in-place).
         /// </summary>
         public void Push(double value)
         {
+            DecrementTimeToLive();
+
             if (double.IsNaN(value))
             {
-                _totalCountOffset += _count + 1;
-                _count = 0;
                 _lastNaNTimeToLive = _windowSize;
-
-                _m1 = 0.0;
-                _m2 = 0.0;
-                _m3 = 0.0;
-                _m4 = 0.0;
-                _max = double.NegativeInfinity;
-                _min = double.PositiveInfinity;
+                Reset(double.PositiveInfinity, double.NegativeInfinity);
                 return;
             }
 
-            if (_lastNaNTimeToLive > 0)
+            if (double.IsPositiveInfinity(value))
             {
-                _lastNaNTimeToLive--;
+                _lastPosInfTimeToLive = _windowSize;
+                Reset(_min, double.NegativeInfinity);
+                return;
+            }
+
+            if (double.IsNegativeInfinity(value))
+            {
+                _lastNegInfTimeToLive = _windowSize;
+                Reset(double.PositiveInfinity, _max);
+                return;
             }
 
             if (_count < _windowSize)
@@ -219,13 +279,10 @@ namespace MathNet.Numerics.Statistics
                 _oldValues[_count] = value;
                 _count++;
                 var d = value - _m1;
-                var s = d/_count;
-//               var s2 = s * s;
-                var t = d*s*(_count - 1);
+                var s = d / _count;
+                var t = d * s * (_count - 1);
 
                 _m1 += s;
-//               _m4 += t * s2 * (Count * Count - 3 * Count + 3) + 6 * s2 * _m2 - 4 * s * _m3;
-//               _m3 += t * s * (Count - 2) - 3 * s * _m2;
                 _m2 += t;
 
                 if (value < _min)
@@ -242,17 +299,13 @@ namespace MathNet.Numerics.Statistics
             {
                 var oldValue = _oldValues[_lastIndex];
                 var d = value - oldValue;
-                var s = d/_count;
-//                var s2 = s * s;
+                var s = d / _count;
                 var oldM1 = _m1;
                 _m1 += s;
 
                 var x = (value - _m1 + oldValue - oldM1);
-                var t = d*x;
+                var t = d * x;
                 _m2 += t;
-
-//                _m4 += t * s2 * (Count * Count - 3 * Count + 3) + 6 * s2 * _m2 - 4 * s * _m3;
-//                _m3 += t * (x /(Count-1) - 3 * s * _m2;
 
                 _oldValues[_lastIndex] = value;
                 _lastIndex++;
@@ -274,6 +327,33 @@ namespace MathNet.Numerics.Statistics
             {
                 Push(value);
             }
+        }
+
+        private void DecrementTimeToLive()
+        {
+            if (_lastNaNTimeToLive > 0)
+            {
+                _lastNaNTimeToLive--;
+            }
+
+            if (_lastPosInfTimeToLive > 0)
+            {
+                _lastPosInfTimeToLive--;
+            }
+
+            if (_lastNegInfTimeToLive > 0)
+            {
+                _lastNegInfTimeToLive--;
+            }
+        }
+
+        private void Reset(double min, double max)
+        {
+            _totalCountOffset += _count + 1;
+            _count = 0;
+            _m1 = 0;
+            _max = max;
+            _min = min;
         }
     }
 }
