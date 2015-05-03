@@ -9,8 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		CONTRIBUTORS.md = CONTRIBUTORS.md
 		LICENSE.md = LICENSE.md
 		README.md = README.md
+		RELEASENOTES-CUDA.md = RELEASENOTES-CUDA.md
 		RELEASENOTES-Data.md = RELEASENOTES-Data.md
 		RELEASENOTES-MKL.md = RELEASENOTES-MKL.md
+		RELEASENOTES-OpenBLAS.md = RELEASENOTES-OpenBLAS.md
 		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject
@@ -27,6 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A4A66FA9
 		docs\tools\build-docs.fsx = docs\tools\build-docs.fsx
 		build.fsx = build.fsx
 		build\MathNet.Numerics.Extension.nuspec = build\MathNet.Numerics.Extension.nuspec
+		build\MathNet.Numerics.MKL.Win.targets = build\MathNet.Numerics.MKL.Win.targets
 		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock

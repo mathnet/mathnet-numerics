@@ -51,6 +51,13 @@ let mklPackageVersion = mklRelease.NugetVersion
 let mklReleaseNotes = mklRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
 trace (sprintf " Math.NET Numerics MKL Provider       v%s" mklPackageVersion)
 
+let cudaRelease = LoadReleaseNotes "RELEASENOTES-CUDA.md"
+let cudaBuildPart = "0"
+let cudaAssemblyVersion = cudaRelease.AssemblyVersion + "." + cudaBuildPart
+let cudaPackageVersion = cudaRelease.NugetVersion
+let cudaReleaseNotes = cudaRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf " Math.NET Numerics CUDA Provider      v%s" cudaPackageVersion)
+
 let dataRelease = LoadReleaseNotes "RELEASENOTES-Data.md"
 let dataBuildPart = "0"
 let dataAssemblyVersion = dataRelease.AssemblyVersion + "." + dataBuildPart
@@ -187,10 +194,10 @@ let coreSignedBundle =
 
 // NATIVE PROVIDER PACKAGES
 
-let mklWin32Pack =
-    { Id = "MathNet.Numerics.MKL.Win-x86"
+let mklWinPack =
+    { Id = "MathNet.Numerics.MKL.Win"
       Version = mklPackageVersion
-      Title = "Math.NET Numerics - MKL Native Provider for Windows (x86)"
+      Title = "Math.NET Numerics - MKL Native Provider for Windows (x64 and x86)"
       Summary = ""
       Description = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
       ReleaseNotes = mklReleaseNotes
@@ -198,15 +205,32 @@ let mklWin32Pack =
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       Dependencies =
         [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", "2.4.0" ] } ]
+            Dependencies=[ "MathNet.Numerics", "3.6.0" ] } ]
       Files =
-        [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
-          @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
+        [ @"MathNet.Numerics.MKL.Win.targets", Some "build", None;
+          @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "build\x64", None;
+          @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "build\x64", None;
+          @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "build\x86", None;
+          @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "build\x86", None ] }
+
+let mklWin32Pack =
+    { mklWinPack with
+        Id = "MathNet.Numerics.MKL.Win-x86"
+        Title = "Math.NET Numerics - MKL Native Provider for Windows (x86)"
+        Dependencies =
+          [ { FrameworkVersion=""
+              Dependencies=[ "MathNet.Numerics", "2.4.0" ] } ]
+        Files =
+          [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
+            @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
 
 let mklWin64Pack =
-    { mklWin32Pack with
+    { mklWinPack with
         Id = "MathNet.Numerics.MKL.Win-x64"
         Title = "Math.NET Numerics - MKL Native Provider for Windows (x64)"
+        Dependencies =
+          [ { FrameworkVersion=""
+              Dependencies=[ "MathNet.Numerics", "2.4.0" ] } ]
         Files =
           [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
             @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
@@ -241,7 +265,7 @@ let mklWinBundle =
       Title = "Math.NET Numerics MKL Native Provider for Windows"
       ReleaseNotesFile = "RELEASENOTES-MKL.md"
       FsLoader = false
-      Packages = [ mklWin32Pack; mklWin64Pack ] }
+      Packages = [ mklWinPack; mklWin32Pack; mklWin64Pack ] }
 
 let mklLinuxBundle =
     { Id = "MathNet.Numerics.MKL.Linux"
@@ -250,6 +274,37 @@ let mklLinuxBundle =
       ReleaseNotesFile = "RELEASENOTES-MKL.md"
       FsLoader = false
       Packages = [ mklLinux32Pack; mklLinux64Pack ] }
+
+let cudaWinPack =
+    { Id = "MathNet.Numerics.CUDA.Win"
+      Version = cudaPackageVersion
+      Title = "Math.NET Numerics - CUDA Native Provider for Windows (x64 and x86)"
+      Summary = ""
+      Description = "Nvidia CUDA native libraries for Math.NET Numerics."
+      ReleaseNotes = cudaReleaseNotes
+      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native cuda gpu"
+      Authors = [ "Matthew A Johnson"; "Christoph Ruegg" ]
+      Dependencies =
+        [ { FrameworkVersion=""
+            Dependencies=[ "MathNet.Numerics", "3.7.0" ] } ]
+      Files =
+        [ @"MathNet.Numerics.CUDA.Win.targets", Some "build", None;
+          @"..\..\out\CUDA\Windows\x64\cublas64_70.dll", Some "content", None;
+          @"..\..\out\CUDA\Windows\x64\cudart64_70.dll", Some "content", None;
+          @"..\..\out\CUDA\Windows\x64\cusolver64_70.dll", Some "content", None;
+          @"..\..\out\CUDA\Windows\x64\MathNet.Numerics.CUDA.dll", Some "content", None
+          @"..\..\out\CUDA\Windows\x86\cublas32_70.dll", Some "content", None;
+          @"..\..\out\CUDA\Windows\x86\cudart32_70.dll", Some "content", None;
+          @"..\..\out\CUDA\Windows\x86\cusolver32_70.dll", Some "content", None;
+          @"..\..\out\CUDA\Windows\x86\MathNet.Numerics.CUDA.dll", Some "content", None ] }
+
+let cudaWinBundle =
+    { Id = "MathNet.Numerics.CUDA.Win"
+      Version = mklPackageVersion
+      Title = "Math.NET Numerics CUDA Native Provider for Windows"
+      ReleaseNotesFile = "RELEASENOTES-CUDA.md"
+      FsLoader = false
+      Packages = [ cudaWinPack ] }
 
 
 // DATA EXTENSION PACKAGES
@@ -309,7 +364,7 @@ Target "Clean" (fun _ ->
     CleanDirs [ "out/lib-debug/Net35"; "out/lib-debug/Net40"; "out/lib-debug/Profile7"; "out/lib-debug/Profile47"; "out/lib-debug/Profile78"; "out/lib-debug/Profile259"; "out/lib-debug/Profile328" ]
     CleanDirs [ "out/test-debug/Net35"; "out/test-debug/Net40"; "out/test-debug/Profile7"; "out/test-debug/Profile47"; "out/test-debug/Profile78"; "out/test-debug/Profile259"; "out/test-debug/Profile328" ]
     CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
-    CleanDirs [ "out/MKL"; "out/ATLAS" ] // Native Providers
+    CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
     CleanDirs [ "out/Data" ]) // Data Extensions
 
 Target "ApplyVersion" (fun _ ->
@@ -328,7 +383,11 @@ Target "ApplyVersion" (fun _ ->
     ReplaceInFile
         (regex_replace @"\d+\.\d+\.\d+\.\d+" mklAssemblyVersion
          >> regex_replace @"\d+,\d+,\d+,\d+" (replace "." "," mklAssemblyVersion))
-        "src/NativeProviders/Common/resource.rc")
+        "src/NativeProviders/MKL/resource.rc"
+    ReplaceInFile
+        (regex_replace @"\d+\.\d+\.\d+\.\d+" cudaAssemblyVersion
+         >> regex_replace @"\d+,\d+,\d+,\d+" (replace "." "," cudaAssemblyVersion))
+        "src/NativeProviders/CUDA/resource.rc")
 
 Target "Prepare" DoNothing
 "Start"
@@ -344,8 +403,8 @@ Target "Prepare" DoNothing
 let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
 let build subject = buildConfig "Release" subject
 let buildSigned subject = buildConfig "Release-Signed" subject
-let nativeWin32Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","Win32")] subject |> ignore
-let nativeWin64Build subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration","Release"); ("Platform","x64")] subject |> ignore
+let buildConfig32 config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration", config); ("Platform","Win32")] subject |> ignore
+let buildConfig64 config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration", config); ("Platform","x64")] subject |> ignore
 
 Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
 Target "BuildNet35" (fun _ -> build !! "MathNet.Numerics.Net35Only.sln")
@@ -360,12 +419,17 @@ Target "Build" DoNothing
   =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "net35" || hasBuildParam "signed"))
   ==> "Build"
 
-Target "MklWin32Build" (fun _ -> nativeWin32Build !! "MathNet.Numerics.NativeProviders.sln")
-Target "MklWin64Build" (fun _ -> nativeWin64Build !! "MathNet.Numerics.NativeProviders.sln")
-
+Target "MklWin32Build" (fun _ -> buildConfig32 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")
+Target "MklWin64Build" (fun _ -> buildConfig64 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")
 Target "MklWinBuild" DoNothing
 "Prepare" ==> "MklWin32Build" ==> "MklWinBuild"
 "Prepare" ==> "MklWin64Build" ==> "MklWinBuild"
+
+Target "CudaWin32Build" (fun _ -> buildConfig32 "Release-CUDA" !! "MathNet.Numerics.NativeProviders.sln")
+Target "CudaWin64Build" (fun _ -> buildConfig64 "Release-CUDA" !! "MathNet.Numerics.NativeProviders.sln")
+Target "CudaWinBuild" DoNothing
+"Prepare" ==> "CudaWin32Build" ==> "CudaWinBuild"
+"Prepare" ==> "CudaWin64Build" ==> "CudaWinBuild"
 
 Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
 "Prepare" ==> "DataBuild"
