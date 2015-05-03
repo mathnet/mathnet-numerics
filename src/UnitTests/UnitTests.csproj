@@ -367,6 +367,7 @@
     <Compile Include="OdeSolvers\OdeSolverTest.cs" />
     <Compile Include="Random\RandomSerializationTests.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
+    <Compile Include="RootFindingTests\BfgsTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
