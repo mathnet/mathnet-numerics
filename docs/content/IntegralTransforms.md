@@ -1,9 +1,11 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
+    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
+    open System.Numerics
+    open MathNet.Numerics
+    open MathNet.Numerics.IntegralTransforms
 
-(**
 Fourier and related linear integral transforms
 ==============================================
 
@@ -15,6 +17,7 @@ operates on real values only.
 The transforms implement a separate forward and inverse transform method.
 How the forward and inverse methods are related to each other and what exact definition
 is to be used can be specified by an additional _options_ parameter.
+
 
 Fourier Space: Discrete Fourier Transform and FFT
 -------------------------------------------------
@@ -61,9 +64,8 @@ Useful symmetries of the Fourier transform:
 * h(t) is imaginary-valued even <=> H(f) is imaginary-valued even
 * h(t) is imaginary-valued odd <=> H(f) is real-valued odd
 
+
 Hartley Space: Discrete Hartley Transform
 -----------------------------------------
 
 ...
-
-*)

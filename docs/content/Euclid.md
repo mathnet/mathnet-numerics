@@ -1,9 +1,3 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-
-(**
 Euclid & Number Theory
 ======================
 
@@ -105,5 +99,3 @@ Closely related to the GCD, `LeastCommonMultiple` returns the **LCM** of two or 
 
     [lang=csharp]
     Euclid.LeastCommonMultiple(3, 5, 6); // 30
-
-*)

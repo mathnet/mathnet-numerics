@@ -1,12 +1,12 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-open MathNet.Numerics
-open MathNet.Numerics.LinearRegression
-open MathNet.Numerics.LinearAlgebra
+    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
+    open System.Numerics
+    open MathNet.Numerics
+    open MathNet.Numerics.LinearRegression
+    open MathNet.Numerics.LinearAlgebra
 
-(**
 Curve Fitting: Linear Regression
 ================================
 
@@ -40,11 +40,10 @@ parameters of the least squares fit:
     double b = p.Item2; // == 0.5; slope
 
 Or in F#:
-*)
 
-let a, b = Fit.Line ([|10.0;20.0;30.0|], [|15.0;20.0;25.0|])
+    [lang=fsharp]
+    let a, b = Fit.Line ([|10.0;20.0;30.0|], [|15.0;20.0;25.0|])
 
-(**
 How well do these parameters fit the data? The data points happen to be positioned
 exactly on a line. Indeed, the [coefficient of determination](https://en.wikipedia.org/wiki/Coefficient_of_determination)
 confirms the perfect fit:
@@ -259,7 +258,6 @@ are dependent on the point of interest $t$.
 Regularization
 --------------
 
+
 Iterative Methods
 -----------------
-
-*)

@@ -167,5 +167,15 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             Verify(samples, 10, options, (a, b) => naive, Fourier.BluesteinForward);
         }
+
+        [Test, Explicit("Long-Running")]
+        public void AlgorithmsMatchNaive_Arbitrary_Large_GH286()
+        {
+            const FourierOptions options = FourierOptions.NoScaling;
+            var samples = Generate.RandomComplex(46500, GetUniform(1));
+            var naive = Fourier.NaiveForward(samples, options);
+
+            Verify(samples, 10, options, (a, b) => naive, Fourier.BluesteinForward);
+        }
     }
 }

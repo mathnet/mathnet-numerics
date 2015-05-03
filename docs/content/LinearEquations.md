@@ -1,10 +1,11 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-open MathNet.Numerics.LinearAlgebra
+    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
+    open System.Numerics
+    open MathNet.Numerics
+    open MathNet.Numerics.LinearAlgebra
 
-(**
 Linear Equation Systems
 =======================
 
@@ -72,15 +73,15 @@ Which we can solve explicitly with the LU-decomposition, or simply by using the 
 The resulting $\mathbf{x}$ is $[1,\;-2,\;-2]$, hence the solution $x=1,\;y=-2,\;z=-2$.
 
 In F# the syntax is a bit lighter:
-*)
 
-let A = matrix [[ 3.0; 2.0; -1.0 ]
-                [ 2.0; -2.0; 4.0 ]
-                [ -1.0; 0.5; -1.0 ]]
-let b = vector [ 1.0; -2.0; 0.0 ]
-let x = A.Solve(b) // 1;-2;-2
+    [lang=fsharp]
+    let A = matrix [[ 3.0; 2.0; -1.0 ]
+                    [ 2.0; -2.0; 4.0 ]
+                    [ -1.0; 0.5; -1.0 ]]
+    let b = vector [ 1.0; -2.0; 0.0 ]
+    let x = A.Solve(b) // 1;-2;-2
 
-(**
+
 Normalizing Equation Systems
 ----------------------------
 
@@ -121,11 +122,11 @@ $$$
 \begin{bmatrix}0\\0\\20\\0\end{bmatrix}
 
 Which is in standard from, so we can solve normally:
-*)
 
-let A' = matrix [[ 3.0; 4.0; -1.0; 0.0 ]
-                 [ 4.0; 5.0; 0.0; -1.0 ]
-                 [ 5.0; 6.0; 0.0; 0.0; ]
-                 [ 6.0; 7.0; 0.0; 0.0 ]]
-let b' = vector [ 0.0; 0.0; 20.0; 0.0 ]
-let x' = A'.Solve(b') // -140; 120; 60; 40
+    [lang=fsharp]
+    let A' = matrix [[ 3.0; 4.0; -1.0; 0.0 ]
+                     [ 4.0; 5.0; 0.0; -1.0 ]
+                     [ 5.0; 6.0; 0.0; 0.0; ]
+                     [ 6.0; 7.0; 0.0; 0.0 ]]
+    let b' = vector [ 0.0; 0.0; 20.0; 0.0 ]
+    let x' = A'.Solve(b') // -140; 120; 60; 40

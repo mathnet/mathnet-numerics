@@ -8,24 +8,26 @@ regression, optimization problems and more.
 
 Math.NET Numerics is part of the [Math.NET initiative](http://www.mathdotnet.com/)
 and is the result of merging dnAnalytics with Math.NET Iridium, replacing both.
-It targets Microsoft .Net 4, .Net 3.5 and Mono (Windows, Linux and Mac),
-Silverlight 5, WindowsPhone 8, Windows 8/Store (PCL 47, 136) and Android/iOS (Xamarin).
-In addition to a purely managed implementation it also supports native hardware
-optimization. Available for free under the [MIT/X11 License](License.html).
+Available for free under the [MIT/X11 License](License.html).
+It targets Microsoft .Net 4, .Net 3.5 and Mono
+(Windows, Linux and Mac), Silverlight 5, WindowsPhone 8 and 8.1, Windows 8/Store
+(PCL 7, 47, 78, 259 and 328) and Android/iOS (Xamarin). In addition to a purely
+managed implementation it also supports native hardware optimization.
+See [Platform Support](Compatibility.html) for full details.
 
 NuGet Packages
 --------------
 
 - [**MathNet.Numerics**](https://www.nuget.org/packages/MathNet.Numerics/) - core package
-- [**MathNet.Numerics.FSharp**](https://www.nuget.org/packages/MathNet.Numerics.FSharp/) - optional extensions for a better F# experience.
-
-The packages support .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac,
-as well as PCL Portable Profiles 7, 47, 78, 259 and 328 for Windows 8, Silverlight 5,
-Windows Phone/SL 8, Windows Phone 8.1.
+- [**MathNet.Numerics.FSharp**](https://www.nuget.org/packages/MathNet.Numerics.FSharp/) - optional extensions for a better experience when using F#.
 
 See [NuGet & Binaries](Packages.html) for a complete list of our NuGet packages,
-Zip files and the release archive, and [Platform Support](Compatibility.html)
-for details on what platforms are supported and how their limitations are handled.
+Zip files and the release archive.
+
+    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
 
 Using Math.NET Numerics with C#
 -------------------------------
@@ -58,8 +60,14 @@ F# and F# Interactive
 
 Even though the core of Math.NET Numerics is written in C#, it aims to support F#
 just as well. In order to achieve this we recommend to reference the `MathNet.Numerics.FSharp`
-package as well (in addition to `MathNet.Numerics`) which adds a few modules to make it more
+package in addition to `MathNet.Numerics`, which adds a few modules to make it more
 idiomatic and includes arbitrary precision types (BigInteger, BigRational).
+
+    [lang=fsharp]
+    open MathNet.Numerics.LinearAlgebra
+    let m = matrix [[ 1.0; 2.0 ]
+                    [ 3.0; 4.0 ]]
+    let m' = m.Inverse()
 
 It also works well in the interactive F# environment (REPL) which can be launched with
 `fsharpi` on all platforms (including Linux). As a start let's enter the following lines
@@ -68,9 +76,7 @@ immediately and print the result to the output. Use the tab key for auto-complet
 For convenience our F# packages include a small script that sets everything up properly:
 
     [lang=fsharp]
-    // this load statement is only needed in F# interactive,
-    // in a compiled F# project you'd use normal .Net assembly references.
-    #load "../packages/MathNet.Numerics.FSharp.3.0.0/MathNet.Numerics.fsx"
+    #load "../packages/MathNet.Numerics.FSharp/MathNet.Numerics.fsx"
 
     open MathNet.Numerics
     SpecialFunctions.Gamma(0.5)

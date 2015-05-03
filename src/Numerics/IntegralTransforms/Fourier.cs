@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -204,6 +204,36 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 samples[i] *= scalingFactor;
             }
+        }
+
+        /// <summary>
+        /// Generate the frequencies corresponding to each index in frequency space.
+        /// The frequency space has a resolution of sampleRate/N.
+        /// Index 0 corresponds to the DC part, the following indices correspond to
+        /// the positive frequencies up to the Nyquist frequency (sampleRate/2),
+        /// followed by the negative frequencies wrapped around.
+        /// </summary>
+        /// <param name="length">Number of samples.</param>
+        /// <param name="sampleRate">The sampling rate of the time-space data.</param>
+        public static double[] FrequencyScale(int length, double sampleRate)
+        {
+            double[] scale = new double[length];
+            double f = 0, step = sampleRate / length;
+            int secondHalf = (length >> 1) + 1;
+            for (int i = 0; i < secondHalf; i++)
+            {
+                scale[i] = f;
+                f += step;
+            }
+
+            f = -step * (secondHalf - 2);
+            for (int i = secondHalf; i < length; i++)
+            {
+                scale[i] = f;
+                f += step;
+            }
+
+            return scale;
         }
     }
 }

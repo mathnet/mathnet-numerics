@@ -1,9 +1,3 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-
-(**
 Special Functions
 =================
 
@@ -381,5 +375,3 @@ for both real and complex arguments.
 * **Hyperbolic Area**: Asinh, Acosh, Atanh, Acoth, Asech, Acsch
 * **Sinc**: Normalized sinc function $x \mapsto \frac{\sin\pi x}{\pi x}$
 * Conversion routines between radian, degree and grad.
-
-*)

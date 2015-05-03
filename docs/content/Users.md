@@ -1,8 +1,8 @@
-﻿(**
 Who is using Math.NET Numerics?
 ===============================
 
-*This page collects anything that references and/or uses Math.NET Numerics. Feel free to [add, edit or remove your own work](https://github.com/mathnet/mathnet-numerics/blob/master/docs/content/Users.fsx) by submitting a pull request.*
+*This page collects anything that references and/or uses Math.NET Numerics.
+Feel free to [add, edit or remove your own work](https://github.com/mathnet/mathnet-numerics/blob/master/docs/content/Users.md) by submitting a pull request.*
 
 Open Source
 -----------
@@ -21,6 +21,9 @@ Open Source
 * [Behavioral Rating of Dancing Human Crowds based on Motion Patterns](http://emotiondetection.codeplex.com/)
 * [NPSS Framework for numerical computations of Laguerre series](https://www.openhub.net/p/npss)
 * [FIRST Robotics Scout App](https://frcscout.codeplex.com/)
+* [Improvisation: Automatic Music Composition and Melody Generation](https://github.com/ArmenAg/Improvisation)
+* [Epicycle Math Library](https://github.com/open-epicycle/Epicycle.Math-cs)
+* [LitePlacer machine user interface and control software](https://github.com/jkuusama/LitePlacer)
 * [Math.Net PowerShell](http://mathnetpowershell.codeplex.com/) (unaffiliated)
 * [Math.NET Symbolics](http://symbolics.mathdotnet.com) and other [Math.NET](http://www.mathdotnet.com) projects.
 
@@ -31,6 +34,9 @@ Closed Source
 * [Instarange Simulation](http://instarange.com) by Instarange (Pty) Ltd
 * [SpectraFox](http://www.spectrafox.com/) STM / AFM spectroscopy analysis
 * [Colymp](http://colymp.com/) Color Management Software
+* [ILNumerics](http://ilnumerics.net/)
+* At least half of the hearing aid market for their software to fit
+  their hearing instruments to a patient's actual hearing loss.
 
 Blogs, Tutorials & Examples
 ---------------------------
@@ -60,6 +66,7 @@ Books
 Papers and Thesis
 -----------------
 
+* Czarnowska, Lucyna; Litwin, Wojciech; Stanek, Wojciech (2015). *Selection of Numerical Methods and their Application to the Thermo-Ecological Life Cycle Cost of Heat Exchanger Components*. Silesian University of Technology.
 * Schmollinger, Stefan; Mülhaus, Timo; et al (2014). *Nitrogen-Sparing Mechanisms in Chlamydomonas Affect the Transcriptome, the Proteome, and Photosynthetic Metabolism.* The Plant Cell. DOI 10.1105/tpc.113.122523
 * Mettler, Tabea; Mülhaus, Timo; et al (2014). *Systems Analysis of the Response of Photosynthesis, Metabolism, and Growth to an Increase in Irradiance in the Photosynthetic Model Organism Chlamydomonas reinhardtii.* The Plant Cell. DOI 10.1105/tpc.114.124537.
 * Blahút, Jozef (2014). *Design and Implementation of Application for Measured Data Processing*. Brno University of Technology.
@@ -90,5 +97,3 @@ Papers and Thesis
 * Team Limawai (2010). *Ka`imiolakai ROV.* 2010 MATE International UROV Competition. Kapi`olani Community College.
 * Hebel, Tobias (2010). *Location Provider.* Universität Koblenz Landau.
 * Bischoff, Sebastian (2009). *Konzeption und Umsetzung einer RIA zur untersuchungsbegleitenden Erfassung von RNFLT-Scans und Untersuchung von Klassifikatoren für die diagnostische Unterstützung bei neurodegenerativen Erkrankungen am Beispiel der Multiplen Sklerose.* Fachhochschule Brandenburg.
-
-*)

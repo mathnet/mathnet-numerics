@@ -1,11 +1,12 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-open MathNet.Numerics.Random
-open MathNet.Numerics.Distributions
+    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
+    open System.Numerics
+    open MathNet.Numerics
+    open MathNet.Numerics.Random
+    open MathNet.Numerics.Distributions
 
-(**
 Pseudo-Random Numbers
 =====================
 
@@ -57,22 +58,21 @@ $X\sim\mathcal{U}(0,1)$, such that $0 \le x < 1$:
     decimal sampled = rng.NextDecimal();
 
 In F# we can do exactly the same, or alternatively use the `Random` module:
-*)
 
-let samples = Random.doubles 1000
+    [lang=fsharp]
+    let samples = Random.doubles 1000
 
-// overwrite the whole array with new random values
-Random.doubleFill samples
+    // overwrite the whole array with new random values
+    Random.doubleFill samples
 
-// create an infinite sequence:
-let sampleSeq = Random.doubleSeq ()
+    // create an infinite sequence:
+    let sampleSeq = Random.doubleSeq ()
 
-// take a single random value
-let rng = Random.shared
-let sample = rng.NextDouble()
-let sampled = rng.NextDecimal()
+    // take a single random value
+    let rng = Random.shared
+    let sample = rng.NextDouble()
+    let sampled = rng.NextDecimal()
 
-(**
 If you have used the .Net BCL random number generators before, you have likely
 noticed a few differences: we used special routines to create a full array or
 sequence in one go, we were able to sample a decimal number, an we used static functions
@@ -125,19 +125,19 @@ and is often unwanted. That's why all Math.NET Numerics RNGs are by default
 initialized with a robust seed taken from the `CryptoRandomSource` if available,
 or else a combination of a random number from a shared RNG, the time and a Guid
 (which are supposed to be generated uniquely, worldwide).
-*)
 
-let someTimeSeed = RandomSeed.Time() // not recommended
-let someGuidSeed = RandomSeed.Guid()
-let someRobustSeed = RandomSeed.Robust() // recommended, used by default
+    [lang=fsharp]
+    let someTimeSeed = RandomSeed.Time() // not recommended
+    let someGuidSeed = RandomSeed.Guid()
+    let someRobustSeed = RandomSeed.Robust() // recommended, used by default
 
-(** Let's generate random numbers like before, but this time with custom seed 42: *)
+Let's generate random numbers like before, but this time with custom seed 42:
 
-let samplesSeeded = Random.doublesSeed 42 1000
-Random.doubleFillSeed 42 samplesSeeded
-let samplesSeqSeeded = Random.doubleSeqSeed 42
+    [lang=fsharp]
+    let samplesSeeded = Random.doublesSeed 42 1000
+    Random.doubleFillSeed 42 samplesSeeded
+    let samplesSeqSeeded = Random.doubleSeqSeed 42
 
-(**
 Or without the F# Random module, e.g. in C#:
 
     [lang=csharp]
@@ -179,23 +179,23 @@ Let's sample a few uniform random values using Mersenne Twister in C#:
 
 In F# you can use the constructor as well, or alternatively use the `Random` module.
 In case of the latter, all objects will be cast to their common base type `System.Random`:
-*)
 
-// By using the normal constructor (random1 has type MersenneTwister) 
-let random1 = MersenneTwister()
-let random1b = MersenneTwister(42) // with seed
+    [lang=fsharp]
+    // By using the normal constructor (random1 has type MersenneTwister) 
+    let random1 = MersenneTwister()
+    let random1b = MersenneTwister(42) // with seed
 
-// By using the Random module (random2 has type System.Random)
-let random2 = Random.mersenneTwister ()
-let random2b = Random.mersenneTwisterSeed 42 // with seed
-let random2c = Random.mersenneTwisterWith 42 false // opt-out of thread-safety
+    // By using the Random module (random2 has type System.Random)
+    let random2 = Random.mersenneTwister ()
+    let random2b = Random.mersenneTwisterSeed 42 // with seed
+    let random2c = Random.mersenneTwisterWith 42 false // opt-out of thread-safety
 
-// Using some other algorithms:
-let random3 = Random.crypto ()
-let random4 = Random.xorshift ()
-let random5 = Random.wh2006 ()
+    // Using some other algorithms:
+    let random3 = Random.crypto ()
+    let random4 = Random.xorshift ()
+    let random5 = Random.wh2006 ()
 
-(**
+
 Shared Instances and Thread Safety
 ----------------------------------
 
@@ -224,15 +224,15 @@ For convenience a few generators provide a thread-safe shared instance
     var b = MersenneTwister.Default;
 
 Or with the F# module:
-*)
 
-let a = Random.systemShared
-let b = Random.mersenneTwisterShared
+    [lang=fsharp]
+    let a = Random.systemShared
+    let b = Random.mersenneTwisterShared
 
-// or if you don't care, simply
-let c = Random.shared;
+    // or if you don't care, simply
+    let c = Random.shared;
 
-(**
+
 Non-Uniform Random Numbers
 --------------------------
 
@@ -253,4 +253,3 @@ distributions in the `MathNet.Numerics.Distributions` namespace.
     Normal.Samples(c, 0.0, 1.0);
 
 See [Probability Distributions](Probability.html) for details.
-*)

@@ -1,11 +1,12 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-open MathNet.Numerics.Random
-open MathNet.Numerics.Distributions
+    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
+    open System.Numerics
+    open MathNet.Numerics
+    open MathNet.Numerics.Random
+    open MathNet.Numerics.Distributions
 
-(**
 Probability Distributions
 =========================
 
@@ -125,26 +126,24 @@ as last argument.
     gamma2.RandomSource = new Mrg32k3a();
 
 A few more examples, this time in F#:
-*)
 
-// some probability distributions
-let normal = Normal.WithMeanVariance(3.0, 1.5, a)
-let exponential = Exponential(2.4)
-let gamma = Gamma(2.0, 1.5, Random.crypto())
-let cauchy = Cauchy(0.0, 1.0, Random.mrg32k3aWith 10 false)
-let poisson = Poisson(3.0)
-let geometric = Geometric(0.8, Random.system())
+    [lang=fsharp]
+    // some probability distributions
+    let normal = Normal.WithMeanVariance(3.0, 1.5, a)
+    let exponential = Exponential(2.4)
+    let gamma = Gamma(2.0, 1.5, Random.crypto())
+    let cauchy = Cauchy(0.0, 1.0, Random.mrg32k3aWith 10 false)
+    let poisson = Poisson(3.0)
+    let geometric = Geometric(0.8, Random.system())
 
-(**
 Some of the distributions also have routines for maximum-likelihood parameter
 estimation from a set of samples:
-*)
 
-let estimation = LogNormal.Estimate([| 2.0; 1.5; 2.1; 1.2; 3.0; 2.4; 1.8 |])
-let mean, variance = estimation.Mean, estimation.Variance
-let moreSamples = estimation.Samples() |> Seq.take 10 |> Seq.toArray
+    [lang=fsharp]
+    let estimation = LogNormal.Estimate([| 2.0; 1.5; 2.1; 1.2; 3.0; 2.4; 1.8 |])
+    let mean, variance = estimation.Mean, estimation.Variance
+    let moreSamples = estimation.Samples() |> Seq.take 10 |> Seq.toArray
 
-(**
 or in C#:
 
     [lang=csharp]
@@ -162,38 +161,31 @@ to provide uniform random numbers. By default, this member is an instance of Sys
 but one can easily replace this with more sophisticated random number generators from
 `MathNet.Numerics.Random` (see [Random Numbers](Random.html) for details).
 
-*)
+    [lang=fsharp]
+    // sample some random numbers from these distributions
+    // continuous distributions sample to floating-point numbers:
+    let continuous =
+      [ yield normal.Sample()
+        yield exponential.Sample()
+        yield! gamma.Samples() |> Seq.take 10 ]
 
-// sample some random numbers from these distributions
-// continuous distributions sample to floating-point numbers:
-let continuous =
-  [ yield normal.Sample()
-    yield exponential.Sample()
-    yield! gamma.Samples() |> Seq.take 10 ]
-
-// discrete distributions on the other hand sample to integers:
-let discrete =
-  [ poisson.Sample()
-    poisson.Sample()
-    geometric.Sample() ]
-
-(**
+    // discrete distributions on the other hand sample to integers:
+    let discrete =
+      [ poisson.Sample()
+        poisson.Sample()
+        geometric.Sample() ]
 
 Instead of creating a distribution object we can also sample directly with static functions.
 Note that no intermediate value caching is possible this way and parameters must be validated on each call.
 
-*)
+    [lang=fsharp]
+    // using the default number generator (SystemRandomSource.Default)
+    let w = Rayleigh.Sample(1.5)
+    let x = Hypergeometric.Sample(100, 20, 5)
 
-// using the default number generator (SystemRandomSource.Default)
-let w = Rayleigh.Sample(1.5)
-let x = Hypergeometric.Sample(100, 20, 5)
-
-// or by manually providing the uniform random number generator
-let u = Normal.Sample(Random.system(), 2.0, 4.0)
-let v = Laplace.Samples(Random.mersenneTwister(), 1.0, 3.0) |> Seq.take 100 |> List.ofSeq
-
-
-(**
+    // or by manually providing the uniform random number generator
+    let u = Normal.Sample(Random.system(), 2.0, 4.0)
+    let v = Laplace.Samples(Random.mersenneTwister(), 1.0, 3.0) |> Seq.take 100 |> List.ofSeq
 
 If you need to sample not just one or two values but a large number of them,
 there are routines that either fill an existing array or return an enumerable.
@@ -207,12 +199,12 @@ Let's sample 100'000 values from a laplace distribution with mean 1.0 and scale 
     Laplace.Samples(samples, 1.0, 2.0);
 
 Let's do some random walks in F# (TODO: Graph):
-*)
 
-Seq.scan (+) 0.0 (Normal.Samples(0.0, 1.0)) |> Seq.take 10 |> Seq.toArray
-Seq.scan (+) 0.0 (Cauchy.Samples(0.0, 1.0)) |> Seq.take 10 |> Seq.toArray
+    [lang=fsharp]
+    Seq.scan (+) 0.0 (Normal.Samples(0.0, 1.0)) |> Seq.take 10 |> Seq.toArray
+    Seq.scan (+) 0.0 (Cauchy.Samples(0.0, 1.0)) |> Seq.take 10 |> Seq.toArray
 
-(**
+
 Distribution Functions and Properties
 -------------------------------------
 
@@ -221,52 +213,52 @@ Once parametrized they can compute a variety of distribution properties
 or evaluate distribution functions. Because it is often numerically more stable
 and faster to compute and work with such quantities in the logarithmic domain,
 some of them are also available with the `Ln`-suffix.
-*)
 
-// distribution properties of the gamma we've configured above
-let gammaStats =
-  ( gamma.Mean,
-    gamma.Variance,
-    gamma.StdDev,
-    gamma.Entropy,
-    gamma.Skewness,
-    gamma.Mode )
+    [lang=fsharp]
+    // distribution properties of the gamma we've configured above
+    let gammaStats =
+      ( gamma.Mean,
+        gamma.Variance,
+        gamma.StdDev,
+        gamma.Entropy,
+        gamma.Skewness,
+        gamma.Mode )
 
-// probability distribution functions of the normal we've configured above.
-let nd = normal.Density(4.0)  (* PDF *)
-let ndLn = normal.DensityLn(4.0)  (* ln(PDF) *)
-let nc = normal.CumulativeDistribution(4.0)  (* CDF *)
-let nic = normal.InverseCumulativeDistribution(0.7)  (* CDF^(-1) *)
+    // probability distribution functions of the normal we've configured above.
+    let nd = normal.Density(4.0)  (* PDF *)
+    let ndLn = normal.DensityLn(4.0)  (* ln(PDF) *)
+    let nc = normal.CumulativeDistribution(4.0)  (* CDF *)
+    let nic = normal.InverseCumulativeDistribution(0.7)  (* CDF^(-1) *)
 
-// Distribution functions can also be evaluated without creating an object,
-// but then you have to pass in the distribution parameters as first arguments:
-let nd2 = Normal.PDF(3.0, sqrt 1.5, 4.0)
-let ndLn2 = Normal.PDFLn(3.0, sqrt 1.5, 4.0)
-let nc2 = Normal.CDF(3.0, sqrt 1.5, 4.0)
-let nic2 = Normal.InvCDF(3.0, sqrt 1.5, 0.7)
+    // Distribution functions can also be evaluated without creating an object,
+    // but then you have to pass in the distribution parameters as first arguments:
+    let nd2 = Normal.PDF(3.0, sqrt 1.5, 4.0)
+    let ndLn2 = Normal.PDFLn(3.0, sqrt 1.5, 4.0)
+    let nc2 = Normal.CDF(3.0, sqrt 1.5, 4.0)
+    let nic2 = Normal.InvCDF(3.0, sqrt 1.5, 0.7)
 
-(**
+
 Composing Distributions
 -----------------------
 
 Specifically for F# there is also a `Sample` module that allows a somewhat more functional
 view on distribution sampling functions by having the random source passed in as last argument.
 This way they can be composed and transformed arbitrarily if curried:
-*)
 
-/// Transform a sample from a distribution
-let s1 rng = tanh (Sample.normal 2.0 0.5 rng)
+    [lang=fsharp]
+    /// Transform a sample from a distribution
+    let s1 rng = tanh (Sample.normal 2.0 0.5 rng)
 
-/// But we really want to transform the function, not the resulting sample:
-let s1f rng = Sample.map tanh (Sample.normal 2.0 0.5) rng
+    /// But we really want to transform the function, not the resulting sample:
+    let s1f rng = Sample.map tanh (Sample.normal 2.0 0.5) rng
 
-/// Exactly the same also works with functions generating full sequences
-let s1s rng = Sample.mapSeq tanh (Sample.normalSeq 2.0 0.5) rng
+    /// Exactly the same also works with functions generating full sequences
+    let s1s rng = Sample.mapSeq tanh (Sample.normalSeq 2.0 0.5) rng
 
-/// Now with multiple distributions, e.g. their product:
-let s2 rng = (Sample.normal 2.0 1.5 rng) * (Sample.cauchy 2.0 0.5 rng)
-let s2f rng = Sample.map2 (*) (Sample.normal 2.0 1.5) (Sample.cauchy 2.0 0.5) rng
-let s2s rng = Sample.mapSeq2 (*) (Sample.normalSeq 2.0 1.5) (Sample.cauchySeq 2.0 0.5) rng
+    /// Now with multiple distributions, e.g. their product:
+    let s2 rng = (Sample.normal 2.0 1.5 rng) * (Sample.cauchy 2.0 0.5 rng)
+    let s2f rng = Sample.map2 (*) (Sample.normal 2.0 1.5) (Sample.cauchy 2.0 0.5) rng
+    let s2s rng = Sample.mapSeq2 (*) (Sample.normalSeq 2.0 1.5) (Sample.cauchySeq 2.0 0.5) rng
 
-// Taking some samples from the composed function
-Seq.take 10 (s2s (Random.system())) |> Seq.toArray
+    // Taking some samples from the composed function
+    Seq.take 10 (s2s (Random.system())) |> Seq.toArray

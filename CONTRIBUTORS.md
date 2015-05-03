@@ -50,6 +50,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Jeff Mastry
 - Kosei ABE
 - Martin Posch
+- Matt Heffron
 - Paul Varkey
 - Sunny Ahuwanya
 - Till Hoffmann

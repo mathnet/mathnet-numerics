@@ -1,9 +1,3 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-
-(**
 Delimited Text Files (CSV & TSV)
 ================================
 
@@ -96,5 +90,3 @@ Among others:
 
 * [NIST MatrixMarket text files](MatrixMarket.html)
 * [MATLAB Level-5 Mat files](MatlabFiles.html)
-
-*)

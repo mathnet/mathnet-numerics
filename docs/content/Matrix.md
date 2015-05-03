@@ -1,17 +1,17 @@
-(*** hide ***)
-#I "../../out/lib/net40"
-#r "MathNet.Numerics.dll"
-#r "MathNet.Numerics.FSharp.dll"
-open MathNet.Numerics.LinearAlgebra
-open MathNet.Numerics.Distributions
+    [hide]
+    #I "../../out/lib/net40"
+    #r "MathNet.Numerics.dll"
+    #r "MathNet.Numerics.FSharp.dll"
+    open System.Numerics
+    open MathNet.Numerics
+    open MathNet.Numerics.LinearAlgebra
+    open MathNet.Numerics.Distributions
 
-(**
 Matrices and Vectors
 ====================
 
 Math.NET Numerics includes rich types for matrices and vectors.
 They support both single and double precision, real and complex floating point numbers.
-
 
 $$$
 \mathbf{A}=
@@ -186,36 +186,34 @@ The approach for vectors is exactly the same:
 ### Creating matrices and vectors in F#
 
 In F# we can use the builders just like in C#, but we can also use the F# modules:
-*)
 
-let m1 = matrix [[ 2.0; 3.0 ]
-                 [ 4.0; 5.0 ]]
+    [lang=fsharp]
+    let m1 = matrix [[ 2.0; 3.0 ]
+                     [ 4.0; 5.0 ]]
 
-let v1 = vector [ 1.0; 2.0; 3.0 ]
+    let v1 = vector [ 1.0; 2.0; 3.0 ]
 
-// dense 3x4 matrix filled with zeros.
-// (usually the type is inferred, but not for zero matrices)
-let m2 = DenseMatrix.zero<float> 3 4
+    // dense 3x4 matrix filled with zeros.
+    // (usually the type is inferred, but not for zero matrices)
+    let m2 = DenseMatrix.zero<float> 3 4
 
-// dense 3x4 matrix initialized by a function
-let m3 = DenseMatrix.init 3 4 (fun i j -> float (i+j))
+    // dense 3x4 matrix initialized by a function
+    let m3 = DenseMatrix.init 3 4 (fun i j -> float (i+j))
 
-// diagonal 4x4 identity matrix of single precision
-let m4 = DiagonalMatrix.identity<float32> 4
+    // diagonal 4x4 identity matrix of single precision
+    let m4 = DiagonalMatrix.identity<float32> 4
 
-// dense 3x4 matrix created from a sequence of sequence-columns
-let x = Seq.init 4 (fun c -> Seq.init 3 (fun r -> float (100*r + c)))
-let m5 = DenseMatrix.ofColumnSeq x
+    // dense 3x4 matrix created from a sequence of sequence-columns
+    let x = Seq.init 4 (fun c -> Seq.init 3 (fun r -> float (100*r + c)))
+    let m5 = DenseMatrix.ofColumnSeq x
 
-// random matrix with standard distribution:
-let m6 = DenseMatrix.randomStandard<float> 3 4
+    // random matrix with standard distribution:
+    let m6 = DenseMatrix.randomStandard<float> 3 4
 
-// random matrix with a uniform and one with a Gamma distribution:
-let m7a = DenseMatrix.random<float> 3 4 (ContinuousUniform(-2.0, 4.0))
-let m7b = DenseMatrix.random<float> 3 4 (Gamma(1.0, 2.0))
+    // random matrix with a uniform and one with a Gamma distribution:
+    let m7a = DenseMatrix.random<float> 3 4 (ContinuousUniform(-2.0, 4.0))
+    let m7b = DenseMatrix.random<float> 3 4 (Gamma(1.0, 2.0))
 
-
-(**
 Or using any other of all the available functions.
 
 
@@ -225,18 +223,17 @@ Arithmetics
 All the common arithmetic operators like `+`, `-`, `*`, `/` and `%` are provided,
 between matrices, vectors and scalars. In F# there are additional pointwise
 operators `.*`, `./` and `.%` available for convenience.
-*)
 
-let m = matrix [[ 1.0; 4.0; 7.0 ]
-                [ 2.0; 5.0; 8.0 ]
-                [ 3.0; 6.0; 9.0 ]]
+    [lang=fsharp]
+    let m = matrix [[ 1.0; 4.0; 7.0 ]
+                    [ 2.0; 5.0; 8.0 ]
+                    [ 3.0; 6.0; 9.0 ]]
 
-let v = vector [ 10.0; 20.0; 30.0 ]
+    let v = vector [ 10.0; 20.0; 30.0 ]
 
-let v' = m * v
-let m' = m + 2.0*m
+    let v' = m * v
+    let m' = m + 2.0*m
 
-(**
 ### Arithmetic Instance Methods
 
 All other operations are covered by methods, like `Transpose` and `Conjugate`,
@@ -528,6 +525,18 @@ of applying a function to its value. Or, if indexed, to its index and value.
 * **Map(f,zeros)**: like MapConvert but returns a new structure instead of the result argument.
 * **MapIndexed(f,zeros)**: indexed variant of Map.
 
+Example: Convert a complex vector to a real vector containing only the real parts in C#:
+
+    [lang=csharp]
+    Vector<Complex> u = Vector<Complex>.Build.Random(10);
+    Vector<Double> v = u.Map(c => c.Real);
+
+Or in F#:
+
+    [lang=fsharp]
+    let u = DenseVector.randomStandard<Complex> 10
+    let v = u |> Vector.map (fun c -> c.Real)
+
 ### Fold and Reduce
 
 Matrices also provide column/row fold and reduce routines:
@@ -661,5 +670,3 @@ floating point format and culture, or how many rows or columns should be shown:
 If you are using Math.NET Numerics from within F# interactive, you may want
 to load the MathNet.Numerics.fsx script of the F# package. Besides loading
 the assemblies it also adds proper FSI printers for both matrices and vectors.
-
-*)

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -43,6 +43,12 @@ namespace MathNet.Numerics.IntegralTransforms
     public static partial class Fourier
     {
         /// <summary>
+        /// Sequences with length greater than Math.Sqrt(Int32.MaxValue) + 1
+        /// will cause k*k in the Bluestein sequence to overflow (GH-286).
+        /// </summary>
+        const int BluesteinSequenceLengthThreshold = 46341;
+
+        /// <summary>
         /// Generate the bluestein sequence for the provided problem size.
         /// </summary>
         /// <param name="n">Number of samples.</param>
@@ -52,10 +58,23 @@ namespace MathNet.Numerics.IntegralTransforms
             double s = Constants.Pi/n;
             var sequence = new Complex[n];
 
-            for (int k = 0; k < sequence.Length; k++)
+            // TODO: benchmark whether the second variation is significantly
+            // faster than the former one. If not just use the former one always.
+            if (n > BluesteinSequenceLengthThreshold)
             {
-                double t = s*(k*k);
-                sequence[k] = new Complex(Math.Cos(t), Math.Sin(t));
+                for (int k = 0; k < sequence.Length; k++)
+                {
+                    double t = (s*k)*k;
+                    sequence[k] = new Complex(Math.Cos(t), Math.Sin(t));
+                }
+            }
+            else
+            {
+                for (int k = 0; k < sequence.Length; k++)
+                {
+                    double t = s*(k*k);
+                    sequence[k] = new Complex(Math.Cos(t), Math.Sin(t));
+                }
             }
 
             return sequence;
