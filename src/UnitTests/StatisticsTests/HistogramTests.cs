@@ -28,6 +28,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Linq;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
     using System;
@@ -46,6 +48,16 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// </summary>
         readonly double[] _smallDataset = {0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5};
 
+        /// <summary>
+        /// Datatset array with small absolute values
+        /// </summary>
+        /// <remarks>
+        /// These values are chosen to precisely match the upper bounds of 9 buckets, 
+		  /// from 0.5e-22 to 9.5E-22
+		  /// </remarks>
+		  readonly double[] _smallValueDataset = { 0.5e-22, 1.5E-22, 2.5E-22, 3.4999999999999996E-22, 4.4999999999999989E-22,
+                                                 5.4999999999999983E-22, 6.4999999999999986E-22, 7.4999999999999988E-22, 
+																 8.4999999999999982E-22, 9.5E-22};
         /// <summary>
         /// Can create empty bucket.
         /// </summary>
@@ -370,6 +382,61 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
 
             Assert.AreEqual(0.0, hist.LowerBound);
             Assert.AreEqual(10.0, hist.UpperBound);
+        }
+
+
+
+        /// <summary>
+        /// Dataset of small values histogram without bounds.
+        /// </summary>
+        [Test]
+        public void SmallValuesHistogramWithoutBounds()
+        {
+           var hist = new Histogram(_smallValueDataset, 9);
+
+           Assert.AreEqual(9, hist.BucketCount);
+
+           for (var i = 1; i < 9; i++)
+           {
+              Assert.AreEqual(1.0, hist[i].Count);
+           }
+
+           Assert.AreEqual(2.0, hist[0].Count);
+
+           Assert.AreEqual(0.5e-22.Decrement(), hist.LowerBound);
+           Assert.AreEqual(9.5e-22, hist.UpperBound);
+        }
+
+        /// <summary>
+        /// Dataset of small values histogram with bounds.
+        /// </summary>
+        [Test]
+        public void SmallValuesHistogramWithBounds()
+        {
+           var hist = new Histogram(_smallValueDataset, 10, 0.0, 10e-22);
+
+           Assert.AreEqual(10, hist.BucketCount);
+
+           for (var i = 0; i < 10; i++)
+           {
+              Assert.AreEqual(1.0, hist[i].Count);
+           }
+
+           Assert.AreEqual(0.0, hist.LowerBound);
+           Assert.AreEqual(10.0e-22, hist.UpperBound);
+        }
+
+        /// <summary>
+        /// Attempt to construct a dataset with small valued buckets
+        /// </summary>
+        [Test]
+        public void SmallValuesManyBucketsHistogramWithBounds()
+        {
+           var hist = new Histogram(_smallValueDataset, 100, 0.0, 10e-22);
+
+           Assert.AreEqual(100, hist.BucketCount);
+           Assert.AreEqual(0.0, hist.LowerBound);
+           Assert.AreEqual(10.0e-22, hist.UpperBound);
         }
     }
 }
