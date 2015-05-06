@@ -53,11 +53,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// </summary>
         /// <remarks>
         /// These values are chosen to precisely match the upper bounds of 9 buckets, 
-		  /// from 0.5e-22 to 9.5E-22
-		  /// </remarks>
-		  readonly double[] _smallValueDataset = { 0.5e-22, 1.5E-22, 2.5E-22, 3.4999999999999996E-22, 4.4999999999999989E-22,
-                                                 5.4999999999999983E-22, 6.4999999999999986E-22, 7.4999999999999988E-22, 
-																 8.4999999999999982E-22, 9.5E-22};
+        /// from 0.5e-22 to 9.5E-22
+        /// </remarks>
+        readonly double[] _smallValueDataset = 
+        {
+            0.5e-22, 1.5E-22, 2.5E-22, 3.4999999999999996E-22, 4.4999999999999989E-22,
+            5.4999999999999983E-22, 6.4999999999999986E-22, 7.4999999999999988E-22, 
+            8.4999999999999982E-22, 9.5E-22
+        };
+
         /// <summary>
         /// Can create empty bucket.
         /// </summary>
