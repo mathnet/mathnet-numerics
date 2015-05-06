@@ -60,7 +60,7 @@ namespace MathNet.Numerics.Statistics
             /// <returns>-1 when the point is less than this bucket, 0 when it is in this bucket and 1 otherwise.</returns>
             public int Compare(Bucket bkt1, Bucket bkt2)
             {
-                return bkt2.Width == 0.0
+                return bkt2.IsSinglePoint
                     ? -bkt1.Contains(bkt2.UpperBound)
                     : -bkt2.Contains(bkt1.UpperBound);
             }
@@ -81,6 +81,9 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// The number of datapoints in the bucket.
         /// </summary>
+        /// <remarks>
+        /// Value may be NaN if this was constructed as a <see cref="PointComparer"/> argument.
+        /// </remarks>
         public double Count { get; set; }
 
         /// <summary>
@@ -104,6 +107,18 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Constructs a Bucket that can be used as an argument for <see cref="PointComparer"/> 
+        /// when performing a Binary search.
+        /// </summary>
+        /// <param name="value">Value to look for</param>
+        public Bucket(double targetValue)
+        {
+            LowerBound = targetValue;
+            UpperBound = targetValue;
+            Count = double.NaN;
+        }
+
+        /// <summary>
         /// Creates a copy of the Bucket with the lowerbound, upperbound and counts exactly equal.
         /// </summary>
         /// <returns>A cloned Bucket object.</returns>
@@ -121,6 +136,15 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// True if this is a single point argument for <see cref="PointComparer"/> 
+        /// when performing a Binary search.
+        /// </summary>
+        private bool IsSinglePoint
+        {
+            get { return double.IsNaN(Count); }
+        }
+
+        /// <summary>
         /// Default comparer.
         /// </summary>
         public static IComparer<Bucket> DefaultPointComparer
@@ -132,8 +156,10 @@ namespace MathNet.Numerics.Statistics
         /// This method check whether a point is contained within this bucket.
         /// </summary>
         /// <param name="x">The point to check.</param>
-        /// <returns>0 if the point falls within the bucket boundaries; -1 if the point is
-        /// smaller than the bucket, +1 if the point is larger than the bucket.</returns>
+        /// <returns>
+        ///  0 if the point falls within the bucket boundaries; 
+        /// -1 if the point is smaller than the bucket, 
+        /// +1 if the point is larger than the bucket.</returns>
         public int Contains(double x)
         {
             if (LowerBound < x)
@@ -152,6 +178,11 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Comparison of two disjoint buckets. The buckets cannot be overlapping.
         /// </summary>
+        /// <returns>
+        ///  0 if <c>UpperBound</c> and <c>LowerBound</c> are bit-for-bit equal
+        ///  1 if This bucket is lower that the compared bucket
+        /// -1 otherwise
+        /// </returns>
         public int CompareTo(Bucket bucket)
         {
             if (UpperBound > bucket.LowerBound && LowerBound < bucket.LowerBound)
@@ -159,8 +190,8 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentException(Resources.PartialOrderException);
             }
 
-            if (UpperBound.AlmostEqual(bucket.UpperBound)
-                && LowerBound.AlmostEqual(bucket.LowerBound))
+            if (UpperBound.Equals(bucket.UpperBound)
+                && LowerBound.Equals(bucket.LowerBound))
             {
                 return 0;
             }
@@ -174,9 +205,12 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Checks whether two Buckets are equal; this method tolerates a difference in lowerbound, upperbound
-        /// and count given by <seealso cref="Precision.AlmostEqual(double,double)"/>.
+        /// Checks whether two Buckets are equal.
         /// </summary>
+        /// <remarks>
+        /// <c>UpperBound</c> and <c>LowerBound</c> are compared bit-for-bit, but This method tolerates a
+        /// difference in <c>Count</c> given by  <seealso cref="Precision.AlmostEqual(double,double)"/>.
+        /// </remarks>
         public override bool Equals(object obj)
         {
             if (!(obj is Bucket))
@@ -185,8 +219,8 @@ namespace MathNet.Numerics.Statistics
             }
 
             var bucket = (Bucket) obj;
-            return LowerBound.AlmostEqual(bucket.LowerBound)
-                && UpperBound.AlmostEqual(bucket.UpperBound)
+            return LowerBound.Equals(bucket.LowerBound)
+                && UpperBound.Equals(bucket.UpperBound)
                 && Count.AlmostEqual(bucket.Count);
         }
 
@@ -257,10 +291,13 @@ namespace MathNet.Numerics.Statistics
 
             // Add buckets for each bin; the smallest bucket's lowerbound must be slightly smaller
             // than the minimal element.
-            AddBucket(new Bucket(lower.Decrement(), lower + width));
+            double fNextLowerBound = lower + width;
+            AddBucket(new Bucket(lower.Decrement(), fNextLowerBound));
             for (int n = 1; n < nbuckets; n++)
             {
-                AddBucket(new Bucket(lower + n * width, lower + (n + 1) * width));
+                AddBucket(new Bucket(
+                    fNextLowerBound,
+                    fNextLowerBound = (lower + (n + 1) * width)));
             }
 
             AddData(data);
@@ -380,7 +417,7 @@ namespace MathNet.Numerics.Statistics
             LazySort();
 
             // Binary search for the bucket index.
-            int index = _buckets.BinarySearch(new Bucket(v, v), Bucket.DefaultPointComparer);
+            int index = _buckets.BinarySearch(new Bucket(v), Bucket.DefaultPointComparer);
 
             if (index < 0)
             {
