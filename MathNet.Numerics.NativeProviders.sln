@@ -6,8 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
 		src\NativeProviders\Common\lapack_common.h = src\NativeProviders\Common\lapack_common.h
-		src\NativeProviders\Common\resource.h = src\NativeProviders\Common\resource.h
-		src\NativeProviders\Common\resource.rc = src\NativeProviders\Common\resource.rc
 		src\NativeProviders\Common\WindowsDLL.cpp = src\NativeProviders\Common\WindowsDLL.cpp
 		src\NativeProviders\Common\wrapper_common.h = src\NativeProviders\Common\wrapper_common.h
 	EndProjectSection

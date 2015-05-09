@@ -155,6 +155,9 @@
     <ClCompile Include="..\..\ATLAS\lapack.cpp" />
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\ATLAS\resource.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
