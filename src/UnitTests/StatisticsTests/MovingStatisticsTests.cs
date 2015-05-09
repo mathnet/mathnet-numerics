@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
@@ -250,6 +251,47 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(ms.Maximum, Is.Not.NaN);
             Assert.That(ms.Mean, Is.Not.NaN);
             Assert.That(ms.StandardDeviation, Is.Not.NaN);
+        }
+
+        [Test]
+        public void MovingAverageEmptyData()
+        {
+            var average = new double[0].MovingAverage(10).ToArray();
+            Assert.AreEqual(0, average.Length);
+        }
+
+        [Test]
+        public void MovingAverage()
+        {
+            var average = new[] { 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0 }.MovingAverage(2).ToArray();
+            Assert.AreEqual(average.Length, 10);
+            Assert.AreEqual(1.0, average[0]);
+            Assert.AreEqual(1.5, average[1]);
+            Assert.AreEqual(2.5, average[2]);
+            Assert.AreEqual(3.5, average[3]);
+            Assert.AreEqual(4.5, average[4]);
+            Assert.AreEqual(5.5, average[5]);
+            Assert.AreEqual(6.5, average[6]);
+            Assert.AreEqual(7.5, average[7]);
+            Assert.AreEqual(8.5, average[8]);
+            Assert.AreEqual(9.5, average[9]);
+        }
+
+        [Test]
+        public void MovingAverageMissingData()
+        {
+            var average = new[] { 1.0, double.NaN, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, double.NaN, 10.0 }.MovingAverage(2).ToArray();
+            Assert.AreEqual(average.Length, 10);
+            Assert.AreEqual(1.0, average[0]);
+            Assert.IsNaN(average[1]);
+            Assert.IsNaN(average[2]);
+            Assert.AreEqual(3.5, average[3]);
+            Assert.AreEqual(4.5, average[4]);
+            Assert.AreEqual(5.5, average[5]);
+            Assert.AreEqual(6.5, average[6]);
+            Assert.AreEqual(7.5, average[7]);
+            Assert.IsNaN(average[8]);
+            Assert.IsNaN(average[9]);
         }
     }
 }

@@ -34,7 +34,7 @@ using System;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 {
-    public enum ParallelType : int
+    internal enum ParallelType : int
     {
         Sequential = 0,
         Thread = 1,
