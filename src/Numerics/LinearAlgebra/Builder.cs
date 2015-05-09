@@ -446,7 +446,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public abstract Matrix<T> Random(int rows, int columns, IContinuousDistribution distribution);
 
         /// <summary>
-        /// Create a new dense matrix with values sampled from the standard distribution with a mersenne twister random source.
+        /// Create a new dense matrix with values sampled from the standard distribution with a system random source.
         /// </summary>
         public Matrix<T> Random(int rows, int columns)
         {
@@ -454,7 +454,7 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Create a new dense matrix with values sampled from the standard distribution with a mersenne twister random source.
+        /// Create a new dense matrix with values sampled from the standard distribution with a system random source.
         /// </summary>
         public Matrix<T> Random(int rows, int columns, int seed)
         {
@@ -473,7 +473,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
         /// <summary>
         /// Create a new positive definite dense matrix where each value is the product
-        /// of two samples from the standard distribution with a mersenne twister random source.
+        /// of two samples from the standard distribution.
         /// </summary>
         public Matrix<T> RandomPositiveDefinite(int order)
         {
@@ -1399,7 +1399,7 @@ namespace MathNet.Numerics.LinearAlgebra
         public abstract Vector<T> Random(int length, IContinuousDistribution distribution);
 
         /// <summary>
-        /// Create a new dense vector with values sampled from the standard distribution with a mersenne twister random source.
+        /// Create a new dense vector with values sampled from the standard distribution with a system random source.
         /// </summary>
         public Vector<T> Random(int length)
         {
