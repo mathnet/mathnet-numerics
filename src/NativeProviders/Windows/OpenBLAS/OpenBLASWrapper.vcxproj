@@ -62,9 +62,10 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros">
-    <OpenBLASIncludeDir>$(ProjectDir)..\..\..\..\..\libs\OpenBLAS\include\</OpenBLASIncludeDir>
-    <OpenBLASLibDir>$(ProjectDir)..\..\..\..\..\libs\OpenBLAS\x86\</OpenBLASLibDir>
-    <OpenBLASLibDir_x64>$(ProjectDir)..\..\..\..\..\libs\OpenBLAS\x64\</OpenBLASLibDir_x64>
+    <OpenBlasPath Condition="'$(OPENBLASPATH)' == ''">$(ProjectDir)..\..\..\..\..\libs\OpenBLAS</OpenBlasPath>
+    <OpenBLASIncludeDir>$(OpenBlasPath)\include\</OpenBLASIncludeDir>
+    <OpenBLASLibDir>$(OpenBlasPath)\x86\</OpenBLASLibDir>
+    <OpenBLASLibDir_x64>$(OpenBlasPath)\x64\</OpenBLASLibDir_x64>
   </PropertyGroup>
   <PropertyGroup>
     <_ProjectFileVersion>11.0.50727.1</_ProjectFileVersion>
