@@ -1,3 +1,7 @@
+### 1.8.0 - 2015-05-09
+* r8 with Intel MKL 11.2 Update 3
+* New combined NuGet package including both 32 and 64 bit builds and a proper build target (Win only)
+
 ### 1.7.0 - 2014-12-31
 * r7 with Intel MKL 11.2 Update 1
 * memory functions *~Marcus Cuda*

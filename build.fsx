@@ -737,6 +737,7 @@ let publishReleaseTag title prefix version notes =
 
 Target "PublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics" "" packageVersion releaseNotes)
 Target "MklPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics MKL Provider" "mkl-" mklPackageVersion mklReleaseNotes)
+Target "CudaPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics CUDA Provider" "cuda-" cudaPackageVersion cudaReleaseNotes)
 Target "DataPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Data Extensions" "data-" dataPackageVersion dataReleaseNotes)
 
 Target "PublishMirrors" (fun _ ->
@@ -780,6 +781,7 @@ let publishNuGet packageFiles =
 
 Target "PublishNuGet" (fun _ -> !! "out/packages/NuGet/*.nupkg" -- "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
 Target "MklPublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.nupkg" |> publishNuGet)
+Target "CudaPublishNuGet" (fun _ -> !! "out/CUDA/packages/NuGet/*.nupkg" |> publishNuGet)
 Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.nupkg" |> publishNuGet)
 
 Target "Publish" DoNothing
@@ -791,6 +793,10 @@ Target "Publish" DoNothing
 Target "MklPublish" DoNothing
 "MklPublishTag" ==> "MklPublish"
 "MklPublishNuGet" ==> "MklPublish"
+
+Target "CudaPublish" DoNothing
+"CudaPublishTag" ==> "CudaPublish"
+"CudaPublishNuGet" ==> "CudaPublish"
 
 Target "DataPublish" DoNothing
 "DataPublishTag" ==> "DataPublish"
