@@ -30,10 +30,7 @@
 
 #if NATIVE
 
-using MathNet.Numerics.Properties;
 using System;
-using System.Numerics;
-using System.Security;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 {
@@ -49,29 +46,29 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
     /// </summary>
     public partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
+        int _nativeRevision;
         bool _nativeIX86;
         bool _nativeX64;
         bool _nativeIA64;
         bool _nativeARM;
 
-        public OpenBlasLinearAlgebraProvider()
-        {
-
-        }
-
         public override void InitializeVerify()
         {
-            int linearAlgebra;
+            int a, b, linearAlgebra;
             try
             {
                 // Load the native library
                 NativeProviderLoader.TryLoad(SafeNativeMethods.DllName);
+
+                a = SafeNativeMethods.query_capability(0);
+                b = SafeNativeMethods.query_capability(1);
 
                 _nativeIX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
                 _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
                 _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
                 _nativeARM = SafeNativeMethods.query_capability((int)ProviderPlatform.arm) > 0;
 
+                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
                 linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebra);
             }
             catch (DllNotFoundException e)
@@ -87,6 +84,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
                 throw new NotSupportedException("OpenBLAS Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
             }
 
+            if (a != 0 || b != -1 || linearAlgebra <=0 || _nativeRevision < 1)
+            {
+                throw new NotSupportedException("OpenBLAS Native Provider too old or not compatible. Consider upgrading to a newer version.");
+            }
+
             // set threading settings, if supported
             if (SafeNativeMethods.query_capability((int)ProviderConfig.Threading) > 0)
             {
@@ -96,10 +98,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 
         public override string ToString()
         {
-            return string.Format("OpenBLAS\r\nProvider revision: {0}\r\nCPU core name: {1}\r\nLibrary config: {1})",
-                                SafeNativeMethods.query_capability((int)ProviderConfig.Revision),
-                                SafeNativeMethods.get_cpu_core(),
-                                SafeNativeMethods.get_build_config());
+            return string.Format("OpenBLAS ({1}; revision {0})",
+                _nativeRevision,
+                _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : _nativeARM ? "ARM" : "unknown");
         }
     }
 }

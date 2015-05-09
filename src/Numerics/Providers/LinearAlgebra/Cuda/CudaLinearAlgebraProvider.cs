@@ -39,21 +39,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
     /// </summary>
     public partial class CudaLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
     {
-        private int _nativeRevision;
-        private bool _nativeIX86;
-        private bool _nativeX64;
-        private bool _nativeIA64;
-        private IntPtr _blasHandle;
-        private IntPtr _solverHandle;
-
-        
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        [CLSCompliant(false)]
-        public CudaLinearAlgebraProvider()
-        {
-        }
+        int _nativeRevision;
+        bool _nativeIX86;
+        bool _nativeX64;
+        bool _nativeIA64;
+        IntPtr _blasHandle;
+        IntPtr _solverHandle;
 
         /// <summary>
         /// Initialize and verify that the provided is indeed available.
@@ -70,12 +61,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 a = SafeNativeMethods.query_capability(0);
                 b = SafeNativeMethods.query_capability(1);
 
-                _nativeIX86 = SafeNativeMethods.query_capability(8) > 0;
-                _nativeX64 = SafeNativeMethods.query_capability(9) > 0;
-                _nativeIA64 = SafeNativeMethods.query_capability(10) > 0;
+                _nativeIX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
+                _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
+                _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
 
-                _nativeRevision = SafeNativeMethods.query_capability(64);
-                linearAlgebra = SafeNativeMethods.query_capability(128);
+                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
+                linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebra);
             }
             catch (DllNotFoundException e)
             {
@@ -180,14 +171,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
                 default:
                     throw new Exception("Unrecognized cuSolverDn status code: " + status);
-
-
             }
         }
 
         public override string ToString()
         {
-            return string.Format("Nvidia CUDA ({1}; revision {0})", _nativeRevision, _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
+            return string.Format("Nvidia CUDA ({1}; revision {0})",
+                _nativeRevision,
+                _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
         }
 
 

@@ -162,7 +162,9 @@
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Double.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Single.cs" />
+    <Compile Include="Providers\LinearAlgebra\Cuda\CudaProviderCapabilities.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\SafeNativeMethods.cs" />
+    <Compile Include="Providers\LinearAlgebra\Mkl\MklProviderCapabilities.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex32.cs" />
@@ -198,7 +200,7 @@
     <Compile Include="LinearAlgebra\Vector.BCL.cs" />
     <Compile Include="LinearAlgebra\Vector.Operators.cs" />
     <Compile Include="Exceptions.cs" />
-    <Compile Include="Providers\LinearAlgebra\ProviderCapabilities.cs" />
+    <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasProviderCapabilities.cs" />
     <Compile Include="Providers\NativeProviderLoader.cs" />
     <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />

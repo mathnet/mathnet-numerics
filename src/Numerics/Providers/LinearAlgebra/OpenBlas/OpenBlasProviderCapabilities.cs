@@ -1,4 +1,4 @@
-﻿// <copyright file="ProviderCapabilities.cs" company="Math.NET">
+﻿// <copyright file="OpenBlasProviderCapabilities.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,9 +28,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Providers.LinearAlgebra
+namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 {
-    public enum ProviderPlatform : int
+    internal enum ProviderPlatform : int
     {
         x86 = 8,
         x64 = 9,
@@ -38,18 +38,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         arm = 11,
     }
 
-    public enum ProviderConfig : int
+    internal enum ProviderConfig : int
     {
         Revision = 64,
-        Precision = 65,
         Threading = 66,
-        Memory = 67,
     }
 
-    public enum ProviderCapability : int
+    internal enum ProviderCapability : int
     {
         LinearAlgebra = 128,
-        Optimization = 256,
-        FFT = 384,
     }
 }

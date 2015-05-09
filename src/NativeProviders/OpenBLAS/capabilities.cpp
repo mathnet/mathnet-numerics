@@ -41,7 +41,7 @@ extern "C" {
 #endif
 
 		// COMMON/SHARED
-		case 64: return 7; // revision
+		case 64: return 1; // revision
 		case 66: return 1; // threading control
 
 		// LINEAR ALGEBRA

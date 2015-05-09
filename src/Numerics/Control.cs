@@ -82,6 +82,10 @@ namespace MathNet.Numerics
                     case "CUDA":
                         LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
                         break;
+
+                    case "OPENBLAS":
+                        LinearAlgebraProvider = new Providers.LinearAlgebra.OpenBlas.OpenBlasLinearAlgebraProvider();
+                        break;
 #endif
                     default:
                         LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
