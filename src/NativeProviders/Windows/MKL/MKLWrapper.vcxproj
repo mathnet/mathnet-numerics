@@ -297,7 +297,7 @@
     <ClCompile Include="..\..\MKL\vector_functions.c" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\Common\resource.rc" />
+    <ResourceCompile Include="..\..\MKL\resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

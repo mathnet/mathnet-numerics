@@ -6,20 +6,20 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}</ProjectGuid>
+    <ProjectGuid>{E79C0395-01DC-4BC9-B86C-ED45790892C5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
-    <AssemblyName>MathNet.Numerics.UnitTestsMKL</AssemblyName>
+    <AssemblyName>MathNet.Numerics.UnitTestsCUDA</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;NATIVE;MKL</DefineConstants>
-    <OutputPath>..\..\out\MKL\Windows\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;NATIVE;CUDA</DefineConstants>
+    <OutputPath>..\..\out\CUDA\Windows\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\CUDA\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\CUDA\Windows\x86\</BaseIntermediateOutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -28,10 +28,10 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;DEBUG;NATIVE;MKL</DefineConstants>
-    <OutputPath>..\..\out\MKL\Windows\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NATIVE;CUDA</DefineConstants>
+    <OutputPath>..\..\out\CUDA\Windows\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\CUDA\Windows\x86\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\CUDA\Windows\x86\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>

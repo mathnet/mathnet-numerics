@@ -446,7 +446,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var a = new float[matrix.RowCount*matrix.RowCount];
             Array.Copy(matrix.Values, a, a.Length);
 
+#if CUDA
+            float[] work = null;
+#else
             var work = new float[matrix.RowCount];
+#endif
             Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount, work);
 
             AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 5);
@@ -475,7 +479,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
 
             Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv);
 
+#if CUDA
+            float[] work = null;
+#else
             var work = new float[matrix.RowCount];
+#endif
             Control.LinearAlgebraProvider.LUInverseFactored(a, matrix.RowCount, ipiv, work);
 
             AssertHelpers.AlmostEqual(a[0], -0.454545454545454, 5);
@@ -1450,7 +1458,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var s = new float[matrix.RowCount];
             var u = new float[matrix.RowCount*matrix.RowCount];
             var vt = new float[matrix.ColumnCount*matrix.ColumnCount];
+#if CUDA
+            float[] work = null;
+#else
             var work = new float[100];
+#endif
 
             Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work);
 
@@ -1489,7 +1501,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var s = new float[matrix.ColumnCount];
             var u = new float[matrix.RowCount*matrix.RowCount];
             var vt = new float[matrix.ColumnCount*matrix.ColumnCount];
+#if CUDA
+            float[] work = null;
+#else
             var work = new float[100];
+#endif
 
             Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work);
 
@@ -1525,7 +1541,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Single
             var s = new float[matrix.RowCount];
             var u = new float[matrix.RowCount*matrix.RowCount];
             var vt = new float[matrix.ColumnCount*matrix.ColumnCount];
+#if CUDA
+            float[] work = null;
+#else
             var work = new float[100];
+#endif
 
             Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt, work);
 

@@ -1,0 +1,74 @@
+<!--
+ *
+ * MathNet.Numerics.CUDA.Win.targets
+ *
+ * WARNING: This MSBuild file requires MSBuild 4.0 features.
+ *
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--
+  ******************************************************************************
+  **                    MathNet Interop Library Build Items                   **
+  ******************************************************************************
+  -->
+
+  <ItemGroup>
+    <MathNetInteropFiles Condition="'$(MSBuildThisFileDirectory)' != '' And
+                                   HasTrailingSlash('$(MSBuildThisFileDirectory)')"
+                        Include="$(MSBuildThisFileDirectory)**\*.dll" />
+  </ItemGroup>
+
+  <!--
+  ******************************************************************************
+  **                   MathNet Interop Library Build Targets                  **
+  ******************************************************************************
+  -->
+
+  <Target Name="CopyMathNetInteropFiles"
+          Condition="'$(CopyMathNetInteropFiles)' != 'false' And
+                     '$(OutputPath)' != '' And
+                     HasTrailingSlash('$(OutputPath)') And
+                     Exists('$(OutputPath)')"
+          Inputs="@(MathNetInteropFiles)"
+          Outputs="@(MathNetInteropFiles -> '$(OutputPath)%(RecursiveDir)%(Filename)%(Extension)')">
+    <!--
+        NOTE: Copy "MathNet.Numerics.CUDA.dll" and all related files, for every
+              architecture that we support, to the build output directory.
+    -->
+    <Copy SourceFiles="@(MathNetInteropFiles)"
+          DestinationFiles="@(MathNetInteropFiles -> '$(OutputPath)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+  ******************************************************************************
+  -->
+
+  <Target Name="CleanMathNetInteropFiles"
+          Condition="'$(CleanMathNetInteropFiles)' != 'false' And
+                     '$(OutputPath)' != '' And
+                     HasTrailingSlash('$(OutputPath)') And
+                     Exists('$(OutputPath)')">
+    <!--
+        NOTE: Delete "MathNet.Numerics.CUDA.dll" and all related files, for every
+              architecture that we support, from the build output directory.
+    -->
+    <Delete Files="@(MathNetInteropFiles -> '$(OutputPath)%(RecursiveDir)%(Filename)%(Extension)')" />
+  </Target>
+
+  <!--
+  ******************************************************************************
+  **                 MathNet Interop Library Build Properties                 **
+  ******************************************************************************
+  -->
+
+  <PropertyGroup>
+    <BuildDependsOn>
+      $(BuildDependsOn);
+      CopyMathNetInteropFiles;
+    </BuildDependsOn>
+    <CleanDependsOn>
+      $(CleanDependsOn);
+      CleanMathNetInteropFiles;
+    </CleanDependsOn>
+  </PropertyGroup>
+</Project>
