@@ -1,8 +1,8 @@
 #include "cblas.h"
 #include "wrapper_common.h"
 
-#if GCC 
-extern "C" { 
+#if __cplusplus
+extern "C" {
 #endif
 DLLEXPORT void s_axpy(const blasint n, const float alpha, const float x[], float y[]){
 	cblas_saxpy(n, alpha, x, 1, y, 1);
@@ -84,6 +84,6 @@ DLLEXPORT void z_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB,
 	cblas_zgemm(CblasColMajor, transA, transB, m, n, k, (double*)&alpha, (double*)x, lda, (double*)y, ldb, (double*)&beta, (double*)c, m);
 }
 
-#if GCC 
-} 
+#if __cplusplus
+}
 #endif
