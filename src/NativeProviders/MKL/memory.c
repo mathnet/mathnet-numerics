@@ -1,7 +1,7 @@
 #include "wrapper_common.h"
 #include "mkl.h"
 
-#if GCC
+#if __cplusplus
 extern "C" {
 #endif
 
@@ -25,6 +25,6 @@ DLLEXPORT MKL_INT64 peak_mem_usage(int mode) {
 	return mkl_peak_mem_usage(mode);
 }
 
-#if GCC
+#if __cplusplus
 }
 #endif
