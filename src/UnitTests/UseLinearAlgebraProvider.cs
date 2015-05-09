@@ -38,8 +38,12 @@ namespace MathNet.Numerics.UnitTests
     {
         public void BeforeTest(TestDetails testDetails)
         {
-#if !NET35 && NATIVE
+#if !NET35
+#if NATIVEMKL
             Control.UseNativeMKL();
+#elif NATIVEOPENBLAS
+            Control.UseNativeOpenBLAS();
+#endif
 #endif
         }
 
