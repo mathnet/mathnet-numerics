@@ -209,10 +209,11 @@
     <ClCompile Include="..\..\OpenBLAS\lapack.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\Common\resource.rc" />
+    <ResourceCompile Include="..\..\OpenBLAS\resource.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\OpenBLAS\complex.h" />
+    <ClInclude Include="..\..\OpenBLAS\resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

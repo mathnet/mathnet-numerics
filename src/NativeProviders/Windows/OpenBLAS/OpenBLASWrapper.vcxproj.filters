@@ -29,12 +29,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\Common\resource.rc">
+    <ResourceCompile Include="..\..\OpenBLAS\resource.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\OpenBLAS\complex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OpenBLAS\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
