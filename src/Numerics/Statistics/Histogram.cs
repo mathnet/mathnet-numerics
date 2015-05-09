@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Statistics
         /// The number of datapoints in the bucket.
         /// </summary>
         /// <remarks>
-        /// Value may be NaN if this was constructed as a <see cref="PointComparer"/> argument.
+        /// Value may be NaN if this was constructed as a <see cref="IComparer{Bucket}"/> argument.
         /// </remarks>
         public double Count { get; set; }
 
@@ -107,10 +107,10 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Constructs a Bucket that can be used as an argument for <see cref="PointComparer"/> 
-        /// when performing a Binary search.
+        /// Constructs a Bucket that can be used as an argument for a <see cref="IComparer{Bucket}"/>
+        /// like <see cref="DefaultPointComparer"/> when performing a Binary search.
         /// </summary>
-        /// <param name="value">Value to look for</param>
+        /// <param name="targetValue">Value to look for</param>
         public Bucket(double targetValue)
         {
             LowerBound = targetValue;
@@ -136,7 +136,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// True if this is a single point argument for <see cref="PointComparer"/> 
+        /// True if this is a single point argument for <see cref="IComparer{Bucket}"/>
         /// when performing a Binary search.
         /// </summary>
         private bool IsSinglePoint
@@ -157,8 +157,8 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="x">The point to check.</param>
         /// <returns>
-        ///  0 if the point falls within the bucket boundaries; 
-        /// -1 if the point is smaller than the bucket, 
+        ///  0 if the point falls within the bucket boundaries;
+        /// -1 if the point is smaller than the bucket,
         /// +1 if the point is larger than the bucket.</returns>
         public int Contains(double x)
         {
