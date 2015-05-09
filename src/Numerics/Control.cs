@@ -136,6 +136,11 @@ namespace MathNet.Numerics
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
         }
+
+        public static void UseNativeOpenBLAS()
+        {
+            LinearAlgebraProvider = new Providers.LinearAlgebra.OpenBlas.OpenBlasLinearAlgebraProvider();
+        }
 #endif
 
         /// <summary>

@@ -77,6 +77,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsMKL")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsCUDA")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsOpenBLAS")]
 [assembly: InternalsVisibleTo("Performance")]
 #endif
 

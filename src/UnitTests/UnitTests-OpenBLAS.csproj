@@ -6,20 +6,20 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}</ProjectGuid>
+    <ProjectGuid>{96B903EF-3EE1-4569-803C-0482D2F5ED37}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
-    <AssemblyName>MathNet.Numerics.UnitTestsMKL</AssemblyName>
+    <AssemblyName>MathNet.Numerics.UnitTestsOpenBLAS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;NATIVE;MKL</DefineConstants>
-    <OutputPath>..\..\out\MKL\Windows\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;NATIVE;OPENBLAS;</DefineConstants>
+    <OutputPath>..\..\out\OpenBLAS\Windows\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\OpenBLAS\Windows\AnyCPU\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\OpenBLAS\Windows\AnyCPU\</BaseIntermediateOutputPath>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -28,10 +28,10 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;DEBUG;NATIVE;MKL</DefineConstants>
-    <OutputPath>..\..\out\MKL\Windows\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;NATIVE;OPENBLAS;</DefineConstants>
+    <OutputPath>..\..\out\OpenBLAS\Windows\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\OpenBLAS\Windows\AnyCPU\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\OpenBLAS\Windows\AnyCPU\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>

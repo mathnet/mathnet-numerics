@@ -163,12 +163,12 @@
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Double.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Single.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\SafeNativeMethods.cs" />
-    <Compile Include="Providers\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.cs" />
-    <Compile Include="Providers\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex.cs" />
-    <Compile Include="Providers\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Complex32.cs" />
-    <Compile Include="Providers\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Double.cs" />
-    <Compile Include="Providers\LinearAlgebra\GotoBlas\GotoBlasLinearAlgebraProvider.Single.cs" />
-    <Compile Include="Providers\LinearAlgebra\GotoBlas\SafeNativeMethods.cs" />
+    <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.cs" />
+    <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex.cs" />
+    <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex32.cs" />
+    <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Double.cs" />
+    <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Single.cs" />
+    <Compile Include="Providers\LinearAlgebra\OpenBlas\SafeNativeMethods.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs" />
@@ -198,6 +198,7 @@
     <Compile Include="LinearAlgebra\Vector.BCL.cs" />
     <Compile Include="LinearAlgebra\Vector.Operators.cs" />
     <Compile Include="Exceptions.cs" />
+    <Compile Include="Providers\LinearAlgebra\ProviderCapabilities.cs" />
     <Compile Include="Providers\NativeProviderLoader.cs" />
     <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />
