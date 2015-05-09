@@ -22,11 +22,12 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Gustavo Guerra
 - Alexander Täschner
 - Hani Medhat
+- Kuan Bartel
+- Matthew A. Johnson
 - manyue
 - David Prince
 - Andriy Bratiychuk
 - Jack Pappas
-- Kuan Bartel
 - Artyom Baranovskiy
 - Ashley Messer
 - Candy Chiu
@@ -37,6 +38,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Anders Gustafsson
 - Gauthier Segay
 - Hythem Sidky
+- Justin Needham
 - Patrick van der Velde
 - Robin Neatherway
 - Andrew Kazyrevich
@@ -44,6 +46,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Feodor Fitsner
 - Iain McDonald
 - Kyle Parrigan
+- borfudin
 - Gregor959
 - IUser
 - Iain Sproat
@@ -59,6 +62,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - VicPara
 - Baltazar Bieniek
 - bstrausser
+- logophobia
 - mjmckp
 - nyuriks
 - seahearman

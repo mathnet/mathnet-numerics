@@ -1,3 +1,18 @@
+### 3.7.0 - 2015-05-09
+* Statistics: RunningStatistics now propagates min/max on Combine, handles NaN on Push.
+* Statistics: new MovingStatistics providing descriptive statistics over a moving window *~Marcus Cuda*
+* Statistics: new Statistics.MovingAverage.
+* Statistics: Improved Histogram handling of small-width buckets *~Justin Needham*
+* Distributions: ChiSquare.InvCDF *~logophobia*
+* FFT: Fourier.FrequencyScale to generate the frequency corresponding to each index in frequency space.
+* BUG: FFT: fix Bluestein algorithm for sequences with more than 46341 samples but not power-of-two.
+* Linear Algebra: SparseVector.AbsoluteMaximumIndex *~Matt Heffron*
+* MKL Native Provider: OSX build script *~Marcus Cuda*
+* MKL Native Provider: new combined NuGet package with a proper build target (no more manual file handling needed).
+* OpenBLAS Native Provider: a new linear algebra provider using OpenBLAS *~Kuan Bartel*
+* CUDA Native Provider: a new GPU-based linear algebra provider using Nvidia CUDA *~Matthew A. Johnson*
+* Native Providers: now versioned separately for each kind (MKL, CUDA, OpenBLAS).
+
 ### 3.6.0 - 2015-03-22
 * Distributions: ChiSquare.CDF more robust for large numbers *~Baltazar Bieniek*
 * Linear Algebra: MatrixStorage.Map2 equivalent to VectorStorage.Map2
