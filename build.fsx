@@ -278,7 +278,7 @@ let mklLinuxBundle =
 let cudaWinPack =
     { Id = "MathNet.Numerics.CUDA.Win"
       Version = cudaPackageVersion
-      Title = "Math.NET Numerics - CUDA Native Provider for Windows (x64 and x86)"
+      Title = "Math.NET Numerics - CUDA Native Provider for Windows (x64)"
       Summary = ""
       Description = "Nvidia CUDA native libraries for Math.NET Numerics."
       ReleaseNotes = cudaReleaseNotes
@@ -292,11 +292,7 @@ let cudaWinPack =
           @"..\..\out\CUDA\Windows\x64\cublas64_70.dll", Some "content", None;
           @"..\..\out\CUDA\Windows\x64\cudart64_70.dll", Some "content", None;
           @"..\..\out\CUDA\Windows\x64\cusolver64_70.dll", Some "content", None;
-          @"..\..\out\CUDA\Windows\x64\MathNet.Numerics.CUDA.dll", Some "content", None
-          @"..\..\out\CUDA\Windows\x86\cublas32_70.dll", Some "content", None;
-          @"..\..\out\CUDA\Windows\x86\cudart32_70.dll", Some "content", None;
-          @"..\..\out\CUDA\Windows\x86\cusolver32_70.dll", Some "content", None;
-          @"..\..\out\CUDA\Windows\x86\MathNet.Numerics.CUDA.dll", Some "content", None ] }
+          @"..\..\out\CUDA\Windows\x64\MathNet.Numerics.CUDA.dll", Some "content", None ] }
 
 let cudaWinBundle =
     { Id = "MathNet.Numerics.CUDA.Win"
@@ -425,10 +421,8 @@ Target "MklWinBuild" DoNothing
 "Prepare" ==> "MklWin32Build" ==> "MklWinBuild"
 "Prepare" ==> "MklWin64Build" ==> "MklWinBuild"
 
-Target "CudaWin32Build" (fun _ -> buildConfig32 "Release-CUDA" !! "MathNet.Numerics.NativeProviders.sln")
 Target "CudaWin64Build" (fun _ -> buildConfig64 "Release-CUDA" !! "MathNet.Numerics.NativeProviders.sln")
 Target "CudaWinBuild" DoNothing
-"Prepare" ==> "CudaWin32Build" ==> "CudaWinBuild"
 "Prepare" ==> "CudaWin64Build" ==> "CudaWinBuild"
 
 Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
