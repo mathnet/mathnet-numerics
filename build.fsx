@@ -58,6 +58,13 @@ let cudaPackageVersion = cudaRelease.NugetVersion
 let cudaReleaseNotes = cudaRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
 trace (sprintf " Math.NET Numerics CUDA Provider      v%s" cudaPackageVersion)
 
+let openBlasRelease = LoadReleaseNotes "RELEASENOTES-OpenBLAS.md"
+let openBlasBuildPart = "0"
+let openBlasAssemblyVersion = openBlasRelease.AssemblyVersion + "." + openBlasBuildPart
+let openBlasPackageVersion = openBlasRelease.NugetVersion
+let openBlasReleaseNotes = openBlasRelease.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
+trace (sprintf " Math.NET Numerics OpenBLAS Provider  v%s" openBlasPackageVersion)
+
 let dataRelease = LoadReleaseNotes "RELEASENOTES-Data.md"
 let dataBuildPart = "0"
 let dataAssemblyVersion = dataRelease.AssemblyVersion + "." + dataBuildPart
@@ -306,6 +313,42 @@ let cudaWinBundle =
       Packages = [ cudaWinPack ] }
 
 
+// OpenBLAS NATIVE PROVIDER PACKAGES
+
+let openBlasWinPack =
+    { Id = "MathNet.Numerics.OpenBLAS.Win"
+      Version = openBlasPackageVersion
+      Title = "Math.NET Numerics - OpenBLAS Native Provider for Windows (x64 and x86)"
+      Summary = ""
+      Description = "OpenBLAS native libraries for Math.NET Numerics."
+      ReleaseNotes = openBlasReleaseNotes
+      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native openblas"
+      Authors = [ "Kuan Bartel"; "Christoph Ruegg"; "Marcus Cuda" ]
+      Dependencies =
+        [ { FrameworkVersion=""
+            Dependencies=[ "MathNet.Numerics", "3.7.0" ] } ]
+      Files =
+        [ @"..\..\build\MathNet.Numerics.OpenBLAS.Win.targets", Some "build", None;
+          @"..\..\out\OpenBLAS\Windows\x64\libgcc_s_seh-1.dll", Some @"build\x64", None;
+          @"..\..\out\OpenBLAS\Windows\x64\libgfortran-3.dll", Some @"build\x64", None;
+          @"..\..\out\OpenBLAS\Windows\x64\libopenblas.dll", Some @"build\x64", None;
+          @"..\..\out\OpenBLAS\Windows\x64\libquadmath-0.dll", Some @"build\x64", None;
+          @"..\..\out\OpenBLAS\Windows\x64\MathNet.Numerics.OpenBLAS.dll", Some @"build\x64", None;
+          @"..\..\out\OpenBLAS\Windows\x86\libgcc_s_sjlj-1.dll", Some @"build\x86", None;
+          @"..\..\out\OpenBLAS\Windows\x86\libgfortran-3.dll", Some @"build\x86", None;
+          @"..\..\out\OpenBLAS\Windows\x86\libopenblas.dll", Some @"build\x86", None;
+          @"..\..\out\OpenBLAS\Windows\x86\libquadmath-0.dll", Some @"build\x86", None;
+          @"..\..\out\OpenBLAS\Windows\x86\MathNet.Numerics.OpenBLAS.dll", Some @"build\x86", None ] }
+
+let openBlasWinBundle =
+    { Id = "MathNet.Numerics.OpenBLAS.Win"
+      Version = openBlasPackageVersion
+      Title = "Math.NET Numerics OpenBLAS Native Provider for Windows"
+      ReleaseNotesFile = "RELEASENOTES-OpenBLAS.md"
+      FsLoader = false
+      Packages = [ openBlasWinPack ] }
+
+
 // DATA EXTENSION PACKAGES
 
 let dataTextPack =
@@ -386,7 +429,11 @@ Target "ApplyVersion" (fun _ ->
     ReplaceInFile
         (regex_replace @"\d+\.\d+\.\d+\.\d+" cudaAssemblyVersion
          >> regex_replace @"\d+,\d+,\d+,\d+" (replace "." "," cudaAssemblyVersion))
-        "src/NativeProviders/CUDA/resource.rc")
+        "src/NativeProviders/CUDA/resource.rc"
+    ReplaceInFile
+        (regex_replace @"\d+\.\d+\.\d+\.\d+" openBlasAssemblyVersion
+         >> regex_replace @"\d+,\d+,\d+,\d+" (replace "." "," openBlasAssemblyVersion))
+        "src/NativeProviders/OpenBLAS/resource.rc")
 
 Target "Prepare" DoNothing
 "Start"
@@ -427,6 +474,12 @@ Target "MklWinBuild" DoNothing
 Target "CudaWin64Build" (fun _ -> buildConfig64 "Release-CUDA" !! "MathNet.Numerics.NativeProviders.sln")
 Target "CudaWinBuild" DoNothing
 "Prepare" ==> "CudaWin64Build" ==> "CudaWinBuild"
+
+Target "OpenBlasWin32Build" (fun _ -> buildConfig32 "Release-OpenBLAS" !! "MathNet.Numerics.NativeProviders.sln")
+Target "OpenBlasWin64Build" (fun _ -> buildConfig64 "Release-OpenBLAS" !! "MathNet.Numerics.NativeProviders.sln")
+Target "OpenBlasWinBuild" DoNothing
+"Prepare" ==> "OpenBlasWin32Build" ==> "OpenBlasWinBuild"
+"Prepare" ==> "OpenBlasWin64Build" ==> "OpenBlasWinBuild"
 
 Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
 "Prepare" ==> "DataBuild"
@@ -484,6 +537,28 @@ Target "CudaWin64Test" (fun _ ->
             OutputFile = "TestResults.xml" }))
 Target "CudaWinTest" DoNothing
 "CudaWin64Test" ==> "CudaWinTest"
+
+Target "OpenBlasWin32Test" (fun _ ->
+    ActivateFinalTarget "CloseTestRunner"
+    !! "out/OpenBLAS/Windows/*UnitTests*.dll"
+    |> NUnit (fun p ->
+        { p with
+            ToolName = "nunit-console-x86.exe"
+            DisableShadowCopy = true
+            TimeOut = TimeSpan.FromMinutes 60.
+            OutputFile = "TestResults.xml" }))
+Target "OpenBlasWin64Test" (fun _ ->
+    ActivateFinalTarget "CloseTestRunner"
+    !! "out/OpenBLAS/Windows/*UnitTests*.dll"
+    |> NUnit (fun p ->
+        { p with
+            ToolName = "nunit-console.exe"
+            DisableShadowCopy = true
+            TimeOut = TimeSpan.FromMinutes 60.
+            OutputFile = "TestResults.xml" }))
+Target "OpenBlasWinTest" DoNothing
+"OpenBlasWin32Test" ==> "OpenBlasWinTest"
+"OpenBlasWin64Test" ==> "OpenBlasWinTest"
 
 Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
 
@@ -565,6 +640,10 @@ Target "CudaWinZip" (fun _ ->
     CreateDir "out/CUDA/packages/Zip"
     cudaWinBundle |> zip "out/CUDA/packages/Zip" "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver")))
 
+Target "OpenBlasWinZip" (fun _ ->
+    CreateDir "out/OpenBLAS/packages/Zip"
+    openBlasWinBundle |> zip "out/OpenBLAS/packages/Zip" "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath")))
+
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
@@ -630,6 +709,10 @@ Target "MklLinuxNuGet" (fun _ ->
 Target "CudaWinNuGet" (fun _ ->
     CreateDir "out/CUDA/packages/NuGet"
     nugetPackExtension cudaWinBundle "out/CUDA/packages/NuGet")
+
+Target "OpenBlasWinNuGet" (fun _ ->
+    CreateDir "out/OpenBLAS/packages/NuGet"
+    nugetPackExtension openBlasWinBundle "out/OpenBLAS/packages/NuGet")
 
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
@@ -738,6 +821,7 @@ let publishReleaseTag title prefix version notes =
 Target "PublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics" "" packageVersion releaseNotes)
 Target "MklPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics MKL Provider" "mkl-" mklPackageVersion mklReleaseNotes)
 Target "CudaPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics CUDA Provider" "cuda-" cudaPackageVersion cudaReleaseNotes)
+Target "OpenBlasPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics OpenBLAS Provider" "openblas-" openBlasPackageVersion openBlasReleaseNotes)
 Target "DataPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Data Extensions" "data-" dataPackageVersion dataReleaseNotes)
 
 Target "PublishMirrors" (fun _ ->
@@ -782,6 +866,7 @@ let publishNuGet packageFiles =
 Target "PublishNuGet" (fun _ -> !! "out/packages/NuGet/*.nupkg" -- "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
 Target "MklPublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.nupkg" |> publishNuGet)
 Target "CudaPublishNuGet" (fun _ -> !! "out/CUDA/packages/NuGet/*.nupkg" |> publishNuGet)
+Target "OpenBlasPublishNuGet" (fun _ -> !! "out/OpenBLAS/packages/NuGet/*.nupkg" |> publishNuGet)
 Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.nupkg" |> publishNuGet)
 
 Target "Publish" DoNothing
@@ -797,6 +882,10 @@ Target "MklPublish" DoNothing
 Target "CudaPublish" DoNothing
 "CudaPublishTag" ==> "CudaPublish"
 "CudaPublishNuGet" ==> "CudaPublish"
+
+Target "OpenBlasPublish" DoNothing
+"OpenBlasPublishTag" ==> "OpenBlasPublish"
+"OpenBlasPublishNuGet" ==> "OpenBlasPublish"
 
 Target "DataPublish" DoNothing
 "DataPublishTag" ==> "DataPublish"
@@ -829,16 +918,20 @@ match buildServer with
     "MklWin32Build" ==> "MklWin32Test" |> ignore
     "MklWin64Build" ==> "MklWin64Test" |> ignore
     "CudaWin64Build" ==> "CudaWin64Test" |> ignore
+    "OpenBlasWin32Build" ==> "OpenBlasWin32Test" |> ignore
+    "OpenBlasWin64Build" ==> "OpenBlasWin64Test" |> ignore
     "DataBuild" ==> "DataTest" |> ignore
 
     // build --> package
     "Build" ==> "Zip" |> ignore
     "MklWinBuild" ==> "MklWinZip" |> ignore
     "CudaWinBuild" ==> "CudaWinZip" |> ignore
+    "OpenBlasWinBuild" ==> "OpenBlasWinZip" |> ignore
     "DataBuild" ==> "DataZip" |> ignore
     "Build" ==> "NuGet" |> ignore
     "MklWinBuild" ==> "MklWinNuGet" |> ignore
     "CudaWinBuild" ==> "CudaWinNuGet" |> ignore
+    "OpenBlasWinBuild" ==> "OpenBlasWinNuGet" |> ignore
     "DataBuild" ==> "DataNuGet" |> ignore
 
     // build --> docs
@@ -872,6 +965,12 @@ Target "CudaWinAll" DoNothing
 "CudaWinZip" ==> "CudaWinAll"
 "CudaWinNuGet" ==> "CudaWinAll"
 "CudaWinTest" ==> "CudaWinAll"
+
+Target "OpenBlasWinAll" DoNothing
+"OpenBlasWinBuild" ==> "OpenBlasWinAll"
+"OpenBlasWinZip" ==> "OpenBlasWinAll"
+"OpenBlasWinNuGet" ==> "OpenBlasWinAll"
+"OpenBlasWinTest" ==> "OpenBlasWinAll"
 
 Target "DataAll" DoNothing
 "DataBuild" ==> "DataAll"
