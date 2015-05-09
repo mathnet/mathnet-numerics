@@ -192,7 +192,7 @@ let coreSignedBundle =
       Packages = [ numericsSignedPack; fsharpSignedPack ] }
 
 
-// NATIVE PROVIDER PACKAGES
+// MKL NATIVE PROVIDER PACKAGES
 
 let mklWinPack =
     { Id = "MathNet.Numerics.MKL.Win"
@@ -207,11 +207,11 @@ let mklWinPack =
         [ { FrameworkVersion=""
             Dependencies=[ "MathNet.Numerics", "3.6.0" ] } ]
       Files =
-        [ @"MathNet.Numerics.MKL.Win.targets", Some "build", None;
-          @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "build\x64", None;
-          @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "build\x64", None;
-          @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "build\x86", None;
-          @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "build\x86", None ] }
+        [ @"..\..\build\MathNet.Numerics.MKL.Win.targets", Some "build", None;
+          @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some @"build\x64", None;
+          @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some @"build\x64", None;
+          @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some @"build\x86", None;
+          @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some @"build\x86", None ] }
 
 let mklWin32Pack =
     { mklWinPack with
@@ -275,6 +275,9 @@ let mklLinuxBundle =
       FsLoader = false
       Packages = [ mklLinux32Pack; mklLinux64Pack ] }
 
+
+// CUDA NATIVE PROVIDER PACKAGES
+
 let cudaWinPack =
     { Id = "MathNet.Numerics.CUDA.Win"
       Version = cudaPackageVersion
@@ -288,7 +291,7 @@ let cudaWinPack =
         [ { FrameworkVersion=""
             Dependencies=[ "MathNet.Numerics", "3.7.0" ] } ]
       Files =
-        [ @"MathNet.Numerics.CUDA.Win.targets", Some "build", None;
+        [ @"..\..\build\MathNet.Numerics.CUDA.Win.targets", Some "build", None;
           @"..\..\out\CUDA\Windows\x64\cublas64_70.dll", Some "content", None;
           @"..\..\out\CUDA\Windows\x64\cudart64_70.dll", Some "content", None;
           @"..\..\out\CUDA\Windows\x64\cusolver64_70.dll", Some "content", None;
@@ -296,7 +299,7 @@ let cudaWinPack =
 
 let cudaWinBundle =
     { Id = "MathNet.Numerics.CUDA.Win"
-      Version = mklPackageVersion
+      Version = cudaPackageVersion
       Title = "Math.NET Numerics CUDA Native Provider for Windows"
       ReleaseNotesFile = "RELEASENOTES-CUDA.md"
       FsLoader = false
@@ -443,9 +446,14 @@ let test target =
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 
+FinalTarget "CloseTestRunner" (fun _ ->
+    ProcessHelper.killProcess "nunit-agent.exe"
+    ProcessHelper.killProcess "nunit-agent-x86.exe"
+)
+
 Target "MklWin32Test" (fun _ ->
     ActivateFinalTarget "CloseTestRunner"
-    !! "out/MKL/Windows/x86/*UnitTests*.dll"
+    !! "out/MKL/Windows/*UnitTests*.dll"
     |> NUnit (fun p ->
         { p with
             ToolName = "nunit-console-x86.exe"
@@ -454,7 +462,7 @@ Target "MklWin32Test" (fun _ ->
             OutputFile = "TestResults.xml" }))
 Target "MklWin64Test" (fun _ ->
     ActivateFinalTarget "CloseTestRunner"
-    !! "out/MKL/Windows/x64/*UnitTests*.dll"
+    !! "out/MKL/Windows/*UnitTests*.dll"
     |> NUnit (fun p ->
         { p with
             ToolName = "nunit-console.exe"
@@ -462,14 +470,20 @@ Target "MklWin64Test" (fun _ ->
             TimeOut = TimeSpan.FromMinutes 60.
             OutputFile = "TestResults.xml" }))
 Target "MklWinTest" DoNothing
-
-FinalTarget "CloseTestRunner" (fun _ ->
-    ProcessHelper.killProcess "nunit-agent.exe"
-    ProcessHelper.killProcess "nunit-agent-x86.exe"
-)
-
 "MklWin32Test" ==> "MklWinTest"
 "MklWin64Test" ==> "MklWinTest"
+
+Target "CudaWin64Test" (fun _ ->
+    ActivateFinalTarget "CloseTestRunner"
+    !! "out/CUDA/Windows/*UnitTests*.dll"
+    |> NUnit (fun p ->
+        { p with
+            ToolName = "nunit-console.exe"
+            DisableShadowCopy = true
+            TimeOut = TimeSpan.FromMinutes 60.
+            OutputFile = "TestResults.xml" }))
+Target "CudaWinTest" DoNothing
+"CudaWin64Test" ==> "CudaWinTest"
 
 Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
 
@@ -547,6 +561,10 @@ Target "MklLinuxZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
     mklLinuxBundle |> zip "out/MKL/packages/Zip" "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
 
+Target "CudaWinZip" (fun _ ->
+    CreateDir "out/CUDA/packages/Zip"
+    cudaWinBundle |> zip "out/CUDA/packages/Zip" "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver")))
+
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
@@ -609,6 +627,10 @@ Target "MklLinuxNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"
     nugetPackExtension mklLinuxBundle "out/MKL/packages/NuGet")
 
+Target "CudaWinNuGet" (fun _ ->
+    CreateDir "out/CUDA/packages/NuGet"
+    nugetPackExtension cudaWinBundle "out/CUDA/packages/NuGet")
+
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
     nugetPackExtension dataBundle "out/Data/packages/NuGet")
@@ -630,7 +652,9 @@ let extraDocs =
 let releaseNotesDocs =
     [ "RELEASENOTES.md", "ReleaseNotes.md", "Release Notes"
       "RELEASENOTES-Data.md", "ReleaseNotes-Data.md", "Data Extensions Release Notes"
-      "RELEASENOTES-MKL.md", "ReleaseNotes-MKL.md", "MKL Native Provider Release Notes" ]
+      "RELEASENOTES-MKL.md", "ReleaseNotes-MKL.md", "MKL Native Provider Release Notes"
+      "RELEASENOTES-CUDA.md", "ReleaseNotes-CUDA.md", "CUDA Native Provider Release Notes"
+      "RELEASENOTES-OpenBLAS.md", "ReleaseNotes-OpenBLAS.md", "OpenBLAS Native Provider Release Notes" ]
 
 let provideDocExtraFiles() =
     for (fileName, docName) in extraDocs do CopyFile ("docs/content" </> docName) fileName
@@ -798,14 +822,17 @@ match buildServer with
     "Build" ==> "Test" |> ignore
     "MklWin32Build" ==> "MklWin32Test" |> ignore
     "MklWin64Build" ==> "MklWin64Test" |> ignore
+    "CudaWin64Build" ==> "CudaWin64Test" |> ignore
     "DataBuild" ==> "DataTest" |> ignore
 
     // build --> package
     "Build" ==> "Zip" |> ignore
     "MklWinBuild" ==> "MklWinZip" |> ignore
+    "CudaWinBuild" ==> "CudaWinZip" |> ignore
     "DataBuild" ==> "DataZip" |> ignore
     "Build" ==> "NuGet" |> ignore
     "MklWinBuild" ==> "MklWinNuGet" |> ignore
+    "CudaWinBuild" ==> "CudaWinNuGet" |> ignore
     "DataBuild" ==> "DataNuGet" |> ignore
 
     // build --> docs
@@ -833,6 +860,12 @@ Target "MklWinAll" DoNothing
 "MklWinZip" ==> "MklWinAll"
 "MklWinNuGet" ==> "MklWinAll"
 "MklWinTest" ==> "MklWinAll"
+
+Target "CudaWinAll" DoNothing
+"CudaWinBuild" ==> "CudaWinAll"
+"CudaWinZip" ==> "CudaWinAll"
+"CudaWinNuGet" ==> "CudaWinAll"
+"CudaWinTest" ==> "CudaWinAll"
 
 Target "DataAll" DoNothing
 "DataBuild" ==> "DataAll"
