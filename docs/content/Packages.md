@@ -33,15 +33,19 @@ packages do not contain portable builds.
 Intel MKL Native Provider
 -------------------------
 
-Since v3.6.0 Math.NET Numerics can automatically choose the 64- or 32-bit version
-of native providers depending on the operating system and process. But we do not
-provide combined NuGet packages yet. If you intend to [maintain the native binaries
-manually](MKL.html#Native-Binaries) it may be easier to download the combined Zip file in the release archive.
+The new combined package includes both 32 and 64 bit binaries and can automatically
+pick the right one at runtime. It is also MsBuild integrated, so there is no
+more need to any manual file handling. But it is only supported by Math.NET Numerics
+v3.6.0 and higher.
+
+If you intend to [maintain the native binaries manually](MKL.html#Native-Binaries)
+it may be easier to download the Zip file in the release archive.
 
 [Intel MKL Native Provider Release Notes](ReleaseNotes-MKL.html)
 
-- [**MathNet.Numerics.MKL.Win-x64**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x64/) - Windows 64-bit.
-- [**MathNet.Numerics.MKL.Win-x86**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x86/) - Windows 32-bit.
+- [**MathNet.Numerics.MKL.Win**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win/) - Windows (combined, MsBuild integrated).
+- [**MathNet.Numerics.MKL.Win-x64**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x64/) - Windows 64-bit only.
+- [**MathNet.Numerics.MKL.Win-x86**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Win-x86/) - Windows 32-bit only.
 - [**MathNet.Numerics.MKL.Linux-x64**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Linux-x64/) - Linux 64-bit.
 - [**MathNet.Numerics.MKL.Linux-x86**](https://www.nuget.org/packages/MathNet.Numerics.MKL.Linux-x86/) - Linux 32-bit.
 

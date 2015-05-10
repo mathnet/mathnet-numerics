@@ -1,3 +1,5 @@
+* text=auto
+
 *.cs text diff=csharp
 *.msbuild text
 *.config text
@@ -7,7 +9,8 @@
 *.xml text
 *.js text
 *.ps1 text
-*.DotSettings text
+
+*.DotSettings text eol=lf
 *.sh text eol=lf
 
 *.csproj text merge=union
@@ -24,5 +27,3 @@
 *.DOCX diff=astextplain
 *.pdf diff=astextplain
 *.PDF diff=astextplain
-
-* text=auto

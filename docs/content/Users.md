@@ -35,6 +35,8 @@ Closed Source
 * [SpectraFox](http://www.spectrafox.com/) STM / AFM spectroscopy analysis
 * [Colymp](http://colymp.com/) Color Management Software
 * [ILNumerics](http://ilnumerics.net/)
+* [GazeSpeaker](http://www.gazespeaker.org) Free software to help people with disabilities
+* [ModVal.org](http://www.modval.org) Quant model repository for regulatory and internal model validation.
 * At least half of the hearing aid market for their software to fit
   their hearing instruments to a patient's actual hearing loss.
 
