@@ -30,13 +30,15 @@ namespace MathNet.Numerics.Optimization.Implementation
         public void EvaluateAt(Vector<double> point)
         {
             InnerObjectiveFunction.EvaluateAt(point);
+            _valueChecked = false;
+            _gradientChecked = false;
+            _hessianChecked = false;
         }
 
         public double Value
         {
             get
             {
-
                 if (!_valueChecked)
                 {
                     double tmp;
