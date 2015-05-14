@@ -120,7 +120,6 @@
     <Compile Include="Optimization\Exceptions.cs" />
     <Compile Include="Optimization\IObjectiveFunction.cs" />
     <Compile Include="Optimization\Implementation\LineSearchOutput.cs" />
-    <Compile Include="Optimization\Implementation\NullObjectiveFunction.cs" />
     <Compile Include="Optimization\Implementation\CheckedObjectiveFunction.cs" />
     <Compile Include="Optimization\Implementation\WeakWolfeLineSearch.cs" />
     <Compile Include="Optimization\IUnconstrainedMinimizer.cs" />
