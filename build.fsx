@@ -212,7 +212,7 @@ let mklWinPack =
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       Dependencies = []
       Files =
-        [ @"..\..\build\MathNet.Numerics.MKL.Win.targets", Some "build", None;
+        [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Win.targets", None;
           @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some @"build\x64", None;
           @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some @"build\x64", None;
           @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some @"build\x86", None;
@@ -286,7 +286,7 @@ let cudaWinPack =
       Authors = [ "Matthew A Johnson"; "Christoph Ruegg" ]
       Dependencies = []
       Files =
-        [ @"..\..\build\MathNet.Numerics.CUDA.Win.targets", Some "build", None;
+        [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.CUDA.Win.targets", None;
           @"..\..\out\CUDA\Windows\x64\cublas64_70.dll", Some "content", None;
           @"..\..\out\CUDA\Windows\x64\cudart64_70.dll", Some "content", None;
           @"..\..\out\CUDA\Windows\x64\cusolver64_70.dll", Some "content", None;
@@ -314,7 +314,7 @@ let openBlasWinPack =
       Authors = [ "Kuan Bartel"; "Christoph Ruegg"; "Marcus Cuda" ]
       Dependencies = []
       Files =
-        [ @"..\..\build\MathNet.Numerics.OpenBLAS.Win.targets", Some "build", None;
+        [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.OpenBLAS.Win.targets", None;
           @"..\..\out\OpenBLAS\Windows\x64\libgcc_s_seh-1.dll", Some @"build\x64", None;
           @"..\..\out\OpenBLAS\Windows\x64\libgfortran-3.dll", Some @"build\x64", None;
           @"..\..\out\OpenBLAS\Windows\x64\libopenblas.dll", Some @"build\x64", None;
