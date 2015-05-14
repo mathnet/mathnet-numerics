@@ -4,7 +4,17 @@ namespace MathNet.Numerics.Optimization
 {
     public class MinimizationOutput
     {
-        public enum ExitCondition { None, RelativeGradient, LackOfProgress, AbsoluteGradient, WeakWolfeCriteria, BoundTolerance, StrongWolfeCriteria, LackOfFunctionImprovement }
+        public enum ExitCondition
+        {
+            None,
+            RelativeGradient,
+            LackOfProgress,
+            AbsoluteGradient,
+            WeakWolfeCriteria,
+            BoundTolerance,
+            StrongWolfeCriteria,
+            LackOfFunctionImprovement
+        }
 
         public Vector<double> MinimizingPoint { get { return FunctionInfoAtMinimum.Point; } }
         public IObjectiveFunction FunctionInfoAtMinimum { get; private set; }
