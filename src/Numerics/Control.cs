@@ -30,7 +30,6 @@
 
 using MathNet.Numerics.Providers.LinearAlgebra;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace MathNet.Numerics
@@ -40,6 +39,8 @@ namespace MathNet.Numerics
     /// </summary>
     public static class Control
     {
+        const string EnvVarLAProvider = "MathNetNumericsLAProvider";
+
         static int _maxDegreeOfParallelism;
         static int _blockSize;
         static int _parallelizeOrder;
@@ -70,35 +71,147 @@ namespace MathNet.Numerics
 #else
             try
             {
-                const string name = "MathNetNumericsLAProvider";
-                var value = Environment.GetEnvironmentVariable(name);
+                var value = Environment.GetEnvironmentVariable(EnvVarLAProvider);
                 switch (value != null ? value.ToUpperInvariant() : string.Empty)
                 {
 #if NATIVE
                     case "MKL":
-                        LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+                        UseNativeMKL();
                         break;
 
                     case "CUDA":
-                        LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
+                        UseNativeCUDA();
                         break;
 
                     case "OPENBLAS":
-                        LinearAlgebraProvider = new Providers.LinearAlgebra.OpenBlas.OpenBlasLinearAlgebraProvider();
+                        UseNativeOpenBLAS();
                         break;
 #endif
                     default:
-                        LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+                        if (!TryUseNative())
+                        {
+                            UseManaged();
+                        }
                         break;
                 }
             }
             catch
             {
                 // We don't care about any failures here at all (because "auto")
-                LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+                UseManaged();
             }
 #endif
         }
+
+        public static void UseManaged()
+        {
+            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+        }
+
+#if NATIVE
+
+        /// <summary>
+        /// Use the Intel MKL native provider for linear algebra.
+        /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
+        /// </summary>
+        public static void UseNativeMKL()
+        {
+            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+        }
+
+        /// <summary>
+        /// Use the Intel MKL native provider for linear algebra, with the specified configuration parameters.
+        /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
+        /// </summary>
+        [CLSCompliant(false)]
+        public static void UseNativeMKL(
+            Providers.LinearAlgebra.Mkl.MklConsistency consistency = Providers.LinearAlgebra.Mkl.MklConsistency.Auto,
+            Providers.LinearAlgebra.Mkl.MklPrecision precision = Providers.LinearAlgebra.Mkl.MklPrecision.Double,
+            Providers.LinearAlgebra.Mkl.MklAccuracy accuracy = Providers.LinearAlgebra.Mkl.MklAccuracy.High)
+        {
+            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
+        }
+
+        /// <summary>
+        /// Try to use the Intel MKL native provider for linear algebra.
+        /// </summary>
+        /// <returns>
+        /// True if the provider was found and initialized successfully.
+        /// False if it failed and the previous provider is still active.
+        /// </returns>
+        public static bool TryUseNativeMKL()
+        {
+            return Try(UseNativeMKL);
+        }
+
+        /// <summary>
+        /// Use the Nvidia CUDA native provider for linear algebra.
+        /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
+        /// </summary>
+        public static void UseNativeCUDA()
+        {
+            LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
+        }
+
+        /// <summary>
+        /// Try to use the Nvidia CUDA native provider for linear algebra.
+        /// </summary>
+        /// <returns>
+        /// True if the provider was found and initialized successfully.
+        /// False if it failed and the previous provider is still active.
+        /// </returns>
+        public static bool TryUseNativeCUDA()
+        {
+            return Try(UseNativeCUDA);
+        }
+
+        /// <summary>
+        /// Use the OpenBLAS native provider for linear algebra.
+        /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
+        /// </summary>
+        public static void UseNativeOpenBLAS()
+        {
+            LinearAlgebraProvider = new Providers.LinearAlgebra.OpenBlas.OpenBlasLinearAlgebraProvider();
+        }
+
+        /// <summary>
+        /// Try to use the OpenBLAS native provider for linear algebra.
+        /// </summary>
+        /// <returns>
+        /// True if the provider was found and initialized successfully.
+        /// False if it failed and the previous provider is still active.
+        /// </returns>
+        public static bool TryUseNativeOpenBLAS()
+        {
+            return Try(UseNativeOpenBLAS);
+        }
+
+        /// <summary>
+        /// Try to use any available native provider in an undefined order.
+        /// </summary>
+        /// <returns>
+        /// True if one of the native providers was found and successfully initialized.
+        /// False if it failed and the previous provider is still active.
+        /// </returns>
+        public static bool TryUseNative()
+        {
+            return TryUseNativeCUDA() || TryUseNativeMKL() || TryUseNativeOpenBLAS();
+        }
+
+        static bool Try(Action action)
+        {
+            try
+            {
+                action();
+                return true;
+            }
+            catch
+            {
+                // intentionally swallow exceptions here - use the non-try variants if you're interested in why
+                return false;
+            }
+        }
+#endif
 
         public static void UseSingleThread()
         {
@@ -115,37 +228,6 @@ namespace MathNet.Numerics
 
             LinearAlgebraProvider.InitializeVerify();
         }
-
-        public static void UseManaged()
-        {
-            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-        }
-
-#if NATIVE
-        public static void UseNativeMKL()
-        {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
-        }
-
-        [CLSCompliant(false)]
-        public static void UseNativeMKL(
-            Providers.LinearAlgebra.Mkl.MklConsistency consistency = Providers.LinearAlgebra.Mkl.MklConsistency.Auto,
-            Providers.LinearAlgebra.Mkl.MklPrecision precision = Providers.LinearAlgebra.Mkl.MklPrecision.Double,
-            Providers.LinearAlgebra.Mkl.MklAccuracy accuracy = Providers.LinearAlgebra.Mkl.MklAccuracy.High)
-        {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
-        }
-
-        public static void UseNativeCUDA()
-        {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
-        }
-
-        public static void UseNativeOpenBLAS()
-        {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.OpenBlas.OpenBlasLinearAlgebraProvider();
-        }
-#endif
 
         /// <summary>
         /// Gets or sets a value indicating whether the distribution classes check validate each parameter.
