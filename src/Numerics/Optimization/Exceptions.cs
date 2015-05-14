@@ -19,18 +19,18 @@ namespace MathNet.Numerics.Optimization
 
     public class EvaluationException : OptimizationException
     {
-        public IEvaluation Evaluation { get; private set; }
+        public IObjectiveFunction ObjectiveFunction { get; private set; }
 
-        public EvaluationException(string message, IEvaluation eval)
+        public EvaluationException(string message, IObjectiveFunction eval)
             : base(message)
         {
-            this.Evaluation = eval;
+            this.ObjectiveFunction = eval;
         }
 
-        public EvaluationException(string message, IEvaluation eval, Exception inner_exception)
+        public EvaluationException(string message, IObjectiveFunction eval, Exception inner_exception)
             : base(message, inner_exception)
         {
-            this.Evaluation = eval;
+            this.ObjectiveFunction = eval;
         }
 
         //public EvaluationException(string message, IEvaluation1D eval)

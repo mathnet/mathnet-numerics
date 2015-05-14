@@ -1,37 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using NUnit.Framework;
+using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
-    public class RosenbrockEvaluation : BaseEvaluation
+    public class RosenbrockObjectiveFunction : BaseObjectiveFunction
     {
-        public RosenbrockEvaluation()
+        public RosenbrockObjectiveFunction()
             : base(true, true) { }
 
         protected override void SetValue()
         {
-            this.ValueRaw = RosenbrockFunction.Value(this.Point);
+            ValueRaw = RosenbrockFunction.Value(Point);
         }
 
         protected override void SetGradient()
         {
-            this.GradientRaw = RosenbrockFunction.Gradient(this.Point);
+            GradientRaw = RosenbrockFunction.Gradient(Point);
         }
 
         protected override void SetHessian()
         {
-            this.HessianRaw = RosenbrockFunction.Hessian(this.Point);
+            HessianRaw = RosenbrockFunction.Hessian(Point);
         }
 
-        public override IEvaluation CreateNew()
+        public override IObjectiveFunction CreateNew()
         {
-            return new RosenbrockEvaluation();
+            return new RosenbrockObjectiveFunction();
         }
     }
 
@@ -42,10 +38,10 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Rosenbrock_Easy()
         {
-            var obj = new RosenbrockEvaluation();
+            var obj = new RosenbrockObjectiveFunction();
 
             var solver = new NewtonMinimizer(1e-5, 1000);
-            var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { 1.2, 1.2 }));
+            var result = solver.FindMinimum(obj, new DenseVector(new[] { 1.2, 1.2 }));
 
             Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
             Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
@@ -54,9 +50,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Rosenbrock_Hard()
         {
-            var obj = new RosenbrockEvaluation();
+            var obj = new RosenbrockObjectiveFunction();
             var solver = new NewtonMinimizer(1e-5, 1000);
-            var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { -1.2, 1.0 }));
+            var result = solver.FindMinimum(obj, new DenseVector(new[] { -1.2, 1.0 }));
 
             Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
             Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
@@ -65,9 +61,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Rosenbrock_Overton()
         {
-            var obj = new RosenbrockEvaluation();
+            var obj = new RosenbrockObjectiveFunction();
             var solver = new NewtonMinimizer(1e-5, 1000);
-            var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { -0.9, -0.5 }));
+            var result = solver.FindMinimum(obj, new DenseVector(new[] { -0.9, -0.5 }));
 
             Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
             Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
@@ -76,9 +72,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Linesearch_Rosenbrock_Easy()
         {
-            var obj = new RosenbrockEvaluation();
+            var obj = new RosenbrockObjectiveFunction();
             var solver = new NewtonMinimizer(1e-5, 1000, true);
-            var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { 1.2, 1.2 }));
+            var result = solver.FindMinimum(obj, new DenseVector(new[] { 1.2, 1.2 }));
 
             Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
             Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
@@ -87,9 +83,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Linesearch_Rosenbrock_Hard()
         {
-            var obj = new RosenbrockEvaluation();
+            var obj = new RosenbrockObjectiveFunction();
             var solver = new NewtonMinimizer(1e-5, 1000, true);
-            var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { -1.2, 1.0 }));
+            var result = solver.FindMinimum(obj, new DenseVector(new[] { -1.2, 1.0 }));
 
             Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
             Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
@@ -98,9 +94,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Linesearch_Rosenbrock_Overton()
         {
-            var obj = new RosenbrockEvaluation();
+            var obj = new RosenbrockObjectiveFunction();
             var solver = new NewtonMinimizer(1e-5, 1000, true);
-            var result = solver.FindMinimum(obj, new MathNet.Numerics.LinearAlgebra.Double.DenseVector(new double[] { -0.9, -0.5 }));
+            var result = solver.FindMinimum(obj, new DenseVector(new[] { -0.9, -0.5 }));
 
             Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
             Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));

@@ -5,7 +5,7 @@
         public int TotalLineSearchIterations { get; private set; }
         public int IterationsWithNonTrivialLineSearch { get; private set; }
 
-        public MinimizationWithLineSearchOutput(IEvaluation functionInfo, int iterations, ExitCondition reasonForExit, int totalLineSearchIterations, int iterationsWithNonTrivialLineSearch)
+        public MinimizationWithLineSearchOutput(IObjectiveFunction functionInfo, int iterations, ExitCondition reasonForExit, int totalLineSearchIterations, int iterationsWithNonTrivialLineSearch)
             : base(functionInfo, iterations, reasonForExit)
         {
             TotalLineSearchIterations = totalLineSearchIterations;

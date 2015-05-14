@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
@@ -16,7 +13,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
         public static Vector<double> Gradient(Vector<double> input)
         {
-            Vector<double> output = new MathNet.Numerics.LinearAlgebra.Double.DenseVector(2);
+            Vector<double> output = new DenseVector(2);
             output[0] = -2 * (1 - input[0]) + 200 * (input[1] - input[0] * input[0]) * (-2 * input[0]);
             output[1] = 2 * 100 * (input[1] - input[0] * input[0]);
             return output;
@@ -24,8 +21,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
         public static Matrix<double> Hessian(Vector<double> input)
         {
-
-            Matrix<double> output = new MathNet.Numerics.LinearAlgebra.Double.DenseMatrix(2, 2);
+            Matrix<double> output = new DenseMatrix(2, 2);
             output[0, 0] = 2 - 400 * input[1] + 1200 * input[0] * input[0];
             output[1, 1] = 200;
             output[0, 1] = -400 * input[0];
@@ -50,6 +46,5 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             return 100.0 * RosenbrockFunction.Hessian(input / 100.0);
         }
-
     }
 }

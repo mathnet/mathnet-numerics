@@ -6,10 +6,10 @@ namespace MathNet.Numerics.Optimization
     [Flags]
     public enum EvaluationStatus { None = 0, Value = 1, Gradient = 2, Hessian = 4 }
 
-    public interface IEvaluation
+    public interface IObjectiveFunction
     {
         Vector<double> Point { get; set; }
-        IEvaluation CreateNew();
+        IObjectiveFunction CreateNew();
 
         // Used by algorithm
         bool GradientSupported { get; }
