@@ -1206,7 +1206,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The array is assumed to represent the diagonal values and is used directly without copying.
         /// Very efficient, but changes to the array and the matrix will affect each other.
         /// </summary>
-        /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
         public Matrix<T> Diagonal(int rows, int columns, T[] storage)
         {
             return Diagonal(new DiagonalMatrixStorage<T>(rows, columns, storage));
@@ -1217,7 +1216,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The array is assumed to represent the diagonal values and is used directly without copying.
         /// Very efficient, but changes to the array and the matrix will affect each other.
         /// </summary>
-        /// <seealso href="http://en.wikipedia.org/wiki/Row-major_order"/>
         public Matrix<T> Diagonal(T[] storage)
         {
             return Diagonal(new DiagonalMatrixStorage<T>(storage.Length, storage.Length, storage));

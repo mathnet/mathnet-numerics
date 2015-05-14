@@ -97,8 +97,10 @@
     <Compile Include="Interpolation\QuadraticSpline.cs" />
     <Compile Include="Interpolation\StepInterpolation.cs" />
     <Compile Include="Interpolation\TransformedInterpolation.cs" />
+    <Compile Include="LinearAlgebra\CreateMatrix.cs" />
     <Compile Include="LinearAlgebra\Options.cs" />
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
+    <Compile Include="LinearAlgebra\CreateVector.cs" />
     <Compile Include="LinearRegression\Options.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
