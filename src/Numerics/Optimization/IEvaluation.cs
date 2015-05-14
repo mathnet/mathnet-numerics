@@ -1,8 +1,5 @@
-﻿using MathNet.Numerics.LinearAlgebra;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization
 {

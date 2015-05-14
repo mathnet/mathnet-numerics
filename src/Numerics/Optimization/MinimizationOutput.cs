@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MathNet.Numerics.LinearAlgebra;
+﻿using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -15,11 +11,11 @@ namespace MathNet.Numerics.Optimization
         public int Iterations { get; private set; }
         public ExitCondition ReasonForExit { get; private set; }
 
-        public MinimizationOutput(IEvaluation function_info, int iterations, ExitCondition reason_for_exit)
+        public MinimizationOutput(IEvaluation functionInfo, int iterations, ExitCondition reasonForExit)
         {
-            this.FunctionInfoAtMinimum = function_info;
-            this.Iterations = iterations;
-            this.ReasonForExit = reason_for_exit;
+            FunctionInfoAtMinimum = functionInfo;
+            Iterations = iterations;
+            ReasonForExit = reasonForExit;
         }
     }
 }

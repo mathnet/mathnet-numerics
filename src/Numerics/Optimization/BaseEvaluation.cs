@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using MathNet.Numerics.LinearAlgebra;
+﻿using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -19,23 +14,23 @@ namespace MathNet.Numerics.Optimization
         public bool GradientSupported { get; private set; }
         public bool HessianSupported { get; private set; }
 
-        protected BaseEvaluation(bool gradient_supported, bool hessian_supported)
+        protected BaseEvaluation(bool gradientSupported, bool hessianSupported)
         {
             Status = EvaluationStatus.None;
-            this.GradientSupported = gradient_supported;
-            this.HessianSupported = hessian_supported;
+            GradientSupported = gradientSupported;
+            HessianSupported = hessianSupported;
         }
 
         public Vector<double> Point
         {
             get
             {
-                return this.PointRaw;
+                return PointRaw;
             }
             set
             {
-                this.PointRaw = value;
-                this.Status = EvaluationStatus.None;
+                PointRaw = value;
+                Status = EvaluationStatus.None;
             }
         }
 
@@ -45,7 +40,7 @@ namespace MathNet.Numerics.Optimization
             {
                 if (!Status.HasFlag(EvaluationStatus.Value))
                 {
-                    setValue();
+                    SetValue();
                     Status |= EvaluationStatus.Value;
                 }
                 return ValueRaw;
@@ -57,7 +52,7 @@ namespace MathNet.Numerics.Optimization
             {
                 if (!Status.HasFlag(EvaluationStatus.Gradient))
                 {
-                    setGradient();
+                    SetGradient();
                     Status |= EvaluationStatus.Gradient;
                 }
                 return GradientRaw;
@@ -69,16 +64,16 @@ namespace MathNet.Numerics.Optimization
             {
                 if (!Status.HasFlag(EvaluationStatus.Hessian))
                 {
-                    setHessian();
+                    SetHessian();
                     Status |= EvaluationStatus.Hessian;
                 }
                 return HessianRaw;
             }
         }
 
-        protected abstract void setValue();
-        protected abstract void setGradient();
-        protected abstract void setHessian();
+        protected abstract void SetValue();
+        protected abstract void SetGradient();
+        protected abstract void SetHessian();
         public abstract IEvaluation CreateNew();
     }
 }

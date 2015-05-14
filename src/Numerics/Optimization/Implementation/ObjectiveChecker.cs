@@ -1,34 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization.Implementation
 {
     public class CheckedEvaluation : IEvaluation
     {
+        private bool _valueChecked;
+        private bool _gradientChecked;
+        private bool _hessianChecked;
+
         public IEvaluation InnerEvaluation { get; private set; }
-        private bool ValueChecked;
-        private bool GradientChecked;
-        private bool HessianChecked;
         public Action<IEvaluation> ValueChecker { get; private set; }
         public Action<IEvaluation> GradientChecker { get; private set; }
         public Action<IEvaluation> HessianChecker { get; private set; }
 
-
-        public CheckedEvaluation(IEvaluation objective, Action<IEvaluation> value_checker, Action<IEvaluation> gradient_checker, Action<IEvaluation> hessian_checker)
+        public CheckedEvaluation(IEvaluation objective, Action<IEvaluation> valueChecker, Action<IEvaluation> gradientChecker, Action<IEvaluation> hessianChecker)
         {
-            this.InnerEvaluation = objective;
-            this.ValueChecker = value_checker;
-            this.GradientChecker = gradient_checker;
-            this.HessianChecker = hessian_checker;
+            InnerEvaluation = objective;
+            ValueChecker = valueChecker;
+            GradientChecker = gradientChecker;
+            HessianChecker = hessianChecker;
         }
 
         public Vector<double> Point
         {
-            get { return this.InnerEvaluation.Point; }
-            set { this.InnerEvaluation.Point = value; }
+            get { return InnerEvaluation.Point; }
+            set { InnerEvaluation.Point = value; }
         }
 
         public double Value
@@ -36,21 +33,21 @@ namespace MathNet.Numerics.Optimization.Implementation
             get
             {
 
-                if (!this.ValueChecked)
+                if (!_valueChecked)
                 {
                     double tmp;
                     try
                     {
-                        tmp = this.InnerEvaluation.Value;
+                        tmp = InnerEvaluation.Value;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective function evaluation failed.", this.InnerEvaluation, e);
+                        throw new EvaluationException("Objective function evaluation failed.", InnerEvaluation, e);
                     }
-                    this.ValueChecker(this.InnerEvaluation);
-                    this.ValueChecked = true;
+                    ValueChecker(InnerEvaluation);
+                    _valueChecked = true;
                 }
-                return this.InnerEvaluation.Value;
+                return InnerEvaluation.Value;
             }
         }
 
@@ -59,21 +56,21 @@ namespace MathNet.Numerics.Optimization.Implementation
             get
             {
 
-                if (!this.GradientChecked)
+                if (!_gradientChecked)
                 {
                     Vector<double> tmp;
                     try
                     {
-                        tmp = this.InnerEvaluation.Gradient;
+                        tmp = InnerEvaluation.Gradient;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective gradient evaluation failed.", this.InnerEvaluation, e);
+                        throw new EvaluationException("Objective gradient evaluation failed.", InnerEvaluation, e);
                     }
-                    this.GradientChecker(this.InnerEvaluation);
-                    this.GradientChecked = true;
+                    GradientChecker(InnerEvaluation);
+                    _gradientChecked = true;
                 }
-                return this.InnerEvaluation.Gradient;
+                return InnerEvaluation.Gradient;
             }
         }
 
@@ -82,37 +79,37 @@ namespace MathNet.Numerics.Optimization.Implementation
             get
             {
 
-                if (!this.HessianChecked)
+                if (!_hessianChecked)
                 {
                     Matrix<double> tmp;
                     try
                     {
-                        tmp = this.InnerEvaluation.Hessian;
+                        tmp = InnerEvaluation.Hessian;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective hessian evaluation failed.", this.InnerEvaluation, e);
+                        throw new EvaluationException("Objective hessian evaluation failed.", InnerEvaluation, e);
                     }
-                    this.HessianChecker(InnerEvaluation);
-                    this.HessianChecked = true;
+                    HessianChecker(InnerEvaluation);
+                    _hessianChecked = true;
                 }
-                return this.InnerEvaluation.Hessian;
+                return InnerEvaluation.Hessian;
             }
         }
 
         public IEvaluation CreateNew()
         {
-            return new CheckedEvaluation(this.InnerEvaluation, this.ValueChecker, this.GradientChecker, this.HessianChecker);
+            return new CheckedEvaluation(InnerEvaluation, ValueChecker, GradientChecker, HessianChecker);
         }
 
         public bool GradientSupported
         {
-            get { return this.InnerEvaluation.GradientSupported; }
+            get { return InnerEvaluation.GradientSupported; }
         }
 
         public bool HessianSupported
         {
-            get { return this.InnerEvaluation.HessianSupported; }
+            get { return InnerEvaluation.HessianSupported; }
         }
     }
 }

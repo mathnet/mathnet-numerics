@@ -1,30 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization.Implementation
 {
     public class NullEvaluation : BaseEvaluation
     {
-        public NullEvaluation(Vector<double> point) 
+        public NullEvaluation(Vector<double> point)
             : base(false, false)
         {
-            this.Point = point;
+            Point = point;
         }
-        protected override void setValue()
+        protected override void SetValue()
         {
             throw new NotImplementedException();
         }
 
-        protected override void setGradient()
+        protected override void SetGradient()
         {
             throw new NotImplementedException();
         }
 
-        protected override void setHessian()
+        protected override void SetHessian()
         {
             throw new NotImplementedException();
         }
