@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MathNet.Numerics.Optimization.Implementation
+﻿namespace MathNet.Numerics.Optimization.Implementation
 {
     public class LineSearchOutput : MinimizationOutput
     {
         public double FinalStep { get; private set; }
 
-        public LineSearchOutput(IEvaluation function_info, int iterations, double final_step, ExitCondition reason_for_exit)
-            : base(function_info, iterations, reason_for_exit)
+        public LineSearchOutput(IEvaluation functionInfo, int iterations, double finalStep, ExitCondition reasonForExit)
+            : base(functionInfo, iterations, reasonForExit)
         {
-            this.FinalStep = final_step;
+            FinalStep = finalStep;
         }
     }
 }

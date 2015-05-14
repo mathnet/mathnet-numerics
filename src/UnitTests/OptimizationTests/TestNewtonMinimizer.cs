@@ -14,17 +14,17 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         public RosenbrockEvaluation()
             : base(true, true) { }
 
-        protected override void setValue()
+        protected override void SetValue()
         {
             this.ValueRaw = RosenbrockFunction.Value(this.Point);
         }
 
-        protected override void setGradient()
+        protected override void SetGradient()
         {
             this.GradientRaw = RosenbrockFunction.Gradient(this.Point);
         }
 
-        protected override void setHessian()
+        protected override void SetHessian()
         {
             this.HessianRaw = RosenbrockFunction.Hessian(this.Point);
         }

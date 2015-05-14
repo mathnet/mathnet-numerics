@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MathNet.Numerics.LinearAlgebra;
-using LU = MathNet.Numerics.LinearAlgebra.Factorization.LU<double>;
 using MathNet.Numerics.Optimization.Implementation;
+using LU = MathNet.Numerics.LinearAlgebra.Factorization.LU<double>;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -14,14 +11,14 @@ namespace MathNet.Numerics.Optimization
         public int MaximumIterations { get; set; }
         public bool UseLineSearch { get; set; }
 
-        public NewtonMinimizer(double gradient_tolerance, int maximum_iterations, bool use_line_search = false)
+        public NewtonMinimizer(double gradientTolerance, int maximumIterations, bool useLineSearch = false)
         {
-            this.GradientTolerance = gradient_tolerance;
-            this.MaximumIterations = maximum_iterations;
-            this.UseLineSearch = use_line_search;
+            GradientTolerance = gradientTolerance;
+            MaximumIterations = maximumIterations;
+            UseLineSearch = useLineSearch;
         }
 
-        public MinimizationOutput FindMinimum(IEvaluation objective, Vector<double> initial_guess)
+        public MinimizationOutput FindMinimum(IEvaluation objective, Vector<double> initialGuess)
         {
             if (!objective.GradientSupported)
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for Newton minimization.");
@@ -30,74 +27,69 @@ namespace MathNet.Numerics.Optimization
                 throw new IncompatibleObjectiveException("Hessian not supported in objective function, but required for Newton minimization.");
 
             if (!(objective is CheckedEvaluation))
-                objective = new CheckedEvaluation(objective, this.ValidateObjective, this.ValidateGradient, this.ValidateHessian);
+                objective = new CheckedEvaluation(objective, ValidateObjective, ValidateGradient, ValidateHessian);
 
-            IEvaluation initial_eval = objective.CreateNew();
-            initial_eval.Point = initial_guess;
+            IEvaluation initialEval = objective.CreateNew();
+            initialEval.Point = initialGuess;
 
             // Check that we're not already done
-            if (this.ExitCriteriaSatisfied(initial_guess, initial_eval.Gradient))
-                return new MinimizationOutput(initial_eval, 0, MinimizationOutput.ExitCondition.AbsoluteGradient);
+            if (ExitCriteriaSatisfied(initialGuess, initialEval.Gradient))
+                return new MinimizationOutput(initialEval, 0, MinimizationOutput.ExitCondition.AbsoluteGradient);
 
-            // Set up line search algorithm            
-            var line_searcher = new WeakWolfeLineSearch(1e-4, 0.9, 1e-4, max_iterations: 1000);
+            // Set up line search algorithm
+            var lineSearcher = new WeakWolfeLineSearch(1e-4, 0.9, 1e-4, maxIterations: 1000);
 
             // Declare state variables
-            IEvaluation candidate_point = initial_eval;
-            Vector<double> search_direction;
-            LineSearchOutput result;
+            IEvaluation candidatePoint = initialEval;
 
             // Subsequent steps
             int iterations = 0;
-            int total_line_search_steps = 0;
-            int iterations_with_nontrivial_line_search = 0;
-            int steepest_descent_resets = 0;
-            bool tmp_line_search = false;
-            while (!this.ExitCriteriaSatisfied(candidate_point.Point, candidate_point.Gradient) && iterations < this.MaximumIterations)
+            int totalLineSearchSteps = 0;
+            int iterationsWithNontrivialLineSearch = 0;
+            bool tmpLineSearch = false;
+            while (!ExitCriteriaSatisfied(candidatePoint.Point, candidatePoint.Gradient) && iterations < MaximumIterations)
             {
-                
-                search_direction = candidate_point.Hessian.LU().Solve(-candidate_point.Gradient);
-
-                if (search_direction * candidate_point.Gradient >= 0)
+                var searchDirection = candidatePoint.Hessian.LU().Solve(-candidatePoint.Gradient);
+                if (searchDirection * candidatePoint.Gradient >= 0)
                 {
-                    search_direction = -candidate_point.Gradient;
-                    steepest_descent_resets += 1;
-                    tmp_line_search = true;
+                    searchDirection = -candidatePoint.Gradient;
+                    tmpLineSearch = true;
                 }
 
-                if (this.UseLineSearch || tmp_line_search)
+                if (UseLineSearch || tmpLineSearch)
                 {
+                    LineSearchOutput result;
                     try
                     {
-                        result = line_searcher.FindConformingStep(objective, candidate_point, search_direction, 1.0);
+                        result = lineSearcher.FindConformingStep(objective, candidatePoint, searchDirection, 1.0);
                     }
                     catch (Exception e)
                     {
                         throw new InnerOptimizationException("Line search failed.", e);
                     }
-                    iterations_with_nontrivial_line_search += result.Iterations > 0 ? 1 : 0;
-                    total_line_search_steps += result.Iterations;
-                    candidate_point = result.FunctionInfoAtMinimum;
+                    iterationsWithNontrivialLineSearch += result.Iterations > 0 ? 1 : 0;
+                    totalLineSearchSteps += result.Iterations;
+                    candidatePoint = result.FunctionInfoAtMinimum;
                 }
                 else
                 {
-                    candidate_point.Point = candidate_point.Point + search_direction;
+                    candidatePoint.Point = candidatePoint.Point + searchDirection;
                 }
 
-                tmp_line_search = false;
+                tmpLineSearch = false;
 
                 iterations += 1;
             }
 
-            if (iterations == this.MaximumIterations)
-                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", this.MaximumIterations));
+            if (iterations == MaximumIterations)
+                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
 
-            return new MinimizationWithLineSearchOutput(candidate_point, iterations, MinimizationOutput.ExitCondition.AbsoluteGradient, total_line_search_steps, iterations_with_nontrivial_line_search);
+            return new MinimizationWithLineSearchOutput(candidatePoint, iterations, MinimizationOutput.ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
-        private bool ExitCriteriaSatisfied(Vector<double> candidate_point, Vector<double> gradient)
+        private bool ExitCriteriaSatisfied(Vector<double> candidatePoint, Vector<double> gradient)
         {
-            return gradient.Norm(2.0) < this.GradientTolerance;
+            return gradient.Norm(2.0) < GradientTolerance;
         }
 
         private void ValidateGradient(IEvaluation eval)
