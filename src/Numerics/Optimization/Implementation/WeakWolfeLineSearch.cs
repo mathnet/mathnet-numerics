@@ -19,8 +19,9 @@ namespace MathNet.Numerics.Optimization.Implementation
         }
 
         // Implemented following http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
-        public LineSearchOutput FindConformingStep(IObjectiveFunction objective, IObjectiveFunction startingPoint, Vector<double> searchDirection, double initialStep)
+        public LineSearchOutput FindConformingStep(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep)
         {
+            var objective = startingPoint.Fork();
             if (!(objective is CheckedObjectiveFunction))
             {
                 objective = new CheckedObjectiveFunction(objective, ValidateValue, ValidateGradient, null);
@@ -30,21 +31,21 @@ namespace MathNet.Numerics.Optimization.Implementation
             double upperBound = Double.PositiveInfinity;
             double step = initialStep;
 
+            Vector<double> initialPoint = startingPoint.Point;
             double initialValue = startingPoint.Value;
             Vector<double> initialGradient = startingPoint.Gradient;
 
             double initialDd = searchDirection * initialGradient;
 
             int ii;
-            IObjectiveFunction candidateEval = objective.Fork();
             MinimizationOutput.ExitCondition reasonForExit = MinimizationOutput.ExitCondition.None;
             for (ii = 0; ii < _maximumIterations; ++ii)
             {
-                candidateEval.EvaluateAt(startingPoint.Point + searchDirection * step);
+                objective.EvaluateAt(initialPoint + searchDirection * step);
 
-                double stepDd = searchDirection * candidateEval.Gradient;
+                double stepDd = searchDirection * objective.Gradient;
 
-                if (candidateEval.Value > initialValue + _c1 * step * initialDd)
+                if (objective.Value > initialValue + _c1 * step * initialDd)
                 {
                     upperBound = step;
                     step = 0.5 * (lowerBound + upperBound);
@@ -63,9 +64,9 @@ namespace MathNet.Numerics.Optimization.Implementation
                 if (!Double.IsInfinity(upperBound))
                 {
                     double maxRelChange = 0.0;
-                    for (int jj = 0; jj < candidateEval.Point.Count; ++jj)
+                    for (int jj = 0; jj < objective.Point.Count; ++jj)
                     {
-                        double tmp = Math.Abs(searchDirection[jj] * (upperBound - lowerBound)) / Math.Max(Math.Abs(candidateEval.Point[jj]), 1.0);
+                        double tmp = Math.Abs(searchDirection[jj] * (upperBound - lowerBound)) / Math.Max(Math.Abs(objective.Point[jj]), 1.0);
                         maxRelChange = Math.Max(maxRelChange, tmp);
                     }
                     if (maxRelChange < _parameterTolerance)
@@ -86,7 +87,7 @@ namespace MathNet.Numerics.Optimization.Implementation
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", _maximumIterations));
             }
 
-            return new LineSearchOutput(candidateEval, ii, step, reasonForExit);
+            return new LineSearchOutput(objective, ii, step, reasonForExit);
         }
 
         bool Conforms(IObjectiveFunction startingPoint, Vector<double> searchDirection, double step, IObjectiveFunction endingPoint)

@@ -2,9 +2,8 @@
 
 namespace MathNet.Numerics.Optimization
 {
-    public interface IObjectiveFunction
+    public interface IObjectiveFunctionEvaluation
     {
-        void EvaluateAt(Vector<double> point);
         IObjectiveFunction Fork();
 
         Vector<double> Point { get; }
@@ -15,5 +14,10 @@ namespace MathNet.Numerics.Optimization
 
         bool IsHessianSupported { get; }
         Matrix<double> Hessian { get; }
+    }
+
+    public interface IObjectiveFunction : IObjectiveFunctionEvaluation
+    {
+        void EvaluateAt(Vector<double> point);
     }
 }
