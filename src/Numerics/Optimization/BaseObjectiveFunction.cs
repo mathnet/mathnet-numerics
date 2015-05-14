@@ -1,10 +1,20 @@
-﻿using MathNet.Numerics.LinearAlgebra;
+﻿using System;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization
 {
     public abstract class BaseObjectiveFunction : IObjectiveFunction
     {
-        public EvaluationStatus Status { get; protected set; }
+        [Flags]
+        enum EvaluationStatus
+        {
+            None = 0,
+            Value = 1,
+            Gradient = 2,
+            Hessian = 4
+        }
+
+        EvaluationStatus Status { get; set; }
 
         protected Vector<double> PointRaw { get; set; }
         protected double ValueRaw { get; set; }
