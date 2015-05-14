@@ -3,20 +3,20 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization.Implementation
 {
-    public class CheckedEvaluation : IEvaluation
+    public class CheckedObjectiveFunction : IObjectiveFunction
     {
         private bool _valueChecked;
         private bool _gradientChecked;
         private bool _hessianChecked;
 
-        public IEvaluation InnerEvaluation { get; private set; }
-        public Action<IEvaluation> ValueChecker { get; private set; }
-        public Action<IEvaluation> GradientChecker { get; private set; }
-        public Action<IEvaluation> HessianChecker { get; private set; }
+        public IObjectiveFunction InnerObjectiveFunction { get; private set; }
+        public Action<IObjectiveFunction> ValueChecker { get; private set; }
+        public Action<IObjectiveFunction> GradientChecker { get; private set; }
+        public Action<IObjectiveFunction> HessianChecker { get; private set; }
 
-        public CheckedEvaluation(IEvaluation objective, Action<IEvaluation> valueChecker, Action<IEvaluation> gradientChecker, Action<IEvaluation> hessianChecker)
+        public CheckedObjectiveFunction(IObjectiveFunction objective, Action<IObjectiveFunction> valueChecker, Action<IObjectiveFunction> gradientChecker, Action<IObjectiveFunction> hessianChecker)
         {
-            InnerEvaluation = objective;
+            InnerObjectiveFunction = objective;
             ValueChecker = valueChecker;
             GradientChecker = gradientChecker;
             HessianChecker = hessianChecker;
@@ -24,8 +24,8 @@ namespace MathNet.Numerics.Optimization.Implementation
 
         public Vector<double> Point
         {
-            get { return InnerEvaluation.Point; }
-            set { InnerEvaluation.Point = value; }
+            get { return InnerObjectiveFunction.Point; }
+            set { InnerObjectiveFunction.Point = value; }
         }
 
         public double Value
@@ -38,16 +38,16 @@ namespace MathNet.Numerics.Optimization.Implementation
                     double tmp;
                     try
                     {
-                        tmp = InnerEvaluation.Value;
+                        tmp = InnerObjectiveFunction.Value;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective function evaluation failed.", InnerEvaluation, e);
+                        throw new EvaluationException("Objective function evaluation failed.", InnerObjectiveFunction, e);
                     }
-                    ValueChecker(InnerEvaluation);
+                    ValueChecker(InnerObjectiveFunction);
                     _valueChecked = true;
                 }
-                return InnerEvaluation.Value;
+                return InnerObjectiveFunction.Value;
             }
         }
 
@@ -61,16 +61,16 @@ namespace MathNet.Numerics.Optimization.Implementation
                     Vector<double> tmp;
                     try
                     {
-                        tmp = InnerEvaluation.Gradient;
+                        tmp = InnerObjectiveFunction.Gradient;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective gradient evaluation failed.", InnerEvaluation, e);
+                        throw new EvaluationException("Objective gradient evaluation failed.", InnerObjectiveFunction, e);
                     }
-                    GradientChecker(InnerEvaluation);
+                    GradientChecker(InnerObjectiveFunction);
                     _gradientChecked = true;
                 }
-                return InnerEvaluation.Gradient;
+                return InnerObjectiveFunction.Gradient;
             }
         }
 
@@ -84,32 +84,32 @@ namespace MathNet.Numerics.Optimization.Implementation
                     Matrix<double> tmp;
                     try
                     {
-                        tmp = InnerEvaluation.Hessian;
+                        tmp = InnerObjectiveFunction.Hessian;
                     }
                     catch (Exception e)
                     {
-                        throw new EvaluationException("Objective hessian evaluation failed.", InnerEvaluation, e);
+                        throw new EvaluationException("Objective hessian evaluation failed.", InnerObjectiveFunction, e);
                     }
-                    HessianChecker(InnerEvaluation);
+                    HessianChecker(InnerObjectiveFunction);
                     _hessianChecked = true;
                 }
-                return InnerEvaluation.Hessian;
+                return InnerObjectiveFunction.Hessian;
             }
         }
 
-        public IEvaluation CreateNew()
+        public IObjectiveFunction CreateNew()
         {
-            return new CheckedEvaluation(InnerEvaluation, ValueChecker, GradientChecker, HessianChecker);
+            return new CheckedObjectiveFunction(InnerObjectiveFunction, ValueChecker, GradientChecker, HessianChecker);
         }
 
         public bool GradientSupported
         {
-            get { return InnerEvaluation.GradientSupported; }
+            get { return InnerObjectiveFunction.GradientSupported; }
         }
 
         public bool HessianSupported
         {
-            get { return InnerEvaluation.HessianSupported; }
+            get { return InnerObjectiveFunction.HessianSupported; }
         }
     }
 }

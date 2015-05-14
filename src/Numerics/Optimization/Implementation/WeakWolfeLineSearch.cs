@@ -19,11 +19,11 @@ namespace MathNet.Numerics.Optimization.Implementation
         }
 
         // Implemented following http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
-        public LineSearchOutput FindConformingStep(IEvaluation objective, IEvaluation startingPoint, Vector<double> searchDirection, double initialStep)
+        public LineSearchOutput FindConformingStep(IObjectiveFunction objective, IObjectiveFunction startingPoint, Vector<double> searchDirection, double initialStep)
         {
-            if (!(objective is CheckedEvaluation))
+            if (!(objective is CheckedObjectiveFunction))
             {
-                objective = new CheckedEvaluation(objective, ValidateValue, ValidateGradient, null);
+                objective = new CheckedObjectiveFunction(objective, ValidateValue, ValidateGradient, null);
             }
 
             double lowerBound = 0.0;
@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Optimization.Implementation
             double initialDd = searchDirection * initialGradient;
 
             int ii;
-            IEvaluation candidateEval = objective.CreateNew();
+            IObjectiveFunction candidateEval = objective.CreateNew();
             MinimizationOutput.ExitCondition reasonForExit = MinimizationOutput.ExitCondition.None;
             for (ii = 0; ii < _maximumIterations; ++ii)
             {
@@ -89,7 +89,7 @@ namespace MathNet.Numerics.Optimization.Implementation
             return new LineSearchOutput(candidateEval, ii, step, reasonForExit);
         }
 
-        bool Conforms(IEvaluation startingPoint, Vector<double> searchDirection, double step, IEvaluation endingPoint)
+        bool Conforms(IObjectiveFunction startingPoint, Vector<double> searchDirection, double step, IObjectiveFunction endingPoint)
         {
             bool sufficientDecrease = endingPoint.Value <= startingPoint.Value + _c1 * step * (startingPoint.Gradient * searchDirection);
             bool notTooSteep = endingPoint.Gradient * searchDirection >= _c2 * startingPoint.Gradient * searchDirection;
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Optimization.Implementation
             return step > 0 && sufficientDecrease && notTooSteep;
         }
 
-        void ValidateValue(IEvaluation eval)
+        void ValidateValue(IObjectiveFunction eval)
         {
             if (!IsFinite(eval.Value))
             {
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.Optimization.Implementation
             }
         }
 
-        void ValidateGradient(IEvaluation eval)
+        void ValidateGradient(IObjectiveFunction eval)
         {
             foreach (double x in eval.Gradient)
             {

@@ -2,7 +2,7 @@
 
 namespace MathNet.Numerics.Optimization
 {
-    public abstract class BaseEvaluation : IEvaluation
+    public abstract class BaseObjectiveFunction : IObjectiveFunction
     {
         public EvaluationStatus Status { get; protected set; }
 
@@ -14,7 +14,7 @@ namespace MathNet.Numerics.Optimization
         public bool GradientSupported { get; private set; }
         public bool HessianSupported { get; private set; }
 
-        protected BaseEvaluation(bool gradientSupported, bool hessianSupported)
+        protected BaseObjectiveFunction(bool gradientSupported, bool hessianSupported)
         {
             Status = EvaluationStatus.None;
             GradientSupported = gradientSupported;
@@ -74,6 +74,6 @@ namespace MathNet.Numerics.Optimization
         protected abstract void SetValue();
         protected abstract void SetGradient();
         protected abstract void SetHessian();
-        public abstract IEvaluation CreateNew();
+        public abstract IObjectiveFunction CreateNew();
     }
 }

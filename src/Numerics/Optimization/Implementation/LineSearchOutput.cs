@@ -4,7 +4,7 @@
     {
         public double FinalStep { get; private set; }
 
-        public LineSearchOutput(IEvaluation functionInfo, int iterations, double finalStep, ExitCondition reasonForExit)
+        public LineSearchOutput(IObjectiveFunction functionInfo, int iterations, double finalStep, ExitCondition reasonForExit)
             : base(functionInfo, iterations, reasonForExit)
         {
             FinalStep = finalStep;

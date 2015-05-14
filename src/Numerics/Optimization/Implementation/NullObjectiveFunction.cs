@@ -3,9 +3,9 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization.Implementation
 {
-    public class NullEvaluation : BaseEvaluation
+    public class NullObjectiveFunction : BaseObjectiveFunction
     {
-        public NullEvaluation(Vector<double> point)
+        public NullObjectiveFunction(Vector<double> point)
             : base(false, false)
         {
             Point = point;
@@ -25,7 +25,7 @@ namespace MathNet.Numerics.Optimization.Implementation
             throw new NotImplementedException();
         }
 
-        public override IEvaluation CreateNew()
+        public override IObjectiveFunction CreateNew()
         {
             throw new NotImplementedException();
         }

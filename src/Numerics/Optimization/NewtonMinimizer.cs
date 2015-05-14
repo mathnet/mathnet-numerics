@@ -18,7 +18,7 @@ namespace MathNet.Numerics.Optimization
             UseLineSearch = useLineSearch;
         }
 
-        public MinimizationOutput FindMinimum(IEvaluation objective, Vector<double> initialGuess)
+        public MinimizationOutput FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
         {
             if (!objective.GradientSupported)
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for Newton minimization.");
@@ -26,10 +26,10 @@ namespace MathNet.Numerics.Optimization
             if (!objective.HessianSupported)
                 throw new IncompatibleObjectiveException("Hessian not supported in objective function, but required for Newton minimization.");
 
-            if (!(objective is CheckedEvaluation))
-                objective = new CheckedEvaluation(objective, ValidateObjective, ValidateGradient, ValidateHessian);
+            if (!(objective is CheckedObjectiveFunction))
+                objective = new CheckedObjectiveFunction(objective, ValidateObjective, ValidateGradient, ValidateHessian);
 
-            IEvaluation initialEval = objective.CreateNew();
+            IObjectiveFunction initialEval = objective.CreateNew();
             initialEval.Point = initialGuess;
 
             // Check that we're not already done
@@ -40,7 +40,7 @@ namespace MathNet.Numerics.Optimization
             var lineSearcher = new WeakWolfeLineSearch(1e-4, 0.9, 1e-4, maxIterations: 1000);
 
             // Declare state variables
-            IEvaluation candidatePoint = initialEval;
+            IObjectiveFunction candidatePoint = initialEval;
 
             // Subsequent steps
             int iterations = 0;
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.Optimization
             return gradient.Norm(2.0) < GradientTolerance;
         }
 
-        private void ValidateGradient(IEvaluation eval)
+        private void ValidateGradient(IObjectiveFunction eval)
         {
             foreach (var x in eval.Gradient)
             {
@@ -101,13 +101,13 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        private void ValidateObjective(IEvaluation eval)
+        private void ValidateObjective(IObjectiveFunction eval)
         {
             if (Double.IsNaN(eval.Value) || Double.IsInfinity(eval.Value))
                 throw new EvaluationException("Non-finite objective function returned.", eval);
         }
 
-        private void ValidateHessian(IEvaluation eval)
+        private void ValidateHessian(IObjectiveFunction eval)
         {
             for (int ii = 0; ii < eval.Hessian.RowCount; ++ii)
             {

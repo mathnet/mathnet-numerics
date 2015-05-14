@@ -102,11 +102,11 @@
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
     <Compile Include="LinearAlgebra\CreateVector.cs" />
     <Compile Include="LinearRegression\Options.cs" />
-    <Compile Include="Optimization\BaseEvaluation.cs" />
+    <Compile Include="Optimization\BaseObjectiveFunction.cs" />
     <Compile Include="Optimization\Exceptions.cs" />
-    <Compile Include="Optimization\IEvaluation.cs" />
+    <Compile Include="Optimization\IObjectiveFunction.cs" />
     <Compile Include="Optimization\Implementation\LineSearchOutput.cs" />
-    <Compile Include="Optimization\Implementation\NullEvaluation.cs" />
+    <Compile Include="Optimization\Implementation\NullObjectiveFunction.cs" />
     <Compile Include="Optimization\Implementation\ObjectiveChecker.cs" />
     <Compile Include="Optimization\Implementation\WeakWolfeLineSearch.cs" />
     <Compile Include="Optimization\IUnconstrainedMinimizer.cs" />
