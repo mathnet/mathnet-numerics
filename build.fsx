@@ -210,9 +210,7 @@ let mklWinPack =
       ReleaseNotes = mklReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies =
-        [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", "3.6.0" ] } ]
+      Dependencies = []
       Files =
         [ @"..\..\build\MathNet.Numerics.MKL.Win.targets", Some "build", None;
           @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some @"build\x64", None;
@@ -224,9 +222,6 @@ let mklWin32Pack =
     { mklWinPack with
         Id = "MathNet.Numerics.MKL.Win-x86"
         Title = "Math.NET Numerics - MKL Native Provider for Windows (x86)"
-        Dependencies =
-          [ { FrameworkVersion=""
-              Dependencies=[ "MathNet.Numerics", "2.4.0" ] } ]
         Files =
           [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
             @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
@@ -235,9 +230,6 @@ let mklWin64Pack =
     { mklWinPack with
         Id = "MathNet.Numerics.MKL.Win-x64"
         Title = "Math.NET Numerics - MKL Native Provider for Windows (x64)"
-        Dependencies =
-          [ { FrameworkVersion=""
-              Dependencies=[ "MathNet.Numerics", "2.4.0" ] } ]
         Files =
           [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
             @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
@@ -251,9 +243,7 @@ let mklLinux32Pack =
       ReleaseNotes = mklReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies =
-        [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", "2.4.0" ] } ]
+      Dependencies = []
       Files =
         [ @"..\..\out\MKL\Linux\x86\libiomp5.so", Some "content", None;
           @"..\..\out\MKL\Linux\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
@@ -294,9 +284,7 @@ let cudaWinPack =
       ReleaseNotes = cudaReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native cuda gpu"
       Authors = [ "Matthew A Johnson"; "Christoph Ruegg" ]
-      Dependencies =
-        [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", "3.7.0" ] } ]
+      Dependencies = []
       Files =
         [ @"..\..\build\MathNet.Numerics.CUDA.Win.targets", Some "build", None;
           @"..\..\out\CUDA\Windows\x64\cublas64_70.dll", Some "content", None;
@@ -324,9 +312,7 @@ let openBlasWinPack =
       ReleaseNotes = openBlasReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native openblas"
       Authors = [ "Kuan Bartel"; "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies =
-        [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", "3.7.0" ] } ]
+      Dependencies = []
       Files =
         [ @"..\..\build\MathNet.Numerics.OpenBLAS.Win.targets", Some "build", None;
           @"..\..\out\OpenBLAS\Windows\x64\libgcc_s_seh-1.dll", Some @"build\x64", None;
