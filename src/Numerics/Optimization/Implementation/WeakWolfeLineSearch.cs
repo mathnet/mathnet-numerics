@@ -22,10 +22,6 @@ namespace MathNet.Numerics.Optimization.Implementation
         public LineSearchOutput FindConformingStep(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep)
         {
             var objective = startingPoint.Fork();
-            if (!(objective is CheckedObjectiveFunction))
-            {
-                objective = new CheckedObjectiveFunction(objective, ValidateValue, ValidateGradient, null);
-            }
 
             double lowerBound = 0.0;
             double upperBound = Double.PositiveInfinity;
@@ -42,6 +38,8 @@ namespace MathNet.Numerics.Optimization.Implementation
             for (ii = 0; ii < _maximumIterations; ++ii)
             {
                 objective.EvaluateAt(initialPoint + searchDirection * step);
+                ValidateGradient(objective);
+                ValidateValue(objective);
 
                 double stepDd = searchDirection * objective.Gradient;
 
@@ -98,7 +96,7 @@ namespace MathNet.Numerics.Optimization.Implementation
             return step > 0 && sufficientDecrease && notTooSteep;
         }
 
-        void ValidateValue(IObjectiveFunction eval)
+        static void ValidateValue(IObjectiveFunction eval)
         {
             if (!IsFinite(eval.Value))
             {
@@ -106,7 +104,7 @@ namespace MathNet.Numerics.Optimization.Implementation
             }
         }
 
-        void ValidateGradient(IObjectiveFunction eval)
+        static void ValidateGradient(IObjectiveFunction eval)
         {
             foreach (double x in eval.Gradient)
             {
@@ -117,7 +115,7 @@ namespace MathNet.Numerics.Optimization.Implementation
             }
         }
 
-        bool IsFinite(double x)
+        static bool IsFinite(double x)
         {
             return !(Double.IsNaN(x) || Double.IsInfinity(x));
         }
