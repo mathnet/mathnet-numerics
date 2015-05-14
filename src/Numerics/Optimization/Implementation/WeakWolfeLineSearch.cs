@@ -36,11 +36,11 @@ namespace MathNet.Numerics.Optimization.Implementation
             double initialDd = searchDirection * initialGradient;
 
             int ii;
-            IObjectiveFunction candidateEval = objective.CreateNew();
+            IObjectiveFunction candidateEval = objective.Fork();
             MinimizationOutput.ExitCondition reasonForExit = MinimizationOutput.ExitCondition.None;
             for (ii = 0; ii < _maximumIterations; ++ii)
             {
-                candidateEval.Point = startingPoint.Point + searchDirection * step;
+                candidateEval.EvaluateAt(startingPoint.Point + searchDirection * step);
 
                 double stepDd = searchDirection * candidateEval.Gradient;
 

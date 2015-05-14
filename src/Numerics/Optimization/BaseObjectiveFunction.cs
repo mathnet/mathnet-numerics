@@ -11,14 +11,14 @@ namespace MathNet.Numerics.Optimization
         protected Vector<double> GradientRaw { get; set; }
         protected Matrix<double> HessianRaw { get; set; }
 
-        public bool GradientSupported { get; private set; }
-        public bool HessianSupported { get; private set; }
+        public bool IsGradientSupported { get; private set; }
+        public bool IsHessianSupported { get; private set; }
 
         protected BaseObjectiveFunction(bool gradientSupported, bool hessianSupported)
         {
             Status = EvaluationStatus.None;
-            GradientSupported = gradientSupported;
-            HessianSupported = hessianSupported;
+            IsGradientSupported = gradientSupported;
+            IsHessianSupported = hessianSupported;
         }
 
         public Vector<double> Point
@@ -32,6 +32,12 @@ namespace MathNet.Numerics.Optimization
                 PointRaw = value;
                 Status = EvaluationStatus.None;
             }
+        }
+
+        public void EvaluateAt(Vector<double> point)
+        {
+            PointRaw = point;
+            Status = EvaluationStatus.None;
         }
 
         public double Value
@@ -71,9 +77,10 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
+        public abstract IObjectiveFunction Fork();
+
         protected abstract void SetValue();
         protected abstract void SetGradient();
         protected abstract void SetHessian();
-        public abstract IObjectiveFunction CreateNew();
     }
 }

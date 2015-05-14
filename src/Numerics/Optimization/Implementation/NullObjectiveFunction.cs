@@ -10,6 +10,7 @@ namespace MathNet.Numerics.Optimization.Implementation
         {
             Point = point;
         }
+
         protected override void SetValue()
         {
             throw new NotImplementedException();
@@ -25,7 +26,7 @@ namespace MathNet.Numerics.Optimization.Implementation
             throw new NotImplementedException();
         }
 
-        public override IObjectiveFunction CreateNew()
+        public override IObjectiveFunction Fork()
         {
             throw new NotImplementedException();
         }
