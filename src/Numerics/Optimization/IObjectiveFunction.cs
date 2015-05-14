@@ -4,18 +4,26 @@ using MathNet.Numerics.LinearAlgebra;
 namespace MathNet.Numerics.Optimization
 {
     [Flags]
-    public enum EvaluationStatus { None = 0, Value = 1, Gradient = 2, Hessian = 4 }
+    public enum EvaluationStatus
+    {
+        None = 0,
+        Value = 1,
+        Gradient = 2,
+        Hessian = 4
+    }
 
     public interface IObjectiveFunction
     {
-        Vector<double> Point { get; set; }
-        IObjectiveFunction CreateNew();
+        void EvaluateAt(Vector<double> point);
+        IObjectiveFunction Fork();
 
-        // Used by algorithm
-        bool GradientSupported { get; }
-        bool HessianSupported { get; }
+        Vector<double> Point { get; }
         double Value { get; }
+
+        bool IsGradientSupported { get; }
         Vector<double> Gradient { get; }
+
+        bool IsHessianSupported { get; }
         Matrix<double> Hessian { get; }
     }
 }

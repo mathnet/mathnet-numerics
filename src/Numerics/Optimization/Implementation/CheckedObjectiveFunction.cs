@@ -25,7 +25,11 @@ namespace MathNet.Numerics.Optimization.Implementation
         public Vector<double> Point
         {
             get { return InnerObjectiveFunction.Point; }
-            set { InnerObjectiveFunction.Point = value; }
+        }
+
+        public void EvaluateAt(Vector<double> point)
+        {
+            InnerObjectiveFunction.EvaluateAt(point);
         }
 
         public double Value
@@ -97,19 +101,19 @@ namespace MathNet.Numerics.Optimization.Implementation
             }
         }
 
-        public IObjectiveFunction CreateNew()
+        public IObjectiveFunction Fork()
         {
             return new CheckedObjectiveFunction(InnerObjectiveFunction, ValueChecker, GradientChecker, HessianChecker);
         }
 
-        public bool GradientSupported
+        public bool IsGradientSupported
         {
-            get { return InnerObjectiveFunction.GradientSupported; }
+            get { return InnerObjectiveFunction.IsGradientSupported; }
         }
 
-        public bool HessianSupported
+        public bool IsHessianSupported
         {
-            get { return InnerObjectiveFunction.HessianSupported; }
+            get { return InnerObjectiveFunction.IsHessianSupported; }
         }
     }
 }
