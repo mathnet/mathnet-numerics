@@ -25,7 +25,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             HessianRaw = RosenbrockFunction.Hessian(Point);
         }
 
-        public override IObjectiveFunction Fork()
+        public override IObjectiveFunction CreateNew()
         {
             return new RosenbrockObjectiveFunction();
         }

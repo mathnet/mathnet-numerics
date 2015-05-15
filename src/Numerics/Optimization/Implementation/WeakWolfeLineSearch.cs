@@ -21,8 +21,6 @@ namespace MathNet.Numerics.Optimization.Implementation
         // Implemented following http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
         public LineSearchOutput FindConformingStep(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep)
         {
-            var objective = startingPoint.Fork();
-
             double lowerBound = 0.0;
             double upperBound = Double.PositiveInfinity;
             double step = initialStep;
@@ -33,6 +31,7 @@ namespace MathNet.Numerics.Optimization.Implementation
 
             double initialDd = searchDirection * initialGradient;
 
+            var objective = startingPoint.CreateNew();
             int ii;
             MinimizationOutput.ExitCondition reasonForExit = MinimizationOutput.ExitCondition.None;
             for (ii = 0; ii < _maximumIterations; ++ii)

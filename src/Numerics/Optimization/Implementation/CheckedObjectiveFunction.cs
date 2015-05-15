@@ -103,9 +103,14 @@ namespace MathNet.Numerics.Optimization.Implementation
             }
         }
 
+        public IObjectiveFunction CreateNew()
+        {
+            return new CheckedObjectiveFunction(InnerObjectiveFunction.CreateNew(), ValueChecker, GradientChecker, HessianChecker);
+        }
+
         public IObjectiveFunction Fork()
         {
-            return new CheckedObjectiveFunction(InnerObjectiveFunction, ValueChecker, GradientChecker, HessianChecker);
+            return new CheckedObjectiveFunction(InnerObjectiveFunction.Fork(), ValueChecker, GradientChecker, HessianChecker);
         }
 
         public bool IsGradientSupported
