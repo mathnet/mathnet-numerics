@@ -1,14 +1,15 @@
 ﻿using System;
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization;
+using MathNet.Numerics.Optimization.ObjectiveFunctions;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
     public class RosenbrockObjectiveFunction : BaseObjectiveFunction
     {
-        public RosenbrockObjectiveFunction()
-            : base(true, true) { }
+        public RosenbrockObjectiveFunction() : base(true, true) { }
 
         protected override void SetValue()
         {
@@ -28,6 +29,25 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         public override IObjectiveFunction CreateNew()
         {
             return new RosenbrockObjectiveFunction();
+        }
+    }
+
+    public class InplaceRosenbrockObjectiveFunction : InplaceObjectiveFunction
+    {
+        public InplaceRosenbrockObjectiveFunction() : base(true, true) { }
+
+        public override IObjectiveFunction CreateNew()
+        {
+            return new InplaceRosenbrockObjectiveFunction();
+        }
+
+        protected override void EvaluateAt(Vector<double> point, ref double value, ref Vector<double> gradient, ref Matrix<double> hessian)
+        {
+            // here we could directly overwrite the existing matrices instead.
+            // note: values must then be initialized manually here first, if null.
+            value = RosenbrockFunction.Value(point);
+            gradient = RosenbrockFunction.Gradient(point);
+            hessian = RosenbrockFunction.Hessian(point);
         }
     }
 
@@ -70,7 +90,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void FindMinimum_Linesearch_Rosenbrock_Easy()
         {
-            var obj = new RosenbrockObjectiveFunction();
+            var obj = new InplaceRosenbrockObjectiveFunction();
             var solver = new NewtonMinimizer(1e-5, 1000, true);
             var result = solver.FindMinimum(obj, new DenseVector(new[] { 1.2, 1.2 }));
 

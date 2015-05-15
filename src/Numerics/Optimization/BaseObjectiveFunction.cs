@@ -33,15 +33,7 @@ namespace MathNet.Numerics.Optimization
 
         public Vector<double> Point
         {
-            get
-            {
-                return PointRaw;
-            }
-            set
-            {
-                PointRaw = value;
-                Status = EvaluationStatus.None;
-            }
+            get { return PointRaw; }
         }
 
         public void EvaluateAt(Vector<double> point)

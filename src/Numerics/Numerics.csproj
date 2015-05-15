@@ -118,6 +118,7 @@
     <Compile Include="Optimization\BaseEvaluation.cs" />
     <Compile Include="Optimization\BaseObjectiveFunction.cs" />
     <Compile Include="Optimization\Exceptions.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\InplaceObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\ValueObjectiveFunction.cs" />
