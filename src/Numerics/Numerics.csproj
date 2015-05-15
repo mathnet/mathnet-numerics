@@ -118,6 +118,12 @@
     <Compile Include="Optimization\BaseEvaluation.cs" />
     <Compile Include="Optimization\BaseObjectiveFunction.cs" />
     <Compile Include="Optimization\Exceptions.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ValueObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\HessianObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\GradientObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\GradientHessianObjectiveFunction.cs" />
     <Compile Include="Optimization\IObjectiveFunction.cs" />
     <Compile Include="Optimization\Implementation\LineSearchOutput.cs" />
     <Compile Include="Optimization\Implementation\CheckedObjectiveFunction.cs" />
