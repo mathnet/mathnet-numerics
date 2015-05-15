@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
-// Copyright (c) 2009-2013 Math.NET
-// 
+//
+// Copyright (c) 2009-2015 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -29,11 +29,9 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.RootFinding
+namespace MathNet.Numerics.Optimization.LineSearch
 {
     /// <summary>
     /// Performs an inexact line search. This is used as a part of quasi-Newton optimization methods to figure
@@ -92,7 +90,7 @@ namespace MathNet.Numerics.RootFinding
                     double phi_dash = z * grad2;
 
                     // curvature condition invalid ?
-                    if ((phi_dash < 0.9 * phi0_dash) || !decrease_direction) { 
+                    if ((phi_dash < 0.9 * phi0_dash) || !decrease_direction) {
                         // increase interval
                         alpha *= 4.0;
                     }

@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
-// Copyright (c) 2009-2013 Math.NET
-// 
+//
+// Copyright (c) 2009-2015 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -28,22 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MathNet.Numerics.LinearAlgebra;
-using NUnit.Framework;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.RootFinding;
+using MathNet.Numerics.Optimization;
+using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.RootFindingTests
+namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
     [TestFixture, Category("RootFinding")]
     internal class BfgsTest
     {
-        private const double precision = 1e-4;
+        private const double Precision = 1e-4;
 
         [Test]
         public void MinimizeRosenbrock()
@@ -56,14 +51,14 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         private static void CheckRosenbrock(double a, double b, double expectedMin)
         {
             var x = BfgsSolver.Solve(new DenseVector(new[] { a, b }), Rosenbrock, RosenbrockGradient);
-            Precision.AlmostEqual(expectedMin, Rosenbrock(x), precision);
+            Numerics.Precision.AlmostEqual(expectedMin, Rosenbrock(x), Precision);
         }
 
         private static double Rosenbrock(Vector<double> x)
         {
-            double t1 = (1 - x[0]); 
+            double t1 = (1 - x[0]);
             double t2 = (x[1] - x[0] * x[0]);
-            return t1 * t1 + 100 * t2 * t2; 
+            return t1 * t1 + 100 * t2 * t2;
         }
 
         private static Vector<double> RosenbrockGradient(Vector<double> x)
