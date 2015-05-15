@@ -87,7 +87,18 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        public abstract IObjectiveFunction Fork();
+        public abstract IObjectiveFunction CreateNew();
+
+        public virtual IObjectiveFunction Fork()
+        {
+            BaseObjectiveFunction fork = (BaseObjectiveFunction)CreateNew();
+            fork.PointRaw = PointRaw;
+            fork.ValueRaw = ValueRaw;
+            fork.GradientRaw = GradientRaw;
+            fork.HessianRaw = HessianRaw;
+            fork.Status = Status;
+            return fork;
+        }
 
         protected abstract void SetValue();
         protected abstract void SetGradient();

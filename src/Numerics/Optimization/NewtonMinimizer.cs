@@ -62,7 +62,7 @@ namespace MathNet.Numerics.Optimization
                     LineSearchOutput result;
                     try
                     {
-                        result = lineSearcher.FindConformingStep(objective.Fork(), searchDirection, 1.0);
+                        result = lineSearcher.FindConformingStep(objective, searchDirection, 1.0);
                     }
                     catch (Exception e)
                     {
