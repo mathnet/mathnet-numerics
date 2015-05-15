@@ -1,6 +1,6 @@
 ﻿using System;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.Optimization.Implementation;
+using MathNet.Numerics.Optimization.LineSearch;
 
 namespace MathNet.Numerics.Optimization
 {

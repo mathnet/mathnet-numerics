@@ -1,4 +1,4 @@
-﻿namespace MathNet.Numerics.Optimization.Implementation
+﻿namespace MathNet.Numerics.Optimization.LineSearch
 {
     public class LineSearchResult : MinimizationResult
     {

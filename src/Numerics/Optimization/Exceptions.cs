@@ -7,8 +7,8 @@ namespace MathNet.Numerics.Optimization
         public OptimizationException(string message)
             : base(message) { }
 
-        public OptimizationException(string message, Exception inner_exception)
-            : base(message, inner_exception) { }
+        public OptimizationException(string message, Exception innerException)
+            : base(message, innerException) { }
     }
 
     public class MaximumIterationsException : OptimizationException
@@ -24,26 +24,14 @@ namespace MathNet.Numerics.Optimization
         public EvaluationException(string message, IObjectiveFunction eval)
             : base(message)
         {
-            this.ObjectiveFunction = eval;
+            ObjectiveFunction = eval;
         }
 
-        public EvaluationException(string message, IObjectiveFunction eval, Exception inner_exception)
-            : base(message, inner_exception)
+        public EvaluationException(string message, IObjectiveFunction eval, Exception innerException)
+            : base(message, innerException)
         {
-            this.ObjectiveFunction = eval;
+            ObjectiveFunction = eval;
         }
-
-        //public EvaluationException(string message, IEvaluation1D eval)
-        //    : base(message)
-        //{
-        //    this.Evaluation = new OneDEvaluationExpander(eval);
-        //}
-
-        //public EvaluationException(string message, IEvaluation1D eval, Exception inner_exception)
-        //    : base(message, inner_exception)
-        //{
-        //    this.Evaluation = new OneDEvaluationExpander(eval);
-        //}
 
     }
 
