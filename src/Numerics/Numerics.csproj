@@ -127,12 +127,12 @@
     <Compile Include="Optimization\ObjectiveFunctions\GradientObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\GradientHessianObjectiveFunction.cs" />
     <Compile Include="Optimization\IObjectiveFunction.cs" />
-    <Compile Include="Optimization\Implementation\LineSearchOutput.cs" />
+    <Compile Include="Optimization\Implementation\LineSearchResult.cs" />
     <Compile Include="Optimization\Implementation\CheckedObjectiveFunction.cs" />
     <Compile Include="Optimization\Implementation\WeakWolfeLineSearch.cs" />
     <Compile Include="Optimization\IUnconstrainedMinimizer.cs" />
-    <Compile Include="Optimization\MinimizationOutput.cs" />
-    <Compile Include="Optimization\MinimizationWithLineSearchOutput.cs" />
+    <Compile Include="Optimization\MinimizationResult.cs" />
+    <Compile Include="Optimization\MinimizationWithLineSearchResult.cs" />
     <Compile Include="Optimization\NewtonMinimizer.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />

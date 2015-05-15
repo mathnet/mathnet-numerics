@@ -2,7 +2,7 @@
 
 namespace MathNet.Numerics.Optimization
 {
-    public class MinimizationOutput
+    public class MinimizationResult
     {
         public enum ExitCondition
         {
@@ -21,7 +21,7 @@ namespace MathNet.Numerics.Optimization
         public int Iterations { get; private set; }
         public ExitCondition ReasonForExit { get; private set; }
 
-        public MinimizationOutput(IObjectiveFunction functionInfo, int iterations, ExitCondition reasonForExit)
+        public MinimizationResult(IObjectiveFunction functionInfo, int iterations, ExitCondition reasonForExit)
         {
             FunctionInfoAtMinimum = functionInfo;
             Iterations = iterations;

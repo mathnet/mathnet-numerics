@@ -1,10 +1,10 @@
 ﻿namespace MathNet.Numerics.Optimization.Implementation
 {
-    public class LineSearchOutput : MinimizationOutput
+    public class LineSearchResult : MinimizationResult
     {
         public double FinalStep { get; private set; }
 
-        public LineSearchOutput(IObjectiveFunction functionInfo, int iterations, double finalStep, ExitCondition reasonForExit)
+        public LineSearchResult(IObjectiveFunction functionInfo, int iterations, double finalStep, ExitCondition reasonForExit)
             : base(functionInfo, iterations, reasonForExit)
         {
             FinalStep = finalStep;

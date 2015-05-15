@@ -1,11 +1,11 @@
 ﻿namespace MathNet.Numerics.Optimization
 {
-    public class MinimizationWithLineSearchOutput : MinimizationOutput
+    public class MinimizationWithLineSearchResult : MinimizationResult
     {
         public int TotalLineSearchIterations { get; private set; }
         public int IterationsWithNonTrivialLineSearch { get; private set; }
 
-        public MinimizationWithLineSearchOutput(IObjectiveFunction functionInfo, int iterations, ExitCondition reasonForExit, int totalLineSearchIterations, int iterationsWithNonTrivialLineSearch)
+        public MinimizationWithLineSearchResult(IObjectiveFunction functionInfo, int iterations, ExitCondition reasonForExit, int totalLineSearchIterations, int iterationsWithNonTrivialLineSearch)
             : base(functionInfo, iterations, reasonForExit)
         {
             TotalLineSearchIterations = totalLineSearchIterations;
