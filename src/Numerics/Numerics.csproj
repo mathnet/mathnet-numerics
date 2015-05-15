@@ -102,9 +102,9 @@
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
     <Compile Include="LinearAlgebra\CreateVector.cs" />
     <Compile Include="LinearRegression\Options.cs" />
-    <Compile Include="Optimization\BaseObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunctionBase.cs" />
     <Compile Include="Optimization\Exceptions.cs" />
-    <Compile Include="Optimization\ObjectiveFunctions\InplaceObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ObjectiveFunctionBase.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\ValueObjectiveFunction.cs" />
