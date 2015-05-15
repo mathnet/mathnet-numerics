@@ -369,7 +369,7 @@
     <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
     <Compile Include="OptimizationTests\TestNewtonMinimizer.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
-    <Compile Include="RootFindingTests\BfgsTest.cs" />
+    <Compile Include="OptimizationTests\BfgsTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />

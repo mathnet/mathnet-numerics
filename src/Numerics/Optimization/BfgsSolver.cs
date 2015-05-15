@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
-// Copyright (c) 2009-2013 Math.NET
-// 
+//
+// Copyright (c) 2009-2015 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -30,13 +30,11 @@
 
 
 using System;
-using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using System.Linq;
-using System.Text;
+using MathNet.Numerics.Optimization.LineSearch;
 
-namespace MathNet.Numerics.RootFinding
+namespace MathNet.Numerics.Optimization
 {
     /// <summary>
     /// Broyden-Fletcher-Goldfarb-Shanno solver for finding function minima
@@ -45,8 +43,8 @@ namespace MathNet.Numerics.RootFinding
     /// </summary>
     public static class BfgsSolver
     {
-        private const double gradientTolerance = 1e-5;
-        private const int maxIterations = 100000;
+        private const double GradientTolerance = 1e-5;
+        private const int MaxIterations = 100000;
 
         /// <summary>
         /// Finds a minimum of a function by the BFGS quasi-Newton method
@@ -63,7 +61,7 @@ namespace MathNet.Numerics.RootFinding
             // H represents the approximation of the inverse hessian matrix
             // it is updated via the Sherman–Morrison formula (http://en.wikipedia.org/wiki/Sherman%E2%80%93Morrison_formula)
             Matrix<double> H = DenseMatrix.CreateIdentity(dim);
-            
+
             Vector<double> x = initialGuess;
             Vector<double> x_old = x;
             Vector<double> grad;
@@ -94,13 +92,13 @@ namespace MathNet.Numerics.RootFinding
                 var yM = y.ToColumnMatrix();
 
                 // Update the estimate of the hessian
-                H = H 
+                H = H
                     - rho * (sM * (yM.TransposeThisAndMultiply(H)) + (H * yM).TransposeAndMultiply(sM))
                     + rho * rho * (y.DotProduct(H * y) + 1.0 / rho) * (sM.TransposeAndMultiply(sM));
                 x_old = x;
                 iter++;
             }
-            while ((grad.InfinityNorm() > gradientTolerance) && (iter < maxIterations));
+            while ((grad.InfinityNorm() > GradientTolerance) && (iter < MaxIterations));
 
             return x;
         }

@@ -127,9 +127,8 @@
     <Compile Include="Optimization\ObjectiveFunctions\GradientObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\GradientHessianObjectiveFunction.cs" />
     <Compile Include="Optimization\IObjectiveFunction.cs" />
-    <Compile Include="Optimization\Implementation\LineSearchResult.cs" />
-    <Compile Include="Optimization\Implementation\CheckedObjectiveFunction.cs" />
-    <Compile Include="Optimization\Implementation\WeakWolfeLineSearch.cs" />
+    <Compile Include="Optimization\LineSearch\LineSearchResult.cs" />
+    <Compile Include="Optimization\LineSearch\WeakWolfeLineSearch.cs" />
     <Compile Include="Optimization\IUnconstrainedMinimizer.cs" />
     <Compile Include="Optimization\MinimizationResult.cs" />
     <Compile Include="Optimization\MinimizationWithLineSearchResult.cs" />
@@ -252,13 +251,14 @@
     <Compile Include="Providers\Common\NativeProviderLoader.cs" />
     <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />
-    <Compile Include="RootFinding\BfgsSolver.cs" />
+    <Compile Include="Optimization\BfgsSolver.cs" />
     <Compile Include="RootFinding\Broyden.cs" />
     <Compile Include="RootFinding\Cubic.cs" />
     <Compile Include="RootFinding\NewtonRaphson.cs" />
     <Compile Include="RootFinding\RobustNewtonRaphson.cs" />
     <Compile Include="RootFinding\Secant.cs" />
     <Compile Include="RootFinding\WolfeRule.cs" />
+    <Compile Include="Optimization\LineSearch\WolfeRule.cs" />
     <Compile Include="RootFinding\ZeroCrossingBracketing.cs" />
     <Compile Include="RootFinding\Brent.cs" />
     <Compile Include="FindRoots.cs" />
