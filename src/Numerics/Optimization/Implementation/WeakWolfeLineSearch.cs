@@ -19,7 +19,7 @@ namespace MathNet.Numerics.Optimization.Implementation
         }
 
         // Implemented following http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
-        public LineSearchOutput FindConformingStep(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep)
+        public LineSearchResult FindConformingStep(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep)
         {
             double lowerBound = 0.0;
             double upperBound = Double.PositiveInfinity;
@@ -33,7 +33,7 @@ namespace MathNet.Numerics.Optimization.Implementation
 
             var objective = startingPoint.CreateNew();
             int ii;
-            MinimizationOutput.ExitCondition reasonForExit = MinimizationOutput.ExitCondition.None;
+            MinimizationResult.ExitCondition reasonForExit = MinimizationResult.ExitCondition.None;
             for (ii = 0; ii < _maximumIterations; ++ii)
             {
                 objective.EvaluateAt(initialPoint + searchDirection * step);
@@ -54,7 +54,7 @@ namespace MathNet.Numerics.Optimization.Implementation
                 }
                 else
                 {
-                    reasonForExit = MinimizationOutput.ExitCondition.WeakWolfeCriteria;
+                    reasonForExit = MinimizationResult.ExitCondition.WeakWolfeCriteria;
                     break;
                 }
 
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Optimization.Implementation
                     }
                     if (maxRelChange < _parameterTolerance)
                     {
-                        reasonForExit = MinimizationOutput.ExitCondition.LackOfProgress;
+                        reasonForExit = MinimizationResult.ExitCondition.LackOfProgress;
                         break;
                     }
                 }
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.Optimization.Implementation
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", _maximumIterations));
             }
 
-            return new LineSearchOutput(objective, ii, step, reasonForExit);
+            return new LineSearchResult(objective, ii, step, reasonForExit);
         }
 
         bool Conforms(IObjectiveFunction startingPoint, Vector<double> searchDirection, double step, IObjectiveFunction endingPoint)

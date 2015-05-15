@@ -1,7 +1,6 @@
 ﻿using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization.Implementation;
-using LU = MathNet.Numerics.LinearAlgebra.Factorization.LU<double>;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -18,7 +17,7 @@ namespace MathNet.Numerics.Optimization
             UseLineSearch = useLineSearch;
         }
 
-        public MinimizationOutput FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
+        public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
         {
             if (!objective.IsGradientSupported)
             {
@@ -35,7 +34,7 @@ namespace MathNet.Numerics.Optimization
             ValidateGradient(objective);
             if (ExitCriteriaSatisfied(objective.Gradient))
             {
-                return new MinimizationOutput(objective, 0, MinimizationOutput.ExitCondition.AbsoluteGradient);
+                return new MinimizationResult(objective, 0, MinimizationResult.ExitCondition.AbsoluteGradient);
             }
 
             // Set up line search algorithm
@@ -59,7 +58,7 @@ namespace MathNet.Numerics.Optimization
 
                 if (UseLineSearch || tmpLineSearch)
                 {
-                    LineSearchOutput result;
+                    LineSearchResult result;
                     try
                     {
                         result = lineSearcher.FindConformingStep(objective, searchDirection, 1.0);
@@ -89,7 +88,7 @@ namespace MathNet.Numerics.Optimization
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
             }
 
-            return new MinimizationWithLineSearchOutput(objective, iterations, MinimizationOutput.ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
+            return new MinimizationWithLineSearchResult(objective, iterations, MinimizationResult.ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
         bool ExitCriteriaSatisfied(Vector<double> gradient)
