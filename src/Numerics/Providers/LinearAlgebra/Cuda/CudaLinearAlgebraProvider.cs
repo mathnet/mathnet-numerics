@@ -46,6 +46,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         private IntPtr _blasHandle;
         private IntPtr _solverHandle;
 
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CudaLinearAlgebraProvider"/> class.
+        /// </summary>
         [CLSCompliant(false)]
         public CudaLinearAlgebraProvider()
         {
