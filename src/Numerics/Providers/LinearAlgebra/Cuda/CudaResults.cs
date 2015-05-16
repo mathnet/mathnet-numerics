@@ -38,7 +38,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
     /// <summary>
     /// Struct containing the various results from different CUDA API calls.
     /// </summary>
-    private struct CudaResults
+    internal struct CudaResults
     {
         /// <summary>
         /// Maps to cudaError_t

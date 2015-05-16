@@ -1,4 +1,4 @@
-#include "wrapper_common.h"
+#include "wrapper_cuda.h"
 #include "cuda_runtime.h"
 #include "cublas_v2.h"
 #include "cusolverDn.h"
@@ -79,20 +79,28 @@ extern "C" {
 		}
 	}
 
-	DLLEXPORT cublasStatus_t createBLASHandle(cublasHandle_t *blasHandle){
-		return cublasCreate(blasHandle);
+	DLLEXPORT CudaResults createBLASHandle(cublasHandle_t *blasHandle){
+		CudaResults ret;
+		ret.blasStatus = cublasCreate(blasHandle);
+		return ret;
 	}
 
-	DLLEXPORT cublasStatus_t destroyBLASHandle(cublasHandle_t blasHandle){
-		return cublasDestroy(blasHandle);
+	DLLEXPORT CudaResults destroyBLASHandle(cublasHandle_t blasHandle){
+		CudaResults ret;
+		ret.blasStatus = cublasDestroy(blasHandle);
+		return ret;
 	}
 
-	DLLEXPORT cusolverStatus_t createSolverHandle(cusolverDnHandle_t *solverHandle){
-		return cusolverDnCreate(solverHandle);
+	DLLEXPORT CudaResults createSolverHandle(cusolverDnHandle_t *solverHandle){
+		CudaResults ret;
+		ret.solverStatus = cusolverDnCreate(solverHandle);
+		return ret;
 	}
 
-	DLLEXPORT cusolverStatus_t destroySolverHandle(cusolverDnHandle_t solverHandle){
-		return cusolverDnDestroy(solverHandle);
+	DLLEXPORT CudaResults destroySolverHandle(cusolverDnHandle_t solverHandle){
+		CudaResults ret;
+		ret.solverStatus = cusolverDnDestroy(solverHandle);
+		return ret;
 	}
 
 #ifdef __cplusplus

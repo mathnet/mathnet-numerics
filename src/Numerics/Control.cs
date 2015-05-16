@@ -261,6 +261,10 @@ namespace MathNet.Numerics
             {
                 value.InitializeVerify();
 
+                // dispose the previous value if necessary
+                if (_linearAlgebraProvider != null && _linearAlgebraProvider is IDisposable)
+                    (_linearAlgebraProvider as IDisposable).Dispose();
+
                 // only actually set if verification did not throw
                 _linearAlgebraProvider = value;
             }
