@@ -83,95 +83,23 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (a != 0 || b != -1 || linearAlgebra <=0 || _nativeRevision < 1)
             {
-                throw new NotSupportedException("Cuda Native Provider too old or not compatible. Consider upgrading to a newer version.");
+                throw new NotSupportedException("Cuda Native Provider not present, too old or not compatible. Consider upgrading to a newer version.");
             }
 
-            BLAS(SafeNativeMethods.createBLASHandle(ref _blasHandle));
-            Solver(SafeNativeMethods.createSolverHandle(ref _solverHandle));
+            HandleResults(SafeNativeMethods.createBLASHandle(ref _blasHandle));
+            HandleResults(SafeNativeMethods.createSolverHandle(ref _solverHandle));
         }
 
-        private void BLAS(int status)
+        private void HandleResults(CudaResults results)
         {
-            switch (status)
-            {
-                case 0:  // CUBLAS_STATUS_SUCCESS
-                    return;
+            if (results.Error != 0)
+                throw new CudaException(results.Error);
 
-                case 1:  // CUBLAS_STATUS_NOT_INITIALIZED
-                    throw new Exception("The CUDA Runtime initialization failed");
+            if (results.BlasStatus != 0)
+                throw new CuBLASException(results.BlasStatus);
 
-                case 2:  // CUSOLVER_STATUS_ALLOC_FAILED
-                    throw new OutOfMemoryException("The resources could not be allocated");
-
-                case 7:  // CUBLAS_STATUS_INVALID_VALUE
-                    throw new ArgumentException("Invalid value");
-
-                case 8:  // CUBLAS_STATUS_ARCH_MISMATCH
-                    throw new NotSupportedException("The device does not support this opeation.");
-
-                case 11: // CUBLAS_STATUS_MAPPING_ERROR
-                    throw new Exception("Mapping error.");
-
-                case 13: // CUBLAS_STATUS_EXECUTION_FAILED
-                    throw new Exception("Execution failed");
-
-                case 14: // CUBLAS_STATUS_INTERNAL_ERROR
-                    throw new Exception("Internal error");
-
-                case 15: // CUBLAS_STATUS_NOT_SUPPORTED
-                    throw new NotSupportedException();
-
-                case 16: // CUBLAS_STATUS_LICENSE_ERROR
-                    throw new Exception("License error");
-
-                default:
-                    throw new Exception("Unrecognized cuBLAS status code: " + status);
-            }
-        }
-
-        private void Solver(int status)
-        {
-            switch (status)
-            {
-                case 0:  // CUSOLVER_STATUS_SUCCESS
-                    return;
-
-                case 1:  // CUSOLVER_STATUS_NOT_INITIALIZED
-                    throw new Exception("The library was not initialized");
-
-                case 2: // CUSOLVER_STATUS_ALLOC_FAILED
-                    throw new OutOfMemoryException("The resources could not be allocated");
-
-                case 3: // CUSOLVER_STATUS_INVALID_VALUE
-                    throw new ArgumentException("Invalid value");
-
-                case 4: // CUSOLVER_STATUS_ARCH_MISMATCH
-                    throw new NotSupportedException("The device does not support compute capability 2.0 and above");
-
-                case 5: // CUSOLVER_STATUS_MAPPING_ERROR
-                    throw new Exception("Mapping error");
-
-                case 6: // CUSOLVER_STATUS_EXECUTION_FAILED
-                    throw new NonConvergenceException("Execution failed");
-
-                case 7: //CUSOLVER_STATUS_INTERNAL_ERROR
-                    throw new Exception("Internal error");
-
-                case 8: // CUSOLVER_STATUS_MATRIX_TYPE_NOT_SUPPORTED
-                    throw new ArgumentException("Matrix type not supported");
-
-                case 9: // CUSOLVER_STATUS_NOT_SUPPORTED
-                    throw new NotSupportedException();
-
-                case 10: // CUSOLVER_STATUS_ZERO_PIVOT
-                    throw new Exception("Zero pivot");
-
-                case 11: //CUSOLVER_STATUS_INVALID_LICENSE
-                    throw new Exception("Invalid license");
-
-                default:
-                    throw new Exception("Unrecognized cuSolverDn status code: " + status);
-            }
+            if (results.SolverStatus != 0)
+                throw new CuSolverException(results.SolverStatus);
         }
 
         public override string ToString()
@@ -184,8 +112,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
         public void Dispose()
         {
-            BLAS(SafeNativeMethods.destroyBLASHandle(_blasHandle));
-            Solver(SafeNativeMethods.destroySolverHandle(_solverHandle));
+            HandleResults(SafeNativeMethods.destroyBLASHandle(_blasHandle));
+            HandleResults(SafeNativeMethods.destroySolverHandle(_solverHandle));
         }
     }
 }
