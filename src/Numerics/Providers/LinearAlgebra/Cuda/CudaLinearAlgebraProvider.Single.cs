@@ -477,6 +477,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             int info = 0;
             HandleResults(SafeNativeMethods.s_cholesky_factor(_solverHandle, order, a, ref info));
+
+            if (info > 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+            }
         }
 
         /// <summary>
@@ -707,10 +712,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            int info = 0;
             if (columnsA > rowsA || !computeVectors) // see remarks http://docs.nvidia.com/cuda/cusolver/index.html#cuds-lt-t-gt-gesvd
                 base.SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, new float[rowsA]);
-            else HandleResults(SafeNativeMethods.s_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt, ref info));
+            else
+            {
+                int info = 0;
+                HandleResults(SafeNativeMethods.s_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt, ref info));
+                if (info != 0)
+                    throw new NonConvergenceException();
+            }
         }        
     }
 }

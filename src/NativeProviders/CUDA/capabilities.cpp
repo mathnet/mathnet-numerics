@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include "wrapper_cuda.h"
 #include "cuda_runtime.h"
 #include "cublas_v2.h"
@@ -18,20 +20,6 @@ extern "C" {
 		int count;
 		int device;
 		cudaDeviceProp prop;
-
-		if (cudaGetDeviceCount(&count))
-			return 0;
-
-		if (count == 0)
-			return 0;
-
-		if (cudaGetDevice(&device))
-			return 0;
-
-		if (cudaGetDeviceProperties(&prop, device))
-			return 0;
-
-
 
 		switch (capability)
 		{
@@ -62,10 +50,34 @@ extern "C" {
 
 			// COMMON/SHARED
 		case 64: 
+			if (cudaGetDeviceCount(&count))
+				return 0;
+
+			if (count == 0)
+				return 0;
+
+			if (cudaGetDevice(&device))
+				return 0;
+
+			if (cudaGetDeviceProperties(&prop, device))
+				return 0;
+
 			return prop.major;
 
 			// LINEAR ALGEBRA
 		case 128:
+			if (cudaGetDeviceCount(&count))
+				return 0;
+
+			if (count == 0)
+				return 0;
+
+			if (cudaGetDevice(&device))
+				return 0;
+
+			if (cudaGetDeviceProperties(&prop, device))
+				return 0;
+
 			return prop.major >= 2;
 
 			// OPTIMIZATION
@@ -80,25 +92,25 @@ extern "C" {
 	}
 
 	DLLEXPORT CudaResults createBLASHandle(cublasHandle_t *blasHandle){
-		CudaResults ret;
-		ret.blasStatus = cublasCreate(blasHandle);
+		CudaResults ret = { cudaError_t::cudaSuccess, cublasStatus_t::CUBLAS_STATUS_SUCCESS, cusolverStatus_t::CUSOLVER_STATUS_SUCCESS };
+		ret.blasStatus = cublasCreate(blasHandle);		
 		return ret;
 	}
 
 	DLLEXPORT CudaResults destroyBLASHandle(cublasHandle_t blasHandle){
-		CudaResults ret;
+		CudaResults ret = { cudaError_t::cudaSuccess, cublasStatus_t::CUBLAS_STATUS_SUCCESS, cusolverStatus_t::CUSOLVER_STATUS_SUCCESS };
 		ret.blasStatus = cublasDestroy(blasHandle);
 		return ret;
 	}
 
 	DLLEXPORT CudaResults createSolverHandle(cusolverDnHandle_t *solverHandle){
-		CudaResults ret;
+		CudaResults ret = { cudaError_t::cudaSuccess, cublasStatus_t::CUBLAS_STATUS_SUCCESS, cusolverStatus_t::CUSOLVER_STATUS_SUCCESS };
 		ret.solverStatus = cusolverDnCreate(solverHandle);
 		return ret;
 	}
 
 	DLLEXPORT CudaResults destroySolverHandle(cusolverDnHandle_t solverHandle){
-		CudaResults ret;
+		CudaResults ret = { cudaError_t::cudaSuccess, cublasStatus_t::CUBLAS_STATUS_SUCCESS, cusolverStatus_t::CUSOLVER_STATUS_SUCCESS };
 		ret.solverStatus = cusolverDnDestroy(solverHandle);
 		return ret;
 	}

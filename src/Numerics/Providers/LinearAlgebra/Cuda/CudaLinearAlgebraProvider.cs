@@ -46,12 +46,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         private IntPtr _blasHandle;
         private IntPtr _solverHandle;
 
-        /// <param name="consistency">
-        /// Sets the desired bit consistency on repeated identical computations on varying CPU architectures,
-        /// as a trade-off with performance.
-        /// </param>
-        /// <param name="precision">VML optimal precision and rounding.</param>
-        /// <param name="accuracy">VML accuracy mode.</param>
         [CLSCompliant(false)]
         public CudaLinearAlgebraProvider()
         {
