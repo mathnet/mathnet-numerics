@@ -1,7 +1,7 @@
 #include "mkl_cblas.h"
 #include "wrapper_common.h"
 
-#if GCC 
+#if __cplusplus 
 extern "C" { 
 #endif
 DLLEXPORT void s_axpy(const MKL_INT n, const float alpha, const float x[], float y[]){
@@ -84,6 +84,6 @@ DLLEXPORT void z_matrix_multiply(CBLAS_TRANSPOSE transA, CBLAS_TRANSPOSE transB,
 	cblas_zgemm(CblasColMajor, transA, transB, m, n, k, &alpha, x, lda, y, ldb, &beta, c, m);
 }
 
-#if GCC 
+#if __cplusplus 
 } 
 #endif

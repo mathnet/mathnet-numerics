@@ -19,7 +19,7 @@ inline MKL_INT lu_factor(MKL_INT m, T a[], MKL_INT ipiv[], GETRF getrf)
     getrf(&m, &m, a, &m, ipiv, &info);
     shift_ipiv_down(m, ipiv);
     return info;
-};
+}
 
 template<typename T, typename GETRF, typename GETRI>
 inline MKL_INT lu_inverse(MKL_INT n, T a[], T work[], MKL_INT lwork, GETRF getrf, GETRI getri)
@@ -37,7 +37,7 @@ inline MKL_INT lu_inverse(MKL_INT n, T a[], T work[], MKL_INT lwork, GETRF getrf
     getri(&n, a, &n, ipiv, work, &lwork, &info);
     delete[] ipiv;
     return info;
-};
+}
 
 template<typename T, typename GETRI>
 inline MKL_INT lu_inverse_factored(MKL_INT n, T a[], MKL_INT ipiv[], T work[], MKL_INT lwork, GETRI getri)
@@ -81,7 +81,6 @@ inline MKL_INT lu_solve(MKL_INT n, MKL_INT nrhs, T a[], T b[], GETRF getrf, GETR
     delete[] clone;
     return info;
 }
-
 
 template<typename T, typename POTRF>
 inline MKL_INT cholesky_factor(MKL_INT n, T* a, POTRF potrf)

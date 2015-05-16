@@ -143,12 +143,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 a = SafeNativeMethods.query_capability(0);
                 b = SafeNativeMethods.query_capability(1);
 
-                _nativeIX86 = SafeNativeMethods.query_capability(8) > 0;
-                _nativeX64 = SafeNativeMethods.query_capability(9) > 0;
-                _nativeIA64 = SafeNativeMethods.query_capability(10) > 0;
+                _nativeIX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
+                _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
+                _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
 
-                _nativeRevision = SafeNativeMethods.query_capability(64);
-                linearAlgebra = SafeNativeMethods.query_capability(128);
+                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
+                linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebra);
             }
             catch (DllNotFoundException e)
             {
@@ -169,14 +169,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             }
 
             // set numerical consistency, precision and accuracy modes, if supported
-            if (SafeNativeMethods.query_capability(65) > 0)
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Precision) > 0)
             {
                 SafeNativeMethods.set_consistency_mode((int)_consistency);
                 SafeNativeMethods.set_vml_mode((uint)_precision | (uint)_accuracy);
             }
 
             // set threading settings, if supported
-            if (SafeNativeMethods.query_capability(66) > 0)
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Threading) > 0)
             {
                 SafeNativeMethods.set_max_threads(Control.MaxDegreeOfParallelism);
             }
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void FreeBuffers()
         {
-            if (SafeNativeMethods.query_capability(67) < 1)
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
                 throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
             }
@@ -200,7 +200,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void ThreadFreeBuffers()
         {
-            if (SafeNativeMethods.query_capability(67) < 1)
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
                 throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
             }
@@ -213,7 +213,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void DisableMemoryPool()
         {
-            if (SafeNativeMethods.query_capability(67) < 1)
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
                 throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
             }
@@ -228,7 +228,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <returns>Returns the number of bytes allocated to all memory buffers.</returns>
         public long MemoryStatistics(out int allocatedBuffers)
         {
-            if (SafeNativeMethods.query_capability(67) < 1)
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
                 throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
             }
@@ -241,7 +241,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void EnablePeakMemoryStatistics()
         {
-            if (SafeNativeMethods.query_capability(67) < 1)
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
                 throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
             }
@@ -254,7 +254,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void DisablePeakMemoryStatistics()
         {
-            if (SafeNativeMethods.query_capability(67) < 1)
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
                 throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
             }
@@ -269,7 +269,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <returns>The peak number of bytes allocated to all memory buffers.</returns>
         public long PeakMemoryStatistics(bool reset = true)
         {
-            if (SafeNativeMethods.query_capability(67) < 1)
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
                 throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
             }
@@ -279,9 +279,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
         public override string ToString()
         {
-            return string.Format("Intel MKL ({1}; revision {0})", _nativeRevision, _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
+            return string.Format("Intel MKL ({1}; revision {0})",
+                _nativeRevision,
+                _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
         }
-
     }
 }
 

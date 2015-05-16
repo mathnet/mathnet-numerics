@@ -931,5 +931,21 @@ namespace MathNet.Numerics.Statistics
         {
             return StreamingStatistics.Entropy(data.Where(d => d.HasValue).Select(d => d.Value));
         }
+
+        /// <summary>
+        /// Evaluates the sample mean over a moving window, for each samples.
+        /// Returns NaN if no data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">The sample stream to calculate the mean of.</param>
+        /// <param name="windowSize">The number of last samples to consider.</param>
+        public static IEnumerable<double> MovingAverage(this IEnumerable<double> samples, int windowSize)
+        {
+            var movingStatistics = new MovingStatistics(windowSize);
+            return samples.Select(sample =>
+            {
+                movingStatistics.Push(sample);
+                return movingStatistics.Mean;
+            });
+        }
     }
 }

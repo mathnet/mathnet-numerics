@@ -16,7 +16,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;NATIVE</DefineConstants>
+    <DefineConstants>TRACE;NATIVE;MKL</DefineConstants>
     <OutputPath>..\..\out\MKL\Windows\</OutputPath>
     <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
@@ -28,7 +28,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;DEBUG;NATIVE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NATIVE;MKL</DefineConstants>
     <OutputPath>..\..\out\MKL\Windows\</OutputPath>
     <IntermediateOutputPath>..\..\obj\MKL\Windows\x86\</IntermediateOutputPath>
     <BaseIntermediateOutputPath>..\..\obj\MKL\Windows\x86\</BaseIntermediateOutputPath>
@@ -344,5 +344,8 @@
       <Private>True</Private>
       <Paket>True</Paket>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
 </Project>

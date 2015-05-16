@@ -39,10 +39,13 @@ namespace MathNet.Numerics.UnitTests
         public void BeforeTest(TestDetails testDetails)
         {
 #if !NET35 && NATIVE
+#if MKL
             Control.UseNativeMKL();
-#endif
-#if CUDA
+#elif CUDA
             Control.UseNativeCUDA();
+#elif OPENBLAS
+            Control.UseNativeOpenBLAS();
+#endif
 #endif
         }
 
