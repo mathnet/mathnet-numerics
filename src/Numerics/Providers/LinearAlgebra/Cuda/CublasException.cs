@@ -58,7 +58,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         /// <summary>
         /// Returns the appropriate error message for each status code.
         /// </summary>
-        /// <param name="code">The status code returned from the API</param>
+        /// <param name="statusCode">The status code returned from the API</param>
         /// <returns>The corresponding error message</returns>
         private static string GetErrorMessage(int statusCode)
         {
