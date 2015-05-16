@@ -54,66 +54,66 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         internal static extern int query_capability(int capability);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int createBLASHandle(ref IntPtr blasHandle);
+        internal static extern CudaResults createBLASHandle(ref IntPtr blasHandle);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int destroyBLASHandle(IntPtr blasHandle);
+        internal static extern CudaResults destroyBLASHandle(IntPtr blasHandle);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int createSolverHandle(ref IntPtr solverHandle);
+        internal static extern CudaResults createSolverHandle(ref IntPtr solverHandle);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int destroySolverHandle(IntPtr solverHandle);
+        internal static extern CudaResults destroySolverHandle(IntPtr solverHandle);
 
         #region BLAS
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void s_axpy(IntPtr blasHandle, int n, float alpha, float[] x, [In, Out] float[] y);
+        internal static extern CudaResults s_axpy(IntPtr blasHandle, int n, float alpha, float[] x, [In, Out] float[] y);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void d_axpy(IntPtr blasHandle, int n, double alpha, double[] x, [In, Out] double[] y);
+        internal static extern CudaResults d_axpy(IntPtr blasHandle, int n, double alpha, double[] x, [In, Out] double[] y);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void c_axpy(IntPtr blasHandle, int n, Complex32 alpha, Complex32[] x, [In, Out] Complex32[] y);
+        internal static extern CudaResults c_axpy(IntPtr blasHandle, int n, Complex32 alpha, Complex32[] x, [In, Out] Complex32[] y);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void z_axpy(IntPtr blasHandle, int n, Complex alpha, Complex[] x, [In, Out] Complex[] y);
+        internal static extern CudaResults z_axpy(IntPtr blasHandle, int n, Complex alpha, Complex[] x, [In, Out] Complex[] y);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void s_scale(IntPtr blasHandle, int n, float alpha, [Out] float[] x);
+        internal static extern CudaResults s_scale(IntPtr blasHandle, int n, float alpha, [Out] float[] x);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void d_scale(IntPtr blasHandle, int n, double alpha, [Out] double[] x);
+        internal static extern CudaResults d_scale(IntPtr blasHandle, int n, double alpha, [Out] double[] x);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void c_scale(IntPtr blasHandle, int n, Complex32 alpha, [In, Out] Complex32[] x);
+        internal static extern CudaResults c_scale(IntPtr blasHandle, int n, Complex32 alpha, [In, Out] Complex32[] x);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void z_scale(IntPtr blasHandle, int n, Complex alpha, [In, Out] Complex[] x);
+        internal static extern CudaResults z_scale(IntPtr blasHandle, int n, Complex alpha, [In, Out] Complex[] x);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern float s_dot_product(IntPtr blasHandle, int n, float[] x, float[] y);
+        internal static extern CudaResults s_dot_product(IntPtr blasHandle, int n, float[] x, float[] y, ref float result);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern double d_dot_product(IntPtr blasHandle, int n, double[] x, double[] y);
+        internal static extern CudaResults d_dot_product(IntPtr blasHandle, int n, double[] x, double[] y, ref double result);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern Complex32 c_dot_product(IntPtr blasHandle, int n, Complex32[] x, Complex32[] y);
+        internal static extern CudaResults c_dot_product(IntPtr blasHandle, int n, Complex32[] x, Complex32[] y, ref Complex32 result);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern Complex z_dot_product(IntPtr blasHandle, int n, Complex[] x, Complex[] y);
+        internal static extern CudaResults z_dot_product(IntPtr blasHandle, int n, Complex[] x, Complex[] y, ref Complex result);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void s_matrix_multiply(IntPtr blasHandle, int transA, int transB, int m, int n, int k, float alpha, float[] x, float[] y, float beta, [In, Out] float[] c);
+        internal static extern CudaResults s_matrix_multiply(IntPtr blasHandle, int transA, int transB, int m, int n, int k, float alpha, float[] x, float[] y, float beta, [In, Out] float[] c);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void d_matrix_multiply(IntPtr blasHandle, int transA, int transB, int m, int n, int k, double alpha, double[] x, double[] y, double beta, [In, Out] double[] c);
+        internal static extern CudaResults d_matrix_multiply(IntPtr blasHandle, int transA, int transB, int m, int n, int k, double alpha, double[] x, double[] y, double beta, [In, Out] double[] c);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void c_matrix_multiply(IntPtr blasHandle, int transA, int transB, int m, int n, int k, Complex32 alpha, Complex32[] x, Complex32[] y, Complex32 beta, [In, Out] Complex32[] c);
+        internal static extern CudaResults c_matrix_multiply(IntPtr blasHandle, int transA, int transB, int m, int n, int k, Complex32 alpha, Complex32[] x, Complex32[] y, Complex32 beta, [In, Out] Complex32[] c);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void z_matrix_multiply(IntPtr blasHandle, int transA, int transB, int m, int n, int k, Complex alpha, Complex[] x, Complex[] y, Complex beta, [In, Out] Complex[] c);
+        internal static extern CudaResults z_matrix_multiply(IntPtr blasHandle, int transA, int transB, int m, int n, int k, Complex alpha, Complex[] x, Complex[] y, Complex beta, [In, Out] Complex[] c);
 
         internal static int ToCUDA(this Transpose transpose)
         {

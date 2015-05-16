@@ -93,88 +93,112 @@ exit:
 
 extern "C" {
 
-	DLLEXPORT void s_axpy(const cublasHandle_t blasHandle, const int n, const float alpha, const float x[], float y[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuda_axpy(blasHandle, n, alpha, x, 1, y, 1, cublasSaxpy, error, blasStatus);
-	}
-
-	DLLEXPORT void d_axpy(const cublasHandle_t blasHandle, const int n, const double alpha, const double x[], double y[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuda_axpy(blasHandle, n, alpha, x, 1, y, 1, cublasDaxpy, error, blasStatus);
-	}
-
-	DLLEXPORT void c_axpy(const cublasHandle_t blasHandle, const int n, const cuComplex alpha, const cuComplex x[], cuComplex y[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuda_axpy(blasHandle, n, alpha, x, 1, y, 1, cublasCaxpy, error, blasStatus);
-	}
-
-	DLLEXPORT void z_axpy(const cublasHandle_t blasHandle, const int n, const cuDoubleComplex alpha, const cuDoubleComplex x[], cuDoubleComplex y[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuda_axpy(blasHandle, n, alpha, x, 1, y, 1, cublasZaxpy, error, blasStatus);
-	}
-
-	DLLEXPORT void s_scale(const cublasHandle_t blasHandle, const int n, const float alpha, float x[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuda_scal(blasHandle, n, alpha, x, 1, cublasSscal, error, blasStatus);
-	}
-
-	DLLEXPORT void d_scale(const cublasHandle_t blasHandle, const int n, const double alpha, double x[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuda_scal(blasHandle, n, alpha, x, 1, cublasDscal, error, blasStatus);
-	}
-
-	DLLEXPORT void c_scale(const cublasHandle_t blasHandle, const int n, const cuComplex alpha, cuComplex x[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuda_scal(blasHandle, n, alpha, x, 1, cublasCscal, error, blasStatus);
-	}
-
-	DLLEXPORT void z_scale(const cublasHandle_t blasHandle, const int n, const cuDoubleComplex alpha, cuDoubleComplex x[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuda_scal(blasHandle, n, alpha, x, 1, cublasZscal, error, blasStatus);
-	}
-
-	DLLEXPORT float s_dot_product(const cublasHandle_t blasHandle, const int n, const float x[], const float y[], cudaError_t *error, cublasStatus_t *blasStatus){
-		float ret;
-		cuda_dot(blasHandle, n, x, 1, y, 1, &ret, cublasSdot, error, blasStatus);
+	DLLEXPORT CudaResults s_axpy(const cublasHandle_t blasHandle, const int n, const float alpha, const float x[], float y[]){
+		CudaResults ret;
+		cuda_axpy(blasHandle, n, alpha, x, 1, y, 1, cublasSaxpy, &ret.error, &ret.blasStatus);
 		return ret;
 	}
 
-	DLLEXPORT double d_dot_product(const cublasHandle_t blasHandle, const int n, const double x[], const double y[], cudaError_t *error, cublasStatus_t *blasStatus){
-		double ret;
-		cuda_dot(blasHandle, n, x, 1, y, 1, &ret, cublasDdot, error, blasStatus);
+	DLLEXPORT CudaResults d_axpy(const cublasHandle_t blasHandle, const int n, const double alpha, const double x[], double y[]){
+		CudaResults ret;
+		cuda_axpy(blasHandle, n, alpha, x, 1, y, 1, cublasDaxpy, &ret.error, &ret.blasStatus);
 		return ret;
 	}
 
-	DLLEXPORT cuComplex c_dot_product(const cublasHandle_t blasHandle, const int n, const cuComplex x[], const cuComplex y[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuComplex ret;
-		cuda_dot(blasHandle, n, x, 1, y, 1, &ret, cublasCdotu, error, blasStatus);
+	DLLEXPORT CudaResults c_axpy(const cublasHandle_t blasHandle, const int n, const cuComplex alpha, const cuComplex x[], cuComplex y[]){
+		CudaResults ret;
+		cuda_axpy(blasHandle, n, alpha, x, 1, y, 1, cublasCaxpy, &ret.error, &ret.blasStatus);
 		return ret;
 	}
 
-	DLLEXPORT cuDoubleComplex z_dot_product(const cublasHandle_t blasHandle, const int n, const cuDoubleComplex x[], const cuDoubleComplex y[], cudaError_t *error, cublasStatus_t *blasStatus){
-		cuDoubleComplex ret;
-		cuda_dot(blasHandle, n, x, 1, y, 1, &ret, cublasZdotu, error, blasStatus);
+	DLLEXPORT CudaResults z_axpy(const cublasHandle_t blasHandle, const int n, const cuDoubleComplex alpha, const cuDoubleComplex x[], cuDoubleComplex y[]){
+		CudaResults ret;
+		cuda_axpy(blasHandle, n, alpha, x, 1, y, 1, cublasZaxpy, &ret.error, &ret.blasStatus);
 		return ret;
 	}
 
-	DLLEXPORT void s_matrix_multiply(const cublasHandle_t blasHandle, cublasOperation_t transA, cublasOperation_t transB, const int m, const int n, const int k, const float alpha, const float x[], const float y[], const float beta, float c[], cudaError_t *error, cublasStatus_t *blasStatus){
-		int lda = transA == CUBLAS_OP_N ? m : k;
-		int ldb = transB == CUBLAS_OP_N ? k : n;
-
-		cuda_gemm(blasHandle, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m, cublasSgemm, error, blasStatus);
+	DLLEXPORT CudaResults s_scale(const cublasHandle_t blasHandle, const int n, const float alpha, float x[]){
+		CudaResults ret;
+		cuda_scal(blasHandle, n, alpha, x, 1, cublasSscal, &ret.error, &ret.blasStatus);
+		return ret;
 	}
 
-	DLLEXPORT void d_matrix_multiply(const cublasHandle_t blasHandle, cublasOperation_t transA, cublasOperation_t transB, const int m, const int n, const int k, const double alpha, const double x[], const double y[], const double beta, double c[], cudaError_t *error, cublasStatus_t *blasStatus){
-		int lda = transA == CUBLAS_OP_N ? m : k;
-		int ldb = transB == CUBLAS_OP_N ? k : n;
-
-		cuda_gemm(blasHandle, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m, cublasDgemm, error, blasStatus);
+	DLLEXPORT CudaResults d_scale(const cublasHandle_t blasHandle, const int n, const double alpha, double x[]){
+		CudaResults ret;
+		cuda_scal(blasHandle, n, alpha, x, 1, cublasDscal, &ret.error, &ret.blasStatus);
+		return ret;
 	}
 
-	DLLEXPORT void c_matrix_multiply(const cublasHandle_t blasHandle, cublasOperation_t transA, cublasOperation_t transB, const int m, const int n, const int k, const cuComplex alpha, const cuComplex x[], const cuComplex y[], const cuComplex beta, cuComplex c[], cudaError_t *error, cublasStatus_t *blasStatus){
-		int lda = transA == CUBLAS_OP_N ? m : k;
-		int ldb = transB == CUBLAS_OP_N ? k : n;
-
-		cuda_gemm(blasHandle, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m, cublasCgemm, error, blasStatus);
+	DLLEXPORT CudaResults c_scale(const cublasHandle_t blasHandle, const int n, const cuComplex alpha, cuComplex x[]){
+		CudaResults ret;
+		cuda_scal(blasHandle, n, alpha, x, 1, cublasCscal, &ret.error, &ret.blasStatus);
+		return ret;
 	}
 
-	DLLEXPORT void z_matrix_multiply(const cublasHandle_t blasHandle, cublasOperation_t transA, cublasOperation_t transB, const int m, const int n, const int k, const cuDoubleComplex alpha, const cuDoubleComplex x[], const cuDoubleComplex y[], const cuDoubleComplex beta, cuDoubleComplex c[], cudaError_t *error, cublasStatus_t *blasStatus){
+	DLLEXPORT CudaResults z_scale(const cublasHandle_t blasHandle, const int n, const cuDoubleComplex alpha, cuDoubleComplex x[]){
+		CudaResults ret;
+		cuda_scal(blasHandle, n, alpha, x, 1, cublasZscal, &ret.error, &ret.blasStatus);
+		return ret;
+	}
+
+	DLLEXPORT CudaResults s_dot_product(const cublasHandle_t blasHandle, const int n, const float x[], const float y[], float *result){
+		CudaResults ret;
+		cuda_dot(blasHandle, n, x, 1, y, 1, result, cublasSdot, &ret.error, &ret.blasStatus);
+		return ret;
+	}
+
+	DLLEXPORT CudaResults d_dot_product(const cublasHandle_t blasHandle, const int n, const double x[], const double y[], double *result){
+		CudaResults ret;
+		cuda_dot(blasHandle, n, x, 1, y, 1, result, cublasDdot, &ret.error, &ret.blasStatus);
+		return ret;
+	}
+
+	DLLEXPORT CudaResults c_dot_product(const cublasHandle_t blasHandle, const int n, const cuComplex x[], const cuComplex y[], cuComplex *result){
+		CudaResults ret;
+		cuda_dot(blasHandle, n, x, 1, y, 1, result, cublasCdotu, &ret.error, &ret.blasStatus);
+		return ret;
+	}
+
+	DLLEXPORT CudaResults z_dot_product(const cublasHandle_t blasHandle, const int n, const cuDoubleComplex x[], const cuDoubleComplex y[], cuDoubleComplex *result){
+		CudaResults ret;
+		cuda_dot(blasHandle, n, x, 1, y, 1, result, cublasZdotu, &ret.error, &ret.blasStatus);
+		return ret;
+	}
+
+	DLLEXPORT CudaResults s_matrix_multiply(const cublasHandle_t blasHandle, cublasOperation_t transA, cublasOperation_t transB, const int m, const int n, const int k, const float alpha, const float x[], const float y[], const float beta, float c[]){
+		CudaResults ret;
 		int lda = transA == CUBLAS_OP_N ? m : k;
 		int ldb = transB == CUBLAS_OP_N ? k : n;
 
-		cuda_gemm(blasHandle, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m, cublasZgemm, error, blasStatus);
+		cuda_gemm(blasHandle, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m, cublasSgemm, &ret.error, &ret.blasStatus);
+		return ret;
+	}
+
+	DLLEXPORT CudaResults d_matrix_multiply(const cublasHandle_t blasHandle, cublasOperation_t transA, cublasOperation_t transB, const int m, const int n, const int k, const double alpha, const double x[], const double y[], const double beta, double c[]){
+		CudaResults ret;
+		int lda = transA == CUBLAS_OP_N ? m : k;
+		int ldb = transB == CUBLAS_OP_N ? k : n;
+
+		cuda_gemm(blasHandle, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m, cublasDgemm, &ret.error, &ret.blasStatus);
+		return ret;
+	}
+
+	DLLEXPORT CudaResults c_matrix_multiply(const cublasHandle_t blasHandle, cublasOperation_t transA, cublasOperation_t transB, const int m, const int n, const int k, const cuComplex alpha, const cuComplex x[], const cuComplex y[], const cuComplex beta, cuComplex c[]){
+		CudaResults ret;
+		int lda = transA == CUBLAS_OP_N ? m : k;
+		int ldb = transB == CUBLAS_OP_N ? k : n;
+
+		cuda_gemm(blasHandle, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m, cublasCgemm, &ret.error, &ret.blasStatus);
+		return ret;
+	}
+
+	DLLEXPORT CudaResults z_matrix_multiply(const cublasHandle_t blasHandle, cublasOperation_t transA, cublasOperation_t transB, const int m, const int n, const int k, const cuDoubleComplex alpha, const cuDoubleComplex x[], const cuDoubleComplex y[], const cuDoubleComplex beta, cuDoubleComplex c[]){
+		CudaResults ret;
+		int lda = transA == CUBLAS_OP_N ? m : k;
+		int ldb = transB == CUBLAS_OP_N ? k : n;
+
+		cuda_gemm(blasHandle, transA, transB, m, n, k, alpha, x, lda, y, ldb, beta, c, m, cublasZgemm, &ret.error, &ret.blasStatus);
+		return ret;
 	}
 
 }

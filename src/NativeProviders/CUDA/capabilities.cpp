@@ -1,4 +1,5 @@
 #include "wrapper_common.h"
+#include "cuda_runtime.h"
 #include "cublas_v2.h"
 #include "cusolverDn.h"
 
@@ -14,6 +15,24 @@ extern "C" {
 	*/
 	DLLEXPORT int query_capability(const int capability)
 	{
+		int count;
+		int device;
+		cudaDeviceProp prop;
+
+		if (cudaGetDeviceCount(&count))
+			return 0;
+
+		if (count == 0)
+			return 0;
+
+		if (cudaGetDevice(&device))
+			return 0;
+
+		if (cudaGetDeviceProperties(&prop, device))
+			return 0;
+
+
+
 		switch (capability)
 		{
 
@@ -42,10 +61,12 @@ extern "C" {
 #endif
 
 			// COMMON/SHARED
-		case 64: return 1; // revision
+		case 64: 
+			return prop.major;
 
 			// LINEAR ALGEBRA
-		case 128: return 1;	// basic dense linear algebra
+		case 128:
+			return prop.major >= 2;
 
 			// OPTIMIZATION
 		case 256: return 0; // basic optimization
