@@ -43,7 +43,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         private bool _nativeIX86;
         private bool _nativeX64;
         private bool _nativeIA64;
-        private int _numDevices;
         private IntPtr _blasHandle;
         private IntPtr _solverHandle;
 
@@ -116,7 +115,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
         public override string ToString()
         {
-            return string.Format("Nvidia CUDA ({1}; revision {0})", _nativeRevision, _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
+            return string.Format("Nvidia CUDA ({1}; compute capability {0})", _nativeRevision, _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
         }
 
 
