@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\CUDA\capabilities.cpp" />
     <ClCompile Include="..\..\CUDA\lapack.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\CUDA\wrapper_cuda.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5A52B796-7F41-4C90-8DE2-F3F391C4482C}</ProjectGuid>
     <RootNamespace>CUDA</RootNamespace>
