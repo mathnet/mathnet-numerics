@@ -150,100 +150,100 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         //internal static extern double z_matrix_norm(byte norm, int rows, int columns, [In] Complex[] a, [In, Out] double[] work);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults s_cholesky_factor(IntPtr solverHandle, int n, [In, Out] float[] a);
+        internal static extern CudaResults s_cholesky_factor(IntPtr solverHandle, int n, [In, Out] float[] a, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults d_cholesky_factor(IntPtr solverHandle, int n, [In, Out] double[] a);
+        internal static extern CudaResults d_cholesky_factor(IntPtr solverHandle, int n, [In, Out] double[] a, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults c_cholesky_factor(IntPtr solverHandle, int n, [In, Out] Complex32[] a);
+        internal static extern CudaResults c_cholesky_factor(IntPtr solverHandle, int n, [In, Out] Complex32[] a, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults z_cholesky_factor(IntPtr solverHandle, int n, [In, Out] Complex[] a);
+        internal static extern CudaResults z_cholesky_factor(IntPtr solverHandle, int n, [In, Out] Complex[] a, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults s_lu_factor(IntPtr solverHandle, int n, [In, Out] float[] a, [In, Out] int[] ipiv);
+        internal static extern CudaResults s_lu_factor(IntPtr solverHandle, int n, [In, Out] float[] a, [In, Out] int[] ipiv, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults d_lu_factor(IntPtr solverHandle, int n, [In, Out] double[] a, [In, Out] int[] ipiv);
+        internal static extern CudaResults d_lu_factor(IntPtr solverHandle, int n, [In, Out] double[] a, [In, Out] int[] ipiv, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults c_lu_factor(IntPtr solverHandle, int n, [In, Out] Complex32[] a, [In, Out] int[] ipiv);
+        internal static extern CudaResults c_lu_factor(IntPtr solverHandle, int n, [In, Out] Complex32[] a, [In, Out] int[] ipiv, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults z_lu_factor(IntPtr solverHandle, int n, [In, Out] Complex[] a, [In, Out] int[] ipiv);
+        internal static extern CudaResults z_lu_factor(IntPtr solverHandle, int n, [In, Out] Complex[] a, [In, Out] int[] ipiv, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults s_lu_inverse(IntPtr solverHandle, IntPtr blasHandle, int n, [In, Out] float[] a);
+        internal static extern CudaResults s_lu_inverse(IntPtr solverHandle, IntPtr blasHandle, int n, [In, Out] float[] a, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults d_lu_inverse(IntPtr solverHandle, IntPtr blasHandle, int n, [In, Out] double[] a);
+        internal static extern CudaResults d_lu_inverse(IntPtr solverHandle, IntPtr blasHandle, int n, [In, Out] double[] a, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults c_lu_inverse(IntPtr solverHandle, IntPtr blasHandle, int n, [In, Out] Complex32[] a);
+        internal static extern CudaResults c_lu_inverse(IntPtr solverHandle, IntPtr blasHandle, int n, [In, Out] Complex32[] a, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults z_lu_inverse(IntPtr solverHandle, IntPtr blasHandle, int n, [In, Out] Complex[] a);
+        internal static extern CudaResults z_lu_inverse(IntPtr solverHandle, IntPtr blasHandle, int n, [In, Out] Complex[] a, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults s_lu_inverse_factored(IntPtr blasHandle, int n, [In, Out] float[] a, [In, Out] int[] ipiv);
+        internal static extern CudaResults s_lu_inverse_factored(IntPtr blasHandle, int n, [In, Out] float[] a, [In, Out] int[] ipiv, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults d_lu_inverse_factored(IntPtr blasHandle, int n, [In, Out] double[] a, [In, Out] int[] ipiv);
+        internal static extern CudaResults d_lu_inverse_factored(IntPtr blasHandle, int n, [In, Out] double[] a, [In, Out] int[] ipiv, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults c_lu_inverse_factored(IntPtr blasHandle, int n, [In, Out] Complex32[] a, [In, Out] int[] ipiv);
+        internal static extern CudaResults c_lu_inverse_factored(IntPtr blasHandle, int n, [In, Out] Complex32[] a, [In, Out] int[] ipiv, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults z_lu_inverse_factored(IntPtr blasHandle, int n, [In, Out] Complex[] a, [In, Out] int[] ipiv);
+        internal static extern CudaResults z_lu_inverse_factored(IntPtr blasHandle, int n, [In, Out] Complex[] a, [In, Out] int[] ipiv, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults s_lu_solve_factored(IntPtr solverHandle, int n, int nrhs, float[] a, [In, Out] int[] ipiv, [In, Out] float[] b);
+        internal static extern CudaResults s_lu_solve_factored(IntPtr solverHandle, int n, int nrhs, float[] a, [In, Out] int[] ipiv, [In, Out] float[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults d_lu_solve_factored(IntPtr solverHandle, int n, int nrhs, double[] a, [In, Out] int[] ipiv, [In, Out] double[] b);
+        internal static extern CudaResults d_lu_solve_factored(IntPtr solverHandle, int n, int nrhs, double[] a, [In, Out] int[] ipiv, [In, Out] double[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults c_lu_solve_factored(IntPtr solverHandle, int n, int nrhs, Complex32[] a, [In, Out] int[] ipiv, [In, Out] Complex32[] b);
+        internal static extern CudaResults c_lu_solve_factored(IntPtr solverHandle, int n, int nrhs, Complex32[] a, [In, Out] int[] ipiv, [In, Out] Complex32[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults z_lu_solve_factored(IntPtr solverHandle, int n, int nrhs, Complex[] a, [In, Out] int[] ipiv, [In, Out] Complex[] b);
+        internal static extern CudaResults z_lu_solve_factored(IntPtr solverHandle, int n, int nrhs, Complex[] a, [In, Out] int[] ipiv, [In, Out] Complex[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults s_lu_solve(IntPtr solverHandle, int n, int nrhs, float[] a, [In, Out] float[] b);
+        internal static extern CudaResults s_lu_solve(IntPtr solverHandle, int n, int nrhs, float[] a, [In, Out] float[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults d_lu_solve(IntPtr solverHandle, int n, int nrhs, double[] a, [In, Out] double[] b);
+        internal static extern CudaResults d_lu_solve(IntPtr solverHandle, int n, int nrhs, double[] a, [In, Out] double[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults c_lu_solve(IntPtr solverHandle, int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b);
+        internal static extern CudaResults c_lu_solve(IntPtr solverHandle, int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults z_lu_solve(IntPtr solverHandle, int n, int nrhs, Complex[] a, [In, Out] Complex[] b);
+        internal static extern CudaResults z_lu_solve(IntPtr solverHandle, int n, int nrhs, Complex[] a, [In, Out] Complex[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults s_cholesky_solve(IntPtr solverHandle, int n, int nrhs, float[] a, [In, Out] float[] b);
+        internal static extern CudaResults s_cholesky_solve(IntPtr solverHandle, int n, int nrhs, float[] a, [In, Out] float[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults d_cholesky_solve(IntPtr solverHandle, int n, int nrhs, double[] a, [In, Out] double[] b);
+        internal static extern CudaResults d_cholesky_solve(IntPtr solverHandle, int n, int nrhs, double[] a, [In, Out] double[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults c_cholesky_solve(IntPtr solverHandle, int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b);
+        internal static extern CudaResults c_cholesky_solve(IntPtr solverHandle, int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults z_cholesky_solve(IntPtr solverHandle, int n, int nrhs, Complex[] a, [In, Out] Complex[] b);
+        internal static extern CudaResults z_cholesky_solve(IntPtr solverHandle, int n, int nrhs, Complex[] a, [In, Out] Complex[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults s_cholesky_solve_factored(IntPtr solverHandle, int n, int nrhs, float[] a, [In, Out] float[] b);
+        internal static extern CudaResults s_cholesky_solve_factored(IntPtr solverHandle, int n, int nrhs, float[] a, [In, Out] float[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults d_cholesky_solve_factored(IntPtr solverHandle, int n, int nrhs, double[] a, [In, Out] double[] b);
+        internal static extern CudaResults d_cholesky_solve_factored(IntPtr solverHandle, int n, int nrhs, double[] a, [In, Out] double[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults c_cholesky_solve_factored(IntPtr solverHandle, int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b);
+        internal static extern CudaResults c_cholesky_solve_factored(IntPtr solverHandle, int n, int nrhs, Complex32[] a, [In, Out] Complex32[] b, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults z_cholesky_solve_factored(IntPtr solverHandle, int n, int nrhs, Complex[] a, [In, Out] Complex[] b);
+        internal static extern CudaResults z_cholesky_solve_factored(IntPtr solverHandle, int n, int nrhs, Complex[] a, [In, Out] Complex[] b, ref int info);
 
         //[DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         //internal static extern int s_qr_factor(int m, int n, [In, Out] float[] r, [In, Out] float[] tau, [In, Out] float[] q, [In, Out] float[] work, int len);
@@ -294,16 +294,16 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         //internal static extern int z_qr_solve_factored(int m, int n, int bn, Complex[] r, Complex[] b, Complex[] tau, [In, Out] Complex[] x, [In, Out] Complex[] work, int len);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults s_svd_factor(IntPtr solverHandle, [MarshalAs(UnmanagedType.U1)] bool computeVectors, int m, int n, [In, Out] float[] a, [In, Out] float[] s, [In, Out] float[] u, [In, Out] float[] v);
+        internal static extern CudaResults s_svd_factor(IntPtr solverHandle, [MarshalAs(UnmanagedType.U1)] bool computeVectors, int m, int n, [In, Out] float[] a, [In, Out] float[] s, [In, Out] float[] u, [In, Out] float[] v, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults d_svd_factor(IntPtr solverHandle, [MarshalAs(UnmanagedType.U1)] bool computeVectors, int m, int n, [In, Out] double[] a, [In, Out] double[] s, [In, Out] double[] u, [In, Out] double[] v);
+        internal static extern CudaResults d_svd_factor(IntPtr solverHandle, [MarshalAs(UnmanagedType.U1)] bool computeVectors, int m, int n, [In, Out] double[] a, [In, Out] double[] s, [In, Out] double[] u, [In, Out] double[] v, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults c_svd_factor(IntPtr solverHandle, [MarshalAs(UnmanagedType.U1)] bool computeVectors, int m, int n, [In, Out] Complex32[] a, [In, Out] Complex32[] s, [In, Out] Complex32[] u, [In, Out] Complex32[] v);
+        internal static extern CudaResults c_svd_factor(IntPtr solverHandle, [MarshalAs(UnmanagedType.U1)] bool computeVectors, int m, int n, [In, Out] Complex32[] a, [In, Out] Complex32[] s, [In, Out] Complex32[] u, [In, Out] Complex32[] v, ref int info);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern CudaResults z_svd_factor(IntPtr solverHandle, [MarshalAs(UnmanagedType.U1)] bool computeVectors, int m, int n, [In, Out] Complex[] a, [In, Out] Complex[] s, [In, Out] Complex[] u, [In, Out] Complex[] v);
+        internal static extern CudaResults z_svd_factor(IntPtr solverHandle, [MarshalAs(UnmanagedType.U1)] bool computeVectors, int m, int n, [In, Out] Complex[] a, [In, Out] Complex[] s, [In, Out] Complex[] u, [In, Out] Complex[] v, ref int info);
 
         //[DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         //internal static extern int s_eigen([MarshalAs(UnmanagedType.U1)] bool isSymmetric, int n, [In] float[] a, [In, Out] float[] vectors, [In, Out] Complex[] values, [In, Out] float[] d);

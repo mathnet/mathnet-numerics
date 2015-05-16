@@ -8,7 +8,7 @@ CudaResults cuda_axpy(const cublasHandle_t blasHandle, const int n, const T alph
 {
 	T *d_X = NULL;
 	T *d_Y = NULL;
-	CudaResults results;
+	CudaResults results = { cudaError_t::cudaSuccess, cublasStatus_t::CUBLAS_STATUS_SUCCESS, cusolverStatus_t::CUSOLVER_STATUS_SUCCESS };
 
 	SAFECUDACALL(results.error, cudaMalloc((void**)&d_X, n*sizeof(T)));
 	SAFECUDACALL(results.error, cudaMalloc((void**)&d_Y, n*sizeof(T)));
@@ -31,7 +31,7 @@ template<typename T, typename SCAL>
 CudaResults cuda_scal(const cublasHandle_t blasHandle, const int n, const T alpha, T x[], int incX, SCAL scal)
 {
 	T *d_X = NULL;
-	CudaResults results;
+	CudaResults results = { cudaError_t::cudaSuccess, cublasStatus_t::CUBLAS_STATUS_SUCCESS, cusolverStatus_t::CUSOLVER_STATUS_SUCCESS };
 
 	SAFECUDACALL(results.error, cudaMalloc((void**)&d_X, n*sizeof(T)));
 	SAFECUDACALL(results.blasStatus, cublasSetVector(n, sizeof(T), x, incX, d_X, incX));
@@ -49,7 +49,7 @@ CudaResults cuda_dot(const cublasHandle_t blasHandle, const int n, const T x[], 
 {
 	T *d_X = NULL;
 	T *d_Y = NULL;
-	CudaResults results;
+	CudaResults results = { cudaError_t::cudaSuccess, cublasStatus_t::CUBLAS_STATUS_SUCCESS, cusolverStatus_t::CUSOLVER_STATUS_SUCCESS };
 
 	SAFECUDACALL(results.error, cudaMalloc((void**)&d_X, n*sizeof(T)));
 	SAFECUDACALL(results.error, cudaMalloc((void**)&d_Y, n*sizeof(T)));
@@ -72,7 +72,7 @@ CudaResults cuda_gemm(const cublasHandle_t handle, const cublasOperation_t trans
 	T *d_A = NULL;
 	T *d_B = NULL;
 	T *d_C = NULL;
-	CudaResults results;
+	CudaResults results = { cudaError_t::cudaSuccess, cublasStatus_t::CUBLAS_STATUS_SUCCESS, cusolverStatus_t::CUSOLVER_STATUS_SUCCESS };
 
 	SAFECUDACALL(results.error, cudaMalloc((void**)&d_A, m*k*sizeof(T)));
 	SAFECUDACALL(results.blasStatus, cublasSetMatrix(m, k, sizeof(T), A, m, d_A, m));
