@@ -17,7 +17,7 @@ but some even leave which one as an implementation detail (e.g. C-1990).
 
 #### Remainder
 
-The **remainder** is the amount left over after performing the devision of a dividend
+The **remainder** is the amount left over after performing the division of a dividend
 by a divisor, $\frac{dividend}{divisor}$, which do not divide evenly, that is,
 where the result of the division cannot be expressed as an integer. It is thus natural
 that the **remainder has the sign of the dividend**.
