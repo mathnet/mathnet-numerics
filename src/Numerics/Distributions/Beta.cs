@@ -100,8 +100,9 @@ namespace MathNet.Numerics.Distributions
         /// <param name="min">The minimum value.</param>
         /// <param name="max">The maximum value.</param>
         /// <param name="likely">The most likely value (mode).</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         /// <returns>The Beta distribution derived from the PERT parameters.</returns>
-        public static Beta PERT(double min, double max, double likely)
+        public static Beta PERT(double min, double max, double likely, System.Random randomSource = null)
         {
             if( min > max || likely > max || likely < min )
             {
@@ -131,7 +132,7 @@ namespace MathNet.Numerics.Distributions
 
             double b = (a * (max - mean)) / (mean - min);
 
-            return new Beta(a, b);
+            return new Beta(a, b, randomSource);
         }
 
         /// <summary>
