@@ -126,7 +126,7 @@ namespace MathNet.Numerics.Distributions
             }
             else
             {
-                a = ((mean - min) * (2 * likely - min - max)) / ((likely - mean) * (max - min))
+                a = ((mean - min) * (2 * likely - min - max)) / ((likely - mean) * (max - min));
             }
 
             double b = (a * (max - mean)) / (mean - min);
