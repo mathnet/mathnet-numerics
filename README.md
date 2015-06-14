@@ -11,10 +11,10 @@ Math.NET Numerics is covered under the terms of the [MIT/X11](LICENSE.md) licens
 
 * [**Project Website**](http://numerics.mathdotnet.com)
 * [Source Code](http://github.com/mathnet/mathnet-numerics)
-* [NuGet Packages](https://www.nuget.org/profiles/mathnet/) | [Downloads](http://mathnetnumerics.codeplex.com/releases) | [Release Notes](http://numerics.mathdotnet.com/docs/ReleaseNotes.html)
-* [Documentation](http://numerics.mathdotnet.com/docs/) | [API Reference](http://numerics.mathdotnet.com/api/)
+* [NuGet & Binaries](http://numerics.mathdotnet.com/Packages.html) | [Release Notes](http://numerics.mathdotnet.com/ReleaseNotes.html)
+* [Documentation](http://numerics.mathdotnet.com) | [API Reference](http://numerics.mathdotnet.com/api/)
 * [Issues & Bugs](http://github.com/mathnet/mathnet-numerics/issues) | [Ideas](http://feedback.mathdotnet.com/forums/2060-math-net-numerics)
-* [Discussions](http://mathnetnumerics.codeplex.com/discussions) | [Stack Overflow](http://stackoverflow.com/questions/tagged/mathdotnet) | [Chat](https://gitter.im/mathnet/mathnet-numerics) | [Twitter](http://twitter.com/MathDotNet) | [Google+](https://plus.google.com/112484567926928665204)
+* [Discussions](http://discuss.mathdotnet.com/c/numerics) | [Stack Overflow](http://stackoverflow.com/questions/tagged/mathdotnet) | [Twitter](http://twitter.com/MathDotNet)
 * [Wikipedia](http://en.wikipedia.org/wiki/Math.NET_Numerics) | [OpenHUB](https://www.ohloh.net/p/mathnet)
 
 ### Current Version
