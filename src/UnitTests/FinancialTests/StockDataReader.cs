@@ -8,9 +8,16 @@ using System.Threading.Tasks;
 
 namespace MathNet.Numerics.UnitTests.FinancialTests
 {
+    /// <summary>
+    /// Class reads a file with stockdata
+    /// </summary>
     internal class StockDataReader
     {
-
+        /// <summary>
+        /// Reads a file with stockquotes
+        /// </summary>
+        /// <param name="filePath">Path of the file</param>
+        /// <returns>Stockdata</returns>
         public IEnumerable<StockData> ReadFile(string filePath)
         {
             List<StockData> resultList = new List<StockData>();
@@ -49,11 +56,20 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             return resultList;
         }
     }
-
-
-
+    /// <summary>
+    /// Entity class for holding stockdata
+    /// </summary>
     internal class StockData
     {
+        /// <summary>
+        /// Ctor
+        /// </summary>
+        /// <param name="dateTime">Date</param>
+        /// <param name="open">Open quote</param>
+        /// <param name="close">Open quote</param>
+        /// <param name="high">Highest quote</param>
+        /// <param name="low">Lower quote</param>
+        /// <param name="volume">Volume</param>
         public StockData(DateTime dateTime,double open,double close, double high,double low,int volume)
         {
             Date = dateTime;
@@ -63,13 +79,29 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             Low = low;
             Volume = volume;
         }
-
+        /// <summary>
+        /// Date
+        /// </summary>
         public DateTime Date { get; private set; }
+        /// <summary>
+        /// Open quote
+        /// </summary>
         public double Open { get; private set; }
+        /// <summary>
+        /// Close quote
+        /// </summary>
         public double Close { get; private set; }
+        /// <summary>
+        /// Highest quote
+        /// </summary>
         public double High { get; private set; }
+        /// <summary>
+        /// Lower quote
+        /// </summary>
         public double Low { get; private set; }
-
+        /// <summary>
+        /// Volume
+        /// </summary>
         public int Volume { get; private set; }
     }
 
