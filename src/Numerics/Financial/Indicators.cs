@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Financial
                 throw new ArgumentException("period should be greater than 0","period");
             if(samples==null)
                 throw new ArgumentNullException("samples", "samples should not be null");
-            if (period > (samples.Count() +1))
+            if (period > (samples.Count()))
                 throw new ArgumentException("samples", "samples should be greater than period");
 
             var trList = new List<double>();

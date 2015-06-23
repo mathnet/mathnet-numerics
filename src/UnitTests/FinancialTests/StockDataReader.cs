@@ -41,7 +41,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
                     var stringValues = line.Split(';');
 
                     //first Datetime:
-                    DateTime date = DateTime.Parse(stringValues[0]);
+                    DateTime date = DateTime.Parse(stringValues[0], CultureInfo.InvariantCulture);
                     double open = double.Parse(stringValues[1], CultureInfo.InvariantCulture);
                     double high = double.Parse(stringValues[2], CultureInfo.InvariantCulture);
                     double low = double.Parse(stringValues[3], CultureInfo.InvariantCulture);
