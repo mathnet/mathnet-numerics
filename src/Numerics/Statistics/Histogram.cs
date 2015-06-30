@@ -484,13 +484,45 @@ namespace MathNet.Numerics.Statistics
             {
                 throw new ArgumentException("The power must be greater than zero");
             }
-            double dist = 0;
+            double[] a1 = new double[this.BucketCount];
+            double[] a2 = new double[this.BucketCount];
             for (int i = 0; i < this.BucketCount; i++)
             {
-                dist += Math.Pow(Math.Abs(this[i].Count - h[i].Count), power);
+                a1[i] = this[i].Count;
+                a2[i] = h[i].Count;
             }
-            double f = 1 / power;
-            return Math.Pow(dist, f);
+            return Distance.Minkowski(2, a1, a2);
+        }
+
+        public double HistogramDistance(Histogram h, double power, Func<double, double[], double[], double> distanceFunction){
+            if (this.BucketCount != h.BucketCount)
+            {
+                throw new ArgumentException("The two histograms must have the same number of buckets");
+            }
+            double[] a1 = new double[this.BucketCount];
+            double[] a2 = new double[this.BucketCount];
+            for (int i = 0; i < this.BucketCount; i++)
+            {
+                a1[i] = this[i].Count;
+                a2[i] = h[i].Count;
+            }
+            return distanceFunction(power, a1, a2);
+        }
+
+        public double HistogramDistance(Histogram h, Func<double[], double[], double> distanceFunction)
+        {
+            if (this.BucketCount != h.BucketCount)
+            {
+                throw new ArgumentException("The two histograms must have the same number of buckets");
+            }
+            double[] a1 = new double[this.BucketCount];
+            double[] a2 = new double[this.BucketCount];
+            for (int i = 0; i < this.BucketCount; i++)
+            {
+                a1[i] = this[i].Count;
+                a2[i] = h[i].Count;
+            }
+            return distanceFunction(a1, a2);
         }
     }
 }
