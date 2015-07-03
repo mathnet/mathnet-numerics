@@ -433,6 +433,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqualRelative(a[8], -0.113636363636364, 13);
         }
 
+#if ! MKL
         /// <summary>
         /// Can compute the inverse of a matrix using LU factorization
         /// with a work array.
@@ -461,7 +462,9 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqualRelative(a[7], 0.227272727272727, 13);
             AssertHelpers.AlmostEqualRelative(a[8], -0.113636363636364, 13);
         }
+#endif 
 
+#if ! MKL
         /// <summary>
         /// Can compute the inverse of a matrix using LU factorization
         /// using a previously factored matrix with a work array.
@@ -494,6 +497,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqualRelative(a[7], 0.227272727272727, 13);
             AssertHelpers.AlmostEqualRelative(a[8], -0.113636363636364, 13);
         }
+#endif
 
         /// <summary>
         /// Can solve Ax=b using LU factorization.
@@ -692,6 +696,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             }
         }
 
+#if ! MKL
         /// <summary>
         /// Can compute QR factorization of a square matrix using a work array.
         /// </summary>
@@ -775,6 +780,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
                 }
             }
         }
+#endif
 
         /// <summary>
         /// Can compute thin QR factorization of a square matrix.
@@ -830,6 +836,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             }
         }
 
+#if ! MKL
         /// <summary>
         /// Can compute thin QR factorization of a square matrix using a work array.
         /// </summary>
@@ -884,6 +891,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
                 }
             }
         }
+#endif
 
         /// <summary>
         /// Can solve Ax=b using QR factorization with a square A matrix.
@@ -936,6 +944,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 13);
         }
 
+
+#if ! MKL
         /// <summary>
         /// Can solve Ax=b using QR factorization with a square A matrix
         /// using a work array.
@@ -1021,7 +1031,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqualRelative(mb[1, 1], b[4], 13);
             AssertHelpers.AlmostEqualRelative(mb[2, 1], b[5], 13);
         }
-
+#endif
         /// <summary>
         /// Can solve Ax=b using QR factorization with a tall A matrix
         /// using a factored A matrix.
@@ -1050,6 +1060,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 13);
         }
 
+#if ! MKL
         /// <summary>
         /// Can solve Ax=b using QR factorization with a square A matrix
         /// using a factored A matrix with a work array.
@@ -1109,6 +1120,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 13);
             AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 13);
         }
+#endif
 
         /// <summary>
         /// Can solve Ax=b using thin QR factorization with a square A matrix.
@@ -1162,6 +1174,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 13);
         }
 
+#if ! MKL
         /// <summary>
         /// Can solve Ax=b using thin QR factorization with a square A matrix
         /// using a work array.
@@ -1217,6 +1230,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraProviderTests.Complex
             AssertHelpers.AlmostEqualRelative(test[0, 1], x[2], 13);
             AssertHelpers.AlmostEqualRelative(test[1, 1], x[3], 13);
         }
+#endif
 
         /// <summary>
         /// Can solve Ax=b using thin QR factorization with a square A matrix
