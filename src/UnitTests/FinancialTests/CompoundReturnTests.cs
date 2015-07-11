@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -36,7 +36,7 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests.FinancialTests
 {
     [TestFixture, Category("Financial")]
-    public class CompoundMonthlyReturnTests
+    public class CompoundReturnTests
     {
         [Test]
         [ExpectedException(typeof(ArgumentNullException))] //assert
@@ -46,7 +46,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             List<double> inputData = null;
             //act
 // ReSharper disable ExpressionIsAlwaysNull
-            inputData.CompoundMonthlyReturn();
+            inputData.CompoundReturn();
 // ReSharper restore ExpressionIsAlwaysNull
         }
 
@@ -56,23 +56,22 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             //arrange
             var inputData = new List<double>();
             //act
-            var cmpdReturn = inputData.CompoundMonthlyReturn();
+            var cmpdReturn = inputData.CompoundReturn();
             //assert
             Assert.AreEqual(double.NaN, cmpdReturn);
         }
 
         [Test]
-        public void calculates_the_compound_monthly_return()
+        public void calculates_the_compound_return()
         {
             //arrange
             var inputData = new[] { 0.2, 0.06, 0.01 };
             //act
-            var cmpdReturn = inputData.CompoundMonthlyReturn();
+            var cmpdReturn = inputData.CompoundReturn();
             //assert
             AssertHelpers.AlmostEqualRelative(0.0870999982199265, cmpdReturn, 14);
         }
 
         //Definitely need more tests here.  Would love to find test data for these stats similar to the .dat files used for other tests.
     }
-
 }

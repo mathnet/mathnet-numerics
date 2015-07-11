@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -37,10 +37,16 @@ namespace MathNet.Numerics.Financial
 {
     public static class AbsoluteReturnMeasures
     {
+        [Obsolete("Use CompoundReturn instead, will be removed in v4.0")]
+        public static double CompoundMonthlyReturn(this IEnumerable<double> data)
+        {
+            return CompoundReturn(data);
+        }
+
         /// <summary>
         /// Compound Monthly Return or Geometric Return or Annualized Return
         /// </summary>
-        public static double CompoundMonthlyReturn(this IEnumerable<double> data)
+        public static double CompoundReturn(this IEnumerable<double> data)
         {
             if (data == null)
             {
@@ -60,7 +66,7 @@ namespace MathNet.Numerics.Financial
 
         /// <summary>
         /// Average Gain or Gain Mean
-        /// This is a simple average (arithmetic mean) of the periods with a gain. It is calculated by summing the returns for gain periods (return 0) 
+        /// This is a simple average (arithmetic mean) of the periods with a gain. It is calculated by summing the returns for gain periods (return 0)
         /// and then dividing the total by the number of gain periods.
         /// </summary>
         /// <remarks>http://www.offshore-library.com/kb/statistics.php</remarks>
