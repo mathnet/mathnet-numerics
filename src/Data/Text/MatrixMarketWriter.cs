@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Data.Text
 
         public static void WriteVector<T>(string filePath, Vector<T> vector, Compression compression = Compression.Uncompressed) where T : struct, IEquatable<T>, IFormattable
         {
-            using (var stream = File.OpenRead(filePath))
+            using (var stream = File.OpenWrite(filePath))
             {
                 switch (compression)
                 {
