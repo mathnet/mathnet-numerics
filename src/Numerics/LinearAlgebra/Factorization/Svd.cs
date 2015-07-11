@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -35,13 +35,13 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
     /// <summary>
     /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD).</para>
-    /// <para>Suppose M is an m-by-n matrix whose entries are real numbers. 
+    /// <para>Suppose M is an m-by-n matrix whose entries are real numbers.
     /// Then there exists a factorization of the form M = UΣVT where:
     /// - U is an m-by-m unitary matrix;
     /// - Σ is m-by-n diagonal matrix with nonnegative real numbers on the diagonal;
-    /// - VT denotes transpose of V, an n-by-n unitary matrix; 
-    /// Such a factorization is called a singular-value decomposition of M. A common convention is to order the diagonal 
-    /// entries Σ(i,i) in descending order. In this case, the diagonal matrix Σ is uniquely determined 
+    /// - VT denotes transpose of V, an n-by-n unitary matrix;
+    /// Such a factorization is called a singular-value decomposition of M. A common convention is to order the diagonal
+    /// entries Σ(i,i) in descending order. In this case, the diagonal matrix Σ is uniquely determined
     /// by M (though the matrices U and V are not). The diagonal entries of Σ are known as the singular values of M.</para>
     /// </summary>
     /// <remarks>
