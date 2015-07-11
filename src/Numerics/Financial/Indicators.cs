@@ -27,10 +27,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.Financial
@@ -41,29 +41,27 @@ namespace MathNet.Numerics.Financial
     public static class Indicators
     {
         /// <summary>
-        /// Evaluates the sample mean over a moving window, for each samples.
-        /// Returns NaN if no data is empty or if any entry is NaN.
+        /// Calculate the Simple Moving Average (SMA).
         /// </summary>
-        /// <param name="samples">The sample stream to calculate the mean of.</param>
-        /// <param name="period">The number of last samples to consider.</param>
-        /// <returns>The SMA for samples</returns>
+        /// <param name="samples">Input samples</param>
+        /// <param name="period">Period of calculation</param>
         public static IEnumerable<double> SMA(this IEnumerable<double> samples, int period)
         {
             return samples.MovingAverage(period);
         }
+
         /// <summary>
-        /// Calculate the Average True Range (ATR)
+        /// Calculate the Average True Range (ATR).
         /// </summary>
         /// <param name="samples">Input samples</param>
         /// <param name="period">Period of calculation</param>
-        /// <returns></returns>
         public static IEnumerable<double> ATR(this IEnumerable<Bar> samples, int period)
         {
-            if (period<=0)
-                throw new ArgumentException("period should be greater than 0","period");
-            if(samples==null)
+            if (period <= 0)
+                throw new ArgumentException("period should be greater than 0", "period");
+            if (samples == null)
                 throw new ArgumentNullException("samples", "samples should not be null");
-            if (period > (samples.Count() +1))
+            if (period > (samples.Count()))
                 throw new ArgumentException("samples", "samples should be greater than period");
 
             var trList = new List<double>();
@@ -77,11 +75,11 @@ namespace MathNet.Numerics.Financial
             {
                 var currentBar = enumerator.Current;
 
-                var hl = Math.Round(currentBar.High - currentBar.Low,10);
+                var hl = Math.Round(currentBar.High - currentBar.Low, 10);
                 hl = Math.Abs(hl);
-                var pdch = Math.Round(lastBar.Close - currentBar.High,10);
+                var pdch = Math.Round(lastBar.Close - currentBar.High, 10);
                 pdch = Math.Abs(pdch);
-                var pdcl = Math.Round(lastBar.Close - currentBar.Low,10);
+                var pdcl = Math.Round(lastBar.Close - currentBar.Low, 10);
                 pdcl = Math.Abs(pdcl);
                 double tr = Math.Max(hl, Math.Max(pdch, pdcl));
 
@@ -98,7 +96,7 @@ namespace MathNet.Numerics.Financial
             //remove first tr, this is not valid
             trList.RemoveAt(0);
 
-            while (trList.Count>=period)
+            while (trList.Count >= period)
             {
                 var mean = trList.Take(period).Mean();
                 var meanRounded = Math.Round(mean, 2);
@@ -108,6 +106,5 @@ namespace MathNet.Numerics.Financial
 
             return atrList;
         }
-
     }
 }

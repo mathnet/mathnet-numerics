@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MathNet.Numerics.UnitTests.FinancialTests
 {
     /// <summary>
-    /// Class reads a file with stockdata
+    /// Class reads a file with stock data
     /// </summary>
     internal class StockDataReader
     {
         /// <summary>
-        /// Reads a file with stockquotes
+        /// Reads a file with stock quotes
         /// </summary>
         /// <param name="filePath">Path of the file</param>
-        /// <returns>Stockdata</returns>
+        /// <returns>StockData</returns>
         public IEnumerable<StockData> ReadFile(string filePath)
         {
             List<StockData> resultList = new List<StockData>();
+
+            var dateFormat = new CultureInfo("de-DE", false).DateTimeFormat;
+            var numberFormat = CultureInfo.InvariantCulture.NumberFormat;
 
             using (var reader = new StreamReader(filePath))
             {
@@ -40,13 +40,12 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
 
                     var stringValues = line.Split(';');
 
-                    //first Datetime:
-                    DateTime date = DateTime.Parse(stringValues[0]);
-                    double open = double.Parse(stringValues[1], CultureInfo.InvariantCulture);
-                    double high = double.Parse(stringValues[2], CultureInfo.InvariantCulture);
-                    double low = double.Parse(stringValues[3], CultureInfo.InvariantCulture);
-                    double close = double.Parse(stringValues[4], CultureInfo.InvariantCulture);
-                    int volume = int.Parse(stringValues[5], CultureInfo.InvariantCulture);
+                    DateTime date = DateTime.Parse(stringValues[0], dateFormat);
+                    double open = double.Parse(stringValues[1], numberFormat);
+                    double high = double.Parse(stringValues[2], numberFormat);
+                    double low = double.Parse(stringValues[3], numberFormat);
+                    double close = double.Parse(stringValues[4], numberFormat);
+                    int volume = int.Parse(stringValues[5], numberFormat);
 
                     StockData stockData = new StockData(date, open, close, high, low, volume);
                     resultList.Add(stockData);
@@ -57,13 +56,10 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
         }
     }
     /// <summary>
-    /// Entity class for holding stockdata
+    /// Entity class for holding stock data
     /// </summary>
     internal class StockData
     {
-        /// <summary>
-        /// Ctor
-        /// </summary>
         /// <param name="dateTime">Date</param>
         /// <param name="open">Open quote</param>
         /// <param name="close">Open quote</param>
@@ -104,7 +100,4 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
         /// </summary>
         public int Volume { get; private set; }
     }
-
-
 }
-

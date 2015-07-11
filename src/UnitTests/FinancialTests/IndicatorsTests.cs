@@ -27,12 +27,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
+
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MathNet.Numerics.Financial;
 using NUnit.Framework;
 
@@ -57,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             var expectedValueAtBar20 = 132.33;
             var actual = atr.ElementAt(20);
             Assert.AreEqual(expectedValueAtBar20, actual);
-     
+
         }
 
         [Test]
@@ -79,12 +77,11 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             Assert.That(() => inputBars.ATR(period), Throws.Exception.TypeOf<ArgumentException>());
         }
 
-
         private IEnumerable<Bar> GenerateValidBars()
         {
             StockDataReader reader = new StockDataReader();
             var data = reader.ReadFile("./data/Finance/DaxHistoricalData.dat");
-           
+
             List<Bar> inputBars = new List<Bar>();
 
             foreach (var stockData in data)
@@ -95,5 +92,4 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             return inputBars;
         }
     }
-
 }
