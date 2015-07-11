@@ -210,6 +210,7 @@
     <Compile Include="RootFinding\Cubic.cs" />
     <Compile Include="RootFinding\NewtonRaphson.cs" />
     <Compile Include="RootFinding\RobustNewtonRaphson.cs" />
+    <Compile Include="RootFinding\Secant.cs" />
     <Compile Include="RootFinding\ZeroCrossingBracketing.cs" />
     <Compile Include="RootFinding\Brent.cs" />
     <Compile Include="FindRoots.cs" />
