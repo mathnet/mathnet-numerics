@@ -40,71 +40,59 @@ namespace MathNet.Numerics.Financial
     /// </summary>
     public static class Indicators
     {
-        /// <summary>
-        /// Calculate the Simple Moving Average (SMA).
-        /// </summary>
-        /// <param name="samples">Input samples</param>
-        /// <param name="period">Period of calculation</param>
-        public static IEnumerable<double> SMA(this IEnumerable<double> samples, int period)
+        private static IEnumerable<double> TrueRange(this IEnumerable<Bar> samples)
         {
-            return samples.MovingAverage(period);
+            using (var enumerator = samples.GetEnumerator())
+            {
+                if (!enumerator.MoveNext())
+                {
+                    yield break;
+                }
+
+                Bar last = enumerator.Current;
+
+                //yield return double.NaN;
+                yield return Math.Abs(last.High - last.Low);
+
+                while (enumerator.MoveNext())
+                {
+                    var current = enumerator.Current;
+                    var hl = Math.Abs(current.High - current.Low);
+                    var pdch = Math.Abs(last.Close - current.High);
+                    var pdcl = Math.Abs(last.Close - current.Low);
+                    last = current;
+
+                    yield return Math.Max(hl, Math.Max(pdch, pdcl));
+                }
+            }
         }
 
         /// <summary>
-        /// Calculate the Average True Range (ATR).
+        /// Calculate the Simple Moving Average (SMA) based on Close. Online/Streaming.
+        /// </summary>
+        /// <param name="samples">Input samples</param>
+        /// <param name="period">Period of calculation</param>
+        public static IEnumerable<double> SMA(this IEnumerable<Bar> samples, int period)
+        {
+            return samples.Select(bar => bar.Close).MovingAverage(period).Select(x => Math.Round(x, 2));
+        }
+
+        /// <summary>
+        /// Calculate the True Range (TR). Online/Streaming.
+        /// </summary>
+        /// <param name="samples">Input samples</param>
+        public static IEnumerable<double> TR(this IEnumerable<Bar> samples)
+        {
+            return samples.TrueRange().Select(x => Math.Round(x, 2));
+        }
+        /// <summary>
+        /// Calculate the Average True Range (ATR). Online/Streaming.
         /// </summary>
         /// <param name="samples">Input samples</param>
         /// <param name="period">Period of calculation</param>
         public static IEnumerable<double> ATR(this IEnumerable<Bar> samples, int period)
         {
-            if (period <= 0)
-                throw new ArgumentException("period should be greater than 0", "period");
-            if (samples == null)
-                throw new ArgumentNullException("samples", "samples should not be null");
-            if (period > (samples.Count()))
-                throw new ArgumentException("samples", "samples should be greater than period");
-
-            var trList = new List<double>();
-            var enumerator = samples.GetEnumerator();
-            enumerator.MoveNext();
-            var lastBar = enumerator.Current;
-
-            trList.Add(double.NaN);
-
-            while (enumerator.MoveNext())
-            {
-                var currentBar = enumerator.Current;
-
-                var hl = Math.Round(currentBar.High - currentBar.Low, 10);
-                hl = Math.Abs(hl);
-                var pdch = Math.Round(lastBar.Close - currentBar.High, 10);
-                pdch = Math.Abs(pdch);
-                var pdcl = Math.Round(lastBar.Close - currentBar.Low, 10);
-                pdcl = Math.Abs(pdcl);
-                double tr = Math.Max(hl, Math.Max(pdch, pdcl));
-
-                trList.Add(tr);
-
-                lastBar = currentBar;
-            }
-
-            var atrList = new List<double>();
-
-            for (int i = 0; i < period; i++)
-                atrList.Add(Double.NaN);
-
-            //remove first tr, this is not valid
-            trList.RemoveAt(0);
-
-            while (trList.Count >= period)
-            {
-                var mean = trList.Take(period).Mean();
-                var meanRounded = Math.Round(mean, 2);
-                atrList.Add(meanRounded);
-                trList.RemoveAt(0);
-            }
-
-            return atrList;
+            return samples.TrueRange().MovingAverage(period).Select(x => Math.Round(x, 2));
         }
     }
 }

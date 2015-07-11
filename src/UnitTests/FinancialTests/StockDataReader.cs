@@ -8,7 +8,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
     /// <summary>
     /// Class reads a file with stock data
     /// </summary>
-    internal class StockDataReader
+    public class StockDataReader
     {
         /// <summary>
         /// Reads a file with stock quotes
@@ -55,10 +55,11 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             return resultList;
         }
     }
+
     /// <summary>
     /// Entity class for holding stock data
     /// </summary>
-    internal class StockData
+    public class StockData
     {
         /// <param name="dateTime">Date</param>
         /// <param name="open">Open quote</param>
