@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics;
 using MathNet.Numerics.Integration;
 using MathNet.Numerics.LinearAlgebra;
 
