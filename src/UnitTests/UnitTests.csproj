@@ -122,10 +122,12 @@
     <Compile Include="FinancialTests\DownsideDeviationTests.cs" />
     <Compile Include="FinancialTests\GainLossRatioTests.cs" />
     <Compile Include="FinancialTests\GainStandardDeviationTests.cs" />
+    <Compile Include="FinancialTests\IndicatorsTests.cs" />
     <Compile Include="FinancialTests\LossMeanTests.cs" />
     <Compile Include="FinancialTests\GainMeanTests.cs" />
     <Compile Include="FinancialTests\LossStandardDeviationTests.cs" />
     <Compile Include="FinancialTests\SemiDeviationTests.cs" />
+    <Compile Include="FinancialTests\StockDataReader.cs" />
     <Compile Include="GenerateTests.cs" />
     <Compile Include="GoodnessOfFit\RSquaredTest.cs" />
     <Compile Include="IntegralTransformsTests\FourierTest.cs" />
@@ -398,6 +400,10 @@
   <ItemGroup>
     <None Include="..\..\data\Codeplex-5667.csv">
       <Link>data\Codeplex-5667.csv</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="..\..\data\Finance\DaxHistoricalData.dat">
+      <Link>data\Finance\DaxHistoricalData.dat</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\..\data\Github-Cureos-1.csv">
