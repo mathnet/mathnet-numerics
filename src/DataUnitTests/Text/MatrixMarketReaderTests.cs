@@ -42,63 +42,75 @@ namespace MathNet.Numerics.Data.UnitTests.Text
         [Test]
         public void CanReadFudao007AsDouble()
         {
-            var m = MatrixMarketReader.ReadMatrix<double>("./data/MatrixMarket/fidap007.mtx");
-            Assert.IsInstanceOf<LinearAlgebra.Double.SparseMatrix>(m);
-            Assert.AreEqual(1633, m.RowCount);
-            Assert.AreEqual(1633, m.ColumnCount);
-            Assert.GreaterOrEqual(54487, ((LinearAlgebra.Double.SparseMatrix) m).NonZerosCount);
-            Assert.Less(46000, ((LinearAlgebra.Double.SparseMatrix) m).NonZerosCount);
-            Assert.AreEqual(-6.8596032449032e+06d, m[1604, 1631]);
-            Assert.AreEqual(-9.1914585107976e+06d, m[1616, 1628]);
-            Assert.AreEqual(7.9403870156486e+07d, m[905, 726]);
+            using (Stream stream = TestData.Data.ReadStream("MatrixMarket.fidap007.mtx"))
+            {
+                var m = MatrixMarketReader.ReadMatrix<double>(stream);
+                Assert.IsInstanceOf<LinearAlgebra.Double.SparseMatrix>(m);
+                Assert.AreEqual(1633, m.RowCount);
+                Assert.AreEqual(1633, m.ColumnCount);
+                Assert.GreaterOrEqual(54487, ((LinearAlgebra.Double.SparseMatrix)m).NonZerosCount);
+                Assert.Less(46000, ((LinearAlgebra.Double.SparseMatrix)m).NonZerosCount);
+                Assert.AreEqual(-6.8596032449032e+06d, m[1604, 1631]);
+                Assert.AreEqual(-9.1914585107976e+06d, m[1616, 1628]);
+                Assert.AreEqual(7.9403870156486e+07d, m[905, 726]);
+            }
         }
 
         [Test]
         public void CanReadFudao007AsSingle()
         {
-            var m = MatrixMarketReader.ReadMatrix<float>("./data/MatrixMarket/fidap007.mtx");
-            Assert.IsInstanceOf<LinearAlgebra.Single.SparseMatrix>(m);
-            Assert.AreEqual(1633, m.RowCount);
-            Assert.AreEqual(1633, m.ColumnCount);
-            Assert.GreaterOrEqual(54487, ((LinearAlgebra.Single.SparseMatrix)m).NonZerosCount);
-            Assert.Less(46000, ((LinearAlgebra.Single.SparseMatrix)m).NonZerosCount);
-            Assert.AreEqual(-6.8596032449032e+06f, m[1604, 1631]);
-            Assert.AreEqual(-9.1914585107976e+06f, m[1616, 1628]);
-            Assert.AreEqual(7.9403870156486e+07f, m[905, 726]);
+            using (Stream stream = TestData.Data.ReadStream("MatrixMarket.fidap007.mtx"))
+            {
+                var m = MatrixMarketReader.ReadMatrix<float>(stream);
+                Assert.IsInstanceOf<LinearAlgebra.Single.SparseMatrix>(m);
+                Assert.AreEqual(1633, m.RowCount);
+                Assert.AreEqual(1633, m.ColumnCount);
+                Assert.GreaterOrEqual(54487, ((LinearAlgebra.Single.SparseMatrix)m).NonZerosCount);
+                Assert.Less(46000, ((LinearAlgebra.Single.SparseMatrix)m).NonZerosCount);
+                Assert.AreEqual(-6.8596032449032e+06f, m[1604, 1631]);
+                Assert.AreEqual(-9.1914585107976e+06f, m[1616, 1628]);
+                Assert.AreEqual(7.9403870156486e+07f, m[905, 726]);
+            }
         }
 
         [Test]
         public void CanReadFudao007AsComplex()
         {
-            var m = MatrixMarketReader.ReadMatrix<Complex>("./data/MatrixMarket/fidap007.mtx");
-            Assert.IsInstanceOf<LinearAlgebra.Complex.SparseMatrix>(m);
-            Assert.AreEqual(1633, m.RowCount);
-            Assert.AreEqual(1633, m.ColumnCount);
-            Assert.GreaterOrEqual(54487, ((LinearAlgebra.Complex.SparseMatrix)m).NonZerosCount);
-            Assert.Less(46000, ((LinearAlgebra.Complex.SparseMatrix)m).NonZerosCount);
-            Assert.AreEqual(-6.8596032449032e+06d, m[1604, 1631].Real);
-            Assert.AreEqual(0.0d, m[1604, 1631].Imaginary);
-            Assert.AreEqual(-9.1914585107976e+06d, m[1616, 1628].Real);
-            Assert.AreEqual(0.0d, m[1616, 1628].Imaginary);
-            Assert.AreEqual(7.9403870156486e+07d, m[905, 726].Real);
-            Assert.AreEqual(0.0d, m[905, 726].Imaginary);
+            using (TextReader reader = TestData.Data.ReadText("MatrixMarket.fidap007.mtx"))
+            {
+                var m = MatrixMarketReader.ReadMatrix<Complex>(reader);
+                Assert.IsInstanceOf<LinearAlgebra.Complex.SparseMatrix>(m);
+                Assert.AreEqual(1633, m.RowCount);
+                Assert.AreEqual(1633, m.ColumnCount);
+                Assert.GreaterOrEqual(54487, ((LinearAlgebra.Complex.SparseMatrix)m).NonZerosCount);
+                Assert.Less(46000, ((LinearAlgebra.Complex.SparseMatrix)m).NonZerosCount);
+                Assert.AreEqual(-6.8596032449032e+06d, m[1604, 1631].Real);
+                Assert.AreEqual(0.0d, m[1604, 1631].Imaginary);
+                Assert.AreEqual(-9.1914585107976e+06d, m[1616, 1628].Real);
+                Assert.AreEqual(0.0d, m[1616, 1628].Imaginary);
+                Assert.AreEqual(7.9403870156486e+07d, m[905, 726].Real);
+                Assert.AreEqual(0.0d, m[905, 726].Imaginary);
+            }
         }
 
         [Test]
         public void CanReadFudao007AsComplex32()
         {
-            var m = MatrixMarketReader.ReadMatrix<Complex32>("./data/MatrixMarket/fidap007.mtx");
-            Assert.IsInstanceOf<LinearAlgebra.Complex32.SparseMatrix>(m);
-            Assert.AreEqual(1633, m.RowCount);
-            Assert.AreEqual(1633, m.ColumnCount);
-            Assert.GreaterOrEqual(54487, ((LinearAlgebra.Complex32.SparseMatrix) m).NonZerosCount);
-            Assert.Less(46000, ((LinearAlgebra.Complex32.SparseMatrix) m).NonZerosCount);
-            Assert.AreEqual(-6.8596032449032e+06f, m[1604, 1631].Real);
-            Assert.AreEqual(0.0f, m[1604, 1631].Imaginary);
-            Assert.AreEqual(-9.1914585107976e+06f, m[1616, 1628].Real);
-            Assert.AreEqual(0.0f, m[1616, 1628].Imaginary);
-            Assert.AreEqual(7.9403870156486e+07f, m[905, 726].Real);
-            Assert.AreEqual(0.0f, m[905, 726].Imaginary);
+            using (TextReader reader = TestData.Data.ReadText("MatrixMarket.fidap007.mtx"))
+            {
+                var m = MatrixMarketReader.ReadMatrix<Complex32>(reader);
+                Assert.IsInstanceOf<LinearAlgebra.Complex32.SparseMatrix>(m);
+                Assert.AreEqual(1633, m.RowCount);
+                Assert.AreEqual(1633, m.ColumnCount);
+                Assert.GreaterOrEqual(54487, ((LinearAlgebra.Complex32.SparseMatrix)m).NonZerosCount);
+                Assert.Less(46000, ((LinearAlgebra.Complex32.SparseMatrix)m).NonZerosCount);
+                Assert.AreEqual(-6.8596032449032e+06f, m[1604, 1631].Real);
+                Assert.AreEqual(0.0f, m[1604, 1631].Imaginary);
+                Assert.AreEqual(-9.1914585107976e+06f, m[1616, 1628].Real);
+                Assert.AreEqual(0.0f, m[1616, 1628].Imaginary);
+                Assert.AreEqual(7.9403870156486e+07f, m[905, 726].Real);
+                Assert.AreEqual(0.0f, m[905, 726].Imaginary);
+            }
         }
 
         [Test]

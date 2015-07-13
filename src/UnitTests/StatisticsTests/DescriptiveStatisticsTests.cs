@@ -54,15 +54,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// </summary>
         public DescriptiveStatisticsTests()
         {
-            _data.Add("lottery", new StatTestData("./data/NIST/Lottery.dat"));
-            _data.Add("lew", new StatTestData("./data/NIST/Lew.dat"));
-            _data.Add("mavro", new StatTestData("./data/NIST/Mavro.dat"));
-            _data.Add("michelso", new StatTestData("./data/NIST/Michelso.dat"));
-            _data.Add("numacc1", new StatTestData("./data/NIST/NumAcc1.dat"));
-            _data.Add("numacc2", new StatTestData("./data/NIST/NumAcc2.dat"));
-            _data.Add("numacc3", new StatTestData("./data/NIST/NumAcc3.dat"));
-            _data.Add("numacc4", new StatTestData("./data/NIST/NumAcc4.dat"));
-            _data.Add("meixner", new StatTestData("./data/NIST/Meixner.dat"));
+            _data.Add("lottery", new StatTestData("NIST.Lottery.dat"));
+            _data.Add("lew", new StatTestData("NIST.Lew.dat"));
+            _data.Add("mavro", new StatTestData("NIST.Mavro.dat"));
+            _data.Add("michelso", new StatTestData("NIST.Michelso.dat"));
+            _data.Add("numacc1", new StatTestData("NIST.NumAcc1.dat"));
+            _data.Add("numacc2", new StatTestData("NIST.NumAcc2.dat"));
+            _data.Add("numacc3", new StatTestData("NIST.NumAcc3.dat"));
+            _data.Add("numacc4", new StatTestData("NIST.NumAcc4.dat"));
+            _data.Add("meixner", new StatTestData("NIST.Meixner.dat"));
         }
 
         /// <summary>

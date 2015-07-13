@@ -30,9 +30,9 @@
 
 using System;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using MathNet.Numerics.Interpolation;
+using MathNet.Numerics.TestData;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.InterpolationTests
@@ -133,8 +133,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         public void Interpolate_LogLogAttenuationData_InterpolationShouldNotYieldNaN(
             [Values(0.0025, 0.035, 0.45, 5.5, 18.5, 35.0)] double value)
         {
-            var data = File.ReadAllLines(@"./data/Github-Cureos-1.csv").
-                Select(line =>
+            var data = Data.ReadAllLines(@"Github-Cureos-1.csv")
+                .Select(line =>
                 {
                     var vals = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                     return new Tuple<string, string>(vals[2], vals[3]);

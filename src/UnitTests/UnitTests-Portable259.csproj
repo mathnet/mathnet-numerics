@@ -328,6 +328,10 @@
       <Project>{1C8DBFB2-DB75-4C4B-888B-4AF314FCE3C3}</Project>
       <Name>Numerics-Portable259</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestData\TestData.csproj">
+      <Project>{af3253c9-4db5-45a0-98cf-c105fda9da47}</Project>
+      <Name>TestData</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

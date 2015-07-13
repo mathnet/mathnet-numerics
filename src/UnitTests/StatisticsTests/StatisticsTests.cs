@@ -34,6 +34,7 @@ using System.IO;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.TestData;
 using NUnit.Framework;
 
 // ReSharper disable InvokeAsExtensionMethod
@@ -50,15 +51,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     {
         readonly IDictionary<string, StatTestData> _data = new Dictionary<string, StatTestData>
         {
-            { "lottery", new StatTestData("./data/NIST/Lottery.dat") },
-            { "lew", new StatTestData("./data/NIST/Lew.dat") },
-            { "mavro", new StatTestData("./data/NIST/Mavro.dat") },
-            { "michelso", new StatTestData("./data/NIST/Michelso.dat") },
-            { "numacc1", new StatTestData("./data/NIST/NumAcc1.dat") },
-            { "numacc2", new StatTestData("./data/NIST/NumAcc2.dat") },
-            { "numacc3", new StatTestData("./data/NIST/NumAcc3.dat") },
-            { "numacc4", new StatTestData("./data/NIST/NumAcc4.dat") },
-            { "meixner", new StatTestData("./data/NIST/Meixner.dat") }
+            { "lottery", new StatTestData("NIST.Lottery.dat") },
+            { "lew", new StatTestData("NIST.Lew.dat") },
+            { "mavro", new StatTestData("NIST.Mavro.dat") },
+            { "michelso", new StatTestData("NIST.Michelso.dat") },
+            { "numacc1", new StatTestData("NIST.NumAcc1.dat") },
+            { "numacc2", new StatTestData("NIST.NumAcc2.dat") },
+            { "numacc3", new StatTestData("NIST.NumAcc3.dat") },
+            { "numacc4", new StatTestData("NIST.NumAcc4.dat") },
+            { "meixner", new StatTestData("NIST.Meixner.dat") }
         };
 
         [Test]
@@ -987,7 +988,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [Test]
         public void Median_CodeplexIssue5667()
         {
-            var seq = File.ReadAllLines("./data/Codeplex-5667.csv").Select(double.Parse);
+            var seq = Data.ReadAllLines("Codeplex-5667.csv").Select(double.Parse);
             Assert.AreEqual(1.0, Statistics.Median(seq));
 
             var array = seq.ToArray();

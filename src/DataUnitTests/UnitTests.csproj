@@ -50,42 +50,6 @@
     <Compile Include="Text\MatrixMarketWriterTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\data\Matlab\A.mat">
-      <Link>data\matlab\A.mat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\collection-nocompress.mat">
-      <Link>data\matlab\collection-nocompress.mat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\collection.mat">
-      <Link>data\matlab\collection.mat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\complex.mat">
-      <Link>data\matlab\complex.mat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\sparse-large.mat">
-      <Link>data\matlab\sparse-large.mat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\sparse-small.mat">
-      <Link>data\matlab\sparse-small.mat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\sparse_complex.mat">
-      <Link>data\matlab\sparse_complex.mat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\v.mat">
-      <Link>data\matlab\v.mat</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\MatrixMarket\fidap007.mtx">
-      <Link>data\MatrixMarket\fidap007.mtx</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="paket.references">
       <SubType>Designer</SubType>
     </None>
@@ -98,6 +62,10 @@
     <ProjectReference Include="..\Data\Text\Text.csproj">
       <Project>{9d3a08e1-6b96-4552-a535-412e589b3264}</Project>
       <Name>Text</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestData\TestData.csproj">
+      <Project>{af3253c9-4db5-45a0-98cf-c105fda9da47}</Project>
+      <Name>TestData</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

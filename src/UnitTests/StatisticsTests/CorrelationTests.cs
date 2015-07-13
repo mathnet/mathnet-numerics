@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
     /// <summary>
     /// Correlation tests
     /// </summary>
-    /// <remarks>NOTE: this class is not included into Silverlight version, because it uses data from local files. 
+    /// <remarks>NOTE: this class is not included into Silverlight version, because it uses data from local files.
     /// In Silverlight access to local files is forbidden, except several cases.</remarks>
     [TestFixture, Category("Statistics")]
     public class CorrelationTests
@@ -55,9 +55,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// </summary>
         public CorrelationTests()
         {
-            var lottery = new StatTestData("./data/NIST/Lottery.dat");
+            var lottery = new StatTestData("NIST.Lottery.dat");
             _data.Add("lottery", lottery);
-            var lew = new StatTestData("./data/NIST/Lew.dat");
+            var lew = new StatTestData("NIST.Lew.dat");
             _data.Add("lew", lew);
         }
 
