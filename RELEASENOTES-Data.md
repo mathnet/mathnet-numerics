@@ -1,3 +1,6 @@
+### 3.1.1 - 2015-07-13
+* MatrixMarket: fix MatrixMarketWriter.WriteVector
+
 ### 3.1.0 - 2015-01-11
 * Text: support for missing values in delimited reader *~Marcus Cuda*
 
