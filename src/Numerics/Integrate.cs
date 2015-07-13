@@ -30,6 +30,7 @@
 
 using System;
 using MathNet.Numerics.Integration;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics
 {
