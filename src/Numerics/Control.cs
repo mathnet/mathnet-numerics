@@ -86,13 +86,18 @@ namespace MathNet.Numerics
                     case "OPENBLAS":
                         UseNativeOpenBLAS();
                         break;
-#endif
+
                     default:
                         if (!TryUseNative())
                         {
                             UseManaged();
                         }
                         break;
+#else
+                    default:
+                        UseManaged();
+                        break;
+#endif
                 }
             }
             catch
