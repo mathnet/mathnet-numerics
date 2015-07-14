@@ -35,4 +35,29 @@ inline void copyBtoX (int m, int n, int bn, T b[], T x[]){
 	}
 }
 
+#ifndef LAPACK_MEMORY
+#define LAPACK_MEMORY
+
+#include <memory>
+
+const int INSUFFICIENT_MEMORY = -999999;
+const int ALIGNMENT = 64;
+
+template <typename T> using array_ptr = std::unique_ptr<T[]>;
+
+template<typename T>
+inline array_ptr<T> array_new(const int size, int alignment = ALIGNMENT)
+{
+	return array_ptr<T>(new T[size]);
+}
+
+#endif
+
+template<typename T>
+inline array_ptr<T> array_clone(const int size, const T* array) {
+	auto clone = array_new<T>(size);
+	memcpy(clone.get(), array, size * sizeof(T));
+	return clone;
+}
+
 #endif
