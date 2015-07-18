@@ -178,7 +178,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="rnd">The random number generator.</param>
         /// <returns>
-        /// A 64-bit signed integer greater than or equal to 0, and less than <see cref="Int64.MaxValue"/>; that is, 
+        /// A 64-bit signed integer greater than or equal to 0, and less than <see cref="Int64.MaxValue"/>; that is,
         /// the range of return values includes 0 but not <see cref="Int64.MaxValue"/>.
         /// </returns>
         /// <seealso cref="NextFullRangeInt64"/>
@@ -246,7 +246,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="rnd">The random number generator.</param>
         /// <returns>
-        /// A decimal floating point number greater than or equal to 0.0, and less than 1.0; that is, 
+        /// A decimal floating point number greater than or equal to 0.0, and less than 1.0; that is,
         /// the range of return values includes 0.0 but not 1.0.
         /// </returns>
         /// <remarks>
@@ -272,6 +272,19 @@ namespace MathNet.Numerics.Random
             while (candidate >= 1.0m);
 
             return candidate;
+        }
+
+        /// <summary>
+        /// Returns a random boolean.
+        /// </summary>
+        /// <param name="rnd">The random number generator.</param>
+        /// <remarks>
+        /// This extension is thread-safe if and only if called on an random number
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
+        /// </remarks>
+        public static bool NextBoolean(this System.Random rnd)
+        {
+            return rnd.NextDouble() >= 0.5;
         }
     }
 }
