@@ -283,6 +283,11 @@ namespace MathNet.Numerics.Distributions
                 throw new NotSupportedException();
             }
 
+            if (_precisionShape > 160.0)
+            {
+                return Math.Exp(DensityLn(mean, prec));
+            }
+
             // double e = -0.5 * prec * (mean - _meanLocation) * (mean - _meanLocation) - prec * _precisionInvScale;
             // return Math.Pow(prec * _precisionInvScale, _precisionShape) * Math.Exp(e) / (Constants.Sqrt2Pi * Math.Sqrt(prec) * SpecialFunctions.Gamma(_precisionShape));
             double e = -(0.5*prec*_meanScale*(mean - _meanLocation)*(mean - _meanLocation)) - (prec*_precisionInvScale);

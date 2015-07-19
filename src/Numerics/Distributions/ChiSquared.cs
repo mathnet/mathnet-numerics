@@ -322,6 +322,11 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
+            if (freedom > 160.0)
+            {
+                return Math.Exp(PDFLn(freedom, x));
+            }
+
             return (Math.Pow(x, (freedom/2.0) - 1.0)*Math.Exp(-x/2.0))/(Math.Pow(2.0, freedom/2.0)*SpecialFunctions.Gamma(freedom/2.0));
         }
 
