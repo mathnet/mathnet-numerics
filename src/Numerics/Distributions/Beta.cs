@@ -545,6 +545,11 @@ namespace MathNet.Numerics.Distributions
                 return 1.0;
             }
 
+            if (a > 80.0 || b > 80.0)
+            {
+                return Math.Exp(PDFLn(a, b, x));
+            }
+
             var bb = SpecialFunctions.Gamma(a + b)/(SpecialFunctions.Gamma(a)*SpecialFunctions.Gamma(b));
             return bb*Math.Pow(x, a - 1.0)*Math.Pow(1.0 - x, b - 1.0);
         }
