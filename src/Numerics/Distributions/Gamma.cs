@@ -489,6 +489,11 @@ namespace MathNet.Numerics.Distributions
                 return rate*Math.Exp(-rate*x);
             }
 
+            if (shape > 160.0)
+            {
+                return Math.Exp(PDFLn(shape, rate, x));
+            }
+
             return Math.Pow(rate, shape)*Math.Pow(x, shape - 1.0)*Math.Exp(-rate*x)/SpecialFunctions.Gamma(shape);
         }
 
