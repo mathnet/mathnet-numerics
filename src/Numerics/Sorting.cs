@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -464,7 +464,7 @@ namespace MathNet.Numerics
         /// <typeparam name="T1">The type of elements in the primary list.</typeparam>
         /// <typeparam name="T2">The type of elements in the secondary list.</typeparam>
         /// <param name="primary">List to sort.</param>
-        /// <param name="secondary">List to to sort on duplicate primaty items, and permute the same way as the key list.</param>
+        /// <param name="secondary">List to sort on duplicate primary items, and permute the same way as the key list.</param>
         /// <param name="primaryComparer">Comparison, defining the primary sort order.</param>
         /// <param name="secondaryComparer">Comparison, defining the secondary sort order.</param>
         public static void SortAll<T1, T2>(IList<T1> primary, IList<T2> secondary, IComparer<T1> primaryComparer = null, IComparer<T2> secondaryComparer = null)
@@ -545,8 +545,8 @@ namespace MathNet.Numerics
                     b--;
                 } while (a <= b);
 
-                // In order to limit the recusion depth to log(n), we sort the
-                // shorter partition recusively and the longer partition iteratively.
+                // In order to limit the recursion depth to log(n), we sort the
+                // shorter partition recursively and the longer partition iteratively.
                 if ((b - left) <= (right - a))
                 {
                     if (left < b)
@@ -635,8 +635,8 @@ namespace MathNet.Numerics
                     b--;
                 } while (a <= b);
 
-                // In order to limit the recusion depth to log(n), we sort the
-                // shorter partition recusively and the longer partition iteratively.
+                // In order to limit the recursion depth to log(n), we sort the
+                // shorter partition recursively and the longer partition iteratively.
                 if ((b - left) <= (right - a))
                 {
                     if (left < b)
@@ -734,8 +734,8 @@ namespace MathNet.Numerics
                     b--;
                 } while (a <= b);
 
-                // In order to limit the recusion depth to log(n), we sort the
-                // shorter partition recusively and the longer partition iteratively.
+                // In order to limit the recursion depth to log(n), we sort the
+                // shorter partition recursively and the longer partition iteratively.
                 if ((b - left) <= (right - a))
                 {
                     if (left < b)
@@ -834,8 +834,8 @@ namespace MathNet.Numerics
                     b--;
                 } while (a <= b);
 
-                // In order to limit the recusion depth to log(n), we sort the
-                // shorter partition recusively and the longer partition iteratively.
+                // In order to limit the recursion depth to log(n), we sort the
+                // shorter partition recursively and the longer partition iteratively.
                 if ((b - left) <= (right - a))
                 {
                     if (left < b)
