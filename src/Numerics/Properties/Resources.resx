@@ -183,6 +183,12 @@
   <data name="ArgumentOutOfRangeGreaterEqual" xml:space="preserve">
     <value>{0} must be greater than or equal to {1}.</value>
   </data>
+  <data name="ArgumentOutOfRangeSmaller" xml:space="preserve">
+    <value>{0} must be smaller than {1}.</value>
+  </data>
+  <data name="ArgumentOutOfRangeSmallerEqual" xml:space="preserve">
+    <value>{0} must be smaller than or equal to {1}.</value>
+  </data>
   <data name="ArgumentParameterSetInvalid" xml:space="preserve">
     <value>The chosen parameter set is invalid (probably some value is out of range).</value>
   </data>
