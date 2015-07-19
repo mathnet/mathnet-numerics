@@ -207,7 +207,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="PDF"/>
         public double Density(double x)
         {
-            return (Math.Pow(2.0, 1.0 - (_freedom/2.0))*Math.Pow(x, _freedom - 1.0)*Math.Exp(-x*x/2.0))/SpecialFunctions.Gamma(_freedom/2.0);
+            return PDF(_freedom, x);
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
-            return ((1.0 - (_freedom/2.0))*Math.Log(2.0)) + ((_freedom - 1.0)*Math.Log(x)) - (x*x/2.0) - SpecialFunctions.GammaLn(_freedom/2.0);
+            return PDFLn(_freedom, x);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
-            return SpecialFunctions.GammaLowerIncomplete(_freedom/2.0, x*x/2.0)/SpecialFunctions.Gamma(_freedom/2.0);
+            return CDF(_freedom, x);
         }
 
         /// <summary>
@@ -317,6 +317,11 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
+            if (double.IsPositiveInfinity(freedom) || double.IsPositiveInfinity(x) || x == 0.0)
+            {
+                return 0.0;
+            }
+
             if (freedom > 160.0)
             {
                 return Math.Exp(PDFLn(freedom, x));
@@ -339,6 +344,11 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
+            if (double.IsPositiveInfinity(freedom) || double.IsPositiveInfinity(x) || x == 0.0)
+            {
+                return double.NegativeInfinity;
+            }
+
             return ((1.0 - (freedom/2.0))*Math.Log(2.0)) + ((freedom - 1.0)*Math.Log(x)) - (x*x/2.0) - SpecialFunctions.GammaLn(freedom/2.0);
         }
 
@@ -354,6 +364,16 @@ namespace MathNet.Numerics.Distributions
             if (freedom <= 0.0)
             {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            if (double.IsPositiveInfinity(x))
+            {
+                return 1.0;
+            }
+
+            if (double.IsPositiveInfinity(freedom))
+            {
+                return 1.0;
             }
 
             return SpecialFunctions.GammaLowerRegularized(freedom/2.0, x*x/2.0);

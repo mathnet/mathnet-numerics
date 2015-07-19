@@ -174,75 +174,71 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <summary>
         /// Validate density.
         /// </summary>
-        /// <param name="dof">Degrees of freedom.</param>
-        /// <param name="x">Input X value.</param>
-        [TestCase(1.0, 0.0)]
-        [TestCase(1.0, 0.1)]
-        [TestCase(1.0, 1.0)]
-        [TestCase(1.0, 5.5)]
-        [TestCase(1.0, 110.1)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(2.0, 0.0)]
-        [TestCase(2.0, 0.1)]
-        [TestCase(2.0, 1.0)]
-        [TestCase(2.0, 5.5)]
-        [TestCase(2.0, 110.1)]
-        [TestCase(2.0, Double.PositiveInfinity)]
-        [TestCase(2.5, 0.0)]
-        [TestCase(2.5, 0.1)]
-        [TestCase(2.5, 1.0)]
-        [TestCase(2.5, 5.5)]
-        [TestCase(2.5, 110.1)]
-        [TestCase(2.5, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, 0.0)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(Double.PositiveInfinity, 5.5)]
-        [TestCase(Double.PositiveInfinity, 110.1)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateDensity(double dof, double x)
+        /// <remarks>Reference: N[PDF[ChiDistribution[dof],x],20]</remarks>
+        [TestCase(1.0, 0.0, 0.0)]
+        [TestCase(1.0, 0.1, 0.79390509495402353102)]
+        [TestCase(1.0, 1.0, 0.48394144903828669960)]
+        [TestCase(1.0, 5.5, 2.1539520085086552718e-7)]
+        [TestCase(1.0, 110.1, 4.3743524642224403027e-2633)]
+        [TestCase(1.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(2.0, 0.0, 0.0)]
+        [TestCase(2.0, 0.1, 0.099501247919268231335)]
+        [TestCase(2.0, 1.0, 0.60653065971263342360)]
+        [TestCase(2.0, 5.5, 1.4847681768496578863e-6)]
+        [TestCase(2.0, 110.1, 6.0361640012969793703e-2631)]
+        [TestCase(2.0, Double.PositiveInfinity, 0.0)]
+        [TestCase(2.5, 0.0, 0.0)]
+        [TestCase(2.5, 0.1, 0.029191065334961657461)]
+        [TestCase(2.5, 1.0, 0.56269645152636456261)]
+        [TestCase(2.5, 5.5, 3.2304380188895211768e-6)]
+        [TestCase(2.5, 110.1, 5.8759231594821958799e-2630)]
+        [TestCase(2.5, Double.PositiveInfinity, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.1, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 5.5, 0.0)]
+        [TestCase(Double.PositiveInfinity, 110.1, 0.0)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, 0.0)]
+        public void ValidateDensity(double dof, double x, double expected)
         {
-            var n = new Chi(dof);
-            double expected = (Math.Pow(2.0, 1.0 - (dof / 2.0)) * Math.Pow(x, dof - 1.0) * Math.Exp(-x * (x / 2.0))) / SpecialFunctions.Gamma(dof / 2.0);
-            Assert.AreEqual(expected, n.Density(x));
-            Assert.AreEqual(expected, Chi.PDF(dof, x));
+            var chi = new Chi(dof);
+            Assert.That(chi.Density(x), Is.EqualTo(expected).Within(13));
+            Assert.That(Chi.PDF(dof, x), Is.EqualTo(expected).Within(13));
         }
 
         /// <summary>
         /// Validate density log.
         /// </summary>
-        /// <param name="dof">Degrees of freedom.</param>
-        /// <param name="x">Input X value.</param>
-        [TestCase(1.0, 0.0)]
-        [TestCase(1.0, 0.1)]
-        [TestCase(1.0, 1.0)]
-        [TestCase(1.0, 5.5)]
-        [TestCase(1.0, 110.1)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(2.0, 0.0)]
-        [TestCase(2.0, 0.1)]
-        [TestCase(2.0, 1.0)]
-        [TestCase(2.0, 5.5)]
-        [TestCase(2.0, 110.1)]
-        [TestCase(2.0, Double.PositiveInfinity)]
-        [TestCase(2.5, 0.0)]
-        [TestCase(2.5, 0.1)]
-        [TestCase(2.5, 1.0)]
-        [TestCase(2.5, 5.5)]
-        [TestCase(2.5, 110.1)]
-        [TestCase(2.5, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, 0.0)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(Double.PositiveInfinity, 5.5)]
-        [TestCase(Double.PositiveInfinity, 110.1)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateDensityLn(double dof, double x)
+        /// <remarks>Reference: N[Ln[PDF[ChiDistribution[dof],x]],20]</remarks>
+        [TestCase(1.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(1.0, 0.1, -0.23079135264472743236)]
+        [TestCase(1.0, 1.0, -0.72579135264472743236)]
+        [TestCase(1.0, 5.5, -15.350791352644727432)]
+        [TestCase(1.0, 110.1, -6061.2307913526447274)]
+        [TestCase(1.0, Double.PositiveInfinity, Double.NegativeInfinity)]
+        [TestCase(2.0, 0.0, Double.NegativeInfinity)]
+        [TestCase(2.0, 0.1, -2.3075850929940456840)]
+        [TestCase(2.0, 1.0, -0.5)]
+        [TestCase(2.0, 5.5, -13.420251907761574765)]
+        [TestCase(2.0, 110.1, -6056.3036109562713657)]
+        [TestCase(2.0, Double.PositiveInfinity, Double.NegativeInfinity)]
+        [TestCase(2.5, 0.0, Double.NegativeInfinity)]
+        [TestCase(2.5, 0.1, -3.5338925982092416919)]
+        [TestCase(2.5, 1.0, -0.57501495871817316589)]
+        [TestCase(2.5, 5.5, -12.642892820360535314)]
+        [TestCase(2.5, 110.1, -6054.0279313931252217)]
+        [TestCase(2.5, Double.PositiveInfinity, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 0.0, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 0.1, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 1.0, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 5.5, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, 110.1, Double.NegativeInfinity)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, Double.NegativeInfinity)]
+        public void ValidateDensityLn(double dof, double x, double expected)
         {
-            var n = new Chi(dof);
-            double expected = ((1.0 - (dof / 2.0)) * Math.Log(2.0)) + ((dof - 1.0) * Math.Log(x)) - (x * (x / 2.0)) - SpecialFunctions.GammaLn(dof / 2.0);
-            Assert.AreEqual(expected, n.DensityLn(x));
-            Assert.AreEqual(expected, Chi.PDFLn(dof, x));
+            var chi = new Chi(dof);
+            Assert.That(chi.DensityLn(x), Is.EqualTo(expected).Within(13));
+            Assert.That(Chi.PDFLn(dof, x), Is.EqualTo(expected).Within(13));
         }
 
         /// <summary>
@@ -269,38 +265,39 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         /// <summary>
         /// Validate cumulative distribution.
         /// </summary>
-        /// <param name="dof">Degrees of freedom.</param>
-        /// <param name="x">Input X value.</param>
-        [TestCase(1.0, 0.0)]
-        [TestCase(1.0, 0.1)]
-        [TestCase(1.0, 1.0)]
-        [TestCase(1.0, 5.5)]
-        [TestCase(1.0, 110.1)]
-        [TestCase(1.0, Double.PositiveInfinity)]
-        [TestCase(2.0, 0.0)]
-        [TestCase(2.0, 0.1)]
-        [TestCase(2.0, 1.0)]
-        [TestCase(2.0, 5.5)]
-        [TestCase(2.0, 110.1)]
-        [TestCase(2.0, Double.PositiveInfinity)]
-        [TestCase(2.5, 0.0)]
-        [TestCase(2.5, 0.1)]
-        [TestCase(2.5, 1.0)]
-        [TestCase(2.5, 5.5)]
-        [TestCase(2.5, 110.1)]
-        [TestCase(2.5, Double.PositiveInfinity)]
-        [TestCase(Double.PositiveInfinity, 0.0)]
-        [TestCase(Double.PositiveInfinity, 0.1)]
-        [TestCase(Double.PositiveInfinity, 1.0)]
-        [TestCase(Double.PositiveInfinity, 5.5)]
-        [TestCase(Double.PositiveInfinity, 110.1)]
-        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity)]
-        public void ValidateCumulativeDistribution(double dof, double x)
+        /// <remarks>Reference: N[CDF[ChiDistribution[dof],x],20]</remarks>
+        [TestCase(1.0, 0.0, 0.0)]
+        [TestCase(1.0, 0.1, 0.079655674554057962931)]
+        [TestCase(1.0, 1.0, 0.68268949213708589717)]
+        [TestCase(1.0, 5.5, 0.99999996202087506822)]
+        [TestCase(1.0, 110.1, 1.0)]
+        [TestCase(1.0, Double.PositiveInfinity, 1.0)]
+        [TestCase(2.0, 0.0, 0.0)]
+        [TestCase(2.0, 0.1, 0.0049875208073176866474)]
+        [TestCase(2.0, 1.0, 0.39346934028736657640)]
+        [TestCase(2.0, 5.5, 0.99999973004214966370)]
+        [TestCase(2.0, 110.1, 1.0)]
+        [TestCase(2.0, Double.PositiveInfinity, 1.0)]
+        [TestCase(2.5, 0.0, 0.0)]
+        [TestCase(2.5, 0.1, 0.0011702413714030096290)]
+        [TestCase(2.5, 1.0, 0.28378995266531297417)]
+        [TestCase(2.5, 5.5, 0.99999940337322804750)]
+        [TestCase(2.5, 110.1, 1.0)]
+        [TestCase(2.5, Double.PositiveInfinity, 1.0)]
+        [TestCase(Double.PositiveInfinity, 0.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 0.1, 0.0)]
+        [TestCase(Double.PositiveInfinity, 1.0, 0.0)]
+        [TestCase(Double.PositiveInfinity, 5.5, 0.0)]
+        [TestCase(Double.PositiveInfinity, 110.1, 0.0)]
+        [TestCase(Double.PositiveInfinity, Double.PositiveInfinity, 1.0)]
+        public void ValidateCumulativeDistribution(double dof, double x, double expected)
         {
-            var n = new Chi(dof);
-            double expected = SpecialFunctions.GammaLowerIncomplete(dof / 2.0, x * x / 2.0) / SpecialFunctions.Gamma(dof / 2.0);
-            Assert.AreEqual(expected, n.CumulativeDistribution(x));
-            Assert.AreEqual(expected, Chi.CDF(dof, x));
+            var chi = new Chi(dof);
+            Assert.That(chi.CumulativeDistribution(x), Is.EqualTo(expected).Within(13));
+            Assert.That(Chi.CDF(dof, x), Is.EqualTo(expected).Within(13));
+            //double expected = SpecialFunctions.GammaLowerIncomplete(dof / 2.0, x * x / 2.0) / SpecialFunctions.Gamma(dof / 2.0);
+            //Assert.AreEqual(expected, n.CumulativeDistribution(x));
+            //Assert.AreEqual(expected, Chi.CDF(dof, x));
         }
     }
 }
