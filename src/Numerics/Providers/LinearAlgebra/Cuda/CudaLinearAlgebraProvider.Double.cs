@@ -68,7 +68,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentArraysSameLength);
             }
 
-            return SafeNativeMethods.d_dot_product(_blasHandle, x.Length, x, y);
+            double result = 0;
+            HandleResults(SafeNativeMethods.d_dot_product(_blasHandle, x.Length, x, y, ref result));
+            return result;
         }
 
         /// <summary>
@@ -107,7 +109,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 return;
             }
 
-            SafeNativeMethods.d_axpy(_blasHandle, y.Length, alpha, x, result);
+            HandleResults(SafeNativeMethods.d_axpy(_blasHandle, y.Length, alpha, x, result));
         }
 
         /// <summary>
@@ -135,7 +137,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 return;
             }
 
-            SafeNativeMethods.d_scale(_blasHandle, x.Length, alpha, result);
+            HandleResults(SafeNativeMethods.d_scale(_blasHandle, x.Length, alpha, result));
         }
 
         /// <summary>
@@ -202,7 +204,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentMatrixDimensions);
             }
 
-            SafeNativeMethods.d_matrix_multiply(_blasHandle, transposeA.ToCUDA(), transposeB.ToCUDA(), m, n, k, alpha, a, b, beta, c);
+            HandleResults(SafeNativeMethods.d_matrix_multiply(_blasHandle, transposeA.ToCUDA(), transposeB.ToCUDA(), m, n, k, alpha, a, b, beta, c));
         }
 
         /// <summary>
@@ -237,7 +239,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
 
-            Solver(SafeNativeMethods.d_lu_factor(_solverHandle, order, data, ipiv));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_lu_factor(_solverHandle, order, data, ipiv, ref info));            
         }
 
         /// <summary>
@@ -259,7 +262,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            Solver(SafeNativeMethods.d_lu_inverse(_solverHandle, _blasHandle, order, a));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_lu_inverse(_solverHandle, _blasHandle, order, a, ref info));
         }
 
         /// <summary>
@@ -292,7 +296,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
 
-            BLAS(SafeNativeMethods.d_lu_inverse_factored(_blasHandle, order, a, ipiv));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_lu_inverse_factored(_blasHandle, order, a, ipiv, ref info));
         }
 
         /// <summary>
@@ -320,7 +325,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.UserWorkBufferNotSupported);
             }
 
-            Solver(SafeNativeMethods.d_lu_inverse(_solverHandle, _blasHandle, order, a));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_lu_inverse(_solverHandle, _blasHandle, order, a, ref info));
         }
 
         /// <summary>
@@ -359,7 +365,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.UserWorkBufferNotSupported);
             }
 
-            BLAS(SafeNativeMethods.d_lu_inverse_factored(_blasHandle, order, a, ipiv));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_lu_inverse_factored(_blasHandle, order, a, ipiv, ref info));
         }
 
         /// <summary>
@@ -393,7 +400,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            Solver(SafeNativeMethods.d_lu_solve(_solverHandle, order, columnsOfB, a, b));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_lu_solve(_solverHandle, order, columnsOfB, a, b, ref info));
         }
 
         /// <summary>
@@ -438,7 +446,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            Solver(SafeNativeMethods.d_lu_solve_factored(_solverHandle, order, columnsOfB, a, ipiv, b));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_lu_solve_factored(_solverHandle, order, columnsOfB, a, ipiv, b, ref info));
         }
 
         /// <summary>
@@ -466,7 +475,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            Solver(SafeNativeMethods.d_cholesky_factor(_solverHandle, order, a));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_cholesky_factor(_solverHandle, order, a, ref info));
+
+            if (info > 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+            }
         }
 
         /// <summary>
@@ -501,7 +516,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            Solver(SafeNativeMethods.d_cholesky_solve(_solverHandle, orderA, columnsB, a, b));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_cholesky_solve(_solverHandle, orderA, columnsB, a, b, ref info));
         }
 
         /// <summary>
@@ -535,7 +551,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            Solver(SafeNativeMethods.d_cholesky_solve_factored(_solverHandle, orderA, columnsB, a, b));
+            int info = 0;
+            HandleResults(SafeNativeMethods.d_cholesky_solve_factored(_solverHandle, orderA, columnsB, a, b, ref info));
         }        
 
         /// <summary>
@@ -697,7 +714,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (columnsA > rowsA || !computeVectors) // see remarks http://docs.nvidia.com/cuda/cusolver/index.html#cuds-lt-t-gt-gesvd
                 base.SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, new double[rowsA]);
-            else Solver (SafeNativeMethods.d_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt));
+            else
+            {
+                int info = 0;
+                HandleResults(SafeNativeMethods.d_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt, ref info));
+                if (info != 0)
+                    throw new NonConvergenceException();
+            }
         }        
     }
 }

@@ -37,5 +37,8 @@
     <ClInclude Include="..\..\CUDA\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\CUDA\wrapper_cuda.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
