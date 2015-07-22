@@ -1,15 +1,14 @@
 #pragma once
 
 #include <complex>
+#include <memory>
+
 #define MKL_Complex8 std::complex<float>
 #define MKL_Complex16 std::complex<double>
+#define LAPACK_MEMORY
 
 #include "mkl.h"
 
-#define LAPACK_MEMORY
-#include <memory>
-
-const int INSUFFICIENT_MEMORY = -999999;
 const int ALIGNMENT = 64;
 
 struct array_free
@@ -20,9 +19,9 @@ struct array_free
 template <typename T> using array_ptr = std::unique_ptr<T[], array_free>;
 
 template<typename T>
-inline array_ptr<T> array_new(const int size, int alignment = ALIGNMENT)
+inline array_ptr<T> array_new(const int size)
 {
-	auto ret = static_cast<T*>(mkl_malloc(size * sizeof(T), alignment));
+	auto ret = static_cast<T*>(mkl_malloc(size * sizeof(T), ALIGNMENT));
 
 	if (!ret)
 	{
@@ -31,4 +30,3 @@ inline array_ptr<T> array_new(const int size, int alignment = ALIGNMENT)
 
 	return array_ptr<T>(ret);
 }
-
