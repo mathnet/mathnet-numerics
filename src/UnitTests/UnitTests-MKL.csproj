@@ -130,6 +130,10 @@
     <Compile Include="InterpolationTests\LinearSplineTest.cs" />
     <Compile Include="InterpolationTests\NevillePolynomialTest.cs" />
     <Compile Include="InterpolationTests\StepInterpolationTest.cs" />
+    <Compile Include="LinearAlgebraProviderTests\Complex32\LinearAlgebraProviderTests.cs" />
+    <Compile Include="LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs" />
+    <Compile Include="LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs" />
+    <Compile Include="LinearAlgebraProviderTests\Single\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DiagonalMatrixTests.cs" />
@@ -652,6 +656,10 @@
       <Project>{b7cae5f4-a23f-4438-b5be-41226618b695}</Project>
       <Name>Numerics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestData\TestData.csproj">
+      <Project>{af3253c9-4db5-45a0-98cf-c105fda9da47}</Project>
+      <Name>TestData</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -664,10 +672,5 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LinearAlgebraProviderTests\Complex32\" />
-    <Folder Include="LinearAlgebraProviderTests\Complex\" />
-    <Folder Include="LinearAlgebraProviderTests\Double\" />
-    <Folder Include="LinearAlgebraProviderTests\Single\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

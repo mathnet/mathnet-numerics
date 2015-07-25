@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,9 +31,7 @@
 #if NATIVE
 
 using System;
-using System.Numerics;
 using System.Security;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
@@ -296,73 +294,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         }
 
         /// <summary>
-        /// Computes the inverse of matrix using LU factorization.
-        /// </summary>
-        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="work">Not supported.  Should be left null.</param>
-        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        [SecuritySafeCritical]
-        public override void LUInverse(double[] a, int order, double[] work)
-        {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (a.Length != order*order)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
-            }
-
-            if (work != null)
-            {
-                throw new ArgumentException(Resources.UserWorkBufferNotSupported);
-            }
-
-            Solver(SafeNativeMethods.d_lu_inverse(_solverHandle, _blasHandle, order, a));
-        }
-
-        /// <summary>
-        /// Computes the inverse of a previously factored matrix.
-        /// </summary>
-        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="work">Not supported.  Should be left null.</param>
-        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        [SecuritySafeCritical]
-        public override void LUInverseFactored(double[] a, int order, int[] ipiv, double[] work)
-        {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (ipiv == null)
-            {
-                throw new ArgumentNullException("ipiv");
-            }
-
-            if (a.Length != order*order)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
-            }
-
-            if (ipiv.Length != order)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
-            }
-
-            if (work != null)
-            {
-                throw new ArgumentException(Resources.UserWorkBufferNotSupported);
-            }
-
-            BLAS(SafeNativeMethods.d_lu_inverse_factored(_blasHandle, order, a, ipiv));
-        }
-
-        /// <summary>
         /// Solves A*X=B for X using LU factorization.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
@@ -539,60 +470,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         }        
 
         /// <summary>
-        /// Computes the singular value decomposition of A.
-        /// </summary>
-        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
-        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value.</param>
-        /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
-        /// singular vectors.</param>
-        /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
-        /// right singular vectors.</param>
-        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
-        {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (s == null)
-            {
-                throw new ArgumentNullException("s");
-            }
-
-            if (u == null)
-            {
-                throw new ArgumentNullException("u");
-            }
-
-            if (vt == null)
-            {
-                throw new ArgumentNullException("vt");
-            }
-
-            if (u.Length != rowsA*rowsA)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
-            }
-
-            if (vt.Length != columnsA*columnsA)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
-            }
-
-            if (s.Length != Math.Min(rowsA, columnsA))
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
-            }
-
-            SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, null);
-        }
-
-        /// <summary>
         /// Solves A*X=B for X using the singular value decomposition of A.
         /// </summary>
         /// <param name="a">On entry, the M by N matrix to decompose.</param>
@@ -650,10 +527,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
-        /// <param name="work">Not supported.  Should be left null.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt, double[] work)
+        public override void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
         {
             if (a == null)
             {
@@ -675,11 +551,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                 throw new ArgumentNullException("vt");
             }
 
-            if (work != null)
-            {
-                throw new ArgumentException(Resources.UserWorkBufferNotSupported);
-            }
-
             if (u.Length != rowsA*rowsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
@@ -696,7 +567,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
             }
 
             if (columnsA > rowsA || !computeVectors) // see remarks http://docs.nvidia.com/cuda/cusolver/index.html#cuds-lt-t-gt-gesvd
-                base.SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, new double[rowsA]);
+                base.SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt);
             else Solver (SafeNativeMethods.d_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt));
         }        
     }
