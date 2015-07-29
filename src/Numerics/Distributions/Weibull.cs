@@ -421,12 +421,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Returns a Weibull distribution.
         /// Implemented according to: Parameter estimation of the Weibull probability distribution, 1994, Hongzhu Qiao, Chris P. Tsokos 
         /// </summary>
         /// <param name="samples"></param>
         /// <param name="randomSource"></param>
-        /// <returns></returns>
+        /// <returns>Returns a Weibull distribution.</returns>
         public static Weibull Estimate(IEnumerable<double> samples, System.Random randomSource = null)
         {
             var samp = samples as double[] ?? samples.ToArray();
