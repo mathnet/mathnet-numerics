@@ -61,12 +61,13 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         public void IsEqualToItself(TestMatrix testMatrix)
         {
             Matrix<T> matrix = Get(testMatrix);
+            object matrixObject = matrix;
             Assert.That(matrix, Is.EqualTo(matrix));
             Assert.IsTrue(matrix.Equals(matrix));
-            Assert.IsTrue(matrix.Equals((object)matrix));
-            Assert.IsTrue(((object)matrix).Equals(matrix));
-            Assert.IsTrue(matrix == (object)matrix);
-            Assert.IsTrue((object)matrix == matrix);
+            Assert.IsTrue(matrix.Equals(matrixObject));
+            Assert.IsTrue(matrixObject.Equals(matrix));
+            Assert.IsTrue(matrix == matrixObject);
+            Assert.IsTrue(matrixObject == matrix);
         }
 
         [Theory]
@@ -77,12 +78,14 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assume.That(leftTestMatrix, Is.Not.EqualTo(rightTestmatrix));
 
             // THEN
+            object leftObject = left;
+            object rightObject = right;
             Assert.That(left, Is.Not.EqualTo(right));
             Assert.IsFalse(left.Equals(right));
-            Assert.IsFalse(left.Equals((object)right));
-            Assert.IsFalse(((object)left).Equals(right));
-            Assert.IsFalse(left == (object)right);
-            Assert.IsFalse((object)left == right);
+            Assert.IsFalse(left.Equals(rightObject));
+            Assert.IsFalse(leftObject.Equals(right));
+            Assert.IsFalse(left == rightObject);
+            Assert.IsFalse(leftObject == right);
         }
 
         [Theory]
