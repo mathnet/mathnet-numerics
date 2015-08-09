@@ -336,5 +336,22 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             var n = new Weibull(shape, scale);
             AssertHelpers.AlmostEqualRelative(cdf, n.CumulativeDistribution(x), 14);
         }
+
+        /// <summary>
+        /// Can estimate distribution parameters.
+        /// </summary>
+        [TestCase(1.0, 0.1)]
+        [TestCase(1.0, 1.0)]
+        [TestCase(10.0, 1.0)]
+        [TestCase(10.0, 10.0)]
+        [TestCase(10.0, 50.0)]
+        public void CanEstimateParameters(double shape, double scale)
+        {
+            var original = new Weibull(shape, scale, new Random(100));
+            var estimated = Weibull.Estimate(original.Samples().Take(10000));
+
+            AssertHelpers.AlmostEqualRelative(shape, estimated.Shape, 1);
+            AssertHelpers.AlmostEqualRelative(scale, estimated.Scale, 1);
+        }
     }
 }

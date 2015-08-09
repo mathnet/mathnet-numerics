@@ -429,7 +429,7 @@ namespace MathNet.Numerics.Distributions
         public static Weibull Estimate(IEnumerable<double> samples, System.Random randomSource = null)
         {
             var samp = samples as double[] ?? samples.ToArray();
-            double n = samp.Count(), s1 = 0, s2 = 0, s3 = 0, previousC = Int32.MinValue, QofC = 0;
+            double n = samp.Length, s1 = 0, s2 = 0, s3 = 0, previousC = Int32.MinValue, QofC = 0;
 
             if (n <= 1) throw new Exception("Observations not sufficient");
 
@@ -455,8 +455,12 @@ namespace MathNet.Numerics.Distributions
             }
 
             foreach (double x in samp)
+            {
                 if (x > 0)
+                {
                     b += Math.Pow(x, c);
+                }
+            }
 
             b = Math.Pow(b / n, 1 / c);
 
