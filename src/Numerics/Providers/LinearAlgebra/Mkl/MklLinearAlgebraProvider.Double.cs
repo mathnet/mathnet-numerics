@@ -76,8 +76,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), "matrix");
             }
 
-            var work = new double[rows];
-            return SafeNativeMethods.d_matrix_norm((byte)norm, rows, columns, matrix, work);
+            return SafeNativeMethods.d_matrix_norm((byte)norm, rows, columns, matrix);
         }
 
         /// <summary>
@@ -274,7 +273,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
 
-            SafeNativeMethods.d_lu_factor(order, data, ipiv);
+            var info = SafeNativeMethods.d_lu_factor(order, data, ipiv);
+
+            if (info < 0)
+            {
+                throw new InvalidParameterException(Math.Abs(info));
+            }
         }
 
         /// <summary>
@@ -296,8 +300,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            var work = new double[order];
-            SafeNativeMethods.d_lu_inverse(order, a, work, work.Length);
+            var info = SafeNativeMethods.d_lu_inverse(order, a);
+
+            if (info == (int)MklError.MemoryAllocation)
+            {
+                throw new MemoryAllocationException();
+            }
+
+            if (info < 0)
+            {
+                throw new InvalidParameterException(Math.Abs(info));
+            }
+
+            if (info > 0)
+            {
+                throw new SingularUMatrixException(info);
+            }
         }
 
         /// <summary>
@@ -330,89 +348,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
             }
 
-            var work = new double[order];
-            SafeNativeMethods.d_lu_inverse_factored(order, a, ipiv, work, order);
-        }
+            var info = SafeNativeMethods.d_lu_inverse_factored(order, a, ipiv);
 
-        /// <summary>
-        /// Computes the inverse of matrix using LU factorization.
-        /// </summary>
-        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        [SecuritySafeCritical]
-        public override void LUInverse(double[] a, int order, double[] work)
-        {
-            if (a == null)
+            if (info < 0)
             {
-                throw new ArgumentNullException("a");
+                throw new InvalidParameterException(Math.Abs(info));
             }
 
-            if (a.Length != order*order)
+            if (info > 0)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
-            }
-
-            if (work == null)
-            {
-                throw new ArgumentNullException("work");
-            }
-
-            if (work.Length < order)
-            {
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
-            }
-
-            SafeNativeMethods.d_lu_inverse(order, a, work, work.Length);
-        }
-
-        /// <summary>
-        /// Computes the inverse of a previously factored matrix.
-        /// </summary>
-        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        [SecuritySafeCritical]
-        public override void LUInverseFactored(double[] a, int order, int[] ipiv, double[] work)
-        {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (ipiv == null)
-            {
-                throw new ArgumentNullException("ipiv");
-            }
-
-            if (a.Length != order*order)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
-            }
-
-            if (ipiv.Length != order)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
-            }
-
-            if (work == null)
-            {
-                throw new ArgumentNullException("work");
-            }
-
-            if (work.Length < order)
-            {
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
-            }
-
-            SafeNativeMethods.d_lu_inverse_factored(order, a, ipiv, work, order);
+                throw new SingularUMatrixException(info);
+            } 
         }
 
         /// <summary>
@@ -446,7 +392,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.d_lu_solve(order, columnsOfB, a, b);
+            var info = SafeNativeMethods.d_lu_solve(order, columnsOfB, a, b);
+
+            if (info == (int)MklError.MemoryAllocation)
+            {
+                throw new MemoryAllocationException();
+            }
+
+            if (info < 0)
+            {
+                throw new InvalidParameterException(Math.Abs(info));
+            }
         }
 
         /// <summary>
@@ -491,7 +447,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.d_lu_solve_factored(order, columnsOfB, a, ipiv, b);
+            var info = SafeNativeMethods.d_lu_solve_factored(order, columnsOfB, a, ipiv, b);
+
+            if (info < 0)
+            {
+                throw new InvalidParameterException(Math.Abs(info));
+            }
         }
 
         /// <summary>
@@ -520,6 +481,16 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             }
 
             var info = SafeNativeMethods.d_cholesky_factor(order, a);
+
+            if (info == (int)MklError.MemoryAllocation)
+            {
+                throw new MemoryAllocationException();
+            }
+
+            if (info < 0)
+            {
+                throw new InvalidParameterException(Math.Abs(info));
+            }
 
             if (info > 0)
             {
@@ -559,7 +530,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.d_cholesky_solve(orderA, columnsB, a, b);
+            var info = SafeNativeMethods.d_cholesky_solve(orderA, columnsB, a, b);
+
+            if (info == (int)MklError.MemoryAllocation)
+            {
+                throw new MemoryAllocationException();
+            }
+
+            if (info < 0)
+            {
+                throw new InvalidParameterException(Math.Abs(info));
+            }
         }
 
         /// <summary>
@@ -593,7 +574,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentReferenceDifferent);
             }
 
-            SafeNativeMethods.d_cholesky_solve_factored(orderA, columnsB, a, b);
+            var info = SafeNativeMethods.d_cholesky_solve_factored(orderA, columnsB, a, b);
+
+            if (info < 0)
+            {
+                throw new InvalidParameterException(Math.Abs(info));
+            }
         }
 
         /// <summary>
@@ -636,65 +622,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
             }
 
-            var work = new double[columnsR*Control.BlockSize];
-            SafeNativeMethods.d_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
-        }
+            var info = SafeNativeMethods.d_qr_factor(rowsR, columnsR, r, tau, q);
 
-        /// <summary>
-        /// Computes the QR factorization of A.
-        /// </summary>
-        /// <param name="r">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
-        /// QR factorization.</param>
-        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
-        /// to be used by the QR solve routine.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        [SecuritySafeCritical]
-        public override void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau, double[] work)
-        {
-            if (r == null)
+            if (info < 0)
             {
-                throw new ArgumentNullException("r");
+                throw new InvalidParameterException(Math.Abs(info));
             }
-
-            if (q == null)
-            {
-                throw new ArgumentNullException("q");
-            }
-
-            if (work == null)
-            {
-                throw new ArgumentNullException("work");
-            }
-
-            if (r.Length != rowsR*columnsR)
-            {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "r");
-            }
-
-            if (tau.Length < Math.Min(rowsR, columnsR))
-            {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
-            }
-
-            if (q.Length != rowsR*rowsR)
-            {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), "q");
-            }
-
-            if (work.Length < columnsR*Control.BlockSize)
-            {
-                work[0] = columnsR*Control.BlockSize;
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
-            }
-
-            SafeNativeMethods.d_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
         }
 
         /// <summary>
@@ -737,66 +670,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
             }
 
-            var work = new double[columnsA*Control.BlockSize];
-            SafeNativeMethods.d_qr_thin_factor(rowsA, columnsA, q, tau, r, work, work.Length);
-        }
+            var info = SafeNativeMethods.d_qr_thin_factor(rowsA, columnsA, q, tau, r);
 
-        /// <summary>
-        /// Computes the thin QR factorization of A where M &gt; N.
-        /// </summary>
-        /// <param name="q">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the Q matrix of the QR factorization.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="r">On exit, A N by N matrix that holds the R matrix of the
-        /// QR factorization.</param>
-        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
-        /// to be used by the QR solve routine.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        [SecuritySafeCritical]
-        public override void ThinQRFactor(double[] q, int rowsA, int columnsA, double[] r, double[] tau, double[] work)
-        {
-            if (r == null)
+            if (info < 0)
             {
-                throw new ArgumentNullException("r");
+                throw new InvalidParameterException(Math.Abs(info));
             }
-
-            if (q == null)
-            {
-                throw new ArgumentNullException("q");
-            }
-
-            if (work == null)
-            {
-                throw new ArgumentNullException("q");
-            }
-
-            if (q.Length != rowsA*columnsA)
-            {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), "q");
-            }
-
-            if (tau.Length < Math.Min(rowsA, columnsA))
-            {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), "tau");
-            }
-
-            if (r.Length != columnsA*columnsA)
-            {
-                throw new ArgumentException(
-                    string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), "r");
-            }
-
-            if (work.Length < columnsA*Control.BlockSize)
-            {
-                work[0] = columnsA*Control.BlockSize;
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
-            }
-
-            SafeNativeMethods.d_qr_thin_factor(rowsA, columnsA, q, tau, r, work, work.Length);
         }
 
         /// <summary>
@@ -813,27 +692,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         [SecuritySafeCritical]
         public override void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
         {
-            var work = new double[columns*Control.BlockSize];
-            QRSolve(a, rows, columns, b, columnsB, x, work, method);
-        }
-
-        /// <summary>
-        /// Solves A*X=B for X using QR factorization of A.
-        /// </summary>
-        /// <param name="a">The A matrix.</param>
-        /// <param name="rows">The number of rows in the A matrix.</param>
-        /// <param name="columns">The number of columns in the A matrix.</param>
-        /// <param name="b">The B matrix.</param>
-        /// <param name="columnsB">The number of columns of B.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
-        /// <remarks>Rows must be greater or equal to columns.</remarks>
-        [SecuritySafeCritical]
-        public override void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, double[] work, QRMethod method = QRMethod.Full)
-        {
             if (a == null)
             {
                 throw new ArgumentNullException("a");
@@ -849,22 +707,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("x");
             }
 
-            if (work == null)
-            {
-                throw new ArgumentNullException("work");
-            }
-
-            if (a.Length != rows*columns)
+            if (a.Length != rows * columns)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
             }
 
-            if (b.Length != rows*columnsB)
+            if (b.Length != rows * columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            if (x.Length != columns*columnsB)
+            if (x.Length != columns * columnsB)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
             }
@@ -874,13 +727,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.RowsLessThanColumns);
             }
 
-            if (work.Length < 1)
+            var info = SafeNativeMethods.d_qr_solve(rows, columns, columnsB, a, b, x);
+
+            if (info == (int)MklError.MemoryAllocation)
             {
-                work[0] = rows*Control.BlockSize;
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                throw new MemoryAllocationException();
             }
 
-            SafeNativeMethods.d_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
+            if (info < 0)
+            {
+                throw new InvalidParameterException(Math.Abs(info));
+            }
+
+            if (info > 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient, "a");
+            }
         }
 
         /// <summary>
@@ -888,8 +750,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         /// <param name="q">The Q matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[])"/>.</param>
         /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[])"/>. </param>
-        /// <param name="rowsR">The number of rows in the A matrix.</param>
-        /// <param name="columnsR">The number of columns in the A matrix.</param>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="tau">Contains additional information on Q. Only used for the native solver
         /// and can be <c>null</c> for the managed provider.</param>
         /// <param name="b">The B matrix.</param>
@@ -898,32 +760,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolveFactored(double[] q, double[] r, int rowsR, int columnsR, double[] tau, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
-        {
-            var work = new double[columnsR*Control.BlockSize];
-            QRSolveFactored(q, r, rowsR, columnsR, tau, b, columnsB, x, work, method);
-        }
-
-        /// <summary>
-        /// Solves A*X=B for X using a previously QR factored matrix.
-        /// </summary>
-        /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
-        /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(double[],int,int,double[],double[])"/>. </param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="tau">Contains additional information on Q. Only used for the native solver
-        /// and can be <c>null</c> for the managed provider.</param>
-        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
-        /// <param name="columnsB">The number of columns of B.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        /// <param name="work">The work array - only used in the native provider. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
-        /// <remarks>Rows must be greater or equal to columns.</remarks>
-        [SecuritySafeCritical]
-        public override void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, double[] work, QRMethod method = QRMethod.Full)
+        public override void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
         {
             if (r == null)
             {
@@ -945,11 +782,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("q");
             }
 
-            if (work == null)
-            {
-                throw new ArgumentNullException("work");
-            }
-
             int rowsQ, columnsQ, rowsR, columnsR;
             if (method == QRMethod.Full)
             {
@@ -962,35 +794,39 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 columnsQ = rowsR = columnsR = columnsA;
             }
 
-            if (r.Length != rowsR*columnsR)
+            if (r.Length != rowsR * columnsR)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsR*columnsR), "r");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsR * columnsR), "r");
             }
 
-            if (q.Length != rowsQ*columnsQ)
+            if (q.Length != rowsQ * columnsQ)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsQ*columnsQ), "q");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsQ * columnsQ), "q");
             }
 
-            if (b.Length != rowsA*columnsB)
+            if (b.Length != rowsA * columnsB)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsA*columnsB), "b");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsA * columnsB), "b");
             }
 
-            if (x.Length != columnsA*columnsB)
+            if (x.Length != columnsA * columnsB)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA*columnsB), "x");
-            }
-
-            if (work.Length < 1)
-            {
-                work[0] = rowsA*Control.BlockSize;
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA * columnsB), "x");
             }
 
             if (method == QRMethod.Full)
             {
-                SafeNativeMethods.d_qr_solve_factored(rowsA, columnsA, columnsB, r, b, tau, x, work, work.Length);
+                var info = SafeNativeMethods.d_qr_solve_factored(rowsA, columnsA, columnsB, r, b, tau, x);
+
+                if (info == (int)MklError.MemoryAllocation)
+                {
+                    throw new MemoryAllocationException();
+                }
+
+                if (info < 0)
+                {
+                    throw new InvalidParameterException(Math.Abs(info));
+                }
             }
             else
             {
@@ -998,61 +834,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 // let just call the managed version in the meantime. The heavy lifting has already been done. -marcus
                 base.QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, QRMethod.Thin);
             }
-        }
-
-        /// <summary>
-        /// Computes the singular value decomposition of A.
-        /// </summary>
-        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
-        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value.</param>
-        /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
-        /// singular vectors.</param>
-        /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
-        /// right singular vectors.</param>
-        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
-        {
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (s == null)
-            {
-                throw new ArgumentNullException("s");
-            }
-
-            if (u == null)
-            {
-                throw new ArgumentNullException("u");
-            }
-
-            if (vt == null)
-            {
-                throw new ArgumentNullException("vt");
-            }
-
-            if (u.Length != rowsA*rowsA)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
-            }
-
-            if (vt.Length != columnsA*columnsA)
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
-            }
-
-            if (s.Length != Math.Min(rowsA, columnsA))
-            {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
-            }
-
-            var work = new double[Math.Max((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5*Math.Min(rowsA, columnsA))];
-            SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt, work);
         }
 
         /// <summary>
@@ -1091,14 +872,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
             }
 
-            var work = new double[Math.Max((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5*Math.Min(rowsA, columnsA))];
             var s = new double[Math.Min(rowsA, columnsA)];
             var u = new double[rowsA*rowsA];
             var vt = new double[columnsA*columnsA];
 
             var clone = new double[a.Length];
             a.Copy(clone);
-            SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt, work);
+            SingularValueDecomposition(true, clone, rowsA, columnsA, s, u, vt);
             SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
         }
 
@@ -1114,12 +894,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// singular vectors.</param>
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
-        /// <param name="work">The work array. For real matrices, the work array should be at least
-        /// Max(3*Min(M, N) + Max(M, N), 5*Min(M,N)). For complex matrices, 2*Min(M, N) + Max(M, N).
-        /// On exit, work[0] contains the optimal work size value.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt, double[] work)
+        public override void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
         {
             if (a == null)
             {
@@ -1141,17 +918,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentNullException("vt");
             }
 
-            if (work == null)
-            {
-                throw new ArgumentNullException("work");
-            }
-
-            if (u.Length != rowsA*rowsA)
+            if (u.Length != rowsA * rowsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
             }
 
-            if (vt.Length != columnsA*columnsA)
+            if (vt.Length != columnsA * columnsA)
             {
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
             }
@@ -1161,18 +933,19 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
             }
 
-            if (work.Length == 0)
+            var info = SafeNativeMethods.d_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt);
+
+            if (info == (int)MklError.MemoryAllocation)
             {
-                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
+                throw new MemoryAllocationException();
             }
 
-            if (work.Length < Math.Max((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5*Math.Min(rowsA, columnsA)))
+            if (info < 0)
             {
-                work[0] = Math.Max((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5*Math.Min(rowsA, columnsA));
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                throw new InvalidParameterException(Math.Abs(info));
             }
 
-            if (SafeNativeMethods.d_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length) > 0)
+            if (info > 0)
             {
                 throw new NonConvergenceException();
             }
@@ -1369,7 +1142,19 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), "matrixD");
             }
 
-            if (SafeNativeMethods.d_eigen(isSymmetric, order, matrix, matrixEv, vectorEv, matrixD) > 0)
+            var info = SafeNativeMethods.d_eigen(isSymmetric, order, matrix, matrixEv, vectorEv, matrixD);
+
+            if (info == (int)MklError.MemoryAllocation)
+            {
+                throw new MemoryAllocationException();
+            }
+
+            if (info < 0)
+            {
+                throw new InvalidParameterException(Math.Abs(info));
+            }
+
+            if (info > 0)
             {
                 throw new NonConvergenceException();
             }

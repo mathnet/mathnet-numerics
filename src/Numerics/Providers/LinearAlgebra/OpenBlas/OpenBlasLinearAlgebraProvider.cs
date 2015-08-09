@@ -34,6 +34,17 @@ using System;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 {
+    /// <summary>
+    /// Error codes return from the native OpenBLAS provider.
+    /// </summary>
+    public enum NativeError : int
+    {
+        /// <summary>
+        /// Unable to allocate memory.
+        /// </summary>
+        MemoryAllocation = -999999
+    }
+
     internal enum ParallelType : int
     {
         Sequential = 0,

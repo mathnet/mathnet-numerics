@@ -270,29 +270,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         void LUInverseFactored(T[] a, int order, int[] ipiv);
 
         /// <summary>
-        /// Computes the inverse of matrix using LU factorization.
-        /// </summary>
-        /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        void LUInverse(T[] a, int order, T[] work);
-
-        /// <summary>
-        /// Computes the inverse of a previously factored matrix.
-        /// </summary>
-        /// <param name="a">The LU factored N by N matrix.  Contains the inverse On exit.</param>
-        /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
-        /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent.  On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        void LUInverseFactored(T[] a, int order, int[] ipiv, T[] work);
-
-        /// <summary>
         /// Solves A*X=B for X using LU factorization.
         /// </summary>
         /// <param name="columnsOfB">The number of columns of B.</param>
@@ -357,23 +334,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         void QRFactor(T[] a, int rowsA, int columnsA, T[] q, T[] tau);
 
         /// <summary>
-        /// Computes the full QR factorization of A.
-        /// </summary>
-        /// <param name="a">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the R matrix of the QR factorization.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
-        /// QR factorization.</param>
-        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
-        /// to be used by the QR solve routine.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void QRFactor(T[] a, int rowsA, int columnsA, T[] q, T[] tau, T[] work);
-
-        /// <summary>
         /// Computes the thin QR factorization of A where M &gt; N.
         /// </summary>
         /// <param name="a">On entry, it is the M by N A matrix to factor. On exit,
@@ -388,23 +348,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         void ThinQRFactor(T[] a, int rowsA, int columnsA, T[] r, T[] tau);
 
         /// <summary>
-        /// Computes the thin QR factorization of A where M &gt; N.
-        /// </summary>
-        /// <param name="a">On entry, it is the M by N A matrix to factor. On exit,
-        /// it is overwritten with the Q matrix of the QR factorization.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="r">On exit, A N by N matrix that holds the R matrix of the
-        /// QR factorization.</param>
-        /// <param name="tau">A min(m,n) vector. On exit, contains additional information
-        /// to be used by the QR solve routine.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        void ThinQRFactor(T[] a, int rowsA, int columnsA, T[] r, T[] tau, T[] work);
-
-        /// <summary>
         /// Solves A*X=B for X using QR factorization of A.
         /// </summary>
         /// <param name="a">The A matrix.</param>
@@ -416,22 +359,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         void QRSolve(T[] a, int rows, int columns, T[] b, int columnsB, T[] x, QRMethod method = QRMethod.Full);
-
-        /// <summary>
-        /// Solves A*X=B for X using QR factorization of A.
-        /// </summary>
-        /// <param name="a">The A matrix.</param>
-        /// <param name="rows">The number of rows in the A matrix.</param>
-        /// <param name="columns">The number of columns in the A matrix.</param>
-        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
-        /// <param name="columnsB">The number of columns of B.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        /// <param name="work">The work array. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
-        /// <remarks>Rows must be greater or equal to columns.</remarks>
-        void QRSolve(T[] a, int rows, int columns, T[] b, int columnsB, T[] x, T[] work, QRMethod method = QRMethod.Full);
 
         /// <summary>
         /// Solves A*X=B for X using a previously QR factored matrix.
@@ -451,26 +378,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         void QRSolveFactored(T[] q, T[] r, int rowsA, int columnsA, T[] tau, T[] b, int columnsB, T[] x, QRMethod method = QRMethod.Full);
 
         /// <summary>
-        /// Solves A*X=B for X using a previously QR factored matrix.
-        /// </summary>
-        /// <param name="q">The Q matrix obtained by QR factor. This is only used for the managed provider and can be
-        /// <c>null</c> for the native provider. The native provider uses the Q portion stored in the R matrix.</param>
-        /// <param name="r">The R matrix obtained by calling <see cref="QRFactor(T[],int,int,T[],T[])"/>. </param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="tau">Contains additional information on Q. Only used for the native solver
-        /// and can be <c>null</c> for the managed provider.</param>
-        /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
-        /// <param name="columnsB">The number of columns of B.</param>
-        /// <param name="x">On exit, the solution matrix.</param>
-        /// <param name="work">The work array - only used in the native provider. The array must have a length of at least N,
-        /// but should be N*blocksize. The blocksize is machine dependent. On exit, work[0] contains the optimal
-        /// work size value.</param>
-        /// <remarks>Rows must be greater or equal to columns.</remarks>
-        /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
-        void QRSolveFactored(T[] q, T[] r, int rowsA, int columnsA, T[] tau, T[] b, int columnsB, T[] x, T[] work, QRMethod method = QRMethod.Full);
-
-        /// <summary>
         /// Computes the singular value decomposition of A.
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
@@ -484,23 +391,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         void SingularValueDecomposition(bool computeVectors, T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt);
-
-        /// <summary>
-        /// Computes the singular value decomposition of A.
-        /// </summary>
-        /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
-        /// <param name="a">On entry, the M by N matrix to decompose. On exit, A may be overwritten.</param>
-        /// <param name="rowsA">The number of rows in the A matrix.</param>
-        /// <param name="columnsA">The number of columns in the A matrix.</param>
-        /// <param name="s">The singular values of A in ascending value. </param>
-        /// <param name="u">If <paramref name="computeVectors"/> is <c>true</c>, on exit U contains the left
-        /// singular vectors.</param>
-        /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
-        /// right singular vectors.</param>
-        /// <param name="work">The work array. On exit, work[0] contains the optimal work size value.
-        /// </param>
-        /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        void SingularValueDecomposition(bool computeVectors, T[] a, int rowsA, int columnsA, T[] s, T[] u, T[] vt, T[] work);
 
         /// <summary>
         /// Solves A*X=B for X using the singular value decomposition of A.
@@ -520,7 +410,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="columnsA">The number of columns in the A matrix.</param>
         /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[])"/>.</param>
         /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int, T[],T[],T[])"/>.</param>
-        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[],T[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,T[],int,int,T[],T[],T[])"/>.</param>
         /// <param name="b">The B matrix</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>

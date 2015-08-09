@@ -203,16 +203,18 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Common\blas.c" />
+    <ClCompile Include="..\..\Common\lapack.cpp" />
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
-    <ClCompile Include="..\..\OpenBLAS\blas.c" />
     <ClCompile Include="..\..\OpenBLAS\capabilities.cpp" />
-    <ClCompile Include="..\..\OpenBLAS\lapack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\OpenBLAS\resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\OpenBLAS\complex.h" />
+    <ClInclude Include="..\..\Common\lapack_common.h" />
+    <ClInclude Include="..\..\OpenBLAS\blas.h" />
+    <ClInclude Include="..\..\OpenBLAS\lapack.h" />
     <ClInclude Include="..\..\OpenBLAS\resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

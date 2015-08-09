@@ -8,12 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Reflection;
-
 namespace MathNet.Numerics.Properties {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -25,38 +23,29 @@ namespace MathNet.Numerics.Properties {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
-
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
-#if NET45REFLECTION
-                if (object.ReferenceEquals(resourceMan, null))
-                {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MathNet.Numerics.Properties.Resources", typeof(Resources).GetTypeInfo().Assembly);
-                    resourceMan = temp;
-                }
-#else
-                if (object.ReferenceEquals(resourceMan, null))
-                {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MathNet.Numerics.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
-#endif
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -70,7 +59,7 @@ namespace MathNet.Numerics.Properties {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The accuracy couldn&apos;t be reached with the specified number of iterations..
         /// </summary>
@@ -79,7 +68,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("AccuracyNotReached", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The array arguments must have the same length..
         /// </summary>
@@ -88,7 +77,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentArraysSameLength", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The given array is the wrong length. Should be {0}..
         /// </summary>
@@ -97,7 +86,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentArrayWrongLength", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The argument must be between 0 and 1..
         /// </summary>
@@ -106,7 +95,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentBetween0And1", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value cannot be in the range -1 &lt; x &lt; 1..
         /// </summary>
@@ -115,7 +104,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentCannotBeBetweenOneAndNegativeOne", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value must be even..
         /// </summary>
@@ -124,7 +113,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentEven", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The histogram does not contain the value..
         /// </summary>
@@ -133,7 +122,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentHistogramContainsNot", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value is expected to be between {0} and {1} (including {0} and {1})..
         /// </summary>
@@ -142,7 +131,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentInIntervalXYInclusive", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to At least one item of {0} is a null reference (Nothing in Visual Basic)..
         /// </summary>
@@ -151,7 +140,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentItemNull", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value must be greater than or equal to one..
         /// </summary>
@@ -160,7 +149,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentLessThanOne", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix dimensions must agree..
         /// </summary>
@@ -169,7 +158,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixDimensions", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix dimensions must agree: {0}..
         /// </summary>
@@ -178,7 +167,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixDimensions1", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix dimensions must agree: op1 is {0}, op2 is {1}..
         /// </summary>
@@ -187,7 +176,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixDimensions2", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix dimensions must agree: op1 is {0}, op2 is {1}, op3 is {2}..
         /// </summary>
@@ -196,7 +185,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixDimensions3", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The requested matrix does not exist..
         /// </summary>
@@ -205,7 +194,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixDoesNotExist", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The matrix indices must not be out of range of the given matrix..
         /// </summary>
@@ -214,7 +203,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixIndexOutOfRange", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must not be rank deficient..
         /// </summary>
@@ -223,7 +212,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixNotRankDeficient", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must not be singular..
         /// </summary>
@@ -232,7 +221,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixNotSingular", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must be positive definite..
         /// </summary>
@@ -241,7 +230,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixPositiveDefinite", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix column dimensions must agree..
         /// </summary>
@@ -250,7 +239,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixSameColumnDimension", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix row dimensions must agree..
         /// </summary>
@@ -259,7 +248,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixSameRowDimension", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must have exactly one column..
         /// </summary>
@@ -268,7 +257,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixSingleColumn", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must have exactly one column and row, thus have only one cell..
         /// </summary>
@@ -277,7 +266,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixSingleColumnRow", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must have exactly one row..
         /// </summary>
@@ -286,7 +275,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixSingleRow", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must be square..
         /// </summary>
@@ -295,7 +284,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixSquare", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must be symmetric..
         /// </summary>
@@ -304,7 +293,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixSymmetric", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must be symmetric positive definite..
         /// </summary>
@@ -313,7 +302,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMatrixSymmetricPositiveDefinite", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to In the specified range, the minimum is greater than maximum..
         /// </summary>
@@ -322,7 +311,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMinValueGreaterThanMaxValue", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value must be positive..
         /// </summary>
@@ -331,7 +320,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentMustBePositive", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value must neither be infinite nor NaN..
         /// </summary>
@@ -340,7 +329,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentNotInfinityNaN", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value must not be negative (zero is ok)..
         /// </summary>
@@ -349,7 +338,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentNotNegative", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to {0} is a null reference (Nothing in Visual Basic)..
         /// </summary>
@@ -358,7 +347,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentNull", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value must be odd..
         /// </summary>
@@ -367,7 +356,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentOdd", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to {0} must be greater than {1}..
         /// </summary>
@@ -376,7 +365,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentOutOfRangeGreater", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to {0} must be greater than or equal to {1}..
         /// </summary>
@@ -385,7 +374,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentOutOfRangeGreaterEqual", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to {0} must be smaller than {1}..
         /// </summary>
@@ -412,7 +401,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentParameterSetInvalid", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The given expression does not represent a complex number..
         /// </summary>
@@ -421,7 +410,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentParseComplexNumber", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value must be positive (and not zero)..
         /// </summary>
@@ -430,7 +419,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentPositive", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Size must be a Power of Two..
         /// </summary>
@@ -439,7 +428,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentPowerOfTwo", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Size must be a Power of Two in every dimension..
         /// </summary>
@@ -448,7 +437,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentPowerOfTwoEveryDimension", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The range between {0} and {1} must be less than or equal to {2}..
         /// </summary>
@@ -457,7 +446,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentRangeLessEqual", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Arguments must be different objects..
         /// </summary>
@@ -466,7 +455,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentReferenceDifferent", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Array must have exactly one dimension (and not be null)..
         /// </summary>
@@ -475,7 +464,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentSingleDimensionArray", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value is too large..
         /// </summary>
@@ -484,7 +473,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentTooLarge", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Value is too large for the current iteration limit..
         /// </summary>
@@ -493,7 +482,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentTooLargeForIterationLimit", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Type mismatch..
         /// </summary>
@@ -502,7 +491,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentTypeMismatch", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The upper bound must be strictly larger than the lower bound..
         /// </summary>
@@ -511,7 +500,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentUpperBoundMustBeLargerThanLowerBound", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The upper bound must be at least as large as the lower bound..
         /// </summary>
@@ -520,7 +509,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentUpperBoundMustBeLargerThanOrEqualToLowerBound", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Array length must be a multiple of {0}..
         /// </summary>
@@ -529,7 +518,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentVectorLengthsMultipleOf", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to All vectors must have the same dimensionality..
         /// </summary>
@@ -538,7 +527,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentVectorsSameLength", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The vector must have 3 dimensions..
         /// </summary>
@@ -547,7 +536,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArgumentVectorThreeDimensional", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The given array is too small. It must be at least {0} long..
         /// </summary>
@@ -556,7 +545,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ArrayTooSmall", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Big endian files are not supported..
         /// </summary>
@@ -565,7 +554,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("BigEndianNotSupported", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The supplied collection is empty..
         /// </summary>
@@ -574,7 +563,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("CollectionEmpty", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Complex matrices are not supported..
         /// </summary>
@@ -583,7 +572,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ComplexMatricesNotSupported", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to An algorithm failed to converge..
         /// </summary>
@@ -592,7 +581,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ConvergenceFailed", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to This feature is not implemented yet (but is planned)..
         /// </summary>
@@ -601,7 +590,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("FeaturePlannedButNotImplementedYet", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The given file doesn&apos;t exist..
         /// </summary>
@@ -610,7 +599,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("FileDoesNotExist", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Sample points should be sorted in strictly ascending order.
         /// </summary>
@@ -619,7 +608,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("Interpolation_Initialize_SamplePointsNotStrictlyAscendingOrder", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to All sample points should be unique..
         /// </summary>
@@ -628,7 +617,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("Interpolation_Initialize_SamplePointsNotUnique", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Invalid parameterization for the distribution..
         /// </summary>
@@ -637,7 +626,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("InvalidDistributionParameters", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Invalid Left Boundary Condition..
         /// </summary>
@@ -646,7 +635,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("InvalidLeftBoundaryCondition", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The operation could not be performed because the accumulator is empty..
         /// </summary>
@@ -655,7 +644,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("InvalidOperationAccumulatorEmpty", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The operation could not be performed because the histogram is empty..
         /// </summary>
@@ -664,7 +653,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("InvalidOperationHistogramEmpty", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Not enough points in the distribution..
         /// </summary>
@@ -673,7 +662,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("InvalidOperationHistogramNotEnoughPoints", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to No Samples Provided. Preparation Required..
         /// </summary>
@@ -682,7 +671,25 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("InvalidOperationNoSamplesProvided", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An invalid parameter was passed to a native method..
+        /// </summary>
+        public static string InvalidParameter {
+            get {
+                return ResourceManager.GetString("InvalidParameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An invalid parameter was passed to a native method, parameter number : {0}.
+        /// </summary>
+        public static string InvalidParameterWithNumber {
+            get {
+                return ResourceManager.GetString("InvalidParameterWithNumber", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Invalid Right Boundary Condition..
         /// </summary>
@@ -691,7 +698,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("InvalidRightBoundaryCondition", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Lag must be positive.
         /// </summary>
@@ -700,7 +707,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("LagMustBePositive", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Lag must be smaller than the sample size.
         /// </summary>
@@ -709,7 +716,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("LagMustBeSmallerThanTheSampleSize", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to ddd MMM dd HH:mm:ss yyyy.
         /// </summary>
@@ -718,7 +725,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("MatlabDateHeaderFormat", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrices can not be empty and must have at least one row and column..
         /// </summary>
@@ -727,7 +734,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("MatrixCanNotBeEmpty", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The number of columns of a matrix must be positive..
         /// </summary>
@@ -736,7 +743,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("MatrixColumnsMustBePositive", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Matrix must be in sparse storage format.
         /// </summary>
@@ -745,7 +752,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("MatrixMustBeSparse", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The number of rows of a matrix must be positive..
         /// </summary>
@@ -754,7 +761,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("MatrixRowsMustBePositive", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The number of rows or columns of a matrix must be positive..
         /// </summary>
@@ -763,7 +770,16 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("MatrixRowsOrColumnsMustBePositive", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to allocate native memory..
+        /// </summary>
+        public static string MemoryAllocation {
+            get {
+                return ResourceManager.GetString("MemoryAllocation", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Only 1 and 2 dimensional arrays are supported..
         /// </summary>
@@ -772,7 +788,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("MoreThan2D", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Data must contain at least {0} values..
         /// </summary>
@@ -781,7 +797,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("MustContainAtLeast", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Name cannot contain a space. name:  {0}.
         /// </summary>
@@ -790,7 +806,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("NameCannotContainASpace", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to {0} is not a supported type..
         /// </summary>
@@ -799,7 +815,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("NotSupportedType", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Algorithm experience a numerical break down
         ///.
@@ -809,7 +825,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("NumericalBreakdown", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The two arguments can&apos;t be compared (maybe they are part of a partial ordering?).
         /// </summary>
@@ -818,7 +834,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("PartialOrderException", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The integer array does not represent a valid permutation..
         /// </summary>
@@ -827,7 +843,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("PermutationAsIntArrayInvalid", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The sampler&apos;s proposal distribution is not upper bounding the target density..
         /// </summary>
@@ -836,7 +852,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("ProposalDistributionNoUpperBound", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds..
         /// </summary>
@@ -845,7 +861,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("RootFindingFailed", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds. Consider to use RobustNewtonRaphson instead..
         /// </summary>
@@ -854,7 +870,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("RootFindingFailedRecommendRobustNewtonRaphson", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The lower and upper bounds must bracket a single root..
         /// </summary>
@@ -863,7 +879,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("RootMustBeBracketedByBounds", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The algorithm ended without root in the range..
         /// </summary>
@@ -872,7 +888,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("RootNotFound", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The number of rows must greater than or equal to the number of columns..
         /// </summary>
@@ -881,7 +897,25 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("RowsLessThanColumns", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to U is singular, and the inversion could not be completed..
+        /// </summary>
+        public static string SingularUMatrix {
+            get {
+                return ResourceManager.GetString("SingularUMatrix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to U is singular, and the inversion could not be completed. The {0}-th diagonal element of the factor U is zero..
+        /// </summary>
+        public static string SingularUMatrixWithElement {
+            get {
+                return ResourceManager.GetString("SingularUMatrixWithElement", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to The singular vectors were not computed..
         /// </summary>
@@ -890,7 +924,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("SingularVectorsNotComputed", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to This special case is not supported yet (but is planned)..
         /// </summary>
@@ -899,7 +933,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("SpecialCasePlannedButNotImplementedYet", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The given stop criterion already exist in the collection..
         /// </summary>
@@ -908,7 +942,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("StopCriterionDuplicate", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to There is no stop criterion in the collection..
         /// </summary>
@@ -917,7 +951,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("StopCriterionMissing", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to String parameter cannot be empty or null..
         /// </summary>
@@ -926,7 +960,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("StringNullOrEmpty", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to We only support sparse matrix with less than int.MaxValue elements..
         /// </summary>
@@ -935,7 +969,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("TooManyElements", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The moment of the distribution is undefined..
         /// </summary>
@@ -944,7 +978,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("UndefinedMoment", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to A user defined provider has not been specified..
         /// </summary>
@@ -953,7 +987,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("UserDefinedProviderNotSpecified", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to User work buffers are not supported by this provider..
         /// </summary>
@@ -962,7 +996,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("UserWorkBufferNotSupported", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Vectors can not be empty and must have at least one element..
         /// </summary>
@@ -971,7 +1005,7 @@ namespace MathNet.Numerics.Properties {
                 return ResourceManager.GetString("VectorCanNotBeEmpty", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to The given work array is too small. Check work[0] for the corret size..
         /// </summary>

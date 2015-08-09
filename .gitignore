@@ -21,6 +21,7 @@ coverage.*
 *.psess
 *.vsp
 *.vspx
+*.lnt
 
 # Caches
 _ReSharper*

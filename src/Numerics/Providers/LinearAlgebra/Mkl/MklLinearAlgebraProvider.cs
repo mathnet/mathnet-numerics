@@ -35,6 +35,17 @@ using System;
 namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 {
     /// <summary>
+    /// Error codes return from the MKL provider.
+    /// </summary>
+    public enum MklError : int
+    {
+        /// <summary>
+        /// Unable to allocate memory.
+        /// </summary>
+        MemoryAllocation = -999999
+    }
+
+    /// <summary>
     /// Consistency vs. performance trade-off between runs on different machines.
     /// </summary>
     public enum MklConsistency : int

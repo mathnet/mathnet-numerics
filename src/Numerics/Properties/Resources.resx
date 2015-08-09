@@ -421,4 +421,19 @@
   <data name="UserWorkBufferNotSupported" xml:space="preserve">
     <value>User work buffers are not supported by this provider.</value>
   </data>
+  <data name="InvalidParameter" xml:space="preserve">
+    <value>An invalid parameter was passed to a native method.</value>
+  </data>
+  <data name="InvalidParameterWithNumber" xml:space="preserve">
+    <value>An invalid parameter was passed to a native method, parameter number : {0}</value>
+  </data>
+  <data name="MemoryAllocation" xml:space="preserve">
+    <value>Unable to allocate native memory.</value>
+  </data>
+  <data name="SingularUMatrix" xml:space="preserve">
+    <value>U is singular, and the inversion could not be completed.</value>
+  </data>
+  <data name="SingularUMatrixWithElement" xml:space="preserve">
+    <value>U is singular, and the inversion could not be completed. The {0}-th diagonal element of the factor U is zero.</value>
+  </data>
 </root>

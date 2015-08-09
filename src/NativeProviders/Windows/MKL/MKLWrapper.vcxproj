@@ -289,10 +289,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Common\blas.c" />
+    <ClCompile Include="..\..\Common\lapack.cpp" />
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
     <ClCompile Include="..\..\MKL\capabilities.cpp" />
-    <ClCompile Include="..\..\MKL\blas.c" />
-    <ClCompile Include="..\..\MKL\lapack.cpp" />
     <ClCompile Include="..\..\MKL\memory.c" />
     <ClCompile Include="..\..\MKL\vector_functions.c" />
   </ItemGroup>
@@ -300,6 +300,9 @@
     <ResourceCompile Include="..\..\MKL\resource.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Common\lapack_common.h" />
+    <ClInclude Include="..\..\MKL\blas.h" />
+    <ClInclude Include="..\..\MKL\lapack.h" />
     <ClInclude Include="..\..\MKL\resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

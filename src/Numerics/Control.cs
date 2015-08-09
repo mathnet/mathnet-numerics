@@ -88,7 +88,9 @@ namespace MathNet.Numerics
                         break;
 
                     default:
+#if NATIVE
                         if (!TryUseNative())
+#endif
                         {
                             UseManaged();
                         }
