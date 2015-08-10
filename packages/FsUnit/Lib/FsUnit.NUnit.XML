@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+<assembly><name>FsUnit.NUnit</name></assembly>
+<members>
+<member name="M:FsUnit.Assert.Null``1(``0,System.String,System.Object[])">
+ <summary>
+ Verifies that the object that is passed in is equal to 'null'.
+ If the object is not 'null', then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg">The object that is to be tested.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.Null``1(``0,System.String)">
+ <summary>
+ Verifies that the object that is passed in is equal to 'null'.
+ If the object is not 'null', then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg">The object that is to be tested.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.Null``1(``0)">
+ <summary>
+ Verifies that the object that is passed in is equal to 'null'.
+ If the object is not 'null', then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg">The object that is to be tested.</param>
+</member>
+<member name="M:FsUnit.Assert.NotNull``1(``0,System.String,System.Object[])">
+ <summary>
+ Verifies that the object that is passed in is not equal to 'null'.
+ If the object is 'null', then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg">The object that is to be tested.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.NotNull``1(``0,System.String)">
+ <summary>
+ Verifies that the object that is passed in is not equal to 'null'.
+ If the object is 'null', then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg">The object that is to be tested.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.NotNull``1(``0)">
+ <summary>
+ Verifies that the object that is passed in is not equal to 'null'.
+ If the object is 'null', then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg">The object that is to be tested.</param>
+</member>
+<member name="M:FsUnit.Assert.LessOrEqual``1(``0,``0,System.String,System.Object[])">
+ <summary>
+ Verifies that the first value is less than or equal to the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be less.</param>
+ <param name="arg2">The second value, expected to be greater.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.LessOrEqual``1(``0,``0,System.String)">
+ <summary>
+ Verifies that the first value is less than or equal to the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be less.</param>
+ <param name="arg2">The second value, expected to be greater.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.LessOrEqual``1(``0,``0)">
+ <summary>
+ Verifies that the first value is less than or equal to the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be less.</param>
+ <param name="arg2">The second value, expected to be greater.</param>
+</member>
+<member name="M:FsUnit.Assert.Less``1(``0,``0,System.String,System.Object[])">
+ <summary>
+ Verifies that the first value is less than the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be less.</param>
+ <param name="arg2">The second value, expected to be greater.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.Less``1(``0,``0,System.String)">
+ <summary>
+ Verifies that the first value is less than the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be less.</param>
+ <param name="arg2">The second value, expected to be greater.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.Less``1(``0,``0)">
+ <summary>
+ Verifies that the first value is less than the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be less.</param>
+ <param name="arg2">The second value, expected to be greater.</param>
+</member>
+<member name="M:FsUnit.Assert.GreaterOrEqual``1(``0,``0,System.String,System.Object[])">
+ <summary>
+ Verifies that the first value is greater than or equal to than the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be greater.</param>
+ <param name="arg2">The second value, expected to be less.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.GreaterOrEqual``1(``0,``0,System.String)">
+ <summary>
+ Verifies that the first value is greater than or equal to than the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be greater.</param>
+ <param name="arg2">The second value, expected to be less.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.GreaterOrEqual``1(``0,``0)">
+ <summary>
+ Verifies that the first value is greater than or equal to than the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be greater.</param>
+ <param name="arg2">The second value, expected to be less.</param>
+</member>
+<member name="M:FsUnit.Assert.Greater``1(``0,``0,System.String,System.Object[])">
+ <summary>
+ Verifies that the first value is greater than the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be greater.</param>
+ <param name="arg2">The second value, expected to be less.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.Greater``1(``0,``0,System.String)">
+ <summary>
+ Verifies that the first value is greater than the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be greater.</param>
+ <param name="arg2">The second value, expected to be less.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.Greater``1(``0,``0)">
+ <summary>
+ Verifies that the first value is greater than the second value.
+ If it is not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="arg1">The first value, expected to be greater.</param>
+ <param name="arg2">The second value, expected to be less.</param>
+</member>
+<member name="M:FsUnit.Assert.Contains``1(``0,System.Collections.Generic.ICollection{``0},System.String,System.Object[])">
+ <summary>
+ Asserts that an object is contained in a list.
+ </summary>
+ <param name="expected">The expected object.</param>
+ <param name="actual">The list to be examined.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.Contains``1(``0,System.Collections.Generic.ICollection{``0},System.String)">
+ <summary>
+ Asserts that an object is contained in a list.
+ </summary>
+ <param name="expected">The expected object.</param>
+ <param name="actual">The list to be examined.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.Contains``1(``0,System.Collections.Generic.ICollection{``0})">
+ <summary>
+ Asserts that an object is contained in a list.
+ </summary>
+ <param name="expected">The expected object.</param>
+ <param name="actual">The list to be examined.</param>
+</member>
+<member name="M:FsUnit.Assert.AreSame``1(``0,``0,System.String,System.Object[])">
+ <summary>
+ Asserts that two objects refer to the same object.
+ If they are not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected object.</param>
+ <param name="actual">The actual object.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.AreSame``1(``0,``0,System.String)">
+ <summary>
+ Asserts that two objects refer to the same object.
+ If they are not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected object.</param>
+ <param name="actual">The actual object.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.AreSame``1(``0,``0)">
+ <summary>
+ Asserts that two objects refer to the same object.
+ If they are not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected object.</param>
+ <param name="actual">The actual object.</param>
+</member>
+<member name="M:FsUnit.Assert.AreNotSame``1(``0,``0,System.String,System.Object[])">
+ <summary>
+ Asserts that two objects do not refer to the same object.
+ If they are not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected object.</param>
+ <param name="actual">The actual object.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.AreNotSame``1(``0,``0,System.String)">
+ <summary>
+ Asserts that two objects do not refer to the same object.
+ If they are not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected object.</param>
+ <param name="actual">The actual object.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.AreNotSame``1(``0,``0)">
+ <summary>
+ Asserts that two objects do not refer to the same object.
+ If they are not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected object.</param>
+ <param name="actual">The actual object.</param>
+</member>
+<member name="M:FsUnit.Assert.AreNotEqual``1(``0,``0,System.String,System.Object[])">
+ <summary>
+ Verifies that two values are not equal.
+ If they are, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected value.</param>
+ <param name="actual">The actual value.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.AreNotEqual``1(``0,``0,System.String)">
+ <summary>
+ Verifies that two values are not equal.
+ If they are, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected value.</param>
+ <param name="actual">The actual value.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.AreNotEqual``1(``0,``0)">
+ <summary>
+ Verifies that two values are not equal.
+ If they are, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected value.</param>
+ <param name="actual">The actual value.</param>
+</member>
+<member name="M:FsUnit.Assert.AreEqual``1(``0,``0,System.String,System.Object[])">
+ <summary>
+ Verifies that two values are equal.
+ If they are not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected value.</param>
+ <param name="actual">The actual value.</param>
+ <param name="message">The message to display in case of failure.</param>
+ <param name="args">Array of objects to be used in formatting the message.</param>
+</member>
+<member name="M:FsUnit.Assert.AreEqual``1(``0,``0,System.String)">
+ <summary>
+ Verifies that two values are equal.
+ If they are not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected value.</param>
+ <param name="actual">The actual value.</param>
+ <param name="message">The message to display in case of failure.</param>
+</member>
+<member name="M:FsUnit.Assert.AreEqual``1(``0,``0)">
+ <summary>
+ Verifies that two values are equal.
+ If they are not, then an NUnit.Framework.AssertException is thrown.
+ </summary>
+ <param name="expected">The expected value.</param>
+ <param name="actual">The actual value.</param>
+</member>
+<member name="T:FsUnit.Assert">
+<summary>
+ Generic test assertions.
+</summary>
+</member>
+<member name="T:FsUnit.TopLevelOperators.FsUnitDepricated">
+<summary>
+ Deprecated operators. These will be removed in a future version of FsUnit.
+</summary>
+</member>
+</members>
+</doc>
