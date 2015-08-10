@@ -62,7 +62,7 @@ packages/*
 
 # FAKE & Paket
 packages/FAKE
-tools/paket/paket.exe
+.paket/paket.exe
 
 # Generated Doc Files
 docs/content/License.md
