@@ -161,6 +161,7 @@ namespace MathNet.Numerics.Optimization
         /// list of error values for each vertex
         /// </summary>
         /// <param name="vertices"></param>
+        /// <param name="objectiveFunction"></param>
         /// <returns></returns>
         private static double[] InitializeErrorValues(Vector<double>[] vertices, IObjectiveFunction objectiveFunction)
         {
@@ -177,6 +178,7 @@ namespace MathNet.Numerics.Optimization
         /// Check whether the points in the error profile have so little range that we
         /// consider ourselves to have converged
         /// </summary>
+        /// <param name="convergenceTolerance"></param>
         /// <param name="errorProfile"></param>
         /// <param name="errorValues"></param>
         /// <returns></returns>
@@ -273,6 +275,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="errorProfile"></param>
         /// <param name="vertices"></param>
         /// <param name="errorValues"></param>
+        /// <param name="objectiveFunction"></param>
         /// <returns></returns>
         private static double TryToScaleSimplex(double scaleFactor, ref ErrorProfile errorProfile, Vector<double>[] vertices,
                                           double[] errorValues, IObjectiveFunction objectiveFunction)
@@ -306,6 +309,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="errorProfile"></param>
         /// <param name="vertices"></param>
         /// <param name="errorValues"></param>
+        /// <param name="objectiveFunction"></param>
         private static void ShrinkSimplex(ErrorProfile errorProfile, Vector<double>[] vertices, double[] errorValues,
                                       IObjectiveFunction objectiveFunction)
         {
