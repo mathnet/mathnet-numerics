@@ -117,6 +117,7 @@
     <Compile Include="OdeSolvers\RungeKutta.cs" />
     <Compile Include="Optimization\BaseEvaluation.cs" />
     <Compile Include="Optimization\BaseObjectiveFunction.cs" />
+    <Compile Include="Optimization\NelderMeadSimplex.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunctionBase.cs" />
     <Compile Include="Optimization\Exceptions.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\ObjectiveFunctionBase.cs" />
