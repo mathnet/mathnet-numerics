@@ -1,4 +1,36 @@
-﻿using MathNet.Numerics.LinearAlgebra;
+﻿// <copyright file="NelderMeadSimplex.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+// 
+// Copyright (c) 2009-2015 Math.NET
+// 
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+// Converted from code relased with a MIT liscense available at https://code.google.com/p/nelder-mead-simplex/
+
+using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +42,31 @@ namespace MathNet.Numerics.Optimization
     {
         private static readonly double JITTER = 1e-10d;           // a small value used to protect against floating point noise
 
-        public static MinimizationResult Regress(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, 
-            double convergenceTolerance, int maxEvaluations)
-        {
-            SimplexConstant[] simplexConstants = SimplexConstant.CreateFromVector(initialGuess);
+        public double ConvergenceTolerance { get; set; }
+        public int MaximumIterations { get; set; }
 
+        public NelderMeadSimplex(double convergenceTolerance, int maximumIterations)
+        {
+            ConvergenceTolerance = convergenceTolerance;
+            MaximumIterations = maximumIterations;
+        }
+
+        /// <summary>
+        /// Finds the minimum of the objective function
+        /// </summary>
+        /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
+        /// <param name="initialGuess">The intial guess</param>
+        /// <returns>The minimum point</returns>
+        public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess)
+        {
             // confirm that we are in a position to commence
             if (objectiveFunction == null)
-                throw new InvalidOperationException("ObjectiveFunction must be set to a valid ObjectiveFunctionDelegate");
+                throw new ArgumentNullException("objectiveFunction","ObjectiveFunction must be set to a valid ObjectiveFunctionDelegate");
 
-            if (simplexConstants == null)
-                throw new InvalidOperationException("SimplexConstants must be initialized");
+            if (initialGuess == null)
+                throw new ArgumentNullException("initialGuess", "initialGuess must be initialized");
+
+            SimplexConstant[] simplexConstants = SimplexConstant.CreateFromVector(initialGuess);
 
             // create the initial simplex
             int numDimensions = simplexConstants.Length;
@@ -40,7 +86,7 @@ namespace MathNet.Numerics.Optimization
                 errorProfile = _evaluateSimplex(errorValues);
 
                 // see if the range in point heights is small enough to exit
-                if (_hasConverged(convergenceTolerance, errorProfile, errorValues))
+                if (_hasConverged(ConvergenceTolerance, errorProfile, errorValues))
                 {
                     exitCondition = MinimizationResult.ExitCondition.Converged;
                     break;
@@ -72,13 +118,13 @@ namespace MathNet.Numerics.Optimization
                     }
                 }
                 // check to see if we have exceeded our alloted number of evaluations
-                if (evaluationCount >= maxEvaluations)
+                if (evaluationCount >= MaximumIterations)
                 {
                     exitCondition = MinimizationResult.ExitCondition.LackOfProgress;
                     break;
                 }
             }
-            var regressionResult = new MinimizationResult(null, evaluationCount, exitCondition);
+            var regressionResult = new MinimizationResult(objectiveFunction, evaluationCount, exitCondition);
             return regressionResult;
         }
 
