@@ -102,6 +102,7 @@
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
     <Compile Include="LinearAlgebra\CreateVector.cs" />
     <Compile Include="LinearRegression\Options.cs" />
+    <Compile Include="Optimization\NelderMeadSimplex.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunctionBase.cs" />
     <Compile Include="Optimization\Exceptions.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\ObjectiveFunctionBase.cs" />

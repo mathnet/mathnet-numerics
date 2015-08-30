@@ -13,7 +13,8 @@ namespace MathNet.Numerics.Optimization
             WeakWolfeCriteria,
             BoundTolerance,
             StrongWolfeCriteria,
-            LackOfFunctionImprovement
+            LackOfFunctionImprovement,
+            Converged
         }
 
         public Vector<double> MinimizingPoint { get { return FunctionInfoAtMinimum.Point; } }
