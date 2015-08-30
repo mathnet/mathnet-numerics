@@ -345,6 +345,7 @@
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStorageCombinatorsTests.cs" />
     <Compile Include="LinearAlgebraTests\VectorStorageCombinatorsTests.cs" />
+    <Compile Include="OptimizationTests\NelderMeadSimplexTests.cs" />
     <Compile Include="OptimizationTests\TestGoldenSectionMinimizer.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="OptimizationTests\BfgsTest.cs" />
