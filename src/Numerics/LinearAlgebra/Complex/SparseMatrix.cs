@@ -726,7 +726,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     CopyTo(result);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(2.0, _storage.Values, _storage.Values);
+                Control.LinearAlgebraProvider.ScaleArray(2.0, sparseResult._storage.Values, sparseResult._storage.Values);
                 return;
             }
 
