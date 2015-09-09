@@ -27,7 +27,6 @@
 using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
@@ -237,6 +236,46 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
                 for (var j = 0; j < matrix.ColumnCount; j++)
                 {
                     Assert.AreEqual(matrix[i, j], matrixA[i, j] + matrixB[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can add a matrix.
+        /// </summary>
+        /// <param name="mtx">Matrix name.</param>
+        [TestCase("Square3x3")]
+        [TestCase("Tall3x2")]
+        public void CanAddMatrixToSelf(string mtx)
+        {
+            var matrix = TestMatrices[mtx].Clone();
+
+            var result = matrix.Add(matrix);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(result[i, j], 2*matrix[i, j]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can subtract a matrix.
+        /// </summary>
+        /// <param name="mtx">Matrix name.</param>
+        [TestCase("Square3x3")]
+        [TestCase("Tall3x2")]
+        public void CanSubtractMatrixFromSelf(string mtx)
+        {
+            var matrix = TestMatrices[mtx].Clone();
+
+            var result = matrix.Subtract(matrix);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(result[i, j], 0d);
                 }
             }
         }

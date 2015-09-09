@@ -155,7 +155,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             return OfColumnArrays(data.Select(v => v.ToArray()).ToArray());
         }
-        
+
         /// <summary>
         /// Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
         /// Each enumerable in the master enumerable specifies a column.
@@ -725,7 +725,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     CopyTo(result);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(2.0f, _storage.Values, _storage.Values);
+                Control.LinearAlgebraProvider.ScaleArray(2.0f, sparseResult._storage.Values, sparseResult._storage.Values);
                 return;
             }
 
@@ -1095,7 +1095,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 for (var i = 0; i < RowCount; i++)
                 {
                     // Multiply row of matrix A on row of matrix B
- 
+
                     var startIndexThis = rowPointers[i];
                     var endIndexThis = rowPointers[i + 1];
 
