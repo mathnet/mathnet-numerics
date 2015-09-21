@@ -1,3 +1,6 @@
+### 3.7.1 - 2015-09-10
+* BUG: Linear Algebra: fix optimized path of adding a sparse matrix to itself.
+
 ### 3.7.0 - 2015-05-09
 * Statistics: RunningStatistics now propagates min/max on Combine, handles NaN on Push.
 * Statistics: new MovingStatistics providing descriptive statistics over a moving window *~Marcus Cuda*
