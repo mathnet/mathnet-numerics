@@ -336,6 +336,10 @@
       <Project>{b7cae5f4-a23f-4438-b5be-41226618b695}</Project>
       <Name>Numerics</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestData\TestData.csproj">
+      <Project>{af3253c9-4db5-45a0-98cf-c105fda9da47}</Project>
+      <Name>TestData</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
