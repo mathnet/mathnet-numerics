@@ -1,6 +1,10 @@
 Platform Support
 ================
 
+*We're currently planning what platforms we should support in the future.
+Consider to [vote for the platforms you need to be supported](http://discuss.mathdotnet.com/t/poll-what-platforms-should-math-net-numerics-support/60),
+especially if you need support for older or more exotic platforms.*
+
 Supported Platforms:
 
 - .Net 4.0, .Net 3.5 and Mono: Windows, Linux and Mac.

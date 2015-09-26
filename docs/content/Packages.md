@@ -10,6 +10,10 @@ Some but not all releases are also available as Zip files on
 The complete set of Zip and NuGet packages including symbol packages is available in
 [release archive](http://1drv.ms/1NlUeDT).
 
+*We're currently planning what platforms we should support in the future.
+Consider to [vote for the platforms you need to be supported](http://discuss.mathdotnet.com/t/poll-what-platforms-should-math-net-numerics-support/60),
+especially if you need support for older or more exotic platforms.*
+
 Math.NET Numerics
 -----------------
 
