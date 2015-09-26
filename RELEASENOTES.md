@@ -1,3 +1,20 @@
+### 3.8.0 - 2015-09-26
+* Distributions: PDF and CDF more robust for large distribution parameters.
+* Distributions: BetaScaled distribution.
+* Distributions: method to create a PERT distribution (based on BetaScaled) *~John C Barstow*
+* Distributions: Webull.Estimate *~Jon Larborn*
+* Random: NextBoolean extensions.
+* Root Finding: RootFinding.Secant (based on NewtonRaphson) *~grovesNL*
+* Linear Algebra: Matrix Rank calculation now uses a tolerance based on the matrix size.
+* Linear Algebra: Alternative CreateMatrix/Vector functions with type parameter on functions instead of type.
+* Linear Algebra: MKL LinearAlgebra provider requires at least native provider r9 (linear algebra v2.0).
+* Native Providers: automatic handling of intermediate work arrays/buffers in MKL and OpenBLAS providers *~Marcus Cuda, Kuan Bartel*
+* Native Providers: automatically use native provider if available.
+* Native Providers: new Control.TryUse* to make it simpler to use providers if available but without failing if not.
+* Native Providers: improved error state checking and handling.
+* Combinatorics: generate or select random permutation, combination or variation (shuffling)
+* Finance: rename CompoundMonthlyReturn to CompoundReturn (old now obsolete).
+
 ### 3.7.1 - 2015-09-10
 * BUG: Linear Algebra: fix optimized path of adding a sparse matrix to itself.
 

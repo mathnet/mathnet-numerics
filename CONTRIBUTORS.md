@@ -20,9 +20,9 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Alexander Karatarakis
 - Thomas Ibel
 - Gustavo Guerra
+- Kuan Bartel
 - Alexander Täschner
 - Hani Medhat
-- Kuan Bartel
 - Matthew A. Johnson
 - manyue
 - David Prince
@@ -38,6 +38,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Anders Gustafsson
 - Gauthier Segay
 - Hythem Sidky
+- John C Barstow
 - Justin Needham
 - Patrick van der Velde
 - Robin Neatherway
@@ -45,6 +46,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Ethar Alali
 - Feodor Fitsner
 - Iain McDonald
+- Jon Larborn
 - Kyle Parrigan
 - borfudin
 - Gregor959
@@ -54,6 +56,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Kosei ABE
 - Martin Posch
 - Matt Heffron
+- Max Malook
 - Paul Varkey
 - Sunny Ahuwanya
 - Till Hoffmann
@@ -62,6 +65,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - VicPara
 - Baltazar Bieniek
 - bstrausser
+- grovesNL
 - logophobia
 - mjmckp
 - nyuriks
