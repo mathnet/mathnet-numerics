@@ -1,11 +1,30 @@
-#!/bin/bash
-if test "$OS" = "Windows_NT"
+#!/usr/bin/env bash
+
+set -eu
+set -o pipefail
+
+cd `dirname $0`
+
+FSIARGS=""
+OS=${OS:-"unknown"}
+if [[ "$OS" != "Windows_NT" ]]
 then
-  # use .Net
-  [ ! -f .paket/paket.exe ] && .paket/paket.bootstrapper.exe
-  .paket/paket.exe $@
-else
-  # use mono
-  [ ! -f .paket/paket.exe ] && mono --runtime=v4.0 .paket/paket.bootstrapper.exe
-  mono --runtime=v4.0 .paket/paket.exe $@
+  FSIARGS="--fsiargs -d:MONO"
 fi
+
+function run() {
+  if [[ "$OS" != "Windows_NT" ]]
+  then
+    mono "$@"
+  else
+    "$@"
+  fi
+}
+
+if [[ "$OS" != "Windows_NT" ]] && [ ! -e ~/.config/.mono/certs ]
+then
+  mozroots --import --sync --quiet
+fi
+
+run .paket/paket.bootstrapper.exe
+run .paket/paket.exe "$@"

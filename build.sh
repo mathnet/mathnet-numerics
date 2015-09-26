@@ -21,12 +21,11 @@ function run() {
   fi
 }
 
-run .paket/paket.bootstrapper.exe
-
 if [[ "$OS" != "Windows_NT" ]] && [ ! -e ~/.config/.mono/certs ]
 then
   mozroots --import --sync --quiet
 fi
 
+run .paket/paket.bootstrapper.exe
 run .paket/paket.exe restore
 run packages/FAKE/tools/FAKE.exe "$@" $FSIARGS build.fsx

@@ -9,7 +9,7 @@
     <authors>@authors@</authors>
     <projectUrl>http://numerics.mathdotnet.com/</projectUrl>
     <iconUrl>http://www.mathdotnet.com/images/MathNet128.png</iconUrl>
-    <licenseUrl>http://numerics.mathdotnet.com/docs/License.html</licenseUrl>
+    <licenseUrl>http://numerics.mathdotnet.com/License.html</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>@tags@</tags>
     <releaseNotes>@releaseNotes@</releaseNotes>
