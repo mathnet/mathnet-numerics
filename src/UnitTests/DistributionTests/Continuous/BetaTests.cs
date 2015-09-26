@@ -356,7 +356,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             AssertHelpers.AlmostEqualRelative(pdfln, n.DensityLn(x), 13);
             AssertHelpers.AlmostEqualRelative(pdfln, Beta.PDFLn(a, b, x), 13);
         }
-
+        
         [TestCase(0.0, 0.0, 0.0, 0.5)]
         [TestCase(0.0, 0.0, 0.5, 0.5)]
         [TestCase(0.0, 0.0, 1.0, 1.0)]

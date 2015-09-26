@@ -90,6 +90,7 @@
     <Compile Include="DifferentiationTests\NumericalJacobianTests.cs" />
     <Compile Include="DistanceTests.cs" />
     <Compile Include="DistributionTests\CommonDistributionTests.cs" />
+    <Compile Include="DistributionTests\Continuous\BetaScaledTests.cs" />
     <Compile Include="DistributionTests\Continuous\BetaTests.cs" />
     <Compile Include="DistributionTests\Continuous\CauchyTests.cs" />
     <Compile Include="DistributionTests\Continuous\ChiSquareTests.cs" />
