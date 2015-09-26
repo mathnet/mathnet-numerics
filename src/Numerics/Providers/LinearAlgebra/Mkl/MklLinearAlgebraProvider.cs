@@ -174,9 +174,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
                 throw new NotSupportedException("MKL Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
             }
 
-            if (a != 0 || b != -1 || linearAlgebra <=0 || _nativeRevision < 4)
+            if (a != 0 || b != -1 || _nativeRevision < 4)
             {
-                throw new NotSupportedException("MKL Native Provider too old or not compatible. Consider upgrading to a newer version.");
+                throw new NotSupportedException("MKL Native Provider too old. Consider upgrading to a newer version.");
+            }
+
+            // we only support exactly one major version, since major version changes imply a breaking change.
+            if (linearAlgebra != 2)
+            {
+                throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting linear algebra v2 but provider implements v{0}.", linearAlgebra));
             }
 
             // set numerical consistency, precision and accuracy modes, if supported

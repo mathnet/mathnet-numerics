@@ -41,13 +41,14 @@ extern "C" {
 #endif
 
 		// COMMON/SHARED
-		case 64: return 8; // revision
+		case 64: return 9; // revision
 		case 65: return 1; // numerical consistency, precision and accuracy modes
 		case 66: return 1; // threading control
 		case 67: return 1; // memory management
 
 		// LINEAR ALGEBRA
-		case 128: return 1;	// basic dense linear algebra
+		case 128: return 2;	// basic dense linear algebra (major - breaking)
+		case 129: return 0;	// basic dense linear algebra (minor - non-breaking)
 
 		// OPTIMIZATION
 		case 256: return 0; // basic optimization

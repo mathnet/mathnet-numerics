@@ -48,5 +48,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     internal enum ProviderCapability : int
     {
         LinearAlgebra = 128,
+        LinearAlgebraMinor = 129,
     }
 }

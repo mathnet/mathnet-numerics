@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,6 +27,26 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-OpenBLAS", "src\UnitTests\UnitTests-OpenBLAS.csproj", "{96B903EF-3EE1-4569-803C-0482D2F5ED37}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{77CF160D-3AE0-45A2-8224-6322C28C2685}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		RELEASENOTES-CUDA.md = RELEASENOTES-CUDA.md
+		RELEASENOTES-MKL.md = RELEASENOTES-MKL.md
+		RELEASENOTES-OpenBLAS.md = RELEASENOTES-OpenBLAS.md
+		RELEASENOTES.md = RELEASENOTES.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{9275D8F1-84B4-404F-AC1F-EE1211C9F744}"
+	ProjectSection(SolutionItems) = preProject
+		docs\content\Build.md = docs\content\Build.md
+		docs\content\Compatibility.md = docs\content\Compatibility.md
+		docs\content\Contributing.md = docs\content\Contributing.md
+		docs\content\Contributors.md = docs\content\Contributors.md
+		docs\content\License.md = docs\content\License.md
+		docs\content\MKL.md = docs\content\MKL.md
+		docs\content\Packages.md = docs\content\Packages.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

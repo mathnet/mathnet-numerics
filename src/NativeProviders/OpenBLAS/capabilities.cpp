@@ -45,7 +45,8 @@ extern "C" {
 		case 66: return 1; // threading control
 
 		// LINEAR ALGEBRA
-		case 128: return 1;	// basic dense linear algebra
+		case 128: return 1;	// basic dense linear algebra (major - breaking)
+		case 129: return 0;	// basic dense linear algebra (minor - non-breaking)
 
 		default: return 0; // unknown or not supported
 
