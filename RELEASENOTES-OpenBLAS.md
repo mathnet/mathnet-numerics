@@ -1,2 +1,2 @@
-### 0.1.0-alpha - TBA
+### 0.2.0 - 2015-09-26
 * Initial version

@@ -745,7 +745,7 @@ let provideDocExtraFiles() =
     for (fileName, docName, title) in releaseNotesDocs do
         String.concat Environment.NewLine
           [ "# " + title
-            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [MKL Native Provider](ReleaseNotes-MKL.html)"
+            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [MKL Native Provider](ReleaseNotes-MKL.html) | [OpenBLAS Native Provider](ReleaseNotes-OpenBLAS.html)"
             ""
             ReadFileAsString fileName ]
         |> ReplaceFile ("docs/content" </> docName)
