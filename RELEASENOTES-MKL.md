@@ -1,3 +1,7 @@
+### 2.0.0 - 2015-09-26
+* r9 with Intel MKL 11.3
+* Linear Algebra v2.0: automatic work array/buffer handling (breaking change)
+
 ### 1.8.0 - 2015-05-09
 * r8 with Intel MKL 11.2 Update 3
 * New combined NuGet package including both 32 and 64 bit builds and a proper build target (Win only)

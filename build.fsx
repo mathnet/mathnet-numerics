@@ -206,7 +206,7 @@ let mklWinPack =
       Version = mklPackageVersion
       Title = "Math.NET Numerics - MKL Native Provider for Windows (x64 and x86)"
       Summary = ""
-      Description = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
+      Description = "Intel MKL native libraries for Math.NET Numerics on Windows."
       ReleaseNotes = mklReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
@@ -223,38 +223,53 @@ let mklWin32Pack =
         Id = "MathNet.Numerics.MKL.Win-x86"
         Title = "Math.NET Numerics - MKL Native Provider for Windows (x86)"
         Files =
-          [ @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some "content", None;
-            @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
+          [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Win-x86.targets", None;
+            @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some @"build\x86", None;
+            @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some @"build\x86", None ] }
 
 let mklWin64Pack =
     { mklWinPack with
         Id = "MathNet.Numerics.MKL.Win-x64"
         Title = "Math.NET Numerics - MKL Native Provider for Windows (x64)"
         Files =
-          [ @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some "content", None;
-            @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
+          [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Win-x64.targets", None;
+            @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some @"build\x64", None;
+            @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some @"build\x64", None ] }
 
-let mklLinux32Pack =
-    { Id = "MathNet.Numerics.MKL.Linux-x86"
+let mklLinuxPack =
+    { Id = "MathNet.Numerics.MKL.Linux"
       Version = mklPackageVersion
-      Title = "Math.NET Numerics - MKL Native Provider for Linux (x86)"
+      Title = "Math.NET Numerics - MKL Native Provider for Linux (x64 and x86)"
       Summary = ""
-      Description = "Intel MKL native libraries for Math.NET Numerics. Requires an Intel MKL license if redistributed."
+      Description = "Intel MKL native libraries for Math.NET Numerics on Linux."
       ReleaseNotes = mklReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       Dependencies = []
       Files =
-        [ @"..\..\out\MKL\Linux\x86\libiomp5.so", Some "content", None;
-          @"..\..\out\MKL\Linux\x86\MathNet.Numerics.MKL.dll", Some "content", None ] }
+        [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Linux.targets", None;
+          @"..\..\out\MKL\Linux\x64\libiomp5.so", Some @"build\x64", None;
+          @"..\..\out\MKL\Linux\x64\MathNet.Numerics.MKL.dll", Some @"build\x64", None;
+          @"..\..\out\MKL\Linux\x86\libiomp5.so", Some @"build\x86", None;
+          @"..\..\out\MKL\Linux\x86\MathNet.Numerics.MKL.dll", Some @"build\x86", None ] }
+
+let mklLinux32Pack =
+    { mklLinuxPack with
+        Id = "MathNet.Numerics.MKL.Linux-x86"
+        Title = "Math.NET Numerics - MKL Native Provider for Linux (x86)"
+        Files =
+          [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Linux-x86.targets", None;
+            @"..\..\out\MKL\Linux\x86\libiomp5.so", Some @"build\x86", None;
+            @"..\..\out\MKL\Linux\x86\MathNet.Numerics.MKL.dll", Some @"build\x86", None ] }
 
 let mklLinux64Pack =
-    { mklLinux32Pack with
+    { mklLinuxPack with
         Id = "MathNet.Numerics.MKL.Linux-x64"
         Title = "Math.NET Numerics - MKL Native Provider for Linux (x64)"
         Files =
-          [ @"..\..\out\MKL\Linux\x64\libiomp5.so", Some "content", None;
-            @"..\..\out\MKL\Linux\x64\MathNet.Numerics.MKL.dll", Some "content", None ] }
+          [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Linux-x64.targets", None;
+            @"..\..\out\MKL\Linux\x64\libiomp5.so", Some @"build\x64", None;
+            @"..\..\out\MKL\Linux\x64\MathNet.Numerics.MKL.dll", Some @"build\x64", None ] }
 
 let mklWinBundle =
     { Id = "MathNet.Numerics.MKL.Win"
@@ -270,7 +285,7 @@ let mklLinuxBundle =
       Title = "Math.NET Numerics MKL Native Provider for Linux"
       ReleaseNotesFile = "RELEASENOTES-MKL.md"
       FsLoader = false
-      Packages = [ mklLinux32Pack; mklLinux64Pack ] }
+      Packages = [ mklLinuxPack; mklLinux32Pack; mklLinux64Pack ] }
 
 
 // CUDA NATIVE PROVIDER PACKAGES
