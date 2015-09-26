@@ -89,6 +89,49 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
+        /// Create a Beta PERT distribution, used in risk analysis and other domains where an expert forecast
+        /// is used to construct an underlying beta distribution.
+        /// </summary>
+        /// <param name="min">The minimum value.</param>
+        /// <param name="max">The maximum value.</param>
+        /// <param name="likely">The most likely value (mode).</param>
+        /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
+        /// <returns>The Beta distribution derived from the PERT parameters.</returns>
+        public static BetaScaled PERT(double min, double max, double likely, System.Random randomSource = null)
+        {
+            if (min > max || likely > max || likely < min)
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            // specified to make the formulas match the literature;
+            // traditionally set to 4 so that the range between min and max
+            // represents six standard deviations (sometimes called
+            // "the six-sigma assumption").
+            const double lambda = 4;
+
+            // calculate the mean
+            double mean = (min + max + lambda * likely) / (lambda + 2);
+
+            // derive the shape parameters a and b
+            double a;
+
+            // special case where mean and mode are identical
+            if (mean == likely)
+            {
+                a = (lambda / 2) + 1;
+            }
+            else
+            {
+                a = ((mean - min) * (2 * likely - min - max)) / ((likely - mean) * (max - min));
+            }
+
+            double b = (a * (max - mean)) / (mean - min);
+
+            return new BetaScaled(a, b, min, max - min, randomSource);
+        }
+
+        /// <summary>
         /// A string representation of the distribution.
         /// </summary>
         /// <returns>A string representation of the BetaScaled distribution.</returns>
