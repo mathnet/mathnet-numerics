@@ -2,7 +2,7 @@
 * Distributions: PDF and CDF more robust for large distribution parameters.
 * Distributions: BetaScaled distribution.
 * Distributions: method to create a PERT distribution (based on BetaScaled) *~John C Barstow*
-* Distributions: Webull.Estimate *~Jon Larborn*
+* Distributions: Weibull.Estimate *~Jon Larborn*
 * Random: NextBoolean extensions.
 * Root Finding: RootFinding.Secant (based on NewtonRaphson) *~grovesNL*
 * Linear Algebra: Matrix Rank calculation now uses a tolerance based on the matrix size.
@@ -11,7 +11,7 @@
 * Native Providers: automatic handling of intermediate work arrays/buffers in MKL and OpenBLAS providers *~Marcus Cuda, Kuan Bartel*
 * Native Providers: automatically use native provider if available.
 * Native Providers: new Control.TryUse* to make it simpler to use providers if available but without failing if not.
-* Native Providers: improved error state checking and handling.
+* Native Providers: improved error state checking and handling *~Marcus Cuda, Kuan Bartel*
 * Combinatorics: generate or select random permutation, combination or variation (shuffling)
 * Finance: rename CompoundMonthlyReturn to CompoundReturn (old now obsolete).
 
