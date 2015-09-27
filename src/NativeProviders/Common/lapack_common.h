@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstring>
+
 const int INSUFFICIENT_MEMORY = -999999;
 
 #ifndef LAPACK_MEMORY

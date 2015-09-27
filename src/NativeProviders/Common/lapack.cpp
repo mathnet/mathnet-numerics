@@ -3,6 +3,7 @@
 #include "lapack.h"
 #include "lapack_common.h"
 #include <algorithm>
+#include <cstring>
 
 template<typename T, typename GETRF>
 inline lapack_int lu_factor(lapack_int m, T a[], lapack_int ipiv[], GETRF getrf)
