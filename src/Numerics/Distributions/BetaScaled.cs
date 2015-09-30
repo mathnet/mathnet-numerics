@@ -153,7 +153,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the α shape parameter of the BetaScaled distribution. Range: α > 0.
+        /// Gets the α shape parameter of the BetaScaled distribution. Range: α > 0.
         /// </summary>
         public double A
         {
@@ -161,7 +161,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the β shape parameter of the BetaScaled distribution. Range: β > 0.
+        /// Gets the β shape parameter of the BetaScaled distribution. Range: β > 0.
         /// </summary>
         public double B
         {
@@ -169,7 +169,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the location (μ) of the BetaScaled distribution.
+        /// Gets the location (μ) of the BetaScaled distribution.
         /// </summary>
         public double Location
         {
@@ -177,7 +177,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (σ) of the BetaScaled distribution. Range: σ > 0.
+        /// Gets the scale (σ) of the BetaScaled distribution. Range: σ > 0.
         /// </summary>
         public double Scale
         {

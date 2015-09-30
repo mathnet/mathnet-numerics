@@ -176,7 +176,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the proportion of ratios.
+        /// Gets the proportion of ratios.
         /// </summary>
         public double[] P
         {
@@ -184,7 +184,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the number of trials.
+        /// Gets the number of trials.
         /// </summary>
         public int N
         {

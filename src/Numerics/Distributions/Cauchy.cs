@@ -110,7 +110,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the location  (x0) of the distribution.
+        /// Gets the location  (x0) of the distribution.
         /// </summary>
         public double Location
         {
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (γ) of the distribution. Range: γ > 0.
+        /// Gets the scale (γ) of the distribution. Range: γ > 0.
         /// </summary>
         public double Scale
         {

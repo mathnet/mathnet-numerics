@@ -175,7 +175,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the mean (μ) of the normal distribution.
+        /// Gets the mean (μ) of the normal distribution.
         /// </summary>
         public double Mean
         {
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the standard deviation (σ) of the normal distribution. Range: σ ≥ 0.
+        /// Gets the standard deviation (σ) of the normal distribution. Range: σ ≥ 0.
         /// </summary>
         public double StdDev
         {
@@ -191,7 +191,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the variance of the normal distribution.
+        /// Gets the variance of the normal distribution.
         /// </summary>
         public double Variance
         {
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the precision of the normal distribution.
+        /// Gets the precision of the normal distribution.
         /// </summary>
         public double Precision
         {
@@ -207,7 +207,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
+        /// Gets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {

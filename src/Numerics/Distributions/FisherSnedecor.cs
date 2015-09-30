@@ -104,7 +104,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the first degree of freedom (d1) of the distribution. Range: d1 > 0.
+        /// Gets the first degree of freedom (d1) of the distribution. Range: d1 > 0.
         /// </summary>
         public double DegreesOfFreedom1
         {
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the second degree of freedom (d2) of the distribution. Range: d2 > 0.
+        /// Gets the second degree of freedom (d2) of the distribution. Range: d2 > 0.
         /// </summary>
         public double DegreesOfFreedom2
         {

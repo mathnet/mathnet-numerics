@@ -108,7 +108,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (xm) of the distribution. Range: xm > 0.
+        /// Gets the scale (xm) of the distribution. Range: xm > 0.
         /// </summary>
         public double Scale
         {
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the shape (α) of the distribution. Range: α > 0.
+        /// Gets the shape (α) of the distribution. Range: α > 0.
         /// </summary>
         public double Shape
         {

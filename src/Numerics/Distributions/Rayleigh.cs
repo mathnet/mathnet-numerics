@@ -103,7 +103,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (σ) of the distribution. Range: σ > 0.
+        /// Gets the scale (σ) of the distribution. Range: σ > 0.
         /// </summary>
         public double Scale
         {

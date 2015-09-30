@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the degrees of freedom (k) of the Chi-Squared distribution. Range: k > 0.
+        /// Gets the degrees of freedom (k) of the Chi-Squared distribution. Range: k > 0.
         /// </summary>
         public double DegreesOfFreedom
         {

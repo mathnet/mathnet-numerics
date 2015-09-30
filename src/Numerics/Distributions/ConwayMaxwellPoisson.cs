@@ -131,7 +131,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the lambda (λ) parameter. Range: λ > 0.
+        /// Gets the lambda (λ) parameter. Range: λ > 0.
         /// </summary>
         public double Lambda
         {
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the rate of decay (ν) parameter. Range: ν ≥ 0.
+        /// Gets the rate of decay (ν) parameter. Range: ν ≥ 0.
         /// </summary>
         public double Nu
         {

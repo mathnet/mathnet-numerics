@@ -147,7 +147,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the log-scale (μ) (mean of the logarithm) of the distribution.
+        /// Gets the log-scale (μ) (mean of the logarithm) of the distribution.
         /// </summary>
         public double Mu
         {
@@ -155,7 +155,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the shape (σ) (standard deviation of the logarithm) of the distribution. Range: σ ≥ 0.
+        /// Gets the shape (σ) (standard deviation of the logarithm) of the distribution. Range: σ ≥ 0.
         /// </summary>
         public double Sigma
         {

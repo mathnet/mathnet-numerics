@@ -153,7 +153,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the mean. (M)
+        /// Gets the mean. (M)
         /// </summary>
         /// <value>The mean of the distribution.</value>
         public Matrix<double> Mean
@@ -162,7 +162,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the row covariance. (V)
+        /// Gets the row covariance. (V)
         /// </summary>
         /// <value>The row covariance.</value>
         public Matrix<double> RowCovariance
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the column covariance. (K)
+        /// Gets the column covariance. (K)
         /// </summary>
         /// <value>The column covariance.</value>
         public Matrix<double> ColumnCovariance

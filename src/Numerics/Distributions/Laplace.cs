@@ -115,7 +115,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the location (μ) of the Laplace distribution.
+        /// Gets the location (μ) of the Laplace distribution.
         /// </summary>
         public double Location
         {
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (b) of the Laplace distribution. Range: b > 0.
+        /// Gets the scale (b) of the Laplace distribution. Range: b > 0.
         /// </summary>
         public double Scale
         {

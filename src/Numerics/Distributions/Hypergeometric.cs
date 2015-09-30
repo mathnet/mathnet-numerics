@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the size of the population (N).
+        /// Gets the size of the population (N).
         /// </summary>
         public int Population
         {
@@ -129,7 +129,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the number of draws without replacement (n).
+        /// Gets the number of draws without replacement (n).
         /// </summary>
         public int Draws
         {
@@ -137,7 +137,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the number successes within the population (K, M).
+        /// Gets the number successes within the population (K, M).
         /// </summary>
         public int Success
         {

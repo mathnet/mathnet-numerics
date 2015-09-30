@@ -98,7 +98,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the rate (λ) parameter of the distribution. Range: λ ≥ 0.
+        /// Gets the rate (λ) parameter of the distribution. Range: λ ≥ 0.
         /// </summary>
         public double Rate
         {
