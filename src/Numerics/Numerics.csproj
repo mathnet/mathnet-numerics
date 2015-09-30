@@ -90,6 +90,7 @@
     <Compile Include="Differentiation\NumericalJacobian.cs" />
     <Compile Include="Distributions\BetaScaled.cs" />
     <Compile Include="Distributions\Triangular.cs" />
+    <Compile Include="Distributions\TruncatedNormal.cs" />
     <Compile Include="Euclid.cs" />
     <Compile Include="Generate.cs" />
     <Compile Include="GoodnessOfFit.cs" />
