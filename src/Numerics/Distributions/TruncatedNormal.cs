@@ -51,6 +51,7 @@ namespace MathNet.Numerics.Distributions {
 		readonly Normal _uncorrectedNormal;
 		/// <summary>
 		/// The total density of the uncorrected normal distribution which is within the lower and upper bounds.
+		/// Referred to as "Z" in the wikipedia equations. Z = Φ(UpperBound) - Φ(LowerBound).
 		/// </summary>
 		readonly double _cumulativeDensityWithinBounds;
 
@@ -140,6 +141,9 @@ namespace MathNet.Numerics.Distributions {
 			get { return _upperBound; }
 		}
 
+		/// <summary>
+		/// Gets the mean (μ) of the truncated normal distribution.
+		/// </summary>
 		public double Mean 
 		{
 			get 
@@ -150,33 +154,69 @@ namespace MathNet.Numerics.Distributions {
 			}
 		}
 
-		public double Variance {
-			get {
+		/// <summary>
+		/// Gets the variance of the truncated normal distribution. 
+		/// </summary>
+		public double Variance 
+		{
+			get 
+			{
+				//TODO might need special handling for cases where either or both bounds are infinity
+
+				//Second term
+				var secondNumerator = _lowerBound * _uncorrectedNormal.Density(_lowerBound) - _upperBound * _uncorrectedNormal.Density(_upperBound);
+				var secordTerm = secondNumerator / _cumulativeDensityWithinBounds;
+
+				//Third term
+				var thirdNumerator = _uncorrectedNormal.Density(_lowerBound) - _uncorrectedNormal.Density(_upperBound);
+				var thirdTerm = (thirdNumerator / _cumulativeDensityWithinBounds) * (thirdNumerator / _cumulativeDensityWithinBounds);
+
+				var sumOfTerms = 1 + secordTerm + thirdTerm;
+
+				return _stdDev * _stdDev * sumOfTerms;
+			}
+		}
+
+		/// <summary>
+		/// Gets the standard deviation (σ) of the truncated normal distribution. Range: σ ≥ 0.
+		/// </summary>
+		public double StdDev 
+		{
+			get { return Math.Sqrt(Variance); }
+		}
+
+		/// <summary>
+		/// Gets the entropy of the truncated normal distribution.
+		/// </summary>
+		public double Entropy 
+		{
+			get 
+			{
+				var firstTerm = Constants.LogSqrt2PiE + Math.Log(_stdDev + _cumulativeDensityWithinBounds);
+
+				var secondNumerator = _lowerBound * _uncorrectedNormal.Density(_lowerBound) - _upperBound * _uncorrectedNormal.Density(_upperBound);
+				var secondTerm = secondNumerator / (2 * _cumulativeDensityWithinBounds);
+
+				return firstTerm + secondTerm;
+			}
+		}
+
+		public double Skewness
+		{
+			get 
+			{
 				throw new NotImplementedException();
 			}
 		}
 
-		public double StdDev {
-			get {
-				throw new NotImplementedException();
-			}
-		}
-
-		public double Entropy {
-			get {
-				throw new NotImplementedException();
-			}
-		}
-
-		public double Skewness {
-			get {
-				throw new NotImplementedException();
-			}
-		}
-
-		public double Median {
-			get {
-				throw new NotImplementedException();
+		/// <summary>
+		/// Gets the median of the truncated distribution.
+		/// </summary>
+		public double Median 
+		{
+			get 
+			{
+				return InverseCumulativeDistribution(0.5);
 			}
 		}
 
@@ -214,15 +254,21 @@ namespace MathNet.Numerics.Distributions {
 			return Math.Log(Density(x));
 		}
 
-		public double Sample() {
+		//TODO: implement sampling, use method described by Mazet here: http://miv.u-strasbg.fr/mazet/rtnorm/
+		// see implmentations listed on that page for examples.
+
+		public double Sample() 
+		{
 			throw new NotImplementedException();
 		}
 
-		public void Samples(double[] values) {
+		public void Samples(double[] values) 
+		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<double> Samples() {
+		public IEnumerable<double> Samples() 
+		{
 			throw new NotImplementedException();
 		}
 
@@ -242,5 +288,21 @@ namespace MathNet.Numerics.Distributions {
 			double cumulative = _uncorrectedNormal.CumulativeDistribution(x) - _uncorrectedNormal.CumulativeDistribution(_lowerBound);
 			return cumulative / _cumulativeDensityWithinBounds;
 		}
+
+		/// <summary>
+		/// Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+		/// at the given probability. This is also known as the quantile or percent point function.
+		/// </summary>
+		/// <param name="p">The location at which to compute the inverse cumulative density.</param>
+		/// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
+		/// <seealso cref="InvCDF"/>
+		public double InverseCumulativeDistribution(double p) 
+		{
+			//TODO check that this is correct with someone.
+			var pUntruncated = p * _cumulativeDensityWithinBounds + _uncorrectedNormal.CumulativeDistribution(_lowerBound);
+
+			return _uncorrectedNormal.InverseCumulativeDistribution(pUntruncated);
+		}
+
 	}
 }
