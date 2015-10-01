@@ -89,6 +89,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 new StudentT(0.0, 1.0, 5.0),
                 new Triangular(0, 1, 0.7),
                 new Weibull(1.0, 1.0),
+					 new TruncatedNormal(0, 1.0, -5.0, 5.0), //Finite
+					 new TruncatedNormal(0, 1.0, -5.0),      //Semi-finite
             };
 
         [Test]
