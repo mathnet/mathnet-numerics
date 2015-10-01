@@ -117,7 +117,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the stability (α) of the distribution. Range: 2 ≥ α > 0.
+        /// Gets the stability (α) of the distribution. Range: 2 ≥ α > 0.
         /// </summary>
         public double Alpha
         {
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.
+        /// Gets The skewness (β) of the distribution. Range: 1 ≥ β ≥ -1.
         /// </summary>
         public double Beta
         {
@@ -133,7 +133,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (c) of the distribution. Range: c > 0.
+        /// Gets the scale (c) of the distribution. Range: c > 0.
         /// </summary>
         public double Scale
         {
@@ -141,7 +141,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the location (μ) of the distribution.
+        /// Gets the location (μ) of the distribution.
         /// </summary>
         public double Location
         {

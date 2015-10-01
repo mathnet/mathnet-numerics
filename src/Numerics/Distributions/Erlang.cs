@@ -133,7 +133,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the shape (k) of the Erlang distribution. Range: k ≥ 0.
+        /// Gets the shape (k) of the Erlang distribution. Range: k ≥ 0.
         /// </summary>
         public int Shape
         {
@@ -141,7 +141,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.
+        /// Gets the rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.
         /// </summary>
         public double Rate
         {
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale of the Erlang distribution.
+        /// Gets the scale of the Erlang distribution.
         /// </summary>
         public double Scale
         {

@@ -101,7 +101,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the probability of generating a one. Range: 0 ≤ p ≤ 1.
+        /// Gets the probability of generating a one. Range: 0 ≤ p ≤ 1.
         /// </summary>
         public double P
         {

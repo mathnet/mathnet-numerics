@@ -203,7 +203,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the probability mass vector (non-negative ratios) of the multinomial.
+        /// Gets the probability mass vector (non-negative ratios) of the multinomial.
         /// </summary>
         /// <remarks>Sometimes the normalized probability vector cannot be represented exactly in a floating point representation.</remarks>
         public double[] P

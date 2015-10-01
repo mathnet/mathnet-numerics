@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the lower bound of the distribution.
+        /// Gets the lower bound of the distribution.
         /// </summary>
         public double LowerBound
         {
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the upper bound of the distribution.
+        /// Gets the upper bound of the distribution.
         /// </summary>
         public double UpperBound
         {

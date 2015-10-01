@@ -94,7 +94,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Returns the smallest value from the unsorted data array.
+        /// Returns the largest value from the unsorted data array.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>

@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the α shape parameter of the Beta distribution. Range: α ≥ 0.
+        /// Gets the α shape parameter of the Beta distribution. Range: α ≥ 0.
         /// </summary>
         public double A
         {
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the β shape parameter of the Beta distribution. Range: β ≥ 0.
+        /// Gets the β shape parameter of the Beta distribution. Range: β ≥ 0.
         /// </summary>
         public double B
         {

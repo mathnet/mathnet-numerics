@@ -103,7 +103,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the Poisson distribution parameter λ. Range: λ > 0.
+        /// Gets the Poisson distribution parameter λ. Range: λ > 0.
         /// </summary>
         public double Lambda
         {
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the random number generator which is used to draw random samples.
+        /// Gets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {

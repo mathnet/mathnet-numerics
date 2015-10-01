@@ -118,7 +118,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the shape (k) of the Weibull distribution. Range: k > 0.
+        /// Gets the shape (k) of the Weibull distribution. Range: k > 0.
         /// </summary>
         public double Shape
         {
@@ -126,7 +126,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the scale (λ) of the Weibull distribution. Range: λ > 0.
+        /// Gets the scale (λ) of the Weibull distribution. Range: λ > 0.
         /// </summary>
         public double Scale
         {

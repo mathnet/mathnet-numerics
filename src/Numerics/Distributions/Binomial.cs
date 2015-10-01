@@ -110,7 +110,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the success probability in each trial. Range: 0 ≤ p ≤ 1.
+        /// Gets the success probability in each trial. Range: 0 ≤ p ≤ 1.
         /// </summary>
         public double P
         {
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets or sets the number of trials. Range: n ≥ 0.
+        /// Gets the number of trials. Range: n ≥ 0.
         /// </summary>
         public int N
         {
