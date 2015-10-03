@@ -110,6 +110,44 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Evaluates the geometric mean of the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double GeometricMean(IEnumerable<double> stream)
+        {
+            ulong m = 0;
+            double sum = 0;
+
+            foreach (var d in stream)
+            {
+                sum += Math.Log(d);
+                m++;
+            }
+
+            return m > 0 ? Math.Exp(sum / m) : double.NaN;
+        }
+
+        /// <summary>
+        /// Evaluates the harmonic mean of the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double HarmonicMean(IEnumerable<double> stream)
+        {
+            ulong m = 0;
+            double sum = 0;
+
+            foreach (var d in stream)
+            {
+                sum += 1.0 / d;
+                m++;
+            }
+
+            return m > 0 ? m/sum : double.NaN;
+        }
+
+        /// <summary>
         /// Estimates the unbiased population variance from the provided samples as enumerable sequence, in a single pass without memoization.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.

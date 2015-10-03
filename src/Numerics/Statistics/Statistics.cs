@@ -118,6 +118,34 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Evaluates the geometric mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the geometric mean of.</param>
+        /// <returns>The geometric mean of the sample.</returns>
+        public static double GeometricMean(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.GeometricMean(array)
+                : StreamingStatistics.GeometricMean(data);
+        }
+
+        /// <summary>
+        /// Evaluates the harmonic mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the harmonic mean of.</param>
+        /// <returns>The harmonic mean of the sample.</returns>
+        public static double HarmonicMean(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.HarmonicMean(array)
+                : StreamingStatistics.HarmonicMean(data);
+        }
+
+        /// <summary>
         /// Estimates the unbiased population variance from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.

@@ -164,6 +164,48 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Evaluates the geometric mean of the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double GeometricMean(double[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double sum = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                sum += Math.Log(data[i]);
+            }
+
+            return Math.Exp(sum/data.Length);
+        }
+
+        /// <summary>
+        /// Evaluates the harmonic mean of the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double HarmonicMean(double[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double sum = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                sum += 1.0/data[i];
+            }
+
+            return data.Length/sum;
+        }
+
+        /// <summary>
         /// Estimates the unbiased population variance from the provided samples as unsorted array.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.

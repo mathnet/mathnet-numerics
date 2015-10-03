@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,7 +30,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
@@ -71,6 +70,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => Statistics.Minimum(data), Throws.Exception);
             Assert.That(() => Statistics.Maximum(data), Throws.Exception);
             Assert.That(() => Statistics.Mean(data), Throws.Exception);
+            Assert.That(() => Statistics.HarmonicMean(data), Throws.Exception);
+            Assert.That(() => Statistics.GeometricMean(data), Throws.Exception);
             Assert.That(() => Statistics.Median(data), Throws.Exception);
             Assert.That(() => Statistics.Quantile(data, 0.3), Throws.Exception);
             Assert.That(() => Statistics.Variance(data), Throws.Exception);
@@ -99,6 +100,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => ArrayStatistics.Maximum(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.OrderStatisticInplace(data, 1), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.Mean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.HarmonicMean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.GeometricMean(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.Variance(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.StandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.PopulationVariance(data), Throws.Exception.TypeOf<NullReferenceException>());
@@ -112,6 +115,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => StreamingStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Maximum(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Mean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.HarmonicMean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.GeometricMean(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Variance(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.StandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.PopulationVariance(data), Throws.Exception.TypeOf<NullReferenceException>());
@@ -134,6 +139,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => Statistics.Minimum(data));
             Assert.DoesNotThrow(() => Statistics.Maximum(data));
             Assert.DoesNotThrow(() => Statistics.Mean(data));
+            Assert.DoesNotThrow(() => Statistics.HarmonicMean(data));
+            Assert.DoesNotThrow(() => Statistics.GeometricMean(data));
             Assert.DoesNotThrow(() => Statistics.Median(data));
             Assert.DoesNotThrow(() => Statistics.Quantile(data, 0.3));
             Assert.DoesNotThrow(() => Statistics.Variance(data));
