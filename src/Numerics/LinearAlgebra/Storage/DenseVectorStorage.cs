@@ -158,7 +158,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             if (arrayData != null)
             {
                 var copy = new T[arrayData.Length];
-                Array.Copy(arrayData, copy, arrayData.Length);
+                Array.Copy(arrayData, 0, copy, 0, arrayData.Length);
                 return new DenseVectorStorage<T>(copy.Length, copy);
             }
 

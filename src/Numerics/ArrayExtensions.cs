@@ -71,7 +71,7 @@ namespace MathNet.Numerics
         {
             Array.Copy(source, 0, dest, 0, source.Length);
         }
-        
+
         /// <summary>
         /// Copies the values from on array to another.
         /// </summary>

@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -397,7 +397,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 sparseResult._storage.Indices = new int[_storage.ValueCount];
                 Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount*Constants.SizeOfInt);
                 sparseResult._storage.Values = new Complex[_storage.ValueCount];
-                Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
+                Array.Copy(_storage.Values, 0, sparseResult._storage.Values, 0, _storage.ValueCount);
             }
 
             Control.LinearAlgebraProvider.ScaleArray(-Complex.One, sparseResult._storage.Values, sparseResult._storage.Values);
@@ -418,7 +418,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     sparseResult._storage.Indices = new int[_storage.ValueCount];
                     Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount*Constants.SizeOfInt);
                     sparseResult._storage.Values = new Complex[_storage.ValueCount];
-                    Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
+                    Array.Copy(_storage.Values, 0, sparseResult._storage.Values, 0, _storage.ValueCount);
                 }
 
                 Control.LinearAlgebraProvider.ConjugateArray(sparseResult._storage.Values, sparseResult._storage.Values);
@@ -460,7 +460,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     sparseResult._storage.Indices = new int[_storage.ValueCount];
                     Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
                     sparseResult._storage.Values = new Complex[_storage.ValueCount];
-                    Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
+                    Array.Copy(_storage.Values, 0, sparseResult._storage.Values, 0, _storage.ValueCount);
                 }
 
                 Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);

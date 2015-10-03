@@ -463,7 +463,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (ValueCount != 0)
             {
-                Array.Copy(Values, target.Values, ValueCount);
+                Array.Copy(Values, 0, target.Values, 0, ValueCount);
                 Buffer.BlockCopy(Indices, 0, target.Indices, 0, ValueCount * Constants.SizeOfInt);
             }
         }

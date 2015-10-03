@@ -203,7 +203,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         protected override double[] Copy(double[] source)
         {
             var destination = new double[_length];
-            Array.Copy(source, destination, _length);
+            Array.Copy(source, 0, destination, 0, _length);
             return destination;
         }
 
@@ -270,8 +270,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
             var increment = new double[length];
             var decrement = new double[length];
 
-            Array.Copy(x, increment, length);
-            Array.Copy(x, decrement, length);
+            Array.Copy(x, 0, increment, 0, length);
+            Array.Copy(x, 0, decrement, 0, length);
 
             for (int i = 0; i < length; i++)
             {

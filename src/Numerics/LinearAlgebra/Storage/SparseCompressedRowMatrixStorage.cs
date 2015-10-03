@@ -880,7 +880,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (ValueCount != 0)
             {
-                Array.Copy(Values, target.Values, ValueCount);
+                Array.Copy(Values, 0, target.Values, 0, ValueCount);
                 Buffer.BlockCopy(ColumnIndices, 0, target.ColumnIndices, 0, ValueCount*Constants.SizeOfInt);
                 Buffer.BlockCopy(RowPointers, 0, target.RowPointers, 0, (RowCount + 1)*Constants.SizeOfInt);
             }
@@ -2037,7 +2037,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (!ReferenceEquals(state, target))
             {
-                Array.Copy(state, target, state.Length);
+                Array.Copy(state, 0, target, 0, state.Length);
             }
             if (zeros == Zeros.AllowSkip)
             {

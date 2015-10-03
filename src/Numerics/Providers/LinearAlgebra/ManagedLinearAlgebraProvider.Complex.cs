@@ -1794,7 +1794,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var sol = new Complex[b.Length];
 
             // Copy B matrix to "sol", so B data will not be changed
-            Array.Copy(b, sol, b.Length);
+            Array.Copy(b, 0, sol, 0, b.Length);
 
             // Compute Y = transpose(Q)*B
             var column = new Complex[rowsA];
@@ -1896,7 +1896,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
 
             var work = new Complex[rowsA];
-  
+
             const int maxiter = 1000;
 
             var e = new Complex[columnsA];
@@ -2507,7 +2507,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // Copy stemp to s with size adjustment. We are using ported copy of linpack's svd code and it uses
             // a singular vector of length rows+1 when rows < columns. The last element is not used and needs to be removed.
             // We should port lapack's svd routine to remove this problem.
-            Array.Copy(stemp, s, Math.Min(rowsA, columnsA));
+            Array.Copy(stemp, 0, s, 0, Math.Min(rowsA, columnsA));
         }
 
         /// <summary>
@@ -2704,7 +2704,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), "matrixD");
             }
             var matrixCopy = new Complex[matrix.Length];
-            Array.Copy(matrix, matrixCopy, matrix.Length);
+            Array.Copy(matrix, 0, matrixCopy, 0, matrix.Length);
 
             if (isSymmetric)
             {
