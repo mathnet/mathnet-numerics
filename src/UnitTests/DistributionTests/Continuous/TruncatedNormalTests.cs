@@ -110,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		[TestCase(Double.PositiveInfinity, 1.0)]
 		public void ValidateCumulativeNoBounds(double x, double p) {
 			var truncatedNormal = new TruncatedNormal(5.0, 2.0);
-			AssertHelpers.AlmostEqualRelative(p, truncatedNormal.CumulativeDistribution(x), 14);
+			AssertHelpers.AlmostEqualRelative(p, truncatedNormal.CumulativeDistribution(x), 14); 
 		}
 
 		/// <summary>
@@ -155,6 +155,61 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 				AssertHelpers.AlmostEqualRelative(pdf, n.Density(x), 14);
 			}
 		}
+
+		/// <summary>
+		/// Validate density when only one bound is are specified. 
+		/// </summary>
+		/// <param name="mean">Mean value.</param>
+		/// <param name="sdev">Standard deviation value.</param>
+		[TestCase(10.0, 0.1, -5.0)]
+		[TestCase(-5.0, 1.0, 3.0)]
+		[TestCase(0.0, 10.0, -10.0)]
+		[TestCase(10.0, 100.0, 15.0)]
+		[TestCase(-5.0, Double.PositiveInfinity, -5.0)]
+		public void ValidateDensitySemiFinite(double mean, double sdev, double lowerBound) {
+			var truncatedNormal = new TruncatedNormal(mean, sdev, lowerBound);
+			var normal = new Normal(mean, sdev);
+			for (var i = 0; i < 11; i++) {
+				var x = i - 5.0;
+				double density;
+				if(x < lowerBound) {
+					density = 0d;
+				} else {
+					var d = (mean - x) / sdev;
+					var pdf = Math.Exp(-0.5 * d * d) / (sdev * Constants.Sqrt2Pi);
+					density = pdf / (1.0 - normal.CumulativeDistribution(lowerBound));
+				}
+				AssertHelpers.AlmostEqualRelative(density, truncatedNormal.Density(x), 14);
+			}
+		}
+
+		/// <summary>
+		/// Validate density when both bounds are specified.
+		/// </summary>
+		/// <param name="mean">Mean value.</param>
+		/// <param name="sdev">Standard deviation value.</param>
+		[TestCase(10.0, 0.1, -5.0, 5.0)]
+		[TestCase(-5.0, 1.0, double.NegativeInfinity, -5.0)]
+		[TestCase(0.0, 10.0, -10.0, 15.0)]
+		[TestCase(10.0, 100.0, 15.0, 100.0)]
+		[TestCase(-5.0, Double.PositiveInfinity, -5.0, 0.0)]
+		public void ValidateDensityFinite(double mean, double sdev, double lowerBound, double upperBound) {
+			var truncatedNormal = new TruncatedNormal(mean, sdev, lowerBound, upperBound);
+			var normal = new Normal(mean, sdev);
+			for (var i = 0; i < 11; i++) {
+				var x = i - 5.0;
+				double density;
+				if (x < lowerBound || upperBound < x) {
+					density = 0d;
+				} else {
+					var d = (mean - x) / sdev;
+					var pdf = Math.Exp(-0.5 * d * d) / (sdev * Constants.Sqrt2Pi);
+					density = pdf / (normal.CumulativeDistribution(upperBound) - normal.CumulativeDistribution(lowerBound));
+				}
+				AssertHelpers.AlmostEqualRelative(density, truncatedNormal.Density(x), 14);
+			}
+		}
+
 
 		/// <summary>
 		/// Validate density log when no bounds are specified. Uses same 

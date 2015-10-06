@@ -72,9 +72,9 @@ namespace MathNet.Numerics.Distributions {
 		readonly double _cumulativeDensityWithinBounds;
 
 		/// <summary>
-		/// Initializes a new instance of the TruncatedNormal class with a particular mean, standard deviation, lower bound, and upper bound. The distribution will
-		/// be initialized with the default <seealso cref="System.Random"/> random number generator. The mean and standard deviation are that of the untruncated
-		/// normal distribution.
+		/// Initializes a new instance of the TruncatedNormal class. The distribution will
+		/// be initialized with the default <seealso cref="System.Random"/> random number generator. The mean 
+		/// and standard deviation are that of the untruncated normal distribution.
 		/// </summary>
 		/// <param name="mean">The mean (μ) of the untruncated distribution.</param>
 		/// <param name="stddev">The standard deviation (σ) of the untruncated distribution. Range: σ > 0.</param>
@@ -88,22 +88,26 @@ namespace MathNet.Numerics.Distributions {
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the Normal class with a particular mean and standard deviation. The distribution will
-		/// be initialized with the default <seealso cref="System.Random"/> random number generator.
+		/// Initializes a new instance of the TruncatedNormal class. The distribution will
+		/// be initialized with the provided <seealso cref="System.Random"/> random number generator.
 		/// </summary>
-		/// <param name="mean">The mean (μ) of the normal distribution.</param>
-		/// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ > 0.</param>
+		/// <param name="untruncatedMean">The mean (μ) of the untruncated normal distribution.</param>
+		/// <param name="untruncatedStdDev">The standard deviation (σ) of the untruncated normal distribution. Range: σ > 0.</param>
 		/// <param name="randomSource">The random number generator which is used to draw random samples.</param>
-		public TruncatedNormal(double mean, double stddev, System.Random randomSource, double lowerBound = double.NegativeInfinity, double upperBound = double.PositiveInfinity) 
+		/// <param name="lowerBound">The inclusive lower bound of the truncated distribution. Default is double.NegativeInfinity.</param>
+		/// <param name="upperBound">The inclusive upper bound of the truncated distribution. Must be larger than <paramref name="lowerBound"/>.
+		/// Default is double.PositiveInfinity.</param>
+
+		public TruncatedNormal(double untruncatedMean, double untruncatedStdDev, System.Random randomSource, double lowerBound = double.NegativeInfinity, double upperBound = double.PositiveInfinity) 
 		{
-			if (!IsValidParameterSet(mean, stddev, lowerBound, upperBound)) 
+			if (!IsValidParameterSet(untruncatedMean, untruncatedStdDev, lowerBound, upperBound)) 
 			{
 				throw new ArgumentException(Resources.InvalidDistributionParameters);
 			}
 
 			_random = randomSource ?? SystemRandomSource.Default;
-			_mu = mean;
-			_sigma = stddev;
+			_mu = untruncatedMean;
+			_sigma = untruncatedStdDev;
 			_lowerBound = lowerBound;
 			_upperBound = upperBound;
 			_alpha = (_lowerBound - _mu) / _sigma;
@@ -279,22 +283,26 @@ namespace MathNet.Numerics.Distributions {
 			return _standardNormal.DensityLn((x - _mu) / _sigma) - Math.Log(_sigma) - Math.Log(_cumulativeDensityWithinBounds);
       }
 
-		//TODO: implement sampling, use method described by Mazet here: http://miv.u-strasbg.fr/mazet/rtnorm/
-		// see implementations listed on that page for examples.
 
 		public double Sample() 
 		{
-			throw new NotImplementedException();
+			//TODO: implement sampling more efficiently/accurately, use method described by Mazet here: http://miv.u-strasbg.fr/mazet/rtnorm/
+			// see implementations listed on that page for examples.
+			return InverseCumulativeDistribution(RandomSource.NextDouble());
 		}
 
 		public void Samples(double[] values) 
 		{
-			throw new NotImplementedException();
+			for(int i = 0; i < values.Length; i++) {
+				values[i] = Sample();
+			}
 		}
 
 		public IEnumerable<double> Samples() 
 		{
-			throw new NotImplementedException();
+			while (true) {
+				yield return Sample();
+			}
 		}
 
 		/// <summary>
