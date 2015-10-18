@@ -104,12 +104,11 @@ or just copy them e.g. to `/usr/lib`.
 For details see Mono's [Interop with Native Libraries](http://www.mono-project.com/docs/advanced/pinvoke/#mac-os-x-framework-and-dylib-search-path).
 
 To build the MKL native provider :
-- make sure you've a valid [Intel MKL](https://software.intel.com/en-us/qualify-for-free-software/academicresearcher) licence installed on your mac (look at opt/intel)
-- open the terminal
-- cd to the folder mathnet-numerics/src/NativeProviders/OSX
-- run the .sh script by typping sh mkl_build.sh
-- ... wait for the build
-- check the mathnet-numerics/out/MKL /x86 and /x64 folders : you should see the li
+1. Make sure you've a valid [intel MKL](https://software.intel.com/en-us/qualify-for-free-software/academicresearcher) licence installed on your mac (look at opt/intel). If not, you can get a free trial on intel's web site.
+1. Open the terminal
+2. cd to the folder mathnet-numerics/src/NativeProviders/OSX
+3. Run the .sh script by typping sh mkl_build.sh
+4. ... wait for the build
 
 	[lang=sh]
 	lionel:~ Lionel$ cd /Users/Lionel/Public/Git/GitHub/mathnet-numerics/src/NativeProviders/OSX
@@ -117,7 +116,17 @@ To build the MKL native provider :
 	mkl_build.sh
 	lionel:OSX Lionel$ sh mkl_build.sh
 
+5. Check the /x86 and /x64 folders in mathnet-numerics/out/MKL : you should now find the libiomp5.dylib and MathNet.Numerics.MKL.dll libaries.
 
+6. you need to add the path to the generated libraies in your `DYLD_LIBRARY_PATH` environnement variable (which you can move to the folder of you choice before). To do that, open your /Users/Lionel/.bas_profile.sh file with a text editor and add the following statements :
+
+	[lang=sh]
+	export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/Users/Lionel/../mathnet-numerics/out/MKL/OSX/x64
+	export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/Users/Lionel/../mathnet-numerics/out/MKL/OSX/x86
+
+Of course replace `Lionel` by your account login.
+
+Have a look a the example down this page to compare MKL-provider vs. managed-provider performances.
 
 
 F# Interactive
