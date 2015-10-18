@@ -103,6 +103,22 @@ or just copy them e.g. to `/usr/lib`.
 
 For details see Mono's [Interop with Native Libraries](http://www.mono-project.com/docs/advanced/pinvoke/#mac-os-x-framework-and-dylib-search-path).
 
+To build the MKL native provider :
+- make sure you've a valid [Intel MKL](https://software.intel.com/en-us/qualify-for-free-software/academicresearcher) licence installed on your mac (look at opt/intel)
+- open the terminal
+- cd to the folder mathnet-numerics/src/NativeProviders/OSX
+- run the .sh script by typping sh mkl_build.sh
+- ... wait for the build
+- check the mathnet-numerics/out/MKL /x86 and /x64 folders : you should see the li
+
+	[lang=sh]
+	lionel:~ Lionel$ cd /Users/Lionel/Public/Git/GitHub/mathnet-numerics/src/NativeProviders/OSX
+	lionel:OSX Lionel$ ls
+	mkl_build.sh
+	lionel:OSX Lionel$ sh mkl_build.sh
+
+
+
 
 F# Interactive
 --------------
