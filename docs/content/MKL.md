@@ -116,9 +116,9 @@ To build the MKL native provider :
 	mkl_build.sh
 	lionel:OSX Lionel$ sh mkl_build.sh
 
-5. Check the /x86 and /x64 folders in mathnet-numerics/out/MKL : you should now find the libiomp5.dylib and MathNet.Numerics.MKL.dll libaries.
+5. Check the /x86 and /x64 folders in mathnet-numerics/out/MKL : you should now find the `libiomp5.dylib` and `MathNet.Numerics.MKL.dll` libaries.
 
-6. you need to add the path to the generated libraies in your `DYLD_LIBRARY_PATH` environnement variable (which you can move to the folder of you choice before). To do that, open your /Users/Lionel/.bas_profile.sh file with a text editor and add the following statements :
+6. you need to add the path to the generated libraies in your `DYLD_LIBRARY_PATH` environnement variable (which you can move to the folder of you choice before). To do that, open your /Users/Lionel/.bas_profile.sh file with a text editor and add the following statements.
 
 	[lang=sh]
 	export DYLD_LIBRARY_PATH=$DYLD_LIBRARY_PATH:/Users/Lionel/../mathnet-numerics/out/MKL/OSX/x64
