@@ -349,6 +349,18 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         /// <summary>
+        /// Add data equal to the lower bound of a histogram.
+        /// </summary>
+        [Test]
+        public void AddDataEqualToLowerBound()
+        {
+            var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 3, 0.0, 10.0);
+            Assert.DoesNotThrow(() => h.AddData(0.0));
+            
+            Assert.AreEqual(2, h[0].Count);
+        }
+
+        /// <summary>
         /// Small dataset histogram without bounds.
         /// </summary>
         [Test]
