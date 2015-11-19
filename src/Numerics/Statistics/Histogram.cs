@@ -344,7 +344,7 @@ namespace MathNet.Numerics.Statistics
             // Sort if needed.
             LazySort();
 
-            if (d < LowerBound)
+            if (d <= LowerBound)
             {
                 // Make the lower bound just slightly smaller than the datapoint so it is contained in this bucket.
                 _buckets[0].LowerBound = d.Decrement();
