@@ -1,4 +1,4 @@
-﻿// <copyright file="DescriptiveStatistics.cs" company="Math.NET">
+﻿// <copyright file="RunningStatistics.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -33,6 +33,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace MathNet.Numerics.Statistics
 {
@@ -40,15 +41,29 @@ namespace MathNet.Numerics.Statistics
     /// Running statistics accumulator, allows updating by adding values
     /// or by combining two accumulators.
     /// </summary>
+    [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class RunningStatistics
     {
+        [DataMember(Order = 1)]
         long _n;
-        double _m1;
-        double _m2;
-        double _m3;
-        double _m4;
+
+        [DataMember(Order = 2)]
         double _min = double.PositiveInfinity;
+
+        [DataMember(Order = 3)]
         double _max = double.NegativeInfinity;
+
+        [DataMember(Order = 4)]
+        double _m1;
+
+        [DataMember(Order = 5)]
+        double _m2;
+
+        [DataMember(Order = 6)]
+        double _m3;
+
+        [DataMember(Order = 7)]
+        double _m4;
 
         public RunningStatistics()
         {
