@@ -40,6 +40,12 @@ namespace MathNet.Numerics.Statistics
     /// A <see cref="Histogram"/> consists of a series of <see cref="Bucket"/>s,
     /// each representing a region limited by a lower bound (exclusive) and an upper bound (inclusive).
     /// </summary>
+    /// <remarks>
+    /// This type declares a DataContract for out of the box ephemeral serialization
+    /// with engines like DataContractSerializer, Protocol Buffers and FsPickler,
+    /// but does not guarantee any compatibility between versions.
+    /// It is not recommended to rely on this mechanism for durable persistance.
+    /// </remarks>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class Bucket :

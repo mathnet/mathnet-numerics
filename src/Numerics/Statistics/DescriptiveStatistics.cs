@@ -39,8 +39,14 @@ namespace MathNet.Numerics.Statistics
     /// NIST standard of accuracy for mean, variance, and standard deviation
     /// (the only statistics they provide exact values for) and exceeds them
     /// in increased accuracy mode.
+    /// Recommendation: consider to use RunningStatistics instead.
     /// </summary>
-    /// <remarks>Consider to use RunningStatistics instead.</remarks>
+    /// <remarks>
+    /// This type declares a DataContract for out of the box ephemeral serialization
+    /// with engines like DataContractSerializer, Protocol Buffers and FsPickler,
+    /// but does not guarantee any compatibility between versions.
+    /// It is not recommended to rely on this mechanism for durable persistance.
+    /// </remarks>
     [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class DescriptiveStatistics
     {

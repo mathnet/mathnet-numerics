@@ -41,6 +41,12 @@ namespace MathNet.Numerics.Statistics
     /// Running statistics accumulator, allows updating by adding values
     /// or by combining two accumulators.
     /// </summary>
+    /// <remarks>
+    /// This type declares a DataContract for out of the box ephemeral serialization
+    /// with engines like DataContractSerializer, Protocol Buffers and FsPickler,
+    /// but does not guarantee any compatibility between versions.
+    /// It is not recommended to rely on this mechanism for durable persistance.
+    /// </remarks>
     [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class RunningStatistics
     {
