@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace MathNet.Numerics.Statistics
 {
@@ -38,8 +39,15 @@ namespace MathNet.Numerics.Statistics
     /// NIST standard of accuracy for mean, variance, and standard deviation
     /// (the only statistics they provide exact values for) and exceeds them
     /// in increased accuracy mode.
+    /// Recommendation: consider to use RunningStatistics instead.
     /// </summary>
-    /// <remarks>Consider to use RunningStatistics instead.</remarks>
+    /// <remarks>
+    /// This type declares a DataContract for out of the box ephemeral serialization
+    /// with engines like DataContractSerializer, Protocol Buffers and FsPickler,
+    /// but does not guarantee any compatibility between versions.
+    /// It is not recommended to rely on this mechanism for durable persistance.
+    /// </remarks>
+    [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class DescriptiveStatistics
     {
         /// <summary>
@@ -104,24 +112,28 @@ namespace MathNet.Numerics.Statistics
         /// Gets the size of the sample.
         /// </summary>
         /// <value>The size of the sample.</value>
+        [DataMember(Order = 1)]
         public long Count { get; private set; }
 
         /// <summary>
         /// Gets the sample mean.
         /// </summary>
         /// <value>The sample mean.</value>
+        [DataMember(Order = 2)]
         public double Mean { get; private set; }
 
         /// <summary>
         /// Gets the unbiased population variance estimator (on a dataset of size N will use an N-1 normalizer).
         /// </summary>
         /// <value>The sample variance.</value>
+        [DataMember(Order = 3)]
         public double Variance { get; private set; }
 
         /// <summary>
         /// Gets the unbiased population standard deviation (on a dataset of size N will use an N-1 normalizer).
         /// </summary>
         /// <value>The sample standard deviation.</value>
+        [DataMember(Order = 4)]
         public double StandardDeviation { get; private set; }
 
         /// <summary>
@@ -129,6 +141,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <value>The sample skewness.</value>
         /// <remarks>Returns zero if <see cref="Count"/> is less than three. </remarks>
+        [DataMember(Order = 5)]
         public double Skewness { get; private set; }
 
         /// <summary>
@@ -136,18 +149,21 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <value>The sample kurtosis.</value>
         /// <remarks>Returns zero if <see cref="Count"/> is less than four. </remarks>
+        [DataMember(Order = 6)]
         public double Kurtosis { get; private set; }
 
         /// <summary>
         /// Gets the maximum sample value.
         /// </summary>
         /// <value>The maximum sample value.</value>
+        [DataMember(Order = 7)]
         public double Maximum { get; private set; }
 
         /// <summary>
         /// Gets the minimum sample value.
         /// </summary>
         /// <value>The minimum sample value.</value>
+        [DataMember(Order = 8)]
         public double Minimum { get; private set; }
 
         /// <summary>

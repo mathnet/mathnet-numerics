@@ -75,6 +75,8 @@
       <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
       <Name>Numerics</Name>
     </ProjectReference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayHelpers.cs" />
@@ -398,6 +400,7 @@
     <Compile Include="StatisticsTests\MCMCTests\UnivariateHybridMCTest.cs" />
     <Compile Include="StatisticsTests\MCMCTests\UnivariateSliceSamplerTests.cs" />
     <Compile Include="StatisticsTests\PercentileTests.cs" />
+    <Compile Include="StatisticsTests\StatisticsSerializationTests.cs" />
     <Compile Include="StatisticsTests\StatisticsTests.cs" />
     <Compile Include="StatisticsTests\StatTestData.cs" />
     <Compile Include="TrigonometryTest.cs" />

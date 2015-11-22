@@ -28,18 +28,26 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Text;
+using MathNet.Numerics.Properties;
+
 namespace MathNet.Numerics.Statistics
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using Properties;
-
     /// <summary>
     /// A <see cref="Histogram"/> consists of a series of <see cref="Bucket"/>s,
     /// each representing a region limited by a lower bound (exclusive) and an upper bound (inclusive).
     /// </summary>
+    /// <remarks>
+    /// This type declares a DataContract for out of the box ephemeral serialization
+    /// with engines like DataContractSerializer, Protocol Buffers and FsPickler,
+    /// but does not guarantee any compatibility between versions.
+    /// It is not recommended to rely on this mechanism for durable persistance.
+    /// </remarks>
     [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class Bucket :
 #if PORTABLE
    IComparable<Bucket>
@@ -71,11 +79,13 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Lower Bound of the Bucket.
         /// </summary>
+        [DataMember(Order = 1)]
         public double LowerBound { get; set; }
 
         /// <summary>
         /// Upper Bound of the Bucket.
         /// </summary>
+        [DataMember(Order = 2)]
         public double UpperBound { get; set; }
 
         /// <summary>
@@ -84,6 +94,7 @@ namespace MathNet.Numerics.Statistics
         /// <remarks>
         /// Value may be NaN if this was constructed as a <see cref="IComparer{Bucket}"/> argument.
         /// </remarks>
+        [DataMember(Order = 3)]
         public double Count { get; set; }
 
         /// <summary>
@@ -245,16 +256,19 @@ namespace MathNet.Numerics.Statistics
     /// A class which computes histograms of data.
     /// </summary>
     [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class Histogram
     {
         /// <summary>
         /// Contains all the <c>Bucket</c>s of the <c>Histogram</c>.
         /// </summary>
+        [DataMember(Order = 1)]
         private readonly List<Bucket> _buckets;
 
         /// <summary>
         /// Indicates whether the elements of <c>buckets</c> are currently sorted.
         /// </summary>
+        [DataMember(Order = 2)]
         private bool _areBucketsSorted;
 
         /// <summary>
