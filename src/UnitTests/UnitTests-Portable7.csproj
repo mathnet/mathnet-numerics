@@ -52,6 +52,8 @@
       <Project>{25E6E93B-56A2-4F14-8458-03665F122B3F}</Project>
       <Name>Numerics-Portable7</Name>
     </ProjectReference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="**\*.cs" Exclude="Properties\Settings.Designer.cs">
