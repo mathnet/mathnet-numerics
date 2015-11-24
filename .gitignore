@@ -36,6 +36,7 @@ _TeamCity*
 *.aps
 *.opensdf
 *.cachefile
+*.swp
 
 # Upgrades
 _UpgradeReport_Files/

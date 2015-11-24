@@ -750,15 +750,41 @@ let provideDocExtraFiles() =
             ReadFileAsString fileName ]
         |> ReplaceFile ("docs/content" </> docName)
 
+let buildDocumentationTarget fsiargs target =
+    trace (sprintf "Building documentation (%s), this could take some time, please wait..." target)
+    let fakePath = "packages" @@ "FAKE" @@ "tools" @@ "FAKE.exe"
+    let fakeStartInfo script workingDirectory args fsiargs environmentVars =
+        (fun (info: System.Diagnostics.ProcessStartInfo) ->
+            info.FileName <- System.IO.Path.GetFullPath fakePath
+            info.Arguments <- sprintf "%s --fsiargs -d:FAKE %s \"%s\"" args fsiargs script
+            info.WorkingDirectory <- workingDirectory
+            let setVar k v =
+                info.EnvironmentVariables.[k] <- v
+            for (k, v) in environmentVars do
+                setVar k v
+            setVar "MSBuild" msBuildExe
+            setVar "GIT" Git.CommandHelper.gitPath
+            setVar "FSI" fsiPath)
+    let executeFAKEWithOutput workingDirectory script fsiargs envArgs =
+        let exitCode =
+            ExecProcessWithLambdas
+                (fakeStartInfo script workingDirectory "" fsiargs envArgs)
+                TimeSpan.MaxValue false ignore ignore
+        System.Threading.Thread.Sleep 1000
+        exitCode
+    let exit = executeFAKEWithOutput "docs/tools" "build-docs.fsx" fsiargs ["target", target]
+    if exit <> 0 then
+        failwith "Generating documentation failed"
+    ()
+
 let generateDocs fail local =
-    let args = if local then [] else ["--define:RELEASE"]
-    if executeFSIWithArgs "docs/tools" "build-docs.fsx" args [] then
-         traceImportant "Docs generated"
-    else
-        if fail then
-            failwith "Generating documentation failed"
-        else
-            traceImportant "generating documentation failed"
+    let args = if local then "" else "--define:RELEASE"
+    try
+        buildDocumentationTarget args "Default"
+        traceImportant "Documentation generated"
+    with
+    | e when not fail ->
+        failwith "Generating documentation failed"
 
 Target "Docs" (fun _ ->
     provideDocExtraFiles ()
