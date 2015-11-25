@@ -1,3 +1,11 @@
+### 3.9.0 - 2015-11-25
+* Distributions: Normal.CDF avoids problematic subtraction by using Erfc instead of Erf.
+* Statistics: geometric and harmonic mean.
+* Statistics: DataContracts for ephemeral serialization on RunningStatistics, DescriptiveStatistics and Histogram.
+* BUG: Statistics: Histogram did not adjust lower bound correctly when value was equal to the bound *~Volker Breuer*
+* Linear Algebra: minor optimization on how we call Array.Copy.
+* BUG: Linear Algebra: fix bug in Complex and Complex32 SparseMatrix.ToTypeString.
+
 ### 3.8.0 - 2015-09-26
 * Distributions: PDF and CDF more robust for large distribution parameters.
 * Distributions: BetaScaled distribution.

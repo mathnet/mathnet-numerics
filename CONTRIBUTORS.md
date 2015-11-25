@@ -35,6 +35,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Phil Cleveland
 - Scott Stephens
 - Superbest
+- lionpeloux
 - Anders Gustafsson
 - Gauthier Segay
 - Hythem Sidky
@@ -49,6 +50,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Jon Larborn
 - Kyle Parrigan
 - borfudin
+- BenHewins
 - Gregor959
 - IUser
 - Iain Sproat
@@ -63,6 +65,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Tomas Petricek
 - ViK
 - VicPara
+- Volker Breuer
 - Baltazar Bieniek
 - bstrausser
 - grovesNL
