@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,16 +31,13 @@
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous 
+namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 {
 	[TestFixture, Category("Distributions")]
-	public class TruncatedNormalTests 
+	public class TruncatedNormalTests
 	{
-
 		/// <summary>
 		/// Can create a truncated normal without bounds.
 		/// </summary>
@@ -50,7 +47,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		[TestCase(0.0, 10.0)]
 		[TestCase(10.0, 100.0)]
 		[TestCase(-5.0, Double.PositiveInfinity)]
-		public void CanCreateWithoutBounds(double mean, double stdDev) 
+		public void CanCreateWithoutBounds(double mean, double stdDev)
 		{
 			var truncatedNormal = new TruncatedNormal(mean, stdDev);
 			Assert.IsTrue(double.IsNegativeInfinity(truncatedNormal.Minimum));
@@ -68,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		/// <param name="upper"></param>
 		[TestCase(0.0, -1.0,-10d, 10d)]
 		[TestCase(0.0, 1.0, 10d, 9d)]
-		public void TruncatedNormalCreateFailsWithBadParameters(double mean, double stdDev, double lower, double upper) 
+		public void TruncatedNormalCreateFailsWithBadParameters(double mean, double stdDev, double lower, double upper)
 		{
 			Assert.That(() => new TruncatedNormal(mean, stdDev, lower, upper), Throws.ArgumentException);
 		}
@@ -78,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		[TestCase(-6.0, 1.0, -5.0, 5.0)]
 		[TestCase(8.0, 1.0, -5.0, 5.0)]
 		[TestCase(15, 20.0, -20.0, 0.0)]
-		public void ValidateMode(double mean, double stdDev, double lower, double upper) 
+		public void ValidateMode(double mean, double stdDev, double lower, double upper)
 		{
 			double mode;
 			if(mean < lower) {
@@ -108,10 +105,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		[TestCase(6.0, .69146246127401310363770461060833773988360217555457859)]
 		[TestCase(10.0, 0.9937903346742238648330218954258077788721022530769078)]
 		[TestCase(Double.PositiveInfinity, 1.0)]
-		public void ValidateCumulativeNoBounds(double x, double p) 
+		public void ValidateCumulativeNoBounds(double x, double p)
 		{
 			var truncatedNormal = new TruncatedNormal(5.0, 2.0);
-			AssertHelpers.AlmostEqualRelative(p, truncatedNormal.CumulativeDistribution(x), 14); 
+			AssertHelpers.AlmostEqualRelative(p, truncatedNormal.CumulativeDistribution(x), 14);
 		}
 
 		/// <summary>
@@ -130,7 +127,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		[TestCase(6.0, .69146246127401310363770461060833773988360217555457859)]
 		[TestCase(10.0, 0.9937903346742238648330218954258077788721022530769078)]
 		[TestCase(Double.PositiveInfinity, 1.0)]
-		public void ValidateInverseCumulativeNoBounds(double x, double p) 
+		public void ValidateInverseCumulativeNoBounds(double x, double p)
 		{
 			var truncatedNormal = new TruncatedNormal(5.0, 2.0);
 			AssertHelpers.AlmostEqualRelative(x, truncatedNormal.InverseCumulativeDistribution(p), 14);
@@ -147,7 +144,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		[TestCase(0.0, 10.0)]
 		[TestCase(10.0, 100.0)]
 		[TestCase(-5.0, Double.PositiveInfinity)]
-		public void ValidateDensityNoBounds(double mean, double sdev) 
+		public void ValidateDensityNoBounds(double mean, double sdev)
 		{
 			var n = new TruncatedNormal(mean, sdev);
 			for (var i = 0; i < 11; i++) {
@@ -159,7 +156,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		}
 
 		/// <summary>
-		/// Validate density when only one bound is are specified. 
+		/// Validate density when only one bound is are specified.
 		/// </summary>
 		/// <param name="mean">Mean value.</param>
 		/// <param name="sdev">Standard deviation value.</param>
@@ -168,11 +165,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		[TestCase(0.0, 10.0, -10.0)]
 		[TestCase(10.0, 100.0, 15.0)]
 		[TestCase(-5.0, Double.PositiveInfinity, -5.0)]
-		public void ValidateDensitySemiFinite(double mean, double sdev, double lowerBound) 
+		public void ValidateDensitySemiFinite(double mean, double sdev, double lowerBound)
 		{
 			var truncatedNormal = new TruncatedNormal(mean, sdev, lowerBound);
 			var normal = new Normal(mean, sdev);
-			for (var i = 0; i < 11; i++) 
+			for (var i = 0; i < 11; i++)
 			{
 				var x = i - 5.0;
 				double density;
@@ -180,7 +177,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 				{
 					density = 0d;
 				}
-				else 
+				else
 				{
 					var d = (mean - x) / sdev;
 					var pdf = Math.Exp(-0.5 * d * d) / (sdev * Constants.Sqrt2Pi);
@@ -200,19 +197,19 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		[TestCase(0.0, 10.0, -10.0, 15.0)]
 		[TestCase(10.0, 100.0, 15.0, 100.0)]
 		[TestCase(-5.0, Double.PositiveInfinity, -5.0, 0.0)]
-		public void ValidateDensityFinite(double mean, double sdev, double lowerBound, double upperBound) 
+		public void ValidateDensityFinite(double mean, double sdev, double lowerBound, double upperBound)
 		{
 			var truncatedNormal = new TruncatedNormal(mean, sdev, lowerBound, upperBound);
 			var normal = new Normal(mean, sdev);
-			for (var i = 0; i < 11; i++) 
+			for (var i = 0; i < 11; i++)
 			{
 				var x = i - 5.0;
 				double density;
-				if (x < lowerBound || upperBound < x) 
+				if (x < lowerBound || upperBound < x)
 				{
 					density = 0d;
-				} 
-				else 
+				}
+				else
 				{
 					var d = (mean - x) / sdev;
 					var pdf = Math.Exp(-0.5 * d * d) / (sdev * Constants.Sqrt2Pi);
@@ -224,7 +221,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 
 
 		/// <summary>
-		/// Validate density log when no bounds are specified. Uses same 
+		/// Validate density log when no bounds are specified. Uses same
 		/// test cases as the Normal distribution as should be equivalent in this case.
 		/// </summary>
 		/// <param name="mean">Mean value.</param>
@@ -234,10 +231,10 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		[TestCase(0.0, 10.0)]
 		[TestCase(10.0, 100.0)]
 		[TestCase(-5.0, Double.PositiveInfinity)]
-		public void ValidateDensityLnNoBounds(double mean, double sdev) 
+		public void ValidateDensityLnNoBounds(double mean, double sdev)
 		{
 			var n = new TruncatedNormal(mean, sdev);
-			for (var i = 0; i < 11; i++) 
+			for (var i = 0; i < 11; i++)
 			{
 				var x = i - 5.0;
 				var d = (mean - x) / sdev;
@@ -247,7 +244,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		}
 
 		[Test]
-		public void CanSample() 
+		public void CanSample()
 		{
 			var truncatedNormal = new TruncatedNormal(5.0, 2.0, -10, 10.0);
 			truncatedNormal.Sample();
@@ -258,7 +255,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
 		/// Can sample sequence.
 		/// </summary>
 		[Test]
-		public void CanSampleSequence() 
+		public void CanSampleSequence()
 		{
 			var truncatedNormal = new TruncatedNormal(5.0, 2.0, -10, 10.0);
 			var ied = truncatedNormal.Samples();

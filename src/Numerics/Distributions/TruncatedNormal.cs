@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -42,24 +42,27 @@ namespace MathNet.Numerics.Distributions {
 	/// </summary>
 	public class TruncatedNormal : IContinuousDistribution
 	{
-
 		System.Random _random;
 
 		/// <summary>
 		/// Mean of the untruncated normal distribution.
 		/// </summary>
-		readonly double _mu; 
+		readonly double _mu;
+
 		/// <summary>
 		/// Standard deviation of the uncorrected normal distribution.
 		/// </summary>
 		readonly double _sigma;
+
 		readonly double _lowerBound;
 		readonly double _upperBound;
 		readonly Normal _standardNormal = new Normal(0.0, 1.0);
+
 		/// <summary>
 		/// Position in the standard normal distribution of the lower bound.
 		/// </summary>
 		readonly double _alpha;
+
 		/// <summary>
 		/// Position in the standard normal distribution of the upper bound.
 		/// </summary>
@@ -73,7 +76,7 @@ namespace MathNet.Numerics.Distributions {
 
 		/// <summary>
 		/// Initializes a new instance of the TruncatedNormal class. The distribution will
-		/// be initialized with the default <seealso cref="System.Random"/> random number generator. The mean 
+		/// be initialized with the default <seealso cref="System.Random"/> random number generator. The mean
 		/// and standard deviation are that of the untruncated normal distribution.
 		/// </summary>
 		/// <param name="mean">The mean (μ) of the untruncated distribution.</param>
@@ -81,10 +84,9 @@ namespace MathNet.Numerics.Distributions {
 		/// <param name="lowerBound">The inclusive lower bound of the truncated distribution. Default is double.NegativeInfinity.</param>
 		/// <param name="upperBound">The inclusive upper bound of the truncated distribution. Must be larger than <paramref name="lowerBound"/>.
 		/// Default is double.PositiveInfinity.</param>
-		public TruncatedNormal(double mean, double stddev, double lowerBound = double.NegativeInfinity, double upperBound = double.PositiveInfinity) 
-			:this(mean, stddev, SystemRandomSource.Default, lowerBound, upperBound) 
+		public TruncatedNormal(double mean, double stddev, double lowerBound = double.NegativeInfinity, double upperBound = double.PositiveInfinity)
+			: this(mean, stddev, SystemRandomSource.Default, lowerBound, upperBound)
 		{
-
 		}
 
 		/// <summary>
@@ -98,9 +100,9 @@ namespace MathNet.Numerics.Distributions {
 		/// <param name="upperBound">The inclusive upper bound of the truncated distribution. Must be larger than <paramref name="lowerBound"/>.
 		/// Default is double.PositiveInfinity.</param>
 
-		public TruncatedNormal(double untruncatedMean, double untruncatedStdDev, System.Random randomSource, double lowerBound = double.NegativeInfinity, double upperBound = double.PositiveInfinity) 
+		public TruncatedNormal(double untruncatedMean, double untruncatedStdDev, System.Random randomSource, double lowerBound = double.NegativeInfinity, double upperBound = double.PositiveInfinity)
 		{
-			if (!IsValidParameterSet(untruncatedMean, untruncatedStdDev, lowerBound, upperBound)) 
+			if (!IsValidParameterSet(untruncatedMean, untruncatedStdDev, lowerBound, upperBound))
 			{
 				throw new ArgumentException(Resources.InvalidDistributionParameters);
 			}
@@ -121,23 +123,24 @@ namespace MathNet.Numerics.Distributions {
 		/// </summary>
 		/// <param name="mean">The mean (μ) of the normal distribution.</param>
 		/// <param name="stddev">The standard deviation (σ) of the normal distribution. Range: σ > 0.</param>
-		public static bool IsValidParameterSet(double mean, double stddev, double lowerBound, double upperBound) 
+		public static bool IsValidParameterSet(double mean, double stddev, double lowerBound, double upperBound)
 		{
 			bool normalRequirements = Normal.IsValidParameterSet(mean, stddev) && stddev > 0;
 			bool boundsAreOrdered = lowerBound < upperBound;
 			return normalRequirements && boundsAreOrdered;
 		}
 
-		public override string ToString() {
+		public override string ToString()
+        {
 			return "TruncatedNormal(μ = " + _mu + ", σ = " + _sigma +", LowerBound = " + _lowerBound + ", UpperBound = " + _upperBound + ")";
 		}
 
-		/// <summary>
-		/// Gets the mode of the normal distribution.
-		/// </summary>
-		public double Mode 
+        /// <summary>
+        /// Gets the mode of the truncated normal distribution.
+        /// </summary>
+        public double Mode
 		{
-			get 
+			get
 			{
 				if (_mu < _lowerBound)
 					return _lowerBound;
@@ -150,7 +153,7 @@ namespace MathNet.Numerics.Distributions {
 		/// <summary>
 		/// Gets the minimum of the truncated normal distribution.
 		/// </summary>
-		public double Minimum 
+		public double Minimum
 		{
 			get { return _lowerBound; }
 		}
@@ -158,7 +161,7 @@ namespace MathNet.Numerics.Distributions {
 		/// <summary>
 		/// Gets the maximum of the truncated normal distribution.
 		/// </summary>
-		public double Maximum 
+		public double Maximum
 		{
 			get { return _upperBound; }
 		}
@@ -166,9 +169,9 @@ namespace MathNet.Numerics.Distributions {
 		/// <summary>
 		/// Gets the mean (μ) of the truncated normal distribution.
 		/// </summary>
-		public double Mean 
+		public double Mean
 		{
-			get 
+			get
 			{
 				var pdfDifference = _standardNormal.Density(_alpha) - _standardNormal.Density(_beta);
 				var diffFromUncorrected = pdfDifference * _sigma / _cumulativeDensityWithinBounds;
@@ -177,11 +180,11 @@ namespace MathNet.Numerics.Distributions {
 		}
 
 		/// <summary>
-		/// Gets the variance of the truncated normal distribution. 
+		/// Gets the variance of the truncated normal distribution.
 		/// </summary>
-		public double Variance 
+		public double Variance
 		{
-			get 
+			get
 			{
 				//Apparently "Barr and Sherrill (1999)" has a simpler expression for one sided truncations, if anyone has access...
 
@@ -209,7 +212,7 @@ namespace MathNet.Numerics.Distributions {
 		/// <summary>
 		/// Gets the standard deviation (σ) of the truncated normal distribution. Range: σ > 0.
 		/// </summary>
-		public double StdDev 
+		public double StdDev
 		{
 			get { return Math.Sqrt(Variance); }
 		}
@@ -217,9 +220,9 @@ namespace MathNet.Numerics.Distributions {
 		/// <summary>
 		/// Gets the entropy of the truncated normal distribution.
 		/// </summary>
-		public double Entropy 
+		public double Entropy
 		{
-			get 
+			get
 			{
 				var firstTerm = Constants.LogSqrt2PiE + Math.Log(_sigma + _cumulativeDensityWithinBounds);
 
@@ -232,7 +235,7 @@ namespace MathNet.Numerics.Distributions {
 
 		public double Skewness
 		{
-			get 
+			get
 			{
 				throw new NotImplementedException();
 			}
@@ -241,9 +244,9 @@ namespace MathNet.Numerics.Distributions {
 		/// <summary>
 		/// Gets the median of the truncated distribution.
 		/// </summary>
-		public double Median 
+		public double Median
 		{
-			get 
+			get
 			{
 				return InverseCumulativeDistribution(0.5);
 			}
@@ -252,7 +255,7 @@ namespace MathNet.Numerics.Distributions {
 		/// <summary>
 		/// Gets or sets the random number generator which is used to draw random samples.
 		/// </summary>
-		public System.Random RandomSource 
+		public System.Random RandomSource
 		{
 			get { return _random; }
 			set { _random = value ?? SystemRandomSource.Default; }
@@ -264,7 +267,7 @@ namespace MathNet.Numerics.Distributions {
 		/// <param name="x">The location at which to compute the density.</param>
 		/// <returns>the density at <paramref name="x"/>.</returns>
 		/// <seealso cref="PDF"/>
-		public double Density(double x) 
+		public double Density(double x)
 		{
 			if (x < _lowerBound || _upperBound < x)
 				return 0d;
@@ -278,29 +281,30 @@ namespace MathNet.Numerics.Distributions {
 		/// <param name="x">The location at which to compute the log density.</param>
 		/// <returns>the log density at <paramref name="x"/>.</returns>
 		/// <seealso cref="PDFLn"/>
-		public double DensityLn(double x) 
+		public double DensityLn(double x)
 		{
 			return _standardNormal.DensityLn((x - _mu) / _sigma) - Math.Log(_sigma) - Math.Log(_cumulativeDensityWithinBounds);
-      }
+        }
 
-
-		public double Sample() 
+		public double Sample()
 		{
 			//TODO: implement sampling more efficiently/accurately, use method described by Mazet here: http://miv.u-strasbg.fr/mazet/rtnorm/
 			// see implementations listed on that page for examples.
 			return InverseCumulativeDistribution(RandomSource.NextDouble());
 		}
 
-		public void Samples(double[] values) 
+		public void Samples(double[] values)
 		{
-			for(int i = 0; i < values.Length; i++) {
+			for(int i = 0; i < values.Length; i++)
+            {
 				values[i] = Sample();
 			}
 		}
 
-		public IEnumerable<double> Samples() 
+		public IEnumerable<double> Samples()
 		{
-			while (true) {
+			while (true)
+            {
 				yield return Sample();
 			}
 		}
@@ -311,7 +315,7 @@ namespace MathNet.Numerics.Distributions {
 		/// <param name="x">The location at which to compute the cumulative distribution function.</param>
 		/// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
 		/// <seealso cref="CDF"/>
-		public double CumulativeDistribution(double x) 
+		public double CumulativeDistribution(double x)
 		{
 			if (x < _lowerBound)
 				return 0d;
@@ -329,13 +333,12 @@ namespace MathNet.Numerics.Distributions {
 		/// <param name="p">The location at which to compute the inverse cumulative density.</param>
 		/// <returns>the inverse cumulative density at <paramref name="p"/>.</returns>
 		/// <seealso cref="InvCDF"/>
-		public double InverseCumulativeDistribution(double p) 
+		public double InverseCumulativeDistribution(double p)
 		{
 			//TODO check that this is correct with someone.
 			var pUntruncated = p * _cumulativeDensityWithinBounds + _standardNormal.CumulativeDistribution(_alpha);
 
 			return _standardNormal.InverseCumulativeDistribution(pUntruncated) * _sigma + _mu;
 		}
-
 	}
 }
