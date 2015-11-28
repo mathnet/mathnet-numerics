@@ -56,6 +56,21 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Returns the minimum value in the sample data.
         /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static float Minimum(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.Minimum(array)
+                : StreamingStatistics.Minimum(data);
+        }
+
+
+        /// <summary>
+        /// Returns the minimum value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="data">The sample data.</param>
@@ -74,6 +89,20 @@ namespace MathNet.Numerics.Statistics
         public static double Maximum(this IEnumerable<double> data)
         {
             var array = data as double[];
+            return array != null
+                ? ArrayStatistics.Maximum(array)
+                : StreamingStatistics.Maximum(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The maximum value in the sample data.</returns>
+        public static float Maximum(this IEnumerable<float> data)
+        {
+            var array = data as float[];
             return array != null
                 ? ArrayStatistics.Maximum(array)
                 : StreamingStatistics.Maximum(data);

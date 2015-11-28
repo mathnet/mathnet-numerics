@@ -67,6 +67,29 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Returns the smallest value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static float Minimum(IEnumerable<float> stream)
+        {
+            var min = float.PositiveInfinity;
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                if (d < min || float.IsNaN(d))
+                {
+                    min = d;
+                }
+
+                any = true;
+            }
+
+            return any ? min : float.NaN;
+        }
+
+        /// <summary>
         /// Returns the largest value from the enumerable, in a single pass without memoization.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
@@ -87,6 +110,29 @@ namespace MathNet.Numerics.Statistics
             }
 
             return any ? max : double.NaN;
+        }
+
+        /// <summary>
+        /// Returns the largest value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static float Maximum(IEnumerable<float> stream)
+        {
+            var max = float.NegativeInfinity;
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                if (d > max || float.IsNaN(d))
+                {
+                    max = d;
+                }
+
+                any = true;
+            }
+
+            return any ? max : float.NaN;
         }
 
         /// <summary>

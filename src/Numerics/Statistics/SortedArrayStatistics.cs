@@ -55,6 +55,20 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Returns the smallest value from the sorted data array (ascending).
+        /// </summary>
+        /// <param name="data">Sample array, must be sorted ascendingly.</param>
+        public static float Minimum(float[] data)
+        {
+            if (data.Length == 0)
+            {
+                return float.NaN;
+            }
+
+            return data[0];
+        }
+
+        /// <summary>
         /// Returns the largest value from the sorted data array (ascending).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
@@ -63,6 +77,20 @@ namespace MathNet.Numerics.Statistics
             if (data.Length == 0)
             {
                 return double.NaN;
+            }
+
+            return data[data.Length - 1];
+        }
+
+        /// <summary>
+        /// Returns the largest value from the sorted data array (ascending).
+        /// </summary>
+        /// <param name="data">Sample array, must be sorted ascendingly.</param>
+        public static float Maximum(float[] data)
+        {
+            if (data.Length == 0)
+            {
+                return float.NaN;
             }
 
             return data[data.Length - 1];

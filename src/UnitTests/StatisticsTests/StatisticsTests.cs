@@ -292,6 +292,22 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         [Test]
+        public void MinimumMaximumOnShortSequence32()
+        {
+            var samples = new[] { -1.0f, 5f, 0f, -3f, 10f, -0.5f, 4f };
+            Assert.That(Statistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(Statistics.Maximum(samples), Is.EqualTo(10), "Max");
+            Assert.That(ArrayStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(ArrayStatistics.Maximum(samples), Is.EqualTo(10), "Max");
+            Assert.That(StreamingStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(StreamingStatistics.Maximum(samples), Is.EqualTo(10), "Max");
+
+            Array.Sort(samples);
+            Assert.That(SortedArrayStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(SortedArrayStatistics.Maximum(samples), Is.EqualTo(10), "Max");
+        }
+
+        [Test]
         public void OrderStatisticsOnShortSequence()
         {
             // -3 -1 -0.5 0  1  4 5 6 10
