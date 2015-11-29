@@ -436,4 +436,10 @@
   <data name="SingularUMatrixWithElement" xml:space="preserve">
     <value>U is singular, and the inversion could not be completed. The {0}-th diagonal element of the factor U is zero.</value>
   </data>
+  <data name="RegressionNotEnoughSamples" xml:space="preserve">
+    <value>A regression of the requested order requires at least {0} samples. Only {1} samples have been provided. </value>
+  </data>
+  <data name="SampleVectorsSameLength" xml:space="preserve">
+    <value>All sample vectors must have the same length. However, vectors with disagreeing length {0} and {1} have been provided. A sample with index i is given by the value at index i of each provided vector.</value>
+  </data>
 </root>

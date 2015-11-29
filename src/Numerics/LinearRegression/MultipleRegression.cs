@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
-// Copyright (c) 2009-2014 Math.NET
-// 
+//
+// Copyright (c) 2009-2015 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -31,6 +31,7 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearRegression
 {
@@ -135,6 +136,16 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Vector<T> NormalEquations<T>(Matrix<T> x, Vector<T> y) where T : struct, IEquatable<T>, IFormattable
         {
+            if (x.RowCount != y.Count)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.Count));
+            }
+
+            if (x.ColumnCount > y.Count)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.Count));
+            }
+
             return x.TransposeThisAndMultiply(x).Cholesky().Solve(x.TransposeThisAndMultiply(y));
         }
 
@@ -147,6 +158,16 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Matrix<T> NormalEquations<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
         {
+            if (x.RowCount != y.RowCount)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.RowCount));
+            }
+
+            if (x.ColumnCount > y.RowCount)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.RowCount));
+            }
+
             return x.TransposeThisAndMultiply(x).Cholesky().Solve(x.TransposeThisAndMultiply(y));
         }
 
@@ -164,6 +185,16 @@ namespace MathNet.Numerics.LinearRegression
             if (intercept)
             {
                 predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
+            }
+
+            if (predictor.RowCount != y.Length)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, predictor.RowCount, y.Length));
+            }
+
+            if (predictor.ColumnCount > y.Length)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, predictor.ColumnCount, y.Length));
             }
 
             var response = Vector<T>.Build.Dense(y);
@@ -192,6 +223,16 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Vector<T> QR<T>(Matrix<T> x, Vector<T> y) where T : struct, IEquatable<T>, IFormattable
         {
+            if (x.RowCount != y.Count)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.Count));
+            }
+
+            if (x.ColumnCount > y.Count)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.Count));
+            }
+
             return x.QR().Solve(y);
         }
 
@@ -204,6 +245,16 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Matrix<T> QR<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
         {
+            if (x.RowCount != y.RowCount)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.RowCount));
+            }
+
+            if (x.ColumnCount > y.RowCount)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.RowCount));
+            }
+
             return x.QR().Solve(y);
         }
 
@@ -221,6 +272,16 @@ namespace MathNet.Numerics.LinearRegression
             if (intercept)
             {
                 predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
+            }
+
+            if (predictor.RowCount != y.Length)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, predictor.RowCount, y.Length));
+            }
+
+            if (predictor.ColumnCount > y.Length)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, predictor.ColumnCount, y.Length));
             }
 
             return predictor.QR().Solve(Vector<T>.Build.Dense(y)).ToArray();
@@ -248,6 +309,16 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Vector<T> Svd<T>(Matrix<T> x, Vector<T> y) where T : struct, IEquatable<T>, IFormattable
         {
+            if (x.RowCount != y.Count)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.Count));
+            }
+
+            if (x.ColumnCount > y.Count)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.Count));
+            }
+
             return x.Svd().Solve(y);
         }
 
@@ -260,6 +331,16 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting vector for model parameters β</returns>
         public static Matrix<T> Svd<T>(Matrix<T> x, Matrix<T> y) where T : struct, IEquatable<T>, IFormattable
         {
+            if (x.RowCount != y.RowCount)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.RowCount));
+            }
+
+            if (x.ColumnCount > y.RowCount)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.RowCount));
+            }
+
             return x.Svd().Solve(y);
         }
 
@@ -277,6 +358,16 @@ namespace MathNet.Numerics.LinearRegression
             if (intercept)
             {
                 predictor = predictor.InsertColumn(0, Vector<T>.Build.Dense(predictor.RowCount, Vector<T>.One));
+            }
+
+            if (predictor.RowCount != y.Length)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, predictor.RowCount, y.Length));
+            }
+
+            if (predictor.ColumnCount > y.Length)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, predictor.ColumnCount, y.Length));
             }
 
             return predictor.Svd().Solve(Vector<T>.Build.Dense(y)).ToArray();

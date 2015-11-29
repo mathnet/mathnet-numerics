@@ -3,9 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// 
-// Copyright (c) 2009-2013 Math.NET
-// 
+//
+// Copyright (c) 2009-2015 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -14,10 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -94,6 +94,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
+        /// A polynomial with order/degree k has (k+1) coefficients and thus requires at least (k+1) samples.
         /// </summary>
         public static double[] Polynomial(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
@@ -104,6 +105,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
         /// returning a function y' for the best fitting polynomial.
+        /// A polynomial with order/degree k has (k+1) coefficients and thus requires at least (k+1) samples.
         /// </summary>
         public static Func<double, double> PolynomialFunc(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
@@ -114,6 +116,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Weighted Least-Squares fitting the points (x,y) and weights w to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
+        /// A polynomial with order/degree k has (k+1) coefficients and thus requires at least (k+1) samples.
         /// </summary>
         public static double[] PolynomialWeighted(double[] x, double[] y, double[] w, int order)
         {
