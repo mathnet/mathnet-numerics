@@ -137,6 +137,20 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Evaluates the sample mean, an estimate of the population mean.
         /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the mean of.</param>
+        /// <returns>The mean of the sample.</returns>
+        public static double Mean(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.Mean(array)
+                : StreamingStatistics.Mean(data);
+        }
+
+        /// <summary>
+        /// Evaluates the sample mean, an estimate of the population mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="data">The data to calculate the mean of.</param>
@@ -192,6 +206,20 @@ namespace MathNet.Numerics.Statistics
         /// Estimates the unbiased population variance from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double Variance(this IEnumerable<float> samples)
+        {
+            var array = samples as float[];
+            return array != null
+                ? ArrayStatistics.Variance(array)
+                : StreamingStatistics.Variance(samples);
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population variance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
@@ -209,6 +237,20 @@ namespace MathNet.Numerics.Statistics
         public static double PopulationVariance(this IEnumerable<double> population)
         {
             var array = population as double[];
+            return array != null
+                ? ArrayStatistics.PopulationVariance(array)
+                : StreamingStatistics.PopulationVariance(population);
+        }
+
+        /// <summary>
+        /// Evaluates the variance from the provided full population.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population">The full population data.</param>
+        public static double PopulationVariance(this IEnumerable<float> population)
+        {
+            var array = population as float[];
             return array != null
                 ? ArrayStatistics.PopulationVariance(array)
                 : StreamingStatistics.PopulationVariance(population);
@@ -244,6 +286,20 @@ namespace MathNet.Numerics.Statistics
         /// Estimates the unbiased population standard deviation from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double StandardDeviation(this IEnumerable<float> samples)
+        {
+            var array = samples as float[];
+            return array != null
+                ? ArrayStatistics.StandardDeviation(array)
+                : StreamingStatistics.StandardDeviation(samples);
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population standard deviation from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
@@ -261,6 +317,20 @@ namespace MathNet.Numerics.Statistics
         public static double PopulationStandardDeviation(this IEnumerable<double> population)
         {
             var array = population as double[];
+            return array != null
+                ? ArrayStatistics.PopulationStandardDeviation(array)
+                : StreamingStatistics.PopulationStandardDeviation(population);
+        }
+
+        /// <summary>
+        /// Evaluates the standard deviation from the provided full population.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population">The full population data.</param>
+        public static double PopulationStandardDeviation(this IEnumerable<float> population)
+        {
+            var array = population as float[];
             return array != null
                 ? ArrayStatistics.PopulationStandardDeviation(array)
                 : StreamingStatistics.PopulationStandardDeviation(population);

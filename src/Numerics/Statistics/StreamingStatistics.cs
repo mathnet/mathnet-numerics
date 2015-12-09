@@ -30,6 +30,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Statistics
@@ -156,6 +157,16 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the arithmetic sample mean from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double Mean(IEnumerable<float> stream)
+        {
+            return Mean(stream.Select(x => (double)x));
+        }
+
+        /// <summary>
         /// Evaluates the geometric mean of the enumerable, in a single pass without memoization.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
@@ -227,6 +238,17 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the unbiased population variance from the provided samples as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">Sample stream, no sorting is assumed.</param>
+        public static double Variance(IEnumerable<float> samples)
+        {
+            return Variance(samples.Select(x => (double)x));
+        }
+
+        /// <summary>
         /// Evaluates the population variance from the full population provided as enumerable sequence, in a single pass without memoization.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
@@ -260,6 +282,17 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Evaluates the population variance from the full population provided as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population">Sample stream, no sorting is assumed.</param>
+        public static double PopulationVariance(IEnumerable<float> population)
+        {
+            return PopulationVariance(population.Select(x => (double)x));
+        }
+
+        /// <summary>
         /// Estimates the unbiased population standard deviation from the provided samples as enumerable sequence, in a single pass without memoization.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
@@ -271,12 +304,34 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the unbiased population standard deviation from the provided samples as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">Sample stream, no sorting is assumed.</param>
+        public static double StandardDeviation(IEnumerable<float> samples)
+        {
+            return Math.Sqrt(Variance(samples));
+        }
+
+        /// <summary>
         /// Evaluates the population standard deviation from the full population provided as enumerable sequence, in a single pass without memoization.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
         /// <param name="population">Sample stream, no sorting is assumed.</param>
         public static double PopulationStandardDeviation(IEnumerable<double> population)
+        {
+            return Math.Sqrt(PopulationVariance(population));
+        }
+
+        /// <summary>
+        /// Evaluates the population standard deviation from the full population provided as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population">Sample stream, no sorting is assumed.</param>
+        public static double PopulationStandardDeviation(IEnumerable<float> population)
         {
             return Math.Sqrt(PopulationVariance(population));
         }
@@ -319,6 +374,17 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the arithmetic sample mean and the unbiased population variance from the provided samples as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for variance if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">Sample stream, no sorting is assumed.</param>
+        public static Tuple<double, double> MeanVariance(IEnumerable<float> samples)
+        {
+            return MeanVariance(samples.Select(x => (double)x));
+        }
+
+        /// <summary>
         /// Estimates the arithmetic sample mean and the unbiased population standard deviation from the provided samples as enumerable sequence, in a single pass without memoization.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for standard deviation if data has less than two entries or if any entry is NaN.
@@ -328,6 +394,17 @@ namespace MathNet.Numerics.Statistics
         {
             var meanVariance = MeanVariance(samples);
             return new Tuple<double, double>(meanVariance.Item1, Math.Sqrt(meanVariance.Item2));
+        }
+
+        /// <summary>
+        /// Estimates the arithmetic sample mean and the unbiased population standard deviation from the provided samples as enumerable sequence, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for standard deviation if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">Sample stream, no sorting is assumed.</param>
+        public static Tuple<double, double> MeanStandardDeviation(IEnumerable<float> samples)
+        {
+            return MeanStandardDeviation(samples.Select(x => (double)x));
         }
 
         /// <summary>
@@ -430,6 +507,16 @@ namespace MathNet.Numerics.Statistics
             }
 
             return any ? Math.Sqrt(mean) : double.NaN;
+        }
+
+        /// <summary>
+        /// Estimates the root mean square (RMS) also known as quadratic mean from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double RootMeanSquare(IEnumerable<float> stream)
+        {
+            return RootMeanSquare(stream.Select(x => (double)x));
         }
 
         /// <summary>
