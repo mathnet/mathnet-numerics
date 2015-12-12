@@ -512,6 +512,22 @@ namespace MathNet.Numerics.Statistics
         /// Estimates the unbiased population covariance from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples1">A subset of samples, sampled from the full population.</param>
+        /// <param name="samples2">A subset of samples, sampled from the full population.</param>
+        public static double Covariance(this IEnumerable<float> samples1, IEnumerable<float> samples2)
+        {
+            var array1 = samples1 as float[];
+            var array2 = samples2 as float[];
+            return array1 != null && array2 != null
+                ? ArrayStatistics.Covariance(array1, array2)
+                : StreamingStatistics.Covariance(samples1, samples2);
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population covariance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="samples1">A subset of samples, sampled from the full population.</param>
@@ -532,6 +548,22 @@ namespace MathNet.Numerics.Statistics
         {
             var array1 = population1 as double[];
             var array2 = population2 as double[];
+            return array1 != null && array2 != null
+                ? ArrayStatistics.PopulationCovariance(array1, array2)
+                : StreamingStatistics.PopulationCovariance(population1, population2);
+        }
+
+        /// <summary>
+        /// Evaluates the population covariance from the provided full populations.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population1">The full population data.</param>
+        /// <param name="population2">The full population data.</param>
+        public static double PopulationCovariance(this IEnumerable<float> population1, IEnumerable<float> population2)
+        {
+            var array1 = population1 as float[];
+            var array2 = population2 as float[];
             return array1 != null && array2 != null
                 ? ArrayStatistics.PopulationCovariance(array1, array2)
                 : StreamingStatistics.PopulationCovariance(population1, population2);

@@ -449,6 +449,18 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the unbiased population covariance from the provided two sample enumerable sequences, in a single pass without memoization.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples1">First sample stream.</param>
+        /// <param name="samples2">Second sample stream.</param>
+        public static double Covariance(IEnumerable<float> samples1, IEnumerable<float> samples2)
+        {
+            return Covariance(samples1.Select(x => (double)x), samples2.Select(x => (double)x));
+        }
+
+        /// <summary>
         /// Evaluates the population covariance from the full population provided as two enumerable sequences, in a single pass without memoization.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
@@ -487,6 +499,18 @@ namespace MathNet.Numerics.Statistics
             }
 
             return comoment/n;
+        }
+
+        /// <summary>
+        /// Evaluates the population covariance from the full population provided as two enumerable sequences, in a single pass without memoization.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population1">First population stream.</param>
+        /// <param name="population2">Second population stream.</param>
+        public static double PopulationCovariance(IEnumerable<float> population1, IEnumerable<float> population2)
+        {
+            return PopulationCovariance(population1.Select(x => (double)x), population2.Select(x => (double)x));
         }
 
         /// <summary>
