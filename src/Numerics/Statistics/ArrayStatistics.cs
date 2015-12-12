@@ -172,7 +172,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (data.Length == 0)
             {
-                return float.NaN;
+                return double.NaN;
             }
 
             double mean = 0;
@@ -207,6 +207,27 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Evaluates the geometric mean of the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double GeometricMean(float[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double sum = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                sum += Math.Log(data[i]);
+            }
+
+            return Math.Exp(sum / data.Length);
+        }
+
+        /// <summary>
         /// Evaluates the harmonic mean of the unsorted data array.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
@@ -225,6 +246,27 @@ namespace MathNet.Numerics.Statistics
             }
 
             return data.Length/sum;
+        }
+
+        /// <summary>
+        /// Evaluates the harmonic mean of the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double HarmonicMean(float[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double sum = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                sum += 1.0 / data[i];
+            }
+
+            return data.Length / sum;
         }
 
         /// <summary>
@@ -262,7 +304,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (samples.Length <= 1)
             {
-                return float.NaN;
+                return double.NaN;
             }
 
             double variance = 0;
@@ -312,7 +354,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (population.Length == 0)
             {
-                return float.NaN;
+                return double.NaN;
             }
 
             double variance = 0;

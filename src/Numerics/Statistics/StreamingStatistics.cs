@@ -186,6 +186,16 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Evaluates the geometric mean of the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double GeometricMean(IEnumerable<float> stream)
+        {
+            return GeometricMean(stream.Select(x => (double)x));
+        }
+
+        /// <summary>
         /// Evaluates the harmonic mean of the enumerable, in a single pass without memoization.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
@@ -202,6 +212,16 @@ namespace MathNet.Numerics.Statistics
             }
 
             return m > 0 ? m/sum : double.NaN;
+        }
+
+        /// <summary>
+        /// Evaluates the harmonic mean of the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double HarmonicMean(IEnumerable<float> stream)
+        {
+            return HarmonicMean(stream.Select(x => (double)x));
         }
 
         /// <summary>
