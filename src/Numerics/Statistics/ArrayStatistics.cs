@@ -40,7 +40,7 @@ namespace MathNet.Numerics.Statistics
     /// <seealso cref="SortedArrayStatistics"/>
     /// <seealso cref="StreamingStatistics"/>
     /// <seealso cref="Statistics"/>
-    public static class ArrayStatistics
+    public static partial class ArrayStatistics
     {
         // TODO: Benchmark various options to find out the best approach (-> branch prediction)
         // TODO: consider leveraging MKL
@@ -920,7 +920,7 @@ namespace MathNet.Numerics.Statistics
                 return Maximum(workingData);
             }
 
-            var a = workingData;
+            double[] a = workingData;
             int low = 0;
             int high = a.Length - 1;
 
