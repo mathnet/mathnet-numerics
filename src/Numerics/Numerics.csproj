@@ -229,6 +229,7 @@
     <Compile Include="SpecialFunctions\TestFunctions.cs" />
     <Compile Include="Statistics\ArrayStatistics.cs" />
     <Compile Include="Statistics\ArrayStatistics.Int32.cs" />
+    <Compile Include="Statistics\ArrayStatistics.Single.cs" />
     <Compile Include="Statistics\MovingStatistics.cs" />
     <Compile Include="Statistics\RunningStatistics.cs" />
     <Compile Include="Statistics\QuantileDefinition.cs" />
