@@ -1,4 +1,4 @@
-﻿// <copyright file="SortedArrayStatistics.cs" company="Math.NET">
+﻿// <copyright file="SortedArrayStatistics.Single.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -32,23 +32,17 @@ using System;
 
 namespace MathNet.Numerics.Statistics
 {
-    /// <summary>
-    /// Statistics operating on an array already sorted ascendingly.
-    /// </summary>
-    /// <seealso cref="ArrayStatistics"/>
-    /// <seealso cref="StreamingStatistics"/>
-    /// <seealso cref="Statistics"/>
     public static partial class SortedArrayStatistics
     {
         /// <summary>
         /// Returns the smallest value from the sorted data array (ascending).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
-        public static double Minimum(double[] data)
+        public static float Minimum(float[] data)
         {
             if (data.Length == 0)
             {
-                return double.NaN;
+                return float.NaN;
             }
 
             return data[0];
@@ -58,11 +52,11 @@ namespace MathNet.Numerics.Statistics
         /// Returns the largest value from the sorted data array (ascending).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
-        public static double Maximum(double[] data)
+        public static float Maximum(float[] data)
         {
             if (data.Length == 0)
             {
-                return double.NaN;
+                return float.NaN;
             }
 
             return data[data.Length - 1];
@@ -73,11 +67,11 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
-        public static double OrderStatistic(double[] data, int order)
+        public static float OrderStatistic(float[] data, int order)
         {
             if (order < 1 || order > data.Length)
             {
-                return double.NaN;
+                return float.NaN;
             }
 
             return data[order - 1];
@@ -88,17 +82,17 @@ namespace MathNet.Numerics.Statistics
         /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
-        public static double Median(double[] data)
+        public static float Median(float[] data)
         {
             if (data.Length == 0)
             {
-                return double.NaN;
+                return float.NaN;
             }
 
             var k = data.Length/2;
             return data.Length.IsOdd()
                 ? data[k]
-                : (data[k - 1] + data[k])/2.0;
+                : (data[k - 1] + data[k])/2.0f;
         }
 
         /// <summary>
@@ -108,7 +102,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
-        public static double Percentile(double[] data, int p)
+        public static float Percentile(float[] data, int p)
         {
             return Quantile(data, p/100d);
         }
@@ -118,7 +112,7 @@ namespace MathNet.Numerics.Statistics
         /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
-        public static double LowerQuartile(double[] data)
+        public static float LowerQuartile(float[] data)
         {
             return Quantile(data, 0.25d);
         }
@@ -128,7 +122,7 @@ namespace MathNet.Numerics.Statistics
         /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
-        public static double UpperQuartile(double[] data)
+        public static float UpperQuartile(float[] data)
         {
             return Quantile(data, 0.75d);
         }
@@ -138,7 +132,7 @@ namespace MathNet.Numerics.Statistics
         /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
-        public static double InterquartileRange(double[] data)
+        public static float InterquartileRange(float[] data)
         {
             return Quantile(data, 0.75d) - Quantile(data, 0.25d);
         }
@@ -148,14 +142,14 @@ namespace MathNet.Numerics.Statistics
         /// Approximately median-unbiased regardless of the sample distribution (R8).
         /// </summary>
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
-        public static double[] FiveNumberSummary(double[] data)
+        public static float[] FiveNumberSummary(float[] data)
         {
             if (data.Length == 0)
             {
-                return new[] { double.NaN, double.NaN, double.NaN, double.NaN, double.NaN };
+                return new[] { float.NaN, float.NaN, float.NaN, float.NaN, float.NaN };
             }
 
-            return new[] { data[0], Quantile(data, 0.25), Quantile(data, 0.50), Quantile(data, 0.75), data[data.Length - 1] };
+            return new[] { data[0], Quantile(data, 0.25), Median(data), Quantile(data, 0.75), data[data.Length - 1] };
         }
 
         /// <summary>
@@ -171,11 +165,11 @@ namespace MathNet.Numerics.Statistics
         /// Linear interpolation of the approximate medians for order statistics.
         /// When tau &lt; (2/3) / (N + 1/3), use x1. When tau &gt;= (N - 1/3) / (N + 1/3), use xN.
         /// </remarks>
-        public static double Quantile(double[] data, double tau)
+        public static float Quantile(float[] data, double tau)
         {
             if (tau < 0d || tau > 1d || data.Length == 0)
             {
-                return double.NaN;
+                return float.NaN;
             }
 
             if (tau == 0d || data.Length == 1)
@@ -190,9 +184,11 @@ namespace MathNet.Numerics.Statistics
 
             double h = (data.Length + 1/3d)*tau + 1/3d;
             var hf = (int)h;
-            return hf < 1 ? data[0]
-                : hf >= data.Length ? data[data.Length - 1]
-                    : data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]);
+            return hf < 1
+                ? data[0]
+                : hf >= data.Length
+                    ? data[data.Length - 1]
+                    : (float)(data[hf - 1] + (h - hf)*(data[hf] - data[hf - 1]));
         }
 
         /// <summary>
@@ -207,11 +203,11 @@ namespace MathNet.Numerics.Statistics
         /// <param name="b">b-parameter</param>
         /// <param name="c">c-parameter</param>
         /// <param name="d">d-parameter</param>
-        public static double QuantileCustom(double[] data, double tau, double a, double b, double c, double d)
+        public static float QuantileCustom(float[] data, double tau, double a, double b, double c, double d)
         {
             if (tau < 0d || tau > 1d || data.Length == 0)
             {
-                return double.NaN;
+                return float.NaN;
             }
 
             var x = a + (data.Length + b)*tau - 1;
@@ -229,7 +225,7 @@ namespace MathNet.Numerics.Statistics
 
             var lower = data[Math.Max((int)Math.Floor(x), 0)];
             var upper = data[Math.Min((int)Math.Ceiling(x), data.Length - 1)];
-            return lower + (upper - lower)*(c + d*fp);
+            return (float)(lower + (upper - lower)*(c + d*fp));
         }
 
         /// <summary>
@@ -241,11 +237,11 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">Sample array, must be sorted ascendingly.</param>
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
-        public static double QuantileCustom(double[] data, double tau, QuantileDefinition definition)
+        public static float QuantileCustom(float[] data, double tau, QuantileDefinition definition)
         {
             if (tau < 0d || tau > 1d || data.Length == 0)
             {
-                return double.NaN;
+                return float.NaN;
             }
 
             if (tau == 0d || data.Length == 1)
@@ -269,7 +265,7 @@ namespace MathNet.Numerics.Statistics
                 case QuantileDefinition.R2:
                 {
                     double h = data.Length*tau + 0.5d;
-                    return (data[(int)Math.Ceiling(h - 0.5d) - 1] + data[(int)(h + 0.5d) - 1])*0.5d;
+                    return (data[(int)Math.Ceiling(h - 0.5d) - 1] + data[(int)(h + 0.5d) - 1])*0.5f;
                 }
 
                 case QuantileDefinition.R3:
@@ -284,7 +280,7 @@ namespace MathNet.Numerics.Statistics
                     var hf = (int)h;
                     var lower = data[Math.Max(hf - 1, 0)];
                     var upper = data[Math.Min(hf, data.Length - 1)];
-                    return lower + (h - hf)*(upper - lower);
+                    return (float)(lower + (h - hf)*(upper - lower));
                 }
 
                 case QuantileDefinition.R5:
@@ -293,7 +289,7 @@ namespace MathNet.Numerics.Statistics
                     var hf = (int)h;
                     var lower = data[Math.Max(hf - 1, 0)];
                     var upper = data[Math.Min(hf, data.Length - 1)];
-                    return lower + (h - hf)*(upper - lower);
+                    return (float)(lower + (h - hf)*(upper - lower));
                 }
 
                 case QuantileDefinition.R6:
@@ -302,7 +298,7 @@ namespace MathNet.Numerics.Statistics
                     var hf = (int)h;
                     var lower = data[Math.Max(hf - 1, 0)];
                     var upper = data[Math.Min(hf, data.Length - 1)];
-                    return lower + (h - hf)*(upper - lower);
+                    return (float)(lower + (h - hf)*(upper - lower));
                 }
 
                 case QuantileDefinition.R7:
@@ -311,7 +307,7 @@ namespace MathNet.Numerics.Statistics
                     var hf = (int)h;
                     var lower = data[Math.Max(hf - 1, 0)];
                     var upper = data[Math.Min(hf, data.Length - 1)];
-                    return lower + (h - hf)*(upper - lower);
+                    return (float)(lower + (h - hf)*(upper - lower));
                 }
 
                 case QuantileDefinition.R8:
@@ -320,7 +316,7 @@ namespace MathNet.Numerics.Statistics
                     var hf = (int)h;
                     var lower = data[Math.Max(hf - 1, 0)];
                     var upper = data[Math.Min(hf, data.Length - 1)];
-                    return lower + (h - hf)*(upper - lower);
+                    return (float)(lower + (h - hf)*(upper - lower));
                 }
 
                 case QuantileDefinition.R9:
@@ -329,7 +325,7 @@ namespace MathNet.Numerics.Statistics
                     var hf = (int)h;
                     var lower = data[Math.Max(hf - 1, 0)];
                     var upper = data[Math.Min(hf, data.Length - 1)];
-                    return lower + (h - hf)*(upper - lower);
+                    return (float)(lower + (h - hf)*(upper - lower));
                 }
 
                 default:
@@ -342,7 +338,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         /// <param name="x">The value where to estimate the CDF at.</param>
-        public static double EmpiricalCDF(double[] data, double x)
+        public static double EmpiricalCDF(float[] data, float x)
         {
             if (x < data[0])
             {
@@ -377,7 +373,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         /// <param name="x">Quantile value.</param>
         /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
-        public static double QuantileRank(double[] data, double x, RankDefinition definition = RankDefinition.Default)
+        public static double QuantileRank(float[] data, float x, RankDefinition definition = RankDefinition.Default)
         {
             if (x < data[0])
             {
@@ -447,7 +443,7 @@ namespace MathNet.Numerics.Statistics
         /// The rank definition can be specified to be compatible
         /// with an existing system.
         /// </summary>
-        public static double[] Ranks(double[] data, RankDefinition definition = RankDefinition.Default)
+        public static double[] Ranks(float[] data, RankDefinition definition = RankDefinition.Default)
         {
             var ranks = new double[data.Length];
 
@@ -483,41 +479,6 @@ namespace MathNet.Numerics.Statistics
 
             RanksTies(ranks, previousIndex, data.Length, definition);
             return ranks;
-        }
-
-        static void RanksTies(double[] ranks, int a, int b, RankDefinition definition)
-        {
-            // TODO: potential for PERF optimization
-
-            double rank;
-            switch (definition)
-            {
-                case RankDefinition.Average:
-                {
-                    rank = (b + a - 1)/2d + 1;
-                    break;
-                }
-
-                case RankDefinition.Min:
-                {
-                    rank = a + 1;
-                    break;
-                }
-
-                case RankDefinition.Max:
-                {
-                    rank = b;
-                    break;
-                }
-
-                default:
-                    throw new NotSupportedException();
-            }
-
-            for (int k = a; k < b; k++)
-            {
-                ranks[k] = rank;
-            }
         }
     }
 }

@@ -322,5 +322,443 @@ namespace MathNet.Numerics.Statistics
 
             return Math.Sqrt(mean);
         }
+
+        /// <summary>
+        /// Returns the order statistic (order 1..N) from the unsorted data array.
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
+        public static float OrderStatisticInplace(float[] data, int order)
+        {
+            if (order < 1 || order > data.Length)
+            {
+                return float.NaN;
+            }
+
+            if (order == 1)
+            {
+                return Minimum(data);
+            }
+
+            if (order == data.Length)
+            {
+                return Maximum(data);
+            }
+
+            return SelectInplace(data, order - 1);
+        }
+
+        /// <summary>
+        /// Estimates the median value from the unsorted data array.
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        public static float MedianInplace(float[] data)
+        {
+            var k = data.Length / 2;
+            return data.Length.IsOdd()
+                ? SelectInplace(data, k)
+                : (SelectInplace(data, k - 1) + SelectInplace(data, k)) / 2.0f;
+        }
+
+        /// <summary>
+        /// Estimates the p-Percentile value from the unsorted data array.
+        /// If a non-integer Percentile is needed, use Quantile instead.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
+        public static float PercentileInplace(float[] data, int p)
+        {
+            return QuantileInplace(data, p/100.0d);
+        }
+
+        /// <summary>
+        /// Estimates the first quartile value from the unsorted data array.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        public static float LowerQuartileInplace(float[] data)
+        {
+            return QuantileInplace(data, 0.25d);
+        }
+
+        /// <summary>
+        /// Estimates the third quartile value from the unsorted data array.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        public static float UpperQuartileInplace(float[] data)
+        {
+            return QuantileInplace(data, 0.75d);
+        }
+
+        /// <summary>
+        /// Estimates the inter-quartile range from the unsorted data array.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        public static float InterquartileRangeInplace(float[] data)
+        {
+            return QuantileInplace(data, 0.75d) - QuantileInplace(data, 0.25d);
+        }
+
+        /// <summary>
+        /// Estimates {min, lower-quantile, median, upper-quantile, max} from the unsorted data array.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        public static float[] FiveNumberSummaryInplace(float[] data)
+        {
+            if (data.Length == 0)
+            {
+                return new[] { float.NaN, float.NaN, float.NaN, float.NaN, float.NaN };
+            }
+
+            // TODO: Benchmark: is this still faster than sorting the array then using SortedArrayStatistics instead?
+            return new[] { Minimum(data), QuantileInplace(data, 0.25d), MedianInplace(data), QuantileInplace(data, 0.75d), Maximum(data) };
+        }
+
+        /// <summary>
+        /// Estimates the tau-th quantile from the unsorted data array.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        /// <remarks>
+        /// R-8, SciPy-(1/3,1/3):
+        /// Linear interpolation of the approximate medians for order statistics.
+        /// When tau &lt; (2/3) / (N + 1/3), use x1. When tau &gt;= (N - 1/3) / (N + 1/3), use xN.
+        /// </remarks>
+        public static float QuantileInplace(float[] data, double tau)
+        {
+            if (tau < 0d || tau > 1d || data.Length == 0)
+            {
+                return float.NaN;
+            }
+
+            double h = (data.Length + 1d / 3d) * tau + 1d / 3d;
+            var hf = (int)h;
+
+            if (hf <= 0 || tau == 0d)
+            {
+                return Minimum(data);
+            }
+
+            if (hf >= data.Length || tau == 1d)
+            {
+                return Maximum(data);
+            }
+
+            var a = SelectInplace(data, hf - 1);
+            var b = SelectInplace(data, hf);
+            return (float)(a + (h - hf) * (b - a));
+        }
+
+        /// <summary>
+        /// Estimates the tau-th quantile from the unsorted data array.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile defintion can be specified
+        /// by 4 parameters a, b, c and d, consistent with Mathematica.
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive)</param>
+        /// <param name="a">a-parameter</param>
+        /// <param name="b">b-parameter</param>
+        /// <param name="c">c-parameter</param>
+        /// <param name="d">d-parameter</param>
+        public static float QuantileCustomInplace(float[] data, double tau, double a, double b, double c, double d)
+        {
+            if (tau < 0d || tau > 1d || data.Length == 0)
+            {
+                return float.NaN;
+            }
+
+            var x = a + (data.Length + b) * tau - 1;
+#if PORTABLE
+            var ip = (int)x;
+#else
+            var ip = Math.Truncate(x);
+#endif
+            var fp = x - ip;
+
+            if (Math.Abs(fp) < 1e-9)
+            {
+                return SelectInplace(data, (int)ip);
+            }
+
+            var lower = SelectInplace(data, (int)Math.Floor(x));
+            var upper = SelectInplace(data, (int)Math.Ceiling(x));
+            return (float)(lower + (upper - lower) * (c + d * fp));
+        }
+
+        /// <summary>
+        /// Estimates the tau-th quantile from the unsorted data array.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specified to be compatible
+        /// with an existing system.
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed. Will be reordered.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive)</param>
+        /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
+        public static float QuantileCustomInplace(float[] data, double tau, QuantileDefinition definition)
+        {
+            if (tau < 0d || tau > 1d || data.Length == 0)
+            {
+                return float.NaN;
+            }
+
+            if (tau == 0d || data.Length == 1)
+            {
+                return Minimum(data);
+            }
+
+            if (tau == 1d)
+            {
+                return Maximum(data);
+            }
+
+            switch (definition)
+            {
+                case QuantileDefinition.R1:
+                    {
+                        double h = data.Length * tau + 0.5d;
+                        return SelectInplace(data, (int)Math.Ceiling(h - 0.5d) - 1);
+                    }
+
+                case QuantileDefinition.R2:
+                    {
+                        double h = data.Length * tau + 0.5d;
+                        return (SelectInplace(data, (int)Math.Ceiling(h - 0.5d) - 1) + SelectInplace(data, (int)(h + 0.5d) - 1)) * 0.5f;
+                    }
+
+                case QuantileDefinition.R3:
+                    {
+                        double h = data.Length * tau;
+                        return SelectInplace(data, (int)Math.Round(h) - 1);
+                    }
+
+                case QuantileDefinition.R4:
+                    {
+                        double h = data.Length * tau;
+                        var hf = (int)h;
+                        var lower = SelectInplace(data, hf - 1);
+                        var upper = SelectInplace(data, hf);
+                        return (float)(lower + (h - hf) * (upper - lower));
+                    }
+
+                case QuantileDefinition.R5:
+                    {
+                        double h = data.Length * tau + 0.5d;
+                        var hf = (int)h;
+                        var lower = SelectInplace(data, hf - 1);
+                        var upper = SelectInplace(data, hf);
+                        return (float)(lower + (h - hf) * (upper - lower));
+                    }
+
+                case QuantileDefinition.R6:
+                    {
+                        double h = (data.Length + 1) * tau;
+                        var hf = (int)h;
+                        var lower = SelectInplace(data, hf - 1);
+                        var upper = SelectInplace(data, hf);
+                        return (float)(lower + (h - hf) * (upper - lower));
+                    }
+
+                case QuantileDefinition.R7:
+                    {
+                        double h = (data.Length - 1) * tau + 1d;
+                        var hf = (int)h;
+                        var lower = SelectInplace(data, hf - 1);
+                        var upper = SelectInplace(data, hf);
+                        return (float)(lower + (h - hf) * (upper - lower));
+                    }
+
+                case QuantileDefinition.R8:
+                    {
+                        double h = (data.Length + 1 / 3d) * tau + 1 / 3d;
+                        var hf = (int)h;
+                        var lower = SelectInplace(data, hf - 1);
+                        var upper = SelectInplace(data, hf);
+                        return (float)(lower + (h - hf) * (upper - lower));
+                    }
+
+                case QuantileDefinition.R9:
+                    {
+                        double h = (data.Length + 0.25d) * tau + 0.375d;
+                        var hf = (int)h;
+                        var lower = SelectInplace(data, hf - 1);
+                        var upper = SelectInplace(data, hf);
+                        return (float)(lower + (h - hf) * (upper - lower));
+                    }
+
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        static float SelectInplace(float[] workingData, int rank)
+        {
+            // Numerical Recipes: select
+            // http://en.wikipedia.org/wiki/Selection_algorithm
+            if (rank <= 0)
+            {
+                return Minimum(workingData);
+            }
+
+            if (rank >= workingData.Length - 1)
+            {
+                return Maximum(workingData);
+            }
+
+            float[] a = workingData;
+            int low = 0;
+            int high = a.Length - 1;
+
+            while (true)
+            {
+                if (high <= low + 1)
+                {
+                    if (high == low + 1 && a[high] < a[low])
+                    {
+                        var tmp = a[low];
+                        a[low] = a[high];
+                        a[high] = tmp;
+                    }
+
+                    return a[rank];
+                }
+
+                int middle = (low + high) >> 1;
+
+                var tmp1 = a[middle];
+                a[middle] = a[low + 1];
+                a[low + 1] = tmp1;
+
+                if (a[low] > a[high])
+                {
+                    var tmp = a[low];
+                    a[low] = a[high];
+                    a[high] = tmp;
+                }
+
+                if (a[low + 1] > a[high])
+                {
+                    var tmp = a[low + 1];
+                    a[low + 1] = a[high];
+                    a[high] = tmp;
+                }
+
+                if (a[low] > a[low + 1])
+                {
+                    var tmp = a[low];
+                    a[low] = a[low + 1];
+                    a[low + 1] = tmp;
+                }
+
+                int begin = low + 1;
+                int end = high;
+                float pivot = a[begin];
+
+                while (true)
+                {
+                    do
+                    {
+                        begin++;
+                    }
+                    while (a[begin] < pivot);
+
+                    do
+                    {
+                        end--;
+                    }
+                    while (a[end] > pivot);
+
+                    if (end < begin)
+                    {
+                        break;
+                    }
+
+                    var tmp = a[begin];
+                    a[begin] = a[end];
+                    a[end] = tmp;
+                }
+
+                a[low + 1] = a[end];
+                a[end] = pivot;
+
+                if (end >= rank)
+                {
+                    high = end - 1;
+                }
+
+                if (end <= rank)
+                {
+                    low = begin;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Evaluates the rank of each entry of the unsorted data array.
+        /// The rank definition can be specified to be compatible
+        /// with an existing system.
+        /// WARNING: Works inplace and can thus causes the data array to be reordered.
+        /// </summary>
+        public static double[] RanksInplace(float[] data, RankDefinition definition = RankDefinition.Default)
+        {
+            var ranks = new double[data.Length];
+            var index = new int[data.Length];
+            for (int i = 0; i < index.Length; i++)
+            {
+                index[i] = i;
+            }
+
+            if (definition == RankDefinition.First)
+            {
+                Sorting.SortAll(data, index);
+                for (int i = 0; i < ranks.Length; i++)
+                {
+                    ranks[index[i]] = i + 1;
+                }
+
+                return ranks;
+            }
+
+            Sorting.Sort(data, index);
+            int previousIndex = 0;
+            for (int i = 1; i < data.Length; i++)
+            {
+                if (Math.Abs(data[i] - data[previousIndex]) <= 0d)
+                {
+                    continue;
+                }
+
+                if (i == previousIndex + 1)
+                {
+                    ranks[index[previousIndex]] = i;
+                }
+                else
+                {
+                    RanksTies(ranks, index, previousIndex, i, definition);
+                }
+
+                previousIndex = i;
+            }
+
+            RanksTies(ranks, index, previousIndex, data.Length, definition);
+            return ranks;
+        }
     }
 }

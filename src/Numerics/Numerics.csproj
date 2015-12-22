@@ -234,6 +234,7 @@
     <Compile Include="Statistics\RunningStatistics.cs" />
     <Compile Include="Statistics\QuantileDefinition.cs" />
     <Compile Include="Statistics\RankDefinition.cs" />
+    <Compile Include="Statistics\SortedArrayStatistics.Single.cs" />
     <Compile Include="Statistics\StreamingStatistics.cs" />
     <Compile Include="Statistics\SortedArrayStatistics.cs" />
     <Compile Include="LinearAlgebra\Storage\SparseVectorStorage.cs" />
