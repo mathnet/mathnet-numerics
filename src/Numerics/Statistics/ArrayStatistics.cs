@@ -432,7 +432,7 @@ namespace MathNet.Numerics.Statistics
             }
 
             // TODO: Benchmark: is this still faster than sorting the array then using SortedArrayStatistics instead?
-            return new[] { Minimum(data), QuantileInplace(data, 0.25), QuantileInplace(data, 0.50), QuantileInplace(data, 0.75), Maximum(data) };
+            return new[] { Minimum(data), QuantileInplace(data, 0.25d), MedianInplace(data), QuantileInplace(data, 0.75d), Maximum(data) };
         }
 
         /// <summary>
