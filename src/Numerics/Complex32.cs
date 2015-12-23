@@ -28,17 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+
 namespace MathNet.Numerics
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Runtime.InteropServices;
-
 #if !PORTABLE
     using System.Runtime;
 #endif
-
 #if !NOSYSNUMERICS
     using Complex = System.Numerics.Complex;
     using BigInteger = System.Numerics.BigInteger;
@@ -72,16 +72,19 @@ namespace MathNet.Numerics
     /// </remarks>
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
+    [DataContract(Namespace = "urn:MathNet/Numerics")]
     public struct Complex32 : IFormattable, IEquatable<Complex32>
     {
         /// <summary>
         /// The real component of the complex number.
         /// </summary>
+        [DataMember(Order = 1)]
         private readonly float _real;
 
         /// <summary>
         /// The imaginary component of the complex number.
         /// </summary>
+        [DataMember(Order = 2)]
         private readonly float _imag;
 
         /// <summary>
