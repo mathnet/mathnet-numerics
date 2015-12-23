@@ -347,6 +347,8 @@
     <Compile Include="LinearAlgebraTests\Single\VectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Single\VectorTests.Norm.cs" />
     <Compile Include="LinearAlgebraTests\Double\VectorArithmeticTheory.cs" />
+    <Compile Include="LinearAlgebraTests\MatrixStorageSerializationTests.cs" />
+    <Compile Include="LinearAlgebraTests\VectorStorageSerializationTests.cs" />
     <Compile Include="LinearAlgebraTests\TestData.cs" />
     <Compile Include="LinearAlgebraTests\VectorArithmeticTheory.cs" />
     <Compile Include="LinearAlgebraTests\MatrixHelpers.cs" />

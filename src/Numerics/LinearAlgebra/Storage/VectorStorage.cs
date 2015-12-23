@@ -30,17 +30,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
     [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/LinearAlgebra")]
     public abstract partial class VectorStorage<T> : IEquatable<VectorStorage<T>>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
 
         protected static readonly T Zero = BuilderInstance<T>.Vector.Zero;
+
+        [DataMember(Order = 1)]
         public readonly int Length;
 
         protected VectorStorage(int length)

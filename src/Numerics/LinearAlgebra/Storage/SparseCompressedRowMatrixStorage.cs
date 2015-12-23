@@ -31,11 +31,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
     [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/LinearAlgebra")]
     public class SparseCompressedRowMatrixStorage<T> : MatrixStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
@@ -47,18 +49,21 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// The last value is equal to ValueCount, so that the number of non-zero entries in row "i" is always
         /// given by RowPointers[i+i] - RowPointers[i]. This array thus has length RowCount+1.
         /// </summary>
+        [DataMember(Order = 1)]
         public readonly int[] RowPointers;
 
         /// <summary>
         /// An array containing the column indices of the non-zero values. Element "j" of the array
         /// is the number of the column in matrix that contains the j-th value in the <see cref="Values"/> array.
         /// </summary>
+        [DataMember(Order = 2)]
         public int[] ColumnIndices;
 
         /// <summary>
         /// Array that contains the non-zero elements of matrix. Values of the non-zero elements of matrix are mapped into the values
         /// array using the row-major storage mapping described in a compressed sparse row (CSR) format.
         /// </summary>
+        [DataMember(Order = 3)]
         public T[] Values;
 
         /// <summary>

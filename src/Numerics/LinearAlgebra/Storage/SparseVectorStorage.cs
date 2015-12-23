@@ -32,12 +32,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
     [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/LinearAlgebra")]
     public class SparseVectorStorage<T> : VectorStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
@@ -46,16 +48,19 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <summary>
         /// Array that contains the indices of the non-zero values.
         /// </summary>
+        [DataMember(Order = 1)]
         public int[] Indices;
 
         /// <summary>
         /// Array that contains the non-zero elements of the vector.
         /// </summary>
+        [DataMember(Order = 2)]
         public T[] Values;
 
         /// <summary>
         /// Gets the number of non-zero elements in the vector.
         /// </summary>
+        [DataMember(Order = 3)]
         public int ValueCount;
 
         internal SparseVectorStorage(int length)
