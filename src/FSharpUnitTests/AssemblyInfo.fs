@@ -1,4 +1,4 @@
-namespace MathNet.Numerics
+﻿namespace MathNet.Numerics
 
 open System.Reflection
 open System.Resources;

@@ -1,2 +1,3 @@
-BenchShark
-ConsoleDump
+group Benchmark
+    BenchShark
+    ConsoleDump

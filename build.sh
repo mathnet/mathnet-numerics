@@ -28,4 +28,4 @@ fi
 
 run .paket/paket.bootstrapper.exe
 run .paket/paket.exe restore
-run packages/FAKE/tools/FAKE.exe "$@" $FSIARGS build.fsx
+run packages/build/FAKE/tools/FAKE.exe "$@" $FSIARGS build.fsx

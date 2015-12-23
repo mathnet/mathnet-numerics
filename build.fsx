@@ -15,8 +15,8 @@
 // PRELUDE
 // --------------------------------------------------------------------------------------
 
-#I "packages/FAKE/tools"
-#r "packages/FAKE/tools/FakeLib.dll"
+#I "packages/build/FAKE/tools"
+#r "packages/build/FAKE/tools/FakeLib.dll"
 
 open Fake
 open Fake.DocuHelper
@@ -123,7 +123,7 @@ let numericsPack =
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       Dependencies =
         [ { FrameworkVersion="net35"
-            Dependencies=[ "TaskParallelLibrary", GetPackageVersion "packages" "TaskParallelLibrary" ] }
+            Dependencies=[ "TaskParallelLibrary", GetPackageVersion "./packages/" "TaskParallelLibrary" ] }
           { FrameworkVersion="net40"
             Dependencies=[] } ]
       Files =
@@ -146,7 +146,7 @@ let fsharpPack =
         Dependencies =
           [ { FrameworkVersion=""
               Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion
-                             "FSharp.Core", GetPackageVersion "packages" "FSharp.Core" ] } ]
+                             "FSharp.Core", GetPackageVersion "./packages/" "FSharp.Core" ] } ]
         Files =
           [ @"..\..\out\lib\Net35\MathNet.Numerics.FSharp.*", Some libnet35, None;
             @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
@@ -175,7 +175,7 @@ let fsharpSignedPack =
         Dependencies =
           [ { FrameworkVersion=""
               Dependencies=[ "MathNet.Numerics.Signed", RequireExactly packageVersion
-                             "FSharp.Core", GetPackageVersion "packages" "FSharp.Core" ] } ]
+                             "FSharp.Core", GetPackageVersion "./packages/" "FSharp.Core" ] } ]
         Files =
           [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
             @"MathNet.Numerics.fsx", None, None;
@@ -363,7 +363,7 @@ let dataTextPack =
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
       Dependencies =
         [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", GetPackageVersion "packages" "MathNet.Numerics" ] } ]
+            Dependencies=[ "MathNet.Numerics", GetPackageVersion "./packages/data/" "MathNet.Numerics" ] } ]
       Files =
         [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.dll", Some libnet40, None;
           @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml", Some libnet40, None ] }
@@ -379,7 +379,7 @@ let dataMatlabPack =
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
       Dependencies =
         [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", GetPackageVersion "packages" "MathNet.Numerics" ] } ]
+            Dependencies=[ "MathNet.Numerics", GetPackageVersion "./packages/data/" "MathNet.Numerics" ] } ]
       Files =
         [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
           @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
@@ -653,7 +653,7 @@ Target "DataZip" (fun _ ->
 // NUGET
 
 let updateNuspec (pack:Package) outPath symbols updateFiles spec =
-    { spec with ToolPath = "packages/NuGet.CommandLine/tools/NuGet.exe"
+    { spec with ToolPath = "packages/build/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
                 Version = pack.Version
@@ -881,7 +881,7 @@ let publishNuGet packageFiles =
             let args = sprintf "push \"%s\"" (FullName file)
             let result =
                 ExecProcess (fun info ->
-                    info.FileName <- "packages/NuGet.CommandLine/tools/NuGet.exe"
+                    info.FileName <- "packages/tools/NuGet.CommandLine/tools/NuGet.exe"
                     info.WorkingDirectory <- FullName "obj/NuGet"
                     info.Arguments <- args) (TimeSpan.FromMinutes 10.)
             if result <> 0 then failwith "Error during NuGet push."

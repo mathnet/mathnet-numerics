@@ -1,2 +1,3 @@
-FSharp.Core
-FsUnit
+group Test
+    FsUnit
+    FSharp.Core

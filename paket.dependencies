@@ -1,22 +1,25 @@
 source http://www.nuget.org/api/v2
-
-# Core Dependencies
 nuget FSharp.Core ~> 3.1.2
 nuget TaskParallelLibrary 1.0.2856
 
-# Data Dependencies
-nuget MathNet.Numerics 3.0.0
+group Test
+    source http://www.nuget.org/api/v2
+    nuget FSharp.Core
+    nuget NUnit ~> 2.6
+    nuget FsUnit ~> 1.3
 
-# Benchmark Dependencies
-nuget BenchShark 1.0.0
-nuget ConsoleDump 0.6.0.1
+group Build
+    source http://www.nuget.org/api/v2
+    nuget FAKE ~> 4.1
+    nuget NUnit.Runners ~> 2.6
+    nuget FSharp.Formatting !~> 2.4
+    nuget NuGet.CommandLine
 
-# Development Dependencies
-nuget NUnit ~> 2.6
-nuget FsUnit ~> 1.3
+group Data
+    source http://www.nuget.org/api/v2
+    nuget MathNet.Numerics 3.0.0
 
-# Tools
-nuget FAKE ~> 4.1
-nuget NUnit.Runners ~> 2.6
-nuget FSharp.Formatting !~> 2.4
-nuget NuGet.CommandLine
+group Benchmark
+    source http://www.nuget.org/api/v2
+    nuget BenchShark 1.0.0
+    nuget ConsoleDump 0.6.0.1

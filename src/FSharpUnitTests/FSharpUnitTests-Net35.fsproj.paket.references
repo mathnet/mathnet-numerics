@@ -1,2 +1,4 @@
-FsUnit
 TaskParallelLibrary
+
+group Test
+    FsUnit

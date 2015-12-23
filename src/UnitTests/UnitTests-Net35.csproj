@@ -5,6 +5,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9014A0CE-725D-4718-918C-923C0CA19FEE}</ProjectGuid>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TestProjectType>UnitTest</TestProjectType>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
@@ -63,285 +65,6 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="Properties\Settings.Designer.cs">
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\data\Codeplex-5667.csv">
-      <Link>data\Codeplex-5667.csv</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Github-Cureos-1.csv">
-      <Link>data\Github-Cureos-1.csv</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\A.mat">
-      <Link>data\Matlab\A.mat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\collection-nocompress.mat">
-      <Link>data\Matlab\collection-nocompress.mat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\collection.mat">
-      <Link>data\Matlab\collection.mat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\complex.mat">
-      <Link>data\Matlab\complex.mat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\sparse-large.mat">
-      <Link>data\Matlab\sparse-large.mat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\sparse-small.mat">
-      <Link>data\Matlab\sparse-small.mat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\sparse_complex.mat">
-      <Link>data\Matlab\sparse_complex.mat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\Matlab\v.mat">
-      <Link>data\Matlab\v.mat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\AtmWtAgt.dat">
-      <Link>data\NIST\AtmWtAgt.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Bennett5.dat">
-      <Link>data\NIST\Bennett5.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\BoxBOD.dat">
-      <Link>data\NIST\BoxBOD.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Chwirut1.dat">
-      <Link>data\NIST\Chwirut1.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Chwirut2.dat">
-      <Link>data\NIST\Chwirut2.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\DanWood.dat">
-      <Link>data\NIST\DanWood.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Eckerle4.dat">
-      <Link>data\NIST\Eckerle4.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\ENSO.dat">
-      <Link>data\NIST\ENSO.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Filip.dat">
-      <Link>data\NIST\Filip.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Gauss1.dat">
-      <Link>data\NIST\Gauss1.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Gauss2.dat">
-      <Link>data\NIST\Gauss2.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Gauss3.dat">
-      <Link>data\NIST\Gauss3.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Hahn1.dat">
-      <Link>data\NIST\Hahn1.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Kirby2.dat">
-      <Link>data\NIST\Kirby2.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Lanczos1.dat">
-      <Link>data\NIST\Lanczos1.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Lanczos2.dat">
-      <Link>data\NIST\Lanczos2.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Lanczos3.dat">
-      <Link>data\NIST\Lanczos3.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Lew.dat">
-      <Link>data\NIST\Lew.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Longley.dat">
-      <Link>data\NIST\Longley.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Lottery.dat">
-      <Link>data\NIST\Lottery.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Mavro.dat">
-      <Link>data\NIST\Mavro.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\MGH09.dat">
-      <Link>data\NIST\MGH09.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\MGH10.dat">
-      <Link>data\NIST\MGH10.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\MGH17.dat">
-      <Link>data\NIST\MGH17.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Michelso.dat">
-      <Link>data\NIST\Michelso.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Misra1a.dat">
-      <Link>data\NIST\Misra1a.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Misra1b.dat">
-      <Link>data\NIST\Misra1b.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Misra1c.dat">
-      <Link>data\NIST\Misra1c.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Misra1d.dat">
-      <Link>data\NIST\Misra1d.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Nelson.dat">
-      <Link>data\NIST\Nelson.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\NoInt1.dat">
-      <Link>data\NIST\NoInt1.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\NoInt2.dat">
-      <Link>data\NIST\NoInt2.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Norris.dat">
-      <Link>data\NIST\Norris.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\NumAcc1.dat">
-      <Link>data\NIST\NumAcc1.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\NumAcc2.dat">
-      <Link>data\NIST\NumAcc2.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\NumAcc3.dat">
-      <Link>data\NIST\NumAcc3.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\NumAcc4.dat">
-      <Link>data\NIST\NumAcc4.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Pontius.dat">
-      <Link>data\NIST\Pontius.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Rat42.dat">
-      <Link>data\NIST\Rat42.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Rat43.dat">
-      <Link>data\NIST\Rat43.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Roszman1.dat">
-      <Link>data\NIST\Roszman1.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SiRstvt.dat">
-      <Link>data\NIST\SiRstvt.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SmLs01t.dat">
-      <Link>data\NIST\SmLs01t.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SmLs02t.dat">
-      <Link>data\NIST\SmLs02t.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SmLs03t.dat">
-      <Link>data\NIST\SmLs03t.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SmLs04t.dat">
-      <Link>data\NIST\SmLs04t.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SmLs05t.dat">
-      <Link>data\NIST\SmLs05t.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SmLs06t.dat">
-      <Link>data\NIST\SmLs06t.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SmLs07t.dat">
-      <Link>data\NIST\SmLs07t.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SmLs08t.dat">
-      <Link>data\NIST\SmLs08t.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\SmLs09t.dat">
-      <Link>data\NIST\SmLs09t.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Thurber.dat">
-      <Link>data\NIST\Thurber.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Wampler1.dat">
-      <Link>data\NIST\Wampler1.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Wampler2.dat">
-      <Link>data\NIST\Wampler2.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Wampler3.dat">
-      <Link>data\NIST\Wampler3.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Wampler4.dat">
-      <Link>data\NIST\Wampler4.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Wampler5.dat">
-      <Link>data\NIST\Wampler5.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="..\..\data\NIST\Meixner.dat">
-      <Link>data\NIST\Meixner.dat</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="paket.references" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics-Net35.csproj">
       <Project>{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}</Project>
       <Name>Numerics-Net35</Name>
@@ -351,16 +74,16 @@
       <Name>TestData</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Reference Include="nunit.framework">
-      <HintPath>..\..\packages\NUnit\lib\nunit.framework.dll</HintPath>
-      <Private>True</Private>
-      <Paket>True</Paket>
-    </Reference>
+    <Compile Include="**\*.cs" Exclude="Properties\Settings.Designer.cs">
+    </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="paket.references" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1')">
       <ItemGroup>
         <Reference Include="System.Threading">
           <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
@@ -370,4 +93,11 @@
       </ItemGroup>
     </When>
   </Choose>
+  <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\packages\test\NUnit\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+      <Paket>True</Paket>
+    </Reference>
+  </ItemGroup>
 </Project>
