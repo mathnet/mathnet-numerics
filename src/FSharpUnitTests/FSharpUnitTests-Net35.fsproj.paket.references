@@ -2,3 +2,4 @@ TaskParallelLibrary
 
 group Test
     FsUnit
+    FSharp.Core
