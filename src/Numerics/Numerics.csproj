@@ -106,6 +106,8 @@
     <Compile Include="LinearAlgebra\Options.cs" />
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
     <Compile Include="LinearAlgebra\CreateVector.cs" />
+    <Compile Include="LinearAlgebra\MatrixExtensions.cs" />
+    <Compile Include="LinearAlgebra\VectorExtensions.cs" />
     <Compile Include="LinearRegression\Options.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
