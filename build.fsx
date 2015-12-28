@@ -752,7 +752,7 @@ let provideDocExtraFiles() =
 
 let buildDocumentationTarget fsiargs target =
     trace (sprintf "Building documentation (%s), this could take some time, please wait..." target)
-    let fakePath = "packages" @@ "FAKE" @@ "tools" @@ "FAKE.exe"
+    let fakePath = "packages" </> "build" </> "FAKE" </> "tools" </> "FAKE.exe"
     let fakeStartInfo script workingDirectory args fsiargs environmentVars =
         (fun (info: System.Diagnostics.ProcessStartInfo) ->
             info.FileName <- System.IO.Path.GetFullPath fakePath
