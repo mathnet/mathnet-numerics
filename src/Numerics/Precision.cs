@@ -225,7 +225,7 @@ namespace MathNet.Numerics
         static long AsDirectionalInt64(double value)
         {
             // Convert in the normal way.
-            long result = DoubleToInt64Bits(value);
+            long result = BitConverter.DoubleToInt64Bits(value);
 
             // Now find out where we're at in the range
             // If the value is larger/equal to zero then we can just return the value
@@ -279,7 +279,7 @@ namespace MathNet.Numerics
             // double < 0 --> long < 0, increasing in absolute magnitude as the double
             //                          gets closer to zero!
             //                          i.e. 0 - double.epsilon will give the largest long value!
-            long intValue = DoubleToInt64Bits(value);
+            long intValue = BitConverter.DoubleToInt64Bits(value);
             if (intValue < 0)
             {
                 intValue -= count;
@@ -297,7 +297,7 @@ namespace MathNet.Numerics
 
             // Note that not all long values can be translated into double values. There's a whole bunch of them
             // which return weird values like infinity and NaN
-            return Int64BitsToDouble(intValue);
+            return BitConverter.Int64BitsToDouble(intValue);
         }
 
         /// <summary>
@@ -328,7 +328,7 @@ namespace MathNet.Numerics
             // double < 0 --> long < 0, increasing in absolute magnitude as the double
             //                          gets closer to zero!
             //                          i.e. 0 - double.epsilon will give the largest long value!
-            long intValue = DoubleToInt64Bits(value);
+            long intValue = BitConverter.DoubleToInt64Bits(value);
 
             // If the value is zero then we'd really like the value to be -0. So we'll make it -0
             // and then everything else should work out.
@@ -349,7 +349,7 @@ namespace MathNet.Numerics
 
             // Note that not all long values can be translated into double values. There's a whole bunch of them
             // which return weird values like infinity and NaN
-            return Int64BitsToDouble(intValue);
+            return BitConverter.Int64BitsToDouble(intValue);
         }
 
         /// <summary>
@@ -473,56 +473,8 @@ namespace MathNet.Numerics
             // double < 0 --> long < 0, increasing in absolute magnitude as the double
             //                          gets closer to zero!
             //                          i.e. 0 - double.epsilon will give the largest long value!
-            long intValue = DoubleToInt64Bits(value);
+            long intValue = BitConverter.DoubleToInt64Bits(value);
 
-#if PORTABLE
-    // We need to protect against over- and under-flow of the intValue when
-    // we start to add the ulpsDifference.
-            if (intValue < 0)
-            {
-                // Note that long.MinValue has the same bit pattern as
-                // -0.0. Therefore we're working in opposite direction (i.e. add if we want to
-                // go more negative and subtract if we want to go less negative)
-                var topRangeEnd = Math.Abs(long.MinValue - intValue) < maxNumbersBetween
-                    // Got underflow, which can be fixed by splitting the calculation into two bits
-                    // first get the remainder of the intValue after subtracting it from the long.MinValue
-                    // and add that to the ulpsDifference. That way we'll turn positive without underflow
-                    ? Int64BitsToDouble(maxNumbersBetween + (long.MinValue - intValue))
-                    // No problems here, move along.
-                    : Int64BitsToDouble(intValue - maxNumbersBetween);
-
-                var bottomRangeEnd = Math.Abs(intValue) < maxNumbersBetween
-                    // Underflow, which means we'd have to go further than a long would allow us.
-                    // Also we couldn't translate it back to a double, so we'll return -Double.MaxValue
-                    ? -double.MaxValue
-                    // intValue is negative. Adding the positive ulpsDifference means that it gets less negative.
-                    // However due to the conversion way this means that the actual double value gets more negative :-S
-                    : Int64BitsToDouble(intValue + maxNumbersBetween);
-
-                return new Tuple<double, double>(bottomRangeEnd, topRangeEnd);
-            }
-            else
-            {
-                // IntValue is positive
-                var topRangeEnd = long.MaxValue - intValue < maxNumbersBetween
-                    // Overflow, which means we'd have to go further than a long would allow us.
-                    // Also we couldn't translate it back to a double, so we'll return Double.MaxValue
-                    ? double.MaxValue
-                    // No troubles here
-                    : Int64BitsToDouble(intValue + maxNumbersBetween);
-
-                // Check the bottom range end for underflows
-                var bottomRangeEnd = intValue > maxNumbersBetween
-                    // No problems here. IntValue is larger than ulpsDifference so we'll end up with a
-                    // positive number.
-                    ? Int64BitsToDouble(intValue - maxNumbersBetween)
-                    // Int value is bigger than zero but smaller than the ulpsDifference. So we'll need to deal with
-                    // the reversal at the negative end
-                    : Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
-
-                return new Tuple<double, double>(bottomRangeEnd, topRangeEnd);
-            }
-#else
             // We need to protect against over- and under-flow of the intValue when
             // we start to add the ulpsDifference.
             if (intValue < 0)
@@ -569,7 +521,6 @@ namespace MathNet.Numerics
 
                 return new Tuple<double, double>(bottomRangeEnd, topRangeEnd);
             }
-#endif
         }
 
         /// <summary>
@@ -639,7 +590,7 @@ namespace MathNet.Numerics
             // so return the ulps counts for the difference.
             if (value.Equals(0))
             {
-                var v = DoubleToInt64Bits(relativeDifference);
+                var v = BitConverter.DoubleToInt64Bits(relativeDifference);
                 return new Tuple<long, long>(v, v);
             }
 
@@ -713,17 +664,17 @@ namespace MathNet.Numerics
                 return double.NaN;
             }
 
-            long signed64 = DoubleToInt64Bits(value);
+            long signed64 = BitConverter.DoubleToInt64Bits(value);
             if (signed64 == 0)
             {
                 signed64++;
-                return Int64BitsToDouble(signed64) - value;
+                return BitConverter.Int64BitsToDouble(signed64) - value;
             }
             if (signed64-- < 0)
             {
-                return Int64BitsToDouble(signed64) - value;
+                return BitConverter.Int64BitsToDouble(signed64) - value;
             }
-            return value - Int64BitsToDouble(signed64);
+            return value - BitConverter.Int64BitsToDouble(signed64);
         }
 
         /// <summary>
@@ -780,17 +731,6 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Converts a float value to a bit array stored in an int.
-        /// </summary>
-        /// <param name="value">The value to convert.</param>
-        /// <returns>The bit array.</returns>
-        static int FloatToInt32Bits(float value)
-        {
-            return SingleToInt32Bits(value);
-        }
-
-
-        /// <summary>
         /// Calculates the actual (negative) double precision machine epsilon - the smallest number that can be subtracted from 1, yielding a results different than 1.
         /// This is also known as unit roundoff error. According to the definition of Prof. Demmel.
         /// </summary>
@@ -830,28 +770,6 @@ namespace MathNet.Numerics
 #endif
         }
 
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        static long DoubleToInt64Bits(double value)
-        {
-#if PORTABLE
-            var union = new DoubleLongUnion { Double = value };
-            return union.Int64;
-#else
-            return BitConverter.DoubleToInt64Bits(value);
-#endif
-        }
-
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        static double Int64BitsToDouble(long value)
-        {
-#if PORTABLE
-            var union = new DoubleLongUnion { Int64 = value };
-            return union.Double;
-#else
-            return BitConverter.Int64BitsToDouble(value);
-#endif
-        }
-
         static int SingleToInt32Bits(float value)
         {
             var union = new SingleIntUnion { Single = value };
@@ -863,18 +781,6 @@ namespace MathNet.Numerics
             var union = new SingleIntUnion { Int32 = value };
             return union.Single;
         }
-
-#if PORTABLE
-        [StructLayout(LayoutKind.Explicit)]
-        struct DoubleLongUnion
-        {
-            [FieldOffset(0)]
-            public double Double;
-
-            [FieldOffset(0)]
-            public long Int64;
-        }
-#endif
 
         [StructLayout(LayoutKind.Explicit)]
         struct SingleIntUnion
