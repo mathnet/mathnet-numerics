@@ -333,7 +333,7 @@ namespace MathNet.Numerics.Differentiation
         /// </summary>
         /// <remarks>
         /// This function recursively uses <see cref="EvaluatePartialDerivative(Func&lt;double[], double&gt;, double[], int, int, double?)"/> to evaluate mixed partial derivative.
-        /// Therefore, it is more efficient to call <see cref="EvaluatePartialDerivative(Func&lt;double[], double&gt;, double[], int, int, double?)"/> for higher order derivatives of 
+        /// Therefore, it is more efficient to call <see cref="EvaluatePartialDerivative(Func&lt;double[], double&gt;, double[], int, int, double?)"/> for higher order derivatives of
         /// a single independent variable.
         /// </remarks>
         /// <param name="f">Multivariate function handle.</param>
