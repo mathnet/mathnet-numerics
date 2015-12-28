@@ -520,24 +520,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Returns the value of the absolute minimum element.
-        /// </summary>
-        /// <returns>The value of the absolute minimum element.</returns>
-        public override Complex AbsoluteMinimum()
-        {
-            return _values[AbsoluteMinimumIndex()].Magnitude;
-        }
-
-        /// <summary>
-        /// Returns the value of the absolute maximum element.
-        /// </summary>
-        /// <returns>The value of the absolute maximum element.</returns>
-        public override Complex AbsoluteMaximum()
-        {
-            return _values[AbsoluteMaximumIndex()].Magnitude;
-        }
-
-        /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>

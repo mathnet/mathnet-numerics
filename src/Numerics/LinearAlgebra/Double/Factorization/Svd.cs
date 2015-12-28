@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         {
             get
             {
-                double tolerance = Precision.DoublePrecision*Math.Max(U.RowCount, VT.RowCount);
+                double tolerance = Precision.EpsilonOf(S.Maximum())*Math.Max(U.RowCount, VT.RowCount);
                 return S.Count(t => Math.Abs(t) > tolerance);
             }
         }

@@ -318,7 +318,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Returns the value of the absolute minimum element.
         /// </summary>
         /// <returns>The value of the absolute minimum element.</returns>
-        public override Complex32 AbsoluteMinimum()
+        public sealed override Complex32 AbsoluteMinimum()
         {
             return At(AbsoluteMinimumIndex()).Magnitude;
         }

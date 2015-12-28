@@ -323,7 +323,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Returns the value of the absolute minimum element.
         /// </summary>
         /// <returns>The value of the absolute minimum element.</returns>
-        public override Complex AbsoluteMinimum()
+        public sealed override Complex AbsoluteMinimum()
         {
             return At(AbsoluteMinimumIndex()).Magnitude;
         }

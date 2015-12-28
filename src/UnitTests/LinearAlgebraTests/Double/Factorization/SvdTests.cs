@@ -180,6 +180,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             Assert.AreEqual(factorSvd.Rank, order - 1);
         }
 
+        [Test]
+        public void RankAcceptance()
+        {
+            // http://discuss.mathdotnet.com/t/wrong-compute-of-the-matrix-rank/120
+            Matrix<double> m = DenseMatrix.OfArray(new double[,] {
+                { 4, 4, 1, 3 },
+                { 1,-2, 1, 0 },
+                { 4, 0, 2, 2 },
+                { 7, 6, 2, 5 } });
+
+            Assert.That(m.Svd(true).Rank, Is.EqualTo(2));
+            Assert.That(m.Svd(false).Rank, Is.EqualTo(2));
+        }
+
         /// <summary>
         /// Solve for matrix if vectors are not computed throws <c>InvalidOperationException</c>.
         /// </summary>

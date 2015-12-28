@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         {
             get
             {
-                double tolerance = Precision.DoublePrecision*Math.Max(U.RowCount, VT.RowCount);
+                double tolerance = Precision.EpsilonOf(S.AbsoluteMaximum().Magnitude)*Math.Max(U.RowCount, VT.RowCount);
                 return S.Count(t => t.Magnitude > tolerance);
             }
         }
