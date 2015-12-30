@@ -1,3 +1,15 @@
+### 3.10.0 - 2015-12-30
+* Statistics: single-precision floating point support.
+* Statistics: very limited support for int32 and complex numbers.
+* Statistics: Min/Max Absolute, MagnitudePhase (complex).
+* Statistics: FiveNumberSummary to use actual Median instead of R8 quantile.
+* Linear Algebra: matrix Rank to use relative epsilon.
+* Linera Algebra: extensions to convert between single/double precision, complex/real.
+* Linear Algebra: Vector/Matrix storage DataContracts for ephemeral serialization.
+* Regression: more helpful exceptions and messages.
+* Random: 'Next' integer sampling no longer involves floating points, avoids one-off error in MersenneTwister.
+* Precision: EpsilonOf for single-precision numbers, drop no longer needed portable fallbacks.
+
 ### 3.9.0 - 2015-11-25
 * Distributions: Normal.CDF avoids problematic subtraction by using Erfc instead of Erf.
 * Statistics: geometric and harmonic mean.
