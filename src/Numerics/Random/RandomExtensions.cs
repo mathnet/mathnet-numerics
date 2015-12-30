@@ -122,7 +122,31 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Fills an array with uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// Fills an array with uniform random 32-bit signed integers greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
+        /// </summary>
+        /// <param name="rnd">The random number generator.</param>
+        /// <param name="values">The array to fill with random values.</param>
+        /// <remarks>
+        /// This extension is thread-safe if and only if called on an random number
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
+        /// </remarks>
+        public static void NextInt32s(this System.Random rnd, int[] values)
+        {
+            var rs = rnd as RandomSource;
+            if (rs != null)
+            {
+                rs.NextInt32s(values);
+                return;
+            }
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                values[i] = rnd.Next();
+            }
+        }
+
+        /// <summary>
+        /// Fills an array with uniform random 32-bit signed integers within the specified range.
         /// </summary>
         /// <param name="rnd">The random number generator.</param>
         /// <param name="values">The array to fill with random values.</param>

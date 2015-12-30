@@ -91,6 +91,17 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
+        /// Returns an array of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// </summary>
+        /// <param name="count">The size of the array to fill.</param>
+        public double[] NextDoubles(int count)
+        {
+            var values = new double[count];
+            NextDoubles(values);
+            return values;
+        }
+
+        /// <summary>
         /// Returns an infinite sequence of uniform random numbers greater than or equal to 0.0 and less than 1.0.
         /// </summary>
         public IEnumerable<double> NextDoubleSequence()
@@ -112,11 +123,8 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns a nonnegative random number.
+        /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
         /// </summary>
-        /// <returns>
-        /// A 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
-        /// </returns>
         public sealed override int Next()
         {
             if (_threadSafe)
@@ -133,17 +141,17 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random number less then a specified maximum.
         /// </summary>
-        /// <param name="maxValue">The exclusive upper bound of the random number returned.</param>
-        /// <returns>A 32-bit signed integer less than <paramref name="maxValue"/>.</returns>
-        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="maxValue"/> is negative. </exception>
-        public sealed override int Next(int maxValue)
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned.</param>
+        /// <returns>A 32-bit signed integer less than <paramref name="maxExclusive"/>.</returns>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="maxExclusive"/> is negative. </exception>
+        public sealed override int Next(int maxExclusive)
         {
-            if (maxValue <= 0)
+            if (maxExclusive <= 0)
             {
                 throw new ArgumentException(Resources.ArgumentMustBePositive);
             }
 
-            if (maxValue == int.MaxValue)
+            if (maxExclusive == int.MaxValue)
             {
                 return Next();
             }
@@ -152,11 +160,11 @@ namespace MathNet.Numerics.Random
             {
                 lock (_lock)
                 {
-                    return DoSampleInteger(0, maxValue);
+                    return DoSampleInteger(0, maxExclusive);
                 }
             }
 
-            return DoSampleInteger(0, maxValue);
+            return DoSampleInteger(0, maxExclusive);
         }
 
         /// <summary>
@@ -175,6 +183,11 @@ namespace MathNet.Numerics.Random
                 throw new ArgumentException(Resources.ArgumentMinValueGreaterThanMaxValue);
             }
 
+            if (maxExclusive == int.MaxValue && minInclusive == 0)
+            {
+                return Next();
+            }
+
             if (_threadSafe)
             {
                 lock (_lock)
@@ -187,6 +200,42 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
+        /// Fills an array with random 32-bit signed integers greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
+        /// </summary>
+        /// <param name="values">The array to fill with random values.</param>
+        public void NextInt32s(int[] values)
+        {
+            if (_threadSafe)
+            {
+                lock (_lock)
+                {
+                    for (var i = 0; i < values.Length; i++)
+                    {
+                        values[i] = DoSampleInteger();
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < values.Length; i++)
+                {
+                    values[i] = DoSampleInteger();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Returns an array with random 32-bit signed integers greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
+        /// </summary>
+        /// <param name="count">The size of the array to fill.</param>
+        public int[] NextInt32s(int count)
+        {
+            var values = new int[count];
+            NextInt32s(values);
+            return values;
+        }
+
+        /// <summary>
         /// Fills an array with random numbers within a specified range.
         /// </summary>
         /// <param name="values">The array to fill with random values.</param>
@@ -194,6 +243,17 @@ namespace MathNet.Numerics.Random
         /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
         public void NextInt32s(int[] values, int minInclusive, int maxExclusive)
         {
+            if (minInclusive > maxExclusive)
+            {
+                throw new ArgumentException(Resources.ArgumentMinValueGreaterThanMaxValue);
+            }
+
+            if (maxExclusive == int.MaxValue && minInclusive == 0)
+            {
+                NextInt32s(values);
+                return;
+            }
+
             if (_threadSafe)
             {
                 lock (_lock)
@@ -214,12 +274,51 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
+        /// Returns an array with random 32-bit signed integers within the specified range.
+        /// </summary>
+        /// <param name="count">The size of the array to fill.</param>
+        /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
+        public int[] NextInt32s(int count, int minInclusive, int maxExclusive)
+        {
+            var values = new int[count];
+            NextInt32s(values, minInclusive, maxExclusive);
+            return values;
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of random 32-bit signed integers greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
+        /// </summary>
+        public IEnumerable<int> NextInt32Sequence()
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                yield return Next();
+            }
+
+            var buffer = new int[64];
+            while (true)
+            {
+                NextInt32s(buffer);
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    yield return buffer[i];
+                }
+            }
+        }
+
+        /// <summary>
         /// Returns an infinite sequence of random numbers within a specified range.
         /// </summary>
         /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
         /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
         public IEnumerable<int> NextInt32Sequence(int minInclusive, int maxExclusive)
         {
+            if (minInclusive > maxExclusive)
+            {
+                throw new ArgumentException(Resources.ArgumentMinValueGreaterThanMaxValue);
+            }
+
             for (int i = 0; i < 64; i++)
             {
                 yield return Next(minInclusive, maxExclusive);
@@ -290,7 +389,7 @@ namespace MathNet.Numerics.Random
         protected abstract double DoSample();
 
         /// <summary>
-        /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
+        /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
         /// </summary>
         protected virtual int DoSampleInteger()
         {
