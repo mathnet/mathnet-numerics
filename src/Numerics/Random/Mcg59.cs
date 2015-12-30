@@ -97,12 +97,9 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        /// <returns>
-        /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
-        /// </returns>
-        protected override sealed double DoSample()
+        protected sealed override double DoSample()
         {
             double ret = _xn*Reciprocal;
             _xn = (_xn*Multiplier)%Modulus;

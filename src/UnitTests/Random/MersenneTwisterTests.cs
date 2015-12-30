@@ -50,7 +50,17 @@ namespace MathNet.Numerics.UnitTests.Random
         /// Sample known values.
         /// </summary>
         [Test]
-        public void SampleKnownValues()
+        public void SampleKnownIntegerValuesSeed42()
+        {
+            var mt = new MersenneTwister(42);
+            Assert.AreEqual(mt.Next(), 804318771);
+        }
+
+        /// <summary>
+        /// Sample known values.
+        /// </summary>
+        [Test]
+        public void SampleKnownFloatingPointValues()
         {
             var mt = new MersenneTwister(0);
             Assert.AreEqual(mt.NextDouble(), 0.5488135023042560);

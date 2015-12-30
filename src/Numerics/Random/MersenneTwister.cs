@@ -28,10 +28,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-/* 
+/*
    Original code's copyright and license:
    Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
-   All rights reserved.                          
+   All rights reserved.
 
    Redistribution and use in source and binary forms, with or without
    modification, are permitted provided that the following conditions
@@ -44,8 +44,8 @@
         notice, this list of conditions and the following disclaimer in the
         documentation and/or other materials provided with the distribution.
 
-     3. The names of its contributors may not be used to endorse or promote 
-        products derived from this software without specific prior written 
+     3. The names of its contributors may not be used to endorse or promote
+        products derived from this software without specific prior written
         permission.
 
    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
-        const double Reciprocal = 1.0/4294967296.0;
+        const double Reciprocal = 1.0/4294967296.0; // 1.0/(uint.MaxValue + 1.0)
 
         /// <summary>
         /// Mersenne twister constant.
@@ -152,7 +152,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="seed">The seed value.</param>
         /// <remarks>Uses the value of <see cref="Control.ThreadSafeRandomNumberGenerators"/> to
-        /// set whether the instance is thread safe.</remarks>        
+        /// set whether the instance is thread safe.</remarks>
         public MersenneTwister(int seed)
         {
             init_genrand((uint)seed);
@@ -246,8 +246,8 @@ namespace MathNet.Numerics.Random
             uint k = (_n > key_length ? _n : key_length);
             for (; k > 0; k--)
             {
-                _mt[i] = (_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30))*1664525)) + init_key[j] + j; //non linear 
-                _mt[i] &= 0xffffffff; // for WORDSIZE > 32 machines 
+                _mt[i] = (_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30))*1664525)) + init_key[j] + j; //non linear
+                _mt[i] &= 0xffffffff; // for WORDSIZE > 32 machines
                 i++;
                 j++;
                 if (i >= _n)
@@ -259,8 +259,8 @@ namespace MathNet.Numerics.Random
             }
             for (k = _n - 1; k > 0; k--)
             {
-                _mt[i] = (_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30))*1566083941)) - i; // non linear 
-                _mt[i] &= 0xffffffff; // for WORDSIZE > 32 machines 
+                _mt[i] = (_mt[i] ^ ((_mt[i - 1] ^ (_mt[i - 1] >> 30))*1566083941)) - i; // non linear
+                _mt[i] &= 0xffffffff; // for WORDSIZE > 32 machines
                 i++;
                 if (i >= _n)
                 {
@@ -269,7 +269,7 @@ namespace MathNet.Numerics.Random
                 }
             }
 
-            _mt[0] = 0x80000000; // MSB is 1; assuring non-zero initial array 
+            _mt[0] = 0x80000000; // MSB is 1; assuring non-zero initial array
         }*/
 
         /* generates a random number on [0,0xffffffff]-interval */
@@ -320,14 +320,26 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        /// <returns>
-        /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
-        /// </returns>
-        protected override sealed double DoSample()
+        protected sealed override double DoSample()
         {
             return genrand_int32()*Reciprocal;
+        }
+
+        /// <summary>
+        /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
+        /// </summary>
+        protected sealed override int DoSampleInteger()
+        {
+            uint uint32 = genrand_int32();
+            int int31 = (int)(uint32 >> 1);
+            if (int31 == int.MaxValue)
+            {
+                return DoSampleInteger();
+            }
+
+            return int31;
         }
 
         /* /// <summary>

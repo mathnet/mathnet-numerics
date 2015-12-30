@@ -188,7 +188,7 @@ namespace MathNet.Numerics.Random
         /// </remarks>
         public static long NextInt64(this System.Random rnd)
         {
-            var buffer = new byte[sizeof (long)];
+            var buffer = new byte[8];
 
             rnd.NextBytes(buffer);
             var candidate = BitConverter.ToInt64(buffer, 0);
@@ -216,7 +216,7 @@ namespace MathNet.Numerics.Random
         /// </remarks>
         public static int NextFullRangeInt32(this System.Random rnd)
         {
-            var buffer = new byte[sizeof (int)];
+            var buffer = new byte[4];
             rnd.NextBytes(buffer);
             return BitConverter.ToInt32(buffer, 0);
         }
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.Random
         /// </remarks>
         public static long NextFullRangeInt64(this System.Random rnd)
         {
-            var buffer = new byte[sizeof (long)];
+            var buffer = new byte[8];
             rnd.NextBytes(buffer);
             return BitConverter.ToInt64(buffer, 0);
         }

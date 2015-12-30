@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// The multiplier to compute a double-precision floating point number [0, 1)
         /// </summary>
-        const double UlongToDoubleMultiplier = 1.0/(uint.MaxValue + 1.0);
+        const double UlongToDoubleMultiplier = 1.0/4294967296.0; // 1.0/(uint.MaxValue + 1.0)
 
         /// <summary>
         /// Seed or last but three unsigned random number.
@@ -252,12 +252,9 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        /// <returns>
-        /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
-        /// </returns>
-        protected override sealed double DoSample()
+        protected sealed override double DoSample()
         {
             var t = (_a*_x) + _c;
             _x = _y;
@@ -265,6 +262,26 @@ namespace MathNet.Numerics.Random
             _c = t >> 32;
             _z = t & 0xffffffff;
             return _z*UlongToDoubleMultiplier;
+        }
+
+        /// <summary>
+        /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
+        /// </summary>
+        protected override int DoSampleInteger()
+        {
+            var t = (_a * _x) + _c;
+            _x = _y;
+            _y = _z;
+            _c = t >> 32;
+            _z = t & 0xffffffff;
+            uint uint32 = (uint)_z;
+            int int31 = (int)(uint32 >> 1);
+            if (int31 == int.MaxValue)
+            {
+                return DoSampleInteger();
+            }
+
+            return int31;
         }
 
         /// <summary>

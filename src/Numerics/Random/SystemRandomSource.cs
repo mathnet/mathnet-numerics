@@ -112,14 +112,29 @@ namespace MathNet.Numerics.Random
 #endif
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        /// <returns>
-        /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
-        /// </returns>
-        protected override sealed double DoSample()
+        protected sealed override double DoSample()
         {
             return _random.NextDouble();
+        }
+
+        /// <summary>
+        /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
+        /// </summary>
+        protected override int DoSampleInteger()
+        {
+            return _random.Next();
+        }
+
+        /// <summary>
+        /// Returns a random 32-bit signed integer within the specified range.
+        /// </summary>
+        /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
+        protected override int DoSampleInteger(int minInclusive, int maxExclusive)
+        {
+            return _random.Next(minInclusive, maxExclusive);
         }
 
         /// <summary>

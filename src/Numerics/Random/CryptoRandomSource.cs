@@ -86,16 +86,30 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        /// <returns>
-        /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
-        /// </returns>
-        protected override sealed double DoSample()
+        protected sealed override double DoSample()
         {
             var bytes = new byte[4];
             _crypto.GetBytes(bytes);
             return BitConverter.ToUInt32(bytes, 0)*Reciprocal;
+        }
+
+        /// <summary>
+        /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
+        /// </summary>
+        protected sealed override int DoSampleInteger()
+        {
+            var bytes = new byte[4];
+            _crypto.GetBytes(bytes);
+            uint uint32 = BitConverter.ToUInt32(bytes, 0);
+            int int31 = (int)uint32 >> 1;
+            if (int31 == int.MaxValue)
+            {
+                return DoSampleInteger();
+            }
+
+            return int31;
         }
 
         public void Dispose()
