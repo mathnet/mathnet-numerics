@@ -230,6 +230,7 @@
     <Compile Include="SpecialFunctions\Logistic.cs" />
     <Compile Include="SpecialFunctions\TestFunctions.cs" />
     <Compile Include="Statistics\ArrayStatistics.cs" />
+    <Compile Include="Statistics\ArrayStatistics.Complex.cs" />
     <Compile Include="Statistics\ArrayStatistics.Int32.cs" />
     <Compile Include="Statistics\ArrayStatistics.Single.cs" />
     <Compile Include="Statistics\MovingStatistics.cs" />

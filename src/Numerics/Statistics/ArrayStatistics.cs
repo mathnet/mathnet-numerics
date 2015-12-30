@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Statistics
                 return double.NaN;
             }
 
-            var min = double.PositiveInfinity;
+            double min = double.PositiveInfinity;
             for (int i = 0; i < data.Length; i++)
             {
                 if (data[i] < min || double.IsNaN(data[i]))
@@ -81,12 +81,60 @@ namespace MathNet.Numerics.Statistics
                 return double.NaN;
             }
 
-            var max = double.NegativeInfinity;
+            double max = double.NegativeInfinity;
             for (int i = 0; i < data.Length; i++)
             {
                 if (data[i] > max || double.IsNaN(data[i]))
                 {
                     max = data[i];
+                }
+            }
+
+            return max;
+        }
+
+        /// <summary>
+        /// Returns the smallest absolute value from the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double MinimumAbsolute(double[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double min = double.PositiveInfinity;
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (Math.Abs(data[i]) < min || double.IsNaN(data[i]))
+                {
+                    min = Math.Abs(data[i]);
+                }
+            }
+
+            return min;
+        }
+
+        /// <summary>
+        /// Returns the largest absolute value from the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double MaximumAbsolute(double[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double max = 0.0d;
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (Math.Abs(data[i]) > max || double.IsNaN(data[i]))
+                {
+                    max = Math.Abs(data[i]);
                 }
             }
 

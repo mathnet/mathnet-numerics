@@ -28,11 +28,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace MathNet.Numerics.Statistics
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+#if NOSYSNUMERICS
+    using Complex64 = Numerics.Complex;
+#else
+    using Complex64 = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Extension methods to return basic statistics on set of data.
@@ -118,6 +124,118 @@ namespace MathNet.Numerics.Statistics
         public static double Maximum(this IEnumerable<double?> data)
         {
             return StreamingStatistics.Maximum(data.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
+        /// Returns the minimum absolute value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static double MinimumAbsolute(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.MinimumAbsolute(array)
+                : StreamingStatistics.MinimumAbsolute(data);
+        }
+
+        /// <summary>
+        /// Returns the minimum absolute value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static float MinimumAbsolute(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.MinimumAbsolute(array)
+                : StreamingStatistics.MinimumAbsolute(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum absolute value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The maximum value in the sample data.</returns>
+        public static double MaximumAbsolute(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.MaximumAbsolute(array)
+                : StreamingStatistics.MaximumAbsolute(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum absolute value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The maximum value in the sample data.</returns>
+        public static float MaximumAbsolute(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.MaximumAbsolute(array)
+                : StreamingStatistics.MaximumAbsolute(data);
+        }
+
+        /// <summary>
+        /// Returns the minimum magnitude and phase value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static Complex64 MinimumMagnitudePhase(this IEnumerable<Complex64> data)
+        {
+            var array = data as Complex64[];
+            return array != null
+                ? ArrayStatistics.MinimumMagnitudePhase(array)
+                : StreamingStatistics.MinimumMagnitudePhase(data);
+        }
+
+        /// <summary>
+        /// Returns the minimum magnitude and phase value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static Complex32 MinimumMagnitudePhase(this IEnumerable<Complex32> data)
+        {
+            var array = data as Complex32[];
+            return array != null
+                ? ArrayStatistics.MinimumMagnitudePhase(array)
+                : StreamingStatistics.MinimumMagnitudePhase(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum magnitude and phase value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static Complex64 MaximumMagnitudePhase(this IEnumerable<Complex64> data)
+        {
+            var array = data as Complex64[];
+            return array != null
+                ? ArrayStatistics.MaximumMagnitudePhase(array)
+                : StreamingStatistics.MaximumMagnitudePhase(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum magnitude and phase value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static Complex32 MaximumMagnitudePhase(this IEnumerable<Complex32> data)
+        {
+            var array = data as Complex32[];
+            return array != null
+                ? ArrayStatistics.MaximumMagnitudePhase(array)
+                : StreamingStatistics.MaximumMagnitudePhase(data);
         }
 
         /// <summary>

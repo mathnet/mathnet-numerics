@@ -35,6 +35,12 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Statistics
 {
+#if NOSYSNUMERICS
+    using Complex64 = Numerics.Complex;
+#else
+    using Complex64 = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// Statistics operating on an IEnumerable in a single pass, without keeping the full data in memory.
     /// Can be used in a streaming way, e.g. on large datasets not fitting into memory.
@@ -51,7 +57,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
         public static double Minimum(IEnumerable<double> stream)
         {
-            var min = double.PositiveInfinity;
+            double min = double.PositiveInfinity;
             bool any = false;
 
             foreach (var d in stream)
@@ -74,7 +80,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
         public static float Minimum(IEnumerable<float> stream)
         {
-            var min = float.PositiveInfinity;
+            float min = float.PositiveInfinity;
             bool any = false;
 
             foreach (var d in stream)
@@ -97,7 +103,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
         public static double Maximum(IEnumerable<double> stream)
         {
-            var max = double.NegativeInfinity;
+            double max = double.NegativeInfinity;
             bool any = false;
 
             foreach (var d in stream)
@@ -120,7 +126,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
         public static float Maximum(IEnumerable<float> stream)
         {
-            var max = float.NegativeInfinity;
+            float max = float.NegativeInfinity;
             bool any = false;
 
             foreach (var d in stream)
@@ -134,6 +140,218 @@ namespace MathNet.Numerics.Statistics
             }
 
             return any ? max : float.NaN;
+        }
+
+        /// <summary>
+        /// Returns the smallest absolute value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double MinimumAbsolute(IEnumerable<double> stream)
+        {
+            double min = double.PositiveInfinity;
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                if (Math.Abs(d) < min || double.IsNaN(d))
+                {
+                    min = Math.Abs(d);
+                }
+
+                any = true;
+            }
+
+            return any ? min : double.NaN;
+        }
+
+        /// <summary>
+        /// Returns the smallest absolute value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static float MinimumAbsolute(IEnumerable<float> stream)
+        {
+            float min = float.PositiveInfinity;
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                if (Math.Abs(d) < min || float.IsNaN(d))
+                {
+                    min = Math.Abs(d);
+                }
+
+                any = true;
+            }
+
+            return any ? min : float.NaN;
+        }
+
+        /// <summary>
+        /// Returns the largest absolute value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static double MaximumAbsolute(IEnumerable<double> stream)
+        {
+            double max = 0.0d;
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                if (Math.Abs(d) > max || double.IsNaN(d))
+                {
+                    max = Math.Abs(d);
+                }
+
+                any = true;
+            }
+
+            return any ? max : double.NaN;
+        }
+
+        /// <summary>
+        /// Returns the largest absolute value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static float MaximumAbsolute(IEnumerable<float> stream)
+        {
+            float max = 0.0f;
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                if (Math.Abs(d) > max || float.IsNaN(d))
+                {
+                    max = Math.Abs(d);
+                }
+
+                any = true;
+            }
+
+            return any ? max : float.NaN;
+        }
+
+        /// <summary>
+        /// Returns the smallest absolute value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static Complex64 MinimumMagnitudePhase(IEnumerable<Complex64> stream)
+        {
+            double minMagnitude = double.PositiveInfinity;
+            Complex64 min = new Complex64(double.PositiveInfinity, double.PositiveInfinity);
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                double magnitude = d.Magnitude;
+                if (double.IsNaN(magnitude))
+                {
+                    return new Complex64(double.NaN, double.NaN);
+                }
+                if (magnitude < minMagnitude || magnitude == minMagnitude && d.Phase < min.Phase)
+                {
+                    minMagnitude = magnitude;
+                    min = d;
+                }
+
+                any = true;
+            }
+
+            return any ? min : new Complex64(double.NaN, double.NaN);
+        }
+
+        /// <summary>
+        /// Returns the smallest absolute value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static Complex32 MinimumMagnitudePhase(IEnumerable<Complex32> stream)
+        {
+            float minMagnitude = float.PositiveInfinity;
+            Complex32 min = new Complex32(float.PositiveInfinity, float.PositiveInfinity);
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                float magnitude = d.Magnitude;
+                if (float.IsNaN(magnitude))
+                {
+                    return new Complex32(float.NaN, float.NaN);
+                }
+                if (magnitude < minMagnitude || magnitude == minMagnitude && d.Phase < min.Phase)
+                {
+                    minMagnitude = magnitude;
+                    min = d;
+                }
+
+                any = true;
+            }
+
+            return any ? min : new Complex32(float.NaN, float.NaN);
+        }
+
+        /// <summary>
+        /// Returns the largest absolute value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static Complex64 MaximumMagnitudePhase(IEnumerable<Complex64> stream)
+        {
+            double maxMagnitude = 0.0d;
+            Complex64 max = Complex64.Zero;
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                double magnitude = d.Magnitude;
+                if (double.IsNaN(magnitude))
+                {
+                    return new Complex64(double.NaN, double.NaN);
+                }
+                if (magnitude > maxMagnitude || magnitude == maxMagnitude && d.Phase > max.Phase)
+                {
+                    maxMagnitude = magnitude;
+                    max = d;
+                }
+
+                any = true;
+            }
+
+            return any ? max : new Complex64(double.NaN, double.NaN);
+        }
+
+        /// <summary>
+        /// Returns the largest absolute value from the enumerable, in a single pass without memoization.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="stream">Sample stream, no sorting is assumed.</param>
+        public static Complex32 MaximumMagnitudePhase(IEnumerable<Complex32> stream)
+        {
+            float maxMagnitude = 0.0f;
+            Complex32 max = Complex32.Zero;
+            bool any = false;
+
+            foreach (var d in stream)
+            {
+                float magnitude = d.Magnitude;
+                if (float.IsNaN(magnitude))
+                {
+                    return new Complex32(float.NaN, float.NaN);
+                }
+                if (magnitude > maxMagnitude || magnitude == maxMagnitude && d.Phase > max.Phase)
+                {
+                    maxMagnitude = magnitude;
+                    max = d;
+                }
+
+                any = true;
+            }
+
+            return any ? max : new Complex32(float.NaN, float.NaN);
         }
 
         /// <summary>

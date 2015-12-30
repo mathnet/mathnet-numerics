@@ -1107,6 +1107,34 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var data = new double[] { 1, 2, double.NaN };
             Assert.That(double.IsNaN(StreamingStatistics.Entropy(data)));
         }
+
+        [Test]
+        public void MinimumMagnitudePhase()
+        {
+            var a = new[] { new Complex32(1.0f, 2.0f), new Complex32(float.PositiveInfinity, float.NegativeInfinity), new Complex32(-2.0f, 4.0f) };
+            Assert.That(ArrayStatistics.MinimumMagnitudePhase(a), Is.EqualTo(a[0]));
+        }
+
+        [Test]
+        public void MinimumMagnitudePhaseOfNaNIsNaN()
+        {
+            var a = new[] { new Complex32(1.0f, 2.0f), new Complex32(float.NaN, float.NegativeInfinity), new Complex32(-2.0f, 4.0f) };
+            Assert.That(ArrayStatistics.MinimumMagnitudePhase(a).IsNaN(), Is.True);
+        }
+
+        [Test]
+        public void MaximumMagnitudePhase()
+        {
+            var a = new[] { new Complex32(1.0f, 2.0f), new Complex32(float.PositiveInfinity, float.NegativeInfinity), new Complex32(-2.0f, 4.0f) };
+            Assert.That(ArrayStatistics.MaximumMagnitudePhase(a), Is.EqualTo(a[1]));
+        }
+
+        [Test]
+        public void MaximumMagnitudePhaseOfNaNIsNaN()
+        {
+            var a = new[] { new Complex32(1.0f, 2.0f), new Complex32(float.NaN, float.NegativeInfinity), new Complex32(-2.0f, 4.0f) };
+            Assert.That(ArrayStatistics.MaximumMagnitudePhase(a).IsNaN(), Is.True);
+        }
     }
 }
 

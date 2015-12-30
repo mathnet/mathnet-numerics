@@ -84,6 +84,54 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Returns the smallest absolute value from the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static float MinimumAbsolute(float[] data)
+        {
+            if (data.Length == 0)
+            {
+                return float.NaN;
+            }
+
+            float min = float.PositiveInfinity;
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (Math.Abs(data[i]) < min || float.IsNaN(data[i]))
+                {
+                    min = Math.Abs(data[i]);
+                }
+            }
+
+            return min;
+        }
+
+        /// <summary>
+        /// Returns the largest absolute value from the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static float MaximumAbsolute(float[] data)
+        {
+            if (data.Length == 0)
+            {
+                return float.NaN;
+            }
+
+            float max = 0.0f;
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (Math.Abs(data[i]) > max || float.IsNaN(data[i]))
+                {
+                    max = Math.Abs(data[i]);
+                }
+            }
+
+            return max;
+        }
+
+        /// <summary>
         /// Estimates the arithmetic sample mean from the unsorted data array.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
