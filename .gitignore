@@ -59,9 +59,6 @@ packages/*
 !packages/.gitattributes
 !packages/TaskParallelLibrary
 !packages/FSharp.Core
-!packages/test/NUnit
-!packages/test/FsUnit
-!packages/test/FSharp.Core
 
 # FAKE & Paket
 packages/FAKE
