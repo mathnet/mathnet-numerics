@@ -62,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Returns the conjugate transpose of this matrix.
         /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
-        public override sealed Matrix<double> ConjugateTranspose()
+        public sealed override Matrix<double> ConjugateTranspose()
         {
             return Transpose();
         }
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Complex conjugates each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the conjugation.</param>
-        protected override sealed void DoConjugate(Matrix<double> result)
+        protected sealed override void DoConjugate(Matrix<double> result)
         {
             if (ReferenceEquals(this, result))
             {
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override sealed void DoConjugateTransposeAndMultiply(Matrix<double> other, Matrix<double> result)
+        protected sealed override void DoConjugateTransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
             DoTransposeAndMultiply(other, result);
         }
@@ -260,7 +260,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override sealed void DoConjugateTransposeThisAndMultiply(Matrix<double> other, Matrix<double> result)
+        protected sealed override void DoConjugateTransposeThisAndMultiply(Matrix<double> other, Matrix<double> result)
         {
             DoTransposeThisAndMultiply(other, result);
         }
@@ -288,7 +288,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override sealed void DoConjugateTransposeThisAndMultiply(Vector<double> rightSide, Vector<double> result)
+        protected sealed override void DoConjugateTransposeThisAndMultiply(Vector<double> rightSide, Vector<double> result)
         {
             DoTransposeThisAndMultiply(rightSide, result);
         }
@@ -523,7 +523,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Normalizes all row vectors to a unit p-norm.
         /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
         /// </summary>
-        public override sealed Matrix<double> NormalizeRows(double norm)
+        public sealed override Matrix<double> NormalizeRows(double norm)
         {
             var norminv = ((DenseVectorStorage<double>)RowNorms(norm).Storage).Data;
             for (int i = 0; i < norminv.Length; i++)
@@ -540,7 +540,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Normalizes all column vectors to a unit p-norm.
         /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
         /// </summary>
-        public override sealed Matrix<double> NormalizeColumns(double norm)
+        public sealed override Matrix<double> NormalizeColumns(double norm)
         {
             var norminv = ((DenseVectorStorage<double>)ColumnNorms(norm).Storage).Data;
             for (int i = 0; i < norminv.Length; i++)
@@ -617,7 +617,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <summary>
         /// Evaluates whether this matrix is hermitian (conjugate symmetric).
         /// </summary>
-        public override sealed bool IsHermitian()
+        public sealed override bool IsHermitian()
         {
             return IsSymmetric();
         }

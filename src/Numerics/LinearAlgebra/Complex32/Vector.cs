@@ -206,7 +206,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override sealed void DoPointwiseModulus(Vector<Complex32> divisor, Vector<Complex32> result)
+        protected sealed override void DoPointwiseModulus(Vector<Complex32> divisor, Vector<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -217,7 +217,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override sealed void DoPointwiseRemainder(Vector<Complex32> divisor, Vector<Complex32> result)
+        protected sealed override void DoPointwiseRemainder(Vector<Complex32> divisor, Vector<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -276,7 +276,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoModulus(Complex32 divisor, Vector<Complex32> result)
+        protected sealed override void DoModulus(Complex32 divisor, Vector<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -287,7 +287,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoModulusByThis(Complex32 dividend, Vector<Complex32> result)
+        protected sealed override void DoModulusByThis(Complex32 dividend, Vector<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -298,7 +298,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoRemainder(Complex32 divisor, Vector<Complex32> result)
+        protected sealed override void DoRemainder(Complex32 divisor, Vector<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -309,7 +309,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoRemainderByThis(Complex32 dividend, Vector<Complex32> result)
+        protected sealed override void DoRemainderByThis(Complex32 dividend, Vector<Complex32> result)
         {
             throw new NotSupportedException();
         }

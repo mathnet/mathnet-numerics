@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Returns the conjugate transpose of this matrix.
         /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
-        public override sealed Matrix<Complex32> ConjugateTranspose()
+        public sealed override Matrix<Complex32> ConjugateTranspose()
         {
             var ret = Transpose();
             ret.MapInplace(c => c.Conjugate(), Zeros.AllowSkip);
@@ -358,7 +358,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override sealed void DoPointwiseModulus(Matrix<Complex32> divisor, Matrix<Complex32> result)
+        protected sealed override void DoPointwiseModulus(Matrix<Complex32> divisor, Matrix<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -369,7 +369,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The pointwise denominator matrix to use</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override sealed void DoPointwiseRemainder(Matrix<Complex32> divisor, Matrix<Complex32> result)
+        protected sealed override void DoPointwiseRemainder(Matrix<Complex32> divisor, Matrix<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -380,7 +380,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
-        protected override sealed void DoModulus(Complex32 divisor, Matrix<Complex32> result)
+        protected sealed override void DoModulus(Complex32 divisor, Matrix<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -391,7 +391,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoModulusByThis(Complex32 dividend, Matrix<Complex32> result)
+        protected sealed override void DoModulusByThis(Complex32 dividend, Matrix<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -402,7 +402,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">Matrix to store the results in.</param>
-        protected override sealed void DoRemainder(Complex32 divisor, Matrix<Complex32> result)
+        protected sealed override void DoRemainder(Complex32 divisor, Matrix<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -413,7 +413,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoRemainderByThis(Complex32 dividend, Matrix<Complex32> result)
+        protected sealed override void DoRemainderByThis(Complex32 dividend, Matrix<Complex32> result)
         {
             throw new NotSupportedException();
         }
@@ -552,7 +552,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Normalizes all row vectors to a unit p-norm.
         /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
         /// </summary>
-        public override sealed Matrix<Complex32> NormalizeRows(double norm)
+        public sealed override Matrix<Complex32> NormalizeRows(double norm)
         {
             var norminv = ((DenseVectorStorage<double>)RowNorms(norm).Storage).Data;
             for (int i = 0; i < norminv.Length; i++)
@@ -569,7 +569,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Normalizes all column vectors to a unit p-norm.
         /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
         /// </summary>
-        public override sealed Matrix<Complex32> NormalizeColumns(double norm)
+        public sealed override Matrix<Complex32> NormalizeColumns(double norm)
         {
             var norminv = ((DenseVectorStorage<double>)ColumnNorms(norm).Storage).Data;
             for (int i = 0; i < norminv.Length; i++)

@@ -413,14 +413,14 @@ namespace MathNet.Numerics.Distributions
         /// <param name="a">The α shape parameter of the Beta distribution. Range: α ≥ 0.</param>
         /// <param name="b">The β shape parameter of the Beta distribution. Range: β ≥ 0.</param>
         /// <returns>a random number from the Beta distribution.</returns>
-        static internal double SampleUnchecked(System.Random rnd, double a, double b)
+        internal static double SampleUnchecked(System.Random rnd, double a, double b)
         {
             var x = Gamma.SampleUnchecked(rnd, a, 1.0);
             var y = Gamma.SampleUnchecked(rnd, b, 1.0);
             return x/(x + y);
         }
 
-        static internal void SamplesUnchecked(System.Random rnd, double[] values, double a, double b)
+        internal static void SamplesUnchecked(System.Random rnd, double[] values, double a, double b)
         {
             var y = new double[values.Length];
             Gamma.SamplesUnchecked(rnd, values, a, 1.0);

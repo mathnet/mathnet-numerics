@@ -60,7 +60,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Conjugates vector and save result to <paramref name="result"/>
         /// </summary>
         /// <param name="result">Target vector</param>
-        protected override sealed void DoConjugate(Vector<float> result)
+        protected sealed override void DoConjugate(Vector<float> result)
         {
             if (ReferenceEquals(this, result))
             {
@@ -263,7 +263,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The other vector.</param>
         /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
-        protected override sealed float DoConjugateDotProduct(Vector<float> other)
+        protected sealed override float DoConjugateDotProduct(Vector<float> other)
         {
             return DoDotProduct(other);
         }

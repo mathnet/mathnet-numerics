@@ -850,7 +850,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Evaluates whether this matrix is symmetric.
         /// </summary>
-        public override sealed bool IsSymmetric()
+        public sealed override bool IsSymmetric()
         {
             return true;
         }

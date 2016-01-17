@@ -177,7 +177,7 @@ namespace MathNet.Numerics
         /// <param name="indices">An array which represents where each integer is permuted too: indices[i] represents that integer i
         /// is permuted to location indices[i].</param>
         /// <returns>True if <paramref name="indices"/> represents a proper permutation, <c>false</c> otherwise.</returns>
-        static private bool CheckForProperPermutation(int[] indices)
+        static bool CheckForProperPermutation(int[] indices)
         {
             var idxCheck = new bool[indices.Length];
 

@@ -1007,7 +1007,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Evaluates whether this matrix is symmetric.
         /// </summary>
-        public override sealed bool IsSymmetric()
+        public sealed override bool IsSymmetric()
         {
             return true;
         }
@@ -1015,7 +1015,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Evaluates whether this matrix is hermitian (conjugate symmetric).
         /// </summary>
-        public override sealed bool IsHermitian()
+        public sealed override bool IsHermitian()
         {
             for (var k = 0; k < _data.Length; k ++)
             {

@@ -39,7 +39,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// Provides utilities to analysis the convergence of a set of samples from
     /// a <seealso cref="McmcSampler{T}"/>.
     /// </summary>
-    static public class MCMCDiagnostics
+    public static class MCMCDiagnostics
     {
         /// <summary>
         /// Computes the auto correlations of a series evaluated by a function f.
@@ -50,7 +50,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <returns>The auto correlation.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Throws if lag is zero or if lag is
         /// greater than or equal to the length of Series.</exception>
-        static public double ACF<T>(IEnumerable<T> series, int lag, Func<T,double> f)
+        public static double ACF<T>(IEnumerable<T> series, int lag, Func<T,double> f)
         {
             if (lag < 0)
             {
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="series">The samples.</param>
         /// <param name="f">The function use for evaluating the series.</param>
         /// <returns>The effective size when auto correlation is taken into account.</returns>
-        static public double EffectiveSize<T>(IEnumerable<T> series, Func<T,double> f)
+        public static double EffectiveSize<T>(IEnumerable<T> series, Func<T,double> f)
         {
             int length = series.Count();
             double rho = ACF(series, 1, f);

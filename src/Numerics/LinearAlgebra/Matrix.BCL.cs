@@ -376,7 +376,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns a string that summarizes this matrix.
         /// The maximum number of cells can be configured in the <see cref="Control"/> class.
         /// </summary>
-        public override sealed string ToString()
+        public sealed override string ToString()
         {
             return string.Concat(ToTypeString(), Environment.NewLine, ToMatrixString());
         }

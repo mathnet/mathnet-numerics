@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval = 0)
-            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, new double[x0.Count()], SystemRandomSource.Default, Grad)
+            : this(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, new double[x0.Length], SystemRandomSource.Default, Grad)
         {
             for (int i = 0; i < _length; i++)
             {
@@ -154,7 +154,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval, double[] pSdv, System.Random randomSource, DiffMethod diff)
             : base(x0, pdfLnP, frogLeapSteps, stepSize, burnInterval, randomSource, diff)
         {
-            _length = x0.Count();
+            _length = x0.Length;
             MomentumStdDev = pSdv;
 
             Initialize(x0);
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             {
                 throw new ArgumentNullException("pSdv", "Standard deviation cannot be null.");
             }
-            if (pSdv.Count() != _length)
+            if (pSdv.Length != _length)
             {
                 throw new ArgumentOutOfRangeException("pSdv", "Standard deviation of momentum must have same length as sample.");
             }
@@ -263,7 +263,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="function">Function which the gradient is to be evaluated.</param>
         /// <param name="x">The location where the gradient is to be evaluated.</param>
         /// <returns>The gradient of the function at the point x.</returns>
-        static private double[] Grad(DensityLn<double[]> function, double[] x)
+        static double[] Grad(DensityLn<double[]> function, double[] x)
         {
             int length = x.Length;
             var returnValue = new double[length];

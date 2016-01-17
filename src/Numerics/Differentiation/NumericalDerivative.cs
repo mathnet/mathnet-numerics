@@ -68,6 +68,39 @@ namespace MathNet.Numerics.Differentiation
     /// </summary>
     public class NumericalDerivative
     {
+        readonly int _points;
+        int _center;
+        double _stepSize = Math.Pow(2, -10);
+        double _epsilon = Precision.PositiveMachineEpsilon;
+        double _baseStepSize = Math.Pow(2, -26);
+        StepType _stepType = StepType.Relative;
+        readonly FiniteDifferenceCoefficients _coefficients;
+
+        /// <summary>
+        /// Initializes a NumericalDerivative class with the default 3 point center difference method.
+        /// </summary>
+        public NumericalDerivative() : this(3, 1)
+        {
+        }
+
+        /// <summary>
+        /// Initialized a NumericalDerivative class.
+        /// </summary>
+        /// <param name="points">Number of points for finite difference derivatives.</param>
+        /// <param name="center">Location of the center with respect to other points. Value ranges from zero to points-1.</param>
+        public NumericalDerivative(int points, int center)
+        {
+            if (points < 2)
+            {
+                throw new ArgumentOutOfRangeException("points", "Points must be two or greater.");
+            }
+
+            _center = center;
+            _points = points;
+            Center = center;
+            _coefficients = new FiniteDifferenceCoefficients(points);
+        }
+
         /// <summary>
         /// Sets and gets the finite difference step size. This value is for each function evaluation if relative stepsize types are used.
         /// If the base step size used in scaling is desired, see <see cref="Epsilon"/>.
@@ -145,37 +178,6 @@ namespace MathNet.Numerics.Differentiation
         {
             get { return _stepType; }
             set { _stepType = value; }
-        }
-
-        private readonly int _points;
-        private int _center;
-        private double _stepSize = Math.Pow(2, -10);
-        private double _epsilon = Math.Pow(2, -52);
-        private double _baseStepSize = Math.Pow(2, -26);
-        private StepType _stepType = StepType.Relative;
-        private readonly FiniteDifferenceCoefficients _coefficients;
-
-        /// <summary>
-        /// Initializes a NumericalDerivative class with the default 3 point center difference method.
-        /// </summary>
-        public NumericalDerivative() : this(3, 1)
-        {
-        }
-
-        /// <summary>
-        /// Initialized a NumericalDerivative class.
-        /// </summary>
-        /// <param name="points">Number of points for finite difference derivatives.</param>
-        /// <param name="center">Location of the center with respect to other points. Value ranges from zero to points-1.</param>
-        public NumericalDerivative(int points, int center)
-        {
-            _center = center;
-            if (points < 2)
-                throw new ArgumentOutOfRangeException("points", "Points must be two or greater.");
-            _points = points;
-            Center = center;
-            _epsilon = Precision.PositiveMachineEpsilon;
-            _coefficients = new FiniteDifferenceCoefficients(points);
         }
 
         /// <summary>

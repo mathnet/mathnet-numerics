@@ -61,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>
         ///     <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
         /// </returns>
-        public override sealed bool Equals(object obj)
+        public sealed override bool Equals(object obj)
         {
             var other = obj as Vector<T>;
             return other != null && Storage.Equals(other.Storage);
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>
         /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.
         /// </returns>
-        public override sealed int GetHashCode()
+        public sealed override int GetHashCode()
         {
             return Storage.GetHashCode();
         }
@@ -399,7 +399,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns a string that summarizes this vector.
         /// The maximum number of cells can be configured in the <see cref="Control"/> class.
         /// </summary>
-        public override sealed string ToString()
+        public sealed override string ToString()
         {
             return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString());
         }
