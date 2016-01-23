@@ -24,15 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using NUnit.Framework;
 using System;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.ComplexTests
 {
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
-#else
-    using System.Diagnostics;
+#else 
     using Complex = System.Numerics.Complex;
 #endif
 
