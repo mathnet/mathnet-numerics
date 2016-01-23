@@ -24,14 +24,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using NUnit.Framework;
+using System;
 
 namespace MathNet.Numerics.UnitTests.ComplexTests
 {
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
 #else
+    using System.Diagnostics;
     using Complex = System.Numerics.Complex;
 #endif
 
@@ -417,6 +418,25 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(new Complex32(-2, 0), new Complex32(4, -4) / new Complex32(-2, 2));
             Assert.AreEqual(Complex32.PositiveInfinity, Complex32.One / Complex32.Zero);
         }
+        /// <summary>
+        /// Can divide without overflow.
+        /// </summary> 
+        [Test]
+        public void CanDodgeOverflowDivision()
+        {
+            var first = new Complex32((float)Math.Pow(10, 37), (float)Math.Pow(10, -37));
+            var second = new Complex32((float)Math.Pow(10, 25), (float)Math.Pow(10, -25));
+            Assert.AreEqual(new Complex32((float)Math.Pow(10, 12), (float)Math.Pow(10, -38)), first / second);
+
+            first = new Complex32(-(float)Math.Pow(10, 37), (float)Math.Pow(10, -37));
+            second = new Complex32((float)Math.Pow(10, 25), (float)Math.Pow(10, -25));
+            Assert.AreEqual(new Complex32(-(float)Math.Pow(10, 12), (float)Math.Pow(10, -38)), first / second);
+
+            first = new Complex32((float)Math.Pow(10, -37), (float)Math.Pow(10, 37));
+            second = new Complex32((float)Math.Pow(10, -17), -(float)Math.Pow(10, 17));
+            Assert.AreEqual(new Complex32(-(float)Math.Pow(10, 20), (float)Math.Pow(10, -14)), first / second);
+
+        }
 
         /// <summary>
         /// Can multiple a complex number and a double using operators.
@@ -547,7 +567,17 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             Assert.AreEqual(expected, new Complex32(real, imag).Magnitude);
         }
+        /// <summary>
+        /// Can calculate magnitude without overflow
+        /// </summary>
+        [Test]
+        public void CanDodgeOverflowMagnitude()
+        {
+            Assert.AreEqual((float)Math.Sqrt(2) * float.Epsilon, new Complex32(float.Epsilon, float.Epsilon).Magnitude);
+            Assert.AreEqual(float.Epsilon, new Complex32(0, float.Epsilon).Magnitude);
+            Assert.AreEqual((float)(Math.Pow(10,30) * Math.Sqrt(2)), new Complex32((float)Math.Pow(10, 30), (float)Math.Pow(10, 30)).Magnitude);
 
+        }
         /// <summary>
         /// Can compute sign.
         /// </summary>
