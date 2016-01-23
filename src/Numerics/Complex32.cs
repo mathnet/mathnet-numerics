@@ -188,6 +188,8 @@ namespace MathNet.Numerics
             {
                 float a = Math.Abs(_real);
                 float b = Math.Abs(_imag);
+                if (float.IsPositiveInfinity(a) && float.IsPositiveInfinity(b))
+                    return float.PositiveInfinity;
                 if (a > b)
                 {
                     double tmp = b / a;
@@ -201,8 +203,8 @@ namespace MathNet.Numerics
                 else
                 {
                     double tmp = a / b;
-                    return b*(float)Math.Sqrt(1.0f + tmp*tmp);
-                } 
+                    return b * (float)Math.Sqrt(1.0f + tmp * tmp);
+                }
             }
         }
 
@@ -504,9 +506,9 @@ namespace MathNet.Numerics
         /// </summary>
         public Tuple<Complex32, Complex32, Complex32> CubicRoots()
         {
-            float r = (float)Math.Pow(Magnitude, 1d/3d);
-            float theta = Phase/3;
-            const float shift = (float)Constants.Pi2/3;
+            float r = (float)Math.Pow(Magnitude, 1d / 3d);
+            float theta = Phase / 3;
+            const float shift = (float)Constants.Pi2 / 3;
             return new Tuple<Complex32, Complex32, Complex32>(
                 FromPolarCoordinates(r, theta),
                 FromPolarCoordinates(r, theta + shift),
@@ -676,7 +678,7 @@ namespace MathNet.Numerics
             float r = d / c;
             float t = 1 / (c + d * r);
             float e, f;
-            if (r!=0.0f) // one can use r >= float.Epsilon || r <= float.Epsilon instead
+            if (r != 0.0f) // one can use r >= float.Epsilon || r <= float.Epsilon instead
             {
                 e = (a + b * r) * t;
                 f = (b - a * r) * t;
