@@ -180,6 +180,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets the magnitude (or absolute value) of a complex number.
         /// </summary>
+        /// <remarks>Assuming that magnitude of (inf,a) and (a,inf) is NaN and magnitude of (inf,inf) is inf</remarks>
         /// <returns>The magnitude of the current instance.</returns>
         public float Magnitude
         {
@@ -188,7 +189,7 @@ namespace MathNet.Numerics
             {
                 float a = Math.Abs(_real);
                 float b = Math.Abs(_imag);
-                if (float.IsPositiveInfinity(a) && float.IsPositiveInfinity(b)) 
+                if (float.IsPositiveInfinity(a) && float.IsPositiveInfinity(b))
                     return float.PositiveInfinity;
                 if (a > b)
                 {
