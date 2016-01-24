@@ -436,7 +436,21 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(new Complex32(-(float)Math.Pow(10, 20), (float)Math.Pow(10, -14)), first / second);
 
         }
+        /// <summary>
+        /// Can divide float/complex without overflow
+        /// </summary>
+        [Test]
+        public void CanDodgeOverflowDivisionFloat()
+        {
 
+            var first = new Complex32((float)Math.Pow(10, 25), (float)Math.Pow(10, -25));
+            float second = (float)Math.Pow(10, -37);
+            float third = (float)Math.Pow(10, 37);
+            Assert.AreEqual(new Complex32(0, 0), second / first); // it's (10^-62,10^-112) thus overflow
+            Assert.AreEqual(new Complex32((float)Math.Pow(10, 12), (float)Math.Pow(10, -38)), third / first); 
+            Assert.AreEqual(new Complex32((float)Math.Pow(10, -28), -(float)Math.Pow(10, 12)), third / new Complex32((float)Math.Pow(10, -25), (float)Math.Pow(10, 25))); 
+
+        }
         /// <summary>
         /// Can multiple a complex number and a double using operators.
         /// </summary>
@@ -574,7 +588,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             Assert.AreEqual((float)Math.Sqrt(2) * float.Epsilon, new Complex32(float.Epsilon, float.Epsilon).Magnitude);
             Assert.AreEqual(float.Epsilon, new Complex32(0, float.Epsilon).Magnitude);
-            Assert.AreEqual((float)(Math.Pow(10,30) * Math.Sqrt(2)), new Complex32((float)Math.Pow(10, 30), (float)Math.Pow(10, 30)).Magnitude);
+            Assert.AreEqual((float)(Math.Pow(10, 30) * Math.Sqrt(2)), new Complex32((float)Math.Pow(10, 30), (float)Math.Pow(10, 30)).Magnitude);
 
         }
         /// <summary>

@@ -641,7 +641,8 @@ namespace MathNet.Numerics
         }
 
         /// <summary>Division operator. Divides a complex number by another.</summary>
-        /// <remarks>Enchanted Smith's algorithm for dividing two complex numbers </remarks>
+        /// <remarks>Enhanced Smith's algorithm for dividing two complex numbers </remarks>
+        /// <see cref="InternalDiv(float, float, float, float, bool)"/>
         /// <returns>The result of the division.</returns>
         /// <param name="dividend">The dividend.</param>
         /// <param name="divisor">The divisor.</param>
@@ -694,6 +695,8 @@ namespace MathNet.Numerics
         }
 
         /// <summary>Division operator. Divides a float value by a complex number.</summary>
+        /// <remarks>Algorithm based on Smith's algorithm</remarks>
+        /// <see cref="InternalDiv(float, float, float, float, bool)"/> 
         /// <returns>The result of the division.</returns>
         /// <param name="dividend">The dividend.</param>
         /// <param name="divisor">The divisor.</param>
@@ -708,9 +711,11 @@ namespace MathNet.Numerics
             {
                 return PositiveInfinity;
             }
-
-            var zmod = divisor.MagnitudeSquared;
-            return new Complex32(dividend * divisor._real / zmod, -dividend * divisor._imag / zmod);
+            float c = divisor.Real;
+            float d = divisor.Imaginary;
+            if (Math.Abs(d) <= Math.Abs(c))
+                return InternalDiv(dividend, 0, c, d, false);
+            return InternalDiv(0, dividend, d, c, true);
         }
 
         /// <summary>Division operator. Divides a complex number by a float value.</summary>
