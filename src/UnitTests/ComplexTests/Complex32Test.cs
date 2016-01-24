@@ -443,12 +443,26 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         public void CanDodgeOverflowDivisionFloat()
         {
 
-            var first = new Complex32((float)Math.Pow(10, 25), (float)Math.Pow(10, -25));
-            float second = (float)Math.Pow(10, -37);
-            float third = (float)Math.Pow(10, 37);
-            Assert.AreEqual(new Complex32(0, 0), second / first); // it's (10^-62,10^-112) thus overflow
-            Assert.AreEqual(new Complex32((float)Math.Pow(10, 12), (float)Math.Pow(10, -38)), third / first); 
-            Assert.AreEqual(new Complex32((float)Math.Pow(10, -28), -(float)Math.Pow(10, 12)), third / new Complex32((float)Math.Pow(10, -25), (float)Math.Pow(10, 25))); 
+            var firstComplex = new Complex32((float)Math.Pow(10, 25), (float)Math.Pow(10, -25));
+            float firstFloat = (float)Math.Pow(10, -37);
+            float secondFloat = (float)Math.Pow(10, 37);
+
+            Assert.AreEqual(new Complex32(0, 0), firstFloat / firstComplex); // it's (10^-62,10^-112) thus overflow to 0
+            Assert.AreEqual(new Complex32((float)Math.Pow(10, 12), (float)Math.Pow(10, -38)), secondFloat / firstComplex);
+
+            var secondComplex = new Complex32((float)Math.Pow(10, -25), (float)Math.Pow(10, 25));
+            Assert.AreEqual(new Complex32(0, 0), firstFloat / secondComplex);// it's (10^-112,10^-62) thus overflow to 0
+            Assert.AreEqual(new Complex32((float)Math.Pow(10, -38), -(float)Math.Pow(10, 12)), secondFloat / secondComplex);
+
+
+
+            float thirdFloat = (float)Math.Pow(10, 13);
+            var thirdComplex = new Complex32((float)Math.Pow(10, -25), (float)Math.Pow(10, -25));
+            Assert.AreEqual(new Complex32(5.0f * (float)Math.Pow(10, 37), -5.0f * (float)Math.Pow(10, 37)), thirdFloat / thirdComplex);
+
+            var fourthFloat = (float)Math.Pow(10, -30);
+            var fourthComplex = new Complex32((float)Math.Pow(10, -30), (float)Math.Pow(10, -30));
+            Assert.AreEqual(new Complex32(0.5f, -0.5f), fourthFloat / fourthComplex);
 
         }
         /// <summary>

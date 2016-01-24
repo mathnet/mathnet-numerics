@@ -188,7 +188,7 @@ namespace MathNet.Numerics
             {
                 float a = Math.Abs(_real);
                 float b = Math.Abs(_imag);
-                if (float.IsPositiveInfinity(a) && float.IsPositiveInfinity(b))
+                if (float.IsPositiveInfinity(a) || float.IsPositiveInfinity(b)) 
                     return float.PositiveInfinity;
                 if (a > b)
                 {
