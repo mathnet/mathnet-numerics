@@ -180,7 +180,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets the magnitude (or absolute value) of a complex number.
         /// </summary>
-        /// <remarks>Assuming that magnitude of (inf,a) and (a,inf) is NaN and magnitude of (inf,inf) is inf</remarks>
+        /// <remarks>Assuming that magnitude of (inf,a) and (a,inf) and (inf,inf) is inf and (NaN,a), (a,NaN) and (NaN,NaN) is NaN</remarks>
         /// <returns>The magnitude of the current instance.</returns>
         public float Magnitude
         {
