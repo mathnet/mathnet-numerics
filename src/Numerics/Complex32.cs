@@ -180,11 +180,35 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets the magnitude (or absolute value) of a complex number.
         /// </summary>
+        /// <remarks>Assuming that magnitude of (inf,a) and (a,inf) and (inf,inf) is inf and (NaN,a), (a,NaN) and (NaN,NaN) is NaN</remarks>
         /// <returns>The magnitude of the current instance.</returns>
         public float Magnitude
         {
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-            get { return (float)Math.Sqrt((_real * _real) + (_imag * _imag)); }
+            get
+            {
+                if (float.IsNaN(_real) || float.IsNaN(_imag))
+                    return float.NaN;
+                if (float.IsInfinity(_real) || float.IsInfinity(_imag))
+                    return float.PositiveInfinity;
+                float a = Math.Abs(_real);
+                float b = Math.Abs(_imag);
+                if (a > b)
+                {
+                    double tmp = b / a;
+                    return a * (float)Math.Sqrt(1.0f + tmp * tmp);
+
+                }
+                if (a == 0.0f) // one can write a >= float.Epsilon here
+                {
+                    return b;
+                }
+                else
+                {
+                    double tmp = a / b;
+                    return b * (float)Math.Sqrt(1.0f + tmp * tmp);
+                }
+            }
         }
 
         /// <summary>
@@ -485,9 +509,9 @@ namespace MathNet.Numerics
         /// </summary>
         public Tuple<Complex32, Complex32, Complex32> CubicRoots()
         {
-            float r = (float)Math.Pow(Magnitude, 1d/3d);
-            float theta = Phase/3;
-            const float shift = (float)Constants.Pi2/3;
+            float r = (float)Math.Pow(Magnitude, 1d / 3d);
+            float theta = Phase / 3;
+            const float shift = (float)Constants.Pi2 / 3;
             return new Tuple<Complex32, Complex32, Complex32>(
                 FromPolarCoordinates(r, theta),
                 FromPolarCoordinates(r, theta + shift),
@@ -620,6 +644,8 @@ namespace MathNet.Numerics
         }
 
         /// <summary>Division operator. Divides a complex number by another.</summary>
+        /// <remarks>Enhanced Smith's algorithm for dividing two complex numbers </remarks>
+        /// <see cref="InternalDiv(float, float, float, float, bool)"/>
         /// <returns>The result of the division.</returns>
         /// <param name="dividend">The dividend.</param>
         /// <param name="divisor">The divisor.</param>
@@ -634,14 +660,46 @@ namespace MathNet.Numerics
             {
                 return PositiveInfinity;
             }
-
-            var modSquared = divisor.MagnitudeSquared;
-            return new Complex32(
-                ((dividend._real * divisor._real) + (dividend._imag * divisor._imag)) / modSquared,
-                ((dividend._imag * divisor._real) - (dividend._real * divisor._imag)) / modSquared);
+            float a = dividend.Real;
+            float b = dividend.Imaginary;
+            float c = divisor.Real;
+            float d = divisor.Imaginary;
+            if (Math.Abs(d) <= Math.Abs(c))
+                return InternalDiv(a, b, c, d, false);
+            return InternalDiv(b, a, d, c, true);
+        }
+        /// <summary>
+        ///  Helper method for dividing.
+        /// </summary>
+        /// <param name="a">Re first</param>
+        /// <param name="b">Im first</param>
+        /// <param name="c">Re second</param>
+        /// <param name="d">Im second</param>
+        /// <param name="swapped"></param>
+        /// <returns></returns>
+        private static Complex32 InternalDiv(float a, float b, float c, float d, bool swapped)
+        {
+            float r = d / c;
+            float t = 1 / (c + d * r);
+            float e, f;
+            if (r != 0.0f) // one can use r >= float.Epsilon || r <= float.Epsilon instead
+            {
+                e = (a + b * r) * t;
+                f = (b - a * r) * t;
+            }
+            else
+            {
+                e = (a + d * (b / c)) * t;
+                f = (b - d * (a / c)) * t;
+            }
+            if (swapped)
+                f = -f;
+            return new Complex32(e, f);
         }
 
         /// <summary>Division operator. Divides a float value by a complex number.</summary>
+        /// <remarks>Algorithm based on Smith's algorithm</remarks>
+        /// <see cref="InternalDiv(float, float, float, float, bool)"/> 
         /// <returns>The result of the division.</returns>
         /// <param name="dividend">The dividend.</param>
         /// <param name="divisor">The divisor.</param>
@@ -656,9 +714,11 @@ namespace MathNet.Numerics
             {
                 return PositiveInfinity;
             }
-
-            var zmod = divisor.MagnitudeSquared;
-            return new Complex32(dividend * divisor._real / zmod, -dividend * divisor._imag / zmod);
+            float c = divisor.Real;
+            float d = divisor.Imaginary;
+            if (Math.Abs(d) <= Math.Abs(c))
+                return InternalDiv(dividend, 0, c, d, false);
+            return InternalDiv(0, dividend, d, c, true);
         }
 
         /// <summary>Division operator. Divides a complex number by a float value.</summary>
@@ -1272,7 +1332,6 @@ namespace MathNet.Numerics
         {
             return dividend / divisor;
         }
-
         /// <summary>
         /// Returns the multiplicative inverse of a complex number.
         /// </summary>
