@@ -187,10 +187,12 @@ namespace MathNet.Numerics
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
             get
             {
+                if (float.IsNaN(_real) || float.IsNaN(_imag))
+                    return float.NaN;
+                if (float.IsInfinity(_real) || float.IsInfinity(_imag))
+                    return float.PositiveInfinity;
                 float a = Math.Abs(_real);
                 float b = Math.Abs(_imag);
-                if (float.IsPositiveInfinity(a) && float.IsPositiveInfinity(b))
-                    return float.PositiveInfinity;
                 if (a > b)
                 {
                     double tmp = b / a;
