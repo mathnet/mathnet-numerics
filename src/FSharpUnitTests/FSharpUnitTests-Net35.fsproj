@@ -70,6 +70,7 @@
     <Compile Include="FitTests.fs" />
     <Compile Include="FindRootsTests.fs" />
     <None Include="paket.references" />
+    <Compile Include="QuaternionTests.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />

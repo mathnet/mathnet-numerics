@@ -75,6 +75,7 @@
     <Compile Include="FindRoots.fs" />
     <Compile Include="RandomVariable.fs" />
     <None Include="MathNet.Numerics.fsx" />
+    <Compile Include="Quaternion.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
