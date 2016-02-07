@@ -87,6 +87,7 @@
     <Compile Include="FindRootsTests.fs" />
     <None Include="paket.references" />
     <None Include="App.config" />
+    <Compile Include="QuaternionTests.fs" />
   </ItemGroup>
   <PropertyGroup>
     <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
