@@ -85,9 +85,9 @@
     <Compile Include="PokerTests.fs" />
     <Compile Include="FitTests.fs" />
     <Compile Include="FindRootsTests.fs" />
+    <Compile Include="QuaternionTests.fs" />
     <None Include="paket.references" />
     <None Include="App.config" />
-    <Compile Include="QuaternionTests.fs" />
   </ItemGroup>
   <PropertyGroup>
     <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>

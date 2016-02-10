@@ -74,9 +74,9 @@
     <Compile Include="Fit.fs" />
     <Compile Include="FindRoots.fs" />
     <Compile Include="RandomVariable.fs" />
+    <Compile Include="Quaternion.fs" />
     <None Include="MathNet.Numerics.fsx" />
     <None Include="MathNet.Numerics.IfSharp.fsx" />
-    <Compile Include="Quaternion.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
