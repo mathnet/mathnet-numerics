@@ -3,7 +3,7 @@ Intel Math Kernel Library (MKL)
 
 Math.NET Numerics is designed such that performance-sensitive algorithms
 can be swapped with alternative implementations by the concept of providers.
-There is currently only a provider for linear algebra related routines, but there
+There is currently only a provider for [linear algebra related routines](http://numerics.mathdotnet.com/api/MathNet.Numerics.Providers.LinearAlgebra.Mkl/MklLinearAlgebraProvider.htm), but there
 are plans to add additional more e.g. related to nonlinear optimization problems or signal processing.
 
 Providers become interesting when they can leverage a platform-native high performance library
