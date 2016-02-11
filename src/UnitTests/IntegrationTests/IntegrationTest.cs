@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// <param name="x">First input value.</param>
         /// <param name="y">Second input value.</param>
         /// <returns>Function result.</returns>
-        private static double TargeFunctionB(double x, double y)
+        private static double TargetFunctionB(double x, double y)
         {
             return Math.Exp(-x / 5) * (2 + Math.Sin(2 * y));
         }
@@ -230,7 +230,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [TestCase(22)]
         public void TestGaussLegendreRuleIntegrate2D(int order)
         {
-            double appoximateArea = GaussLegendreRule.Integrate(TargeFunctionB, StartA, StopA, StartB, StopB, order);
+            double appoximateArea = GaussLegendreRule.Integrate(TargetFunctionB, StartA, StopA, StartB, StopB, order);
             double relativeError = Math.Abs(TargetAreaB - appoximateArea) / TargetAreaB;
             Assert.Less(relativeError, 1e-15);
         }
