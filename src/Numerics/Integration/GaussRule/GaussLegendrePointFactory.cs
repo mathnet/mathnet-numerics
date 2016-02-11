@@ -38,6 +38,7 @@ namespace MathNet.Numerics.Integration.GaussRule
     /// </summary>
     static class GaussLegendrePointFactory
     {
+        [ThreadStatic]
         private static GaussPoint gaussLegendrePoint;
 
         /// <summary>
