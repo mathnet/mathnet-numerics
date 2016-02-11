@@ -221,6 +221,21 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         /// <summary>
+        /// Gauss-Legendre rule supports integration.
+        /// </summary>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public void TestIntegrateGaussLegendre(int order)
+        {
+            double appoximateArea = Integrate.GaussLegendre(TargetFunctionA, StartA, StopA, order);
+            double relativeError = Math.Abs(TargetAreaA - appoximateArea) / TargetAreaA;
+            Assert.Less(relativeError, 5e-16);
+        }
+
+        /// <summary>
         /// Gauss-Legendre rule supports 2-dimensional integration over the rectangle.
         /// </summary>
         /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
@@ -231,6 +246,21 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         public void TestGaussLegendreRuleIntegrate2D(int order)
         {
             double appoximateArea = GaussLegendreRule.Integrate(TargetFunctionB, StartA, StopA, StartB, StopB, order);
+            double relativeError = Math.Abs(TargetAreaB - appoximateArea) / TargetAreaB;
+            Assert.Less(relativeError, 1e-15);
+        }
+
+        /// <summary>
+        /// Gauss-Legendre rule supports 2-dimensional integration over the rectangle.
+        /// </summary>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public void TestIntegrateGaussLegendre2D(int order)
+        {
+            double appoximateArea = Integrate.GaussLegendre(TargetFunctionB, StartA, StopA, StartB, StopB, order);
             double relativeError = Math.Abs(TargetAreaB - appoximateArea) / TargetAreaB;
             Assert.Less(relativeError, 1e-15);
         }
