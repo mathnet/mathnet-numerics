@@ -273,12 +273,12 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [TestCase(20)]
         [TestCase(21)]
         [TestCase(22)]
-        public void TestGaussLegendreRuleGetAbscissasGetWeightsGetOrderViaIntegration(int order)
+        public void TestGaussLegendreRuleGetAbscissasGetWeightsOrderViaIntegration(int order)
         {
             GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
 
             double appoximateArea = 0;
-            for (int i = 0; i < gaussLegendre.GetOrder(); i++)
+            for (int i = 0; i < gaussLegendre.Order; i++)
             {
                 appoximateArea += gaussLegendre.GetWeight(i) * TargetFunctionA(gaussLegendre.GetAbscissa(i));
             }
@@ -295,18 +295,18 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         {
             const int order = 19;
             GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
-            Assert.AreEqual(gaussLegendre.GetIntervalBegin(), StartA);
+            Assert.AreEqual(gaussLegendre.IntervalBegin, StartA);
         }
 
         /// <summary>
         /// Gauss-Legendre rule supports obtaining IntervalEnd.
         /// </summary>
         [TestCase]
-        public void TestGaussLegendreRuleGetIntervalEnd()
+        public void TestGaussLegendreRuleIntervalEnd()
         {
             const int order = 19;
             GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
-            Assert.AreEqual(gaussLegendre.GetIntervalEnd(), StopA);
+            Assert.AreEqual(gaussLegendre.IntervalEnd, StopA);
         }
     }
 }

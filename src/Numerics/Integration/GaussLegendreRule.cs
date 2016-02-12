@@ -74,28 +74,34 @@ namespace MathNet.Numerics.Integration
         /// <summary>
         /// Getter for the order.
         /// </summary>
-        /// <returns>The order, which defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</returns>
-        public int GetOrder()
+        public int Order
         {
-            return gaussLegendrePoint.Order;
+            get
+            {
+                return gaussLegendrePoint.Order;
+            }
         }
 
         /// <summary>
         /// Getter for the InvervalBegin. 
         /// </summary>
-        /// <returns>Where the interval starts, inclusive and finite.</returns>
-        public double GetIntervalBegin()
+        public double IntervalBegin
         {
-            return gaussLegendrePoint.IntervalBegin;
+            get
+            {
+                return gaussLegendrePoint.IntervalBegin;
+            }
         }
 
         /// <summary>
         /// Getter for the InvervalEnd. 
         /// </summary>
-        /// <returns>Where the interval stops, inclusive and finite.</returns>
-        public double GetIntervalEnd()
+        public double IntervalEnd
         {
-            return gaussLegendrePoint.IntervalEnd;
+            get
+            {
+                return gaussLegendrePoint.IntervalEnd;
+            }
         }
 
         /// <summary>
