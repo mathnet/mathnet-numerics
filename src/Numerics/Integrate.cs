@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -64,16 +64,18 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Approximates a definite integral using an Nth order Gauss-Legendre rule.
+        /// Approximates a 2-dimensional definite integral using an Nth order Gauss-Legendre rule over the rectangle [a,b] x [c,d].
         /// </summary>
-        /// <param name="f">The analytic smooth function to integrate.</param>
-        /// <param name="invervalBegin">Where the interval starts, exclusive and finite.</param>
-        /// <param name="invervalEnd">Where the interval ends, exclusive and finite.</param>
+        /// <param name="f">The 2-dimensional analytic smooth function to integrate.</param>
+        /// <param name="invervalBeginA">Where the interval starts for the first (inside) integral, exclusive and finite.</param>
+        /// <param name="invervalEndA">Where the interval ends for the first (inside) integral, exclusive and finite.</param>
+        /// <param name="invervalBeginB">Where the interval starts for the second (outside) integral, exclusive and finite.</param>
+        /// /// <param name="invervalEndB">Where the interval ends for the second (outside) integral, exclusive and finite.</param>
         /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2,. . ., 20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calulcated on the fly.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double GaussLegendre(Func<double, double> f, double invervalBegin, double invervalEnd, int order)
+        public static double OnRectangle(Func<double, double, double> f, double invervalBeginA, double invervalEndA, double invervalBeginB, double invervalEndB, int order)
         {
-            return GaussLegendreRule.Integrate(f, invervalBegin, invervalEnd, order);
+            return GaussLegendreRule.Integrate(f, invervalBeginA, invervalEndA, invervalBeginB, invervalEndB, order);
         }
 
         /// <summary>
@@ -84,11 +86,10 @@ namespace MathNet.Numerics
         /// <param name="invervalEndA">Where the interval ends for the first (inside) integral, exclusive and finite.</param>
         /// <param name="invervalBeginB">Where the interval starts for the second (outside) integral, exclusive and finite.</param>
         /// /// <param name="invervalEndB">Where the interval ends for the second (outside) integral, exclusive and finite.</param>
-        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2,. . ., 20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calulcated on the fly.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double GaussLegendre(Func<double, double, double> f, double invervalBeginA, double invervalEndA, double invervalBeginB, double invervalEndB, int order)
+        public static double OnRectangle(Func<double, double, double> f, double invervalBeginA, double invervalEndA, double invervalBeginB, double invervalEndB)
         {
-            return GaussLegendreRule.Integrate(f, invervalBeginA, invervalEndA, invervalBeginB, invervalEndB, order);
+            return GaussLegendreRule.Integrate(f, invervalBeginA, invervalEndA, invervalBeginB, invervalEndB, 32);
         }
     }
 }

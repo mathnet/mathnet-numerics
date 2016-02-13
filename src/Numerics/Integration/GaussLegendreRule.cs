@@ -38,8 +38,8 @@ namespace MathNet.Numerics.Integration
     /// </summary>
     public class GaussLegendreRule
     {
-        private readonly GaussPoint gaussLegendrePoint;
-       
+        private readonly GaussPoint _gaussLegendrePoint;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="GaussLegendreRule"/> class.
         /// </summary>
@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2,. . ., 20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calulcated on the fly.</param>
         public GaussLegendreRule(double intervalBegin, double intervalEnd, int order)
         {
-            gaussLegendrePoint = Map(GaussLegendrePointFactory.GetGaussPoint(order), intervalBegin, intervalEnd);
+            _gaussLegendrePoint = Map(GaussLegendrePointFactory.GetGaussPoint(order), intervalBegin, intervalEnd);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace MathNet.Numerics.Integration
         /// <returns>The ith abscissa.</returns>
         public double GetAbscissa(int index)
         {
-            return gaussLegendrePoint.Abscissas[index];
+            return _gaussLegendrePoint.Abscissas[index];
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Integration
         /// <returns>The ith weight.</returns>
         public double GetWeight(int index)
         {
-            return gaussLegendrePoint.Weights[index];
+            return _gaussLegendrePoint.Weights[index];
         }
 
         /// <summary>
@@ -78,29 +78,29 @@ namespace MathNet.Numerics.Integration
         {
             get
             {
-                return gaussLegendrePoint.Order;
+                return _gaussLegendrePoint.Order;
             }
         }
 
         /// <summary>
-        /// Getter for the InvervalBegin. 
+        /// Getter for the InvervalBegin.
         /// </summary>
         public double IntervalBegin
         {
             get
             {
-                return gaussLegendrePoint.IntervalBegin;
+                return _gaussLegendrePoint.IntervalBegin;
             }
         }
 
         /// <summary>
-        /// Getter for the InvervalEnd. 
+        /// Getter for the InvervalEnd.
         /// </summary>
         public double IntervalEnd
         {
             get
             {
-                return gaussLegendrePoint.IntervalEnd;
+                return _gaussLegendrePoint.IntervalEnd;
             }
         }
 

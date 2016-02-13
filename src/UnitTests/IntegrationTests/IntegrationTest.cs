@@ -3,7 +3,9 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2016 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +14,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -88,22 +92,34 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         private const double TargetAreaB = 11.7078776759298776163;
 
         /// <summary>
-        /// Test integrate portal.
+        /// Test Integrate facade for simple use cases.
         /// </summary>
         [Test]
-        public void TestIntegratePortal()
+        public void TestIntegrateFacade()
         {
             Assert.AreEqual(
                 TargetAreaA,
                 Integrate.OnClosedInterval(TargetFunctionA, StartA, StopA),
                 1e-5,
-                "Basic");
+                "Interval");
 
             Assert.AreEqual(
                 TargetAreaA,
                 Integrate.OnClosedInterval(TargetFunctionA, StartA, StopA, 1e-10),
                 1e-10,
-                "Basic Target 1e-10");
+                "Interval, Target 1e-10");
+
+            Assert.AreEqual(
+                Integrate.OnRectangle(TargetFunctionB, StartA, StopA, StartB, StopB),
+                TargetAreaB,
+                1e-12,
+                "Rectangle");
+
+            Assert.AreEqual(
+                Integrate.OnRectangle(TargetFunctionB, StartA, StopA, StartB, StopB, 22),
+                TargetAreaB,
+                1e-10,
+                "Rectangle, Gauss-Legendre Order 22");
         }
 
         /// <summary>
@@ -221,21 +237,6 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         /// <summary>
-        /// Gauss-Legendre rule supports integration.
-        /// </summary>
-        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
-        [TestCase(19)]
-        [TestCase(20)]
-        [TestCase(21)]
-        [TestCase(22)]
-        public void TestIntegrateGaussLegendre(int order)
-        {
-            double appoximateArea = Integrate.GaussLegendre(TargetFunctionA, StartA, StopA, order);
-            double relativeError = Math.Abs(TargetAreaA - appoximateArea) / TargetAreaA;
-            Assert.Less(relativeError, 5e-16);
-        }
-
-        /// <summary>
         /// Gauss-Legendre rule supports 2-dimensional integration over the rectangle.
         /// </summary>
         /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
@@ -260,13 +261,10 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [TestCase(22)]
         public void TestIntegrateGaussLegendre2D(int order)
         {
-            double appoximateArea = Integrate.GaussLegendre(TargetFunctionB, StartA, StopA, StartB, StopB, order);
-            double relativeError = Math.Abs(TargetAreaB - appoximateArea) / TargetAreaB;
-            Assert.Less(relativeError, 1e-15);
         }
 
         /// <summary>
-        /// Gauss-Legendre rule supports obtaining the abscissas/weights. In this case, they're used for integration. 
+        /// Gauss-Legendre rule supports obtaining the abscissas/weights. In this case, they're used for integration.
         /// </summary>
         /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
         [TestCase(19)]
