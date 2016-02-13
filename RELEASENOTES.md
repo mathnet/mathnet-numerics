@@ -1,3 +1,10 @@
+### 3.11.0 - 2016-02-13
+* Special Functions: error functions to use static coefficient arrays (perf) *~Joel Sleppy*
+* Integration: Gauss-Legendre Rule (1D, 2D) *~Larz White*
+* Complex: more robust magnitude and division for numbers close to MaxValue or Epsilon *~MaLiN2223*
+* Native Providers: lazy default provider discovery & initialization *~Kuan Bartel*
+* FSharp Package: Quaternion type *~Phil Cleveland*
+
 ### 3.10.0 - 2015-12-30
 * Statistics: single-precision floating point support.
 * Statistics: very limited support for int32 and complex numbers.

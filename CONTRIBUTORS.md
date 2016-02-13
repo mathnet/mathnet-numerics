@@ -23,16 +23,18 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Kuan Bartel
 - Alexander Täschner
 - Hani Medhat
+- MaLiN2223
 - Matthew A. Johnson
 - manyue
 - David Prince
+- Larz White
 - Andriy Bratiychuk
 - Jack Pappas
+- Phil Cleveland
 - Artyom Baranovskiy
 - Ashley Messer
 - Candy Chiu
 - Evelina Gabasova
-- Phil Cleveland
 - Scott Stephens
 - Superbest
 - lionpeloux
@@ -51,14 +53,17 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Kyle Parrigan
 - borfudin
 - BenHewins
+- Dan
 - Gregor959
 - IUser
 - Iain Sproat
 - Jeff Mastry
+- Joel Sleppy
 - Kosei ABE
 - Martin Posch
 - Matt Heffron
 - Max Malook
+- Mirth Hickford
 - Paul Varkey
 - Sunny Ahuwanya
 - Till Hoffmann
