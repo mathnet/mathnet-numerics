@@ -73,18 +73,21 @@ module Quaternion =
     //http://www.mathworks.com/help/aeroblks/quaterniondivision.html
     //https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation#The_conjugation_operation
 
-    let norm q =
+    let normSquared q =
         q.w**2.0 + q.x**2.0 + q.y**2.0 + q.z**2.0
 
+    let norm q =
+        normSquared q |> sqrt
+
     let normalize q =
-        let invNorm = 1.0 / (norm q |> sqrt)
+        let invNorm = 1.0 / (norm q)
         {w=q.w*invNorm;x=q.x*invNorm;y=q.y*invNorm;z=q.z*invNorm}
 
     let conjugate q =
         {w=q.w; x= -q.x; y= -q.y; z= -q.z}
 
     let inverse q =
-        conjugate q / norm q
+        conjugate q / normSquared q
 
     //create a new quaternion
     //angle in radians
@@ -95,17 +98,17 @@ module Quaternion =
     //              | n sin α/2 |
     //              -           -
     let create (angle:float) (x:float) (y:float) (z:float) =
-            //axis needs to be unit vector
-            let vNorm = x**2.0+y**2.0+z**2.0
-            let invNorm = 1.0 / (vNorm |> sqrt)
-            let x' = x*invNorm
-            let y' = y*invNorm
-            let z' = z*invNorm
+        //axis needs to be unit vector
+        let vNorm = x**2.0+y**2.0+z**2.0
+        let invNorm = 1.0 / (vNorm |> sqrt)
+        let x' = x*invNorm
+        let y' = y*invNorm
+        let z' = z*invNorm
 
-            let halfAngle = angle * 0.5
-            let s = halfAngle |> sin
-            let c = halfAngle |> cos
-            {w=c; x=x'*s; y=y'*s; z=z'*s}
+        let halfAngle = angle * 0.5
+        let s = halfAngle |> sin
+        let c = halfAngle |> cos
+        {w=c; x=x'*s; y=y'*s; z=z'*s}
 
     //dot product
     let dot q1 q2 =

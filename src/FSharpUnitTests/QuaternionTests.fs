@@ -45,8 +45,8 @@ module QuaternionTests =
 
     //http://www.mathworks.com/help/aerotbx/ug/quatnorm.html
     [<Test>]
-    let ``Quaternion.Norm`` () =
-        Quaternion.norm n' |> should equal 0.75
+    let ``Quaternion.NormSquared`` () =
+        Quaternion.normSquared n' |> should equal 0.75
 
     //http://www.mathworks.com/help/aerotbx/ug/quatnormalize.html
     [<Test>]
