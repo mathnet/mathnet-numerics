@@ -47,6 +47,17 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         /// <summary>
+        /// Test Function: f(x,y) = exp(-x/5) (2 + sin(x * y))
+        /// </summary>
+        /// <param name="x">First input value.</param>
+        /// <param name="y">Second input value.</param>
+        /// <returns>Function result.</returns>
+        private static double TargetFunctionB(double x, double y)
+        {
+            return Math.Exp(-x / 5) * (2 + Math.Sin(2 * y));
+        }
+
+        /// <summary>
         /// Test Function Start point.
         /// </summary>
         private const double StartA = 0;
@@ -57,9 +68,24 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         private const double StopA = 10;
 
         /// <summary>
+        /// Test Function Start point.
+        /// </summary>
+        private const double StartB = 0;
+
+        /// <summary>
+        /// Test Function Stop point.
+        /// </summary>
+        private const double StopB = 1;
+
+        /// <summary>
         /// Target area square.
         /// </summary>
         private const double TargetAreaA = 9.1082396073229965070;
+
+        /// <summary>
+        /// Target area.
+        /// </summary>
+        private const double TargetAreaB = 11.7078776759298776163;
 
         /// <summary>
         /// Test integrate portal.
@@ -177,6 +203,110 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 maxRelativeError * TargetAreaA,
                 "Composite {0} Partitions",
                 partitions);
+        }
+
+        /// <summary>
+        /// Gauss-Legendre rule supports integration.
+        /// </summary>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public void TestGaussLegendreRuleIntegration(int order)
+        {
+            double appoximateArea = GaussLegendreRule.Integrate(TargetFunctionA, StartA, StopA, order);
+            double relativeError = Math.Abs(TargetAreaA - appoximateArea) / TargetAreaA;
+            Assert.Less(relativeError, 5e-16);
+        }
+
+        /// <summary>
+        /// Gauss-Legendre rule supports integration.
+        /// </summary>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public void TestIntegrateGaussLegendre(int order)
+        {
+            double appoximateArea = Integrate.GaussLegendre(TargetFunctionA, StartA, StopA, order);
+            double relativeError = Math.Abs(TargetAreaA - appoximateArea) / TargetAreaA;
+            Assert.Less(relativeError, 5e-16);
+        }
+
+        /// <summary>
+        /// Gauss-Legendre rule supports 2-dimensional integration over the rectangle.
+        /// </summary>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public void TestGaussLegendreRuleIntegrate2D(int order)
+        {
+            double appoximateArea = GaussLegendreRule.Integrate(TargetFunctionB, StartA, StopA, StartB, StopB, order);
+            double relativeError = Math.Abs(TargetAreaB - appoximateArea) / TargetAreaB;
+            Assert.Less(relativeError, 1e-15);
+        }
+
+        /// <summary>
+        /// Gauss-Legendre rule supports 2-dimensional integration over the rectangle.
+        /// </summary>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public void TestIntegrateGaussLegendre2D(int order)
+        {
+            double appoximateArea = Integrate.GaussLegendre(TargetFunctionB, StartA, StopA, StartB, StopB, order);
+            double relativeError = Math.Abs(TargetAreaB - appoximateArea) / TargetAreaB;
+            Assert.Less(relativeError, 1e-15);
+        }
+
+        /// <summary>
+        /// Gauss-Legendre rule supports obtaining the abscissas/weights. In this case, they're used for integration. 
+        /// </summary>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
+        [TestCase(19)]
+        [TestCase(20)]
+        [TestCase(21)]
+        [TestCase(22)]
+        public void TestGaussLegendreRuleGetAbscissasGetWeightsOrderViaIntegration(int order)
+        {
+            GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
+
+            double appoximateArea = 0;
+            for (int i = 0; i < gaussLegendre.Order; i++)
+            {
+                appoximateArea += gaussLegendre.GetWeight(i) * TargetFunctionA(gaussLegendre.GetAbscissa(i));
+            }
+
+            double relativeError = Math.Abs(TargetAreaA - appoximateArea) / TargetAreaA;
+            Assert.Less(relativeError, 5e-16);
+        }
+
+        /// <summary>
+        /// Gauss-Legendre rule supports obtaining IntervalBegin.
+        /// </summary>
+        [TestCase]
+        public void TestGetGaussLegendreRuleIntervalBegin()
+        {
+            const int order = 19;
+            GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
+            Assert.AreEqual(gaussLegendre.IntervalBegin, StartA);
+        }
+
+        /// <summary>
+        /// Gauss-Legendre rule supports obtaining IntervalEnd.
+        /// </summary>
+        [TestCase]
+        public void TestGaussLegendreRuleIntervalEnd()
+        {
+            const int order = 19;
+            GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
+            Assert.AreEqual(gaussLegendre.IntervalEnd, StopA);
         }
     }
 }
