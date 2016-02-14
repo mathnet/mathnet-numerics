@@ -35,6 +35,7 @@ _TeamCity*
 *.sdf
 *.aps
 *.opensdf
+*.opendb
 *.cachefile
 *.swp
 
