@@ -26,7 +26,7 @@ Math.NET Numerics is covered under the terms of the [MIT/X11](LICENSE.md) licens
 Installation Instructions
 -------------------------
 
-The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/). Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases).
+The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/).
 
 Core Package:
 

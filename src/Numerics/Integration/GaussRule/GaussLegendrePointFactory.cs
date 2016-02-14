@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2016 Math.NET
 //
@@ -102,7 +101,7 @@ namespace MathNet.Numerics.Integration.GaussRule
 
         /// <summary>
         /// Computes the Gauss-Legendre abscissas/weights.
-        /// See <see cref="http://www.holoborodko.com/pavel/numerical-methods/numerical-integration/" >Pavel Holoborodko</see> for a description of the algorithm.
+        /// See <see href="http://www.holoborodko.com/pavel/numerical-methods/numerical-integration/" >Pavel Holoborodko</see> for a description of the algorithm.
         /// </summary>
         /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
         /// <param name="eps">Required precision to compute the abscissas/weights. 1e-10 is usually fine.</param>

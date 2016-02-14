@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2014 Math.NET
 //

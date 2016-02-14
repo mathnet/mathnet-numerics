@@ -166,7 +166,7 @@ Official Release Process (Maintainers only)
     In theory there is also a `Publish` target to do this in one step, unfortunately
     publishing to the NuGet gallery is quite unreliable.
 
-*   Create new Codeplex and GitHub release, attach Zip files (to be automated)
+*   Create new GitHub release, attach Zip files (to be automated)
 *   Copy artifacts to [release archive](http://1drv.ms/1lMtdNi) (to be automated)
 *   Consider a tweet via [@MathDotNet](https://twitter.com/MathDotNet)
 *   Consider a post to the [Google+ site](https://plus.google.com/112484567926928665204)
