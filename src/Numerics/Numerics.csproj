@@ -214,6 +214,7 @@
     <Compile Include="Exceptions.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasProviderCapabilities.cs" />
     <Compile Include="Providers\NativeProviderLoader.cs" />
+    <Compile Include="Quaternion32.cs" />
     <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />
     <Compile Include="RootFinding\Broyden.cs" />
