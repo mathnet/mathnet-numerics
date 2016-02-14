@@ -31,8 +31,6 @@
 namespace MathNet.Numerics
 {
     using System;
-    using Distributions;
-
     /// <summary>
     /// 32-bit single precision Quaternion number class.
     /// </summary>
@@ -49,6 +47,7 @@ namespace MathNet.Numerics
     /// </remarks>
     public struct Quaternion32 : IFormattable, IEquatable<Quaternion32>
     {
+        //TODO : rotations
         private float a1, a2, a3, a4;
         #region constructors
         public Quaternion32(float a1, float a2, float a3, float a4)
@@ -120,7 +119,7 @@ namespace MathNet.Numerics
         }
         public static Quaternion32 operator /(float f, Quaternion32 q1)
         {
-            //TODO : More robust divisionFdo
+            //TODO : More robust division - possible overflow
             return f * q1.Inverse();
         }
         public static bool operator ==(Quaternion32 q1, Quaternion32 q2)
@@ -132,6 +131,11 @@ namespace MathNet.Numerics
         {
             return !(q1 == q2);
         }
+
+        public static Quaternion32 operator -(Quaternion32 q)
+        {
+            return new Quaternion32(-q.a1, -q.a2, -q.a3, -q.a4);
+        }
         #endregion 
         #region operations
 
@@ -142,7 +146,7 @@ namespace MathNet.Numerics
 
         public float Norm
         {
-            //TODO : create more robust magnitude
+            //TODO : create more robust norm - possible overflow
             get { return (float)Math.Sqrt(NormSquared); }
         }
 
@@ -172,7 +176,10 @@ namespace MathNet.Numerics
             return quat.Conjugate();
         }
         #endregion
-
+        #region const members
+        public static readonly Quaternion32 One = new Quaternion32(1, 0, 0, 0);
+        public static readonly Quaternion32 Zero = new Quaternion32(0, 0, 0, 0);
+        #endregion
         public bool IsNan
         {
             get { return float.IsNaN(a1) || float.IsNaN(a2) || float.IsNaN(a3) || float.IsNaN(a4); }
@@ -182,9 +189,6 @@ namespace MathNet.Numerics
         {
             get { return float.IsInfinity(a1) || float.IsInfinity(a2) || float.IsInfinity(a3) || float.IsInfinity(a4); }
         }
-
-        public static readonly Quaternion32 One = new Quaternion32(1, 0, 0, 0);
-        public static readonly Quaternion32 Zero = new Quaternion32(0, 0, 0, 0);
         public string ToString(string format, IFormatProvider formatProvider)
         {
             return string.Format(formatProvider, "({0}, {1}, {2}, {3})",
