@@ -9,7 +9,7 @@ VisualStudio or Xamarin Studio
 ------------------------------
 
 We clearly separate dependency management from the IDE, you should therefore
-run `build.cmd` or `build.sh` once after every git checkout in order to restore
+run `restore.cmd` or `restore.sh` once after every git checkout in order to restore
 the dependencies exactly as defined. Otherwise Visual Studio and other IDEs
 may fail to compile or provide correct IntelliSense.
 
