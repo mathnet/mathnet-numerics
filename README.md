@@ -67,6 +67,7 @@ with MsBuild or with FAKE.
 
 MsBuild/XBuild:
 
+    restore.cmd (or restore.sh)
     msbuild MathNet.Numerics.sln
 
 FAKE:
