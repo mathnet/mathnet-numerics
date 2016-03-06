@@ -2,9 +2,9 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// 
+//
 // Copyright (c) 2009-2013 Math.NET
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -13,10 +13,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -335,7 +335,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             double r = BroydenFindRoot(f1, 0.01, 0.45, 1e-14);
             Assert.AreEqual(0.058654571042804, r, 1e-5);
             Assert.AreEqual(0, f1(r), 1e-14);
-            // Could not test the following root, since Math.Pow(y,1/3) does not work for y<0  
+            // Could not test the following root, since Math.Pow(y,1/3) does not work for y<0
             // r = BroydenFindRoot(f1, 0.55, 0.7);
             // Assert.AreEqual(0.600323117488527, r, 1e-5);
             // Assert.AreEqual(0, f1(r), 1e-14);
@@ -928,7 +928,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(1.1249034445330, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
             Assert.AreEqual(0, fa1(r)[1], 1e-14);
-        }        
+        }
 
         [Test]
         public void Twoeq5b()
@@ -958,7 +958,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(1.1249035089540, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
             Assert.AreEqual(0, fa1(r)[1], 1e-14);
-        }         
+        }
 
         [Test]
         public void Twoeq6()
@@ -1457,7 +1457,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[4], 1e-12);
         }
 
-        [Test]
+        [Test, Ignore("Know to be unreliable on Mono")]
         public void Sixeq1()
         {
             // Test case from http://www.polymath-software.com/library/nle/Sixeq1.htm
@@ -2609,7 +2609,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 double ft0 = k10 * k11 * x11 + k20 * k21 * x21 - 1;
                 double fV1 = -V1 * hv1 + V2 * hv2 - L1 * hl1 + L0 * h0;
                 double fV2 = -V2 * hv2 + V3 * hv3 + hf + L1 * hl1 - L2 * hl2;
-                double fV3 = -V3 * hv3 + Q + L2 * hl2 - L3 * hl3; 
+                double fV3 = -V3 * hv3 + Q + L2 * hl2 - L3 * hl3;
                 return new[] { fx11, fx12, fx13, fx21, fx22, fx23, ft1, ft2, ft3, ftf, ft0, fV1, fV2, fV3 };
             };
 
