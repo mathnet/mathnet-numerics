@@ -499,6 +499,7 @@ let test target =
             OutputFile = "TestResults.xml" } |> quick) target
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
+"Build" ?=> "Test"
 
 FinalTarget "CloseTestRunner" (fun _ ->
     ProcessHelper.killProcess "nunit-agent.exe"
@@ -523,6 +524,8 @@ Target "MklWin64Test" (fun _ ->
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 60.
             OutputFile = "TestResults.xml" }))
+"MklWin32Build" ?=> "MklWin32Test"
+"MklWin64Build" ?=> "MklWin64Test"
 Target "MklWinTest" DoNothing
 "MklWin32Test" ==> "MklWinTest"
 "MklWin64Test" ==> "MklWinTest"
@@ -536,6 +539,7 @@ Target "CudaWin64Test" (fun _ ->
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 60.
             OutputFile = "TestResults.xml" }))
+"CudaWin64Build" ?=> "CudaWin64Test"
 Target "CudaWinTest" DoNothing
 "CudaWin64Test" ==> "CudaWinTest"
 
@@ -557,11 +561,14 @@ Target "OpenBlasWin64Test" (fun _ ->
             DisableShadowCopy = true
             TimeOut = TimeSpan.FromMinutes 60.
             OutputFile = "TestResults.xml" }))
+"OpenBlasWin32Build" ?=> "OpenBlasWin32Test"
+"OpenBlasWin64Build" ?=> "OpenBlasWin64Test"
 Target "OpenBlasWinTest" DoNothing
 "OpenBlasWin32Test" ==> "OpenBlasWinTest"
 "OpenBlasWin64Test" ==> "OpenBlasWinTest"
 
 Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
+"DataBuild" ?=> "DataTest"
 
 
 // --------------------------------------------------------------------------------------
@@ -628,27 +635,32 @@ Target "Zip" (fun _ ->
         coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if hasBuildParam "signed" || hasBuildParam "release" then
         coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
+"Build" ?=> "Zip"
 
 Target "MklWinZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
     mklWinBundle |> zip "out/MKL/packages/Zip" "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
+"MklWinBuild" ?=> "MklWinZip"
 
 Target "MklLinuxZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
     mklLinuxBundle |> zip "out/MKL/packages/Zip" "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
+// "MklLinuxBuild" ?=> "MklLinuxZip"
 
 Target "CudaWinZip" (fun _ ->
     CreateDir "out/CUDA/packages/Zip"
     cudaWinBundle |> zip "out/CUDA/packages/Zip" "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver")))
+"CudaWinBuild" ?=> "CudaWinZip"
 
 Target "OpenBlasWinZip" (fun _ ->
     CreateDir "out/OpenBLAS/packages/Zip"
     openBlasWinBundle |> zip "out/OpenBLAS/packages/Zip" "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath")))
+"OpenBlasWinBuild" ?=> "OpenBlasWinZip"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
-
+"DataBuild" ?=> "DataZip"
 
 // NUGET
 
@@ -698,27 +710,33 @@ Target "NuGet" (fun _ ->
         nugetPack coreSignedBundle "out/packages/NuGet"
     if hasBuildParam "all" || hasBuildParam "release" then
         nugetPack coreBundle "out/packages/NuGet")
+"Build" ?=> "NuGet"
 
 Target "MklWinNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"
     nugetPackExtension mklWinBundle "out/MKL/packages/NuGet")
+"MklWinBuild" ?=> "MklWinNuGet"
 
 Target "MklLinuxNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"
     nugetPackExtension mklLinuxBundle "out/MKL/packages/NuGet")
+// "MklLinuxBuild" ?=> "MklLinuxNuGet"
 
 Target "CudaWinNuGet" (fun _ ->
     CreateDir "out/CUDA/packages/NuGet"
     nugetPackExtension cudaWinBundle "out/CUDA/packages/NuGet")
+"CudaWinBuild" ?=> "CudaWinNuGet"
 
 Target "OpenBlasWinNuGet" (fun _ ->
     CreateDir "out/OpenBLAS/packages/NuGet"
     nugetPackExtension openBlasWinBundle "out/OpenBLAS/packages/NuGet")
+"OpenBlasWinBuild" ?=> "OpenBlasWinNuGet"
 
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
     nugetPackExtension dataBundle "out/Data/packages/NuGet")
-
+"DataBuild" ?=> "DataNuGet"
+    
 
 // --------------------------------------------------------------------------------------
 // Documentation
@@ -806,6 +824,7 @@ Target "DocsWatch" (fun _ ->
     watcher.Dispose())
 
 "CleanDocs" ==> "Docs"
+"Build" ?=> "CleanDocs"
 
 "Start"
   =?> ("CleanDocs", not (hasBuildParam "incremental"))
@@ -827,6 +846,7 @@ Target "Api" (fun _ ->
             OutputPath = "out/api/" }))
 
 "CleanApi" ==> "Api"
+"Build" ?=> "CleanApi"
 
 
 // --------------------------------------------------------------------------------------
