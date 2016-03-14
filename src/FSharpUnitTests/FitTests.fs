@@ -1,9 +1,11 @@
 ﻿namespace MathNet.Numerics.Tests
 
-open System
-open MathNet.Numerics
 open NUnit.Framework
 open FsUnit
+open FsUnitTyped
+
+open System
+open MathNet.Numerics
 
 module FitTests =
 

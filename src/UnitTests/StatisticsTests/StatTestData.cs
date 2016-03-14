@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,7 +30,6 @@
 using System;
 using System.Globalization;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests

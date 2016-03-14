@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,13 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+extern alias NUnitFramework;
+
+using System;
+using System.Linq;
+using MathNet.Numerics.Distributions;
+using NUnitFramework.NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
 {
-    using System;
-    using System.Linq;
-    using Distributions;
-    using NUnit.Framework;
-
     /// <summary>
     /// Negative Binomial distribution tests.
     /// </summary>

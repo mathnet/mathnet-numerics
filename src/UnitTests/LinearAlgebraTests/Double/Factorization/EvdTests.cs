@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,9 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+extern alias NUnitFramework;
+
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using NUnit.Framework;
+using NUnitFramework.NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
 {
@@ -93,7 +95,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             var factorEvd = A.Evd();
             var V = factorEvd.EigenVectors;
             var λ = factorEvd.D;
-            
+
             Assert.AreEqual(order, V.RowCount);
             Assert.AreEqual(order, V.ColumnCount);
             Assert.AreEqual(order, λ.RowCount);
@@ -167,7 +169,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             AssertHelpers.AlmostEqual(bCopy, b, 14);
         }
 
-        //private 
+        //private
         /// <summary>
         /// Can solve a system of linear equations for a random matrix and symmetric matrix (AX=B).
         /// </summary>

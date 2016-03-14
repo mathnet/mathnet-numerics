@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,15 +27,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+extern alias NUnitFramework;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using NUnitFramework.NUnit.Framework;
+using MathNet.Numerics.Statistics;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
 #if !PORTABLE
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using NUnit.Framework;
-    using Statistics;
-
     /// <summary>
     /// Correlation tests
     /// </summary>

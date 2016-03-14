@@ -23,6 +23,7 @@ open Fake.DocuHelper
 open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
 open Fake.StringHelper
+open Fake.Testing.NUnit3
 open System
 open System.IO
 
@@ -491,12 +492,11 @@ Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
 // --------------------------------------------------------------------------------------
 
 let test target =
-    let quick p = if hasBuildParam "quick" then { p with ExcludeCategory="LongRunning" } else p
-    NUnit (fun p ->
+    let quick p = if hasBuildParam "quick" then { p with Where="!~LongRunning" } else p
+    NUnit3 (fun p ->
         { p with
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" } |> quick) target
+            ShadowCopy = false
+            TimeOut = TimeSpan.FromMinutes 60. } |> quick) target
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 "Build" ?=> "Test"

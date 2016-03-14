@@ -3,7 +3,11 @@ NUGET
   specs:
     FSharp.Core (3.1.2.5)
     TaskParallelLibrary (1.0.2856)
-
+GITHUB
+  remote: fsprojects/FsUnit
+  specs:
+    src/FsUnit.NUnit/FsUnit.fs (db5644485efee6a228fe3d3f85903a3524b5f32c)
+    src/FsUnit.NUnit/FsUnitTyped.fs (db5644485efee6a228fe3d3f85903a3524b5f32c)
 GROUP Benchmark
 NUGET
   remote: http://www.nuget.org/api/v2
@@ -23,7 +27,17 @@ NUGET
     FSharpVSPowerTools.Core (2.3.0)
       FSharp.Compiler.Service (>= 2.0.0.3)
     NuGet.CommandLine (3.3.0)
-    NUnit.Runners (2.6.4)
+    NUnit.ConsoleRunner (3.2.0)
+    NUnit.Extension.NUnitProjectLoader (3.2.0)
+    NUnit.Extension.NUnitV2Driver (3.2.0)
+    NUnit.Extension.NUnitV2ResultWriter (3.2.0)
+    NUnit.Extension.VSProjectLoader (3.2.0)
+    NUnit.Runners (3.2.0)
+      NUnit.ConsoleRunner (3.2.0)
+      NUnit.Extension.NUnitProjectLoader (3.2.0)
+      NUnit.Extension.NUnitV2Driver (3.2.0)
+      NUnit.Extension.NUnitV2ResultWriter (3.2.0)
+      NUnit.Extension.VSProjectLoader (3.2.0)
 
 GROUP Data
 NUGET
@@ -36,6 +50,4 @@ NUGET
   remote: http://www.nuget.org/api/v2
   specs:
     FSharp.Core (4.0.0.1)
-    FsUnit (1.3.1)
-      NUnit (2.6.4)
-    NUnit (2.6.4)
+    NUnit (3.2.0)

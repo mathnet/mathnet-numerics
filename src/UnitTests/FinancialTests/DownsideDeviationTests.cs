@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,12 +27,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+extern alias NUnitFramework;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Financial;
 using MathNet.Numerics.Statistics;
-using NUnit.Framework;
+using NUnitFramework.NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.FinancialTests
 {
@@ -102,7 +104,6 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))] //assert
         public void throws_when_input_data_is_null()
         {
             //arrange
@@ -110,7 +111,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             List<double> inputData = null;
             //act
 // ReSharper disable ExpressionIsAlwaysNull
-            inputData.DownsideDeviation(minimumAcceptableReturn);
+            Assert.Throws<ArgumentNullException>(() => AbsoluteRiskMeasures.DownsideDeviation(inputData, minimumAcceptableReturn));
 // ReSharper restore ExpressionIsAlwaysNull
         }
 

@@ -62,7 +62,8 @@ packages/*
 !packages/FSharp.Core
 
 # FAKE & Paket
-packages/FAKE
+packages
+paket-files
 .paket/paket.exe
 .fake
 

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2012 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,15 +27,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+extern alias NUnitFramework;
+
 using System;
-using NUnit.Framework;
+using NUnitFramework.NUnit.Framework;
+using NUnitFramework.NUnit.Framework.Interfaces;
 
 namespace MathNet.Numerics.UnitTests
 {
     [AttributeUsage(AttributeTargets.Assembly)]
     public class UseLinearAlgebraProvider : Attribute, ITestAction
     {
-        public void BeforeTest(TestDetails testDetails)
+        public void BeforeTest(ITest testDetails)
         {
 #if !NET35 && NATIVE
 #if MKL
@@ -48,7 +51,7 @@ namespace MathNet.Numerics.UnitTests
 #endif
         }
 
-        public void AfterTest(TestDetails details)
+        public void AfterTest(ITest details)
         {
         }
 

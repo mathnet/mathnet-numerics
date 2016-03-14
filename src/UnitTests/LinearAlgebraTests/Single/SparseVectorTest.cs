@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,12 +27,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+extern alias NUnitFramework;
+
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
     using LinearAlgebra;
     using LinearAlgebra.Single;
     using LinearAlgebra.Storage;
-    using NUnit.Framework;
+    using NUnitFramework.NUnit.Framework;
     using System;
     using System.Collections.Generic;
 

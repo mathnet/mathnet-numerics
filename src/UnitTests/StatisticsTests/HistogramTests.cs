@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,15 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Linq;
+extern alias NUnitFramework;
+
+using System;
+using System.Collections.Generic;
+using NUnitFramework.NUnit.Framework;
+using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
-    using System;
-    using System.Collections.Generic;
-    using NUnit.Framework;
-    using Statistics;
-
     /// <summary>
     /// Histogram tests.
     /// </summary>
@@ -51,13 +51,13 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         /// Datatset array with small absolute values
         /// </summary>
         /// <remarks>
-        /// These values are chosen to precisely match the upper bounds of 9 buckets, 
+        /// These values are chosen to precisely match the upper bounds of 9 buckets,
         /// from 0.5e-22 to 9.5E-22
         /// </remarks>
-        readonly double[] _smallValueDataset = 
+        readonly double[] _smallValueDataset =
         {
             0.5e-22, 1.5E-22, 2.5E-22, 3.4999999999999996E-22, 4.4999999999999989E-22,
-            5.4999999999999983E-22, 6.4999999999999986E-22, 7.4999999999999988E-22, 
+            5.4999999999999983E-22, 6.4999999999999986E-22, 7.4999999999999988E-22,
             8.4999999999999982E-22, 9.5E-22
         };
 
@@ -355,7 +355,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             var h = new Histogram(new[] { 1.0, 5.0, 10.0 }, 3, 0.0, 10.0);
             Assert.DoesNotThrow(() => h.AddData(0.0));
-            
+
             Assert.AreEqual(2, h[0].Count);
         }
 

@@ -5,10 +5,11 @@
 
 #nowarn "25"
 
+open NUnit.Framework
+open FsUnitTyped
+
 open MathNet.Numerics
 open MathNet.Numerics.Probability
-open NUnit.Framework
-open FsUnit
 
 type Rank = int
 type Suit = | Spades | Hearts | Diamonds | Clubs
@@ -39,7 +40,7 @@ let ``When drawing from a full deck, then the probability for an Ace should equa
     |> RandomVariable.map fst
     |> RandomVariable.filter (fun card -> value card = A)
     |> RandomVariable.probability
-    |> should equal (4N/52N)
+    |> shouldEqual (4N/52N)
 
 [<Test>]
 let ``When drawing from a full deck, then the probability should equal 1/52``() =
@@ -48,7 +49,7 @@ let ``When drawing from a full deck, then the probability should equal 1/52``() 
     |> RandomVariable.map fst
     |> RandomVariable.filter ((=) (A,Spades))
     |> RandomVariable.probability
-    |> should equal (1N/52N)
+    |> shouldEqual (1N/52N)
 
 [<Test>]
 let ``When drawing from a full deck, then the probability for the Ace of Clubs and Ace of Spaces (in order) should equal 1/52 * 1/51``() =
@@ -56,7 +57,7 @@ let ``When drawing from a full deck, then the probability for the Ace of Clubs a
     |> RandomVariable.select 2
     |> RandomVariable.filter ((=) [A,Clubs; A,Spades])
     |> RandomVariable.probability
-    |> should equal (1N/52N * 1N/51N)
+    |> shouldEqual (1N/52N * 1N/51N)
 
 [<Test>]
 let ``When drawing from a full deck, then the probability for the Ace of Clubs and Ace of Spaces (in any order) should equal (1/52 * 1/51) * 2``() =
@@ -64,7 +65,7 @@ let ``When drawing from a full deck, then the probability for the Ace of Clubs a
     |> RandomVariable.select 2
     |> RandomVariable.filterInAnyOrder [A,Clubs; A,Spades]
     |> RandomVariable.probability
-    |> should equal ((1N/52N * 1N/51N) * 2N)
+    |> shouldEqual ((1N/52N * 1N/51N) * 2N)
 
 [<Test>]
 let ``When drawing the Ace of Spades and the Ace of Clubs, then the probability for drawing another Ace should equal 2/50``() =
@@ -73,7 +74,7 @@ let ``When drawing the Ace of Spades and the Ace of Clubs, then the probability 
     |> RandomVariable.toUniformDistribution
     |> RandomVariable.filter (fun card -> value card = A)
     |> RandomVariable.probability
-    |> should equal (2N/50N)
+    |> shouldEqual (2N/50N)
 
 
 [<Test>]
@@ -82,7 +83,7 @@ let ``When drawing from the full deck, then the probability for drawing a Pair p
     |> RandomVariable.select 2
     |> RandomVariable.filter (fun (c1::c2::_) -> isPair c1 c2)
     |> RandomVariable.probability
-    |> should equal (1N/17N)
+    |> shouldEqual (1N/17N)
 
 [<Test>]
 let ``When drawing from the full deck, then the probability for drawing Suited Connectors should equal 1/25``() =
@@ -90,7 +91,7 @@ let ``When drawing from the full deck, then the probability for drawing Suited C
     |> RandomVariable.select 2
     |> RandomVariable.filter (fun (c1::c2::_) -> isSuited c1 c2 && isConnected c1 c2)
     |> RandomVariable.probability
-    |> should equal (2N/51N)
+    |> shouldEqual (2N/51N)
 
 [<Test>]
 let ``When holding 3 Spades after the flop, than the probability for drawing a flush should equal 10/47*9/46``() =
@@ -100,6 +101,6 @@ let ``When holding 3 Spades after the flop, than the probability for drawing a f
     |> RandomVariable.select 2
     |> RandomVariable.filter (fun (c1::c2::_) -> suit c1 = Spades && suit c2 = Spades)
     |> RandomVariable.probability
-    |> should equal (10N/47N*9N/46N)
+    |> shouldEqual (10N/47N*9N/46N)
 
 #endif

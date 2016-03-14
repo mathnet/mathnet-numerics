@@ -27,12 +27,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+extern alias NUnitFramework;
+
+using System;
+using MathNet.Numerics.Integration;
+using NUnitFramework.NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.IntegrationTests
 {
-    using System;
-    using Integration;
-    using NUnit.Framework;
-
     /// <summary>
     /// Integration tests.
     /// </summary>

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,8 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+extern alias NUnitFramework;
+
 using MathNet.Numerics.RootFinding;
-using NUnit.Framework;
+using NUnitFramework.NUnit.Framework;
 using System;
 
 namespace MathNet.Numerics.UnitTests.RootFindingTests
@@ -1457,7 +1459,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[4], 1e-12);
         }
 
-        [Test, Ignore("Know to be unreliable on Mono")]
+        [Test, Ignore("Known convergence problem on Mono")]
         public void Sixeq1()
         {
             // Test case from http://www.polymath-software.com/library/nle/Sixeq1.htm

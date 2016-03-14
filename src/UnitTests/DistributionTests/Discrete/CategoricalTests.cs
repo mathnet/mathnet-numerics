@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,13 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+extern alias NUnitFramework;
+
+using System;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Statistics;
+using NUnitFramework.NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
 {
-    using System;
-    using Distributions;
-    using NUnit.Framework;
-    using Statistics;
-
     /// <summary>
     /// Categorical distribution tests.
     /// </summary>
@@ -209,7 +211,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleStatic()
         {
-            Categorical.Sample(new Random(0), _largeP);
+            Categorical.Sample(new System.Random(0), _largeP);
         }
 
         /// <summary>
@@ -218,7 +220,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.That(() => Categorical.Sample(new Random(0), _badP), Throws.ArgumentException);
+            Assert.That(() => Categorical.Sample(new System.Random(0), _badP), Throws.ArgumentException);
         }
 
         /// <summary>
