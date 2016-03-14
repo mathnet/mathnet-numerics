@@ -492,7 +492,7 @@ Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
 // --------------------------------------------------------------------------------------
 
 let test target =
-    let quick p = if hasBuildParam "quick" then { p with Where="!~LongRunning" } else p
+    let quick p = if hasBuildParam "quick" then { p with Where="cat!=LongRunning" } else p
     NUnit3 (fun p ->
         { p with
             ShadowCopy = false
