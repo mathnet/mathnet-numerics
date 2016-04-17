@@ -78,11 +78,6 @@ namespace MathNet.Numerics.Optimization
                     searchDirection = -objective.Gradient;
                     inversePseudoHessian = CreateMatrix.DenseIdentity<double>(initialGuess.Count);
                 }
-                //else if (searchDirection * objective.Gradient >= -GradientTolerance*GradientTolerance)
-                //{
-                //    searchDirection = -objective.Gradient;
-                //    inversePseudoHessian = CreateMatrix.DenseIdentity<double>(initialGuess.Count);
-                //}
 
                 previousGradient = objective.Gradient;
                 previousPoint = objective.Point;
