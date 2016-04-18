@@ -778,7 +778,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
         protected override void DoPointwiseMultiply(Vector<Complex> other, Vector<Complex> result)
         {
-            if (ReferenceEquals(this, other))
+            if (ReferenceEquals(this, other) && ReferenceEquals(this, result))
             {
                 for (var i = 0; i < _storage.ValueCount; i++)
                 {
@@ -787,35 +787,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
             else
             {
-                for (var i = 0; i < _storage.ValueCount; i++)
-                {
-                    var index = _storage.Indices[i];
-                    result.At(index, other.At(index) * _storage.Values[i]);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="divisor">The vector to pointwise multiply with this one.</param>
-        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        protected override void DoPointwiseDivide(Vector<Complex> divisor, Vector<Complex> result)
-        {
-            if (ReferenceEquals(this, divisor))
-            {
-                for (var i = 0; i < _storage.ValueCount; i++)
-                {
-                    _storage.Values[i] /= _storage.Values[i];
-                }
-            }
-            else
-            {
-                for (var i = 0; i < _storage.ValueCount; i++)
-                {
-                    var index = _storage.Indices[i];
-                    result.At(index, _storage.Values[i] / divisor.At(index));
-                }
+                base.DoPointwiseMultiply(other, result);
             }
         }
 

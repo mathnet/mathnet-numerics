@@ -362,7 +362,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         }
 
         /// <summary>
-        /// Test for issues #52. When setting previous non-zero values to zero,
+        /// Test for issue #52. When setting previous non-zero values to zero,
         /// DoMultiply would copy non-zero values to the result, but use the
         /// length of nonzerovalues instead of NonZerosCount.
         /// </summary>
