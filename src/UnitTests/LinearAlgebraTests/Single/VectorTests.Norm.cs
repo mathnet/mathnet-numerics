@@ -27,12 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
     using System;
-    using NUnitFramework.NUnit.Framework;
+    using NUnit.Framework;
 
     /// <summary>
     /// Abstract class with the norms set of vector tests.

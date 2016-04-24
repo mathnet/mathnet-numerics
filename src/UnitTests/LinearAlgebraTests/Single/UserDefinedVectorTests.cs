@@ -27,10 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
 using MathNet.Numerics.LinearAlgebra;
-using NUnitFramework.NUnit.Framework;
+using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single

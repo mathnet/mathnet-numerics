@@ -27,11 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Complex;
-using NUnitFramework.NUnit.Framework;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 {

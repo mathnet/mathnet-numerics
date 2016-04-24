@@ -27,11 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
-    using NUnitFramework.NUnit.Framework;
+    using NUnit.Framework;
 
     /// <summary>
     /// Abstract class with the common set of matrix tests

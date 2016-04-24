@@ -6,48 +6,48 @@ NUGET
 GITHUB
   remote: fsprojects/FsUnit
   specs:
-    src/FsUnit.NUnit/FsUnit.fs (db5644485efee6a228fe3d3f85903a3524b5f32c)
-    src/FsUnit.NUnit/FsUnitTyped.fs (db5644485efee6a228fe3d3f85903a3524b5f32c)
+    src/FsUnit.NUnit/FsUnit.fs (43086ca8981c7642c1067ad5e9de80caf73ba4ec)
+    src/FsUnit.NUnit/FsUnitTyped.fs (43086ca8981c7642c1067ad5e9de80caf73ba4ec)
 GROUP Benchmark
 NUGET
   remote: http://www.nuget.org/api/v2
   specs:
-    BenchShark (1.0.0)
+    BenchShark (1.0)
     ConsoleDump (0.6.0.1)
 
 GROUP Build
 NUGET
   remote: http://www.nuget.org/api/v2
   specs:
-    FAKE (4.20.0)
+    FAKE (4.20)
     FSharp.Compiler.Service (2.0.0.3)
-    FSharp.Formatting (2.14.0)
-      FSharp.Compiler.Service (>= 2.0.0.3 < 2.1.0)
-      FSharpVSPowerTools.Core (>= 2.3.0 < 2.4.0)
-    FSharpVSPowerTools.Core (2.3.0)
+    FSharp.Formatting (2.14)
+      FSharp.Compiler.Service (>= 2.0.0.3 < 2.1)
+      FSharpVSPowerTools.Core (>= 2.3 < 2.4)
+    FSharpVSPowerTools.Core (2.3)
       FSharp.Compiler.Service (>= 2.0.0.3)
-    NuGet.CommandLine (3.3.0)
-    NUnit.ConsoleRunner (3.2.0)
-    NUnit.Extension.NUnitProjectLoader (3.2.0)
-    NUnit.Extension.NUnitV2Driver (3.2.0)
-    NUnit.Extension.NUnitV2ResultWriter (3.2.0)
-    NUnit.Extension.VSProjectLoader (3.2.0)
-    NUnit.Runners (3.2.0)
-      NUnit.ConsoleRunner (3.2.0)
-      NUnit.Extension.NUnitProjectLoader (3.2.0)
-      NUnit.Extension.NUnitV2Driver (3.2.0)
-      NUnit.Extension.NUnitV2ResultWriter (3.2.0)
-      NUnit.Extension.VSProjectLoader (3.2.0)
+    NuGet.CommandLine (3.3)
+    NUnit.ConsoleRunner (3.2.1)
+    NUnit.Extension.NUnitProjectLoader (3.2.1)
+    NUnit.Extension.NUnitV2Driver (3.2.1)
+    NUnit.Extension.NUnitV2ResultWriter (3.2.1)
+    NUnit.Extension.VSProjectLoader (3.2.1)
+    NUnit.Runners (3.2.1)
+      NUnit.ConsoleRunner (3.2.1)
+      NUnit.Extension.NUnitProjectLoader (3.2.1)
+      NUnit.Extension.NUnitV2Driver (3.2.1)
+      NUnit.Extension.NUnitV2ResultWriter (3.2.1)
+      NUnit.Extension.VSProjectLoader (3.2.1)
 
 GROUP Data
 NUGET
   remote: http://www.nuget.org/api/v2
   specs:
-    MathNet.Numerics (3.0.0)
+    MathNet.Numerics (3.0)
 
 GROUP Test
 NUGET
   remote: http://www.nuget.org/api/v2
   specs:
     FSharp.Core (4.0.0.1)
-    NUnit (3.2.0)
+    NUnit (3.2.1)

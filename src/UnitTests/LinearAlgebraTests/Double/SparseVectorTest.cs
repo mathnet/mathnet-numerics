@@ -27,12 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using NUnitFramework.NUnit.Framework;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 

@@ -27,11 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
 using System;
-using NUnitFramework.NUnit.Framework;
-using NUnitFramework.NUnit.Framework.Interfaces;
+using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 
 namespace MathNet.Numerics.UnitTests
 {

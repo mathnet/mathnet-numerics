@@ -27,13 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Financial;
 using MathNet.Numerics.Statistics;
-using NUnitFramework.NUnit.Framework;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.FinancialTests
 {

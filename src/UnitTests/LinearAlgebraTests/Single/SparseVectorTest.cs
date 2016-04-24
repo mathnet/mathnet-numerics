@@ -27,14 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
 {
     using LinearAlgebra;
     using LinearAlgebra.Single;
     using LinearAlgebra.Storage;
-    using NUnitFramework.NUnit.Framework;
+    using NUnit.Framework;
     using System;
     using System.Collections.Generic;
 

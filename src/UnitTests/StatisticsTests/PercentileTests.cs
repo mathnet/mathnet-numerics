@@ -27,9 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
-using NUnitFramework.NUnit.Framework;
+using NUnit.Framework;
 using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
