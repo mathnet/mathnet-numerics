@@ -1,3 +1,7 @@
+### 3.11.1 - 2016-04-24
+* BUG: Linear Algebra: sparse vector pointwise multiply/divide to itself
+* BUG: Linear Algebra: Vector.ToVectorString if the first column is wider than maxWidth
+
 ### 3.11.0 - 2016-02-13
 * Special Functions: error functions to use static coefficient arrays (perf) *~Joel Sleppy*
 * Integration: Gauss-Legendre Rule (1D, 2D) *~Larz White*

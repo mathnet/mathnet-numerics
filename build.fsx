@@ -736,7 +736,7 @@ Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
     nugetPackExtension dataBundle "out/Data/packages/NuGet")
 "DataBuild" ?=> "DataNuGet"
-    
+
 
 // --------------------------------------------------------------------------------------
 // Documentation
@@ -858,7 +858,7 @@ let publishReleaseTag title prefix version notes =
     // inspired by Deedle/tpetricek
     let tagName = prefix + "v" + version
     let tagMessage = String.concat Environment.NewLine [title + " v" + version; ""; notes ]
-    let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
+    let cmd = sprintf """tag -a %s -s -m "%s" """ tagName tagMessage
     Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
     let _, remotes, _ = Git.CommandHelper.runGitCommand "." "remote -v"
     let main = remotes |> Seq.find (fun s -> s.Contains("(push)") && s.Contains("mathnet/mathnet-numerics"))
