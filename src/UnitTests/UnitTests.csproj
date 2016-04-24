@@ -361,6 +361,7 @@
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStorageCombinatorsTests.cs" />
     <Compile Include="LinearAlgebraTests\VectorStorageCombinatorsTests.cs" />
+    <Compile Include="LinearAlgebraTests\VectorToStringTests.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />

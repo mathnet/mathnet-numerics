@@ -258,10 +258,11 @@ namespace MathNet.Numerics.LinearAlgebra
             return string.Format("{0} {1}-{2}", GetType().Name, Count, typeof (T).Name);
         }
 
-        public string[,] ToVectorStringArray(int maxPerColumn, int maxWidth, int padding, string ellipsis, Func<T, string> formatValue)
+        public string[,] ToVectorStringArray(int maxPerColumn, int maxCharactersWidth, int padding, string ellipsis, Func<T, string> formatValue)
         {
-            maxPerColumn = Math.Max(maxPerColumn, 1);
-            maxWidth = Math.Max(maxWidth, 12);
+            // enforce minima to avoid pathetic cases
+            maxPerColumn = Math.Max(maxPerColumn, 3);
+            maxCharactersWidth = Math.Max(maxCharactersWidth, 16);
 
             var columns = new List<Tuple<int, string[]>>();
             int chars = 0;
@@ -272,7 +273,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 int height = Math.Min(maxPerColumn, Count - offset);
                 var candidate = FormatCompleteColumn(offset, height, formatValue);
                 chars += candidate.Item1 + padding;
-                if (chars > maxWidth)
+                if (chars > maxCharactersWidth && offset > 0)
                 {
                     break;
                 }
@@ -285,9 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 // --> make the last column partial
                 var last = columns[columns.Count - 1];
                 var c = last.Item2;
-                c[c.Length - 4] = ellipsis;
-                c[c.Length - 3] = ellipsis;
-                c[c.Length - 2] = formatValue(At(Count - 2));
+                c[c.Length - 2] = ellipsis;
                 c[c.Length - 1] = formatValue(At(Count - 1));
             }
 
@@ -353,29 +352,41 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Returns a string that represents the content of this vector, column by column.
         /// </summary>
-        public string ToVectorString(int maxPerColumn, int maxWidth, string ellipsis, string columnSeparator, string rowSeparator, Func<T, string> formatValue)
+        /// <param name="maxPerColumn">Maximum number of entries and thus lines per column. Typical value: 12; Minimum: 3.</param>
+        /// <param name="maxCharactersWidth">Maximum number of chatacters per line over all columns. Typical value: 80; Minimum: 16.</param>
+        /// <param name="ellipsis">Character to use to print if there is not enough space to print all entries. Typical value: "..".</param>
+        /// <param name="columnSeparator">Character to use to separate two coluns on a line. Typical value: "  " (2 spaces).</param>
+        /// <param name="rowSeparator">Character to use to separate two rows/lines. Typical value: Environment.NewLine.</param>
+        /// <param name="formatValue">Function to provide a string for any given entry value.</param>
+        public string ToVectorString(int maxPerColumn, int maxCharactersWidth, string ellipsis, string columnSeparator, string rowSeparator, Func<T, string> formatValue)
         {
             return FormatStringArrayToString(
-                ToVectorStringArray(maxPerColumn, maxWidth, columnSeparator.Length, ellipsis, formatValue),
+                ToVectorStringArray(maxPerColumn, maxCharactersWidth, columnSeparator.Length, ellipsis, formatValue),
                 columnSeparator, rowSeparator);
         }
 
         /// <summary>
         /// Returns a string that represents the content of this vector, column by column.
         /// </summary>
-        public string ToVectorString(int maxPerColumn, int maxWidth, string format = null, IFormatProvider provider = null)
+        /// <param name="maxPerColumn">Maximum number of entries and thus lines per column. Typical value: 12; Minimum: 3.</param>
+        /// <param name="maxCharactersWidth">Maximum number of chatacters per line over all columns. Typical value: 80; Minimum: 16.</param>
+        /// <param name="format">Floating point format string. Can be null. Default value: G6.</param>
+        /// <param name="provider">Format provider or culture. Can be null.</param>
+        public string ToVectorString(int maxPerColumn, int maxCharactersWidth, string format = null, IFormatProvider provider = null)
         {
             if (format == null)
             {
                 format = "G6";
             }
 
-            return ToVectorString(maxPerColumn, maxWidth, "..", "  ", Environment.NewLine, x => x.ToString(format, provider));
+            return ToVectorString(maxPerColumn, maxCharactersWidth, "..", "  ", Environment.NewLine, x => x.ToString(format, provider));
         }
 
         /// <summary>
         /// Returns a string that represents the content of this vector, column by column.
         /// </summary>
+        /// <param name="format">Floating point format string. Can be null. Default value: G6.</param>
+        /// <param name="provider">Format provider or culture. Can be null.</param>
         public string ToVectorString(string format = null, IFormatProvider provider = null)
         {
             if (format == null)
@@ -387,11 +398,15 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns a string that summarizes this vector.
+        /// Returns a string that summarizes this vector, column by column and with a type header.
         /// </summary>
-        public string ToString(int maxPerColumn, int maxColumns, string format = null, IFormatProvider provider = null)
+        /// <param name="maxPerColumn">Maximum number of entries and thus lines per column. Typical value: 12; Minimum: 3.</param>
+        /// <param name="maxCharactersWidth">Maximum number of chatacters per line over all columns. Typical value: 80; Minimum: 16.</param>
+        /// <param name="format">Floating point format string. Can be null. Default value: G6.</param>
+        /// <param name="provider">Format provider or culture. Can be null.</param>
+        public string ToString(int maxPerColumn, int maxCharactersWidth, string format = null, IFormatProvider provider = null)
         {
-            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(maxPerColumn, maxColumns, format, provider));
+            return string.Concat(ToTypeString(), Environment.NewLine, ToVectorString(maxPerColumn, maxCharactersWidth, format, provider));
         }
 
         /// <summary>
