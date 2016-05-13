@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.OdeSolvers
 {
@@ -65,6 +66,44 @@ namespace MathNet.Numerics.OdeSolvers
             double k4 = 0;
             double t = start;
             double[] y = new double[N];
+            y[0] = y0;
+            for (int i = 1; i < N; i++)
+            {
+                k1 = f(t, y0);
+                k2 = f(t + dt / 2, y0 + k1 * dt / 2);
+                k3 = f(t + dt / 2, y0 + k2 * dt / 2);
+                k4 = f(t + dt, y0 + k3 * dt);
+                y[i] = y0 + dt / 6 * (k1 + 2 * k2 + 2 * k3 + k4);
+                t += dt;
+                y0 = y[i];
+            }
+            return y;
+        }
+
+        public static Vector<double>[] SecondOrder(Vector<double> y0, double start, double end, int N, Func<double, Vector<double>, Vector<double>> f)
+        {
+            double dt = (end - start) / (N - 1);
+            Vector<double> k1, k2;
+            Vector<double>[] y = new Vector<double>[N];
+            double t = start;
+            y[0] = y0;
+            for (int i = 1; i < N; i++)
+            {
+                k1 = f(t, y0);
+                k2 = f(t, y0 + k1 + dt);
+                y[i] = y0 + 0.5 * (k1 + k2);
+                t += dt;
+                y0 = y[i];
+            }
+            return y;
+        }
+
+        public static Vector<double>[] FourthOrder(Vector<double> y0, double start, double end, int N, Func<double, Vector<double>, Vector<double>> f)
+        {
+            double dt = (end - start) / (N - 1);
+            Vector<double> k1, k2, k3, k4;
+            Vector<double>[] y = new Vector<double>[N];
+            double t = start;
             y[0] = y0;
             for (int i = 1; i < N; i++)
             {
