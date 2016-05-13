@@ -112,6 +112,7 @@
     <Compile Include="LinearAlgebra\MatrixExtensions.cs" />
     <Compile Include="LinearAlgebra\VectorExtensions.cs" />
     <Compile Include="LinearRegression\Options.cs" />
+    <Compile Include="OdeSolvers\OdeSolvers.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
