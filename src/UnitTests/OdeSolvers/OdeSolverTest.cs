@@ -57,5 +57,21 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
                 Console.WriteLine(Math.Abs(sol(2) - y_t.Last()));
             }
         }
+
+        /// <summary>
+        /// Runge-Kutta second order method for first order ODE.
+        /// </summary>
+        [Test]
+        public void RK4Test()
+        {
+            Func<double, double, double> ode = (t, y) => t + 2 * y * t;
+            Func<double, double> sol = (t) => 0.5 * (Math.Exp(t * t) - 1);
+            for (int k = 0; k < 4; k++)
+            {
+                double y0 = 0;
+                double[] y_t = RungeKutta.FourthOrder(y0, 0, 2, Convert.ToInt32(Math.Pow(2, k + 6)), ode);
+                Console.WriteLine(Math.Abs(sol(2) - y_t.Last()));
+            }
+        }
     }
 }
