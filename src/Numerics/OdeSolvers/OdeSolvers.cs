@@ -27,9 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.LinearAlgebra;
+using System;
 
 namespace MathNet.Numerics.OdeSolvers
 {
@@ -38,6 +37,15 @@ namespace MathNet.Numerics.OdeSolvers
     /// </summary>
     public static class RungeKutta
     {
+        /// <summary>
+        /// Second Order Runge-Kutta method
+        /// </summary>
+        /// <param name="y0">initial value</param>
+        /// <param name="start">start time</param>
+        /// <param name="end">end time</param>
+        /// <param name="N">Number of subintervals</param>
+        /// <param name="f">ode function</param>
+        /// <returns>approximations</returns>
         public static double[] SecondOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
@@ -57,6 +65,15 @@ namespace MathNet.Numerics.OdeSolvers
             return y;
         }
 
+        /// <summary>
+        /// Fourth Order Runge-Kutta method
+        /// </summary>
+        /// <param name="y0">initial value</param>
+        /// <param name="start">start time</param>
+        /// <param name="end">end time</param>
+        /// <param name="N">number of subintervals</param>
+        /// <param name="f">ode function</param>
+        /// <returns>approximations</returns>
         public static double[] FourthOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
@@ -80,6 +97,15 @@ namespace MathNet.Numerics.OdeSolvers
             return y;
         }
 
+        /// <summary>
+        /// Second Order Runge-Kutta to solve ODE SYSTEM
+        /// </summary>
+        /// <param name="y0">initial vector</param>
+        /// <param name="start">start time</param>
+        /// <param name="end">end time</param>
+        /// <param name="N">number of subintervals</param>
+        /// <param name="f">ode function</param>
+        /// <returns>approximations</returns>
         public static Vector<double>[] SecondOrder(Vector<double> y0, double start, double end, int N, Func<double, Vector<double>, Vector<double>> f)
         {
             double dt = (end - start) / (N - 1);
@@ -98,6 +124,15 @@ namespace MathNet.Numerics.OdeSolvers
             return y;
         }
 
+        /// <summary>
+        /// Fourth Order Runge-Kutta to solve ODE SYSTEM
+        /// </summary>
+        /// <param name="y0">initial vector</param>
+        /// <param name="start">start time</param>
+        /// <param name="end">end time</param>
+        /// <param name="N">number of subintervals</param>
+        /// <param name="f">ode function</param>
+        /// <returns>approximations</returns>
         public static Vector<double>[] FourthOrder(Vector<double> y0, double start, double end, int N, Func<double, Vector<double>, Vector<double>> f)
         {
             double dt = (end - start) / (N - 1);

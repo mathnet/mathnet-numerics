@@ -50,28 +50,44 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
         {
             Func<double, double, double> ode = (t, y) => t + 2 * y * t;
             Func<double, double> sol = (t) => 0.5 * (Math.Exp(t * t) - 1);
+            double ratio = double.NaN;
+            double error = 0;
+            double oldError = 0;
             for (int k = 0; k < 4; k++)
             {
                 double y0 = 0;
                 double[] y_t = RungeKutta.SecondOrder(y0, 0, 2, Convert.ToInt32(Math.Pow(2, k + 6)), ode);
-                Console.WriteLine(Math.Abs(sol(2) - y_t.Last()));
+                error = Math.Abs(sol(2) - y_t.Last());
+                if (oldError != 0)
+                    ratio = Math.Log(oldError / error, 2);
+                oldError = error;
+                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
             }
+            Assert.AreEqual(2, ratio, 0.01);// Check error convergence order
         }
 
         /// <summary>
-        /// Runge-Kutta second order method for first order ODE.
+        /// Runge-Kutta fourth order method for first order ODE.
         /// </summary>
         [Test]
         public void RK4Test()
         {
             Func<double, double, double> ode = (t, y) => t + 2 * y * t;
             Func<double, double> sol = (t) => 0.5 * (Math.Exp(t * t) - 1);
+            double ratio = double.NaN;
+            double error = 0;
+            double oldError = 0;
             for (int k = 0; k < 4; k++)
             {
                 double y0 = 0;
                 double[] y_t = RungeKutta.FourthOrder(y0, 0, 2, Convert.ToInt32(Math.Pow(2, k + 6)), ode);
-                Console.WriteLine(Math.Abs(sol(2) - y_t.Last()));
+                error = Math.Abs(sol(2) - y_t.Last());
+                if (oldError != 0)
+                    ratio = Math.Log(oldError / error, 2);
+                oldError = error;
+                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
             }
+            Assert.AreEqual(4, ratio, 0.01);// Check error convergence order
         }
     }
 }
