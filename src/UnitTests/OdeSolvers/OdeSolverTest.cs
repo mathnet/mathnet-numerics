@@ -27,11 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-extern alias NUnitFramework;
-
+using NUnit.Framework;
 using System;
 using MathNet.Numerics.OdeSolvers;
-using NUnitFramework.NUnit.Framework;
 using System.Linq;
 
 namespace MathNet.Numerics.UnitTests.OdeSolvers
