@@ -59,7 +59,6 @@ namespace MathNet.Numerics.OdeSolvers
         /// Second Order AB Method(Require two initial guesses)
         /// </summary>
         /// <param name="y0">Initial value 1</param>
-        /// <param name="y1">Initial value 2</param>
         /// <param name="start">Start Time</param>
         /// <param name="end">End Time</param>
         /// <param name="N">Number of subintervals</param>
@@ -70,12 +69,13 @@ namespace MathNet.Numerics.OdeSolvers
             double dt = (end - start) / (N - 1);
             double t = start;
             double[] y = new double[N];
-            double k1 = f(t, y0);
-            double k2 = f(t + dt, y0 + dt * k1);
-            double y1 = y0 + 0.5 * dt * (k1 + k2);
+			double fold = f(t, y0);
+			double ytilde = y0 + (2*dt/3) * fold;
+			double y1 = y0 + (dt/4) * fold + (3*dt/4) * f(t + (2*dt/3), ytilde );
             y[0] = y0;
             t += dt;
             y[1] = y1;
+
             for (int i = 2; i < N; i++)
             {
                 y[i] = y1 + dt * (1.5 * f(t + dt, y1) - 0.5 * f(t, y0));
