@@ -65,19 +65,22 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="N">Number of subintervals</param>
         /// <param name="f">ode model</param>
         /// <returns></returns>
-        public static double[] SecondOrder(double y0, double y1, double start, double end, int N, Func<double, double, double> f)
+        public static double[] SecondOrder(double y0,  double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
             double t = start;
             double[] y = new double[N];
+            double k1 = f(t, y0);
+            double k2 = f(t + dt, y0 + dt * k1);
+            double y1 = y0 + 0.5 * dt * (k1 + k2);
             y[0] = y0;
+            t += dt;
             y[1] = y1;
             for (int i = 2; i < N; i++)
             {
-                y1 = f(t + dt, y1);
                 y[i] = y1 + dt * (1.5 * f(t + dt, y1) - 0.5 * f(t, y0));
                 t += dt;
-                y0 = y1;
+                y0 = y[i-1];
                 y1 = y[i];
             }
             return y;
