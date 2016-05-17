@@ -28,6 +28,14 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             output[1, 0] = output[0, 1];
             return output;
         }
+
+        public static Vector<double> Minimum
+        {
+            get
+            {
+                return new DenseVector(new double[] { 1, 1 });
+            }
+        }
     }
 
     public static class BigRosenbrockFunction
@@ -45,6 +53,14 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         public static Matrix<double> Hessian(Vector<double> input)
         {
             return 100.0 * RosenbrockFunction.Hessian(input / 100.0);
+        }
+
+        public static Vector<double> Minimum
+        {
+            get
+            {
+                return new DenseVector(new double[] { 100, 100 });
+            }
         }
     }
 }

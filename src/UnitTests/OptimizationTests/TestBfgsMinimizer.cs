@@ -15,8 +15,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             var solver = new BfgsMinimizer(1e-5, 1e-5, 1000);
             var result = solver.FindMinimum(obj, new DenseVector(new[] { 1.2, 1.2 }));
 
-            Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
-            Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - RosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - RosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
         }
 
         [Test]
@@ -26,8 +26,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             var solver = new BfgsMinimizer(1e-5, 1e-5, 1000);
             var result = solver.FindMinimum(obj, new DenseVector(new[] { -1.2, 1.0 }));
 
-            Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
-            Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - RosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - RosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
         }
 
         [Test]
@@ -37,8 +37,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             var solver = new BfgsMinimizer(1e-5, 1e-5, 1000);
             var result = solver.FindMinimum(obj, new DenseVector(new[] { -0.9, -0.5 }));
 
-            Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
-            Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - RosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - RosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
         }
 
 		[Test]
@@ -48,8 +48,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 			var solver = new BfgsMinimizer(1e-10, 1e-5, 1000);
 			var result = solver.FindMinimum(obj, new DenseVector(new[] { 1.2*100.0, 1.2*100.0 }));
 
-			Assert.That(Math.Abs(result.MinimizingPoint[0] - 100.0), Is.LessThan(1e-3));
-			Assert.That(Math.Abs(result.MinimizingPoint[1] - 100.0), Is.LessThan(1e-3));
+			Assert.That(Math.Abs(result.MinimizingPoint[0] - BigRosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
+			Assert.That(Math.Abs(result.MinimizingPoint[1] - BigRosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
 		}
 
 		[Test]
@@ -59,8 +59,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 			var solver = new BfgsMinimizer(1e-5, 1e-5, 1000);
 			var result = solver.FindMinimum(obj, new DenseVector(new[] { -1.2*100.0, 1.0*100.0 }));
 
-			Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
-			Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
+			Assert.That(Math.Abs(result.MinimizingPoint[0] - BigRosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
+			Assert.That(Math.Abs(result.MinimizingPoint[1] - BigRosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
 		}
 
 		[Test]
@@ -70,8 +70,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 			var solver = new BfgsMinimizer(1e-5, 1e-5, 1000);
 			var result = solver.FindMinimum(obj, new DenseVector(new[] { -0.9*100.0, -0.5*100.0 }));
 
-			Assert.That(Math.Abs(result.MinimizingPoint[0] - 100.0), Is.LessThan(1e-3));
-			Assert.That(Math.Abs(result.MinimizingPoint[1] - 100.0), Is.LessThan(1e-3));
+			Assert.That(Math.Abs(result.MinimizingPoint[0] - BigRosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
+			Assert.That(Math.Abs(result.MinimizingPoint[1] - BigRosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
 		}
     }
 }
