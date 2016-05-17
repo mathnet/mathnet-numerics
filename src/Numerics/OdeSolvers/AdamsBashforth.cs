@@ -27,15 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MathNet.Numerics.OdeSolvers
 {
     public static class AdamsBashforth
     {
-
         /// <summary>
         /// First Order AB method(same as Forward Euler)
         /// </summary>
@@ -59,10 +55,32 @@ namespace MathNet.Numerics.OdeSolvers
             }
             return y;
         }
-
-        public static double[] SecondOrder()
+        /// <summary>
+        /// Second Order AB Method(Require two initial guesses)
+        /// </summary>
+        /// <param name="y0">Initial value 1</param>
+        /// <param name="y1">Initial value 2</param>
+        /// <param name="start">Start Time</param>
+        /// <param name="end">End Time</param>
+        /// <param name="N">Number of subintervals</param>
+        /// <param name="f">ode model</param>
+        /// <returns></returns>
+        public static double[] SecondOrder(double y0, double y1, double start, double end, int N, Func<double, double, double> f)
         {
-            return null;
+            double dt = (end - start) / (N - 1);
+            double t = start;
+            double[] y = new double[N];
+            y[0] = y0;
+            y[1] = y1;
+            for (int i = 2; i < N; i++)
+            {
+                y1 = f(t + dt, y1);
+                y[i] = y1 + dt * (1.5 * f(t + dt, y1) - 0.5 * f(t, y0));
+                t += dt;
+                y0 = y1;
+                y1 = y[i];
+            }
+            return y;
         }
 
         public static double[] ThirdOrder()
