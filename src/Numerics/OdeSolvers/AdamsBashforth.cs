@@ -38,7 +38,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="y0">Initial value</param>
         /// <param name="start">Start Time</param>
         /// <param name="end">End Time</param>
-        /// <param name="N">Number of subintervals</param>
+        /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode model</param>
         /// <returns></returns>
         public static double[] FirstOrder(double y0, double start, double end, int N, Func<double, double, double> f)
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="y0">Initial value 1</param>
         /// <param name="start">Start Time</param>
         /// <param name="end">End Time</param>
-        /// <param name="N">Number of subintervals</param>
+        /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode model</param>
         /// <returns></returns>
         public static double[] SecondOrder(double y0, double start, double end, int N, Func<double, double, double> f)
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="y0">Initial value 1</param>
         /// <param name="start">Start Time</param>
         /// <param name="end">End Time</param>
-        /// <param name="N">Number of subintervals</param>
+        /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode model</param>
         /// <returns></returns>
         public static double[] FourthOrder(double y0, double start, double end, int N, Func<double, double, double> f)
