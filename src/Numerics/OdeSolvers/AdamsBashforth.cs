@@ -57,7 +57,7 @@ namespace MathNet.Numerics.OdeSolvers
         }
 
         /// <summary>
-        /// Second Order AB Method(Require two initial guesses)
+        /// Second Order AB Method
         /// </summary>
         /// <param name="y0">Initial value 1</param>
         /// <param name="start">Start Time</param>
@@ -87,13 +87,46 @@ namespace MathNet.Numerics.OdeSolvers
             return y;
         }
 
-        public static double[] ThirdOrder()
+        /// <summary>
+        /// Third Order AB Method
+        /// </summary>
+        /// <param name="y0">Initial value 1</param>
+        /// <param name="start">Start Time</param>
+        /// <param name="end">End Time</param>
+        /// <param name="N">Size of output array(the larger, the finer)</param>
+        /// <param name="f">ode model</param>
+        /// <returns>approximation with size N</returns>
+        public static double[] ThirdOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
-            return null;
+            double dt = (end - start) / (N - 1);
+            double t = start;
+            double[] y = new double[N];
+
+            double k1 = 0;
+            double k2 = 0;
+            double k3 = 0;
+            double k4 = 0;
+            y[0] = y0;
+            for (int i = 1; i < 3; i++)
+            {
+                k1 = dt * f(t, y0);
+                k2 = dt * f(t + dt / 2, y0 + k1 / 2);
+                k3 = dt * f(t + dt / 2, y0 + k2 / 2);
+                k4 = dt * f(t + dt, y0 + k3);
+                y[i] = y0 + (k1 + 2 * k2 + 2 * k3 + k4) / 6;
+                t += dt;
+                y0 = y[i];
+            }
+            for (int i = 3; i < N; i++)
+            {
+                y[i] = y[i - 1] + dt * (23 * f(t, y[i - 1]) - 16 * f(t - dt, y[i - 2]) + 5 * f(t - 2 * dt, y[i - 3])) / 12.0;
+                t += dt;
+            }
+            return y;
         }
 
         /// <summary>
-        /// Fourth Order AB Method(Require two initial guesses)
+        /// Fourth Order AB Method
         /// </summary>
         /// <param name="y0">Initial value 1</param>
         /// <param name="start">Start Time</param>
