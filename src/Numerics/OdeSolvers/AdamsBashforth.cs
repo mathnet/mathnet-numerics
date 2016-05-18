@@ -92,9 +92,33 @@ namespace MathNet.Numerics.OdeSolvers
             return null;
         }
 
-        public static double[] FourthOrder()
+        public static double[] FourthOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
-            return null;
+            double dt = (end - start) / (N - 1);
+            double t = start;
+            double[] y = new double[N];
+
+            double k1 = 0;
+            double k2 = 0;
+            double k3 = 0;
+            double k4 = 0;
+            y[0] = y0;
+            for (int i = 1; i < 4; i++)
+            {
+                k1 = dt * f(t, y0);
+                k2 = dt * f(t + dt / 2, y0 + k1 / 2);
+                k3 = dt * f(t + dt / 2, y0 + k2 / 2);
+                k4 = dt * f(t + dt, y0 + k3);
+                y[i] = y0 + (k1 + 2 * k2 + 2 * k3 + k4) / 6;
+                t += dt;
+                y0 = y[i];
+            }
+            for (int i = 4; i < N; i++)
+            {
+                y[i] = y[i - 1] + dt * (55 * f(t, y[i - 1]) - 59 * f(t - dt, y[i - 2]) + 37 * f(t - 2 * dt, y[i - 3]) - 9 * f(t - 3 * dt, y[i - 4])) / 24.0;
+                t += dt;
+            }
+            return y;
         }
     }
 }
