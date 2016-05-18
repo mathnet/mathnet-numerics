@@ -71,9 +71,10 @@ namespace MathNet.Numerics.OdeSolvers
             double t = start;
             double[] y = new double[N];
 
-            double fold = f(t, y0);
-            double ytilde = y0 + 2.0 * dt / 3.0 * fold;
-            double y1 = y0 + dt / 4.0 * fold + 3.0 * dt / 4 * f(t + 2.0 / 3.0 * dt, ytilde);
+            double k1 = f(t, y0);
+            double k2 = f(t + dt, y0 + dt * k1);
+            double y1 = y0 + 0.5 * dt * (k1 + k2);
+
             y[0] = y0;
             y[1] = y1;
             for (int i = 2; i < N; i++)
