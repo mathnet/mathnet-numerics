@@ -55,6 +55,7 @@ namespace MathNet.Numerics.OdeSolvers
             }
             return y;
         }
+
         /// <summary>
         /// Second Order AB Method(Require two initial guesses)
         /// </summary>
@@ -64,23 +65,22 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="N">Number of subintervals</param>
         /// <param name="f">ode model</param>
         /// <returns></returns>
-        public static double[] SecondOrder(double y0,  double start, double end, int N, Func<double, double, double> f)
+        public static double[] SecondOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
             double t = start;
             double[] y = new double[N];
-			double fold = f(t, y0);
-			double ytilde = y0 + (2*dt/3) * fold;
-			double y1 = y0 + (dt/4) * fold + (3*dt/4) * f(t + (2*dt/3), ytilde );
-            y[0] = y0;
-            t += dt;
-            y[1] = y1;
 
+            double fold = f(t, y0);
+            double ytilde = y0 + 2.0 * dt / 3.0 * fold;
+            double y1 = y0 + dt / 4.0 * fold + 3.0 * dt / 4 * f(t + 2.0 / 3.0 * dt, ytilde);
+            y[0] = y0;
+            y[1] = y1;
             for (int i = 2; i < N; i++)
             {
                 y[i] = y1 + dt * (1.5 * f(t + dt, y1) - 0.5 * f(t, y0));
                 t += dt;
-                y0 = y[i-1];
+                y0 = y[i - 1];
                 y1 = y[i];
             }
             return y;

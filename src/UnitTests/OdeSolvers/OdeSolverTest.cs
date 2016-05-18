@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
             for (int k = 0; k < 4; k++)
             {
                 double y0 = 0;
-                double[] y_t = AdamsBashforth.SecondOrder(y0, 0, 2, Convert.ToInt32(Math.Pow(2, k + 6)), ode);
+                double[] y_t = AdamsBashforth.SecondOrder(y0, 0, 2, Convert.ToInt32(Math.Pow(2, k + 8)), ode);
                 error = Math.Abs(sol(2) - y_t.Last());
                 if (oldError != 0)
                     ratio = Math.Log(oldError / error, 2);
