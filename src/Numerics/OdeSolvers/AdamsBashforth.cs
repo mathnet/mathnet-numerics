@@ -92,6 +92,15 @@ namespace MathNet.Numerics.OdeSolvers
             return null;
         }
 
+        /// <summary>
+        /// Fourth Order AB Method(Require two initial guesses)
+        /// </summary>
+        /// <param name="y0">Initial value 1</param>
+        /// <param name="start">Start Time</param>
+        /// <param name="end">End Time</param>
+        /// <param name="N">Number of subintervals</param>
+        /// <param name="f">ode model</param>
+        /// <returns></returns>
         public static double[] FourthOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
