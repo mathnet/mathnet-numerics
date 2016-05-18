@@ -27,9 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.OdeSolvers;
 using NUnit.Framework;
 using System;
-using MathNet.Numerics.OdeSolvers;
 using System.Linq;
 
 namespace MathNet.Numerics.UnitTests.OdeSolvers
@@ -40,6 +40,90 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
     [TestFixture, Category("OdeSolver")]
     public class OdeSolverTest
     {
+        [Test]
+        public void AB1Test()
+        {
+            Func<double, double, double> ode = (t, y) => t + 2 * y * t;
+            Func<double, double> sol = (t) => 0.5 * (Math.Exp(t * t) - 1);
+            double ratio = double.NaN;
+            double error = 0;
+            double oldError = 0;
+            for (int k = 0; k < 4; k++)
+            {
+                double y0 = 0;
+                double[] y_t = AdamsBashforth.FirstOrder(y0, 0, 2, Convert.ToInt32(Math.Pow(2, k + 8)), ode);
+                error = Math.Abs(sol(2) - y_t.Last());
+                if (oldError != 0)
+                    ratio = Math.Log(oldError / error, 2);
+                oldError = error;
+                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+            }
+            Assert.AreEqual(1, ratio, 0.01);// Check error convergence order
+        }
+
+        [Test]
+        public void AB2Test()
+        {
+            Func<double, double, double> ode = (t, y) => t + 2 * y * t;
+            Func<double, double> sol = (t) => 0.5 * (Math.Exp(t * t) - 1);
+            double ratio = double.NaN;
+            double error = 0;
+            double oldError = 0;
+            for (int k = 0; k < 4; k++)
+            {
+                double y0 = 0;
+                double[] y_t = AdamsBashforth.SecondOrder(y0, 0, 2, Convert.ToInt32(Math.Pow(2, k + 8)), ode);
+                error = Math.Abs(sol(2) - y_t.Last());
+                if (oldError != 0)
+                    ratio = Math.Log(oldError / error, 2);
+                oldError = error;
+                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+            }
+            Assert.AreEqual(2, ratio, 0.01);// Check error convergence order
+        }
+
+        [Test]
+        public void AB3Test()
+        {
+            Func<double, double, double> ode = (t, y) => t + 2 * y * t;
+            Func<double, double> sol = (t) => 0.5 * (Math.Exp(t * t) - 1);
+            double ratio = double.NaN;
+            double error = 0;
+            double oldError = 0;
+            for (int k = 0; k < 4; k++)
+            {
+                double y0 = 0;
+                double[] y_t = AdamsBashforth.ThirdOrder(y0, 0, 2, Convert.ToInt32(Math.Pow(2, k + 8)), ode);
+                error = Math.Abs(sol(2) - y_t.Last());
+                if (oldError != 0)
+                    ratio = Math.Log(oldError / error, 2);
+                oldError = error;
+                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+            }
+            Assert.AreEqual(3, ratio, 0.01);// Check error convergence order
+        }
+
+        [Test]
+        public void AB4Test()
+        {
+            Func<double, double, double> ode = (t, y) => t + 2 * y * t;
+            Func<double, double> sol = (t) => 0.5 * (Math.Exp(t * t) - 1);
+            double ratio = double.NaN;
+            double error = 0;
+            double oldError = 0;
+            for (int k = 0; k < 4; k++)
+            {
+                double y0 = 0;
+                double[] y_t = AdamsBashforth.FourthOrder(y0, 0, 2, Convert.ToInt32(Math.Pow(2, k + 9)) + 1, ode);
+                error = Math.Abs(sol(2) - y_t.Last());
+                if (oldError != 0)
+                    ratio = Math.Log(oldError / error, 2);
+                oldError = error;
+                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+            }
+            Assert.AreEqual(4, ratio, 0.01);// Check error convergence order
+        }
+
         /// <summary>
         /// Runge-Kutta second order method for first order ODE.
         /// </summary>

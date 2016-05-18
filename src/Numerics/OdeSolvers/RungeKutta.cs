@@ -43,7 +43,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="y0">initial value</param>
         /// <param name="start">start time</param>
         /// <param name="end">end time</param>
-        /// <param name="N">Number of subintervals</param>
+        /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode function</param>
         /// <returns>approximations</returns>
         public static double[] SecondOrder(double y0, double start, double end, int N, Func<double, double, double> f)
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="y0">initial value</param>
         /// <param name="start">start time</param>
         /// <param name="end">end time</param>
-        /// <param name="N">number of subintervals</param>
+        /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode function</param>
         /// <returns>approximations</returns>
         public static double[] FourthOrder(double y0, double start, double end, int N, Func<double, double, double> f)
@@ -103,7 +103,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="y0">initial vector</param>
         /// <param name="start">start time</param>
         /// <param name="end">end time</param>
-        /// <param name="N">number of subintervals</param>
+        /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode function</param>
         /// <returns>approximations</returns>
         public static Vector<double>[] SecondOrder(Vector<double> y0, double start, double end, int N, Func<double, Vector<double>, Vector<double>> f)
@@ -130,7 +130,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="y0">initial vector</param>
         /// <param name="start">start time</param>
         /// <param name="end">end time</param>
-        /// <param name="N">number of subintervals</param>
+        /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode function</param>
         /// <returns>approximations</returns>
         public static Vector<double>[] FourthOrder(Vector<double> y0, double start, double end, int N, Func<double, Vector<double>, Vector<double>> f)
