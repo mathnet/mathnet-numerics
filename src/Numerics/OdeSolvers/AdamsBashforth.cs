@@ -40,7 +40,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="end">End Time</param>
         /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode model</param>
-        /// <returns></returns>
+        /// <returns>approximation with size N</returns>
         public static double[] FirstOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
@@ -64,7 +64,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="end">End Time</param>
         /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode model</param>
-        /// <returns></returns>
+        /// <returns>approximation with size N</returns>
         public static double[] SecondOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
@@ -100,7 +100,7 @@ namespace MathNet.Numerics.OdeSolvers
         /// <param name="end">End Time</param>
         /// <param name="N">Size of output array(the larger, the finer)</param>
         /// <param name="f">ode model</param>
-        /// <returns></returns>
+        /// <returns>approximation with size N</returns>
         public static double[] FourthOrder(double y0, double start, double end, int N, Func<double, double, double> f)
         {
             double dt = (end - start) / (N - 1);
