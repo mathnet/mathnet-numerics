@@ -6,6 +6,10 @@ using MathNet.Numerics.Optimization.LineSearch;
 
 namespace MathNet.Numerics.Optimization
 {
+    /// <summary>
+    /// Broyden–Fletcher–Goldfarb–Shanno Bounded (BFGS-B) algorithm is an iterative method for solving box-constrained nonlinear optimization problems
+    /// http://www.ece.northwestern.edu/~nocedal/PSfiles/limited.ps.gz
+    /// </summary>
     public class BfgsBMinimizer
     {
         public double GradientTolerance { get; set; }
