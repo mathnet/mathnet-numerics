@@ -52,10 +52,10 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             var nms = new NelderMeadSimplex(1e-6, 1000);
             double a = 5;
             double b = 10;
+            System.Random r = new System.Random(2);
             IObjectiveFunction objFun = ObjectiveFunction.Value((constants)=>
             {
                 double ssq = 0;
-                System.Random r = new System.Random();
                 for (double x = -10; x < 10; x += .1)
                 {
                     double yTrue = a * x * x + b * x + r.NextDouble();
