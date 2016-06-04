@@ -746,37 +746,43 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         [Test]
         public void Accuracy()
         {
-            // Verify that x-accuracy is being sought, despite good y-accuracy at the boundaries
+            // Verify that x-accuracy is being sought, despite good y-accuracy already at the boundaries
             Assert.AreEqual(0.5, Bisection.FindRoot(x => 1e-5 * (x - 0.5), 0.0, 1.0, 1e-5), 1e-5);
 
             // Verify that y-accuracy is being sought despide good x-accuracy at the boundaries
-            Assert.AreEqual(Math.Sqrt(2), Bisection.FindRoot(x => 1e10 * (x - Math.Sqrt(2)), 1.0, 2.0, 0.5), 1e-10);
+            Assert.AreEqual(Math.Sqrt(2), Bisection.FindRoot(x => 1e10 * (x - Math.Sqrt(2)), 1.0, 2.0, 1.0), 1e-10);
+
+            // Verify that a discontinuity is not considered a root.
+            double root;
+            Assert.IsFalse(Bisection.TryFindRoot(x => (x<0)? -1 : 1, -1, 1, 1e-5, 100, out root));
+            // ... unless it is a very small discontinuity
+            Assert.AreEqual(0.0, Bisection.FindRoot(x => (x < 0) ? -1e-5 : 1e-5, -1, Math.Sqrt(2), 1e-5), 1e-5);
 
             // Verify no unnecessary iterations are done after the requested accuracy is achieved
             var niter = 0;
             Func<double, double> f = x => { niter++; return x - Math.Sqrt(2); };
             Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 2);
-            Assert.LessOrEqual(niter, 4);
+            Assert.LessOrEqual(niter, 3);
 
             niter = 0;
             Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 4);
-            Assert.LessOrEqual(niter, 5);
+            Assert.LessOrEqual(niter, 4);
 
             niter = 0;
             Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 8);
-            Assert.LessOrEqual(niter, 6);
+            Assert.LessOrEqual(niter, 5);
 
             niter = 0;
             Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 16);
-            Assert.LessOrEqual(niter, 7);
+            Assert.LessOrEqual(niter, 6);
 
             niter = 0;
             Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 32);
-            Assert.LessOrEqual(niter, 8);
+            Assert.LessOrEqual(niter, 7);
 
             niter = 0;
             Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 64);
-            Assert.LessOrEqual(niter, 9);
+            Assert.LessOrEqual(niter, 8);
         }
     }
 }
