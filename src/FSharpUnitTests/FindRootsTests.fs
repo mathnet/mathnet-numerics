@@ -21,8 +21,8 @@ module FindRootsTests =
 
     [<Test>]
     let ``Bisection should find both roots of (x - 3) * (x - 4)``() =
-        f |> FindRoots.bisection 100 1e-14 -5.0 3.5 |> shouldEqual (Some 3.0)
-        f |> FindRoots.bisection 100 1e-14 3.2 5.0 |> shouldEqual (Some 4.0)
+        f |> FindRoots.bisection 100 1e-14 -5.0 3.5 |> should (equalWithin 1e-14) 3.0
+        f |> FindRoots.bisection 100 1e-14 3.2 5.0 |> should (equalWithin 1e-14) 4.0
 
     [<Test>]
     let ``Brent should find both roots of (x - 3) * (x - 4)``() =
