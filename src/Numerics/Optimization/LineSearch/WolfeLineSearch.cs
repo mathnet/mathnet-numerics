@@ -87,8 +87,8 @@ namespace MathNet.Numerics.Optimization.LineSearch
             for (ii = 0; ii < MaximumIterations; ++ii)
             {
                 objective.EvaluateAt(startingPoint.Point + searchDirection * step);
-                ValidateGradient(objective);    // Differ! (added)
-                ValidateValue(objective);       // Differ! (added)
+                ValidateGradient(objective);  
+                ValidateValue(objective);       
 
                 double stepDd = searchDirection * objective.Gradient;
 
@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
                     upperBound = step;
                     step = 0.5 * (lowerBound + upperBound);
                 }
-                else if (WolfeCondition(stepDd,initialDd))   // Differ, weak Wolfe
+                else if (WolfeCondition(stepDd,initialDd))
                 {
                     lowerBound = step;
                     step = double.IsPositiveInfinity(upperBound) ? 2 * lowerBound : 0.5 * (lowerBound + upperBound);
