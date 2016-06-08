@@ -6,7 +6,7 @@ namespace MathNet.Numerics.Optimization
 {
     public static class QuadraticGradientProjectionSearch
     {
-        public static Tuple<Vector<double>,int,List<bool>> Search(Vector<double> x0, Vector<double> gradient, Matrix<double> hessian, Vector<double> lowerBound, Vector<double> upperBound)
+        public static GradientProjectionResult Search(Vector<double> x0, Vector<double> gradient, Matrix<double> hessian, Vector<double> lowerBound, Vector<double> upperBound)
         {
             List<bool> isFixed = new List<bool>(x0.Count);
             List<double> breakpoint = new List<double>(x0.Count);
@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Optimization
             var maxS = orderedBreakpoint[0];
 
             if (sMin < maxS)
-                return Tuple.Create(x + sMin * d, 0,isFixed);
+                return new GradientProjectionResult(x + sMin * d, 0,isFixed);
 
             // while minimum of the last quadratic piece observed is beyond the interval searched
             while (true)
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.Optimization
                     }
 
                 if (Double.IsPositiveInfinity(orderedBreakpoint[jj + 1]))
-                    return Tuple.Create(x, fixedCount, isFixed);
+                    return new GradientProjectionResult(x, fixedCount, isFixed);
 
                 f1 = gradient * d + (x - x0) * hessian * d;
                 f2 = d * hessian * d;
@@ -74,13 +74,26 @@ namespace MathNet.Numerics.Optimization
                 sMin = -f1 / f2;
 
                 if (sMin < maxS)
-                    return Tuple.Create(x + sMin * d, fixedCount, isFixed);
+                    return new GradientProjectionResult(x + sMin * d, fixedCount, isFixed);
                 else if (jj + 1 >= orderedBreakpoint.Count - 1)
                 {
                     isFixed[isFixed.Count - 1] = true;
-                    return Tuple.Create(x + maxS * d, lowerBound.Count, isFixed);
+                    return new GradientProjectionResult(x + maxS * d, lowerBound.Count, isFixed);
                 }
             }
+        }
+
+        public struct GradientProjectionResult
+        {
+            public GradientProjectionResult(Vector<double> cauchyPoint, int fixedCount, List<bool> isFixed)
+            {
+                CauchyPoint = cauchyPoint;
+                FixedCount = fixedCount;
+                IsFixed = isFixed;
+            }
+            public Vector<double> CauchyPoint { get; }
+            public int FixedCount { get; }
+            public List<bool> IsFixed { get; }
         }
     }
 }

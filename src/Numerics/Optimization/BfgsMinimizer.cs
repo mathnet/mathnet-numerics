@@ -1,4 +1,34 @@
-﻿using System;
+﻿// <copyright file="BfgsTest.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2016 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization.LineSearch;
 
@@ -7,31 +37,36 @@ namespace MathNet.Numerics.Optimization
     /// <summary>
     /// Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm is an iterative method for solving unconstrained nonlinear optimization problems
     /// </summary>
-    public class BfgsMinimizer
+    public class BfgsMinimizer : BfgsMinimizerBase
     {
-        public double GradientTolerance { get; set; }
-		public double ParameterTolerance { get; set; }
-        public int MaximumIterations { get; set; }
-
-        public BfgsMinimizer(double gradientTolerance, double parameterTolerance, int maximumIterations=1000)
+        /// <summary>
+        /// Creates BFGS minimizer
+        /// </summary>
+        /// <param name="gradientTolerance">The gradient tolerance</param>
+        /// <param name="parameterTolerance">The parameter tolerance</param>
+        /// <param name="functionProgressTolerance">The funciton progress tolerance</param>
+        /// <param name="maximumIterations">The maximum number of iterations</param>
+        public BfgsMinimizer(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations=1000)
+            :base(gradientTolerance,parameterTolerance,functionProgressTolerance,maximumIterations)
         {
-            GradientTolerance = gradientTolerance;
-			ParameterTolerance = parameterTolerance;
-            MaximumIterations = maximumIterations;
         }
 
+        /// <summary>
+        /// Find the minimum of the objective function given lower and upper bounds
+        /// </summary>
+        /// <param name="objective">The objective function, must support a gradient</param>
+        /// <param name="initialGuess">The initial guess</param>
+        /// <returns>The MinimizationResult which contains the minimum and the ExitCondition</returns>
         public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
         {
             if (!objective.IsGradientSupported)
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for BFGS minimization.");
 
             objective.EvaluateAt(initialGuess);
-            ValidateGradient(objective);
-
-            var initial = objective.Fork();
+            ValidateGradientAndObjective(objective);
 
             // Check that we're not already done
-            MinimizationResult.ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null);
+            MinimizationResult.ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null, 0);
             if (currentExitCondition != MinimizationResult.ExitCondition.None)
                 return new MinimizationResult(objective, 0, currentExitCondition);
 
@@ -40,122 +75,68 @@ namespace MathNet.Numerics.Optimization
 
             // First step
             var inversePseudoHessian = CreateMatrix.DenseIdentity<double>(initialGuess.Count);
-            var searchDirection = -objective.Gradient;
-            var stepSize = 100 * GradientTolerance / (searchDirection * searchDirection);
+            var lineSearchDirection = -objective.Gradient;
+            var stepSize = 100 * GradientTolerance / (lineSearchDirection * lineSearchDirection);
 
-            var previousPoint = objective.Point;
-            var previousGradient = objective.Gradient;
+            var previousPoint = objective;
 
-            LineSearchResult result;
+            LineSearchResult lineSearchResult;
             try
             {
-                result = lineSearcher.FindConformingStep(objective, searchDirection, stepSize);
+                lineSearchResult = lineSearcher.FindConformingStep(objective, lineSearchDirection, stepSize);
             }
-            catch (Exception e)
+            catch (OptimizationException e)
+            {
+                throw new InnerOptimizationException("Line search failed.", e);
+            }
+            catch (ArgumentException e)
             {
                 throw new InnerOptimizationException("Line search failed.", e);
             }
 
-            objective = result.FunctionInfoAtMinimum;
-            ValidateGradient(objective);
+            var candidate = lineSearchResult.FunctionInfoAtMinimum;
+            ValidateGradientAndObjective(candidate);
 
-            var gradient = objective.Gradient;
-            var step = objective.Point - initialGuess;
-            stepSize = result.FinalStep;
+            var gradient = candidate.Gradient;
+            var step = candidate.Point - initialGuess;
 
             // Subsequent steps
             Matrix<double> I = CreateMatrix.DiagonalIdentity<double>(initialGuess.Count);
             int iterations;
-            int totalLineSearchSteps = result.Iterations;
-            int iterationsWithNontrivialLineSearch = result.Iterations > 0 ? 0 : 1;
-			for (iterations = 1; iterations < MaximumIterations; ++iterations)
-            {
-                var y = objective.Gradient - previousGradient;
-
-                double sy = step * y;
-                inversePseudoHessian = inversePseudoHessian + ((sy + y * inversePseudoHessian * y) / Math.Pow(sy, 2.0)) * step.OuterProduct(step) - ( (inversePseudoHessian * y.ToColumnMatrix())*step.ToRowMatrix() + step.ToColumnMatrix()*(y.ToRowMatrix() * inversePseudoHessian)) * (1.0 / sy);
-                searchDirection = -inversePseudoHessian * objective.Gradient;
-
-                if (searchDirection * objective.Gradient >= 0.0)
-                {
-                    searchDirection = -objective.Gradient;
-                    inversePseudoHessian = CreateMatrix.DenseIdentity<double>(initialGuess.Count);
-                }
-
-                previousGradient = objective.Gradient;
-                previousPoint = objective.Point;
-
-                try
-                {
-                    result = lineSearcher.FindConformingStep(objective, searchDirection, 1.0);
-                }
-                catch (Exception e)
-                {
-                    throw new InnerOptimizationException("Line search failed.", e);
-                }
-
-                iterationsWithNontrivialLineSearch += result.Iterations > 0 ? 1 : 0;
-                totalLineSearchSteps += result.Iterations;
-                stepSize = result.FinalStep;
-                step = result.FunctionInfoAtMinimum.Point - previousPoint;
-                objective = result.FunctionInfoAtMinimum;
-
-                currentExitCondition = ExitCriteriaSatisfied(objective, previousPoint);
-                if (currentExitCondition != MinimizationResult.ExitCondition.None)
-                    break;
-            }
+            int totalLineSearchSteps = lineSearchResult.Iterations;
+            int iterationsWithNontrivialLineSearch = lineSearchResult.Iterations > 0 ? 0 : 1;
+            iterations = DoBfgsUpdate(ref currentExitCondition, lineSearcher, ref inversePseudoHessian, ref lineSearchDirection, ref previousPoint, ref lineSearchResult, ref candidate, ref step, ref totalLineSearchSteps, ref iterationsWithNontrivialLineSearch);
 
             if (iterations == MaximumIterations && currentExitCondition == MinimizationResult.ExitCondition.None)
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
 
-            return new MinimizationWithLineSearchResult(objective, iterations, MinimizationResult.ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
+            return new MinimizationWithLineSearchResult(candidate, iterations, MinimizationResult.ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
-        private MinimizationResult.ExitCondition ExitCriteriaSatisfied(IObjectiveFunction candidatePoint, Vector<double> lastPoint)
+        protected override Vector<double> CalculateSearchDirection(ref Matrix<double> inversePseudoHessian,
+            out double maxLineSearchStep,
+            out double startingStepSize,
+            IObjectiveFunction previousPoint,
+            IObjectiveFunction candidate, 
+            Vector<double> step)
         {
-            Vector<double> relGrad = new LinearAlgebra.Double.DenseVector(candidatePoint.Point.Count);
-			double relativeGradient = 0.0;
-            double normalizer = Math.Max(Math.Abs(candidatePoint.Value), 1.0);
-			for (int ii = 0; ii < relGrad.Count; ++ii)
-			{
-                double tmp = candidatePoint.Gradient[ii]*Math.Max(Math.Abs(candidatePoint.Point[ii]), 1.0) / normalizer;
-				relativeGradient = Math.Max(relativeGradient, Math.Abs(tmp));
-			}
-			if (relativeGradient < GradientTolerance)
-			{
-				return MinimizationResult.ExitCondition.RelativeGradient;
-			}
+            startingStepSize = 1.0;
+            maxLineSearchStep = double.PositiveInfinity;
 
-            if (lastPoint != null)
-			{
-				double mostProgress = 0.0;
-                for (int ii = 0; ii < candidatePoint.Point.Count; ++ii)
-				{
-                    var tmp = Math.Abs(candidatePoint.Point[ii] - lastPoint[ii])/Math.Max(Math.Abs(lastPoint[ii]), 1.0);
-					mostProgress = Math.Max(mostProgress, tmp);
-				}
-				if ( mostProgress < ParameterTolerance )
-				{
-					return MinimizationResult.ExitCondition.LackOfProgress;
-				}
-			}
+            Vector<double> lineSearchDirection;
+            var y = candidate.Gradient - previousPoint.Gradient;
 
-			return MinimizationResult.ExitCondition.None;
-        }
+            double sy = step * y;
+            inversePseudoHessian = inversePseudoHessian + ((sy + y * inversePseudoHessian * y) / Math.Pow(sy, 2.0)) * step.OuterProduct(step) - ((inversePseudoHessian * y.ToColumnMatrix()) * step.ToRowMatrix() + step.ToColumnMatrix() * (y.ToRowMatrix() * inversePseudoHessian)) * (1.0 / sy);
+            lineSearchDirection = -inversePseudoHessian * candidate.Gradient;
 
-        private void ValidateGradient(IObjectiveFunction objective)
-        {
-            foreach (var x in objective.Gradient)
+            if (lineSearchDirection * candidate.Gradient >= 0.0)
             {
-                if (Double.IsNaN(x) || Double.IsInfinity(x))
-                    throw new EvaluationException("Non-finite gradient returned.", objective);
+                lineSearchDirection = -candidate.Gradient;
+                inversePseudoHessian = CreateMatrix.DenseIdentity<double>(candidate.Point.Count);
             }
-        }
 
-        private void ValidateObjective(IObjectiveFunction objective)
-        {
-            if (Double.IsNaN(objective.Value) || Double.IsInfinity(objective.Value))
-                throw new EvaluationException("Non-finite objective function returned.", objective);
+            return lineSearchDirection;
         }
     }
 }
