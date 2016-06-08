@@ -28,7 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-
 using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
@@ -56,6 +55,9 @@ namespace MathNet.Numerics.Optimization
         /// <returns>The minimum found</returns>
         public static Vector<double> Solve(Vector initialGuess, Func<Vector<double>, double> functionValue, Func<Vector<double>, Vector<double>> functionGradient)
         {
+            var objectiveFunction = ObjectiveFunction.Gradient(functionValue, functionGradient);
+            objectiveFunction.EvaluateAt(initialGuess);
+
             int dim = initialGuess.Count;
             int iter = 0;
             // H represents the approximation of the inverse hessian matrix
@@ -65,18 +67,20 @@ namespace MathNet.Numerics.Optimization
             Vector<double> x = initialGuess;
             Vector<double> x_old = x;
             Vector<double> grad;
-
+            WolfeLineSearch wolfeLineSearch = new WeakWolfeLineSearch(1e-4, 0.9, 1e-5, 200);
             do
             {
                 // search along the direction of the gradient
-                grad = functionGradient(x);
+                grad = objectiveFunction.Gradient;
                 Vector<double> p = -1 * H * grad;
-                double rate = WolfeRule.LineSearch(x, p, functionValue, functionGradient);
+                var lineSearchResult = wolfeLineSearch.FindConformingStep(objectiveFunction, p, 1.0);
+                double rate = lineSearchResult.FinalStep;
                 x = x + rate * p;
                 Vector<double> grad_old = grad;
 
                 // update the gradient
-                grad = functionGradient(x);
+                objectiveFunction.EvaluateAt(x);
+                grad = objectiveFunction.Gradient;// functionGradient(x);
 
                 Vector<double> s = x - x_old;
                 Vector<double> y = grad - grad_old;
