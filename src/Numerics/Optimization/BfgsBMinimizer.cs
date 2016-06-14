@@ -1,4 +1,34 @@
-﻿using System;
+﻿// <copyright file="BfgsTest.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2016 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
@@ -6,23 +36,29 @@ using MathNet.Numerics.Optimization.LineSearch;
 
 namespace MathNet.Numerics.Optimization
 {
-    public class BfgsBMinimizer
+    /// <summary>
+    /// Broyden–Fletcher–Goldfarb–Shanno Bounded (BFGS-B) algorithm is an iterative method for solving box-constrained nonlinear optimization problems
+    /// http://www.ece.northwestern.edu/~nocedal/PSfiles/limited.ps.gz
+    /// </summary>
+    public class BfgsBMinimizer : BfgsMinimizerBase
     {
-        public double GradientTolerance { get; set; }
-        public double ParameterTolerance { get; set; }
-        public int MaximumIterations { get; set; }
-        public double FunctionProgressTolerance { get; set; }
-
         public BfgsBMinimizer(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations = 1000)
+            : base(gradientTolerance,parameterTolerance,functionProgressTolerance,maximumIterations)
         {
-            GradientTolerance = gradientTolerance;
-            ParameterTolerance = parameterTolerance;
-            MaximumIterations = maximumIterations;
-            FunctionProgressTolerance = functionProgressTolerance;
         }
 
+        /// <summary>
+        /// Find the minimum of the objective function given lower and upper bounds
+        /// </summary>
+        /// <param name="objective">The objective function, must support a gradient</param>
+        /// <param name="lowerBound">The lower bound</param>
+        /// <param name="upperBound">The upper bound</param>
+        /// <param name="initialGuess">The initial guess</param>
+        /// <returns>The MinimizationResult which contains the minimum and the ExitCondition</returns>
         public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> initialGuess)
         {
+            _lowerBound = lowerBound;
+            _upperBound = upperBound;
             if (!objective.IsGradientSupported)
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for BFGS minimization.");
 
@@ -36,9 +72,10 @@ namespace MathNet.Numerics.Optimization
                     throw new ArgumentException("Initial guess is not in the feasible region");
 
             objective.EvaluateAt(initialGuess);
+            ValidateGradientAndObjective(objective);
 
             // Check that we're not already done
-            MinimizationResult.ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null, lowerBound, upperBound, 0);
+            MinimizationResult.ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null, 0);
             if (currentExitCondition != MinimizationResult.ExitCondition.None)
                 return new MinimizationResult(objective, 0, currentExitCondition);
 
@@ -55,9 +92,9 @@ namespace MathNet.Numerics.Optimization
 
             // Determine active set
             var gradientProjectionResult = QuadraticGradientProjectionSearch.Search(objective.Point, objective.Gradient, pseudoHessian, lowerBound, upperBound);
-            var cauchyPoint = gradientProjectionResult.Item1;
-            var fixedCount = gradientProjectionResult.Item2;
-            var isFixed = gradientProjectionResult.Item3;
+            var cauchyPoint = gradientProjectionResult.CauchyPoint;
+            var fixedCount = gradientProjectionResult.FixedCount;
+            var isFixed = gradientProjectionResult.IsFixed;
             var freeCount = lowerBound.Count - fixedCount;
 
             if (freeCount > 0)
@@ -92,10 +129,10 @@ namespace MathNet.Numerics.Optimization
             var startingStepSize = Math.Min(Math.Max(estStepSize, 1.0), maxLineSearchStep);
 
             // Line search
-            LineSearchResult result;
+            LineSearchResult lineSearchResult;
             try
             {
-                result = lineSearcher.FindConformingStep(objective, lineSearchDirection, startingStepSize, upperBound: maxLineSearchStep);
+                lineSearchResult = lineSearcher.FindConformingStep(objective, lineSearchDirection, startingStepSize, upperBound: maxLineSearchStep);
             }
             catch (Exception e)
             {
@@ -103,112 +140,94 @@ namespace MathNet.Numerics.Optimization
             }
 
             var previousPoint = objective.Fork();
-            var candidatePoint = result.FunctionInfoAtMinimum;
+            var candidatePoint = lineSearchResult.FunctionInfoAtMinimum;
             var gradient = candidatePoint.Gradient;
             var step = candidatePoint.Point - initialGuess;
 
             // Subsequent steps
-            int iterations;
-            int totalLineSearchSteps = result.Iterations;
-            int iterationsWithNontrivialLineSearch = result.Iterations > 0 ? 0 : 1;
-            for (iterations = 1; iterations < MaximumIterations; ++iterations)
-            {
-                // Do BFGS update
-                var y = candidatePoint.Gradient - previousPoint.Gradient;
+            int totalLineSearchSteps = lineSearchResult.Iterations;
+            int iterationsWithNontrivialLineSearch = lineSearchResult.Iterations > 0 ? 0 : 1;
 
-                double sy = step*y;
-                if (sy > 0.0) // only do update if it will create a positive definite matrix
-                {
-                    double sts = step*step;
-                    //inverse_pseudo_hessian = inverse_pseudo_hessian + ((sy + y * inverse_pseudo_hessian * y) / Math.Pow(sy, 2.0)) * step.OuterProduct(step) - ((inverse_pseudo_hessian * y.ToColumnMatrix()) * step.ToRowMatrix() + step.ToColumnMatrix() * (y.ToRowMatrix() * inverse_pseudo_hessian)) * (1.0 / sy);
-                    var Hs = pseudoHessian*step;
-                    var sHs = step*pseudoHessian*step;
-                    pseudoHessian = pseudoHessian + y.OuterProduct(y)*(1.0/sy) - Hs.OuterProduct(Hs)*(1.0/sHs);
-                }
-                else
-                {
-                    //pseudo_hessian = LinearAlgebra.Double.DiagonalMatrix.Identity(initial_guess.Count);
-                }
-
-                // Determine active set
-                gradientProjectionResult = QuadraticGradientProjectionSearch.Search(candidatePoint.Point, candidatePoint.Gradient, pseudoHessian, lowerBound, upperBound);
-                cauchyPoint = gradientProjectionResult.Item1;
-                fixedCount = gradientProjectionResult.Item2;
-                isFixed = gradientProjectionResult.Item3;
-                freeCount = lowerBound.Count - fixedCount;
-
-                if (freeCount > 0)
-                {
-                    reducedGradient = new DenseVector(freeCount);
-                    reducedHessian = new DenseMatrix(freeCount, freeCount);
-                    reducedMap = new List<int>(freeCount);
-                    reducedInitialPoint = new DenseVector(freeCount);
-                    reducedCauchyPoint = new DenseVector(freeCount);
-
-                    CreateReducedData(candidatePoint.Point, cauchyPoint, isFixed, lowerBound, upperBound, candidatePoint.Gradient, pseudoHessian, reducedInitialPoint, reducedCauchyPoint, reducedGradient, reducedHessian, reducedMap);
-
-                    // Determine search direction and maximum step size
-                    reducedSolution1 = reducedInitialPoint + reducedHessian.Cholesky().Solve(-reducedGradient);
-
-                    solution1 = ReducedToFull(reducedMap, reducedSolution1, cauchyPoint);
-                }
-                else
-                {
-                    solution1 = cauchyPoint;
-                }
-
-                directionFromCauchy = solution1 - cauchyPoint;
-                maxStepFromCauchyPoint = FindMaxStep(cauchyPoint, directionFromCauchy, lowerBound, upperBound);
-                //var cauchy_eval = objective.Evaluate(cauchy_point);
-
-                solution2 = cauchyPoint + Math.Min(maxStepFromCauchyPoint, 1.0)*directionFromCauchy;
-
-                lineSearchDirection = solution2 - candidatePoint.Point;
-                maxLineSearchStep = FindMaxStep(candidatePoint.Point, lineSearchDirection, lowerBound, upperBound);
-
-                //line_search_direction = solution1 - candidate_point.Point;
-                //max_line_search_step = FindMaxStep(candidate_point.Point, line_search_direction, lower_bound, upper_bound);
-
-                if (maxLineSearchStep == 0.0)
-                {
-                    lineSearchDirection = cauchyPoint - candidatePoint.Point;
-                    maxLineSearchStep = FindMaxStep(candidatePoint.Point, lineSearchDirection, lowerBound, upperBound);
-                }
-
-                estStepSize = -candidatePoint.Gradient*lineSearchDirection/(lineSearchDirection*pseudoHessian*lineSearchDirection);
-
-                startingStepSize = Math.Min(Math.Max(estStepSize, 1.0), maxLineSearchStep);
-
-                // Line search
-                try
-                {
-                    result = lineSearcher.FindConformingStep(candidatePoint, lineSearchDirection, startingStepSize, upperBound: maxLineSearchStep);
-                    //result = line_searcher.FindConformingStep(objective, cauchy_eval, direction_from_cauchy, Math.Min(1.0, max_step_from_cauchy_point), upper_bound: max_step_from_cauchy_point);
-                }
-                catch (Exception e)
-                {
-                    throw new InnerOptimizationException("Line search failed.", e);
-                }
-
-                iterationsWithNontrivialLineSearch += result.Iterations > 0 ? 1 : 0;
-                totalLineSearchSteps += result.Iterations;
-
-                step = result.FunctionInfoAtMinimum.Point - candidatePoint.Point;
-                previousPoint = candidatePoint;
-                candidatePoint = result.FunctionInfoAtMinimum;
-
-                currentExitCondition = ExitCriteriaSatisfied(candidatePoint, previousPoint, lowerBound, upperBound, iterations);
-                if (currentExitCondition != MinimizationResult.ExitCondition.None)
-                    break;
-            }
+            int iterations = DoBfgsUpdate(ref currentExitCondition, lineSearcher, ref pseudoHessian, ref lineSearchDirection, ref previousPoint, ref lineSearchResult, ref candidatePoint, ref step, ref totalLineSearchSteps, ref iterationsWithNontrivialLineSearch);
 
             if (iterations == MaximumIterations && currentExitCondition == MinimizationResult.ExitCondition.None)
-                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
+                throw new MaximumIterationsException(string.Format("Maximum iterations ({0}) reached.", MaximumIterations));
 
             return new MinimizationWithLineSearchResult(candidatePoint, iterations, currentExitCondition, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
-        static Vector<double> ReducedToFull(List<int> reducedMap, Vector<double> reducedVector, Vector<double> fullVector)
+        protected override Vector<double> CalculateSearchDirection(ref Matrix<double> pseudoHessian, 
+            out double maxLineSearchStep,
+            out double startingStepSize, 
+            IObjectiveFunction previousPoint, 
+            IObjectiveFunction candidatePoint, 
+            Vector<double> step)
+        {
+            Vector<double> lineSearchDirection;
+            var y = candidatePoint.Gradient - previousPoint.Gradient;
+
+            double sy = step * y;
+            if (sy > 0.0) // only do update if it will create a positive definite matrix
+            {
+                double sts = step * step;
+                
+                var Hs = pseudoHessian * step;
+                var sHs = step * pseudoHessian * step;
+                pseudoHessian = pseudoHessian + y.OuterProduct(y) * (1.0 / sy) - Hs.OuterProduct(Hs) * (1.0 / sHs);
+            }
+            else
+            {
+                //pseudo_hessian = LinearAlgebra.Double.DiagonalMatrix.Identity(initial_guess.Count);
+            }
+
+            // Determine active set
+            var gradientProjectionResult = QuadraticGradientProjectionSearch.Search(candidatePoint.Point, candidatePoint.Gradient, pseudoHessian, _lowerBound, _upperBound);
+            var cauchyPoint = gradientProjectionResult.CauchyPoint;
+            var fixedCount = gradientProjectionResult.FixedCount;
+            var isFixed = gradientProjectionResult.IsFixed;
+            var freeCount = _lowerBound.Count - fixedCount;
+            Vector<double> solution1;
+            if (freeCount > 0)
+            {
+                var reducedGradient = new DenseVector(freeCount);
+                var reducedHessian = new DenseMatrix(freeCount, freeCount);
+                var reducedMap = new List<int>(freeCount);
+                var reducedInitialPoint = new DenseVector(freeCount);
+                var reducedCauchyPoint = new DenseVector(freeCount);
+
+                CreateReducedData(candidatePoint.Point, cauchyPoint, isFixed, _lowerBound, _upperBound, candidatePoint.Gradient, pseudoHessian, reducedInitialPoint, reducedCauchyPoint, reducedGradient, reducedHessian, reducedMap);
+
+                // Determine search direction and maximum step size
+                Vector<double> reducedSolution1 = reducedInitialPoint + reducedHessian.Cholesky().Solve(-reducedGradient);
+
+                solution1 = ReducedToFull(reducedMap, reducedSolution1, cauchyPoint);
+            }
+            else
+            {
+                solution1 = cauchyPoint;
+            }
+
+            var directionFromCauchy = solution1 - cauchyPoint;
+            var maxStepFromCauchyPoint = FindMaxStep(cauchyPoint, directionFromCauchy, _lowerBound, _upperBound);
+
+            var solution2 = cauchyPoint + Math.Min(maxStepFromCauchyPoint, 1.0) * directionFromCauchy;
+
+            lineSearchDirection = solution2 - candidatePoint.Point;
+            maxLineSearchStep = FindMaxStep(candidatePoint.Point, lineSearchDirection, _lowerBound, _upperBound);
+
+            if (maxLineSearchStep == 0.0)
+            {
+                lineSearchDirection = cauchyPoint - candidatePoint.Point;
+                maxLineSearchStep = FindMaxStep(candidatePoint.Point, lineSearchDirection, _lowerBound, _upperBound);
+            }
+
+            double estStepSize = -candidatePoint.Gradient * lineSearchDirection / (lineSearchDirection * pseudoHessian * lineSearchDirection);
+
+            startingStepSize = Math.Min(Math.Max(estStepSize, 1.0), maxLineSearchStep);
+            return lineSearchDirection;
+        }
+
+        private static Vector<double> ReducedToFull(List<int> reducedMap, Vector<double> reducedVector, Vector<double> fullVector)
         {
             var output = fullVector.Clone();
             for (int ii = 0; ii < reducedMap.Count; ++ii)
@@ -216,7 +235,10 @@ namespace MathNet.Numerics.Optimization
             return output;
         }
 
-        static double FindMaxStep(Vector<double> startingPoint, Vector<double> searchDirection, Vector<double> lowerBound, Vector<double> upperBound)
+        private Vector<double> _lowerBound;
+        private Vector<double> _upperBound;
+
+        private static double FindMaxStep(Vector<double> startingPoint, Vector<double> searchDirection, Vector<double> lowerBound, Vector<double> upperBound)
         {
             double maxStep = Double.PositiveInfinity;
             for (int ii = 0; ii < startingPoint.Count; ++ii)
@@ -235,7 +257,7 @@ namespace MathNet.Numerics.Optimization
             return maxStep;
         }
 
-        static void CreateReducedData(Vector<double> initialPoint, Vector<double> cauchyPoint, List<bool> isFixed, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> gradient, Matrix<double> pseudoHessian, Vector<double> reducedInitialPoint, Vector<double> reducedCauchyPoint, Vector<double> reducedGradient, Matrix<double> reducedHessian, List<int> reducedMap)
+        private static void CreateReducedData(Vector<double> initialPoint, Vector<double> cauchyPoint, List<bool> isFixed, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> gradient, Matrix<double> pseudoHessian, Vector<double> reducedInitialPoint, Vector<double> reducedCauchyPoint, Vector<double> reducedGradient, Matrix<double> reducedHessian, List<int> reducedMap)
         {
             int ll = 0;
             for (int ii = 0; ii < lowerBound.Count; ++ii)
@@ -263,71 +285,21 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        const double VerySmall = 1e-15;
-
-        MinimizationResult.ExitCondition ExitCriteriaSatisfied(IObjectiveFunction candidatePoint, IObjectiveFunction lastPoint, Vector<double> lowerBound, Vector<double> upperBound, int iterations)
+        protected override double GetProjectedGradient(IObjectiveFunction candidatePoint, int ii)
         {
-            Vector<double> relGrad = new DenseVector(candidatePoint.Point.Count);
-            double relativeGradient = 0.0;
-            double normalizer = Math.Max(Math.Abs(candidatePoint.Value), 1.0);
-            for (int ii = 0; ii < relGrad.Count; ++ii)
-            {
-                double projectedGradient;
+            double projectedGradient;
+            bool atLowerBound = candidatePoint.Point[ii] - _lowerBound[ii] < VerySmall;
+            bool atUpperBound = _upperBound[ii] - candidatePoint.Point[ii] < VerySmall;
 
-                bool atLowerBound = candidatePoint.Point[ii] - lowerBound[ii] < VerySmall;
-                bool atUpperBound = upperBound[ii] - candidatePoint.Point[ii] < VerySmall;
-
-                if (atLowerBound && atUpperBound)
-                    projectedGradient = 0.0;
-                else if (atLowerBound)
-                    projectedGradient = Math.Min(candidatePoint.Gradient[ii], 0.0);
-                else if (atUpperBound)
-                    projectedGradient = Math.Max(candidatePoint.Gradient[ii], 0.0);
-                else
-                    projectedGradient = candidatePoint.Gradient[ii];
-
-                double tmp = projectedGradient*Math.Max(Math.Abs(candidatePoint.Point[ii]), 1.0)/normalizer;
-                relativeGradient = Math.Max(relativeGradient, Math.Abs(tmp));
-            }
-            if (relativeGradient < GradientTolerance)
-            {
-                return MinimizationResult.ExitCondition.RelativeGradient;
-            }
-
-            if (lastPoint != null)
-            {
-                double mostProgress = 0.0;
-                for (int ii = 0; ii < candidatePoint.Point.Count; ++ii)
-                {
-                    var tmp = Math.Abs(candidatePoint.Point[ii] - lastPoint.Point[ii])/Math.Max(Math.Abs(lastPoint.Point[ii]), 1.0);
-                    mostProgress = Math.Max(mostProgress, tmp);
-                }
-                if (mostProgress < ParameterTolerance)
-                {
-                    return MinimizationResult.ExitCondition.LackOfProgress;
-                }
-
-                double functionChange = candidatePoint.Value - lastPoint.Value;
-                if (iterations > 500 && functionChange < 0 && Math.Abs(functionChange) < FunctionProgressTolerance)
-                    return MinimizationResult.ExitCondition.LackOfProgress;
-            }
-
-            return MinimizationResult.ExitCondition.None;
-        }
-
-        void ValidateGradient(IObjectiveFunction eval)
-        {
-            foreach (var x in eval.Gradient)
-            {
-                if (Double.IsNaN(x) || Double.IsInfinity(x))
-                    throw new EvaluationException("Non-finite gradient returned.", eval);
-            }
-        }
-
-        void ValidateObjective(IObjectiveFunction eval)
-        {
-            if (Double.IsNaN(eval.Value) || Double.IsInfinity(eval.Value))
-                throw new EvaluationException("Non-finite objective function returned.", eval);
+            if (atLowerBound && atUpperBound)
+                projectedGradient = 0.0;
+            else if (atLowerBound)
+                projectedGradient = Math.Min(candidatePoint.Gradient[ii], 0.0);
+            else if (atUpperBound)
+                projectedGradient = Math.Max(candidatePoint.Gradient[ii], 0.0);
+            else
+                projectedGradient = base.GetProjectedGradient(candidatePoint, ii);
+            return projectedGradient;
         }
     }
 }

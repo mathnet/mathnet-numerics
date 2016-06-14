@@ -102,6 +102,8 @@
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
     <Compile Include="LinearAlgebra\CreateVector.cs" />
     <Compile Include="LinearRegression\Options.cs" />
+    <Compile Include="Optimization\BfgsMinimizerBase.cs" />
+    <Compile Include="Optimization\LineSearch\WolfeLineSearch.cs" />
     <Compile Include="Optimization\NelderMeadSimplex.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunctionBase.cs" />
     <Compile Include="Optimization\Exceptions.cs" />
@@ -226,7 +228,6 @@
     <Compile Include="RootFinding\Cubic.cs" />
     <Compile Include="RootFinding\NewtonRaphson.cs" />
     <Compile Include="RootFinding\RobustNewtonRaphson.cs" />
-    <Compile Include="Optimization\LineSearch\WolfeRule.cs" />
     <Compile Include="RootFinding\ZeroCrossingBracketing.cs" />
     <Compile Include="RootFinding\Brent.cs" />
     <Compile Include="FindRoots.cs" />

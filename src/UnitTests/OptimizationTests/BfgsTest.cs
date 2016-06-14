@@ -4,7 +4,7 @@
 // http://github.com/mathnet/mathnet-numerics
 // http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,7 +28,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization;
 using NUnit.Framework;
@@ -50,23 +49,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
         private static void CheckRosenbrock(double a, double b, double expectedMin)
         {
-            var x = BfgsSolver.Solve(new DenseVector(new[] { a, b }), Rosenbrock, RosenbrockGradient);
-            Numerics.Precision.AlmostEqual(expectedMin, Rosenbrock(x), Precision);
-        }
-
-        private static double Rosenbrock(Vector<double> x)
-        {
-            double t1 = (1 - x[0]);
-            double t2 = (x[1] - x[0] * x[0]);
-            return t1 * t1 + 100 * t2 * t2;
-        }
-
-        private static Vector<double> RosenbrockGradient(Vector<double> x)
-        {
-            var grad = new DenseVector(2);
-            grad[0]  = -2 * (1 - x[0]) + 200 * (x[1] - x[0] * x[0]) * (-2 * x[0]);
-            grad[1]  = 200 * (x[1] - x[0] * x[0]);
-            return grad;
+            var x = BfgsSolver.Solve(new DenseVector(new[] { a, b }), RosenbrockFunction.Value, RosenbrockFunction.Gradient);
+            Numerics.Precision.AlmostEqual(expectedMin, RosenbrockFunction.Value(x), Precision);
         }
     }
 }

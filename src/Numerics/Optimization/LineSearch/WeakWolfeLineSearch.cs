@@ -1,4 +1,34 @@
-﻿using System;
+﻿// <copyright file="BfgsTest.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2016 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization.LineSearch
@@ -16,111 +46,22 @@ namespace MathNet.Numerics.Optimization.LineSearch
     /// http://en.wikipedia.org/wiki/Wolfe_conditions
     /// http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
     /// </summary>
-    public class WeakWolfeLineSearch
+    public class WeakWolfeLineSearch : WolfeLineSearch
     {
-        readonly double _c1;
-        readonly double _c2;
-        readonly double _parameterTolerance;
-        readonly int _maximumIterations;
-
         public WeakWolfeLineSearch(double c1, double c2, double parameterTolerance, int maxIterations = 10)
+            : base(c1,c2,parameterTolerance,maxIterations)
         {
-            if (c1 <= 0)
-                throw new ArgumentException(string.Format("c1 {0} should be greater than 0", c1));
-            if (c2 <= c1)
-                throw new ArgumentException(string.Format("c1 {0} should be less than c2 {1}", c1, c2));
-            if (c2 >= 1)
-                throw new ArgumentException(string.Format("c2 {0} should be less than 1", c2));
-
-            _c1 = c1;
-            _c2 = c2;
-            _parameterTolerance = parameterTolerance;
-            _maximumIterations = maxIterations;
+            // Validation in base class
         }
 
-        /// <param name="startingPoint">The objective function being optimized, evaluated at the starting point of the search</param>
-        /// <param name="searchDirection">Search direction</param>
-        /// <param name="initialStep">Initial size of the step in the search direction</param>
-        public LineSearchResult FindConformingStep(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep)
+        protected override MinimizationResult.ExitCondition WolfeExitCondition { get { return MinimizationResult.ExitCondition.WeakWolfeCriteria; } }
+
+        protected override bool WolfeCondition(double stepDd, double initialDd)
         {
-            if (!startingPoint.IsGradientSupported)
-                throw new ArgumentException("objective function does not support gradient");
-
-            double lowerBound = 0.0;
-            double upperBound = Double.PositiveInfinity;
-            double step = initialStep;
-
-            Vector<double> initialPoint = startingPoint.Point;
-            double initialValue = startingPoint.Value;
-            Vector<double> initialGradient = startingPoint.Gradient;
-
-            double initialDd = searchDirection * initialGradient;
-
-            var objective = startingPoint.CreateNew();
-            int ii;
-            MinimizationResult.ExitCondition reasonForExit = MinimizationResult.ExitCondition.None;
-            for (ii = 0; ii < _maximumIterations; ++ii)
-            {
-                objective.EvaluateAt(initialPoint + searchDirection * step);
-                ValidateGradient(objective);
-                ValidateValue(objective);
-
-                double stepDd = searchDirection * objective.Gradient;
-
-                if (objective.Value > initialValue + _c1 * step * initialDd)
-                {
-                    upperBound = step;
-                    step = 0.5 * (lowerBound + upperBound);
-                }
-                else if (stepDd < _c2 * initialDd)
-                {
-                    lowerBound = step;
-                    step = Double.IsPositiveInfinity(upperBound) ? 2 * lowerBound : 0.5 * (lowerBound + upperBound);
-                }
-                else
-                {
-                    reasonForExit = MinimizationResult.ExitCondition.WeakWolfeCriteria;
-                    break;
-                }
-
-                if (!Double.IsInfinity(upperBound))
-                {
-                    double maxRelChange = 0.0;
-                    for (int jj = 0; jj < objective.Point.Count; ++jj)
-                    {
-                        double tmp = Math.Abs(searchDirection[jj] * (upperBound - lowerBound)) / Math.Max(Math.Abs(objective.Point[jj]), 1.0);
-                        maxRelChange = Math.Max(maxRelChange, tmp);
-                    }
-                    if (maxRelChange < _parameterTolerance)
-                    {
-                        reasonForExit = MinimizationResult.ExitCondition.LackOfProgress;
-                        break;
-                    }
-                }
-            }
-
-            if (ii == _maximumIterations && Double.IsPositiveInfinity(upperBound))
-            {
-                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached. Function appears to be unbounded in search direction.", _maximumIterations));
-            }
-
-            if (ii == _maximumIterations)
-            {
-                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", _maximumIterations));
-            }
-
-            return new LineSearchResult(objective, ii, step, reasonForExit);
+            return stepDd < C2 * initialDd;
         }
 
-        bool Conforms(IObjectiveFunction startingPoint, Vector<double> searchDirection, double step, IObjectiveFunction endingPoint)
-        {
-            bool sufficientDecrease = endingPoint.Value <= startingPoint.Value + _c1 * step * (startingPoint.Gradient * searchDirection);
-            bool notTooSteep = endingPoint.Gradient * searchDirection >= _c2 * startingPoint.Gradient * searchDirection;
-
-            return step > 0 && sufficientDecrease && notTooSteep;
-        }
-
-        static void ValidateValue(IObjectiveFunction eval)
+        protected override void ValidateValue(IObjectiveFunction eval)
         {
             if (!IsFinite(eval.Value))
             {
@@ -128,20 +69,26 @@ namespace MathNet.Numerics.Optimization.LineSearch
             }
         }
 
-        static void ValidateGradient(IObjectiveFunction eval)
+        protected override void ValidateInputArguments(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep, double upperBound)
+        {
+            if (!startingPoint.IsGradientSupported)
+                throw new ArgumentException("objective function does not support gradient");
+        }
+
+        protected override void ValidateGradient(IObjectiveFunction eval)
         {
             foreach (double x in eval.Gradient)
             {
                 if (!IsFinite(x))
                 {
-                    throw new EvaluationException(String.Format("Non-finite value returned by gradient: {0}", x), eval);
+                    throw new EvaluationException(string.Format("Non-finite value returned by gradient: {0}", x), eval);
                 }
             }
         }
 
         static bool IsFinite(double x)
         {
-            return !(Double.IsNaN(x) || Double.IsInfinity(x));
+            return !(double.IsNaN(x) || double.IsInfinity(x));
         }
     }
 }
