@@ -237,8 +237,8 @@ namespace MathNet.Numerics.Distributions
         {
             get
             {
-                var num = _alpha.Sum(t => (t - 1)*SpecialFunctions.DiGamma(t));
-                return SpecialFunctions.GammaLn(AlphaSum) + ((AlphaSum - Dimension)*SpecialFunctions.DiGamma(AlphaSum)) - num;
+                var num = _alpha.Sum(t => (t - 1)*SpecialFunctions.DiGamma(t) - SpecialFunctions.GammaLn(t));
+                return -SpecialFunctions.GammaLn(AlphaSum) + ((AlphaSum - Dimension)*SpecialFunctions.DiGamma(AlphaSum)) - num;
             }
         }
 
