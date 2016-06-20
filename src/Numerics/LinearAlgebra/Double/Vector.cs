@@ -443,9 +443,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Returns the index of the absolute maximum element.
+        /// Returns the index of the maximum element.
         /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>
+        /// <returns>The index of maximum element.</returns>
         public override int MaximumIndex()
         {
             var index = 0;
