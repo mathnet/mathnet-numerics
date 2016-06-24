@@ -906,12 +906,40 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
 
             result.Clear();
-            var columnVector = new DenseVector(other.RowCount);
-
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
 
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
+            if (denseOther != null)
+            {
+                // in this case we can directly address the underlying data-array
+                for (var row = 0; row < RowCount; row++)
+                {
+                    var startIndex = rowPointers[row];
+                    var endIndex = rowPointers[row + 1];
+
+                    if (startIndex == endIndex)
+                    {
+                        continue;
+                    }
+
+                    for (var column = 0; column < other.ColumnCount; column++)
+                    {
+                        int otherColumnStartPosition = column * other.RowCount;
+                        var sum = 0d;
+                        for (var index = startIndex; index < endIndex; index++)
+                        {
+                            sum += values[index] * denseOther.Data[otherColumnStartPosition + columnIndices[index]];
+                        }
+
+                        result.At(row, column, sum);
+                    }
+                }
+                return;
+            }
+
+            var columnVector = new DenseVector(other.RowCount);
             for (var row = 0; row < RowCount; row++)
             {
                 var startIndex = rowPointers[row];
