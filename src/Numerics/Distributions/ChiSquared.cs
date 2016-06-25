@@ -300,7 +300,7 @@ namespace MathNet.Numerics.Distributions
                             sum += standard[k + j]*standard[k + j];
                         }
 
-                        values[i] = Math.Sqrt(sum);
+                        values[i] = sum;
                     }
                 });
                 return;
