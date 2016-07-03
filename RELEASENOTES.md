@@ -1,3 +1,9 @@
+### 3.12.0 - 2016-07-03
+* ODE Solver: Runge-Kutta (order 2, 4) and Adams-Bashforth (order 1-4) algorithms *~Yoonku Hwang*
+* Linear Algebra: faster multiplication of sparse with dense matrices *~Arthur*
+* BUG: Integration: Gauss-Legendre on order 256 *~Sergey Kosukhin*
+* BUG: Distributions: ChiSquared sampling was taking a square root where it should not *~Florian Wechsung*
+
 ### 3.11.1 - 2016-04-24
 * BUG: Linear Algebra: sparse vector pointwise multiply/divide to itself
 * BUG: Linear Algebra: Vector.ToVectorString if the first column is wider than maxWidth
@@ -15,7 +21,7 @@
 * Statistics: Min/Max Absolute, MagnitudePhase (complex).
 * Statistics: FiveNumberSummary to use actual Median instead of R8 quantile.
 * Linear Algebra: matrix Rank to use relative epsilon.
-* Linera Algebra: extensions to convert between single/double precision, complex/real.
+* Linear Algebra: extensions to convert between single/double precision, complex/real.
 * Linear Algebra: Vector/Matrix storage DataContracts for ephemeral serialization.
 * Regression: more helpful exceptions and messages.
 * Random: 'Next' integer sampling no longer involves floating points, avoids one-off error in MersenneTwister.
