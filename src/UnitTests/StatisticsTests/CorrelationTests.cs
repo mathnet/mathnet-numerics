@@ -105,7 +105,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         /// <summary>
-        /// Constant-weighted Pearson correlation test.
+        /// Correlation between two identical data sets should always equal one,
+        /// regardless of the weights used.
         /// </summary>
         [Test]
         public void WeightedPearsonCorrelationEqualsOneTest()
