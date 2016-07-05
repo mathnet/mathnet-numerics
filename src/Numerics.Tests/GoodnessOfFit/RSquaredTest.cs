@@ -51,6 +51,55 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
             Assert.That(Numerics.GoodnessOfFit.RSquared(data, data), Is.EqualTo(1));
         }
 
+        /// <summary>
+        /// Test the R-squared value of values with itself
+        /// </summary>
+        [Test]
+        public void CoefficentOfDetermination_OfDataWithItself_EqualsOne()
+        {
+            var data = Generate.LinearRange(1, 100);
+            AssertHelpers.AlmostEqual(Numerics.GoodnessOfFit.CoefficientOfDetermination(data, data), 1.0, 14);
+        }
+
+        /// <summary>
+        /// Test the R-squared value of values with correlated values
+        /// </summary>
+        [Test]
+        public void CoefficentOfDetermination_OfCorrelatedData_DoesNotEqualOne()
+        {
+            // parameters
+            int n = 100;
+            int offset = 1;
+
+            // actual values and comparison
+            var data = Generate.LinearRange(1, n);
+            var model = Generate.LinearRange(1+offset, n+offset);
+            double R2Calc = Numerics.GoodnessOfFit.CoefficientOfDetermination(model, data);
+            Assert.That(R2Calc, Is.Not.EqualTo(1));
+        }
+
+        /// <summary>
+        /// Test the R-squared value of values with correlated values
+        /// </summary>
+        [Test]
+        public void CoefficentOfDetermination_OfCorrelatedData_KnownOutput()
+        {
+            // parameters
+            int n = 100;
+            int offset = 1;
+
+            // theoretical values
+            double ssTot = (n*(n-1)*(n+1))/12.0;
+            double ssRes = n*offset*offset;
+            double R2 = 1-ssRes/ssTot;
+
+            // actual values and comparison
+            var data = Generate.LinearRange(1, n);
+            var model = Generate.LinearRange(1+offset, n+offset);
+            double R2Calc = Numerics.GoodnessOfFit.CoefficientOfDetermination(model, data);
+            AssertHelpers.AlmostEqual(R2Calc, R2, 14);
+        }
+
         [Test]
         public void WhenGivenTwoDatasetsOfDifferentSizeThenThrowsArgumentException()
         {
