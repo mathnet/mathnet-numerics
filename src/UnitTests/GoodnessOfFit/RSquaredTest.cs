@@ -58,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
         public void CoefficentOfDetermination_OfDataWithItself_EqualsOne()
         {
             var data = Generate.LinearRange(1, 100);
-            AssertHelpers.AlmostEqual(Numerics.GoodnessOfFit.CoefficentOfDetermination(data, data), 1.0, 14);
+            AssertHelpers.AlmostEqual(Numerics.GoodnessOfFit.CoefficientOfDetermination(data, data), 1.0, 14);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
             // actual values and comparison
             var data = Generate.LinearRange(1, n);
             var model = Generate.LinearRange(1+offset, n+offset);
-            double R2Calc = Numerics.GoodnessOfFit.CoefficentOfDetermination(model, data);
+            double R2Calc = Numerics.GoodnessOfFit.CoefficientOfDetermination(model, data);
             Assert.That(R2Calc, Is.Not.EqualTo(1));
         }
 
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
             // actual values and comparison
             var data = Generate.LinearRange(1, n);
             var model = Generate.LinearRange(1+offset, n+offset);
-            double R2Calc = Numerics.GoodnessOfFit.CoefficentOfDetermination(model, data);
+            double R2Calc = Numerics.GoodnessOfFit.CoefficientOfDetermination(model, data);
             AssertHelpers.AlmostEqual(R2Calc, R2, 14);
         }
 

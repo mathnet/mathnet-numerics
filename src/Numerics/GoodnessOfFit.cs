@@ -48,13 +48,13 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Calculated the R-Squared value, also known as coefficient of determination,
-        /// given modelled and observed values
+        /// Calculates the R-Squared value, also known as coefficient of determination,
+        /// given some modelled and observed values.
         /// </summary>
-        /// <param name="modelledValues">The values expected from the modelled</param>
-        /// <param name="observedValues">The actual data set values obtained</param>
-        /// <returns>Squared Person product-momentum correlation coefficient.</returns>
-        public static double CoefficentOfDetermination(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
+        /// <param name="modelledValues">The values expected from the model.</param>
+        /// <param name="observedValues">The actual values obtained.</param>
+        /// <returns>Coefficient of determination.</returns>
+        public static double CoefficientOfDetermination(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
         {
             var y = observedValues;
             var f = modelledValues;
