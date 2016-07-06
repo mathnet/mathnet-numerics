@@ -71,7 +71,7 @@ namespace MathNet.Numerics
             using (IEnumerator<double> ieF = f.GetEnumerator()) {
                 while (ieY.MoveNext()) {
                     if (!ieF.MoveNext()) {
-                        throw new ArgumentOutOfRangeException("dataB", Resources.ArgumentArraysSameLength);
+                        throw new ArgumentOutOfRangeException("modelledValues", Resources.ArgumentArraysSameLength);
                     }
 
                     double currentY = ieY.Current;
@@ -86,7 +86,7 @@ namespace MathNet.Numerics
                 }
 
                 if (ieF.MoveNext()) {
-                    throw new ArgumentOutOfRangeException("dataA", Resources.ArgumentArraysSameLength);
+                    throw new ArgumentOutOfRangeException("observedValues", Resources.ArgumentArraysSameLength);
                 }
             }
             return 1 - ssRes/ssTot;
