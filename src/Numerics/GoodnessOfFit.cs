@@ -65,9 +65,12 @@ namespace MathNet.Numerics
             double ssRes = 0;
 
             using (IEnumerator<double> ieY = y.GetEnumerator())
-            using (IEnumerator<double> ieF = f.GetEnumerator()) {
-                while (ieY.MoveNext()) {
-                    if (!ieF.MoveNext()) {
+            using (IEnumerator<double> ieF = f.GetEnumerator())
+            {
+                while (ieY.MoveNext())
+                {
+                    if (!ieF.MoveNext())
+                    {
                         throw new ArgumentOutOfRangeException("modelledValues", Resources.ArgumentArraysSameLength);
                     }
 
@@ -96,7 +99,8 @@ namespace MathNet.Numerics
                     ssRes += (currentY - currentF)*(currentY-currentF);
                 }
 
-                if (ieF.MoveNext()) {
+                if (ieF.MoveNext())
+                {
                     throw new ArgumentOutOfRangeException("observedValues", Resources.ArgumentArraysSameLength);
                 }
             }
