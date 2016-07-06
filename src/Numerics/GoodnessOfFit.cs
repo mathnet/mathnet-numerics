@@ -64,9 +64,6 @@ namespace MathNet.Numerics
             double ssTot = 0;
             double ssRes = 0;
 
-            // WARNING: do not try to "optimize" by summing up products instead of using differences.
-            // It would indeed be faster, but numerically much less robust if large mean + low variance.
-
             using (IEnumerator<double> ieY = y.GetEnumerator())
             using (IEnumerator<double> ieF = f.GetEnumerator()) {
                 while (ieY.MoveNext()) {
@@ -77,11 +74,25 @@ namespace MathNet.Numerics
                     double currentY = ieY.Current;
                     double currentF = ieF.Current;
 
+                    // If a large constant C is added to every y value,
+                    // then each new y have an error of about C*eps,
+                    // thus each new deltaY will change by about C*eps (compared to the old deltaY),
+                    // and thus ssTot will change by only C*eps*deltaY on each step
+                    // thus C*eps*deltaY*n in total.
+                    // (This error cannot be eliminated by a Kahan algorithm,
+                    // because it is introduced when C is added to the old Y value).
+                    //
+                    // This is better than summing the square of y values
+                    // and then substracting the correct multiple of the square of the sum of y values,
+                    // in this latter case ssTot will change by eps*n*(C^2+2*C*meanY) in total.
                     double deltaY = currentY - meanY;
                     double scaleDeltaY = deltaY/++n;
 
                     meanY += scaleDeltaY;
                     ssTot += scaleDeltaY*deltaY*(n - 1);
+
+                    // This calculation is as safe as ssTot
+                    // in the case when a constant is added to both y and f.
                     ssRes += (currentY - currentF)*(currentY-currentF);
                 }
 
