@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Name>FSharp-XamariniOS</Name>
+    <AssemblyName>MathNet.Numerics.FSharp</AssemblyName>
+    <RootNamespace>MathNet.Numerics</RootNamespace>
+    <OutputType>Library</OutputType>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F5F14E76-428D-43D7-8431-5B895F1BA419}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{F2A71F9B-5D33-465A-A702-920D77279786}</ProjectTypeGuids>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <BaseIntermediateOutputPath>..\..\obj\lib-debug\XamariniOS</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>TRACE;PORTABLE</DefineConstants>
+    <OutputPath>..\..\out\lib\XamariniOS\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib\XamariniOS\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib\XamariniOS\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\..\out\lib\XamariniOS\MathNet.Numerics.FSharp.XML</DocumentationFile>
+    <Optimize>true</Optimize>
+    <Tailcalls>true</Tailcalls>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <WarningLevel>3</WarningLevel>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
+    <OutputPath>..\..\out\lib-debug\XamariniOS\</OutputPath>
+    <IntermediateOutputPath>..\..\obj\lib-debug\XamariniOS\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\..\obj\lib-debug\XamariniOS\</BaseIntermediateOutputPath>
+    <Optimize>false</Optimize>
+    <Tailcalls>false</Tailcalls>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <WarningLevel>3</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <MtouchUseSGen>true</MtouchUseSGen>
+    <MtouchUseRefCounting>true</MtouchUseRefCounting>
+    <PlatformTarget></PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="mscorlib" />
+    <Reference Include="FSharp.Core" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="Compatibility.fs" />
+    <Compile Include="Statistics.fs" />
+    <Compile Include="Random.fs" />
+    <Compile Include="Distributions.fs" />
+    <Compile Include="Generate.fs" />
+    <Compile Include="LinearAlgebra.Vector.fs" />
+    <Compile Include="LinearAlgebra.Matrix.fs" />
+    <Compile Include="Complex.fs" />
+    <Compile Include="BigIntegerExtensions.fs" />
+    <Compile Include="BigRational.fsi" />
+    <Compile Include="BigRational.fs" />
+    <Compile Include="Differentiate.fs" />
+    <Compile Include="Fit.fs" />
+    <Compile Include="FindRoots.fs" />
+    <Compile Include="RandomVariable.fs" />
+    <None Include="MathNet.Numerics.fsx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Numerics\Numerics-XamariniOS.csproj">
+      <Project>{1C8DCFB2-DB75-4C4B-888B-4AF315FCE3C3}</Project>
+      <Name>Numerics-XamariniOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.FSharp.targets" />
+</Project>
