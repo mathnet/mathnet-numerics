@@ -97,6 +97,7 @@
     <Compile Include="IntegralTransforms\Fourier.cs" />
     <Compile Include="IntegralTransforms\Hartley.cs" />
     <Compile Include="Integration\GaussLegendreRule.cs" />
+    <Compile Include="Integration\GaussRule\GaussLegendrePoint.cs" />
     <Compile Include="Integration\GaussRule\GaussLegendrePointFactory.cs" />
     <Compile Include="Integration\GaussRule\GaussPoint.cs" />
     <Compile Include="Interpolation\Barycentric.cs" />
