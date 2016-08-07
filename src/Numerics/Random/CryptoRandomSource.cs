@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Random
     /// </summary>
     public sealed class CryptoRandomSource : RandomSource, IDisposable
     {
-        const double Reciprocal = 1.0/uint.MaxValue;
+        const double Reciprocal = 1.0/4294967296.0; // 1.0/(uint.MaxValue + 1.0)
         readonly RandomNumberGenerator _crypto;
 
         /// <summary>
