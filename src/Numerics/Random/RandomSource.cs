@@ -450,12 +450,66 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
+        /// Returns a random N-bit signed integer greater than or equal to zero and less than 2^N.
+        /// N (bit count) is expected to be greater than zero and less than 32 (not verified).
+        /// </summary>
+        protected virtual int DoSampleInt32WithNBits(int bitCount)
+        {
+            var bytes = new byte[4];
+            DoSampleBytes(bytes);
+
+            // every bit with independent uniform distribution
+            uint uint32 = BitConverter.ToUInt32(bytes, 0);
+
+            // the least significant N bits with independend uniform distribution and the remaining bits zero
+            uint uintN = uint32 >> (32 - bitCount);
+            return (int)uintN;
+        }
+
+        /// <summary>
+        /// Returns a random N-bit signed long integer greater than or equal to zero and less than 2^N.
+        /// N (bit count) is expected to be greater than zero and less than 64 (not verified).
+        /// </summary>
+        protected virtual long DoSampleInt64WithNBits(int bitCount)
+        {
+            var bytes = new byte[8];
+            DoSampleBytes(bytes);
+
+            // every bit with independent uniform distribution
+            ulong uint64 = BitConverter.ToUInt64(bytes, 0);
+
+            // the least significant N bits with independend uniform distribution and the remaining bits zero
+            ulong uintN = uint64 >> (64 - bitCount);
+            return (long)uintN;
+        }
+
+        /// <summary>
         /// Returns a random 32-bit signed integer within the specified range.
         /// </summary>
         /// <param name="maxExclusive">The exclusive upper bound of the random number returned.</param>
         protected virtual int DoSampleInteger(int maxExclusive)
         {
-            return (int)(DoSample() * maxExclusive);
+            // non-biased implementation
+            // (biased: return (int)(DoSample() * maxExclusive);)
+
+            int bitCount = Euclid.Log2(maxExclusive);
+            int range = Euclid.PowerOfTwo(bitCount);
+
+            // Fast case: maxExclusive is a power of two
+            if (range == maxExclusive)
+            {
+                return DoSampleInt32WithNBits(bitCount);
+            }
+
+            // Rejection case: we need to use rejection to avoid introducing bias
+            bitCount++;
+            int sample;
+            do
+            {
+                sample = DoSampleInt32WithNBits(bitCount);
+            }
+            while (sample >= maxExclusive);
+            return sample;
         }
 
         /// <summary>
