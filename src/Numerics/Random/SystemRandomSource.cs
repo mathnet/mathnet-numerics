@@ -136,6 +136,11 @@ namespace MathNet.Numerics.Random
             return _random.Next(minInclusive, maxExclusive);
         }
 
+        protected override void DoSampleBytes(byte[] buffer)
+        {
+            _random.NextBytes(buffer);
+        }
+
         /// <summary>
         /// Fill an array with uniform random numbers greater than or equal to 0.0 and less than 1.0.
         /// WARNING: potentially very short random sequence length, can generate repeated partial sequences.

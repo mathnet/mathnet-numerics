@@ -339,7 +339,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="buffer">An array of bytes to contain random numbers.</param>
         /// <exception cref="T:System.ArgumentNullException"><paramref name="buffer"/> is null. </exception>
-        public override void NextBytes(byte[] buffer)
+        public sealed override void NextBytes(byte[] buffer)
         {
             if (buffer == null)
             {
@@ -350,19 +350,13 @@ namespace MathNet.Numerics.Random
             {
                 lock (_lock)
                 {
-                    for (var i = 0; i < buffer.Length; i++)
-                    {
-                        buffer[i] = (byte)(DoSampleInteger()%256);
-                    }
+                    DoSampleBytes(buffer);
                 }
 
                 return;
             }
 
-            for (var i = 0; i < buffer.Length; i++)
-            {
-                buffer[i] = (byte)(DoSampleInteger()%256);
-            }
+            DoSampleBytes(buffer);
         }
 
         /// <summary>
@@ -388,7 +382,7 @@ namespace MathNet.Numerics.Random
         protected abstract double DoSample();
 
         /// <summary>
-        /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>.
+        /// Returns a random 32-bit signed integer greater than or equal to zero and less than 2147483647 (<see cref="F:System.Int32.MaxValue"/>).
         /// </summary>
         protected virtual int DoSampleInteger()
         {
@@ -403,6 +397,17 @@ namespace MathNet.Numerics.Random
         protected virtual int DoSampleInteger(int minInclusive, int maxExclusive)
         {
             return (int)(DoSample()*(maxExclusive - minInclusive)) + minInclusive;
+        }
+
+        /// <summary>
+        /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+        /// </summary>
+        protected virtual void DoSampleBytes(byte[] buffer)
+        {
+            for (var i = 0; i < buffer.Length; i++)
+            {
+                buffer[i] = (byte)(DoSampleInteger() % 256);
+            }
         }
     }
 }

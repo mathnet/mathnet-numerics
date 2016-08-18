@@ -85,6 +85,14 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
+        /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+        /// </summary>
+        protected override void DoSampleBytes(byte[] buffer)
+        {
+            _crypto.GetBytes(buffer);
+        }
+
+        /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
         protected sealed override double DoSample()
