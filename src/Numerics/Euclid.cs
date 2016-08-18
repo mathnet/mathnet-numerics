@@ -272,6 +272,27 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Evaluate the binary logarithm of an integer number.
+        /// </summary>
+        /// <remarks>Two-step method using a De Bruijn-like sequence table lookup.</remarks>
+        public static int Log2(this int number)
+        {
+            number |= number >> 1;
+            number |= number >> 2;
+            number |= number >> 4;
+            number |= number >> 8;
+            number |= number >> 16;
+
+            return MultiplyDeBruijnBitPosition[(uint)(number * 0x07C4ACDDU) >> 27];
+        }
+
+        static readonly int[] MultiplyDeBruijnBitPosition = new int[32]
+        {
+            0, 9, 1, 10, 13, 21, 2, 29, 11, 14, 16, 18, 22, 25, 3, 30,
+            8, 12, 20, 28, 15, 17, 24, 7, 19, 27, 23, 6, 26, 5, 4, 31
+        };
+
+        /// <summary>
         /// Find the closest perfect power of two that is larger or equal to the provided
         /// 32 bit integer.
         /// </summary>

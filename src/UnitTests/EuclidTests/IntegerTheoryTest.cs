@@ -443,6 +443,24 @@ namespace MathNet.Numerics.UnitTests.EuclidTests
         }
 
         /// <summary>
+        /// Log2 matches floating point for int32.
+        /// </summary>
+        [Test]
+        public void Log2MatchesFloatingPoint32()
+        {
+            for (var i = 0; i < 31; i++)
+            {
+                int number = i.PowerOfTwo();
+                Assert.AreEqual((int)Math.Log(number, 2), number.Log2());
+                Assert.AreEqual((int)Math.Log(number + 1, 2), (number + 1).Log2());
+                if (number > 1)
+                {
+                    Assert.AreEqual((int)Math.Log(number - 1, 2), (number - 1).Log2());
+                }
+            }
+        }
+
+        /// <summary>
         /// Test if int32 is perfect square.
         /// </summary>
         [Test]
