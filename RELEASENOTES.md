@@ -1,3 +1,12 @@
+### 3.13.0 - 2016-08-18
+* Linear Algebra: faster tall, wide managed matrix multiplication. *~Aixile*
+* Euclid: Integer Log2 (DeBruijn sequencences algorithm).
+* Integration: Gauss-Legendre documentation, cleanup. *~Larz White*
+* Random: Integer sub-range sampling to use rejection sampling to avoid bias.
+* Random: Improvements on integer and byte sampling.
+* BUG: Random: CryptoRandomSource must not generate 1.0 samples.
+* BUG: Statistics: fixed bug in WeightedPearson Correlation. *~Jon Smit*
+
 ### 3.12.0 - 2016-07-03
 * ODE Solver: Runge-Kutta (order 2, 4) and Adams-Bashforth (order 1-4) algorithms *~Yoonku Hwang*
 * Linear Algebra: faster multiplication of sparse with dense matrices *~Arthur*

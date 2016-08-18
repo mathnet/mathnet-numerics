@@ -22,13 +22,13 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Yoonku Hwang
 - Gustavo Guerra
 - Kuan Bartel
+- Larz White
 - Alexander Täschner
 - Hani Medhat
 - MaLiN2223
 - Matthew A. Johnson
 - manyue
 - David Prince
-- Larz White
 - Frank A. Krueger
 - Andriy Bratiychuk
 - Jack Pappas
@@ -56,10 +56,10 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Jon Larborn
 - Kyle Parrigan
 - borfudin
+- Aixile
 - BenHewins
 - Dan
 - Gregor959
-- IUser
 - Iain Sproat
 - Igor K
 - Jeff Mastry
