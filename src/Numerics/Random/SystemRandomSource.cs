@@ -126,6 +126,11 @@ namespace MathNet.Numerics.Random
             return _random.Next();
         }
 
+        protected override int DoSampleInteger(int maxExclusive)
+        {
+            return _random.Next(maxExclusive);
+        }
+
         /// <summary>
         /// Returns a random 32-bit signed integer within the specified range.
         /// </summary>

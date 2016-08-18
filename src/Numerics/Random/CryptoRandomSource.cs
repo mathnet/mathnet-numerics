@@ -110,7 +110,7 @@ namespace MathNet.Numerics.Random
             var bytes = new byte[4];
             _crypto.GetBytes(bytes);
             uint uint32 = BitConverter.ToUInt32(bytes, 0);
-            int int31 = (int)uint32 >> 1;
+            int int31 = (int)(uint32 >> 1);
             if (int31 == int.MaxValue)
             {
                 return DoSampleInteger();
