@@ -181,6 +181,11 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0')">
       <ItemGroup>
+        <Reference Include="NUnit.System.Linq">
+          <HintPath>..\..\packages\test\NUnit\lib\net20\NUnit.System.Linq.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
         <Reference Include="nunit.framework">
           <HintPath>..\..\packages\test\NUnit\lib\net20\nunit.framework.dll</HintPath>
           <Private>True</Private>
