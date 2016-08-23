@@ -455,6 +455,12 @@ namespace MathNet.Numerics.Random
         /// </summary>
         protected virtual int DoSampleInt32WithNBits(int bitCount)
         {
+			// Fast case: Only 0 is allowed to be returned
+            // No random call is needed
+            if (bitCount == 0)
+            {
+                return 0;
+            }
             var bytes = new byte[4];
             DoSampleBytes(bytes);
 
