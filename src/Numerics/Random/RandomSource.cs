@@ -472,6 +472,12 @@ namespace MathNet.Numerics.Random
         /// </summary>
         protected virtual long DoSampleInt64WithNBits(int bitCount)
         {
+			// Fast case: Only 0 is allowed to be returned
+            // No random call is needed
+            if (bitCount == 0)
+            {
+                return 0;
+            }
             var bytes = new byte[8];
             DoSampleBytes(bytes);
 
@@ -489,6 +495,13 @@ namespace MathNet.Numerics.Random
         /// <param name="maxExclusive">The exclusive upper bound of the random number returned.</param>
         protected virtual int DoSampleInteger(int maxExclusive)
         {
+			// Fast case: Only a single number is allowed to be returned
+            // No random call is needed
+            if (maxExclusive == 1)
+            {
+                return 0;
+            }
+			
             // non-biased implementation
             // (biased: return (int)(DoSample() * maxExclusive);)
 
