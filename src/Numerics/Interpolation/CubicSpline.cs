@@ -40,6 +40,9 @@ namespace MathNet.Numerics.Interpolation
     /// <remarks>Supports both differentiation and integration.</remarks>
     public class CubicSpline : IInterpolation
     {
+        private int _cachedLeftSegmentIndex;
+        private double _cachedLeftSegment;
+        private double _cachedRightSegment;
         readonly double[] _x;
         readonly double[] _c0;
         readonly double[] _c1;
@@ -64,6 +67,9 @@ namespace MathNet.Numerics.Interpolation
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
             }
 
+            _cachedLeftSegmentIndex = -1;
+            _cachedLeftSegment = 0;
+            _cachedRightSegment = 0;
             _x = x;
             _c0 = c0;
             _c1 = c1;
@@ -522,13 +528,22 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         int LeftSegmentIndex(double t)
         {
+            if (_cachedLeftSegmentIndex >= 0 && t >= _cachedLeftSegment && t < _cachedRightSegment)
+            {
+                return _cachedLeftSegmentIndex;
+            }
+
             int index = Array.BinarySearch(_x, t);
             if (index < 0)
             {
                 index = ~index - 1;
             }
 
-            return Math.Min(Math.Max(index, 0), _x.Length - 2);
+            _cachedLeftSegmentIndex = Math.Min(Math.Max(index, 0), _x.Length - 2);
+            _cachedLeftSegment = _x[_cachedLeftSegmentIndex];
+            _cachedRightSegment = _x[_cachedLeftSegmentIndex + 1];
+
+            return _cachedLeftSegmentIndex;
         }
     }
 }
