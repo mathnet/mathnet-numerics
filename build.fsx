@@ -861,7 +861,7 @@ let publishReleaseTag title prefix version notes =
     let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
     Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
     let _, remotes, _ = Git.CommandHelper.runGitCommand "." "remote -v"
-    let main = remotes |> Seq.find (fun s -> s.Contains("(push)") && s.Contains("origin/mathnet-numerics"))
+    let main = remotes |> Seq.find (fun s -> s.Contains("(push)") && s.Contains("mathnet/mathnet-numerics"))
     let remoteName = main.Split('\t').[0]
     Git.Branches.pushTag "." remoteName tagName
 
