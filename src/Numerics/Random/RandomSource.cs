@@ -165,7 +165,7 @@ namespace MathNet.Numerics.Random
                 return Next();
             }
 
-            // Sample with 1 < maxExclusive < int.MaxValue
+            // Sample with maxExclusive ≥ 2
             if (_threadSafe)
             {
                 lock (_lock)
@@ -214,7 +214,7 @@ namespace MathNet.Numerics.Random
                 return Next(maxExclusive);
             }
 
-            // Sample with minInclusive + 1 < maxExclusive
+            // Sample with maxExclusive ≥ minExclusive + 2
             if (_threadSafe)
             {
                 lock (_lock)
@@ -291,7 +291,7 @@ namespace MathNet.Numerics.Random
                 return;
             }
 
-            // Sample with 1 < maxExclusive < int.MaxValue
+            // Sample with maxExclusive ≥ 2
             if (_threadSafe)
             {
                 lock (_lock)
@@ -361,7 +361,7 @@ namespace MathNet.Numerics.Random
                 return;
             }
 
-            // Sample with minInclusive + 1 < maxExclusive
+            // Sample with maxExclusive ≥ minExclusive + 2
             if (_threadSafe)
             {
                 lock (_lock)
@@ -560,16 +560,9 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random 32-bit signed integer within the specified range.
         /// </summary>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 2 (not verified, must be ensured by caller).</param>
         protected virtual int DoSampleInteger(int maxExclusive)
         {
-			// Fast case: Only a single number is allowed to be returned
-            // No random call is needed
-            if (maxExclusive == 1)
-            {
-                return 0;
-            }
-
             // non-biased implementation
             // (biased: return (int)(DoSample() * maxExclusive);)
 
@@ -597,9 +590,10 @@ namespace MathNet.Numerics.Random
         /// Returns a random 32-bit signed integer within the specified range.
         /// </summary>
         /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ minExclusive + 2 (not verified, must be ensured by caller).</param>
         protected virtual int DoSampleInteger(int minInclusive, int maxExclusive)
         {
+            // Sample with maxExclusive ≥ 2
             return DoSampleInteger(maxExclusive - minInclusive) + minInclusive;
         }
     }
