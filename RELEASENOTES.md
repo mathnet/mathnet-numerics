@@ -1,3 +1,6 @@
+### 3.13.1 - 2016-09-06
+* BUG: Random: Next(x,x+1) must always return x *~Juri*
+
 ### 3.13.0 - 2016-08-18
 * Linear Algebra: faster tall, wide managed matrix multiplication. *~Aixile*
 * Euclid: Integer Log2 (DeBruijn sequencences algorithm).
