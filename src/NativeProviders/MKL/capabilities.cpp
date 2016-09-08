@@ -41,7 +41,7 @@ extern "C" {
 #endif
 
 		// COMMON/SHARED
-		case 64: return 9; // revision
+		case 64: return 10; // revision
 		case 65: return 1; // numerical consistency, precision and accuracy modes
 		case 66: return 1; // threading control
 		case 67: return 1; // memory management
