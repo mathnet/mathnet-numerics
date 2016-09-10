@@ -1,4 +1,18 @@
 language: csharp
-sudo: false
-script: 
+
+env:
+  - HOME=/home/travis APPDATA=/home/travis LocalAppData=/home/travis
+
+sudo: required #false
+dist: trusty
+dotnet: 1.0.0-preview2-003121
+
+mono:
+- latest
+
+branches:
+  except:
+    - gh-pages
+
+script:
   - ./build.sh Test quick
