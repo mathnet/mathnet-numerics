@@ -19,9 +19,10 @@ Math.NET Numerics is covered under the terms of the [MIT/X11](LICENSE.md) licens
 
 ### Current Version
 
-![Math.NET Numerics Version](http://img.shields.io/nuget/v/MathNet.Numerics.svg?style=flat) Math.NET Numerics  
-![Native Providers Version](http://img.shields.io/nuget/v/MathNet.Numerics.MKL.Win-x64.svg?style=flat) Native Providers  
-![Data Extensions Version](http://img.shields.io/nuget/v/MathNet.Numerics.Data.Text.svg?style=flat) Data Extensions
+![Math.NET Numerics Version](https://buildstats.info/nuget/MathNet.Numerics) Math.NET Numerics
+![MKL Native Provider Version](https://buildstats.info/nuget/MathNet.Numerics.MKL.Win) MKL Native Provider
+![OpenBLAS Native Provider Version](https://buildstats.info/nuget/MathNet.Numerics.OpenBLAS.Win) OpenBLAS Native Provider
+![Data Extensions Version](https://buildstats.info/nuget/MathNet.Numerics.Data.Text) Data Extensions
 
 Installation Instructions
 -------------------------
@@ -59,7 +60,7 @@ For full details, dependencies and platform discrepancies see [Platform Compatib
 Building Math.NET Numerics
 --------------------------
 
-Windows (.Net): [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics)  
+Windows (.Net): [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics)
 Linux (Mono): [![Travis Build Status](https://travis-ci.org/mathnet/mathnet-numerics.svg?branch=master)](https://travis-ci.org/mathnet/mathnet-numerics)
 
 You can build Math.NET Numerics with an IDE like VisualStudio or Xamarin,
