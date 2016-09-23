@@ -6,14 +6,14 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
     {
         Vector<double> _point;
 
-        bool _hasFunctionValue;
-        double _functionValue;
+        protected bool _hasFunctionValue;
+        protected double _functionValue;
 
-        bool _hasGradientValue;
-        Vector<double> _gradientValue;
+        protected bool _hasGradientValue;
+        protected Vector<double> _gradientValue;
 
-        bool _hasHessianValue;
-        Matrix<double> _hessianValue;
+        protected bool _hasHessianValue;
+        protected Matrix<double> _hessianValue;
 
         protected LazyObjectiveFunctionBase(bool gradientSupported, bool hessianSupported)
         {
