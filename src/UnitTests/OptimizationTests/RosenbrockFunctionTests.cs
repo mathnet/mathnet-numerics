@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
     [TestFixture]
-    class TestRosenbrockFunction
+    class RosenbrockFunctionTests
     {
         [Test]
         public void TestGradient()
