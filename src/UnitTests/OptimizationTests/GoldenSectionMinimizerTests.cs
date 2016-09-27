@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
     [TestFixture]
-    public class TestGoldenSectionMinimizer
+    public class GoldenSectionMinimizerTests
     {
         [Test]
         public void Test_Works()

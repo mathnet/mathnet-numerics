@@ -345,16 +345,32 @@
     <Compile Include="EuclidTests\IntegerTheoryTest.cs" />
     <Compile Include="LinearAlgebraTests\MatrixStorageCombinatorsTests.cs" />
     <Compile Include="LinearAlgebraTests\VectorStorageCombinatorsTests.cs" />
+    <Compile Include="OptimizationTests\TestCaseDataExtensions.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\BrownAndDennisFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\HelicalValleyFunction.cs" />
     <Compile Include="OptimizationTests\NelderMeadSimplexTests.cs" />
-    <Compile Include="OptimizationTests\TestGoldenSectionMinimizer.cs" />
+    <Compile Include="OptimizationTests\TestFunctionAdapters.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\BaseTestFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\BealeFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\BrownBadlyScaledFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\FreudensteinAndRothFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\ITestFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\JennrichAndSampsonFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\MeyerFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\PowellBadlyScaledFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\PowellSingularFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\RosenbrockFunction2.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\WoodFunction.cs" />
+    <Compile Include="OptimizationTests\GoldenSectionMinimizerTests.cs" />
+    <Compile Include="OptimizationTests\TestFunctionTests.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="OptimizationTests\BfgsTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
-    <Compile Include="OptimizationTests\TestBfgsMinimizer.cs" />
-    <Compile Include="OptimizationTests\TestConjugateGradientMinimizer.cs" />
-    <Compile Include="OptimizationTests\TestNewtonMinimizer.cs" />
-    <Compile Include="OptimizationTests\TestRosenbrockFunction.cs" />
+    <Compile Include="OptimizationTests\BfgsMinimizerTests.cs" />
+    <Compile Include="OptimizationTests\ConjugateGradientMinimizerTests.cs" />
+    <Compile Include="OptimizationTests\NewtonMinimizerTests.cs" />
+    <Compile Include="OptimizationTests\RosenbrockFunctionTests.cs" />
     <Compile Include="PermutationTest.cs" />
     <Compile Include="PrecisionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -401,7 +417,7 @@
     <Compile Include="StatisticsTests\StatTestData.cs" />
     <Compile Include="TrigonometryTest.cs" />
     <Compile Include="UseLinearAlgebraProvider.cs" />
-    <Compile Include="OptimizationTests\TestBfgsBMinimizer.cs" />
+    <Compile Include="OptimizationTests\BfgsBMinimizerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\data\Codeplex-5667.csv">
