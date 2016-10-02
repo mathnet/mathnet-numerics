@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
@@ -74,6 +74,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable78", "src\UnitTests\UnitTests-Portable78.csproj", "{2769BADC-02D9-48D9-88B4-C7E1C064BDF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetStandard", "NetStandard", "{DEB3950D-8280-4E85-9003-E155C241993F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-NetStandard", "src\Numerics\Numerics-NetStandard.csproj", "{CD54C200-6E8C-4820-96B9-26497C689D64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +209,12 @@ Global
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
+		{CD54C200-6E8C-4820-96B9-26497C689D64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD54C200-6E8C-4820-96B9-26497C689D64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD54C200-6E8C-4820-96B9-26497C689D64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD54C200-6E8C-4820-96B9-26497C689D64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD54C200-6E8C-4820-96B9-26497C689D64}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{CD54C200-6E8C-4820-96B9-26497C689D64}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -226,6 +236,7 @@ Global
 		{2EBD6F22-9BD6-4AF2-A21B-7198C9C5571F} = {5351407F-74BA-4850-A3E7-D5C2BACEF419}
 		{B170F78B-8C95-4C6A-A437-F05D9302B0B3} = {021F915C-C0E3-468B-A183-5FCF1DEC3754}
 		{2769BADC-02D9-48D9-88B4-C7E1C064BDF2} = {5351407F-74BA-4850-A3E7-D5C2BACEF419}
+		{CD54C200-6E8C-4820-96B9-26497C689D64} = {DEB3950D-8280-4E85-9003-E155C241993F}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\Numerics\Numerics.csproj
