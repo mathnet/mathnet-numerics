@@ -10,14 +10,14 @@
     <ProjectGuid>{F5F14E76-428D-43D7-8431-5B895F1BA419}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{F2A71F9B-5D33-465A-A702-920D77279786}</ProjectTypeGuids>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\XamariniOS</BaseIntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib-debug\XamariniOS</BaseIntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineConstants>TRACE;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\lib\XamariniOS\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib\XamariniOS\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib\XamariniOS\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib\XamariniOS\MathNet.Numerics.FSharp.XML</DocumentationFile>
+    <OutputPath>..\out\lib\XamariniOS\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib\XamariniOS\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib\XamariniOS\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\out\lib\XamariniOS\MathNet.Numerics.FSharp.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
     <DebugSymbols>true</DebugSymbols>
@@ -28,9 +28,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\lib-debug\XamariniOS\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-debug\XamariniOS\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\XamariniOS\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\lib-debug\XamariniOS\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib-debug\XamariniOS\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib-debug\XamariniOS\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
     <DebugSymbols>true</DebugSymbols>
@@ -50,29 +50,29 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Folder Include="..\src\FSharp\Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Compatibility.fs" />
-    <Compile Include="Statistics.fs" />
-    <Compile Include="Random.fs" />
-    <Compile Include="Distributions.fs" />
-    <Compile Include="Generate.fs" />
-    <Compile Include="LinearAlgebra.Vector.fs" />
-    <Compile Include="LinearAlgebra.Matrix.fs" />
-    <Compile Include="Complex.fs" />
-    <Compile Include="BigIntegerExtensions.fs" />
-    <Compile Include="BigRational.fsi" />
-    <Compile Include="BigRational.fs" />
-    <Compile Include="Differentiate.fs" />
-    <Compile Include="Fit.fs" />
-    <Compile Include="FindRoots.fs" />
-    <Compile Include="RandomVariable.fs" />
-    <None Include="MathNet.Numerics.fsx" />
+    <Compile Include="..\src\FSharp\AssemblyInfo.fs" />
+    <Compile Include="..\src\FSharp\Compatibility.fs" />
+    <Compile Include="..\src\FSharp\Statistics.fs" />
+    <Compile Include="..\src\FSharp\Random.fs" />
+    <Compile Include="..\src\FSharp\Distributions.fs" />
+    <Compile Include="..\src\FSharp\Generate.fs" />
+    <Compile Include="..\src\FSharp\LinearAlgebra.Vector.fs" />
+    <Compile Include="..\src\FSharp\LinearAlgebra.Matrix.fs" />
+    <Compile Include="..\src\FSharp\Complex.fs" />
+    <Compile Include="..\src\FSharp\BigIntegerExtensions.fs" />
+    <Compile Include="..\src\FSharp\BigRational.fsi" />
+    <Compile Include="..\src\FSharp\BigRational.fs" />
+    <Compile Include="..\src\FSharp\Differentiate.fs" />
+    <Compile Include="..\src\FSharp\Fit.fs" />
+    <Compile Include="..\src\FSharp\FindRoots.fs" />
+    <Compile Include="..\src\FSharp\RandomVariable.fs" />
+    <None Include="..\src\FSharp\MathNet.Numerics.fsx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Numerics\Numerics-XamariniOS.csproj">
+    <ProjectReference Include="Numerics-XamariniOS.csproj">
       <Project>{1C8DCFB2-DB75-4C4B-888B-4AF315FCE3C3}</Project>
       <Name>Numerics-XamariniOS</Name>
     </ProjectReference>

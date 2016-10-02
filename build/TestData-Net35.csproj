@@ -15,9 +15,9 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\out\test\Net35\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Net35\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Net35\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\test\Net35\</OutputPath>
+    <IntermediateOutputPath>..\obj\test\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\test\Net35\</BaseIntermediateOutputPath>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <DefineConstants>TRACE</DefineConstants>
@@ -30,9 +30,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <OutputPath>..\..\out\test-debug\Net35\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Net35\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Net35\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\test-debug\Net35\</OutputPath>
+    <IntermediateOutputPath>..\obj\test-debug\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\test-debug\Net35\</BaseIntermediateOutputPath>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -44,9 +44,9 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
-    <OutputPath>..\..\out\test-signed\Net35\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-signed\Net35\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-signed\Net35\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\test-signed\Net35\</OutputPath>
+    <IntermediateOutputPath>..\obj\test-signed\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\test-signed\Net35\</BaseIntermediateOutputPath>
     <!-- Conditional Strong Name: YES -->
     <SignAssembly>true</SignAssembly>
     <DebugType>pdbonly</DebugType>
@@ -68,248 +68,248 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\src\TestData\Data.cs" />
+    <Compile Include="..\src\TestData\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\data\Codeplex-5667.csv">
+    <EmbeddedResource Include="..\data\Codeplex-5667.csv">
       <Link>Data\Codeplex-5667.csv</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\Github-Cureos-1.csv">
+    <EmbeddedResource Include="..\data\Github-Cureos-1.csv">
       <Link>Data\Github-Cureos-1.csv</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\Matlab\A.mat">
+    <EmbeddedResource Include="..\data\Matlab\A.mat">
       <Link>Data\Matlab\A.mat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\Matlab\collection-nocompress.mat">
+    <EmbeddedResource Include="..\data\Matlab\collection-nocompress.mat">
       <Link>Data\Matlab\collection-nocompress.mat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\Matlab\collection.mat">
+    <EmbeddedResource Include="..\data\Matlab\collection.mat">
       <Link>Data\Matlab\collection.mat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\Matlab\complex.mat">
+    <EmbeddedResource Include="..\data\Matlab\complex.mat">
       <Link>Data\Matlab\complex.mat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\Matlab\sparse-large.mat">
+    <EmbeddedResource Include="..\data\Matlab\sparse-large.mat">
       <Link>Data\Matlab\sparse-large.mat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\Matlab\sparse-small.mat">
+    <EmbeddedResource Include="..\data\Matlab\sparse-small.mat">
       <Link>Data\Matlab\sparse-small.mat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\Matlab\sparse_complex.mat">
+    <EmbeddedResource Include="..\data\Matlab\sparse_complex.mat">
       <Link>Data\Matlab\sparse_complex.mat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\Matlab\v.mat">
+    <EmbeddedResource Include="..\data\Matlab\v.mat">
       <Link>Data\Matlab\v.mat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\AtmWtAgt.dat">
+    <EmbeddedResource Include="..\data\NIST\AtmWtAgt.dat">
       <Link>Data\NIST\AtmWtAgt.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Bennett5.dat">
+    <EmbeddedResource Include="..\data\NIST\Bennett5.dat">
       <Link>Data\NIST\Bennett5.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\BoxBOD.dat">
+    <EmbeddedResource Include="..\data\NIST\BoxBOD.dat">
       <Link>Data\NIST\BoxBOD.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Chwirut1.dat">
+    <EmbeddedResource Include="..\data\NIST\Chwirut1.dat">
       <Link>Data\NIST\Chwirut1.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Chwirut2.dat">
+    <EmbeddedResource Include="..\data\NIST\Chwirut2.dat">
       <Link>Data\NIST\Chwirut2.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\DanWood.dat">
+    <EmbeddedResource Include="..\data\NIST\DanWood.dat">
       <Link>Data\NIST\DanWood.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Eckerle4.dat">
+    <EmbeddedResource Include="..\data\NIST\Eckerle4.dat">
       <Link>Data\NIST\Eckerle4.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\ENSO.dat">
+    <EmbeddedResource Include="..\data\NIST\ENSO.dat">
       <Link>Data\NIST\ENSO.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Filip.dat">
+    <EmbeddedResource Include="..\data\NIST\Filip.dat">
       <Link>Data\NIST\Filip.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Gauss1.dat">
+    <EmbeddedResource Include="..\data\NIST\Gauss1.dat">
       <Link>Data\NIST\Gauss1.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Gauss2.dat">
+    <EmbeddedResource Include="..\data\NIST\Gauss2.dat">
       <Link>Data\NIST\Gauss2.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Gauss3.dat">
+    <EmbeddedResource Include="..\data\NIST\Gauss3.dat">
       <Link>Data\NIST\Gauss3.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Hahn1.dat">
+    <EmbeddedResource Include="..\data\NIST\Hahn1.dat">
       <Link>Data\NIST\Hahn1.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Kirby2.dat">
+    <EmbeddedResource Include="..\data\NIST\Kirby2.dat">
       <Link>Data\NIST\Kirby2.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Lanczos1.dat">
+    <EmbeddedResource Include="..\data\NIST\Lanczos1.dat">
       <Link>Data\NIST\Lanczos1.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Lanczos2.dat">
+    <EmbeddedResource Include="..\data\NIST\Lanczos2.dat">
       <Link>Data\NIST\Lanczos2.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Lanczos3.dat">
+    <EmbeddedResource Include="..\data\NIST\Lanczos3.dat">
       <Link>Data\NIST\Lanczos3.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Lew.dat">
+    <EmbeddedResource Include="..\data\NIST\Lew.dat">
       <Link>Data\NIST\Lew.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Longley.dat">
+    <EmbeddedResource Include="..\data\NIST\Longley.dat">
       <Link>Data\NIST\Longley.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Lottery.dat">
+    <EmbeddedResource Include="..\data\NIST\Lottery.dat">
       <Link>Data\NIST\Lottery.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Mavro.dat">
+    <EmbeddedResource Include="..\data\NIST\Mavro.dat">
       <Link>Data\NIST\Mavro.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Meixner.dat">
+    <EmbeddedResource Include="..\data\NIST\Meixner.dat">
       <Link>Data\NIST\Meixner.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\MGH09.dat">
+    <EmbeddedResource Include="..\data\NIST\MGH09.dat">
       <Link>Data\NIST\MGH09.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\MGH10.dat">
+    <EmbeddedResource Include="..\data\NIST\MGH10.dat">
       <Link>Data\NIST\MGH10.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\MGH17.dat">
+    <EmbeddedResource Include="..\data\NIST\MGH17.dat">
       <Link>Data\NIST\MGH17.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Michelso.dat">
+    <EmbeddedResource Include="..\data\NIST\Michelso.dat">
       <Link>Data\NIST\Michelso.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Misra1a.dat">
+    <EmbeddedResource Include="..\data\NIST\Misra1a.dat">
       <Link>Data\NIST\Misra1a.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Misra1b.dat">
+    <EmbeddedResource Include="..\data\NIST\Misra1b.dat">
       <Link>Data\NIST\Misra1b.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Misra1c.dat">
+    <EmbeddedResource Include="..\data\NIST\Misra1c.dat">
       <Link>Data\NIST\Misra1c.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Misra1d.dat">
+    <EmbeddedResource Include="..\data\NIST\Misra1d.dat">
       <Link>Data\NIST\Misra1d.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Nelson.dat">
+    <EmbeddedResource Include="..\data\NIST\Nelson.dat">
       <Link>Data\NIST\Nelson.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\NoInt1.dat">
+    <EmbeddedResource Include="..\data\NIST\NoInt1.dat">
       <Link>Data\NIST\NoInt1.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\NoInt2.dat">
+    <EmbeddedResource Include="..\data\NIST\NoInt2.dat">
       <Link>Data\NIST\NoInt2.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Norris.dat">
+    <EmbeddedResource Include="..\data\NIST\Norris.dat">
       <Link>Data\NIST\Norris.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\NumAcc1.dat">
+    <EmbeddedResource Include="..\data\NIST\NumAcc1.dat">
       <Link>Data\NIST\NumAcc1.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\NumAcc2.dat">
+    <EmbeddedResource Include="..\data\NIST\NumAcc2.dat">
       <Link>Data\NIST\NumAcc2.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\NumAcc3.dat">
+    <EmbeddedResource Include="..\data\NIST\NumAcc3.dat">
       <Link>Data\NIST\NumAcc3.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\NumAcc4.dat">
+    <EmbeddedResource Include="..\data\NIST\NumAcc4.dat">
       <Link>Data\NIST\NumAcc4.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Pontius.dat">
+    <EmbeddedResource Include="..\data\NIST\Pontius.dat">
       <Link>Data\NIST\Pontius.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Rat42.dat">
+    <EmbeddedResource Include="..\data\NIST\Rat42.dat">
       <Link>Data\NIST\Rat42.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Rat43.dat">
+    <EmbeddedResource Include="..\data\NIST\Rat43.dat">
       <Link>Data\NIST\Rat43.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Roszman1.dat">
+    <EmbeddedResource Include="..\data\NIST\Roszman1.dat">
       <Link>Data\NIST\Roszman1.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SiRstvt.dat">
+    <EmbeddedResource Include="..\data\NIST\SiRstvt.dat">
       <Link>Data\NIST\SiRstvt.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SmLs01t.dat">
+    <EmbeddedResource Include="..\data\NIST\SmLs01t.dat">
       <Link>Data\NIST\SmLs01t.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SmLs02t.dat">
+    <EmbeddedResource Include="..\data\NIST\SmLs02t.dat">
       <Link>Data\NIST\SmLs02t.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SmLs03t.dat">
+    <EmbeddedResource Include="..\data\NIST\SmLs03t.dat">
       <Link>Data\NIST\SmLs03t.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SmLs04t.dat">
+    <EmbeddedResource Include="..\data\NIST\SmLs04t.dat">
       <Link>Data\NIST\SmLs04t.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SmLs05t.dat">
+    <EmbeddedResource Include="..\data\NIST\SmLs05t.dat">
       <Link>Data\NIST\SmLs05t.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SmLs06t.dat">
+    <EmbeddedResource Include="..\data\NIST\SmLs06t.dat">
       <Link>Data\NIST\SmLs06t.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SmLs07t.dat">
+    <EmbeddedResource Include="..\data\NIST\SmLs07t.dat">
       <Link>Data\NIST\SmLs07t.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SmLs08t.dat">
+    <EmbeddedResource Include="..\data\NIST\SmLs08t.dat">
       <Link>Data\NIST\SmLs08t.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\SmLs09t.dat">
+    <EmbeddedResource Include="..\data\NIST\SmLs09t.dat">
       <Link>Data\NIST\SmLs09t.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Thurber.dat">
+    <EmbeddedResource Include="..\data\NIST\Thurber.dat">
       <Link>Data\NIST\Thurber.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Wampler1.dat">
+    <EmbeddedResource Include="..\data\NIST\Wampler1.dat">
       <Link>Data\NIST\Wampler1.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Wampler2.dat">
+    <EmbeddedResource Include="..\data\NIST\Wampler2.dat">
       <Link>Data\NIST\Wampler2.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Wampler3.dat">
+    <EmbeddedResource Include="..\data\NIST\Wampler3.dat">
       <Link>Data\NIST\Wampler3.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Wampler4.dat">
+    <EmbeddedResource Include="..\data\NIST\Wampler4.dat">
       <Link>Data\NIST\Wampler4.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\NIST\Wampler5.dat">
+    <EmbeddedResource Include="..\data\NIST\Wampler5.dat">
       <Link>Data\NIST\Wampler5.dat</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\fidap007.mtx">
+    <EmbeddedResource Include="..\data\MatrixMarket\fidap007.mtx">
       <Link>Data\MatrixMarket\fidap007.mtx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\bp___200.mtx">
+    <EmbeddedResource Include="..\data\MatrixMarket\bp___200.mtx">
       <Link>Data\MatrixMarket\bp___200.mtx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\can24_pattern_symmetric_coordinate_24.mtx">
+    <EmbeddedResource Include="..\data\MatrixMarket\can24_pattern_symmetric_coordinate_24.mtx">
       <Link>Data\MatrixMarket\can24_pattern_symmetric_coordinate_24.mtx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\gear_integer_general_coordinate_100.mtx">
+    <EmbeddedResource Include="..\data\MatrixMarket\gear_integer_general_coordinate_100.mtx">
       <Link>Data\MatrixMarket\gear_integer_general_coordinate_100.mtx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\hilbert_real_symmetric_array_10.mtx">
+    <EmbeddedResource Include="..\data\MatrixMarket\hilbert_real_symmetric_array_10.mtx">
       <Link>Data\MatrixMarket\hilbert_real_symmetric_array_10.mtx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\random_real_general_array_100.mtx">
+    <EmbeddedResource Include="..\data\MatrixMarket\random_real_general_array_100.mtx">
       <Link>Data\MatrixMarket\random_real_general_array_100.mtx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\random_real_general_array_10_20.mtx">
+    <EmbeddedResource Include="..\data\MatrixMarket\random_real_general_array_10_20.mtx">
       <Link>Data\MatrixMarket\random_real_general_array_10_20.mtx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\random_real_general_array_20_10.mtx">
+    <EmbeddedResource Include="..\data\MatrixMarket\random_real_general_array_20_10.mtx">
       <Link>Data\MatrixMarket\random_real_general_array_20_10.mtx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\random_real_general_coordinate_10_20.mtx">
+    <EmbeddedResource Include="..\data\MatrixMarket\random_real_general_coordinate_10_20.mtx">
       <Link>Data\MatrixMarket\random_real_general_coordinate_10_20.mtx</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\random_real_general_dense_10_20.comma">
+    <EmbeddedResource Include="..\data\MatrixMarket\random_real_general_dense_10_20.comma">
       <Link>Data\MatrixMarket\random_real_general_dense_10_20.comma</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\random_real_general_dense_10_20.space">
+    <EmbeddedResource Include="..\data\MatrixMarket\random_real_general_dense_10_20.space">
       <Link>Data\MatrixMarket\random_real_general_dense_10_20.space</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\..\data\MatrixMarket\random_real_general_dense_10_20.tab">
+    <EmbeddedResource Include="..\data\MatrixMarket\random_real_general_dense_10_20.tab">
       <Link>Data\MatrixMarket\random_real_general_dense_10_20.tab</Link>
     </EmbeddedResource>
   </ItemGroup>

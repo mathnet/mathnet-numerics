@@ -14,14 +14,14 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineConstants>TRACE;PORTABLE;NET45REFLECTION</DefineConstants>
-    <OutputPath>..\..\out\lib\Profile7\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib\Profile7\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib\Profile7\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib\Profile7\MathNet.Numerics.XML</DocumentationFile>
+    <OutputPath>..\out\lib\Profile7\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib\Profile7\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib\Profile7\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\out\lib\Profile7\MathNet.Numerics.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -32,9 +32,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>TRACE;DEBUG;PORTABLE;NET45REFLECTION</DefineConstants>
-    <OutputPath>..\..\out\lib-debug\Profile7\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-debug\Profile7\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Profile7\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\lib-debug\Profile7\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib-debug\Profile7\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib-debug\Profile7\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -44,19 +44,19 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="..\src\Numerics\Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>..\src\Numerics\Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="Properties\Resources.Designer.cs">
+    <Compile Include="..\src\Numerics\**\*.cs" Exclude="..\src\Numerics\Properties\Resources.Designer.cs">
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="..\src\Numerics\Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>..\src\Numerics\Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

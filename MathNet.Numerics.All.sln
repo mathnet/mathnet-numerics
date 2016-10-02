@@ -13,35 +13,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics", "src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Net40", "build\Numerics-Net40.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp", "src\FSharp\FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Net40", "build\FSharp-Net40.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests", "src\FSharpUnitTests\FSharpUnitTests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Net40", "build\FSharpUnitTests-Net40.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\UnitTests\UnitTests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Net40", "build\UnitTests-Net40.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portable47", "Portable47", "{F60B1B07-8CE4-43C6-B40C-45CF4BE0A743}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable47", "src\Numerics\Numerics-Portable47.csproj", "{49205185-621E-FFB9-2104-887C9F1BBD13}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable47", "build\Numerics-Portable47.csproj", "{49205185-621E-FFB9-2104-887C9F1BBD13}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Portable47", "src\FSharp\FSharp-Portable47.fsproj", "{F5F14D76-428D-43D7-8431-5B885F1BA419}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Portable47", "build\FSharp-Portable47.fsproj", "{F5F14D76-428D-43D7-8431-5B885F1BA419}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable47", "src\UnitTests\UnitTests-Portable47.csproj", "{0672ED13-CE61-4D3C-B879-282472817235}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable47", "build\UnitTests-Portable47.csproj", "{0672ED13-CE61-4D3C-B879-282472817235}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Portable47", "src\FSharpUnitTests\FSharpUnitTests-Portable47.fsproj", "{90CE8E32-354E-4728-8FE6-87342F469321}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Portable47", "build\FSharpUnitTests-Portable47.fsproj", "{90CE8E32-354E-4728-8FE6-87342F469321}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portable328", "Portable328", "{9D409E95-D567-4C2F-A0DF-87A6DF5B3A2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable328", "src\Numerics\Numerics-Portable328.csproj", "{1A3065FD-105D-4AF1-85B9-0A4A26FFB353}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable328", "build\Numerics-Portable328.csproj", "{1A3065FD-105D-4AF1-85B9-0A4A26FFB353}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable328", "src\UnitTests\UnitTests-Portable328.csproj", "{2B6BE5F8-843E-4E36-8B8E-9CA3C9503198}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable328", "build\UnitTests-Portable328.csproj", "{2B6BE5F8-843E-4E36-8B8E-9CA3C9503198}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Net35", "Net35", "{14DAACDA-AD68-4AAE-B65F-9F6C60866327}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Net35", "src\Numerics\Numerics-Net35.csproj", "{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Net35", "build\Numerics-Net35.csproj", "{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Net35", "src\UnitTests\UnitTests-Net35.csproj", "{9014A0CE-725D-4718-918C-923C0CA19FEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Net35", "build\UnitTests-Net35.csproj", "{9014A0CE-725D-4718-918C-923C0CA19FEE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40-DE22-49FB-B1C0-6E5BDA3B0B2F}"
 	ProjectSection(SolutionItems) = preProject
@@ -51,33 +51,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40
 		paket.lock = paket.lock
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Net35", "src\FSharp\FSharp-Net35.fsproj", "{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Net35", "build\FSharp-Net35.fsproj", "{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Net35", "src\FSharpUnitTests\FSharpUnitTests-Net35.fsproj", "{8C96F2E9-681B-4201-8BDD-0AA901203725}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Net35", "build\FSharpUnitTests-Net35.fsproj", "{8C96F2E9-681B-4201-8BDD-0AA901203725}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portable259", "Portable259", "{72E9BD2E-A088-490F-BB54-4D5BFB38134D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable259", "src\Numerics\Numerics-Portable259.csproj", "{1C8DBFB2-DB75-4C4B-888B-4AF314FCE3C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable259", "build\Numerics-Portable259.csproj", "{1C8DBFB2-DB75-4C4B-888B-4AF314FCE3C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable259", "src\UnitTests\UnitTests-Portable259.csproj", "{FCB9D3B5-FEFF-4ACB-BDA9-2FA4AB7E85E5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable259", "build\UnitTests-Portable259.csproj", "{FCB9D3B5-FEFF-4ACB-BDA9-2FA4AB7E85E5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portable7", "Portable7", "{021F915C-C0E3-468B-A183-5FCF1DEC3754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable7", "src\Numerics\Numerics-Portable7.csproj", "{25E6E93B-56A2-4F14-8458-03665F122B3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable7", "build\Numerics-Portable7.csproj", "{25E6E93B-56A2-4F14-8458-03665F122B3F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Portable78", "Portable78", "{5351407F-74BA-4850-A3E7-D5C2BACEF419}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable78", "src\Numerics\Numerics-Portable78.csproj", "{2EBD6F22-9BD6-4AF2-A21B-7198C9C5571F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Portable78", "build\Numerics-Portable78.csproj", "{2EBD6F22-9BD6-4AF2-A21B-7198C9C5571F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable7", "src\UnitTests\UnitTests-Portable7.csproj", "{B170F78B-8C95-4C6A-A437-F05D9302B0B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable7", "build\UnitTests-Portable7.csproj", "{B170F78B-8C95-4C6A-A437-F05D9302B0B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable78", "src\UnitTests\UnitTests-Portable78.csproj", "{2769BADC-02D9-48D9-88B4-C7E1C064BDF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Portable78", "build\UnitTests-Portable78.csproj", "{2769BADC-02D9-48D9-88B4-C7E1C064BDF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestData-Net35", "build\TestData-Net35.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetStandard", "NetStandard", "{DEB3950D-8280-4E85-9003-E155C241993F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-NetStandard", "src\Numerics\Numerics-NetStandard.csproj", "{CD54C200-6E8C-4820-96B9-26497C689D64}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Net40", "Net40", "{5AB8C662-ECCB-44BD-90F1-C66898E48C41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -220,6 +222,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{B7CAE5F4-A23F-4438-B5BE-41226618B695} = {5AB8C662-ECCB-44BD-90F1-C66898E48C41}
+		{37E8E802-A354-4114-BFC1-6E1357DA605B} = {5AB8C662-ECCB-44BD-90F1-C66898E48C41}
+		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D} = {5AB8C662-ECCB-44BD-90F1-C66898E48C41}
+		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD} = {5AB8C662-ECCB-44BD-90F1-C66898E48C41}
 		{49205185-621E-FFB9-2104-887C9F1BBD13} = {F60B1B07-8CE4-43C6-B40C-45CF4BE0A743}
 		{F5F14D76-428D-43D7-8431-5B885F1BA419} = {F60B1B07-8CE4-43C6-B40C-45CF4BE0A743}
 		{0672ED13-CE61-4D3C-B879-282472817235} = {F60B1B07-8CE4-43C6-B40C-45CF4BE0A743}

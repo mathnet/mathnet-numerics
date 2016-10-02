@@ -10,17 +10,17 @@
     <ProjectGuid>{d5dbcec0-9d9d-4a62-9ee0-f78e1895d4f4}</ProjectGuid>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <AssemblyOriginatorKeyFile>..\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <AssemblyOriginatorKeyFile>..\src\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
-    <OutputPath>..\..\out\lib\Net35\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib\Net35\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib\Net35\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib\Net35\MathNet.Numerics.FSharp.xml</DocumentationFile>
+    <OutputPath>..\out\lib\Net35\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib\Net35\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\out\lib\Net35\MathNet.Numerics.FSharp.xml</DocumentationFile>
     <DefineConstants>TRACE;NET35;NOSYSNUMERICS</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <!-- Conditional Strong Name: NO -->
@@ -30,9 +30,9 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
-    <OutputPath>..\..\out\lib-debug\Net35\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-debug\Net35\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Net35\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\lib-debug\Net35\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib-debug\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib-debug\Net35\</BaseIntermediateOutputPath>
     <DefineConstants>TRACE;DEBUG;NET35;NOSYSNUMERICS</DefineConstants>
     <WarningLevel>3</WarningLevel>
     <!-- Conditional Strong Name: NO -->
@@ -43,10 +43,10 @@
     <Tailcalls>true</Tailcalls>
     <DefineConstants>TRACE;NET35;NOSYSNUMERICS;STRONGNAME</DefineConstants>
     <WarningLevel>3</WarningLevel>
-    <OutputPath>..\..\out\lib-signed\Net35\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-signed\Net35\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-signed\Net35\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib-signed\Net35\MathNet.Numerics.FSharp.xml</DocumentationFile>
+    <OutputPath>..\out\lib-signed\Net35\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib-signed\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib-signed\Net35\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\out\lib-signed\Net35\MathNet.Numerics.FSharp.xml</DocumentationFile>
     <!-- Conditional Strong Name: YES -->
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
@@ -58,24 +58,24 @@
   </PropertyGroup>
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
   <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Compatibility.fs" />
-    <Compile Include="Statistics.fs" />
-    <Compile Include="Random.fs" />
-    <Compile Include="Distributions.fs" />
-    <Compile Include="Generate.fs" />
-    <Compile Include="LinearAlgebra.Vector.fs" />
-    <Compile Include="LinearAlgebra.Matrix.fs" />
-    <Compile Include="Complex.fs" />
-    <Compile Include="BigIntegerExtensions.fs" />
-    <Compile Include="BigRational.fsi" />
-    <Compile Include="BigRational.fs" />
-    <Compile Include="Differentiate.fs" />
-    <Compile Include="Fit.fs" />
-    <Compile Include="FindRoots.fs" />
-    <Compile Include="RandomVariable.fs" />
-    <None Include="MathNet.Numerics.fsx" />
-    <Compile Include="Quaternion.fs" />
+    <Compile Include="..\src\FSharp\AssemblyInfo.fs" />
+    <Compile Include="..\src\FSharp\Compatibility.fs" />
+    <Compile Include="..\src\FSharp\Statistics.fs" />
+    <Compile Include="..\src\FSharp\Random.fs" />
+    <Compile Include="..\src\FSharp\Distributions.fs" />
+    <Compile Include="..\src\FSharp\Generate.fs" />
+    <Compile Include="..\src\FSharp\LinearAlgebra.Vector.fs" />
+    <Compile Include="..\src\FSharp\LinearAlgebra.Matrix.fs" />
+    <Compile Include="..\src\FSharp\Complex.fs" />
+    <Compile Include="..\src\FSharp\BigIntegerExtensions.fs" />
+    <Compile Include="..\src\FSharp\BigRational.fsi" />
+    <Compile Include="..\src\FSharp\BigRational.fs" />
+    <Compile Include="..\src\FSharp\Differentiate.fs" />
+    <Compile Include="..\src\FSharp\Fit.fs" />
+    <Compile Include="..\src\FSharp\FindRoots.fs" />
+    <Compile Include="..\src\FSharp\RandomVariable.fs" />
+    <Compile Include="..\src\FSharp\Quaternion.fs" />
+    <None Include="..\src\FSharp\MathNet.Numerics.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -86,7 +86,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Numerics\Numerics-Net35.csproj">
+    <ProjectReference Include="Numerics-Net35.csproj">
       <Name>Numerics-Net35</Name>
       <Project>{e54e712d-eb6b-4fbf-b29a-6bb95e719bac}</Project>
       <Private>True</Private>
@@ -96,7 +96,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="System.Threading">
-          <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
+          <HintPath>..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

@@ -14,13 +14,13 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineConstants>TRACE;PORTABLE;NOFSSLICESET1D</DefineConstants>
-    <OutputPath>..\..\out\test\Profile47\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Profile47\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Profile47\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\test\Profile47\</OutputPath>
+    <IntermediateOutputPath>..\obj\test\Profile47\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\test\Profile47\</BaseIntermediateOutputPath>
     <Optimize>true</Optimize>
     <Tailcalls>true</Tailcalls>
     <DebugType>pdbonly</DebugType>
@@ -30,9 +30,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>DEBUG;TRACE;PORTABLE;NOFSSLICESET1D</DefineConstants>
-    <OutputPath>..\..\out\test-debug\Profile47\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Profile47\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Profile47\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\test-debug\Profile47\</OutputPath>
+    <IntermediateOutputPath>..\obj\test-debug\Profile47\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\test-debug\Profile47\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <Tailcalls>false</Tailcalls>
     <DebugSymbols>true</DebugSymbols>
@@ -42,11 +42,11 @@
     </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\..\paket-files\fsprojects\FsUnit\src\FsUnit.NUnit\FsUnit.fs">
+    <Compile Include="..\paket-files\fsprojects\FsUnit\src\FsUnit.NUnit\FsUnit.fs">
       <Paket>True</Paket>
       <Link>paket-files/FsUnit.fs</Link>
     </Compile>
-    <Compile Include="..\..\paket-files\fsprojects\FsUnit\src\FsUnit.NUnit\FsUnitTyped.fs">
+    <Compile Include="..\paket-files\fsprojects\FsUnit\src\FsUnit.NUnit\FsUnitTyped.fs">
       <Paket>True</Paket>
       <Link>paket-files/FsUnitTyped.fs</Link>
     </Compile>
@@ -56,36 +56,36 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Numerics\Numerics-Portable47.csproj">
+    <ProjectReference Include="Numerics-Portable47.csproj">
       <Name>Numerics-Portable47</Name>
       <Project>{49205185-621E-FFB9-2104-887C9F1BBD13}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\FSharp\FSharp-Portable47.fsproj">
+    <ProjectReference Include="FSharp-Portable47.fsproj">
       <Name>FSharp-Portable47</Name>
       <Project>{F5F14D76-428D-43D7-8431-5B885F1BA419}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\TestData\TestData.csproj">
-      <Name>TestData</Name>
+    <ProjectReference Include="TestData-Net35.csproj">
+      <Name>TestData-Net35</Name>
       <Project>{af3253c9-4db5-45a0-98cf-c105fda9da47}</Project>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="VectorTests.fs" />
-    <Compile Include="SparseVectorTests.fs" />
-    <Compile Include="DenseVectorTests.fs" />
-    <Compile Include="MatrixTests.fs" />
-    <Compile Include="SparseMatrixTests.fs" />
-    <Compile Include="DenseMatrixTests.fs" />
-    <Compile Include="Utilities.fs" />
-    <Compile Include="BigRationalTests.fs" />
-    <Compile Include="RandomVariableTests.fs" />
-    <Compile Include="PokerTests.fs" />
-    <Compile Include="FitTests.fs" />
-    <Compile Include="FindRootsTests.fs" />
-    <None Include="paket.references" />
-    <None Include="App.config" />
+    <Compile Include="..\src\FSharpUnitTests\AssemblyInfo.fs" />
+    <Compile Include="..\src\FSharpUnitTests\VectorTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\SparseVectorTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\DenseVectorTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\MatrixTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\SparseMatrixTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\DenseMatrixTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\Utilities.fs" />
+    <Compile Include="..\src\FSharpUnitTests\BigRationalTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\RandomVariableTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\PokerTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\FitTests.fs" />
+    <Compile Include="..\src\FSharpUnitTests\FindRootsTests.fs" />
+    <None Include="..\src\FSharpUnitTests\paket.references" />
+    <None Include="..\src\FSharpUnitTests\App.config" />
   </ItemGroup>
   <PropertyGroup>
     <FSharpTargetsPath>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\FSharp\Microsoft.FSharp.Targets</FSharpTargetsPath>
@@ -98,7 +98,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0' Or $(TargetFrameworkVersion) == 'v3.5')">
       <ItemGroup>
         <Reference Include="FSharp.Core">
-          <HintPath>..\..\packages\test\FSharp.Core\lib\net20\FSharp.Core.dll</HintPath>
+          <HintPath>..\packages\test\FSharp.Core\lib\net20\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -107,7 +107,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="FSharp.Core">
-          <HintPath>..\..\packages\test\FSharp.Core\lib\net40\FSharp.Core.dll</HintPath>
+          <HintPath>..\packages\test\FSharp.Core\lib\net40\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -116,7 +116,7 @@
     <When Condition="($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch') Or ($(TargetFrameworkIdentifier) == 'Xamarin.iOS')">
       <ItemGroup>
         <Reference Include="FSharp.Core">
-          <HintPath>..\..\packages\test\FSharp.Core\lib\portable-net45+monoandroid10+monotouch10+xamarinios10\FSharp.Core.dll</HintPath>
+          <HintPath>..\packages\test\FSharp.Core\lib\portable-net45+monoandroid10+monotouch10+xamarinios10\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -125,7 +125,7 @@
     <When Condition="($(TargetFrameworkIdentifier) == '.NETCore') Or ($(TargetFrameworkIdentifier) == '.NETStandard' And ($(TargetFrameworkVersion) == 'v1.1' Or $(TargetFrameworkVersion) == 'v1.2' Or $(TargetFrameworkVersion) == 'v1.3' Or $(TargetFrameworkVersion) == 'v1.4' Or $(TargetFrameworkVersion) == 'v1.5' Or $(TargetFrameworkVersion) == 'v1.6')) Or ($(TargetFrameworkIdentifier) == '.NETCoreApp' And $(TargetFrameworkVersion) == 'v1.0') Or ($(TargetFrameworkIdentifier) == 'Xamarin.Mac') Or ($(TargetFrameworkProfile) == 'Profile7') Or ($(TargetFrameworkProfile) == 'Profile44')">
       <ItemGroup>
         <Reference Include="FSharp.Core">
-          <HintPath>..\..\packages\test\FSharp.Core\lib\portable-net45+netcore45\FSharp.Core.dll</HintPath>
+          <HintPath>..\packages\test\FSharp.Core\lib\portable-net45+netcore45\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -134,7 +134,7 @@
     <When Condition="($(TargetFrameworkIdentifier) == '.NETStandard' And $(TargetFrameworkVersion) == 'v1.0') Or ($(TargetFrameworkIdentifier) == 'WindowsPhone' And ($(TargetFrameworkVersion) == 'v8.0' Or $(TargetFrameworkVersion) == 'v8.1')) Or ($(TargetFrameworkProfile) == 'Profile31') Or ($(TargetFrameworkProfile) == 'Profile49') Or ($(TargetFrameworkProfile) == 'Profile78')">
       <ItemGroup>
         <Reference Include="FSharp.Core">
-          <HintPath>..\..\packages\test\FSharp.Core\lib\portable-net45+netcore45+wp8\FSharp.Core.dll</HintPath>
+          <HintPath>..\packages\test\FSharp.Core\lib\portable-net45+netcore45+wp8\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -143,7 +143,7 @@
     <When Condition="($(TargetFrameworkIdentifier) == 'WindowsPhoneApp') Or ($(TargetFrameworkProfile) == 'Profile32') Or ($(TargetFrameworkProfile) == 'Profile84') Or ($(TargetFrameworkProfile) == 'Profile111') Or ($(TargetFrameworkProfile) == 'Profile151') Or ($(TargetFrameworkProfile) == 'Profile157') Or ($(TargetFrameworkProfile) == 'Profile259')">
       <ItemGroup>
         <Reference Include="FSharp.Core">
-          <HintPath>..\..\packages\test\FSharp.Core\lib\portable-net45+netcore45+wpa81+wp8\FSharp.Core.dll</HintPath>
+          <HintPath>..\packages\test\FSharp.Core\lib\portable-net45+netcore45+wpa81+wp8\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -152,7 +152,7 @@
     <When Condition="($(TargetFrameworkIdentifier) == 'Silverlight' And $(TargetFrameworkVersion) == 'v5.0') Or ($(TargetFrameworkProfile) == 'Profile24') Or ($(TargetFrameworkProfile) == 'Profile47')">
       <ItemGroup>
         <Reference Include="FSharp.Core">
-          <HintPath>..\..\packages\test\FSharp.Core\lib\portable-net45+sl5+netcore45\FSharp.Core.dll</HintPath>
+          <HintPath>..\packages\test\FSharp.Core\lib\portable-net45+sl5+netcore45\FSharp.Core.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -163,12 +163,12 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v2.0' Or $(TargetFrameworkVersion) == 'v3.0')">
       <ItemGroup>
         <Reference Include="NUnit.System.Linq">
-          <HintPath>..\..\packages\test\NUnit\lib\net20\NUnit.System.Linq.dll</HintPath>
+          <HintPath>..\packages\test\NUnit\lib\net20\NUnit.System.Linq.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
         <Reference Include="nunit.framework">
-          <HintPath>..\..\packages\test\NUnit\lib\net20\nunit.framework.dll</HintPath>
+          <HintPath>..\packages\test\NUnit\lib\net20\nunit.framework.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -177,7 +177,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v3.5'">
       <ItemGroup>
         <Reference Include="nunit.framework">
-          <HintPath>..\..\packages\test\NUnit\lib\net35\nunit.framework.dll</HintPath>
+          <HintPath>..\packages\test\NUnit\lib\net35\nunit.framework.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -186,7 +186,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.0'">
       <ItemGroup>
         <Reference Include="nunit.framework">
-          <HintPath>..\..\packages\test\NUnit\lib\net40\nunit.framework.dll</HintPath>
+          <HintPath>..\packages\test\NUnit\lib\net40\nunit.framework.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -195,7 +195,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="nunit.framework">
-          <HintPath>..\..\packages\test\NUnit\lib\net45\nunit.framework.dll</HintPath>
+          <HintPath>..\packages\test\NUnit\lib\net45\nunit.framework.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -204,7 +204,7 @@
     <When Condition="($(TargetFrameworkIdentifier) == 'WindowsPhoneApp') Or ($(TargetFrameworkIdentifier) == '.NETCore') Or ($(TargetFrameworkIdentifier) == '.NETStandard' And ($(TargetFrameworkVersion) == 'v1.0' Or $(TargetFrameworkVersion) == 'v1.1' Or $(TargetFrameworkVersion) == 'v1.2' Or $(TargetFrameworkVersion) == 'v1.3' Or $(TargetFrameworkVersion) == 'v1.4' Or $(TargetFrameworkVersion) == 'v1.5' Or $(TargetFrameworkVersion) == 'v1.6')) Or ($(TargetFrameworkIdentifier) == '.NETCoreApp' And $(TargetFrameworkVersion) == 'v1.0') Or ($(TargetFrameworkIdentifier) == 'WindowsPhone' And ($(TargetFrameworkVersion) == 'v8.0' Or $(TargetFrameworkVersion) == 'v8.1')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch') Or ($(TargetFrameworkIdentifier) == 'Xamarin.iOS') Or ($(TargetFrameworkIdentifier) == 'Xamarin.Mac') Or ($(TargetFrameworkProfile) == 'Profile7') Or ($(TargetFrameworkProfile) == 'Profile31') Or ($(TargetFrameworkProfile) == 'Profile32') Or ($(TargetFrameworkProfile) == 'Profile44') Or ($(TargetFrameworkProfile) == 'Profile49') Or ($(TargetFrameworkProfile) == 'Profile78') Or ($(TargetFrameworkProfile) == 'Profile84') Or ($(TargetFrameworkProfile) == 'Profile111') Or ($(TargetFrameworkProfile) == 'Profile151') Or ($(TargetFrameworkProfile) == 'Profile157') Or ($(TargetFrameworkProfile) == 'Profile259')">
       <ItemGroup>
         <Reference Include="nunit.framework">
-          <HintPath>..\..\packages\test\NUnit\lib\portable-net45+win8+wp8+wpa81+Xamarin.Mac+MonoAndroid10+MonoTouch10+Xamarin.iOS10\nunit.framework.dll</HintPath>
+          <HintPath>..\packages\test\NUnit\lib\portable-net45+win8+wp8+wpa81+Xamarin.Mac+MonoAndroid10+MonoTouch10+Xamarin.iOS10\nunit.framework.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

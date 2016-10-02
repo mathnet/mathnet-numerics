@@ -13,7 +13,6 @@
     <UpgradeBackupLocation />
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <TargetFrameworkProfile />
-    <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -28,14 +27,14 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <!-- Conditional Strong Name -->
-    <AssemblyOriginatorKeyFile>..\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <AssemblyOriginatorKeyFile>..\src\MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\out\lib\Net35\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib\Net35\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib\Net35\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib\Net35\MathNet.Numerics.xml</DocumentationFile>
+    <OutputPath>..\out\lib\Net35\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib\Net35\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\out\lib\Net35\MathNet.Numerics.xml</DocumentationFile>
     <!-- Conditional Strong Name: NO -->
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
@@ -47,9 +46,9 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>..\..\out\lib-debug\Net35\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-debug\Net35\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Net35\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\lib-debug\Net35\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib-debug\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib-debug\Net35\</BaseIntermediateOutputPath>
     <!-- Conditional Strong Name: NO -->
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -61,10 +60,10 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
-    <OutputPath>..\..\out\lib-signed\Net35\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-signed\Net35\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-signed\Net35\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib-signed\Net35\MathNet.Numerics.xml</DocumentationFile>
+    <OutputPath>..\out\lib-signed\Net35\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib-signed\Net35\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib-signed\Net35\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\out\lib-signed\Net35\MathNet.Numerics.xml</DocumentationFile>
     <!-- Conditional Strong Name: YES -->
     <SignAssembly>true</SignAssembly>
     <DebugType>pdbonly</DebugType>
@@ -83,19 +82,19 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="..\src\Numerics\Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>..\src\Numerics\Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="Properties\Resources.Designer.cs">
+    <Compile Include="..\src\Numerics\**\*.cs" Exclude="..\src\Numerics\Properties\Resources.Designer.cs">
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="..\src\Numerics\Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>..\src\Numerics\Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -106,7 +105,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
       <ItemGroup>
         <Reference Include="System.Threading">
-          <HintPath>..\..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
+          <HintPath>..\packages\TaskParallelLibrary\lib\Net35\System.Threading.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

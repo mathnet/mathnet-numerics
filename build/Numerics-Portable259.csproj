@@ -5,23 +5,23 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{49205185-621E-FFB9-2104-887C9F1BBD13}</ProjectGuid>
+    <ProjectGuid>{1C8DBFB2-DB75-4C4B-888B-4AF314FCE3C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <AssemblyName>MathNet.Numerics</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile47</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DefineConstants>TRACE;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\lib\Profile47\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib\Profile47\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib\Profile47\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib\Profile47\MathNet.Numerics.XML</DocumentationFile>
+    <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS;NET45REFLECTION</DefineConstants>
+    <OutputPath>..\out\lib\Profile259\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib\Profile259\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib\Profile259\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\out\lib\Profile259\MathNet.Numerics.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -31,10 +31,10 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DefineConstants>TRACE;DEBUG;PORTABLE</DefineConstants>
-    <OutputPath>..\..\out\lib-debug\Profile47\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-debug\Profile47\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Profile47\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS;NET45REFLECTION</DefineConstants>
+    <OutputPath>..\out\lib-debug\Profile259\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib-debug\Profile259\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib-debug\Profile259\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -44,19 +44,19 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="..\src\Numerics\Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>..\src\Numerics\Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="Properties\Resources.Designer.cs">
+    <Compile Include="..\src\Numerics\**\*.cs" Exclude="..\src\Numerics\Properties\Resources.Designer.cs">
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="..\src\Numerics\Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>..\src\Numerics\Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

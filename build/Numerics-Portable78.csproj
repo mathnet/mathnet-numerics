@@ -2,26 +2,26 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1C8DBFB2-DB75-4C4B-888B-4AF314FCE3C3}</ProjectGuid>
+    <ProjectGuid>{2EBD6F22-9BD6-4AF2-A21B-7198C9C5571F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <AssemblyName>MathNet.Numerics</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DefineConstants>TRACE;PORTABLE;NOSYSNUMERICS;NET45REFLECTION</DefineConstants>
-    <OutputPath>..\..\out\lib\Profile259\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib\Profile259\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib\Profile259\</BaseIntermediateOutputPath>
-    <DocumentationFile>..\..\out\lib\Profile259\MathNet.Numerics.XML</DocumentationFile>
+    <OutputPath>..\out\lib\Profile78\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib\Profile78\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib\Profile78\</BaseIntermediateOutputPath>
+    <DocumentationFile>..\out\lib\Profile78\MathNet.Numerics.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
     <ErrorReport>prompt</ErrorReport>
@@ -32,9 +32,9 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DefineConstants>TRACE;DEBUG;PORTABLE;NOSYSNUMERICS;NET45REFLECTION</DefineConstants>
-    <OutputPath>..\..\out\lib-debug\Profile259\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\lib-debug\Profile259\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\lib-debug\Profile259\</BaseIntermediateOutputPath>
+    <OutputPath>..\out\lib-debug\Profile78\</OutputPath>
+    <IntermediateOutputPath>..\obj\lib-debug\Profile78\</IntermediateOutputPath>
+    <BaseIntermediateOutputPath>..\obj\lib-debug\Profile78\</BaseIntermediateOutputPath>
     <Optimize>false</Optimize>
     <DebugType>full</DebugType>
     <DebugSymbols>true</DebugSymbols>
@@ -44,19 +44,19 @@
     <LangVersion>5</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="..\src\Numerics\Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>..\src\Numerics\Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="**\*.cs" Exclude="Properties\Resources.Designer.cs">
+    <Compile Include="..\src\Numerics\**\*.cs" Exclude="..\src\Numerics\Properties\Resources.Designer.cs">
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Include="..\src\Numerics\Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>..\src\Numerics\Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
