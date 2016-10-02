@@ -245,6 +245,6 @@ Global
 		{CD54C200-6E8C-4820-96B9-26497C689D64} = {DEB3950D-8280-4E85-9003-E155C241993F}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = src\Numerics\Numerics.csproj
+		StartupItem = build\Numerics-Net40.csproj
 	EndGlobalSection
 EndGlobal

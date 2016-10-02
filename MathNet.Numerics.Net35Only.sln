@@ -10,15 +10,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Net35", "src\Numerics\Numerics-Net35.csproj", "{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics-Net35", "build\Numerics-Net35.csproj", "{E54E712D-EB6B-4FBF-B29A-6BB95E719BAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Net35", "src\UnitTests\UnitTests-Net35.csproj", "{9014A0CE-725D-4718-918C-923C0CA19FEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-Net35", "build\UnitTests-Net35.csproj", "{9014A0CE-725D-4718-918C-923C0CA19FEE}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Net35", "src\FSharp\FSharp-Net35.fsproj", "{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-Net35", "build\FSharp-Net35.fsproj", "{D5DBCEC0-9D9D-4A62-9EE0-F78E1895D4F4}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Net35", "src\FSharpUnitTests\FSharpUnitTests-Net35.fsproj", "{8C96F2E9-681B-4201-8BDD-0AA901203725}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-Net35", "build\FSharpUnitTests-Net35.fsproj", "{8C96F2E9-681B-4201-8BDD-0AA901203725}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestData-Net35", "build\TestData-Net35.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +62,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = src\Numerics\Numerics-Net35.csproj
+		StartupItem = build\Numerics-Net35.csproj
 	EndGlobalSection
 EndGlobal
