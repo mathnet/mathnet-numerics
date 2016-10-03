@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2013 Math.NET
 //
@@ -517,24 +516,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             return index;
-        }
-
-        /// <summary>
-        /// Returns the value of the absolute minimum element.
-        /// </summary>
-        /// <returns>The value of the absolute minimum element.</returns>
-        public override Complex AbsoluteMinimum()
-        {
-            return _values[AbsoluteMinimumIndex()].Magnitude;
-        }
-
-        /// <summary>
-        /// Returns the value of the absolute maximum element.
-        /// </summary>
-        /// <returns>The value of the absolute maximum element.</returns>
-        public override Complex AbsoluteMaximum()
-        {
-            return _values[AbsoluteMaximumIndex()].Magnitude;
         }
 
         /// <summary>

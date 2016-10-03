@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2015 Math.NET
 //
@@ -46,6 +45,7 @@ namespace MathNet.Numerics
         static int _parallelizeOrder;
         static int _parallelizeElements;
         static ILinearAlgebraProvider _linearAlgebraProvider;
+        static readonly object _staticLock = new object();
 
         static Control()
         {
@@ -64,48 +64,50 @@ namespace MathNet.Numerics
             _parallelizeOrder = 64;
             _parallelizeElements = 300;
             TaskScheduler = TaskScheduler.Default;
+        }
 
-            // Linear Algebra Provider
-#if PORTABLE
-            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-#else
-            try
+        private static void InitializeDefaultLinearAlgebraProvider()
+        {
+            lock (_staticLock)
             {
-                var value = Environment.GetEnvironmentVariable(EnvVarLAProvider);
-                switch (value != null ? value.ToUpperInvariant() : string.Empty)
+                if (_linearAlgebraProvider == null)
                 {
 #if NATIVE
-                    case "MKL":
-                        UseNativeMKL();
-                        break;
-
-                    case "CUDA":
-                        UseNativeCUDA();
-                        break;
-
-                    case "OPENBLAS":
-                        UseNativeOpenBLAS();
-                        break;
-
-                    default:
-                        if (!TryUseNative())
+                    try
+                    {
+                        var value = Environment.GetEnvironmentVariable(EnvVarLAProvider);
+                        switch (value != null ? value.ToUpperInvariant() : string.Empty)
                         {
-                            UseManaged();
+                            case "MKL":
+                                UseNativeMKL();
+                                break;
+
+                            case "CUDA":
+                                UseNativeCUDA();
+                                break;
+
+                            case "OPENBLAS":
+                                UseNativeOpenBLAS();
+                                break;
+
+                            default:
+                                if (!TryUseNative())
+                                {
+                                    UseManaged();
+                                }
+                                break;
                         }
-                        break;
-#else
-                    default:
+                    }
+                    catch
+                    {
+                        // We don't care about any failures here at all (because "auto")
                         UseManaged();
-                        break;
+                    }
+#else
+                    UseManaged();
 #endif
                 }
             }
-            catch
-            {
-                // We don't care about any failures here at all (because "auto")
-                UseManaged();
-            }
-#endif
         }
 
         public static void UseManaged()
@@ -261,7 +263,13 @@ namespace MathNet.Numerics
         /// <value>The linear algebra provider.</value>
         public static ILinearAlgebraProvider LinearAlgebraProvider
         {
-            get { return _linearAlgebraProvider; }
+            get
+            {
+                if (_linearAlgebraProvider == null)
+                    InitializeDefaultLinearAlgebraProvider();
+
+                return _linearAlgebraProvider;
+            }
             set
             {
                 value.InitializeVerify();

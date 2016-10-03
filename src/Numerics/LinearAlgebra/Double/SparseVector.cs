@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -392,7 +391,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 sparseResult._storage.Indices = new int[_storage.ValueCount];
                 Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
                 sparseResult._storage.Values = new double[_storage.ValueCount];
-                Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
+                Array.Copy(_storage.Values, 0, sparseResult._storage.Values, 0, _storage.ValueCount);
             }
 
             Control.LinearAlgebraProvider.ScaleArray(-1.0d, sparseResult._storage.Values, sparseResult._storage.Values);
@@ -426,7 +425,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     sparseResult._storage.Indices = new int[_storage.ValueCount];
                     Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
                     sparseResult._storage.Values = new double[_storage.ValueCount];
-                    Array.Copy(_storage.Values, sparseResult._storage.Values, _storage.ValueCount);
+                    Array.Copy(_storage.Values, 0, sparseResult._storage.Values, 0, _storage.ValueCount);
                 }
 
                 Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
@@ -821,7 +820,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
         protected override void DoPointwiseMultiply(Vector<double> other, Vector<double> result)
         {
-            if (ReferenceEquals(this, other))
+            if (ReferenceEquals(this, other) && ReferenceEquals(this, result))
             {
                 for (var i = 0; i < _storage.ValueCount; i++)
                 {
@@ -830,35 +829,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                for (var i = 0; i < _storage.ValueCount; i++)
-                {
-                    var index = _storage.Indices[i];
-                    result.At(index, other.At(index) * _storage.Values[i]);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Pointwise multiplies this vector with another vector and stores the result into the result vector.
-        /// </summary>
-        /// <param name="divisor">The vector to pointwise multiply with this one.</param>
-        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
-        protected override void DoPointwiseDivide(Vector<double> divisor, Vector<double> result)
-        {
-            if (ReferenceEquals(this, divisor))
-            {
-                for (var i = 0; i < _storage.ValueCount; i++)
-                {
-                    _storage.Values[i] /= _storage.Values[i];
-                }
-            }
-            else
-            {
-                for (var i = 0; i < _storage.ValueCount; i++)
-                {
-                    var index = _storage.Indices[i];
-                    result.At(index, _storage.Values[i] / divisor.At(index));
-                }
+                base.DoPointwiseMultiply(other, result);
             }
         }
 

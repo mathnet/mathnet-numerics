@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -92,11 +91,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             var n = new Triangular(0d, 2d, 1d);
             Assert.AreEqual("Triangular(Lower = 0, Upper = 2, Mode = 1)", n.ToString());
         }
-        
+
         // Todo: Add tests for:
-        // - Mean, 
-        // - Entropy, 
-        // - Skewness, 
+        // - Mean,
+        // - Entropy,
+        // - Skewness,
         // - Mode (note: Mode is an input parameter for this distribution),
         // - Median
         // - Minimum (should be the same as LowerBound)

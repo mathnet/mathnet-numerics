@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2014 Math.NET
 //
@@ -37,7 +36,7 @@ using System.Runtime;
 namespace MathNet.Numerics.Random
 {
     /// <summary>
-    /// Wichmann-Hill’s 1982 combined multiplicative congruential generator. 
+    /// Wichmann-Hill’s 1982 combined multiplicative congruential generator.
     /// </summary>
     /// <remarks>See: Wichmann, B. A. &amp; Hill, I. D. (1982), "Algorithm AS 183:
     /// An efficient and portable pseudo-random number generator". Applied Statistics 31 (1982) 188-190
@@ -106,12 +105,9 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        /// <returns>
-        /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
-        /// </returns>
-        protected override sealed double DoSample()
+        protected sealed override double DoSample()
         {
             _xn = (171*_xn)%Modx;
             _yn = (172*_yn)%Mody;

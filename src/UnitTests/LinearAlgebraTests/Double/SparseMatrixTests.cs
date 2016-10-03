@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -89,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         [Test]
         public void MatrixFrom1DArrayIsCopy()
         {
-            // Sparse Matrix copies values from double[], but no remember reference. 
+            // Sparse Matrix copies values from double[], but no remember reference.
             var data = new double[] {1, 1, 1, 1, 1, 1, 2, 2, 2};
             var matrix = Matrix<double>.Build.SparseOfColumnMajor(3, 3, data);
             matrix[0, 0] = 10.0;

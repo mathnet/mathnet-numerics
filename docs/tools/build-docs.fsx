@@ -21,9 +21,9 @@ let info =
 // For typical project, no changes are needed below
 // --------------------------------------------------------------------------------------
 
-#load "../../packages/FSharp.Formatting/FSharp.Formatting.fsx"
-#r "../../packages/FAKE/tools/NuGet.Core.dll"
-#r "../../packages/FAKE/tools/FakeLib.dll"
+#load "../../packages/build/FSharp.Formatting/FSharp.Formatting.fsx"
+#r "../../packages/build/FAKE/tools/NuGet.Core.dll"
+#r "../../packages/build/FAKE/tools/FakeLib.dll"
 
 open Fake
 open System
@@ -47,7 +47,7 @@ let content    = __SOURCE_DIRECTORY__ @@ "../content"
 let output     = __SOURCE_DIRECTORY__ @@ "../../out/docs"
 let files      = __SOURCE_DIRECTORY__ @@ "../files"
 let templates  = __SOURCE_DIRECTORY__ @@ "templates"
-let formatting = __SOURCE_DIRECTORY__ @@ "../../packages/FSharp.Formatting/"
+let formatting = __SOURCE_DIRECTORY__ @@ "../../packages/build/FSharp.Formatting/"
 let docTemplate = formatting @@ "templates/docpage.cshtml"
 
 // Where to look for *.csproj templates (in this order)
@@ -60,7 +60,7 @@ let layoutRoots =
 let copyFiles() =
   CopyRecursive files output true |> Log "Copying file: "
   ensureDirectory (output @@ "content")
-  CopyRecursive (formatting @@ "styles") (output @@ "content") true 
+  CopyRecursive (formatting @@ "styles") (output @@ "content") true
     |> Log "Copying styles and scripts: "
 
 // Build API reference from XML comments

@@ -1,2 +1,5 @@
-MathNet.Numerics
-NUnit
+group Data
+    MathNet.Numerics
+
+group Test
+    NUnit

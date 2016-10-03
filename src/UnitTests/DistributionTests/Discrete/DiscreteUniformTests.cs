@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,12 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Linq;
+using MathNet.Numerics.Distributions;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
 {
-    using System;
-    using System.Linq;
-    using Distributions;
-    using NUnit.Framework;
 
     /// <summary>
     /// Discrete uniform tests.
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleStatic()
         {
-            DiscreteUniform.Sample(new Random(0), 0, 10);
+            DiscreteUniform.Sample(new System.Random(0), 0, 10);
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = DiscreteUniform.Samples(new Random(0), 0, 10);
+            var ied = DiscreteUniform.Samples(new System.Random(0), 0, 10);
             GC.KeepAlive(ied.Take(5).ToArray());
         }
 
@@ -239,7 +239,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.That(() => DiscreteUniform.Sample(new Random(0), 20, 10), Throws.ArgumentException);
+            Assert.That(() => DiscreteUniform.Sample(new System.Random(0), 20, 10), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.That(() => DiscreteUniform.Samples(new Random(0), 20, 10).First(), Throws.ArgumentException);
+            Assert.That(() => DiscreteUniform.Samples(new System.Random(0), 20, 10).First(), Throws.ArgumentException);
         }
 
         /// <summary>

@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2010 Math.NET
 //
@@ -29,14 +28,15 @@
 // </copyright>
 
 #if NOSYSNUMERICS
+
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+using System.Text;
+
 namespace MathNet.Numerics
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Runtime.InteropServices;
-    using System.Text;
-    using Properties;
-
     /// <summary>
     /// 64-bit double precision complex numbers class.
     /// </summary>
@@ -64,17 +64,20 @@ namespace MathNet.Numerics
     /// </para>
     /// </remarks>
     [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics")]
     [StructLayout(LayoutKind.Sequential)]
     public struct Complex : IFormattable, IEquatable<Complex>, IPrecisionSupport<Complex>
     {
         /// <summary>
         /// The real component of the complex number.
         /// </summary>
+        [DataMember(Order = 1)]
         private readonly double _real;
 
         /// <summary>
         /// The imaginary component of the complex number.
         /// </summary>
+        [DataMember(Order = 2)]
         private readonly double _imag;
 
         /// <summary>

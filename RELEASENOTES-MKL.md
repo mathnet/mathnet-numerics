@@ -1,3 +1,6 @@
+### 2.1.0 - 2016-09-08
+* r10 with Intel MKL 2017
+
 ### 2.0.0 - 2015-09-26
 * r9 with Intel MKL 11.3
 * Linear Algebra v2.0: automatic work array/buffer handling (breaking change)

@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -50,7 +49,17 @@ namespace MathNet.Numerics.UnitTests.Random
         /// Sample known values.
         /// </summary>
         [Test]
-        public void SampleKnownValues()
+        public void SampleKnownIntegerValuesSeed42()
+        {
+            var mt = new MersenneTwister(42);
+            Assert.AreEqual(mt.Next(), 804318771);
+        }
+
+        /// <summary>
+        /// Sample known values.
+        /// </summary>
+        [Test]
+        public void SampleKnownFloatingPointValues()
         {
             var mt = new MersenneTwister(0);
             Assert.AreEqual(mt.NextDouble(), 0.5488135023042560);

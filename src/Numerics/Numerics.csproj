@@ -81,6 +81,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Differentiate.cs" />
@@ -96,6 +97,10 @@
     <Compile Include="GoodnessOfFit.cs" />
     <Compile Include="IntegralTransforms\Fourier.cs" />
     <Compile Include="IntegralTransforms\Hartley.cs" />
+    <Compile Include="Integration\GaussLegendreRule.cs" />
+    <Compile Include="Integration\GaussRule\GaussLegendrePoint.cs" />
+    <Compile Include="Integration\GaussRule\GaussLegendrePointFactory.cs" />
+    <Compile Include="Integration\GaussRule\GaussPoint.cs" />
     <Compile Include="Interpolation\Barycentric.cs" />
     <Compile Include="Interpolation\CubicSpline.cs" />
     <Compile Include="Interpolation\LogLinear.cs" />
@@ -106,7 +111,11 @@
     <Compile Include="LinearAlgebra\Options.cs" />
     <Compile Include="LinearAlgebra\Solvers\DelegateStopCriterion.cs" />
     <Compile Include="LinearAlgebra\CreateVector.cs" />
+    <Compile Include="LinearAlgebra\MatrixExtensions.cs" />
+    <Compile Include="LinearAlgebra\VectorExtensions.cs" />
     <Compile Include="LinearRegression\Options.cs" />
+    <Compile Include="OdeSolvers\AdamsBashforth.cs" />
+    <Compile Include="OdeSolvers\RungeKutta.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
@@ -159,6 +168,11 @@
     <Compile Include="LinearRegression\WeightedRegression.cs" />
     <Compile Include="LinearRegression\SimpleRegression.cs" />
     <Compile Include="LinearRegression\Util.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />
@@ -228,10 +242,14 @@
     <Compile Include="SpecialFunctions\Logistic.cs" />
     <Compile Include="SpecialFunctions\TestFunctions.cs" />
     <Compile Include="Statistics\ArrayStatistics.cs" />
+    <Compile Include="Statistics\ArrayStatistics.Complex.cs" />
+    <Compile Include="Statistics\ArrayStatistics.Int32.cs" />
+    <Compile Include="Statistics\ArrayStatistics.Single.cs" />
     <Compile Include="Statistics\MovingStatistics.cs" />
     <Compile Include="Statistics\RunningStatistics.cs" />
     <Compile Include="Statistics\QuantileDefinition.cs" />
     <Compile Include="Statistics\RankDefinition.cs" />
+    <Compile Include="Statistics\SortedArrayStatistics.Single.cs" />
     <Compile Include="Statistics\StreamingStatistics.cs" />
     <Compile Include="Statistics\SortedArrayStatistics.cs" />
     <Compile Include="LinearAlgebra\Storage\SparseVectorStorage.cs" />
@@ -416,11 +434,6 @@
     <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
     <Compile Include="Precision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Random\RandomSource.cs" />
     <Compile Include="Random\Mcg31m1.cs" />
     <Compile Include="Random\Mcg59.cs" />
@@ -460,8 +473,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

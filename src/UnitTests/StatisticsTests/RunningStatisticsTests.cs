@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,15 +28,14 @@
 // </copyright>
 
 using System.Linq;
+using System.Collections.Generic;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
+using MathNet.Numerics.Statistics;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
-    using System.Collections.Generic;
-    using NUnit.Framework;
-    using Statistics;
-
     /// <summary>
     /// Running statistics tests.
     /// </summary>

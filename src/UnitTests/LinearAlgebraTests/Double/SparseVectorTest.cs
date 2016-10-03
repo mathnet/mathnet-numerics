@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -352,6 +351,70 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 
             var resultStorage = (SparseVectorStorage<double>) result.Storage;
             Assert.AreEqual(2, resultStorage.ValueCount);
+        }
+
+        /// <summary>
+        /// Can pointwise divide a sparse vector.
+        /// </summary>
+        [Test]
+        public void CanPointwiseDivideSparseVector()
+        {
+            var zeroArray = new[] { 0.0, 1.0, 0.0, 1.0, 0.0 };
+            var vector1 = Vector<double>.Build.SparseOfEnumerable(zeroArray);
+            var vector2 = Vector<double>.Build.SparseOfEnumerable(Data);
+            var result = Vector<double>.Build.Sparse(vector1.Count);
+
+            vector1.PointwiseDivide(vector2, result);
+
+            for (var i = 0; i < vector1.Count; i++)
+            {
+                Assert.AreEqual(zeroArray[i] / Data[i], result[i]);
+            }
+
+            var resultStorage = (SparseVectorStorage<double>)result.Storage;
+            Assert.AreEqual(2, resultStorage.ValueCount);
+        }
+
+        /// <summary>
+        /// Can pointwise multiple a sparse vector to itself.
+        /// </summary>
+        [Test]
+        public void CanPointwiseMultiplyToSelfSparseVector()
+        {
+            var zeroArray = new[] { 0.0, 2.0, 0.0, 2.0, 0.0 };
+            var vector = Vector<double>.Build.SparseOfEnumerable(zeroArray);
+            var result = Vector<double>.Build.Sparse(vector.Count);
+
+            vector.PointwiseMultiply(vector, result);
+
+            for (var i = 0; i < vector.Count; i++)
+            {
+                Assert.AreEqual(zeroArray[i] * zeroArray[i], result[i]);
+            }
+
+            var resultStorage = (SparseVectorStorage<double>)result.Storage;
+            Assert.AreEqual(2, resultStorage.ValueCount);
+        }
+
+        /// <summary>
+        /// Can pointwise divide a sparse vector to itself.
+        /// </summary>
+        [Test]
+        public void CanPointwiseDivideToSelfSparseVector()
+        {
+            var zeroArray = new[] { 0.0, 2.0, 0.0, 2.0, 0.0 };
+            var vector = Vector<double>.Build.SparseOfEnumerable(zeroArray);
+            var result = Vector<double>.Build.Sparse(vector.Count);
+
+            vector.PointwiseDivide(vector, result);
+
+            for (var i = 0; i < vector.Count; i++)
+            {
+                Assert.AreEqual(zeroArray[i] / zeroArray[i], result[i]);
+            }
+
+            var resultStorage = (SparseVectorStorage<double>)result.Storage;
+            Assert.AreEqual(5, resultStorage.ValueCount);
         }
 
         /// <summary>

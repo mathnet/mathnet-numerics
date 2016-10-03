@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2015 Math.NET
 //
@@ -66,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             get
             {
-                double tolerance = Precision.SinglePrecision*Math.Max(U.RowCount, VT.RowCount);
+                double tolerance = Precision.EpsilonOf(S.AbsoluteMaximum().Magnitude)*Math.Max(U.RowCount, VT.RowCount);
                 return S.Count(t => t.Magnitude > tolerance);
             }
         }

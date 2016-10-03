@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -356,7 +355,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             AssertHelpers.AlmostEqualRelative(pdfln, n.DensityLn(x), 13);
             AssertHelpers.AlmostEqualRelative(pdfln, Beta.PDFLn(a, b, x), 13);
         }
-        
+
         [TestCase(0.0, 0.0, 0.0, 0.5)]
         [TestCase(0.0, 0.0, 0.5, 0.5)]
         [TestCase(0.0, 0.0, 1.0, 1.0)]

@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2014 Math.NET
 //
@@ -147,9 +146,8 @@ namespace MathNet.Numerics.Statistics
                     meanB += rY;
                     varB += sumWeight*deltaY*rY;
 
+                    covariance += deltaX*deltaY*wi*(sumWeight/temp);
                     sumWeight = temp;
-
-                    covariance += deltaX*deltaY*(n - 1)*wi/n;
                 }
                 if (ieB.MoveNext())
                 {

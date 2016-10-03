@@ -1,2 +1,4 @@
 TaskParallelLibrary
-NUnit
+
+group Test
+    NUnit

@@ -15,14 +15,15 @@
 // PRELUDE
 // --------------------------------------------------------------------------------------
 
-#I "packages/FAKE/tools"
-#r "packages/FAKE/tools/FakeLib.dll"
+#I "packages/build/FAKE/tools"
+#r "packages/build/FAKE/tools/FakeLib.dll"
 
 open Fake
 open Fake.DocuHelper
 open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
 open Fake.StringHelper
+open Fake.Testing.NUnit3
 open System
 open System.IO
 
@@ -123,7 +124,7 @@ let numericsPack =
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       Dependencies =
         [ { FrameworkVersion="net35"
-            Dependencies=[ "TaskParallelLibrary", GetPackageVersion "packages" "TaskParallelLibrary" ] }
+            Dependencies=[ "TaskParallelLibrary", GetPackageVersion "./packages/" "TaskParallelLibrary" ] }
           { FrameworkVersion="net40"
             Dependencies=[] } ]
       Files =
@@ -146,7 +147,7 @@ let fsharpPack =
         Dependencies =
           [ { FrameworkVersion=""
               Dependencies=[ "MathNet.Numerics", RequireExactly packageVersion
-                             "FSharp.Core", GetPackageVersion "packages" "FSharp.Core" ] } ]
+                             "FSharp.Core", GetPackageVersion "./packages/" "FSharp.Core" ] } ]
         Files =
           [ @"..\..\out\lib\Net35\MathNet.Numerics.FSharp.*", Some libnet35, None;
             @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
@@ -175,7 +176,7 @@ let fsharpSignedPack =
         Dependencies =
           [ { FrameworkVersion=""
               Dependencies=[ "MathNet.Numerics.Signed", RequireExactly packageVersion
-                             "FSharp.Core", GetPackageVersion "packages" "FSharp.Core" ] } ]
+                             "FSharp.Core", GetPackageVersion "./packages/" "FSharp.Core" ] } ]
         Files =
           [ @"..\..\out\lib-signed\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
             @"MathNet.Numerics.fsx", None, None;
@@ -363,7 +364,7 @@ let dataTextPack =
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
       Dependencies =
         [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", GetPackageVersion "packages" "MathNet.Numerics" ] } ]
+            Dependencies=[ "MathNet.Numerics", GetPackageVersion "./packages/data/" "MathNet.Numerics" ] } ]
       Files =
         [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.dll", Some libnet40, None;
           @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml", Some libnet40, None ] }
@@ -379,7 +380,7 @@ let dataMatlabPack =
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
       Dependencies =
         [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", GetPackageVersion "packages" "MathNet.Numerics" ] } ]
+            Dependencies=[ "MathNet.Numerics", GetPackageVersion "./packages/data/" "MathNet.Numerics" ] } ]
       Files =
         [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
           @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
@@ -491,77 +492,48 @@ Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
 // --------------------------------------------------------------------------------------
 
 let test target =
-    let quick p = if hasBuildParam "quick" then { p with ExcludeCategory="LongRunning" } else p
-    NUnit (fun p ->
+    let quick p = if hasBuildParam "quick" then { p with Where="cat!=LongRunning" } else p
+    NUnit3 (fun p ->
         { p with
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" } |> quick) target
+            ShadowCopy = false
+            Labels = LabelsLevel.Off
+            TimeOut = TimeSpan.FromMinutes 60. } |> quick) target
+
+let test32 target =
+    let quick p = if hasBuildParam "quick" then { p with Where="cat!=LongRunning" } else p
+    NUnit3 (fun p ->
+        { p with
+            Force32bit = true
+            ShadowCopy = false
+            Labels = LabelsLevel.Off
+            TimeOut = TimeSpan.FromMinutes 60. } |> quick) target
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
+"Build" ?=> "Test"
 
-FinalTarget "CloseTestRunner" (fun _ ->
-    ProcessHelper.killProcess "nunit-agent.exe"
-    ProcessHelper.killProcess "nunit-agent-x86.exe"
-)
-
-Target "MklWin32Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/MKL/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console-x86.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
-Target "MklWin64Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/MKL/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
+Target "MklWin32Test" (fun _ -> test32 !! "out/MKL/Windows/*UnitTests*.dll")
+"MklWin32Build" ?=> "MklWin32Test"
+Target "MklWin64Test" (fun _ -> test !! "out/MKL/Windows/*UnitTests*.dll")
+"MklWin64Build" ?=> "MklWin64Test"
 Target "MklWinTest" DoNothing
 "MklWin32Test" ==> "MklWinTest"
 "MklWin64Test" ==> "MklWinTest"
 
-Target "CudaWin64Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/CUDA/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
+Target "CudaWin64Test" (fun _ -> test !! "out/CUDA/Windows/*UnitTests*.dll")
+"CudaWin64Build" ?=> "CudaWin64Test"
 Target "CudaWinTest" DoNothing
 "CudaWin64Test" ==> "CudaWinTest"
 
-Target "OpenBlasWin32Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/OpenBLAS/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console-x86.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
-Target "OpenBlasWin64Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/OpenBLAS/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
+Target "OpenBlasWin32Test" (fun _ -> test32 !! "out/OpenBLAS/Windows/*UnitTests*.dll")
+"OpenBlasWin32Build" ?=> "OpenBlasWin32Test"
+Target "OpenBlasWin64Test" (fun _ -> test !! "out/OpenBLAS/Windows/*UnitTests*.dll")
+"OpenBlasWin64Build" ?=> "OpenBlasWin64Test"
 Target "OpenBlasWinTest" DoNothing
 "OpenBlasWin32Test" ==> "OpenBlasWinTest"
 "OpenBlasWin64Test" ==> "OpenBlasWinTest"
 
 Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
+"DataBuild" ?=> "DataTest"
 
 
 // --------------------------------------------------------------------------------------
@@ -628,32 +600,37 @@ Target "Zip" (fun _ ->
         coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if hasBuildParam "signed" || hasBuildParam "release" then
         coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
+"Build" ?=> "Zip"
 
 Target "MklWinZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
     mklWinBundle |> zip "out/MKL/packages/Zip" "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
+"MklWinBuild" ?=> "MklWinZip"
 
 Target "MklLinuxZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
     mklLinuxBundle |> zip "out/MKL/packages/Zip" "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
+// "MklLinuxBuild" ?=> "MklLinuxZip"
 
 Target "CudaWinZip" (fun _ ->
     CreateDir "out/CUDA/packages/Zip"
     cudaWinBundle |> zip "out/CUDA/packages/Zip" "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver")))
+"CudaWinBuild" ?=> "CudaWinZip"
 
 Target "OpenBlasWinZip" (fun _ ->
     CreateDir "out/OpenBLAS/packages/Zip"
     openBlasWinBundle |> zip "out/OpenBLAS/packages/Zip" "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath")))
+"OpenBlasWinBuild" ?=> "OpenBlasWinZip"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
-
+"DataBuild" ?=> "DataZip"
 
 // NUGET
 
 let updateNuspec (pack:Package) outPath symbols updateFiles spec =
-    { spec with ToolPath = "packages/NuGet.CommandLine/tools/NuGet.exe"
+    { spec with ToolPath = "packages/build/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
                 Version = pack.Version
@@ -698,26 +675,32 @@ Target "NuGet" (fun _ ->
         nugetPack coreSignedBundle "out/packages/NuGet"
     if hasBuildParam "all" || hasBuildParam "release" then
         nugetPack coreBundle "out/packages/NuGet")
+"Build" ?=> "NuGet"
 
 Target "MklWinNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"
     nugetPackExtension mklWinBundle "out/MKL/packages/NuGet")
+"MklWinBuild" ?=> "MklWinNuGet"
 
 Target "MklLinuxNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"
     nugetPackExtension mklLinuxBundle "out/MKL/packages/NuGet")
+// "MklLinuxBuild" ?=> "MklLinuxNuGet"
 
 Target "CudaWinNuGet" (fun _ ->
     CreateDir "out/CUDA/packages/NuGet"
     nugetPackExtension cudaWinBundle "out/CUDA/packages/NuGet")
+"CudaWinBuild" ?=> "CudaWinNuGet"
 
 Target "OpenBlasWinNuGet" (fun _ ->
     CreateDir "out/OpenBLAS/packages/NuGet"
     nugetPackExtension openBlasWinBundle "out/OpenBLAS/packages/NuGet")
+"OpenBlasWinBuild" ?=> "OpenBlasWinNuGet"
 
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
     nugetPackExtension dataBundle "out/Data/packages/NuGet")
+"DataBuild" ?=> "DataNuGet"
 
 
 // --------------------------------------------------------------------------------------
@@ -750,15 +733,41 @@ let provideDocExtraFiles() =
             ReadFileAsString fileName ]
         |> ReplaceFile ("docs/content" </> docName)
 
+let buildDocumentationTarget fsiargs target =
+    trace (sprintf "Building documentation (%s), this could take some time, please wait..." target)
+    let fakePath = "packages" </> "build" </> "FAKE" </> "tools" </> "FAKE.exe"
+    let fakeStartInfo script workingDirectory args fsiargs environmentVars =
+        (fun (info: System.Diagnostics.ProcessStartInfo) ->
+            info.FileName <- System.IO.Path.GetFullPath fakePath
+            info.Arguments <- sprintf "%s --fsiargs -d:FAKE %s \"%s\"" args fsiargs script
+            info.WorkingDirectory <- workingDirectory
+            let setVar k v =
+                info.EnvironmentVariables.[k] <- v
+            for (k, v) in environmentVars do
+                setVar k v
+            setVar "MSBuild" msBuildExe
+            setVar "GIT" Git.CommandHelper.gitPath
+            setVar "FSI" fsiPath)
+    let executeFAKEWithOutput workingDirectory script fsiargs envArgs =
+        let exitCode =
+            ExecProcessWithLambdas
+                (fakeStartInfo script workingDirectory "" fsiargs envArgs)
+                TimeSpan.MaxValue false ignore ignore
+        System.Threading.Thread.Sleep 1000
+        exitCode
+    let exit = executeFAKEWithOutput "docs/tools" "build-docs.fsx" fsiargs ["target", target]
+    if exit <> 0 then
+        failwith "Generating documentation failed"
+    ()
+
 let generateDocs fail local =
-    let args = if local then [] else ["--define:RELEASE"]
-    if executeFSIWithArgs "docs/tools" "build-docs.fsx" args [] then
-         traceImportant "Docs generated"
-    else
-        if fail then
-            failwith "Generating documentation failed"
-        else
-            traceImportant "generating documentation failed"
+    let args = if local then "" else "--define:RELEASE"
+    try
+        buildDocumentationTarget args "Default"
+        traceImportant "Documentation generated"
+    with
+    | e when not fail ->
+        failwith "Generating documentation failed"
 
 Target "Docs" (fun _ ->
     provideDocExtraFiles ()
@@ -780,6 +789,7 @@ Target "DocsWatch" (fun _ ->
     watcher.Dispose())
 
 "CleanDocs" ==> "Docs"
+"Build" ?=> "CleanDocs"
 
 "Start"
   =?> ("CleanDocs", not (hasBuildParam "incremental"))
@@ -801,6 +811,7 @@ Target "Api" (fun _ ->
             OutputPath = "out/api/" }))
 
 "CleanApi" ==> "Api"
+"Build" ?=> "CleanApi"
 
 
 // --------------------------------------------------------------------------------------
@@ -855,7 +866,7 @@ let publishNuGet packageFiles =
             let args = sprintf "push \"%s\"" (FullName file)
             let result =
                 ExecProcess (fun info ->
-                    info.FileName <- "packages/NuGet.CommandLine/tools/NuGet.exe"
+                    info.FileName <- "packages/build/NuGet.CommandLine/tools/NuGet.exe"
                     info.WorkingDirectory <- FullName "obj/NuGet"
                     info.Arguments <- args) (TimeSpan.FromMinutes 10.)
             if result <> 0 then failwith "Error during NuGet push."

@@ -7,9 +7,9 @@
   <ItemGroup Condition="'$(MSBuildThisFileDirectory)' != '' And HasTrailingSlash('$(MSBuildThisFileDirectory)')">
     <MathNetInteropFiles Include="$(MSBuildThisFileDirectory)**\*.dll" />
     <MathNetInteropFiles Include="$(MSBuildThisFileDirectory)**\*.so" />
-    <Content Include="@(MathNetInteropFiles)">
+    <None Include="@(MathNetInteropFiles)">
       <Link>%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
   </ItemGroup>
 </Project>

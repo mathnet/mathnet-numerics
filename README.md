@@ -19,14 +19,15 @@ Math.NET Numerics is covered under the terms of the [MIT/X11](LICENSE.md) licens
 
 ### Current Version
 
-![Math.NET Numerics Version](http://img.shields.io/nuget/v/MathNet.Numerics.svg?style=flat) Math.NET Numerics  
-![Native Providers Version](http://img.shields.io/nuget/v/MathNet.Numerics.MKL.Win-x64.svg?style=flat) Native Providers  
-![Data Extensions Version](http://img.shields.io/nuget/v/MathNet.Numerics.Data.Text.svg?style=flat) Data Extensions
+![Math.NET Numerics Version](https://buildstats.info/nuget/MathNet.Numerics) Math.NET Numerics  
+![MKL Native Provider Version](https://buildstats.info/nuget/MathNet.Numerics.MKL.Win) MKL Native Provider  
+![OpenBLAS Native Provider Version](https://buildstats.info/nuget/MathNet.Numerics.OpenBLAS.Win) OpenBLAS Native Provider  
+![Data Extensions Version](https://buildstats.info/nuget/MathNet.Numerics.Data.Text) Data Extensions
 
 Installation Instructions
 -------------------------
 
-The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/). Alternatively you can also download the binaries in Zip packages, available on [CodePlex](http://mathnetnumerics.codeplex.com/releases).
+The recommended way to get Math.NET Numerics is to use NuGet. The following packages are provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/).
 
 Core Package:
 
@@ -67,6 +68,7 @@ with MsBuild or with FAKE.
 
 MsBuild/XBuild:
 
+    restore.cmd (or restore.sh)
     msbuild MathNet.Numerics.sln
 
 FAKE:

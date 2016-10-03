@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2010 Math.NET
 //
@@ -42,7 +41,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     /// (<seealso cref="MetropolisSampler{T}"/>).
     /// </summary>
     /// <typeparam name="T">The type of samples this sampler produces.</typeparam>
-    abstract public class HybridMCGeneric<T> : McmcSampler<T>
+    public abstract class HybridMCGeneric<T> : McmcSampler<T>
     {
         /// <summary>
         /// The delegate type that defines a derivative evaluated at a certain point.
@@ -211,21 +210,21 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Use for creating temporary objects in the Burn method.
         /// </summary>
         /// <returns>An object of type T.</returns>
-        abstract protected T Create();
+        protected abstract T Create();
 
         /// <summary>
         /// Use for copying objects in the Burn method.
         /// </summary>
         /// <param name="source">The source of copying.</param>
         /// <returns>A copy of the source object.</returns>
-        abstract protected T Copy(T source);
+        protected abstract T Copy(T source);
 
         /// <summary>
         /// Method for doing dot product.
         /// </summary>
         /// <param name="first">First vector/scalar in the product.</param>
         /// <param name="second">Second vector/scalar in the product.</param>
-        abstract protected double DoProduct(T first, T second);
+        protected abstract double DoProduct(T first, T second);
 
         /// <summary>
         /// Method for adding, multiply the second vector/scalar by factor and then
@@ -234,7 +233,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="first">First vector/scalar.</param>
         /// <param name="factor">Scalar factor multiplying by the second vector/scalar.</param>
         /// <param name="second">Second vector/scalar.</param>
-        abstract protected void DoAdd(ref T first, double factor, T second);
+        protected abstract void DoAdd(ref T first, double factor, T second);
 
         /// <summary>
         /// Multiplying the second vector/scalar by factor and then subtract it from
@@ -243,13 +242,13 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="first">First vector/scalar.</param>
         /// <param name="factor">Scalar factor to be multiplied to the second vector/scalar.</param>
         /// <param name="second">Second vector/scalar.</param>
-        abstract protected void DoSubtract(ref T first, double factor, T second);
+        protected abstract void DoSubtract(ref T first, double factor, T second);
 
         /// <summary>
         /// Method for sampling a random momentum.
         /// </summary>
         /// <param name="p">Momentum to be randomized.</param>
-        abstract protected void RandomizeMomentum(ref T p);
+        protected abstract void RandomizeMomentum(ref T p);
 
         /// <summary>
         /// The Hamiltonian equations that is used to produce the new sample.

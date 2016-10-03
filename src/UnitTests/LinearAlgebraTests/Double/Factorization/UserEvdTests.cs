@@ -2,8 +2,9 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2016 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +13,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -91,7 +94,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             Assert.AreEqual(order, d.RowCount);
             Assert.AreEqual(order, d.ColumnCount);
 
-            // Make sure the A*V = λ*V 
+            // Make sure the A*V = λ*V
             var matrixAv = matrixA * eigenVectors;
             var matrixLv = eigenVectors * d;
 
@@ -127,7 +130,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             Assert.AreEqual(order, d.RowCount);
             Assert.AreEqual(order, d.ColumnCount);
 
-            // Make sure the A = V*λ*VT 
+            // Make sure the A = V*λ*VT
             var matrix = eigenVectors * d * eigenVectors.Transpose();
 
             for (var i = 0; i < matrix.RowCount; i++)

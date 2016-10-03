@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2011 Math.NET
 //
@@ -71,7 +70,7 @@ namespace MathNet.Numerics
         {
             Array.Copy(source, 0, dest, 0, source.Length);
         }
-        
+
         /// <summary>
         /// Copies the values from on array to another.
         /// </summary>

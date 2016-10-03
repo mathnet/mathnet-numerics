@@ -35,7 +35,9 @@ _TeamCity*
 *.sdf
 *.aps
 *.opensdf
+*.opendb
 *.cachefile
+*.swp
 
 # Upgrades
 _UpgradeReport_Files/
@@ -47,7 +49,7 @@ UpgradeLog*.htm
 
 # OS
 $RECYCLE.BIN/
-.DS_Store/
+.DS_Store
 Thumbs.db
 ehthumbs.db
 Desktop.ini
@@ -56,14 +58,12 @@ Desktop.ini
 # NOTE: we do NOT use package restore in the core projects, but do use it with FAKE builds.
 packages/*
 !packages/.gitattributes
-!packages/repositories.config
-!packages/NUnit
-!packages/FsUnit
 !packages/TaskParallelLibrary
 !packages/FSharp.Core
 
 # FAKE & Paket
-packages/FAKE
+packages
+paket-files
 .paket/paket.exe
 .fake
 

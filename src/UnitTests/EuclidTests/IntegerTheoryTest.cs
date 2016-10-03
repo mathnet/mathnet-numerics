@@ -2,8 +2,9 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2016 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +13,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -437,6 +440,24 @@ namespace MathNet.Numerics.UnitTests.EuclidTests
 
             Assert.DoesNotThrow(
                 () => ((long)0).PowerOfTwo());
+        }
+
+        /// <summary>
+        /// Log2 matches floating point for int32.
+        /// </summary>
+        [Test]
+        public void Log2MatchesFloatingPoint32()
+        {
+            for (var i = 0; i < 31; i++)
+            {
+                int number = i.PowerOfTwo();
+                Assert.AreEqual((int)Math.Log(number, 2), number.Log2());
+                Assert.AreEqual((int)Math.Log(number + 1, 2), (number + 1).Log2());
+                if (number > 1)
+                {
+                    Assert.AreEqual((int)Math.Log(number - 1, 2), (number - 1).Log2());
+                }
+            }
         }
 
         /// <summary>

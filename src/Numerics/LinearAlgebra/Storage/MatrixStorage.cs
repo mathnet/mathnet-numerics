@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,18 +29,24 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
     [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/LinearAlgebra")]
     public abstract partial class MatrixStorage<T> : IEquatable<MatrixStorage<T>>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
 
         protected static readonly T Zero = BuilderInstance<T>.Matrix.Zero;
+
+        [DataMember(Order = 1)]
         public readonly int RowCount;
+
+        [DataMember(Order = 2)]
         public readonly int ColumnCount;
 
         protected MatrixStorage(int rowCount, int columnCount)
@@ -166,7 +171,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
         /// </returns>
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param>
-        public override sealed bool Equals(object obj)
+        public sealed override bool Equals(object obj)
         {
             return Equals(obj as MatrixStorage<T>);
         }

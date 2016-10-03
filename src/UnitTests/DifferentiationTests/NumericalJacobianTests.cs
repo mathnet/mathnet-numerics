@@ -2,8 +2,9 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2015 Math.NET
+//
+// Copyright (c) 2009-2016 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +13,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -24,11 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Differentiation;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.DifferentiationTests
 {
-    using System;
-    using Differentiation;
-    using NUnit.Framework;
 
     [TestFixture, Category("Differentiation")]
     class NumericalJacobianTests
@@ -58,9 +62,9 @@ namespace MathNet.Numerics.UnitTests.DifferentiationTests
         [Test]
         public void VectorFunctionJacobianTest()
         {
-            Func<double[], double>[] f = 
+            Func<double[], double>[] f =
             {
-                (x) => Math.Pow(x[0], 2)*x[1], 
+                (x) => Math.Pow(x[0], 2)*x[1],
                 (x) => 5*x[0] + Math.Sin(x[1])
             };
             var j = new NumericalJacobian();

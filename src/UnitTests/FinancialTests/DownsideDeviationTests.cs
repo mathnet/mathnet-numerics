@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -103,7 +102,6 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))] //assert
         public void throws_when_input_data_is_null()
         {
             //arrange
@@ -111,7 +109,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             List<double> inputData = null;
             //act
 // ReSharper disable ExpressionIsAlwaysNull
-            inputData.DownsideDeviation(minimumAcceptableReturn);
+            Assert.Throws<ArgumentNullException>(() => AbsoluteRiskMeasures.DownsideDeviation(inputData, minimumAcceptableReturn));
 // ReSharper restore ExpressionIsAlwaysNull
         }
 

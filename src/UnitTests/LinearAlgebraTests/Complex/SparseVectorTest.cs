@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -361,7 +360,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         }
 
         /// <summary>
-        /// Test for issues #52. When setting previous non-zero values to zero,
+        /// Test for issue #52. When setting previous non-zero values to zero,
         /// DoMultiply would copy non-zero values to the result, but use the
         /// length of nonzerovalues instead of NonZerosCount.
         /// </summary>

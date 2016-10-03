@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2015 Math.NET
 //
@@ -664,7 +663,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="first">Indicates if this is the first recursion.</param>
         static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] matrixA, int shiftArow, int shiftAcol, Complex32[] matrixB, int shiftBrow, int shiftBcol, Complex32[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
         {
-            if (m + n <= Control.ParallelizeOrder)
+            if (m + n <= Control.ParallelizeOrder || m == 1 || n == 1 || k == 1)
             {
                 if ((int) transposeA > 111 && (int) transposeB > 111)
                 {
@@ -1499,7 +1498,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
 
             var work = new Complex32[rowsA*columnsA];
- 
+
             var minmn = Math.Min(rowsA, columnsA);
             for (var i = 0; i < minmn; i++)
             {
@@ -1789,7 +1788,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             var sol = new Complex32[b.Length];
 
             // Copy B matrix to "sol", so B data will not be changed
-            Array.Copy(b, sol, b.Length);
+            Array.Copy(b, 0, sol, 0, b.Length);
 
             // Compute Y = transpose(Q)*B
             var column = new Complex32[rowsA];
@@ -1891,7 +1890,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
 
             var work = new Complex32[rowsA];
- 
+
             const int maxiter = 1000;
 
             var e = new Complex32[columnsA];
@@ -2502,7 +2501,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             // Copy stemp to s with size adjustment. We are using ported copy of linpack's svd code and it uses
             // a singular vector of length rows+1 when rows < columns. The last element is not used and needs to be removed.
             // We should port lapack's svd routine to remove this problem.
-            Array.Copy(stemp, s, Math.Min(rowsA, columnsA));
+            Array.Copy(stemp, 0, s, 0, Math.Min(rowsA, columnsA));
         }
 
         /// <summary>
@@ -2700,7 +2699,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
 
             var matrixCopy = new Complex32[matrix.Length];
-            Array.Copy(matrix, matrixCopy, matrix.Length);
+            Array.Copy(matrix, 0, matrixCopy, 0, matrix.Length);
             var v = new DenseVector(order);
             if (isSymmetric)
             {

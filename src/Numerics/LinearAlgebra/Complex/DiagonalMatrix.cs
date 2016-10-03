@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -353,8 +352,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 var thisDataCopy = new Complex[diagonalResult._data.Length];
                 var otherDataCopy = new Complex[diagonalResult._data.Length];
-                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
-                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
                 Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
                 return;
             }
@@ -406,8 +405,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 var thisDataCopy = new Complex[diagonalResult._data.Length];
                 var otherDataCopy = new Complex[diagonalResult._data.Length];
-                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
-                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
                 Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
                 return;
             }
@@ -450,8 +449,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 var thisDataCopy = new Complex[diagonalResult._data.Length];
                 var otherDataCopy = new Complex[diagonalResult._data.Length];
-                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
-                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
                 // TODO: merge/MulByConj
                 Control.LinearAlgebraProvider.ConjugateArray(otherDataCopy, otherDataCopy);
                 Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
@@ -496,8 +495,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 var thisDataCopy = new Complex[diagonalResult._data.Length];
                 var otherDataCopy = new Complex[diagonalResult._data.Length];
-                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
-                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
                 Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
                 return;
             }
@@ -549,8 +548,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 var thisDataCopy = new Complex[diagonalResult._data.Length];
                 var otherDataCopy = new Complex[diagonalResult._data.Length];
-                Array.Copy(_data, thisDataCopy, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
-                Array.Copy(diagonalOther._data, otherDataCopy, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
+                Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
+                Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
                 // TODO: merge/MulByConj
                 Control.LinearAlgebraProvider.ConjugateArray(thisDataCopy, thisDataCopy);
                 Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
@@ -746,7 +745,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
             }
 
-            Array.Copy(source, _data, source.Length);
+            Array.Copy(source, 0, _data, 0, source.Length);
         }
 
         /// <summary>
@@ -772,7 +771,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
             }
 
-            Array.Copy(denseSource.Values, _data, denseSource.Values.Length);
+            Array.Copy(denseSource.Values, 0, _data, 0, denseSource.Values.Length);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
@@ -1007,7 +1006,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Evaluates whether this matrix is symmetric.
         /// </summary>
-        public override sealed bool IsSymmetric()
+        public sealed override bool IsSymmetric()
         {
             return true;
         }
@@ -1015,7 +1014,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Evaluates whether this matrix is hermitian (conjugate symmetric).
         /// </summary>
-        public override sealed bool IsHermitian()
+        public sealed override bool IsHermitian()
         {
             for (var k = 0; k < _data.Length; k ++)
             {

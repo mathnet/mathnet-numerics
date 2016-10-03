@@ -82,8 +82,9 @@ namespace MathNet.Numerics.Data.Text
             var regex = delimiter == @"\s" ?
                 RegexCache.GetOrAdd(delimiter, d => new Regex(WhiteSpaceRegexTemplate, RegexOptions.Compiled)) :
                 RegexCache.GetOrAdd(delimiter, d => new Regex(string.Format(RegexTemplate, d), RegexOptions.Compiled));
-
-            var data = new List<string[]>();
+            
+            var parse = CreateParser<T>(formatProvider);
+            var data = new List<T[]>();
 
             // max is used to supports files like:
             // 1,2
@@ -111,14 +112,14 @@ namespace MathNet.Numerics.Data.Text
 
                     if (delimiter == @"\s")
                     {
-                        var row = (from Match match in matches where match.Length > 0 select match.Value).ToArray();
+                        var row = (from Match match in matches where match.Length > 0 select parse(match.Value.StripOffQuotes())).ToArray();
                         max = Math.Max(max, row.Length);
                         data.Add(row);
                     }
                     else
                     {
                         var offset = 0;
-                        var row = new List<string>();
+                        var row = new List<T>();
 
                         foreach (var value in (from Match match in matches where match.Length > 0 select match.Value))
                         {
@@ -128,12 +129,12 @@ namespace MathNet.Numerics.Data.Text
                             {
                                 for (var i = offset; i < delimterCount; i++)
                                 {
-                                    row.Add(mvStr);
+                                    row.Add(parse(mvStr.StripOffQuotes()));
                                 }
                             }
                             else
                             {
-                                row.Add(string.IsNullOrWhiteSpace(value) ? mvStr : value);
+                                row.Add(parse((string.IsNullOrWhiteSpace(value) ? mvStr : value).StripOffQuotes()));
                             }
                             offset = 1;
                         }
@@ -145,7 +146,6 @@ namespace MathNet.Numerics.Data.Text
                 line = reader.ReadLine();
             }
 
-            var parse = CreateParser<T>(formatProvider);
             var matrix = sparse ? Matrix<T>.Build.Sparse(data.Count, max, mv) : Matrix<T>.Build.Dense(data.Count, max, mv);
             var storage = matrix.Storage;
 
@@ -154,9 +154,8 @@ namespace MathNet.Numerics.Data.Text
                 var row = data[i];
                 for (var j = 0; j < row.Length; j++)
                 {
-                    // strip off quotes (TODO: can we replace this with trimming?)
-                    var value = row[j].Replace("'", string.Empty).Replace("\"", string.Empty);
-                    storage.At(i, j, parse(value));
+                    var value = row[j];
+                    storage.At(i, j, value);
                 }
             }
 
@@ -302,6 +301,14 @@ namespace MathNet.Numerics.Data.Text
                 default:
                     return delimiter;
             }
+        }
+        
+        /// <summary>
+        /// strip off quotes (TODO: can we replace this with trimming?)
+        /// </summary>
+        static string StripOffQuotes(this string obj)
+        {
+            return obj.Replace("'", string.Empty).Replace("\"", string.Empty);
         }
     }
 }

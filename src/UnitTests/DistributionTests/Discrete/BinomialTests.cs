@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,12 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Linq;
+using MathNet.Numerics.Distributions;
+using NUnit.Framework;
+
 namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
 {
-    using System;
-    using System.Linq;
-    using Distributions;
-    using NUnit.Framework;
 
     /// <summary>
     /// Binomial distribution tests.
@@ -223,7 +223,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleStatic()
         {
-            Binomial.Sample(new Random(0), 0.3, 5);
+            Binomial.Sample(new System.Random(0), 0.3, 5);
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void CanSampleSequenceStatic()
         {
-            var ied = Binomial.Samples(new Random(0), 0.3, 5);
+            var ied = Binomial.Samples(new System.Random(0), 0.3, 5);
             GC.KeepAlive(ied.Take(5).ToArray());
         }
 
@@ -242,7 +242,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleStatic()
         {
-            Assert.That(() => Binomial.Sample(new Random(0), -1.0, 5), Throws.ArgumentException);
+            Assert.That(() => Binomial.Sample(new System.Random(0), -1.0, 5), Throws.ArgumentException);
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void FailSampleSequenceStatic()
         {
-            Assert.That(() => Binomial.Samples(new Random(0), -1.0, 5).First(), Throws.ArgumentException);
+            Assert.That(() => Binomial.Samples(new System.Random(0), -1.0, 5).First(), Throws.ArgumentException);
         }
 
         /// <summary>

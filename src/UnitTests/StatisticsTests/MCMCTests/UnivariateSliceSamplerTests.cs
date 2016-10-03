@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,12 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using NUnit.Framework;
+using MathNet.Numerics.Statistics.Mcmc;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 {
-    using System;
-    using NUnit.Framework;
-    using Statistics.Mcmc;
-
     /// <summary>
     /// Univariate slice sampler tests.
     /// </summary>
@@ -78,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
             var ss = new UnivariateSliceSampler(0.1, x => -0.5*x*x, 5, 1.0);
 
             Assert.IsNotNull(ss.RandomSource);
-            ss.RandomSource = new Random(0);
+            ss.RandomSource = new System.Random(0);
             Assert.IsNotNull(ss.RandomSource);
         }
 

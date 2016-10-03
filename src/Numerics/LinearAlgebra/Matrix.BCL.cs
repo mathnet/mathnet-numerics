@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2014 Math.NET
 //
@@ -376,7 +375,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns a string that summarizes this matrix.
         /// The maximum number of cells can be configured in the <see cref="Control"/> class.
         /// </summary>
-        public override sealed string ToString()
+        public sealed override string ToString()
         {
             return string.Concat(ToTypeString(), Environment.NewLine, ToMatrixString());
         }

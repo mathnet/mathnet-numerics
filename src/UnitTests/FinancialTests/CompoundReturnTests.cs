@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -39,14 +38,13 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
     public class CompoundReturnTests
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))] //assert
         public void throws_when_input_data_is_null()
         {
             //arrange
             List<double> inputData = null;
             //act
 // ReSharper disable ExpressionIsAlwaysNull
-            inputData.CompoundReturn();
+            Assert.Throws<ArgumentNullException>(() => AbsoluteReturnMeasures.CompoundReturn(inputData));
 // ReSharper restore ExpressionIsAlwaysNull
         }
 

@@ -1,3 +1,52 @@
+### 3.13.1 - 2016-09-06
+* BUG: Random: Next(x,x+1) must always return x *~Juri*
+
+### 3.13.0 - 2016-08-18
+* Linear Algebra: faster tall, wide managed matrix multiplication. *~Aixile*
+* Euclid: Integer Log2 (DeBruijn sequencences algorithm).
+* Integration: Gauss-Legendre documentation, cleanup. *~Larz White*
+* Random: Integer sub-range sampling to use rejection sampling to avoid bias.
+* Random: Improvements on integer and byte sampling.
+* BUG: Random: CryptoRandomSource must not generate 1.0 samples.
+* BUG: Statistics: fixed bug in WeightedPearson Correlation. *~Jon Smit*
+
+### 3.12.0 - 2016-07-03
+* ODE Solver: Runge-Kutta (order 2, 4) and Adams-Bashforth (order 1-4) algorithms *~Yoonku Hwang*
+* Linear Algebra: faster multiplication of sparse with dense matrices *~Arthur*
+* BUG: Integration: Gauss-Legendre on order 256 *~Sergey Kosukhin*
+* BUG: Distributions: ChiSquared sampling was taking a square root where it should not *~Florian Wechsung*
+
+### 3.11.1 - 2016-04-24
+* BUG: Linear Algebra: sparse vector pointwise multiply/divide to itself
+* BUG: Linear Algebra: Vector.ToVectorString if the first column is wider than maxWidth
+
+### 3.11.0 - 2016-02-13
+* Special Functions: error functions to use static coefficient arrays (perf) *~Joel Sleppy*
+* Integration: Gauss-Legendre Rule (1D, 2D) *~Larz White*
+* Complex: more robust magnitude and division for numbers close to MaxValue or Epsilon *~MaLiN2223*
+* Native Providers: lazy default provider discovery & initialization *~Kuan Bartel*
+* FSharp Package: Quaternion type *~Phil Cleveland*
+
+### 3.10.0 - 2015-12-30
+* Statistics: single-precision floating point support.
+* Statistics: very limited support for int32 and complex numbers.
+* Statistics: Min/Max Absolute, MagnitudePhase (complex).
+* Statistics: FiveNumberSummary to use actual Median instead of R8 quantile.
+* Linear Algebra: matrix Rank to use relative epsilon.
+* Linear Algebra: extensions to convert between single/double precision, complex/real.
+* Linear Algebra: Vector/Matrix storage DataContracts for ephemeral serialization.
+* Regression: more helpful exceptions and messages.
+* Random: 'Next' integer sampling no longer involves floating points, avoids one-off error in MersenneTwister.
+* Precision: EpsilonOf for single-precision numbers, drop no longer needed portable fallbacks.
+
+### 3.9.0 - 2015-11-25
+* Distributions: Normal.CDF avoids problematic subtraction by using Erfc instead of Erf.
+* Statistics: geometric and harmonic mean.
+* Statistics: DataContracts for ephemeral serialization on RunningStatistics, DescriptiveStatistics and Histogram.
+* BUG: Statistics: Histogram did not adjust lower bound correctly when value was equal to the bound *~Volker Breuer*
+* Linear Algebra: minor optimization on how we call Array.Copy.
+* BUG: Linear Algebra: fix bug in Complex and Complex32 SparseMatrix.ToTypeString.
+
 ### 3.8.0 - 2015-09-26
 * Distributions: PDF and CDF more robust for large distribution parameters.
 * Distributions: BetaScaled distribution.

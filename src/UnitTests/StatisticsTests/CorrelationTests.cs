@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,15 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
+using MathNet.Numerics.Statistics;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
 #if !PORTABLE
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using NUnit.Framework;
-    using Statistics;
-
     /// <summary>
     /// Correlation tests
     /// </summary>
@@ -103,6 +102,36 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var corr = Correlation.Pearson(dataA, dataB);
             var corr2 = Correlation.WeightedPearson(dataA, dataB, weights);
             AssertHelpers.AlmostEqual(corr, corr2, 14);
+        }
+
+        /// <summary>
+        /// Correlation between two identical data sets should always equal one,
+        /// regardless of the weights used.
+        /// </summary>
+        [Test]
+        public void WeightedPearsonCorrelationEqualsOneTest()
+        {
+            int n = 5;
+            double maxWeight = 1e5;
+            var dataA = Generate.LinearRange(1, n);
+            var dataB = Generate.LinearRange(1, n);
+            var weights1 = Generate.LinearRange(1, n);
+            var weights2 = Generate.LogSpaced(n, 1, 5);
+            var weights3 = Generate.LogSpaced(n, 5, 1);
+            var weights4 = Generate.Repeat(n, maxWeight);
+            var weights5 = Generate.Repeat(n, 1/maxWeight);
+
+            var corr1 = Correlation.WeightedPearson(dataA, dataB, weights1);
+            var corr2 = Correlation.WeightedPearson(dataA, dataB, weights2);
+            var corr3 = Correlation.WeightedPearson(dataA, dataB, weights3);
+            var corr4 = Correlation.WeightedPearson(dataA, dataB, weights4);
+            var corr5 = Correlation.WeightedPearson(dataA, dataB, weights5);
+
+            AssertHelpers.AlmostEqual(corr1, 1, 14);
+            AssertHelpers.AlmostEqual(corr2, 1, 14);
+            AssertHelpers.AlmostEqual(corr3, 1, 14);
+            AssertHelpers.AlmostEqual(corr4, 1, 14);
+            AssertHelpers.AlmostEqual(corr5, 1, 14);
         }
 
         /// <summary>

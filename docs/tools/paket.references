@@ -1,4 +1,5 @@
-FSharp.Formatting
-Microsoft.AspNet.Razor
-RazorEngine
-FSharp.Compiler.Service
+group Build
+    FSharp.Formatting
+    Microsoft.AspNet.Razor
+    RazorEngine
+    FSharp.Compiler.Service

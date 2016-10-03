@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -342,7 +341,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             double r = Brent.FindRoot(f1, 0.01, 0.45, 1e-14);
             Assert.AreEqual(0.058654571042804, r, 1e-5);
             Assert.AreEqual(0, f1(r), 1e-14);
-            // Could not test the following root, since Math.Pow(y,1/3) does not work for y<0  
+            // Could not test the following root, since Math.Pow(y,1/3) does not work for y<0
             // r = Brent.FindRoot(f1, 0.55, 0.7);
             // Assert.AreEqual(0.600323117488527, r, 1e-5);
             // Assert.AreEqual(0, f1(r), 1e-14);

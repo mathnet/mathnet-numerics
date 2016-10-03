@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -40,7 +39,7 @@ namespace MathNet.Numerics.Statistics
     /// <seealso cref="SortedArrayStatistics"/>
     /// <seealso cref="StreamingStatistics"/>
     /// <seealso cref="Statistics"/>
-    public static class ArrayStatistics
+    public static partial class ArrayStatistics
     {
         // TODO: Benchmark various options to find out the best approach (-> branch prediction)
         // TODO: consider leveraging MKL
@@ -57,34 +56,10 @@ namespace MathNet.Numerics.Statistics
                 return double.NaN;
             }
 
-            var min = double.PositiveInfinity;
+            double min = double.PositiveInfinity;
             for (int i = 0; i < data.Length; i++)
             {
                 if (data[i] < min || double.IsNaN(data[i]))
-                {
-                    min = data[i];
-                }
-            }
-
-            return min;
-        }
-
-        /// <summary>
-        /// Returns the smallest value from the unsorted data array.
-        /// Returns NaN if data is empty or any entry is NaN.
-        /// </summary>
-        /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static float Minimum(float[] data)
-        {
-            if (data.Length == 0)
-            {
-                return float.NaN;
-            }
-
-            var min = float.PositiveInfinity;
-            for (int i = 0; i < data.Length; i++)
-            {
-                if (data[i] < min || float.IsNaN(data[i]))
                 {
                     min = data[i];
                 }
@@ -105,7 +80,7 @@ namespace MathNet.Numerics.Statistics
                 return double.NaN;
             }
 
-            var max = double.NegativeInfinity;
+            double max = double.NegativeInfinity;
             for (int i = 0; i < data.Length; i++)
             {
                 if (data[i] > max || double.IsNaN(data[i]))
@@ -118,23 +93,47 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Returns the smallest value from the unsorted data array.
+        /// Returns the smallest absolute value from the unsorted data array.
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static float Maximum(float[] data)
+        public static double MinimumAbsolute(double[] data)
         {
             if (data.Length == 0)
             {
-                return float.NaN;
+                return double.NaN;
             }
 
-            var max = float.NegativeInfinity;
+            double min = double.PositiveInfinity;
             for (int i = 0; i < data.Length; i++)
             {
-                if (data[i] > max || float.IsNaN(data[i]))
+                if (Math.Abs(data[i]) < min || double.IsNaN(data[i]))
                 {
-                    max = data[i];
+                    min = Math.Abs(data[i]);
+                }
+            }
+
+            return min;
+        }
+
+        /// <summary>
+        /// Returns the largest absolute value from the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double MaximumAbsolute(double[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double max = 0.0d;
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (Math.Abs(data[i]) > max || double.IsNaN(data[i]))
+                {
+                    max = Math.Abs(data[i]);
                 }
             }
 
@@ -161,6 +160,48 @@ namespace MathNet.Numerics.Statistics
             }
 
             return mean;
+        }
+
+        /// <summary>
+        /// Evaluates the geometric mean of the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double GeometricMean(double[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double sum = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                sum += Math.Log(data[i]);
+            }
+
+            return Math.Exp(sum/data.Length);
+        }
+
+        /// <summary>
+        /// Evaluates the harmonic mean of the unsorted data array.
+        /// Returns NaN if data is empty or any entry is NaN.
+        /// </summary>
+        /// <param name="data">Sample array, no sorting is assumed.</param>
+        public static double HarmonicMean(double[] data)
+        {
+            if (data.Length == 0)
+            {
+                return double.NaN;
+            }
+
+            double sum = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                sum += 1.0/data[i];
+            }
+
+            return data.Length/sum;
         }
 
         /// <summary>
@@ -276,9 +317,9 @@ namespace MathNet.Numerics.Statistics
                 return double.NaN;
             }
 
-            var mean1 = Mean(samples1);
-            var mean2 = Mean(samples2);
-            var covariance = 0.0;
+            double mean1 = Mean(samples1);
+            double mean2 = Mean(samples2);
+            double covariance = 0.0;
             for (int i = 0; i < samples1.Length; i++)
             {
                 covariance += (samples1[i] - mean1)*(samples2[i] - mean2);
@@ -306,9 +347,9 @@ namespace MathNet.Numerics.Statistics
                 return double.NaN;
             }
 
-            var mean1 = Mean(population1);
-            var mean2 = Mean(population2);
-            var covariance = 0.0;
+            double mean1 = Mean(population1);
+            double mean2 = Mean(population2);
+            double covariance = 0.0;
             for (int i = 0; i < population1.Length; i++)
             {
                 covariance += (population1[i] - mean1)*(population2[i] - mean2);
@@ -438,7 +479,7 @@ namespace MathNet.Numerics.Statistics
             }
 
             // TODO: Benchmark: is this still faster than sorting the array then using SortedArrayStatistics instead?
-            return new[] { Minimum(data), QuantileInplace(data, 0.25), QuantileInplace(data, 0.50), QuantileInplace(data, 0.75), Maximum(data) };
+            return new[] { Minimum(data), QuantileInplace(data, 0.25d), MedianInplace(data), QuantileInplace(data, 0.75d), Maximum(data) };
         }
 
         /// <summary>
@@ -638,7 +679,7 @@ namespace MathNet.Numerics.Statistics
                 return Maximum(workingData);
             }
 
-            var a = workingData;
+            double[] a = workingData;
             int low = 0;
             int high = a.Length - 1;
 

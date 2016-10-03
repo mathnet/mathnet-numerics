@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -112,7 +111,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             }
 
             // Copy the contents of input to result.
-            Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
+            Array.Copy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length);
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix) Factor;
@@ -149,7 +148,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             }
 
             // Copy the contents of input to result.
-            Array.Copy(dinput.Values, dresult.Values, dinput.Values.Length);
+            Array.Copy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length);
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix) Factor;

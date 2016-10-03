@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2015 Math.NET
 //
@@ -211,7 +210,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override sealed void DoPointwiseModulus(Vector<Complex> divisor, Vector<Complex> result)
+        protected sealed override void DoPointwiseModulus(Vector<Complex> divisor, Vector<Complex> result)
         {
             throw new NotSupportedException();
         }
@@ -222,7 +221,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="divisor">The pointwise denominator vector to use.</param>
         /// <param name="result">The result of the modulus.</param>
-        protected override sealed void DoPointwiseRemainder(Vector<Complex> divisor, Vector<Complex> result)
+        protected sealed override void DoPointwiseRemainder(Vector<Complex> divisor, Vector<Complex> result)
         {
             throw new NotSupportedException();
         }
@@ -281,7 +280,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoModulus(Complex divisor, Vector<Complex> result)
+        protected sealed override void DoModulus(Complex divisor, Vector<Complex> result)
         {
             throw new NotSupportedException();
         }
@@ -292,7 +291,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoModulusByThis(Complex dividend, Vector<Complex> result)
+        protected sealed override void DoModulusByThis(Complex dividend, Vector<Complex> result)
         {
             throw new NotSupportedException();
         }
@@ -303,7 +302,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="divisor">The scalar denominator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoRemainder(Complex divisor, Vector<Complex> result)
+        protected sealed override void DoRemainder(Complex divisor, Vector<Complex> result)
         {
             throw new NotSupportedException();
         }
@@ -314,7 +313,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         /// <param name="dividend">The scalar numerator to use.</param>
         /// <param name="result">A vector to store the results in.</param>
-        protected override sealed void DoRemainderByThis(Complex dividend, Vector<Complex> result)
+        protected sealed override void DoRemainderByThis(Complex dividend, Vector<Complex> result)
         {
             throw new NotSupportedException();
         }
@@ -323,7 +322,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Returns the value of the absolute minimum element.
         /// </summary>
         /// <returns>The value of the absolute minimum element.</returns>
-        public override Complex AbsoluteMinimum()
+        public sealed override Complex AbsoluteMinimum()
         {
             return At(AbsoluteMinimumIndex()).Magnitude;
         }
@@ -451,9 +450,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
-        /// Returns the index of the absolute maximum element.
+        /// Returns the index of the maximum element.
         /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>
+        /// <returns>The index of maximum element.</returns>
         public override int MaximumIndex()
         {
             throw new NotSupportedException();

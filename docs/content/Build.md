@@ -8,16 +8,21 @@ manually with the build scripts.
 VisualStudio or Xamarin Studio
 ------------------------------
 
-The Visual Studio solutions should build out of the box, without any preparation
-steps or package restores. Tests can be run with the usual integrated NUnit test
-runners or ReSharper.
+We clearly separate dependency management from the IDE, you should therefore
+run `restore.cmd` or `restore.sh` once after every git checkout in order to restore
+the dependencies exactly as defined. Otherwise Visual Studio and other IDEs
+may fail to compile or provide correct IntelliSense.
+
+Tests can be run with the usual integrated NUnit test runners or ReSharper.
 
 MSBuild or XBuild
 -----------------
 
 Instead of a compatible IDE you can also build the solutions directly with
-`msbuild`, or on Mono with `xbuild`.
+`msbuild`, or on Mono with `xbuild`. You may need to run `restore.cmd` or
+`restore.sh` before, once after every git checkout in order to restore the dependencies.
 
+	restore.cmd (or restore.sh)             # restore dependencies (once)
     msbuild MathNet.Numerics.sln            # only build for .Net 4 (main solution)
     msbuild MathNet.Numerics.Net35Only.sln  # only build for .Net 3.5
     msbuild MathNet.Numerics.All.sln        # full build with .Net 4, 3.5 and PCL profiles
@@ -166,7 +171,7 @@ Official Release Process (Maintainers only)
     In theory there is also a `Publish` target to do this in one step, unfortunately
     publishing to the NuGet gallery is quite unreliable.
 
-*   Create new Codeplex and GitHub release, attach Zip files (to be automated)
+*   Create new GitHub release, attach Zip files (to be automated)
 *   Copy artifacts to [release archive](http://1drv.ms/1lMtdNi) (to be automated)
 *   Consider a tweet via [@MathDotNet](https://twitter.com/MathDotNet)
 *   Consider a post to the [Google+ site](https://plus.google.com/112484567926928665204)

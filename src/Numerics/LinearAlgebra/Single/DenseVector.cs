@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2013 Math.NET
 //
@@ -547,24 +546,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Returns the value of the absolute minimum element.
-        /// </summary>
-        /// <returns>The value of the absolute minimum element.</returns>
-        public override float AbsoluteMinimum()
-        {
-            return Math.Abs(_values[AbsoluteMinimumIndex()]);
-        }
-
-        /// <summary>
-        /// Returns the value of the absolute maximum element.
-        /// </summary>
-        /// <returns>The value of the absolute maximum element.</returns>
-        public override float AbsoluteMaximum()
-        {
-            return Math.Abs(_values[AbsoluteMaximumIndex()]);
-        }
-
-        /// <summary>
         /// Returns the index of the absolute maximum element.
         /// </summary>
         /// <returns>The index of absolute maximum element.</returns>
@@ -586,9 +567,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Returns the index of the absolute maximum element.
+        /// Returns the index of the maximum element.
         /// </summary>
-        /// <returns>The index of absolute maximum element.</returns>
+        /// <returns>The index of maximum element.</returns>
         public override int MaximumIndex()
         {
             var index = 0;

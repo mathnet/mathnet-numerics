@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2013 Math.NET
 //
@@ -912,12 +911,41 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             result.Clear();
-            var columnVector = new DenseVector(other.RowCount);
+            
 
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
+            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<Complex>;
+            if (denseOther != null)
+            {
+                // in this case we can directly address the underlying data-array
+                for (var row = 0; row < RowCount; row++)
+                {
+                    var startIndex = rowPointers[row];
+                    var endIndex = rowPointers[row + 1];
 
+                    if (startIndex == endIndex)
+                    {
+                        continue;
+                    }
+
+                    for (var column = 0; column < other.ColumnCount; column++)
+                    {
+                        int otherColumnStartPosition = column * other.RowCount;
+                        var sum = Complex.Zero;
+                        for (var index = startIndex; index < endIndex; index++)
+                        {
+                            sum += values[index] * denseOther.Data[otherColumnStartPosition + columnIndices[index]];
+                        }
+
+                        result.At(row, column, sum);
+                    }
+                }
+                return;
+            }
+
+            var columnVector = new DenseVector(other.RowCount);
             for (var row = 0; row < RowCount; row++)
             {
                 var startIndex = rowPointers[row];
@@ -1494,7 +1522,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override string ToTypeString()
         {
-            return string.Format("SparseMatrix {0}x{1}-Complex {2:P2} Filled", RowCount, ColumnCount, 100d * NonZerosCount / (RowCount * (double)ColumnCount));
+            return string.Format("SparseMatrix {0}x{1}-Complex {2:P2} Filled", RowCount, ColumnCount, NonZerosCount / (RowCount * (double)ColumnCount));
         }
     }
  }

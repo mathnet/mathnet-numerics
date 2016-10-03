@@ -24,6 +24,14 @@ Open Source
 * [Improvisation: Automatic Music Composition and Melody Generation](https://github.com/ArmenAg/Improvisation)
 * [Epicycle Math Library](https://github.com/open-epicycle/Epicycle.Math-cs)
 * [LitePlacer machine user interface and control software](https://github.com/jkuusama/LitePlacer)
+* [Computator.NET](https://github.com/PawelTroka/Computator.NET)
+* [EV2020: Project Electric Transportation 2020](https://github.com/EraYaN/EV202)
+* [HexLight GUI: RGB LED controller](https://github.com/jorticus/hexlight-gui)
+* [HydroNumerics](https://code.google.com/archive/p/hydronumerics/)
+* [SolidWorks to URDF Exporter](https://bitbucket.org/brawner/sw2urdf)
+* [Reinforcement Simulator](https://github.com/lg-octaviano/Reinforcement_Simulator)
+* [Maintenance Game](https://github.com/KaptenJon/MaintenanceGame)
+* [Monica](https://github.com/zhuazhua/Monica)
 * [Math.Net PowerShell](http://mathnetpowershell.codeplex.com/) (unaffiliated)
 * [Math.NET Symbolics](http://symbolics.mathdotnet.com) and other [Math.NET](http://www.mathdotnet.com) projects.
 
@@ -31,14 +39,18 @@ Closed Source
 -------------
 
 * [C# Pad](http://www.csharppad.com)
+* [Colectica](http://www.colectica.com) Data Documentation
 * [Instarange Simulation](http://instarange.com) by Instarange (Pty) Ltd
 * [SpectraFox](http://www.spectrafox.com/) STM / AFM spectroscopy analysis
 * [Colymp](http://colymp.com/) Color Management Software
 * [ILNumerics](http://ilnumerics.net/)
 * [GazeSpeaker](http://www.gazespeaker.org) Free software to help people with disabilities
 * [ModVal.org](http://www.modval.org) Quant model repository for regulatory and internal model validation.
-* At least half of the hearing aid market for their software to fit
-  their hearing instruments to a patient's actual hearing loss.
+* [Passivefilter](https://sites.google.com/site/passivefilter/home) Filter synthesis
+* [Qunatellia](http://www.quantellia.com) World Modeler
+* [Umberto NXT](http://www.umberto.de) Carbon footprint, resource efficiency, life-cycle assessment, eco-efficiency.
+* Agilent Waveform Creator: [Easily create custom Waveform plug-ins with Waveform Creator application software](http://cp.literature.agilent.com/litweb/pdf/5991-3203EN.pdf) (PDF)
+* Multiple medical hearing care companies
 
 Blogs, Tutorials & Examples
 ---------------------------
@@ -55,6 +67,9 @@ Blogs, Tutorials & Examples
 * [Chao-Jen Chen: F#: Simulate entire GBM path](http://programmingcradle.blogspot.ch/2012/09/f-simulate-entire-gbm-path.html)
 * [Chao-Jen Chen: F#: K-S test on final prices of GBM paths ](http://programmingcradle.blogspot.ch/2012/09/f-k-s-test-on-final-prices-of-gbm-paths.html)
 * [Dawid Kowalski: F#, Deedle and Computational Investing](http://dkowalski.com/blog/archive/2014/01/11/f-deedle-and-computational-investing.aspx)
+* [Jason Fossen: PowerShell for Math.NET Numerics](http://cyber-defense.sans.org/blog/2015/06/27/powershell-for-math-net-numerics)
+* [Jason Fossen: TrueRNG Random Numbers with PowerShell and Math.NET Numerics](https://cyber-defense.sans.org/blog/2015/07/24/truerng-usb-random-numbers-powershell-mathnet-numerics)
+* [Thomasz Jaskula: Data Science tools in F# through univariante linear regression](http://jaskula.fr/blog/2015/12-02-data-science-tools-in-f-through-univariante-linear-regression/)
 * [Christoph Rüegg: Linear Regression With Math.NET Numerics](http://christoph.ruegg.name/blog/linear-regression-mathnet-numerics.html)
 
 Books
@@ -64,10 +79,14 @@ Books
 * F# for Quantitative Finance *by Johan Astborg*. Packt Publishing.
 * F# Deep Dives *by Tomas Petricek, Philip Trelford*. Manning Publications.
 * Computer Graphics: Principles and Practices *by John F. Hughes, Andries van Dam, Morgan McGuire, David F. Sklar, James D. Foley, Steven K. Feiner, Kurt Akeley*. Addison-Wesley Professional, 3rd edition.
+* Machine Learning Projects for .NET Developers *by Matthias Brandewinder*. Apress.
+* C# for Financial Markets *by Daniel J. Duffy, Andrea Germani*. Wiley Finance.
 
 Papers and Thesis
 -----------------
 
+* Schaffranek, Richard (2015). *Parallel planning - An experimental study in spectral graph matching.* Vienna University of Technology. Proceedings of the 10th International Space Syntax Symposium.
+* Nkurikiyeyezu, K.; Ahishakiye, F.; Nsengimana, C.; Ntagwirumugara, E. (2015). *Toolkits for Real Time Digital Audio Signal Processing Teaching Laboratory.* University of Rwanda. Journal of Signal and Information Processing. DOI 10.4236/jsip.2015.62009
 * Czarnowska, Lucyna; Litwin, Wojciech; Stanek, Wojciech (2015). *Selection of Numerical Methods and their Application to the Thermo-Ecological Life Cycle Cost of Heat Exchanger Components*. Silesian University of Technology.
 * Schmollinger, Stefan; Mülhaus, Timo; et al (2014). *Nitrogen-Sparing Mechanisms in Chlamydomonas Affect the Transcriptome, the Proteome, and Photosynthetic Metabolism.* The Plant Cell. DOI 10.1105/tpc.113.122523
 * Mettler, Tabea; Mülhaus, Timo; et al (2014). *Systems Analysis of the Response of Photosynthesis, Metabolism, and Growth to an Increase in Irradiance in the Photosynthetic Model Organism Chlamydomonas reinhardtii.* The Plant Cell. DOI 10.1105/tpc.114.124537.
@@ -93,6 +112,7 @@ Papers and Thesis
 * Kraus, Jan; Bubla, Viktor; Kukacka, Leos (2011). *Data Modeling for Reduction of Volume in Large Archives of Power Quality Data.* 21st International Conference on Electricity Distribution. TUL CZ.
 * Ferreira, André Filipe Mateus. *SoundLog: Make More Noise (M.Sc).* Universidade Técnica de Lisboa.
 * Nunes, José; Sá, Luis; Perdigão, Fernando (2011). *Talking Avatar for Web-based Interfaces.* Instituto de Telecomunicações, Coimbra, Portugal.
+* Dostrašil, Pavel; Jirásko, Petr (2011). *Productive Design and Calculation of Intermittent Mechanisms with Radial Parallel Cams.* International Journal of Mechanical, Aerospace, Industrial, Mechatronic and Manufacturing Engineering Vol:5, No:11, 2011.
 * Miller, Justin (2010). *Design of a Wireless Acquisition System for a Digital Stethoscope (B.Sc).* University of Southern Queensland.
 * Skrehota, Ondrej (2010). *Quantitative structure-property relationship modeling algorithms, challenges and IT solutions.* Masaryk University.
 * LÍŠKA, Ondrej; ŽIDEK, Kamil (2010). *Accelerometers usability for danger tilt off-highway vehicles and signal filtration with kalman filter.* Journal of applied science in the thermodynamics and fluid mechanics 4 (2): 1–6. ISSN 1802-9388.

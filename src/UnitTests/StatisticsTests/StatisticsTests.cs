@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -30,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
@@ -71,6 +69,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => Statistics.Minimum(data), Throws.Exception);
             Assert.That(() => Statistics.Maximum(data), Throws.Exception);
             Assert.That(() => Statistics.Mean(data), Throws.Exception);
+            Assert.That(() => Statistics.HarmonicMean(data), Throws.Exception);
+            Assert.That(() => Statistics.GeometricMean(data), Throws.Exception);
             Assert.That(() => Statistics.Median(data), Throws.Exception);
             Assert.That(() => Statistics.Quantile(data, 0.3), Throws.Exception);
             Assert.That(() => Statistics.Variance(data), Throws.Exception);
@@ -99,6 +99,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => ArrayStatistics.Maximum(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.OrderStatisticInplace(data, 1), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.Mean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.HarmonicMean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => ArrayStatistics.GeometricMean(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.Variance(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.StandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => ArrayStatistics.PopulationVariance(data), Throws.Exception.TypeOf<NullReferenceException>());
@@ -112,6 +114,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => StreamingStatistics.Minimum(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Maximum(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Mean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.HarmonicMean(data), Throws.Exception.TypeOf<NullReferenceException>());
+            Assert.That(() => StreamingStatistics.GeometricMean(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.Variance(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.StandardDeviation(data), Throws.Exception.TypeOf<NullReferenceException>());
             Assert.That(() => StreamingStatistics.PopulationVariance(data), Throws.Exception.TypeOf<NullReferenceException>());
@@ -134,6 +138,8 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.DoesNotThrow(() => Statistics.Minimum(data));
             Assert.DoesNotThrow(() => Statistics.Maximum(data));
             Assert.DoesNotThrow(() => Statistics.Mean(data));
+            Assert.DoesNotThrow(() => Statistics.HarmonicMean(data));
+            Assert.DoesNotThrow(() => Statistics.GeometricMean(data));
             Assert.DoesNotThrow(() => Statistics.Median(data));
             Assert.DoesNotThrow(() => Statistics.Quantile(data, 0.3));
             Assert.DoesNotThrow(() => Statistics.Variance(data));
@@ -278,6 +284,22 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(StreamingStatistics.Maximum(samples), Is.EqualTo(10), "Max");
             Assert.That(new RunningStatistics(samples).Minimum, Is.EqualTo(-3), "Min");
             Assert.That(new RunningStatistics(samples).Maximum, Is.EqualTo(10), "Max");
+
+            Array.Sort(samples);
+            Assert.That(SortedArrayStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(SortedArrayStatistics.Maximum(samples), Is.EqualTo(10), "Max");
+        }
+
+        [Test]
+        public void MinimumMaximumOnShortSequence32()
+        {
+            var samples = new[] { -1.0f, 5f, 0f, -3f, 10f, -0.5f, 4f };
+            Assert.That(Statistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(Statistics.Maximum(samples), Is.EqualTo(10), "Max");
+            Assert.That(ArrayStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(ArrayStatistics.Maximum(samples), Is.EqualTo(10), "Max");
+            Assert.That(StreamingStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
+            Assert.That(StreamingStatistics.Maximum(samples), Is.EqualTo(10), "Max");
 
             Array.Sort(samples);
             Assert.That(SortedArrayStatistics.Minimum(samples), Is.EqualTo(-3), "Min");
@@ -1083,6 +1105,34 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         {
             var data = new double[] { 1, 2, double.NaN };
             Assert.That(double.IsNaN(StreamingStatistics.Entropy(data)));
+        }
+
+        [Test]
+        public void MinimumMagnitudePhase()
+        {
+            var a = new[] { new Complex32(1.0f, 2.0f), new Complex32(float.PositiveInfinity, float.NegativeInfinity), new Complex32(-2.0f, 4.0f) };
+            Assert.That(ArrayStatistics.MinimumMagnitudePhase(a), Is.EqualTo(a[0]));
+        }
+
+        [Test]
+        public void MinimumMagnitudePhaseOfNaNIsNaN()
+        {
+            var a = new[] { new Complex32(1.0f, 2.0f), new Complex32(float.NaN, float.NegativeInfinity), new Complex32(-2.0f, 4.0f) };
+            Assert.That(ArrayStatistics.MinimumMagnitudePhase(a).IsNaN(), Is.True);
+        }
+
+        [Test]
+        public void MaximumMagnitudePhase()
+        {
+            var a = new[] { new Complex32(1.0f, 2.0f), new Complex32(float.PositiveInfinity, float.NegativeInfinity), new Complex32(-2.0f, 4.0f) };
+            Assert.That(ArrayStatistics.MaximumMagnitudePhase(a), Is.EqualTo(a[1]));
+        }
+
+        [Test]
+        public void MaximumMagnitudePhaseOfNaNIsNaN()
+        {
+            var a = new[] { new Complex32(1.0f, 2.0f), new Complex32(float.NaN, float.NegativeInfinity), new Complex32(-2.0f, 4.0f) };
+            Assert.That(ArrayStatistics.MaximumMagnitudePhase(a).IsNaN(), Is.True);
         }
     }
 }

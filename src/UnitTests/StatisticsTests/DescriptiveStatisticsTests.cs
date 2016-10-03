@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,18 +27,18 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using MathNet.Numerics.Statistics;
+
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
 #if !PORTABLE
-    using System;
-    using System.Collections.Generic;
-    using NUnit.Framework;
-    using Statistics;
-
     /// <summary>
     /// Descriptive statistics tests.
     /// </summary>
-    /// <remarks>NOTE: this class is not included into Silverlight version, because it uses data from local files. 
+    /// <remarks>NOTE: this class is not included into Silverlight version, because it uses data from local files.
     /// In Silverlight access to local files is forbidden, except several cases.</remarks>
     [TestFixture, Category("Statistics")]
     public class DescriptiveStatisticsTests

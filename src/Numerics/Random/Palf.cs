@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2014 Math.NET
 //
@@ -62,7 +61,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// The multiplier to compute a double-precision floating point number [0, 1)
         /// </summary>
-        const double IntToDoubleMultiplier = 1.0/(int.MaxValue + 1.0);
+        const double Reciprocal = 1.0/4294967296.0; // 1.0/(uint.MaxValue + 1.0)
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Palf"/> class using
@@ -211,20 +210,36 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns a random number between 0.0 and 1.0.
+        /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        /// <returns>
-        /// A double-precision floating point number greater than or equal to 0.0, and less than 1.0.
-        /// </returns>
-        protected override sealed double DoSample()
+        protected sealed override double DoSample()
         {
             if (_k >= LongLag)
             {
                 Fill();
             }
 
-            var x = _x[_k++];
-            return (int)(x >> 1)*IntToDoubleMultiplier;
+            return _x[_k++] * Reciprocal;
+        }
+
+        /// <summary>
+        /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
+        /// </summary>
+        protected override int DoSampleInteger()
+        {
+            if (_k >= LongLag)
+            {
+                Fill();
+            }
+
+            uint uint32 = _x[_k++];
+            int int31 = (int)(uint32 >> 1);
+            if (int31 == int.MaxValue)
+            {
+                return DoSampleInteger();
+            }
+
+            return int31;
         }
 
         /// <summary>
@@ -272,7 +287,7 @@ namespace MathNet.Numerics.Random
                     k = 0;
                 }
 
-                values[i] = (int)(x[k++] >> 1)*IntToDoubleMultiplier;
+                values[i] = x[k++]*Reciprocal;
             }
         }
 
@@ -333,7 +348,7 @@ namespace MathNet.Numerics.Random
                     k = 0;
                 }
 
-                yield return (int)(x[k++] >> 1)*IntToDoubleMultiplier;
+                yield return x[k++]*Reciprocal;
             }
         }
     }

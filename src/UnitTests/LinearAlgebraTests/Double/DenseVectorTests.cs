@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -327,7 +326,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             var v = Vector<double>.Build.Dense(20);
             for (int i = 1; i < 25; i++)
             {
-                GC.KeepAlive(v.ToVectorString(i, 80));
+                Assert.NotNull(v.ToVectorString(i, 80));
             }
         }
     }

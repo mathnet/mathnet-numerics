@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -41,14 +40,13 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
     public class GainLossRatioTests
     {
         [Test]
-        [ExpectedException(typeof(ArgumentNullException))] //assert
         public void throws_when_input_data_is_null()
         {
             //arrange
             List<double> inputData = null;
             //act
 // ReSharper disable ExpressionIsAlwaysNull
-            inputData.GainLossRatio();
+            Assert.Throws<ArgumentNullException>(() => AbsoluteRiskMeasures.GainLossRatio(inputData));
 // ReSharper restore ExpressionIsAlwaysNull
         }
 
@@ -106,7 +104,7 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             //arrange
             var inputData = new[] { 0.0, -1.0 };
             //act
-            var gainLossRatio = inputData.GainLossRatio(); 
+            var gainLossRatio = inputData.GainLossRatio();
             //assert
             Assert.AreEqual(0.0, gainLossRatio); //0.0 / -1.0 => 0.0
         }

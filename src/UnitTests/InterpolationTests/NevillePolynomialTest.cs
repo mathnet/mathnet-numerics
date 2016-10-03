@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2002-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -114,12 +113,11 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// Verifies that all sample points must be unique.
         /// </summary>
         [Test]
-        [ExpectedException(typeof (ArgumentException))]
         public void Constructor_SamplePointsNotUnique_Throws()
         {
             var x = new[] { -1.0, 0.0, 1.5, 1.5, 2.5, 4.0 };
             var y = new[] { 1.0, 0.3, -0.7, -0.6, -0.1, 0.4 };
-            var interpolation = new NevillePolynomialInterpolation(x, y);
+            Assert.Throws<ArgumentException>(() => new NevillePolynomialInterpolation(x, y));
         }
 
         /// <summary>
@@ -129,7 +127,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         /// <param name="value">Value for which interpolation is requested.</param>
         /// <remarks>Columns 3 and 4 of the .csv file contain the logarithms of energy and mass attenuation
         /// coefficients, respectively.</remarks>
-        [Test, Sequential, Ignore]
+        [Test, Sequential, Ignore("")]
         public void Interpolate_LogLogAttenuationData_InterpolationShouldNotYieldNaN(
             [Values(0.0025, 0.035, 0.45, 5.5, 18.5, 35.0)] double value)
         {

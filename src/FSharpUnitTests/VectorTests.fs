@@ -2,6 +2,8 @@
 
 open NUnit.Framework
 open FsUnit
+open FsUnitTyped
+
 open MathNet.Numerics.LinearAlgebra
 
 /// Unit tests for the vector type.
@@ -20,11 +22,11 @@ module VectorTests =
 
     [<Test>]
     let ``Vector.GetSlice`` () =
-        largev.[*] |> should equal largev
-        largev.[0..99]  |> should equal largev
-        largev.[1..3]  |> should equal (DenseVector.raw [|0.01;0.02;0.03|])
-        largev.[97..]  |> should equal (DenseVector.raw [|0.97;0.98;0.99|])
-        largev.[..4]  |> should equal (DenseVector.raw [|0.00;0.01;0.02;0.03;0.04|])
+        largev.[*] |> shouldEqual largev
+        largev.[0..99]  |> shouldEqual largev
+        largev.[1..3]  |> shouldEqual (DenseVector.raw [|0.01;0.02;0.03|])
+        largev.[97..]  |> shouldEqual (DenseVector.raw [|0.97;0.98;0.99|])
+        largev.[..4]  |> shouldEqual (DenseVector.raw [|0.00;0.01;0.02;0.03;0.04|])
 
 #if NOFSSLICESET1D
 #else
@@ -33,120 +35,120 @@ module VectorTests =
     let ``Vector.SetSlice`` () =
         let v = smallv.Clone() in
             v.[*] <- vector [0.1;0.2;0.3;0.4;0.5];
-            v |> should equal (DenseVector.raw [|0.1;0.2;0.3;0.4;0.5|])
+            v |> shouldEqual (DenseVector.raw [|0.1;0.2;0.3;0.4;0.5|])
         let v = smallv.Clone() in
             v.[0..4] <- vector [0.1;0.2;0.3;0.4;0.5];
-            v |> should equal (DenseVector.raw [|0.1;0.2;0.3;0.4;0.5|])
+            v |> shouldEqual (DenseVector.raw [|0.1;0.2;0.3;0.4;0.5|])
         let v = smallv.Clone() in
             v.[1..3] <- vector [7.0;8.0;9.0];
-            v |> should equal (DenseVector.raw [|0.3;7.0;8.0;9.0;0.3|])
+            v |> shouldEqual (DenseVector.raw [|0.3;7.0;8.0;9.0;0.3|])
         let v = smallv.Clone() in
             v.[2..] <- vector [7.0;8.0;9.0];
-            v |> should equal (DenseVector.raw [|0.3;0.3;7.0;8.0;9.0|])
+            v |> shouldEqual (DenseVector.raw [|0.3;0.3;7.0;8.0;9.0|])
         let v = smallv.Clone() in
             v.[..2] <- vector [7.0;8.0;9.0];
-            v |> should equal (DenseVector.raw [|7.0;8.0;9.0;0.3;0.3|])
+            v |> shouldEqual (DenseVector.raw [|7.0;8.0;9.0;0.3;0.3|])
 #endif
 
     [<Test>]
     let ``Vector.toArray`` () =
-        Vector.toArray smallv |> should equal [|0.3;0.3;0.3;0.3;0.3|]
+        Vector.toArray smallv |> shouldEqual [|0.3;0.3;0.3;0.3;0.3|]
 
     [<Test>]
     let ``Vector.toList`` () =
-        Vector.toList smallv |> should equal [0.3;0.3;0.3;0.3;0.3]
+        Vector.toList smallv |> shouldEqual [0.3;0.3;0.3;0.3;0.3]
 
     [<Test>]
     let ``Vector.mapInPlace.Dense`` () =
         let w = smallv.Clone()
         w |> Vector.mapInPlace (fun x -> 2.0 * x)
-        w |> should equal (2.0 * smallv)
+        w |> shouldEqual (2.0 * smallv)
 
     [<Test>]
     let ``Vector.mapInPlace.Sparse`` () =
         let w = sparsev.Clone()
         w |> Vector.mapInPlace (fun x -> 2.0 * x)
-        w |> should equal (2.0 * sparsev)
+        w |> shouldEqual (2.0 * sparsev)
 
     [<Test>]
     let ``Vector.mapSkipZerosInPlace.Sparse`` () =
         let w = sparsev.Clone()
         w |> Vector.mapSkipZerosInPlace (fun x -> 2.0 * x)
-        w |> should equal (2.0 * sparsev)
+        w |> shouldEqual (2.0 * sparsev)
 
     [<Test>]
     let ``Vector.mapiInPlace.Dense`` () =
         let w = largev.Clone()
         w |> Vector.mapiInPlace (fun i x -> float i / 100.0)
-        w |> should equal (largev)
+        w |> shouldEqual (largev)
 
     [<Test>]
     let ``Vector.mapiInPlace.Sparse`` () =
         let w = sparsev.Clone()
         w |> Vector.mapiInPlace (fun i x -> 2.0 * float i * x)
-        w |> should equal (2.0 * sparsev)
+        w |> shouldEqual (2.0 * sparsev)
 
     [<Test>]
     let ``Vector.mapiSkipZerosInPlace.Sparse`` () =
         let w = sparsev.Clone()
         w |> Vector.mapiSkipZerosInPlace (fun i x -> 2.0 * float i * x)
-        w |> should equal (2.0 * sparsev)
+        w |> shouldEqual (2.0 * sparsev)
 
     [<Test>]
     let ``Vector.addInPlace`` () =
         let w = largev.Clone()
         Vector.addInPlace w largev
-        w |> should equal (2.0 * largev)
+        w |> shouldEqual (2.0 * largev)
 
     [<Test>]
     let ``Vector.subInPlace`` () =
         let w = largev.Clone()
         Vector.subInPlace w largev
-        w |> should equal (0.0 * largev)
+        w |> shouldEqual (0.0 * largev)
 
     [<Test>]
     let ``Vector.map`` () =
-        Vector.map (fun x -> 2.0 * x) largev |> should equal (2.0 * largev)
+        Vector.map (fun x -> 2.0 * x) largev |> shouldEqual (2.0 * largev)
 
     [<Test>]
     let ``Vector.mapSkipZeros`` () =
-        Vector.mapSkipZeros (fun x -> 2.0 * x) largev |> should equal (2.0 * largev)
+        Vector.mapSkipZeros (fun x -> 2.0 * x) largev |> shouldEqual (2.0 * largev)
 
     [<Test>]
     let ``Vector.mapi`` () =
-        Vector.mapi (fun i x -> float i / 100.0) largev |> should equal largev
+        Vector.mapi (fun i x -> float i / 100.0) largev |> shouldEqual largev
 
     [<Test>]
     let ``Vector.mapiSkipZeros`` () =
-        Vector.mapiSkipZeros (fun i x -> float i / 100.0) largev |> should equal largev
+        Vector.mapiSkipZeros (fun i x -> float i / 100.0) largev |> shouldEqual largev
 
     [<Test>]
     let ``Vector.fold`` () =
-        Vector.fold (fun a b -> a - b) 0.0 smallv |> should equal -1.5
+        Vector.fold (fun a b -> a - b) 0.0 smallv |> shouldEqual -1.5
 
     [<Test>]
     let ``Vector.foldBack`` () =
-        Vector.foldBack (fun a b -> a - b) 0.0 smallv |> should equal 0.0
+        Vector.foldBack (fun a b -> a - b) 0.0 smallv |> shouldEqual 0.0
 
     [<Test>]
     let ``Vector.foldi`` () =
-        Vector.foldi (fun i a b -> a + b) 0.0 smallv |> should equal 1.5
+        Vector.foldi (fun i a b -> a + b) 0.0 smallv |> shouldEqual 1.5
 
     [<Test>]
     let ``Vector.forall`` () =
-        Vector.forall (fun x -> x = 0.3) smallv |> should equal true
+        Vector.forall (fun x -> x = 0.3) smallv |> shouldEqual true
 
     [<Test>]
     let ``Vector.exists`` () =
-        Vector.exists (fun x -> x = 0.3) smallv |> should equal true
+        Vector.exists (fun x -> x = 0.3) smallv |> shouldEqual true
 
     [<Test>]
     let ``Vector.foralli`` () =
-        Vector.foralli (fun i x -> x = 0.3 && i < 5) smallv |> should equal true
+        Vector.foralli (fun i x -> x = 0.3 && i < 5) smallv |> shouldEqual true
 
     [<Test>]
     let ``Vector.existsi`` () =
-        Vector.existsi (fun i x -> x = 0.3 && i = 2) smallv |> should equal true
+        Vector.existsi (fun i x -> x = 0.3 && i = 2) smallv |> shouldEqual true
 
     [<Test>]
     let ``Vector.scan`` () =

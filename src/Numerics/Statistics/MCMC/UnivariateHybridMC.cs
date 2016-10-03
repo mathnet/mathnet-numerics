@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2010 Math.NET
 //
@@ -185,7 +184,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <param name="function">Function for which the derivative is to be evaluated.</param>
         /// <param name="x">The location where the derivative is to be evaluated.</param>
         /// <returns>The derivative of the function at the point x.</returns>
-        static private double Grad(DensityLn<double> function, double x)
+        static double Grad(DensityLn<double> function, double x)
         {
             double h = Math.Max(10e-4, (10e-7) * x);
             double increment = x + h;

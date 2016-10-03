@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -78,6 +77,29 @@ namespace MathNet.Numerics.UnitTests.Random
             // make sure are within 10% of the expected sum.
             Assert.IsTrue(sum >= (N/2.0) - (.05*N));
             Assert.IsTrue(sum <= (N/2.0) + (.05*N));
+
+            var disposable = random as IDisposable;
+            if (disposable != null)
+            {
+                disposable.Dispose();
+            }
+        }
+		
+		/// <summary>
+        ///     Next() result is in boundaries.
+        /// </summary>
+        [Test]
+        public void Boundaries()
+        {
+            var random = (System.Random)Activator.CreateInstance(_randomType, new object[] { false });
+
+            for (var i = 1; i < N; i++)
+            {
+                var j = N;
+                var next = random.Next(i, j);
+                Assert.IsTrue(next >= i, string.Format("Value {0} is smaller than lower bound {1}", next, i));
+                Assert.IsTrue(next < j, string.Format("Value {0} is larger or equal to upper bound {1}", next, j));
+            }
 
             var disposable = random as IDisposable;
             if (disposable != null)

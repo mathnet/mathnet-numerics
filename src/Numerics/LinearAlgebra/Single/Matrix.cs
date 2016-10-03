@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2015 Math.NET
 //
@@ -62,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Returns the conjugate transpose of this matrix.
         /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
-        public override sealed Matrix<float> ConjugateTranspose()
+        public sealed override Matrix<float> ConjugateTranspose()
         {
             return Transpose();
         }
@@ -71,7 +70,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Complex conjugates each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the conjugation.</param>
-        protected override sealed void DoConjugate(Matrix<float> result)
+        protected sealed override void DoConjugate(Matrix<float> result)
         {
             if (ReferenceEquals(this, result))
             {
@@ -229,7 +228,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override sealed void DoConjugateTransposeAndMultiply(Matrix<float> other, Matrix<float> result)
+        protected sealed override void DoConjugateTransposeAndMultiply(Matrix<float> other, Matrix<float> result)
         {
             DoTransposeAndMultiply(other, result);
         }
@@ -260,7 +259,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="other">The matrix to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override sealed void DoConjugateTransposeThisAndMultiply(Matrix<float> other, Matrix<float> result)
+        protected sealed override void DoConjugateTransposeThisAndMultiply(Matrix<float> other, Matrix<float> result)
         {
             DoTransposeThisAndMultiply(other, result);
         }
@@ -288,7 +287,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// </summary>
         /// <param name="rightSide">The vector to multiply with.</param>
         /// <param name="result">The result of the multiplication.</param>
-        protected override sealed void DoConjugateTransposeThisAndMultiply(Vector<float> rightSide, Vector<float> result)
+        protected sealed override void DoConjugateTransposeThisAndMultiply(Vector<float> rightSide, Vector<float> result)
         {
             DoTransposeThisAndMultiply(rightSide, result);
         }
@@ -544,7 +543,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Normalizes all row vectors to a unit p-norm.
         /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
         /// </summary>
-        public override sealed Matrix<float> NormalizeRows(double norm)
+        public sealed override Matrix<float> NormalizeRows(double norm)
         {
             var norminv = ((DenseVectorStorage<double>)RowNorms(norm).Storage).Data;
             for (int i = 0; i < norminv.Length; i++)
@@ -561,7 +560,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Normalizes all column vectors to a unit p-norm.
         /// Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and positive infinity (infinity norm)
         /// </summary>
-        public override sealed Matrix<float> NormalizeColumns(double norm)
+        public sealed override Matrix<float> NormalizeColumns(double norm)
         {
             var norminv = ((DenseVectorStorage<double>)ColumnNorms(norm).Storage).Data;
             for (int i = 0; i < norminv.Length; i++)
@@ -617,7 +616,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Evaluates whether this matrix is hermitian (conjugate symmetric).
         /// </summary>
-        public override sealed bool IsHermitian()
+        public sealed override bool IsHermitian()
         {
             return IsSymmetric();
         }

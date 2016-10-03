@@ -8,7 +8,7 @@ open System.Collections.Generic
 
 [<AutoOpen>]
 module Utilities =
-    let test msg b = Assert.IsTrue(b, "MiniTest '" + msg + "'")
+    let test msg (b:bool) = Assert.IsTrue(b, "MiniTest '" + msg + "'")
     let logMessage msg = ()
 //        System.Console.WriteLine("LOG:" + msg)
 //        System.Diagnostics.Trace.WriteLine("LOG:" + msg)

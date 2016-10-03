@@ -2,9 +2,8 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2015 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,11 +27,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace MathNet.Numerics.Statistics
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+#if NOSYSNUMERICS
+    using Complex64 = Numerics.Complex;
+#else
+    using Complex64 = System.Numerics.Complex;
+#endif
 
     /// <summary>
     /// Extension methods to return basic statistics on set of data.
@@ -52,6 +57,21 @@ namespace MathNet.Numerics.Statistics
                 ? ArrayStatistics.Minimum(array)
                 : StreamingStatistics.Minimum(data);
         }
+
+        /// <summary>
+        /// Returns the minimum value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static float Minimum(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.Minimum(array)
+                : StreamingStatistics.Minimum(data);
+        }
+
 
         /// <summary>
         /// Returns the minimum value in the sample data.
@@ -82,6 +102,20 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Returns the maximum value in the sample data.
         /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The maximum value in the sample data.</returns>
+        public static float Maximum(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.Maximum(array)
+                : StreamingStatistics.Maximum(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="data">The sample data.</param>
@@ -89,6 +123,118 @@ namespace MathNet.Numerics.Statistics
         public static double Maximum(this IEnumerable<double?> data)
         {
             return StreamingStatistics.Maximum(data.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
+        /// Returns the minimum absolute value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static double MinimumAbsolute(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.MinimumAbsolute(array)
+                : StreamingStatistics.MinimumAbsolute(data);
+        }
+
+        /// <summary>
+        /// Returns the minimum absolute value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static float MinimumAbsolute(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.MinimumAbsolute(array)
+                : StreamingStatistics.MinimumAbsolute(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum absolute value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The maximum value in the sample data.</returns>
+        public static double MaximumAbsolute(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.MaximumAbsolute(array)
+                : StreamingStatistics.MaximumAbsolute(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum absolute value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The maximum value in the sample data.</returns>
+        public static float MaximumAbsolute(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.MaximumAbsolute(array)
+                : StreamingStatistics.MaximumAbsolute(data);
+        }
+
+        /// <summary>
+        /// Returns the minimum magnitude and phase value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static Complex64 MinimumMagnitudePhase(this IEnumerable<Complex64> data)
+        {
+            var array = data as Complex64[];
+            return array != null
+                ? ArrayStatistics.MinimumMagnitudePhase(array)
+                : StreamingStatistics.MinimumMagnitudePhase(data);
+        }
+
+        /// <summary>
+        /// Returns the minimum magnitude and phase value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static Complex32 MinimumMagnitudePhase(this IEnumerable<Complex32> data)
+        {
+            var array = data as Complex32[];
+            return array != null
+                ? ArrayStatistics.MinimumMagnitudePhase(array)
+                : StreamingStatistics.MinimumMagnitudePhase(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum magnitude and phase value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static Complex64 MaximumMagnitudePhase(this IEnumerable<Complex64> data)
+        {
+            var array = data as Complex64[];
+            return array != null
+                ? ArrayStatistics.MaximumMagnitudePhase(array)
+                : StreamingStatistics.MaximumMagnitudePhase(data);
+        }
+
+        /// <summary>
+        /// Returns the maximum magnitude and phase value in the sample data.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The sample data.</param>
+        /// <returns>The minimum value in the sample data.</returns>
+        public static Complex32 MaximumMagnitudePhase(this IEnumerable<Complex32> data)
+        {
+            var array = data as Complex32[];
+            return array != null
+                ? ArrayStatistics.MaximumMagnitudePhase(array)
+                : StreamingStatistics.MaximumMagnitudePhase(data);
         }
 
         /// <summary>
@@ -108,6 +254,20 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Evaluates the sample mean, an estimate of the population mean.
         /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the mean of.</param>
+        /// <returns>The mean of the sample.</returns>
+        public static double Mean(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.Mean(array)
+                : StreamingStatistics.Mean(data);
+        }
+
+        /// <summary>
+        /// Evaluates the sample mean, an estimate of the population mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="data">The data to calculate the mean of.</param>
@@ -115,6 +275,62 @@ namespace MathNet.Numerics.Statistics
         public static double Mean(this IEnumerable<double?> data)
         {
             return StreamingStatistics.Mean(data.Where(d => d.HasValue).Select(d => d.Value));
+        }
+
+        /// <summary>
+        /// Evaluates the geometric mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the geometric mean of.</param>
+        /// <returns>The geometric mean of the sample.</returns>
+        public static double GeometricMean(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.GeometricMean(array)
+                : StreamingStatistics.GeometricMean(data);
+        }
+
+        /// <summary>
+        /// Evaluates the geometric mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the geometric mean of.</param>
+        /// <returns>The geometric mean of the sample.</returns>
+        public static double GeometricMean(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.GeometricMean(array)
+                : StreamingStatistics.GeometricMean(data);
+        }
+
+        /// <summary>
+        /// Evaluates the harmonic mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the harmonic mean of.</param>
+        /// <returns>The harmonic mean of the sample.</returns>
+        public static double HarmonicMean(this IEnumerable<double> data)
+        {
+            var array = data as double[];
+            return array != null
+                ? ArrayStatistics.HarmonicMean(array)
+                : StreamingStatistics.HarmonicMean(data);
+        }
+
+        /// <summary>
+        /// Evaluates the harmonic mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the harmonic mean of.</param>
+        /// <returns>The harmonic mean of the sample.</returns>
+        public static double HarmonicMean(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.HarmonicMean(array)
+                : StreamingStatistics.HarmonicMean(data);
         }
 
         /// <summary>
@@ -126,6 +342,20 @@ namespace MathNet.Numerics.Statistics
         public static double Variance(this IEnumerable<double> samples)
         {
             var array = samples as double[];
+            return array != null
+                ? ArrayStatistics.Variance(array)
+                : StreamingStatistics.Variance(samples);
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population variance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double Variance(this IEnumerable<float> samples)
+        {
+            var array = samples as float[];
             return array != null
                 ? ArrayStatistics.Variance(array)
                 : StreamingStatistics.Variance(samples);
@@ -152,6 +382,20 @@ namespace MathNet.Numerics.Statistics
         public static double PopulationVariance(this IEnumerable<double> population)
         {
             var array = population as double[];
+            return array != null
+                ? ArrayStatistics.PopulationVariance(array)
+                : StreamingStatistics.PopulationVariance(population);
+        }
+
+        /// <summary>
+        /// Evaluates the variance from the provided full population.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population">The full population data.</param>
+        public static double PopulationVariance(this IEnumerable<float> population)
+        {
+            var array = population as float[];
             return array != null
                 ? ArrayStatistics.PopulationVariance(array)
                 : StreamingStatistics.PopulationVariance(population);
@@ -187,6 +431,20 @@ namespace MathNet.Numerics.Statistics
         /// Estimates the unbiased population standard deviation from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">A subset of samples, sampled from the full population.</param>
+        public static double StandardDeviation(this IEnumerable<float> samples)
+        {
+            var array = samples as float[];
+            return array != null
+                ? ArrayStatistics.StandardDeviation(array)
+                : StreamingStatistics.StandardDeviation(samples);
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population standard deviation from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
@@ -204,6 +462,20 @@ namespace MathNet.Numerics.Statistics
         public static double PopulationStandardDeviation(this IEnumerable<double> population)
         {
             var array = population as double[];
+            return array != null
+                ? ArrayStatistics.PopulationStandardDeviation(array)
+                : StreamingStatistics.PopulationStandardDeviation(population);
+        }
+
+        /// <summary>
+        /// Evaluates the standard deviation from the provided full population.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population">The full population data.</param>
+        public static double PopulationStandardDeviation(this IEnumerable<float> population)
+        {
+            var array = population as float[];
             return array != null
                 ? ArrayStatistics.PopulationStandardDeviation(array)
                 : StreamingStatistics.PopulationStandardDeviation(population);
@@ -329,6 +601,21 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
+        /// Estimates the sample mean and the unbiased population variance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN for mean if data is empty or if any entry is NaN and NaN for variance if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">The data to calculate the mean of.</param>
+        /// <returns>The mean of the sample.</returns>
+        public static Tuple<double, double> MeanVariance(this IEnumerable<float> samples)
+        {
+            var array = samples as float[];
+            return array != null
+                ? ArrayStatistics.MeanVariance(array)
+                : StreamingStatistics.MeanVariance(samples);
+        }
+
+        /// <summary>
         /// Estimates the sample mean and the unbiased population standard deviation from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN for mean if data is empty or if any entry is NaN and NaN for standard deviation if data has less than two entries or if any entry is NaN.
@@ -338,6 +625,21 @@ namespace MathNet.Numerics.Statistics
         public static Tuple<double, double> MeanStandardDeviation(this IEnumerable<double> samples)
         {
             var array = samples as double[];
+            return array != null
+                ? ArrayStatistics.MeanStandardDeviation(array)
+                : StreamingStatistics.MeanStandardDeviation(samples);
+        }
+
+        /// <summary>
+        /// Estimates the sample mean and the unbiased population standard deviation from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN for mean if data is empty or if any entry is NaN and NaN for standard deviation if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples">The data to calculate the mean of.</param>
+        /// <returns>The mean of the sample.</returns>
+        public static Tuple<double, double> MeanStandardDeviation(this IEnumerable<float> samples)
+        {
+            var array = samples as float[];
             return array != null
                 ? ArrayStatistics.MeanStandardDeviation(array)
                 : StreamingStatistics.MeanStandardDeviation(samples);
@@ -385,6 +687,22 @@ namespace MathNet.Numerics.Statistics
         /// Estimates the unbiased population covariance from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
+        /// </summary>
+        /// <param name="samples1">A subset of samples, sampled from the full population.</param>
+        /// <param name="samples2">A subset of samples, sampled from the full population.</param>
+        public static double Covariance(this IEnumerable<float> samples1, IEnumerable<float> samples2)
+        {
+            var array1 = samples1 as float[];
+            var array2 = samples2 as float[];
+            return array1 != null && array2 != null
+                ? ArrayStatistics.Covariance(array1, array2)
+                : StreamingStatistics.Covariance(samples1, samples2);
+        }
+
+        /// <summary>
+        /// Estimates the unbiased population covariance from the provided samples.
+        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="samples1">A subset of samples, sampled from the full population.</param>
@@ -405,6 +723,22 @@ namespace MathNet.Numerics.Statistics
         {
             var array1 = population1 as double[];
             var array2 = population2 as double[];
+            return array1 != null && array2 != null
+                ? ArrayStatistics.PopulationCovariance(array1, array2)
+                : StreamingStatistics.PopulationCovariance(population1, population2);
+        }
+
+        /// <summary>
+        /// Evaluates the population covariance from the provided full populations.
+        /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+        /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="population1">The full population data.</param>
+        /// <param name="population2">The full population data.</param>
+        public static double PopulationCovariance(this IEnumerable<float> population1, IEnumerable<float> population2)
+        {
+            var array1 = population1 as float[];
+            var array2 = population2 as float[];
             return array1 != null && array2 != null
                 ? ArrayStatistics.PopulationCovariance(array1, array2)
                 : StreamingStatistics.PopulationCovariance(population1, population2);
@@ -439,6 +773,19 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Evaluates the root mean square (RMS) also known as quadratic mean.
         /// Returns NaN if data is empty or if any entry is NaN.
+        /// </summary>
+        /// <param name="data">The data to calculate the RMS of.</param>
+        public static double RootMeanSquare(this IEnumerable<float> data)
+        {
+            var array = data as float[];
+            return array != null
+                ? ArrayStatistics.RootMeanSquare(array)
+                : StreamingStatistics.RootMeanSquare(data);
+        }
+
+        /// <summary>
+        /// Evaluates the root mean square (RMS) also known as quadratic mean.
+        /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>
         /// <param name="data">The data to calculate the mean of.</param>
@@ -453,7 +800,17 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double Median(this IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.MedianInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates the sample median from the provided samples (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static float Median(this IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.MedianInplace(array);
         }
 
@@ -463,7 +820,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double Median(this IEnumerable<double?> data)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.MedianInplace(array);
         }
 
@@ -477,7 +834,21 @@ namespace MathNet.Numerics.Statistics
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
         public static double Quantile(this IEnumerable<double> data, double tau)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.QuantileInplace(array, tau);
+        }
+
+        /// <summary>
+        /// Estimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        public static float Quantile(this IEnumerable<float> data, double tau)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.QuantileInplace(array, tau);
         }
 
@@ -491,7 +862,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
         public static double Quantile(this IEnumerable<double?> data, double tau)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.QuantileInplace(array, tau);
         }
 
@@ -504,7 +875,21 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> QuantileFunc(this IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.Quantile(array, tau);
+        }
+
+        /// <summary>
+        /// Estimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<float, float> QuantileFunc(this IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.Quantile(array, tau);
         }
@@ -518,7 +903,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> QuantileFunc(this IEnumerable<double?> data)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.Quantile(array, tau);
         }
@@ -534,7 +919,22 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static double QuantileCustom(this IEnumerable<double> data, double tau, QuantileDefinition definition)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.QuantileCustomInplace(array, tau, definition);
+        }
+
+        /// <summary>
+        /// Estimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specified to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
+        public static float QuantileCustom(this IEnumerable<float> data, double tau, QuantileDefinition definition)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.QuantileCustomInplace(array, tau, definition);
         }
 
@@ -549,7 +949,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static double QuantileCustom(this IEnumerable<double?> data, double tau, QuantileDefinition definition)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.QuantileCustomInplace(array, tau, definition);
         }
 
@@ -563,7 +963,22 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static Func<double, double> QuantileCustomFunc(this IEnumerable<double> data, QuantileDefinition definition)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.QuantileCustom(array, tau, definition);
+        }
+
+        /// <summary>
+        /// Estimates the tau-th quantile from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specified to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
+        public static Func<float, float> QuantileCustomFunc(this IEnumerable<float> data, QuantileDefinition definition)
+        {
+            float[] array = data.ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.QuantileCustom(array, tau, definition);
         }
@@ -578,7 +993,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Quantile definition, to choose what product/definition it should be consistent with</param>
         public static Func<double, double> QuantileCustomFunc(this IEnumerable<double?> data, QuantileDefinition definition)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.QuantileCustom(array, tau, definition);
         }
@@ -592,7 +1007,20 @@ namespace MathNet.Numerics.Statistics
         /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
         public static double Percentile(this IEnumerable<double> data, int p)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.PercentileInplace(array, p);
+        }
+
+        /// <summary>
+        /// Estimates the p-Percentile value from the provided samples.
+        /// If a non-integer Percentile is needed, use Quantile instead.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
+        public static float Percentile(this IEnumerable<float> data, int p)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.PercentileInplace(array, p);
         }
 
@@ -605,7 +1033,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="p">Percentile selector, between 0 and 100 (inclusive).</param>
         public static double Percentile(this IEnumerable<double?> data, int p)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.PercentileInplace(array, p);
         }
 
@@ -617,7 +1045,20 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<int, double> PercentileFunc(this IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            Array.Sort(array);
+            return p => SortedArrayStatistics.Percentile(array, p);
+        }
+
+        /// <summary>
+        /// Estimates the p-Percentile value from the provided samples.
+        /// If a non-integer Percentile is needed, use Quantile instead.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<int, float> PercentileFunc(this IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             Array.Sort(array);
             return p => SortedArrayStatistics.Percentile(array, p);
         }
@@ -630,7 +1071,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<int, double> PercentileFunc(this IEnumerable<double?> data)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             Array.Sort(array);
             return p => SortedArrayStatistics.Percentile(array, p);
         }
@@ -642,7 +1083,18 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double LowerQuartile(this IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.LowerQuartileInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates the first quartile value from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static float LowerQuartile(this IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.LowerQuartileInplace(array);
         }
 
@@ -653,7 +1105,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double LowerQuartile(this IEnumerable<double?> data)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.LowerQuartileInplace(array);
         }
 
@@ -664,7 +1116,18 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double UpperQuartile(this IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.UpperQuartileInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates the third quartile value from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static float UpperQuartile(this IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.UpperQuartileInplace(array);
         }
 
@@ -675,7 +1138,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double UpperQuartile(this IEnumerable<double?> data)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.UpperQuartileInplace(array);
         }
 
@@ -686,7 +1149,18 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double InterquartileRange(this IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.InterquartileRangeInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates the inter-quartile range from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static float InterquartileRange(this IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.InterquartileRangeInplace(array);
         }
 
@@ -697,7 +1171,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double InterquartileRange(this IEnumerable<double?> data)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.InterquartileRangeInplace(array);
         }
 
@@ -708,7 +1182,18 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double[] FiveNumberSummary(this IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.FiveNumberSummaryInplace(array);
+        }
+
+        /// <summary>
+        /// Estimates {min, lower-quantile, median, upper-quantile, max} from the provided samples.
+        /// Approximately median-unbiased regardless of the sample distribution (R8).
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static float[] FiveNumberSummary(this IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.FiveNumberSummaryInplace(array);
         }
 
@@ -719,7 +1204,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static double[] FiveNumberSummary(this IEnumerable<double?> data)
         {
-            var array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
+            double[] array = data.Where(d => d.HasValue).Select(d => d.Value).ToArray();
             return ArrayStatistics.FiveNumberSummaryInplace(array);
         }
 
@@ -730,7 +1215,18 @@ namespace MathNet.Numerics.Statistics
         /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
         public static double OrderStatistic(IEnumerable<double> data, int order)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.OrderStatisticInplace(array, order);
+        }
+
+        /// <summary>
+        /// Returns the order statistic (order 1..N) from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="order">One-based order of the statistic, must be between 1 and N (inclusive).</param>
+        public static float OrderStatistic(IEnumerable<float> data, int order)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.OrderStatisticInplace(array, order);
         }
 
@@ -740,7 +1236,18 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<int, double> OrderStatisticFunc(IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            Array.Sort(array);
+            return order => SortedArrayStatistics.OrderStatistic(array, order);
+        }
+
+        /// <summary>
+        /// Returns the order statistic (order 1..N) from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<int, float> OrderStatisticFunc(IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             Array.Sort(array);
             return order => SortedArrayStatistics.OrderStatistic(array, order);
         }
@@ -754,7 +1261,20 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
         public static double[] Ranks(this IEnumerable<double> data, RankDefinition definition = RankDefinition.Default)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.RanksInplace(array, definition);
+        }
+
+        /// <summary>
+        /// Evaluates the rank of each entry of the provided samples.
+        /// The rank definition can be specified to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
+        public static double[] Ranks(this IEnumerable<float> data, RankDefinition definition = RankDefinition.Default)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.RanksInplace(array, definition);
         }
 
@@ -781,7 +1301,23 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
         public static double QuantileRank(this IEnumerable<double> data, double x, RankDefinition definition = RankDefinition.Default)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            Array.Sort(array);
+            return SortedArrayStatistics.QuantileRank(array, x, definition);
+        }
+
+        /// <summary>
+        /// Estimates the quantile tau from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specified to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="x">Quantile value.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
+        public static double QuantileRank(this IEnumerable<float> data, float x, RankDefinition definition = RankDefinition.Default)
+        {
+            float[] array = data.ToArray();
             Array.Sort(array);
             return SortedArrayStatistics.QuantileRank(array, x, definition);
         }
@@ -810,7 +1346,22 @@ namespace MathNet.Numerics.Statistics
         /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
         public static Func<double, double> QuantileRankFunc(this IEnumerable<double> data, RankDefinition definition = RankDefinition.Default)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            Array.Sort(array);
+            return x => SortedArrayStatistics.QuantileRank(array, x, definition);
+        }
+
+        /// <summary>
+        /// Estimates the quantile tau from the provided samples.
+        /// The tau-th quantile is the data value where the cumulative distribution
+        /// function crosses tau. The quantile definition can be specified to be compatible
+        /// with an existing system.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
+        public static Func<float, double> QuantileRankFunc(this IEnumerable<float> data, RankDefinition definition = RankDefinition.Default)
+        {
+            float[] array = data.ToArray();
             Array.Sort(array);
             return x => SortedArrayStatistics.QuantileRank(array, x, definition);
         }
@@ -835,7 +1386,19 @@ namespace MathNet.Numerics.Statistics
         /// <param name="x">The value where to estimate the CDF at.</param>
         public static double EmpiricalCDF(this IEnumerable<double> data, double x)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            Array.Sort(array);
+            return SortedArrayStatistics.EmpiricalCDF(array, x);
+        }
+
+        /// <summary>
+        /// Estimates the empirical cumulative distribution function (CDF) at x from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="x">The value where to estimate the CDF at.</param>
+        public static double EmpiricalCDF(this IEnumerable<float> data, float x)
+        {
+            float[] array = data.ToArray();
             Array.Sort(array);
             return SortedArrayStatistics.EmpiricalCDF(array, x);
         }
@@ -856,7 +1419,18 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> EmpiricalCDFFunc(this IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            Array.Sort(array);
+            return x => SortedArrayStatistics.EmpiricalCDF(array, x);
+        }
+
+        /// <summary>
+        /// Estimates the empirical cumulative distribution function (CDF) at x from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<float, double> EmpiricalCDFFunc(this IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             Array.Sort(array);
             return x => SortedArrayStatistics.EmpiricalCDF(array, x);
         }
@@ -877,7 +1451,18 @@ namespace MathNet.Numerics.Statistics
         /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
         public static double EmpiricalInvCDF(this IEnumerable<double> data, double tau)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.EmpiricalInvCDF);
+        }
+
+        /// <summary>
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        /// <param name="tau">Quantile selector, between 0.0 and 1.0 (inclusive).</param>
+        public static float EmpiricalInvCDF(this IEnumerable<float> data, double tau)
+        {
+            float[] array = data.ToArray();
             return ArrayStatistics.QuantileCustomInplace(array, tau, QuantileDefinition.EmpiricalInvCDF);
         }
 
@@ -897,7 +1482,18 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data sample sequence.</param>
         public static Func<double, double> EmpiricalInvCDFFunc(this IEnumerable<double> data)
         {
-            var array = data.ToArray();
+            double[] array = data.ToArray();
+            Array.Sort(array);
+            return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.EmpiricalInvCDF);
+        }
+
+        /// <summary>
+        /// Estimates the empirical inverse CDF at tau from the provided samples.
+        /// </summary>
+        /// <param name="data">The data sample sequence.</param>
+        public static Func<double, float> EmpiricalInvCDFFunc(this IEnumerable<float> data)
+        {
+            float[] array = data.ToArray();
             Array.Sort(array);
             return tau => SortedArrayStatistics.QuantileCustom(array, tau, QuantileDefinition.EmpiricalInvCDF);
         }

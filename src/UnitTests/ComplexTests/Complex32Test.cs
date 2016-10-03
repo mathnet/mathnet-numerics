@@ -2,8 +2,9 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
-// Copyright (c) 2009-2010 Math.NET
+//
+// Copyright (c) 2009-2016 Math.NET
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -12,8 +13,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -417,7 +420,54 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(new Complex32(-2, 0), new Complex32(4, -4) / new Complex32(-2, 2));
             Assert.AreEqual(Complex32.PositiveInfinity, Complex32.One / Complex32.Zero);
         }
+        /// <summary>
+        /// Can divide without overflow.
+        /// </summary>
+        [Test]
+        public void CanDodgeOverflowDivision()
+        {
+            var first = new Complex32((float)Math.Pow(10, 37), (float)Math.Pow(10, -37));
+            var second = new Complex32((float)Math.Pow(10, 25), (float)Math.Pow(10, -25));
+            Assert.AreEqual(new Complex32((float)Math.Pow(10, 12), (float)Math.Pow(10, -38)), first / second);
 
+            first = new Complex32(-(float)Math.Pow(10, 37), (float)Math.Pow(10, -37));
+            second = new Complex32((float)Math.Pow(10, 25), (float)Math.Pow(10, -25));
+            Assert.AreEqual(new Complex32(-(float)Math.Pow(10, 12), (float)Math.Pow(10, -38)), first / second);
+
+            first = new Complex32((float)Math.Pow(10, -37), (float)Math.Pow(10, 37));
+            second = new Complex32((float)Math.Pow(10, -17), -(float)Math.Pow(10, 17));
+            Assert.AreEqual(new Complex32(-(float)Math.Pow(10, 20), (float)Math.Pow(10, -14)), first / second);
+
+        }
+        /// <summary>
+        /// Can divide float/complex without overflow
+        /// </summary>
+        [Test]
+        public void CanDodgeOverflowDivisionFloat()
+        {
+
+            var firstComplex = new Complex32((float)Math.Pow(10, 25), (float)Math.Pow(10, -25));
+            float firstFloat = (float)Math.Pow(10, -37);
+            float secondFloat = (float)Math.Pow(10, 37);
+
+            Assert.AreEqual(new Complex32(0, 0), firstFloat / firstComplex); // it's (10^-62,10^-112) thus overflow to 0
+            Assert.AreEqual(new Complex32((float)Math.Pow(10, 12), (float)Math.Pow(10, -38)), secondFloat / firstComplex);
+
+            var secondComplex = new Complex32((float)Math.Pow(10, -25), (float)Math.Pow(10, 25));
+            Assert.AreEqual(new Complex32(0, 0), firstFloat / secondComplex);// it's (10^-112,10^-62) thus overflow to 0
+            Assert.AreEqual(new Complex32((float)Math.Pow(10, -38), -(float)Math.Pow(10, 12)), secondFloat / secondComplex);
+
+
+
+            float thirdFloat = (float)Math.Pow(10, 13);
+            var thirdComplex = new Complex32((float)Math.Pow(10, -25), (float)Math.Pow(10, -25));
+            Assert.AreEqual(new Complex32(5.0f * (float)Math.Pow(10, 37), -5.0f * (float)Math.Pow(10, 37)), thirdFloat / thirdComplex);
+
+            var fourthFloat = (float)Math.Pow(10, -30);
+            var fourthComplex = new Complex32((float)Math.Pow(10, -30), (float)Math.Pow(10, -30));
+            Assert.AreEqual(new Complex32(0.5f, -0.5f), fourthFloat / fourthComplex);
+
+        }
         /// <summary>
         /// Can multiple a complex number and a double using operators.
         /// </summary>
@@ -547,7 +597,17 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             Assert.AreEqual(expected, new Complex32(real, imag).Magnitude);
         }
+        /// <summary>
+        /// Can calculate magnitude without overflow
+        /// </summary>
+        [Test]
+        public void CanDodgeOverflowMagnitude()
+        {
+            Assert.AreEqual((float)Math.Sqrt(2) * float.Epsilon, new Complex32(float.Epsilon, float.Epsilon).Magnitude);
+            Assert.AreEqual(float.Epsilon, new Complex32(0, float.Epsilon).Magnitude);
+            Assert.AreEqual((float)(Math.Pow(10, 30) * Math.Sqrt(2)), new Complex32((float)Math.Pow(10, 30), (float)Math.Pow(10, 30)).Magnitude);
 
+        }
         /// <summary>
         /// Can compute sign.
         /// </summary>

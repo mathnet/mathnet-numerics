@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2015 Math.NET
 //
@@ -176,7 +175,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             for (var index = 0; index < y.Length; index++)
             {
-                sum += y[index]*x[index];
+                sum += y[index] * x[index];
             }
 
             return sum;
@@ -367,7 +366,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                         var s = 0.0;
                         for (var i = 0; i < rows; i++)
                         {
-                            s += Math.Abs(matrix[(j*rows) + i]);
+                            s += Math.Abs(matrix[(j * rows) + i]);
                         }
                         norm1 = Math.Max(norm1, s);
                     }
@@ -384,25 +383,25 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     return normMax;
                 case Norm.InfinityNorm:
                     var r = new double[rows];
-	                for (var j = 0; j < columns; j++)
-	                {
-		                for (var i = 0; i < rows; i++)
-		                {
+                    for (var j = 0; j < columns; j++)
+                    {
+                        for (var i = 0; i < rows; i++)
+                        {
                             r[i] += Math.Abs(matrix[(j * rows) + i]);
-		                }
-	                }
+                        }
+                    }
                     // TODO: reuse
                     var max = r[0];
-	                for (int i = 0; i < r.Length; i++)
-	                {
-		                if (r[i] > max)
-		                {
-			                max = r[i];
-		                }
-	                }
-	                return max;
+                    for (int i = 0; i < r.Length; i++)
+                    {
+                        if (r[i] > max)
+                        {
+                            max = r[i];
+                        }
+                    }
+                    return max;
                 case Norm.FrobeniusNorm:
-                    var aat = new double[rows*rows];
+                    var aat = new double[rows * rows];
                     MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.Transpose, 1.0, matrix, rows, columns, matrix, rows, columns, 0.0, aat);
                     var normF = 0d;
                     for (var i = 0; i < rows; i++)
@@ -445,12 +444,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("result");
             }
 
-            if (rowsX*columnsX != x.Length)
+            if (rowsX * columnsX != x.Length)
             {
                 throw new ArgumentException("x.Length != xRows * xColumns");
             }
 
-            if (rowsY*columnsY != y.Length)
+            if (rowsY * columnsY != y.Length)
             {
                 throw new ArgumentException("y.Length != yRows * yColumns");
             }
@@ -460,7 +459,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException("xColumns != yRows");
             }
 
-            if (rowsX*columnsY != result.Length)
+            if (rowsX * columnsY != result.Length)
             {
                 throw new ArgumentException("xRows * yColumns != result.Length");
             }
@@ -471,7 +470,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             double[] xdata;
             if (ReferenceEquals(x, result))
             {
-                xdata = (double[]) x.Clone();
+                xdata = (double[])x.Clone();
             }
             else
             {
@@ -481,7 +480,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             double[] ydata;
             if (ReferenceEquals(y, result))
             {
-                ydata = (double[]) y.Clone();
+                ydata = (double[])y.Clone();
             }
             else
             {
@@ -524,14 +523,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentNullException("b");
             }
 
-            if ((int) transposeA > 111 && (int) transposeB > 111)
+            if ((int)transposeA > 111 && (int)transposeB > 111)
             {
                 if (rowsA != columnsB)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
 
-                if (columnsA*rowsB != c.Length)
+                if (columnsA * rowsB != c.Length)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -540,14 +539,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 n = rowsB;
                 k = rowsA;
             }
-            else if ((int) transposeA > 111)
+            else if ((int)transposeA > 111)
             {
                 if (rowsA != rowsB)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
 
-                if (columnsA*columnsB != c.Length)
+                if (columnsA * columnsB != c.Length)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -556,14 +555,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 n = columnsB;
                 k = rowsA;
             }
-            else if ((int) transposeB > 111)
+            else if ((int)transposeB > 111)
             {
                 if (columnsA != columnsB)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
 
-                if (rowsA*rowsB != c.Length)
+                if (rowsA * rowsB != c.Length)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -579,7 +578,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     throw new ArgumentOutOfRangeException();
                 }
 
-                if (rowsA*columnsB != c.Length)
+                if (rowsA * columnsB != c.Length)
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -601,7 +600,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             double[] adata;
             if (ReferenceEquals(a, c))
             {
-                adata = (double[]) a.Clone();
+                adata = (double[])a.Clone();
             }
             else
             {
@@ -611,7 +610,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             double[] bdata;
             if (ReferenceEquals(b, c))
             {
-                bdata = (double[]) b.Clone();
+                bdata = (double[])b.Clone();
             }
             else
             {
@@ -659,7 +658,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="first">Indicates if this is the first recursion.</param>
         static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, double alpha, double[] matrixA, int shiftArow, int shiftAcol, double[] matrixB, int shiftBrow, int shiftBcol, double[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
         {
-            if (m + n <= Control.ParallelizeOrder)
+            if (m + n <= Control.ParallelizeOrder || m == 1 || n == 1 || k == 1)
             {
                 if ((int) transposeA > 111 && (int) transposeB > 111)
                 {

@@ -1,3 +1,6 @@
+### 3.2.0 - 2016-04-11
+* Text: reduce memory usage of parsing *~liuzh*
+
 ### 3.1.1 - 2015-07-13
 * MatrixMarket: fix MatrixMarketWriter.WriteVector
 

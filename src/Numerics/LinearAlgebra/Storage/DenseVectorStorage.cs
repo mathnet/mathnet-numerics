@@ -2,7 +2,6 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
 // Copyright (c) 2009-2015 Math.NET
 //
@@ -31,17 +30,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
     [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/LinearAlgebra")]
     public class DenseVectorStorage<T> : VectorStorage<T>
         where T : struct, IEquatable<T>, IFormattable
     {
         // [ruegg] public fields are OK here
 
+        [DataMember(Order = 1)]
         public readonly T[] Data;
 
         internal DenseVectorStorage(int length)
@@ -158,7 +160,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             if (arrayData != null)
             {
                 var copy = new T[arrayData.Length];
-                Array.Copy(arrayData, copy, arrayData.Length);
+                Array.Copy(arrayData, 0, copy, 0, arrayData.Length);
                 return new DenseVectorStorage<T>(copy.Length, copy);
             }
 

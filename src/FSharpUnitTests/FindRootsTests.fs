@@ -1,9 +1,11 @@
 ﻿namespace MathNet.Numerics.Tests
 
-open System
-open MathNet.Numerics
 open NUnit.Framework
 open FsUnit
+open FsUnitTyped
+
+open System
+open MathNet.Numerics
 
 module FindRootsTests =
 
@@ -19,33 +21,33 @@ module FindRootsTests =
 
     [<Test>]
     let ``Bisection should find both roots of (x - 3) * (x - 4)``() =
-        f |> FindRoots.bisection 100 1e-14 -5.0 3.5 |> should equal (Some 3.0)
-        f |> FindRoots.bisection 100 1e-14 3.2 5.0 |> should equal (Some 4.0)
+        f |> FindRoots.bisection 100 1e-14 -5.0 3.5 |> shouldEqual (Some 3.0)
+        f |> FindRoots.bisection 100 1e-14 3.2 5.0 |> shouldEqual (Some 4.0)
 
     [<Test>]
     let ``Brent should find both roots of (x - 3) * (x - 4)``() =
-        f |> FindRoots.brent 100 1e-14 -5.0 3.5 |> should equal (Some 3.0)
-        f |> FindRoots.brent 100 1e-14 3.2 5.0 |> should equal (Some 4.0)
+        f |> FindRoots.brent 100 1e-14 -5.0 3.5 |> shouldEqual (Some 3.0)
+        f |> FindRoots.brent 100 1e-14 3.2 5.0 |> shouldEqual (Some 4.0)
 
     [<Test>]
     let ``Newton-Raphson should find both roots of (x - 3) * (x - 4)``() =
-        (f, df) ||> FindRoots.newtonRaphson 100 1e-14 -5.0 3.5 |> should equal (Some 3.0)
-        (f, df) ||> FindRoots.newtonRaphson 100 1e-14 3.2 5.0 |> should equal (Some 4.0)
+        (f, df) ||> FindRoots.newtonRaphson 100 1e-14 -5.0 3.5 |> shouldEqual (Some 3.0)
+        (f, df) ||> FindRoots.newtonRaphson 100 1e-14 3.2 5.0 |> shouldEqual (Some 4.0)
 
     [<Test>]
     let ``Newton-Raphson by Guess should find both roots of (x - 3) * (x - 4)``() =
-        (f, df) ||> FindRoots.newtonRaphsonGuess 100 1e-14 2.8 |> should equal (Some 3.0)
-        (f, df) ||> FindRoots.newtonRaphsonGuess 100 1e-14 3.7 |> should equal (Some 4.0)
+        (f, df) ||> FindRoots.newtonRaphsonGuess 100 1e-14 2.8 |> shouldEqual (Some 3.0)
+        (f, df) ||> FindRoots.newtonRaphsonGuess 100 1e-14 3.7 |> shouldEqual (Some 4.0)
 
     [<Test>]
     let ``Robust Newton-Raphson should find both roots of (x - 3) * (x - 4)``() =
-        (f, df) ||> FindRoots.newtonRaphsonRobust 100 20 1e-14 -5.0 3.5 |> should equal (Some 3.0)
-        (f, df) ||> FindRoots.newtonRaphsonRobust 100 20 1e-14 3.2 5.0 |> should equal (Some 4.0)
+        (f, df) ||> FindRoots.newtonRaphsonRobust 100 20 1e-14 -5.0 3.5 |> shouldEqual (Some 3.0)
+        (f, df) ||> FindRoots.newtonRaphsonRobust 100 20 1e-14 3.2 5.0 |> shouldEqual (Some 4.0)
 
     [<Test>]
     let ``Bryoden should find both roots of (x - 3) * (x - 4) and Twoeq2``() =
-        f |> (fun g (x:float[]) -> [|g x.[0]|]) |> FindRoots.broyden 100 1e-14 [|1.0;|] |> should equal (Some [|3.0|])
-        f |> (fun g (x:float[]) -> [|g x.[0]|]) |> FindRoots.broyden 100 1e-14 [|9.0;|] |> should equal (Some [|4.0|])
+        f |> (fun g (x:float[]) -> [|g x.[0]|]) |> FindRoots.broyden 100 1e-14 [|1.0;|] |> shouldEqual (Some [|3.0|])
+        f |> (fun g (x:float[]) -> [|g x.[0]|]) |> FindRoots.broyden 100 1e-14 [|9.0;|] |> shouldEqual (Some [|4.0|])
         g |> FindRoots.broyden 100 1e-6 [|1.0; 400.0;|] |> (fun x ->
             match x with
             | Some x -> should (equalWithin 1e-1) [|0.9638680512795; 346.16369814640|]
