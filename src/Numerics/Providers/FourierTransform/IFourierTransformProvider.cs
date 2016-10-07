@@ -36,6 +36,11 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
     public interface IFourierTransformProvider
     {
+        /// <summary>
+        /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
+        /// </summary>
+        void InitializeVerify();
+
         void ForwardInplace(Complex[] complex);
         void BackwardInplace(Complex[] complex);
 

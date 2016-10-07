@@ -5,6 +5,10 @@ namespace MathNet.Numerics.Providers.FourierTransform
 {
     public class ManagedFourierTransformProvider : IFourierTransformProvider
     {
+        public virtual void InitializeVerify()
+        {
+        }
+
         public void ForwardInplace(Complex[] complex)
         {
             Fourier.BluesteinForward(complex, FourierOptions.Default);

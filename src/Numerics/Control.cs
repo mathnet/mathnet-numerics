@@ -30,6 +30,7 @@
 using MathNet.Numerics.Providers.LinearAlgebra;
 using System;
 using System.Threading.Tasks;
+using MathNet.Numerics.Providers.FourierTransform;
 
 namespace MathNet.Numerics
 {
@@ -45,6 +46,7 @@ namespace MathNet.Numerics
         static int _parallelizeOrder;
         static int _parallelizeElements;
         static ILinearAlgebraProvider _linearAlgebraProvider;
+        static IFourierTransformProvider _fourierTransformProvider;
         static readonly object _staticLock = new object();
 
         static Control()
@@ -66,11 +68,11 @@ namespace MathNet.Numerics
             TaskScheduler = TaskScheduler.Default;
         }
 
-        private static void InitializeDefaultLinearAlgebraProvider()
+        private static void InitializeDefaultProviders()
         {
             lock (_staticLock)
             {
-                if (_linearAlgebraProvider == null)
+                if (_linearAlgebraProvider == null || _fourierTransformProvider == null)
                 {
 #if NATIVE
                     try
@@ -113,6 +115,7 @@ namespace MathNet.Numerics
         public static void UseManaged()
         {
             LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+            FourierTransformProvider = new ManagedFourierTransformProvider();
         }
 
 #if NATIVE
@@ -124,6 +127,7 @@ namespace MathNet.Numerics
         public static void UseNativeMKL()
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+            FourierTransformProvider = new Providers.FourierTransform.Mkl.MklFourierTransformProvider();
         }
 
         /// <summary>
@@ -137,6 +141,7 @@ namespace MathNet.Numerics
             Providers.LinearAlgebra.Mkl.MklAccuracy accuracy = Providers.LinearAlgebra.Mkl.MklAccuracy.High)
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
+            FourierTransformProvider = new Providers.FourierTransform.Mkl.MklFourierTransformProvider();
         }
 
         /// <summary>
@@ -158,6 +163,10 @@ namespace MathNet.Numerics
         public static void UseNativeCUDA()
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
+            if (_fourierTransformProvider == null)
+            {
+                FourierTransformProvider = new ManagedFourierTransformProvider();
+            }
         }
 
         /// <summary>
@@ -179,6 +188,10 @@ namespace MathNet.Numerics
         public static void UseNativeOpenBLAS()
         {
             LinearAlgebraProvider = new Providers.LinearAlgebra.OpenBlas.OpenBlasLinearAlgebraProvider();
+            if (_fourierTransformProvider == null)
+            {
+                FourierTransformProvider = new ManagedFourierTransformProvider();
+            }
         }
 
         /// <summary>
@@ -226,6 +239,7 @@ namespace MathNet.Numerics
             ThreadSafeRandomNumberGenerators = false;
 
             LinearAlgebraProvider.InitializeVerify();
+            FourierTransformProvider.InitializeVerify();
         }
 
         public static void UseMultiThreading()
@@ -234,6 +248,7 @@ namespace MathNet.Numerics
             ThreadSafeRandomNumberGenerators = true;
 
             LinearAlgebraProvider.InitializeVerify();
+            FourierTransformProvider.InitializeVerify();
         }
 
         /// <summary>
@@ -266,7 +281,7 @@ namespace MathNet.Numerics
             get
             {
                 if (_linearAlgebraProvider == null)
-                    InitializeDefaultLinearAlgebraProvider();
+                    InitializeDefaultProviders();
 
                 return _linearAlgebraProvider;
             }
@@ -276,6 +291,28 @@ namespace MathNet.Numerics
 
                 // only actually set if verification did not throw
                 _linearAlgebraProvider = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the fourier transform provider. Consider to use UseNativeMKL or UseManaged instead.
+        /// </summary>
+        /// <value>The linear algebra provider.</value>
+        public static IFourierTransformProvider FourierTransformProvider
+        {
+            get
+            {
+                if (_fourierTransformProvider == null)
+                    InitializeDefaultProviders();
+
+                return _fourierTransformProvider;
+            }
+            set
+            {
+                value.InitializeVerify();
+
+                // only actually set if verification did not throw
+                _fourierTransformProvider = value;
             }
         }
 
@@ -293,6 +330,7 @@ namespace MathNet.Numerics
 
                 // Reinitialize providers:
                 LinearAlgebraProvider.InitializeVerify();
+                FourierTransformProvider.InitializeVerify();
             }
         }
 
