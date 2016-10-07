@@ -30,15 +30,36 @@ using System.Numerics;
 
 namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {
-    public class MklFourierTransformProvider : ManagedFourierTransformProvider
+    public class MklFourierTransformProvider : IFourierTransformProvider
     {
-        public override void InitializeVerify()
+        public void InitializeVerify()
         {
         }
 
-        public override void ForwardInplace(Complex[] complex)
+        public void ForwardInplace(Complex[] complex)
         {
             SafeNativeMethods.z_fft_forward_inplace(complex.Length, complex);
+        }
+
+        public void BackwardInplace(Complex[] complex)
+        {
+            SafeNativeMethods.z_fft_backward_inplace(complex.Length, complex);
+        }
+
+        public Complex[] Forward(Complex[] complexTimeSpace)
+        {
+            Complex[] work = new Complex[complexTimeSpace.Length];
+            complexTimeSpace.Copy(work);
+            ForwardInplace(work);
+            return work;
+        }
+
+        public Complex[] Backward(Complex[] complexFrequenceSpace)
+        {
+            Complex[] work = new Complex[complexFrequenceSpace.Length];
+            complexFrequenceSpace.Copy(work);
+            BackwardInplace(work);
+            return work;
         }
     }
 }

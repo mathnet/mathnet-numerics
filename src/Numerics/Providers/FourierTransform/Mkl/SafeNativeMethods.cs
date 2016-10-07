@@ -84,6 +84,15 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern long z_fft_forward_inplace(long n, [In, Out] Complex[] x);
 
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long c_fft_forward_inplace(long n, [In, Out] Complex32[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long z_fft_backward_inplace(long n, [In, Out] Complex[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long c_fft_backward_inplace(long n, [In, Out] Complex32[] x);
+
         #endregion FFT
 
         // ReSharper restore InconsistentNaming
