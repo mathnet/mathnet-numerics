@@ -13,27 +13,23 @@ inline MKL_LONG fft_1d_inplace(const MKL_LONG n, Data x[], const Precision forwa
 	MKL_LONG status = 0;
 	DFTI_DESCRIPTOR_HANDLE descriptor = 0;
 	status = DftiCreateDescriptor(&descriptor, precision, domain, 1, n);
-	if (0 != status) goto failed;
+	if (0 != status) goto cleanup;
 
 	status = DftiSetValue(descriptor, DFTI_FORWARD_SCALE, forward_scale);
-	if (0 != status) goto failed;
+	if (0 != status) goto cleanup;
 
 	status = DftiSetValue(descriptor, DFTI_BACKWARD_SCALE, backward_scale);
-	if (0 != status) goto failed;
+	if (0 != status) goto cleanup;
 
 	status = DftiCommitDescriptor(descriptor);
-	if (0 != status) goto failed;
+	if (0 != status) goto cleanup;
 
 	status = fft(descriptor, x);
-	if (0 != status) goto failed;
+	if (0 != status) goto cleanup;
 
 cleanup:
 	DftiFreeDescriptor(&descriptor);
 	return status;
-
-failed:
-	status = 1;
-	goto cleanup;
 }
 
 extern "C" {
