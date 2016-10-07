@@ -28,6 +28,8 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.FourierTransformProviderTests
@@ -45,7 +47,7 @@ namespace MathNet.Numerics.UnitTests.FourierTransformProviderTests
     public class LinearAlgebraProviderTests
     {
         [Test]
-        public void ForwardInplace()
+        public void ForwardInplaceRealSine()
         {
             var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
             var spectrum = new Complex[samples.Length];
@@ -77,5 +79,31 @@ namespace MathNet.Numerics.UnitTests.FourierTransformProviderTests
                 }
             }
         }
+
+        [TestCase(0x1000)]
+        [TestCase(0x7FF)]
+        public void ForwardInplaceParsevalTheorem(int count)
+        {
+            var samples = Generate.RandomComplex(count, GetUniform(1));
+            var timeSpaceEnergy = Generate.Map(samples, s => s.MagnitudeSquared()).Mean();
+
+            var work = new Complex[samples.Length];
+            samples.Copy(work);
+
+            Control.FourierTransformProvider.ForwardInplace(work);
+
+            var frequencySpaceEnergy = Generate.Map(work, s => s.MagnitudeSquared()).Mean();
+
+            // TODO: normalize scaling - this should instead be controllable, not needed by default
+            frequencySpaceEnergy /= count;
+
+            Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-12);
+        }
+
+        IContinuousDistribution GetUniform(int seed)
+        {
+            return new ContinuousUniform(-1, 1, new System.Random(seed));
+        }
+
     }
 }
