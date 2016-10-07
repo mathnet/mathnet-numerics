@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.Distributions;
+using MathNet.Numerics.Providers.FourierTransform;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
@@ -54,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.FourierTransformProviderTests
 
             // real-odd transforms to imaginary odd
             samples.Copy(spectrum);
-            Control.FourierTransformProvider.ForwardInplace(spectrum);
+            Control.FourierTransformProvider.ForwardInplace(spectrum, FourierTransformScaling.AsymmetricScaling);
 
             // all real components must be zero
             foreach (var c in spectrum)
@@ -87,15 +88,8 @@ namespace MathNet.Numerics.UnitTests.FourierTransformProviderTests
             var samples = Generate.RandomComplex(count, GetUniform(1));
             var timeSpaceEnergy = Generate.Map(samples, s => s.MagnitudeSquared()).Mean();
 
-            var work = new Complex[samples.Length];
-            samples.Copy(work);
-
-            Control.FourierTransformProvider.ForwardInplace(work);
-
-            var frequencySpaceEnergy = Generate.Map(work, s => s.MagnitudeSquared()).Mean();
-
-            // TODO: normalize scaling - this should instead be controllable, not needed by default
-            frequencySpaceEnergy /= count;
+            Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+            var frequencySpaceEnergy = Generate.Map(samples, s => s.MagnitudeSquared()).Mean();
 
             Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-12);
         }

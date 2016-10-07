@@ -37,30 +37,44 @@ namespace MathNet.Numerics.Providers.FourierTransform
         {
         }
 
-        public virtual void ForwardInplace(Complex[] complex)
+        public virtual void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
-            Fourier.BluesteinForward(complex, FourierOptions.Default);
+            Fourier.BluesteinForward(complex, Options(scaling));
         }
 
-        public virtual void BackwardInplace(Complex[] complex)
+        public virtual void BackwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
-            Fourier.BluesteinInverse(complex, FourierOptions.Default);
+            Fourier.BluesteinInverse(complex, Options(scaling));
         }
 
-        public virtual Complex[] Forward(Complex[] complexTimeSpace)
+        public virtual Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling)
         {
             Complex[] work = new Complex[complexTimeSpace.Length];
             complexTimeSpace.Copy(work);
-            ForwardInplace(work);
+            ForwardInplace(work, scaling);
             return work;
         }
 
-        public virtual Complex[] Backward(Complex[] complexFrequenceSpace)
+        public virtual Complex[] Backward(Complex[] complexFrequenceSpace, FourierTransformScaling scaling)
         {
             Complex[] work = new Complex[complexFrequenceSpace.Length];
             complexFrequenceSpace.Copy(work);
-            BackwardInplace(work);
+            BackwardInplace(work, scaling);
             return work;
+        }
+
+        private FourierOptions Options(FourierTransformScaling scaling)
+        {
+            switch (scaling)
+            {
+                case FourierTransformScaling.NoScaling:
+                    return FourierOptions.NoScaling;
+                case FourierTransformScaling.AsymmetricScaling:
+                    return FourierOptions.AsymmetricScaling;
+                case FourierTransformScaling.SymmetricScaling:
+                default:
+                    return FourierOptions.Default;
+            }
         }
     }
 }

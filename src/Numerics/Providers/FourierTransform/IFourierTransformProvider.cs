@@ -34,6 +34,13 @@ namespace MathNet.Numerics.Providers.FourierTransform
     using Complex = System.Numerics.Complex;
 #endif
 
+    public enum FourierTransformScaling : int
+    {
+        NoScaling = 0,
+        SymmetricScaling = 1,
+        AsymmetricScaling = 2
+    }
+
     public interface IFourierTransformProvider
     {
         /// <summary>
@@ -41,10 +48,10 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         void InitializeVerify();
 
-        void ForwardInplace(Complex[] complex);
-        void BackwardInplace(Complex[] complex);
+        void ForwardInplace(Complex[] complex, FourierTransformScaling scaling);
+        void BackwardInplace(Complex[] complex, FourierTransformScaling scaling);
 
-        Complex[] Forward(Complex[] complexTimeSpace);
-        Complex[] Backward(Complex[] complexFrequenceSpace);
+        Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling);
+        Complex[] Backward(Complex[] complexFrequenceSpace, FourierTransformScaling scaling);
     }
 }
