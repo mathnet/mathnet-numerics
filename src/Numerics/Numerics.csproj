@@ -175,6 +175,7 @@
     <Compile Include="Providers\FourierTransform\IFourierTransformProvider.cs" />
     <Compile Include="Providers\FourierTransform\ManagedFourierTransformProvider.cs" />
     <Compile Include="Providers\FourierTransform\Mkl\MklFourierTransformProvider.cs" />
+    <Compile Include="Providers\FourierTransform\Mkl\SafeNativeMethods.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />

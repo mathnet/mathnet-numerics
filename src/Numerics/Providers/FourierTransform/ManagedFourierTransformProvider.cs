@@ -1,4 +1,32 @@
-﻿using System.Numerics;
+﻿// <copyright file="ManagedFourierTransformProvider.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://mathnet.opensourcedotnet.info
+//
+// Copyright (c) 2009-2016 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 
 namespace MathNet.Numerics.Providers.FourierTransform
@@ -9,17 +37,17 @@ namespace MathNet.Numerics.Providers.FourierTransform
         {
         }
 
-        public void ForwardInplace(Complex[] complex)
+        public virtual void ForwardInplace(Complex[] complex)
         {
             Fourier.BluesteinForward(complex, FourierOptions.Default);
         }
 
-        public void BackwardInplace(Complex[] complex)
+        public virtual void BackwardInplace(Complex[] complex)
         {
             Fourier.BluesteinInverse(complex, FourierOptions.Default);
         }
 
-        public Complex[] Forward(Complex[] complexTimeSpace)
+        public virtual Complex[] Forward(Complex[] complexTimeSpace)
         {
             Complex[] work = new Complex[complexTimeSpace.Length];
             complexTimeSpace.Copy(work);
@@ -27,7 +55,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
             return work;
         }
 
-        public Complex[] Backward(Complex[] complexFrequenceSpace)
+        public virtual Complex[] Backward(Complex[] complexFrequenceSpace)
         {
             Complex[] work = new Complex[complexFrequenceSpace.Length];
             complexFrequenceSpace.Copy(work);
