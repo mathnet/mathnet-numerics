@@ -36,6 +36,18 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {
     public class MklFourierTransformProvider : IFourierTransformProvider
     {
+        /// <summary>
+        /// Try to find out whether the provider is available, at least in principle.
+        /// Verification may still fail if available, but it will certainly fail if unavailable.
+        /// </summary>
+        public bool IsAvailable()
+        {
+            return MklProvider.IsAvailable(minRevision: 11);
+        }
+
+        /// <summary>
+        /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
+        /// </summary>
         public void InitializeVerify()
         {
             MklProvider.Load(minRevision: 11);

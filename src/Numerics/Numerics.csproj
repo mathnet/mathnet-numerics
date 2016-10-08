@@ -175,6 +175,7 @@
     <Compile Include="Providers\Common\Mkl\MklProvider.cs" />
     <Compile Include="Providers\Common\Mkl\MklProviderPrecision.cs" />
     <Compile Include="Providers\FourierTransform\IFourierTransformProvider.cs" />
+    <Compile Include="Providers\FourierTransform\FourierTransformControl.cs" />
     <Compile Include="Providers\FourierTransform\ManagedFourierTransformProvider.cs" />
     <Compile Include="Providers\FourierTransform\Mkl\MklFourierTransformProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaProviderCapabilities.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\SafeNativeMethods.cs" />
     <Compile Include="Providers\Common\Mkl\MklProviderCapabilities.cs" />
+    <Compile Include="Providers\LinearAlgebra\LinearAlgebraControl.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex32.cs" />

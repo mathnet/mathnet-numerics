@@ -35,6 +35,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
         /// <summary>
+        /// Try to find out whether the provider is available, at least in principle.
+        /// Verification may still fail if available, but it will certainly fail if unavailable.
+        /// </summary>
+        public virtual bool IsAvailable()
+        {
+            return true;
+        }
+
+        /// <summary>
         /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
         /// </summary>
         public virtual void InitializeVerify()

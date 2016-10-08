@@ -44,6 +44,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
     public interface IFourierTransformProvider
     {
         /// <summary>
+        /// Try to find out whether the provider is available, at least in principle.
+        /// Verification may still fail if available, but it will certainly fail if unavailable.
+        /// </summary>
+        bool IsAvailable();
+
+        /// <summary>
         /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
         /// </summary>
         void InitializeVerify();

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -131,6 +131,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             _consistency = Common.Mkl.MklConsistency.Auto;
             _precision = Common.Mkl.MklPrecision.Double;
             _accuracy = Common.Mkl.MklAccuracy.High;
+        }
+
+        /// <summary>
+        /// Try to find out whether the provider is available, at least in principle.
+        /// Verification may still fail if available, but it will certainly fail if unavailable.
+        /// </summary>
+        public override bool IsAvailable()
+        {
+            return MklProvider.IsAvailable(minRevision: 4);
         }
 
         /// <summary>

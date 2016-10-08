@@ -40,22 +40,40 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         static bool _nativeX64;
         static bool _nativeIA64;
 
+        public static bool IsAvailable(int minRevision)
+        {
+            try
+            {
+                if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName))
+                {
+                    return false;
+                }
+
+                int a = SafeNativeMethods.query_capability(0);
+                int b = SafeNativeMethods.query_capability(1);
+                int nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
+                return a == 0 && b == -1 && nativeRevision >= minRevision;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         public static void Load(int minRevision)
         {
             int a, b;
             try
             {
-                // Load the native library
                 NativeProviderLoader.TryLoad(SafeNativeMethods.DllName);
 
                 a = SafeNativeMethods.query_capability(0);
                 b = SafeNativeMethods.query_capability(1);
+                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
 
                 _nativeX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
                 _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
                 _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
-
-                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
 
                 _mklVersion = new Version(
                     SafeNativeMethods.query_capability((int)ProviderConfig.MklMajorVersion),

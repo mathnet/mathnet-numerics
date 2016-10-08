@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -63,6 +63,34 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
         bool _nativeIA64;
         bool _nativeARM;
 
+        /// <summary>
+        /// Try to find out whether the provider is available, at least in principle.
+        /// Verification may still fail if available, but it will certainly fail if unavailable.
+        /// </summary>
+        public override bool IsAvailable()
+        {
+            try
+            {
+                if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName))
+                {
+                    return false;
+                }
+
+                int a = SafeNativeMethods.query_capability(0);
+                int b = SafeNativeMethods.query_capability(1);
+                int nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
+                return a == 0 && b == -1 && nativeRevision >= 1;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Initialize and verify that the provided is indeed available.
+        /// If not, fall back to alternatives like the managed provider
+        /// </summary>
         public override void InitializeVerify()
         {
             int a, b, linearAlgebra;
@@ -73,13 +101,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 
                 a = SafeNativeMethods.query_capability(0);
                 b = SafeNativeMethods.query_capability(1);
+                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
 
                 _nativeIX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
                 _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
                 _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
                 _nativeARM = SafeNativeMethods.query_capability((int)ProviderPlatform.arm) > 0;
 
-                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
                 linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebra);
             }
             catch (DllNotFoundException e)

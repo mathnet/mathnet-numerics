@@ -27,10 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Providers.LinearAlgebra;
 using System;
 using System.Threading.Tasks;
 using MathNet.Numerics.Providers.FourierTransform;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics
 {
@@ -39,8 +39,6 @@ namespace MathNet.Numerics
     /// </summary>
     public static class Control
     {
-        const string EnvVarLAProvider = "MathNetNumericsLAProvider";
-
         static int _maxDegreeOfParallelism;
         static int _blockSize;
         static int _parallelizeOrder;
@@ -68,54 +66,10 @@ namespace MathNet.Numerics
             TaskScheduler = TaskScheduler.Default;
         }
 
-        private static void InitializeDefaultProviders()
-        {
-            lock (_staticLock)
-            {
-                if (_linearAlgebraProvider == null || _fourierTransformProvider == null)
-                {
-#if NATIVE
-                    try
-                    {
-                        var value = Environment.GetEnvironmentVariable(EnvVarLAProvider);
-                        switch (value != null ? value.ToUpperInvariant() : string.Empty)
-                        {
-                            case "MKL":
-                                UseNativeMKL();
-                                break;
-
-                            case "CUDA":
-                                UseNativeCUDA();
-                                break;
-
-                            case "OPENBLAS":
-                                UseNativeOpenBLAS();
-                                break;
-
-                            default:
-                                if (!TryUseNative())
-                                {
-                                    UseManaged();
-                                }
-                                break;
-                        }
-                    }
-                    catch
-                    {
-                        // We don't care about any failures here at all (because "auto")
-                        UseManaged();
-                    }
-#else
-                    UseManaged();
-#endif
-                }
-            }
-        }
-
         public static void UseManaged()
         {
-            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
-            FourierTransformProvider = new ManagedFourierTransformProvider();
+            LinearAlgebraControl.UseManaged();
+            FourierTransformControl.UseManaged();
         }
 
 #if NATIVE
@@ -126,8 +80,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static void UseNativeMKL()
         {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
-            FourierTransformProvider = new Providers.FourierTransform.Mkl.MklFourierTransformProvider();
+            LinearAlgebraControl.UseNativeMKL();
+            FourierTransformControl.UseNativeMKL();
         }
 
         /// <summary>
@@ -141,8 +95,11 @@ namespace MathNet.Numerics
             Providers.LinearAlgebra.Mkl.MklPrecision precision = Providers.LinearAlgebra.Mkl.MklPrecision.Double,
             Providers.LinearAlgebra.Mkl.MklAccuracy accuracy = Providers.LinearAlgebra.Mkl.MklAccuracy.High)
         {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
-            FourierTransformProvider = new Providers.FourierTransform.Mkl.MklFourierTransformProvider();
+            LinearAlgebraControl.UseNativeMKL(
+                (Providers.Common.Mkl.MklConsistency)consistency,
+                (Providers.Common.Mkl.MklPrecision)precision,
+                (Providers.Common.Mkl.MklAccuracy)accuracy);
+            FourierTransformControl.UseNativeMKL();
         }
 
         /// <summary>
@@ -155,8 +112,8 @@ namespace MathNet.Numerics
             Providers.Common.Mkl.MklPrecision precision = Providers.Common.Mkl.MklPrecision.Double,
             Providers.Common.Mkl.MklAccuracy accuracy = Providers.Common.Mkl.MklAccuracy.High)
         {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
-            FourierTransformProvider = new Providers.FourierTransform.Mkl.MklFourierTransformProvider();
+            LinearAlgebraControl.UseNativeMKL(consistency, precision, accuracy);
+            FourierTransformControl.UseNativeMKL();
         }
 
         /// <summary>
@@ -177,11 +134,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static void UseNativeCUDA()
         {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
-            if (_fourierTransformProvider == null)
-            {
-                FourierTransformProvider = new ManagedFourierTransformProvider();
-            }
+            LinearAlgebraControl.UseNativeCUDA();
         }
 
         /// <summary>
@@ -202,11 +155,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static void UseNativeOpenBLAS()
         {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.OpenBlas.OpenBlasLinearAlgebraProvider();
-            if (_fourierTransformProvider == null)
-            {
-                FourierTransformProvider = new ManagedFourierTransformProvider();
-            }
+            LinearAlgebraControl.UseNativeOpenBLAS();
         }
 
         /// <summary>
@@ -296,7 +245,15 @@ namespace MathNet.Numerics
             get
             {
                 if (_linearAlgebraProvider == null)
-                    InitializeDefaultProviders();
+                {
+                    lock (_staticLock)
+                    {
+                        if (_linearAlgebraProvider == null)
+                        {
+                            LinearAlgebraControl.UseDefault();
+                        }
+                    }
+                }
 
                 return _linearAlgebraProvider;
             }
@@ -318,7 +275,15 @@ namespace MathNet.Numerics
             get
             {
                 if (_fourierTransformProvider == null)
-                    InitializeDefaultProviders();
+                {
+                    lock (_staticLock)
+                    {
+                        if (_fourierTransformProvider == null)
+                        {
+                            FourierTransformControl.UseDefault();
+                        }
+                    }
+                }
 
                 return _fourierTransformProvider;
             }
