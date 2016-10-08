@@ -65,7 +65,7 @@ inline int lu_inverse(cusolverDnHandle_t solverHandle, cublasHandle_t blasHandle
 
 	getrf(solverHandle, n, n, d_A, n, work, d_I, d_info);
 	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
-	
+
 	cudaFree(work);
 
 	if (info != 0)
@@ -134,7 +134,7 @@ inline int lu_inverse_factored(cublasHandle_t blasHandle, int n, T a[], int ipiv
 	getri(blasHandle, n, d_Aarray, n, d_I, d_Carray, n, d_info, 1);
 	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
-	cublasGetMatrix(n, n, sizeof(T), d_C, n, a, n);	
+	cublasGetMatrix(n, n, sizeof(T), d_C, n, a, n);
 	cublasGetVector(n, sizeof(int), d_I, 1, ipiv, 1);
 
 	shift_ipiv_down(n, ipiv);
@@ -299,7 +299,7 @@ inline int cholesky_solve(cusolverDnHandle_t solverHandle, int n, int nrhs, T a[
 	cudaMemcpy(&info, d_info, sizeof(int), cudaMemcpyDeviceToHost);
 
 	cudaFree(work);
-		
+
 	if (info != 0)
 	{
 		cudaFree(d_A);
@@ -425,7 +425,7 @@ inline int cholesky_solve_factored(cusolverDnHandle_t solverHandle, int n, int n
 //	int info = 0;
 //	ormqr(solverHandle, &side, &tran, &m, &bn, &n, r, &m, tau, clone_b, &m, work, &len, &info);
 //	trsm(blasHandle, CblasColMajor, CblasLeft, CblasUpper, CblasNoTrans, CblasNonUnit, n, bn, 1.0, r, m, clone_b, m);
-//		
+//
 //	copyBtoX(m, n, bn, clone_b, x);
 //	delete[] clone_b;
 //	return info;

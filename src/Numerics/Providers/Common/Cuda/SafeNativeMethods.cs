@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,8 +32,9 @@ using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
+namespace MathNet.Numerics.Providers.Common.Cuda
 {
     /// <summary>
     /// P/Invoke methods to the native math libraries.

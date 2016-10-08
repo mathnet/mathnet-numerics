@@ -34,6 +34,7 @@ using MathNet.Numerics.Properties;
 using System;
 using System.Numerics;
 using System.Security;
+using MathNet.Numerics.Providers.Common.OpenBlas;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 {
@@ -357,7 +358,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
             if (info > 0)
             {
                 throw new SingularUMatrixException(info);
-            } 
+            }
         }
 
         /// <summary>

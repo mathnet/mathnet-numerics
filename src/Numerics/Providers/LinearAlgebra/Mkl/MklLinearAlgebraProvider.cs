@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Providers.Common;
 using MathNet.Numerics.Providers.Common.Mkl;
 
 #if NATIVE

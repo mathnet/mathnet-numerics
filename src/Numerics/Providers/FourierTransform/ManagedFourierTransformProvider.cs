@@ -53,6 +53,11 @@ namespace MathNet.Numerics.Providers.FourierTransform
         {
         }
 
+        public override string ToString()
+        {
+            return "Managed";
+        }
+
         public virtual void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
             Fourier.BluesteinForward(complex, Options(scaling));

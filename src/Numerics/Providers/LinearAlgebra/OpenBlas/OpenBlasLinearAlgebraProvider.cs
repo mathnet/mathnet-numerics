@@ -30,7 +30,7 @@
 #if NATIVE
 
 using System;
-using MathNet.Numerics.Providers.Common;
+using MathNet.Numerics.Providers.Common.OpenBlas;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 {
@@ -57,34 +57,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
     /// </summary>
     public partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
-        int _nativeRevision;
-        bool _nativeIX86;
-        bool _nativeX64;
-        bool _nativeIA64;
-        bool _nativeARM;
-
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
         /// </summary>
         public override bool IsAvailable()
         {
-            try
-            {
-                if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName))
-                {
-                    return false;
-                }
-
-                int a = SafeNativeMethods.query_capability(0);
-                int b = SafeNativeMethods.query_capability(1);
-                int nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
-                return a == 0 && b == -1 && nativeRevision >= 1;
-            }
-            catch
-            {
-                return false;
-            }
+            return OpenBlasProvider.IsAvailable(minRevision: 1);
         }
 
         /// <summary>
@@ -93,53 +72,20 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
         /// </summary>
         public override void InitializeVerify()
         {
-            int a, b, linearAlgebra;
-            try
-            {
-                // Load the native library
-                NativeProviderLoader.TryLoad(SafeNativeMethods.DllName);
+            OpenBlasProvider.Load(minRevision: 1);
 
-                a = SafeNativeMethods.query_capability(0);
-                b = SafeNativeMethods.query_capability(1);
-                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
+            int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
 
-                _nativeIX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
-                _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
-                _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
-                _nativeARM = SafeNativeMethods.query_capability((int)ProviderPlatform.arm) > 0;
-
-                linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebra);
-            }
-            catch (DllNotFoundException e)
+            // we only support exactly one major version, since major version changes imply a breaking change.
+            if (linearAlgebra != 1)
             {
-                throw new NotSupportedException("OpenBLAS Native Provider not found.", e);
-            }
-            catch (BadImageFormatException e)
-            {
-                throw new NotSupportedException("OpenBLAS Native Provider found but failed to load. Please verify that the platform matches (x64 vs x32, Windows vs Linux).", e);
-            }
-            catch (EntryPointNotFoundException e)
-            {
-                throw new NotSupportedException("OpenBLAS Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
-            }
-
-            if (a != 0 || b != -1 || linearAlgebra <=0 || _nativeRevision < 1)
-            {
-                throw new NotSupportedException("OpenBLAS Native Provider too old or not compatible. Consider upgrading to a newer version.");
-            }
-
-            // set threading settings, if supported
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Threading) > 0)
-            {
-                SafeNativeMethods.set_max_threads(Control.MaxDegreeOfParallelism);
+                throw new NotSupportedException(string.Format("OpenBLAS Native Provider not compatible. Expecting linear algebra v1 but provider implements v{0}.", linearAlgebra));
             }
         }
 
         public override string ToString()
         {
-            return string.Format("OpenBLAS ({1}; revision {0})",
-                _nativeRevision,
-                _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : _nativeARM ? "ARM" : "unknown");
+            return OpenBlasProvider.Describe();
         }
     }
 }

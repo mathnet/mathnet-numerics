@@ -28,7 +28,7 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Providers.Common;
+using MathNet.Numerics.Providers.Common.Cuda;
 
 #if NATIVE
 
@@ -39,10 +39,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
     /// </summary>
     public partial class CudaLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
     {
-        int _nativeRevision;
-        bool _nativeIX86;
-        bool _nativeX64;
-        bool _nativeIA64;
         IntPtr _blasHandle;
         IntPtr _solverHandle;
 
@@ -52,22 +48,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         /// </summary>
         public override bool IsAvailable()
         {
-            try
-            {
-                if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName))
-                {
-                    return false;
-                }
-
-                int a = SafeNativeMethods.query_capability(0);
-                int b = SafeNativeMethods.query_capability(1);
-                int nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
-                return a == 0 && b == -1 && nativeRevision >= 1;
-            }
-            catch
-            {
-                return false;
-            }
+            return CudaProvider.IsAvailable(minRevision: 1);
         }
 
         /// <summary>
@@ -76,38 +57,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         /// </summary>
         public override void InitializeVerify()
         {
-            int a, b, linearAlgebra;
-            try
-            {
-                // Load the native library
-                NativeProviderLoader.TryLoad(SafeNativeMethods.DllName);
+            CudaProvider.Load(minRevision: 1);
 
-                a = SafeNativeMethods.query_capability(0);
-                b = SafeNativeMethods.query_capability(1);
-                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
+            int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
 
-                _nativeIX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
-                _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
-                _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
-
-                linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebra);
-            }
-            catch (DllNotFoundException e)
+            // we only support exactly one major version, since major version changes imply a breaking change.
+            if (linearAlgebra != 1)
             {
-                throw new NotSupportedException("Cuda Native Provider not found.", e);
-            }
-            catch (BadImageFormatException e)
-            {
-                throw new NotSupportedException("Cuda Native Provider found but failed to load. Please verify that the platform matches (x64 vs x32, Windows vs Linux).", e);
-            }
-            catch (EntryPointNotFoundException e)
-            {
-                throw new NotSupportedException("Cuda Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
-            }
-
-            if (a != 0 || b != -1 || linearAlgebra <=0 || _nativeRevision < 1)
-            {
-                throw new NotSupportedException("Cuda Native Provider too old or not compatible. Consider upgrading to a newer version.");
+                throw new NotSupportedException(string.Format("Cuda Native Provider not compatible. Expecting linear algebra v1 but provider implements v{0}.", linearAlgebra));
             }
 
             BLAS(SafeNativeMethods.createBLASHandle(ref _blasHandle));
@@ -200,11 +157,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
         public override string ToString()
         {
-            return string.Format("Nvidia CUDA ({1}; revision {0})",
-                _nativeRevision,
-                _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
+            return CudaProvider.Describe();
         }
-
 
         public void Dispose()
         {

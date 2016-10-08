@@ -31,8 +31,10 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
+using MathNet.Numerics.Providers.LinearAlgebra;
+using MathNet.Numerics.Providers.LinearAlgebra.OpenBlas;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
+namespace MathNet.Numerics.Providers.Common.OpenBlas
 {
     /// <summary>
     /// P/Invoke methods to the native math libraries.

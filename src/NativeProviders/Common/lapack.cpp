@@ -16,12 +16,12 @@ inline lapack_int lu_factor(lapack_int m, T a[], lapack_int ipiv[], GETRF getrf)
 template<typename T, typename GETRF, typename GETRI>
 inline lapack_int lu_inverse(lapack_int n, T a[], GETRF getrf, GETRI getri)
 {
-	try 
+	try
 	{
 		auto ipiv = array_new<lapack_int>(n);
 		auto info = getrf(LAPACK_COL_MAJOR, n, n, a, n, ipiv.get());
 
-		if (info != 0) 
+		if (info != 0)
 		{
 			return info;
 		}
@@ -29,7 +29,7 @@ inline lapack_int lu_inverse(lapack_int n, T a[], GETRF getrf, GETRI getri)
 		info = getri(LAPACK_COL_MAJOR, n, a, n, ipiv.get());
 		return info;
 	}
-	catch (std::bad_alloc&) 
+	catch (std::bad_alloc&)
 	{
 		return INSUFFICIENT_MEMORY;
 	}
@@ -56,20 +56,20 @@ inline lapack_int lu_solve_factored(lapack_int n, lapack_int nrhs, T a[], lapack
 template<typename T, typename GETRF, typename GETRS>
 inline lapack_int lu_solve(lapack_int n, lapack_int nrhs, T a[], T b[], GETRF getrf, GETRS getrs)
 {
-	try 
+	try
 	{
 		auto clone = array_clone(n * n, a);
 		auto ipiv = array_new<lapack_int>(n);
 		auto info = getrf(LAPACK_COL_MAJOR, n, n, clone.get(), n, ipiv.get());
 
-		if (info != 0) 
+		if (info != 0)
 		{
 			return info;
 		}
 
 		return getrs(LAPACK_COL_MAJOR, 'N', n, nrhs, clone.get(), n, ipiv.get(), b, n);
 	}
-	catch (std::bad_alloc&) 
+	catch (std::bad_alloc&)
 	{
 		return INSUFFICIENT_MEMORY;
 	}
@@ -264,7 +264,7 @@ inline lapack_int svd_factor(bool compute_vectors, lapack_int m, lapack_int n, T
 template<typename T, typename R, typename GESVD>
 inline lapack_int complex_svd_factor(bool compute_vectors, lapack_int m, lapack_int n, T a[], T s[], T u[], T v[], GESVD gesvd)
 {
-	try 
+	try
 	{
 		auto dim_s = std::min(m, n);
 		auto s_local = array_new<R>(dim_s);
