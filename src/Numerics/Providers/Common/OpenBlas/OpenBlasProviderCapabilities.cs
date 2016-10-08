@@ -1,9 +1,9 @@
-﻿// <copyright file="ManagedLinearAlgebraProvider.cs" company="Math.NET">
+﻿// <copyright file="OpenBlasProviderCapabilities.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,32 +27,29 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Providers.LinearAlgebra
+#if NATIVE
+
+namespace MathNet.Numerics.Providers.Common.OpenBlas
 {
-    /// <summary>
-    /// The managed linear algebra provider.
-    /// </summary>
-    public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
+    internal enum ProviderPlatform : int
     {
-        /// <summary>
-        /// Try to find out whether the provider is available, at least in principle.
-        /// Verification may still fail if available, but it will certainly fail if unavailable.
-        /// </summary>
-        public virtual bool IsAvailable()
-        {
-            return true;
-        }
+        x86 = 8,
+        x64 = 9,
+        ia64 = 10,
+        arm = 11,
+    }
 
-        /// <summary>
-        /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
-        /// </summary>
-        public virtual void InitializeVerify()
-        {
-        }
+    internal enum ProviderConfig : int
+    {
+        Revision = 64,
+        Threading = 66,
+    }
 
-        public override string ToString()
-        {
-            return "Managed";
-        }
+    internal enum ProviderCapability : int
+    {
+        LinearAlgebraMajor = 128,
+        LinearAlgebraMinor = 129
     }
 }
+
+#endif

@@ -1,9 +1,9 @@
-﻿// <copyright file="OpenBlasProviderCapabilities.cs" company="Math.NET">
+﻿// <copyright file="MklProviderCapabilities.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,24 +27,35 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
+#if NATIVE
+
+namespace MathNet.Numerics.Providers.Common.Mkl
 {
     internal enum ProviderPlatform : int
     {
         x86 = 8,
         x64 = 9,
         ia64 = 10,
-        arm = 11,
     }
 
     internal enum ProviderConfig : int
     {
+        MklMajorVersion = 32,
+        MklMinorVersion = 33,
+        MklUpdateVersion = 34,
         Revision = 64,
+        Precision = 65,
         Threading = 66,
+        Memory = 67,
     }
 
     internal enum ProviderCapability : int
     {
-        LinearAlgebra = 128,
+        LinearAlgebraMajor = 128,
+        LinearAlgebraMinor = 129,
+        FourierTransformMajor = 384,
+        FourierTransformMinor = 385
     }
 }
+
+#endif

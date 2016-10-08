@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,6 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if NATIVE
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,9 +37,7 @@ using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
 
-#if NATIVE
-
-namespace MathNet.Numerics.Providers
+namespace MathNet.Numerics.Providers.Common
 {
     /// <summary>
     /// Helper class to load native libraries depending on the architecture of the OS and process.

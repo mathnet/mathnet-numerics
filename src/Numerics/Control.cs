@@ -27,9 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Providers.LinearAlgebra;
 using System;
 using System.Threading.Tasks;
+using MathNet.Numerics.Providers.FourierTransform;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics
 {
@@ -38,13 +39,12 @@ namespace MathNet.Numerics
     /// </summary>
     public static class Control
     {
-        const string EnvVarLAProvider = "MathNetNumericsLAProvider";
-
         static int _maxDegreeOfParallelism;
         static int _blockSize;
         static int _parallelizeOrder;
         static int _parallelizeElements;
         static ILinearAlgebraProvider _linearAlgebraProvider;
+        static IFourierTransformProvider _fourierTransformProvider;
         static readonly object _staticLock = new object();
 
         static Control()
@@ -66,53 +66,10 @@ namespace MathNet.Numerics
             TaskScheduler = TaskScheduler.Default;
         }
 
-        private static void InitializeDefaultLinearAlgebraProvider()
-        {
-            lock (_staticLock)
-            {
-                if (_linearAlgebraProvider == null)
-                {
-#if NATIVE
-                    try
-                    {
-                        var value = Environment.GetEnvironmentVariable(EnvVarLAProvider);
-                        switch (value != null ? value.ToUpperInvariant() : string.Empty)
-                        {
-                            case "MKL":
-                                UseNativeMKL();
-                                break;
-
-                            case "CUDA":
-                                UseNativeCUDA();
-                                break;
-
-                            case "OPENBLAS":
-                                UseNativeOpenBLAS();
-                                break;
-
-                            default:
-                                if (!TryUseNative())
-                                {
-                                    UseManaged();
-                                }
-                                break;
-                        }
-                    }
-                    catch
-                    {
-                        // We don't care about any failures here at all (because "auto")
-                        UseManaged();
-                    }
-#else
-                    UseManaged();
-#endif
-                }
-            }
-        }
-
         public static void UseManaged()
         {
-            LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+            LinearAlgebraControl.UseManaged();
+            FourierTransformControl.UseManaged();
         }
 
 #if NATIVE
@@ -123,7 +80,26 @@ namespace MathNet.Numerics
         /// </summary>
         public static void UseNativeMKL()
         {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider();
+            LinearAlgebraControl.UseNativeMKL();
+            FourierTransformControl.UseNativeMKL();
+        }
+
+        /// <summary>
+        /// Use the Intel MKL native provider for linear algebra, with the specified configuration parameters.
+        /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
+        /// </summary>
+        [CLSCompliant(false)]
+        [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
+        public static void UseNativeMKL(
+            Providers.LinearAlgebra.Mkl.MklConsistency consistency = Providers.LinearAlgebra.Mkl.MklConsistency.Auto,
+            Providers.LinearAlgebra.Mkl.MklPrecision precision = Providers.LinearAlgebra.Mkl.MklPrecision.Double,
+            Providers.LinearAlgebra.Mkl.MklAccuracy accuracy = Providers.LinearAlgebra.Mkl.MklAccuracy.High)
+        {
+            LinearAlgebraControl.UseNativeMKL(
+                (Providers.Common.Mkl.MklConsistency)consistency,
+                (Providers.Common.Mkl.MklPrecision)precision,
+                (Providers.Common.Mkl.MklAccuracy)accuracy);
+            FourierTransformControl.UseNativeMKL();
         }
 
         /// <summary>
@@ -132,11 +108,12 @@ namespace MathNet.Numerics
         /// </summary>
         [CLSCompliant(false)]
         public static void UseNativeMKL(
-            Providers.LinearAlgebra.Mkl.MklConsistency consistency = Providers.LinearAlgebra.Mkl.MklConsistency.Auto,
-            Providers.LinearAlgebra.Mkl.MklPrecision precision = Providers.LinearAlgebra.Mkl.MklPrecision.Double,
-            Providers.LinearAlgebra.Mkl.MklAccuracy accuracy = Providers.LinearAlgebra.Mkl.MklAccuracy.High)
+            Providers.Common.Mkl.MklConsistency consistency = Providers.Common.Mkl.MklConsistency.Auto,
+            Providers.Common.Mkl.MklPrecision precision = Providers.Common.Mkl.MklPrecision.Double,
+            Providers.Common.Mkl.MklAccuracy accuracy = Providers.Common.Mkl.MklAccuracy.High)
         {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
+            LinearAlgebraControl.UseNativeMKL(consistency, precision, accuracy);
+            FourierTransformControl.UseNativeMKL();
         }
 
         /// <summary>
@@ -157,7 +134,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static void UseNativeCUDA()
         {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.Cuda.CudaLinearAlgebraProvider();
+            LinearAlgebraControl.UseNativeCUDA();
         }
 
         /// <summary>
@@ -178,7 +155,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static void UseNativeOpenBLAS()
         {
-            LinearAlgebraProvider = new Providers.LinearAlgebra.OpenBlas.OpenBlasLinearAlgebraProvider();
+            LinearAlgebraControl.UseNativeOpenBLAS();
         }
 
         /// <summary>
@@ -226,6 +203,7 @@ namespace MathNet.Numerics
             ThreadSafeRandomNumberGenerators = false;
 
             LinearAlgebraProvider.InitializeVerify();
+            FourierTransformProvider.InitializeVerify();
         }
 
         public static void UseMultiThreading()
@@ -234,6 +212,7 @@ namespace MathNet.Numerics
             ThreadSafeRandomNumberGenerators = true;
 
             LinearAlgebraProvider.InitializeVerify();
+            FourierTransformProvider.InitializeVerify();
         }
 
         /// <summary>
@@ -266,7 +245,15 @@ namespace MathNet.Numerics
             get
             {
                 if (_linearAlgebraProvider == null)
-                    InitializeDefaultLinearAlgebraProvider();
+                {
+                    lock (_staticLock)
+                    {
+                        if (_linearAlgebraProvider == null)
+                        {
+                            LinearAlgebraControl.UseDefault();
+                        }
+                    }
+                }
 
                 return _linearAlgebraProvider;
             }
@@ -276,6 +263,36 @@ namespace MathNet.Numerics
 
                 // only actually set if verification did not throw
                 _linearAlgebraProvider = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the fourier transform provider. Consider to use UseNativeMKL or UseManaged instead.
+        /// </summary>
+        /// <value>The linear algebra provider.</value>
+        public static IFourierTransformProvider FourierTransformProvider
+        {
+            get
+            {
+                if (_fourierTransformProvider == null)
+                {
+                    lock (_staticLock)
+                    {
+                        if (_fourierTransformProvider == null)
+                        {
+                            FourierTransformControl.UseDefault();
+                        }
+                    }
+                }
+
+                return _fourierTransformProvider;
+            }
+            set
+            {
+                value.InitializeVerify();
+
+                // only actually set if verification did not throw
+                _fourierTransformProvider = value;
             }
         }
 
@@ -293,6 +310,7 @@ namespace MathNet.Numerics
 
                 // Reinitialize providers:
                 LinearAlgebraProvider.InitializeVerify();
+                FourierTransformProvider.InitializeVerify();
             }
         }
 

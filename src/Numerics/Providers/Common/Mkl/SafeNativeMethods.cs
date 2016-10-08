@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://mathnet.opensourcedotnet.info
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,8 +31,9 @@
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
+namespace MathNet.Numerics.Providers.Common.Mkl
 {
     /// <summary>
     /// P/Invoke methods to the native math libraries.
@@ -366,6 +367,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         internal static extern void z_vector_divide(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
 
         #endregion  Vector Functions
+
+        #region FFT
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long z_fft_forward_inplace(long n, double scaling, [In, Out] Complex[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long c_fft_forward_inplace(long n, float scaling, [In, Out] Complex32[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long z_fft_backward_inplace(long n, double scaling, [In, Out] Complex[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long c_fft_backward_inplace(long n, float scaling, [In, Out] Complex32[] x);
+
+        #endregion FFT
 
         // ReSharper restore InconsistentNaming
     }

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Providers.FourierTransform;
 
 namespace MathNet.Numerics.IntegralTransforms
 {
@@ -46,7 +47,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         public static void Forward(Complex[] samples)
         {
-            BluesteinForward(samples, FourierOptions.Default);
+            Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
         }
 
         /// <summary>
@@ -56,7 +57,23 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="options">Fourier Transform Convention Options.</param>
         public static void Forward(Complex[] samples, FourierOptions options)
         {
-            BluesteinForward(samples, options);
+            switch (options)
+            {
+                case FourierOptions.NoScaling:
+                case FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.NoScaling);
+                    break;
+                case FourierOptions.InverseExponent:
+                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+                    break;
+                case FourierOptions.InverseExponent | FourierOptions.NoScaling:
+                case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.NoScaling);
+                    break;
+                default:
+                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+                    break;
+            }
         }
 
         /// <summary>
@@ -65,7 +82,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         public static void Inverse(Complex[] samples)
         {
-            BluesteinInverse(samples, FourierOptions.Default);
+            Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.SymmetricScaling);
         }
 
         /// <summary>
@@ -75,7 +92,27 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="options">Fourier Transform Convention Options.</param>
         public static void Inverse(Complex[] samples, FourierOptions options)
         {
-            BluesteinInverse(samples, options);
+            switch (options)
+            {
+                case FourierOptions.NoScaling:
+                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.NoScaling);
+                    break;
+                case FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.BackwardScaling);
+                    break;
+                case FourierOptions.InverseExponent:
+                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+                    break;
+                case FourierOptions.InverseExponent | FourierOptions.NoScaling:
+                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.NoScaling);
+                    break;
+                case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.ForwardScaling);
+                    break;
+                default:
+                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+                    break;
+            }
         }
 
         /// <summary>

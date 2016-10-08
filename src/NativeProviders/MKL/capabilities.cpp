@@ -40,8 +40,28 @@ extern "C" {
 			return 0;
 #endif
 
+		// MKL VERSION
+		case 32: // major version
+			{
+				MKLVersion Version;
+				mkl_get_version(&Version);
+				return Version.MajorVersion;
+			}
+		case 33: // minor version
+			{
+				MKLVersion Version;
+				mkl_get_version(&Version);
+				return Version.MinorVersion;
+			}
+		case 34: // update version
+			{
+				MKLVersion Version;
+				mkl_get_version(&Version);
+				return Version.UpdateVersion;
+			}
+
 		// COMMON/SHARED
-		case 64: return 10; // revision
+		case 64: return 11; // revision
 		case 65: return 1; // numerical consistency, precision and accuracy modes
 		case 66: return 1; // threading control
 		case 67: return 1; // memory management
@@ -54,7 +74,8 @@ extern "C" {
 		case 256: return 0; // basic optimization
 
 		// FFT
-		case 384: return 0; // basic FFT
+		case 384: return 1; // basic FFT (major - breaking)
+		case 385: return 0; // basic FFT (minor - non-breaking)
 
 		default: return 0; // unknown or not supported
 

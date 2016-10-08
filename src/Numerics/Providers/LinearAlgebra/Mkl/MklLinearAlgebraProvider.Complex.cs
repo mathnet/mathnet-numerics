@@ -34,6 +34,7 @@ using System.Numerics;
 using System.Security;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 {

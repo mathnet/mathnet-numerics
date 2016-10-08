@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,9 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-
 #if NATIVE
+
+using System;
+using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 {
@@ -47,6 +48,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// <summary>
     /// Consistency vs. performance trade-off between runs on different machines.
     /// </summary>
+    [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
     public enum MklConsistency : int
     {
         /// <summary>Consistent on the same CPU only (maximum performance)</summary>
@@ -64,6 +66,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     }
 
     [CLSCompliant(false)]
+    [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
     public enum MklAccuracy : uint
     {
         Low = 0x1,
@@ -71,33 +74,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     }
 
     [CLSCompliant(false)]
+    [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
     public enum MklPrecision : uint
     {
         Single = 0x10,
         Double = 0x20
-    }
-
-    internal enum MklMemoryRequestMode : int
-    {
-        /// <summary>
-        /// Disable gathering memory usage
-        /// </summary>
-        Disable = 0,
-
-        /// <summary>
-        /// Enable gathering memory usage
-        /// </summary>
-        Enable = 1,
-
-        /// <summary>
-        /// Return peak memory usage
-        /// </summary>
-        PeakMemory = 2,
-
-        /// <summary>
-        /// Return peak memory usage and reset counter
-        /// </summary>
-        PeakMemoryReset = -1
     }
 
     /// <summary>
@@ -105,14 +86,27 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// </summary>
     public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
-        int _nativeRevision;
-        bool _nativeIX86;
-        bool _nativeX64;
-        bool _nativeIA64;
+        readonly Common.Mkl.MklConsistency _consistency;
+        readonly Common.Mkl.MklPrecision _precision;
+        readonly Common.Mkl.MklAccuracy _accuracy;
 
-        readonly MklConsistency _consistency;
-        readonly MklPrecision _precision;
-        readonly MklAccuracy _accuracy;
+        /// <param name="consistency">
+        /// Sets the desired bit consistency on repeated identical computations on varying CPU architectures,
+        /// as a trade-off with performance.
+        /// </param>
+        /// <param name="precision">VML optimal precision and rounding.</param>
+        /// <param name="accuracy">VML accuracy mode.</param>
+        [CLSCompliant(false)]
+        [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
+        public MklLinearAlgebraProvider(
+            MklConsistency consistency = MklConsistency.Auto,
+            MklPrecision precision = MklPrecision.Double,
+            MklAccuracy accuracy = MklAccuracy.High)
+        {
+            _consistency = (Common.Mkl.MklConsistency)consistency;
+            _precision = (Common.Mkl.MklPrecision)precision;
+            _accuracy = (Common.Mkl.MklAccuracy)accuracy;
+        }
 
         /// <param name="consistency">
         /// Sets the desired bit consistency on repeated identical computations on varying CPU architectures,
@@ -122,9 +116,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <param name="accuracy">VML accuracy mode.</param>
         [CLSCompliant(false)]
         public MklLinearAlgebraProvider(
-            MklConsistency consistency = MklConsistency.Auto,
-            MklPrecision precision = MklPrecision.Double,
-            MklAccuracy accuracy = MklAccuracy.High)
+            Common.Mkl.MklConsistency consistency = Common.Mkl.MklConsistency.Auto,
+            Common.Mkl.MklPrecision precision = Common.Mkl.MklPrecision.Double,
+            Common.Mkl.MklAccuracy accuracy = Common.Mkl.MklAccuracy.High)
         {
             _consistency = consistency;
             _precision = precision;
@@ -133,9 +127,18 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
         public MklLinearAlgebraProvider()
         {
-            _consistency = MklConsistency.Auto;
-            _precision = MklPrecision.Double;
-            _accuracy = MklAccuracy.High;
+            _consistency = Common.Mkl.MklConsistency.Auto;
+            _precision = Common.Mkl.MklPrecision.Double;
+            _accuracy = Common.Mkl.MklAccuracy.High;
+        }
+
+        /// <summary>
+        /// Try to find out whether the provider is available, at least in principle.
+        /// Verification may still fail if available, but it will certainly fail if unavailable.
+        /// </summary>
+        public override bool IsAvailable()
+        {
+            return MklProvider.IsAvailable(minRevision: 4);
         }
 
         /// <summary>
@@ -144,57 +147,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public override void InitializeVerify()
         {
-            int a, b, linearAlgebra;
-            try
-            {
-                // Load the native library
-                NativeProviderLoader.TryLoad(SafeNativeMethods.DllName);
+            MklProvider.Load(minRevision: 4);
+            MklProvider.ConfigurePrecision(_consistency, _precision, _accuracy);
 
-                a = SafeNativeMethods.query_capability(0);
-                b = SafeNativeMethods.query_capability(1);
-
-                _nativeIX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
-                _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
-                _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
-
-                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
-                linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebra);
-            }
-            catch (DllNotFoundException e)
-            {
-                throw new NotSupportedException("MKL Native Provider not found.", e);
-            }
-            catch (BadImageFormatException e)
-            {
-                throw new NotSupportedException("MKL Native Provider found but failed to load. Please verify that the platform matches (x64 vs x32, Windows vs Linux).", e);
-            }
-            catch (EntryPointNotFoundException e)
-            {
-                throw new NotSupportedException("MKL Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
-            }
-
-            if (a != 0 || b != -1 || _nativeRevision < 4)
-            {
-                throw new NotSupportedException("MKL Native Provider too old. Consider upgrading to a newer version.");
-            }
+            int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
 
             // we only support exactly one major version, since major version changes imply a breaking change.
             if (linearAlgebra != 2)
             {
                 throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting linear algebra v2 but provider implements v{0}.", linearAlgebra));
-            }
-
-            // set numerical consistency, precision and accuracy modes, if supported
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Precision) > 0)
-            {
-                SafeNativeMethods.set_consistency_mode((int)_consistency);
-                SafeNativeMethods.set_vml_mode((uint)_precision | (uint)_accuracy);
-            }
-
-            // set threading settings, if supported
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Threading) > 0)
-            {
-                SafeNativeMethods.set_max_threads(Control.MaxDegreeOfParallelism);
             }
         }
 
@@ -203,12 +164,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void FreeBuffers()
         {
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
-            {
-                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
-            }
-
-            SafeNativeMethods.free_buffers();
+            MklProvider.FreeBuffers();
         }
 
         /// <summary>
@@ -216,12 +172,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void ThreadFreeBuffers()
         {
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
-            {
-                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
-            }
-
-            SafeNativeMethods.thread_free_buffers();
+            MklProvider.ThreadFreeBuffers();
         }
 
         /// <summary>
@@ -229,12 +180,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void DisableMemoryPool()
         {
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
-            {
-                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
-            }
-
-            SafeNativeMethods.disable_fast_mm();
+            MklProvider.DisableMemoryPool();
         }
 
         /// <summary>
@@ -244,12 +190,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <returns>Returns the number of bytes allocated to all memory buffers.</returns>
         public long MemoryStatistics(out int allocatedBuffers)
         {
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
-            {
-                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
-            }
-
-           return SafeNativeMethods.mem_stat(out allocatedBuffers);
+            return MklProvider.MemoryStatistics(out allocatedBuffers);
         }
 
         /// <summary>
@@ -257,12 +198,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void EnablePeakMemoryStatistics()
         {
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
-            {
-                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
-            }
-
-            SafeNativeMethods.peak_mem_usage((int)MklMemoryRequestMode.Enable);
+            MklProvider.EnablePeakMemoryStatistics();
         }
 
         /// <summary>
@@ -270,12 +206,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public void DisablePeakMemoryStatistics()
         {
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
-            {
-                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
-            }
-
-            SafeNativeMethods.peak_mem_usage((int)MklMemoryRequestMode.Disable);
+            MklProvider.DisablePeakMemoryStatistics();
         }
 
         /// <summary>
@@ -285,19 +216,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <returns>The peak number of bytes allocated to all memory buffers.</returns>
         public long PeakMemoryStatistics(bool reset = true)
         {
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
-            {
-                throw new NotSupportedException("MKL Native Provider does not support memory management functions. Consider upgrading to a newer version.");
-            }
-
-            return SafeNativeMethods.peak_mem_usage((int)(reset ? MklMemoryRequestMode.PeakMemoryReset : MklMemoryRequestMode.PeakMemory));
+            return MklProvider.PeakMemoryStatistics(reset);
         }
 
         public override string ToString()
         {
-            return string.Format("Intel MKL ({1}; revision {0})",
-                _nativeRevision,
-                _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
+            return MklProvider.Describe();
         }
     }
 }

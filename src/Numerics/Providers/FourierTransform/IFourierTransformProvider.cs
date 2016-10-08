@@ -1,9 +1,9 @@
-﻿// <copyright file="ManagedLinearAlgebraProvider.cs" company="Math.NET">
+﻿// <copyright file="IFourierTransformProvider.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,32 +27,38 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Providers.LinearAlgebra
+namespace MathNet.Numerics.Providers.FourierTransform
 {
-    /// <summary>
-    /// The managed linear algebra provider.
-    /// </summary>
-    public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
+
+    public enum FourierTransformScaling : int
+    {
+        NoScaling = 0,
+        SymmetricScaling = 1,
+        BackwardScaling = 2,
+        ForwardScaling = 3
+    }
+
+    public interface IFourierTransformProvider
     {
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
         /// </summary>
-        public virtual bool IsAvailable()
-        {
-            return true;
-        }
+        bool IsAvailable();
 
         /// <summary>
         /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
         /// </summary>
-        public virtual void InitializeVerify()
-        {
-        }
+        void InitializeVerify();
 
-        public override string ToString()
-        {
-            return "Managed";
-        }
+        void ForwardInplace(Complex[] complex, FourierTransformScaling scaling);
+        void BackwardInplace(Complex[] complex, FourierTransformScaling scaling);
+
+        Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling);
+        Complex[] Backward(Complex[] complexFrequenceSpace, FourierTransformScaling scaling);
     }
 }

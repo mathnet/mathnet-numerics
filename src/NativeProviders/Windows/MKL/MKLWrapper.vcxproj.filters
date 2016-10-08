@@ -33,6 +33,9 @@
     <ClCompile Include="..\..\Common\blas.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\MKL\fft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\MKL\resource.rc">
