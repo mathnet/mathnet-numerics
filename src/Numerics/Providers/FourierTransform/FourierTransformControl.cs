@@ -80,18 +80,22 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public static void UseDefault()
         {
+#if NATIVE
             var value = Environment.GetEnvironmentVariable(EnvVarFFTProvider);
             switch (value != null ? value.ToUpperInvariant() : string.Empty)
             {
-#if NATIVE
+
                 case "MKL":
                     UseNativeMKL();
                     break;
-#endif
+
                 default:
                     UseBest();
                     break;
             }
+#else
+            UseManaged();
+#endif
         }
     }
 }

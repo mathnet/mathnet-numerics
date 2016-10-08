@@ -27,6 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if NATIVE
+
 namespace MathNet.Numerics.Providers.Common.Cuda
 {
     internal enum ProviderPlatform : int
@@ -47,3 +49,5 @@ namespace MathNet.Numerics.Providers.Common.Cuda
         LinearAlgebraMinor = 129,
     }
 }
+
+#endif

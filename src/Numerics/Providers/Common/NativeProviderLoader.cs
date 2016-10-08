@@ -27,6 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if NATIVE
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,8 +36,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
-
-#if NATIVE
 
 namespace MathNet.Numerics.Providers.Common
 {

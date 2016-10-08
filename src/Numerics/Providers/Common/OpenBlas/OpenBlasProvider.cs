@@ -27,6 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if NATIVE
+
 using System;
 using System.Collections.Generic;
 
@@ -119,3 +121,5 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
         }
     }
 }
+
+#endif

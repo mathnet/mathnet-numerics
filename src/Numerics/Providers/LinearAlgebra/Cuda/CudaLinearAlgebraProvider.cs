@@ -27,10 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if NATIVE
+
 using System;
 using MathNet.Numerics.Providers.Common.Cuda;
-
-#if NATIVE
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 {

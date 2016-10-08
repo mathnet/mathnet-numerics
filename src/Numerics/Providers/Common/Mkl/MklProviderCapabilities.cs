@@ -27,6 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if NATIVE
+
 namespace MathNet.Numerics.Providers.Common.Mkl
 {
     internal enum ProviderPlatform : int
@@ -55,3 +57,5 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         FourierTransformMinor = 385
     }
 }
+
+#endif

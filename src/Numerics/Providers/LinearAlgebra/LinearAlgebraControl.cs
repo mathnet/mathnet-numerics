@@ -95,10 +95,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
         public static void UseDefault()
         {
+#if NATIVE
             var value = Environment.GetEnvironmentVariable(EnvVarLAProvider);
             switch (value != null ? value.ToUpperInvariant() : string.Empty)
             {
-#if NATIVE
                 case "MKL":
                     UseNativeMKL();
                     break;
@@ -110,11 +110,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 case "OPENBLAS":
                     UseNativeOpenBLAS();
                     break;
-#endif
                 default:
                     UseBest();
                     break;
             }
+#else
+            UseManaged();
+#endif
         }
     }
 }
