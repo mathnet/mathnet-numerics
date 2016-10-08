@@ -38,7 +38,8 @@ namespace MathNet.Numerics.Providers.FourierTransform
     {
         NoScaling = 0,
         SymmetricScaling = 1,
-        AsymmetricScaling = 2
+        BackwardScaling = 2,
+        ForwardScaling = 3
     }
 
     public interface IFourierTransformProvider

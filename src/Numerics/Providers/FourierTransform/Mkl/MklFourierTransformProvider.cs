@@ -152,24 +152,26 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             return work;
         }
 
-        private double ForwardScaling(FourierTransformScaling scaling, int length)
+        static double ForwardScaling(FourierTransformScaling scaling, int length)
         {
             switch (scaling)
             {
                 case FourierTransformScaling.SymmetricScaling:
                     return Math.Sqrt(1.0/length);
+                case FourierTransformScaling.ForwardScaling:
+                    return 1.0/length;
                 default:
                     return 1.0;
             }
         }
 
-        private double BackwardScaling(FourierTransformScaling scaling, int length)
+        static double BackwardScaling(FourierTransformScaling scaling, int length)
         {
             switch (scaling)
             {
                 case FourierTransformScaling.SymmetricScaling:
                     return Math.Sqrt(1.0/length);
-                case FourierTransformScaling.AsymmetricScaling:
+                case FourierTransformScaling.BackwardScaling:
                     return 1.0/length;
                 default:
                     return 1.0;

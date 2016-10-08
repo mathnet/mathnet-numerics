@@ -26,6 +26,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Collections;
 using MathNet.Numerics.IntegralTransforms;
 
 namespace MathNet.Numerics.Providers.FourierTransform
@@ -41,7 +42,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
         /// </summary>
-        public virtual bool IsAvailable()
+        public bool IsAvailable()
         {
             return true;
         }
@@ -49,26 +50,49 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
         /// </summary>
-        public virtual void InitializeVerify()
+        public void InitializeVerify()
         {
         }
 
-        public override string ToString()
+        public string ToString()
         {
             return "Managed";
         }
 
-        public virtual void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
+        public void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
-            Fourier.BluesteinForward(complex, Options(scaling));
+            switch (scaling)
+            {
+                case FourierTransformScaling.SymmetricScaling:
+                    Fourier.BluesteinForward(complex, FourierOptions.Default);
+                    break;
+                case FourierTransformScaling.ForwardScaling:
+                    // Only backward scaling can be expressed with options, hence the double-inverse
+                    Fourier.BluesteinInverse(complex, FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent);
+                    break;
+                default:
+                    Fourier.BluesteinForward(complex, FourierOptions.NoScaling);
+                    break;
+            }
         }
 
-        public virtual void BackwardInplace(Complex[] complex, FourierTransformScaling scaling)
+        public void BackwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
-            Fourier.BluesteinInverse(complex, Options(scaling));
+            switch (scaling)
+            {
+                case FourierTransformScaling.SymmetricScaling:
+                    Fourier.BluesteinInverse(complex, FourierOptions.Default);
+                    break;
+                case FourierTransformScaling.BackwardScaling:
+                    Fourier.BluesteinInverse(complex, FourierOptions.AsymmetricScaling);
+                    break;
+                default:
+                    Fourier.BluesteinInverse(complex, FourierOptions.NoScaling);
+                    break;
+            }
         }
 
-        public virtual Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling)
+        public Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling)
         {
             Complex[] work = new Complex[complexTimeSpace.Length];
             complexTimeSpace.Copy(work);
@@ -76,26 +100,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
             return work;
         }
 
-        public virtual Complex[] Backward(Complex[] complexFrequenceSpace, FourierTransformScaling scaling)
+        public Complex[] Backward(Complex[] complexFrequenceSpace, FourierTransformScaling scaling)
         {
             Complex[] work = new Complex[complexFrequenceSpace.Length];
             complexFrequenceSpace.Copy(work);
             BackwardInplace(work, scaling);
             return work;
-        }
-
-        private FourierOptions Options(FourierTransformScaling scaling)
-        {
-            switch (scaling)
-            {
-                case FourierTransformScaling.NoScaling:
-                    return FourierOptions.NoScaling;
-                case FourierTransformScaling.AsymmetricScaling:
-                    return FourierOptions.AsymmetricScaling;
-                case FourierTransformScaling.SymmetricScaling:
-                default:
-                    return FourierOptions.Default;
-            }
         }
     }
 }

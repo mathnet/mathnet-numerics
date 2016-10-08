@@ -55,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.FourierTransformProviderTests
 
             // real-odd transforms to imaginary odd
             samples.Copy(spectrum);
-            Control.FourierTransformProvider.ForwardInplace(spectrum, FourierTransformScaling.AsymmetricScaling);
+            Control.FourierTransformProvider.ForwardInplace(spectrum, FourierTransformScaling.BackwardScaling);
 
             // all real components must be zero
             foreach (var c in spectrum)
