@@ -40,6 +40,26 @@ extern "C" {
 			return 0;
 #endif
 
+		// MKL VERSION
+		case 32: // major version
+			{
+				MKLVersion Version;
+				mkl_get_version(&Version);
+				return Version.MajorVersion;
+			}
+		case 33: // minor version
+			{
+				MKLVersion Version;
+				mkl_get_version(&Version);
+				return Version.MinorVersion;
+			}
+		case 34: // update version
+			{
+				MKLVersion Version;
+				mkl_get_version(&Version);
+				return Version.UpdateVersion;
+			}
+
 		// COMMON/SHARED
 		case 64: return 11; // revision
 		case 65: return 1; // numerical consistency, precision and accuracy modes

@@ -38,6 +38,9 @@ namespace MathNet.Numerics.Providers.Common.Mkl
 
     internal enum ProviderConfig : int
     {
+        MklMajorVersion = 32,
+        MklMinorVersion = 33,
+        MklUpdateVersion = 34,
         Revision = 64,
         Precision = 65,
         Threading = 66,

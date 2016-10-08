@@ -28,11 +28,13 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 
 namespace MathNet.Numerics.Providers.Common.Mkl
 {
     internal static class MklProvider
     {
+        static Version _mklVersion;
         static int _nativeRevision;
         static bool _nativeX86;
         static bool _nativeX64;
@@ -54,6 +56,11 @@ namespace MathNet.Numerics.Providers.Common.Mkl
                 _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
 
                 _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
+
+                _mklVersion = new Version(
+                    SafeNativeMethods.query_capability((int)ProviderConfig.MklMajorVersion),
+                    SafeNativeMethods.query_capability((int)ProviderConfig.MklMinorVersion),
+                    SafeNativeMethods.query_capability((int)ProviderConfig.MklUpdateVersion));
             }
             catch (DllNotFoundException e)
             {
@@ -192,9 +199,19 @@ namespace MathNet.Numerics.Providers.Common.Mkl
 
         public static string Describe()
         {
-            return string.Format("Intel MKL ({1}; revision {0})",
-                _nativeRevision,
-                _nativeX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
+            var parts = new List<string>();
+            if (_nativeX86) parts.Add("x86");
+            if (_nativeX64) parts.Add("x64");
+            if (_nativeIA64) parts.Add("IA64");
+            parts.Add("revision " + _nativeRevision);
+            if (_mklVersion.Major > 0)
+            {
+                parts.Add(_mklVersion.Build == 0
+                    ? string.Concat("MKL ", _mklVersion.ToString(2))
+                    : string.Concat("MKL ", _mklVersion.ToString(2), " Update ", _mklVersion.Build));
+            }
+
+            return string.Concat("Intel MKL (", string.Join("; ", parts), ")");
         }
 
         enum MklMemoryRequestMode : int
