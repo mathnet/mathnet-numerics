@@ -28,6 +28,8 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Providers.Common;
+using MathNet.Numerics.Providers.Common.Mkl;
 
 #if NATIVE
 
@@ -105,11 +107,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// </summary>
     public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
-        int _nativeRevision;
-        bool _nativeIX86;
-        bool _nativeX64;
-        bool _nativeIA64;
-
         readonly MklConsistency _consistency;
         readonly MklPrecision _precision;
         readonly MklAccuracy _accuracy;
@@ -144,39 +141,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public override void InitializeVerify()
         {
-            int a, b, linearAlgebra;
-            try
-            {
-                // Load the native library
-                NativeProviderLoader.TryLoad(SafeNativeMethods.DllName);
+            MklProvider.Load(minRevision: 4);
 
-                a = SafeNativeMethods.query_capability(0);
-                b = SafeNativeMethods.query_capability(1);
-
-                _nativeIX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
-                _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
-                _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
-
-                _nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
-                linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebra);
-            }
-            catch (DllNotFoundException e)
-            {
-                throw new NotSupportedException("MKL Native Provider not found.", e);
-            }
-            catch (BadImageFormatException e)
-            {
-                throw new NotSupportedException("MKL Native Provider found but failed to load. Please verify that the platform matches (x64 vs x32, Windows vs Linux).", e);
-            }
-            catch (EntryPointNotFoundException e)
-            {
-                throw new NotSupportedException("MKL Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
-            }
-
-            if (a != 0 || b != -1 || _nativeRevision < 4)
-            {
-                throw new NotSupportedException("MKL Native Provider too old. Consider upgrading to a newer version.");
-            }
+            int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
 
             // we only support exactly one major version, since major version changes imply a breaking change.
             if (linearAlgebra != 2)
@@ -295,9 +262,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
         public override string ToString()
         {
-            return string.Format("Intel MKL ({1}; revision {0})",
-                _nativeRevision,
-                _nativeIX86 ? "x86" : _nativeX64 ? "x64" : _nativeIA64 ? "IA64" : "unknown");
+            return MklProvider.Describe();
         }
     }
 }

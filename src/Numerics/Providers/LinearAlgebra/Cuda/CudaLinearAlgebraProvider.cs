@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Providers.Common;
 
 #if NATIVE
 

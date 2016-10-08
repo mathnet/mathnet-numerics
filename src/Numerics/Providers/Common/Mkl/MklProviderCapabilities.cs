@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
+namespace MathNet.Numerics.Providers.Common.Mkl
 {
     internal enum ProviderPlatform : int
     {
@@ -46,7 +46,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
     internal enum ProviderCapability : int
     {
-        LinearAlgebra = 128,
+        LinearAlgebraMajor = 128,
         LinearAlgebraMinor = 129,
+        FourierTransformMajor = 384,
+        FourierTransformMinor = 385
     }
 }

@@ -30,6 +30,7 @@
 #if NATIVE
 
 using System;
+using MathNet.Numerics.Providers.Common;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 {

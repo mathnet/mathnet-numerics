@@ -172,10 +172,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Providers\Common\Mkl\MklProvider.cs" />
     <Compile Include="Providers\FourierTransform\IFourierTransformProvider.cs" />
     <Compile Include="Providers\FourierTransform\ManagedFourierTransformProvider.cs" />
     <Compile Include="Providers\FourierTransform\Mkl\MklFourierTransformProvider.cs" />
-    <Compile Include="Providers\FourierTransform\Mkl\SafeNativeMethods.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />
@@ -188,7 +188,7 @@
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Single.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaProviderCapabilities.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\SafeNativeMethods.cs" />
-    <Compile Include="Providers\LinearAlgebra\Mkl\MklProviderCapabilities.cs" />
+    <Compile Include="Providers\Common\Mkl\MklProviderCapabilities.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex32.cs" />
@@ -206,7 +206,7 @@
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Double.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Single.cs" />
-    <Compile Include="Providers\LinearAlgebra\Mkl\SafeNativeMethods.cs" />
+    <Compile Include="Providers\Common\Mkl\SafeNativeMethods.cs" />
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="Complex64.cs" />
     <Compile Include="Combinatorics.cs" />
@@ -225,7 +225,7 @@
     <Compile Include="LinearAlgebra\Vector.Operators.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasProviderCapabilities.cs" />
-    <Compile Include="Providers\NativeProviderLoader.cs" />
+    <Compile Include="Providers\Common\NativeProviderLoader.cs" />
     <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />
     <Compile Include="RootFinding\Broyden.cs" />

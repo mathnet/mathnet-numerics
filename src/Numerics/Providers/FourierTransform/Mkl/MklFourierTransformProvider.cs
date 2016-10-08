@@ -30,6 +30,7 @@
 
 using System;
 using System.Numerics;
+using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {
@@ -37,6 +38,20 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
     {
         public void InitializeVerify()
         {
+            MklProvider.Load(minRevision: 11);
+
+            // we only support exactly one major version, since major version changes imply a breaking change.
+            int fftMajor = SafeNativeMethods.query_capability((int)ProviderCapability.FourierTransformMajor);
+            int fftMinor = SafeNativeMethods.query_capability((int)ProviderCapability.FourierTransformMinor);
+            if (!(fftMajor == 1 && fftMinor >= 0))
+            {
+                throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting fourier transform v1 but provider implements v{0}.", fftMajor));
+            }
+        }
+
+        public override string ToString()
+        {
+            return MklProvider.Describe();
         }
 
         public void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
