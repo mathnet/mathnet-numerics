@@ -82,6 +82,9 @@ namespace MathNet.Numerics.RootFinding
         /// <remarks>This iterative methods stops when two values with opposite signs are found.</remarks>
         public static bool Expand(Func<double, double> f, ref double lowerBound, ref double upperBound, double factor = 1.6, int maxIterations = 50)
         {
+            double originalLowerBound = lowerBound;
+            double originalUpperBound = upperBound;
+
             if (lowerBound >= upperBound)
             {
                 throw new ArgumentOutOfRangeException("upperBound", string.Format(Resources.ArgumentOutOfRangeGreater, "xmax", "xmin"));
@@ -109,6 +112,8 @@ namespace MathNet.Numerics.RootFinding
                 }
             }
 
+            lowerBound = originalLowerBound;
+            upperBound = originalUpperBound;
             return false;
         }
     }
