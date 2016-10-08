@@ -173,6 +173,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Providers\Common\Mkl\MklProvider.cs" />
+    <Compile Include="Providers\Common\Mkl\MklProviderPrecision.cs" />
     <Compile Include="Providers\FourierTransform\IFourierTransformProvider.cs" />
     <Compile Include="Providers\FourierTransform\ManagedFourierTransformProvider.cs" />
     <Compile Include="Providers\FourierTransform\Mkl\MklFourierTransformProvider.cs" />

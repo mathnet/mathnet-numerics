@@ -1,4 +1,4 @@
-﻿// <copyright file="MklProviderCapabilities.cs" company="Math.NET">
+﻿// <copyright file="MklProviderPrecision.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -27,28 +27,40 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Providers.Common.Mkl
 {
-    internal enum ProviderPlatform : int
+    /// <summary>
+    /// Consistency vs. performance trade-off between runs on different machines.
+    /// </summary>
+    public enum MklConsistency : int
     {
-        x86 = 8,
-        x64 = 9,
-        ia64 = 10,
+        /// <summary>Consistent on the same CPU only (maximum performance)</summary>
+        Auto = 2,
+        /// <summary>Consistent on Intel and compatible CPUs with SSE2 support (maximum compatibility)</summary>
+        Compatible = 3,
+        /// <summary>Consistent on Intel CPUs supporting SSE2 or later</summary>
+        SSE2 = 4,
+        /// <summary>Consistent on Intel CPUs supporting SSE4.2 or later</summary>
+        SSE4_2 = 8,
+        /// <summary>Consistent on Intel CPUs supporting AVX or later</summary>
+        AVX = 9,
+        /// <summary>Consistent on Intel CPUs supporting AVX2 or later</summary>
+        AVX2 = 10
     }
 
-    internal enum ProviderConfig : int
+    [CLSCompliant(false)]
+    public enum MklAccuracy : uint
     {
-        Revision = 64,
-        Precision = 65,
-        Threading = 66,
-        Memory = 67,
+        Low = 0x1,
+        High = 0x2
     }
 
-    internal enum ProviderCapability : int
+    [CLSCompliant(false)]
+    public enum MklPrecision : uint
     {
-        LinearAlgebraMajor = 128,
-        LinearAlgebraMinor = 129,
-        FourierTransformMajor = 384,
-        FourierTransformMinor = 385
+        Single = 0x10,
+        Double = 0x20
     }
 }
