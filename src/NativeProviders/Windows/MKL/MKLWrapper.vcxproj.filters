@@ -33,7 +33,7 @@
     <ClCompile Include="..\..\Common\blas.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="fft.cpp">
+    <ClCompile Include="..\..\MKL\fft.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

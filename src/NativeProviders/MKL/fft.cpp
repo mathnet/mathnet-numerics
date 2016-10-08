@@ -4,14 +4,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <float.h>
-#include "mkl_service.h"
 #include "mkl_dfti.h"
 
 template<typename Data, typename Precision, typename FFT>
 inline MKL_LONG fft_1d_inplace(const MKL_LONG n, Data x[], const Precision forward_scale, const Precision backward_scale, const DFTI_CONFIG_VALUE precision, const DFTI_CONFIG_VALUE domain, FFT fft)
 {
-	MKL_LONG status = 0;
-	DFTI_DESCRIPTOR_HANDLE descriptor = 0;
+	MKL_LONG status;
+	DFTI_DESCRIPTOR_HANDLE descriptor = nullptr;
 	status = DftiCreateDescriptor(&descriptor, precision, domain, 1, n);
 	if (0 != status) goto cleanup;
 
@@ -25,7 +24,6 @@ inline MKL_LONG fft_1d_inplace(const MKL_LONG n, Data x[], const Precision forwa
 	if (0 != status) goto cleanup;
 
 	status = fft(descriptor, x);
-	if (0 != status) goto cleanup;
 
 cleanup:
 	DftiFreeDescriptor(&descriptor);

@@ -26,11 +26,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 
 namespace MathNet.Numerics.Providers.FourierTransform
 {
+
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
+
     public class ManagedFourierTransformProvider : IFourierTransformProvider
     {
         public virtual void InitializeVerify()

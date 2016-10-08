@@ -26,6 +26,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if NATIVE
+
 using System;
 using System.Numerics;
 
@@ -88,3 +90,5 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         }
     }
 }
+
+#endif
