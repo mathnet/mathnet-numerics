@@ -142,6 +142,7 @@
     <Compile Include="FinancialTests\SemiDeviationTests.cs" />
     <Compile Include="GenerateTests.cs" />
     <Compile Include="GoodnessOfFit\RSquaredTest.cs" />
+    <Compile Include="Providers\FourierTransform\FourierTransformProviderTests.cs" />
     <Compile Include="IntegralTransformsTests\FourierTest.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />
     <Compile Include="IntegralTransformsTests\InverseTransformTest.cs" />
@@ -158,10 +159,10 @@
     <Compile Include="InterpolationTests\LinearInterpolationCase.cs" />
     <Compile Include="FitTests.cs" />
     <Compile Include="InterpolationTests\StepInterpolationTest.cs" />
-    <Compile Include="LinearAlgebraProviderTests\Complex32\LinearAlgebraProviderTests.cs" />
-    <Compile Include="LinearAlgebraProviderTests\Complex\LinearAlgebraProviderTests.cs" />
-    <Compile Include="LinearAlgebraProviderTests\Double\LinearAlgebraProviderTests.cs" />
-    <Compile Include="LinearAlgebraProviderTests\Single\LinearAlgebraProviderTests.cs" />
+    <Compile Include="Providers\LinearAlgebra\Complex32\LinearAlgebraProviderTests.cs" />
+    <Compile Include="Providers\LinearAlgebra\Complex\LinearAlgebraProviderTests.cs" />
+    <Compile Include="Providers\LinearAlgebra\Double\LinearAlgebraProviderTests.cs" />
+    <Compile Include="Providers\LinearAlgebra\Single\LinearAlgebraProviderTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseMatrixTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DenseVectorTests.cs" />
     <Compile Include="LinearAlgebraTests\Complex32\DiagonalMatrixTests.cs" />

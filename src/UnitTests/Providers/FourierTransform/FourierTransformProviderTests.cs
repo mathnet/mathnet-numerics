@@ -33,7 +33,7 @@ using MathNet.Numerics.Providers.FourierTransform;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.FourierTransformProviderTests
+namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
 {
 #if NOSYSNUMERICS
     using Complex = Numerics.Complex;
@@ -42,10 +42,10 @@ namespace MathNet.Numerics.UnitTests.FourierTransformProviderTests
 #endif
 
     /// <summary>
-    /// Base class for linear algebra provider tests.
+    /// Fourier transform provider tests.
     /// </summary>
     [TestFixture, Category("LAProvider")]
-    public class LinearAlgebraProviderTests
+    public class FourierTransformProviderTests
     {
         [Test]
         public void ForwardInplaceRealSine()
