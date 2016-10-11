@@ -1,4 +1,7 @@
 ﻿using System;
+using Benchmark.Transforms;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Diagnostics.Windows;
 using BenchmarkDotNet.Running;
 using MathNet.Numerics;
 
@@ -16,7 +19,10 @@ namespace Benchmark
             if (Control.TryUseNativeCUDA()) Console.WriteLine(Control.LinearAlgebraProvider);
             if (Control.TryUseNativeOpenBLAS()) Console.WriteLine(Control.LinearAlgebraProvider);
 
-            BenchmarkRunner.Run<FFT>();
+            var config = ManualConfig.Create(DefaultConfig.Instance)
+                .With(new MemoryDiagnoser(), new InliningDiagnoser());
+
+            BenchmarkRunner.Run<FFT>(config);
 
             //Benchmark(new LinearAlgebra.DenseVectorAdd(10000000,1), 10, "Large (10'000'000) - 10x1 iterations");
             //Benchmark(new LinearAlgebra.DenseVectorAdd(100,1000), 100, "Small (100) - 100x1000 iterations");

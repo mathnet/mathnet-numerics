@@ -5,7 +5,7 @@ using BenchmarkDotNet.Attributes;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 
-namespace Benchmark
+namespace Benchmark.Transforms
 {
     public class FFT
     {
@@ -27,8 +27,7 @@ namespace Benchmark
                 _data[n] = s;
             }
 
-            Control.NativeProviderPath = @"C:\Triage\NATIVE-Win\";
-            Control.UseNativeMKL();
+            Providers.ForceNativeMKL();
         }
 
         [Benchmark(Baseline = true, OperationsPerInvoke = 2)]

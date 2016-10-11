@@ -25,3 +25,4 @@ group Benchmark
     source http://www.nuget.org/api/v2
     framework: net45
     nuget BenchmarkDotNet
+	nuget BenchmarkDotNet.Diagnostics.Windows
