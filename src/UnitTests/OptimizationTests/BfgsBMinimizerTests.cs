@@ -37,6 +37,7 @@ using System.Text;
 using System.Collections.Generic;
 using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
 using System.Collections;
+using MathNet.Numerics.Optimization.ObjectiveFunctions;
 
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
@@ -178,8 +179,42 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             Assert.That(success, "Minimal function value is not as expected.");
         }
 
-        private class MghTestCaseEnumerator : IEnumerable<ITestCaseData>
+        [Test]
+        [TestCaseSource(typeof(FdMghTestCaseEnumerator))]
+        public void Mgh_FiniteDifference_Tests(TestFunctions.TestCase test_case)
         {
+            var obj1 = new MghObjectiveFunction(test_case.Function, true, true);
+            var obj = new ForwardDifferenceGradientObjectiveFunction(obj1, test_case.LowerBound, test_case.UpperBound, 1e-10, 1e-10);
+            var solver = new BfgsBMinimizer(1e-8, 1e-8, 1e-8, 1000);
+
+            var result = solver.FindMinimum(obj, test_case.LowerBound, test_case.UpperBound, test_case.InitialGuess);
+
+            if (test_case.MinimizingPoint != null)
+            {
+                Assert.That((result.MinimizingPoint - test_case.MinimizingPoint).L2Norm(), Is.LessThan(1e-3));
+            }
+
+            var val1 = result.FunctionInfoAtMinimum.Value;
+            var val2 = test_case.MinimalValue;
+            var abs_min = Math.Min(Math.Abs(val1), Math.Abs(val2));
+            var abs_err = Math.Abs(val1 - val2);
+            var rel_err = abs_err / abs_min;
+            var success = (abs_min <= 1 && abs_err < 1e-3) || (abs_min > 1 && rel_err < 1e-3);
+            Assert.That(success, "Minimal function value is not as expected.");
+        }
+
+
+        private class BaseMghTestCaseEnumerator : IEnumerable<ITestCaseData>
+        {
+            private string _prefix = "";
+
+            public BaseMghTestCaseEnumerator(string prefix)
+            {
+                if (prefix.EndsWith(" "))
+                    _prefix = prefix;
+                else
+                    _prefix = prefix + " ";
+            }
             public IEnumerator<ITestCaseData> GetEnumerator()
             {
                 return 
@@ -192,7 +227,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
                         .Concat(BrownAndDennisFunction.TestCases)
                     .Where(x => x.IsBounded)
                     .Select(x => new TestCaseData(x)
-                        .SetName(x.FullName)
+                        .SetName(_prefix + x.FullName)
                     )
                     .GetEnumerator();
             }
@@ -201,6 +236,16 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             {
                 return this.GetEnumerator();
             }
+        }
+
+        private class MghTestCaseEnumerator : BaseMghTestCaseEnumerator
+        {
+            public MghTestCaseEnumerator() : base("") { }
+        }
+
+        private class FdMghTestCaseEnumerator : BaseMghTestCaseEnumerator
+        {
+            public FdMghTestCaseEnumerator() : base("FD") { }
         }
     }
 }
