@@ -105,6 +105,7 @@
     <Compile Include="Optimization\BfgsMinimizerBase.cs" />
     <Compile Include="Optimization\LineSearch\WolfeLineSearch.cs" />
     <Compile Include="Optimization\NelderMeadSimplex.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ForwardDifferenceGradientObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunctionBase.cs" />
     <Compile Include="Optimization\Exceptions.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\ObjectiveFunctionBase.cs" />
