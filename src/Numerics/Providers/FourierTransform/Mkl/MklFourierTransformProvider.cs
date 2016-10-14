@@ -128,12 +128,18 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 
         public void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
-            SafeNativeMethods.z_fft_forward_inplace(complex.Length, ForwardScaling(scaling, complex.Length), complex);
+            IntPtr handle;
+            SafeNativeMethods.z_fft_create(out handle, complex.Length, ForwardScaling(scaling, complex.Length), 1.0);
+            SafeNativeMethods.z_fft_forward_inplace(handle, complex);
+            SafeNativeMethods.x_fft_free(ref handle);
         }
 
         public void BackwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
-            SafeNativeMethods.z_fft_backward_inplace(complex.Length, BackwardScaling(scaling, complex.Length), complex);
+            IntPtr handle;
+            SafeNativeMethods.z_fft_create(out handle, complex.Length, 1.0, BackwardScaling(scaling, complex.Length));
+            SafeNativeMethods.z_fft_backward_inplace(handle, complex);
+            SafeNativeMethods.x_fft_free(ref handle);
         }
 
         public Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling)

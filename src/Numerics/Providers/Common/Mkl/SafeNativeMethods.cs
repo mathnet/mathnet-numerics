@@ -28,6 +28,7 @@
 
 #if NATIVE
 
+using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
@@ -371,16 +372,25 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         #region FFT
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern long z_fft_forward_inplace(long n, double scaling, [In, Out] Complex[] x);
+        internal static extern long x_fft_free([In] ref IntPtr handle);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern long c_fft_forward_inplace(long n, float scaling, [In, Out] Complex32[] x);
+        internal static extern long z_fft_create([Out] out IntPtr handle, long n, double forward_scale, double backward_scale);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern long z_fft_backward_inplace(long n, double scaling, [In, Out] Complex[] x);
+        internal static extern long c_fft_create([Out] out IntPtr handle, long n, float forward_scale, float backward_scale);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern long c_fft_backward_inplace(long n, float scaling, [In, Out] Complex32[] x);
+        internal static extern long z_fft_forward_inplace([In] IntPtr handle, [In, Out] Complex[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long c_fft_forward_inplace([In] IntPtr handle, [In, Out] Complex32[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long z_fft_backward_inplace([In] IntPtr handle, [In, Out] Complex[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern long c_fft_backward_inplace([In] IntPtr handle, [In, Out] Complex32[] x);
 
         #endregion FFT
 

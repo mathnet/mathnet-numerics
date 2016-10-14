@@ -6,49 +6,64 @@
 #include <float.h>
 #include "mkl_dfti.h"
 
-template<typename Data, typename Precision, typename FFT>
-inline MKL_INT64 fft_1d_inplace(const MKL_INT64 n, Data x[], const Precision forward_scale, const Precision backward_scale, const DFTI_CONFIG_VALUE precision, const DFTI_CONFIG_VALUE domain, FFT fft)
+inline MKL_INT64 fft_free(DFTI_DESCRIPTOR_HANDLE* handle)
 {
-	MKL_LONG status;
-	DFTI_DESCRIPTOR_HANDLE descriptor = nullptr;
-	status = DftiCreateDescriptor(&descriptor, precision, domain, 1, static_cast<MKL_LONG>(n));
-	if (0 != status) goto cleanup;
+	MKL_LONG status = DftiFreeDescriptor(handle);
+	return static_cast<MKL_INT64>(status);
+}
 
-	status = DftiSetValue(descriptor, DFTI_FORWARD_SCALE, forward_scale);
-	if (0 != status) goto cleanup;
+template<typename Precision>
+inline MKL_INT64 fft_1d_create(DFTI_DESCRIPTOR_HANDLE* handle, const MKL_INT64 n, const Precision forward_scale, const Precision backward_scale, const DFTI_CONFIG_VALUE precision, const DFTI_CONFIG_VALUE domain)
+{
+	MKL_LONG status = DftiCreateDescriptor(handle, precision, domain, 1, static_cast<MKL_LONG>(n));
+	DFTI_DESCRIPTOR_HANDLE descriptor = *handle;
+	if (0 == status) status = DftiSetValue(descriptor, DFTI_FORWARD_SCALE, forward_scale);
+	if (0 == status) status = DftiSetValue(descriptor, DFTI_BACKWARD_SCALE, backward_scale);
+	if (0 == status) status = DftiCommitDescriptor(descriptor);
+	return static_cast<MKL_INT64>(status);
+}
 
-	status = DftiSetValue(descriptor, DFTI_BACKWARD_SCALE, backward_scale);
-	if (0 != status) goto cleanup;
-
-	status = DftiCommitDescriptor(descriptor);
-	if (0 != status) goto cleanup;
-
-	status = fft(descriptor, x);
-
-cleanup:
-	DftiFreeDescriptor(&descriptor);
+template<typename Data, typename FFT>
+inline MKL_INT64 fft_1d_inplace(const DFTI_DESCRIPTOR_HANDLE handle, Data x[], FFT fft)
+{
+	MKL_LONG status = fft(handle, x);
 	return static_cast<MKL_INT64>(status);
 }
 
 extern "C" {
 
-	DLLEXPORT MKL_INT64 z_fft_forward_inplace(const MKL_INT64 n, const double scaling, MKL_Complex16 x[])
+	DLLEXPORT MKL_INT64 x_fft_free(DFTI_DESCRIPTOR_HANDLE* handle)
 	{
-		return fft_1d_inplace(n, x, scaling, 1.0, DFTI_DOUBLE, DFTI_COMPLEX, DftiComputeForward);
+		return fft_free(handle);
 	}
 
-	DLLEXPORT MKL_INT64 c_fft_forward_inplace(const MKL_INT64 n, const float scaling, MKL_Complex8 x[])
+	DLLEXPORT MKL_INT64 z_fft_create(DFTI_DESCRIPTOR_HANDLE* handle, const MKL_INT64 n, const double forward_scale, const double backward_scale)
 	{
-		return fft_1d_inplace(n, x, scaling, 1.0f, DFTI_SINGLE, DFTI_COMPLEX, DftiComputeForward);
+		return fft_1d_create(handle, n, forward_scale, backward_scale, DFTI_DOUBLE, DFTI_COMPLEX);
 	}
 
-	DLLEXPORT MKL_INT64 z_fft_backward_inplace(const MKL_INT64 n, const double scaling, MKL_Complex16 x[])
+	DLLEXPORT MKL_INT64 c_fft_create(DFTI_DESCRIPTOR_HANDLE* handle, const MKL_INT64 n, const float forward_scale, const float backward_scale)
 	{
-		return fft_1d_inplace(n, x, 1.0, scaling, DFTI_DOUBLE, DFTI_COMPLEX, DftiComputeBackward);
+		return fft_1d_create(handle, n, forward_scale, backward_scale, DFTI_SINGLE, DFTI_COMPLEX);
 	}
 
-	DLLEXPORT MKL_INT64 c_fft_backward_inplace(const MKL_INT64 n, const float scaling, MKL_Complex8 x[])
+	DLLEXPORT MKL_INT64 z_fft_forward_inplace(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex16 x[])
 	{
-		return fft_1d_inplace(n, x, 1.0f, scaling, DFTI_SINGLE, DFTI_COMPLEX, DftiComputeBackward);
+		return fft_1d_inplace(handle, x, DftiComputeForward);
+	}
+
+	DLLEXPORT MKL_INT64 c_fft_forward_inplace(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex8 x[])
+	{
+		return fft_1d_inplace(handle, x, DftiComputeForward);
+	}
+
+	DLLEXPORT MKL_INT64 z_fft_backward_inplace(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex16 x[])
+	{
+		return fft_1d_inplace(handle, x, DftiComputeBackward);
+	}
+
+	DLLEXPORT MKL_INT64 c_fft_backward_inplace(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex8 x[])
+	{
+		return fft_1d_inplace(handle, x, DftiComputeBackward);
 	}
 }
