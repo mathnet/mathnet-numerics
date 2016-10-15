@@ -36,6 +36,10 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {
     public class MklFourierTransformProvider : IFourierTransformProvider
     {
+        IntPtr _currentHandle = IntPtr.Zero;
+        int _currentLength = -1;
+        FourierTransformScaling _currentScaling = FourierTransformScaling.NoScaling;
+
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
@@ -128,18 +132,44 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 
         public void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
-            IntPtr handle;
-            SafeNativeMethods.z_fft_create(out handle, complex.Length, ForwardScaling(scaling, complex.Length), 1.0);
-            SafeNativeMethods.z_fft_forward_inplace(handle, complex);
-            SafeNativeMethods.x_fft_free(ref handle);
+            if (_currentHandle == IntPtr.Zero)
+            {
+                SafeNativeMethods.z_fft_create(out _currentHandle, complex.Length, ForwardScaling(scaling, complex.Length), BackwardScaling(scaling, complex.Length));
+            }
+            else
+            {
+                if (complex.Length != _currentLength || scaling != _currentScaling)
+                {
+                    SafeNativeMethods.x_fft_free(ref _currentHandle);
+                    _currentHandle = IntPtr.Zero;
+                    SafeNativeMethods.z_fft_create(out _currentHandle, complex.Length, ForwardScaling(scaling, complex.Length), BackwardScaling(scaling, complex.Length));
+                    _currentLength = complex.Length;
+                    _currentScaling = scaling;
+                }
+            }
+
+            SafeNativeMethods.z_fft_forward_inplace(_currentHandle, complex);
         }
 
         public void BackwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
-            IntPtr handle;
-            SafeNativeMethods.z_fft_create(out handle, complex.Length, 1.0, BackwardScaling(scaling, complex.Length));
-            SafeNativeMethods.z_fft_backward_inplace(handle, complex);
-            SafeNativeMethods.x_fft_free(ref handle);
+            if (_currentHandle == IntPtr.Zero)
+            {
+                SafeNativeMethods.z_fft_create(out _currentHandle, complex.Length, ForwardScaling(scaling, complex.Length), BackwardScaling(scaling, complex.Length));
+            }
+            else
+            {
+                if (complex.Length != _currentLength || scaling != _currentScaling)
+                {
+                    SafeNativeMethods.x_fft_free(ref _currentHandle);
+                    _currentHandle = IntPtr.Zero;
+                    SafeNativeMethods.z_fft_create(out _currentHandle, complex.Length, ForwardScaling(scaling, complex.Length), BackwardScaling(scaling, complex.Length));
+                    _currentLength = complex.Length;
+                    _currentScaling = scaling;
+                }
+            }
+
+            SafeNativeMethods.z_fft_backward_inplace(_currentHandle, complex);
         }
 
         public Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling)
