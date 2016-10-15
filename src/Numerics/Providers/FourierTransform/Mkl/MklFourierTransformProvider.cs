@@ -30,15 +30,21 @@
 
 using System;
 using System.Numerics;
+using System.Threading;
 using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {
-    public class MklFourierTransformProvider : IFourierTransformProvider
+    public class MklFourierTransformProvider : IFourierTransformProvider, IDisposable
     {
-        IntPtr _currentHandle = IntPtr.Zero;
-        int _currentLength = -1;
-        FourierTransformScaling _currentScaling = FourierTransformScaling.NoScaling;
+        class Kernel
+        {
+            public IntPtr Handle;
+            public int Length;
+            public FourierTransformScaling Scaling;
+        }
+
+        Kernel _kernel;
 
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
@@ -70,6 +76,12 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         /// </summary>
         public void FreeBuffers()
         {
+            Kernel kernel = Interlocked.Exchange(ref _kernel, null);
+            if (kernel != null)
+            {
+                SafeNativeMethods.x_fft_free(ref kernel.Handle);
+            }
+
             MklProvider.FreeBuffers();
         }
 
@@ -130,46 +142,54 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             return MklProvider.Describe();
         }
 
-        public void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
+        Kernel Configure(int length, FourierTransformScaling scaling)
         {
-            if (_currentHandle == IntPtr.Zero)
+            Kernel kernel = Interlocked.Exchange(ref _kernel, null);
+
+            if (kernel == null)
             {
-                SafeNativeMethods.z_fft_create(out _currentHandle, complex.Length, ForwardScaling(scaling, complex.Length), BackwardScaling(scaling, complex.Length));
-            }
-            else
-            {
-                if (complex.Length != _currentLength || scaling != _currentScaling)
+                kernel = new Kernel
                 {
-                    SafeNativeMethods.x_fft_free(ref _currentHandle);
-                    _currentHandle = IntPtr.Zero;
-                    SafeNativeMethods.z_fft_create(out _currentHandle, complex.Length, ForwardScaling(scaling, complex.Length), BackwardScaling(scaling, complex.Length));
-                    _currentLength = complex.Length;
-                    _currentScaling = scaling;
-                }
+                    Length = length,
+                    Scaling = scaling
+                };
+                SafeNativeMethods.z_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                return kernel;
             }
 
-            SafeNativeMethods.z_fft_forward_inplace(_currentHandle, complex);
+            if (kernel.Length != length || kernel.Scaling != scaling)
+            {
+                SafeNativeMethods.x_fft_free(ref kernel.Handle);
+                SafeNativeMethods.z_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                kernel.Length = length;
+                kernel.Scaling = scaling;
+                return kernel;
+            }
+
+            return kernel;
+        }
+
+        void Release(Kernel kernel)
+        {
+            Kernel existing = Interlocked.Exchange(ref _kernel, kernel);
+            if (existing != null)
+            {
+                SafeNativeMethods.x_fft_free(ref existing.Handle);
+            }
+        }
+
+        public void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
+        {
+            Kernel kernel = Configure(complex.Length, scaling);
+            SafeNativeMethods.z_fft_forward_inplace(kernel.Handle, complex);
+            Release(kernel);
         }
 
         public void BackwardInplace(Complex[] complex, FourierTransformScaling scaling)
         {
-            if (_currentHandle == IntPtr.Zero)
-            {
-                SafeNativeMethods.z_fft_create(out _currentHandle, complex.Length, ForwardScaling(scaling, complex.Length), BackwardScaling(scaling, complex.Length));
-            }
-            else
-            {
-                if (complex.Length != _currentLength || scaling != _currentScaling)
-                {
-                    SafeNativeMethods.x_fft_free(ref _currentHandle);
-                    _currentHandle = IntPtr.Zero;
-                    SafeNativeMethods.z_fft_create(out _currentHandle, complex.Length, ForwardScaling(scaling, complex.Length), BackwardScaling(scaling, complex.Length));
-                    _currentLength = complex.Length;
-                    _currentScaling = scaling;
-                }
-            }
-
-            SafeNativeMethods.z_fft_backward_inplace(_currentHandle, complex);
+            Kernel kernel = Configure(complex.Length, scaling);
+            SafeNativeMethods.z_fft_backward_inplace(kernel.Handle, complex);
+            Release(kernel);
         }
 
         public Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling)
@@ -212,6 +232,11 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
                 default:
                     return 1.0;
             }
+        }
+
+        public void Dispose()
+        {
+            FreeBuffers();
         }
     }
 }
