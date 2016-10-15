@@ -156,7 +156,7 @@ namespace MathNet.Numerics.IntegralTransforms
             int n = samples.Length;
             if (n.IsPowerOfTwo())
             {
-                Radix2(samples, exponentSign);
+                Radix2Parallel(samples, exponentSign);
                 return;
             }
 
