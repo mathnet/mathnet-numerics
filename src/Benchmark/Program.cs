@@ -11,16 +11,12 @@ namespace Benchmark
     {
         public static void Main()
         {
-            //Control.NativeProviderPath = @"..\..\..\..\out\MKL\Windows\";
-            Control.NativeProviderPath = @"C:\Triage\NATIVE-Win\";
+            Providers.ForceNativeMKL();
+            Console.WriteLine("Linear Algebra:  " + Control.LinearAlgebraProvider);
+            Console.WriteLine("FFT:             " + Control.FourierTransformProvider);
 
-            Console.WriteLine("Providers:");
-            if (Control.TryUseNativeMKL()) Console.WriteLine(Control.LinearAlgebraProvider);
-            if (Control.TryUseNativeCUDA()) Console.WriteLine(Control.LinearAlgebraProvider);
-            if (Control.TryUseNativeOpenBLAS()) Console.WriteLine(Control.LinearAlgebraProvider);
-
-            var config = ManualConfig.Create(DefaultConfig.Instance)
-                .With(new MemoryDiagnoser(), new InliningDiagnoser());
+            var config = ManualConfig.Create(DefaultConfig.Instance);
+                //.With(new MemoryDiagnoser(), new InliningDiagnoser());
 
             BenchmarkRunner.Run<FFT>(config);
 

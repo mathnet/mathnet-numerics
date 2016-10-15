@@ -11,16 +11,16 @@ namespace Benchmark.Transforms
     {
         readonly Dictionary<int, Complex[]> _data = new Dictionary<int, Complex[]>();
 
-        [Params(64, 65, 4096, 4097, 65536, 65537, 1048576, 1048577)]
+        [Params(32, 64, 128, 1024, 8192, 65536)]
         public int N { get; set; }
 
         [Setup]
         public void Setup()
         {
-            var realSinusoidal = Generate.Sinusoidal(1048577, 32, -2.0, 2.0);
-            var imagSawtooth = Generate.Sawtooth(1048577, 32, -20.0, 20.0);
+            var realSinusoidal = Generate.Sinusoidal(65536, 32, -2.0, 2.0);
+            var imagSawtooth = Generate.Sawtooth(65536, 32, -20.0, 20.0);
             var signal = Generate.Map2(realSinusoidal, imagSawtooth, (r, i) => new Complex(r, i));
-            foreach (var n in new[] { 64, 65, 4096, 4097, 65536, 65537, 1048576, 1048577 })
+            foreach (var n in new[] { 32, 64, 128, 1024, 8192, 65536 })
             {
                 var s = new Complex[n];
                 Array.Copy(signal, 0, s, 0, n);
@@ -33,8 +33,8 @@ namespace Benchmark.Transforms
         [Benchmark(Baseline = true, OperationsPerInvoke = 2)]
         public void Managed()
         {
-            Fourier.BluesteinForward(_data[N], FourierOptions.NoScaling);
-            Fourier.BluesteinInverse(_data[N], FourierOptions.NoScaling);
+            Fourier.Radix2Forward(_data[N], FourierOptions.NoScaling);
+            Fourier.Radix2Inverse(_data[N], FourierOptions.NoScaling);
         }
 
         [Benchmark(OperationsPerInvoke = 2)]
