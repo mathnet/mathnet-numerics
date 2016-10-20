@@ -11,60 +11,65 @@ namespace Benchmark.LinearAlgebra
 {
     public class DenseMatrixProduct
     {
-        readonly Dictionary<int, Matrix<double>> _dataMathNet = new Dictionary<int, Matrix<double>>();
-        private ILinearAlgebraProvider _managed;
-        private ILinearAlgebraProvider _mkl;
-        //private ILinearAlgebraProvider _safeProvider;
-        private ILinearAlgebraProvider _unsafeProvider;
-        private ILinearAlgebraProvider _experimentalProvider;
+        readonly Dictionary<string, Matrix<double>> _data = new Dictionary<string, Matrix<double>>();
+
+        readonly ILinearAlgebraProvider _managed;
+        readonly ILinearAlgebraProvider _mkl;
+        readonly ILinearAlgebraProvider _experimental;
+
+        [Params(8, 64, 128)]
+        public int M { get; set; }
 
         [Params(8, 64, 128)]
         public int N { get; set; }
 
+        static string Key(int m, int n)
+        {
+            return $"{m}x{n}";
+        }
+
         public DenseMatrixProduct()
         {
+            foreach (var m in new[] {8, 64, 128})
             foreach (var n in new[] {8, 64, 128})
             {
-                _dataMathNet[n] = Matrix<double>.Build.Random(n, n);
+                var key = Key(m, n);
+                _data[key] = Matrix<double>.Build.Random(m, n);
             }
 
             Control.NativeProviderPath = @"..\..\..\..\out\MKL\Windows\";
             _managed = new ManagedLinearAlgebraProvider();
             _mkl = new MklLinearAlgebraProvider();
-            //_safeProvider = new SafeProvider();
-            _unsafeProvider = new UnsafeProvider();
-            _experimentalProvider = new ExperimentalProvider();
+            _experimental = new ExperimentalProvider();
 
             _managed.InitializeVerify();
             _mkl.InitializeVerify();
-            //_safeProvider.InitializeVerify();
-            _unsafeProvider.InitializeVerify();
-            _experimentalProvider.InitializeVerify();
+            _experimental.InitializeVerify();
 
+            //Verify();
+        }
+
+        private void Verify()
+        {
+            M = 8;
             N = 8;
             var resultMkl = MathNet().ToRowArrays();
             var resultManaged = MathNetManaged().ToRowArrays();
-            var resultUnsafe = MathNetExtraUnsafe().ToRowArrays();
-            var resultExperimental = MathNetExtraExperimental().ToRowArrays();
+            var resultExperimental = MathNetExperimental().ToRowArrays();
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
                     if (!resultMkl[i][j].AlmostEqual(resultManaged[i][j], 1e-14))
                     {
-                        throw new Exception(string.Format("Managed [{0}][{1}] {2} != {3}", i, j, resultManaged[i][j], resultMkl[i][j]));
-                    }
-                    if (!resultMkl[i][j].AlmostEqual(resultUnsafe[i][j], 1e-14))
-                    {
-                        throw new Exception(string.Format("Unsafe [{0}][{1}] {2} != {3}", i, j, resultUnsafe[i][j], resultMkl[i][j]));
+                        throw new Exception($"Managed [{i}][{j}] {resultManaged[i][j]} != {resultMkl[i][j]}");
                     }
                     if (!resultMkl[i][j].AlmostEqual(resultExperimental[i][j], 1e-14))
                     {
-                        throw new Exception(string.Format("Experimental [{0}][{1}] {2} != {3}", i, j, resultExperimental[i][j], resultMkl[i][j]));
+                        throw new Exception($"Experimental [{i}][{j}] {resultExperimental[i][j]} != {resultMkl[i][j]}");
                     }
                 }
             }
-            Console.WriteLine("Results OK");
         }
 
         [Setup]
@@ -76,35 +81,21 @@ namespace Benchmark.LinearAlgebra
         public Matrix<double> MathNet()
         {
             Control.LinearAlgebraProvider = _mkl;
-            return _dataMathNet[N]*_dataMathNet[N];
+            return _data[Key(M, N)] *_data[Key(M, N)].Transpose();
         }
 
         [Benchmark(OperationsPerInvoke = 1)]
         public Matrix<double> MathNetManaged()
         {
             Control.LinearAlgebraProvider = _managed;
-            return _dataMathNet[N]*_dataMathNet[N];
-        }
-
-        //[Benchmark(OperationsPerInvoke = 1)]
-        //public Matrix<double> MathNetExtraSafe()
-        //{
-        //    Control.LinearAlgebraProvider = _safeProvider;
-        //    return _dataMathNet[N] * _dataMathNet[N];
-        //}
-
-        [Benchmark(OperationsPerInvoke = 1)]
-        public Matrix<double> MathNetExtraUnsafe()
-        {
-            Control.LinearAlgebraProvider = _unsafeProvider;
-            return _dataMathNet[N] * _dataMathNet[N];
+            return _data[Key(M, N)] *_data[Key(M, N)].Transpose();
         }
 
         [Benchmark(OperationsPerInvoke = 1)]
-        public Matrix<double> MathNetExtraExperimental()
+        public Matrix<double> MathNetExperimental()
         {
-            Control.LinearAlgebraProvider = _experimentalProvider;
-            return _dataMathNet[N] * _dataMathNet[N];
+            Control.LinearAlgebraProvider = _experimental;
+            return _data[Key(M, N)] *_data[Key(M, N)].Transpose();
         }
 
         public class SafeProvider : ManagedLinearAlgebraProvider
@@ -475,56 +466,54 @@ namespace Benchmark.LinearAlgebra
             {
                 if (a == null)
                 {
-                    throw new ArgumentNullException("a");
+                    throw new ArgumentNullException(nameof(a));
                 }
 
                 if (b == null)
                 {
-                    throw new ArgumentNullException("b");
+                    throw new ArgumentNullException(nameof(b));
                 }
 
                 if (c == null)
                 {
-                    throw new ArgumentNullException("c");
+                    throw new ArgumentNullException(nameof(c));
                 }
 
                 if (transposeA != Transpose.DontTranspose)
                 {
-                    Swap(ref rowsA, ref columnsA);
+                    var swap = rowsA;
+                    rowsA = columnsA;
+                    columnsA = swap;
                 }
 
                 if (transposeB != Transpose.DontTranspose)
                 {
-                    Swap(ref rowsB, ref columnsB);
+                    var swap = rowsB;
+                    rowsB = columnsB;
+                    columnsB = swap;
                 }
 
                 if (columnsA != rowsB)
                 {
-                    throw new ArgumentOutOfRangeException(String.Format("columnsA ({0}) != rowsB ({1})", columnsA, rowsB));
+                    throw new ArgumentOutOfRangeException($"columnsA ({columnsA}) != rowsB ({rowsB})");
                 }
 
-                if (rowsA*columnsA != a.Length)
+                if (rowsA * columnsA != a.Length)
                 {
-                    throw new ArgumentOutOfRangeException(String.Format(
-                        "rowsA ({0}) * columnsA ({1}) != a.Length ({2})",
-                        rowsA, columnsA, a.Length));
+                    throw new ArgumentOutOfRangeException($"rowsA ({rowsA}) * columnsA ({columnsA}) != a.Length ({a.Length})");
                 }
 
-                if (rowsB*columnsB != b.Length)
+                if (rowsB * columnsB != b.Length)
                 {
-                    throw new ArgumentOutOfRangeException(String.Format(
-                        "rowsB ({0}) * columnsB ({1}) != b.Length ({2})",
-                        rowsB, columnsB, b.Length));
+                    throw new ArgumentOutOfRangeException($"rowsB ({rowsB}) * columnsB ({columnsB}) != b.Length ({b.Length})");
                 }
 
-                if (rowsA*columnsB != c.Length)
+                if (rowsA * columnsB != c.Length)
                 {
-                    throw new ArgumentOutOfRangeException(String.Format(
-                        "rowsA ({0}) * columnsB ({1}) != c.Length ({2})",
-                        rowsA, columnsB, c.Length));
+                    throw new ArgumentOutOfRangeException($"rowsA ({rowsA}) * columnsB ({columnsB}) != c.Length ({c.Length})");
                 }
 
-                // handle the degenerate cases
+                // handle degenerate cases
                 if (beta == 0.0)
                 {
                     Array.Clear(c, 0, c.Length);
@@ -546,23 +535,23 @@ namespace Benchmark.LinearAlgebra
                     columnDataB[i] = GetColumn(transposeB, i, rowsB, columnsB, b);
                 }
 
-                var shouldNotParallelize = rowsA + columnsB + columnsA < Control.ParallelizeOrder ||
-                                           Control.MaxDegreeOfParallelism < 2;
+                var shouldNotParallelize = rowsA + columnsB + columnsA < Control.ParallelizeOrder || Control.MaxDegreeOfParallelism < 2;
                 if (shouldNotParallelize)
                 {
+                    var row = new double[columnsA];
                     for (int i = 0; i < rowsA; i++)
                     {
-                        var row = GetRow(transposeA, i, rowsA, columnsA, a);
+                        GetRow(transposeA, i, rowsA, columnsA, a, row);
                         for (int j = 0; j < columnsB; j++)
                         {
                             var col = columnDataB[j];
                             double sum = 0;
                             for (int ii = 0; ii < row.Length; ii++)
                             {
-                                sum += row[ii]*col[ii];
+                                sum += row[ii] * col[ii];
                             }
 
-                            c[j*rowsA + i] += alpha*sum;
+                            c[j * rowsA + i] += alpha * sum;
                         }
                     }
                 }
@@ -570,52 +559,42 @@ namespace Benchmark.LinearAlgebra
                 {
                     CommonParallel.For(0, rowsA, 1, (u, v) =>
                     {
+                        var row = new double[columnsA];
                         for (int i = u; i < v; i++)
                         {
-                            // for each row in a
-                            var row = GetRow(transposeA, i, rowsA, columnsA, a);
+                            GetRow(transposeA, i, rowsA, columnsA, a, row);
                             for (int j = 0; j < columnsB; j++)
                             {
                                 var column = columnDataB[j];
                                 double sum = 0;
                                 for (int ii = 0; ii < row.Length; ii++)
                                 {
-                                    sum += row[ii]*column[ii];
+                                    sum += row[ii] * column[ii];
                                 }
 
-                                c[j*rowsA + i] += alpha*sum;
+                                c[j * rowsA + i] += alpha * sum;
                             }
                         }
                     });
                 }
             }
 
-            static void Swap(ref int first, ref int second)
-            {
-                var prior = first;
-                first = second;
-                second = prior;
-            }
-
             /// <summary>
             /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
             /// </summary>
-            static double[] GetRow(Transpose transpose, int rowindx, int numRows, int numCols, double[] matrix)
+            static void GetRow(Transpose transpose, int rowindx, int numRows, int numCols, double[] matrix, double[] row)
             {
-                var ret = new double[numCols];
                 if (transpose == Transpose.DontTranspose)
                 {
                     for (int i = 0; i < numCols; i++)
                     {
-                        ret[i] = matrix[(i*numRows) + rowindx];
+                        row[i] = matrix[(i * numRows) + rowindx];
                     }
                 }
                 else
                 {
-                    Array.Copy(matrix, rowindx*numCols, ret, 0, numCols);
+                    Array.Copy(matrix, rowindx * numCols, row, 0, numCols);
                 }
-
-                return ret;
             }
 
             /// <summary>
@@ -626,13 +605,13 @@ namespace Benchmark.LinearAlgebra
                 var ret = new double[numRows];
                 if (transpose == Transpose.DontTranspose)
                 {
-                    Array.Copy(matrix, colindx*numRows, ret, 0, numRows);
+                    Array.Copy(matrix, colindx * numRows, ret, 0, numRows);
                 }
                 else
                 {
                     for (int i = 0; i < numRows; i++)
                     {
-                        ret[i] = matrix[(i*numCols) + colindx];
+                        ret[i] = matrix[(i * numCols) + colindx];
                     }
                 }
 
