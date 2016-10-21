@@ -81,21 +81,21 @@ namespace Benchmark.LinearAlgebra
         public Matrix<double> MathNet()
         {
             Control.LinearAlgebraProvider = _mkl;
-            return _data[Key(M, N)] *_data[Key(M, N)].Transpose();
+            return _data[Key(M, N)].TransposeAndMultiply(_data[Key(M, N)]);
         }
 
         [Benchmark(OperationsPerInvoke = 1)]
         public Matrix<double> MathNetManaged()
         {
             Control.LinearAlgebraProvider = _managed;
-            return _data[Key(M, N)] *_data[Key(M, N)].Transpose();
+            return _data[Key(M, N)].TransposeAndMultiply(_data[Key(M, N)]);
         }
 
         [Benchmark(OperationsPerInvoke = 1)]
         public Matrix<double> MathNetExperimental()
         {
             Control.LinearAlgebraProvider = _experimental;
-            return _data[Key(M, N)] *_data[Key(M, N)].Transpose();
+            return _data[Key(M, N)].TransposeAndMultiply(_data[Key(M, N)]);
         }
 
         public class SafeProvider : ManagedLinearAlgebraProvider
