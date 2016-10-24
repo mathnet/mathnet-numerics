@@ -357,13 +357,23 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
-        /// Pointwise raise this matrix to an exponent and store the result into the result vector.
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
         /// </summary>
         /// <param name="exponent">The exponent to raise this matrix values to.</param>
-        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        /// <param name="result">The matrix to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(double exponent, Matrix<double> result)
         {
             Map(x => Math.Pow(x, exponent), result, exponent > 0.0 ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Matrix<double> exponent, Matrix<double> result)
+        {
+            Map2(Math.Pow, result, Zeros.Include);
         }
 
         /// <summary>

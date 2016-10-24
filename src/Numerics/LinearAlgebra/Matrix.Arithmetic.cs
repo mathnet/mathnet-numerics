@@ -224,11 +224,18 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoPointwiseDivide(Matrix<T> divisor, Matrix<T> result);
 
         /// <summary>
-        /// Pointwise raise this matrix to an exponent and store the result into the result vector.
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
         /// </summary>
         /// <param name="exponent">The exponent to raise this matrix values to.</param>
-        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        /// <param name="result">The matrix to store the result of the pointwise power.</param>
         protected abstract void DoPointwisePower(T exponent, Matrix<T> result);
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent matrix and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent matrix to raise this matrix values to.</param>
+        /// <param name="result">The matrix to store the result of the pointwise power.</param>
+        protected abstract void DoPointwisePower(Matrix<T> exponent, Matrix<T> result);
 
         /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
@@ -1386,6 +1393,38 @@ namespace MathNet.Numerics.LinearAlgebra
             if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
             {
                 throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwisePower(exponent, result);
+        }
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        public Matrix<T> PointwisePower(Matrix<T> exponent)
+        {
+            if (ColumnCount != exponent.ColumnCount || RowCount != exponent.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, exponent);
+            }
+
+            var result = Build.SameAs(this);
+            DoPointwisePower(exponent, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The matrix to store the result into.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwisePower(Matrix<T> exponent, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != exponent.ColumnCount || RowCount != exponent.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, exponent, result);
             }
 
             DoPointwisePower(exponent, result);
