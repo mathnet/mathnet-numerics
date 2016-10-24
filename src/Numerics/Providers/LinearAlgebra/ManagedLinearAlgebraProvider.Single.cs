@@ -428,6 +428,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
         public virtual void MatrixMultiply(float[] x, int rowsX, int columnsX, float[] y, int rowsY, int columnsY, float[] result)
         {
+            if (_variation == Variation.Experimental)
+            {
+                MatrixMultiplyWithUpdateExperimental(Transpose.DontTranspose, Transpose.DontTranspose, 1.0f, x, rowsX, columnsX, y, rowsY, columnsY, 0.0f, result);
+                return;
+            }
+
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (x == null)
             {
@@ -508,6 +514,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="c">The c matrix.</param>
         public virtual void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, float alpha, float[] a, int rowsA, int columnsA, float[] b, int rowsB, int columnsB, float beta, float[] c)
         {
+            if (_variation == Variation.Experimental)
+            {
+                MatrixMultiplyWithUpdateExperimental(transposeA, transposeB, alpha, a, rowsA, columnsA, b, rowsB, columnsB, beta, c);
+                return;
+            }
+
             int m; // The number of rows of matrix op(A) and of the matrix C.
             int n; // The number of columns of matrix op(B) and of the matrix C.
             int k; // The number of columns of matrix op(A) and the rows of the matrix op(B).
@@ -774,6 +786,128 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol, result, shiftCrow + m2, shiftCcol, m - m2, n2, k - k2, constM, constN, constK, false);
                     CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol + n2, result, shiftCrow + m2, shiftCcol + n2, m - m2, n - n2, k - k2, constM, constN, constK, false);
                 }
+            }
+        }
+
+        public void MatrixMultiplyWithUpdateExperimental(
+                Transpose transposeA, Transpose transposeB, float alpha, float[] a, int rowsA, int columnsA,
+                float[] b,
+                int rowsB, int columnsB, float beta, float[] c)
+        {
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (c == null)
+            {
+                throw new ArgumentNullException("c");
+            }
+
+            if (transposeA != Transpose.DontTranspose)
+            {
+                var swap = rowsA;
+                rowsA = columnsA;
+                columnsA = swap;
+            }
+
+            if (transposeB != Transpose.DontTranspose)
+            {
+                var swap = rowsB;
+                rowsB = columnsB;
+                columnsB = swap;
+            }
+
+            if (columnsA != rowsB)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("columnsA ({0}) != rowsB ({1})", columnsA, rowsB));
+            }
+
+            if (rowsA * columnsA != a.Length)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsA ({1}) != a.Length ({2})", rowsA, columnsA, a.Length));
+            }
+
+            if (rowsB * columnsB != b.Length)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("rowsB ({0}) * columnsB ({1}) != b.Length ({2})", rowsB, columnsB, b.Length));
+            }
+
+            if (rowsA * columnsB != c.Length)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsB ({1}) != c.Length ({2})", rowsA, columnsB, c.Length));
+            }
+
+            // handle degenerate cases
+            if (beta == 0.0)
+            {
+                Array.Clear(c, 0, c.Length);
+            }
+            else if (beta != 1.0)
+            {
+                ScaleArray(beta, c, c);
+            }
+
+            if (alpha == 0.0)
+            {
+                return;
+            }
+
+            // Extract column arrays
+            var columnDataB = new float[columnsB][];
+            for (int i = 0; i < columnDataB.Length; i++)
+            {
+                var column = new float[rowsB];
+                GetColumn(transposeB, i, rowsB, columnsB, b, column);
+                columnDataB[i] = column;
+            }
+
+            var shouldNotParallelize = rowsA + columnsB + columnsA < Control.ParallelizeOrder || Control.MaxDegreeOfParallelism < 2;
+            if (shouldNotParallelize)
+            {
+                var row = new float[columnsA];
+                for (int i = 0; i < rowsA; i++)
+                {
+                    GetRow(transposeA, i, rowsA, columnsA, a, row);
+                    for (int j = 0; j < columnsB; j++)
+                    {
+                        var col = columnDataB[j];
+                        float sum = 0;
+                        for (int ii = 0; ii < row.Length; ii++)
+                        {
+                            sum += row[ii] * col[ii];
+                        }
+
+                        c[j * rowsA + i] += alpha * sum;
+                    }
+                }
+            }
+            else
+            {
+                CommonParallel.For(0, rowsA, 1, (u, v) =>
+                {
+                    var row = new float[columnsA];
+                    for (int i = u; i < v; i++)
+                    {
+                        GetRow(transposeA, i, rowsA, columnsA, a, row);
+                        for (int j = 0; j < columnsB; j++)
+                        {
+                            var column = columnDataB[j];
+                            float sum = 0;
+                            for (int ii = 0; ii < row.Length; ii++)
+                            {
+                                sum += row[ii] * column[ii];
+                            }
+
+                            c[j * rowsA + i] += alpha * sum;
+                        }
+                    }
+                });
             }
         }
 
@@ -1778,7 +1912,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
 
             var work = new float[rowsA];
- 
+
             const int maxiter = 1000;
 
             var e = new float[columnsA];

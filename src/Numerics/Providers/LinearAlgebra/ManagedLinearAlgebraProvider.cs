@@ -27,13 +27,33 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {
+    internal enum Variation
+    {
+        Original,
+        Experimental
+    }
+
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
     public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
+        private Variation _variation;
+
+        public ManagedLinearAlgebraProvider()
+        {
+            _variation = Variation.Original;
+        }
+
+        internal ManagedLinearAlgebraProvider(Variation variation)
+        {
+            _variation = variation;
+        }
+
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
@@ -53,6 +73,43 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         public override string ToString()
         {
             return "Managed";
+        }
+
+
+        /// <summary>
+        /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
+        /// </summary>
+        protected static void GetRow<T>(Transpose transpose, int rowindx, int numRows, int numCols, T[] matrix, T[] row)
+        {
+            if (transpose == Transpose.DontTranspose)
+            {
+                for (int i = 0; i < numCols; i++)
+                {
+                    row[i] = matrix[(i * numRows) + rowindx];
+                }
+            }
+            else
+            {
+                Array.Copy(matrix, rowindx * numCols, row, 0, numCols);
+            }
+        }
+
+        /// <summary>
+        /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
+        /// </summary>
+        protected static void GetColumn<T>(Transpose transpose, int colindx, int numRows, int numCols, T[] matrix, T[] column)
+        {
+            if (transpose == Transpose.DontTranspose)
+            {
+                Array.Copy(matrix, colindx * numRows, column, 0, numRows);
+            }
+            else
+            {
+                for (int i = 0; i < numRows; i++)
+                {
+                    column[i] = matrix[(i * numCols) + colindx];
+                }
+            }
         }
     }
 }

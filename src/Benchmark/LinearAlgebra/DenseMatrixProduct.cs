@@ -14,6 +14,7 @@ namespace Benchmark.LinearAlgebra
         readonly Dictionary<string, Matrix<double>> _data = new Dictionary<string, Matrix<double>>();
 
         readonly ILinearAlgebraProvider _managed;
+        readonly ILinearAlgebraProvider _managedExperimental;
         readonly ILinearAlgebraProvider _mkl;
         readonly ILinearAlgebraProvider _experimental;
 
@@ -39,10 +40,12 @@ namespace Benchmark.LinearAlgebra
 
             Control.NativeProviderPath = @"..\..\..\..\out\MKL\Windows\";
             _managed = new ManagedLinearAlgebraProvider();
+            _managedExperimental = new ManagedLinearAlgebraProvider(Variation.Experimental);
             _mkl = new MklLinearAlgebraProvider();
             _experimental = new ExperimentalProvider();
 
             _managed.InitializeVerify();
+            _managedExperimental.InitializeVerify();
             _mkl.InitializeVerify();
             _experimental.InitializeVerify();
 
@@ -55,6 +58,7 @@ namespace Benchmark.LinearAlgebra
             N = 8;
             var resultMkl = MathNet().ToRowArrays();
             var resultManaged = MathNetManaged().ToRowArrays();
+            var resultManagedExperimental = MathNetManagedExperimental().ToRowArrays();
             var resultExperimental = MathNetExperimental().ToRowArrays();
             for (int i = 0; i < 8; i++)
             {
@@ -63,6 +67,10 @@ namespace Benchmark.LinearAlgebra
                     if (!resultMkl[i][j].AlmostEqual(resultManaged[i][j], 1e-14))
                     {
                         throw new Exception($"Managed [{i}][{j}] {resultManaged[i][j]} != {resultMkl[i][j]}");
+                    }
+                    if (!resultMkl[i][j].AlmostEqual(resultManagedExperimental[i][j], 1e-14))
+                    {
+                        throw new Exception($"ManagedExperimental [{i}][{j}] {resultManagedExperimental[i][j]} != {resultMkl[i][j]}");
                     }
                     if (!resultMkl[i][j].AlmostEqual(resultExperimental[i][j], 1e-14))
                     {
@@ -88,6 +96,13 @@ namespace Benchmark.LinearAlgebra
         public Matrix<double> MathNetManaged()
         {
             Control.LinearAlgebraProvider = _managed;
+            return _data[Key(M, N)].TransposeAndMultiply(_data[Key(M, N)]);
+        }
+
+        [Benchmark(OperationsPerInvoke = 1)]
+        public Matrix<double> MathNetManagedExperimental()
+        {
+            Control.LinearAlgebraProvider = _managedExperimental;
             return _data[Key(M, N)].TransposeAndMultiply(_data[Key(M, N)]);
         }
 
@@ -532,7 +547,9 @@ namespace Benchmark.LinearAlgebra
                 var columnDataB = new double[columnsB][];
                 for (int i = 0; i < columnDataB.Length; i++)
                 {
-                    columnDataB[i] = GetColumn(transposeB, i, rowsB, columnsB, b);
+                    var column = new double[rowsB];
+                    GetColumn(transposeB, i, rowsB, columnsB, b, column);
+                    columnDataB[i] = column;
                 }
 
                 var shouldNotParallelize = rowsA + columnsB + columnsA < Control.ParallelizeOrder || Control.MaxDegreeOfParallelism < 2;
@@ -600,22 +617,19 @@ namespace Benchmark.LinearAlgebra
             /// <summary>
             /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
             /// </summary>
-            static double[] GetColumn(Transpose transpose, int colindx, int numRows, int numCols, double[] matrix)
+            static void GetColumn(Transpose transpose, int colindx, int numRows, int numCols, double[] matrix, double[] column)
             {
-                var ret = new double[numRows];
                 if (transpose == Transpose.DontTranspose)
                 {
-                    Array.Copy(matrix, colindx * numRows, ret, 0, numRows);
+                    Array.Copy(matrix, colindx * numRows, column, 0, numRows);
                 }
                 else
                 {
                     for (int i = 0; i < numRows; i++)
                     {
-                        ret[i] = matrix[(i * numCols) + colindx];
+                        column[i] = matrix[(i * numCols) + colindx];
                     }
                 }
-
-                return ret;
             }
         }
     }
