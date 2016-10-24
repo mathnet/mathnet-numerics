@@ -715,6 +715,26 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
         }
 
+        /// <summary>
+        /// Pointwise raise this vector to an exponent vector and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent vector to raise this vector values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Vector<float> exponent, Vector<float> result)
+        {
+            var denseExponent = exponent as DenseVector;
+            var denseResult = result as DenseVector;
+
+            if (denseExponent == null || denseResult == null)
+            {
+                base.DoPointwisePower(exponent, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
+            }
+        }
+
         #region Parse Functions
 
         /// <summary>
