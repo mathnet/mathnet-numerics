@@ -205,6 +205,18 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         void PointWiseDivideArrays(T[] x, T[] y, T[] result);
 
         /// <summary>
+        /// Does a point wise power of two arrays <c>z = x ^ y</c>. This can be used
+        /// to raise elements of vectors or matrices to the powers of another vector or matrix.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise power.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        void PointWisePowerArrays(T[] x, T[] y, T[] result);
+
+        /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
