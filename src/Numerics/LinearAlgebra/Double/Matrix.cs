@@ -416,6 +416,46 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             Map(Math.Log, result, Zeros.Include);
         }
 
+        /// <summary>
+        /// Computes the Moore-Penrose Pseudo-Inverse of this matrix.
+        /// </summary>
+        public override Matrix<double> PseudoInverse()
+        {
+            var svd = Svd(true);
+            var w = svd.W;
+            var s = svd.S;
+            double tolerance = Math.Max(RowCount, ColumnCount) * svd.L2Norm * Precision.DoublePrecision;
+
+            for (int i = 0; i < s.Count; i++)
+            {
+                s[i] = s[i] < tolerance ? 0 : 1/s[i];
+            }
+
+            w.SetDiagonal(s);
+            return (svd.U * w * svd.VT).Transpose();
+        }
+
+        /// <summary>
+        /// Computes the trace of this matrix.
+        /// </summary>
+        /// <returns>The trace of this matrix</returns>
+        /// <exception cref="ArgumentException">If the matrix is not square</exception>
+        public override double Trace()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            }
+
+            var sum = 0.0;
+            for (var i = 0; i < RowCount; i++)
+            {
+                sum += At(i, i);
+            }
+
+            return sum;
+        }
+
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()
@@ -600,27 +640,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var ret = new double[ColumnCount];
             Storage.FoldByColumnUnchecked(ret, (s, x) => s + Math.Abs(x), (x, c) => x, ret, Zeros.AllowSkip);
             return Vector<double>.Build.Dense(ret);
-        }
-
-        /// <summary>
-        /// Computes the trace of this matrix.
-        /// </summary>
-        /// <returns>The trace of this matrix</returns>
-        /// <exception cref="ArgumentException">If the matrix is not square</exception>
-        public override double Trace()
-        {
-            if (RowCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            }
-
-            var sum = 0.0;
-            for (var i = 0; i < RowCount; i++)
-            {
-                sum += At(i, i);
-            }
-
-            return sum;
         }
 
         /// <summary>

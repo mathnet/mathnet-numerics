@@ -450,7 +450,45 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             Map(Complex.Log, result, Zeros.Include);
         }
 
+        /// <summary>
+        /// Computes the Moore-Penrose Pseudo-Inverse of this matrix.
+        /// </summary>
+        public override Matrix<Complex> PseudoInverse()
+        {
+            var svd = Svd(true);
+            var w = svd.W;
+            var s = svd.S;
+            double tolerance = Math.Max(RowCount, ColumnCount) * svd.L2Norm * Precision.DoublePrecision;
 
+            for (int i = 0; i < s.Count; i++)
+            {
+                s[i] = s[i].Magnitude < tolerance ? 0 : 1/s[i];
+            }
+
+            w.SetDiagonal(s);
+            return (svd.U * w * svd.VT).Transpose();
+        }
+
+        /// <summary>
+        /// Computes the trace of this matrix.
+        /// </summary>
+        /// <returns>The trace of this matrix</returns>
+        /// <exception cref="ArgumentException">If the matrix is not square</exception>
+        public override Complex Trace()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            }
+
+            var sum = Complex.Zero;
+            for (var i = 0; i < RowCount; i++)
+            {
+                sum += At(i, i);
+            }
+
+            return sum;
+        }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
@@ -636,27 +674,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var ret = new Complex[ColumnCount];
             Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
             return Vector<Complex>.Build.Dense(ret);
-        }
-
-        /// <summary>
-        /// Computes the trace of this matrix.
-        /// </summary>
-        /// <returns>The trace of this matrix</returns>
-        /// <exception cref="ArgumentException">If the matrix is not square</exception>
-        public override Complex Trace()
-        {
-            if (RowCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            }
-
-            var sum = Complex.Zero;
-            for (var i = 0; i < RowCount; i++)
-            {
-                sum += At(i, i);
-            }
-
-            return sum;
         }
 
         /// <summary>

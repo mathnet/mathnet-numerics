@@ -445,6 +445,25 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             Map(Complex32.Log, result, Zeros.Include);
         }
 
+        /// <summary>
+        /// Computes the Moore-Penrose Pseudo-Inverse of this matrix.
+        /// </summary>
+        public override Matrix<Complex32> PseudoInverse()
+        {
+            var svd = Svd(true);
+            var w = svd.W;
+            var s = svd.S;
+            float tolerance = (float)(Math.Max(RowCount, ColumnCount) * svd.L2Norm * Precision.SinglePrecision);
+
+            for (int i = 0; i < s.Count; i++)
+            {
+                s[i] = s[i].Magnitude < tolerance ? 0 : 1/s[i];
+            }
+
+            w.SetDiagonal(s);
+            return (svd.U * w * svd.VT).Transpose();
+        }
+
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()

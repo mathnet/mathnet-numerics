@@ -1629,6 +1629,9 @@ namespace MathNet.Numerics.LinearAlgebra
             return LU().Inverse();
         }
 
+        /// <summary>Computes the Moore-Penrose Pseudo-Inverse of this matrix.</summary>
+        public abstract Matrix<T> PseudoInverse();
+
         /// <summary>
         /// Computes the Kronecker product of this matrix with the given matrix. The new matrix is M-by-N
         /// with M = this.Rows * lower.Rows and N = this.Columns * lower.Columns.
