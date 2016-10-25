@@ -1103,8 +1103,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// routine.</remarks>
         public override void PointWisePowerArrays(double[] x, double[] y, double[] result)
         {
-            if (SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor) != 0 ||
-                SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMinor) < 1)
+            if (_vectorFunctionsMajor != 0 || _vectorFunctionsMinor < 1)
             {
                 base.PointWisePowerArrays(x, y, result);
             }

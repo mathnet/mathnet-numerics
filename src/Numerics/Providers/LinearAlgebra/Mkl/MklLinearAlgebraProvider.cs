@@ -90,6 +90,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         readonly Common.Mkl.MklPrecision _precision;
         readonly Common.Mkl.MklAccuracy _accuracy;
 
+        int _linearAlgebraMajor;
+        int _linearAlgebraMinor;
+        int _vectorFunctionsMajor;
+        int _vectorFunctionsMinor;
+
         /// <param name="consistency">
         /// Sets the desired bit consistency on repeated identical computations on varying CPU architectures,
         /// as a trade-off with performance.
@@ -150,12 +155,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             MklProvider.Load(minRevision: 4);
             MklProvider.ConfigurePrecision(_consistency, _precision, _accuracy);
 
-            int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
+            _linearAlgebraMajor = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
+            _linearAlgebraMinor = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMinor);
+            _vectorFunctionsMajor = SafeNativeMethods.query_capability((int)ProviderCapability.VectorFunctionsMajor);
+            _vectorFunctionsMinor = SafeNativeMethods.query_capability((int)ProviderCapability.VectorFunctionsMinor);
 
             // we only support exactly one major version, since major version changes imply a breaking change.
-            if (linearAlgebra != 2)
+            if (_linearAlgebraMajor != 2)
             {
-                throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting linear algebra v2 but provider implements v{0}.", linearAlgebra));
+                throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting linear algebra v2 but provider implements v{0}.", _linearAlgebraMajor));
             }
         }
 
