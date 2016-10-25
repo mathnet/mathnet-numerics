@@ -69,6 +69,8 @@ extern "C" {
 		// LINEAR ALGEBRA
 		case 128: return 2;	// basic dense linear algebra (major - breaking)
 		case 129: return 0;	// basic dense linear algebra (minor - non-breaking)
+		case 130: return 0;	// vector functions (major - breaking)
+		case 131: return 1;	// vector functions (minor - non-breaking)
 
 		// OPTIMIZATION
 		case 256: return 0; // basic optimization

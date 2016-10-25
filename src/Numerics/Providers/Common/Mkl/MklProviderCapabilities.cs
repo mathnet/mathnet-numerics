@@ -53,6 +53,8 @@ namespace MathNet.Numerics.Providers.Common.Mkl
     {
         LinearAlgebraMajor = 128,
         LinearAlgebraMinor = 129,
+        VectorFunctionsMajor = 130,
+        VectorFunctionsMinor = 131,
         FourierTransformMajor = 384,
         FourierTransformMinor = 385
     }

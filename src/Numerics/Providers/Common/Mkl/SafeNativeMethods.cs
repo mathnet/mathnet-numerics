@@ -332,6 +332,9 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         internal static extern void s_vector_divide(int n, float[] x, float[] y, [In, Out] float[] result);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void s_vector_power(int n, float[] x, float[] y, [In, Out] float[] result);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void d_vector_add(int n, double[] x, double[] y, [In, Out] double[] result);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
@@ -342,6 +345,9 @@ namespace MathNet.Numerics.Providers.Common.Mkl
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void d_vector_divide(int n, double[] x, double[] y, [In, Out] double[] result);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void d_vector_power(int n, double[] x, double[] y, [In, Out] double[] result);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void c_vector_add(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
@@ -356,6 +362,9 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         internal static extern void c_vector_divide(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void c_vector_power(int n, Complex32[] x, Complex32[] y, [In, Out] Complex32[] result);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_vector_add(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
@@ -366,6 +375,9 @@ namespace MathNet.Numerics.Providers.Common.Mkl
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_vector_divide(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void z_vector_power(int n, Complex[] x, Complex[] y, [In, Out] Complex[] result);
 
         #endregion  Vector Functions
 
