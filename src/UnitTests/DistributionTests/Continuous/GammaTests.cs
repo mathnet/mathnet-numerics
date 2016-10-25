@@ -406,11 +406,11 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(10, Double.PositiveInfinity, 0.0, 0.0)]
         [TestCase(10, Double.PositiveInfinity, 1.0, 0.0)]
         [TestCase(10, Double.PositiveInfinity, 10.0, 1.0)]
-        public void ValidateCumulativeDistribution(int shape, double invScale, double x, double cdf)
+        public void ValidateCumulativeDistribution(double shape, double invScale, double x, double cdf)
         {
             var gamma = new Gamma(shape, invScale);
-            Assert.That(gamma.CumulativeDistribution(x), Is.EqualTo(cdf).Within(13));
-            Assert.That(Gamma.CDF(shape, invScale, x), Is.EqualTo(cdf).Within(13));
+            Assert.That(gamma.CumulativeDistribution(x), Is.EqualTo(cdf).Within(1e-13));
+            Assert.That(Gamma.CDF(shape, invScale, x), Is.EqualTo(cdf).Within(1e-13));
         }
 
         /// <summary>
@@ -427,11 +427,22 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(10, 10.0, 1.0, 0.54207028552814779168583514294066541824736464003242184)]
         [TestCase(10, 1.0, 1.0, 0.00000011142547833872067735305068724025236288094949815466035)]
         [TestCase(10, 1.0, 10.0, 0.54207028552814779168583514294066541824736464003242184)]
-        public void ValidateInverseCumulativeDistribution(int shape, double invScale, double x, double cdf)
+        public void ValidateInverseCumulativeDistribution(double shape, double invScale, double x, double cdf)
         {
             var gamma = new Gamma(shape, invScale);
-            Assert.That(gamma.InverseCumulativeDistribution(cdf), Is.EqualTo(x).Within(10));
-            Assert.That(Gamma.InvCDF(shape, invScale, cdf), Is.EqualTo(x).Within(10));
+            Assert.That(gamma.InverseCumulativeDistribution(cdf), Is.EqualTo(x).Within(1e-10));
+            Assert.That(Gamma.InvCDF(shape, invScale, cdf), Is.EqualTo(x).Within(1e-10));
+        }
+
+        [TestCase(1082.2442991605726, 1.0750962053293897e-6, 0.990, 1.0792e+9)]
+        [TestCase(1082.2442991605726, 1.0750962053293897e-6, 0.9919, 1.0817e+9)]
+        [TestCase(1082.2442991605726, 1.0750962053293897e-6, 0.993, 1.0834e+9)]
+        [TestCase(0.049878267348360567, 6.2084708006916094E-09, 0.8, 1.08037e+6)]
+        public void ValidateInverseCumulativeDistribution_GitHub442(double shape, double invScale, double cdf, double x)
+        {
+            var gamma = new Gamma(shape, invScale);
+            Assert.That(gamma.InverseCumulativeDistribution(cdf), Is.EqualTo(x).Within(1e+4));
+            Assert.That(Gamma.InvCDF(shape, invScale, cdf), Is.EqualTo(x).Within(1e+4));
         }
     }
 }

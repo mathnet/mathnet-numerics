@@ -412,7 +412,7 @@ namespace MathNet.Numerics
             double x = a*y*y*y;
             double lgm = GammaLn(a);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
                 if (x < xLower || x > xUpper)
                 {
