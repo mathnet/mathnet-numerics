@@ -393,16 +393,16 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         internal static extern long c_fft_create([Out] out IntPtr handle, long n, float forward_scale, float backward_scale);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern long z_fft_forward_inplace([In] IntPtr handle, [In, Out] Complex[] x);
+        internal static extern long z_fft_forward([In] IntPtr handle, [In, Out] Complex[] x);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern long c_fft_forward_inplace([In] IntPtr handle, [In, Out] Complex32[] x);
+        internal static extern long c_fft_forward([In] IntPtr handle, [In, Out] Complex32[] x);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern long z_fft_backward_inplace([In] IntPtr handle, [In, Out] Complex[] x);
+        internal static extern long z_fft_backward([In] IntPtr handle, [In, Out] Complex[] x);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern long c_fft_backward_inplace([In] IntPtr handle, [In, Out] Complex32[] x);
+        internal static extern long c_fft_backward([In] IntPtr handle, [In, Out] Complex32[] x);
 
         #endregion FFT
 
