@@ -20,6 +20,11 @@ extern "C" {
 		case 0:	return 0;
 		case 1:	return -1;
 
+		case 4: return sizeof(size_t);    // 4 (x86), 8 (x64)
+		case 5: return sizeof(MKL_INT);   // 4 (both)
+		case 6: return sizeof(MKL_LONG);  // 4 (both)
+		case 7: return sizeof(MKL_INT64); // 8 (both)
+
 		// PLATFORM
 		case 8:
 #ifdef _M_IX86
