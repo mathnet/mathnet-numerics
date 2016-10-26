@@ -40,7 +40,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         class Kernel
         {
             public IntPtr Handle;
-            public int Length;
+            public int[] Dimensions;
             public FourierTransformScaling Scaling;
         }
 
@@ -63,8 +63,8 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             MklProvider.Load(minRevision: 11);
 
             // we only support exactly one major version, since major version changes imply a breaking change.
-            int fftMajor = SafeNativeMethods.query_capability((int)ProviderCapability.FourierTransformMajor);
-            int fftMinor = SafeNativeMethods.query_capability((int)ProviderCapability.FourierTransformMinor);
+            int fftMajor = SafeNativeMethods.query_capability((int) ProviderCapability.FourierTransformMajor);
+            int fftMinor = SafeNativeMethods.query_capability((int) ProviderCapability.FourierTransformMinor);
             if (!(fftMajor == 1 && fftMinor >= 0))
             {
                 throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting fourier transform v1 but provider implements v{0}.", fftMajor));
@@ -150,18 +150,78 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             {
                 kernel = new Kernel
                 {
-                    Length = length,
+                    Dimensions = new[] {length},
                     Scaling = scaling
                 };
+
                 SafeNativeMethods.z_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+
                 return kernel;
             }
 
-            if (kernel.Length != length || kernel.Scaling != scaling)
+            if (kernel.Dimensions.Length != 1 || kernel.Dimensions[0] != length || kernel.Scaling != scaling)
             {
                 SafeNativeMethods.x_fft_free(ref kernel.Handle);
                 SafeNativeMethods.z_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
-                kernel.Length = length;
+                kernel.Dimensions = new[] {length};
+                kernel.Scaling = scaling;
+                return kernel;
+            }
+
+            return kernel;
+        }
+
+        Kernel Configure(int[] dimensions, FourierTransformScaling scaling)
+        {
+            if (dimensions.Length == 1)
+            {
+                return Configure(dimensions[0], scaling);
+            }
+
+            Kernel kernel = Interlocked.Exchange(ref _kernel, null);
+
+            if (kernel == null)
+            {
+                kernel = new Kernel
+                {
+                    Dimensions = dimensions,
+                    Scaling = scaling
+                };
+
+                long length = 1;
+                for (int i = 0; i < dimensions.Length; i++)
+                {
+                    length *= dimensions[i];
+                }
+
+                SafeNativeMethods.z_fft_create_multidim(out kernel.Handle, dimensions.Length, dimensions, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                return kernel;
+            }
+
+            bool mismatch = kernel.Dimensions.Length != dimensions.Length || kernel.Scaling != scaling;
+            if (!mismatch)
+            {
+                for (int i = 0; i < dimensions.Length; i++)
+                {
+                    if (dimensions[i] != kernel.Dimensions[i])
+                    {
+                        mismatch = true;
+                        break;
+                    }
+                }
+            }
+
+            if (mismatch)
+            {
+                long length = 1;
+                for (int i = 0; i < dimensions.Length; i++)
+                {
+                    length *= dimensions[i];
+                }
+
+                SafeNativeMethods.x_fft_free(ref kernel.Handle);
+                SafeNativeMethods.z_fft_create_multidim(out kernel.Handle, dimensions.Length, dimensions, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                kernel.Dimensions = dimensions;
                 kernel.Scaling = scaling;
                 return kernel;
             }
@@ -208,7 +268,17 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             return work;
         }
 
-        static double ForwardScaling(FourierTransformScaling scaling, int length)
+        public void ForwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BackwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling)
+        {
+            throw new NotImplementedException();
+        }
+
+        static double ForwardScaling(FourierTransformScaling scaling, long length)
         {
             switch (scaling)
             {
@@ -221,7 +291,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             }
         }
 
-        static double BackwardScaling(FourierTransformScaling scaling, int length)
+        static double BackwardScaling(FourierTransformScaling scaling, long length)
         {
             switch (scaling)
             {

@@ -26,12 +26,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Collections;
+using System;
 using MathNet.Numerics.IntegralTransforms;
 
 namespace MathNet.Numerics.Providers.FourierTransform
 {
-
 #if !NOSYSNUMERICS
     using Complex = System.Numerics.Complex;
 #endif
@@ -106,6 +105,16 @@ namespace MathNet.Numerics.Providers.FourierTransform
             complexFrequenceSpace.Copy(work);
             BackwardInplace(work, scaling);
             return work;
+        }
+
+        public void ForwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BackwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling)
+        {
+            throw new NotImplementedException();
         }
     }
 }

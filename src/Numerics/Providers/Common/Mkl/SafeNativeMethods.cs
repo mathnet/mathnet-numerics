@@ -393,10 +393,10 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         internal static extern int c_fft_create([Out] out IntPtr handle, int n, float forward_scale, float backward_scale);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int z_fft_create_2d([Out] out IntPtr handle, int m, int n, double forward_scale, double backward_scale);
+        internal static extern int z_fft_create_multidim([Out] out IntPtr handle, int dimensions, [In] int[] n, double forward_scale, double backward_scale);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern int c_fft_create_2d([Out] out IntPtr handle, int m, int n, float forward_scale, float backward_scale);
+        internal static extern int c_fft_create_multidim([Out] out IntPtr handle, int dimensions, [In] int[] n, float forward_scale, float backward_scale);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_fft_forward([In] IntPtr handle, [In, Out] Complex[] x);

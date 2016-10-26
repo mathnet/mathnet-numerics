@@ -60,5 +60,8 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling);
         Complex[] Backward(Complex[] complexFrequenceSpace, FourierTransformScaling scaling);
+
+        void ForwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling);
+        void BackwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling);
     }
 }

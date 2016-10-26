@@ -17,8 +17,8 @@ namespace Benchmark
             var config = ManualConfig.Create(DefaultConfig.Instance)
                 .With(new MemoryDiagnoser()); //, new InliningDiagnoser());
 
-            //BenchmarkRunner.Run<Transforms.FFT>(config);
-            BenchmarkRunner.Run<LinearAlgebra.DenseMatrixProduct>(config);
+            BenchmarkRunner.Run<Transforms.FFT>(config);
+            //BenchmarkRunner.Run<LinearAlgebra.DenseMatrixProduct>(config);
 
             //Benchmark(new LinearAlgebra.DenseVectorAdd(10000000,1), 10, "Large (10'000'000) - 10x1 iterations");
             //Benchmark(new LinearAlgebra.DenseVectorAdd(100,1000), 100, "Small (100) - 100x1000 iterations");
