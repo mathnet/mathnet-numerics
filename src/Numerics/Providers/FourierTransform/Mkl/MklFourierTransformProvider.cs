@@ -270,12 +270,16 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 
         public void ForwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling)
         {
-            throw new NotImplementedException();
+            Kernel kernel = Configure(dimensions, scaling);
+            SafeNativeMethods.z_fft_forward(kernel.Handle, complex);
+            Release(kernel);
         }
 
         public void BackwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling)
         {
-            throw new NotImplementedException();
+            Kernel kernel = Configure(dimensions, scaling);
+            SafeNativeMethods.z_fft_backward(kernel.Handle, complex);
+            Release(kernel);
         }
 
         static double ForwardScaling(FourierTransformScaling scaling, long length)

@@ -28,6 +28,8 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Providers.FourierTransform;
 
 namespace MathNet.Numerics.IntegralTransforms
@@ -48,6 +50,21 @@ namespace MathNet.Numerics.IntegralTransforms
         public static void Forward(Complex[] samples)
         {
             Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+        }
+
+        public static void ForwardMultiDim(Complex[] samples, int[] dimensions)
+        {
+            Control.FourierTransformProvider.ForwardInplaceMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
+        }
+
+        public static void Forward2D(Complex[] samplesRowWise, int rows, int columns)
+        {
+            ForwardMultiDim(samplesRowWise, new[] {rows, columns});
+        }
+
+        public static void Forward2D(Matrix<Complex> samples)
+        {
+            Forward2D(samples, FourierOptions.Default);
         }
 
         /// <summary>
@@ -76,54 +93,159 @@ namespace MathNet.Numerics.IntegralTransforms
             }
         }
 
-        /// <summary>
-        /// Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
-        /// </summary>
-        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
-        public static void Inverse(Complex[] samples)
+        public static void ForwardMultiDim(Complex[] samples, int[] dimensions, FourierOptions options)
         {
-            Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+            switch (options)
+            {
+                case FourierOptions.NoScaling:
+                case FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.ForwardInplaceMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
+                    break;
+                case FourierOptions.InverseExponent:
+                    Control.FourierTransformProvider.BackwardInplaceMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
+                    break;
+                case FourierOptions.InverseExponent | FourierOptions.NoScaling:
+                case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.BackwardInplaceMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
+                    break;
+                default:
+                    Control.FourierTransformProvider.ForwardInplaceMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
+                    break;
+            }
+        }
+
+        public static void Forward2D(Complex[] samplesRowWise, int rows, int columns, FourierOptions options)
+        {
+            ForwardMultiDim(samplesRowWise, new[] { rows, columns }, options);
+        }
+
+        public static void Forward2D(Matrix<Complex> samples, FourierOptions options)
+        {
+            // since dense matrix data is column major, we switch rows and columns
+
+            var denseStorage = samples.Storage as DenseColumnMajorMatrixStorage<Complex>;
+            if (denseStorage == null)
+            {
+                var samplesColumnMajor = samples.ToColumnWiseArray();
+                ForwardMultiDim(samplesColumnMajor, new[] { samples.ColumnCount, samples.RowCount }, options);
+                denseStorage = new DenseColumnMajorMatrixStorage<Complex>(samples.RowCount, samples.ColumnCount, samplesColumnMajor);
+                denseStorage.CopyToUnchecked(samples.Storage, ExistingData.Clear);
+                return;
+            }
+
+            ForwardMultiDim(denseStorage.Data, new[] { samples.ColumnCount, samples.RowCount }, options);
         }
 
         /// <summary>
         /// Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
         /// </summary>
-        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
+        /// <param name="spectrum">Sample vector, where the FFT is evaluated in place.</param>
+        public static void Inverse(Complex[] spectrum)
+        {
+            Control.FourierTransformProvider.BackwardInplace(spectrum, FourierTransformScaling.SymmetricScaling);
+        }
+
+        public static void InverseMultiDim(Complex[] spectrum, int[] dimensions)
+        {
+            Control.FourierTransformProvider.BackwardInplaceMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
+        }
+
+        public static void Inverse2D(Complex[] spectrumRowWise, int rows, int columns)
+        {
+            InverseMultiDim(spectrumRowWise, new[] { rows, columns });
+        }
+
+        public static void Inverse2D(Matrix<Complex> samples)
+        {
+            Inverse2D(samples, FourierOptions.Default);
+        }
+
+        /// <summary>
+        /// Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
+        /// </summary>
+        /// <param name="specrum">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Inverse(Complex[] samples, FourierOptions options)
+        public static void Inverse(Complex[] specrum, FourierOptions options)
         {
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.BackwardInplace(specrum, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.BackwardScaling);
+                    Control.FourierTransformProvider.BackwardInplace(specrum, FourierTransformScaling.BackwardScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.ForwardInplace(specrum, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.ForwardInplace(specrum, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.ForwardScaling);
+                    Control.FourierTransformProvider.ForwardInplace(specrum, FourierTransformScaling.ForwardScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.BackwardInplace(specrum, FourierTransformScaling.SymmetricScaling);
                     break;
             }
+        }
+
+        public static void InverseMultiDim(Complex[] specrum, int[] dimensions, FourierOptions options)
+        {
+            switch (options)
+            {
+                case FourierOptions.NoScaling:
+                    Control.FourierTransformProvider.BackwardInplaceMultidim(specrum, dimensions, FourierTransformScaling.NoScaling);
+                    break;
+                case FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.BackwardInplaceMultidim(specrum, dimensions, FourierTransformScaling.BackwardScaling);
+                    break;
+                case FourierOptions.InverseExponent:
+                    Control.FourierTransformProvider.ForwardInplaceMultidim(specrum, dimensions, FourierTransformScaling.SymmetricScaling);
+                    break;
+                case FourierOptions.InverseExponent | FourierOptions.NoScaling:
+                    Control.FourierTransformProvider.ForwardInplaceMultidim(specrum, dimensions, FourierTransformScaling.NoScaling);
+                    break;
+                case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.ForwardInplaceMultidim(specrum, dimensions, FourierTransformScaling.ForwardScaling);
+                    break;
+                default:
+                    Control.FourierTransformProvider.BackwardInplaceMultidim(specrum, dimensions, FourierTransformScaling.SymmetricScaling);
+                    break;
+            }
+        }
+
+        public static void Inverse2D(Complex[] spectrumRowWise, int rows, int columns, FourierOptions options)
+        {
+            InverseMultiDim(spectrumRowWise, new[] { rows, columns }, options);
+        }
+
+        public static void Inverse2D(Matrix<Complex> spectrum, FourierOptions options)
+        {
+            // since dense matrix data is column major, we switch rows and columns
+
+            var denseStorage = spectrum.Storage as DenseColumnMajorMatrixStorage<Complex>;
+            if (denseStorage == null)
+            {
+                var samplesColumnMajor = spectrum.ToColumnWiseArray();
+                InverseMultiDim(samplesColumnMajor, new[] { spectrum.ColumnCount, spectrum.RowCount }, options);
+                denseStorage = new DenseColumnMajorMatrixStorage<Complex>(spectrum.RowCount, spectrum.ColumnCount, samplesColumnMajor);
+                denseStorage.CopyToUnchecked(spectrum.Storage, ExistingData.Clear);
+                return;
+            }
+
+            InverseMultiDim(denseStorage.Data, new[] { spectrum.ColumnCount, spectrum.RowCount }, options);
         }
 
         /// <summary>
         /// Naive forward DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        /// <param name="timeSpace">Time-space sample vector.</param>
+        /// <param name="samples">Time-space sample vector.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
-        public static Complex[] NaiveForward(Complex[] timeSpace, FourierOptions options)
+        public static Complex[] NaiveForward(Complex[] samples, FourierOptions options)
         {
-            var frequencySpace = Naive(timeSpace, SignByOptions(options));
+            var frequencySpace = Naive(samples, SignByOptions(options));
             ForwardScaleByOptions(options, frequencySpace);
             return frequencySpace;
         }
@@ -131,12 +253,12 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <summary>
         /// Naive inverse DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        /// <param name="frequencySpace">Frequency-space sample vector.</param>
+        /// <param name="spectrum">Frequency-space sample vector.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <returns>Corresponding time-space vector.</returns>
-        public static Complex[] NaiveInverse(Complex[] frequencySpace, FourierOptions options)
+        public static Complex[] NaiveInverse(Complex[] spectrum, FourierOptions options)
         {
-            var timeSpace = Naive(frequencySpace, -SignByOptions(options));
+            var timeSpace = Naive(spectrum, -SignByOptions(options));
             InverseScaleByOptions(options, timeSpace);
             return timeSpace;
         }
@@ -156,13 +278,13 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <summary>
         /// Radix-2 inverse FFT for power-of-two sized sample vectors.
         /// </summary>
-        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
+        /// <param name="spectrum">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <exception cref="ArgumentException"/>
-        public static void Radix2Inverse(Complex[] samples, FourierOptions options)
+        public static void Radix2Inverse(Complex[] spectrum, FourierOptions options)
         {
-            Radix2Parallel(samples, -SignByOptions(options));
-            InverseScaleByOptions(options, samples);
+            Radix2Parallel(spectrum, -SignByOptions(options));
+            InverseScaleByOptions(options, spectrum);
         }
 
         /// <summary>
@@ -179,12 +301,12 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <summary>
         /// Bluestein inverse FFT for arbitrary sized sample vectors.
         /// </summary>
-        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
+        /// <param name="spectrum">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void BluesteinInverse(Complex[] samples, FourierOptions options)
+        public static void BluesteinInverse(Complex[] spectrum, FourierOptions options)
         {
-            Bluestein(samples, -SignByOptions(options));
-            InverseScaleByOptions(options, samples);
+            Bluestein(spectrum, -SignByOptions(options));
+            InverseScaleByOptions(options, spectrum);
         }
 
         /// <summary>
