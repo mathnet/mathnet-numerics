@@ -110,6 +110,16 @@ namespace MathNet.Numerics.IntegralTransforms
             }
         }
 
+        public static void ForwardReal(double[] samples, FourierOptions options = FourierOptions.Default)
+        {
+            if (real.Length != imaginary.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+
+            int length = real.Length/2;
+        }
+
         /// <summary>
         /// Applies the forward Fast Fourier Transform (FFT) to multiple dimensional sample data.
         /// </summary>

@@ -6,11 +6,6 @@
 #include <float.h>
 #include "mkl_dfti.h"
 
-inline MKL_LONG fft_free(DFTI_DESCRIPTOR_HANDLE* handle)
-{
-	return DftiFreeDescriptor(handle);
-}
-
 template<typename Precision>
 inline MKL_LONG fft_create_1d(DFTI_DESCRIPTOR_HANDLE* handle, const MKL_LONG n, const Precision forward_scale, const Precision backward_scale, const DFTI_CONFIG_VALUE precision, const DFTI_CONFIG_VALUE domain)
 {
@@ -18,6 +13,7 @@ inline MKL_LONG fft_create_1d(DFTI_DESCRIPTOR_HANDLE* handle, const MKL_LONG n, 
 	DFTI_DESCRIPTOR_HANDLE descriptor = *handle;
 	if (0 == status) status = DftiSetValue(descriptor, DFTI_FORWARD_SCALE, forward_scale);
 	if (0 == status) status = DftiSetValue(descriptor, DFTI_BACKWARD_SCALE, backward_scale);
+	if (0 == status) status = DftiSetValue(descriptor, DFTI_CONJUGATE_EVEN_STORAGE, DFTI_COMPLEX_COMPLEX);
 	if (0 == status) status = DftiCommitDescriptor(descriptor);
 	return status;
 }
@@ -29,21 +25,16 @@ inline MKL_LONG fft_create_md(DFTI_DESCRIPTOR_HANDLE* handle, MKL_LONG dimension
 	DFTI_DESCRIPTOR_HANDLE descriptor = *handle;
 	if (0 == status) status = DftiSetValue(descriptor, DFTI_FORWARD_SCALE, forward_scale);
 	if (0 == status) status = DftiSetValue(descriptor, DFTI_BACKWARD_SCALE, backward_scale);
+	if (0 == status) status = DftiSetValue(descriptor, DFTI_CONJUGATE_EVEN_STORAGE, DFTI_COMPLEX_COMPLEX);
 	if (0 == status) status = DftiCommitDescriptor(descriptor);
 	return status;
-}
-
-template<typename Data, typename FFT>
-inline MKL_LONG fft_compute(const DFTI_DESCRIPTOR_HANDLE handle, Data x[], FFT fft)
-{
-	return fft(handle, x);
 }
 
 extern "C" {
 
 	DLLEXPORT MKL_LONG x_fft_free(DFTI_DESCRIPTOR_HANDLE* handle)
 	{
-		return fft_free(handle);
+		return DftiFreeDescriptor(handle);
 	}
 
 	DLLEXPORT MKL_LONG z_fft_create(DFTI_DESCRIPTOR_HANDLE* handle, const MKL_LONG n, const double forward_scale, const double backward_scale)
@@ -68,21 +59,21 @@ extern "C" {
 
 	DLLEXPORT MKL_LONG z_fft_forward(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex16 x[])
 	{
-		return fft_compute(handle, x, DftiComputeForward);
+		return DftiComputeForward(handle, x);
 	}
 
 	DLLEXPORT MKL_LONG c_fft_forward(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex8 x[])
 	{
-		return fft_compute(handle, x, DftiComputeForward);
+		return DftiComputeForward(handle, x);
 	}
 
 	DLLEXPORT MKL_LONG z_fft_backward(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex16 x[])
 	{
-		return fft_compute(handle, x, DftiComputeBackward);
+		return DftiComputeBackward(handle, x);
 	}
 
 	DLLEXPORT MKL_LONG c_fft_backward(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex8 x[])
 	{
-		return fft_compute(handle, x, DftiComputeBackward);
+		return DftiComputeBackward(handle, x);
 	}
 }
