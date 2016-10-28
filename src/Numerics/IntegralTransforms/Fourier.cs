@@ -53,40 +53,6 @@ namespace MathNet.Numerics.IntegralTransforms
         }
 
         /// <summary>
-        /// Applies the forward Fast Fourier Transform (FFT) to multiple dimensional sample data.
-        /// </summary>
-        /// <param name="samples">Sample data, where the FFT is evaluated in place.</param>
-        /// <param name="dimensions">
-        /// The data size per dimension. The first dimension is the major one.
-        /// For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row.
-        /// </param>
-        public static void ForwardMultiDim(Complex[] samples, int[] dimensions)
-        {
-            Control.FourierTransformProvider.ForwardInplaceMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
-        }
-
-        /// <summary>
-        /// Applies the forward Fast Fourier Transform (FFT) to two dimensional sample data.
-        /// </summary>
-        /// <param name="samplesRowWise">Sample data, organized row by row, where the FFT is evaluated in place</param>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <remarks>Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments.</remarks>
-        public static void Forward2D(Complex[] samplesRowWise, int rows, int columns)
-        {
-            ForwardMultiDim(samplesRowWise, new[] {rows, columns});
-        }
-
-        /// <summary>
-        /// Applies the forward Fast Fourier Transform (FFT) to a two dimensional data in form of a matrix.
-        /// </summary>
-        /// <param name="samples">Sample matrix, where the FFT is evaluated in place</param>
-        public static void Forward2D(Matrix<Complex> samples)
-        {
-            Forward2D(samples, FourierOptions.Default);
-        }
-
-        /// <summary>
         /// Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
@@ -121,7 +87,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row.
         /// </param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void ForwardMultiDim(Complex[] samples, int[] dimensions, FourierOptions options)
+        public static void ForwardMultiDim(Complex[] samples, int[] dimensions, FourierOptions options = FourierOptions.Default)
         {
             switch (options)
             {
@@ -150,7 +116,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="columns">The number of columns.</param>
         /// <remarks>Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments.</remarks>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Forward2D(Complex[] samplesRowWise, int rows, int columns, FourierOptions options)
+        public static void Forward2D(Complex[] samplesRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
         {
             ForwardMultiDim(samplesRowWise, new[] { rows, columns }, options);
         }
@@ -160,7 +126,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="samples">Sample matrix, where the FFT is evaluated in place</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Forward2D(Matrix<Complex> samples, FourierOptions options)
+        public static void Forward2D(Matrix<Complex> samples, FourierOptions options = FourierOptions.Default)
         {
             // since dense matrix data is column major, we switch rows and columns
 
@@ -184,40 +150,6 @@ namespace MathNet.Numerics.IntegralTransforms
         public static void Inverse(Complex[] spectrum)
         {
             Control.FourierTransformProvider.BackwardInplace(spectrum, FourierTransformScaling.SymmetricScaling);
-        }
-
-        /// <summary>
-        /// Applies the inverse Fast Fourier Transform (iFFT) to multiple dimensional sample data.
-        /// </summary>
-        /// <param name="spectrum">Spectrum data, where the iFFT is evaluated in place.</param>
-        /// <param name="dimensions">
-        /// The data size per dimension. The first dimension is the major one.
-        /// For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row.
-        /// </param>
-        public static void InverseMultiDim(Complex[] spectrum, int[] dimensions)
-        {
-            Control.FourierTransformProvider.BackwardInplaceMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
-        }
-
-        /// <summary>
-        /// Applies the inverse Fast Fourier Transform (iFFT) to two dimensional sample data.
-        /// </summary>
-        /// <param name="spectrumRowWise">Sample data, organized row by row, where the iFFT is evaluated in place</param>
-        /// <param name="rows">The number of rows.</param>
-        /// <param name="columns">The number of columns.</param>
-        /// <remarks>Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments.</remarks>
-        public static void Inverse2D(Complex[] spectrumRowWise, int rows, int columns)
-        {
-            InverseMultiDim(spectrumRowWise, new[] { rows, columns });
-        }
-
-        /// <summary>
-        /// Applies the inverse Fast Fourier Transform (iFFT) to a two dimensional data in form of a matrix.
-        /// </summary>
-        /// <param name="spectrum">Sample matrix, where the iFFT is evaluated in place</param>
-        public static void Inverse2D(Matrix<Complex> spectrum)
-        {
-            Inverse2D(spectrum, FourierOptions.Default);
         }
 
         /// <summary>
@@ -259,7 +191,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row.
         /// </param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void InverseMultiDim(Complex[] spectrum, int[] dimensions, FourierOptions options)
+        public static void InverseMultiDim(Complex[] spectrum, int[] dimensions, FourierOptions options = FourierOptions.Default)
         {
             switch (options)
             {
@@ -292,7 +224,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="columns">The number of columns.</param>
         /// <remarks>Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments.</remarks>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Inverse2D(Complex[] spectrumRowWise, int rows, int columns, FourierOptions options)
+        public static void Inverse2D(Complex[] spectrumRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
         {
             InverseMultiDim(spectrumRowWise, new[] { rows, columns }, options);
         }
@@ -302,7 +234,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="spectrum">Sample matrix, where the iFFT is evaluated in place</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Inverse2D(Matrix<Complex> spectrum, FourierOptions options)
+        public static void Inverse2D(Matrix<Complex> spectrum, FourierOptions options = FourierOptions.Default)
         {
             // since dense matrix data is column major, we switch rows and columns
 
@@ -325,7 +257,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Time-space sample vector.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
-        public static Complex[] NaiveForward(Complex[] samples, FourierOptions options)
+        public static Complex[] NaiveForward(Complex[] samples, FourierOptions options = FourierOptions.Default)
         {
             var frequencySpace = Naive(samples, SignByOptions(options));
             ForwardScaleByOptions(options, frequencySpace);
@@ -338,7 +270,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="spectrum">Frequency-space sample vector.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <returns>Corresponding time-space vector.</returns>
-        public static Complex[] NaiveInverse(Complex[] spectrum, FourierOptions options)
+        public static Complex[] NaiveInverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
         {
             var timeSpace = Naive(spectrum, -SignByOptions(options));
             InverseScaleByOptions(options, timeSpace);
@@ -351,7 +283,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <exception cref="ArgumentException"/>
-        public static void Radix2Forward(Complex[] samples, FourierOptions options)
+        public static void Radix2Forward(Complex[] samples, FourierOptions options = FourierOptions.Default)
         {
             Radix2Parallel(samples, SignByOptions(options));
             ForwardScaleByOptions(options, samples);
@@ -363,7 +295,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="spectrum">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <exception cref="ArgumentException"/>
-        public static void Radix2Inverse(Complex[] spectrum, FourierOptions options)
+        public static void Radix2Inverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
         {
             Radix2Parallel(spectrum, -SignByOptions(options));
             InverseScaleByOptions(options, spectrum);
@@ -374,7 +306,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void BluesteinForward(Complex[] samples, FourierOptions options)
+        public static void BluesteinForward(Complex[] samples, FourierOptions options = FourierOptions.Default)
         {
             Bluestein(samples, SignByOptions(options));
             ForwardScaleByOptions(options, samples);
@@ -385,7 +317,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="spectrum">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void BluesteinInverse(Complex[] spectrum, FourierOptions options)
+        public static void BluesteinInverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
         {
             Bluestein(spectrum, -SignByOptions(options));
             InverseScaleByOptions(options, spectrum);
