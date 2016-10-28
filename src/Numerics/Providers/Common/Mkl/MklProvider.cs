@@ -36,8 +36,9 @@ namespace MathNet.Numerics.Providers.Common.Mkl
 {
     internal static class MklProvider
     {
-        static Version _mklVersion;
+        const int _designTimeRevision = 11;
         static int _nativeRevision;
+        static Version _mklVersion;
         static bool _nativeX86;
         static bool _nativeX64;
         static bool _nativeIA64;
@@ -224,6 +225,8 @@ namespace MathNet.Numerics.Providers.Common.Mkl
             if (_nativeX64) parts.Add("x64");
             if (_nativeIA64) parts.Add("IA64");
             parts.Add("revision " + _nativeRevision);
+            if (_nativeRevision > _designTimeRevision) parts.Add("ahead revision " + _designTimeRevision);
+            if (_nativeRevision < _designTimeRevision) parts.Add("behind revision " + _designTimeRevision);
             if (_mklVersion.Major > 0)
             {
                 parts.Add(_mklVersion.Build == 0
