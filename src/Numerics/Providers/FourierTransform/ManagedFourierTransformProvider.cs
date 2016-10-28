@@ -53,7 +53,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         {
         }
 
-        public string ToString()
+        public override string ToString()
         {
             return "Managed";
         }
@@ -93,12 +93,53 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public void ForwardReal(double[] samples, int n, FourierTransformScaling scaling)
         {
-            throw new NotImplementedException();
+            // TODO: backport proper, optimized implementation from Iridium
+
+            Complex[] data = new Complex[n];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = new Complex(samples[i], 0.0);
+            }
+
+            Forward(data, scaling);
+
+            samples[0] = data[0].Real;
+            samples[1] = 0d;
+            for (int i = 1, j = 2; i < data.Length/2; i++)
+            {
+                samples[j++] = data[i].Real;
+                samples[j++] = data[i].Imaginary;
+            }
+            if (n.IsEven())
+            {
+                samples[n] = data[data.Length/2].Real;
+                samples[n+1] = 0d;
+            }
         }
 
         public void BackwardReal(double[] spectrum, int n, FourierTransformScaling scaling)
         {
-            throw new NotImplementedException();
+            // TODO: backport proper, optimized implementation from Iridium
+
+            Complex[] data = new Complex[n];
+            data[0] = new Complex(spectrum[0], 0d);
+            for (int i = 1, j = 2; i < data.Length/2; i++)
+            {
+                data[i] = new Complex(spectrum[j++], spectrum[j++]);
+                data[data.Length - i] = data[i].Conjugate();
+            }
+            if (n.IsEven())
+            {
+                data[data.Length/2] = new Complex(spectrum[n], 0d);
+            }
+
+            Backward(data, scaling);
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                spectrum[i] = data[i].Real;
+            }
+            spectrum[n] = 0d;
         }
 
         public void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling)
