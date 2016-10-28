@@ -47,6 +47,16 @@ extern "C" {
 		return fft_create_1d(handle, n, forward_scale, backward_scale, DFTI_SINGLE, DFTI_COMPLEX);
 	}
 
+	DLLEXPORT MKL_LONG d_fft_create(DFTI_DESCRIPTOR_HANDLE* handle, const MKL_LONG n, const double forward_scale, const double backward_scale)
+	{
+		return fft_create_1d(handle, n, forward_scale, backward_scale, DFTI_DOUBLE, DFTI_REAL);
+	}
+
+	DLLEXPORT MKL_LONG s_fft_create(DFTI_DESCRIPTOR_HANDLE* handle, const MKL_LONG n, const float forward_scale, const float backward_scale)
+	{
+		return fft_create_1d(handle, n, forward_scale, backward_scale, DFTI_SINGLE, DFTI_REAL);
+	}
+
 	DLLEXPORT MKL_LONG z_fft_create_multidim(DFTI_DESCRIPTOR_HANDLE* handle, MKL_LONG dimensions, MKL_LONG n[], const double forward_scale, const double backward_scale)
 	{
 		return fft_create_md(handle, dimensions, n, forward_scale, backward_scale, DFTI_DOUBLE, DFTI_COMPLEX);
@@ -67,12 +77,32 @@ extern "C" {
 		return DftiComputeForward(handle, x);
 	}
 
+	DLLEXPORT MKL_LONG d_fft_forward(const DFTI_DESCRIPTOR_HANDLE handle, double x[])
+	{
+		return DftiComputeForward(handle, x);
+	}
+
+	DLLEXPORT MKL_LONG s_fft_forward(const DFTI_DESCRIPTOR_HANDLE handle, float x[])
+	{
+		return DftiComputeForward(handle, x);
+	}
+
 	DLLEXPORT MKL_LONG z_fft_backward(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex16 x[])
 	{
 		return DftiComputeBackward(handle, x);
 	}
 
 	DLLEXPORT MKL_LONG c_fft_backward(const DFTI_DESCRIPTOR_HANDLE handle, MKL_Complex8 x[])
+	{
+		return DftiComputeBackward(handle, x);
+	}
+
+	DLLEXPORT MKL_LONG d_fft_backward(const DFTI_DESCRIPTOR_HANDLE handle, double x[])
+	{
+		return DftiComputeBackward(handle, x);
+	}
+
+	DLLEXPORT MKL_LONG s_fft_backward(const DFTI_DESCRIPTOR_HANDLE handle, float x[])
 	{
 		return DftiComputeBackward(handle, x);
 	}

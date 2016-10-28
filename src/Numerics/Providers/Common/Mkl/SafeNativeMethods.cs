@@ -393,6 +393,12 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         internal static extern int c_fft_create([Out] out IntPtr handle, int n, float forward_scale, float backward_scale);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int d_fft_create([Out] out IntPtr handle, int n, double forward_scale, double backward_scale);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int s_fft_create([Out] out IntPtr handle, int n, float forward_scale, float backward_scale);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_fft_create_multidim([Out] out IntPtr handle, int dimensions, [In] int[] n, double forward_scale, double backward_scale);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
@@ -405,10 +411,22 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         internal static extern int c_fft_forward([In] IntPtr handle, [In, Out] Complex32[] x);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int d_fft_forward([In] IntPtr handle, [In, Out] double[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int s_fft_forward([In] IntPtr handle, [In, Out] float[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_fft_backward([In] IntPtr handle, [In, Out] Complex[] x);
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int c_fft_backward([In] IntPtr handle, [In, Out] Complex32[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int d_fft_backward([In] IntPtr handle, [In, Out] double[] x);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int s_fft_backward([In] IntPtr handle, [In, Out] float[] x);
 
         #endregion FFT
 
