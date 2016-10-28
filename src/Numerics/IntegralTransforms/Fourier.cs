@@ -30,6 +30,7 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.FourierTransform;
 
 namespace MathNet.Numerics.IntegralTransforms
@@ -75,6 +76,37 @@ namespace MathNet.Numerics.IntegralTransforms
                 default:
                     Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
+        /// </summary>
+        /// <param name="real">Real part of the sample vector, where the FFT is evaluated in place.</param>
+        /// <param name="imaginary">Imaginary part of the sample vector, where the FFT is evaluated in place.</param>
+        /// <param name="options">Fourier Transform Convention Options.</param>
+        public static void Forward(double[] real, double[] imaginary, FourierOptions options = FourierOptions.Default)
+        {
+            if (real.Length != imaginary.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+
+            // TODO: consider to support this natively by the provider, without the need for copying
+            // TODO: otherwise, consider ArrayPool
+
+            Complex[] data = new Complex[real.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = new Complex(real[i], imaginary[i]);
+            }
+
+            Forward(data, options);
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                real[i] = data[i].Real;
+                imaginary[i] = data[i].Imaginary;
             }
         }
 
@@ -179,6 +211,37 @@ namespace MathNet.Numerics.IntegralTransforms
                 default:
                     Control.FourierTransformProvider.BackwardInplace(spectrum, FourierTransformScaling.SymmetricScaling);
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
+        /// </summary>
+        /// <param name="real">Real part of the sample vector, where the iFFT is evaluated in place.</param>
+        /// <param name="imaginary">Imaginary part of the sample vector, where the iFFT is evaluated in place.</param>
+        /// <param name="options">Fourier Transform Convention Options.</param>
+        public static void Inverse(double[] real, double[] imaginary, FourierOptions options = FourierOptions.Default)
+        {
+            if (real.Length != imaginary.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+
+            // TODO: consider to support this natively by the provider, without the need for copying
+            // TODO: otherwise, consider ArrayPool
+
+            Complex[] data = new Complex[real.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = new Complex(real[i], imaginary[i]);
+            }
+
+            Inverse(data, options);
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                real[i] = data[i].Real;
+                imaginary[i] = data[i].Imaginary;
             }
         }
 
