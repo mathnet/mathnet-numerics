@@ -144,12 +144,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }
