@@ -55,13 +55,13 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         void InitializeVerify();
 
-        void ForwardInplace(Complex[] complex, FourierTransformScaling scaling);
-        void BackwardInplace(Complex[] complex, FourierTransformScaling scaling);
+        void Forward(Complex[] samples, FourierTransformScaling scaling);
+        void Backward(Complex[] spectrum, FourierTransformScaling scaling);
 
-        Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling);
-        Complex[] Backward(Complex[] complexFrequenceSpace, FourierTransformScaling scaling);
+        void ForwardReal(double[] samples, int n, FourierTransformScaling scaling);
+        void BackwardReal(double[] spectrum, int n, FourierTransformScaling scaling);
 
-        void ForwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling);
-        void BackwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling);
+        void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling);
+        void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling);
     }
 }

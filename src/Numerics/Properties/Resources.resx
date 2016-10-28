@@ -370,7 +370,7 @@
     <value>The given array is too small. It must be at least {0} long.</value>
   </data>
   <data name="ArgumentArrayWrongLength" xml:space="preserve">
-    <value>The given array is the wrong length. Should be {0}.</value>
+    <value>The given array has the wrong length. Should be {0}.</value>
   </data>
   <data name="RowsLessThanColumns" xml:space="preserve">
     <value>The number of rows must greater than or equal to the number of columns.</value>

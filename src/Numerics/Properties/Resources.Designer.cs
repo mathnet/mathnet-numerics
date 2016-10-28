@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given array is the wrong length. Should be {0}..
+        ///   Looks up a localized string similar to The given array has the wrong length. Should be {0}..
         /// </summary>
         public static string ArgumentArrayWrongLength {
             get {

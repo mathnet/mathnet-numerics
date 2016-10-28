@@ -55,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
 
             // real-odd transforms to imaginary odd
             samples.Copy(spectrum);
-            Control.FourierTransformProvider.ForwardInplace(spectrum, FourierTransformScaling.BackwardScaling);
+            Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.BackwardScaling);
 
             // all real components must be zero
             foreach (var c in spectrum)
@@ -88,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
             var samples = Generate.RandomComplex(count, GetUniform(1));
             var timeSpaceEnergy = Generate.Map(samples, s => s.MagnitudeSquared()).Mean();
 
-            Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+            Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.SymmetricScaling);
             var frequencySpaceEnergy = Generate.Map(samples, s => s.MagnitudeSquared()).Mean();
 
             Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-12);

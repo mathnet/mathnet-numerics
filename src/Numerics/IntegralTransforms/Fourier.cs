@@ -50,7 +50,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         public static void Forward(Complex[] samples)
         {
-            Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+            Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.SymmetricScaling);
         }
 
         /// <summary>
@@ -64,17 +64,17 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 case FourierOptions.NoScaling:
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.Backward(samples, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardInplace(samples, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.Backward(samples, FourierTransformScaling.NoScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.ForwardInplace(samples, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -110,14 +110,38 @@ namespace MathNet.Numerics.IntegralTransforms
             }
         }
 
-        public static void ForwardReal(double[] samples, FourierOptions options = FourierOptions.Default)
+        /// <summary>
+        /// Packed Real-Complex forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
+        /// Since for real-valued time samples the complex spectrum is conjugate-even (symmetry),
+        /// the spectrum can be fully reconstructed form the positive frequencies only (first half).
+        /// The data array needs to be N+2 (if N is even) or N+1 (if N is odd) long in order to support such a packed spectrum.
+        /// </summary>
+        /// <param name="data">Data array of length N+2 (if N is even) or N+1 (if N is odd).</param>
+        /// <param name="n">The number of samples.</param>
+        /// <param name="options">Fourier Transform Convention Options.</param>
+        public static void ForwardReal(double[] data, int n, FourierOptions options = FourierOptions.Default)
         {
-            if (real.Length != imaginary.Length)
+            int length = n.IsEven() ? n + 2 : n + 1;
+            if (data.Length < length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, length));
             }
 
-            int length = real.Length/2;
+            if ((options & FourierOptions.InverseExponent) == FourierOptions.InverseExponent)
+            {
+                throw new NotSupportedException();
+            }
+
+            switch (options)
+            {
+                case FourierOptions.NoScaling:
+                case FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.ForwardReal(data, n, FourierTransformScaling.NoScaling);
+                    break;
+                default:
+                    Control.FourierTransformProvider.ForwardReal(data, n, FourierTransformScaling.SymmetricScaling);
+                    break;
+            }
         }
 
         /// <summary>
@@ -135,17 +159,17 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 case FourierOptions.NoScaling:
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardInplaceMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.ForwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.BackwardInplaceMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.BackwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardInplaceMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.BackwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.ForwardInplaceMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.ForwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -191,7 +215,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="spectrum">Spectrum data, where the iFFT is evaluated in place.</param>
         public static void Inverse(Complex[] spectrum)
         {
-            Control.FourierTransformProvider.BackwardInplace(spectrum, FourierTransformScaling.SymmetricScaling);
+            Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
         }
 
         /// <summary>
@@ -204,22 +228,22 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.BackwardInplace(spectrum, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardInplace(spectrum, FourierTransformScaling.BackwardScaling);
+                    Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.BackwardScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.ForwardInplace(spectrum, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.ForwardInplace(spectrum, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardInplace(spectrum, FourierTransformScaling.ForwardScaling);
+                    Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.ForwardScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.BackwardInplace(spectrum, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -256,6 +280,42 @@ namespace MathNet.Numerics.IntegralTransforms
         }
 
         /// <summary>
+        /// Packed Real-Complex inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
+        /// Since for real-valued time samples the complex spectrum is conjugate-even (symmetry),
+        /// the spectrum can be fully reconstructed form the positive frequencies only (first half).
+        /// The data array needs to be N+2 (if N is even) or N+1 (if N is odd) long in order to support such a packed spectrum.
+        /// </summary>
+        /// <param name="data">Data array of length N+2 (if N is even) or N+1 (if N is odd).</param>
+        /// <param name="n">The number of samples.</param>
+        /// <param name="options">Fourier Transform Convention Options.</param>
+        public static void InverseReal(double[] data, int n, FourierOptions options = FourierOptions.Default)
+        {
+            int length = n.IsEven() ? n + 2 : n + 1;
+            if (data.Length < length)
+            {
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, length));
+            }
+
+            if ((options & FourierOptions.InverseExponent) == FourierOptions.InverseExponent)
+            {
+                throw new NotSupportedException();
+            }
+
+            switch (options)
+            {
+                case FourierOptions.NoScaling:
+                    Control.FourierTransformProvider.BackwardReal(data, n, FourierTransformScaling.NoScaling);
+                    break;
+                case FourierOptions.AsymmetricScaling:
+                    Control.FourierTransformProvider.BackwardReal(data, n, FourierTransformScaling.BackwardScaling);
+                    break;
+                default:
+                    Control.FourierTransformProvider.BackwardReal(data, n, FourierTransformScaling.SymmetricScaling);
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Applies the inverse Fast Fourier Transform (iFFT) to multiple dimensional sample data.
         /// </summary>
         /// <param name="spectrum">Spectrum data, where the iFFT is evaluated in place.</param>
@@ -269,22 +329,22 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.BackwardInplaceMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardInplaceMultidim(spectrum, dimensions, FourierTransformScaling.BackwardScaling);
+                    Control.FourierTransformProvider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.BackwardScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.ForwardInplaceMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.ForwardInplaceMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
+                    Control.FourierTransformProvider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardInplaceMultidim(spectrum, dimensions, FourierTransformScaling.ForwardScaling);
+                    Control.FourierTransformProvider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.ForwardScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.BackwardInplaceMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
+                    Control.FourierTransformProvider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }

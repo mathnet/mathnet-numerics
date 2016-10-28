@@ -58,61 +58,55 @@ namespace MathNet.Numerics.Providers.FourierTransform
             return "Managed";
         }
 
-        public void ForwardInplace(Complex[] complex, FourierTransformScaling scaling)
+        public void Forward(Complex[] samples, FourierTransformScaling scaling)
         {
             switch (scaling)
             {
                 case FourierTransformScaling.SymmetricScaling:
-                    Fourier.BluesteinForward(complex, FourierOptions.Default);
+                    Fourier.BluesteinForward(samples, FourierOptions.Default);
                     break;
                 case FourierTransformScaling.ForwardScaling:
                     // Only backward scaling can be expressed with options, hence the double-inverse
-                    Fourier.BluesteinInverse(complex, FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent);
+                    Fourier.BluesteinInverse(samples, FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent);
                     break;
                 default:
-                    Fourier.BluesteinForward(complex, FourierOptions.NoScaling);
+                    Fourier.BluesteinForward(samples, FourierOptions.NoScaling);
                     break;
             }
         }
 
-        public void BackwardInplace(Complex[] complex, FourierTransformScaling scaling)
+        public void Backward(Complex[] spectrum, FourierTransformScaling scaling)
         {
             switch (scaling)
             {
                 case FourierTransformScaling.SymmetricScaling:
-                    Fourier.BluesteinInverse(complex, FourierOptions.Default);
+                    Fourier.BluesteinInverse(spectrum, FourierOptions.Default);
                     break;
                 case FourierTransformScaling.BackwardScaling:
-                    Fourier.BluesteinInverse(complex, FourierOptions.AsymmetricScaling);
+                    Fourier.BluesteinInverse(spectrum, FourierOptions.AsymmetricScaling);
                     break;
                 default:
-                    Fourier.BluesteinInverse(complex, FourierOptions.NoScaling);
+                    Fourier.BluesteinInverse(spectrum, FourierOptions.NoScaling);
                     break;
             }
         }
 
-        public Complex[] Forward(Complex[] complexTimeSpace, FourierTransformScaling scaling)
-        {
-            Complex[] work = new Complex[complexTimeSpace.Length];
-            complexTimeSpace.Copy(work);
-            ForwardInplace(work, scaling);
-            return work;
-        }
-
-        public Complex[] Backward(Complex[] complexFrequenceSpace, FourierTransformScaling scaling)
-        {
-            Complex[] work = new Complex[complexFrequenceSpace.Length];
-            complexFrequenceSpace.Copy(work);
-            BackwardInplace(work, scaling);
-            return work;
-        }
-
-        public void ForwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling)
+        public void ForwardReal(double[] samples, int n, FourierTransformScaling scaling)
         {
             throw new NotImplementedException();
         }
 
-        public void BackwardInplaceMultidim(Complex[] complex, int[] dimensions, FourierTransformScaling scaling)
+        public void BackwardReal(double[] spectrum, int n, FourierTransformScaling scaling)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
             throw new NotImplementedException();
         }

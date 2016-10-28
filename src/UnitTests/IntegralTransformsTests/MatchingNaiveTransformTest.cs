@@ -187,7 +187,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // 65536 = 2^16
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(65536, GetUniform(1));
-            var provider = Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.NoScaling);
+
+            var provider = new Complex[samples.Length];
+            samples.Copy(provider);
+            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
 
             Verify(samples, 10, options, (a, b) => provider, Fourier.Radix2Forward);
             Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
@@ -199,7 +202,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // 30870 = 2*3*3*5*7*7*7
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(30870, GetUniform(1));
-            var provider = Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.NoScaling);
+
+            var provider = new Complex[samples.Length];
+            samples.Copy(provider);
+            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
 
             Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
         }
@@ -209,7 +215,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(46500, GetUniform(1));
-            var provider = Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.NoScaling);
+
+            var provider = new Complex[samples.Length];
+            samples.Copy(provider);
+            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
 
             Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
         }
