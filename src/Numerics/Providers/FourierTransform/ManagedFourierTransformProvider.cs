@@ -115,6 +115,11 @@ namespace MathNet.Numerics.Providers.FourierTransform
                 samples[n] = data[data.Length/2].Real;
                 samples[n+1] = 0d;
             }
+            else
+            {
+                samples[n-1] = data[data.Length / 2].Real;
+                samples[n] = data[data.Length / 2].Imaginary;
+            }
         }
 
         public void BackwardReal(double[] spectrum, int n, FourierTransformScaling scaling)
@@ -131,6 +136,11 @@ namespace MathNet.Numerics.Providers.FourierTransform
             if (n.IsEven())
             {
                 data[data.Length/2] = new Complex(spectrum[n], 0d);
+            }
+            else
+            {
+                data[data.Length/2] = new Complex(spectrum[n-1], spectrum[n]);
+                data[data.Length/2 + 1] = data[data.Length/2].Conjugate();
             }
 
             Backward(data, scaling);
