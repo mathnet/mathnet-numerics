@@ -181,19 +181,41 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             VerifyInplace(samples, 10, options, Fourier.Inverse, Fourier.BluesteinInverse);
         }
 
+        [TestCase(FourierOptions.Default, 128)]
+        [TestCase(FourierOptions.Default, 129)]
+        [TestCase(FourierOptions.NoScaling, 128)]
+        [TestCase(FourierOptions.NoScaling, 129)]
+        [TestCase(FourierOptions.AsymmetricScaling, 128)]
+        [TestCase(FourierOptions.AsymmetricScaling, 129)]
+        public void RealMatchesComplex(FourierOptions options, int n)
+        {
+            var real = Generate.Random(n.IsEven() ? n + 2 : n + 1, GetUniform(1));
+            real[n] = 0d;
+            if (n.IsEven()) real[n+1] = 0d;
+            var complex = new Complex[n];
+            for (int i = 0; i < complex.Length; i++)
+            {
+                complex[i] = new Complex(real[i], 0d);
+            }
+
+            Fourier.Forward(complex, options);
+            Fourier.ForwardReal(real, n, options);
+
+            int m = (n + 1)/2;
+            for (int i = 0, j = 0; i < m; i++)
+            {
+                AssertHelpers.AlmostEqual(complex[i], new Complex(real[j++], real[j++]), 10);
+            }
+        }
+
         [Test]
         public void AlgorithmsMatchProvider_PowerOfTwo_Large()
         {
             // 65536 = 2^16
-            const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(65536, GetUniform(1));
 
-            var provider = new Complex[samples.Length];
-            samples.Copy(provider);
-            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
-
-            Verify(samples, 10, options, (a, b) => provider, Fourier.Radix2Forward);
-            Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
+            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s,o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.Radix2Forward);
+            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s, o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.BluesteinForward);
         }
 
         [Test]
