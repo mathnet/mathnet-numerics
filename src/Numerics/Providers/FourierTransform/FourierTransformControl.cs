@@ -50,6 +50,14 @@ namespace MathNet.Numerics.Providers.FourierTransform
         {
             return TryUse(new Mkl.MklFourierTransformProvider());
         }
+
+        /// <summary>
+        /// Try to use a native provider, if available.
+        /// </summary>
+        public static bool TryUseNative()
+        {
+            return TryUseNativeMKL();
+        }
 #endif
 
         static bool TryUse(IFourierTransformProvider provider)
@@ -69,14 +77,6 @@ namespace MathNet.Numerics.Providers.FourierTransform
                 // intentionally swallow exceptions here - use the explicit variants if you're interested in why
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Try to use a native provider, if available.
-        /// </summary>
-        public static bool TryUseNative()
-        {
-            return TryUseNativeMKL();
         }
 
         /// <summary>

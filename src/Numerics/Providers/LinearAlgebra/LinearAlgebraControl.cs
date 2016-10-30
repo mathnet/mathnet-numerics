@@ -78,6 +78,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         {
             return TryUse(new OpenBlas.OpenBlasLinearAlgebraProvider());
         }
+
+        /// <summary>
+        /// Try to use a native provider, if available.
+        /// </summary>
+        public static bool TryUseNative()
+        {
+            return TryUseNativeCUDA() || TryUseNativeMKL() || TryUseNativeOpenBLAS();
+        }
 #endif
 
         static bool TryUse(ILinearAlgebraProvider provider)
@@ -97,14 +105,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 // intentionally swallow exceptions here - use the explicit variants if you're interested in why
                 return false;
             }
-        }
-
-        /// <summary>
-        /// Try to use a native provider, if available.
-        /// </summary>
-        public static bool TryUseNative()
-        {
-            return TryUseNativeCUDA() || TryUseNativeMKL() || TryUseNativeOpenBLAS();
         }
 
         /// <summary>
