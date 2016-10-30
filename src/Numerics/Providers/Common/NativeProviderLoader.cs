@@ -222,7 +222,7 @@ namespace MathNet.Numerics.Providers.Common
             // Search for dependencies in the library's directory rather than the calling process's directory
             const uint LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008;
 
-            [DllImport("kernel32", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport("kernel32", CallingConvention = CallingConvention.Winapi, CharSet = CharSet.Unicode, SetLastError = true)]
             static extern IntPtr LoadLibraryEx(string fileName, IntPtr reservedNull, uint flags);
         }
 
@@ -237,7 +237,7 @@ namespace MathNet.Numerics.Providers.Common
 
             const int RTLD_NOW = 2;
 
-            [DllImport("libdl.so", CharSet = CharSet.Auto, SetLastError = true)]
+            [DllImport("libdl.so", SetLastError = true)]
             static extern IntPtr dlopen(String fileName, int flags);
         }
     }
