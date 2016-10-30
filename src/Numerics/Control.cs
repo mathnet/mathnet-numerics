@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -72,6 +72,25 @@ namespace MathNet.Numerics
             FourierTransformControl.UseManaged();
         }
 
+        /// <summary>
+        /// Use a specific provider if configured, e.g. using
+        /// environment variables, or fall back to the best providers.
+        /// </summary>
+        public static void UseDefaultProviders()
+        {
+            LinearAlgebraControl.UseDefault();
+            FourierTransformControl.UseDefault();
+        }
+
+        /// <summary>
+        /// Use the best provider available.
+        /// </summary>
+        public static void UseBestProviders()
+        {
+            LinearAlgebraControl.UseBest();
+            FourierTransformControl.UseBest();
+        }
+
 #if NATIVE
 
         /// <summary>
@@ -125,7 +144,9 @@ namespace MathNet.Numerics
         /// </returns>
         public static bool TryUseNativeMKL()
         {
-            return Try(UseNativeMKL);
+            bool linearAlgebra = LinearAlgebraControl.TryUseNativeMKL();
+            bool fourierTransform = FourierTransformControl.TryUseNativeMKL();
+            return linearAlgebra || fourierTransform;
         }
 
         /// <summary>
@@ -146,7 +167,8 @@ namespace MathNet.Numerics
         /// </returns>
         public static bool TryUseNativeCUDA()
         {
-            return Try(UseNativeCUDA);
+            bool linearAlgebra = LinearAlgebraControl.TryUseNativeCUDA();
+            return linearAlgebra;
         }
 
         /// <summary>
@@ -167,7 +189,8 @@ namespace MathNet.Numerics
         /// </returns>
         public static bool TryUseNativeOpenBLAS()
         {
-            return Try(UseNativeOpenBLAS);
+            bool linearAlgebra = LinearAlgebraControl.TryUseNativeOpenBLAS();
+            return linearAlgebra;
         }
 
         /// <summary>
@@ -179,21 +202,9 @@ namespace MathNet.Numerics
         /// </returns>
         public static bool TryUseNative()
         {
-            return TryUseNativeCUDA() || TryUseNativeMKL() || TryUseNativeOpenBLAS();
-        }
-
-        static bool Try(Action action)
-        {
-            try
-            {
-                action();
-                return true;
-            }
-            catch
-            {
-                // intentionally swallow exceptions here - use the non-try variants if you're interested in why
-                return false;
-            }
+            bool linearAlgebra = LinearAlgebraControl.TryUseNative();
+            bool fourierTransform = FourierTransformControl.TryUseNative();
+            return linearAlgebra || fourierTransform;
         }
 #endif
 

@@ -31,7 +31,7 @@ using System;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {
-    internal static class LinearAlgebraControl
+    public static class LinearAlgebraControl
     {
         const string EnvVarLAProvider = "MathNetNumericsLAProvider";
 
@@ -41,6 +41,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         }
 
 #if NATIVE
+        [CLSCompliant(false)]
         public static void UseNativeMKL(
             Common.Mkl.MklConsistency consistency = Common.Mkl.MklConsistency.Auto,
             Common.Mkl.MklPrecision precision = Common.Mkl.MklPrecision.Double,
@@ -49,18 +50,37 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             Control.LinearAlgebraProvider = new Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
         }
 
+        [CLSCompliant(false)]
+        public static bool TryUseNativeMKL(
+            Common.Mkl.MklConsistency consistency = Common.Mkl.MklConsistency.Auto,
+            Common.Mkl.MklPrecision precision = Common.Mkl.MklPrecision.Double,
+            Common.Mkl.MklAccuracy accuracy = Common.Mkl.MklAccuracy.High)
+        {
+            return TryUse(new Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy));
+        }
+
         public static void UseNativeCUDA()
         {
             Control.LinearAlgebraProvider = new Cuda.CudaLinearAlgebraProvider();
+        }
+
+        public static bool TryUseNativeCUDA()
+        {
+            return TryUse(new Cuda.CudaLinearAlgebraProvider());
         }
 
         public static void UseNativeOpenBLAS()
         {
             Control.LinearAlgebraProvider = new OpenBlas.OpenBlasLinearAlgebraProvider();
         }
+
+        public static bool TryUseNativeOpenBLAS()
+        {
+            return TryUse(new OpenBlas.OpenBlasLinearAlgebraProvider());
+        }
 #endif
 
-        public static bool TryUse(ILinearAlgebraProvider provider)
+        static bool TryUse(ILinearAlgebraProvider provider)
         {
             try
             {
@@ -79,12 +99,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
         }
 
+        /// <summary>
+        /// Try to use a native provider, if available.
+        /// </summary>
+        public static bool TryUseNative()
+        {
+            return TryUseNativeCUDA() || TryUseNativeMKL() || TryUseNativeOpenBLAS();
+        }
+
+        /// <summary>
+        /// Use the best provider available.
+        /// </summary>
         public static void UseBest()
         {
 #if NATIVE
-            if (!(TryUse(new Cuda.CudaLinearAlgebraProvider())
-                  || TryUse(new Mkl.MklLinearAlgebraProvider())
-                  || TryUse(new OpenBlas.OpenBlasLinearAlgebraProvider())))
+            if (!TryUseNative())
             {
                 UseManaged();
             }
@@ -93,6 +122,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 #endif
         }
 
+        /// <summary>
+        /// Use a specific provider if configured, e.g. using the
+        /// "MathNetNumericsLAProvider" environment variable,
+        /// or fall back to the best provider.
+        /// </summary>
         public static void UseDefault()
         {
 #if NATIVE
@@ -110,12 +144,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 case "OPENBLAS":
                     UseNativeOpenBLAS();
                     break;
+
                 default:
                     UseBest();
                     break;
             }
 #else
-            UseManaged();
+            UseBest();
 #endif
         }
     }

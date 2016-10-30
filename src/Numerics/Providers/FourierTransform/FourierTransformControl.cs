@@ -31,7 +31,7 @@ using System;
 
 namespace MathNet.Numerics.Providers.FourierTransform
 {
-    internal static class FourierTransformControl
+    public static class FourierTransformControl
     {
         const string EnvVarFFTProvider = "MathNetNumericsFFTProvider";
 
@@ -45,9 +45,14 @@ namespace MathNet.Numerics.Providers.FourierTransform
         {
             Control.FourierTransformProvider = new Mkl.MklFourierTransformProvider();
         }
+
+        public static bool TryUseNativeMKL()
+        {
+            return TryUse(new Mkl.MklFourierTransformProvider());
+        }
 #endif
 
-        public static bool TryUse(IFourierTransformProvider provider)
+        static bool TryUse(IFourierTransformProvider provider)
         {
             try
             {
@@ -66,10 +71,21 @@ namespace MathNet.Numerics.Providers.FourierTransform
             }
         }
 
+        /// <summary>
+        /// Try to use a native provider, if available.
+        /// </summary>
+        public static bool TryUseNative()
+        {
+            return TryUseNativeMKL();
+        }
+
+        /// <summary>
+        /// Use the best provider available.
+        /// </summary>
         public static void UseBest()
         {
 #if NATIVE
-            if (!TryUse(new Mkl.MklFourierTransformProvider()))
+            if (!TryUseNative())
             {
                 UseManaged();
             }
@@ -78,6 +94,11 @@ namespace MathNet.Numerics.Providers.FourierTransform
 #endif
         }
 
+        /// <summary>
+        /// Use a specific provider if configured, e.g. using the
+        /// "MathNetNumericsFFTProvider" environment variable,
+        /// or fall back to the best provider.
+        /// </summary>
         public static void UseDefault()
         {
 #if NATIVE
@@ -94,7 +115,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                     break;
             }
 #else
-            UseManaged();
+            UseBest();
 #endif
         }
     }
