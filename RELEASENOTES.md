@@ -1,3 +1,17 @@
+### 3.14.0-beta01 - 2016-10-30
+* FFT: MKL native provider backend.
+* FFT: 2D and multi-dimensional FFT (only supported by MKL provider, managed provider pending).
+* FFT: real conjugate-even FFT (only leveraging symmetry in MKL provider).
+* FFT: managed provider significantly faster on x64.
+* Provider Control: separate Control classes for LA and FFT Providers.
+* Provider Control: avoid internal exceptions on provider discovery.
+* Linear Algebra: dot-power on vectors and matrices, supporting native providers.
+* Linear Algebra: matrix Moore-Penrose pseudo-inverse (SVD backed).
+* Root Finding: extend zero-crossing bracketing in derivative-free algorithms.
+* Window: periodic versions of Hamming, Hann, Cosine and Lanczos windows.
+* Special Functions: more robust GammaLowerRegularizedInv (and Gamma.InvCDF).
+* BUG: ODE Solver: fix bug in Runge-Kutta second order routine *~Ksero*
+
 ### 3.13.1 - 2016-09-06
 * BUG: Random: Next(x,x+1) must always return x *~Juri*
 
