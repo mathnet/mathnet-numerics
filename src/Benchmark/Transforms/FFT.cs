@@ -14,8 +14,7 @@ namespace Benchmark.Transforms
         [Params(32, 64, 128, 1024, 8192, 65536)]
         public int N { get; set; }
 
-        [Setup]
-        public void Setup()
+        public FFT()
         {
             var realSinusoidal = Generate.Sinusoidal(65536, 32, -2.0, 2.0);
             var imagSawtooth = Generate.Sawtooth(65536, 32, -20.0, 20.0);
@@ -28,6 +27,11 @@ namespace Benchmark.Transforms
             }
 
             Providers.ForceNativeMKL();
+        }
+
+        [Setup]
+        public void Setup()
+        {
         }
 
         [Benchmark(Baseline = true, OperationsPerInvoke = 2)]

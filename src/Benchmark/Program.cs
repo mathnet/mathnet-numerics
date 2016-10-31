@@ -1,6 +1,7 @@
 ﻿using System;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnostics.Windows;
+using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Running;
 using MathNet.Numerics;
 
@@ -14,8 +15,9 @@ namespace Benchmark
             Console.WriteLine("Linear Algebra:  " + Control.LinearAlgebraProvider);
             Console.WriteLine("FFT:             " + Control.FourierTransformProvider);
 
-            var config = ManualConfig.Create(DefaultConfig.Instance)
-                .With(new MemoryDiagnoser()); //, new InliningDiagnoser());
+            var config = ManualConfig.Create(DefaultConfig.Instance);
+            config.Add(Job.RyuJitX64, Job.LegacyJitX64, Job.LegacyJitX86);
+            //config.Add(new MemoryDiagnoser());
 
             BenchmarkRunner.Run<Transforms.FFT>(config);
             //BenchmarkRunner.Run<LinearAlgebra.DenseMatrixProduct>(config);
