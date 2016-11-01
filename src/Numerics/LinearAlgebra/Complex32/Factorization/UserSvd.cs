@@ -64,8 +64,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             var matrixCopy = matrix.Clone();
 
             var s = Vector<Complex32>.Build.SameAs(matrixCopy, nm);
-            var u = Matrix<Complex32>.Build.SameAs(matrixCopy, matrixCopy.RowCount, matrixCopy.RowCount);
-            var vt = Matrix<Complex32>.Build.SameAs(matrixCopy, matrixCopy.ColumnCount, matrixCopy.ColumnCount);
+            var u = Matrix<Complex32>.Build.SameAs(matrixCopy, matrixCopy.RowCount, matrixCopy.RowCount, fullyMutable: true);
+            var vt = Matrix<Complex32>.Build.SameAs(matrixCopy, matrixCopy.ColumnCount, matrixCopy.ColumnCount, fullyMutable: true);
 
             const int maxiter = 1000;
             var e = new Complex32[matrixCopy.ColumnCount];

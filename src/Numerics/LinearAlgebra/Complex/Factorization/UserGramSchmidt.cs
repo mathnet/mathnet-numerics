@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             }
 
             var q = matrix.Clone();
-            var r = Matrix<Complex>.Build.SameAs(matrix, matrix.ColumnCount, matrix.ColumnCount);
+            var r = Matrix<Complex>.Build.SameAs(matrix, matrix.ColumnCount, matrix.ColumnCount, fullyMutable: true);
 
             for (var k = 0; k < q.ColumnCount; k++)
             {

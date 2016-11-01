@@ -62,8 +62,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var matrixCopy = matrix.Clone();
 
             var s = Vector<float>.Build.SameAs(matrixCopy, nm);
-            var u = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.RowCount, matrixCopy.RowCount);
-            var vt = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.ColumnCount, matrixCopy.ColumnCount);
+            var u = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.RowCount, matrixCopy.RowCount, fullyMutable: true);
+            var vt = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.ColumnCount, matrixCopy.ColumnCount, fullyMutable: true);
 
             const int maxiter = 1000;
             var e = new float[matrixCopy.ColumnCount];

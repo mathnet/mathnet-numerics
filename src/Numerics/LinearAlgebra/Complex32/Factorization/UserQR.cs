@@ -71,7 +71,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             if (method == QRMethod.Full)
             {
                 r = matrix.Clone();
-                q = Matrix<Complex32>.Build.SameAs(matrix, matrix.RowCount, matrix.RowCount);
+                q = Matrix<Complex32>.Build.SameAs(matrix, matrix.RowCount, matrix.RowCount, fullyMutable: true);
 
                 for (var i = 0; i < matrix.RowCount; i++)
                 {

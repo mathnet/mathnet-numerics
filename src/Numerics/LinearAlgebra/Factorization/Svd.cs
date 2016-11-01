@@ -144,7 +144,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
                 throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
             }
 
-            var x = Matrix<T>.Build.SameAs(U, VT.ColumnCount, input.ColumnCount);
+            var x = Matrix<T>.Build.SameAs(U, VT.ColumnCount, input.ColumnCount, fullyMutable: true);
             Solve(input, x);
             return x;
         }

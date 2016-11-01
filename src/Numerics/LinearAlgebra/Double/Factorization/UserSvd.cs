@@ -62,8 +62,8 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             var matrixCopy = matrix.Clone();
 
             var s = Vector<double>.Build.SameAs(matrixCopy, nm);
-            var u = Matrix<double>.Build.SameAs(matrixCopy, matrixCopy.RowCount, matrixCopy.RowCount);
-            var vt = Matrix<double>.Build.SameAs(matrixCopy, matrixCopy.ColumnCount, matrixCopy.ColumnCount);
+            var u = Matrix<double>.Build.SameAs(matrixCopy, matrixCopy.RowCount, matrixCopy.RowCount, fullyMutable: true);
+            var vt = Matrix<double>.Build.SameAs(matrixCopy, matrixCopy.ColumnCount, matrixCopy.ColumnCount, fullyMutable: true);
 
             const int maxiter = 1000;
             var e = new double[matrixCopy.ColumnCount];
