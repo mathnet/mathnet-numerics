@@ -15,8 +15,12 @@ namespace Benchmark
             Console.WriteLine("Linear Algebra:  " + Control.LinearAlgebraProvider);
             Console.WriteLine("FFT:             " + Control.FourierTransformProvider);
 
+            var subject = new LinearAlgebra.DenseMatrixProduct();
+            subject.Verify();
+            Console.WriteLine("Verified.");
+
             var config = ManualConfig.Create(DefaultConfig.Instance);
-            config.Add(Job.RyuJitX64, Job.LegacyJitX64, Job.LegacyJitX86);
+            config.Add(Job.RyuJitX64, Job.LegacyJitX86);
             //config.Add(new MemoryDiagnoser());
 
             BenchmarkRunner.Run<Transforms.FFT>(config);
