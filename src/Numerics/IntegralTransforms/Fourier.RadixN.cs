@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -97,9 +97,9 @@ namespace MathNet.Numerics.IntegralTransforms
         /// Radix-2 generic FFT for power-of-two sized sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
-        /// <param name="exponentSign">Fourier series exponent sign.</param>
+        /// <param name="positiveExponentSign">Fourier series exponent sign: true for positive, false for negative.</param>
         /// <exception cref="ArgumentException"/>
-        internal static void Radix2(Complex[] samples, int exponentSign)
+        internal static void Radix2(Complex[] samples, bool positiveExponentSign)
         {
             if (!samples.Length.IsPowerOfTwo())
             {
@@ -107,11 +107,21 @@ namespace MathNet.Numerics.IntegralTransforms
             }
 
             Radix2Reorder(samples);
-            for (var levelSize = 1; levelSize < samples.Length; levelSize *= 2)
+
+            for (int level = 0, levelSize = 1; levelSize < samples.Length; level++, levelSize *= 2)
             {
-                for (var k = 0; k < levelSize; k++)
+                Complex[] twiddles = TwiddleFactors(level);
+                for (int k = 0; k < levelSize; k++)
                 {
-                    Radix2Step(samples, exponentSign, levelSize, k);
+                    Complex twiddle = positiveExponentSign ? twiddles[k] : twiddles[k].Conjugate();
+                    int step = levelSize << 1;
+                    for (int i = k; i < samples.Length; i += step)
+                    {
+                        Complex ai = samples[i];
+                        Complex t = twiddle * samples[i + levelSize];
+                        samples[i] = ai + t;
+                        samples[i + levelSize] = ai - t;
+                    }
                 }
             }
         }
@@ -120,9 +130,9 @@ namespace MathNet.Numerics.IntegralTransforms
         /// Radix-2 generic FFT for power-of-two sample vectors (Parallel Version).
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
-        /// <param name="exponentSign">Fourier series exponent sign.</param>
+        /// <param name="positiveExponentSign">Fourier series exponent sign: true for positive, false for negative.</param>
         /// <exception cref="ArgumentException"/>
-        internal static void Radix2Parallel(Complex[] samples, int exponentSign)
+        internal static void Radix2Parallel(Complex[] samples, bool positiveExponentSign)
         {
             if (!samples.Length.IsPowerOfTwo())
             {
@@ -130,18 +140,52 @@ namespace MathNet.Numerics.IntegralTransforms
             }
 
             Radix2Reorder(samples);
-            for (var levelSize = 1; levelSize < samples.Length; levelSize *= 2)
-            {
-                var size = levelSize;
 
+            for (int level = 0, levelSize = 1; levelSize < samples.Length; level++, levelSize *= 2)
+            {
+                Complex[] twiddles = TwiddleFactors(level);
+                var step = levelSize << 1;
+
+
+                int size = levelSize;
                 CommonParallel.For(0, size, 64, (u, v) =>
                 {
-                    for (int i = u; i < v; i++)
+                    for (int k = u; k < v; k++)
                     {
-                        Radix2Step(samples, exponentSign, size, i);
+                        Complex twiddle = twiddles[k];
+                        double tr = twiddle.Real;
+                        double ti = positiveExponentSign ? twiddle.Imaginary : -twiddle.Imaginary;
+                        for (var i = k; i < samples.Length; i += step)
+                        {
+                            var ai = samples[i];
+                            var b = samples[i + size];
+                            double ttr = tr * b.Real - ti * b.Imaginary;
+                            double tti = ti * b.Real + tr * b.Imaginary;
+                            samples[i] = new Complex(ai.Real + ttr, ai.Imaginary + tti);
+                            samples[i + size] = new Complex(ai.Real - ttr, ai.Imaginary - tti);
+                        }
                     }
                 });
             }
+        }
+
+        static readonly Complex[][] Twiddle = new Complex[64][];
+
+        static Complex[] TwiddleFactors(int level)
+        {
+            Complex[] tf = Twiddle[level];
+            if (tf == null)
+            {
+                tf = new Complex[level.PowerOfTwo()];
+                for (int i = 0; i < tf.Length; i++)
+                {
+                    double exponent = i * Constants.Pi / tf.Length;
+                    tf[i] = new Complex(Math.Cos(exponent), Math.Sin(exponent));
+                }
+                Twiddle[level] = tf;
+            }
+
+            return tf;
         }
     }
 }

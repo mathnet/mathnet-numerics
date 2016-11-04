@@ -107,7 +107,7 @@ namespace MathNet.Numerics.IntegralTransforms
                         b[i] = sequence[m - i];
                     }
 
-                    Radix2(b, -1);
+                    Radix2(b, false);
                 },
                 () =>
                 {
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.IntegralTransforms
                         a[i] = sequence[i].Conjugate()*samples[i];
                     }
 
-                    Radix2(a, -1);
+                    Radix2(a, false);
                 });
 
             for (int i = 0; i < a.Length; i++)
@@ -125,7 +125,7 @@ namespace MathNet.Numerics.IntegralTransforms
                 a[i] *= b[i];
             }
 
-            Radix2Parallel(a, 1);
+            Radix2Parallel(a, true);
 
             var nbinv = 1.0/m;
             for (int i = 0; i < samples.Length; i++)
@@ -150,24 +150,24 @@ namespace MathNet.Numerics.IntegralTransforms
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
         /// <param name="samples">Time-space sample vector.</param>
-        /// <param name="exponentSign">Fourier series exponent sign.</param>
-        internal static void Bluestein(Complex[] samples, int exponentSign)
+        /// <param name="positiveExponentSign">Fourier series exponent sign: true for positive, false for negative.</param>
+        internal static void Bluestein(Complex[] samples, bool positiveExponentSign)
         {
             int n = samples.Length;
             if (n.IsPowerOfTwo())
             {
-                Radix2Parallel(samples, exponentSign);
+                Radix2Parallel(samples, positiveExponentSign);
                 return;
             }
 
-            if (exponentSign == 1)
+            if (positiveExponentSign)
             {
                 SwapRealImaginary(samples);
             }
 
             BluesteinConvolutionParallel(samples);
 
-            if (exponentSign == 1)
+            if (positiveExponentSign)
             {
                 SwapRealImaginary(samples);
             }

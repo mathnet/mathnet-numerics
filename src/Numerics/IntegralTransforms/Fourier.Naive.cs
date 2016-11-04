@@ -45,11 +45,11 @@ namespace MathNet.Numerics.IntegralTransforms
         /// Naive generic DFT, useful e.g. to verify faster algorithms.
         /// </summary>
         /// <param name="samples">Time-space sample vector.</param>
-        /// <param name="exponentSign">Fourier series exponent sign.</param>
+        /// <param name="positiveExponentSign">Fourier series exponent sign: true for positive, false for negative.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
-        internal static Complex[] Naive(Complex[] samples, int exponentSign)
+        internal static Complex[] Naive(Complex[] samples, bool positiveExponentSign)
         {
-            var w0 = exponentSign*Constants.Pi2/samples.Length;
+            var w0 = positiveExponentSign ? Constants.Pi2/samples.Length : -Constants.Pi2/samples.Length;
             var spectrum = new Complex[samples.Length];
 
             CommonParallel.For(0, samples.Length, (u, v) =>

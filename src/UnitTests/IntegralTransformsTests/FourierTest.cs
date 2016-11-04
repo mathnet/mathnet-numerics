@@ -98,8 +98,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Forward(samples, FourierOptions.Default));
             Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Inverse(samples, FourierOptions.Default));
-            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2(samples, -1));
-            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Parallel(samples, -1));
+            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2(samples, false));
+            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Parallel(samples, false));
         }
     }
 }

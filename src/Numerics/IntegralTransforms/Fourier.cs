@@ -392,7 +392,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <returns>Corresponding frequency-space vector.</returns>
         public static Complex[] NaiveForward(Complex[] samples, FourierOptions options = FourierOptions.Default)
         {
-            var frequencySpace = Naive(samples, SignByOptions(options));
+            var frequencySpace = Naive(samples, PositiveSignByOptions(options));
             ForwardScaleByOptions(options, frequencySpace);
             return frequencySpace;
         }
@@ -405,7 +405,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <returns>Corresponding time-space vector.</returns>
         public static Complex[] NaiveInverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
         {
-            var timeSpace = Naive(spectrum, -SignByOptions(options));
+            var timeSpace = Naive(spectrum, !PositiveSignByOptions(options));
             InverseScaleByOptions(options, timeSpace);
             return timeSpace;
         }
@@ -418,7 +418,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <exception cref="ArgumentException"/>
         public static void Radix2Forward(Complex[] samples, FourierOptions options = FourierOptions.Default)
         {
-            Radix2Parallel(samples, SignByOptions(options));
+            Radix2Parallel(samples, PositiveSignByOptions(options));
             ForwardScaleByOptions(options, samples);
         }
 
@@ -430,7 +430,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <exception cref="ArgumentException"/>
         public static void Radix2Inverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
         {
-            Radix2Parallel(spectrum, -SignByOptions(options));
+            Radix2Parallel(spectrum, !PositiveSignByOptions(options));
             InverseScaleByOptions(options, spectrum);
         }
 
@@ -441,7 +441,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="options">Fourier Transform Convention Options.</param>
         public static void BluesteinForward(Complex[] samples, FourierOptions options = FourierOptions.Default)
         {
-            Bluestein(samples, SignByOptions(options));
+            Bluestein(samples, PositiveSignByOptions(options));
             ForwardScaleByOptions(options, samples);
         }
 
@@ -452,7 +452,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="options">Fourier Transform Convention Options.</param>
         public static void BluesteinInverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
         {
-            Bluestein(spectrum, -SignByOptions(options));
+            Bluestein(spectrum, !PositiveSignByOptions(options));
             InverseScaleByOptions(options, spectrum);
         }
 
@@ -462,9 +462,9 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <returns>Fourier series exponent sign.</returns>
-        static int SignByOptions(FourierOptions options)
+        static bool PositiveSignByOptions(FourierOptions options)
         {
-            return (options & FourierOptions.InverseExponent) == FourierOptions.InverseExponent ? 1 : -1;
+            return (options & FourierOptions.InverseExponent) == FourierOptions.InverseExponent;
         }
 
         /// <summary>
