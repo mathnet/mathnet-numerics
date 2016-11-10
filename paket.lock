@@ -1,5 +1,5 @@
 NUGET
-  remote: http://www.nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
     FSharp.Core (3.1.2.5)
     TaskParallelLibrary (1.0.2856)
 GITHUB
@@ -9,7 +9,7 @@ GITHUB
 GROUP Benchmark
 FRAMEWORK: NET45
 NUGET
-  remote: http://www.nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
     BenchmarkDotNet (0.9.9)
       BenchmarkDotNet.Toolchains.Roslyn (>= 0.9.9)
     BenchmarkDotNet.Core (0.9.9)
@@ -37,7 +37,7 @@ NUGET
 
 GROUP Build
 NUGET
-  remote: http://www.nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
     FAKE (4.37.2)
     FSharp.Compiler.Service (2.0.0.6)
     FSharp.Formatting (2.14.4)
@@ -62,11 +62,11 @@ NUGET
 
 GROUP Data
 NUGET
-  remote: http://www.nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
     MathNet.Numerics (3.0)
 
 GROUP Test
 NUGET
-  remote: http://www.nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
     FSharp.Core (4.0.0.1)
     NUnit (3.4.1)
