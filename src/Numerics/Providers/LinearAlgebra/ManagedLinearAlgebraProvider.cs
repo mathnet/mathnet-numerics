@@ -75,7 +75,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             return "Managed";
         }
 
-
         /// <summary>
         /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
         /// </summary>

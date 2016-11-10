@@ -2903,5 +2903,56 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 }
             }
         }
+
+        /// <summary>
+        /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
+        /// </summary>
+        protected static void GetRow(Transpose transpose, int rowindx, int numRows, int numCols, Complex32[] matrix, Complex32[] row)
+        {
+            if (transpose == Transpose.DontTranspose)
+            {
+                for (int i = 0; i < numCols; i++)
+                {
+                    row[i] = matrix[(i*numRows) + rowindx];
+                }
+            }
+            else if (transpose == Transpose.ConjugateTranspose)
+            {
+                int offset = rowindx*numCols;
+                for (int i = 0; i < row.Length; i++)
+                {
+                    row[i] = matrix[i + offset].Conjugate();
+                }
+            }
+            else
+            {
+                Array.Copy(matrix, rowindx*numCols, row, 0, numCols);
+            }
+        }
+
+        /// <summary>
+        /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
+        /// </summary>
+        protected static void GetColumn(Transpose transpose, int colindx, int numRows, int numCols, Complex32[] matrix, Complex32[] column)
+        {
+            if (transpose == Transpose.DontTranspose)
+            {
+                Array.Copy(matrix, colindx*numRows, column, 0, numRows);
+            }
+            else if (transpose == Transpose.ConjugateTranspose)
+            {
+                for (int i = 0; i < numRows; i++)
+                {
+                    column[i] = matrix[(i*numCols) + colindx].Conjugate();
+                }
+            }
+            else
+            {
+                for (int i = 0; i < numRows; i++)
+                {
+                    column[i] = matrix[(i*numCols) + colindx];
+                }
+            }
+        }
     }
 }
