@@ -79,14 +79,17 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <ItemGroup>
-    <Analyzer Include="..\..\packages\benchmark\BenchmarkDotNet\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-    <Analyzer Include="..\..\packages\benchmark\BenchmarkDotNet\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll">
-      <Paket>True</Paket>
-    </Analyzer>
-  </ItemGroup>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5'">
+      <ItemGroup>
+        <Reference Include="BenchmarkDotNet">
+          <HintPath>..\..\packages\benchmark\BenchmarkDotNet\lib\net45\BenchmarkDotNet.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5'">
       <ItemGroup>
@@ -104,8 +107,8 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5'">
       <ItemGroup>
-        <Reference Include="BenchmarkDotNet.Core">
-          <HintPath>..\..\packages\benchmark\BenchmarkDotNet.Diagnostics.Windows\lib\net45\BenchmarkDotNet.Core.dll</HintPath>
+        <Reference Include="BenchmarkDotNet.Diagnostics.Windows">
+          <HintPath>..\..\packages\benchmark\BenchmarkDotNet.Diagnostics.Windows\lib\net45\BenchmarkDotNet.Diagnostics.Windows.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
