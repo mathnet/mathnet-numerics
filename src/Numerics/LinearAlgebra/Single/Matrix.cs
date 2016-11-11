@@ -67,6 +67,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Puts the conjugate transpose of this matrix into the result matrix.
+        /// </summary>
+        public sealed override void ConjugateTranspose(Matrix<float> result)
+        {
+            Transpose(result);
+        }
+
+        /// <summary>
         /// Complex conjugates each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the conjugation.</param>

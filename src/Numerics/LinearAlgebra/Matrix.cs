@@ -1005,7 +1005,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Puts the transpose of this matrix into the result matrix.
         /// </summary>
-        /// <returns>The transpose of this matrix.</returns>
         public void Transpose(Matrix<T> result)
         {
             Storage.TransposeTo(result.Storage, ExistingData.Clear);
@@ -1016,6 +1015,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
         public abstract Matrix<T> ConjugateTranspose();
+
+        /// <summary>
+        /// Puts the conjugate transpose of this matrix into the result matrix.
+        /// </summary>
+        public abstract void ConjugateTranspose(Matrix<T> result);
 
         /// <summary>
         /// Permute the rows of a matrix according to a permutation.
