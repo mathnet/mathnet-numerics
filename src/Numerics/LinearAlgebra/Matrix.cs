@@ -1003,6 +1003,15 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Puts the transpose of this matrix into the result matrix.
+        /// </summary>
+        /// <returns>The transpose of this matrix.</returns>
+        public void Transpose(Matrix<T> result)
+        {
+            Storage.TransposeTo(result.Storage, ExistingData.Clear);
+        }
+
+        /// <summary>
         /// Returns the conjugate transpose of this matrix.
         /// </summary>
         /// <returns>The conjugate transpose of this matrix.</returns>
