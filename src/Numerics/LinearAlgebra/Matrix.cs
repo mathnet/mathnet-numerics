@@ -1280,6 +1280,8 @@ namespace MathNet.Numerics.LinearAlgebra
 
         /// <summary>
         /// Returns this matrix as a multidimensional array.
+        /// The returned array will be independent from this matrix.
+        /// A new memory block will be allocated for the array.
         /// </summary>
         /// <returns>A multidimensional containing the values of this matrix.</returns>
         public T[,] ToArray()
@@ -1288,7 +1290,9 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns the matrix's elements as an array with the data laid out column-wise.
+        /// Returns the matrix's elements as an array with the data laid out column by column (column major).
+        /// The returned array will be independent from this matrix.
+        /// A new memory block will be allocated for the array.
         /// </summary>
         /// <example><pre>
         /// 1, 2, 3
@@ -1296,15 +1300,23 @@ namespace MathNet.Numerics.LinearAlgebra
         /// 7, 8, 9
         /// </pre></example>
         /// <returns>An array containing the matrix's elements.</returns>
-        /// <seealso cref="ToRowWiseArray"/>
+        /// <seealso cref="ToRowMajorArray"/>
         /// <seealso cref="Enumerate(Zeros)"/>
-        public T[] ToColumnWiseArray()
+        public T[] ToColumnMajorArray()
         {
             return Storage.ToColumnMajorArray();
         }
 
+        [Obsolete("Use ToColumnMajorArray instead. Will be removed in v4.")]
+        public T[] ToColumnWiseArray()
+        {
+            return ToColumnMajorArray();
+        }
+
         /// <summary>
-        /// Returns the matrix's elements as an array with the data laid row-wise.
+        /// Returns the matrix's elements as an array with the data laid row by row (row major).
+        /// The returned array will be independent from this matrix.
+        /// A new memory block will be allocated for the array.
         /// </summary>
         /// <example><pre>
         /// 1, 2, 3
@@ -1312,15 +1324,24 @@ namespace MathNet.Numerics.LinearAlgebra
         /// 7, 8, 9
         /// </pre></example>
         /// <returns>An array containing the matrix's elements.</returns>
-        /// <seealso cref="ToColumnWiseArray"/>
+        /// <seealso cref="ToColumnMajorArray"/>
         /// <seealso cref="Enumerate(Zeros)"/>
-        public T[] ToRowWiseArray()
+        public T[] ToRowMajorArray()
         {
             return Storage.ToRowMajorArray();
         }
 
+
+        [Obsolete("Use ToRowMajorArray instead. Will be removed in v4.")]
+        public T[] ToRowWiseArray()
+        {
+            return ToRowMajorArray();
+        }
+
         /// <summary>
         /// Returns this matrix as array of row arrays.
+        /// The returned arrays will be independent from this matrix.
+        /// A new memory block will be allocated for the arrays.
         /// </summary>
         public T[][] ToRowArrays()
         {
@@ -1329,10 +1350,84 @@ namespace MathNet.Numerics.LinearAlgebra
 
         /// <summary>
         /// Returns this matrix as array of column arrays.
+        /// The returned arrays will be independent from this matrix.
+        /// A new memory block will be allocated for the arrays.
         /// </summary>
         public T[][] ToColumnArrays()
         {
             return Storage.ToColumnArrays();
+        }
+
+        /// <summary>
+        /// Returns this matrix as a multidimensional array.
+        /// If the internal data structure matches the requested shape it is returned directly, without copying.
+        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Use ToArray instead if you always need an independent array.
+        /// </summary>
+        /// <returns>A multidimensional containing the values of this matrix.</returns>
+        public T[,] AsArray()
+        {
+            return Storage.AsArray();
+        }
+
+        /// <summary>
+        /// Returns the matrix's elements as an array with the data laid out column by column (column major).
+        /// If the internal data structure matches the requested shape it is returned directly, without copying.
+        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Use ToColumnMajorArray instead if you always need an independent array.
+        /// </summary>
+        /// <example><pre>
+        /// 1, 2, 3
+        /// 4, 5, 6  will be returned as  1, 4, 7, 2, 5, 8, 3, 6, 9
+        /// 7, 8, 9
+        /// </pre></example>
+        /// <returns>An array containing the matrix's elements.</returns>
+        /// <seealso cref="ToRowMajorArray"/>
+        /// <seealso cref="Enumerate(Zeros)"/>
+        public T[] AsColumnMajorArray()
+        {
+            return Storage.AsColumnMajorArray();
+        }
+
+        /// <summary>
+        /// Returns the matrix's elements as an array with the data laid row by row (row major).
+        /// If the internal data structure matches the requested shape it is returned directly, without copying.
+        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Use ToRowMajorArray instead if you always need an independent array.
+        /// </summary>
+        /// <example><pre>
+        /// 1, 2, 3
+        /// 4, 5, 6  will be returned as  1, 2, 3, 4, 5, 6, 7, 8, 9
+        /// 7, 8, 9
+        /// </pre></example>
+        /// <returns>An array containing the matrix's elements.</returns>
+        /// <seealso cref="ToColumnMajorArray"/>
+        /// <seealso cref="Enumerate(Zeros)"/>
+        public T[] AsRowMajorArray()
+        {
+            return Storage.AsRowMajorArray();
+        }
+
+        /// <summary>
+        /// Returns this matrix as array of row arrays.
+        /// If the internal data structure matches the requested shape it is returned directly, without copying.
+        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Use ToRowArrays instead if you always need an independent array.
+        /// </summary>
+        public T[][] AsRowArrays()
+        {
+            return Storage.AsRowArrays();
+        }
+
+        /// <summary>
+        /// Returns this matrix as array of column arrays.
+        /// If the internal data structure matches the requested shape it is returned directly, without copying.
+        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Use ToColumnArrays instead if you always need an independent array.
+        /// </summary>
+        public T[][] AsColumnArrays()
+        {
+            return Storage.AsColumnArrays();
         }
 
         /// <summary>
@@ -1342,8 +1437,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The enumerator will include all values, even if they are zero.
         /// The ordering of the values is unspecified (not necessarily column-wise or row-wise).
         /// </remarks>
-        /// <seealso cref="ToColumnWiseArray"/>
-        /// <seealso cref="ToRowWiseArray"/>
         public IEnumerable<T> Enumerate()
         {
             return Storage.Enumerate();
@@ -1356,8 +1449,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The enumerator will include all values, even if they are zero.
         /// The ordering of the values is unspecified (not necessarily column-wise or row-wise).
         /// </remarks>
-        /// <seealso cref="ToColumnWiseArray"/>
-        /// <seealso cref="ToRowWiseArray"/>
         public IEnumerable<T> Enumerate(Zeros zeros = Zeros.Include)
         {
             switch (zeros)

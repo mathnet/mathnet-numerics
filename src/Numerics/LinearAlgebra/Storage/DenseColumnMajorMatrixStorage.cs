@@ -664,6 +664,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return ret;
         }
 
+        public override T[] AsColumnMajorArray()
+        {
+            return Data;
+        }
+
         // ENUMERATION
 
         public override IEnumerable<T> Enumerate()

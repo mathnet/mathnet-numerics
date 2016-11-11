@@ -565,6 +565,31 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return ret;
         }
 
+        public virtual T[] AsRowMajorArray()
+        {
+            return ToRowMajorArray();
+        }
+
+        public virtual T[] AsColumnMajorArray()
+        {
+            return ToColumnMajorArray();
+        }
+
+        public virtual T[][] AsRowArrays()
+        {
+            return ToRowArrays();
+        }
+
+        public virtual T[][] AsColumnArrays()
+        {
+            return ToColumnArrays();
+        }
+
+        public virtual T[,] AsArray()
+        {
+            return ToArray();
+        }
+
         // ENUMERATION
 
         public virtual IEnumerable<T> Enumerate()
