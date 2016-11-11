@@ -1154,6 +1154,46 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        internal override void TransposeSquareInplaceUnchecked()
+        {
+            var cx = new T[ValueCount]; //target.Values;
+            var cp = new int[RowCount + 1];
+            var ci = new int[ValueCount]; //target.ColumnIndices;
+
+            // Column counts
+            int[] w = new int[ColumnCount];
+            for (int p = 0; p < RowPointers[RowCount]; p++)
+            {
+                w[ColumnIndices[p]]++;
+            }
+
+            // Column pointers
+            int nz = 0;
+            for (int i = 0; i < ColumnCount; i++)
+            {
+                cp[i] = nz;
+                nz += w[i];
+                w[i] = cp[i];
+            }
+            cp[ColumnCount] = nz;
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                for (int p = RowPointers[i]; p < RowPointers[i + 1]; p++)
+                {
+                    int j = w[ColumnIndices[p]]++;
+
+                    // Place A(i,j) as entry C(j,i)
+                    ci[j] = i;
+                    cx[j] = Values[p];
+                }
+            }
+
+            Array.Copy(cx, 0, Values, 0, ValueCount);
+            Buffer.BlockCopy(ci, 0, ColumnIndices, 0, ValueCount * Constants.SizeOfInt);
+            Buffer.BlockCopy(cp, 0, RowPointers, 0, (RowCount + 1) * Constants.SizeOfInt);
+        }
+
         // EXTRACT
 
         public override T[] ToRowMajorArray()

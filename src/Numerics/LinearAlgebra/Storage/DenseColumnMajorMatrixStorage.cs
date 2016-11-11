@@ -595,6 +595,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             target.Values = values.ToArray();
         }
 
+        internal override void TransposeSquareInplaceUnchecked()
+        {
+            for (var j = 0; j < ColumnCount; j++)
+            {
+                var index = j * RowCount;
+                for (var i = 0; i < j; i++)
+                {
+                    T swap = Data[index + i];
+                    Data[index + i] = Data[i*ColumnCount + j];
+                    Data[i*ColumnCount + j] = swap;
+                }
+            }
+        }
+
         // EXTRACT
 
         public override T[] ToRowMajorArray()

@@ -491,6 +491,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             CopyToUnchecked(target, existingData);
         }
 
+        internal override void TransposeSquareInplaceUnchecked()
+        {
+            // nothing to do
+        }
+
         // EXTRACT
 
         public override T[] ToRowMajorArray()

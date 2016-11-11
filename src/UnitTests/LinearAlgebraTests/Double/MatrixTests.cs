@@ -27,6 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
@@ -53,6 +54,54 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.AreNotSame(matrix, transpose);
             Assert.AreEqual(matrix.RowCount, transpose.ColumnCount);
             Assert.AreEqual(matrix.ColumnCount, transpose.RowCount);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j], transpose[j, i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can transpose a matrix into a result.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [TestCase("Singular3x3")]
+        [TestCase("Square3x3")]
+        [TestCase("Square4x4")]
+        [TestCase("Tall3x2")]
+        [TestCase("Wide2x3")]
+        public void CanTransposeMatrixResult(string name)
+        {
+            var matrix = TestMatrices[name];
+            var transpose = Matrix<double>.Build.SameAs(matrix, matrix.ColumnCount, matrix.RowCount);
+            matrix.Transpose(transpose);
+
+            Assert.AreNotSame(matrix, transpose);
+            Assert.AreEqual(matrix.RowCount, transpose.ColumnCount);
+            Assert.AreEqual(matrix.ColumnCount, transpose.RowCount);
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrix[i, j], transpose[j, i]);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Can transpose a square matrix inplace.
+        /// </summary>
+        /// <param name="name">Matrix name.</param>
+        [TestCase("Square4x4")]
+        public void CanTransposeSquareMatrixInplace(string name)
+        {
+            var matrix = TestMatrices[name];
+            var transpose = matrix.Clone();
+            transpose.Transpose(transpose);
+
+            Assert.AreNotSame(matrix, transpose);
             for (var i = 0; i < matrix.RowCount; i++)
             {
                 for (var j = 0; j < matrix.ColumnCount; j++)
