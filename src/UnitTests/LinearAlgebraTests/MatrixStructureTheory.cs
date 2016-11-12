@@ -307,6 +307,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             Matrix<T> matrix = Get(testMatrix);
             var array = matrix.AsArray();
+            if (array == null)
+            {
+                return;
+            }
+
+            Assert.That(array, Is.SameAs(matrix.AsArray()));
             Assert.That(array, Is.Not.SameAs(matrix.ToArray()));
             Assert.That(array.GetLength(0), Is.EqualTo(matrix.RowCount));
             Assert.That(array.GetLength(1), Is.EqualTo(matrix.ColumnCount));
@@ -324,6 +330,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             Matrix<T> matrix = Get(testMatrix);
             var columnArrays = matrix.AsColumnArrays();
+            if (columnArrays == null)
+            {
+                return;
+            }
+
+            Assert.That(columnArrays, Is.SameAs(matrix.AsColumnArrays()));
             Assert.That(columnArrays, Is.Not.SameAs(matrix.ToColumnArrays()));
             Assert.That(columnArrays.Length, Is.EqualTo(matrix.ColumnCount));
             Assert.That(columnArrays[0].Length, Is.EqualTo(matrix.RowCount));
@@ -341,6 +353,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             Matrix<T> matrix = Get(testMatrix);
             var rowArrays = matrix.AsRowArrays();
+            if (rowArrays == null)
+            {
+                return;
+            }
+
+            Assert.That(rowArrays, Is.SameAs(matrix.AsRowArrays()));
             Assert.That(rowArrays, Is.Not.SameAs(matrix.ToRowArrays()));
             Assert.That(rowArrays.Length, Is.EqualTo(matrix.RowCount));
             Assert.That(rowArrays[0].Length, Is.EqualTo(matrix.ColumnCount));
@@ -358,6 +376,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             Matrix<T> matrix = Get(testMatrix);
             var array = matrix.AsColumnMajorArray();
+            if (array == null)
+            {
+                return;
+            }
+
+            Assert.That(array, Is.SameAs(matrix.AsColumnMajorArray()));
             Assert.That(array, Is.Not.SameAs(matrix.ToColumnMajorArray()));
             Assert.That(array.Length, Is.EqualTo(matrix.RowCount * matrix.ColumnCount));
             for (int i = 0; i < array.Length; i++)
@@ -371,6 +395,12 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             Matrix<T> matrix = Get(testMatrix);
             var array = matrix.AsRowMajorArray();
+            if (array == null)
+            {
+                return;
+            }
+
+            Assert.That(array, Is.SameAs(matrix.AsRowMajorArray()));
             Assert.That(array, Is.Not.SameAs(matrix.ToRowMajorArray()));
             Assert.That(array.Length, Is.EqualTo(matrix.RowCount * matrix.ColumnCount));
             for (int i = 0; i < array.Length; i++)

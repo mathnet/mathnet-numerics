@@ -1372,9 +1372,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns this matrix as a multidimensional array.
-        /// If the internal data structure matches the requested shape it is returned directly, without copying.
-        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Returns the internal multidimensional array of this matrix if, and only if, this matrix is stored by such an array internally.
+        /// Otherwise returns null. Changes to the returned array and the matrix will affect each other.
         /// Use ToArray instead if you always need an independent array.
         /// </summary>
         /// <returns>A multidimensional containing the values of this matrix.</returns>
@@ -1384,9 +1383,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns the matrix's elements as an array with the data laid out column by column (column major).
-        /// If the internal data structure matches the requested shape it is returned directly, without copying.
-        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Returns the internal column by column (column major) array of this matrix if, and only if, this matrix is stored by such arrays internally.
+        /// Otherwise returns null. Changes to the returned arrays and the matrix will affect each other.
         /// Use ToColumnMajorArray instead if you always need an independent array.
         /// </summary>
         /// <example><pre>
@@ -1403,9 +1401,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns the matrix's elements as an array with the data laid row by row (row major).
-        /// If the internal data structure matches the requested shape it is returned directly, without copying.
-        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Returns the internal row by row (row major) array of this matrix if, and only if, this matrix is stored by such arrays internally.
+        /// Otherwise returns null. Changes to the returned arrays and the matrix will affect each other.
         /// Use ToRowMajorArray instead if you always need an independent array.
         /// </summary>
         /// <example><pre>
@@ -1422,9 +1419,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns this matrix as array of row arrays.
-        /// If the internal data structure matches the requested shape it is returned directly, without copying.
-        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Returns the internal row arrays of this matrix if, and only if, this matrix is stored by such arrays internally.
+        /// Otherwise returns null. Changes to the returned arrays and the matrix will affect each other.
         /// Use ToRowArrays instead if you always need an independent array.
         /// </summary>
         public T[][] AsRowArrays()
@@ -1433,9 +1429,8 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns this matrix as array of column arrays.
-        /// If the internal data structure matches the requested shape it is returned directly, without copying.
-        /// If the internal structure is returned, changes to the array and the matrix will affect each other.
+        /// Returns the internal column arrays of this matrix if, and only if, this matrix is stored by such arrays internally.
+        /// Otherwise returns null. Changes to the returned arrays and the matrix will affect each other.
         /// Use ToColumnArrays instead if you always need an independent array.
         /// </summary>
         public T[][] AsColumnArrays()
