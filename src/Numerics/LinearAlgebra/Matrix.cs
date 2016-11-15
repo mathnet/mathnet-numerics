@@ -1376,7 +1376,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Otherwise returns null. Changes to the returned array and the matrix will affect each other.
         /// Use ToArray instead if you always need an independent array.
         /// </summary>
-        /// <returns>A multidimensional containing the values of this matrix.</returns>
         public T[,] AsArray()
         {
             return Storage.AsArray();

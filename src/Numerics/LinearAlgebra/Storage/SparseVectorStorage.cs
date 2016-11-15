@@ -611,6 +611,18 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        // EXTRACT
+
+        public override T[] ToArray()
+        {
+            var ret = new T[Length];
+            for (int i = 0; i < ValueCount; i++)
+            {
+                ret[Indices[i]] = Values[i];
+            }
+            return ret;
+        }
+
         // ENUMERATION
 
         public override IEnumerable<T> Enumerate()
