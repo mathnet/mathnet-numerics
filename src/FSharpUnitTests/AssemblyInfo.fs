@@ -12,7 +12,7 @@ open System.Runtime.InteropServices
 
 [<assembly: AssemblyVersion("3.14.0.0")>]
 [<assembly: AssemblyFileVersion("3.14.0.0")>]
-[<assembly: AssemblyInformationalVersion("3.14.0-beta01")>]
+[<assembly: AssemblyInformationalVersion("3.14.0-beta02")>]
 
 #if PORTABLE
 #else

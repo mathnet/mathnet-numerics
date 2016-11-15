@@ -1,3 +1,10 @@
+### 3.14.0-beta02 - 2016-11-15
+* Linear Algebra: enable experimental matrix product implementation
+* Linear Algebra: better support for matrix to/from row-major arrays and enumerables
+* Linear Algebra: transport allows specifying a result matrix to transpose into, inplace if square
+* Linear Algebra: vector and matrix AsArray and similar to access internal arrays if applicable
+* Linear Algebra: vector and matrix pointwise min/max and absmin/absmax
+
 ### 3.14.0-beta01 - 2016-10-30
 * FFT: MKL native provider backend.
 * FFT: 2D and multi-dimensional FFT (only supported by MKL provider, managed provider pending).
