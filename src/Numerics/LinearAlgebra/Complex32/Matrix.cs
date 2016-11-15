@@ -473,6 +473,69 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return (svd.U * w * svd.VT).Transpose();
         }
 
+        /// <summary>
+        /// Computes the trace of this matrix.
+        /// </summary>
+        /// <returns>The trace of this matrix</returns>
+        /// <exception cref="ArgumentException">If the matrix is not square</exception>
+        public override Complex32 Trace()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            }
+
+            var sum = Complex32.Zero;
+            for (var i = 0; i < RowCount; i++)
+            {
+                sum += At(i, i);
+            }
+
+            return sum;
+        }
+
+        protected override void DoPointwiseMinimum(Complex32 scalar, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Complex32 scalar, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Complex32 scalar, Matrix<Complex32> result)
+        {
+            float absolute = scalar.Magnitude;
+            Map(x => Math.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Complex32 scalar, Matrix<Complex32> result)
+        {
+            float absolute = scalar.Magnitude;
+            Map(x => Math.Max(absolute, x.Magnitude), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            Map2((x, y) => Math.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            Map2((x, y) => Math.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+        }
+
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()
@@ -657,27 +720,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var ret = new Complex32[ColumnCount];
             Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
             return Vector<Complex32>.Build.Dense(ret);
-        }
-
-        /// <summary>
-        /// Computes the trace of this matrix.
-        /// </summary>
-        /// <returns>The trace of this matrix</returns>
-        /// <exception cref="ArgumentException">If the matrix is not square</exception>
-        public override Complex32 Trace()
-        {
-            if (RowCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            }
-
-            var sum = Complex32.Zero;
-            for (var i = 0; i < RowCount; i++)
-            {
-                sum += At(i, i);
-            }
-
-            return sum;
         }
 
         /// <summary>

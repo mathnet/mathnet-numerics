@@ -328,6 +328,48 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             throw new NotSupportedException();
         }
 
+        protected override void DoPointwiseMinimum(Complex scalar, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Complex scalar, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Complex scalar, Vector<Complex> result)
+        {
+            double absolute = scalar.Magnitude;
+            Map(x => Math.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Complex scalar, Vector<Complex> result)
+        {
+            double absolute = scalar.Magnitude;
+            Map(x => Math.Max(absolute, x.Magnitude), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(Vector<Complex> other, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Vector<Complex> other, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Vector<Complex> other, Vector<Complex> result)
+        {
+            Map2((x, y) => Math.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Vector<Complex> other, Vector<Complex> result)
+        {
+            Map2((x, y) => Math.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+        }
+
         /// <summary>
         /// Returns the value of the absolute minimum element.
         /// </summary>

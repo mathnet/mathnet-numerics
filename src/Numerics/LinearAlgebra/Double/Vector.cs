@@ -321,6 +321,48 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             Map(x => Euclid.Remainder(dividend, x), result, Zeros.Include);
         }
 
+        protected override void DoPointwiseMinimum(double scalar, Vector<double> result)
+        {
+            Map(x => Math.Min(scalar, x), result, scalar >= 0d ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        protected override void DoPointwiseMaximum(double scalar, Vector<double> result)
+        {
+            Map(x => Math.Max(scalar, x), result, scalar <= 0d ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(double scalar, Vector<double> result)
+        {
+            double absolute = Math.Abs(scalar);
+            Map(x => Math.Min(absolute, Math.Abs(x)), result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(double scalar, Vector<double> result)
+        {
+            double absolute = Math.Abs(scalar);
+            Map(x => Math.Max(absolute, Math.Abs(x)), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(Vector<double> other, Vector<double> result)
+        {
+            Map2(Math.Min, other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseMaximum(Vector<double> other, Vector<double> result)
+        {
+            Map2(Math.Max, other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Vector<double> other, Vector<double> result)
+        {
+            Map2((x, y) => Math.Min(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Vector<double> other, Vector<double> result)
+        {
+            Map2((x, y) => Math.Max(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
+        }
+
         /// <summary>
         /// Returns the value of the absolute minimum element.
         /// </summary>

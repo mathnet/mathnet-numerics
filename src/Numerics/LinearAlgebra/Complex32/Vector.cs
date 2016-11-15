@@ -323,6 +323,48 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             throw new NotSupportedException();
         }
 
+        protected override void DoPointwiseMinimum(Complex32 scalar, Vector<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Complex32 scalar, Vector<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Complex32 scalar, Vector<Complex32> result)
+        {
+            float absolute = scalar.Magnitude;
+            Map(x => Math.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Complex32 scalar, Vector<Complex32> result)
+        {
+            float absolute = scalar.Magnitude;
+            Map(x => Math.Max(absolute, x.Magnitude), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(Vector<Complex32> other, Vector<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Vector<Complex32> other, Vector<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Vector<Complex32> other, Vector<Complex32> result)
+        {
+            Map2((x, y) => Math.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Vector<Complex32> other, Vector<Complex32> result)
+        {
+            Map2((x, y) => Math.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+        }
+
         /// <summary>
         /// Returns the value of the absolute minimum element.
         /// </summary>

@@ -464,6 +464,48 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return sum;
         }
 
+        protected override void DoPointwiseMinimum(double scalar, Matrix<double> result)
+        {
+            Map(x => Math.Min(scalar, x), result, scalar >= 0d ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        protected override void DoPointwiseMaximum(double scalar, Matrix<double> result)
+        {
+            Map(x => Math.Max(scalar, x), result, scalar <= 0d ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(double scalar, Matrix<double> result)
+        {
+            double absolute = Math.Abs(scalar);
+            Map(x => Math.Min(absolute, Math.Abs(x)), result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(double scalar, Matrix<double> result)
+        {
+            double absolute = Math.Abs(scalar);
+            Map(x => Math.Max(absolute, Math.Abs(x)), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(Matrix<double> other, Matrix<double> result)
+        {
+            Map2(Math.Min, other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseMaximum(Matrix<double> other, Matrix<double> result)
+        {
+            Map2(Math.Max, other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Matrix<double> other, Matrix<double> result)
+        {
+            Map2((x, y) => Math.Min(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Matrix<double> other, Matrix<double> result)
+        {
+            Map2((x, y) => Math.Max(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
+        }
+
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
         public override double L1Norm()

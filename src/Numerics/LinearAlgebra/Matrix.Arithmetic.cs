@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -264,6 +264,15 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="result">The matrix to store the result.</param>
         protected abstract void DoPointwiseLog(Matrix<T> result);
+
+        protected abstract void DoPointwiseMinimum(T scalar, Matrix<T> result);
+        protected abstract void DoPointwiseMinimum(Matrix<T> other, Matrix<T> result);
+        protected abstract void DoPointwiseMaximum(T scalar, Matrix<T> result);
+        protected abstract void DoPointwiseMaximum(Matrix<T> other, Matrix<T> result);
+        protected abstract void DoPointwiseAbsoluteMinimum(T scalar, Matrix<T> result);
+        protected abstract void DoPointwiseAbsoluteMinimum(Matrix<T> other, Matrix<T> result);
+        protected abstract void DoPointwiseAbsoluteMaximum(T scalar, Matrix<T> result);
+        protected abstract void DoPointwiseAbsoluteMaximum(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the matrix.
@@ -1666,6 +1675,222 @@ namespace MathNet.Numerics.LinearAlgebra
                     result.SetSubMatrix(i*other.RowCount, other.RowCount, j*other.ColumnCount, other.ColumnCount, At(i, j)*other);
                 }
             }
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Matrix<T> PointwiseMinimum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMinimum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMinimum(T scalar, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseMinimum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Matrix<T> PointwiseMaximum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMaximum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMaximum(T scalar, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseMaximum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Matrix<T> PointwiseAbsoluteMinimum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMinimum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMinimum(T scalar, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseAbsoluteMinimum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Matrix<T> PointwiseAbsoluteMaximum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMaximum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMaximum(T scalar, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseAbsoluteMaximum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        public Matrix<T> PointwiseMinimum(Matrix<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMinimum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMinimum(Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseMinimum(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        public Matrix<T> PointwiseMaximum(Matrix<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMaximum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMaximum(Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseMaximum(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        public Matrix<T> PointwiseAbsoluteMinimum(Matrix<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMinimum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMinimum(Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseAbsoluteMinimum(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        public Matrix<T> PointwiseAbsoluteMaximum(Matrix<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMaximum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMaximum(Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseAbsoluteMaximum(other, result);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -232,6 +232,15 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="result">The vector to store the result.</param>
         protected abstract void DoPointwiseLog(Vector<T> result);
+
+        protected abstract void DoPointwiseMinimum(T scalar, Vector<T> result);
+        protected abstract void DoPointwiseMinimum(Vector<T> other, Vector<T> result);
+        protected abstract void DoPointwiseMaximum(T scalar, Vector<T> result);
+        protected abstract void DoPointwiseMaximum(Vector<T> other, Vector<T> result);
+        protected abstract void DoPointwiseAbsoluteMinimum(T scalar, Vector<T> result);
+        protected abstract void DoPointwiseAbsoluteMinimum(Vector<T> other, Vector<T> result);
+        protected abstract void DoPointwiseAbsoluteMaximum(T scalar, Vector<T> result);
+        protected abstract void DoPointwiseAbsoluteMaximum(Vector<T> other, Vector<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the vector.
@@ -1026,6 +1035,222 @@ namespace MathNet.Numerics.LinearAlgebra
         public static Matrix<T> OuterProduct(Vector<T> u, Vector<T> v)
         {
             return u.OuterProduct(v);
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Vector<T> PointwiseMinimum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMinimum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMinimum(T scalar, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseMinimum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Vector<T> PointwiseMaximum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMaximum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMaximum(T scalar, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseMaximum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Vector<T> PointwiseAbsoluteMinimum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMinimum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMinimum(T scalar, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseAbsoluteMinimum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Vector<T> PointwiseAbsoluteMaximum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMaximum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMaximum(T scalar, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseAbsoluteMaximum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with the values of another vector to each value.
+        /// </summary>
+        /// <param name="other">The vector with the values to compare to.</param>
+        public Vector<T> PointwiseMinimum(Vector<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMinimum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with the values of another vector to each value.
+        /// </summary>
+        /// <param name="other">The vector with the values to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMinimum(Vector<T> other, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseMinimum(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with the values of another vector to each value.
+        /// </summary>
+        /// <param name="other">The vector with the values to compare to.</param>
+        public Vector<T> PointwiseMaximum(Vector<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMaximum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with the values of another vector to each value.
+        /// </summary>
+        /// <param name="other">The vector with the values to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMaximum(Vector<T> other, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseMaximum(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with the values of another vector to each value.
+        /// </summary>
+        /// <param name="other">The vector with the values to compare to.</param>
+        public Vector<T> PointwiseAbsoluteMinimum(Vector<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMinimum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with the values of another vector to each value.
+        /// </summary>
+        /// <param name="other">The vector with the values to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMinimum(Vector<T> other, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseAbsoluteMinimum(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with the values of another vector to each value.
+        /// </summary>
+        /// <param name="other">The vector with the values to compare to.</param>
+        public Vector<T> PointwiseAbsoluteMaximum(Vector<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMaximum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with the values of another vector to each value.
+        /// </summary>
+        /// <param name="other">The vector with the values to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMaximum(Vector<T> other, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            DoPointwiseAbsoluteMaximum(other, result);
         }
 
         /// <summary>
