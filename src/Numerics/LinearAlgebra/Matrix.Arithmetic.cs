@@ -265,6 +265,23 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The matrix to store the result.</param>
         protected abstract void DoPointwiseLog(Matrix<T> result);
 
+        protected abstract void DoPointwiseAbs(Matrix<T> result);
+        protected abstract void DoPointwiseAcos(Matrix<T> result);
+        protected abstract void DoPointwiseAsin(Matrix<T> result);
+        protected abstract void DoPointwiseAtan(Matrix<T> result);
+        protected abstract void DoPointwiseCeiling(Matrix<T> result);
+        protected abstract void DoPointwiseCos(Matrix<T> result);
+        protected abstract void DoPointwiseCosh(Matrix<T> result);
+        protected abstract void DoPointwiseFloor(Matrix<T> result);
+        protected abstract void DoPointwiseLog10(Matrix<T> result);
+        protected abstract void DoPointwiseRound(Matrix<T> result);
+        protected abstract void DoPointwiseSign(Matrix<T> result);
+        protected abstract void DoPointwiseSin(Matrix<T> result);
+        protected abstract void DoPointwiseSinh(Matrix<T> result);
+        protected abstract void DoPointwiseSqrt(Matrix<T> result);
+        protected abstract void DoPointwiseTan(Matrix<T> result);
+        protected abstract void DoPointwiseTanh(Matrix<T> result);
+        protected abstract void DoPointwiseAtan2(Matrix<T> other, Matrix<T> result);
         protected abstract void DoPointwiseMinimum(T scalar, Matrix<T> result);
         protected abstract void DoPointwiseMinimum(Matrix<T> other, Matrix<T> result);
         protected abstract void DoPointwiseMaximum(T scalar, Matrix<T> result);
@@ -1512,13 +1529,59 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Pointwise applied the supplied unary operator to each value
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        protected Matrix<T> PointwiseUnary(Action<Matrix<T>> f)
+        {
+            var result = Build.SameAs(this);
+            f(result);
+            return result;
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        protected void PointwiseUnary(Action<Matrix<T>> f, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+            f(result);
+        }
+
+        public Matrix<T> PointwiseBinary(Action<Matrix<T>, Matrix<T>> f, Matrix<T> other)
+        {
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other);
+            }
+
+            var result = Build.SameAs(this, other);
+            f(other, result);
+            return result;
+        }
+
+        protected void PointwiseBinary(Action<Matrix<T>,Matrix<T>> f, Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            f(other, result);
+        }
+
+        /// <summary>
         /// Pointwise applies the exponent function to each value.
         /// </summary>
         public Matrix<T> PointwiseExp()
         {
-            var result = Build.SameAs(this);
-            DoPointwiseExp(result);
-            return result;
+            return PointwiseUnary(DoPointwiseExp);
         }
 
         /// <summary>
@@ -1528,12 +1591,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseExp(Matrix<T> result)
         {
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result);
-            }
-
-            DoPointwiseExp(result);
+            PointwiseUnary(DoPointwiseExp, result);
         }
 
         /// <summary>
@@ -1541,9 +1599,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> PointwiseLog()
         {
-            var result = Build.SameAs(this);
-            DoPointwiseLog(result);
-            return result;
+            return PointwiseUnary(DoPointwiseLog);
         }
 
         /// <summary>
@@ -1553,12 +1609,315 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseLog(Matrix<T> result)
         {
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result);
-            }
+            PointwiseUnary(DoPointwiseLog, result);
+        }
 
-            DoPointwiseLog(result);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseAbs()
+        {
+            return PointwiseUnary(DoPointwiseAbs);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseAbs(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseAbs, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseAcos()
+        {
+            return PointwiseUnary(DoPointwiseAcos);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseAcos(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseAcos, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseAsin()
+        {
+            return PointwiseUnary(DoPointwiseAsin);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseAsin(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseAsin, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseAtan()
+        {
+            return PointwiseUnary(DoPointwiseAtan);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseAtan(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseAtan, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public Matrix<T> PointwiseAtan2(Matrix<T> other)
+        {
+            return PointwiseBinary(DoPointwiseAtan2, other);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="result"></param>
+        public void PointwiseAtan2(Matrix<T> other, Matrix<T> result)
+        {
+            PointwiseBinary(DoPointwiseAtan2, other, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseCeiling()
+        {
+            return PointwiseUnary(DoPointwiseCeiling);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseCeiling(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseCeiling, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseCos()
+        {
+            return PointwiseUnary(DoPointwiseCos);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseCos(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseCos, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseCosh()
+        {
+            return PointwiseUnary(DoPointwiseCosh);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseCosh(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseCosh, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseFloor()
+        {
+            return PointwiseUnary(DoPointwiseFloor);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseFloor(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseFloor, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseLog10()
+        {
+            return PointwiseUnary(DoPointwiseLog10);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseLog10(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseLog10, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseRound()
+        {
+            return PointwiseUnary(DoPointwiseRound);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseRound(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseRound, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseSign()
+        {
+            return PointwiseUnary(DoPointwiseSign);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseSign(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseSign, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseSin()
+        {
+            return PointwiseUnary(DoPointwiseSin);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseSin(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseSin, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseSinh()
+        {
+            return PointwiseUnary(DoPointwiseSinh);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseSinh(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseSinh, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseSqrt()
+        {
+            return PointwiseUnary(DoPointwiseSqrt);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseSqrt(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseSqrt, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseTan()
+        {
+            return PointwiseUnary(DoPointwiseTan);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseTan(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseTan, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Matrix<T> PointwiseTanh()
+        {
+            return PointwiseUnary(DoPointwiseTanh);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseTanh(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseTanh, result);
         }
 
         /// <summary>

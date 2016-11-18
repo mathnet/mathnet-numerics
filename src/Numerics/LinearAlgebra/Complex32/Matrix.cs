@@ -454,6 +454,75 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             Map(Complex32.Log, result, Zeros.Include);
         }
 
+        protected override void DoPointwiseAbs(Matrix<Complex32> result)
+        {
+            Map(x => (Complex32)Complex32.Abs(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseAcos(Matrix<Complex32> result)
+        {
+            Map(Complex32.Acos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAsin(Matrix<Complex32> result)
+        {
+            Map(Complex32.Asin, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan(Matrix<Complex32> result)
+        {
+            Map(Complex32.Atan, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan2(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseCeiling(Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseCos(Matrix<Complex32> result)
+        {
+            Map(Complex32.Cos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseCosh(Matrix<Complex32> result)
+        {
+            Map(Complex32.Cosh, result, Zeros.Include);
+        }
+        protected override void DoPointwiseFloor(Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseLog10(Matrix<Complex32> result)
+        {
+            Map(Complex32.Log10, result, Zeros.Include);
+        }
+        protected override void DoPointwiseRound(Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseSign(Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseSin(Matrix<Complex32> result)
+        {
+            Map(Complex32.Sin, result, Zeros.Include);
+        }
+        protected override void DoPointwiseSinh(Matrix<Complex32> result)
+        {
+            Map(Complex32.Sinh, result, Zeros.Include);
+        }
+        protected override void DoPointwiseSqrt(Matrix<Complex32> result)
+        {
+            Map(Complex32.Sqrt, result, Zeros.Include);
+        }
+        protected override void DoPointwiseTan(Matrix<Complex32> result)
+        {
+            Map(Complex32.Tan, result, Zeros.Include);
+        }
+        protected override void DoPointwiseTanh(Matrix<Complex32> result)
+        {
+            Map(Complex32.Tanh, result, Zeros.Include);
+        }
+
         /// <summary>
         /// Computes the Moore-Penrose Pseudo-Inverse of this matrix.
         /// </summary>

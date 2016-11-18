@@ -254,6 +254,79 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             Map(Complex.Log, result, Zeros.Include);
         }
 
+        protected override void DoPointwiseAbs(Vector<Complex> result)
+        {
+            Map(x => (Complex)Complex.Abs(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseAcos(Vector<Complex> result)
+        {
+            Map(Complex.Acos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAsin(Vector<Complex> result)
+        {
+            Map(Complex.Asin, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan(Vector<Complex> result)
+        {
+            Map(Complex.Atan, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan2(Vector<Complex> other, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseAtan2(Complex scalar, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseCeiling(Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseCos(Vector<Complex> result)
+        {
+            Map(Complex.Cos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseCosh(Vector<Complex> result)
+        {
+            Map(Complex.Cosh, result, Zeros.Include);
+        }
+        protected override void DoPointwiseFloor(Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseLog10(Vector<Complex> result)
+        {
+            Map(Complex.Log10, result, Zeros.Include);
+        }
+        protected override void DoPointwiseRound(Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseSign(Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseSin(Vector<Complex> result)
+        {
+            Map(Complex.Sin, result, Zeros.Include);
+        }
+        protected override void DoPointwiseSinh(Vector<Complex> result)
+        {
+            Map(Complex.Sinh, result, Zeros.Include);
+        }
+        protected override void DoPointwiseSqrt(Vector<Complex> result)
+        {
+            Map(Complex.Sqrt, result, Zeros.Include);
+        }
+        protected override void DoPointwiseTan(Vector<Complex> result)
+        {
+            Map(Complex.Tan, result, Zeros.Include);
+        }
+        protected override void DoPointwiseTanh(Vector<Complex> result)
+        {
+            Map(Complex.Tanh, result, Zeros.Include);
+        }
+
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>

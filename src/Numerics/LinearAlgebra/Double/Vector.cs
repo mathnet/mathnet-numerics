@@ -252,6 +252,79 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             Map(Math.Log, result, Zeros.Include);
         }
 
+        protected override void DoPointwiseAbs(Vector<double> result)
+        {
+            Map(Math.Abs, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAcos(Vector<double> result)
+        {
+            Map(Math.Acos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAsin(Vector<double> result)
+        {
+            Map(Math.Asin, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan(Vector<double> result)
+        {
+            Map(Math.Atan, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan2(Vector<double> other, Vector<double> result)
+        {
+            Map2(Math.Atan2, other, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan2(double scalar, Vector<double> result)
+        {
+            Map(x => Math.Atan2(x, scalar), result, Zeros.Include);
+        }
+        protected override void DoPointwiseCeiling(Vector<double> result)
+        {
+            Map(Math.Ceiling, result, Zeros.Include);
+        }
+        protected override void DoPointwiseCos(Vector<double> result)
+        {
+            Map(Math.Cos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseCosh(Vector<double> result)
+        {
+            Map(Math.Cosh, result, Zeros.Include);
+        }
+        protected override void DoPointwiseFloor(Vector<double> result)
+        {
+            Map(Math.Floor, result, Zeros.Include);
+        }
+        protected override void DoPointwiseLog10(Vector<double> result)
+        {
+            Map(Math.Log10, result, Zeros.Include);
+        }
+        protected override void DoPointwiseRound(Vector<double> result)
+        {
+            Map(Math.Round, result, Zeros.Include);
+        }
+        protected override void DoPointwiseSign(Vector<double> result)
+        {
+            Map(x => (double)Math.Sign(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseSin(Vector<double> result)
+        {
+            Map(Math.Sin, result, Zeros.Include);
+        }
+        protected override void DoPointwiseSinh(Vector<double> result)
+        {
+            Map(Math.Sinh, result, Zeros.Include);
+        }
+        protected override void DoPointwiseSqrt(Vector<double> result)
+        {
+            Map(Math.Sqrt, result, Zeros.Include);
+        }
+        protected override void DoPointwiseTan(Vector<double> result)
+        {
+            Map(Math.Tan, result, Zeros.Include);
+        }
+        protected override void DoPointwiseTanh(Vector<double> result)
+        {
+            Map(Math.Tanh, result, Zeros.Include);
+        }
+
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>

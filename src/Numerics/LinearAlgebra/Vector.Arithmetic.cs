@@ -233,6 +233,24 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="result">The vector to store the result.</param>
         protected abstract void DoPointwiseLog(Vector<T> result);
 
+        protected abstract void DoPointwiseAbs(Vector<T> result);
+        protected abstract void DoPointwiseAcos(Vector<T> result);
+        protected abstract void DoPointwiseAsin(Vector<T> result);
+        protected abstract void DoPointwiseAtan(Vector<T> result);        
+        protected abstract void DoPointwiseCeiling(Vector<T> result);
+        protected abstract void DoPointwiseCos(Vector<T> result);
+        protected abstract void DoPointwiseCosh(Vector<T> result);
+        protected abstract void DoPointwiseFloor(Vector<T> result);
+        protected abstract void DoPointwiseLog10(Vector<T> result);
+        protected abstract void DoPointwiseRound(Vector<T> result);
+        protected abstract void DoPointwiseSign(Vector<T> result);
+        protected abstract void DoPointwiseSin(Vector<T> result);
+        protected abstract void DoPointwiseSinh(Vector<T> result);
+        protected abstract void DoPointwiseSqrt(Vector<T> result);
+        protected abstract void DoPointwiseTan(Vector<T> result);
+        protected abstract void DoPointwiseTanh(Vector<T> result);
+        protected abstract void DoPointwiseAtan2(Vector<T> other, Vector<T> result);
+        protected abstract void DoPointwiseAtan2(T scalar, Vector<T> result);
         protected abstract void DoPointwiseMinimum(T scalar, Vector<T> result);
         protected abstract void DoPointwiseMinimum(Vector<T> other, Vector<T> result);
         protected abstract void DoPointwiseMaximum(T scalar, Vector<T> result);
@@ -957,13 +975,104 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Takes a function and 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        protected Vector<T> PointwiseUnary(Action<Vector<T>> f)
+        {
+            var result = Build.SameAs(this);
+            f(result);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="result"></param>
+        protected void PointwiseUnary(Action<Vector<T>> f, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+
+            f(result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        protected Vector<T> PointwiseBinary(Action<T, Vector<T>> f, T x)
+        {
+            var result = Build.SameAs(this);
+            f(x, result);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="x"></param>
+        /// <param name="result"></param>
+        protected void PointwiseBinary(Action<T, Vector<T>> f, T x, Vector<T> result)
+        {
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+            f(x, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        protected Vector<T> PointwiseBinary(Action<Vector<T>, Vector<T>> f, Vector<T> y)
+        {
+            if (Count != y.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "y");
+            }
+
+            var result = Build.SameAs(this);
+            f(y, result);
+            return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="other"></param>
+        /// <param name="result"></param>
+        protected void PointwiseBinary(Action<Vector<T>, Vector<T>> f, Vector<T> other, Vector<T> result)
+        {
+            if (Count != other.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+            }
+
+            if (Count != result.Count)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
+            }
+            f(other, result);
+        }
+
+        /// <summary>
         /// Pointwise applies the exponent function to each value.
         /// </summary>
         public Vector<T> PointwiseExp()
         {
-            var result = Build.SameAs(this);
-            DoPointwiseExp(result);
-            return result;
+            return PointwiseUnary(DoPointwiseExp);
         }
 
         /// <summary>
@@ -973,12 +1082,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseExp(Vector<T> result)
         {
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
-
-            DoPointwiseExp(result);
+            PointwiseUnary(DoPointwiseExp, result);
         }
 
         /// <summary>
@@ -986,9 +1090,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Vector<T> PointwiseLog()
         {
-            var result = Build.SameAs(this);
-            DoPointwiseLog(result);
-            return result;
+            return PointwiseUnary(DoPointwiseLog);
         }
 
         /// <summary>
@@ -998,12 +1100,315 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseLog(Vector<T> result)
         {
-            if (Count != result.Count)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "result");
-            }
+            PointwiseUnary(DoPointwiseLog, result);
+        }
 
-            DoPointwiseLog(result);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseAbs()
+        {
+            return PointwiseUnary(DoPointwiseAbs);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseAbs(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseAbs, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseAcos()
+        {
+            return PointwiseUnary(DoPointwiseAcos);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseAcos(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseAcos, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseAsin()
+        {
+            return PointwiseUnary(DoPointwiseAsin);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseAsin(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseAsin, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseAtan()
+        {
+            return PointwiseUnary(DoPointwiseAtan);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseAtan(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseAtan, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public Vector<T> PointwiseAtan2(Vector<T> other)
+        {
+            return PointwiseBinary(DoPointwiseAtan2, other);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="other"></param>
+        /// <param name="result"></param>
+        public void PointwiseAtan2(Vector<T> other, Vector<T> result)
+        {
+            PointwiseBinary(DoPointwiseAtan2, other, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseCeiling()
+        {
+            return PointwiseUnary(DoPointwiseCeiling);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseCeiling(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseCeiling, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseCos()
+        {
+            return PointwiseUnary(DoPointwiseCos);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseCos(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseCos, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseCosh()
+        {
+            return PointwiseUnary(DoPointwiseCosh);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseCosh(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseCosh, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseFloor()
+        {
+            return PointwiseUnary(DoPointwiseFloor);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseFloor(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseFloor, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseLog10()
+        {
+            return PointwiseUnary(DoPointwiseLog10);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseLog10(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseLog10, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseRound()
+        {
+            return PointwiseUnary(DoPointwiseRound);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseRound(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseRound, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseSign()
+        {
+            return PointwiseUnary(DoPointwiseSign);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseSign(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseSign, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseSin()
+        {
+            return PointwiseUnary(DoPointwiseSin);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseSin(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseSin, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseSinh()
+        {
+            return PointwiseUnary(DoPointwiseSinh);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseSinh(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseSinh, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseSqrt()
+        {
+            return PointwiseUnary(DoPointwiseSqrt);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseSqrt(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseSqrt, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseTan()
+        {
+            return PointwiseUnary(DoPointwiseTan);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseTan(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseTan, result);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public Vector<T> PointwiseTanh()
+        {
+            return PointwiseUnary(DoPointwiseTanh);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="result"></param>
+        public void PointwiseTanh(Vector<T> result)
+        {
+            PointwiseUnary(DoPointwiseTanh, result);
         }
 
         /// <summary>

@@ -424,6 +424,76 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             Map(x => (float)Math.Log(x), result, Zeros.Include);
         }
 
+        protected override void DoPointwiseAbs(Matrix<float> result)
+        {
+            Map(x => (float)Math.Abs(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseAcos(Matrix<float> result)
+        {
+            Map(x => (float)Math.Acos(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseAsin(Matrix<float> result)
+        {
+            Map(x => (float)Math.Asin(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan(Matrix<float> result)
+        {
+            Map(x => (float)Math.Atan(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan2(Matrix<float> other, Matrix<float> result)
+        {
+            Map2((x, y) => (float)Math.Atan2((double)x, (double)y), other, result, Zeros.Include);
+        }
+        protected override void DoPointwiseCeiling(Matrix<float> result)
+        {
+            Map(x => (float)Math.Ceiling(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseCos(Matrix<float> result)
+        {
+            Map(x => (float)Math.Cos(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseCosh(Matrix<float> result)
+        {
+            Map(x => (float)Math.Cosh(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseFloor(Matrix<float> result)
+        {
+            Map(x => (float)Math.Floor(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseLog10(Matrix<float> result)
+        {
+            Map(x => (float)Math.Log10(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseRound(Matrix<float> result)
+        {
+            Map(x => (float)Math.Round(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseSign(Matrix<float> result)
+        {
+            Map(x => (float)Math.Sign(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseSin(Matrix<float> result)
+        {
+            Map(x => (float)Math.Sin(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseSinh(Matrix<float> result)
+        {
+            Map(x => (float)Math.Sinh(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseSqrt(Matrix<float> result)
+        {
+            Map(x => (float)Math.Sqrt(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseTan(Matrix<float> result)
+        {
+            Map(x => (float)Math.Tan(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseTanh(Matrix<float> result)
+        {
+            Map(x => (float)Math.Tanh(x), result, Zeros.Include);
+        }
+
+
         /// <summary>
         /// Computes the Moore-Penrose Pseudo-Inverse of this matrix.
         /// </summary>
