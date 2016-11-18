@@ -293,5 +293,17 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             return dividend.PointwiseRemainder(divisor);
         }
+
+        [SpecialName]
+        public static Matrix<T> op_DotHat(Matrix<T> matrix, Matrix<T> exponent)
+        {
+            return matrix.PointwisePower(exponent);
+        }
+
+        [SpecialName]
+        public static Matrix<T> op_DotHat(Matrix<T> matrix, T exponent)
+        {
+            return matrix.PointwisePower(exponent);
+        }
     }
 }
