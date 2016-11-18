@@ -295,15 +295,105 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         [SpecialName]
-        public static Matrix<T> op_DotHat(Matrix<T> matrix, Matrix<T> exponent)
+        public static Matrix<T> op_DotHat(Matrix<T> x, T exponent)
         {
-            return matrix.PointwisePower(exponent);
+            return x.PointwisePower(exponent);
         }
 
         [SpecialName]
-        public static Matrix<T> op_DotHat(Matrix<T> matrix, T exponent)
+        public static Matrix<T> op_DotHat(Matrix<T> x, Matrix<T> y)
         {
-            return matrix.PointwisePower(exponent);
+            return x.PointwisePower(y);
+        }
+
+        //public static Matrix<T> Log(Matrix<T> x)
+        //{
+        //    return x.PointwiseLog();
+        //}
+
+        //public static Matrix<T> Exp(Matrix<T> x)
+        //{
+        //    return x.PointwiseExp();
+        //}
+
+        public static Matrix<T> Abs(Matrix<T> x)
+        {
+            return x.PointwiseAbs();
+        }
+
+        public static Matrix<T> Acos(Matrix<T> x)
+        {
+            return x.PointwiseAcos();
+        }
+
+        public static Matrix<T> Asin(Matrix<T> x)
+        {
+            return x.PointwiseAsin();
+        }
+
+        public static Matrix<T> Atan(Matrix<T> x)
+        {
+            return x.PointwiseAtan();
+        }
+
+        public static Matrix<T> Ceiling(Matrix<T> x)
+        {
+            return x.PointwiseCeiling();
+        }
+
+        public static Matrix<T> Cos(Matrix<T> x)
+        {
+            return x.PointwiseCos();
+        }
+
+        public static Matrix<T> Cosh(Matrix<T> x)
+        {
+            return x.PointwiseCosh();
+        }
+
+        public static Matrix<T> Floor(Matrix<T> x)
+        {
+            return x.PointwiseFloor();
+        }
+
+        public static Matrix<T> Log10(Matrix<T> x)
+        {
+            return x.PointwiseLog10();
+        }
+
+        public static Matrix<T> Round(Matrix<T> x)
+        {
+            return x.PointwiseRound();
+        }
+
+        public static Matrix<T> Sign(Matrix<T> x)
+        {
+            return x.PointwiseSign();
+        }
+
+        public static Matrix<T> Sin(Matrix<T> x)
+        {
+            return x.PointwiseSin();
+        }
+
+        public static Matrix<T> Sinh(Matrix<T> x)
+        {
+            return x.PointwiseSinh();
+        }
+
+        public static Matrix<T> Sqrt(Matrix<T> x)
+        {
+            return x.PointwiseSqrt();
+        }
+
+        public static Matrix<T> Tan(Matrix<T> x)
+        {
+            return x.PointwiseTan();
+        }
+
+        public static Matrix<T> Tanh(Matrix<T> x)
+        {
+            return x.PointwiseTanh();
         }
     }
 }

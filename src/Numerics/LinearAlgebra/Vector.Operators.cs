@@ -261,15 +261,105 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         [SpecialName]
-        public static Vector<T> op_DotHat(Vector<T> vector, Vector<T> exponent)
+        public static Vector<T> op_DotHat(Vector<T> x, T exponent)
         {
-            return vector.PointwisePower(exponent);
+            return x.PointwisePower(exponent);
         }
 
         [SpecialName]
-        public static Vector<T> op_DotHat(Vector<T> vector, T exponent)
+        public static Vector<T> op_DotHat(Vector<T> x, Vector<T> y)
         {
-            return vector.PointwisePower(exponent);
+            return x.PointwisePower(y);
+        }
+
+        //public static Vector<T> Log(Vector<T> x)
+        //{
+        //    return x.PointwiseUnary(x.PointwiseLog);
+        //}
+
+        //public static Vector<T> Exp(Vector<T> x)
+        //{
+        //    return x.PointwiseUnary(x.DoPointwiseExp);
+        //}
+
+        public static Vector<T> Abs(Vector<T> x)
+        {
+            return x.PointwiseAbs();
+        }
+
+        public static Vector<T> Acos(Vector<T> x)
+        {
+            return x.PointwiseAcos();
+        }
+
+        public static Vector<T> Asin(Vector<T> x)
+        {
+            return x.PointwiseAsin();
+        }
+
+        public static Vector<T> Atan(Vector<T> x)
+        {
+            return x.PointwiseAtan();
+        }
+
+        public static Vector<T> Ceiling(Vector<T> x)
+        {
+            return x.PointwiseCeiling();
+        }
+
+        public static Vector<T> Cos(Vector<T> x)
+        {
+            return x.PointwiseCos();
+        }
+
+        public static Vector<T> Cosh(Vector<T> x)
+        {
+            return x.PointwiseCosh();
+        }
+
+        public static Vector<T> Floor(Vector<T> x)
+        {
+            return x.PointwiseFloor();
+        }
+
+        public static Vector<T> Log10(Vector<T> x)
+        {
+            return x.PointwiseLog10();
+        }
+
+        public static Vector<T> Round(Vector<T> x)
+        {
+            return x.PointwiseRound();
+        }
+
+        public static Vector<T> Sign(Vector<T> x)
+        {
+            return x.PointwiseSign();
+        }
+
+        public static Vector<T> Sin(Vector<T> x)
+        {
+            return x.PointwiseSin();
+        }
+
+        public static Vector<T> Sinh(Vector<T> x)
+        {
+            return x.PointwiseSinh();
+        }
+
+        public static Vector<T> Sqrt(Vector<T> x)
+        {
+            return x.PointwiseSqrt();
+        }
+
+        public static Vector<T> Tan(Vector<T> x)
+        {
+            return x.PointwiseTan();
+        }
+
+        public static Vector<T> Tanh(Vector<T> x)
+        {
+            return x.PointwiseTanh();
         }
     }
 }
