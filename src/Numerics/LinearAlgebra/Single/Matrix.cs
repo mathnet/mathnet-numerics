@@ -426,7 +426,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         protected override void DoPointwiseAbs(Matrix<float> result)
         {
-            Map(x => (float)Math.Abs(x), result, Zeros.Include);
+            Map(x => (float)Math.Abs(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAcos(Matrix<float> result)
         {
@@ -434,11 +434,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
         protected override void DoPointwiseAsin(Matrix<float> result)
         {
-            Map(x => (float)Math.Asin(x), result, Zeros.Include);
+            Map(x => (float)Math.Asin(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAtan(Matrix<float> result)
         {
-            Map(x => (float)Math.Atan(x), result, Zeros.Include);
+            Map(x => (float)Math.Atan(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAtan2(Matrix<float> other, Matrix<float> result)
         {
@@ -446,7 +446,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
         protected override void DoPointwiseCeiling(Matrix<float> result)
         {
-            Map(x => (float)Math.Ceiling(x), result, Zeros.Include);
+            Map(x => (float)Math.Ceiling(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseCos(Matrix<float> result)
         {
@@ -458,7 +458,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
         protected override void DoPointwiseFloor(Matrix<float> result)
         {
-            Map(x => (float)Math.Floor(x), result, Zeros.Include);
+            Map(x => (float)Math.Floor(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseLog10(Matrix<float> result)
         {
@@ -466,31 +466,31 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
         protected override void DoPointwiseRound(Matrix<float> result)
         {
-            Map(x => (float)Math.Round(x), result, Zeros.Include);
+            Map(x => (float)Math.Round(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSign(Matrix<float> result)
         {
-            Map(x => (float)Math.Sign(x), result, Zeros.Include);
+            Map(x => (float)Math.Sign(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSin(Matrix<float> result)
         {
-            Map(x => (float)Math.Sin(x), result, Zeros.Include);
+            Map(x => (float)Math.Sin(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSinh(Matrix<float> result)
         {
-            Map(x => (float)Math.Sinh(x), result, Zeros.Include);
+            Map(x => (float)Math.Sinh(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSqrt(Matrix<float> result)
         {
-            Map(x => (float)Math.Sqrt(x), result, Zeros.Include);
+            Map(x => (float)Math.Sqrt(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseTan(Matrix<float> result)
         {
-            Map(x => (float)Math.Tan(x), result, Zeros.Include);
+            Map(x => (float)Math.Tan(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseTanh(Matrix<float> result)
         {
-            Map(x => (float)Math.Tanh(x), result, Zeros.Include);
+            Map(x => (float)Math.Tanh(x), result, Zeros.AllowSkip);
         }
 
 

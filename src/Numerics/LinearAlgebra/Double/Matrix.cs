@@ -426,7 +426,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         protected override void DoPointwiseAbs(Matrix<double> result)
         {
-            Map(Math.Abs, result, Zeros.Include);
+            Map(Math.Abs, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAcos(Matrix<double> result)
         {
@@ -434,11 +434,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
         protected override void DoPointwiseAsin(Matrix<double> result)
         {
-            Map(Math.Asin, result, Zeros.Include);
+            Map(Math.Asin, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAtan(Matrix<double> result)
         {
-            Map(Math.Atan, result, Zeros.Include);
+            Map(Math.Atan, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAtan2(Matrix<double> other, Matrix<double> result)
         {
@@ -446,7 +446,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
         protected override void DoPointwiseCeiling(Matrix<double> result)
         {
-            Map(Math.Ceiling, result, Zeros.Include);
+            Map(Math.Ceiling, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseCos(Matrix<double> result)
         {
@@ -458,7 +458,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
         protected override void DoPointwiseFloor(Matrix<double> result)
         {
-            Map(Math.Floor, result, Zeros.Include);
+            Map(Math.Floor, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseLog10(Matrix<double> result)
         {
@@ -466,31 +466,31 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
         protected override void DoPointwiseRound(Matrix<double> result)
         {
-            Map(Math.Round, result, Zeros.Include);
+            Map(Math.Round, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSign(Matrix<double> result)
         {
-            Map(x => (double)Math.Sign(x), result, Zeros.Include);
+            Map(x => (double)Math.Sign(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSin(Matrix<double> result)
         {
-            Map(Math.Sin, result, Zeros.Include);
+            Map(Math.Sin, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSinh(Matrix<double> result)
         {
-            Map(Math.Sinh, result, Zeros.Include);
+            Map(Math.Sinh, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSqrt(Matrix<double> result)
         {
-            Map(Math.Sqrt, result, Zeros.Include);
+            Map(Math.Sqrt, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseTan(Matrix<double> result)
         {
-            Map(Math.Tan, result, Zeros.Include);
+            Map(Math.Tan, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseTanh(Matrix<double> result)
         {
-            Map(Math.Tanh, result, Zeros.Include);
+            Map(Math.Tanh, result, Zeros.AllowSkip);
         }
 
         /// <summary>

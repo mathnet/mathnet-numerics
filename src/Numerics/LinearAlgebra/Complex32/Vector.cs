@@ -251,7 +251,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         protected override void DoPointwiseAbs(Vector<Complex32> result)
         {
-            Map(x => (Complex32)Complex32.Abs(x), result, Zeros.Include);
+            Map(x => (Complex32)Complex32.Abs(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAcos(Vector<Complex32> result)
         {
@@ -259,11 +259,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
         protected override void DoPointwiseAsin(Vector<Complex32> result)
         {
-            Map(Complex32.Asin, result, Zeros.Include);
+            Map(Complex32.Asin, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAtan(Vector<Complex32> result)
         {
-            Map(Complex32.Atan, result, Zeros.Include);
+            Map(Complex32.Atan, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAtan2(Vector<Complex32> other, Vector<Complex32> result)
         {
@@ -303,23 +303,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
         protected override void DoPointwiseSin(Vector<Complex32> result)
         {
-            Map(Complex32.Sin, result, Zeros.Include);
+            Map(Complex32.Sin, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSinh(Vector<Complex32> result)
         {
-            Map(Complex32.Sinh, result, Zeros.Include);
+            Map(Complex32.Sinh, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSqrt(Vector<Complex32> result)
         {
-            Map(Complex32.Sqrt, result, Zeros.Include);
+            Map(Complex32.Sqrt, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseTan(Vector<Complex32> result)
         {
-            Map(Complex32.Tan, result, Zeros.Include);
+            Map(Complex32.Tan, result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseTanh(Vector<Complex32> result)
         {
-            Map(Complex32.Tanh, result, Zeros.Include);
+            Map(Complex32.Tanh, result, Zeros.AllowSkip);
         }
 
         /// <summary>
