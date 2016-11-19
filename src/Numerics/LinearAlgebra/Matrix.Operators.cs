@@ -366,11 +366,6 @@ namespace MathNet.Numerics.LinearAlgebra
             return x.PointwiseRound();
         }
 
-        public static Matrix<T> Sign(Matrix<T> x)
-        {
-            return x.PointwiseSign();
-        }
-
         public static Matrix<T> Sin(Matrix<T> x)
         {
             return x.PointwiseSin();
