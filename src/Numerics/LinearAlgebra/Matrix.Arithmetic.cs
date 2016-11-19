@@ -1529,10 +1529,13 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Pointwise applied the supplied unary operator to each value
+        /// Helper function to apply a unary function to a matrix. The function
+        /// f modifies the matrix given to it in place.  Before its
+        /// called, a copy of the 'this' matrix is first created, then passed to
+        /// f.  The copy is then returned as the result
         /// </summary>
-        /// <param name="f"></param>
-        /// <returns></returns>
+        /// <param name="f">Function which takes a matrix, modifies it in place and returns void</param>
+        /// <returns>New instance of matrix which is the result</returns>
         protected Matrix<T> PointwiseUnary(Action<Matrix<T>> f)
         {
             var result = Build.SameAs(this);
@@ -1541,10 +1544,12 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        ///  
+        /// Helper function to apply a unary function which modifies a matrix
+        /// in place.
         /// </summary>
-        /// <param name="f"></param>
-        /// <returns></returns>
+        /// <param name="f">Function which takes a matrix, modifies it in place and returns void</param>
+        /// <param name="result">The matrix to be passed to f and where the result is to be stored</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         protected void PointwiseUnary(Action<Matrix<T>> f, Matrix<T> result)
         {
             if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
@@ -1554,6 +1559,16 @@ namespace MathNet.Numerics.LinearAlgebra
             f(result);
         }
 
+        /// <summary>
+        /// Helper function to apply a binary function which takes two matrices
+        /// and modifies the latter in place.  A copy of the "this" matrix is 
+        /// first made and then passed to f together with the other matrix. The
+        /// copy is then returned as the result
+        /// </summary>
+        /// <param name="f">Function which takes two matrices, modifies the second in place and returns void</param>
+        /// <param name="other">The other matrix to be passed to the function as argument. It is not modified</param>
+        /// <returns>The resulting matrix</returns>
+        /// <exception cref="ArgumentException">If this amtrix and <paramref name="result"/> are not the same dimension.</exception>
         protected Matrix<T> PointwiseBinary(Action<Matrix<T>, Matrix<T>> f, Matrix<T> other)
         {
             if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
@@ -1566,6 +1581,14 @@ namespace MathNet.Numerics.LinearAlgebra
             return result;
         }
 
+        /// <summary>
+        /// Helper function to apply a binary function which takes two matrices
+        /// and modifies the second one in place
+        /// </summary>
+        /// <param name="f">Function which takes two matrices, modifies the second in place and returns void</param>
+        /// <param name="other">The other matrix to be passed to the function as argument. It is not modified</param>
+        /// <returns>The resulting matrix</returns>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same dimension.</exception>
         protected void PointwiseBinary(Action<Matrix<T>,Matrix<T>> f, Matrix<T> other, Matrix<T> result)
         {
             if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
@@ -1613,79 +1636,77 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the abs function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseAbs()
         {
             return PointwiseUnary(DoPointwiseAbs);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the abs function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseAbs(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseAbs, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the acos function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseAcos()
         {
             return PointwiseUnary(DoPointwiseAcos);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the acos function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseAcos(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseAcos, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the asin function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseAsin()
         {
             return PointwiseUnary(DoPointwiseAsin);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the asin function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseAsin(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseAsin, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the atan function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseAtan()
         {
             return PointwiseUnary(DoPointwiseAtan);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the atan function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseAtan(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseAtan, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the atan2 function to each value of the current
+        /// matrix and a given other matrix being the 'x' of atan2 and the
+        /// 'this' matrix being the 'y'
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -1695,226 +1716,216 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the atan2 function to each value of the current
+        /// matrix and a given other matrix being the 'x' of atan2 and the
+        /// 'this' matrix being the 'y'
         /// </summary>
         /// <param name="other"></param>
-        /// <param name="result"></param>
+        /// <returns></returns>
         public void PointwiseAtan2(Matrix<T> other, Matrix<T> result)
         {
             PointwiseBinary(DoPointwiseAtan2, other, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the ceiling function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseCeiling()
         {
             return PointwiseUnary(DoPointwiseCeiling);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the ceiling function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseCeiling(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseCeiling, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the cos function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseCos()
         {
             return PointwiseUnary(DoPointwiseCos);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the cos function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseCos(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseCos, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the cosh function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseCosh()
         {
             return PointwiseUnary(DoPointwiseCosh);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the cosh function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseCosh(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseCosh, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the floor function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseFloor()
         {
             return PointwiseUnary(DoPointwiseFloor);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the floor function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseFloor(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseFloor, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the log10 function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseLog10()
         {
             return PointwiseUnary(DoPointwiseLog10);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the log10 function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseLog10(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseLog10, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the round function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseRound()
         {
             return PointwiseUnary(DoPointwiseRound);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the round function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseRound(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseRound, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the sign function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseSign()
         {
             return PointwiseUnary(DoPointwiseSign);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the sign function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseSign(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseSign, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the sin function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseSin()
         {
             return PointwiseUnary(DoPointwiseSin);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the sin function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseSin(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseSin, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the sinh function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseSinh()
         {
             return PointwiseUnary(DoPointwiseSinh);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the sinh function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseSinh(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseSinh, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the sqrt function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseSqrt()
         {
             return PointwiseUnary(DoPointwiseSqrt);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the sqrt function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseSqrt(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseSqrt, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the tan function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseTan()
         {
             return PointwiseUnary(DoPointwiseTan);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the tan function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseTan(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseTan, result);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the tanh function to each value
         /// </summary>
-        /// <returns></returns>
         public Matrix<T> PointwiseTanh()
         {
             return PointwiseUnary(DoPointwiseTanh);
         }
 
         /// <summary>
-        /// 
+        /// Pointwise applies the tanh function to each value
         /// </summary>
-        /// <param name="result"></param>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseTanh(Matrix<T> result)
         {
             PointwiseUnary(DoPointwiseTanh, result);
