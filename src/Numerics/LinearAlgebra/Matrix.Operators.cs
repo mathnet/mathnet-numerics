@@ -306,15 +306,15 @@ namespace MathNet.Numerics.LinearAlgebra
             return x.PointwisePower(y);
         }
 
-        //public static Matrix<T> Log(Matrix<T> x)
-        //{
-        //    return x.PointwiseLog();
-        //}
+        public static Matrix<T> Log(Matrix<T> x)
+        {
+            return x.PointwiseLog();
+        }
 
-        //public static Matrix<T> Exp(Matrix<T> x)
-        //{
-        //    return x.PointwiseExp();
-        //}
+        public static Matrix<T> Exp(Matrix<T> x)
+        {
+            return x.PointwiseExp();
+        }
 
         public static Matrix<T> Abs(Matrix<T> x)
         {

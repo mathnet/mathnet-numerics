@@ -272,15 +272,15 @@ namespace MathNet.Numerics.LinearAlgebra
             return x.PointwisePower(y);
         }
 
-        //public static Vector<T> Log(Vector<T> x)
-        //{
-        //    return x.PointwiseUnary(x.PointwiseLog);
-        //}
+        public static Vector<T> Log(Vector<T> x)
+        {
+            return x.PointwiseUnary(x.PointwiseLog);
+        }
 
-        //public static Vector<T> Exp(Vector<T> x)
-        //{
-        //    return x.PointwiseUnary(x.DoPointwiseExp);
-        //}
+        public static Vector<T> Exp(Vector<T> x)
+        {
+            return x.PointwiseUnary(x.DoPointwiseExp);
+        }
 
         public static Vector<T> Abs(Vector<T> x)
         {
