@@ -261,15 +261,15 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         [SpecialName]
-        public static Vector<T> op_DotHat(Vector<T> x, T exponent)
+        public static Vector<T> op_DotHat(Vector<T> vector, Vector<T> exponent)
         {
-            return x.PointwisePower(exponent);
+            return vector.PointwisePower(exponent);
         }
 
         [SpecialName]
-        public static Vector<T> op_DotHat(Vector<T> x, Vector<T> y)
+        public static Vector<T> op_DotHat(Vector<T> vector, T exponent)
         {
-            return x.PointwisePower(y);
+            return vector.PointwisePower(exponent);
         }
 
         public static Vector<T> Log(Vector<T> x)
