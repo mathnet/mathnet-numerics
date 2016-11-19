@@ -1554,7 +1554,7 @@ namespace MathNet.Numerics.LinearAlgebra
             f(result);
         }
 
-        public Matrix<T> PointwiseBinary(Action<Matrix<T>, Matrix<T>> f, Matrix<T> other)
+        protected Matrix<T> PointwiseBinary(Action<Matrix<T>, Matrix<T>> f, Matrix<T> other)
         {
             if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
             {
