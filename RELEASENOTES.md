@@ -1,3 +1,9 @@
+### 3.14.0-beta03 - 2016-11-20
+* Linear Algebra: pointwise trigonometric and basic functions *~Albert Pang*
+* Linear Algebra: better support for F# built-in operators (sqrt, sin, exp, ..) *~Albert Pang*
+* Linear Algebra: pointwise power operator (F#)
+* Generate: linear integer ranges
+
 ### 3.14.0-beta02 - 2016-11-15
 * Linear Algebra: enable experimental matrix product implementation
 * Linear Algebra: better support for matrix to/from row-major arrays and enumerables
