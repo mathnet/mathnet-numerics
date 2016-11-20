@@ -56,7 +56,7 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
                 if (oldError != 0)
                     ratio = Math.Log(oldError / error, 2);
                 oldError = error;
-                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+                //Console.WriteLine(string.Format("{0}, {1}", error, ratio));
             }
             Assert.AreEqual(1, ratio, 0.01);// Check error convergence order
         }
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
                 if (oldError != 0)
                     ratio = Math.Log(oldError / error, 2);
                 oldError = error;
-                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+                //Console.WriteLine(string.Format("{0}, {1}", error, ratio));
             }
             Assert.AreEqual(2, ratio, 0.01);// Check error convergence order
         }
@@ -98,7 +98,7 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
                 if (oldError != 0)
                     ratio = Math.Log(oldError / error, 2);
                 oldError = error;
-                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+                //Console.WriteLine(string.Format("{0}, {1}", error, ratio));
             }
             Assert.AreEqual(3, ratio, 0.01);// Check error convergence order
         }
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
                 if (oldError != 0)
                     ratio = Math.Log(oldError / error, 2);
                 oldError = error;
-                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+                //Console.WriteLine(string.Format("{0}, {1}", error, ratio));
             }
             Assert.AreEqual(4, ratio, 0.01);// Check error convergence order
         }
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
                 if (oldError != 0)
                     ratio = Math.Log(oldError / error, 2);
                 oldError = error;
-                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+                //Console.WriteLine(string.Format("{0}, {1}", error, ratio));
             }
             Assert.AreEqual(2, ratio, 0.01);// Check error convergence order
         }
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.UnitTests.OdeSolvers
                 if (oldError != 0)
                     ratio = Math.Log(oldError / error, 2);
                 oldError = error;
-                Console.WriteLine(string.Format("{0}, {1}", error, ratio));
+                //Console.WriteLine(string.Format("{0}, {1}", error, ratio));
             }
             Assert.AreEqual(4, ratio, 0.01);// Check error convergence order
         }
