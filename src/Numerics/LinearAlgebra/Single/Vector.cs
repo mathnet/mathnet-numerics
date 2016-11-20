@@ -252,6 +252,79 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             Map(x => (float)Math.Log(x), result, Zeros.Include);
         }
 
+        protected override void DoPointwiseAbs(Vector<float> result)
+        {
+            Map(x => (float)Math.Abs(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAcos(Vector<float> result)
+        {
+            Map(x => (float)Math.Acos(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseAsin(Vector<float> result)
+        {
+            Map(x => (float)Math.Asin(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan(Vector<float> result)
+        {
+            Map(x => (float)Math.Atan(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan2(Vector<float> other, Vector<float> result)
+        {
+            Map2((x, y) => (float)Math.Atan2((double)x, (double)y), other, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan2(float scalar, Vector<float> result)
+        {
+            Map(x => (float)Math.Atan2((double)x, (double)scalar), result, Zeros.Include);
+        }
+        protected override void DoPointwiseCeiling(Vector<float> result)
+        {
+            Map(x => (float)Math.Ceiling(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseCos(Vector<float> result)
+        {
+            Map(x => (float)Math.Cos(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseCosh(Vector<float> result)
+        {
+            Map(x => (float)Math.Cosh(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseFloor(Vector<float> result)
+        {
+            Map(x => (float)Math.Floor(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseLog10(Vector<float> result)
+        {
+            Map(x => (float)Math.Log10(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseRound(Vector<float> result)
+        {
+            Map(x => (float)Math.Round(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSign(Vector<float> result)
+        {
+            Map(x => (float)Math.Sign(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSin(Vector<float> result)
+        {
+            Map(x => (float)Math.Sin(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSinh(Vector<float> result)
+        {
+            Map(x => (float)Math.Sinh(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSqrt(Vector<float> result)
+        {
+            Map(x => (float)Math.Sqrt(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTan(Vector<float> result)
+        {
+            Map(x => (float)Math.Tan(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTanh(Vector<float> result)
+        {
+            Map(x => (float)Math.Tanh(x), result, Zeros.AllowSkip);
+        }
+
         /// <summary>
         /// Computes the dot product between this vector and another vector.
         /// </summary>
