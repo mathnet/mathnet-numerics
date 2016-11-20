@@ -307,13 +307,13 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the log of a matrix pointwise
+        /// Computes the sqrt of a matrix pointwise
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Log(Matrix<T> x)
+        public static Matrix<T> Sqrt(Matrix<T> x)
         {
-            return x.PointwiseLog();
+            return x.PointwiseSqrt();
         }
 
         /// <summary>
@@ -327,83 +327,13 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the absolute value of a matrix pointwise
+        /// Computes the log of a matrix pointwise
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Abs(Matrix<T> x)
+        public static Matrix<T> Log(Matrix<T> x)
         {
-            return x.PointwiseAbs();
-        }
-
-        /// <summary>
-        /// Computes the acos of a matrix pointwise
-        /// </summary>
-        /// <param name="x">The input matrix</param>
-        /// <returns></returns>
-        public static Matrix<T> Acos(Matrix<T> x)
-        {
-            return x.PointwiseAcos();
-        }
-
-        /// <summary>
-        /// Computes the asin of a matrix pointwise
-        /// </summary>
-        /// <param name="x">The input matrix</param>
-        /// <returns></returns>
-        public static Matrix<T> Asin(Matrix<T> x)
-        {
-            return x.PointwiseAsin();
-        }
-
-        /// <summary>
-        /// Computes the atan of a matrix pointwise
-        /// </summary>
-        /// <param name="x">The input matrix</param>
-        /// <returns></returns>
-        public static Matrix<T> Atan(Matrix<T> x)
-        {
-            return x.PointwiseAtan();
-        }
-
-        /// <summary>
-        /// Computes the ceiling of a matrix pointwise
-        /// </summary>
-        /// <param name="x">The input matrix</param>
-        /// <returns></returns>
-        public static Matrix<T> Ceiling(Matrix<T> x)
-        {
-            return x.PointwiseCeiling();
-        }
-
-        /// <summary>
-        /// Computes the cos of a matrix pointwise
-        /// </summary>
-        /// <param name="x">The input matrix</param>
-        /// <returns></returns>
-        public static Matrix<T> Cos(Matrix<T> x)
-        {
-            return x.PointwiseCos();
-        }
-
-        /// <summary>
-        /// Computes the cosh of a matrix pointwise
-        /// </summary>
-        /// <param name="x">The input matrix</param>
-        /// <returns></returns>
-        public static Matrix<T> Cosh(Matrix<T> x)
-        {
-            return x.PointwiseCosh();
-        }
-
-        /// <summary>
-        /// Computes the floor of a matrix pointwise
-        /// </summary>
-        /// <param name="x">The input matrix</param>
-        /// <returns></returns>
-        public static Matrix<T> Floor(Matrix<T> x)
-        {
-            return x.PointwiseFloor();
+            return x.PointwiseLog();
         }
 
         /// <summary>
@@ -417,16 +347,6 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the rounded value of a matrix pointwise
-        /// </summary>
-        /// <param name="x">The input matrix</param>
-        /// <returns></returns>
-        public static Matrix<T> Round(Matrix<T> x)
-        {
-            return x.PointwiseRound();
-        }
-
-        /// <summary>
         /// Computes the sin of a matrix pointwise
         /// </summary>
         /// <param name="x">The input matrix</param>
@@ -437,23 +357,13 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Computes the sinh of a matrix pointwise
+        /// Computes the cos of a matrix pointwise
         /// </summary>
         /// <param name="x">The input matrix</param>
         /// <returns></returns>
-        public static Matrix<T> Sinh(Matrix<T> x)
+        public static Matrix<T> Cos(Matrix<T> x)
         {
-            return x.PointwiseSinh();
-        }
-
-        /// <summary>
-        /// Computes the sqrt of a matrix pointwise
-        /// </summary>
-        /// <param name="x">The input matrix</param>
-        /// <returns></returns>
-        public static Matrix<T> Sqrt(Matrix<T> x)
-        {
-            return x.PointwiseSqrt();
+            return x.PointwiseCos();
         }
 
         /// <summary>
@@ -467,6 +377,56 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Computes the asin of a matrix pointwise
+        /// </summary>
+        /// <param name="x">The input matrix</param>
+        /// <returns></returns>
+        public static Matrix<T> Asin(Matrix<T> x)
+        {
+            return x.PointwiseAsin();
+        }
+
+        /// <summary>
+        /// Computes the acos of a matrix pointwise
+        /// </summary>
+        /// <param name="x">The input matrix</param>
+        /// <returns></returns>
+        public static Matrix<T> Acos(Matrix<T> x)
+        {
+            return x.PointwiseAcos();
+        }
+
+        /// <summary>
+        /// Computes the atan of a matrix pointwise
+        /// </summary>
+        /// <param name="x">The input matrix</param>
+        /// <returns></returns>
+        public static Matrix<T> Atan(Matrix<T> x)
+        {
+            return x.PointwiseAtan();
+        }
+
+        /// <summary>
+        /// Computes the sinh of a matrix pointwise
+        /// </summary>
+        /// <param name="x">The input matrix</param>
+        /// <returns></returns>
+        public static Matrix<T> Sinh(Matrix<T> x)
+        {
+            return x.PointwiseSinh();
+        }
+
+        /// <summary>
+        /// Computes the cosh of a matrix pointwise
+        /// </summary>
+        /// <param name="x">The input matrix</param>
+        /// <returns></returns>
+        public static Matrix<T> Cosh(Matrix<T> x)
+        {
+            return x.PointwiseCosh();
+        }
+
+        /// <summary>
         /// Computes the tanh of a matrix pointwise
         /// </summary>
         /// <param name="x">The input matrix</param>
@@ -474,6 +434,46 @@ namespace MathNet.Numerics.LinearAlgebra
         public static Matrix<T> Tanh(Matrix<T> x)
         {
             return x.PointwiseTanh();
+        }
+
+        /// <summary>
+        /// Computes the absolute value of a matrix pointwise
+        /// </summary>
+        /// <param name="x">The input matrix</param>
+        /// <returns></returns>
+        public static Matrix<T> Abs(Matrix<T> x)
+        {
+            return x.PointwiseAbs();
+        }
+
+        /// <summary>
+        /// Computes the floor of a matrix pointwise
+        /// </summary>
+        /// <param name="x">The input matrix</param>
+        /// <returns></returns>
+        public static Matrix<T> Floor(Matrix<T> x)
+        {
+            return x.PointwiseFloor();
+        }
+
+        /// <summary>
+        /// Computes the ceiling of a matrix pointwise
+        /// </summary>
+        /// <param name="x">The input matrix</param>
+        /// <returns></returns>
+        public static Matrix<T> Ceiling(Matrix<T> x)
+        {
+            return x.PointwiseCeiling();
+        }
+
+        /// <summary>
+        /// Computes the rounded value of a matrix pointwise
+        /// </summary>
+        /// <param name="x">The input matrix</param>
+        /// <returns></returns>
+        public static Matrix<T> Round(Matrix<T> x)
+        {
+            return x.PointwiseRound();
         }
     }
 }
