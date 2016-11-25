@@ -479,7 +479,23 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return null;
         }
 
-        // FUNCTIONAL COMBINATORS
+        // FUNCTIONAL COMBINATORS: MAP
+
+        public virtual void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                At(i, f(At(i)));
+            }
+        }
+
+        public virtual void MapIndexedInplace(Func<int, T, T> f, Zeros zeros = Zeros.AllowSkip)
+        {
+            for (int i = 0; i < Length; i++)
+            {
+                At(i, f(i, At(i)));
+            }
+        }
 
         public void MapTo<TU>(VectorStorage<TU> target, Func<T, TU> f,
             Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
@@ -566,6 +582,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 target.At(i, f(At(i), other.At(i)));
             }
         }
+
+        // FUNCTIONAL COMBINATORS: FOLD
 
         public TState Fold2<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros = Zeros.AllowSkip)
             where TOther : struct, IEquatable<TOther>, IFormattable

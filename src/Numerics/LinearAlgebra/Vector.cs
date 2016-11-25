@@ -350,8 +350,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
-            // TODO: actual in-place
-            Storage.MapToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
+            Storage.MapInplace(f, zeros);
         }
 
         /// <summary>
@@ -362,8 +361,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void MapIndexedInplace(Func<int, T, T> f, Zeros zeros = Zeros.AllowSkip)
         {
-            // TODO: actual in-place
-            Storage.MapIndexedToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
+            Storage.MapIndexedInplace(f, zeros);
         }
 
         /// <summary>
@@ -375,8 +373,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (ReferenceEquals(this, result))
             {
-                // TODO: actual in-place
-                Storage.MapToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
+                Storage.MapInplace(f, zeros);
             }
             else
             {
@@ -394,8 +391,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (ReferenceEquals(this, result))
             {
-                // TODO: actual in-place
-                Storage.MapIndexedToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
+                Storage.MapIndexedInplace(f, zeros);
             }
             else
             {

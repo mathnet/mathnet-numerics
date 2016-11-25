@@ -436,7 +436,29 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return base.Find2Unchecked(other, predicate, zeros);
         }
 
-        // FUNCTIONAL COMBINATORS
+        // FUNCTIONAL COMBINATORS: MAP
+
+        public override void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
+        {
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    Data[i] = f(Data[i]);
+                }
+            });
+        }
+
+        public override void MapIndexedInplace(Func<int, T, T> f, Zeros zeros = Zeros.AllowSkip)
+        {
+            CommonParallel.For(0, Data.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    Data[i] = f(i, Data[i]);
+                }
+            });
+        }
 
         internal override void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f, Zeros zeros, ExistingData existingData)
         {
@@ -538,6 +560,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             base.Map2ToUnchecked(target, other, f, zeros, existingData);
         }
+
+        // FUNCTIONAL COMBINATORS: FOLD
 
         internal override TState Fold2Unchecked<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
         {
