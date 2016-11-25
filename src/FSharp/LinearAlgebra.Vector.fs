@@ -328,8 +328,8 @@ module SparseVector =
 [<AutoOpen>]
 module VectorExtensions =
 
-    /// Construct a dense vector from a list of floating point numbers.
-    let inline vector (lst: list<'T>) = DenseVector.ofList lst
+    /// Construct a dense vector from a sequence of floating point numbers.
+    let inline vector (sequence: #seq<'T>) = DenseVector.ofSeq sequence
 
     // A type extension for the generic vector type that
     // adds the 'GetSlice' method to allow vec.[a .. b] syntax

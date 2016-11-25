@@ -657,8 +657,8 @@ module DiagonalMatrix =
 [<AutoOpen>]
 module MatrixExtensions =
 
-    /// Construct a dense matrix from a nested list of numbers.
-    let inline matrix (lst: list<list<'T>>) = DenseMatrix.ofRowList lst
+    /// Construct a dense matrix from a nested sequence of numbers.
+    let inline matrix (rowsSequences: #seq<#seq<'T>>) = DenseMatrix.ofRowSeq rowsSequences
 
     // A type extension for the generic matrix type that
     // adds the 'GetSlice' method to allow m.[r1 .. r2, c1 .. c2] syntax
