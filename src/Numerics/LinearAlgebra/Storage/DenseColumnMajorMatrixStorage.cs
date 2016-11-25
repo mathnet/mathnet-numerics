@@ -819,7 +819,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: MAP
 
-        public override void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
+        public override void MapInplace(Func<T, T> f, Zeros zeros)
         {
             CommonParallel.For(0, Data.Length, 4096, (a, b) =>
             {
@@ -830,7 +830,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             });
         }
 
-        public override void MapIndexedInplace(Func<int, int, T, T> f, Zeros zeros = Zeros.AllowSkip)
+        public override void MapIndexedInplace(Func<int, int, T, T> f, Zeros zeros)
         {
             CommonParallel.For(0, ColumnCount, Math.Max(4096/RowCount, 32), (a, b) =>
             {

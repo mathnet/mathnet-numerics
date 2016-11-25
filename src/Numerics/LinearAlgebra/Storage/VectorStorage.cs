@@ -481,7 +481,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: MAP
 
-        public virtual void MapInplace(Func<T, T> f, Zeros zeros = Zeros.AllowSkip)
+        public virtual void MapInplace(Func<T, T> f, Zeros zeros)
         {
             for (int i = 0; i < Length; i++)
             {
@@ -489,7 +489,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public virtual void MapIndexedInplace(Func<int, T, T> f, Zeros zeros = Zeros.AllowSkip)
+        public virtual void MapIndexedInplace(Func<int, T, T> f, Zeros zeros)
         {
             for (int i = 0; i < Length; i++)
             {
@@ -497,8 +497,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void MapTo<TU>(VectorStorage<TU> target, Func<T, TU> f,
-            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        public void MapTo<TU>(VectorStorage<TU> target, Func<T, TU> f, Zeros zeros, ExistingData existingData)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             if (target == null)
@@ -523,8 +522,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void MapIndexedTo<TU>(VectorStorage<TU> target, Func<int, T, TU> f,
-            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        public void MapIndexedTo<TU>(VectorStorage<TU> target, Func<int, T, TU> f, Zeros zeros, ExistingData existingData)
             where TU : struct, IEquatable<TU>, IFormattable
         {
             if (target == null)
@@ -549,8 +547,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public void Map2To(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f,
-            Zeros zeros = Zeros.AllowSkip, ExistingData existingData = ExistingData.Clear)
+        public void Map2To(VectorStorage<T> target, VectorStorage<T> other, Func<T, T, T> f, Zeros zeros, ExistingData existingData)
         {
             if (target == null)
             {
@@ -585,7 +582,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         // FUNCTIONAL COMBINATORS: FOLD
 
-        public TState Fold2<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros = Zeros.AllowSkip)
+        public TState Fold2<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
             where TOther : struct, IEquatable<TOther>, IFormattable
         {
             if (other == null)

@@ -50,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var a = TestData.MatrixStorage(aType, new[,] { {1.0, 2.0}, {0.0, 4.0} });
             var result = TestData.MatrixStorage<double>(resultType, 2, 2);
             var expected = DenseColumnMajorMatrixStorage<double>.OfArray(new[,] { {-1.0, -2.0}, {0.0, -4.0} });
-            a.MapTo(result, u => -u, Zeros.AllowSkip);
+            a.MapTo(result, u => -u, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(result.Equals(expected));
         }
 
@@ -60,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var a = TestData.MatrixStorage(aType, new[,] { {1.0, 2.0}, {0.0, 4.0} });
             var result = TestData.MatrixStorage<double>(resultType, 2, 2);
             var expected = DenseColumnMajorMatrixStorage<double>.OfArray(new[,] { {0.0, -1.0}, {1.0, -3.0} });
-            a.MapTo(result, u => -u + 1.0, Zeros.Include);
+            a.MapTo(result, u => -u + 1.0, Zeros.Include, ExistingData.Clear);
             Assert.That(result.Equals(expected));
         }
 
@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var a = TestData.MatrixStorage(aType, new[,] { { 1.0, 2.0 }, { 0.0, 4.0 } });
             var result = TestData.MatrixStorage<double>(resultType, 2, 2);
             var expected = DenseColumnMajorMatrixStorage<double>.OfArray(new[,] { {0.0, -1.0}, {1.0, -3.0} });
-            a.MapTo(result, u => -u + 1.0, Zeros.AllowSkip);
+            a.MapTo(result, u => -u + 1.0, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(result.Equals(expected));
         }
 
@@ -81,7 +81,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var result = TestData.MatrixStorage<double>(resultType, 2, 2);
             var expected = DenseColumnMajorMatrixStorage<double>.OfArray(new[,] { {-1.0, -2.0}, {0.0, -4.0} });
             int badValueCount = 0; // one time is OK for zero-check
-            a.MapIndexedTo(result, (i, j, u) => { if (a.At(i, j) != u) Interlocked.Increment(ref badValueCount); return -u; }, Zeros.AllowSkip);
+            a.MapIndexedTo(result, (i, j, u) => { if (a.At(i, j) != u) Interlocked.Increment(ref badValueCount); return -u; }, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(badValueCount, Is.LessThanOrEqualTo(1));
             Assert.That(result.Equals(expected));
         }
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var result = TestData.MatrixStorage<double>(resultType, 2, 2);
             var expected = DenseColumnMajorMatrixStorage<double>.OfArray(new[,] { {0.0, -1.0}, {1.0, -3.0} });
             int badValueCount = 0; // one time is OK for zero-check
-            a.MapIndexedTo(result, (i, j, u) => { if (a.At(i, j) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.Include);
+            a.MapIndexedTo(result, (i, j, u) => { if (a.At(i, j) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.Include, ExistingData.Clear);
             Assert.That(badValueCount, Is.LessThanOrEqualTo(1));
             Assert.That(result.Equals(expected));
         }
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var result = TestData.MatrixStorage<double>(resultType, 2, 2);
             var expected = DenseColumnMajorMatrixStorage<double>.OfArray(new[,] { {0.0, -1.0}, {1.0, -3.0} });
             int badValueCount = 0; // one time is OK for zero-check
-            a.MapIndexedTo(result, (i, j, u) => { if (a.At(i, j) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.AllowSkip);
+            a.MapIndexedTo(result, (i, j, u) => { if (a.At(i, j) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(badValueCount, Is.LessThanOrEqualTo(1));
             Assert.That(result.Equals(expected));
         }

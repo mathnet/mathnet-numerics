@@ -50,7 +50,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
             var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { -1.0, -2.0, 0.0, -4.0 });
-            a.MapTo(result, u => -u, Zeros.AllowSkip);
+            a.MapTo(result, u => -u, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(result.Equals(expected));
         }
 
@@ -60,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
             var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
-            a.MapTo(result, u => -u + 1.0, Zeros.Include);
+            a.MapTo(result, u => -u + 1.0, Zeros.Include, ExistingData.Clear);
             Assert.That(result.Equals(expected));
         }
 
@@ -70,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var a = TestData.VectorStorage(aType, new[] { 1.0, 2.0, 0.0, 4.0 });
             var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
-            a.MapTo(result, u => -u + 1.0, Zeros.AllowSkip);
+            a.MapTo(result, u => -u + 1.0, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(result.Equals(expected));
         }
 
@@ -81,7 +81,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { -1.0, -2.0, 0.0, -4.0 });
             int badValueCount = 0; // one time is OK for zero-check
-            a.MapIndexedTo(result, (i, u) => { if (a.At(i) != u) Interlocked.Increment(ref badValueCount); return -u; }, Zeros.AllowSkip);
+            a.MapIndexedTo(result, (i, u) => { if (a.At(i) != u) Interlocked.Increment(ref badValueCount); return -u; }, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(badValueCount, Is.LessThanOrEqualTo(1));
             Assert.That(result.Equals(expected));
         }
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
             int badValueCount = 0; // one time is OK for zero-check
-            a.MapIndexedTo(result, (i, u) => { if (a.At(i) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.Include);
+            a.MapIndexedTo(result, (i, u) => { if (a.At(i) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.Include, ExistingData.Clear);
             Assert.That(badValueCount, Is.LessThanOrEqualTo(1));
             Assert.That(result.Equals(expected));
         }
@@ -105,7 +105,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var result = TestData.VectorStorage<double>(resultType, 4);
             var expected = new DenseVectorStorage<double>(4, new[] { 0.0, -1.0, 1.0, -3.0 });
             int badValueCount = 0; // one time is OK for zero-check
-            a.MapIndexedTo(result, (i, u) => { if (a.At(i) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.AllowSkip);
+            a.MapIndexedTo(result, (i, u) => { if (a.At(i) != u) Interlocked.Increment(ref badValueCount); return -u + 1.0; }, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(badValueCount, Is.LessThanOrEqualTo(1));
             Assert.That(result.Equals(expected));
         }
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var b = TestData.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
             var result = TestData.VectorStorage<double>(resultType, 6);
             var expected = new DenseVectorStorage<double>(6, new[] { 12.0, 14.0, 13.0, 4.0, 0.0, 22.0 });
-            a.Map2To(result, b, (u, v) => u + v, Zeros.AllowSkip);
+            a.Map2To(result, b, (u, v) => u + v, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(result.Equals(expected));
         }
 
@@ -128,7 +128,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var b = TestData.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
             var result = TestData.VectorStorage<double>(resultType, 6);
             var expected = new DenseVectorStorage<double>(6, new[] { 13.0, 15.0, 14.0, 5.0, 1.0, 23.0 });
-            a.Map2To(result, b, (u, v) => u + v + 1.0, Zeros.Include);
+            a.Map2To(result, b, (u, v) => u + v + 1.0, Zeros.Include, ExistingData.Clear);
             Assert.That(result.Equals(expected));
         }
 
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             var b = TestData.VectorStorage(bType, new[] { 11.0, 12.0, 13.0, 0.0, 0.0, 16.0 });
             var result = TestData.VectorStorage<double>(resultType, 6);
             var expected = new DenseVectorStorage<double>(6, new[] { 13.0, 15.0, 14.0, 5.0, 1.0, 23.0 });
-            a.Map2To(result, b, (u, v) => u + v + 1.0, Zeros.AllowSkip);
+            a.Map2To(result, b, (u, v) => u + v + 1.0, Zeros.AllowSkip, ExistingData.Clear);
             Assert.That(result.Equals(expected));
         }
 
