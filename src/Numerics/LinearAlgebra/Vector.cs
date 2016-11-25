@@ -371,12 +371,17 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
-        public void Map<TU>(Func<T, TU> f, Vector<TU> result, Zeros zeros = Zeros.AllowSkip)
-            where TU : struct, IEquatable<TU>, IFormattable
+        public void Map(Func<T, T> f, Vector<T> result, Zeros zeros = Zeros.AllowSkip)
         {
-            // TODO: in v4 update this method to replace TU with T (consistent with Matrix, see MapConvert)
-            //       then automatically do in-place if possible.
-            Storage.MapTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
+            if (ReferenceEquals(this, result))
+            {
+                // TODO: actual in-place
+                Storage.MapToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
+            }
+            else
+            {
+                Storage.MapTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
+            }
         }
 
         /// <summary>
@@ -385,12 +390,17 @@ namespace MathNet.Numerics.LinearAlgebra
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse vectors).
         /// </summary>
-        public void MapIndexed<TU>(Func<int, T, TU> f, Vector<TU> result, Zeros zeros = Zeros.AllowSkip)
-            where TU : struct, IEquatable<TU>, IFormattable
+        public void MapIndexed(Func<int, T, T> f, Vector<T> result, Zeros zeros = Zeros.AllowSkip)
         {
-            // TODO: in v4 update this method to replace TU with T (consistent with Matrix, see MapIndexedConvert)
-            //       then automatically do in-place if possible.
-            Storage.MapIndexedTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
+            if (ReferenceEquals(this, result))
+            {
+                // TODO: actual in-place
+                Storage.MapIndexedToUnchecked(Storage, f, zeros, ExistingData.AssumeZeros);
+            }
+            else
+            {
+                Storage.MapIndexedTo(result.Storage, f, zeros, zeros == Zeros.Include ? ExistingData.AssumeZeros : ExistingData.Clear);
+            }
         }
 
         /// <summary>
