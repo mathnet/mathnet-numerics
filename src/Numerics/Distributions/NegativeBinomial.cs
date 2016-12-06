@@ -36,22 +36,22 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Discrete Univariate Negative Binomial distribution.
-    /// The negative binomial is a distribution over the natural numbers with two parameters r,p. For the special
-    /// case that r is an integer one can interpret the distribution as the number of tails before the r'th head
-    /// when the probability of head is p.
+    /// The negative binomial is a distribution over the natural numbers with two parameters r, p. For the special
+    /// case that r is an integer one can interpret the distribution as the number of failures before the r'th success
+    /// when the probability of success is p.
     /// <a href="http://en.wikipedia.org/wiki/Negative_binomial_distribution">Wikipedia - NegativeBinomial distribution</a>.
     /// </summary>
     public class NegativeBinomial : IDiscreteDistribution
     {
         System.Random _random;
 
-        readonly double _trials;
+        readonly double _r;
         readonly double _p;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class.
         /// </summary>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public NegativeBinomial(double r, double p)
         {
@@ -62,13 +62,13 @@ namespace MathNet.Numerics.Distributions
 
             _random = SystemRandomSource.Default;
             _p = p;
-            _trials = r;
+            _r = r;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NegativeBinomial"/> class.
         /// </summary>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
         public NegativeBinomial(double r, double p, System.Random randomSource)
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.Distributions
 
             _random = randomSource ?? SystemRandomSource.Default;
             _p = p;
-            _trials = r;
+            _r = r;
         }
 
         /// <summary>
@@ -91,13 +91,13 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public override string ToString()
         {
-            return "NegativeBinomial(R = " + _trials + ", P = " + _p + ")";
+            return "NegativeBinomial(R = " + _r + ", P = " + _p + ")";
         }
 
         /// <summary>
         /// Tests whether the provided values are valid parameters for this distribution.
         /// </summary>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static bool IsValidParameterSet(double r, double p)
         {
@@ -105,11 +105,11 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Gets the number of trials. Range: r ≥ 0.
+        /// Gets the number of successes. Range: r ≥ 0.
         /// </summary>
         public double R
         {
-            get { return _trials; }
+            get { return _r; }
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Mean
         {
-            get { return _trials*(1.0 - _p)/_p; }
+            get { return _r*(1.0 - _p)/_p; }
         }
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Variance
         {
-            get { return _trials*(1.0 - _p)/(_p*_p); }
+            get { return _r*(1.0 - _p)/(_p*_p); }
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double StdDev
         {
-            get { return Math.Sqrt(_trials*(1.0 - _p))/_p; }
+            get { return Math.Sqrt(_r*(1.0 - _p))/_p; }
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Skewness
         {
-            get { return (2.0 - _p)/Math.Sqrt(_trials*(1.0 - _p)); }
+            get { return (2.0 - _p)/Math.Sqrt(_r*(1.0 - _p)); }
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public int Mode
         {
-            get { return _trials > 1.0 ? (int)Math.Floor((_trials - 1.0)*(1.0 - _p)/_p) : 0; }
+            get { return _r > 1.0 ? (int)Math.Floor((_r - 1.0)*(1.0 - _p)/_p) : 0; }
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public double Probability(int k)
         {
-            return PMF(_trials, _p, k);
+            return PMF(_r, _p, k);
         }
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public double ProbabilityLn(int k)
         {
-            return PMFLn(_trials, _p, k);
+            return PMFLn(_r, _p, k);
         }
 
         /// <summary>
@@ -228,14 +228,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         public double CumulativeDistribution(double x)
         {
-            return CDF(_trials, _p, x);
+            return CDF(_r, _p, x);
         }
 
         /// <summary>
         /// Computes the probability mass (PMF) at k, i.e. P(X = k).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the probability mass function.</param>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>the probability mass at location <paramref name="k"/>.</returns>
         public static double PMF(double r, double p, int k)
@@ -247,7 +247,7 @@ namespace MathNet.Numerics.Distributions
         /// Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)).
         /// </summary>
         /// <param name="k">The location in the domain where we want to evaluate the log probability mass function.</param>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>the log probability mass at location <paramref name="k"/>.</returns>
         public static double PMFLn(double r, double p, int k)
@@ -268,7 +268,7 @@ namespace MathNet.Numerics.Distributions
         /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
         /// </summary>
         /// <param name="x">The location at which to compute the cumulative distribution function.</param>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>the cumulative distribution at location <paramref name="x"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples a negative binomial distributed random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         /// <returns>a sample from the distribution.</returns>
         static int SampleUnchecked(System.Random rnd, double r, double p)
@@ -326,7 +326,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public int Sample()
         {
-            return SampleUnchecked(_random, _trials, _p);
+            return SampleUnchecked(_random, _r, _p);
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public void Samples(int[] values)
         {
-            SamplesUnchecked(_random, values, _trials, _p);
+            SamplesUnchecked(_random, values, _r, _p);
         }
 
         /// <summary>
@@ -343,14 +343,14 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<int> Samples()
         {
-            return SamplesUnchecked(_random, _trials, _p);
+            return SamplesUnchecked(_random, _r, _p);
         }
 
         /// <summary>
         /// Samples a random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static int Sample(System.Random rnd, double r, double p)
         {
@@ -366,7 +366,7 @@ namespace MathNet.Numerics.Distributions
         /// Samples a sequence of this random variable.
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static IEnumerable<int> Samples(System.Random rnd, double r, double p)
         {
@@ -383,7 +383,7 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         /// <param name="rnd">The random number generator to use.</param>
         /// <param name="values">The array to fill with the samples.</param>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static void Samples(System.Random rnd, int[] values, double r, double p)
         {
@@ -398,7 +398,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Samples a random variable.
         /// </summary>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static int Sample(double r, double p)
         {
@@ -413,7 +413,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Samples a sequence of this random variable.
         /// </summary>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static IEnumerable<int> Samples(double r, double p)
         {
@@ -429,7 +429,7 @@ namespace MathNet.Numerics.Distributions
         /// Fills an array with samples generated from the distribution.
         /// </summary>
         /// <param name="values">The array to fill with the samples.</param>
-        /// <param name="r">The number of failures (r) until the experiment stopped. Range: r ≥ 0.</param>
+        /// <param name="r">The number of successes (r) required to stop the experiment. Range: r ≥ 0.</param>
         /// <param name="p">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1.</param>
         public static void Samples(int[] values, double r, double p)
         {
