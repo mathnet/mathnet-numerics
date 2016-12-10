@@ -57,3 +57,32 @@ We try to follow [semantic versioning](http://semver.org/), meaning that we cann
 
 **Merges:**  
 Please avoid merging mainline back into your pull request branch. If you need to leverage some changes recently added to mainline, consider to rebase instead. In other words, please make sure your commits sit directly on top of a recent mainline master.
+
+## APPENDIX: Troubleshooting .NET 3.5 errors in Windows 10
+
+**Suggested steps if you're finding errors related to .NET 3.5 in Windows 10 when building MathNet.Numerics.sln,
+and if you cannot enable .NET 3.5 on your Windows 10 machine from Control Panel:**
+
+- Download the Win10 media creation tool from here:
+
+	https://www.microsoft.com/en-us/software-download/windows10
+
+- Run the tool and follow the steps to create a Win10 ISO image; store the image somewhere in your machine.
+
+- Once completed, double-click on the resulting .iso file to mount it on your machine.
+
+- Run this command as admin, replacing "F" with the volume letter that resulted from the previous step:
+
+```
+	Dism.exe /online /enable-feature /featurename:NetFX3 /source:F:\sources\sxs /LimitAccess
+```
+
+Once this step completes, .NET 3.5 should be installed/enabled in your machine.
+
+Next, and in order to avoid F#-related errors, follow these steps:
+
+- Find `paket.bootstrapper.exe` in your local repository and run it.
+
+- In the same folder where `paket.bootstrapper.exe` is, find and run `paket.exe install` (doesn't require elevation, if I remember correctly).
+
+Once you've followed these steps, you should be able to cleaningly build MathNet.Numerics.sln!
