@@ -66,7 +66,21 @@ namespace MathNet.Numerics
         /// <param name="modelledValues">The modelled/predicted values</param>
         /// <param name="observedValues">The observed/actual values</param>
         /// <returns>The Standard Error of the regression</returns>
-        public static double StandardError(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
+        public static double PopulationStandardError(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
+        {
+            return SampleStandardError(modelledValues, observedValues, 0);
+        }
+
+        /// <summary>
+        /// Calculates the Standard Error of the regression, given a sequence of
+        /// modeled/predicted values, and a sequence of actual/observed values
+        /// </summary>
+        /// <param name="modelledValues">The modelled/predicted values</param>
+        /// <param name="observedValues">The observed/actual values</param>
+        /// <param name="degreesOfFreedom">The degrees of freedom by which the 
+        /// number of samples is reduced for performing the Standard Error calculation</param>
+        /// <returns>The Standard Error of the regression</returns>
+        public static double SampleStandardError(IEnumerable<double> modelledValues, IEnumerable<double> observedValues, int degreesOfFreedom)
         {
             using (IEnumerator<double> ieM = modelledValues.GetEnumerator())
             using (IEnumerator<double> ieO = observedValues.GetEnumerator())
@@ -84,9 +98,13 @@ namespace MathNet.Numerics
                     var diff = currentM - currentO;
                     accumulator += diff * diff;
                     n++;
-
                 }
-                return Math.Sqrt(accumulator / n);
+
+                if (degreesOfFreedom >= n)
+                {
+                    throw new ArgumentOutOfRangeException("degreesOfFreedom", Resources.DegreesOfFreedomMustBeLessThanSampleSize);
+                }
+                return Math.Sqrt(accumulator / (n - degreesOfFreedom));
             }
         }
     }
