@@ -374,6 +374,23 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        // EXTRACT
+
+        public virtual T[] ToArray()
+        {
+            var ret = new T[Length];
+            for (int i = 0; i < ret.Length; i++)
+            {
+                ret[i] = At(i);
+            }
+            return ret;
+        }
+
+        public virtual T[] AsArray()
+        {
+            return null;
+        }
+
         // ENUMERATION
 
         public virtual IEnumerable<T> Enumerate()

@@ -35,6 +35,7 @@ namespace MathNet.Numerics
     {
         /// <summary>
         /// Hamming window. Named after Richard Hamming.
+        /// Symmetric version, useful e.g. for filter design purposes.
         /// </summary>
         public static double[] Hamming(int width)
         {
@@ -52,7 +53,27 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Hamming window. Named after Richard Hamming.
+        /// Periodic version, useful e.g. for FFT purposes.
+        /// </summary>
+        public static double[] HammingPeriodic(int width)
+        {
+            const double a = 0.53836;
+            const double b = -0.46164;
+
+            double phaseStep = (2.0*Math.PI)/width;
+
+            var w = new double[width];
+            for (int i = 0; i < w.Length; i++)
+            {
+                w[i] = a + b*Math.Cos(i*phaseStep);
+            }
+            return w;
+        }
+
+        /// <summary>
         /// Hann window. Named after Julius von Hann.
+        /// Symmetric version, useful e.g. for filter design purposes.
         /// </summary>
         public static double[] Hann(int width)
         {
@@ -67,7 +88,24 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Hann window. Named after Julius von Hann.
+        /// Periodic version, useful e.g. for FFT purposes.
+        /// </summary>
+        public static double[] HannPeriodic(int width)
+        {
+            double phaseStep = (2.0*Math.PI)/width;
+
+            var w = new double[width];
+            for (int i = 0; i < w.Length; i++)
+            {
+                w[i] = 0.5 - 0.5*Math.Cos(i*phaseStep);
+            }
+            return w;
+        }
+
+        /// <summary>
         /// Cosine window.
+        /// Symmetric version, useful e.g. for filter design purposes.
         /// </summary>
         public static double[] Cosine(int width)
         {
@@ -82,11 +120,44 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Cosine window.
+        /// Periodic version, useful e.g. for FFT purposes.
+        /// </summary>
+        public static double[] CosinePeriodic(int width)
+        {
+            double phaseStep = Math.PI/width;
+
+            var w = new double[width];
+            for (int i = 0; i < w.Length; i++)
+            {
+                w[i] = Math.Sin(i*phaseStep);
+            }
+            return w;
+        }
+
+        /// <summary>
         /// Lanczos window.
+        /// Symmetric version, useful e.g. for filter design purposes.
         /// </summary>
         public static double[] Lanczos(int width)
         {
             double phaseStep = 2.0/(width - 1.0);
+
+            var w = new double[width];
+            for (int i = 0; i < w.Length; i++)
+            {
+                w[i] = Trig.Sinc(i*phaseStep - 1.0);
+            }
+            return w;
+        }
+
+        /// <summary>
+        /// Lanczos window.
+        /// Periodic version, useful e.g. for FFT purposes.
+        /// </summary>
+        public static double[] LanczosPeriodic(int width)
+        {
+            double phaseStep = 2.0/width;
 
             var w = new double[width];
             for (int i = 0; i < w.Length; i++)

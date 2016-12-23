@@ -50,7 +50,7 @@ namespace MathNet.Numerics.RootFinding
         /// <exception cref="NonConvergenceException"></exception>
         public static double FindRootExpand(Func<double, double> f, double guessLowerBound, double guessUpperBound, double accuracy = 1e-8, int maxIterations = 100, double expandFactor = 1.6, int maxExpandIteratons = 100)
         {
-            ZeroCrossingBracketing.Expand(f, ref guessLowerBound, ref guessUpperBound, expandFactor, maxExpandIteratons);
+            ZeroCrossingBracketing.ExpandReduce(f, ref guessLowerBound, ref guessUpperBound, expandFactor, maxExpandIteratons, maxExpandIteratons*10);
             return FindRoot(f, guessLowerBound, guessUpperBound, accuracy, maxIterations);
         }
 

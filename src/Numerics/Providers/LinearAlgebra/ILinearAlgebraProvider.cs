@@ -2,9 +2,9 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// 
+//
 // Copyright (c) 2009-2013 Math.NET
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -13,10 +13,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -94,6 +94,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         ILinearAlgebraProvider<Complex32>
     {
         /// <summary>
+        /// Try to find out whether the provider is available, at least in principle.
+        /// Verification may still fail if available, but it will certainly fail if unavailable.
+        /// </summary>
+        bool IsAvailable();
+
+        /// <summary>
         /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
         /// </summary>
         void InitializeVerify();
@@ -151,7 +157,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         T DotProduct(T[] x, T[] y);
 
         /// <summary>
-        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used 
+        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used
         /// to add vectors or matrices.
         /// </summary>
         /// <param name="x">The array x.</param>
@@ -163,7 +169,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         void AddArrays(T[] x, T[] y, T[] result);
 
         /// <summary>
-        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used 
+        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used
         /// to subtract vectors or matrices.
         /// </summary>
         /// <param name="x">The array x.</param>
@@ -197,6 +203,18 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
         void PointWiseDivideArrays(T[] x, T[] y, T[] result);
+
+        /// <summary>
+        /// Does a point wise power of two arrays <c>z = x ^ y</c>. This can be used
+        /// to raise elements of vectors or matrices to the powers of another vector or matrix.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise power.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        void PointWisePowerArrays(T[] x, T[] y, T[] result);
 
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.

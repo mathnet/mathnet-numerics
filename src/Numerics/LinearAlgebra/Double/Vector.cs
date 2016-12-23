@@ -203,6 +203,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Pointwise raise this vector to an exponent vector and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent vector to raise this vector values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Vector<double> exponent, Vector<double> result)
+        {
+            Map2(Math.Pow, exponent, result, Zeros.Include);
+        }
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this vector with another vector and stores the result into the result vector.
         /// </summary>
@@ -240,6 +250,79 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected override void DoPointwiseLog(Vector<double> result)
         {
             Map(Math.Log, result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseAbs(Vector<double> result)
+        {
+            Map(Math.Abs, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAcos(Vector<double> result)
+        {
+            Map(Math.Acos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAsin(Vector<double> result)
+        {
+            Map(Math.Asin, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan(Vector<double> result)
+        {
+            Map(Math.Atan, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan2(Vector<double> other, Vector<double> result)
+        {
+            Map2(Math.Atan2, other, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAtan2(double scalar, Vector<double> result)
+        {
+            Map(x => Math.Atan2(x, scalar), result, Zeros.Include);
+        }
+        protected override void DoPointwiseCeiling(Vector<double> result)
+        {
+            Map(Math.Ceiling, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseCos(Vector<double> result)
+        {
+            Map(Math.Cos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseCosh(Vector<double> result)
+        {
+            Map(Math.Cosh, result, Zeros.Include);
+        }
+        protected override void DoPointwiseFloor(Vector<double> result)
+        {
+            Map(Math.Floor, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseLog10(Vector<double> result)
+        {
+            Map(Math.Log10, result, Zeros.Include);
+        }
+        protected override void DoPointwiseRound(Vector<double> result)
+        {
+            Map(Math.Round, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSign(Vector<double> result)
+        {
+            Map(x => (double)Math.Sign(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSin(Vector<double> result)
+        {
+            Map(Math.Sin, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSinh(Vector<double> result)
+        {
+            Map(Math.Sinh, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSqrt(Vector<double> result)
+        {
+            Map(Math.Sqrt, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTan(Vector<double> result)
+        {
+            Map(Math.Tan, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTanh(Vector<double> result)
+        {
+            Map(Math.Tanh, result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -309,6 +392,48 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected override void DoRemainderByThis(double dividend, Vector<double> result)
         {
             Map(x => Euclid.Remainder(dividend, x), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(double scalar, Vector<double> result)
+        {
+            Map(x => Math.Min(scalar, x), result, scalar >= 0d ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        protected override void DoPointwiseMaximum(double scalar, Vector<double> result)
+        {
+            Map(x => Math.Max(scalar, x), result, scalar <= 0d ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(double scalar, Vector<double> result)
+        {
+            double absolute = Math.Abs(scalar);
+            Map(x => Math.Min(absolute, Math.Abs(x)), result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(double scalar, Vector<double> result)
+        {
+            double absolute = Math.Abs(scalar);
+            Map(x => Math.Max(absolute, Math.Abs(x)), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(Vector<double> other, Vector<double> result)
+        {
+            Map2(Math.Min, other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseMaximum(Vector<double> other, Vector<double> result)
+        {
+            Map2(Math.Max, other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Vector<double> other, Vector<double> result)
+        {
+            Map2((x, y) => Math.Min(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Vector<double> other, Vector<double> result)
+        {
+            Map2((x, y) => Math.Max(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
         }
 
         /// <summary>

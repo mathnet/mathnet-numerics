@@ -341,6 +341,17 @@ namespace MathNet.Numerics.Random
             return int31;
         }
 
+        /// <summary>
+        /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+        /// </summary>
+        protected sealed override void DoSampleBytes(byte[] buffer)
+        {
+            for (var i = 0; i < buffer.Length; i++)
+            {
+                buffer[i] = (byte)(genrand_int32() % 256);
+            }
+        }
+
         /* /// <summary>
         /// Generates a random number on [0,1) with 53-bit resolution.
         /// </summary>

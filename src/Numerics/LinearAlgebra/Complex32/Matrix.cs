@@ -71,6 +71,15 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Puts the conjugate transpose of this matrix into the result matrix.
+        /// </summary>
+        public sealed override void ConjugateTranspose(Matrix<Complex32> result)
+        {
+            Transpose(result);
+            result.MapInplace(c => c.Conjugate(), Zeros.AllowSkip);
+        }
+
+        /// <summary>
         /// Complex conjugates each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the conjugation.</param>
@@ -342,13 +351,23 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
-        /// Pointwise raise this matrix to an exponent and store the result into the result vector.
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
         /// </summary>
         /// <param name="exponent">The exponent to raise this matrix values to.</param>
-        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        /// <param name="result">The matrix to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(Complex32 exponent, Matrix<Complex32> result)
         {
             Map(x => x.Power(exponent), result, Zeros.Include);
+        }
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Matrix<Complex32> exponent, Matrix<Complex32> result)
+        {
+            Map2(Complex32.Pow, result, Zeros.Include);
         }
 
         /// <summary>
@@ -433,6 +452,157 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         protected override void DoPointwiseLog(Matrix<Complex32> result)
         {
             Map(Complex32.Log, result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseAbs(Matrix<Complex32> result)
+        {
+            Map(x => (Complex32)Complex32.Abs(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAcos(Matrix<Complex32> result)
+        {
+            Map(Complex32.Acos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAsin(Matrix<Complex32> result)
+        {
+            Map(Complex32.Asin, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan(Matrix<Complex32> result)
+        {
+            Map(Complex32.Atan, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan2(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseCeiling(Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseCos(Matrix<Complex32> result)
+        {
+            Map(Complex32.Cos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseCosh(Matrix<Complex32> result)
+        {
+            Map(Complex32.Cosh, result, Zeros.Include);
+        }
+        protected override void DoPointwiseFloor(Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseLog10(Matrix<Complex32> result)
+        {
+            Map(Complex32.Log10, result, Zeros.Include);
+        }
+        protected override void DoPointwiseRound(Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseSign(Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseSin(Matrix<Complex32> result)
+        {
+            Map(Complex32.Sin, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSinh(Matrix<Complex32> result)
+        {
+            Map(Complex32.Sinh, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSqrt(Matrix<Complex32> result)
+        {
+            Map(Complex32.Sqrt, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTan(Matrix<Complex32> result)
+        {
+            Map(Complex32.Tan, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTanh(Matrix<Complex32> result)
+        {
+            Map(Complex32.Tanh, result, Zeros.AllowSkip);
+        }
+
+        /// <summary>
+        /// Computes the Moore-Penrose Pseudo-Inverse of this matrix.
+        /// </summary>
+        public override Matrix<Complex32> PseudoInverse()
+        {
+            var svd = Svd(true);
+            var w = svd.W;
+            var s = svd.S;
+            float tolerance = (float)(Math.Max(RowCount, ColumnCount) * svd.L2Norm * Precision.SinglePrecision);
+
+            for (int i = 0; i < s.Count; i++)
+            {
+                s[i] = s[i].Magnitude < tolerance ? 0 : 1/s[i];
+            }
+
+            w.SetDiagonal(s);
+            return (svd.U * w * svd.VT).Transpose();
+        }
+
+        /// <summary>
+        /// Computes the trace of this matrix.
+        /// </summary>
+        /// <returns>The trace of this matrix</returns>
+        /// <exception cref="ArgumentException">If the matrix is not square</exception>
+        public override Complex32 Trace()
+        {
+            if (RowCount != ColumnCount)
+            {
+                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+            }
+
+            var sum = Complex32.Zero;
+            for (var i = 0; i < RowCount; i++)
+            {
+                sum += At(i, i);
+            }
+
+            return sum;
+        }
+
+        protected override void DoPointwiseMinimum(Complex32 scalar, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Complex32 scalar, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Complex32 scalar, Matrix<Complex32> result)
+        {
+            float absolute = scalar.Magnitude;
+            Map(x => Math.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Complex32 scalar, Matrix<Complex32> result)
+        {
+            float absolute = scalar.Magnitude;
+            Map(x => Math.Max(absolute, x.Magnitude), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            Map2((x, y) => Math.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Matrix<Complex32> other, Matrix<Complex32> result)
+        {
+            Map2((x, y) => Math.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
@@ -619,27 +789,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var ret = new Complex32[ColumnCount];
             Storage.FoldByColumnUnchecked(ret, (s, x) => s + x.Magnitude, (x, c) => x, ret, Zeros.AllowSkip);
             return Vector<Complex32>.Build.Dense(ret);
-        }
-
-        /// <summary>
-        /// Computes the trace of this matrix.
-        /// </summary>
-        /// <returns>The trace of this matrix</returns>
-        /// <exception cref="ArgumentException">If the matrix is not square</exception>
-        public override Complex32 Trace()
-        {
-            if (RowCount != ColumnCount)
-            {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            }
-
-            var sum = Complex32.Zero;
-            for (var i = 0; i < RowCount; i++)
-            {
-                sum += At(i, i);
-            }
-
-            return sum;
         }
 
         /// <summary>

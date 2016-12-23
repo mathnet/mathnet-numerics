@@ -339,108 +339,111 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             Assert.That(() => vector.SubVector(index, length), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
-        /// <summary>
-        /// Can find absolute minimum value index.
-        /// </summary>
         [Test]
         public void CanFindAbsoluteMinimumIndex()
         {
-            var source = CreateVector(Data);
-            const int Expected = 0;
-            var actual = source.AbsoluteMinimumIndex();
-            Assert.AreEqual(Expected, actual);
+            Assert.AreEqual(0, CreateVector(Data).AbsoluteMinimumIndex());
         }
-
-        /// <summary>
-        /// Can find absolute minimum value of a vector.
-        /// </summary>
         [Test]
         public void CanFindAbsoluteMinimum()
         {
-            var source = CreateVector(Data);
-            const double Expected = 1;
-            var actual = source.AbsoluteMinimum();
-            Assert.AreEqual(Expected, actual);
+            Assert.AreEqual(1d, CreateVector(Data).AbsoluteMinimum());
         }
 
-        /// <summary>
-        /// Can find absolute maximum value index.
-        /// </summary>
         [Test]
         public void CanFindAbsoluteMaximumIndex()
         {
-            var source = CreateVector(Data);
-            const int Expected = 4;
-            var actual = source.AbsoluteMaximumIndex();
-            Assert.AreEqual(Expected, actual);
+            Assert.AreEqual(4, CreateVector(Data).AbsoluteMaximumIndex());
         }
 
-        /// <summary>
-        /// Can find absolute maximum value of a vector.
-        /// </summary>
         [Test]
         public void CanFindAbsoluteMaximum()
         {
-            var source = CreateVector(Data);
-            const double Expected = 5;
-            var actual = source.AbsoluteMaximum();
-            Assert.AreEqual(Expected, actual);
+            Assert.AreEqual(5d, CreateVector(Data).AbsoluteMaximum());
         }
 
-        /// <summary>
-        /// Can find maximum value index.
-        /// </summary>
         [Test]
         public void CanFindMaximumIndex()
         {
-            var vector = CreateVector(Data);
-
-            const int Expected = 4;
-            var actual = vector.MaximumIndex();
-
-            Assert.AreEqual(Expected, actual);
+            Assert.AreEqual(4, CreateVector(Data).MaximumIndex());
         }
 
-        /// <summary>
-        /// Can find maximum value of a vector.
-        /// </summary>
         [Test]
         public void CanFindMaximum()
         {
-            var vector = CreateVector(Data);
-
-            const double Expected = 5;
-            var actual = vector.Maximum();
-
-            Assert.AreEqual(Expected, actual);
+            Assert.AreEqual(5d, CreateVector(Data).Maximum());
         }
 
-        /// <summary>
-        /// Can find minimum value index.
-        /// </summary>
         [Test]
         public void CanFindMinimumIndex()
         {
-            var vector = CreateVector(Data);
-
-            const int Expected = 0;
-            var actual = vector.MinimumIndex();
-
-            Assert.AreEqual(Expected, actual);
+            Assert.AreEqual(0, CreateVector(Data).MinimumIndex());
         }
 
-        /// <summary>
-        /// Can find minimum value of a vector.
-        /// </summary>
         [Test]
         public void CanFindMinimum()
         {
-            var vector = CreateVector(Data);
+            Assert.AreEqual(1d, CreateVector(Data).Minimum());
+        }
 
-            const double Expected = 1;
-            var actual = vector.Minimum();
+        [Test]
+        public void PointwiseScalarMinimum()
+        {
+            double[] testData = { -20, -10, 10, 20, 30 };
+            Assert.That(CreateVector(testData).PointwiseMinimum(5d).ToArray(), Is.EqualTo(new double[] { -20, -10, 5, 5, 5 }).AsCollection);
+        }
 
-            Assert.AreEqual(Expected, actual);
+        [Test]
+        public void PointwiseScalarMaximum()
+        {
+            double[] testData = { -20, -10, 10, 20, 30 };
+            Assert.That(CreateVector(testData).PointwiseMaximum(5d).ToArray(), Is.EqualTo(new double[] { 5, 5, 10, 20, 30 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseScalarAbsoluteMinimum()
+        {
+            double[] testData = { -20, -10, 10, 20, 30 };
+            Assert.That(CreateVector(testData).PointwiseAbsoluteMinimum(15d).ToArray(), Is.EqualTo(new double[] { 15, 10, 10, 15, 15 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseScalarAbsoluteMaximum()
+        {
+            double[] testData = { -20, -10, 10, 20, 30 };
+            Assert.That(CreateVector(testData).PointwiseAbsoluteMaximum(15d).ToArray(), Is.EqualTo(new double[] { 20, 15, 15, 20, 30 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseVectorMinimum()
+        {
+            double[] testData = { -20, -10, 10, 20, 30 };
+            double[] otherData = { -5, 5, -5, 5, -5 };
+            Assert.That(CreateVector(testData).PointwiseMinimum(CreateVector(otherData)).ToArray(), Is.EqualTo(new double[] { -20, -10, -5, 5, -5 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseVectorMaximum()
+        {
+            double[] testData = { -20, -10, 10, 20, 30 };
+            double[] otherData = { -5, 5, -5, 5, -5 };
+            Assert.That(CreateVector(testData).PointwiseMaximum(CreateVector(otherData)).ToArray(), Is.EqualTo(new double[] { -5, 5, 10, 20, 30 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseVectorAbsoluteMinimum()
+        {
+            double[] testData = { -20, -10, 10, 20, 30 };
+            double[] otherData = { -15, 15, -15, 15, -15 };
+            Assert.That(CreateVector(testData).PointwiseAbsoluteMinimum(CreateVector(otherData)).ToArray(), Is.EqualTo(new double[] { 15, 10, 10, 15, 15 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseVectorAbsoluteMaximum()
+        {
+            double[] testData = { -20, -10, 10, 20, 30 };
+            double[] otherData = { -15, 15, -15, 15, -15 };
+            Assert.That(CreateVector(testData).PointwiseAbsoluteMaximum(CreateVector(otherData)).ToArray(), Is.EqualTo(new double[] { 20, 15, 15, 20, 30 }).AsCollection);
         }
 
         /// <summary>

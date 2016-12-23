@@ -146,9 +146,8 @@ namespace MathNet.Numerics.Statistics
                     meanB += rY;
                     varB += sumWeight*deltaY*rY;
 
+                    covariance += deltaX*deltaY*wi*(sumWeight/temp);
                     sumWeight = temp;
-
-                    covariance += deltaX*deltaY*(n - 1)*wi/n;
                 }
                 if (ieB.MoveNext())
                 {

@@ -110,6 +110,25 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         }
 
         /// <summary>
+        /// Fourier bluestein is reversible.
+        /// </summary>
+        /// <param name="options">Fourier options.</param>
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        public void FourierRealIsReversible(FourierOptions options)
+        {
+            var samples = Generate.Random(0x7FFF, GetUniform(1));
+            var work = new double[samples.Length+2];
+            samples.CopyTo(work, 0);
+
+            Fourier.ForwardReal(work, samples.Length, options);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            Fourier.InverseReal(work, samples.Length, options);
+            AssertHelpers.AlmostEqual(samples, work, 10);
+        }
+
+        /// <summary>
         /// Hartley naive is reversible.
         /// </summary>
         /// <param name="options">Hartley options.</param>

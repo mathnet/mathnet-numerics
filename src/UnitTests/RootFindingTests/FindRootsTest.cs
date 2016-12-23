@@ -160,6 +160,16 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, f1(x), 1e-5);
         }
 
+        [Test]
+        public void StackOverflow39935588()
+        {
+            // Roots at -2, 2
+            Func<double, double> f1 = x => (x - 3.0)*(x - 4.0);
+            Assert.AreEqual(3.0, FindRoots.OfFunction(f1, -2.0, 3.5), 1e-10);
+            Assert.AreEqual(4.0, FindRoots.OfFunction(f1, 3.5, 5.5), 1e-10);
+            Assert.AreEqual(0.0, f1(FindRoots.OfFunction(f1, -2.0, 5.5, 1e-14)), 1e-14);
+        }
+
         void AssertComplexEqual(Complex expected, Complex actual, double delta)
         {
             Assert.AreEqual(expected.Real, actual.Real, delta);

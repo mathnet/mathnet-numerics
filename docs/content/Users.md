@@ -24,6 +24,14 @@ Open Source
 * [Improvisation: Automatic Music Composition and Melody Generation](https://github.com/ArmenAg/Improvisation)
 * [Epicycle Math Library](https://github.com/open-epicycle/Epicycle.Math-cs)
 * [LitePlacer machine user interface and control software](https://github.com/jkuusama/LitePlacer)
+* [Computator.NET](https://github.com/PawelTroka/Computator.NET)
+* [EV2020: Project Electric Transportation 2020](https://github.com/EraYaN/EV202)
+* [HexLight GUI: RGB LED controller](https://github.com/jorticus/hexlight-gui)
+* [HydroNumerics](https://code.google.com/archive/p/hydronumerics/)
+* [SolidWorks to URDF Exporter](https://bitbucket.org/brawner/sw2urdf)
+* [Reinforcement Simulator](https://github.com/lg-octaviano/Reinforcement_Simulator)
+* [Maintenance Game](https://github.com/KaptenJon/MaintenanceGame)
+* [Monica](https://github.com/zhuazhua/Monica)
 * [Math.Net PowerShell](http://mathnetpowershell.codeplex.com/) (unaffiliated)
 * [Math.NET Symbolics](http://symbolics.mathdotnet.com) and other [Math.NET](http://www.mathdotnet.com) projects.
 

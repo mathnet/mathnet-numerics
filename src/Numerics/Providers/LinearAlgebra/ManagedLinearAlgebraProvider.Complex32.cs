@@ -352,6 +352,47 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         }
 
         /// <summary>
+        /// Does a point wise power of two arrays <c>z = x ^ y</c>. This can be used
+        /// to raise elements of vectors or matrices to the powers of another vector or matrix.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise power.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public virtual void PointWisePowerArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException("result");
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+            }
+
+            CommonParallel.For(0, y.Length, 4096, (a, b) =>
+            {
+                for (int i = a; i < b; i++)
+                {
+                    result[i] = Complex32.Pow(x[i], y[i]);
+                }
+            });
+        }
+
+        /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.
         /// </summary>
         /// <param name="norm">The type of norm to compute.</param>
@@ -433,6 +474,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
         public virtual void MatrixMultiply(Complex32[] x, int rowsX, int columnsX, Complex32[] y, int rowsY, int columnsY, Complex32[] result)
         {
+            if (_variation == Variation.Experimental)
+            {
+                MatrixMultiplyWithUpdateExperimental(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, x, rowsX, columnsX, y, rowsY, columnsY, Complex32.Zero, result);
+                return;
+            }
+
             // First check some basic requirement on the parameters of the matrix multiplication.
             if (x == null)
             {
@@ -513,6 +560,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="c">The c matrix.</param>
         public virtual void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, int rowsA, int columnsA, Complex32[] b, int rowsB, int columnsB, Complex32 beta, Complex32[] c)
         {
+            if (_variation == Variation.Experimental)
+            {
+                MatrixMultiplyWithUpdateExperimental(transposeA, transposeB, alpha, a, rowsA, columnsA, b, rowsB, columnsB, beta, c);
+                return;
+            }
+
             int m; // The number of rows of matrix op(A) and of the matrix C.
             int n; // The number of columns of matrix op(B) and of the matrix C.
             int k; // The number of columns of matrix op(A) and the rows of the matrix op(B).
@@ -663,7 +716,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="first">Indicates if this is the first recursion.</param>
         static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] matrixA, int shiftArow, int shiftAcol, Complex32[] matrixB, int shiftBrow, int shiftBcol, Complex32[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
         {
-            if (m + n <= Control.ParallelizeOrder)
+            if (m + n <= Control.ParallelizeOrder || m == 1 || n == 1 || k == 1)
             {
                 if ((int) transposeA > 111 && (int) transposeB > 111)
                 {
@@ -888,6 +941,128 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol, result, shiftCrow + m2, shiftCcol, m - m2, n2, k - k2, constM, constN, constK, false);
                     CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol + n2, result, shiftCrow + m2, shiftCcol + n2, m - m2, n - n2, k - k2, constM, constN, constK, false);
                 }
+            }
+        }
+
+        public void MatrixMultiplyWithUpdateExperimental(
+                Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, int rowsA, int columnsA,
+                Complex32[] b,
+                int rowsB, int columnsB, Complex32 beta, Complex32[] c)
+        {
+            if (a == null)
+            {
+                throw new ArgumentNullException("a");
+            }
+
+            if (b == null)
+            {
+                throw new ArgumentNullException("b");
+            }
+
+            if (c == null)
+            {
+                throw new ArgumentNullException("c");
+            }
+
+            if (transposeA != Transpose.DontTranspose)
+            {
+                var swap = rowsA;
+                rowsA = columnsA;
+                columnsA = swap;
+            }
+
+            if (transposeB != Transpose.DontTranspose)
+            {
+                var swap = rowsB;
+                rowsB = columnsB;
+                columnsB = swap;
+            }
+
+            if (columnsA != rowsB)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("columnsA ({0}) != rowsB ({1})", columnsA, rowsB));
+            }
+
+            if (rowsA * columnsA != a.Length)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsA ({1}) != a.Length ({2})", rowsA, columnsA, a.Length));
+            }
+
+            if (rowsB * columnsB != b.Length)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("rowsB ({0}) * columnsB ({1}) != b.Length ({2})", rowsB, columnsB, b.Length));
+            }
+
+            if (rowsA * columnsB != c.Length)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsB ({1}) != c.Length ({2})", rowsA, columnsB, c.Length));
+            }
+
+            // handle degenerate cases
+            if (beta == Complex32.Zero)
+            {
+                Array.Clear(c, 0, c.Length);
+            }
+            else if (beta != Complex32.One)
+            {
+                ScaleArray(beta, c, c);
+            }
+
+            if (alpha == Complex32.Zero)
+            {
+                return;
+            }
+
+            // Extract column arrays
+            var columnDataB = new Complex32[columnsB][];
+            for (int i = 0; i < columnDataB.Length; i++)
+            {
+                var column = new Complex32[rowsB];
+                GetColumn(transposeB, i, rowsB, columnsB, b, column);
+                columnDataB[i] = column;
+            }
+
+            var shouldNotParallelize = rowsA + columnsB + columnsA < Control.ParallelizeOrder || Control.MaxDegreeOfParallelism < 2;
+            if (shouldNotParallelize)
+            {
+                var row = new Complex32[columnsA];
+                for (int i = 0; i < rowsA; i++)
+                {
+                    GetRow(transposeA, i, rowsA, columnsA, a, row);
+                    for (int j = 0; j < columnsB; j++)
+                    {
+                        var col = columnDataB[j];
+                        Complex32 sum = Complex32.Zero;
+                        for (int ii = 0; ii < row.Length; ii++)
+                        {
+                            sum += row[ii] * col[ii];
+                        }
+
+                        c[j * rowsA + i] += alpha * sum;
+                    }
+                }
+            }
+            else
+            {
+                CommonParallel.For(0, rowsA, 1, (u, v) =>
+                {
+                    var row = new Complex32[columnsA];
+                    for (int i = u; i < v; i++)
+                    {
+                        GetRow(transposeA, i, rowsA, columnsA, a, row);
+                        for (int j = 0; j < columnsB; j++)
+                        {
+                            var column = columnDataB[j];
+                            Complex32 sum = Complex32.Zero;
+                            for (int ii = 0; ii < row.Length; ii++)
+                            {
+                                sum += row[ii] * column[ii];
+                            }
+
+                            c[j * rowsA + i] += alpha * sum;
+                        }
+                    }
+                });
             }
         }
 
@@ -2725,6 +2900,57 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 {
                     vectorEv[i] = new Complex(v[i].Real, v[i].Imaginary);
                     matrixD[i*order + i] = v[i];
+                }
+            }
+        }
+
+        /// <summary>
+        /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
+        /// </summary>
+        protected static void GetRow(Transpose transpose, int rowindx, int numRows, int numCols, Complex32[] matrix, Complex32[] row)
+        {
+            if (transpose == Transpose.DontTranspose)
+            {
+                for (int i = 0; i < numCols; i++)
+                {
+                    row[i] = matrix[(i*numRows) + rowindx];
+                }
+            }
+            else if (transpose == Transpose.ConjugateTranspose)
+            {
+                int offset = rowindx*numCols;
+                for (int i = 0; i < row.Length; i++)
+                {
+                    row[i] = matrix[i + offset].Conjugate();
+                }
+            }
+            else
+            {
+                Array.Copy(matrix, rowindx*numCols, row, 0, numCols);
+            }
+        }
+
+        /// <summary>
+        /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
+        /// </summary>
+        protected static void GetColumn(Transpose transpose, int colindx, int numRows, int numCols, Complex32[] matrix, Complex32[] column)
+        {
+            if (transpose == Transpose.DontTranspose)
+            {
+                Array.Copy(matrix, colindx*numRows, column, 0, numRows);
+            }
+            else if (transpose == Transpose.ConjugateTranspose)
+            {
+                for (int i = 0; i < numRows; i++)
+                {
+                    column[i] = matrix[(i*numCols) + colindx].Conjugate();
+                }
+            }
+            else
+            {
+                for (int i = 0; i < numRows; i++)
+                {
+                    column[i] = matrix[(i*numCols) + colindx];
                 }
             }
         }

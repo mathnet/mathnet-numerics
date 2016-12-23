@@ -30,6 +30,7 @@
 using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
+using MathNet.Numerics.Providers.FourierTransform;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
@@ -67,6 +68,24 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             fast(spectrumFast, options);
 
             AssertHelpers.AlmostEqual(spectrumNaive, spectrumFast, maximumErrorDecimalPlaces);
+        }
+
+        static void VerifyInplace(
+            Complex[] samples,
+            int maximumErrorDecimalPlaces,
+            FourierOptions options,
+            Action<Complex[], FourierOptions> expected,
+            Action<Complex[], FourierOptions> actual)
+        {
+            var spectrumExpected = new Complex[samples.Length];
+            samples.CopyTo(spectrumExpected, 0);
+            expected(spectrumExpected, options);
+
+            var spectrumActual = new Complex[samples.Length];
+            samples.CopyTo(spectrumActual, 0);
+            actual(spectrumActual, options);
+
+            AssertHelpers.AlmostEqual(spectrumExpected, spectrumActual, maximumErrorDecimalPlaces);
         }
 
         /// <summary>
@@ -142,6 +161,88 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             Verify(samples, 10, options, Fourier.NaiveForward, Fourier.BluesteinForward);
             Verify(samples, 10, options, Fourier.NaiveInverse, Fourier.BluesteinInverse);
+        }
+
+        /// <summary>
+        /// Fourier bluestein matches providers on random power of two.
+        /// </summary>
+        /// <param name="options">Fourier options.</param>
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.NoScaling)]
+        [TestCase(FourierOptions.AsymmetricScaling)]
+        [TestCase(FourierOptions.InverseExponent)]
+        [TestCase(FourierOptions.InverseExponent | FourierOptions.NoScaling)]
+        [TestCase(FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling)]
+        public void FourierBluesteinMatchesProvider_Random_Arbitrary(FourierOptions options)
+        {
+            var samples = Generate.RandomComplex(0x7F, GetUniform(1));
+
+            VerifyInplace(samples, 10, options, Fourier.Forward, Fourier.BluesteinForward);
+            VerifyInplace(samples, 10, options, Fourier.Inverse, Fourier.BluesteinInverse);
+        }
+
+        [TestCase(FourierOptions.Default, 128)]
+        [TestCase(FourierOptions.Default, 129)]
+        [TestCase(FourierOptions.NoScaling, 128)]
+        [TestCase(FourierOptions.NoScaling, 129)]
+        [TestCase(FourierOptions.AsymmetricScaling, 128)]
+        [TestCase(FourierOptions.AsymmetricScaling, 129)]
+        public void RealMatchesComplex(FourierOptions options, int n)
+        {
+            var real = Generate.Random(n.IsEven() ? n + 2 : n + 1, GetUniform(1));
+            real[n] = 0d;
+            if (n.IsEven()) real[n+1] = 0d;
+            var complex = new Complex[n];
+            for (int i = 0; i < complex.Length; i++)
+            {
+                complex[i] = new Complex(real[i], 0d);
+            }
+
+            Fourier.Forward(complex, options);
+            Fourier.ForwardReal(real, n, options);
+
+            int m = (n + 1)/2;
+            for (int i = 0, j = 0; i < m; i++)
+            {
+                AssertHelpers.AlmostEqual(complex[i], new Complex(real[j++], real[j++]), 10);
+            }
+        }
+
+        [Test]
+        public void AlgorithmsMatchProvider_PowerOfTwo_Large()
+        {
+            // 65536 = 2^16
+            var samples = Generate.RandomComplex(65536, GetUniform(1));
+
+            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s,o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.Radix2Forward);
+            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s, o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.BluesteinForward);
+        }
+
+        [Test]
+        public void AlgorithmsMatchProvider_Arbitrary_Large()
+        {
+            // 30870 = 2*3*3*5*7*7*7
+            const FourierOptions options = FourierOptions.NoScaling;
+            var samples = Generate.RandomComplex(30870, GetUniform(1));
+
+            var provider = new Complex[samples.Length];
+            samples.Copy(provider);
+            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
+
+            Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
+        }
+
+        [Test]
+        public void AlgorithmsMatchProvider_Arbitrary_Large_GH286()
+        {
+            const FourierOptions options = FourierOptions.NoScaling;
+            var samples = Generate.RandomComplex(46500, GetUniform(1));
+
+            var provider = new Complex[samples.Length];
+            samples.Copy(provider);
+            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
+
+            Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
         }
 
         [Test, Explicit("Long-Running")]

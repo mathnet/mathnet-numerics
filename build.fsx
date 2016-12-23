@@ -496,72 +496,37 @@ let test target =
     NUnit3 (fun p ->
         { p with
             ShadowCopy = false
+            Labels = LabelsLevel.Off
+            TimeOut = TimeSpan.FromMinutes 60. } |> quick) target
+
+let test32 target =
+    let quick p = if hasBuildParam "quick" then { p with Where="cat!=LongRunning" } else p
+    NUnit3 (fun p ->
+        { p with
+            Force32bit = true
+            ShadowCopy = false
+            Labels = LabelsLevel.Off
             TimeOut = TimeSpan.FromMinutes 60. } |> quick) target
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 "Build" ?=> "Test"
 
-FinalTarget "CloseTestRunner" (fun _ ->
-    ProcessHelper.killProcess "nunit-agent.exe"
-    ProcessHelper.killProcess "nunit-agent-x86.exe"
-)
-
-Target "MklWin32Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/MKL/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console-x86.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
-Target "MklWin64Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/MKL/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
+Target "MklWin32Test" (fun _ -> test32 !! "out/MKL/Windows/*UnitTests*.dll")
 "MklWin32Build" ?=> "MklWin32Test"
+Target "MklWin64Test" (fun _ -> test !! "out/MKL/Windows/*UnitTests*.dll")
 "MklWin64Build" ?=> "MklWin64Test"
 Target "MklWinTest" DoNothing
 "MklWin32Test" ==> "MklWinTest"
 "MklWin64Test" ==> "MklWinTest"
 
-Target "CudaWin64Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/CUDA/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
+Target "CudaWin64Test" (fun _ -> test !! "out/CUDA/Windows/*UnitTests*.dll")
 "CudaWin64Build" ?=> "CudaWin64Test"
 Target "CudaWinTest" DoNothing
 "CudaWin64Test" ==> "CudaWinTest"
 
-Target "OpenBlasWin32Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/OpenBLAS/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console-x86.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
-Target "OpenBlasWin64Test" (fun _ ->
-    ActivateFinalTarget "CloseTestRunner"
-    !! "out/OpenBLAS/Windows/*UnitTests*.dll"
-    |> NUnit (fun p ->
-        { p with
-            ToolName = "nunit-console.exe"
-            DisableShadowCopy = true
-            TimeOut = TimeSpan.FromMinutes 60.
-            OutputFile = "TestResults.xml" }))
+Target "OpenBlasWin32Test" (fun _ -> test32 !! "out/OpenBLAS/Windows/*UnitTests*.dll")
 "OpenBlasWin32Build" ?=> "OpenBlasWin32Test"
+Target "OpenBlasWin64Test" (fun _ -> test !! "out/OpenBLAS/Windows/*UnitTests*.dll")
 "OpenBlasWin64Build" ?=> "OpenBlasWin64Test"
 Target "OpenBlasWinTest" DoNothing
 "OpenBlasWin32Test" ==> "OpenBlasWinTest"
@@ -858,7 +823,7 @@ let publishReleaseTag title prefix version notes =
     // inspired by Deedle/tpetricek
     let tagName = prefix + "v" + version
     let tagMessage = String.concat Environment.NewLine [title + " v" + version; ""; notes ]
-    let cmd = sprintf """tag -a %s -s -m "%s" """ tagName tagMessage
+    let cmd = sprintf """tag -a %s -m "%s" """ tagName tagMessage
     Git.CommandHelper.runSimpleGitCommand "." cmd |> printfn "%s"
     let _, remotes, _ = Git.CommandHelper.runGitCommand "." "remote -v"
     let main = remotes |> Seq.find (fun s -> s.Contains("(push)") && s.Contains("mathnet/mathnet-numerics"))

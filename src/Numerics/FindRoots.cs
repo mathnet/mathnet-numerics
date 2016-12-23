@@ -49,7 +49,7 @@ namespace MathNet.Numerics
         {
             double root;
 
-            if (!ZeroCrossingBracketing.Expand(f, ref lowerBound, ref upperBound, 1.6, 100))
+            if (!ZeroCrossingBracketing.ExpandReduce(f, ref lowerBound, ref upperBound, 1.6, maxIterations, maxIterations*10))
             {
                 throw new NonConvergenceException(Resources.RootFindingFailed);
             }

@@ -831,6 +831,26 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Matrix<float> exponent, Matrix<float> result)
+        {
+            var denseExponent = exponent as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseExponent == null || denseResult == null)
+            {
+                base.DoPointwisePower(exponent, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
+            }
+        }
+
+        /// <summary>
         /// Computes the canonical modulus, where the result has the sign of the divisor,
         /// for the given divisor each element of the matrix.
         /// </summary>

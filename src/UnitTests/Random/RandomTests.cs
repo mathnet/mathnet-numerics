@@ -84,6 +84,29 @@ namespace MathNet.Numerics.UnitTests.Random
                 disposable.Dispose();
             }
         }
+		
+		/// <summary>
+        ///     Next() result is in boundaries.
+        /// </summary>
+        [Test]
+        public void Boundaries()
+        {
+            var random = (System.Random)Activator.CreateInstance(_randomType, new object[] { false });
+
+            for (var i = 1; i < N; i++)
+            {
+                var j = N;
+                var next = random.Next(i, j);
+                Assert.IsTrue(next >= i, string.Format("Value {0} is smaller than lower bound {1}", next, i));
+                Assert.IsTrue(next < j, string.Format("Value {0} is larger or equal to upper bound {1}", next, j));
+            }
+
+            var disposable = random as IDisposable;
+            if (disposable != null)
+            {
+                disposable.Dispose();
+            }
+        }
 
         [Test]
         public void Reproducible()

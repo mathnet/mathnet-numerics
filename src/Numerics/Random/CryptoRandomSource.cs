@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Random
     /// </summary>
     public sealed class CryptoRandomSource : RandomSource, IDisposable
     {
-        const double Reciprocal = 1.0/uint.MaxValue;
+        const double Reciprocal = 1.0/4294967296.0; // 1.0/(uint.MaxValue + 1.0)
         readonly RandomNumberGenerator _crypto;
 
         /// <summary>
@@ -85,6 +85,14 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
+        /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+        /// </summary>
+        protected override void DoSampleBytes(byte[] buffer)
+        {
+            _crypto.GetBytes(buffer);
+        }
+
+        /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
         protected sealed override double DoSample()
@@ -102,7 +110,7 @@ namespace MathNet.Numerics.Random
             var bytes = new byte[4];
             _crypto.GetBytes(bytes);
             uint uint32 = BitConverter.ToUInt32(bytes, 0);
-            int int31 = (int)uint32 >> 1;
+            int int31 = (int)(uint32 >> 1);
             if (int31 == int.MaxValue)
             {
                 return DoSampleInteger();

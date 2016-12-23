@@ -134,7 +134,7 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 var size = levelSize;
 
-                CommonParallel.For(0, size, (u, v) =>
+                CommonParallel.For(0, size, 64, (u, v) =>
                 {
                     for (int i = u; i < v; i++)
                     {

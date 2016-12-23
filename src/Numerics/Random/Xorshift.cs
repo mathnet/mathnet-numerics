@@ -266,7 +266,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
         /// </summary>
-        protected override int DoSampleInteger()
+        protected sealed override int DoSampleInteger()
         {
             var t = (_a * _x) + _c;
             _x = _y;
@@ -281,6 +281,22 @@ namespace MathNet.Numerics.Random
             }
 
             return int31;
+        }
+
+        /// <summary>
+        /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+        /// </summary>
+        protected sealed override void DoSampleBytes(byte[] buffer)
+        {
+            for (var i = 0; i < buffer.Length; i++)
+            {
+                var t = (_a * _x) + _c;
+                _x = _y;
+                _y = _z;
+                _c = t >> 32;
+                _z = t & 0xffffffff;
+                buffer[i] = (byte)(_z % 256);
+            }
         }
 
         /// <summary>

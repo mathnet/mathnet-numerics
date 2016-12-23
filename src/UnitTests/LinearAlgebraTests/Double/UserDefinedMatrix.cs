@@ -73,6 +73,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             {
                 Data[row, column] = value;
             }
+
+            public override double[,] AsArray()
+            {
+                return Data;
+            }
         }
 
         /// <summary>

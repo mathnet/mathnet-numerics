@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given array is the wrong length. Should be {0}..
+        ///   Looks up a localized string similar to The given array has the wrong length. Should be {0}..
         /// </summary>
         public static string ArgumentArrayWrongLength {
             get {
@@ -311,6 +311,15 @@ namespace MathNet.Numerics.Properties {
         public static string ArgumentMatrixSymmetricPositiveDefinite {
             get {
                 return ResourceManager.GetString("ArgumentMatrixSymmetricPositiveDefinite", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In the specified range, the exclusive maximum must be greater than the inclusive minimum..
+        /// </summary>
+        public static string ArgumentMaxExclusiveMustBeLargerThanMinInclusive {
+            get {
+                return ResourceManager.GetString("ArgumentMaxExclusiveMustBeLargerThanMinInclusive", resourceCulture);
             }
         }
         

@@ -971,16 +971,36 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
         protected override void DoPointwiseDivide(Matrix<Complex32> divisor, Matrix<Complex32> result)
         {
-            var denseOther = divisor as DenseMatrix;
+            var denseDivisor = divisor as DenseMatrix;
             var denseResult = result as DenseMatrix;
 
-            if (denseOther == null || denseResult == null)
+            if (denseDivisor == null || denseResult == null)
             {
                 base.DoPointwiseDivide(divisor, result);
             }
             else
             {
-                Control.LinearAlgebraProvider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
+                Control.LinearAlgebraProvider.PointWiseDivideArrays(_values, denseDivisor._values, denseResult._values);
+            }
+        }
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Matrix<Complex32> exponent, Matrix<Complex32> result)
+        {
+            var denseExponent = exponent as DenseMatrix;
+            var denseResult = result as DenseMatrix;
+
+            if (denseExponent == null || denseResult == null)
+            {
+                base.DoPointwisePower(exponent, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
             }
         }
 

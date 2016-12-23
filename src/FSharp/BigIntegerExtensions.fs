@@ -27,8 +27,7 @@ module BigIntegerExtensions =
                 raise <| FormatException ("The value could not be parsed.")
 
             if str.[0] = '-' then
-                parseImpl str len 0I 1
-                |> bigint.Negate
+                -(parseImpl str len 0I 1)
             else
                 parseImpl str len 0I 0
 

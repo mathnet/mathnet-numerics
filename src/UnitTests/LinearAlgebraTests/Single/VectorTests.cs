@@ -444,6 +444,66 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.AreEqual(Expected, actual);
         }
 
+        [Test]
+        public void PointwiseScalarMinimum()
+        {
+            float[] testData = { -20, -10, 10, 20, 30 };
+            Assert.That(CreateVector(testData).PointwiseMinimum(5f).ToArray(), Is.EqualTo(new float[] { -20, -10, 5, 5, 5 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseScalarMaximum()
+        {
+            float[] testData = { -20, -10, 10, 20, 30 };
+            Assert.That(CreateVector(testData).PointwiseMaximum(5f).ToArray(), Is.EqualTo(new float[] { 5, 5, 10, 20, 30 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseScalarAbsoluteMinimum()
+        {
+            float[] testData = { -20, -10, 10, 20, 30 };
+            Assert.That(CreateVector(testData).PointwiseAbsoluteMinimum(15f).ToArray(), Is.EqualTo(new float[] { 15, 10, 10, 15, 15 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseScalarAbsoluteMaximum()
+        {
+            float[] testData = { -20, -10, 10, 20, 30 };
+            Assert.That(CreateVector(testData).PointwiseAbsoluteMaximum(15f).ToArray(), Is.EqualTo(new float[] { 20, 15, 15, 20, 30 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseVectorMinimum()
+        {
+            float[] testData = { -20, -10, 10, 20, 30 };
+            float[] otherData = { -5, 5, -5, 5, -5 };
+            Assert.That(CreateVector(testData).PointwiseMinimum(CreateVector(otherData)).ToArray(), Is.EqualTo(new float[] { -20, -10, -5, 5, -5 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseVectorMaximum()
+        {
+            float[] testData = { -20, -10, 10, 20, 30 };
+            float[] otherData = { -5, 5, -5, 5, -5 };
+            Assert.That(CreateVector(testData).PointwiseMaximum(CreateVector(otherData)).ToArray(), Is.EqualTo(new float[] { -5, 5, 10, 20, 30 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseVectorAbsoluteMinimum()
+        {
+            float[] testData = { -20, -10, 10, 20, 30 };
+            float[] otherData = { -15, 15, -15, 15, -15 };
+            Assert.That(CreateVector(testData).PointwiseAbsoluteMinimum(CreateVector(otherData)).ToArray(), Is.EqualTo(new float[] { 15, 10, 10, 15, 15 }).AsCollection);
+        }
+
+        [Test]
+        public void PointwiseVectorAbsoluteMaximum()
+        {
+            float[] testData = { -20, -10, 10, 20, 30 };
+            float[] otherData = { -15, 15, -15, 15, -15 };
+            Assert.That(CreateVector(testData).PointwiseAbsoluteMaximum(CreateVector(otherData)).ToArray(), Is.EqualTo(new float[] { 20, 15, 15, 20, 30 }).AsCollection);
+        }
+
         /// <summary>
         /// Can compute the sum of a vector elements.
         /// </summary>

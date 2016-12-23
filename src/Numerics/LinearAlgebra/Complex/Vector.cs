@@ -205,6 +205,16 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Pointwise raise this vector to an exponent vector and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent vector to raise this vector values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Vector<Complex> exponent, Vector<Complex> result)
+        {
+            Map2(Complex.Pow, exponent, result, Zeros.Include);
+        }
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this vector with another vector and stores the result into the result vector.
         /// </summary>
@@ -242,6 +252,79 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         protected override void DoPointwiseLog(Vector<Complex> result)
         {
             Map(Complex.Log, result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseAbs(Vector<Complex> result)
+        {
+            Map(x => (Complex)Complex.Abs(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAcos(Vector<Complex> result)
+        {
+            Map(Complex.Acos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseAsin(Vector<Complex> result)
+        {
+            Map(Complex.Asin, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan(Vector<Complex> result)
+        {
+            Map(Complex.Atan, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan2(Vector<Complex> other, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseAtan2(Complex scalar, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseCeiling(Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseCos(Vector<Complex> result)
+        {
+            Map(Complex.Cos, result, Zeros.Include);
+        }
+        protected override void DoPointwiseCosh(Vector<Complex> result)
+        {
+            Map(Complex.Cosh, result, Zeros.Include);
+        }
+        protected override void DoPointwiseFloor(Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseLog10(Vector<Complex> result)
+        {
+            Map(Complex.Log10, result, Zeros.Include);
+        }
+        protected override void DoPointwiseRound(Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseSign(Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+        protected override void DoPointwiseSin(Vector<Complex> result)
+        {
+            Map(Complex.Sin, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSinh(Vector<Complex> result)
+        {
+            Map(Complex.Sinh, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSqrt(Vector<Complex> result)
+        {
+            Map(Complex.Sqrt, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTan(Vector<Complex> result)
+        {
+            Map(Complex.Tan, result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTanh(Vector<Complex> result)
+        {
+            Map(Complex.Tanh, result, Zeros.AllowSkip);
         }
 
         /// <summary>
@@ -316,6 +399,48 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         protected sealed override void DoRemainderByThis(Complex dividend, Vector<Complex> result)
         {
             throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMinimum(Complex scalar, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Complex scalar, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Complex scalar, Vector<Complex> result)
+        {
+            double absolute = scalar.Magnitude;
+            Map(x => Math.Min(absolute, x.Magnitude), result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Complex scalar, Vector<Complex> result)
+        {
+            double absolute = scalar.Magnitude;
+            Map(x => Math.Max(absolute, x.Magnitude), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(Vector<Complex> other, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseMaximum(Vector<Complex> other, Vector<Complex> result)
+        {
+            throw new NotSupportedException();
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Vector<Complex> other, Vector<Complex> result)
+        {
+            Map2((x, y) => Math.Min(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Vector<Complex> other, Vector<Complex> result)
+        {
+            Map2((x, y) => Math.Max(x.Magnitude, y.Magnitude), other, result, Zeros.AllowSkip);
         }
 
         /// <summary>

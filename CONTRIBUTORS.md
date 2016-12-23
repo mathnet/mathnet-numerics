@@ -19,15 +19,17 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Jurgen Van Gael (@jvangael)
 - Alexander Karatarakis
 - Thomas Ibel
+- Yoonku Hwang
 - Gustavo Guerra
 - Kuan Bartel
+- Larz White
 - Alexander Täschner
 - Hani Medhat
 - MaLiN2223
 - Matthew A. Johnson
 - manyue
 - David Prince
-- Larz White
+- Frank A. Krueger
 - Andriy Bratiychuk
 - Jack Pappas
 - Phil Cleveland
@@ -42,21 +44,24 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Gauthier Segay
 - Hythem Sidky
 - John C Barstow
+- Jon Smit
 - Justin Needham
 - Patrick van der Velde
 - Robin Neatherway
 - Andrew Kazyrevich
+- Arthur
 - Ethar Alali
 - Feodor Fitsner
 - Iain McDonald
 - Jon Larborn
 - Kyle Parrigan
 - borfudin
+- Aixile
 - BenHewins
 - Dan
 - Gregor959
-- IUser
 - Iain Sproat
+- Igor K
 - Jeff Mastry
 - Joel Sleppy
 - Kosei ABE
@@ -65,6 +70,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Max Malook
 - Mirth Hickford
 - Paul Varkey
+- Sergey Kosukhin
 - Sunny Ahuwanya
 - Till Hoffmann
 - Tomas Petricek
@@ -73,8 +79,11 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Volker Breuer
 - Baltazar Bieniek
 - bstrausser
+- Florian Wechsung
 - grovesNL
+- liuzh
 - logophobia
+- Matthew Peacock
 - mjmckp
 - nyuriks
 - seahearman

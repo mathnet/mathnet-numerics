@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -216,6 +216,33 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Generate a linearly spaced sample vector within the inclusive interval (start, stop) and step 1.
+        /// Equivalent to MATLAB colon operator (:).
+        /// </summary>
+        public static int[] LinearRangeInt32(int start, int stop)
+        {
+            if (start == stop) return new int[] { start };
+            if (start < stop)
+            {
+                var data = new int[stop - start + 1];
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = start + i;
+                }
+                return data;
+            }
+            else
+            {
+                var data = new int[start - stop + 1];
+                for (int i = 0; i < data.Length; i++)
+                {
+                    data[i] = start - i;
+                }
+                return data;
+            }
+        }
+
+        /// <summary>
         /// Generate a linearly spaced sample vector within the inclusive interval (start, stop) and the provided step.
         /// The start value is aways included as first value, but stop is only included if it stop-start is a multiple of step.
         /// Equivalent to MATLAB double colon operator (::).
@@ -232,6 +259,27 @@ namespace MathNet.Numerics
             for (int i = 0; i < data.Length; i++)
             {
                 data[i] = start + i*step;
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Generate a linearly spaced sample vector within the inclusive interval (start, stop) and the provided step.
+        /// The start value is aways included as first value, but stop is only included if it stop-start is a multiple of step.
+        /// Equivalent to MATLAB double colon operator (::).
+        /// </summary>
+        public static int[] LinearRangeInt32(int start, int step, int stop)
+        {
+            if (start == stop) return new int[] { start };
+            if (start < stop && step < 0 || start > stop && step > 0 || step == 0d)
+            {
+                return new int[0];
+            }
+
+            var data = new int[(stop - start) / step + 1];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = start + i * step;
             }
             return data;
         }

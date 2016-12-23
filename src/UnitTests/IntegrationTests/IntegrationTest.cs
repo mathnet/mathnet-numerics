@@ -251,26 +251,14 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         /// <summary>
-        /// Gauss-Legendre rule supports 2-dimensional integration over the rectangle.
+        /// Gauss-Legendre rule supports obtaining the ith abscissa/weight. In this case, they're used for integration.
         /// </summary>
         /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
         [TestCase(19)]
         [TestCase(20)]
         [TestCase(21)]
         [TestCase(22)]
-        public void TestIntegrateGaussLegendre2D(int order)
-        {
-        }
-
-        /// <summary>
-        /// Gauss-Legendre rule supports obtaining the abscissas/weights. In this case, they're used for integration.
-        /// </summary>
-        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule.</param>
-        [TestCase(19)]
-        [TestCase(20)]
-        [TestCase(21)]
-        [TestCase(22)]
-        public void TestGaussLegendreRuleGetAbscissasGetWeightsOrderViaIntegration(int order)
+        public void TestGaussLegendreRuleGetAbscissaGetWeightOrderViaIntegration(int order)
         {
             GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
 
@@ -285,9 +273,27 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         /// <summary>
+        /// Gauss-Legendre rule supports obtaining array of abscissas/weights.
+        /// </summary>
+        [Test]
+        public void TestGaussLegendreRuleAbscissasWeightsViaIntegration()
+        {
+            const int order = 19;
+            GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
+            double[] abscissa = gaussLegendre.Abscissas;
+            double[] weight = gaussLegendre.Weights;
+
+            for (int i = 0; i < gaussLegendre.Order; i++)
+            {
+                Assert.AreEqual(gaussLegendre.GetAbscissa(i),abscissa[i]);
+                Assert.AreEqual(gaussLegendre.GetWeight(i), weight[i]);
+            }
+        }
+
+        /// <summary>
         /// Gauss-Legendre rule supports obtaining IntervalBegin.
         /// </summary>
-        [TestCase]
+        [Test]
         public void TestGetGaussLegendreRuleIntervalBegin()
         {
             const int order = 19;
@@ -298,7 +304,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// <summary>
         /// Gauss-Legendre rule supports obtaining IntervalEnd.
         /// </summary>
-        [TestCase]
+        [Test]
         public void TestGaussLegendreRuleIntervalEnd()
         {
             const int order = 19;

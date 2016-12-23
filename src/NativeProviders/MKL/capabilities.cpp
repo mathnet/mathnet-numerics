@@ -20,6 +20,11 @@ extern "C" {
 		case 0:	return 0;
 		case 1:	return -1;
 
+		case 4: return sizeof(size_t);    // 4 (x86), 8 (x64)
+		case 5: return sizeof(MKL_INT);   // 4 (both)
+		case 6: return sizeof(MKL_LONG);  // 4 (both)
+		case 7: return sizeof(MKL_INT64); // 8 (both)
+
 		// PLATFORM
 		case 8:
 #ifdef _M_IX86
@@ -40,8 +45,28 @@ extern "C" {
 			return 0;
 #endif
 
+		// MKL VERSION
+		case 32: // major version
+			{
+				MKLVersion Version;
+				mkl_get_version(&Version);
+				return Version.MajorVersion;
+			}
+		case 33: // minor version
+			{
+				MKLVersion Version;
+				mkl_get_version(&Version);
+				return Version.MinorVersion;
+			}
+		case 34: // update version
+			{
+				MKLVersion Version;
+				mkl_get_version(&Version);
+				return Version.UpdateVersion;
+			}
+
 		// COMMON/SHARED
-		case 64: return 9; // revision
+		case 64: return 11; // revision
 		case 65: return 1; // numerical consistency, precision and accuracy modes
 		case 66: return 1; // threading control
 		case 67: return 1; // memory management
@@ -49,12 +74,15 @@ extern "C" {
 		// LINEAR ALGEBRA
 		case 128: return 2;	// basic dense linear algebra (major - breaking)
 		case 129: return 0;	// basic dense linear algebra (minor - non-breaking)
+		case 130: return 0;	// vector functions (major - breaking)
+		case 131: return 1;	// vector functions (minor - non-breaking)
 
 		// OPTIMIZATION
 		case 256: return 0; // basic optimization
 
 		// FFT
-		case 384: return 0; // basic FFT
+		case 384: return 1; // basic FFT (major - breaking)
+		case 385: return 0; // basic FFT (minor - non-breaking)
 
 		default: return 0; // unknown or not supported
 

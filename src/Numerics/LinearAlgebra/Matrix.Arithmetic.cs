@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -224,11 +224,18 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoPointwiseDivide(Matrix<T> divisor, Matrix<T> result);
 
         /// <summary>
-        /// Pointwise raise this matrix to an exponent and store the result into the result vector.
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
         /// </summary>
         /// <param name="exponent">The exponent to raise this matrix values to.</param>
-        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        /// <param name="result">The matrix to store the result of the pointwise power.</param>
         protected abstract void DoPointwisePower(T exponent, Matrix<T> result);
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent matrix and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent matrix to raise this matrix values to.</param>
+        /// <param name="result">The matrix to store the result of the pointwise power.</param>
+        protected abstract void DoPointwisePower(Matrix<T> exponent, Matrix<T> result);
 
         /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
@@ -257,6 +264,32 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="result">The matrix to store the result.</param>
         protected abstract void DoPointwiseLog(Matrix<T> result);
+
+        protected abstract void DoPointwiseAbs(Matrix<T> result);
+        protected abstract void DoPointwiseAcos(Matrix<T> result);
+        protected abstract void DoPointwiseAsin(Matrix<T> result);
+        protected abstract void DoPointwiseAtan(Matrix<T> result);
+        protected abstract void DoPointwiseCeiling(Matrix<T> result);
+        protected abstract void DoPointwiseCos(Matrix<T> result);
+        protected abstract void DoPointwiseCosh(Matrix<T> result);
+        protected abstract void DoPointwiseFloor(Matrix<T> result);
+        protected abstract void DoPointwiseLog10(Matrix<T> result);
+        protected abstract void DoPointwiseRound(Matrix<T> result);
+        protected abstract void DoPointwiseSign(Matrix<T> result);
+        protected abstract void DoPointwiseSin(Matrix<T> result);
+        protected abstract void DoPointwiseSinh(Matrix<T> result);
+        protected abstract void DoPointwiseSqrt(Matrix<T> result);
+        protected abstract void DoPointwiseTan(Matrix<T> result);
+        protected abstract void DoPointwiseTanh(Matrix<T> result);
+        protected abstract void DoPointwiseAtan2(Matrix<T> other, Matrix<T> result);
+        protected abstract void DoPointwiseMinimum(T scalar, Matrix<T> result);
+        protected abstract void DoPointwiseMinimum(Matrix<T> other, Matrix<T> result);
+        protected abstract void DoPointwiseMaximum(T scalar, Matrix<T> result);
+        protected abstract void DoPointwiseMaximum(Matrix<T> other, Matrix<T> result);
+        protected abstract void DoPointwiseAbsoluteMinimum(T scalar, Matrix<T> result);
+        protected abstract void DoPointwiseAbsoluteMinimum(Matrix<T> other, Matrix<T> result);
+        protected abstract void DoPointwiseAbsoluteMaximum(T scalar, Matrix<T> result);
+        protected abstract void DoPointwiseAbsoluteMaximum(Matrix<T> other, Matrix<T> result);
 
         /// <summary>
         /// Adds a scalar to each element of the matrix.
@@ -1392,6 +1425,38 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        public Matrix<T> PointwisePower(Matrix<T> exponent)
+        {
+            if (ColumnCount != exponent.ColumnCount || RowCount != exponent.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, exponent);
+            }
+
+            var result = Build.SameAs(this);
+            DoPointwisePower(exponent, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The matrix to store the result into.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwisePower(Matrix<T> exponent, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != exponent.ColumnCount || RowCount != exponent.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, exponent, result);
+            }
+
+            DoPointwisePower(exponent, result);
+        }
+
+        /// <summary>
         /// Pointwise canonical modulus, where the result has the sign of the divisor,
         /// of this matrix by another matrix.
         /// </summary>
@@ -1464,13 +1529,82 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Helper function to apply a unary function to a matrix. The function
+        /// f modifies the matrix given to it in place.  Before its
+        /// called, a copy of the 'this' matrix is first created, then passed to
+        /// f.  The copy is then returned as the result
+        /// </summary>
+        /// <param name="f">Function which takes a matrix, modifies it in place and returns void</param>
+        /// <returns>New instance of matrix which is the result</returns>
+        protected Matrix<T> PointwiseUnary(Action<Matrix<T>> f)
+        {
+            var result = Build.SameAs(this);
+            f(result);
+            return result;
+        }
+
+        /// <summary>
+        /// Helper function to apply a unary function which modifies a matrix
+        /// in place.
+        /// </summary>
+        /// <param name="f">Function which takes a matrix, modifies it in place and returns void</param>
+        /// <param name="result">The matrix to be passed to f and where the result is to be stored</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        protected void PointwiseUnary(Action<Matrix<T>> f, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+            f(result);
+        }
+
+        /// <summary>
+        /// Helper function to apply a binary function which takes two matrices
+        /// and modifies the latter in place.  A copy of the "this" matrix is 
+        /// first made and then passed to f together with the other matrix. The
+        /// copy is then returned as the result
+        /// </summary>
+        /// <param name="f">Function which takes two matrices, modifies the second in place and returns void</param>
+        /// <param name="other">The other matrix to be passed to the function as argument. It is not modified</param>
+        /// <returns>The resulting matrix</returns>
+        /// <exception cref="ArgumentException">If this amtrix and <paramref name="result"/> are not the same dimension.</exception>
+        protected Matrix<T> PointwiseBinary(Action<Matrix<T>, Matrix<T>> f, Matrix<T> other)
+        {
+            if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other);
+            }
+
+            var result = Build.SameAs(this, other);
+            f(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Helper function to apply a binary function which takes two matrices
+        /// and modifies the second one in place
+        /// </summary>
+        /// <param name="f">Function which takes two matrices, modifies the second in place and returns void</param>
+        /// <param name="other">The other matrix to be passed to the function as argument. It is not modified</param>
+        /// <returns>The resulting matrix</returns>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same dimension.</exception>
+        protected void PointwiseBinary(Action<Matrix<T>,Matrix<T>> f, Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            f(other, result);
+        }
+
+        /// <summary>
         /// Pointwise applies the exponent function to each value.
         /// </summary>
         public Matrix<T> PointwiseExp()
         {
-            var result = Build.SameAs(this);
-            DoPointwiseExp(result);
-            return result;
+            return PointwiseUnary(DoPointwiseExp);
         }
 
         /// <summary>
@@ -1480,12 +1614,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseExp(Matrix<T> result)
         {
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result);
-            }
-
-            DoPointwiseExp(result);
+            PointwiseUnary(DoPointwiseExp, result);
         }
 
         /// <summary>
@@ -1493,9 +1622,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> PointwiseLog()
         {
-            var result = Build.SameAs(this);
-            DoPointwiseLog(result);
-            return result;
+            return PointwiseUnary(DoPointwiseLog);
         }
 
         /// <summary>
@@ -1505,12 +1632,303 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
         public void PointwiseLog(Matrix<T> result)
         {
-            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
-            {
-                throw DimensionsDontMatch<ArgumentException>(this, result);
-            }
+            PointwiseUnary(DoPointwiseLog, result);
+        }
 
-            DoPointwiseLog(result);
+        /// <summary>
+        /// Pointwise applies the abs function to each value
+        /// </summary>
+        public Matrix<T> PointwiseAbs()
+        {
+            return PointwiseUnary(DoPointwiseAbs);
+        }
+
+        /// <summary>
+        /// Pointwise applies the abs function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseAbs(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseAbs, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the acos function to each value
+        /// </summary>
+        public Matrix<T> PointwiseAcos()
+        {
+            return PointwiseUnary(DoPointwiseAcos);
+        }
+
+        /// <summary>
+        /// Pointwise applies the acos function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseAcos(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseAcos, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the asin function to each value
+        /// </summary>
+        public Matrix<T> PointwiseAsin()
+        {
+            return PointwiseUnary(DoPointwiseAsin);
+        }
+
+        /// <summary>
+        /// Pointwise applies the asin function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseAsin(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseAsin, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the atan function to each value
+        /// </summary>
+        public Matrix<T> PointwiseAtan()
+        {
+            return PointwiseUnary(DoPointwiseAtan);
+        }
+
+        /// <summary>
+        /// Pointwise applies the atan function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseAtan(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseAtan, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the atan2 function to each value of the current
+        /// matrix and a given other matrix being the 'x' of atan2 and the
+        /// 'this' matrix being the 'y'
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public Matrix<T> PointwiseAtan2(Matrix<T> other)
+        {
+            return PointwiseBinary(DoPointwiseAtan2, other);
+        }
+
+        /// <summary>
+        /// Pointwise applies the atan2 function to each value of the current
+        /// matrix and a given other matrix being the 'x' of atan2 and the
+        /// 'this' matrix being the 'y'
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public void PointwiseAtan2(Matrix<T> other, Matrix<T> result)
+        {
+            PointwiseBinary(DoPointwiseAtan2, other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the ceiling function to each value
+        /// </summary>
+        public Matrix<T> PointwiseCeiling()
+        {
+            return PointwiseUnary(DoPointwiseCeiling);
+        }
+
+        /// <summary>
+        /// Pointwise applies the ceiling function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseCeiling(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseCeiling, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the cos function to each value
+        /// </summary>
+        public Matrix<T> PointwiseCos()
+        {
+            return PointwiseUnary(DoPointwiseCos);
+        }
+
+        /// <summary>
+        /// Pointwise applies the cos function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseCos(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseCos, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the cosh function to each value
+        /// </summary>
+        public Matrix<T> PointwiseCosh()
+        {
+            return PointwiseUnary(DoPointwiseCosh);
+        }
+
+        /// <summary>
+        /// Pointwise applies the cosh function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseCosh(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseCosh, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the floor function to each value
+        /// </summary>
+        public Matrix<T> PointwiseFloor()
+        {
+            return PointwiseUnary(DoPointwiseFloor);
+        }
+
+        /// <summary>
+        /// Pointwise applies the floor function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseFloor(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseFloor, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the log10 function to each value
+        /// </summary>
+        public Matrix<T> PointwiseLog10()
+        {
+            return PointwiseUnary(DoPointwiseLog10);
+        }
+
+        /// <summary>
+        /// Pointwise applies the log10 function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseLog10(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseLog10, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the round function to each value
+        /// </summary>
+        public Matrix<T> PointwiseRound()
+        {
+            return PointwiseUnary(DoPointwiseRound);
+        }
+
+        /// <summary>
+        /// Pointwise applies the round function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseRound(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseRound, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the sign function to each value
+        /// </summary>
+        public Matrix<T> PointwiseSign()
+        {
+            return PointwiseUnary(DoPointwiseSign);
+        }
+
+        /// <summary>
+        /// Pointwise applies the sign function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseSign(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseSign, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the sin function to each value
+        /// </summary>
+        public Matrix<T> PointwiseSin()
+        {
+            return PointwiseUnary(DoPointwiseSin);
+        }
+
+        /// <summary>
+        /// Pointwise applies the sin function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseSin(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseSin, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the sinh function to each value
+        /// </summary>
+        public Matrix<T> PointwiseSinh()
+        {
+            return PointwiseUnary(DoPointwiseSinh);
+        }
+
+        /// <summary>
+        /// Pointwise applies the sinh function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseSinh(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseSinh, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the sqrt function to each value
+        /// </summary>
+        public Matrix<T> PointwiseSqrt()
+        {
+            return PointwiseUnary(DoPointwiseSqrt);
+        }
+
+        /// <summary>
+        /// Pointwise applies the sqrt function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseSqrt(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseSqrt, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the tan function to each value
+        /// </summary>
+        public Matrix<T> PointwiseTan()
+        {
+            return PointwiseUnary(DoPointwiseTan);
+        }
+
+        /// <summary>
+        /// Pointwise applies the tan function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseTan(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseTan, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the tanh function to each value
+        /// </summary>
+        public Matrix<T> PointwiseTanh()
+        {
+            return PointwiseUnary(DoPointwiseTanh);
+        }
+
+        /// <summary>
+        /// Pointwise applies the tanh function to each value
+        /// </summary>
+        /// <param name="result">The vector to store the result</param>
+        public void PointwiseTanh(Matrix<T> result)
+        {
+            PointwiseUnary(DoPointwiseTanh, result);
         }
 
         /// <summary>
@@ -1590,6 +2008,9 @@ namespace MathNet.Numerics.LinearAlgebra
             return LU().Inverse();
         }
 
+        /// <summary>Computes the Moore-Penrose Pseudo-Inverse of this matrix.</summary>
+        public abstract Matrix<T> PseudoInverse();
+
         /// <summary>
         /// Computes the Kronecker product of this matrix with the given matrix. The new matrix is M-by-N
         /// with M = this.Rows * lower.Rows and N = this.Columns * lower.Columns.
@@ -1624,6 +2045,222 @@ namespace MathNet.Numerics.LinearAlgebra
                     result.SetSubMatrix(i*other.RowCount, other.RowCount, j*other.ColumnCount, other.ColumnCount, At(i, j)*other);
                 }
             }
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Matrix<T> PointwiseMinimum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMinimum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The vector to store the result.</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMinimum(T scalar, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseMinimum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Matrix<T> PointwiseMaximum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMaximum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMaximum(T scalar, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseMaximum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Matrix<T> PointwiseAbsoluteMinimum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMinimum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMinimum(T scalar, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseAbsoluteMinimum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        public Matrix<T> PointwiseAbsoluteMaximum(T scalar)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMaximum(scalar, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with a scalar to each value.
+        /// </summary>
+        /// <param name="scalar">The scalar value to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMaximum(T scalar, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, result);
+            }
+
+            DoPointwiseAbsoluteMaximum(scalar, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        public Matrix<T> PointwiseMinimum(Matrix<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMinimum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the minimum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMinimum(Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseMinimum(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        public Matrix<T> PointwiseMaximum(Matrix<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseMaximum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the maximum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseMaximum(Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseMaximum(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        public Matrix<T> PointwiseAbsoluteMinimum(Matrix<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMinimum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute minimum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMinimum(Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseAbsoluteMinimum(other, result);
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        public Matrix<T> PointwiseAbsoluteMaximum(Matrix<T> other)
+        {
+            var result = Build.SameAs(this);
+            DoPointwiseAbsoluteMaximum(other, result);
+            return result;
+        }
+
+        /// <summary>
+        /// Pointwise applies the absolute maximum with the values of another matrix to each value.
+        /// </summary>
+        /// <param name="other">The matrix with the values to compare to.</param>
+        /// <param name="result">The matrix to store the result.</param>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="result"/> are not the same size.</exception>
+        public void PointwiseAbsoluteMaximum(Matrix<T> other, Matrix<T> result)
+        {
+            if (ColumnCount != result.ColumnCount || RowCount != result.RowCount || ColumnCount != other.ColumnCount || RowCount != other.RowCount)
+            {
+                throw DimensionsDontMatch<ArgumentException>(this, other, result);
+            }
+
+            DoPointwiseAbsoluteMaximum(other, result);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
