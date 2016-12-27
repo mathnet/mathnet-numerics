@@ -10,9 +10,9 @@ open System.Runtime.InteropServices
 [<assembly: AssemblyProduct("Math.NET Numerics")>]
 [<assembly: AssemblyCopyright("Copyright (c) Math.NET Project")>]
 
-[<assembly: AssemblyVersion("3.14.0.0")>]
-[<assembly: AssemblyFileVersion("3.14.0.0")>]
-[<assembly: AssemblyInformationalVersion("3.14.0-beta03")>]
+[<assembly: AssemblyVersion("3.15.0.0")>]
+[<assembly: AssemblyFileVersion("3.15.0.0")>]
+[<assembly: AssemblyInformationalVersion("3.15.0")>]
 
 #if PORTABLE
 #else

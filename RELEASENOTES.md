@@ -1,25 +1,22 @@
-### 3.14.0-beta03 - 2016-11-20
+### 3.15.0 - 2016-12-27
+* FFT: MKL native provider backend.
+* FFT: 2D and multi-dimensional FFT (only supported by MKL provider, managed provider pending).
+* FFT: real conjugate-even FFT (only leveraging symmetry in MKL provider).
+* FFT: managed provider significantly faster on x64.
 * Linear Algebra: pointwise trigonometric and basic functions *~Albert Pang*
 * Linear Algebra: better support for F# built-in operators (sqrt, sin, exp, ..) *~Albert Pang*
 * Linear Algebra: pointwise power operator (F#)
-* Generate: linear integer ranges
-
-### 3.14.0-beta02 - 2016-11-15
 * Linear Algebra: enable experimental matrix product implementation
 * Linear Algebra: better support for matrix to/from row-major arrays and enumerables
 * Linear Algebra: transport allows specifying a result matrix to transpose into, inplace if square
 * Linear Algebra: vector and matrix AsArray and similar to access internal arrays if applicable
 * Linear Algebra: vector and matrix pointwise min/max and absmin/absmax
-
-### 3.14.0-beta01 - 2016-10-30
-* FFT: MKL native provider backend.
-* FFT: 2D and multi-dimensional FFT (only supported by MKL provider, managed provider pending).
-* FFT: real conjugate-even FFT (only leveraging symmetry in MKL provider).
-* FFT: managed provider significantly faster on x64.
-* Provider Control: separate Control classes for LA and FFT Providers.
-* Provider Control: avoid internal exceptions on provider discovery.
 * Linear Algebra: dot-power on vectors and matrices, supporting native providers.
 * Linear Algebra: matrix Moore-Penrose pseudo-inverse (SVD backed).
+* Provider Control: separate Control classes for LA and FFT Providers.
+* Provider Control: avoid internal exceptions on provider discovery.
+* Distributions: fix misleading inline docs on Negative-Binomial.
+* Generate: linear integer ranges
 * Root Finding: extend zero-crossing bracketing in derivative-free algorithms.
 * Window: periodic versions of Hamming, Hann, Cosine and Lanczos windows.
 * Special Functions: more robust GammaLowerRegularizedInv (and Gamma.InvCDF).
