@@ -186,7 +186,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Factorization
         [Test]
         public void RankAcceptance()
         {
-            // http://discuss.mathdotnet.com/t/wrong-compute-of-the-matrix-rank/120
+            // https://discuss.mathdotnet.com/t/wrong-compute-of-the-matrix-rank/120
             Matrix<float> m = DenseMatrix.OfArray(new float[,] {
                 { 4, 4, 1, 3 },
                 { 1,-2, 1, 0 },
