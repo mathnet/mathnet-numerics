@@ -41,19 +41,19 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         {
             // Roots at -2, 2
             Func<double, double> f1 = x => x*x - 4;
-            Assert.AreEqual(0, f1(Bisection.FindRoot(f1, 0, 5, 1e-14)));
-            Assert.AreEqual(0, f1(Bisection.FindRootExpand(f1, 3, 4, 1e-14)));
-            Assert.AreEqual(-2, Bisection.FindRoot(f1, -5, -1, 1e-14));
-            Assert.AreEqual(2, Bisection.FindRoot(f1, 1, 4, 1e-14));
-            Assert.AreEqual(0, f1(Bisection.FindRoot(x => -f1(x), 0, 5, 1e-14)));
-            Assert.AreEqual(-2, Bisection.FindRoot(x => -f1(x), -5, -1, 1e-14));
-            Assert.AreEqual(2, Bisection.FindRoot(x => -f1(x), 1, 4, 1e-14));
+            Assert.AreEqual(0, f1(Bisection.FindRoot(f1, 0, 5, 1e-14)), 1e-14);
+            Assert.AreEqual(0, f1(Bisection.FindRootExpand(f1, 3, 4, 1e-14)), 1e-14);
+            Assert.AreEqual(-2, Bisection.FindRoot(f1, -5, -1, 1e-14), 1e-14);
+            Assert.AreEqual(2, Bisection.FindRoot(f1, 1, 4, 1e-14), 1e-14);
+            Assert.AreEqual(0, f1(Bisection.FindRoot(x => -f1(x), 0, 5, 1e-14)), 1e-14);
+            Assert.AreEqual(-2, Bisection.FindRoot(x => -f1(x), -5, -1, 1e-14), 1e-14);
+            Assert.AreEqual(2, Bisection.FindRoot(x => -f1(x), 1, 4, 1e-14), 1e-14);
 
             // Roots at 3, 4
             Func<double, double> f2 = x => (x - 3)*(x - 4);
             Assert.AreEqual(0, f2(Bisection.FindRoot(f2, 3.5, 5, 1e-14)), 1e-14);
-            Assert.AreEqual(3, Bisection.FindRoot(f2, -5, 3.5, 1e-14));
-            Assert.AreEqual(4, Bisection.FindRoot(f2, 3.2, 5, 1e-14));
+            Assert.AreEqual(3, Bisection.FindRoot(f2, -5, 3.5, 1e-14), 1e-14);
+            Assert.AreEqual(4, Bisection.FindRoot(f2, 3.2, 5, 1e-14), 1e-14);
             Assert.AreEqual(3, Bisection.FindRoot(f2, 2.1, 3.9, 0.001), 0.001);
             Assert.AreEqual(3, Bisection.FindRoot(f2, 2.1, 3.4, 0.001), 0.001);
         }
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Func<double, double> f1 = z => 8*Math.Pow((4 - z)*z, 2)/(Math.Pow(6 - 3*z, 2)*(2 - z)) - 0.186;
             double x = Bisection.FindRoot(f1, 0.1, 0.9, accuracy: 1e-9, maxIterations: 80);
             Assert.AreEqual(0.277759543089215, x, 1e-9);
-            Assert.AreEqual(0, f1(x), 1e-16);
+            Assert.AreEqual(0, f1(x), 1e-9);
         }
 
         [Test]
@@ -128,9 +128,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return 1 - k1*x1 - k2*x2;
             };
 
-            double x = Bisection.FindRoot(f1, 0, 100);
+            double x = Bisection.FindRoot(f1, 0, 100, 1e-9);
             Assert.AreEqual(70.9000000710300, x, 1e-9);
-            Assert.AreEqual(0, f1(x), 1e-14);
+            Assert.AreEqual(0, f1(x), 1e-9);
         }
 
         [Test]
@@ -172,7 +172,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return DH + TR*(ALPHA + TR*(BETA/2 + TR*GAMMA/3)) - 298.0*(ALPHA + 298.0*(BETA/2 + 298.0*GAMMA/3));
             };
 
-            double x = Bisection.FindRoot(f1, 3000, 5000);
+            double x = Bisection.FindRoot(f1, 3000, 5000, 1e-10);
             Assert.AreEqual(4305.30991366774, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-10);
         }
@@ -198,9 +198,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return R*T/V + Beta/(V*V) + Gama/(V*V*V) + Delta/(V*V*V*V) - P;
             };
 
-            double x = Bisection.FindRoot(f1, 0.1, 1);
+            double x = Bisection.FindRoot(f1, 0.1, 1, 1e-8);
             Assert.AreEqual(0.174749531708621, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-12);
+            Assert.AreEqual(0, f1(x), 1e-8);
         }
 
         [Test]
@@ -234,7 +234,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         {
             // Test case from http://www.polymath-software.com/library/nle/Oneeq7.htm
             Func<double, double> f1 = x => x/(1 - x) - 5*Math.Log(0.4*(1 - x)/(0.4 - 0.5*x)) + 4.45977;
-            double r = Bisection.FindRoot(f1, 0, 0.79, 1e-2);
+            double r = Bisection.FindRoot(f1, 0, 0.79, 1e-13);
             Assert.AreEqual(0.757396293891, r, 1e-5);
             Assert.AreEqual(0, f1(r), 1e-13);
         }
@@ -252,9 +252,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return a*v*v + b*Math.Pow(v, 7/4) - c;
             };
 
-            double x = Bisection.FindRoot(f1, 0.01, 1);
-            Assert.AreEqual(0.842524411168525, x, 1e-2);
-            Assert.AreEqual(0, f1(x), 1e-12);
+            double x = Bisection.FindRoot(f1, 0.01, 1, 1e-10);
+            Assert.AreEqual(0.842524411168525, x, 1e-2); // Hmm, we do not find the correct root within requested accuracy here.
+            Assert.AreEqual(0, f1(x), 1e-10);
         }
 
         [Test]
@@ -274,9 +274,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             double x = Bisection.FindRoot(f1, 1, 50);
             Assert.AreEqual(25.743977294088, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-14);
-            x = Bisection.FindRoot(f1, 50, 100);
-            Assert.AreEqual(78.905412035983, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-14);
+            x = Bisection.FindRoot(f1, 50, 100, 1e-8);
+            Assert.AreEqual(78.905412035983, x, 1e-8);
+            Assert.AreEqual(0, f1(x), 1e-8);
         }
 
         [Test]
@@ -285,12 +285,12 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             // Test case from http://www.polymath-software.com/library/nle/Oneeq10.htm
             Func<double, double> f1 = x => (1.0/63.0)*Math.Log(x) + (64.0/63.0)*Math.Log(1/(1 - x)) + Math.Log(0.95 - x) - Math.Log(0.9);
 
-            double r = Bisection.FindRoot(f1, .01, 0.35);
+            double r = Bisection.FindRoot(f1, .01, 0.35, 1e-8);
             Assert.AreEqual(0.036210083704, r, 1e-5);
-            Assert.AreEqual(0, f1(r), 1e-14);
-            r = Bisection.FindRoot(f1, 0.35, 0.7);
-            Assert.AreEqual(0.5, r, 1e-5);
-            Assert.AreEqual(0, f1(r), 1e-14);
+            Assert.AreEqual(0, f1(r), 1e-8);
+            r = Bisection.FindRoot(f1, 0.35, 0.7, 1e-8);
+            Assert.AreEqual(0.5, r, 1e-8);
+            Assert.AreEqual(0, f1(r), 1e-8);
         }
 
         [Test]
@@ -308,12 +308,12 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return a - Math.Pow((c + 2*x)*(a + b + c - 2*x), 2)/(kp*P*P*Math.Pow(b - 3*x, 3)) - x;
             };
 
-            double r = Bisection.FindRoot(f1, 0, 0.25);
-            Assert.AreEqual(0.058654581076661, r, 1e-5);
-            Assert.AreEqual(0, f1(r), 1e-14);
-            r = Bisection.FindRoot(f1, 0.3, 1);
-            Assert.AreEqual(0.600323116977323, r, 1e-5);
-            Assert.AreEqual(0, f1(r), 1e-14);
+            double r = Bisection.FindRoot(f1, 0, 0.25, 1e-8);
+            Assert.AreEqual(0.058654581076661, r, 1e-7); // Fails with tolerance 1e-8, hmm...
+            Assert.AreEqual(0, f1(r), 1e-8);
+            r = Bisection.FindRoot(f1, 0.3, 1, 1e-8);
+            Assert.AreEqual(0.600323116977323, r, 1e-8);
+            Assert.AreEqual(0, f1(r), 1e-8);
         }
 
         [Test]
@@ -331,9 +331,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return (b - Math.Pow(Math.Pow((c + 2*x)*(a + b + c - 2*x), 2)/(kp*P*P*(a - x)), 1.0/3.0))/3.0 - x;
             };
 
-            double r = Bisection.FindRoot(f1, 0.01, 0.45);
-            Assert.AreEqual(0.058654571042804, r, 1e-5);
-            Assert.AreEqual(0, f1(r), 1e-14);
+            double r = Bisection.FindRoot(f1, 0.01, 0.45, 1e-8);
+            Assert.AreEqual(0.058654571042804, r, 1e-8);
+            Assert.AreEqual(0, f1(r), 1e-8);
             // Could not test the following root, since Math.Pow(y,1/3) does not work for y<0
             // r = Bisection.FindRoot(f1, 0.55, 0.7);
             // Assert.AreEqual(0.600323117488527, r, 1e-5);
@@ -355,9 +355,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return (R*T/P)*(1 + b/v + c/(v*v)) - v;
             };
 
-            double x = Bisection.FindRoot(f1, 100, 300);
-            Assert.AreEqual(213.001818272273, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-14);
+            double x = Bisection.FindRoot(f1, 100, 300, 1e-8);
+            Assert.AreEqual(213.001818272273, x, 1e-8);
+            Assert.AreEqual(0, f1(x), 1e-8);
         }
 
         [Test]
@@ -377,9 +377,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return R*Math.Pow(T, 1.5)*V*(V + B)/(P*Math.Sqrt(T)*V*(V + B) + A) + B - V;
             };
 
-            double x = Bisection.FindRoot(f1, .01, .3);
-            Assert.AreEqual(0.075699587993613, x, 1e-9);
-            Assert.AreEqual(0, f1(x), 1e-14);
+            double x = Bisection.FindRoot(f1, .01, .3, 1e-8);
+            Assert.AreEqual(0.075699587993613, x, 1e-8);
+            Assert.AreEqual(0, f1(x), 1e-8);
         }
 
         [Test]
@@ -402,9 +402,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return U*A*(DT2 - DT1)/Math.Log(DT2/DT1) - Q;
             };
 
-            double x = Bisection.FindRoot(f1, 1000000, 7000000);
-            Assert.AreEqual(5281024.23857737, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-9);
+            double x = Bisection.FindRoot(f1, 1000000, 7000000, 1e-8);
+            Assert.AreEqual(5281024.23857737, x, 1e-6); // Fails with tolerance 1e-8, hmm...
+            Assert.AreEqual(0, f1(x), 1e-8);
         }
 
         [Test]
@@ -496,9 +496,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return 1.296*(T - Tp) + 10369*k*Pp;
             };
 
-            double x = Bisection.FindRoot(f1, 500, 725);
+            double x = Bisection.FindRoot(f1, 500, 725, 1e-8);
             Assert.AreEqual(690.4486645013260, x, 1e-5);
-            Assert.AreEqual(0, f1(x), 1e-12);
+            Assert.AreEqual(0, f1(x), 1e-8);
             x = Bisection.FindRoot(f1, 725, 850, 1e-12);
             Assert.AreEqual(758.3286948959860, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-12);
@@ -521,9 +521,9 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return 1.3*(T - Tp) + 1.04e4*k*Pp;
             };
 
-            double x = Bisection.FindRoot(f1, 500, 1500);
+            double x = Bisection.FindRoot(f1, 500, 1500, 1e-8);
             Assert.AreEqual(1208.2863599396200, x, 1e-4);
-            Assert.AreEqual(0, f1(x), 1e-12);
+            Assert.AreEqual(0, f1(x), 1e-8);
         }
 
         [Test]
@@ -741,6 +741,48 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             x = Bisection.FindRoot(f1, 0.24, 0.3);
             Assert.AreEqual(0.26405262123160, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-14);
+        }
+
+        [Test]
+        public void Accuracy()
+        {
+            // Verify that x-accuracy is being sought, despite good y-accuracy already at the boundaries
+            Assert.AreEqual(0.5, Bisection.FindRoot(x => 1e-5 * (x - 0.5), 0.0, 1.0, 1e-5), 1e-5);
+
+            // Verify that y-accuracy is being sought despide good x-accuracy at the boundaries
+            Assert.AreEqual(Math.Sqrt(2), Bisection.FindRoot(x => 1e10 * (x - Math.Sqrt(2)), 1.0, 2.0, 1.0), 1e-10);
+
+            // Verify that a discontinuity is not considered a root.
+            double root;
+            Assert.IsFalse(Bisection.TryFindRoot(x => (x<0)? -1 : 1, -1, 1, 1e-5, 100, out root));
+            // ... unless it is a very small discontinuity
+            Assert.AreEqual(0.0, Bisection.FindRoot(x => (x < 0) ? -1e-5 : 1e-5, -1, Math.Sqrt(2), 1e-5), 1e-5);
+
+            // Verify no unnecessary iterations are done after the requested accuracy is achieved
+            var niter = 0;
+            Func<double, double> f = x => { niter++; return x - Math.Sqrt(2); };
+            Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 2);
+            Assert.LessOrEqual(niter, 3);
+
+            niter = 0;
+            Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 4);
+            Assert.LessOrEqual(niter, 4);
+
+            niter = 0;
+            Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 8);
+            Assert.LessOrEqual(niter, 5);
+
+            niter = 0;
+            Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 16);
+            Assert.LessOrEqual(niter, 6);
+
+            niter = 0;
+            Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 32);
+            Assert.LessOrEqual(niter, 7);
+
+            niter = 0;
+            Bisection.FindRoot(f, 1.0, 2.0, 1.0 / 64);
+            Assert.LessOrEqual(niter, 8);
         }
     }
 }

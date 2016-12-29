@@ -61,7 +61,7 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="maxIterations">Maximum number of iterations. Default 100.</param>
         /// <returns>Returns the root with the specified accuracy.</returns>
         /// <exception cref="NonConvergenceException"></exception>
-        public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
+        public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-14, int maxIterations = 100)
         {
             double root;
             if (TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
@@ -76,29 +76,34 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="f">The function to find roots from.</param>
         /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
         /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
-        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached.</param>
+        /// <param name="accuracy">Desired accuracy for both the root and the function value at the root. The root will be refined until the accuracy or the maximum number of iterations is reached.</param>
         /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
         /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
         /// <returns>True if a root with the specified accuracy was found, else false.</returns>
         public static bool TryFindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy, int maxIterations, out double root)
         {
-            double fmin = f(lowerBound);
-            double fmax = f(upperBound);
+            if (upperBound < lowerBound)
+            {
+                var t = upperBound;
+                upperBound = lowerBound;
+                lowerBound = t;
+            }
 
-            // already there?
-            if (Math.Abs(fmin) < accuracy)
+            double fmin = f(lowerBound);
+            if (Math.Sign(fmin) == 0)
             {
                 root = lowerBound;
                 return true;
             }
 
-            if (Math.Abs(fmax) < accuracy)
+            double fmax = f(upperBound);
+            if (Math.Sign(fmax) == 0)
             {
                 root = upperBound;
                 return true;
             }
 
-            root = 0.5*(lowerBound + upperBound);
+            root = 0.5 * (lowerBound + upperBound);
 
             // bad bracketing?
             if (Math.Sign(fmin) == Math.Sign(fmax))
@@ -108,7 +113,9 @@ namespace MathNet.Numerics.RootFinding
 
             for (int i = 0; i <= maxIterations; i++)
             {
-                if (Math.Abs(fmax - fmin) < 0.5*accuracy && upperBound.AlmostEqualRelative(lowerBound))
+                double froot = f(root);
+
+                if (upperBound - lowerBound <= 2*accuracy && Math.Abs(froot) <= accuracy)
                 {
                     return true;
                 }
@@ -119,19 +126,17 @@ namespace MathNet.Numerics.RootFinding
                     return false;
                 }
 
-                double midval = f(root);
-
-                if (Math.Sign(midval) == Math.Sign(fmin))
+                if (Math.Sign(froot) == Math.Sign(fmin))
                 {
                     lowerBound = root;
-                    fmin = midval;
+                    fmin = froot;
                 }
-                else if (Math.Sign(midval) == Math.Sign(fmax))
+                else if (Math.Sign(froot) == Math.Sign(fmax))
                 {
                     upperBound = root;
-                    fmax = midval;
+                    fmax = froot;
                 }
-                else
+                else // Math.Sign(froot) == 0
                 {
                     return true;
                 }
