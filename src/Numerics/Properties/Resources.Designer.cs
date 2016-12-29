@@ -603,6 +603,15 @@ namespace MathNet.Numerics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The sample size must be larger than the given degrees of freedom..
+        /// </summary>
+        public static string DegreesOfFreedomMustBeLessThanSampleSize {
+            get {
+                return ResourceManager.GetString("DegreesOfFreedomMustBeLessThanSampleSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This feature is not implemented yet (but is planned)..
         /// </summary>
         public static string FeaturePlannedButNotImplementedYet {
