@@ -1047,6 +1047,45 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
+            var targetSparse = target as SparseVectorStorage<T>;
+            if (targetSparse != null)
+            {
+                if ((sourceColumnIndex == 0) && (targetColumnIndex == 0) && (columnCount == ColumnCount))
+                {
+                    targetSparse.ValueCount = endIndex - startIndex;
+                    targetSparse.Values = new T[targetSparse.ValueCount];
+                    targetSparse.Indices = new int[targetSparse.ValueCount];
+                    Array.Copy(ColumnIndices, startIndex, targetSparse.Indices, 0, targetSparse.ValueCount);
+                    Array.Copy(Values, startIndex, targetSparse.Values, 0, targetSparse.ValueCount);
+                }
+                else
+                {
+                    int sourceStartPos = Array.BinarySearch(ColumnIndices, startIndex, endIndex - startIndex, sourceColumnIndex);
+                    if (sourceStartPos < 0)
+                    {
+                        sourceStartPos = ~sourceStartPos;
+                    }
+                    int sourceEndPos = Array.BinarySearch(ColumnIndices, startIndex, endIndex - startIndex, sourceColumnIndex + columnCount);
+                    if (sourceEndPos < 0)
+                    {
+                        sourceEndPos = (~sourceStartPos) - 1;
+                    }
+                    if (sourceStartPos <= sourceEndPos)
+                    {
+                        targetSparse.ValueCount = sourceEndPos - sourceStartPos;
+                        targetSparse.Values = new T[targetSparse.ValueCount];
+                        targetSparse.Indices = new int[targetSparse.ValueCount];
+                        for (int i = 0; i < targetSparse.ValueCount; ++i)
+                        {
+                            targetSparse.Values[i] = Values[i + sourceStartPos];
+                            targetSparse.Indices[i] = ColumnIndices[i + sourceStartPos] + targetColumnIndex;
+                        }
+                    }
+                }
+                return;
+            }
+            // FALLBACK 
+
             // If there are non-zero elements use base class implementation
             for (int i = sourceColumnIndex, j = 0; i < sourceColumnIndex + columnCount; i++, j++)
             {
