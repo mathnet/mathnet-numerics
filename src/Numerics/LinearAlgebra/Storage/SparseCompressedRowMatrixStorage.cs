@@ -1049,7 +1049,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var targetSparse = target as SparseVectorStorage<T>;
             if (targetSparse != null)
             {
-                if ((sourceColumnIndex == 0) && (targetColumnIndex == 0) && (columnCount == ColumnCount))
+                if ((sourceColumnIndex == 0) && (targetColumnIndex == 0) && (columnCount == ColumnCount) && (ColumnCount == targetSparse.Length))
                 {
                     targetSparse.ValueCount = endIndexOfRow - startIndexOfRow;
                     targetSparse.Values = new T[targetSparse.ValueCount];
