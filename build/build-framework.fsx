@@ -347,3 +347,31 @@ let publishApi (release:Release) =
     Git.Staging.StageAll repo
     Git.Commit.Commit repo (sprintf "Numerics: %s api update" release.PackageVersion)
     Git.Branches.pushBranch repo "origin" "master"
+
+let publishNuGetToArchive archivePath nupkgFile (pack:Package) =
+    let tempDir = Path.GetTempPath() </> Path.GetRandomFileName()
+    let archiveDir = archivePath </> pack.Id </> pack.Release.PackageVersion
+    CleanDirs [tempDir; archiveDir]
+    nupkgFile |> CopyFile archiveDir
+    use sha512 = System.Security.Cryptography.SHA512.Create()
+    let hash = File.ReadAllBytes nupkgFile |> sha512.ComputeHash |> Convert.ToBase64String
+    File.WriteAllText ((archiveDir </> (Path.GetFileName(nupkgFile) + ".sha512")), hash)
+    ZipHelper.Unzip tempDir nupkgFile
+    !! (tempDir </> "*.nuspec") |> Copy archiveDir
+    DeleteDir tempDir
+
+let publishArchive zipOutPath nugetOutPath (bundles:Bundle list) =
+    let archivePath = (environVarOrFail "MathNetReleaseArchive") </> "Math.NET Numerics"
+    if directoryExists archivePath |> not then failwith "Release archive directory does not exists. Safety Check failed."
+    for bundle in bundles do
+        let zipFile = zipOutPath </> sprintf "%s-%s.zip" bundle.Id bundle.Release.PackageVersion
+        if FileSystemHelper.fileExists zipFile then
+            zipFile |> CopyFile (archivePath </> "Zip")
+    for package in bundles |> List.collect (fun b -> b.Packages) do
+        let nupkgFile = nugetOutPath </> sprintf "%s.%s.nupkg" package.Id package.Release.PackageVersion
+        if FileSystemHelper.fileExists nupkgFile then
+            trace nupkgFile
+            publishNuGetToArchive (archivePath </> "NuGet") nupkgFile package
+        let symbolsFile = nugetOutPath </> sprintf "%s.%s.symbols.nupkg" package.Id package.Release.PackageVersion
+        if FileSystemHelper.fileExists symbolsFile then
+            symbolsFile |> CopyFile (archivePath </> "Symbols")

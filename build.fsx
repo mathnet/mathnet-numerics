@@ -571,6 +571,12 @@ Target "PublishMirrors" (fun _ -> publishMirrors())
 Target "PublishDocs" (fun _ -> publishDocs numericsRelease)
 Target "PublishApi" (fun _ -> publishApi numericsRelease)
 
+Target "PublishArchive" (fun _ -> publishArchive "out/packages/Zip" "out/packages/NuGet" [coreBundle; coreSignedBundle])
+Target "MklPublishArchive" (fun _ -> publishArchive "out/MKL/packages/Zip" "out/MKL/packages/NuGet" [mklWinBundle; mklLinuxBundle])
+Target "CudaPublishArchive" (fun _ -> publishArchive "out/CUDA/packages/Zip" "out/CUDA/packages/NuGet" [cudaWinBundle])
+Target "OpenBlasPublishArchive" (fun _ -> publishArchive "out/OpenBLAS/packages/Zip" "out/OpenBLAS/packages/NuGet" [openBlasWinBundle])
+Target "DataPublishArchive" (fun _ -> publishArchive "out/Data/packages/Zip" "out/Data/packages/NuGet" [dataBundle])
+
 Target "PublishNuGet" (fun _ -> !! "out/packages/NuGet/*.nupkg" -- "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
 Target "MklPublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.nupkg" |> publishNuGet)
 Target "CudaPublishNuGet" (fun _ -> !! "out/CUDA/packages/NuGet/*.nupkg" |> publishNuGet)
@@ -579,24 +585,29 @@ Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.nupkg" |> publ
 
 Target "Publish" DoNothing
 "PublishTag" ==> "Publish"
-"PublishNuGet" ==> "Publish"
 "PublishDocs" ==> "Publish"
 "PublishApi" ==> "Publish"
+"PublishArchive" ==> "Publish"
+"PublishNuGet" ==> "Publish"
 
 Target "MklPublish" DoNothing
 "MklPublishTag" ==> "MklPublish"
+"MklPublishArchive" ==> "MklPublish"
 "MklPublishNuGet" ==> "MklPublish"
 
 Target "CudaPublish" DoNothing
 "CudaPublishTag" ==> "CudaPublish"
+"CudaPublishArchive" ==> "CudaPublish"
 "CudaPublishNuGet" ==> "CudaPublish"
 
 Target "OpenBlasPublish" DoNothing
 "OpenBlasPublishTag" ==> "OpenBlasPublish"
+"OpenBlasPublishArchive" ==> "OpenBlasPublish"
 "OpenBlasPublishNuGet" ==> "OpenBlasPublish"
 
 Target "DataPublish" DoNothing
 "DataPublishTag" ==> "DataPublish"
+"DataPublishArchive" ==> "DataPublish"
 "DataPublishNuGet" ==> "DataPublish"
 
 
