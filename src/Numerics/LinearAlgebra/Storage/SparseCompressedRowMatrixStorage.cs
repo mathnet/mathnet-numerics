@@ -1106,8 +1106,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     }
                     else
                     {
-                        // although there are no values to copy, we still need to clean the existing values
-                        target.Clear(targetColumnIndex, columnCount);
+                        // although there are no values to copy, we still need to clean the existing values (if necessary)
+                        if (existingData == ExistingData.Clear)
+                        {
+                            target.Clear(targetColumnIndex, columnCount);
+                        }
                     }
                 }
                 return;
