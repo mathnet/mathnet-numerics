@@ -1,3 +1,7 @@
+### 3.16.0 - 2017-01-03
+* Root Finding: improve accuracy handling *~Konstantin Tretyakov*
+* Regression: GoodnessOfFit StandardError *~David Falkner*
+
 ### 3.15.0 - 2016-12-27
 * FFT: MKL native provider backend.
 * FFT: 2D and multi-dimensional FFT (only supported by MKL provider, managed provider pending).
