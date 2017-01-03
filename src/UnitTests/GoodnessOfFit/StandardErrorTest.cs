@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
         }
 
         [Test]
-        public void ComputesSampleStandardErrorOfTheRegression()
+        public void ComputesStandardErrorOfTheRegression()
         {
             // Definition as described at: http://onlinestatbook.com/lms/regression/accuracy.html
             var xes = new[] { 1.0, 2, 3, 4, 5 };
@@ -61,7 +61,7 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
             var a = fit.Item1;
             var b = fit.Item2;
             var predictedYs = xes.Select(x => a + b * x);
-            var standardError = Numerics.GoodnessOfFit.SampleStandardError(predictedYs, ys, degreesOfFreedom: 2);
+            var standardError = Numerics.GoodnessOfFit.StandardError(predictedYs, ys, degreesOfFreedom: 2);
 
             Assert.AreEqual(0.964, standardError, 1e-3);
         }
@@ -76,11 +76,11 @@ namespace MathNet.Numerics.UnitTests.GoodnessOfFit
         }
 
         [Test]
-        public void SampleStandardErrorShouldThrowIfSampleSizeIsSmallerThanGivenDegreesOfFreedom()
+        public void StandardErrorShouldThrowIfSampleSizeIsSmallerThanGivenDegreesOfFreedom()
         {
             var modelled = new[] { 1.0 };
             var observed = new[] { 1.0 };
-            Assert.Throws<ArgumentOutOfRangeException>(() => Numerics.GoodnessOfFit.SampleStandardError(modelled, observed, 2));
+            Assert.Throws<ArgumentOutOfRangeException>(() => Numerics.GoodnessOfFit.StandardError(modelled, observed, 2));
         }
     }
 }

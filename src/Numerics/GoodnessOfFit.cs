@@ -68,7 +68,7 @@ namespace MathNet.Numerics
         /// <returns>The Standard Error of the regression</returns>
         public static double PopulationStandardError(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
         {
-            return SampleStandardError(modelledValues, observedValues, 0);
+            return StandardError(modelledValues, observedValues, 0);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace MathNet.Numerics
         /// <param name="degreesOfFreedom">The degrees of freedom by which the 
         /// number of samples is reduced for performing the Standard Error calculation</param>
         /// <returns>The Standard Error of the regression</returns>
-        public static double SampleStandardError(IEnumerable<double> modelledValues, IEnumerable<double> observedValues, int degreesOfFreedom)
+        public static double StandardError(IEnumerable<double> modelledValues, IEnumerable<double> observedValues, int degreesOfFreedom)
         {
             using (IEnumerator<double> ieM = modelledValues.GetEnumerator())
             using (IEnumerator<double> ieO = observedValues.GetEnumerator())
