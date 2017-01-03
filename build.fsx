@@ -39,13 +39,7 @@ let cudaRelease = release "CUDA Provider" "RELEASENOTES-CUDA.md"
 let openBlasRelease = release "OpenBLAS Provider" "RELEASENOTES-OpenBLAS.md"
 let dataRelease = release "Data Extensions" "RELEASENOTES-Data.md"
 let releases = [ numericsRelease; mklRelease; openBlasRelease; dataRelease ] // skip cuda
-
-trace (sprintf " Math.NET Numerics                    v%s" numericsRelease.PackageVersion)
-trace (sprintf " Math.NET Numerics MKL Provider       v%s" mklRelease.PackageVersion)
-trace (sprintf " Math.NET Numerics CUDA Provider      v%s" cudaRelease.PackageVersion)
-trace (sprintf " Math.NET Numerics OpenBLAS Provider  v%s" openBlasRelease.PackageVersion)
-trace (sprintf " Math.NET Numerics Data Extensions    v%s" dataRelease.PackageVersion)
-trace ""
+traceHeader releases
 
 
 // CORE PACKAGES

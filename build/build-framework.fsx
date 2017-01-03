@@ -30,7 +30,6 @@ Environment.CurrentDirectory <- Path.Combine (__SOURCE_DIRECTORY__ + "/../")
 trace Environment.CurrentDirectory
 
 let header = ReadFile(__SOURCE_DIRECTORY__ </> __SOURCE_FILE__) |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> toLines
-trace header
 
 type Release =
     { Title: string
@@ -69,6 +68,12 @@ let release title releaseNotesFile : Release =
       ReleaseNotes = notes
       ReleaseNotesFile = releaseNotesFile }
 
+let traceHeader (releases:Release list) =
+    trace header
+    let titleLength = releases |> List.map (fun r -> r.Title.Length) |> List.max
+    for release in releases do
+        trace ([ " "; release.Title.PadRight titleLength; "  v"; release.PackageVersion ] |> String.concat "")
+    trace ""
 
 // --------------------------------------------------------------------------------------
 // TARGET FRAMEWORKS
