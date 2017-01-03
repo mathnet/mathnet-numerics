@@ -1,6 +1,6 @@
 ﻿// <copyright file="SafeNativeMethods.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// https://numerics.mathdotnet.com
 //
 // Copyright (c) 2009-2010 Math.NET
 //
@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         /// </summary>
         const string DllName = "MathNET.Numerics.ACML.dll";
 
-        #region BLAS
+#region BLAS
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void s_axpy(int n, float alpha, float[] x, [In, Out] float[] y);
@@ -96,9 +96,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern void z_matrix_multiply(Transpose transA, Transpose transB, int m, int n, int k, Complex alpha, Complex[] x, Complex[] y, Complex beta, [In, Out] Complex[] c);
 
-        #endregion BLAS
+#endregion BLAS
 
-        #region LAPACK
+#region LAPACK
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern float s_matrix_norm(byte norm, int rows, int columns, [In] float[] a, [In, Out] float[] work);
@@ -256,7 +256,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int z_svd_factor(bool computeVectors, int m, int n, [In, Out] Complex[] a, [In, Out] Complex[] s, [In, Out] Complex[] u, [In, Out] Complex[] v, [In, Out] Complex[] work, int len);
 
-        #endregion LAPACK
+#endregion LAPACK
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿// <copyright file="ManagedFourierTransformProvider.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// https://numerics.mathdotnet.com
 //
 // Copyright (c) 2009-2016 Math.NET
 //
