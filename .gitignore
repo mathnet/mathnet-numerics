@@ -24,6 +24,7 @@ coverage.*
 *.vspx
 *.lnt
 *.svclog
+*.log
 
 # Caches
 _ReSharper*

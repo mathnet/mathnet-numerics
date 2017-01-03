@@ -259,7 +259,7 @@
 * Update Vagrant setup to official Ubuntu 14.04 LTS box and proper apt-style Mono+F# provisioning.
 
 ### 3.0.0-beta01 - 2014-04-01
-* See also: [Roadmap](http://sdrv.ms/17wPFlW) and [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog/towards-mathnet-numerics-v3.html).
+* See also: [Roadmap](https://sdrv.ms/17wPFlW) and [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog/towards-mathnet-numerics-v3.html).
 * **Major release with breaking changes**
 * All obsolete code has been removed
 * Reworked redundancies, inconsistencies and unfortunate past design choices.

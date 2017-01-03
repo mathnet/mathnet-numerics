@@ -40,18 +40,18 @@ is *not* required when using Visual Studio or `msbuild` directly.
 
     build.cmd    # normal build (.Net 4.0), run unit tests (.Net on Windows)
     ./build.sh   # normal build (.Net 4.0), run unit tests (Mono on Linux/Mac, .Net on Windows)
-    
+
     build.cmd Build              # normal build (.Net 4.0)
     build.cmd Build incremental  # normal build, incremental (.Net 4.0)
     build.cmd Build all          # full build (.Net 4.0, 3.5, PCL)
     build.cmd Build net35        # compatibility build (.Net 3.5
     build.cmd Build signed       # normal build, signed/strong named (.Net 4.0)
-    
+
     build.cmd Test          # normal build (.Net 4.0), run unit tests
     build.cmd Test quick    # normal build (.Net 4.0), run unit tests except long running ones
     build.cmd Test all      # full build (.Net 4.0, 3.5, PCL), run all unit tests
     build.cmd Test net35    # compatibility build (.Net 3.5), run unit tests
-    
+
     build.cmd Clean         # cleanup build artifacts
     build.cmd Docs          # generate documentation
     build.cmd Api           # generate api reference
@@ -64,7 +64,7 @@ is *not* required when using Visual Studio or `msbuild` directly.
 
 If the build or tests fail claiming that FSharp.Core was not be found, see
 [fsharp.org](http://fsharp.org/use/windows/) or install the
-[Visual F# 3.0 Tools](http://go.microsoft.com/fwlink/?LinkId=261286) directly.
+[Visual F# 3.0 Tools](https://go.microsoft.com/fwlink/?LinkId=261286) directly.
 
 Dependencies
 ------------
@@ -126,10 +126,10 @@ Example:
     // | |\/| |/ _` | __| '_ \  | . ` |  __|    | |
     // | |  | | (_| | |_| | | |_| |\  | |____   | |
     // |_|  |_|\__,_|\__|_| |_(_)_| \_|______|  |_|
-    // 
-    // Math.NET Numerics - http://numerics.mathdotnet.com
+    //
+    // Math.NET Numerics - https://numerics.mathdotnet.com
     // Copyright (c) Math.NET - Open Source MIT/X11 License
-    // 
+    //
     // Math.NET Numerics                    v3.5.0
     // Math.NET Numerics MKL Provider       v1.7.0
     // Math.NET Numerics Data Extensions    v3.1.0
@@ -172,9 +172,9 @@ Official Release Process (Maintainers only)
     publishing to the NuGet gallery is quite unreliable.
 
 *   Create new GitHub release, attach Zip files (to be automated)
-*   Copy artifacts to [release archive](http://1drv.ms/1lMtdNi) (to be automated)
+*   Copy artifacts to [release archive](https://1drv.ms/1lMtdNi) (to be automated)
 *   Consider a tweet via [@MathDotNet](https://twitter.com/MathDotNet)
 *   Consider a post to the [Google+ site](https://plus.google.com/112484567926928665204)
 *   Update Wikipedia release version and date for the
-    [Math.NET Numerics](http://en.wikipedia.org/wiki/Math.NET_Numerics) and
-    [Comparison of numerical analysis software](http://en.wikipedia.org/wiki/Comparison_of_numerical_analysis_software) articles.
+    [Math.NET Numerics](https://en.wikipedia.org/wiki/Math.NET_Numerics) and
+    [Comparison of numerical analysis software](https://en.wikipedia.org/wiki/Comparison_of_numerical_analysis_software) articles.

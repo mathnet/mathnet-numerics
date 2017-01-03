@@ -19,9 +19,9 @@
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_LINES/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">&lt;copyright file="$FILENAME$" company="Math.NET"&gt;&#xD;
 Math.NET Numerics, part of the Math.NET Project&#xD;
-http://numerics.mathdotnet.com&#xD;
-http://github.com/mathnet/mathnet-numerics&#xD;
-http://mathnetnumerics.codeplex.com&#xD;
+https://numerics.mathdotnet.com&#xD;
+https://github.com/mathnet/mathnet-numerics&#xD;
+https://mathnetnumerics.codeplex.com&#xD;
 &#xD;
 Copyright (c) 2009-$CURRENT_YEAR$ Math.NET&#xD;
 &#xD;

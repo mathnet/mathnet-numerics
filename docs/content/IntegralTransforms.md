@@ -22,16 +22,16 @@ is to be used can be specified by an additional _options_ parameter.
 Fourier Space: Discrete Fourier Transform and FFT
 -------------------------------------------------
 
-Wikipedia has an extensive [article on the discrete Fourier transform (DFT)](http://en.wikipedia.org/wiki/Discrete_Fourier_transform).
+Wikipedia has an extensive [article on the discrete Fourier transform (DFT)](https://en.wikipedia.org/wiki/Discrete_Fourier_transform).
 We provide implementations of the following algorithms:
 
-* *Naive Discrete Fourier Transform (DFT):* Out-place transform for arbitrary vector lengths. Mainly intended for verifying faster algorithms: _[NaiveForward](http://api.mathdotnet.com/Numerics/MathNet.Numerics.IntegralTransforms.Algorithms/DiscreteFourierTransform.htm#NaiveForward)_, _[NaiveInverse](http://api.mathdotnet.com/Numerics/MathNet.Numerics.IntegralTransforms.Algorithms/DiscreteFourierTransform.htm#NaiveInverse)_
+* *Naive Discrete Fourier Transform (DFT):* Out-place transform for arbitrary vector lengths. Mainly intended for verifying faster algorithms: _[NaiveForward](https://numerics.mathdotnet.com/api/MathNet.Numerics.IntegralTransforms/Fourier.htm#NaiveForward)_, _[NaiveInverse](https://numerics.mathdotnet.com/api/MathNet.Numerics.IntegralTransforms/Fourier.htm#NaiveInverse)_
 
-* *Radix-2 Fast Fourier Transform (FFT):* In-place fast Fourier transform for vectors with a power-of-two length (Radix-2): _[Radix2Forward](http://api.mathdotnet.com/Numerics/MathNet.Numerics.IntegralTransforms.Algorithms/DiscreteFourierTransform.htm#Radix2Forward)_, _[url:Radix2Inverse](http://api.mathdotnet.com/Numerics/MathNet.Numerics.IntegralTransforms.Algorithms/DiscreteFourierTransform.htm#Radix2Inverse)_
+* *Radix-2 Fast Fourier Transform (FFT):* In-place fast Fourier transform for vectors with a power-of-two length (Radix-2): _[Radix2Forward](https://numerics.mathdotnet.com/api/MathNet.Numerics.IntegralTransforms/Fourier.htm#Radix2Forward)_, _[url:Radix2Inverse](https://numerics.mathdotnet.com/api/MathNet.Numerics.IntegralTransforms/Fourier.htm#Radix2Inverse)_
 
-* *Bluestein Fast Fourier Transform (FFT):* In-place fast Fourier transform for arbitrary vector lengths: _[BluesteinForward](http://api.mathdotnet.com/Numerics/MathNet.Numerics.IntegralTransforms.Algorithms/DiscreteFourierTransform.htm#BluesteinForward)_, _[url:BluesteinInverse](http://api.mathdotnet.com/Numerics/MathNet.Numerics.IntegralTransforms.Algorithms/DiscreteFourierTransform.htm#BluesteinInverse)_
+* *Bluestein Fast Fourier Transform (FFT):* In-place fast Fourier transform for arbitrary vector lengths: _[BluesteinForward](https://numerics.mathdotnet.com/api/MathNet.Numerics.IntegralTransforms/Fourier.htm#BluesteinForward)_, _[url:BluesteinInverse](https://numerics.mathdotnet.com/api/MathNet.Numerics.IntegralTransforms/Fourier.htm#BluesteinInverse)_
 
-Furthermore, the _[Transform](http://api.mathdotnet.com/Numerics/MathNet.Numerics.IntegralTransforms/Transform.htm)_ class provides a shortcut for the Bluestein FFT using static methods which are even easier to use: _[FourierForward](http://api.mathdotnet.com/Numerics/MathNet.Numerics.IntegralTransforms/Transform.htm#FourierForward)_, _[FourierInverse](http://api.mathdotnet.com/Numerics/MathNet.Numerics.IntegralTransforms/Transform.htm#FourierInverse)_.
+Furthermore, the _[Transform](https://numerics.mathdotnet.com/api/MathNet.Numerics.IntegralTransforms/Fourier.htm)_ class provides a shortcut for the Bluestein FFT using static methods which are even easier to use: _[FourierForward](https://numerics.mathdotnet.com/api/MathNet.Numerics.IntegralTransforms/Transform.htm#FourierForward)_, _[FourierInverse](https://numerics.mathdotnet.com/api/MathNet.Numerics.IntegralTransforms/Transform.htm#FourierInverse)_.
 
 Code Sample using the Transform class:
 
@@ -47,10 +47,10 @@ Code Sample using the Transform class:
 Fourier Options:
 
 * *Default:* Uses a negative exponent sign in forward transformations, and symmetric scaling (that is, sqrt(1/N) for both forward and inverse transformation). This is the convention used in Maple and is widely accepted in the educational sector (due to the symmetry).
-* *AsymmetricScaling:* Set this flag to suppress scaling on the forward transformation but scale the inverse transform with 1/N. 
+* *AsymmetricScaling:* Set this flag to suppress scaling on the forward transformation but scale the inverse transform with 1/N.
 * *NoScaling:* Set this flag to suppress scaling for both forward and inverse transformation. Note that in this case if you apply first the forward and then inverse transformation you won't get back the original signal (by factor N/2).
 * *InverseExponent:* Uses the positive instead of the negative sign in the forward exponent, and the negative (instead of positive) exponent in the inverse transformation.
-* *Matlab:* Use this flag if you need MATLAB compatibility. Equals to setting the _AsymmetricScaling_ flag. This matches the definition used in the [url:wikipedia article|http://en.wikipedia.org/wiki/Discrete_Fourier_transform].
+* *Matlab:* Use this flag if you need MATLAB compatibility. Equals to setting the _AsymmetricScaling_ flag. This matches the definition used in the [url:wikipedia article|https://en.wikipedia.org/wiki/Discrete_Fourier_transform].
 * *NumericalRecipes:* Use this flag if you need Numerical Recipes compatibility. Equal to setting both the _InverseExponent_ and the _NoScaling_ flags.
 
 Useful symmetries of the Fourier transform:
