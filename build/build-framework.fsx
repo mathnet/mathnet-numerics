@@ -16,6 +16,7 @@ module BuildFramework
 #I "../packages/build/FAKE/tools"
 #r "../packages/build/FAKE/tools/FakeLib.dll"
 
+open FSharp.Core
 open Fake
 open Fake.DocuHelper
 open Fake.AssemblyInfoFile
@@ -31,19 +32,19 @@ trace Environment.CurrentDirectory
 let header = ReadFile(__SOURCE_DIRECTORY__ </> __SOURCE_FILE__) |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> toLines
 trace header
 
-type BundleRelease =
-    { ReleaseNotesFile: string
+type Release =
+    { Title: string
       AssemblyVersion: string
       PackageVersion: string
-      ReleaseNotes: string }
+      ReleaseNotes: string
+      ReleaseNotesFile: string }
 
 type Package =
     { Id: string
-      Version: string
+      Release: Release
       Title: string
       Summary: string
       Description: string
-      ReleaseNotes: string
       Tags: string
       FsLoader: bool
       Authors: string list
@@ -52,21 +53,21 @@ type Package =
 
 type Bundle =
     { Id: string
-      Version: string
+      Release: Release
       Title: string
-      ReleaseNotesFile: string
       Packages: Package list }
 
-let release releaseNotesFile : BundleRelease =
+let release title releaseNotesFile : Release =
     let info = LoadReleaseNotes releaseNotesFile
     let buildPart = "0"
     let assemblyVersion = info.AssemblyVersion + "." + buildPart
     let packageVersion = info.NugetVersion
     let notes = info.Notes |> List.map (fun l -> l.Replace("*","").Replace("`","")) |> toLines
-    { ReleaseNotesFile = releaseNotesFile
+    { Title = title
       AssemblyVersion = assemblyVersion
       PackageVersion = packageVersion
-      ReleaseNotes = notes }
+      ReleaseNotes = notes
+      ReleaseNotesFile = releaseNotesFile }
 
 
 // --------------------------------------------------------------------------------------
@@ -87,14 +88,14 @@ let libpcl328 = "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouc
 // PREPARE
 // --------------------------------------------------------------------------------------
 
-let patchVersionInAssemblyInfo path (release:BundleRelease) =
+let patchVersionInAssemblyInfo path (release:Release) =
     BulkReplaceAssemblyInfoVersions path (fun f ->
         { f with
             AssemblyVersion = release.AssemblyVersion
             AssemblyFileVersion = release.AssemblyVersion
             AssemblyInformationalVersion = release.PackageVersion })
 
-let patchVersionInResource path (release:BundleRelease) =
+let patchVersionInResource path (release:Release) =
     ReplaceInFile
         (regex_replace @"\d+\.\d+\.\d+\.\d+" release.AssemblyVersion
          >> regex_replace @"\d+,\d+,\d+,\d+" (replace "." "," release.AssemblyVersion))
@@ -143,8 +144,8 @@ let provideLicense path =
     |> ConvertTextToWindowsLineBreaks
     |> ReplaceFile (path </> "license.txt")
 
-let provideReadme title releasenotes path =
-    String.concat Environment.NewLine [header; " " + title; ""; ReadFileAsString releasenotes]
+let provideReadme title (release:Release) path =
+    String.concat Environment.NewLine [header; " " + title; ""; ReadFileAsString release.ReleaseNotesFile]
     |> ConvertTextToWindowsLineBreaks
     |> ReplaceFile (path </> "readme.txt")
 
@@ -165,7 +166,7 @@ let provideFsIfSharpLoader path =
 
 let provideZipExtraFiles path (bundle:Bundle) =
     provideLicense path
-    provideReadme (sprintf "%s v%s" bundle.Title bundle.Version) bundle.ReleaseNotesFile path
+    provideReadme (sprintf "%s v%s" bundle.Title bundle.Release.PackageVersion) bundle.Release path
     if bundle.Packages |> List.exists (fun p -> p.FsLoader) then
         let includes = [ for root in [ ""; "../"; "../../" ] -> sprintf "#I \"%sNet40\"" root ]
         provideFsLoader includes path
@@ -173,12 +174,12 @@ let provideZipExtraFiles path (bundle:Bundle) =
 
 let provideNuGetExtraFiles path (bundle:Bundle) (pack:Package) =
     provideLicense path
-    provideReadme (sprintf "%s v%s" pack.Title pack.Version) bundle.ReleaseNotesFile path
+    provideReadme (sprintf "%s v%s" pack.Title pack.Release.PackageVersion) bundle.Release path
     if pack.FsLoader then
         let includes = [ for root in [ ""; "../"; "../../"; "../../../" ] do
                          for package in bundle.Packages do
                          yield sprintf "#I \"%spackages/%s/lib/net40/\"" root package.Id
-                         yield sprintf "#I \"%spackages/%s.%s/lib/net40/\"" root package.Id package.Version ]
+                         yield sprintf "#I \"%spackages/%s.%s/lib/net40/\"" root package.Id package.Release.PackageVersion ]
         provideFsLoader includes path
         provideFsIfSharpLoader path
 
@@ -189,7 +190,7 @@ let zip zipDir filesDir filesFilter (bundle:Bundle) =
     let workPath = "obj/Zip/" + bundle.Id
     CopyDir workPath filesDir filesFilter
     provideZipExtraFiles workPath bundle
-    Zip "obj/Zip/" (zipDir </> sprintf "%s-%s.zip" bundle.Id bundle.Version) !! (workPath + "/**/*.*")
+    Zip "obj/Zip/" (zipDir </> sprintf "%s-%s.zip" bundle.Id bundle.Release.PackageVersion) !! (workPath + "/**/*.*")
     CleanDir "obj/Zip"
 
 // NUGET
@@ -198,8 +199,8 @@ let updateNuspec (pack:Package) outPath symbols updateFiles spec =
     { spec with ToolPath = "packages/build/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
-                Version = pack.Version
-                ReleaseNotes = pack.ReleaseNotes
+                Version = pack.Release.PackageVersion
+                ReleaseNotes = pack.Release.ReleaseNotes
                 Project = pack.Id
                 Title = pack.Title
                 Summary = pack.Summary
@@ -211,7 +212,7 @@ let updateNuspec (pack:Package) outPath symbols updateFiles spec =
                 Files = updateFiles pack.Files
                 Publish = false }
 
-let nugetPack bundle outPath =
+let nugetPack (bundle:Bundle) outPath =
     CleanDir "obj/NuGet"
     for pack in bundle.Packages do
         provideNuGetExtraFiles "obj/NuGet" bundle pack
@@ -226,7 +227,7 @@ let nugetPack bundle outPath =
         NuGet (updateNuspec pack outPath NugetSymbolPackage.None (withLicenseReadme >> withoutSymbolsSources)) "build/MathNet.Numerics.nuspec"
         CleanDir "obj/NuGet"
 
-let nugetPackExtension bundle outPath =
+let nugetPackExtension (bundle:Bundle) outPath =
     CleanDir "obj/NuGet"
     for pack in bundle.Packages do
         provideNuGetExtraFiles "obj/NuGet" bundle pack
@@ -239,15 +240,16 @@ let nugetPackExtension bundle outPath =
 // Documentation
 // --------------------------------------------------------------------------------------
 
-let provideDocExtraFiles extraDocs releaseNotesDocs =
+let provideDocExtraFiles extraDocs (releases:Release list) =
     for (fileName, docName) in extraDocs do CopyFile ("docs/content" </> docName) fileName
-    for (fileName, docName, title) in releaseNotesDocs do
+    let menu = releases |> List.map (fun r -> sprintf "[%s](%s)" r.Title (r.ReleaseNotesFile |> replace "RELEASENOTES" "ReleaseNotes" |> replace ".md" ".html")) |> String.concat " | "
+    for release in releases do
         String.concat Environment.NewLine
-          [ "# " + title
-            "[Math.NET Numerics](ReleaseNotes.html) | [Data Extensions](ReleaseNotes-Data.html) | [MKL Native Provider](ReleaseNotes-MKL.html) | [OpenBLAS Native Provider](ReleaseNotes-OpenBLAS.html)"
+          [ "# " + release.Title + " Release Notes"
+            menu
             ""
-            ReadFileAsString fileName ]
-        |> ReplaceFile ("docs/content" </> docName)
+            ReadFileAsString release.ReleaseNotesFile ]
+        |> ReplaceFile ("docs/content" </> (release.ReleaseNotesFile |> replace "RELEASENOTES" "ReleaseNotes"))
 
 let buildDocumentationTarget fsiargs target =
     trace (sprintf "Building documentation (%s), this could take some time, please wait..." target)
@@ -291,7 +293,7 @@ let generateDocs fail local =
 // Requires permissions; intended only for maintainers
 // --------------------------------------------------------------------------------------
 
-let publishReleaseTag title prefix (release:BundleRelease) =
+let publishReleaseTag title prefix (release:Release) =
     // inspired by Deedle/tpetricek
     let tagName = prefix + "v" + release.PackageVersion
     let tagMessage = String.concat Environment.NewLine [title + " v" + release.PackageVersion; ""; release.ReleaseNotes ]
@@ -324,7 +326,7 @@ let publishMirrors () =
     Git.CommandHelper.runSimpleGitCommand repo "remote update" |> printfn "%s"
     Git.CommandHelper.runSimpleGitCommand repo "push mirrors" |> printfn "%s"
 
-let publishDocs (release:BundleRelease) =
+let publishDocs (release:Release) =
     let repo = "../mathnet-websites"
     Git.Branches.pull repo "origin" "master"
     CopyRecursive "out/docs" "../mathnet-websites/numerics" true |> printfn "%A"
@@ -332,7 +334,7 @@ let publishDocs (release:BundleRelease) =
     Git.Commit.Commit repo (sprintf "Numerics: %s docs update" release.PackageVersion)
     Git.Branches.pushBranch repo "origin" "master"
 
-let publishApi (release:BundleRelease) =
+let publishApi (release:Release) =
     let repo = "../mathnet-websites"
     Git.Branches.pull repo "origin" "master"
     CleanDir "../mathnet-websites/numerics/api"

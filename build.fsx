@@ -33,11 +33,12 @@ open BuildFramework
 
 // VERSION OVERVIEW
 
-let numericsRelease = release "RELEASENOTES.md"
-let mklRelease = release "RELEASENOTES-MKL.md"
-let cudaRelease = release "RELEASENOTES-CUDA.md"
-let openBlasRelease = release "RELEASENOTES-OpenBLAS.md"
-let dataRelease = release "RELEASENOTES-Data.md"
+let numericsRelease = release "Math.NET Numerics" "RELEASENOTES.md"
+let mklRelease = release "MKL Provider" "RELEASENOTES-MKL.md"
+let cudaRelease = release "CUDA Provider" "RELEASENOTES-CUDA.md"
+let openBlasRelease = release "OpenBLAS Provider" "RELEASENOTES-OpenBLAS.md"
+let dataRelease = release "Data Extensions" "RELEASENOTES-Data.md"
+let releases = [ numericsRelease; mklRelease; openBlasRelease; dataRelease ] // skip cuda
 
 trace (sprintf " Math.NET Numerics                    v%s" numericsRelease.PackageVersion)
 trace (sprintf " Math.NET Numerics MKL Provider       v%s" mklRelease.PackageVersion)
@@ -58,11 +59,10 @@ let tags = "math numeric statistics probability integration interpolation regres
 
 let numericsPack =
     { Id = "MathNet.Numerics"
-      Version = numericsRelease.PackageVersion
+      Release = numericsRelease
       Title = "Math.NET Numerics"
       Summary = summary
       Description = description + support
-      ReleaseNotes = numericsRelease.ReleaseNotes
       Tags = tags
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       FsLoader = false
@@ -130,16 +130,14 @@ let fsharpSignedPack =
 
 let coreBundle =
     { Id = numericsPack.Id
-      Version = numericsRelease.PackageVersion
+      Release = numericsRelease
       Title = numericsPack.Title
-      ReleaseNotesFile = "RELEASENOTES.md"
       Packages = [ numericsPack; fsharpPack ] }
 
 let coreSignedBundle =
     { Id = numericsSignedPack.Id
-      Version = numericsRelease.PackageVersion
+      Release = numericsRelease
       Title = numericsSignedPack.Title
-      ReleaseNotesFile = "RELEASENOTES.md"
       Packages = [ numericsSignedPack; fsharpSignedPack ] }
 
 
@@ -147,11 +145,10 @@ let coreSignedBundle =
 
 let mklWinPack =
     { Id = "MathNet.Numerics.MKL.Win"
-      Version = mklRelease.PackageVersion
+      Release = mklRelease
       Title = "Math.NET Numerics - MKL Native Provider for Windows (x64 and x86)"
       Summary = ""
       Description = "Intel MKL native libraries for Math.NET Numerics on Windows."
-      ReleaseNotes = mklRelease.ReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       FsLoader = false
@@ -183,11 +180,10 @@ let mklWin64Pack =
 
 let mklLinuxPack =
     { Id = "MathNet.Numerics.MKL.Linux"
-      Version = mklRelease.PackageVersion
+      Release = mklRelease
       Title = "Math.NET Numerics - MKL Native Provider for Linux (x64 and x86)"
       Summary = ""
       Description = "Intel MKL native libraries for Math.NET Numerics on Linux."
-      ReleaseNotes = mklRelease.ReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       FsLoader = false
@@ -219,16 +215,14 @@ let mklLinux64Pack =
 
 let mklWinBundle =
     { Id = "MathNet.Numerics.MKL.Win"
-      Version = mklRelease.PackageVersion
+      Release = mklRelease
       Title = "Math.NET Numerics MKL Native Provider for Windows"
-      ReleaseNotesFile = "RELEASENOTES-MKL.md"
       Packages = [ mklWinPack; mklWin32Pack; mklWin64Pack ] }
 
 let mklLinuxBundle =
     { Id = "MathNet.Numerics.MKL.Linux"
-      Version = mklRelease.PackageVersion
+      Release = mklRelease
       Title = "Math.NET Numerics MKL Native Provider for Linux"
-      ReleaseNotesFile = "RELEASENOTES-MKL.md"
       Packages = [ mklLinuxPack; mklLinux32Pack; mklLinux64Pack ] }
 
 
@@ -236,11 +230,10 @@ let mklLinuxBundle =
 
 let cudaWinPack =
     { Id = "MathNet.Numerics.CUDA.Win"
-      Version = cudaRelease.PackageVersion
+      Release = cudaRelease
       Title = "Math.NET Numerics - CUDA Native Provider for Windows (x64)"
       Summary = ""
       Description = "Nvidia CUDA native libraries for Math.NET Numerics."
-      ReleaseNotes = cudaRelease.ReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native cuda gpu"
       Authors = [ "Matthew A Johnson"; "Christoph Ruegg" ]
       FsLoader = false
@@ -254,9 +247,8 @@ let cudaWinPack =
 
 let cudaWinBundle =
     { Id = "MathNet.Numerics.CUDA.Win"
-      Version = cudaRelease.PackageVersion
+      Release = cudaRelease
       Title = "Math.NET Numerics CUDA Native Provider for Windows"
-      ReleaseNotesFile = "RELEASENOTES-CUDA.md"
       Packages = [ cudaWinPack ] }
 
 
@@ -264,11 +256,10 @@ let cudaWinBundle =
 
 let openBlasWinPack =
     { Id = "MathNet.Numerics.OpenBLAS.Win"
-      Version = openBlasRelease.PackageVersion
+      Release = openBlasRelease
       Title = "Math.NET Numerics - OpenBLAS Native Provider for Windows (x64 and x86)"
       Summary = ""
       Description = "OpenBLAS native libraries for Math.NET Numerics."
-      ReleaseNotes = openBlasRelease.ReleaseNotes
       Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native openblas"
       Authors = [ "Kuan Bartel"; "Christoph Ruegg"; "Marcus Cuda" ]
       FsLoader = false
@@ -288,9 +279,8 @@ let openBlasWinPack =
 
 let openBlasWinBundle =
     { Id = "MathNet.Numerics.OpenBLAS.Win"
-      Version = openBlasRelease.PackageVersion
+      Release = openBlasRelease
       Title = "Math.NET Numerics OpenBLAS Native Provider for Windows"
-      ReleaseNotesFile = "RELEASENOTES-OpenBLAS.md"
       Packages = [ openBlasWinPack ] }
 
 
@@ -298,11 +288,10 @@ let openBlasWinBundle =
 
 let dataTextPack =
     { Id = "MathNet.Numerics.Data.Text"
-      Version = dataRelease.PackageVersion
+      Release = dataRelease
       Title = "Math.NET Numerics - Text Data I/O Extensions"
       Summary = ""
       Description = "Text Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use."
-      ReleaseNotes = dataRelease.ReleaseNotes
       Tags = "math numeric data text csv tsv json xml"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
       FsLoader = false
@@ -315,11 +304,10 @@ let dataTextPack =
 
 let dataMatlabPack =
     { Id = "MathNet.Numerics.Data.Matlab"
-      Version = dataRelease.PackageVersion
+      Release = dataRelease
       Title = "Math.NET Numerics - MATLAB Data I/O Extensions"
       Summary = ""
       Description = "MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use."
-      ReleaseNotes = dataRelease.ReleaseNotes
       Tags = "math numeric data matlab"
       Authors = [ "Christoph Ruegg"; "Marcus Cuda" ]
       FsLoader = false
@@ -332,9 +320,8 @@ let dataMatlabPack =
 
 let dataBundle =
     { Id = "MathNet.Numerics.Data"
-      Version = dataRelease.PackageVersion
+      Release = dataRelease
       Title = "Math.NET Numerics Data Extensions"
-      ReleaseNotesFile = "RELEASENOTES-Data.md"
       Packages = [ dataTextPack; dataMatlabPack ] }
 
 
@@ -530,20 +517,14 @@ let extraDocs =
       "CONTRIBUTING.md", "Contributing.md"
       "CONTRIBUTORS.md", "Contributors.md" ]
 
-let releaseNotesDocs =
-    [ "RELEASENOTES.md", "ReleaseNotes.md", "Release Notes"
-      "RELEASENOTES-Data.md", "ReleaseNotes-Data.md", "Data Extensions Release Notes"
-      "RELEASENOTES-MKL.md", "ReleaseNotes-MKL.md", "MKL Native Provider Release Notes"
-      "RELEASENOTES-OpenBLAS.md", "ReleaseNotes-OpenBLAS.md", "OpenBLAS Native Provider Release Notes" ]
-
 Target "Docs" (fun _ ->
-    provideDocExtraFiles extraDocs releaseNotesDocs
+    provideDocExtraFiles extraDocs releases
     generateDocs true false)
 Target "DocsDev" (fun _ ->
-    provideDocExtraFiles  extraDocs releaseNotesDocs
+    provideDocExtraFiles  extraDocs releases
     generateDocs true true)
 Target "DocsWatch" (fun _ ->
-    provideDocExtraFiles  extraDocs releaseNotesDocs
+    provideDocExtraFiles  extraDocs releases
     use watcher = new FileSystemWatcher(DirectoryInfo("docs/content").FullName, "*.*")
     watcher.EnableRaisingEvents <- true
     watcher.Changed.Add(fun e -> generateDocs false true)
