@@ -1051,6 +1051,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 if ((sourceColumnIndex == 0) && (targetColumnIndex == 0) && (columnCount == ColumnCount) && (ColumnCount == targetSparse.Length))
                 {
+                    // rebuild of the values, indices, no clean necessary
                     targetSparse.ValueCount = endIndexOfRow - startIndexOfRow;
                     targetSparse.Values = new T[targetSparse.ValueCount];
                     targetSparse.Indices = new int[targetSparse.ValueCount];
@@ -1072,6 +1073,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     int positionsToCopy = sourceEndPos - sourceStartPos;
                     if (positionsToCopy > 0)
                     {
+                        // rebuild the target (no clean necessary)
                         int targetStartPos = Array.BinarySearch(targetSparse.Indices,0, targetSparse.ValueCount, targetColumnIndex);
                         if (targetStartPos < 0)
                         {
@@ -1101,6 +1103,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                         targetSparse.Values = newValues;
                         targetSparse.Indices = newIndices;
                         targetSparse.ValueCount = newValueCount;
+                    }
+                    else
+                    {
+                        // although there are no values to copy, we still need to clean the existing values
+                        target.Clear(targetColumnIndex, columnCount);
                     }
                 }
                 return;
