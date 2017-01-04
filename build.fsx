@@ -396,31 +396,31 @@ Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
 // --------------------------------------------------------------------------------------
 
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
-"Build" ?=> "Test"
+"Build" ==> "Test"
 
 Target "MklWin32Test" (fun _ -> test32 !! "out/MKL/Windows/*UnitTests*.dll")
-"MklWin32Build" ?=> "MklWin32Test"
+"MklWin32Build" ==> "MklWin32Test"
 Target "MklWin64Test" (fun _ -> test !! "out/MKL/Windows/*UnitTests*.dll")
-"MklWin64Build" ?=> "MklWin64Test"
+"MklWin64Build" ==> "MklWin64Test"
 Target "MklWinTest" DoNothing
 "MklWin32Test" ==> "MklWinTest"
 "MklWin64Test" ==> "MklWinTest"
 
 Target "CudaWin64Test" (fun _ -> test !! "out/CUDA/Windows/*UnitTests*.dll")
-"CudaWin64Build" ?=> "CudaWin64Test"
+"CudaWin64Build" ==> "CudaWin64Test"
 Target "CudaWinTest" DoNothing
 "CudaWin64Test" ==> "CudaWinTest"
 
 Target "OpenBlasWin32Test" (fun _ -> test32 !! "out/OpenBLAS/Windows/*UnitTests*.dll")
-"OpenBlasWin32Build" ?=> "OpenBlasWin32Test"
+"OpenBlasWin32Build" ==> "OpenBlasWin32Test"
 Target "OpenBlasWin64Test" (fun _ -> test !! "out/OpenBLAS/Windows/*UnitTests*.dll")
-"OpenBlasWin64Build" ?=> "OpenBlasWin64Test"
+"OpenBlasWin64Build" ==> "OpenBlasWin64Test"
 Target "OpenBlasWinTest" DoNothing
 "OpenBlasWin32Test" ==> "OpenBlasWinTest"
 "OpenBlasWin64Test" ==> "OpenBlasWinTest"
 
 Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
-"DataBuild" ?=> "DataTest"
+"DataBuild" ==> "DataTest"
 
 
 // --------------------------------------------------------------------------------------
@@ -435,32 +435,32 @@ Target "Zip" (fun _ ->
         coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if hasBuildParam "signed" || hasBuildParam "release" then
         coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
-"Build" ?=> "Zip"
+"Build" ==> "Zip"
 
 Target "MklWinZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
     mklWinBundle |> zip "out/MKL/packages/Zip" "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
-"MklWinBuild" ?=> "MklWinZip"
+"MklWinBuild" ==> "MklWinZip"
 
 Target "MklLinuxZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
     mklLinuxBundle |> zip "out/MKL/packages/Zip" "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
-// "MklLinuxBuild" ?=> "MklLinuxZip"
+// "MklLinuxBuild" ==> "MklLinuxZip"
 
 Target "CudaWinZip" (fun _ ->
     CreateDir "out/CUDA/packages/Zip"
     cudaWinBundle |> zip "out/CUDA/packages/Zip" "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver")))
-"CudaWinBuild" ?=> "CudaWinZip"
+"CudaWinBuild" ==> "CudaWinZip"
 
 Target "OpenBlasWinZip" (fun _ ->
     CreateDir "out/OpenBLAS/packages/Zip"
     openBlasWinBundle |> zip "out/OpenBLAS/packages/Zip" "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath")))
-"OpenBlasWinBuild" ?=> "OpenBlasWinZip"
+"OpenBlasWinBuild" ==> "OpenBlasWinZip"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
-"DataBuild" ?=> "DataZip"
+"DataBuild" ==> "DataZip"
 
 // NUGET
 
@@ -470,32 +470,32 @@ Target "NuGet" (fun _ ->
         nugetPack coreSignedBundle "out/packages/NuGet"
     if hasBuildParam "all" || hasBuildParam "release" then
         nugetPack coreBundle "out/packages/NuGet")
-"Build" ?=> "NuGet"
+"Build" ==> "NuGet"
 
 Target "MklWinNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"
     nugetPackExtension mklWinBundle "out/MKL/packages/NuGet")
-"MklWinBuild" ?=> "MklWinNuGet"
+"MklWinBuild" ==> "MklWinNuGet"
 
 Target "MklLinuxNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"
     nugetPackExtension mklLinuxBundle "out/MKL/packages/NuGet")
-// "MklLinuxBuild" ?=> "MklLinuxNuGet"
+// "MklLinuxBuild" ==> "MklLinuxNuGet"
 
 Target "CudaWinNuGet" (fun _ ->
     CreateDir "out/CUDA/packages/NuGet"
     nugetPackExtension cudaWinBundle "out/CUDA/packages/NuGet")
-"CudaWinBuild" ?=> "CudaWinNuGet"
+"CudaWinBuild" ==> "CudaWinNuGet"
 
 Target "OpenBlasWinNuGet" (fun _ ->
     CreateDir "out/OpenBLAS/packages/NuGet"
     nugetPackExtension openBlasWinBundle "out/OpenBLAS/packages/NuGet")
-"OpenBlasWinBuild" ?=> "OpenBlasWinNuGet"
+"OpenBlasWinBuild" ==> "OpenBlasWinNuGet"
 
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
     nugetPackExtension dataBundle "out/Data/packages/NuGet")
-"DataBuild" ?=> "DataNuGet"
+"DataBuild" ==> "DataNuGet"
 
 
 // --------------------------------------------------------------------------------------
@@ -530,8 +530,7 @@ Target "DocsWatch" (fun _ ->
     watcher.EnableRaisingEvents <- false
     watcher.Dispose())
 
-"CleanDocs" ==> "Docs"
-"Build" ?=> "CleanDocs"
+"Build" ==> "CleanDocs" ==> "Docs"
 
 "Start"
   =?> ("CleanDocs", not (hasBuildParam "incremental"))
@@ -552,8 +551,7 @@ Target "Api" (fun _ ->
             TimeOut = TimeSpan.FromMinutes 10.
             OutputPath = "out/api/" }))
 
-"CleanApi" ==> "Api"
-"Build" ?=> "CleanApi"
+"Build" ==> "CleanApi" ==> "Api"
 
 
 // --------------------------------------------------------------------------------------
@@ -584,81 +582,19 @@ Target "OpenBlasPublishNuGet" (fun _ -> !! "out/OpenBLAS/packages/NuGet/*.nupkg"
 Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.nupkg" |> publishNuGet)
 
 Target "Publish" DoNothing
-"PublishTag" ==> "Publish"
-"PublishDocs" ==> "Publish"
-"PublishApi" ==> "Publish"
-"PublishArchive" ==> "Publish"
-"PublishNuGet" ==> "Publish"
+Dependencies "Publish" [ "PublishTag"; "PublishDocs"; "PublishApi"; "PublishArchive"; "PublishNuGet" ]
 
 Target "MklPublish" DoNothing
-"MklPublishTag" ==> "MklPublish"
-"MklPublishArchive" ==> "MklPublish"
-"MklPublishNuGet" ==> "MklPublish"
+Dependencies "MklPublish" [ "MklPublishTag"; "PublishDocs"; "MklPublishArchive"; "MklPublishNuGet" ]
 
 Target "CudaPublish" DoNothing
-"CudaPublishTag" ==> "CudaPublish"
-"CudaPublishArchive" ==> "CudaPublish"
-"CudaPublishNuGet" ==> "CudaPublish"
+Dependencies "CudaPublish" [ "CudaPublishTag"; "PublishDocs"; "CudaPublishArchive"; "CudaPublishNuGet" ]
 
 Target "OpenBlasPublish" DoNothing
-"OpenBlasPublishTag" ==> "OpenBlasPublish"
-"OpenBlasPublishArchive" ==> "OpenBlasPublish"
-"OpenBlasPublishNuGet" ==> "OpenBlasPublish"
+Dependencies "OpenBlasPublish" [ "OpenBlasPublishTag"; "PublishDocs"; "OpenBlasPublishArchive"; "OpenBlasPublishNuGet" ]
 
 Target "DataPublish" DoNothing
-"DataPublishTag" ==> "DataPublish"
-"DataPublishArchive" ==> "DataPublish"
-"DataPublishNuGet" ==> "DataPublish"
-
-
-// --------------------------------------------------------------------------------------
-// ENVIRONMENT DEPENDENCIES
-// --------------------------------------------------------------------------------------
-
-match buildServer with
-
-| AppVeyor ->
-    trace "AppVeyor Continuous Integration Build"
-    // In AppVeyor we let its engine managed task dependencies
-    // an let it call into this script multiple times, incrementally.
-
-    // build --> test: do not enforce
-    // build --> package: do not enforce
-    // build --> docs: do not enforce
-    ()
-
-| _ ->
-    trace "Normal Build"
-    // In normal builds we need to set up proper dependencies between
-    // the targets so FAKE can build up and order the full work-flow properly
-
-    // build --> test
-    "Build" ==> "Test" |> ignore
-    "MklWin32Build" ==> "MklWin32Test" |> ignore
-    "MklWin64Build" ==> "MklWin64Test" |> ignore
-    "CudaWin64Build" ==> "CudaWin64Test" |> ignore
-    "OpenBlasWin32Build" ==> "OpenBlasWin32Test" |> ignore
-    "OpenBlasWin64Build" ==> "OpenBlasWin64Test" |> ignore
-    "DataBuild" ==> "DataTest" |> ignore
-
-    // build --> package
-    "Build" ==> "Zip" |> ignore
-    "MklWinBuild" ==> "MklWinZip" |> ignore
-    "CudaWinBuild" ==> "CudaWinZip" |> ignore
-    "OpenBlasWinBuild" ==> "OpenBlasWinZip" |> ignore
-    "DataBuild" ==> "DataZip" |> ignore
-    "Build" ==> "NuGet" |> ignore
-    "MklWinBuild" ==> "MklWinNuGet" |> ignore
-    "CudaWinBuild" ==> "CudaWinNuGet" |> ignore
-    "OpenBlasWinBuild" ==> "OpenBlasWinNuGet" |> ignore
-    "DataBuild" ==> "DataNuGet" |> ignore
-
-    // build --> docs
-    "Build" ==> "CleanDocs" |> ignore
-    "Build" ==> "Docs" |> ignore
-    "Build" ==> "CleanApi" |> ignore
-    "Build" ==> "Api" |> ignore
-    ()
+Dependencies "DataPublish" [ "DataPublishTag"; "DataPublishArchive"; "DataPublishNuGet" ]
 
 
 // --------------------------------------------------------------------------------------
@@ -666,35 +602,18 @@ match buildServer with
 // --------------------------------------------------------------------------------------
 
 Target "All" DoNothing
-"Build" ==> "All"
-"Zip" ==> "All"
-"NuGet" ==> "All"
-"Docs" ==> "All"
-"Api" ==> "All"
-"Test" ==> "All"
+Dependencies "All" [ "Build"; "Zip"; "NuGet"; "Docs"; "Api"; "Test" ]
 
 Target "MklWinAll" DoNothing
-"MklWinBuild" ==> "MklWinAll"
-"MklWinZip" ==> "MklWinAll"
-"MklWinNuGet" ==> "MklWinAll"
-"MklWinTest" ==> "MklWinAll"
+Dependencies "MklWinAll" [ "MklWinBuild"; "MklWinZip"; "MklWinNuGet"; "MklWinTest" ]
 
 Target "CudaWinAll" DoNothing
-"CudaWinBuild" ==> "CudaWinAll"
-"CudaWinZip" ==> "CudaWinAll"
-"CudaWinNuGet" ==> "CudaWinAll"
-"CudaWinTest" ==> "CudaWinAll"
+Dependencies "CudaWinAll" [ "CudaWinBuild"; "CudaWinZip"; "CudaWinNuGet"; "CudaWinTest" ]
 
 Target "OpenBlasWinAll" DoNothing
-"OpenBlasWinBuild" ==> "OpenBlasWinAll"
-"OpenBlasWinZip" ==> "OpenBlasWinAll"
-"OpenBlasWinNuGet" ==> "OpenBlasWinAll"
-"OpenBlasWinTest" ==> "OpenBlasWinAll"
+Dependencies "OpenBlasWinAll" [ "OpenBlasWinBuild"; "OpenBlasWinZip"; "OpenBlasWinNuGet"; "OpenBlasWinTest" ]
 
 Target "DataAll" DoNothing
-"DataBuild" ==> "DataAll"
-"DataZip" ==> "DataAll"
-"DataNuGet" ==> "DataAll"
-"DataTest" ==> "DataAll"
+Dependencies "DataAll" [ "DataBuild"; "DataZip"; "DataNuGet"; "DataTest" ]
 
 RunTargetOrDefault "Test"
