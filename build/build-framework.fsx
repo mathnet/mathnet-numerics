@@ -18,8 +18,6 @@ module BuildFramework
 
 open FSharp.Core
 open Fake
-open Fake.DocuHelper
-open Fake.AssemblyInfoFile
 open Fake.ReleaseNotesHelper
 open Fake.StringHelper
 open Fake.Testing.NUnit3
@@ -227,7 +225,7 @@ let nugetPack (bundle:Bundle) outPath =
                                   | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
                                   | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb"))) f
         // first pass - generates symbol + normal package. NuGet does drop the symbols from the normal package, but unfortunately not the sources.
-        NuGet (updateNuspec pack outPath NugetSymbolPackage.Nuspec withLicenseReadme) "build/MathNet.Numerics.nuspec"
+        // NuGet (updateNuspec pack outPath NugetSymbolPackage.Nuspec withLicenseReadme) "build/MathNet.Numerics.nuspec"
         // second pass - generate only normal package, again, but this time explicitly drop the sources (and the debug symbols)
         NuGet (updateNuspec pack outPath NugetSymbolPackage.None (withLicenseReadme >> withoutSymbolsSources)) "build/MathNet.Numerics.nuspec"
         CleanDir "obj/NuGet"

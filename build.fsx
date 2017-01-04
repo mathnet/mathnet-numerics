@@ -371,6 +371,9 @@ Target "Build" DoNothing
   =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "net35" || hasBuildParam "signed"))
   ==> "Build"
 
+Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
+"Prepare" ==> "DataBuild"
+
 Target "MklWin32Build" (fun _ -> buildConfig32 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")
 Target "MklWin64Build" (fun _ -> buildConfig64 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")
 Target "MklWinBuild" DoNothing
@@ -387,9 +390,6 @@ Target "OpenBlasWinBuild" DoNothing
 "Prepare" ==> "OpenBlasWin32Build" ==> "OpenBlasWinBuild"
 "Prepare" ==> "OpenBlasWin64Build" ==> "OpenBlasWinBuild"
 
-Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
-"Prepare" ==> "DataBuild"
-
 
 // --------------------------------------------------------------------------------------
 // TEST
@@ -398,34 +398,36 @@ Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
 Target "Test" (fun _ -> test !! "out/test/**/*UnitTests*.dll")
 "Build" ==> "Test"
 
-Target "MklWin32Test" (fun _ -> test32 !! "out/MKL/Windows/*UnitTests*.dll")
-"MklWin32Build" ==> "MklWin32Test"
-Target "MklWin64Test" (fun _ -> test !! "out/MKL/Windows/*UnitTests*.dll")
-"MklWin64Build" ==> "MklWin64Test"
-Target "MklWinTest" DoNothing
-"MklWin32Test" ==> "MklWinTest"
-"MklWin64Test" ==> "MklWinTest"
-
-Target "CudaWin64Test" (fun _ -> test !! "out/CUDA/Windows/*UnitTests*.dll")
-"CudaWin64Build" ==> "CudaWin64Test"
-Target "CudaWinTest" DoNothing
-"CudaWin64Test" ==> "CudaWinTest"
-
-Target "OpenBlasWin32Test" (fun _ -> test32 !! "out/OpenBLAS/Windows/*UnitTests*.dll")
-"OpenBlasWin32Build" ==> "OpenBlasWin32Test"
-Target "OpenBlasWin64Test" (fun _ -> test !! "out/OpenBLAS/Windows/*UnitTests*.dll")
-"OpenBlasWin64Build" ==> "OpenBlasWin64Test"
-Target "OpenBlasWinTest" DoNothing
-"OpenBlasWin32Test" ==> "OpenBlasWinTest"
-"OpenBlasWin64Test" ==> "OpenBlasWinTest"
-
 Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
 "DataBuild" ==> "DataTest"
+
+Target "MklWin32Test" (fun _ -> test32 !! "out/MKL/Windows/*UnitTests*.dll")
+Target "MklWin64Test" (fun _ -> test !! "out/MKL/Windows/*UnitTests*.dll")
+Target "MklWinTest" DoNothing
+"MklWin32Build" ==> "MklWin32Test" ==> "MklWinTest"
+"MklWin64Build" ==> "MklWin64Test" ==> "MklWinTest"
+
+Target "CudaWin64Test" (fun _ -> test !! "out/CUDA/Windows/*UnitTests*.dll")
+Target "CudaWinTest" DoNothing
+"CudaWin64Build" ==> "CudaWin64Test" ==> "CudaWinTest"
+
+Target "OpenBlasWin32Test" (fun _ -> test32 !! "out/OpenBLAS/Windows/*UnitTests*.dll")
+Target "OpenBlasWin64Test" (fun _ -> test !! "out/OpenBLAS/Windows/*UnitTests*.dll")
+Target "OpenBlasWinTest" DoNothing
+"OpenBlasWin32Build" ==> "OpenBlasWin32Test" ==> "OpenBlasWinTest"
+"OpenBlasWin64Build" ==> "OpenBlasWin64Test" ==> "OpenBlasWinTest"
 
 
 // --------------------------------------------------------------------------------------
 // PACKAGES
 // --------------------------------------------------------------------------------------
+
+Target "Pack" DoNothing
+Target "DataPack" DoNothing
+Target "MklWinPack" DoNothing
+Target "MklLinuxPack" DoNothing
+Target "CudaWinPack" DoNothing
+Target "OpenBlasWinPack" DoNothing
 
 // ZIP
 
@@ -435,32 +437,33 @@ Target "Zip" (fun _ ->
         coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if hasBuildParam "signed" || hasBuildParam "release" then
         coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
-"Build" ==> "Zip"
-
-Target "MklWinZip" (fun _ ->
-    CreateDir "out/MKL/packages/Zip"
-    mklWinBundle |> zip "out/MKL/packages/Zip" "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
-"MklWinBuild" ==> "MklWinZip"
-
-Target "MklLinuxZip" (fun _ ->
-    CreateDir "out/MKL/packages/Zip"
-    mklLinuxBundle |> zip "out/MKL/packages/Zip" "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
-// "MklLinuxBuild" ==> "MklLinuxZip"
-
-Target "CudaWinZip" (fun _ ->
-    CreateDir "out/CUDA/packages/Zip"
-    cudaWinBundle |> zip "out/CUDA/packages/Zip" "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver")))
-"CudaWinBuild" ==> "CudaWinZip"
-
-Target "OpenBlasWinZip" (fun _ ->
-    CreateDir "out/OpenBLAS/packages/Zip"
-    openBlasWinBundle |> zip "out/OpenBLAS/packages/Zip" "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath")))
-"OpenBlasWinBuild" ==> "OpenBlasWinZip"
+"Build" ==> "Zip" ==> "Pack"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
-"DataBuild" ==> "DataZip"
+"DataBuild" ==> "DataZip" ==> "DataPack"
+
+Target "MklWinZip" (fun _ ->
+    CreateDir "out/MKL/packages/Zip"
+    mklWinBundle |> zip "out/MKL/packages/Zip" "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
+"MklWinBuild" ==> "MklWinZip" ==> "MklWinPack"
+
+Target "MklLinuxZip" (fun _ ->
+    CreateDir "out/MKL/packages/Zip"
+    mklLinuxBundle |> zip "out/MKL/packages/Zip" "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
+// "MklLinuxBuild" ==> "MklLinuxZip" ==> "MklLinuxPack"
+"MklLinuxZip" ==> "MklLinuxPack"
+
+Target "CudaWinZip" (fun _ ->
+    CreateDir "out/CUDA/packages/Zip"
+    cudaWinBundle |> zip "out/CUDA/packages/Zip" "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver")))
+"CudaWinBuild" ==> "CudaWinZip" ==> "CudaWinPack"
+
+Target "OpenBlasWinZip" (fun _ ->
+    CreateDir "out/OpenBLAS/packages/Zip"
+    openBlasWinBundle |> zip "out/OpenBLAS/packages/Zip" "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath")))
+"OpenBlasWinBuild" ==> "OpenBlasWinZip" ==> "OpenBlasWinPack"
 
 // NUGET
 
@@ -470,32 +473,33 @@ Target "NuGet" (fun _ ->
         nugetPack coreSignedBundle "out/packages/NuGet"
     if hasBuildParam "all" || hasBuildParam "release" then
         nugetPack coreBundle "out/packages/NuGet")
-"Build" ==> "NuGet"
-
-Target "MklWinNuGet" (fun _ ->
-    CreateDir "out/MKL/packages/NuGet"
-    nugetPackExtension mklWinBundle "out/MKL/packages/NuGet")
-"MklWinBuild" ==> "MklWinNuGet"
-
-Target "MklLinuxNuGet" (fun _ ->
-    CreateDir "out/MKL/packages/NuGet"
-    nugetPackExtension mklLinuxBundle "out/MKL/packages/NuGet")
-// "MklLinuxBuild" ==> "MklLinuxNuGet"
-
-Target "CudaWinNuGet" (fun _ ->
-    CreateDir "out/CUDA/packages/NuGet"
-    nugetPackExtension cudaWinBundle "out/CUDA/packages/NuGet")
-"CudaWinBuild" ==> "CudaWinNuGet"
-
-Target "OpenBlasWinNuGet" (fun _ ->
-    CreateDir "out/OpenBLAS/packages/NuGet"
-    nugetPackExtension openBlasWinBundle "out/OpenBLAS/packages/NuGet")
-"OpenBlasWinBuild" ==> "OpenBlasWinNuGet"
+"Build" ==> "NuGet" ==> "Pack"
 
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
     nugetPackExtension dataBundle "out/Data/packages/NuGet")
-"DataBuild" ==> "DataNuGet"
+"DataBuild" ==> "DataNuGet" ==> "DataPack"
+
+Target "MklWinNuGet" (fun _ ->
+    CreateDir "out/MKL/packages/NuGet"
+    nugetPackExtension mklWinBundle "out/MKL/packages/NuGet")
+"MklWinBuild" ==> "MklWinNuGet" ==> "MklWinPack"
+
+Target "MklLinuxNuGet" (fun _ ->
+    CreateDir "out/MKL/packages/NuGet"
+    nugetPackExtension mklLinuxBundle "out/MKL/packages/NuGet")
+// "MklLinuxBuild" ==> "MklLinuxNuGet" ==> "MklLinuxPack"
+"MklLinuxNuGet" ==> "MklLinuxPack"
+
+Target "CudaWinNuGet" (fun _ ->
+    CreateDir "out/CUDA/packages/NuGet"
+    nugetPackExtension cudaWinBundle "out/CUDA/packages/NuGet")
+"CudaWinBuild" ==> "CudaWinNuGet" ==> "CudaWinPack"
+
+Target "OpenBlasWinNuGet" (fun _ ->
+    CreateDir "out/OpenBLAS/packages/NuGet"
+    nugetPackExtension openBlasWinBundle "out/OpenBLAS/packages/NuGet")
+"OpenBlasWinBuild" ==> "OpenBlasWinNuGet" ==> "OpenBlasWinPack"
 
 
 // --------------------------------------------------------------------------------------
@@ -565,7 +569,7 @@ Target "CudaPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics CUDA Prov
 Target "OpenBlasPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics OpenBLAS Provider" "openblas-" openBlasRelease)
 Target "DataPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Data Extensions" "data-" dataRelease)
 
-Target "PublishMirrors" (fun _ -> publishMirrors())
+Target "PublishMirrors" (fun _ -> publishMirrors ())
 Target "PublishDocs" (fun _ -> publishDocs numericsRelease)
 Target "PublishApi" (fun _ -> publishApi numericsRelease)
 
@@ -584,6 +588,9 @@ Target "DataPublishNuGet" (fun _ -> !! "out/Data/packages/NuGet/*.nupkg" |> publ
 Target "Publish" DoNothing
 Dependencies "Publish" [ "PublishTag"; "PublishDocs"; "PublishApi"; "PublishArchive"; "PublishNuGet" ]
 
+Target "DataPublish" DoNothing
+Dependencies "DataPublish" [ "DataPublishTag"; "DataPublishArchive"; "DataPublishNuGet" ]
+
 Target "MklPublish" DoNothing
 Dependencies "MklPublish" [ "MklPublishTag"; "PublishDocs"; "MklPublishArchive"; "MklPublishNuGet" ]
 
@@ -593,27 +600,24 @@ Dependencies "CudaPublish" [ "CudaPublishTag"; "PublishDocs"; "CudaPublishArchiv
 Target "OpenBlasPublish" DoNothing
 Dependencies "OpenBlasPublish" [ "OpenBlasPublishTag"; "PublishDocs"; "OpenBlasPublishArchive"; "OpenBlasPublishNuGet" ]
 
-Target "DataPublish" DoNothing
-Dependencies "DataPublish" [ "DataPublishTag"; "DataPublishArchive"; "DataPublishNuGet" ]
-
 
 // --------------------------------------------------------------------------------------
 // Default Targets
 // --------------------------------------------------------------------------------------
 
 Target "All" DoNothing
-Dependencies "All" [ "Build"; "Zip"; "NuGet"; "Docs"; "Api"; "Test" ]
+Dependencies "All" [ "Pack"; "Docs"; "Api"; "Test" ]
 
 Target "MklWinAll" DoNothing
-Dependencies "MklWinAll" [ "MklWinBuild"; "MklWinZip"; "MklWinNuGet"; "MklWinTest" ]
+Dependencies "MklWinAll" [ "MklWinPack"; "MklWinTest" ]
 
 Target "CudaWinAll" DoNothing
-Dependencies "CudaWinAll" [ "CudaWinBuild"; "CudaWinZip"; "CudaWinNuGet"; "CudaWinTest" ]
+Dependencies "CudaWinAll" [ "CudaWinPack"; "CudaWinTest" ]
 
 Target "OpenBlasWinAll" DoNothing
-Dependencies "OpenBlasWinAll" [ "OpenBlasWinBuild"; "OpenBlasWinZip"; "OpenBlasWinNuGet"; "OpenBlasWinTest" ]
+Dependencies "OpenBlasWinAll" [ "OpenBlasWinPack"; "OpenBlasWinTest" ]
 
 Target "DataAll" DoNothing
-Dependencies "DataAll" [ "DataBuild"; "DataZip"; "DataNuGet"; "DataTest" ]
+Dependencies "DataAll" [ "DataPack"; "DataTest" ]
 
 RunTargetOrDefault "Test"
