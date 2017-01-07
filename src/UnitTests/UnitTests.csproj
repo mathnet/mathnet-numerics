@@ -398,6 +398,7 @@
     <Compile Include="SpecialFunctionsTests\GammaTests.cs" />
     <Compile Include="SpecialFunctionsTests\SpecialFunctionsTests.cs" />
     <Compile Include="StatisticsTests\CorrelationTests.cs" />
+    <Compile Include="StatisticsTests\KernelDensityEstimatorTests.cs" />
     <Compile Include="StatisticsTests\MovingStatisticsTests.cs" />
     <Compile Include="StatisticsTests\RunningStatisticsTests.cs" />
     <Compile Include="StatisticsTests\DescriptiveStatisticsTests.cs" />
