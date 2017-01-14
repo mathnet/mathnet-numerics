@@ -312,7 +312,7 @@ let publishNuGet packageFiles =
     let rec impl trials file =
         trace ("NuGet Push: " + System.IO.Path.GetFileName(file) + ".")
         try
-            let args = sprintf "push \"%s\"" (FullName file)
+            let args = sprintf "push \"%s\" -Source https://www.nuget.org/api/v2/package" (FullName file)
             let result =
                 ExecProcess (fun info ->
                     info.FileName <- "packages/build/NuGet.CommandLine/tools/NuGet.exe"
