@@ -8,12 +8,12 @@ namespace MathNet.Numerics
     using System.Threading.Tasks;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-    public class SerializableAttribute : Attribute
+    internal class SerializableAttribute : Attribute
     {
     }
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public class SpecialNameAttribute : Attribute
+    internal class SpecialNameAttribute : Attribute
     {
     }
 
@@ -145,7 +145,7 @@ namespace MathNet.Numerics
     using System;
 
     [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    public class TargetedPatchingOptOutAttribute : Attribute
+    internal class TargetedPatchingOptOutAttribute : Attribute
     {
         public string Reason { get; private set; }
 
