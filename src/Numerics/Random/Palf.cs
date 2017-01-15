@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 
 #if !PORTABLE
@@ -46,6 +47,8 @@ namespace MathNet.Numerics.Random
     /// It uses the modulus 2<sup>32</sup> and by default the "lags" 418 and 1279. Some popular pairs are presented on
     /// <a href="http://en.wikipedia.org/wiki/Lagged_Fibonacci_generator">Wikipedia - Lagged Fibonacci generator</a>.
     /// </remarks>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public class Palf : RandomSource
     {
         /// <summary>
@@ -147,23 +150,28 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Gets the short lag of the Lagged Fibonacci pseudo-random number generator.
         /// </summary>
+        [DataMember(Order = 1)]
         public int ShortLag { get; private set; }
 
         /// <summary>
         /// Gets the long lag of the Lagged Fibonacci pseudo-random number generator.
         /// </summary>
+        [DataMember(Order = 2)]
         public int LongLag { get; private set; }
 
         /// <summary>
         /// Stores an array of <see cref="LongLag"/> random numbers
         /// </summary>
+        [DataMember(Order = 3)]
         readonly uint[] _x;
 
+        [DataMember(Order = 4)]
         readonly int _threads;
 
         /// <summary>
         /// Stores an index for the random number array element that will be accessed next.
         /// </summary>
+        [DataMember(Order = 5)]
         int _k;
 
         /// <summary>

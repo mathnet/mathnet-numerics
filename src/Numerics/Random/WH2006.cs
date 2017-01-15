@@ -27,7 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 #if !PORTABLE
 using System.Runtime;
@@ -41,6 +43,8 @@ namespace MathNet.Numerics.Random
     /// <remarks>See: Wichmann, B. A. &amp; Hill, I. D. (2006), "Generating good pseudo-random numbers".
     /// Computational Statistics &amp; Data Analysis 51:3 (2006) 1614-1622
     /// </remarks>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public class WH2006 : RandomSource
     {
         const uint Modw = 2147483123;
@@ -51,9 +55,14 @@ namespace MathNet.Numerics.Random
         const double ModyRecip = 1.0/Mody;
         const uint Modz = 2147483423;
         const double ModzRecip = 1.0/Modz;
+
+        [DataMember(Order = 1)]
         ulong _wn = 1;
+        [DataMember(Order = 2)]
         ulong _xn;
+        [DataMember(Order = 3)]
         ulong _yn = 1;
+        [DataMember(Order = 4)]
         ulong _zn = 1;
 
         /// <summary>

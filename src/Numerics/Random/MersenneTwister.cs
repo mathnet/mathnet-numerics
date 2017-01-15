@@ -65,7 +65,9 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 #if PORTABLE
 using System;
@@ -79,6 +81,8 @@ namespace MathNet.Numerics.Random
     /// <summary>
     /// Random number generator using Mersenne Twister 19937 algorithm.
     /// </summary>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public class MersenneTwister : RandomSource
     {
         /// <summary>
@@ -119,11 +123,13 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
+        [DataMember(Order = 1)]
         readonly uint[] _mt = new uint[N];
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
+        [DataMember(Order = 2)]
         int _mti = N + 1;
 
         /// <summary>

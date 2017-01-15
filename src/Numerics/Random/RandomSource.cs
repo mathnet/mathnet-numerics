@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Random
@@ -38,6 +39,8 @@ namespace MathNet.Numerics.Random
     /// and the Math.Net Numerics random number generators to provide thread safety.
     /// When used directly it use the System.Random as random number source.
     /// </summary>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public abstract class RandomSource : System.Random
     {
         readonly bool _threadSafe;

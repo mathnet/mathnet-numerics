@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 
 #if !PORTABLE
@@ -42,6 +43,8 @@ namespace MathNet.Numerics.Random
     /// <code>Xn = a * Xn−3 + c mod 2^32</code>
     /// http://www.jstatsoft.org/v08/i14/paper
     /// </summary>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public class Xorshift : RandomSource
     {
         /// <summary>
@@ -72,26 +75,31 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Seed or last but three unsigned random number.
         /// </summary>
+        [DataMember(Order = 1)]
         ulong _x;
 
         /// <summary>
         /// Last but two unsigned random number.
         /// </summary>
+        [DataMember(Order = 2)]
         ulong _y;
 
         /// <summary>
         /// Last but one unsigned random number.
         /// </summary>
+        [DataMember(Order = 3)]
         ulong _z;
 
         /// <summary>
         /// The value of the carry over.
         /// </summary>
+        [DataMember(Order = 4)]
         ulong _c;
 
         /// <summary>
         /// The multiplier.
         /// </summary>
+        [DataMember(Order = 5)]
         readonly ulong _a;
 
         /// <summary>

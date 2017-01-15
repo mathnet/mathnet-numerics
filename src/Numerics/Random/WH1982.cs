@@ -27,7 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 #if !PORTABLE
 using System.Runtime;
@@ -41,6 +43,8 @@ namespace MathNet.Numerics.Random
     /// <remarks>See: Wichmann, B. A. &amp; Hill, I. D. (1982), "Algorithm AS 183:
     /// An efficient and portable pseudo-random number generator". Applied Statistics 31 (1982) 188-190
     /// </remarks>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public class WH1982 : RandomSource
     {
         const uint Modx = 30269;
@@ -49,8 +53,12 @@ namespace MathNet.Numerics.Random
         const double ModyRecip = 1.0/Mody;
         const uint Modz = 30323;
         const double ModzRecip = 1.0/Modz;
+
+        [DataMember(Order = 1)]
         uint _xn;
+        [DataMember(Order = 2)]
         uint _yn = 1;
+        [DataMember(Order = 3)]
         uint _zn = 1;
 
         /// <summary>

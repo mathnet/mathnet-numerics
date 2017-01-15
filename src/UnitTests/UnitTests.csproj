@@ -365,6 +365,7 @@
     <Compile Include="LinearAlgebraTests\VectorStorageCombinatorsTests.cs" />
     <Compile Include="LinearAlgebraTests\VectorToStringTests.cs" />
     <Compile Include="OdeSolvers\OdeSolverTest.cs" />
+    <Compile Include="Random\RandomSerializationTests.cs" />
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
     <Compile Include="PermutationTest.cs" />

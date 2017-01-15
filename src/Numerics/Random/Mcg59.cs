@@ -27,7 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 #if !PORTABLE
 using System.Runtime;
@@ -38,11 +40,15 @@ namespace MathNet.Numerics.Random
     /// <summary>
     /// Multiplicative congruential generator using a modulus of 2^59 and a multiplier of 13^13.
     /// </summary>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public class Mcg59 : RandomSource
     {
         const ulong Modulus = 576460752303423488;
         const ulong Multiplier = 302875106592253;
         const double Reciprocal = 1.0/Modulus;
+
+        [DataMember(Order = 1)]
         ulong _xn;
 
         /// <summary>
