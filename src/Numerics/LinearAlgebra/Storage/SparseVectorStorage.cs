@@ -284,10 +284,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (itemCount > 0)
             {
-                Array.Copy(Values, first + count, Values, first, ValueCount - first - count);
-                Array.Copy(Indices, first + count, Indices, first, ValueCount - first - count);
+                Array.Copy(Values, first + itemCount, Values, first, ValueCount - first - itemCount);
+                Array.Copy(Indices, first + itemCount, Indices, first, ValueCount - first - itemCount);
 
-                ValueCount -= count;
+                ValueCount -= itemCount;
             }
 
             // Check whether we need to shrink the arrays. This is reasonable to do if

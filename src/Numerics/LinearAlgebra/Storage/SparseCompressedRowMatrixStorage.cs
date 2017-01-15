@@ -1033,20 +1033,93 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex,
             int sourceColumnIndex, int targetColumnIndex, int columnCount, ExistingData existingData)
         {
+            // Determine bounds in columnIndices array where this item should be searched (using rowIndex)
+            var startIndexOfRow = RowPointers[rowIndex];
+            var endIndexOfRow = RowPointers[rowIndex + 1];
+
+            if (startIndexOfRow == endIndexOfRow)
+            {
+                if (existingData == ExistingData.Clear)
+                {
+                    target.Clear(targetColumnIndex, columnCount);
+                }
+                return;
+            }
+
+            var targetSparse = target as SparseVectorStorage<T>;
+            if (targetSparse != null)
+            {
+                if ((sourceColumnIndex == 0) && (targetColumnIndex == 0) && (columnCount == ColumnCount) && (ColumnCount == targetSparse.Length))
+                {
+                    // rebuild of the values, indices, no clean necessary
+                    targetSparse.ValueCount = endIndexOfRow - startIndexOfRow;
+                    targetSparse.Values = new T[targetSparse.ValueCount];
+                    targetSparse.Indices = new int[targetSparse.ValueCount];
+                    Array.Copy(ColumnIndices, startIndexOfRow, targetSparse.Indices, 0, targetSparse.ValueCount);
+                    Array.Copy(Values, startIndexOfRow, targetSparse.Values, 0, targetSparse.ValueCount);
+                }
+                else
+                {
+                    int sourceStartPos = Array.BinarySearch(ColumnIndices, startIndexOfRow, endIndexOfRow - startIndexOfRow, sourceColumnIndex);
+                    if (sourceStartPos < 0)
+                    {
+                        sourceStartPos = ~sourceStartPos;
+                    }
+                    int sourceEndPos = Array.BinarySearch(ColumnIndices, startIndexOfRow, endIndexOfRow - startIndexOfRow, sourceColumnIndex + columnCount);
+                    if (sourceEndPos < 0)
+                    {
+                        sourceEndPos = ~sourceEndPos;
+                    }
+                    int positionsToCopy = sourceEndPos - sourceStartPos;
+                    if (positionsToCopy > 0)
+                    {
+                        // rebuild the target (no clean necessary)
+                        int targetStartPos = Array.BinarySearch(targetSparse.Indices,0, targetSparse.ValueCount, targetColumnIndex);
+                        if (targetStartPos < 0)
+                        {
+                            targetStartPos = ~targetStartPos;
+                        }
+                        int targetEndPos = Array.BinarySearch(targetSparse.Indices,0,targetSparse.ValueCount,  targetColumnIndex + columnCount);
+                        if (targetEndPos < 0)
+                        {
+                            targetEndPos = Math.Max(~targetEndPos, targetStartPos);
+                        }
+                        int newValueCount  = targetSparse.ValueCount - (targetEndPos - targetStartPos) + positionsToCopy;
+                        T[] newValues = new T[newValueCount];
+                        int[] newIndices = new int[newValueCount];
+                        // copy before 
+                        Array.Copy(targetSparse.Indices, 0, newIndices, 0, targetStartPos);
+                        Array.Copy(targetSparse.Values, 0, newValues, 0, targetStartPos);
+                        // copy values themselves, with new positions
+                        int shiftRight = targetColumnIndex - sourceColumnIndex;
+                        for (int i = 0; i < positionsToCopy;++i)
+                        {
+                            newIndices[targetStartPos + i] = ColumnIndices[sourceStartPos + i] + shiftRight;
+                        }
+                        Array.Copy(Values, sourceStartPos, newValues, targetStartPos, positionsToCopy);
+                        // copy after
+                        Array.Copy(targetSparse.Indices, targetEndPos, newIndices, positionsToCopy + targetStartPos, targetSparse.ValueCount - targetEndPos);
+                        Array.Copy(targetSparse.Values, targetEndPos, newValues, positionsToCopy + targetStartPos, targetSparse.ValueCount - targetEndPos);
+                        targetSparse.Values = newValues;
+                        targetSparse.Indices = newIndices;
+                        targetSparse.ValueCount = newValueCount;
+                    }
+                    else
+                    {
+                        // although there are no values to copy, we still need to clean the existing values (if necessary)
+                        if (existingData == ExistingData.Clear)
+                        {
+                            target.Clear(targetColumnIndex, columnCount);
+                        }
+                    }
+                }
+                return;
+            }
+            // FALLBACK 
             if (existingData == ExistingData.Clear)
             {
                 target.Clear(targetColumnIndex, columnCount);
             }
-
-            // Determine bounds in columnIndices array where this item should be searched (using rowIndex)
-            var startIndex = RowPointers[rowIndex];
-            var endIndex = RowPointers[rowIndex + 1];
-
-            if (startIndex == endIndex)
-            {
-                return;
-            }
-
             // If there are non-zero elements use base class implementation
             for (int i = sourceColumnIndex, j = 0; i < sourceColumnIndex + columnCount; i++, j++)
             {
