@@ -194,19 +194,25 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="options">Fourier Transform Convention Options.</param>
         public static void Forward2D(Matrix<Complex> samples, FourierOptions options = FourierOptions.Default)
         {
-            // since dense matrix data is column major, we switch rows and columns
-
-            var denseStorage = samples.Storage as DenseColumnMajorMatrixStorage<Complex>;
-            if (denseStorage == null)
+            var rowMajorArray = samples.AsRowMajorArray();
+            if (rowMajorArray != null)
             {
-                var samplesColumnMajor = samples.ToColumnWiseArray();
-                ForwardMultiDim(samplesColumnMajor, new[] { samples.ColumnCount, samples.RowCount }, options);
-                denseStorage = new DenseColumnMajorMatrixStorage<Complex>(samples.RowCount, samples.ColumnCount, samplesColumnMajor);
-                denseStorage.CopyToUnchecked(samples.Storage, ExistingData.Clear);
+                ForwardMultiDim(rowMajorArray, new[] { samples.RowCount, samples.ColumnCount }, options);
                 return;
             }
 
-            ForwardMultiDim(denseStorage.Data, new[] { samples.ColumnCount, samples.RowCount }, options);
+            var columnMajorArray = samples.AsColumnMajorArray();
+            if (columnMajorArray != null)
+            {
+                ForwardMultiDim(columnMajorArray, new[] { samples.ColumnCount, samples.RowCount }, options);
+                return;
+            }
+
+            // Fall Back
+            columnMajorArray = samples.ToColumnMajorArray();
+            ForwardMultiDim(columnMajorArray, new[] { samples.ColumnCount, samples.RowCount }, options);
+            var denseStorage = new DenseColumnMajorMatrixStorage<Complex>(samples.RowCount, samples.ColumnCount, columnMajorArray);
+            denseStorage.CopyToUnchecked(samples.Storage, ExistingData.Clear);
         }
 
         /// <summary>
@@ -369,19 +375,25 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="options">Fourier Transform Convention Options.</param>
         public static void Inverse2D(Matrix<Complex> spectrum, FourierOptions options = FourierOptions.Default)
         {
-            // since dense matrix data is column major, we switch rows and columns
-
-            var denseStorage = spectrum.Storage as DenseColumnMajorMatrixStorage<Complex>;
-            if (denseStorage == null)
+            var rowMajorArray = spectrum.AsRowMajorArray();
+            if (rowMajorArray != null)
             {
-                var samplesColumnMajor = spectrum.ToColumnWiseArray();
-                InverseMultiDim(samplesColumnMajor, new[] { spectrum.ColumnCount, spectrum.RowCount }, options);
-                denseStorage = new DenseColumnMajorMatrixStorage<Complex>(spectrum.RowCount, spectrum.ColumnCount, samplesColumnMajor);
-                denseStorage.CopyToUnchecked(spectrum.Storage, ExistingData.Clear);
+                InverseMultiDim(rowMajorArray, new[] { spectrum.RowCount, spectrum.ColumnCount }, options);
                 return;
             }
 
-            InverseMultiDim(denseStorage.Data, new[] { spectrum.ColumnCount, spectrum.RowCount }, options);
+            var columnMajorArray = spectrum.AsColumnMajorArray();
+            if (columnMajorArray != null)
+            {
+                InverseMultiDim(columnMajorArray, new[] { spectrum.ColumnCount, spectrum.RowCount }, options);
+                return;
+            }
+
+            // Fall Back
+            columnMajorArray = spectrum.ToColumnMajorArray();
+            InverseMultiDim(columnMajorArray, new[] { spectrum.ColumnCount, spectrum.RowCount }, options);
+            var denseStorage = new DenseColumnMajorMatrixStorage<Complex>(spectrum.RowCount, spectrum.ColumnCount, columnMajorArray);
+            denseStorage.CopyToUnchecked(spectrum.Storage, ExistingData.Clear);
         }
 
         /// <summary>
