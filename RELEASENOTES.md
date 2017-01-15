@@ -1,3 +1,9 @@
+### 3.17.0 - 2017-01-15
+* Random: random sources (all except crypto) now support ephemeral serialization.
+* Linear Algebra: explicit impl to copy a range of a row of a sparse matrix to a range of a sparse vector *~arthurvb*
+* Linear Algebra: explicitly demand fully modifiable matrix where needed, fixes issues with diagonal matrices.
+* FFT: leverage new matrix internal array access approach in 2D matrix transformations.
+
 ### 3.16.0 - 2017-01-03
 * Root Finding: improve accuracy handling *~Konstantin Tretyakov*
 * Regression: GoodnessOfFit StandardError *~David Falkner*
