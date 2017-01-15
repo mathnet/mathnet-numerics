@@ -1561,7 +1561,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
         /// <summary>
         /// Helper function to apply a binary function which takes two matrices
-        /// and modifies the latter in place.  A copy of the "this" matrix is 
+        /// and modifies the latter in place.  A copy of the "this" matrix is
         /// first made and then passed to f together with the other matrix. The
         /// copy is then returned as the result
         /// </summary>

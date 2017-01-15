@@ -236,7 +236,7 @@ namespace MathNet.Numerics.LinearAlgebra
         protected abstract void DoPointwiseAbs(Vector<T> result);
         protected abstract void DoPointwiseAcos(Vector<T> result);
         protected abstract void DoPointwiseAsin(Vector<T> result);
-        protected abstract void DoPointwiseAtan(Vector<T> result);        
+        protected abstract void DoPointwiseAtan(Vector<T> result);
         protected abstract void DoPointwiseCeiling(Vector<T> result);
         protected abstract void DoPointwiseCos(Vector<T> result);
         protected abstract void DoPointwiseCosh(Vector<T> result);
@@ -1008,8 +1008,8 @@ namespace MathNet.Numerics.LinearAlgebra
 
         /// <summary>
         /// Helper function to apply a binary function which takes a scalar and
-        /// a vector and modifies the latter in place. A copy of the "this" 
-        /// vector is therefore first made and then passed to f together with 
+        /// a vector and modifies the latter in place. A copy of the "this"
+        /// vector is therefore first made and then passed to f together with
         /// the scalar argument.  The copy is then returned as the result
         /// </summary>
         /// <param name="f">Function which takes a scalar and a vector, modifies the vector in place and returns void</param>
@@ -1040,7 +1040,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
         /// <summary>
         /// Helper function to apply a binary function which takes two vectors
-        /// and modifies the latter in place.  A copy of the "this" vector is 
+        /// and modifies the latter in place.  A copy of the "this" vector is
         /// first made and then passed to f together with the other vector. The
         /// copy is then returned as the result
         /// </summary>

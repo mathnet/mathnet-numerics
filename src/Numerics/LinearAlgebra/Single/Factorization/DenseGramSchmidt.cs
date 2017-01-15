@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
     internal sealed class DenseGramSchmidt : GramSchmidt
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an orthogonal matrix 
+        /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an orthogonal matrix
         /// using the modified Gram-Schmidt method.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
@@ -102,7 +102,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 {
                     var k1 = k;
                     var j1 = j;
-                    
+
                     var dot = 0.0f;
                     for (var index = 0; index < rowsQ; index++)
                     {

@@ -42,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
     /// <remarks>
     /// <para>
     /// The Multiple-Lanczos Bi-Conjugate Gradient stabilized (ML(k)-BiCGStab) solver is an 'improvement'
-    /// of the standard BiCgStab solver. 
+    /// of the standard BiCgStab solver.
     /// </para>
     /// <para>
     /// The algorithm was taken from: <br/>
@@ -80,7 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// Gets or sets the number of starting vectors.
         /// </summary>
         /// <remarks>
-        /// Must be larger than 1 and smaller than the number of variables in the matrix that 
+        /// Must be larger than 1 and smaller than the number of variables in the matrix that
         /// for which this solver will be used.
         /// </remarks>
         public int NumberOfStartingVectors
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         }
 
         /// <summary>
-        /// Gets or sets a series of orthonormal vectors which will be used as basis for the 
+        /// Gets or sets a series of orthonormal vectors which will be used as basis for the
         /// Krylov sub-space.
         /// </summary>
         public IList<Vector<float>> StartingVectors
@@ -157,7 +157,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         /// <returns>
         ///  An array with starting vectors. The array will never be larger than the
         ///  <paramref name="maximumNumberOfStartingVectors"/> but it may be smaller if
-        ///  the <paramref name="numberOfVariables"/> is smaller than 
+        ///  the <paramref name="numberOfVariables"/> is smaller than
         ///  the <paramref name="maximumNumberOfStartingVectors"/>.
         /// </returns>
         static IList<Vector<float>> CreateStartingVectors(int maximumNumberOfStartingVectors, int numberOfVariables)
@@ -288,7 +288,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
                 // We don't accept collections with zero starting vectors so ...
                 if (_startingVectors.Count <= NumberOfStartingVectorsToCreate(_numberOfStartingVectors, input.Count))
                 {
-                    // Only check the first vector for sizing. If that matches we assume the 
+                    // Only check the first vector for sizing. If that matches we assume the
                     // other vectors match too. If they don't the process will crash
                     if (_startingVectors[0].Count == input.Count)
                     {

@@ -203,7 +203,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
                 residuals.Add(temp, vecS);
 
                 // Check if we're converged. If so then stop. Otherwise continue;
-                // Calculate the temporary result. 
+                // Calculate the temporary result.
                 // Be careful not to change any of the temp vectors, except for
                 // temp. Others will be used in the calculation later on.
                 // x_i = x_(i-1) + alpha_i * p^_i + s^_i

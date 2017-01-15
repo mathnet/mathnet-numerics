@@ -90,7 +90,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// Gets or sets the eigen values (λ) of matrix in ascending value.
         /// </summary>
         public Vector<Complex> EigenValues { get; private set; }
-        
+
         /// <summary>
         /// Gets or sets eigenvectors.
         /// </summary>

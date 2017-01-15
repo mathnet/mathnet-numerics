@@ -36,14 +36,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>
     /// <para>Any real square matrix A (m x n) may be decomposed as A = QR where Q is an orthogonal matrix
-    /// (its columns are orthogonal unit vectors meaning QTQ = I) and R is an upper triangular matrix 
+    /// (its columns are orthogonal unit vectors meaning QTQ = I) and R is an upper triangular matrix
     /// (also called right triangular matrix).</para>
     /// </summary>
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by Householder transformation.
-    /// If a <seealso cref="QRMethod.Full"/> factorization is performed, the resulting Q matrix is an m x m matrix 
-    /// and the R matrix is an m x n matrix. If a <seealso cref="QRMethod.Thin"/> factorization is performed, the 
-    /// resulting Q matrix is an m x n matrix and the R matrix is an n x n matrix.     
+    /// If a <seealso cref="QRMethod.Full"/> factorization is performed, the resulting Q matrix is an m x m matrix
+    /// and the R matrix is an m x n matrix. If a <seealso cref="QRMethod.Thin"/> factorization is performed, the
+    /// resulting Q matrix is an m x n matrix and the R matrix is an n x n matrix.
     /// </remarks>
     internal abstract class QR : QR<double>
     {

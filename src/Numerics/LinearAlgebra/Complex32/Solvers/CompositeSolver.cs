@@ -37,7 +37,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
 {
     /// <summary>
     /// A composite matrix solver. The actual solver is made by a sequence of
-    /// matrix solvers. 
+    /// matrix solvers.
     /// </summary>
     /// <remarks>
     /// <para>
@@ -114,9 +114,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
                 }
                 catch (Exception)
                 {
-                    // The solver broke down. 
+                    // The solver broke down.
                     // Log a message about this
-                    // Switch to the next preconditioner. 
+                    // Switch to the next preconditioner.
                     // Reset the solution vector to the previous solution
                     input.CopyTo(internalInput);
                     continue;

@@ -42,7 +42,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
     internal sealed class UserGramSchmidt : GramSchmidt
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserGramSchmidt"/> class. This object creates an orthogonal matrix 
+        /// Initializes a new instance of the <see cref="UserGramSchmidt"/> class. This object creates an orthogonal matrix
         /// using the modified Gram-Schmidt method.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             }
 
             var inputCopy = input.Clone();
-            
+
             // Compute Y = transpose(Q)*B
             var column = new double[Q.RowCount];
             for (var j = 0; j < input.ColumnCount; j++)
