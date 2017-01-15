@@ -67,6 +67,7 @@ namespace MathNet.Numerics.UnitTests.Random
             Assert.That(actual.NextDoubleSequence().Take(10).ToArray(), Is.EqualTo(expected.NextDoubleSequence().Take(10).ToArray()).AsCollection);
         }
 
+#if !PORTABLE
         [Test]
         [TestCase(typeof(MersenneTwister))]
         [TestCase(typeof(Mcg59))]
@@ -93,5 +94,6 @@ namespace MathNet.Numerics.UnitTests.Random
             Assert.That(actual.GetType(), Is.EqualTo(randomType));
             Assert.That(actual.NextDoubleSequence().Take(10).ToArray(), Is.EqualTo(expected.NextDoubleSequence().Take(10).ToArray()).AsCollection);
         }
+#endif
     }
 }
