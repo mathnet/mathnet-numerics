@@ -44,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra
     [Serializable]
     public abstract partial class Matrix<T> :
         IFormattable, IEquatable<Matrix<T>>
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD10
         , ICloneable
 #endif
         where T : struct, IEquatable<T>, IFormattable

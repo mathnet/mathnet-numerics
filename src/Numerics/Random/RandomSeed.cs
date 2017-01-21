@@ -1,15 +1,16 @@
-﻿using System;
-
-namespace MathNet.Numerics.Random
+﻿namespace MathNet.Numerics.Random
 {
+    using System;
+    using System.Security.Cryptography;
+
     public static class RandomSeed
     {
         static readonly object Lock = new object();
 
 #if PORTABLE
-        static readonly System.Random MasterRng = new System.Random();
+        static readonly Random MasterRng = new Random();
 #else
-        static readonly System.Security.Cryptography.RandomNumberGenerator MasterRng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+        static readonly RandomNumberGenerator MasterRng = RandomNumberGenerator.Create();
 #endif
 
         /// <summary>

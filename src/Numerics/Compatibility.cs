@@ -1,4 +1,23 @@
-﻿#if PORTABLE
+﻿#if PORTABLE || NETSTANDARD10
+
+namespace MathNet.Numerics
+{
+    using System;
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    internal class SpecialNameAttribute : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    internal class SerializableAttribute : Attribute
+    {
+    }
+}
+
+#endif
+
+#if PORTABLE
 namespace MathNet.Numerics
 {
     using System;
@@ -7,15 +26,6 @@ namespace MathNet.Numerics
     using System.Linq;
     using System.Threading.Tasks;
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-    internal class SerializableAttribute : Attribute
-    {
-    }
-
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    internal class SpecialNameAttribute : Attribute
-    {
-    }
 
     internal static class Partitioner
     {
@@ -139,7 +149,7 @@ namespace MathNet.Numerics
 }
 #endif
 
-#if (PORTABLE || NET35)
+#if (PORTABLE || NETSTANDARD10 || NET35)
 namespace MathNet.Numerics
 {
     using System;

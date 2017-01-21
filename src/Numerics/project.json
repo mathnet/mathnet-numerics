@@ -1,0 +1,60 @@
+﻿{
+  "name": "MathNet.Numerics",
+  "title": "Math.NET Numerics",
+  "description": "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.",
+  "authors": [ "Christoph Ruegg", "Marcus Cuda", "Jurgen Van Gael" ],
+
+  "version": "3.17.0",
+  "dependencies": {
+
+  },
+
+  "frameworks": {
+    "netstandard1.0": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "System.Collections": "4.3.0",
+        "System.Diagnostics.Debug": "4.3.0",
+        "System.Diagnostics.Tools": "4.3.0",
+        "System.Globalization": "4.3.0",
+        "System.Linq": "4.3.0",
+        "System.Reflection": "4.3.0",
+        "System.Resources.ResourceManager": "4.3.0",
+        "System.Runtime": "4.3.0",
+        "System.Runtime.Extensions": "4.3.0",
+        "System.Runtime.InteropServices": "4.3.0",
+        "System.Runtime.Numerics": "4.3.0",
+        "System.Runtime.Serialization.Primitives": "4.3.0",
+        "System.Security.Cryptography.Algorithms": "4.3.0",
+        "System.Threading": "4.3.0",
+        "System.Threading.Tasks.Parallel": "4.3.0"
+      },
+
+      "buildOptions": {
+        "define": [ "NETSTANDARD10" ],
+        "optimize": true
+      }
+    },
+
+    "net35": {
+      "dependencies": {
+        "TaskParallelLibrary": "1.0.2856"
+      },
+      "frameworkAssemblies": {
+        "System.Runtime.Serialization": "3.0.0.0"
+      },
+
+      "buildOptions": {
+        "define": [ "NET35", "NOSYSNUMERICS" ],
+        "optimize": true
+      }
+    },
+
+    "net451": {
+      "frameworkAssemblies": {
+        "System.Runtime.Serialization": "4.0.0.0",
+        "System.Numerics": "4.0.0.0"
+      }
+    }
+  }
+}

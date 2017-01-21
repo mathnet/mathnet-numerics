@@ -51,7 +51,8 @@ namespace MathNet.Numerics.Random
         /// <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether the instance is thread safe.</remarks>
         public CryptoRandomSource()
         {
-            _crypto = new RNGCryptoServiceProvider();
+            // NOTE: Current versions of .NET return and instance of RNGCryptoServiceProvider
+            _crypto = RandomNumberGenerator.Create();
         }
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace MathNet.Numerics.Random
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
         public CryptoRandomSource(bool threadSafe) : base(threadSafe)
         {
-            _crypto = new RNGCryptoServiceProvider();
+            _crypto = RandomNumberGenerator.Create();
         }
 
         /// <summary>
@@ -135,7 +136,7 @@ namespace MathNet.Numerics.Random
             var bytes = new byte[values.Length*4];
 
 #if !NET35
-            using (var rnd = new RNGCryptoServiceProvider())
+            using (var rnd = RandomNumberGenerator.Create())
             {
                 rnd.GetBytes(bytes);
             }
@@ -168,7 +169,7 @@ namespace MathNet.Numerics.Random
         /// <remarks>Supports being called in parallel from multiple threads.</remarks>
         public static IEnumerable<double> DoubleSequence()
         {
-            var rnd = new RNGCryptoServiceProvider();
+            var rnd = RandomNumberGenerator.Create();
             var buffer = new byte[1024*4];
 
             while (true)

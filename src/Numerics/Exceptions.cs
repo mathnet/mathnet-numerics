@@ -20,7 +20,7 @@ namespace MathNet.Numerics
         public NonConvergenceException(string message, Exception innerException) : base(message, innerException)
         {
         }
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD10
         protected NonConvergenceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
@@ -48,7 +48,7 @@ namespace MathNet.Numerics
             : base(message, innerException)
         {
         }
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD10
         protected NumericalBreakdownException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
@@ -75,7 +75,7 @@ namespace MathNet.Numerics
             : base(message, innerException)
         {
         }
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD10
         protected NativeInterfaceException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
@@ -103,7 +103,7 @@ namespace MathNet.Numerics
             : base(string.Format(Resources.InvalidParameterWithNumber, parameter), innerException)
         {
         }
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD10
         protected InvalidParameterException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
@@ -126,7 +126,7 @@ namespace MathNet.Numerics
             : base(Resources.MemoryAllocation, innerException)
         {
         }
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD10
         protected MemoryAllocationException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
@@ -154,7 +154,7 @@ namespace MathNet.Numerics
             : base(string.Format(Resources.SingularUMatrixWithElement, element), innerException)
         {
         }
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD10
         protected SingularUMatrixException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
             : base(info, context)
         {
