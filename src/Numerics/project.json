@@ -1,5 +1,5 @@
 ﻿{
-  "name": "MathNet.Numerics",
+  "name": "MathNet.Numerics.Core",
   "title": "Math.NET Numerics",
   "description": "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.",
   "authors": [ "Christoph Ruegg", "Marcus Cuda", "Jurgen Van Gael" ],
