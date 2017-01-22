@@ -32,12 +32,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
-
-#if NETSTANDARD1_3
-using System.Runtime.InteropServices;
-#endif
 
 namespace MathNet.Numerics.Providers.Common
 {
@@ -158,7 +156,6 @@ namespace MathNet.Numerics.Providers.Common
             }
 
             // TODO: Look at this assembly's directory
-
 #else
             // Look under the current AppDomain's base directory
             if (TryLoad(fileName, AppDomain.CurrentDomain.BaseDirectory))

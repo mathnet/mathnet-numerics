@@ -1,4 +1,4 @@
-﻿#if NETSTANDARD10
+﻿#if NATIVE && NETSTANDARD1_3
 
 namespace MathNet.Numerics.Providers
 {

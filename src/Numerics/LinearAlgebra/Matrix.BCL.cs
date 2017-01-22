@@ -76,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra
             return Storage.GetHashCode();
         }
 
-#if !PORTABLE && !NETSTANDARD10
+#if !PORTABLE && !NOCLONABLE
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance.

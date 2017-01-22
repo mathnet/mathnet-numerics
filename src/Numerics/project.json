@@ -33,7 +33,7 @@
       },
 
       "buildOptions": {
-        "define": [ "NETSTANDARD10" ],
+        "define": [ "NETSTANDARD1_0", "NOSERIALIZATION", "NET45REFLECTION", "NOCLONABLE" ],
         "optimize": true
       }
     },
@@ -63,7 +63,7 @@
       },
 
       "buildOptions": {
-        "define": [ "NETSTANDARD10", "NETSTANDARD1_3", "NATIVE" ],
+        "define": [ "NETSTANDARD1_3", "NOSERIALIZATION", "NOCLONABLE", "NET45REFLECTION", "NATIVE" ],
         "optimize": true
       }
     },
@@ -88,7 +88,10 @@
         "System.Numerics": "4.0.0.0"
       },
 
-      "define": [ "NATIVE" ]
+      "buildOptions": {
+        "define": [ "NATIVE" ],
+        "optimize": true
+      }
     }
   }
 }

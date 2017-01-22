@@ -1030,7 +1030,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if PORTABLE || NETSTANDARD10
+#if PORTABLE || NETSTANDARD1_0 || NETSTANDARD1_3
             var value = GlobalizationHelper.ParseSingle(ref token);
 #else
             var value = GlobalizationHelper.ParseSingle(ref token, format.GetCultureInfo());

@@ -1,4 +1,4 @@
-﻿#if PORTABLE || NETSTANDARD10
+﻿#if PORTABLE || NETSTANDARD1_0 || NETSTANDARD1_3
 
 namespace MathNet.Numerics
 {
@@ -149,7 +149,7 @@ namespace MathNet.Numerics
 }
 #endif
 
-#if (PORTABLE || NETSTANDARD10 || NET35)
+#if (PORTABLE || NETSTANDARD1_0 || NETSTANDARD1_3 || NET35)
 namespace MathNet.Numerics
 {
     using System;

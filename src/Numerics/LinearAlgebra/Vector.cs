@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra
     [Serializable]
     public abstract partial class Vector<T> :
         IFormattable, IEquatable<Vector<T>>, IList, IList<T>
-#if !PORTABLE && !NETSTANDARD10
+#if !PORTABLE && !NOCLONABLE
         , ICloneable
 #endif
         where T : struct, IEquatable<T>, IFormattable
