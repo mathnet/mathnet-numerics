@@ -3,48 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
-	ProjectSection(SolutionItems) = preProject
-		CONTRIBUTING.md = CONTRIBUTING.md
-		CONTRIBUTORS.md = CONTRIBUTORS.md
-		LICENSE.md = LICENSE.md
-		README.md = README.md
-		RELEASENOTES-CUDA.md = RELEASENOTES-CUDA.md
-		RELEASENOTES-Data.md = RELEASENOTES-Data.md
-		RELEASENOTES-MKL.md = RELEASENOTES-MKL.md
-		RELEASENOTES-OpenBLAS.md = RELEASENOTES-OpenBLAS.md
-		RELEASENOTES.md = RELEASENOTES.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-AFDA-48DB-B7FC-B064691DEE96}"
-	ProjectSection(SolutionItems) = preProject
-		docs\content\Build.md = docs\content\Build.md
-		docs\content\Compatibility.md = docs\content\Compatibility.md
-		docs\content\Constants.md = docs\content\Constants.md
-		docs\content\CSV.md = docs\content\CSV.md
-		docs\content\DescriptiveStatistics.md = docs\content\DescriptiveStatistics.md
-		docs\content\Distance.md = docs\content\Distance.md
-		docs\content\Euclid.md = docs\content\Euclid.md
-		docs\content\Functions.md = docs\content\Functions.md
-		docs\content\Generate.md = docs\content\Generate.md
-		docs\content\IFsharpNotebook.md = docs\content\IFsharpNotebook.md
-		docs\content\index.md = docs\content\index.md
-		docs\content\IntegralTransforms.md = docs\content\IntegralTransforms.md
-		docs\content\Integration.md = docs\content\Integration.md
-		docs\content\Interpolation.md = docs\content\Interpolation.md
-		docs\content\LinearEquations.md = docs\content\LinearEquations.md
-		docs\content\MatlabFiles.md = docs\content\MatlabFiles.md
-		docs\content\Matrix.md = docs\content\Matrix.md
-		docs\content\MatrixMarket.md = docs\content\MatrixMarket.md
-		docs\content\MKL.md = docs\content\MKL.md
-		docs\content\Packages.md = docs\content\Packages.md
-		docs\content\Probability.md = docs\content\Probability.md
-		docs\content\Random.md = docs\content\Random.md
-		docs\content\Regression.md = docs\content\Regression.md
-		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
-		docs\content\Users.md = docs\content\Users.md
-	EndProjectSection
-EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mathnet-Core", "src\Numerics\Mathnet-Core.xproj", "{DC4F0686-033C-4D53-8423-2DC40FD29429}"
 EndProject
 Global
