@@ -1,16 +1,15 @@
 ﻿namespace MathNet.Numerics.Random
 {
     using System;
-    using System.Security.Cryptography;
 
     public static class RandomSeed
     {
         static readonly object Lock = new object();
 
-#if PORTABLE
+#if PORTABLE || NETSTANDARD1_1
         static readonly Random MasterRng = new Random();
 #else
-        static readonly RandomNumberGenerator MasterRng = RandomNumberGenerator.Create();
+        static readonly System.Security.Cryptography.RandomNumberGenerator MasterRng =  System.Security.Cryptography.RandomNumberGenerator.Create();
 #endif
 
         /// <summary>
@@ -42,7 +41,7 @@
         {
             lock (Lock)
             {
-#if PORTABLE
+#if PORTABLE || NETSTANDARD1_1
                 return MasterRng.NextFullRangeInt32() ^ Environment.TickCount ^ System.Guid.NewGuid().GetHashCode();
 #else
                 var bytes = new byte[4];

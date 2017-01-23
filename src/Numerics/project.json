@@ -1,5 +1,5 @@
 ﻿{
-  "name": "MathNet.Numerics.Core",
+  "name": "MathNet.Numerics",
   "title": "Math.NET Numerics",
   "description": "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.",
   "authors": [ "Christoph Ruegg", "Marcus Cuda", "Jurgen Van Gael" ],
@@ -10,36 +10,31 @@
   },
 
   "frameworks": {
-    "netstandard1.0": {
-      "imports": "dnxcore50",
+    "netstandard1.1": {
       "dependencies": {
         "System.Collections": "4.3.0",
+        "System.Collections.Concurrent": "4.3.0",
         "System.Diagnostics.Debug": "4.3.0",
         "System.Diagnostics.Tools": "4.3.0",
         "System.Globalization": "4.3.0",
-        "System.IO.FileSystem": "4.3.0",
         "System.Linq": "4.3.0",
         "System.Reflection": "4.3.0",
         "System.Resources.ResourceManager": "4.3.0",
         "System.Runtime": "4.3.0",
-        "System.Runtime.Extensions": "4.3.0",
-        "System.Runtime.InteropServices": "4.3.0",
-        "System.Runtime.InteropServices.RuntimeInformation": "4.3.0",
         "System.Runtime.Numerics": "4.3.0",
+        "System.Runtime.Extensions": "4.3.0",
         "System.Runtime.Serialization.Primitives": "4.3.0",
-        "System.Security.Cryptography.Algorithms": "4.3.0",
-        "System.Threading": "4.3.0",
-        "System.Threading.Tasks.Parallel": "4.3.0"
+        "System.Threading.Tasks.Parallel": "4.3.0",
+        "System.Threading": "4.3.0"
       },
 
       "buildOptions": {
-        "define": [ "NETSTANDARD1_0", "NOSERIALIZATION", "NET45REFLECTION", "NOCLONABLE" ],
+        "define": [ "NETSTANDARD1_1", "NOSERIALIZATION", "NET45REFLECTION", "NOCLONEABLE" ],
         "optimize": true
       }
     },
 
     "netstandard1.3": {
-      "imports": "dnxcore50",
       "dependencies": {
         "System.AppContext": "4.3.0",
         "System.Collections": "4.3.0",
@@ -63,7 +58,7 @@
       },
 
       "buildOptions": {
-        "define": [ "NETSTANDARD1_3", "NOSERIALIZATION", "NOCLONABLE", "NET45REFLECTION", "NATIVE" ],
+        "define": [ "NETSTANDARD1_3", "NOSERIALIZATION", "NOCLONEABLE", "NET45REFLECTION", "NATIVE" ],
         "optimize": true
       }
     },
@@ -82,7 +77,7 @@
       }
     },
 
-    "net451": {
+    "net40": {
       "frameworkAssemblies": {
         "System.Runtime.Serialization": "4.0.0.0",
         "System.Numerics": "4.0.0.0"

@@ -153,7 +153,7 @@ namespace MathNet.Numerics
                 return;
             }
 
-#if !PORTABLE && !NETSTANDARD1_0
+#if !PORTABLE && !NETSTANDARD1_1
             // array case
             var keysArray = keys as TKey[];
             var itemsArray = items as TItem[];
@@ -369,7 +369,7 @@ namespace MathNet.Numerics
                 return;
             }
 
-#if !PORTABLE && !NETSTANDARD1_0
+#if !PORTABLE && !NETSTANDARD1_1
             // array case
             var keysArray = keys as TKey[];
             var itemsArray = items as TItem[];

@@ -597,7 +597,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if PORTABLE || NETSTANDARD1_0 || NETSTANDARD1_3
+#if PORTABLE || NETSTANDARD1_1 || NETSTANDARD1_3
             var value = GlobalizationHelper.ParseDouble(ref token);
 #else
             var value = GlobalizationHelper.ParseDouble(ref token, format.GetCultureInfo());

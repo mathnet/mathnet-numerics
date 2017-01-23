@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Statistics
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class Bucket :
-#if PORTABLE || NOCLONABLE
+#if PORTABLE || NOCLONEABLE
    IComparable<Bucket>
 #else
     IComparable<Bucket>, ICloneable

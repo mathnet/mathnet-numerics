@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD1_1
 
 using System;
 using System.Collections.Generic;

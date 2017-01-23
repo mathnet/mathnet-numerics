@@ -1,4 +1,4 @@
-﻿#if PORTABLE || NETSTANDARD1_0 || NETSTANDARD1_3
+﻿#if PORTABLE || NETSTANDARD1_1 || NETSTANDARD1_3
 
 namespace MathNet.Numerics
 {
@@ -149,7 +149,7 @@ namespace MathNet.Numerics
 }
 #endif
 
-#if (PORTABLE || NETSTANDARD1_0 || NETSTANDARD1_3 || NET35)
+#if (PORTABLE || NETSTANDARD1_1 || NETSTANDARD1_3 || NET35)
 namespace MathNet.Numerics
 {
     using System;
@@ -343,4 +343,18 @@ namespace MathNet.Numerics
         }
     }
 }
+#endif
+
+#if NATIVE && NETSTANDARD1_3
+
+namespace MathNet.Numerics.Providers
+{
+    using System;
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    internal class SuppressUnmanagedCodeSecurityAttribute : Attribute
+    {
+    }  
+}
+
 #endif
