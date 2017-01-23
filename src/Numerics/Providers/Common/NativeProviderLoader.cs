@@ -86,14 +86,14 @@ namespace MathNet.Numerics.Providers.Common
         static string EvaluateArchitectureKey()
         {
 #if NETSTANDARD1_3
+            bool is64BitProcess = IntPtr.Size == 8;
+
             switch (RuntimeInformation.OSArchitecture)
             {
                 case Architecture.Arm   : return ARM;
                 case Architecture.Arm64 : return ARM64;
-                case Architecture.X64   : return X64;
-                case Architecture.X86   : return X86;
 
-                default: throw new Exception("Unsupported architecture:" + RuntimeInformation.OSArchitecture);
+                default: return is64BitProcess ? X64 : X86;
             }
 #else
             if (IsUnix)
