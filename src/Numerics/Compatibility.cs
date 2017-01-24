@@ -1,4 +1,4 @@
-﻿#if PORTABLE || NETSTANDARD1_1 || NETSTANDARD1_3
+﻿#if PORTABLE || NOSERIALIZATION
 
 namespace MathNet.Numerics
 {
@@ -17,7 +17,7 @@ namespace MathNet.Numerics
 
 #endif
 
-#if PORTABLE
+#if PORTABLE || NOPTL
 namespace MathNet.Numerics
 {
     using System;
@@ -25,7 +25,6 @@ namespace MathNet.Numerics
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
 
     internal static class Partitioner
     {
@@ -149,7 +148,7 @@ namespace MathNet.Numerics
 }
 #endif
 
-#if (PORTABLE || NETSTANDARD1_1 || NETSTANDARD1_3 || NET35)
+#if (PORTABLE || NOTARGETEDPATCHINGOPTOUT || NET35)
 namespace MathNet.Numerics
 {
     using System;
@@ -167,7 +166,7 @@ namespace MathNet.Numerics
 }
 #endif
 
-#if NET35
+#if NET35 || NOTUPLE
 namespace MathNet.Numerics
 {
     using System;

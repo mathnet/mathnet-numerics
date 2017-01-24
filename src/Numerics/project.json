@@ -29,7 +29,7 @@
       },
 
       "buildOptions": {
-        "define": [ "NETSTANDARD1_1", "NOSERIALIZATION", "NET45REFLECTION", "NOCLONEABLE" ],
+        "define": [ "NETSTANDARD1_1", "NOSERIALIZATION", "NODIVREM", "NET45REFLECTION", "NOTARGETEDPATCHINGOPTOUT", "NOCRYPTOGRAPHY", "NOCLONEABLE" ],
         "optimize": true
       }
     },
@@ -58,7 +58,7 @@
       },
 
       "buildOptions": {
-        "define": [ "NETSTANDARD1_3", "NOSERIALIZATION", "NOCLONEABLE", "NET45REFLECTION", "NATIVE" ],
+        "define": [ "NETSTANDARD1_3", "NOSERIALIZATION", "NOCLONEABLE", "NODIVREM", "NET45REFLECTION", "NOTARGETEDPATCHINGOPTOUT", "NATIVE" ],
         "optimize": true
       }
     },
@@ -72,7 +72,7 @@
       },
 
       "buildOptions": {
-        "define": [ "NET35", "NOSYSNUMERICS" ],
+        "define": [ "NET35", "NOSYSNUMERICS", "NOTARGETEDPATCHINGOPTOUT" ],
         "optimize": true
       }
     },
@@ -89,6 +89,19 @@
       }
     },
 
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Runtime.Serialization": "4.0.0.0",
+        "System.Numerics": "4.0.0.0"
+      },
+
+      "buildOptions": {
+        "define": [ "NATIVE", "AGGRESSIVEINLINING" ],
+        "optimize": true
+      }
+    },
+
+
     ".NETPortable,Version=v4.0,Profile=Profile328": {
       "frameworkAssemblies": {
         "mscorlib": "",
@@ -98,7 +111,7 @@
       },
 
       "buildOptions": {
-        "define": [ "PORTABLE", "NOSYSNUMERICS" ]
+        "define": [ "PORTABLE", "NOSERIALIZATION", "NOTARGETEDPATCHINGOPTOUT", "NOSYSNUMERICS", "NOCRYPTOGRAPHY", "NODIVREM", "NOCONCURRENTCOLLECTIONS", "NOCLONEABLE", "NOTHREADLOCAL", "NOPTL" ]
       }
     }
   }

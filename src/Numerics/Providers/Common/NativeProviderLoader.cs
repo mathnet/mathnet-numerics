@@ -72,7 +72,6 @@ namespace MathNet.Numerics.Providers.Common
         {
             get
             {
-
 #if NETSTANDARD1_3
                 return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 #else

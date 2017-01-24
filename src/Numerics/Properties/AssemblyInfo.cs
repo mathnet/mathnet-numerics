@@ -31,7 +31,7 @@ using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD1_1 && !NETSTANDARD1_3
 using System.Runtime.InteropServices;
 #endif
 
@@ -68,9 +68,9 @@ using System.Runtime.InteropServices;
 #else
 
 [assembly: AssemblyTitle("Math.NET Numerics")]
-[assembly: ComVisible(false)]
 
-#if !NETSTANDARD1_1
+#if !NETSTANDARD1_1 && !NETSTANDARD1_3
+[assembly: ComVisible(false)]
 [assembly: Guid("7b66646f-f0ee-425d-9065-910d1937a2df")]
 #endif
 

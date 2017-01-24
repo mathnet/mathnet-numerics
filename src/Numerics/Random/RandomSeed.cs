@@ -6,7 +6,7 @@
     {
         static readonly object Lock = new object();
 
-#if PORTABLE || NETSTANDARD1_1
+#if PORTABLE || NOCRYPTOGRAPHY
         static readonly Random MasterRng = new Random();
 #else
         static readonly System.Security.Cryptography.RandomNumberGenerator MasterRng =  System.Security.Cryptography.RandomNumberGenerator.Create();
@@ -41,7 +41,7 @@
         {
             lock (Lock)
             {
-#if PORTABLE || NETSTANDARD1_1
+#if PORTABLE || NOCRYPTOGRAPHY
                 return MasterRng.NextFullRangeInt32() ^ Environment.TickCount ^ System.Guid.NewGuid().GetHashCode();
 #else
                 var bytes = new byte[4];

@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE && !NETSTANDARD1_1
+#if !PORTABLE && !NOCRYPTOGRAPHY
 
 using System;
 using System.Collections.Generic;

@@ -35,6 +35,10 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
+#if AGGRESSIVEINLINING
+using System.Runtime.CompilerServices;
+#endif
+
 namespace MathNet.Numerics.LinearAlgebra
 {
     /// <summary>
@@ -93,11 +97,15 @@ namespace MathNet.Numerics.LinearAlgebra
         public T this[int row, int column]
         {
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
+#if AGGRESSIVEINLINING
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
             get { return Storage[row, column]; }
 
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
+#if AGGRESSIVEINLINING
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
             set { Storage[row, column] = value; }
         }
 
@@ -114,7 +122,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The requested element.
         /// </returns>
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
+#if AGGRESSIVEINLINING
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public T At(int row, int column)
         {
             return Storage.At(row, column);
@@ -133,7 +143,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The value to set the element to.
         /// </param>
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
+#if AGGRESSIVEINLINING
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void At(int row, int column, T value)
         {
             Storage.At(row, column, value);

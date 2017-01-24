@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Random
             _random = new System.Random(seed);
         }
 
-#if PORTABLE
+#if PORTABLE || NOTHREADLOCAL
         [ThreadStatic]
         static SystemRandomSource DefaultInstance;
 

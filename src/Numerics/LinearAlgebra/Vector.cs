@@ -34,6 +34,10 @@ using System.Runtime;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 
+#if AGGRESSIVEINLINING
+using System.Runtime.CompilerServices;
+#endif
+
 namespace MathNet.Numerics.LinearAlgebra
 {
     /// <summary>
@@ -77,11 +81,15 @@ namespace MathNet.Numerics.LinearAlgebra
         public T this[int index]
         {
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
+#if AGGRESSIVEINLINING
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
             get { return Storage[index]; }
 
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
+#if AGGRESSIVEINLINING
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
             set { Storage[index] = value; }
         }
 
@@ -89,7 +97,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="index">The index of the value to get or set.</param>
         /// <returns>The value of the vector at the given <paramref name="index"/>.</returns>
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
+#if AGGRESSIVEINLINING
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public T At(int index)
         {
             return Storage.At(index);
@@ -99,7 +109,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="index">The index of the value to get or set.</param>
         /// <param name="value">The value to set.</param>
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
+#if AGGRESSIVEINLINING
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public void At(int index, T value)
         {
             Storage.At(index, value);

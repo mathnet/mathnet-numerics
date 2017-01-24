@@ -115,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// </summary>
         void RowColumnAtIndex(int index, out int row, out int column)
         {
-#if PORTABLE || NETSTANDARD1_1 || NETSTANDARD1_3
+#if PORTABLE || NODIVREM
             row = index % RowCount;
             column = index / RowCount;
 #else
