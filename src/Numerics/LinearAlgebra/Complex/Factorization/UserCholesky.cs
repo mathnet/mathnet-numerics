@@ -52,22 +52,20 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
     internal sealed class UserCholesky : Cholesky
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserCholesky"/> class. This object will compute the
-        /// Cholesky factorization when the constructor is called and cache it's factorization.
+        /// Computes the Cholesky factorization in-place.
         /// </summary>
-        /// <param name="matrix">The matrix to factor.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
-        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
-        public static UserCholesky Create(Matrix<Complex> matrix)
+        /// <param name="factor">On entry, the matrix to factor. On exit, the Cholesky factor matrix</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="factor"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="factor"/> is not a square matrix.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="factor"/> is not positive definite.</exception>
+        static void DoCholesky(Matrix<Complex> factor)
         {
-            if (matrix.RowCount != matrix.ColumnCount)
+            if (factor.RowCount != factor.ColumnCount)
             {
                 throw new ArgumentException(Resources.ArgumentMatrixSquare);
             }
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
-            var factor = matrix.Clone();
             var tmpColumn = new Complex[factor.RowCount];
 
             // Main loop - along the diagonal
@@ -103,8 +101,41 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                     factor.At(ij, i, Complex.Zero);
                 }
             }
+        }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserCholesky"/> class. This object will compute the
+        /// Cholesky factorization when the constructor is called and cache it's factorization.
+        /// </summary>
+        /// <param name="matrix">The matrix to factor.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
+        public static UserCholesky Create(Matrix<Complex> matrix)
+        {
+            // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
+            var factor = matrix.Clone();
+            DoCholesky(factor);
             return new UserCholesky(factor);
+        }
+
+        /// <summary>
+        /// Calculates the Cholesky factorization of the input matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix to be factorized<see cref="Matrix{T}"/>.</param>
+        /// <exception cref="ArgumentNullException">If <paramref name="matrix"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not a square matrix.</exception>
+        /// <exception cref="ArgumentException">If <paramref name="matrix"/> is not positive definite.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">If <paramref name="matrix"/> does not have the same dimensions as the existing factor.</exception>
+        public override void Factorize(Matrix<Complex> matrix)
+        {
+            if (matrix.RowCount != Factor.RowCount || matrix.ColumnCount != Factor.ColumnCount)
+            {
+                throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, Factor);
+            }
+
+            matrix.CopyTo(Factor);
+            DoCholesky(Factor);
         }
 
         UserCholesky(Matrix<Complex> factor)
