@@ -77,6 +77,29 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <param name="levelSize">Level Group Size.</param>
         /// <param name="k">Index inside of the level.</param>
+        static void Radix2Step(Complex32[] samples, int exponentSign, int levelSize, int k)
+        {
+            // Twiddle Factor
+            var exponent = (exponentSign * k) * Constants.Pi / levelSize;
+            var w = new Complex32((float)Math.Cos(exponent), (float)Math.Sin(exponent));
+
+            var step = levelSize << 1;
+            for (var i = k; i < samples.Length; i += step)
+            {
+                var ai = samples[i];
+                var t = w * samples[i + levelSize];
+                samples[i] = ai + t;
+                samples[i + levelSize] = ai - t;
+            }
+        }
+
+        /// <summary>
+        /// Radix-2 Step Helper Method
+        /// </summary>
+        /// <param name="samples">Sample vector.</param>
+        /// <param name="exponentSign">Fourier series exponent sign.</param>
+        /// <param name="levelSize">Level Group Size.</param>
+        /// <param name="k">Index inside of the level.</param>
         static void Radix2Step(Complex[] samples, int exponentSign, int levelSize, int k)
         {
             // Twiddle Factor
@@ -90,6 +113,29 @@ namespace MathNet.Numerics.IntegralTransforms
                 var t = w*samples[i + levelSize];
                 samples[i] = ai + t;
                 samples[i + levelSize] = ai - t;
+            }
+        }
+
+        /// <summary>
+        /// Radix-2 generic FFT for power-of-two sized sample vectors.
+        /// </summary>
+        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
+        /// <param name="exponentSign">Fourier series exponent sign.</param>
+        /// <exception cref="ArgumentException"/>
+        internal static void Radix2(Complex32[] samples, int exponentSign)
+        {
+            if (!samples.Length.IsPowerOfTwo())
+            {
+                throw new ArgumentException(Resources.ArgumentPowerOfTwo);
+            }
+
+            Radix2Reorder(samples);
+            for (var levelSize = 1; levelSize < samples.Length; levelSize *= 2)
+            {
+                for (var k = 0; k < levelSize; k++)
+                {
+                    Radix2Step(samples, exponentSign, levelSize, k);
+                }
             }
         }
 
@@ -113,6 +159,34 @@ namespace MathNet.Numerics.IntegralTransforms
                 {
                     Radix2Step(samples, exponentSign, levelSize, k);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Radix-2 generic FFT for power-of-two sample vectors (Parallel Version).
+        /// </summary>
+        /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
+        /// <param name="exponentSign">Fourier series exponent sign.</param>
+        /// <exception cref="ArgumentException"/>
+        internal static void Radix2Parallel(Complex32[] samples, int exponentSign)
+        {
+            if (!samples.Length.IsPowerOfTwo())
+            {
+                throw new ArgumentException(Resources.ArgumentPowerOfTwo);
+            }
+
+            Radix2Reorder(samples);
+            for (var levelSize = 1; levelSize < samples.Length; levelSize *= 2)
+            {
+                var size = levelSize;
+
+                CommonParallel.For(0, size, 64, (u, v) =>
+                {
+                    for (int i = u; i < v; i++)
+                    {
+                        Radix2Step(samples, exponentSign, size, i);
+                    }
+                });
             }
         }
 

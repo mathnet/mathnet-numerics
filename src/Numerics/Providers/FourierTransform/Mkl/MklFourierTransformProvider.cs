@@ -43,6 +43,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             public int[] Dimensions;
             public FourierTransformScaling Scaling;
             public bool Real;
+            public bool Single;
         }
 
         Kernel _kernel;
@@ -143,7 +144,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             return MklProvider.Describe();
         }
 
-        Kernel Configure(int length, FourierTransformScaling scaling, bool real)
+        Kernel Configure(int length, FourierTransformScaling scaling, bool real, bool single)
         {
             Kernel kernel = Interlocked.Exchange(ref _kernel, null);
 
@@ -153,36 +154,54 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
                 {
                     Dimensions = new[] {length},
                     Scaling = scaling,
-                    Real = real
+                    Real = real,
+                    Single = single
                 };
 
-                if (real) SafeNativeMethods.d_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
-                else SafeNativeMethods.z_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                if (single)
+                {
+                    if (real) SafeNativeMethods.s_fft_create(out kernel.Handle, length, (float)ForwardScaling(scaling, length), (float)BackwardScaling(scaling, length));
+                    else SafeNativeMethods.c_fft_create(out kernel.Handle, length, (float)ForwardScaling(scaling, length), (float)BackwardScaling(scaling, length));
+                }
+                else
+                {
+                    if (real) SafeNativeMethods.d_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                    else SafeNativeMethods.z_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                }
 
                 return kernel;
             }
 
-            if (kernel.Dimensions.Length != 1 || kernel.Dimensions[0] != length || kernel.Scaling != scaling || kernel.Real != real)
+            if (kernel.Dimensions.Length != 1 || kernel.Dimensions[0] != length || kernel.Scaling != scaling || kernel.Real != real || kernel.Single != single)
             {
                 SafeNativeMethods.x_fft_free(ref kernel.Handle);
 
-                if (real) SafeNativeMethods.d_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
-                else SafeNativeMethods.z_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                if (single)
+                {
+                    if (real) SafeNativeMethods.s_fft_create(out kernel.Handle, length, (float)ForwardScaling(scaling, length), (float)BackwardScaling(scaling, length));
+                    else SafeNativeMethods.c_fft_create(out kernel.Handle, length, (float)ForwardScaling(scaling, length), (float)BackwardScaling(scaling, length));
+                }
+                else
+                {
+                    if (real) SafeNativeMethods.d_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                    else SafeNativeMethods.z_fft_create(out kernel.Handle, length, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                }
 
                 kernel.Dimensions = new[] {length};
                 kernel.Scaling = scaling;
                 kernel.Real = real;
+                kernel.Single = single;
                 return kernel;
             }
 
             return kernel;
         }
 
-        Kernel Configure(int[] dimensions, FourierTransformScaling scaling)
+        Kernel Configure(int[] dimensions, FourierTransformScaling scaling, bool single)
         {
             if (dimensions.Length == 1)
             {
-                return Configure(dimensions[0], scaling, false);
+                return Configure(dimensions[0], scaling, false, single);
             }
 
             Kernel kernel = Interlocked.Exchange(ref _kernel, null);
@@ -193,7 +212,8 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
                 {
                     Dimensions = dimensions,
                     Scaling = scaling,
-                    Real = false
+                    Real = false,
+                    Single = single
                 };
 
                 long length = 1;
@@ -202,11 +222,19 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
                     length *= dimensions[i];
                 }
 
-                SafeNativeMethods.z_fft_create_multidim(out kernel.Handle, dimensions.Length, dimensions, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                if (single)
+                {
+                    SafeNativeMethods.c_fft_create_multidim(out kernel.Handle, dimensions.Length, dimensions, (float)ForwardScaling(scaling, length), (float)BackwardScaling(scaling, length));
+                }
+                else
+                {
+                    SafeNativeMethods.z_fft_create_multidim(out kernel.Handle, dimensions.Length, dimensions, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                }
+                
                 return kernel;
             }
 
-            bool mismatch = kernel.Dimensions.Length != dimensions.Length || kernel.Scaling != scaling || kernel.Real != false;
+            bool mismatch = kernel.Dimensions.Length != dimensions.Length || kernel.Scaling != scaling || kernel.Real != false || kernel.Single != single;
             if (!mismatch)
             {
                 for (int i = 0; i < dimensions.Length; i++)
@@ -228,11 +256,20 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
                 }
 
                 SafeNativeMethods.x_fft_free(ref kernel.Handle);
-                SafeNativeMethods.z_fft_create_multidim(out kernel.Handle, dimensions.Length, dimensions, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+
+                if (single)
+                {
+                    SafeNativeMethods.c_fft_create_multidim(out kernel.Handle, dimensions.Length, dimensions, (float)ForwardScaling(scaling, length), (float)BackwardScaling(scaling, length));
+                }
+                else
+                {
+                    SafeNativeMethods.z_fft_create_multidim(out kernel.Handle, dimensions.Length, dimensions, ForwardScaling(scaling, length), BackwardScaling(scaling, length));
+                }
 
                 kernel.Dimensions = dimensions;
                 kernel.Scaling = scaling;
                 kernel.Real = false;
+                kernel.Single = single;
                 return kernel;
             }
 
@@ -248,46 +285,90 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             }
         }
 
+        public void Forward(Complex32[] samples, FourierTransformScaling scaling)
+        {
+            Kernel kernel = Configure(samples.Length, scaling, false, true);
+            SafeNativeMethods.c_fft_forward(kernel.Handle, samples);
+            Release(kernel);
+        }
+
         public void Forward(Complex[] samples, FourierTransformScaling scaling)
         {
-            Kernel kernel = Configure(samples.Length, scaling, false);
+            Kernel kernel = Configure(samples.Length, scaling, false, false);
             SafeNativeMethods.z_fft_forward(kernel.Handle, samples);
+            Release(kernel);
+        }
+
+        public void Backward(Complex32[] spectrum, FourierTransformScaling scaling)
+        {
+            Kernel kernel = Configure(spectrum.Length, scaling, false, true);
+            SafeNativeMethods.c_fft_backward(kernel.Handle, spectrum);
             Release(kernel);
         }
 
         public void Backward(Complex[] spectrum, FourierTransformScaling scaling)
         {
-            Kernel kernel = Configure(spectrum.Length, scaling, false);
+            Kernel kernel = Configure(spectrum.Length, scaling, false, false);
             SafeNativeMethods.z_fft_backward(kernel.Handle, spectrum);
+            Release(kernel);
+        }
+
+        public void ForwardReal(float[] samples, int n, FourierTransformScaling scaling)
+        {
+            Kernel kernel = Configure(n, scaling, true, true);
+            SafeNativeMethods.s_fft_forward(kernel.Handle, samples);
             Release(kernel);
         }
 
         public void ForwardReal(double[] samples, int n, FourierTransformScaling scaling)
         {
-            Kernel kernel = Configure(n, scaling, true);
+            Kernel kernel = Configure(n, scaling, true, false);
             SafeNativeMethods.d_fft_forward(kernel.Handle, samples);
             Release(kernel);
         }
 
+        public void BackwardReal(float[] spectrum, int n, FourierTransformScaling scaling)
+        {
+            Kernel kernel = Configure(n, scaling, true, true);
+            SafeNativeMethods.s_fft_backward(kernel.Handle, spectrum);
+            Release(kernel);
+
+            spectrum[n] = 0f;
+        }
+
         public void BackwardReal(double[] spectrum, int n, FourierTransformScaling scaling)
         {
-            Kernel kernel = Configure(n, scaling, true);
+            Kernel kernel = Configure(n, scaling, true, false);
             SafeNativeMethods.d_fft_backward(kernel.Handle, spectrum);
             Release(kernel);
 
             spectrum[n] = 0d;
         }
 
+        public void ForwardMultidim(Complex32[] samples, int[] dimensions, FourierTransformScaling scaling)
+        {
+            Kernel kernel = Configure(dimensions, scaling, true);
+            SafeNativeMethods.c_fft_forward(kernel.Handle, samples);
+            Release(kernel);
+        }
+
         public void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling)
         {
-            Kernel kernel = Configure(dimensions, scaling);
+            Kernel kernel = Configure(dimensions, scaling, false);
             SafeNativeMethods.z_fft_forward(kernel.Handle, samples);
+            Release(kernel);
+        }
+
+        public void BackwardMultidim(Complex32[] spectrum, int[] dimensions, FourierTransformScaling scaling)
+        {
+            Kernel kernel = Configure(dimensions, scaling, true);
+            SafeNativeMethods.c_fft_backward(kernel.Handle, spectrum);
             Release(kernel);
         }
 
         public void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
-            Kernel kernel = Configure(dimensions, scaling);
+            Kernel kernel = Configure(dimensions, scaling, false);
             SafeNativeMethods.z_fft_backward(kernel.Handle, spectrum);
             Release(kernel);
         }

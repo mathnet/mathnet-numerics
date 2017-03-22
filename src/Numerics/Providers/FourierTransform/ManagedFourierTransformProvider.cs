@@ -58,6 +58,23 @@ namespace MathNet.Numerics.Providers.FourierTransform
             return "Managed";
         }
 
+        public void Forward(Complex32[] samples, FourierTransformScaling scaling)
+        {
+            switch (scaling)
+            {
+                case FourierTransformScaling.SymmetricScaling:
+                    Fourier.BluesteinForward(samples, FourierOptions.Default);
+                    break;
+                case FourierTransformScaling.ForwardScaling:
+                    // Only backward scaling can be expressed with options, hence the double-inverse
+                    Fourier.BluesteinInverse(samples, FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent);
+                    break;
+                default:
+                    Fourier.BluesteinForward(samples, FourierOptions.NoScaling);
+                    break;
+            }
+        }
+
         public void Forward(Complex[] samples, FourierTransformScaling scaling)
         {
             switch (scaling)
@@ -75,6 +92,22 @@ namespace MathNet.Numerics.Providers.FourierTransform
             }
         }
 
+        public void Backward(Complex32[] spectrum, FourierTransformScaling scaling)
+        {
+            switch (scaling)
+            {
+                case FourierTransformScaling.SymmetricScaling:
+                    Fourier.BluesteinInverse(spectrum, FourierOptions.Default);
+                    break;
+                case FourierTransformScaling.BackwardScaling:
+                    Fourier.BluesteinInverse(spectrum, FourierOptions.AsymmetricScaling);
+                    break;
+                default:
+                    Fourier.BluesteinInverse(spectrum, FourierOptions.NoScaling);
+                    break;
+            }
+        }
+
         public void Backward(Complex[] spectrum, FourierTransformScaling scaling)
         {
             switch (scaling)
@@ -88,6 +121,37 @@ namespace MathNet.Numerics.Providers.FourierTransform
                 default:
                     Fourier.BluesteinInverse(spectrum, FourierOptions.NoScaling);
                     break;
+            }
+        }
+
+        public void ForwardReal(float[] samples, int n, FourierTransformScaling scaling)
+        {
+            // TODO: backport proper, optimized implementation from Iridium
+
+            Complex32[] data = new Complex32[n];
+            for (int i = 0; i < data.Length; i++)
+            {
+                data[i] = new Complex32(samples[i], 0.0f);
+            }
+
+            Forward(data, scaling);
+
+            samples[0] = data[0].Real;
+            samples[1] = 0f;
+            for (int i = 1, j = 2; i < data.Length / 2; i++)
+            {
+                samples[j++] = data[i].Real;
+                samples[j++] = data[i].Imaginary;
+            }
+            if (n.IsEven())
+            {
+                samples[n] = data[data.Length / 2].Real;
+                samples[n + 1] = 0f;
+            }
+            else
+            {
+                samples[n - 1] = data[data.Length / 2].Real;
+                samples[n] = data[data.Length / 2].Imaginary;
             }
         }
 
@@ -122,6 +186,36 @@ namespace MathNet.Numerics.Providers.FourierTransform
             }
         }
 
+        public void BackwardReal(float[] spectrum, int n, FourierTransformScaling scaling)
+        {
+            // TODO: backport proper, optimized implementation from Iridium
+
+            Complex32[] data = new Complex32[n];
+            data[0] = new Complex32(spectrum[0], 0f);
+            for (int i = 1, j = 2; i < data.Length / 2; i++)
+            {
+                data[i] = new Complex32(spectrum[j++], spectrum[j++]);
+                data[data.Length - i] = data[i].Conjugate();
+            }
+            if (n.IsEven())
+            {
+                data[data.Length / 2] = new Complex32(spectrum[n], 0f);
+            }
+            else
+            {
+                data[data.Length / 2] = new Complex32(spectrum[n - 1], spectrum[n]);
+                data[data.Length / 2 + 1] = data[data.Length / 2].Conjugate();
+            }
+
+            Backward(data, scaling);
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                spectrum[i] = data[i].Real;
+            }
+            spectrum[n] = 0f;
+        }
+
         public void BackwardReal(double[] spectrum, int n, FourierTransformScaling scaling)
         {
             // TODO: backport proper, optimized implementation from Iridium
@@ -152,7 +246,17 @@ namespace MathNet.Numerics.Providers.FourierTransform
             spectrum[n] = 0d;
         }
 
+        public void ForwardMultidim(Complex32[] samples, int[] dimensions, FourierTransformScaling scaling)
+        {
+            throw new NotSupportedException();
+        }
+
         public void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void BackwardMultidim(Complex32[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
             throw new NotSupportedException();
         }

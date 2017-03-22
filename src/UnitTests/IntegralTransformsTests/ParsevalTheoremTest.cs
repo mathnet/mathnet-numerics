@@ -60,6 +60,29 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="count">Samples count.</param>
         [TestCase(0x1000)]
         [TestCase(0x7FF)]
+        public void FourierDefaultTransformSatisfiesParsevalsTheorem32(int count)
+        {
+            var samples = Generate.RandomComplex32(count, GetUniform(1));
+
+            var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
+
+            var work = new Complex32[samples.Length];
+            samples.CopyTo(work, 0);
+
+            // Default -> Symmetric Scaling
+            Fourier.Forward(work);
+
+            var frequencySpaceEnergy = (from s in work select s.MagnitudeSquared()).Mean();
+
+            Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-7);
+        }
+
+        /// <summary>
+        /// Fourier default transform satisfies Parseval's theorem.
+        /// </summary>
+        /// <param name="count">Samples count.</param>
+        [TestCase(0x1000)]
+        [TestCase(0x7FF)]
         public void FourierDefaultTransformSatisfiesParsevalsTheorem(int count)
         {
             var samples = Generate.RandomComplex(count, GetUniform(1));
