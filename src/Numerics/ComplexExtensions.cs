@@ -48,6 +48,16 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets the squared magnitude of the <c>Complex</c> number.
         /// </summary>
+        /// <param name="complex">The <see cref="Complex32"/> number to perfom this operation on.</param>
+        /// <returns>The squared magnitude of the <c>Complex</c> number.</returns>
+        public static double MagnitudeSquared(this Complex32 complex)
+        {
+            return (complex.Real * complex.Real) + (complex.Imaginary * complex.Imaginary);
+        }
+
+        /// <summary>
+        /// Gets the squared magnitude of the <c>Complex</c> number.
+        /// </summary>
         /// <param name="complex">The <see cref="Complex"/> number to perfom this operation on.</param>
         /// <returns>The squared magnitude of the <c>Complex</c> number.</returns>
         public static double MagnitudeSquared(this Complex complex)

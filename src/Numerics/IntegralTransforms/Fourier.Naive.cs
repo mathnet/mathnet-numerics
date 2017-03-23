@@ -47,6 +47,36 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Time-space sample vector.</param>
         /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
+        internal static Complex32[] Naive(Complex32[] samples, int exponentSign)
+        {
+            var w0 = exponentSign * Constants.Pi2 / samples.Length;
+            var spectrum = new Complex32[samples.Length];
+
+            CommonParallel.For(0, samples.Length, (u, v) =>
+            {
+                for (int i = u; i < v; i++)
+                {
+                    var wk = w0 * i;
+                    var sum = Complex32.Zero;
+                    for (var n = 0; n < samples.Length; n++)
+                    {
+                        var w = n * wk;
+                        sum += samples[n] * new Complex32((float)Math.Cos(w), (float)Math.Sin(w));
+                    }
+
+                    spectrum[i] = sum;
+                }
+            });
+
+            return spectrum;
+        }
+
+        /// <summary>
+        /// Naive generic DFT, useful e.g. to verify faster algorithms.
+        /// </summary>
+        /// <param name="samples">Time-space sample vector.</param>
+        /// <param name="exponentSign">Fourier series exponent sign.</param>
+        /// <returns>Corresponding frequency-space vector.</returns>
         internal static Complex[] Naive(Complex[] samples, int exponentSign)
         {
             var w0 = exponentSign*Constants.Pi2/samples.Length;

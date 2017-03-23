@@ -57,6 +57,41 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// Naive transforms real sine correctly.
         /// </summary>
         [Test]
+        public void NaiveTransformsRealSineCorrectly32()
+        {
+            var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+
+            // real-odd transforms to imaginary odd
+            var spectrum = Fourier.NaiveForward(samples, FourierOptions.Matlab);
+
+            // all real components must be zero
+            foreach (var c in spectrum)
+            {
+                Assert.AreEqual(0, c.Real, 1e-6, "real");
+            }
+
+            // all imaginary components except second and last musth be zero
+            for (var i = 0; i < spectrum.Length; i++)
+            {
+                if (i == 1)
+                {
+                    Assert.AreEqual(-8, spectrum[i].Imaginary, 1e-12, "imag second");
+                }
+                else if (i == spectrum.Length - 1)
+                {
+                    Assert.AreEqual(8, spectrum[i].Imaginary, 1e-12, "imag last");
+                }
+                else
+                {
+                    Assert.AreEqual(0, spectrum[i].Imaginary, 1e-6, "imag");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Naive transforms real sine correctly.
+        /// </summary>
+        [Test]
         public void NaiveTransformsRealSineCorrectly()
         {
             var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
@@ -86,6 +121,20 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                     Assert.AreEqual(0, spectrum[i].Imaginary, 1e-12, "imag");
                 }
             }
+        }
+
+        /// <summary>
+        /// Radix2XXX when not power of two throws <c>ArgumentException</c>.
+        /// </summary>
+        [Test]
+        public void Radix2ThrowsWhenNotPowerOfTwo32()
+        {
+            var samples = Generate.RandomComplex32(0x7F, GetUniform(1));
+
+            Assert.Throws(typeof(ArgumentException), () => Fourier.Radix2Forward(samples, FourierOptions.Default));
+            Assert.Throws(typeof(ArgumentException), () => Fourier.Radix2Inverse(samples, FourierOptions.Default));
+            Assert.Throws(typeof(ArgumentException), () => Fourier.Radix2(samples, -1));
+            Assert.Throws(typeof(ArgumentException), () => Fourier.Radix2Parallel(samples, -1));
         }
 
         /// <summary>

@@ -58,6 +58,25 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="options">Fourier options.</param>
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
+        public void FourierNaiveIsReversible32(FourierOptions options)
+        {
+            var samples = Generate.RandomComplex32(0x80, GetUniform(1));
+            var work = new Complex32[samples.Length];
+            samples.CopyTo(work, 0);
+
+            work = Fourier.NaiveForward(work, options);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            work = Fourier.NaiveInverse(work, options);
+            AssertHelpers.AlmostEqual(samples, work, 11);
+        }
+
+        /// <summary>
+        /// Fourier naive is reversible.
+        /// </summary>
+        /// <param name="options">Fourier options.</param>
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
         public void FourierNaiveIsReversible(FourierOptions options)
         {
             var samples = Generate.RandomComplex(0x80, GetUniform(1));
@@ -68,6 +87,25 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
             work = Fourier.NaiveInverse(work, options);
+            AssertHelpers.AlmostEqual(samples, work, 12);
+        }
+
+        /// <summary>
+        /// Fourier radix2xx is reversible.
+        /// </summary>
+        /// <param name="options">Fourier options.</param>
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        public void FourierRadix2IsReversible32(FourierOptions options)
+        {
+            var samples = Generate.RandomComplex32(0x8000, GetUniform(1));
+            var work = new Complex32[samples.Length];
+            samples.CopyTo(work, 0);
+
+            Fourier.Radix2Forward(work, options);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            Fourier.Radix2Inverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 12);
         }
 
@@ -96,6 +134,25 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="options">Fourier options.</param>
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
+        public void FourierBluesteinIsReversible32(FourierOptions options)
+        {
+            var samples = Generate.RandomComplex32(0x7FFF, GetUniform(1));
+            var work = new Complex32[samples.Length];
+            samples.CopyTo(work, 0);
+
+            Fourier.BluesteinForward(work, options);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            Fourier.BluesteinInverse(work, options);
+            AssertHelpers.AlmostEqual(samples, work, 10);
+        }
+
+        /// <summary>
+        /// Fourier bluestein is reversible.
+        /// </summary>
+        /// <param name="options">Fourier options.</param>
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
         public void FourierBluesteinIsReversible(FourierOptions options)
         {
             var samples = Generate.RandomComplex(0x7FFF, GetUniform(1));
@@ -107,6 +164,25 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             Fourier.BluesteinInverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 10);
+        }
+
+        /// <summary>
+        /// Fourier bluestein is reversible.
+        /// </summary>
+        /// <param name="options">Fourier options.</param>
+        [TestCase(FourierOptions.Default)]
+        [TestCase(FourierOptions.Matlab)]
+        public void FourierRealIsReversible32(FourierOptions options)
+        {
+            var samples = Generate.RandomSingle(0x7FFF, GetUniform(1));
+            var work = new float[samples.Length + 2];
+            samples.CopyTo(work, 0);
+
+            Fourier.ForwardReal(work, samples.Length, options);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            Fourier.InverseReal(work, samples.Length, options);
+            AssertHelpers.AlmostEqual(samples, work, 5);
         }
 
         /// <summary>
@@ -145,6 +221,29 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             work = Hartley.NaiveInverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 12);
+        }
+
+        /// <summary>
+        /// Fourier default transform is reversible.
+        /// </summary>
+        [Test]
+        public void FourierDefaultTransformIsReversible32()
+        {
+            var samples = Generate.RandomComplex32(0x7FFF, GetUniform(1));
+            var work = new Complex32[samples.Length];
+            samples.CopyTo(work, 0);
+
+            Fourier.Forward(work);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            Fourier.Inverse(work);
+            AssertHelpers.AlmostEqual(samples, work, 10);
+
+            Fourier.Inverse(work, FourierOptions.Default);
+            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+
+            Fourier.Forward(work, FourierOptions.Default);
+            AssertHelpers.AlmostEqual(samples, work, 10);
         }
 
         /// <summary>
