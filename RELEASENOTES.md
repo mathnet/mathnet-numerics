@@ -1,3 +1,6 @@
+### 3.18.0 - 2017-04-09
+* FFT: single-precision support *~AlexHild*
+
 ### 3.17.0 - 2017-01-15
 * Random: random sources (all except crypto) now support ephemeral serialization.
 * Linear Algebra: explicit impl to copy a range of a row of a sparse matrix to a range of a sparse vector *~arthurvb*
