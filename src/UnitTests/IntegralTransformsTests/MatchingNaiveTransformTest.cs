@@ -133,8 +133,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
-            Verify(samples, 12, options, Fourier.NaiveForward, Fourier.Radix2Forward);
-            Verify(samples, 12, options, Fourier.NaiveInverse, Fourier.Radix2Inverse);
+            Verify(samples, 6, options, Fourier.NaiveForward, Fourier.Radix2Forward);
+            Verify(samples, 6, options, Fourier.NaiveInverse, Fourier.Radix2Inverse);
         }
 
         /// <summary>
@@ -163,8 +163,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex32(0x80, GetUniform(1));
 
-            Verify(samples, 10, options, Fourier.NaiveForward, Fourier.Radix2Forward);
-            Verify(samples, 10, options, Fourier.NaiveInverse, Fourier.Radix2Inverse);
+            Verify(samples, 5, options, Fourier.NaiveForward, Fourier.Radix2Forward);
+            Verify(samples, 5, options, Fourier.NaiveInverse, Fourier.Radix2Inverse);
         }
 
         /// <summary>
@@ -193,8 +193,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.PeriodicMap(14, w => new Complex32((float)Math.Sin(w), 0), 14, 1.0, Constants.Pi2);
 
-            Verify(samples, 11, options, Fourier.NaiveForward, Fourier.BluesteinForward);
-            Verify(samples, 11, options, Fourier.NaiveInverse, Fourier.BluesteinInverse);
+            Verify(samples, 6, options, Fourier.NaiveForward, Fourier.BluesteinForward);
+            Verify(samples, 6, options, Fourier.NaiveInverse, Fourier.BluesteinInverse);
         }
 
         /// <summary>
@@ -223,8 +223,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex32(0x80, GetUniform(1));
 
-            Verify(samples, 10, options, Fourier.NaiveForward, Fourier.BluesteinForward);
-            Verify(samples, 10, options, Fourier.NaiveInverse, Fourier.BluesteinInverse);
+            Verify(samples, 5, options, Fourier.NaiveForward, Fourier.BluesteinForward);
+            Verify(samples, 5, options, Fourier.NaiveInverse, Fourier.BluesteinInverse);
         }
 
         /// <summary>
@@ -253,8 +253,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex32(0x7F, GetUniform(1));
 
-            Verify(samples, 9, options, Fourier.NaiveForward, Fourier.BluesteinForward);
-            Verify(samples, 9, options, Fourier.NaiveInverse, Fourier.BluesteinInverse);
+            Verify(samples, 5, options, Fourier.NaiveForward, Fourier.BluesteinForward);
+            Verify(samples, 5, options, Fourier.NaiveInverse, Fourier.BluesteinInverse);
         }
 
         /// <summary>
@@ -286,8 +286,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex32(0x7F, GetUniform(1));
 
-            VerifyInplace(samples, 10, options, Fourier.Forward, Fourier.BluesteinForward);
-            VerifyInplace(samples, 10, options, Fourier.Inverse, Fourier.BluesteinInverse);
+            VerifyInplace(samples, 5, options, Fourier.Forward, Fourier.BluesteinForward);
+            VerifyInplace(samples, 5, options, Fourier.Inverse, Fourier.BluesteinInverse);
         }
 
         /// <summary>
@@ -331,7 +331,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             int m = (n + 1) / 2;
             for (int i = 0, j = 0; i < m; i++)
             {
-                AssertHelpers.AlmostEqual(complex[i], new Complex32(real[j++], real[j++]), 6);
+                AssertHelpers.AlmostEqual(complex[i], new Complex32(real[j++], real[j++]), 5);
             }
         }
 
@@ -368,8 +368,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // 65536 = 2^16
             var samples = Generate.RandomComplex32(65536, GetUniform(1));
 
-            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s, o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.Radix2Forward);
-            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s, o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.BluesteinForward);
+            VerifyInplace(samples, 5, FourierOptions.NoScaling, (s, o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.Radix2Forward);
+            VerifyInplace(samples, 5, FourierOptions.NoScaling, (s, o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.BluesteinForward);
         }
 
         [Test]
@@ -393,7 +393,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             samples.Copy(provider);
             Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
 
-            Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
+            Verify(samples, 5, options, (a, b) => provider, Fourier.BluesteinForward);
         }
 
         [Test]
@@ -420,7 +420,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             samples.Copy(provider);
             Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
 
-            Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
+            Verify(samples, 5, options, (a, b) => provider, Fourier.BluesteinForward);
         }
 
         [Test]
@@ -444,8 +444,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var samples = Generate.RandomComplex32(65536, GetUniform(1));
             var naive = Fourier.NaiveForward(samples, options);
 
-            Verify(samples, 3, options, (a, b) => naive, Fourier.Radix2Forward);
-            Verify(samples, 3, options, (a, b) => naive, Fourier.BluesteinForward);
+            Verify(samples, 5, options, (a, b) => naive, Fourier.Radix2Forward);
+            Verify(samples, 5, options, (a, b) => naive, Fourier.BluesteinForward);
         }
 
         [Test, Explicit("Long-Running")]
@@ -467,7 +467,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex32(30870, GetUniform(1));
 
-            Verify(samples, 4, options, Fourier.NaiveForward, Fourier.BluesteinForward);
+            Verify(samples, 5, options, Fourier.NaiveForward, Fourier.BluesteinForward);
         }
 
         [Test, Explicit("Long-Running")]
@@ -487,7 +487,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex32(46500, GetUniform(1));
 
-            Verify(samples, 4, options, Fourier.NaiveForward, Fourier.BluesteinForward);
+            Verify(samples, 5, options, Fourier.NaiveForward, Fourier.BluesteinForward);
         }
 
         [Test, Explicit("Long-Running")]
