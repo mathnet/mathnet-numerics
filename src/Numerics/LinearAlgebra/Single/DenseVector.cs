@@ -675,10 +675,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Pointwise divide this vector with another vector and stores the result into the result vector.
+        /// Pointwise multiply this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
-        /// <param name="result">The vector to store the result of the pointwise division.</param>
+        /// <param name="other">The vector to pointwise multiply this one by.</param>
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
         protected override void DoPointwiseMultiply(Vector<float> other, Vector<float> result)
         {
             var denseOther = other as DenseVector;
