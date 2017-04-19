@@ -38,6 +38,7 @@ using System.Collections.Generic;
 using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
 using System.Collections;
 using MathNet.Numerics.Optimization.ObjectiveFunctions;
+using NUnit.Framework.Interfaces;
 
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {

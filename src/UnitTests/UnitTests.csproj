@@ -46,7 +46,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <NoWarn>1591</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>5</LangVersion>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
     <OutputPath>..\..\out\test-signed\Net40\</OutputPath>
@@ -366,8 +366,6 @@
     <Compile Include="LinearAlgebraTests\VectorToStringTests.cs" />
     <Compile Include="OdeSolvers\OdeSolverTest.cs" />
     <Compile Include="Random\RandomSerializationTests.cs" />
-    <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
-    <Compile Include="OptimizationTests\TestNewtonMinimizer.cs" />
     <Compile Include="OptimizationTests\TestCaseDataExtensions.cs" />
     <Compile Include="OptimizationTests\TestFunctions\BrownAndDennisFunction.cs" />
     <Compile Include="OptimizationTests\TestFunctions\HelicalValleyFunction.cs" />

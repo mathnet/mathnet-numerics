@@ -58,7 +58,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>5</LangVersion>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
     <OutputPath>..\..\out\lib-signed\Net40\</OutputPath>
@@ -115,8 +115,6 @@
     <Compile Include="LinearRegression\Options.cs" />
     <Compile Include="OdeSolvers\AdamsBashforth.cs" />
     <Compile Include="OdeSolvers\RungeKutta.cs" />
-    <Compile Include="Optimization\BaseEvaluation.cs" />
-    <Compile Include="Optimization\BaseObjectiveFunction.cs" />
     <Compile Include="Optimization\BfgsMinimizerBase.cs" />
     <Compile Include="Optimization\LineSearch\WolfeLineSearch.cs" />
     <Compile Include="Optimization\NelderMeadSimplex.cs" />
@@ -259,8 +257,6 @@
     <Compile Include="RootFinding\NewtonRaphson.cs" />
     <Compile Include="RootFinding\RobustNewtonRaphson.cs" />
     <Compile Include="RootFinding\Secant.cs" />
-    <Compile Include="RootFinding\WolfeRule.cs" />
-    <Compile Include="Optimization\LineSearch\WolfeRule.cs" />
     <Compile Include="RootFinding\ZeroCrossingBracketing.cs" />
     <Compile Include="RootFinding\Brent.cs" />
     <Compile Include="FindRoots.cs" />
@@ -519,6 +515,5 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

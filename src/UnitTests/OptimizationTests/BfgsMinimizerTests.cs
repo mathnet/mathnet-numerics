@@ -7,6 +7,7 @@ using System.Text;
 using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
 using System.Collections.Generic;
 using System.Collections;
+using NUnit.Framework.Interfaces;
 
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
