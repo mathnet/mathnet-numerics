@@ -1028,6 +1028,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="f">Function which takes a scalar and a vector, modifies the vector in place and returns void</param>
         /// <param name="x">The scalar to be passed to the function</param>
+        /// <param name="result">The vector where the result will be placed</param>
         /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
         protected void PointwiseBinary(Action<T, Vector<T>> f, T x, Vector<T> result)
         {

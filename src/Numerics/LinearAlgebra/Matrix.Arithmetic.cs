@@ -1720,7 +1720,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// matrix and a given other matrix being the 'x' of atan2 and the
         /// 'this' matrix being the 'y'
         /// </summary>
-        /// <param name="other"></param>
+        /// <param name="other">The other matrix 'y'</param>
+        /// <param name="result">The matrix with the result and 'x'</param>
         /// <returns></returns>
         public void PointwiseAtan2(Matrix<T> other, Matrix<T> result)
         {

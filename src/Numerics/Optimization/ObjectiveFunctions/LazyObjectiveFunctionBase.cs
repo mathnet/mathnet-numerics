@@ -1,4 +1,34 @@
-﻿using MathNet.Numerics.LinearAlgebra;
+﻿// <copyright file="LazyObjectiveFunctionBase.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+// http://mathnetnumerics.codeplex.com
+//
+// Copyright (c) 2009-2016 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 {
@@ -6,14 +36,14 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
     {
         Vector<double> _point;
 
-        protected bool _hasFunctionValue;
-        protected double _functionValue;
+        protected bool HasFunctionValue { get; set; }
+        protected double FunctionValue { get; set; }
 
-        protected bool _hasGradientValue;
-        protected Vector<double> _gradientValue;
+        protected bool HasGradientValue { get; set; }
+        protected Vector<double> GradientValue { get; set; }
 
-        protected bool _hasHessianValue;
-        protected Matrix<double> _hessianValue;
+        protected bool HasHessianValue { get; set; }
+        protected Matrix<double> HessianValue { get; set; }
 
         protected LazyObjectiveFunctionBase(bool gradientSupported, bool hessianSupported)
         {
@@ -27,13 +57,13 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         {
             // we need to deep-clone values since they may be updated inplace on evaluation
             LazyObjectiveFunctionBase fork = (LazyObjectiveFunctionBase)CreateNew();
-            fork._point = _point == null ? null : _point.Clone();
-            fork._hasFunctionValue = _hasFunctionValue;
-            fork._functionValue = _functionValue;
-            fork._hasGradientValue = _hasGradientValue;
-            fork._gradientValue = _gradientValue == null ? null : _gradientValue.Clone(); ;
-            fork._hasHessianValue = _hasHessianValue;
-            fork._hessianValue = _hessianValue == null ? null : _hessianValue.Clone();
+            fork._point = _point?.Clone();
+            fork.HasFunctionValue = HasFunctionValue;
+            fork.FunctionValue = FunctionValue;
+            fork.HasGradientValue = HasGradientValue;
+            fork.GradientValue = GradientValue?.Clone();
+            fork.HasHessianValue = HasHessianValue;
+            fork.HessianValue = HessianValue?.Clone();
             return fork;
         }
 
@@ -43,9 +73,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public void EvaluateAt(Vector<double> point)
         {
             _point = point;
-            _hasFunctionValue = false;
-            _hasGradientValue = false;
-            _hasHessianValue = false;
+            HasFunctionValue = false;
+            HasGradientValue = false;
+            HasHessianValue = false;
         }
 
         protected abstract void EvaluateValue();
@@ -69,16 +99,16 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         {
             get
             {
-                if (!_hasFunctionValue)
+                if (!HasFunctionValue)
                 {
                     EvaluateValue();
                 }
-                return _functionValue;
+                return FunctionValue;
             }
             protected set
             {
-                _functionValue = value;
-                _hasFunctionValue = true;
+                FunctionValue = value;
+                HasFunctionValue = true;
             }
         }
 
@@ -86,16 +116,16 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         {
             get
             {
-                if (!_hasGradientValue)
+                if (!HasGradientValue)
                 {
                     EvaluateGradient();
                 }
-                return _gradientValue;
+                return GradientValue;
             }
             protected set
             {
-                _gradientValue = value;
-                _hasGradientValue = true;
+                GradientValue = value;
+                HasGradientValue = true;
             }
         }
 
@@ -103,16 +133,16 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         {
             get
             {
-                if (!_hasHessianValue)
+                if (!HasHessianValue)
                 {
                     EvaluateHessian();
                 }
-                return _hessianValue;
+                return HessianValue;
             }
             protected set
             {
-                _hessianValue = value;
-                _hasHessianValue = true;
+                HessianValue = value;
+                HasHessianValue = true;
             }
         }
     }

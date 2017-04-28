@@ -1,4 +1,4 @@
-﻿// <copyright file="BfgsTest.cs" company="Math.NET">
+﻿// <copyright file="WeakWolfeLineSearch.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -36,12 +36,12 @@ namespace MathNet.Numerics.Optimization.LineSearch
     /// <summary>
     /// Search for a step size alpha that satisfies the weak wolfe conditions. The weak Wolfe
     /// Conditions are
-    /// i)  Armijo Rule:         f(x_k + alpha_k p_k) <= f(x_k) + c1 alpha_k p_k^T g(x_k)
-    /// ii) Curvature Condition: p_k^T g(x_k + alpha_k p_k) >= c2 p_k^T g(x_k)
-    /// where g(x) is the gradient of f(x), 0 < c1 < c2 < 1.
-    ///
+    /// i)  Armijo Rule:         f(x_k + alpha_k p_k) &lt;= f(x_k) + c1 alpha_k p_k^T g(x_k)
+    /// ii) Curvature Condition: p_k^T g(x_k + alpha_k p_k) &gt;= c2 p_k^T g(x_k)
+    /// where g(x) is the gradient of f(x), 0 &lt; c1 &lt; c2 &lt; 1.
+    /// 
     /// Implementation is based on http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
-    ///
+    /// 
     /// references:
     /// http://en.wikipedia.org/wiki/Wolfe_conditions
     /// http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
@@ -54,7 +54,10 @@ namespace MathNet.Numerics.Optimization.LineSearch
             // Validation in base class
         }
 
-        protected override MinimizationResult.ExitCondition WolfeExitCondition { get { return MinimizationResult.ExitCondition.WeakWolfeCriteria; } }
+        protected override MinimizationResult.ExitCondition WolfeExitCondition
+        {
+            get { return MinimizationResult.ExitCondition.WeakWolfeCriteria; }
+        }
 
         protected override bool WolfeCondition(double stepDd, double initialDd)
         {

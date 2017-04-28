@@ -35,9 +35,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             if (this.IsGradientSupported)
             {
-                if (this._gradientValue == null)
+                if (this.GradientValue == null)
                     this.Gradient = new DenseVector(this.TestFunction.ParameterDimension);
-                this.TestFunction.SsqGradientByRef(this.Point, _gradientValue);
+                this.TestFunction.SsqGradientByRef(this.Point, GradientValue);
             }
         }
 
@@ -45,9 +45,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             if (this.IsHessianSupported)
             {
-                if (this._hessianValue == null)
+                if (this.HessianValue == null)
                     this.Hessian = new DenseMatrix(this.TestFunction.ParameterDimension, this.TestFunction.ParameterDimension);
-                this.TestFunction.SsqHessianByRef(this.Point, _hessianValue);
+                this.TestFunction.SsqHessianByRef(this.Point, HessianValue);
             }
         }
     }
