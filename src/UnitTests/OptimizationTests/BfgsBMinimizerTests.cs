@@ -1,10 +1,9 @@
-// <copyright file="BfgsTest.cs" company="Math.NET">
+// <copyright file="BfgsBMinimizerTests.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// http://mathnetnumerics.codeplex.com
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2017 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -33,7 +32,6 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization;
 using NUnit.Framework;
 using System.Linq;
-using System.Text;
 using System.Collections.Generic;
 using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
 using System.Collections;

@@ -368,7 +368,7 @@
     <Compile Include="OptimizationTests\TestFunctions\BrownAndDennisFunction.cs" />
     <Compile Include="OptimizationTests\TestFunctions\HelicalValleyFunction.cs" />
     <Compile Include="OptimizationTests\NelderMeadSimplexTests.cs" />
-    <Compile Include="OptimizationTests\TestFunctionAdapters.cs" />
+    <Compile Include="OptimizationTests\MghObjectiveFunction.cs" />
     <Compile Include="OptimizationTests\TestFunctions\BaseTestFunction.cs" />
     <Compile Include="OptimizationTests\TestFunctions\BealeFunction.cs" />
     <Compile Include="OptimizationTests\TestFunctions\BrownBadlyScaledFunction.cs" />
@@ -385,7 +385,7 @@
     <Compile Include="Random\SystemRandomSourceTests.cs" />
     <Compile Include="OptimizationTests\BfgsTest.cs" />
     <Compile Include="RootFindingTests\BisectionTest.cs" />
-    <Compile Include="OptimizationTests\RosenbrockFunction.cs" />
+    <Compile Include="OptimizationTests\TestFunctions\RosenbrockFunction.cs" />
     <Compile Include="OptimizationTests\BfgsMinimizerTests.cs" />
     <Compile Include="OptimizationTests\ConjugateGradientMinimizerTests.cs" />
     <Compile Include="OptimizationTests\NewtonMinimizerTests.cs" />
