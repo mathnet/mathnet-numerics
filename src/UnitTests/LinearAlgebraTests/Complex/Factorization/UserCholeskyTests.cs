@@ -142,6 +142,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
                     AssertHelpers.AlmostEqualRelative(matrixX[i, j], matrixXfromC[i, j], 8);
                 }
             }
+
+            // Check update
+            var matrixC = Matrix<Complex>.Build.RandomPositiveDefinite(order, 1);
+            var cholC = matrixC.Cholesky();
+            chol.Factorize(matrixC);
+            for (var i = 0; i < matrixC.RowCount; i++)
+            {
+                for (var j = 0; j < matrixC.ColumnCount; j++)
+                {
+                    Assert.AreEqual(cholC.Factor[i, j], chol.Factor[i, j]);
+                }
+            }
+
+            // Check size mismatch
+            var matrixD = Matrix<Complex>.Build.DenseIdentity(order + 1);
+            Assert.That(() => chol.Factorize(matrixD), Throws.ArgumentException);
         }
 
         /// <summary>

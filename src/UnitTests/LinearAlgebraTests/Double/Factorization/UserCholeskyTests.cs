@@ -136,6 +136,22 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
                     Assert.AreEqual(matrixX[i, j], matrixXfromC[i, j], 1.0e-11);
                 }
             }
+
+            // Check update
+            var matrixC = Matrix<double>.Build.RandomPositiveDefinite(order, 1);
+            var cholC = matrixC.Cholesky();
+            chol.Factorize(matrixC);
+            for (var i = 0; i < matrixC.RowCount; i++)
+            {
+                for (var j = 0; j < matrixC.ColumnCount; j++)
+                {
+                    Assert.AreEqual(cholC.Factor[i, j], chol.Factor[i, j]);
+                }
+            }
+
+            // Check size mismatch
+            var matrixD = Matrix<double>.Build.DenseIdentity(order + 1);
+            Assert.That(() => chol.Factorize(matrixD), Throws.ArgumentException);
         }
 
         /// <summary>
