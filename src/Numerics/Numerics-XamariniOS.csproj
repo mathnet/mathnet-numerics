@@ -10,6 +10,7 @@
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <BaseIntermediateOutputPath>..\..\obj\lib-debug\XamariniOS</BaseIntermediateOutputPath>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
