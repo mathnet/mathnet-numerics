@@ -1,3 +1,8 @@
+### 3.19.0 - 2017-04-29
+* Statistics: RunningStatistics.Combine to better handle empty statistics *~Lucas Godshalk*
+* Linear Algebra: Cholesky.Factorize to reuse the factorization matrix *~mjmckp*
+* Linear Algebra: Fix docs for DoPointwiseMultiply *~Jakub Arnold*
+
 ### 3.18.0 - 2017-04-09
 * FFT: single-precision support *~AlexHild*
 

@@ -44,9 +44,9 @@ open System.Runtime.InteropServices
 [<assembly: AssemblyCulture("")>]
 [<assembly: NeutralResourcesLanguage("en")>]
 
-[<assembly: AssemblyVersion("3.18.0.0")>]
-[<assembly: AssemblyFileVersion("3.18.0.0")>]
-[<assembly: AssemblyInformationalVersion("3.18.0")>]
+[<assembly: AssemblyVersion("3.19.0.0")>]
+[<assembly: AssemblyFileVersion("3.19.0.0")>]
+[<assembly: AssemblyInformationalVersion("3.19.0")>]
 
 #if PORTABLE
 #else
