@@ -76,23 +76,23 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             if (!ValueEvaluated)
                 EvaluateValue();
 
-            var tmp_point = Point.Clone();
-            var tmp_obj = InnerObjectiveFunction.CreateNew();
+            var tmpPoint = Point.Clone();
+            var tmpObj = InnerObjectiveFunction.CreateNew();
             for (int ii = 0; ii < _gradient.Count; ++ii)
             {
-                var orig_point = tmp_point[ii];
-                var rel_incr = orig_point * RelativeIncrement;
-                var h = Math.Max(rel_incr, MinimumIncrement);
+                var origPoint = tmpPoint[ii];
+                var relIncr = origPoint * RelativeIncrement;
+                var h = Math.Max(relIncr, MinimumIncrement);
                 var mult = 1;
-                if (orig_point + h > UpperBound[ii])
+                if (origPoint + h > UpperBound[ii])
                     mult = -1;
 
-                tmp_point[ii] = orig_point + mult*h;
-                tmp_obj.EvaluateAt(tmp_point);
-                double bumped_value = tmp_obj.Value;
-                _gradient[ii] = (mult * bumped_value - mult * InnerObjectiveFunction.Value) / h;
+                tmpPoint[ii] = origPoint + mult*h;
+                tmpObj.EvaluateAt(tmpPoint);
+                double bumpedValue = tmpObj.Value;
+                _gradient[ii] = (mult * bumpedValue - mult * InnerObjectiveFunction.Value) / h;
 
-                tmp_point[ii] = orig_point;
+                tmpPoint[ii] = origPoint;
             }
             GradientEvaluated = true;
         }

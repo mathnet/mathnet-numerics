@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
             return stepDd < C2 * initialDd;
         }
 
-        protected override void ValidateValue(IObjectiveFunction eval)
+        protected override void ValidateValue(IObjectiveFunctionEvaluation eval)
         {
             if (!IsFinite(eval.Value))
             {
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
                 throw new ArgumentException("objective function does not support gradient");
         }
 
-        protected override void ValidateGradient(IObjectiveFunction eval)
+        protected override void ValidateGradient(IObjectiveFunctionEvaluation eval)
         {
             foreach (double x in eval.Gradient)
             {

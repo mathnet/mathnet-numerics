@@ -158,9 +158,9 @@ namespace MathNet.Numerics.Optimization
 
         protected override Vector<double> CalculateSearchDirection(ref Matrix<double> pseudoHessian, 
             out double maxLineSearchStep,
-            out double startingStepSize, 
-            IObjectiveFunction previousPoint, 
-            IObjectiveFunction candidatePoint, 
+            out double startingStepSize,
+            IObjectiveFunction previousPoint,
+            IObjectiveFunction candidatePoint,
             Vector<double> step)
         {
             Vector<double> lineSearchDirection;
@@ -170,7 +170,7 @@ namespace MathNet.Numerics.Optimization
             if (sy > 0.0) // only do update if it will create a positive definite matrix
             {
                 double sts = step * step;
-                
+
                 var Hs = pseudoHessian * step;
                 var sHs = step * pseudoHessian * step;
                 pseudoHessian = pseudoHessian + y.OuterProduct(y) * (1.0 / sy) - Hs.OuterProduct(Hs) * (1.0 / sHs);
@@ -285,7 +285,7 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        protected override double GetProjectedGradient(IObjectiveFunction candidatePoint, int ii)
+        protected override double GetProjectedGradient(IObjectiveFunctionEvaluation candidatePoint, int ii)
         {
             double projectedGradient;
             bool atLowerBound = candidatePoint.Point[ii] - _lowerBound[ii] < VerySmall;

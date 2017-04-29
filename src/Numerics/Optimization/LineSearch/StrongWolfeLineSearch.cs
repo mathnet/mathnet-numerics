@@ -40,7 +40,10 @@ namespace MathNet.Numerics.Optimization.LineSearch
             // Argument validation in base class
         }
 
-        protected override MinimizationResult.ExitCondition WolfeExitCondition { get { return MinimizationResult.ExitCondition.StrongWolfeCriteria; } }
+        protected override MinimizationResult.ExitCondition WolfeExitCondition
+        {
+            get { return MinimizationResult.ExitCondition.StrongWolfeCriteria; }
+        }
 
         protected override bool WolfeCondition(double stepDd, double initialDd)
         {

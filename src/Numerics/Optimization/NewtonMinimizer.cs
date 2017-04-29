@@ -126,7 +126,7 @@ namespace MathNet.Numerics.Optimization
             return gradient.Norm(2.0) < GradientTolerance;
         }
 
-        static void ValidateGradient(IObjectiveFunction eval)
+        static void ValidateGradient(IObjectiveFunctionEvaluation eval)
         {
             foreach (var x in eval.Gradient)
             {
@@ -137,13 +137,13 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        private void ValidateObjective(IObjectiveFunction eval)
+        private void ValidateObjective(IObjectiveFunctionEvaluation eval)
         {
             if (Double.IsNaN(eval.Value) || Double.IsInfinity(eval.Value))
                 throw new EvaluationException("Non-finite objective function returned.", eval);
         }
 
-        private void ValidateHessian(IObjectiveFunction eval)
+        private void ValidateHessian(IObjectiveFunctionEvaluation eval)
         {
             for (int ii = 0; ii < eval.Hessian.RowCount; ++ii)
             {

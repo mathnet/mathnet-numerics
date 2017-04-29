@@ -87,8 +87,8 @@ namespace MathNet.Numerics.Optimization.LineSearch
             for (ii = 0; ii < MaximumIterations; ++ii)
             {
                 objective.EvaluateAt(startingPoint.Point + searchDirection * step);
-                ValidateGradient(objective);  
-                ValidateValue(objective);       
+                ValidateGradient(objective);
+                ValidateValue(objective);
 
                 double stepDd = searchDirection * objective.Gradient;
 
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
                 }
                 else
                 {
-                    reasonForExit = WolfeExitCondition; 
+                    reasonForExit = WolfeExitCondition;
                     break;
                 }
 
@@ -136,23 +136,21 @@ namespace MathNet.Numerics.Optimization.LineSearch
 
             return new LineSearchResult(objective, ii, step, reasonForExit);
         }
+
         protected abstract MinimizationResult.ExitCondition WolfeExitCondition { get; }
 
         protected abstract bool WolfeCondition(double stepDd, double initialDd);
 
-        protected virtual void ValidateGradient(IObjectiveFunction objective)
+        protected virtual void ValidateGradient(IObjectiveFunctionEvaluation objective)
         {
         }
-        protected virtual void ValidateValue(IObjectiveFunction objective)
+
+        protected virtual void ValidateValue(IObjectiveFunctionEvaluation objective)
         {
         }
 
         protected virtual void ValidateInputArguments(IObjectiveFunctionEvaluation startingPoint, Vector<double> searchDirection, double initialStep, double upperBound)
         {
-
         }
     }
-
-        
-    
 }

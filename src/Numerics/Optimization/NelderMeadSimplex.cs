@@ -32,15 +32,12 @@
 
 using MathNet.Numerics.LinearAlgebra;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MathNet.Numerics.Optimization
 {
     /// <summary>
-    /// Class implementing the Nelder-Mead simplex algorithm, used to find a minima when no gradient is available. 
-    /// Called fminsearch() in Matlab. A description of the algorithm can be found at 
+    /// Class implementing the Nelder-Mead simplex algorithm, used to find a minima when no gradient is available.
+    /// Called fminsearch() in Matlab. A description of the algorithm can be found at
     /// http://se.mathworks.com/help/matlab/math/optimizing-nonlinear-functions.html#bsgpq6p-11
     /// or
     /// https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method
@@ -68,7 +65,7 @@ namespace MathNet.Numerics.Optimization
         /// <returns>The minimum point</returns>
         public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess)
         {
-            var initalPertubation = new MathNet.Numerics.LinearAlgebra.Double.DenseVector(initialGuess.Count);
+            var initalPertubation = new LinearAlgebra.Double.DenseVector(initialGuess.Count);
             for (int i = 0; i < initialGuess.Count; i++)
             {
                 initalPertubation[i] = initialGuess[i] == 0.0 ? 0.00025 : initialGuess[i] * 0.05;
@@ -249,7 +246,7 @@ namespace MathNet.Numerics.Optimization
             Vector<double>[] vertices = new Vector<double>[numDimensions + 1];
 
             // define one point of the simplex as the given initial guesses
-            var p0 = new MathNet.Numerics.LinearAlgebra.Double.DenseVector(numDimensions);
+            var p0 = new LinearAlgebra.Double.DenseVector(numDimensions);
             for (int i = 0; i < numDimensions; i++)
             {
                 p0[i] = simplexConstants[i].Value;
@@ -261,7 +258,7 @@ namespace MathNet.Numerics.Optimization
             for (int i = 0; i < numDimensions; i++)
             {
                 double scale = simplexConstants[i].InitialPerturbation;
-                Vector<double> unitVector = new MathNet.Numerics.LinearAlgebra.Double.DenseVector(numDimensions);
+                Vector<double> unitVector = new LinearAlgebra.Double.DenseVector(numDimensions);
                 unitVector[i] = 1;
                 vertices[i + 1] = p0.Add(unitVector.Multiply(scale));
             }
@@ -335,7 +332,7 @@ namespace MathNet.Numerics.Optimization
         {
             int numVertices = vertices.Length;
             // find the centroid of all points except the worst one
-            Vector<double> centroid = new MathNet.Numerics.LinearAlgebra.Double.DenseVector(numVertices - 1);
+            Vector<double> centroid = new LinearAlgebra.Double.DenseVector(numVertices - 1);
             for (int i = 0; i < numVertices; i++)
             {
                 if (i != errorProfile.HighestIndex)
@@ -409,7 +406,4 @@ namespace MathNet.Numerics.Optimization
             }
         }
     }
-
-    
-
 }

@@ -49,15 +49,15 @@ namespace MathNet.Numerics.Optimization
 
     public class EvaluationException : OptimizationException
     {
-        public IObjectiveFunction ObjectiveFunction { get; private set; }
+        public IObjectiveFunctionEvaluation ObjectiveFunction { get; private set; }
 
-        public EvaluationException(string message, IObjectiveFunction eval)
+        public EvaluationException(string message, IObjectiveFunctionEvaluation eval)
             : base(message)
         {
             ObjectiveFunction = eval;
         }
 
-        public EvaluationException(string message, IObjectiveFunction eval, Exception innerException)
+        public EvaluationException(string message, IObjectiveFunctionEvaluation eval, Exception innerException)
             : base(message, innerException)
         {
             ObjectiveFunction = eval;

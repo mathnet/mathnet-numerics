@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Optimization
             MaximumIterations = maximumIterations;
         }
 
-        protected MinimizationResult.ExitCondition ExitCriteriaSatisfied(IObjectiveFunction candidatePoint, IObjectiveFunction lastPoint, int iterations)
+        protected MinimizationResult.ExitCondition ExitCriteriaSatisfied(IObjectiveFunctionEvaluation candidatePoint, IObjectiveFunctionEvaluation lastPoint, int iterations)
         {
             Vector<double> relGrad = new DenseVector(candidatePoint.Point.Count);
             double relativeGradient = 0.0;
@@ -99,12 +99,12 @@ namespace MathNet.Numerics.Optimization
             return MinimizationResult.ExitCondition.None;
         }
 
-        protected virtual double GetProjectedGradient(IObjectiveFunction candidatePoint, int ii)
+        protected virtual double GetProjectedGradient(IObjectiveFunctionEvaluation candidatePoint, int ii)
         {
             return candidatePoint.Gradient[ii];
         }
 
-        protected void ValidateGradientAndObjective(IObjectiveFunction eval)
+        protected void ValidateGradientAndObjective(IObjectiveFunctionEvaluation eval)
         {
             foreach (var x in eval.Gradient)
             {

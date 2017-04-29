@@ -127,7 +127,7 @@ namespace MathNet.Numerics.Optimization
             return gradient.Norm(2.0) < GradientTolerance;
         }
 
-        void ValidateGradient(IObjectiveFunction objective)
+        void ValidateGradient(IObjectiveFunctionEvaluation objective)
         {
             foreach (var x in objective.Gradient)
             {
@@ -136,7 +136,7 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        void ValidateObjective(IObjectiveFunction objective)
+        void ValidateObjective(IObjectiveFunctionEvaluation objective)
         {
             if (Double.IsNaN(objective.Value) || Double.IsInfinity(objective.Value))
                 throw new EvaluationException("Non-finite objective function returned.", objective);
