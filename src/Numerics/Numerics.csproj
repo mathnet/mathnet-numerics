@@ -44,7 +44,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1591</NoWarn>
-    <LangVersion>5</LangVersion>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\out\lib-debug\Net40\</OutputPath>
@@ -58,7 +58,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>5</LangVersion>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
     <OutputPath>..\..\out\lib-signed\Net40\</OutputPath>
@@ -75,7 +75,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1591</NoWarn>
-    <LangVersion>5</LangVersion>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -115,6 +115,24 @@
     <Compile Include="LinearRegression\Options.cs" />
     <Compile Include="OdeSolvers\AdamsBashforth.cs" />
     <Compile Include="OdeSolvers\RungeKutta.cs" />
+    <Compile Include="Optimization\BfgsMinimizerBase.cs" />
+    <Compile Include="Optimization\LineSearch\WolfeLineSearch.cs" />
+    <Compile Include="Optimization\NelderMeadSimplex.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ForwardDifferenceGradientObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunctionBase.cs" />
+    <Compile Include="Optimization\Exceptions.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ObjectiveFunctionBase.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ValueObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\HessianObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\GradientObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\GradientHessianObjectiveFunction.cs" />
+    <Compile Include="Optimization\IObjectiveFunction.cs" />
+    <Compile Include="Optimization\LineSearch\LineSearchResult.cs" />
+    <Compile Include="Optimization\LineSearch\WeakWolfeLineSearch.cs" />
+    <Compile Include="Optimization\IUnconstrainedMinimizer.cs" />
+    <Compile Include="Optimization\MinimizationResult.cs" />
+    <Compile Include="Optimization\MinimizationWithLineSearchResult.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
@@ -233,6 +251,7 @@
     <Compile Include="Providers\Common\NativeProviderLoader.cs" />
     <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />
+    <Compile Include="Optimization\BfgsSolver.cs" />
     <Compile Include="RootFinding\Broyden.cs" />
     <Compile Include="RootFinding\Cubic.cs" />
     <Compile Include="RootFinding\NewtonRaphson.cs" />
@@ -242,6 +261,17 @@
     <Compile Include="RootFinding\Brent.cs" />
     <Compile Include="FindRoots.cs" />
     <Compile Include="RootFinding\Bisection.cs" />
+    <Compile Include="Optimization\BfgsBMinimizer.cs" />
+    <Compile Include="Optimization\BfgsMinimizer.cs" />
+    <Compile Include="Optimization\ConjugateGradientMinimizer.cs" />
+    <Compile Include="Optimization\GoldenSectionMinimizer.cs" />
+    <Compile Include="Optimization\MinimizationResult1D.cs" />
+    <Compile Include="Optimization\NewtonMinimizer.cs" />
+    <Compile Include="Optimization\ObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunction1D.cs" />
+    <Compile Include="Optimization\OptimizationResult.cs" />
+    <Compile Include="Optimization\LineSearch\StrongWolfeLineSearch.cs" />
+    <Compile Include="Optimization\QuadraticGradientProjectionSearch.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
     <Compile Include="ExcelFunctions.cs" />
     <Compile Include="SpecialFunctions\ExponentialIntegral.cs" />
