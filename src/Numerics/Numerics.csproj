@@ -269,7 +269,6 @@
     <Compile Include="Optimization\NewtonMinimizer.cs" />
     <Compile Include="Optimization\ObjectiveFunction.cs" />
     <Compile Include="Optimization\ObjectiveFunction1D.cs" />
-    <Compile Include="Optimization\OptimizationResult.cs" />
     <Compile Include="Optimization\LineSearch\StrongWolfeLineSearch.cs" />
     <Compile Include="Optimization\QuadraticGradientProjectionSearch.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
