@@ -1,3 +1,6 @@
+### 3.2.1 - 2017-04-29
+* BUG: to prevent corrupt files, writers now overwrite files if they exists already
+
 ### 3.2.0 - 2016-04-11
 * Text: reduce memory usage of parsing *~liuzh*
 
