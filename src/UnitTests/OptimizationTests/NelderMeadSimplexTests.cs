@@ -94,7 +94,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
                         .Concat(WoodFunction.TestCases)
                         .Concat(BrownAndDennisFunction.TestCases)
                     .Where(x => x.IsUnbounded)
-                    .Select(x => new TestCaseData(x)
+                    .Select<TestCase, ITestCaseData>(x => new TestCaseData(x)
                         .SetName(x.FullName)
                         .IgnoreIf(in_ignore_list(x.FullName), "Algo error, not implementation error")
                     )

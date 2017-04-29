@@ -47,38 +47,38 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             Assert.That(Math.Abs(result.MinimizingPoint[1] - RosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
         }
 
-		[Test]
-		public void FindMinimum_BigRosenbrock_Easy()
-		{
+        [Test]
+        public void FindMinimum_BigRosenbrock_Easy()
+        {
             var obj = ObjectiveFunction.Gradient(BigRosenbrockFunction.Value, BigRosenbrockFunction.Gradient);
-			var solver = new BfgsMinimizer(1e-10, 1e-5, 1e-5, 1000);
-			var result = solver.FindMinimum(obj, new DenseVector(new[] { 1.2*100.0, 1.2*100.0 }));
+            var solver = new BfgsMinimizer(1e-10, 1e-5, 1e-5, 1000);
+            var result = solver.FindMinimum(obj, new DenseVector(new[] { 1.2*100.0, 1.2*100.0 }));
 
-			Assert.That(Math.Abs(result.MinimizingPoint[0] - BigRosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
-			Assert.That(Math.Abs(result.MinimizingPoint[1] - BigRosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
-		}
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - BigRosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - BigRosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
+        }
 
-		[Test]
-		public void FindMinimum_BigRosenbrock_Hard()
-		{
+        [Test]
+        public void FindMinimum_BigRosenbrock_Hard()
+        {
             var obj = ObjectiveFunction.Gradient(BigRosenbrockFunction.Value, BigRosenbrockFunction.Gradient);
-			var solver = new BfgsMinimizer(1e-5, 1e-5, 1e-5, 1000);
-			var result = solver.FindMinimum(obj, new DenseVector(new[] { -1.2*100.0, 1.0*100.0 }));
+            var solver = new BfgsMinimizer(1e-5, 1e-5, 1e-5, 1000);
+            var result = solver.FindMinimum(obj, new DenseVector(new[] { -1.2*100.0, 1.0*100.0 }));
 
-			Assert.That(Math.Abs(result.MinimizingPoint[0] - BigRosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
-			Assert.That(Math.Abs(result.MinimizingPoint[1] - BigRosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
-		}
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - BigRosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - BigRosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
+        }
 
-		[Test]
-		public void FindMinimum_BigRosenbrock_Overton()
-		{
+        [Test]
+        public void FindMinimum_BigRosenbrock_Overton()
+        {
             var obj = ObjectiveFunction.Gradient(BigRosenbrockFunction.Value, BigRosenbrockFunction.Gradient);
-			var solver = new BfgsMinimizer(1e-5, 1e-5, 1e-5, 1000);
-			var result = solver.FindMinimum(obj, new DenseVector(new[] { -0.9*100.0, -0.5*100.0 }));
+            var solver = new BfgsMinimizer(1e-5, 1e-5, 1e-5, 1000);
+            var result = solver.FindMinimum(obj, new DenseVector(new[] { -0.9*100.0, -0.5*100.0 }));
 
-			Assert.That(Math.Abs(result.MinimizingPoint[0] - BigRosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
-			Assert.That(Math.Abs(result.MinimizingPoint[1] - BigRosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
-		}
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - BigRosenbrockFunction.Minimum[0]), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - BigRosenbrockFunction.Minimum[1]), Is.LessThan(1e-3));
+        }
 
         private class MghTestCaseEnumerator : IEnumerable<ITestCaseData>
         {
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
                         .Concat(WoodFunction.TestCases)
                         .Concat(BrownAndDennisFunction.TestCases)
                     .Where(x => x.IsUnbounded)
-                    .Select(x => new TestCaseData(x)
+                    .Select<TestCase, ITestCaseData>(x => new TestCaseData(x)
                         .SetName(x.FullName)
                     )
                     .GetEnumerator();
