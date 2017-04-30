@@ -32,9 +32,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using MathNet.Numerics.Threading;
 
-#if PORTABLE
-using System;
-#else
+#if !PORTABLE
 using System.Runtime;
 using System.Threading;
 #endif

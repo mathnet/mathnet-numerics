@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2017 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -69,12 +69,11 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-#if PORTABLE
-using System;
-#else
+#if !PORTABLE
 using System.Runtime;
 using System.Threading;
 #endif
+
 
 namespace MathNet.Numerics.Random
 {
