@@ -40,9 +40,6 @@ namespace MathNet.Numerics.Optimization
         /// <summary>Create a new unevaluated and independent copy of this objective function</summary>
         IObjectiveFunction CreateNew();
 
-        /// <summary>Create a new independent copy of this objective function, evaluated at the same point.</summary>
-        IObjectiveFunction Fork();
-
         Vector<double> Point { get; }
         double Value { get; }
 
@@ -59,5 +56,8 @@ namespace MathNet.Numerics.Optimization
     public interface IObjectiveFunction : IObjectiveFunctionEvaluation
     {
         void EvaluateAt(Vector<double> point);
+
+        /// <summary>Create a new independent copy of this objective function, evaluated at the same point.</summary>
+        IObjectiveFunction Fork();
     }
 }
