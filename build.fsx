@@ -48,7 +48,7 @@ let summary = "Math.NET Numerics, providing methods and algorithms for numerical
 let description = "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. "
 let support = "Supports .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL portable profiles 7, 47, 78, 259 and 328; Android/iOS with Xamarin."
 let supportFsharp = "Supports F# 3.0 on .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5 and Windows 8 with PCL portable profile 47; Android/iOS with Xamarin."
-let supportSigned = "Supports .Net 4.0."
+let supportSigned = "Supports .Net 4.0. This package contains strong-named assemblies for legacy use cases."
 let tags = "math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft"
 
 let numericsPack =
@@ -357,7 +357,7 @@ Target "Prepare" DoNothing
 // --------------------------------------------------------------------------------------
 // BUILD
 // --------------------------------------------------------------------------------------
- 
+
 Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
 Target "BuildNet35" (fun _ -> build !! "MathNet.Numerics.Net35Only.sln")
 Target "BuildAll" (fun _ -> build !! "MathNet.Numerics.All.sln")
