@@ -100,7 +100,7 @@ namespace MathNet.Numerics.Optimization
             double[] errorValues = new double[numVertices];
 
             int evaluationCount = 0;
-            MinimizationResult.ExitCondition exitCondition = MinimizationResult.ExitCondition.None;
+            ExitCondition exitCondition = ExitCondition.None;
             ErrorProfile errorProfile;
 
             errorValues = InitializeErrorValues(vertices, objectiveFunction);
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.Optimization
                 // see if the range in point heights is small enough to exit
                 if (HasConverged(ConvergenceTolerance, errorProfile, errorValues))
                 {
-                    exitCondition = MinimizationResult.ExitCondition.Converged;
+                    exitCondition = ExitCondition.Converged;
                     break;
                 }
 
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.Optimization
                     ++evaluationCount;
                     if (contractionPointValue >= currentWorst)
                     {
-                        // that would be even worse, so let's try to contract uniformly towards the low point; 
+                        // that would be even worse, so let's try to contract uniformly towards the low point;
                         // don't bother to update the error profile, we'll do it at the start of the
                         // next iteration
                         ShrinkSimplex(errorProfile, vertices, errorValues, objectiveFunction);

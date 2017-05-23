@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Optimization
             ValidateGradient(objective);
             if (ExitCriteriaSatisfied(objective.Gradient))
             {
-                return new MinimizationResult(objective, 0, MinimizationResult.ExitCondition.AbsoluteGradient);
+                return new MinimizationResult(objective, 0, ExitCondition.AbsoluteGradient);
             }
 
             // Set up line search algorithm
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.Optimization
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
             }
 
-            return new MinimizationWithLineSearchResult(objective, iterations, MinimizationResult.ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
+            return new MinimizationWithLineSearchResult(objective, iterations, ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
         bool ExitCriteriaSatisfied(Vector<double> gradient)

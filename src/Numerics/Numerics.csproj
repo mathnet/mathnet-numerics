@@ -116,6 +116,7 @@
     <Compile Include="OdeSolvers\AdamsBashforth.cs" />
     <Compile Include="OdeSolvers\RungeKutta.cs" />
     <Compile Include="Optimization\BfgsMinimizerBase.cs" />
+    <Compile Include="Optimization\ExitCondition.cs" />
     <Compile Include="Optimization\LineSearch\WolfeLineSearch.cs" />
     <Compile Include="Optimization\NelderMeadSimplex.cs" />
     <Compile Include="Optimization\ObjectiveFunctions\ForwardDifferenceGradientObjectiveFunction.cs" />

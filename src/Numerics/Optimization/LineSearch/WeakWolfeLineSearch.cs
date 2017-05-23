@@ -38,9 +38,9 @@ namespace MathNet.Numerics.Optimization.LineSearch
     /// i)  Armijo Rule:         f(x_k + alpha_k p_k) &lt;= f(x_k) + c1 alpha_k p_k^T g(x_k)
     /// ii) Curvature Condition: p_k^T g(x_k + alpha_k p_k) &gt;= c2 p_k^T g(x_k)
     /// where g(x) is the gradient of f(x), 0 &lt; c1 &lt; c2 &lt; 1.
-    /// 
+    ///
     /// Implementation is based on http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
-    /// 
+    ///
     /// references:
     /// http://en.wikipedia.org/wiki/Wolfe_conditions
     /// http://www.math.washington.edu/~burke/crs/408/lectures/L9-weak-Wolfe.pdf
@@ -53,9 +53,9 @@ namespace MathNet.Numerics.Optimization.LineSearch
             // Validation in base class
         }
 
-        protected override MinimizationResult.ExitCondition WolfeExitCondition
+        protected override ExitCondition WolfeExitCondition
         {
-            get { return MinimizationResult.ExitCondition.WeakWolfeCriteria; }
+            get { return ExitCondition.WeakWolfeCriteria; }
         }
 
         protected override bool WolfeCondition(double stepDd, double initialDd)

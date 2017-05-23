@@ -124,7 +124,7 @@ namespace MathNet.Numerics.Optimization
             if (iterations == MaximumIterations)
                 throw new MaximumIterationsException("Max iterations reached.");
 
-            return new MinimizationResult1D(middle, iterations, MinimizationResult.ExitCondition.BoundTolerance);
+            return new MinimizationResult1D(middle, iterations, ExitCondition.BoundTolerance);
         }
 
         void ValueChecker(double value, double point)

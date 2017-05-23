@@ -74,8 +74,8 @@ namespace MathNet.Numerics.Optimization
             ValidateGradientAndObjective(objective);
 
             // Check that we're not already done
-            MinimizationResult.ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null, 0);
-            if (currentExitCondition != MinimizationResult.ExitCondition.None)
+            ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null, 0);
+            if (currentExitCondition != ExitCondition.None)
                 return new MinimizationResult(objective, 0, currentExitCondition);
 
             // Set up line search algorithm
@@ -149,13 +149,13 @@ namespace MathNet.Numerics.Optimization
 
             int iterations = DoBfgsUpdate(ref currentExitCondition, lineSearcher, ref pseudoHessian, ref lineSearchDirection, ref previousPoint, ref lineSearchResult, ref candidatePoint, ref step, ref totalLineSearchSteps, ref iterationsWithNontrivialLineSearch);
 
-            if (iterations == MaximumIterations && currentExitCondition == MinimizationResult.ExitCondition.None)
+            if (iterations == MaximumIterations && currentExitCondition == ExitCondition.None)
                 throw new MaximumIterationsException(string.Format("Maximum iterations ({0}) reached.", MaximumIterations));
 
             return new MinimizationWithLineSearchResult(candidatePoint, iterations, currentExitCondition, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
-        protected override Vector<double> CalculateSearchDirection(ref Matrix<double> pseudoHessian, 
+        protected override Vector<double> CalculateSearchDirection(ref Matrix<double> pseudoHessian,
             out double maxLineSearchStep,
             out double startingStepSize,
             IObjectiveFunction previousPoint,

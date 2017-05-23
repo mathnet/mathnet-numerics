@@ -1,4 +1,4 @@
-﻿// <copyright file="StrongWolfeLineSearch.cs" company="Math.NET">
+// <copyright file="ExitCondition.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -27,26 +27,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
-
-namespace MathNet.Numerics.Optimization.LineSearch
+namespace MathNet.Numerics.Optimization
 {
-    public class StrongWolfeLineSearch : WolfeLineSearch
+    public enum ExitCondition
     {
-        public StrongWolfeLineSearch(double c1, double c2, double parameterTolerance, int maxIterations = 10)
-            : base(c1, c2, parameterTolerance, maxIterations)
-        {
-            // Argument validation in base class
-        }
-
-        protected override ExitCondition WolfeExitCondition
-        {
-            get { return ExitCondition.StrongWolfeCriteria; }
-        }
-
-        protected override bool WolfeCondition(double stepDd, double initialDd)
-        {
-            return Math.Abs(stepDd) > C2 * Math.Abs(initialDd);
-        }
+        None,
+        RelativeGradient,
+        LackOfProgress,
+        AbsoluteGradient,
+        WeakWolfeCriteria,
+        BoundTolerance,
+        StrongWolfeCriteria,
+        Converged
     }
 }

@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
 
             IObjectiveFunction objective = startingPoint.CreateNew();
             int ii;
-            MinimizationResult.ExitCondition reasonForExit = MinimizationResult.ExitCondition.None;
+            ExitCondition reasonForExit = ExitCondition.None;
             for (ii = 0; ii < MaximumIterations; ++ii)
             {
                 objective.EvaluateAt(startingPoint.Point + searchDirection * step);
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
                     }
                     if (maxRelChange < ParameterTolerance)
                     {
-                        reasonForExit = MinimizationResult.ExitCondition.LackOfProgress;
+                        reasonForExit = ExitCondition.LackOfProgress;
                         break;
                     }
                 }
@@ -136,7 +136,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
             return new LineSearchResult(objective, ii, step, reasonForExit);
         }
 
-        protected abstract MinimizationResult.ExitCondition WolfeExitCondition { get; }
+        protected abstract ExitCondition WolfeExitCondition { get; }
 
         protected abstract bool WolfeCondition(double stepDd, double initialDd);
 

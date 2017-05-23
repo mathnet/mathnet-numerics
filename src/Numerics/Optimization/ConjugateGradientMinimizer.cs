@@ -55,7 +55,7 @@ namespace MathNet.Numerics.Optimization
 
             // Check that we're not already done
             if (ExitCriteriaSatisfied(initialGuess, gradient))
-                return new MinimizationResult(objective, 0, MinimizationResult.ExitCondition.AbsoluteGradient);
+                return new MinimizationResult(objective, 0, ExitCondition.AbsoluteGradient);
 
             // Set up line search algorithm
             var lineSearcher = new WeakWolfeLineSearch(1e-4, 0.1, 1e-4, 1000);
@@ -118,7 +118,7 @@ namespace MathNet.Numerics.Optimization
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
             }
 
-            return new MinimizationWithLineSearchResult(objective, iterations, MinimizationResult.ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
+            return new MinimizationWithLineSearchResult(objective, iterations, ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
         bool ExitCriteriaSatisfied(Vector<double> candidatePoint, Vector<double> gradient)

@@ -58,7 +58,7 @@ namespace MathNet.Numerics.Optimization
             MaximumIterations = maximumIterations;
         }
 
-        protected MinimizationResult.ExitCondition ExitCriteriaSatisfied(IObjectiveFunctionEvaluation candidatePoint, IObjectiveFunctionEvaluation lastPoint, int iterations)
+        protected ExitCondition ExitCriteriaSatisfied(IObjectiveFunctionEvaluation candidatePoint, IObjectiveFunctionEvaluation lastPoint, int iterations)
         {
             Vector<double> relGrad = new DenseVector(candidatePoint.Point.Count);
             double relativeGradient = 0.0;
@@ -67,13 +67,13 @@ namespace MathNet.Numerics.Optimization
             {
                 double projectedGradient = GetProjectedGradient(candidatePoint, ii);
 
-                double tmp = projectedGradient * 
+                double tmp = projectedGradient *
                     Math.Max(Math.Abs(candidatePoint.Point[ii]), 1.0) / normalizer;
                 relativeGradient = Math.Max(relativeGradient, Math.Abs(tmp));
             }
             if (relativeGradient < GradientTolerance)
             {
-                return MinimizationResult.ExitCondition.RelativeGradient;
+                return ExitCondition.RelativeGradient;
             }
 
             if (lastPoint != null)
@@ -81,21 +81,21 @@ namespace MathNet.Numerics.Optimization
                 double mostProgress = 0.0;
                 for (int ii = 0; ii < candidatePoint.Point.Count; ++ii)
                 {
-                    var tmp = Math.Abs(candidatePoint.Point[ii] - lastPoint.Point[ii]) / 
+                    var tmp = Math.Abs(candidatePoint.Point[ii] - lastPoint.Point[ii]) /
                         Math.Max(Math.Abs(lastPoint.Point[ii]), 1.0);
                     mostProgress = Math.Max(mostProgress, tmp);
                 }
                 if (mostProgress < ParameterTolerance)
                 {
-                    return MinimizationResult.ExitCondition.LackOfProgress;
+                    return ExitCondition.LackOfProgress;
                 }
 
                 double functionChange = candidatePoint.Value - lastPoint.Value;
                 if (iterations > 500 && functionChange < 0 && Math.Abs(functionChange) < FunctionProgressTolerance)
-                    return MinimizationResult.ExitCondition.LackOfProgress;
+                    return ExitCondition.LackOfProgress;
             }
 
-            return MinimizationResult.ExitCondition.None;
+            return ExitCondition.None;
         }
 
         protected virtual double GetProjectedGradient(IObjectiveFunctionEvaluation candidatePoint, int ii)
@@ -114,7 +114,7 @@ namespace MathNet.Numerics.Optimization
                 throw new EvaluationException("Non-finite objective function returned.", eval);
         }
 
-        protected int DoBfgsUpdate(ref MinimizationResult.ExitCondition currentExitCondition, WolfeLineSearch lineSearcher, ref Matrix<double> inversePseudoHessian, ref Vector<double> lineSearchDirection, ref IObjectiveFunction previousPoint, ref LineSearchResult lineSearchResult, ref IObjectiveFunction candidate, ref Vector<double> step, ref int totalLineSearchSteps, ref int iterationsWithNontrivialLineSearch)
+        protected int DoBfgsUpdate(ref ExitCondition currentExitCondition, WolfeLineSearch lineSearcher, ref Matrix<double> inversePseudoHessian, ref Vector<double> lineSearchDirection, ref IObjectiveFunction previousPoint, ref LineSearchResult lineSearchResult, ref IObjectiveFunction candidate, ref Vector<double> step, ref int totalLineSearchSteps, ref int iterationsWithNontrivialLineSearch)
         {
             int iterations;
             for (iterations = 1; iterations < MaximumIterations; ++iterations)
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.Optimization
                 candidate = lineSearchResult.FunctionInfoAtMinimum;
 
                 currentExitCondition = ExitCriteriaSatisfied(candidate, previousPoint, iterations);
-                if (currentExitCondition != MinimizationResult.ExitCondition.None)
+                if (currentExitCondition != ExitCondition.None)
                     break;
             }
 

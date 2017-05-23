@@ -65,8 +65,8 @@ namespace MathNet.Numerics.Optimization
             ValidateGradientAndObjective(objective);
 
             // Check that we're not already done
-            MinimizationResult.ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null, 0);
-            if (currentExitCondition != MinimizationResult.ExitCondition.None)
+            ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null, 0);
+            if (currentExitCondition != ExitCondition.None)
                 return new MinimizationResult(objective, 0, currentExitCondition);
 
             // Set up line search algorithm
@@ -106,17 +106,17 @@ namespace MathNet.Numerics.Optimization
             int iterationsWithNontrivialLineSearch = lineSearchResult.Iterations > 0 ? 0 : 1;
             iterations = DoBfgsUpdate(ref currentExitCondition, lineSearcher, ref inversePseudoHessian, ref lineSearchDirection, ref previousPoint, ref lineSearchResult, ref candidate, ref step, ref totalLineSearchSteps, ref iterationsWithNontrivialLineSearch);
 
-            if (iterations == MaximumIterations && currentExitCondition == MinimizationResult.ExitCondition.None)
+            if (iterations == MaximumIterations && currentExitCondition == ExitCondition.None)
                 throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
 
-            return new MinimizationWithLineSearchResult(candidate, iterations, MinimizationResult.ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
+            return new MinimizationWithLineSearchResult(candidate, iterations, ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }
 
         protected override Vector<double> CalculateSearchDirection(ref Matrix<double> inversePseudoHessian,
             out double maxLineSearchStep,
             out double startingStepSize,
             IObjectiveFunction previousPoint,
-            IObjectiveFunction candidate, 
+            IObjectiveFunction candidate,
             Vector<double> step)
         {
             startingStepSize = 1.0;
