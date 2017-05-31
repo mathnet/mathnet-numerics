@@ -1,3 +1,7 @@
+### 3.20.0-beta01 - 2017-05-31
+* Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*
+* BUG: Special Functions: allow more iterations in BetaRegularized *~Elias Abou Jaoude*
+
 ### 3.19.0 - 2017-04-29
 * Statistics: RunningStatistics.Combine to better handle empty statistics *~Lucas Godshalk*
 * Linear Algebra: Cholesky.Factorize to reuse the factorization matrix *~mjmckp*
