@@ -72,13 +72,29 @@ namespace MathNet.Numerics.Providers.Common
         {
             get
             {
+#if NETSTANDARD1_3
+                return RuntimeInformation.IsOSPlatform(OSPlatform.Linux) || RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+#else
                 var p = Environment.OSVersion.Platform;
                 return p == PlatformID.Unix || p == PlatformID.MacOSX;
+
+#endif
             }
         }
 
         static string EvaluateArchitectureKey()
         {
+#if NETSTANDARD1_3
+            bool is64BitProcess = IntPtr.Size == 8;
+
+            switch (RuntimeInformation.OSArchitecture)
+            {
+                case Architecture.Arm   : return ARM;
+                case Architecture.Arm64 : return ARM64;
+
+                default: return is64BitProcess ? X64 : X86;
+            }
+#else
             if (IsUnix)
             {
                 // Only support x86 and amd64 on Unix as there isn't a reliable way to detect the architecture
@@ -110,6 +126,8 @@ namespace MathNet.Numerics.Providers.Common
 
             // Fallback if unknown
             return architecture;
+
+#endif
         }
 
         /// <summary>
@@ -129,7 +147,15 @@ namespace MathNet.Numerics.Providers.Common
             {
                 return true;
             }
+            
+#if NETSTANDARD1_3
+            if (TryLoad(fileName, AppContext.BaseDirectory))
+            {
+                return true;
+            }
 
+            // TODO: Look at this assembly's directory
+#else
             // Look under the current AppDomain's base directory
             if (TryLoad(fileName, AppDomain.CurrentDomain.BaseDirectory))
             {
@@ -141,6 +167,7 @@ namespace MathNet.Numerics.Providers.Common
             {
                 return true;
             }
+#endif
 
             return false;
         }
@@ -197,6 +224,8 @@ namespace MathNet.Numerics.Providers.Common
                 if (libraryHandle == IntPtr.Zero)
                 {
                     int lastError = Marshal.GetLastWin32Error();
+
+                    // TODO: Use a better cross platform exception
                     var exception = new System.ComponentModel.Win32Exception(lastError);
                     LastException = exception;
                 }

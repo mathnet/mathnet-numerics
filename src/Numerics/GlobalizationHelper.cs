@@ -131,7 +131,7 @@ namespace MathNet.Numerics
             }
         }
 
-#if PORTABLE
+#if PORTABLE || NETSTANDARD1_1 || NETSTANDARD1_3
         /// <summary>
         /// Globalized Parsing: Parse a double number
         /// </summary>

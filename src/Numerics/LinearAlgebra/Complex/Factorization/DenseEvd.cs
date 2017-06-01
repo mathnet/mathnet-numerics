@@ -32,7 +32,6 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
-
 #if NOSYSNUMERICS
     using Numerics;
 #else

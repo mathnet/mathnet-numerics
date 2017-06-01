@@ -172,7 +172,7 @@ namespace MathNet.Numerics.Random
             init_genrand((uint)seed);
         }
 
-#if PORTABLE
+#if PORTABLE || NOTHREADLOCAL
         [ThreadStatic]
         static MersenneTwister DefaultInstance;
 

@@ -1,4 +1,23 @@
-﻿#if PORTABLE
+﻿#if PORTABLE || NOSERIALIZATION
+
+namespace MathNet.Numerics
+{
+    using System;
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+    internal class SpecialNameAttribute : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
+    internal class SerializableAttribute : Attribute
+    {
+    }
+}
+
+#endif
+
+#if PORTABLE || NOPTL
 namespace MathNet.Numerics
 {
     using System;
@@ -6,16 +25,6 @@ namespace MathNet.Numerics
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
-    internal class SerializableAttribute : Attribute
-    {
-    }
-
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
-    internal class SpecialNameAttribute : Attribute
-    {
-    }
 
     internal static class Partitioner
     {
@@ -139,7 +148,7 @@ namespace MathNet.Numerics
 }
 #endif
 
-#if (PORTABLE || NET35)
+#if (PORTABLE || NOTARGETEDPATCHINGOPTOUT || NET35)
 namespace MathNet.Numerics
 {
     using System;
@@ -157,7 +166,7 @@ namespace MathNet.Numerics
 }
 #endif
 
-#if NET35
+#if NET35 || NOTUPLE
 namespace MathNet.Numerics
 {
     using System;
@@ -333,4 +342,18 @@ namespace MathNet.Numerics
         }
     }
 }
+#endif
+
+#if NATIVE && NETSTANDARD1_3
+
+namespace MathNet.Numerics.Providers
+{
+    using System;
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    internal class SuppressUnmanagedCodeSecurityAttribute : Attribute
+    {
+    }  
+}
+
 #endif

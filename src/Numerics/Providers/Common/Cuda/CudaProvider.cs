@@ -84,10 +84,12 @@ namespace MathNet.Numerics.Providers.Common.Cuda
             {
                 throw new NotSupportedException("Cuda Native Provider found but failed to load. Please verify that the platform matches (x64 vs x32, Windows vs Linux).", e);
             }
+#if !NETSTANDARD1_3
             catch (EntryPointNotFoundException e)
             {
                 throw new NotSupportedException("Cuda Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
             }
+#endif
 
             if (a != 0 || b != -1 || _nativeRevision < minRevision)
             {

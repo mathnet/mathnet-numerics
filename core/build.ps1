@@ -1,0 +1,1 @@
+dotnet pack ./../src/Numerics    -o ./../out/nuget
