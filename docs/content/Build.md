@@ -66,6 +66,28 @@ If the build or tests fail claiming that FSharp.Core was not be found, see
 [fsharp.org](http://fsharp.org/use/windows/) or install the
 [Visual F# 3.0 Tools](https://go.microsoft.com/fwlink/?LinkId=261286) directly.
 
+Building the .NET 3.5 version in Windows 10
+------------------------------------------
+
+**Suggested steps if you're finding errors related to .NET 3.5 in Windows 10 when building MathNet.Numerics.sln,
+and if you cannot enable .NET 3.5 on your Windows 10 machine from Control Panel (known issue):**
+
+- Download the Win10 media creation tool from here:
+
+	https://www.microsoft.com/en-us/software-download/windows10
+
+- Run the tool and follow the steps to create a Win10 ISO image; store the image somewhere in your machine.
+
+- Once completed, double-click on the resulting .iso file to mount it on your machine.
+
+- Run this command as admin, replacing "F" with the volume letter that resulted from the previous step:
+
+```
+	Dism.exe /online /enable-feature /featurename:NetFX3 /source:F:\sources\sxs /LimitAccess
+```
+
+Once this step completes, .NET 3.5 should be installed/enabled in your machine, and you should be able to cleaningly build MathNet.Numerics.sln.
+
 Dependencies
 ------------
 
