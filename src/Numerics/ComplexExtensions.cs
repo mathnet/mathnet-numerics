@@ -32,7 +32,7 @@ namespace MathNet.Numerics
     using System;
     using System.Collections.Generic;
 
-#if !PORTABLE || NETSTANDARD1_6
+#if !PORTABLE && !NETSTANDARD1_6
     using System.Runtime;
 #endif
 
