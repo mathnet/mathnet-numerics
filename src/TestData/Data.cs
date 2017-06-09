@@ -6,7 +6,11 @@ namespace MathNet.Numerics.TestData
 {
     public static class Data
     {
+#if NETSTANDARD1_6
+        static readonly Assembly DataAssembly = typeof(Data).GetTypeInfo().Assembly;
+#else
         static readonly Assembly DataAssembly = typeof (Data).Assembly;
+#endif
 
         public static Stream ReadStream(string name)
         {
