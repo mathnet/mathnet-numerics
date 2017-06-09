@@ -37,7 +37,7 @@ namespace MathNet.Numerics.LinearAlgebra
 {
     [DebuggerDisplay("Matrix {RowCount}x{ColumnCount}")]
 
-    public abstract partial class Matrix<T> : ICloneable
+    public abstract partial class Matrix<T>
     {
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -77,20 +77,18 @@ namespace MathNet.Numerics.LinearAlgebra
             return Storage.GetHashCode();
         }
 
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD1_6
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// <returns>
         /// A new object that is a copy of this instance.
-        /// </returns>
-        /// 
+        /// </returns> 
         object ICloneable.Clone()
         {
             return Clone();
         }
-
 
 #endif
 
