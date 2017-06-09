@@ -35,7 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
-    public abstract partial class Matrix<T>
+    public abstract partial class Matrix<T> : ICloneable
     {
         /// <summary>
         /// Returns a <strong>Matrix</strong> containing the same values of <paramref name="rightSide"/>.

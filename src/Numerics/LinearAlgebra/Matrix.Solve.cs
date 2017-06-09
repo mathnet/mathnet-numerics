@@ -36,7 +36,7 @@ namespace MathNet.Numerics.LinearAlgebra
     /// <summary>
     /// Defines the base class for <c>Matrix</c> classes.
     /// </summary>
-    public abstract partial class Matrix<T>
+    public abstract partial class Matrix<T> : ICloneable
     {
 
         // Factorizations

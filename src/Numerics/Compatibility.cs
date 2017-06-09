@@ -1,4 +1,4 @@
-﻿#if PORTABLE
+﻿#if PORTABLE || NETSTANDARD1_6
 namespace MathNet.Numerics
 {
     using System;
@@ -139,7 +139,7 @@ namespace MathNet.Numerics
 }
 #endif
 
-#if (PORTABLE || NET35)
+#if (PORTABLE || NET35 || NETSTANDARD1_6)
 namespace MathNet.Numerics
 {
     using System;
@@ -330,6 +330,39 @@ namespace MathNet.Numerics
                 yield return new Tuple<int, int>(item, num2);
                 num += rangeSize;
             }
+        }
+    }
+}
+#endif
+
+#if NETSTANDARD1_6
+namespace MathNet.Numerics
+{
+    public interface ICloneable
+
+    {
+        object Clone();
+    }
+}
+#endif
+
+#if NETSTANDARD1_6
+namespace MathNet.Numerics
+{
+    using System;
+
+    public static class MathExtensions
+    {
+        public static int DivRem(int a, int b, out int result)
+        {
+            result = a/b;
+            return a%b;
+        }
+
+        public static long DivRem(long a, long b, out long result)
+        {
+            result = a/b;
+            return a%b;
         }
     }
 }

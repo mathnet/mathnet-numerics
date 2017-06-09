@@ -36,7 +36,8 @@ using System.Text;
 namespace MathNet.Numerics.LinearAlgebra
 {
     [DebuggerDisplay("Matrix {RowCount}x{ColumnCount}")]
-    public abstract partial class Matrix<T>
+
+    public abstract partial class Matrix<T> : ICloneable
     {
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -84,10 +85,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>
         /// A new object that is a copy of this instance.
         /// </returns>
+        /// 
         object ICloneable.Clone()
         {
             return Clone();
         }
+
 
 #endif
 

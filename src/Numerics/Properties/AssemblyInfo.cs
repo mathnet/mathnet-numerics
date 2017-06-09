@@ -49,7 +49,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("3.20.0.0")]
 [assembly: AssemblyInformationalVersion("3.20.0")]
 
-#if PORTABLE
+#if PORTABLE || NETSTANDARD1_6
 
 [assembly: AssemblyTitle("Math.NET Numerics - Portable Edition")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
@@ -82,4 +82,3 @@ using System.Runtime.InteropServices;
 #endif
 
 #endif
-
