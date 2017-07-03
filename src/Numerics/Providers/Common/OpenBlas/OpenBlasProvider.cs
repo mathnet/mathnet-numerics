@@ -117,7 +117,7 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
             if (_nativeARM) parts.Add("ARM");
             parts.Add("revision " + _nativeRevision);
 
-            return string.Concat("OpenBLAS (", string.Join("; ", parts), ")");
+            return string.Concat("OpenBLAS (", string.Join("; ", parts.ToArray()), ")");
         }
     }
 }

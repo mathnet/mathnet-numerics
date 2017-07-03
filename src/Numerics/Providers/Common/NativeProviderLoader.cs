@@ -79,10 +79,15 @@ namespace MathNet.Numerics.Providers.Common
 
         static string EvaluateArchitectureKey()
         {
+#if NET35
+            return (IntPtr.Size == 8) ? X64 : X86;
+#else
             if (IsUnix)
             {
+
                 // Only support x86 and amd64 on Unix as there isn't a reliable way to detect the architecture
                 return Environment.Is64BitProcess ? X64 : X86;
+
             }
 
             var architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
@@ -110,6 +115,7 @@ namespace MathNet.Numerics.Providers.Common
 
             // Fallback if unknown
             return architecture;
+#endif
         }
 
         /// <summary>
@@ -162,7 +168,7 @@ namespace MathNet.Numerics.Providers.Common
 
             // If we have a know architecture, try the matching subdirectory first
             var architecture = ArchitectureKey.Value;
-            if (!string.IsNullOrEmpty(architecture) && TryLoadFile(new FileInfo(Path.Combine(directory, architecture, fileName))))
+            if (!string.IsNullOrEmpty(architecture) && TryLoadFile(new FileInfo(Path.Combine(Path.Combine(directory, architecture), fileName))))
             {
                 return true;
             }

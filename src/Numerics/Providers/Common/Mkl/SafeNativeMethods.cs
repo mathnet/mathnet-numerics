@@ -29,13 +29,16 @@
 #if NATIVE
 
 using System;
-using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.Providers.Common.Mkl
 {
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// P/Invoke methods to the native math libraries.
     /// </summary>

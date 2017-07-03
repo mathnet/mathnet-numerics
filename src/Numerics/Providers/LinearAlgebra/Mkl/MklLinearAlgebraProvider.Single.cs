@@ -30,7 +30,6 @@
 #if NATIVE
 
 using System;
-using System.Numerics;
 using System.Security;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
@@ -38,6 +37,10 @@ using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 {
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
@@ -358,7 +361,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             if (info > 0)
             {
                 throw new SingularUMatrixException(info);
-            } 
+            }
         }
 
         /// <summary>
@@ -812,7 +815,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             if (method == QRMethod.Full)
             {
                 var info = SafeNativeMethods.s_qr_solve_factored(rowsA, columnsA, columnsB, r, b, tau, x);
-                
+
                 if (info == (int)MklError.MemoryAllocation)
                 {
                     throw new MemoryAllocationException();

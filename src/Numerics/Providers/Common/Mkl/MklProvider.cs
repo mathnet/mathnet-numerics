@@ -234,7 +234,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
                     : string.Concat("MKL ", _mklVersion.ToString(2), " Update ", _mklVersion.Build));
             }
 
-            return string.Concat("Intel MKL (", string.Join("; ", parts), ")");
+            return string.Concat("Intel MKL (", string.Join("; ", parts.ToArray()), ")");
         }
 
         enum MklMemoryRequestMode : int

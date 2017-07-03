@@ -103,7 +103,7 @@ namespace MathNet.Numerics.Providers.Common.Cuda
             if (_nativeIA64) parts.Add("IA64");
             parts.Add("revision " + _nativeRevision);
 
-            return string.Concat("Nvidia CUDA (", string.Join("; ", parts), ")");
+            return string.Concat("Nvidia CUDA (", string.Join("; ", parts.ToArray()), ")");
         }
     }
 }
