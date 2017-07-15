@@ -199,7 +199,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = new MghObjectiveFunction(test_case.Function, true, true);
 
-            var result = NewtonMinimizer.FindMinimum(obj, test_case.InitialGuess, 1e-8, 1000, useLineSearch: false);
+            var result = NewtonMinimizer.Minimum(obj, test_case.InitialGuess, 1e-8, 1000, useLineSearch: false);
 
             if (test_case.MinimizingPoint != null)
             {

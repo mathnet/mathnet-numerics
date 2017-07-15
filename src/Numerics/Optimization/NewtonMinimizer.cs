@@ -48,10 +48,10 @@ namespace MathNet.Numerics.Optimization
 
         public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
         {
-            return FindMinimum(objective, initialGuess, GradientTolerance, MaximumIterations, UseLineSearch);
+            return Minimum(objective, initialGuess, GradientTolerance, MaximumIterations, UseLineSearch);
         }
 
-        public static MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance, int maxIterations=1000, bool useLineSearch = false)
+        public static MinimizationResult Minimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance, int maxIterations=1000, bool useLineSearch = false)
         {
             if (!objective.IsGradientSupported)
             {

@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Optimization
         /// <returns>The minimum point</returns>
         public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess)
         {
-            return FindMinimum(objectiveFunction, initialGuess, ConvergenceTolerance, MaximumIterations);
+            return Minimum(objectiveFunction, initialGuess, ConvergenceTolerance, MaximumIterations);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Optimization
         /// <returns>The minimum point</returns>
         public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation)
         {
-            return FindMinimum(objectiveFunction, initialGuess, initalPertubation, ConvergenceTolerance, MaximumIterations);
+            return Minimum(objectiveFunction, initialGuess, initalPertubation, ConvergenceTolerance, MaximumIterations);
         }
 
         /// <summary>
@@ -87,14 +87,14 @@ namespace MathNet.Numerics.Optimization
         /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
         /// <param name="initialGuess">The intial guess</param>
         /// <returns>The minimum point</returns>
-        public static MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, double convergenceTolerance, int maximumIterations=1000)
+        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, double convergenceTolerance, int maximumIterations=1000)
         {
             var initalPertubation = new LinearAlgebra.Double.DenseVector(initialGuess.Count);
             for (int i = 0; i < initialGuess.Count; i++)
             {
                 initalPertubation[i] = initialGuess[i] == 0.0 ? 0.00025 : initialGuess[i] * 0.05;
             }
-            return FindMinimum(objectiveFunction, initialGuess, initalPertubation, convergenceTolerance, maximumIterations);
+            return Minimum(objectiveFunction, initialGuess, initalPertubation, convergenceTolerance, maximumIterations);
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="initialGuess">The intial guess</param>
         /// <param name="initalPertubation">The inital pertubation</param>
         /// <returns>The minimum point</returns>
-        public static MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation, double convergenceTolerance, int maximumIterations=1000)
+        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation, double convergenceTolerance, int maximumIterations=1000)
         {
             // confirm that we are in a position to commence
             if (objectiveFunction == null)

@@ -50,8 +50,15 @@ namespace MathNet.Numerics.Optimization
 
         public MinimizationResult1D FindMinimum(IObjectiveFunction1D objective, double lowerBound, double upperBound)
         {
+            return Minimum(objective, lowerBound, upperBound, XTolerance, MaximumIterations, MaximumExpansionSteps, LowerExpansionFactor, UpperExpansionFactor);
+        }
+
+        public static MinimizationResult1D Minimum(IObjectiveFunction1D objective, double lowerBound, double upperBound, double xTolerance = 1e-5, int maxIterations = 1000, int maxExpansionSteps = 10, double lowerExpansionFactor = 2.0, double upperExpansionFactor = 2.0)
+        {
             if (upperBound <= lowerBound)
+            {
                 throw new OptimizationException("Lower bound must be lower than upper bound.");
+            }
 
             double middlePointX = lowerBound + (upperBound - lowerBound)/(1 + Constants.GoldenRatio);
             IEvaluation1D lower = objective.Evaluate(lowerBound);
@@ -63,17 +70,17 @@ namespace MathNet.Numerics.Optimization
             ValueChecker(upper.Value, upperBound);
 
             int expansion_steps = 0;
-            while ((expansion_steps < this.MaximumExpansionSteps) && (upper.Value < middle.Value || lower.Value < middle.Value))
+            while ((expansion_steps < maxExpansionSteps) && (upper.Value < middle.Value || lower.Value < middle.Value))
             {
                 if (lower.Value < middle.Value)
                 {
-                    lowerBound = 0.5*(upperBound + lowerBound) - this.LowerExpansionFactor*0.5*(upperBound - lowerBound);
+                    lowerBound = 0.5*(upperBound + lowerBound) - lowerExpansionFactor*0.5*(upperBound - lowerBound);
                     lower = objective.Evaluate(lowerBound);
                 }
 
                 if (upper.Value < middle.Value)
                 {
-                    upperBound = 0.5*(upperBound + lowerBound) + this.UpperExpansionFactor*0.5*(upperBound - lowerBound);
+                    upperBound = 0.5*(upperBound + lowerBound) + upperExpansionFactor*0.5*(upperBound - lowerBound);
                     upper = objective.Evaluate(upperBound);
                 }
 
@@ -84,10 +91,12 @@ namespace MathNet.Numerics.Optimization
             }
 
             if (upper.Value < middle.Value || lower.Value < middle.Value)
+            {
                 throw new OptimizationException("Lower and upper bounds do not necessarily bound a minimum.");
+            }
 
             int iterations = 0;
-            while (Math.Abs(upper.Point - lower.Point) > XTolerance && iterations < MaximumIterations)
+            while (Math.Abs(upper.Point - lower.Point) > xTolerance && iterations < maxIterations)
             {
                 double testX = lower.Point + (upper.Point - middle.Point);
                 var test = objective.Evaluate(testX);
@@ -121,16 +130,20 @@ namespace MathNet.Numerics.Optimization
                 iterations += 1;
             }
 
-            if (iterations == MaximumIterations)
+            if (iterations == maxIterations)
+            {
                 throw new MaximumIterationsException("Max iterations reached.");
+            }
 
             return new MinimizationResult1D(middle, iterations, ExitCondition.BoundTolerance);
         }
 
-        void ValueChecker(double value, double point)
+        static void ValueChecker(double value, double point)
         {
             if (Double.IsNaN(value) || Double.IsInfinity(value))
+            {
                 throw new Exception("Objective function returned non-finite value.");
+            }
         }
     }
 }

@@ -112,7 +112,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = new MghObjectiveFunction(test_case.Function, true, true);
 
-            var result = NelderMeadSimplex.FindMinimum(obj, test_case.InitialGuess, 1e-8, 1000);
+            var result = NelderMeadSimplex.Minimum(obj, test_case.InitialGuess, 1e-8, 1000);
 
             if (test_case.MinimizingPoint != null)
             {
