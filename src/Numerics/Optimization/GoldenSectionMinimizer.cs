@@ -39,7 +39,7 @@ namespace MathNet.Numerics.Optimization
         public double LowerExpansionFactor { get; set; }
         public double UpperExpansionFactor { get; set; }
 
-        public GoldenSectionMinimizer(double xTolerance = 1e-5, int maxIterations = 1000, int maxExpansionSteps = 10, double lowerExpansionFactor = 2.0, double upperExpansionFactor = 2.0)
+        public GoldenSectionMinimizer(double xTolerance=1e-5, int maxIterations=1000, int maxExpansionSteps=10, double lowerExpansionFactor=2.0, double upperExpansionFactor=2.0)
         {
             XTolerance = xTolerance;
             MaximumIterations = maxIterations;
@@ -53,7 +53,7 @@ namespace MathNet.Numerics.Optimization
             return Minimum(objective, lowerBound, upperBound, XTolerance, MaximumIterations, MaximumExpansionSteps, LowerExpansionFactor, UpperExpansionFactor);
         }
 
-        public static MinimizationResult1D Minimum(IObjectiveFunction1D objective, double lowerBound, double upperBound, double xTolerance = 1e-5, int maxIterations = 1000, int maxExpansionSteps = 10, double lowerExpansionFactor = 2.0, double upperExpansionFactor = 2.0)
+        public static MinimizationResult1D Minimum(IObjectiveFunction1D objective, double lowerBound, double upperBound, double xTolerance=1e-5, int maxIterations=1000, int maxExpansionSteps=10, double lowerExpansionFactor=2.0, double upperExpansionFactor=2.0)
         {
             if (upperBound <= lowerBound)
             {

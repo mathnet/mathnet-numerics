@@ -33,7 +33,7 @@ using MathNet.Numerics.Optimization.LineSearch;
 
 namespace MathNet.Numerics.Optimization
 {
-    public sealed class NewtonMinimizer
+    public sealed class NewtonMinimizer : IUnconstrainedMinimizer
     {
         public double GradientTolerance { get; set; }
         public int MaximumIterations { get; set; }
@@ -51,7 +51,7 @@ namespace MathNet.Numerics.Optimization
             return Minimum(objective, initialGuess, GradientTolerance, MaximumIterations, UseLineSearch);
         }
 
-        public static MinimizationResult Minimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance, int maxIterations=1000, bool useLineSearch = false)
+        public static MinimizationResult Minimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance=1e-8, int maxIterations=1000, bool useLineSearch=false)
         {
             if (!objective.IsGradientSupported)
             {

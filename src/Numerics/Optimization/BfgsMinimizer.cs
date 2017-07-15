@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Optimization
     /// <summary>
     /// Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm is an iterative method for solving unconstrained nonlinear optimization problems
     /// </summary>
-    public class BfgsMinimizer : BfgsMinimizerBase
+    public class BfgsMinimizer : BfgsMinimizerBase, IUnconstrainedMinimizer
     {
         /// <summary>
         /// Creates BFGS minimizer

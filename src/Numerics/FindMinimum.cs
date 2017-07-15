@@ -43,8 +43,7 @@ namespace MathNet.Numerics
         public static double OfScalarFunctionConstrained(Func<double, double> function, double lowerBound, double upperBound, double tolerance=1e-5, int maxIterations=1000)
         {
             var objective = new SimpleObjectiveFunction1D(function);
-            var algorithm = new GoldenSectionMinimizer(tolerance, maxIterations);
-            var result = algorithm.FindMinimum(objective, lowerBound, upperBound);
+            var result = GoldenSectionMinimizer.Minimum(objective, lowerBound, upperBound, tolerance, maxIterations);
             return result.MinimizingPoint;
         }
 
@@ -55,8 +54,7 @@ namespace MathNet.Numerics
         public static Vector<double> OfFunction(Func<Vector<double>, double> function, Vector<double> initialGuess, double tolerance=1e-8, int maxIterations=1000)
         {
             var objective = ObjectiveFunction.Value(function);
-            var algorithm = new NelderMeadSimplex(tolerance, maxIterations);
-            var result = algorithm.FindMinimum(objective, initialGuess);
+            var result = NelderMeadSimplex.Minimum(objective, initialGuess, tolerance, maxIterations);
             return result.MinimizingPoint;
         }
 
@@ -126,11 +124,10 @@ namespace MathNet.Numerics
         /// Find vector x that minimizes the function f(x) using the Newton algorithm.
         /// For more options and diagnostics consider to use <see cref="NewtonMinimizer"/> directly.
         /// </summary>
-        public static Vector<double> OfFunctionGradientHessian(Func<Vector<double>, double> function, Func<Vector<double>, Vector<double>> gradient, Func<Vector<double>, Matrix<double>> hessian, Vector<double> initialGuess, double tolerance=1e-8, int maxIterations=1000)
+        public static Vector<double> OfFunctionGradientHessian(Func<Vector<double>, double> function, Func<Vector<double>, Vector<double>> gradient, Func<Vector<double>, Matrix<double>> hessian, Vector<double> initialGuess, double gradientTolerance=1e-8, int maxIterations=1000)
         {
             var objective = ObjectiveFunction.GradientHessian(function, gradient, hessian);
-            var algorithm = new NewtonMinimizer(tolerance, maxIterations);
-            var result = algorithm.FindMinimum(objective, initialGuess);
+            var result = NewtonMinimizer.Minimum(objective, initialGuess, gradientTolerance, maxIterations);
             return result.MinimizingPoint;
         }
 
@@ -138,11 +135,10 @@ namespace MathNet.Numerics
         /// Find vector x that minimizes the function f(x) using the Newton algorithm.
         /// For more options and diagnostics consider to use <see cref="NewtonMinimizer"/> directly.
         /// </summary>
-        public static Vector<double> OfFunctionGradientHessian(Func<Vector<double>, Tuple<double, Vector<double>, Matrix<double>>> functionGradientHessian, Vector<double> initialGuess, double tolerance=1e-8, int maxIterations=1000)
+        public static Vector<double> OfFunctionGradientHessian(Func<Vector<double>, Tuple<double, Vector<double>, Matrix<double>>> functionGradientHessian, Vector<double> initialGuess, double gradientTolerance=1e-8, int maxIterations=1000)
         {
             var objective = ObjectiveFunction.GradientHessian(functionGradientHessian);
-            var algorithm = new NewtonMinimizer(tolerance, maxIterations);
-            var result = algorithm.FindMinimum(objective, initialGuess);
+            var result = NewtonMinimizer.Minimum(objective, initialGuess, gradientTolerance, maxIterations);
             return result.MinimizingPoint;
         }
     }

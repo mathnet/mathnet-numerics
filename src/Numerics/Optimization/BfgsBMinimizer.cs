@@ -226,7 +226,7 @@ namespace MathNet.Numerics.Optimization
             return lineSearchDirection;
         }
 
-        private static Vector<double> ReducedToFull(List<int> reducedMap, Vector<double> reducedVector, Vector<double> fullVector)
+        static Vector<double> ReducedToFull(List<int> reducedMap, Vector<double> reducedVector, Vector<double> fullVector)
         {
             var output = fullVector.Clone();
             for (int ii = 0; ii < reducedMap.Count; ++ii)
@@ -234,10 +234,10 @@ namespace MathNet.Numerics.Optimization
             return output;
         }
 
-        private Vector<double> _lowerBound;
-        private Vector<double> _upperBound;
+        Vector<double> _lowerBound;
+        Vector<double> _upperBound;
 
-        private static double FindMaxStep(Vector<double> startingPoint, Vector<double> searchDirection, Vector<double> lowerBound, Vector<double> upperBound)
+        static double FindMaxStep(Vector<double> startingPoint, Vector<double> searchDirection, Vector<double> lowerBound, Vector<double> upperBound)
         {
             double maxStep = Double.PositiveInfinity;
             for (int ii = 0; ii < startingPoint.Count; ++ii)
@@ -256,7 +256,7 @@ namespace MathNet.Numerics.Optimization
             return maxStep;
         }
 
-        private static void CreateReducedData(Vector<double> initialPoint, Vector<double> cauchyPoint, List<bool> isFixed, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> gradient, Matrix<double> pseudoHessian, Vector<double> reducedInitialPoint, Vector<double> reducedCauchyPoint, Vector<double> reducedGradient, Matrix<double> reducedHessian, List<int> reducedMap)
+        static void CreateReducedData(Vector<double> initialPoint, Vector<double> cauchyPoint, List<bool> isFixed, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> gradient, Matrix<double> pseudoHessian, Vector<double> reducedInitialPoint, Vector<double> reducedCauchyPoint, Vector<double> reducedGradient, Matrix<double> reducedHessian, List<int> reducedMap)
         {
             int ll = 0;
             for (int ii = 0; ii < lowerBound.Count; ++ii)

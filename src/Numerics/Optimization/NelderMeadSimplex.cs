@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Optimization
     /// or
     /// https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method
     /// </summary>
-    public sealed class NelderMeadSimplex
+    public sealed class NelderMeadSimplex : IUnconstrainedMinimizer
     {
         static readonly double JITTER = 1e-10d;           // a small value used to protect against floating point noise
 
@@ -87,7 +87,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
         /// <param name="initialGuess">The intial guess</param>
         /// <returns>The minimum point</returns>
-        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, double convergenceTolerance, int maximumIterations=1000)
+        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, double convergenceTolerance=1e-8, int maximumIterations=1000)
         {
             var initalPertubation = new LinearAlgebra.Double.DenseVector(initialGuess.Count);
             for (int i = 0; i < initialGuess.Count; i++)
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="initialGuess">The intial guess</param>
         /// <param name="initalPertubation">The inital pertubation</param>
         /// <returns>The minimum point</returns>
-        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation, double convergenceTolerance, int maximumIterations=1000)
+        public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation, double convergenceTolerance=1e-8, int maximumIterations=1000)
         {
             // confirm that we are in a position to commence
             if (objectiveFunction == null)

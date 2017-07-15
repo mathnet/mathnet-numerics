@@ -50,7 +50,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="parameterTolerance">The parameter tolerance</param>
         /// <param name="functionProgressTolerance">The funciton progress tolerance</param>
         /// <param name="maximumIterations">The maximum number of iterations</param>
-        public BfgsMinimizerBase(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations)
+        protected BfgsMinimizerBase(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations)
         {
             GradientTolerance = gradientTolerance;
             ParameterTolerance = parameterTolerance;
