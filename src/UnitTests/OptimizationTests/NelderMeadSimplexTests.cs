@@ -111,9 +111,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         public void Mgh_Tests(TestFunctions.TestCase test_case)
         {
             var obj = new MghObjectiveFunction(test_case.Function, true, true);
-            var solver = new NelderMeadSimplex(1e-8, 1000);
 
-            var result = solver.FindMinimum(obj, test_case.InitialGuess);
+            var result = NelderMeadSimplex.FindMinimum(obj, test_case.InitialGuess, 1e-8, 1000);
 
             if (test_case.MinimizingPoint != null)
             {
