@@ -29,47 +29,35 @@
 
 using System;
 
-namespace MathNet.Numerics.Optimization
+namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 {
-    public interface IEvaluation1D
+    internal class LazyScalarObjectiveFunctionEvaluation : IScalarObjectiveFunctionEvaluation
     {
-        double Point { get; }
-        double Value { get; }
-        double Derivative { get; }
-        double SecondDerivative { get; }
-    }
+        double? _value;
+        double? _derivative;
+        double? _secondDerivative;
+        readonly ScalarObjectiveFunction _objectiveObject;
+        readonly double _point;
 
-    public interface IObjectiveFunction1D
-    {
-        bool DerivativeSupported { get; }
-        bool SecondDerivativeSupported { get; }
-        IEvaluation1D Evaluate(double point);
-    }
-
-    public class CachedEvaluation1D : IEvaluation1D
-    {
-        private double? _value;
-        private double? _derivative;
-        private double? _secondDerivative;
-        private readonly SimpleObjectiveFunction1D _objectiveObject;
-        private readonly double _point;
-
-        public CachedEvaluation1D(SimpleObjectiveFunction1D f, double point)
+        public LazyScalarObjectiveFunctionEvaluation(ScalarObjectiveFunction f, double point)
         {
             _objectiveObject = f;
             _point = point;
         }
-        private double SetValue()
+
+        double SetValue()
         {
             _value = _objectiveObject.Objective(_point);
             return _value.Value;
         }
-        private double SetDerivative()
+
+        double SetDerivative()
         {
             _derivative = _objectiveObject.Derivative(_point);
             return _derivative.Value;
         }
-        private double SetSecondDerivative()
+
+        double SetSecondDerivative()
         {
             _secondDerivative = _objectiveObject.SecondDerivative(_point);
             return _secondDerivative.Value;
@@ -79,49 +67,48 @@ namespace MathNet.Numerics.Optimization
         public double Value { get { return _value ?? SetValue(); } }
         public double Derivative { get { return _derivative ?? SetDerivative(); } }
         public double SecondDerivative { get { return _secondDerivative ?? SetSecondDerivative(); } }
-
     }
 
-    public class SimpleObjectiveFunction1D : IObjectiveFunction1D
+    internal class ScalarObjectiveFunction : IScalarObjectiveFunction
     {
         public Func<double, double> Objective { get; private set; }
         public Func<double, double> Derivative { get; private set; }
         public Func<double, double> SecondDerivative { get; private set; }
 
-        public SimpleObjectiveFunction1D(Func<double, double> objective)
+        public ScalarObjectiveFunction(Func<double, double> objective)
         {
             Objective = objective;
             Derivative = null;
             SecondDerivative = null;
         }
 
-        public SimpleObjectiveFunction1D(Func<double, double> objective, Func<double, double> derivative)
+        public ScalarObjectiveFunction(Func<double, double> objective, Func<double, double> derivative)
         {
             Objective = objective;
             Derivative = derivative;
             SecondDerivative = null;
         }
 
-        public SimpleObjectiveFunction1D(Func<double, double> objective, Func<double, double> derivative, Func<double,double> secondDerivative)
+        public ScalarObjectiveFunction(Func<double, double> objective, Func<double, double> derivative, Func<double,double> secondDerivative)
         {
             Objective = objective;
             Derivative = derivative;
             SecondDerivative = secondDerivative;
         }
 
-        public bool DerivativeSupported
+        public bool IsDerivativeSupported
         {
             get { return Derivative != null; }
         }
 
-        public bool SecondDerivativeSupported
+        public bool IsSecondDerivativeSupported
         {
             get { return SecondDerivative != null; }
         }
 
-        public IEvaluation1D Evaluate(double point)
+        public IScalarObjectiveFunctionEvaluation Evaluate(double point)
         {
-            return new CachedEvaluation1D(this, point);
+            return new LazyScalarObjectiveFunctionEvaluation(this, point);
         }
     }
 }

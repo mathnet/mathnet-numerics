@@ -29,14 +29,14 @@
 
 namespace MathNet.Numerics.Optimization
 {
-    public class MinimizationResult1D
+    public class ScalarMinimizationResult
     {
         public double MinimizingPoint { get { return FunctionInfoAtMinimum.Point; } }
-        public IEvaluation1D FunctionInfoAtMinimum { get; private set; }
+        public IScalarObjectiveFunctionEvaluation FunctionInfoAtMinimum { get; private set; }
         public int Iterations { get; private set; }
         public ExitCondition ReasonForExit { get; private set; }
 
-        public MinimizationResult1D(IEvaluation1D functionInfo, int iterations, ExitCondition reasonForExit)
+        public ScalarMinimizationResult(IScalarObjectiveFunctionEvaluation functionInfo, int iterations, ExitCondition reasonForExit)
         {
             FunctionInfoAtMinimum = functionInfo;
             Iterations = iterations;

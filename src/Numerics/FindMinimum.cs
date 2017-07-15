@@ -30,7 +30,6 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Optimization;
-using MathNet.Numerics.Optimization.ObjectiveFunctions;
 
 namespace MathNet.Numerics
 {
@@ -42,7 +41,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static double OfScalarFunctionConstrained(Func<double, double> function, double lowerBound, double upperBound, double tolerance=1e-5, int maxIterations=1000)
         {
-            var objective = new SimpleObjectiveFunction1D(function);
+            var objective = ObjectiveFunction.ScalarValue(function);
             var result = GoldenSectionMinimizer.Minimum(objective, lowerBound, upperBound, tolerance, maxIterations);
             return result.MinimizingPoint;
         }
@@ -66,7 +65,7 @@ namespace MathNet.Numerics
         public static Vector<double> OfFunctionConstrained(Func<Vector<double>, double> function, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> initialGuess, double gradientTolerance=1e-5, double parameterTolerance=1e-5, double functionProgressTolerance=1e-5, int maxIterations=1000)
         {
             var objective = ObjectiveFunction.Value(function);
-            var objectiveWithGradient = new ForwardDifferenceGradientObjectiveFunction(objective, lowerBound, upperBound);
+            var objectiveWithGradient = new Optimization.ObjectiveFunctions.ForwardDifferenceGradientObjectiveFunction(objective, lowerBound, upperBound);
             var algorithm = new BfgsBMinimizer(gradientTolerance, parameterTolerance, functionProgressTolerance, maxIterations);
             var result = algorithm.FindMinimum(objectiveWithGradient, lowerBound, upperBound, initialGuess);
             return result.MinimizingPoint;
@@ -75,6 +74,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Find vector x that minimizes the function f(x) using the Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm.
         /// For more options and diagnostics consider to use <see cref="BfgsMinimizer"/> directly.
+        /// An alternative routine using conjugate gradients (CG) is available in <see cref="ConjugateGradientMinimizer"/>.
         /// </summary>
         public static Vector<double> OfFunctionGradient(Func<Vector<double>, double> function, Func<Vector<double>, Vector<double>> gradient, Vector<double> initialGuess, double gradientTolerance=1e-5, double parameterTolerance=1e-5, double functionProgressTolerance=1e-5, int maxIterations=1000)
         {
@@ -87,6 +87,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Find vector x that minimizes the function f(x) using the Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm.
         /// For more options and diagnostics consider to use <see cref="BfgsMinimizer"/> directly.
+        /// An alternative routine using conjugate gradients (CG) is available in <see cref="ConjugateGradientMinimizer"/>.
         /// </summary>
         public static Vector<double> OfFunctionGradient(Func<Vector<double>, Tuple<double, Vector<double>>> functionGradient, Vector<double> initialGuess, double gradientTolerance=1e-5, double parameterTolerance=1e-5, double functionProgressTolerance=1e-5, int maxIterations=1000)
         {

@@ -1,4 +1,4 @@
-﻿// <copyright file="GoldenSectionMinimizerTests.cs" company="Math.NET">
+﻿// <copyright file="ObjectiveFunction1D.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -28,34 +28,53 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Optimization;
-using NUnit.Framework;
 
-namespace MathNet.Numerics.UnitTests.OptimizationTests
+namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 {
-    [TestFixture]
-    public class GoldenSectionMinimizerTests
+    internal class ScalarValueObjectiveFunctionEvaluation : IScalarObjectiveFunctionEvaluation
     {
-        [Test]
-        public void Test_Works()
+        public ScalarValueObjectiveFunctionEvaluation(double point, double value)
         {
-            var algorithm = new GoldenSectionMinimizer(1e-5, 1000);
-            var f1 = new Func<double, double>(x => (x - 3)*(x - 3));
-            var obj = ObjectiveFunction.ScalarValue(f1);
-            var r1 = GoldenSectionMinimizer.Minimum(obj, -100, 100);
-
-            Assert.That(Math.Abs(r1.MinimizingPoint - 3.0), Is.LessThan(1e-4));
+            Point = point;
+            Value = value;
         }
 
-        [Test]
-        public void Test_ExpansionWorks()
-        {
-            var algorithm = new GoldenSectionMinimizer(1e-5, 1000);
-            var f1 = new Func<double, double>(x => (x - 3)*(x - 3));
-            var obj = ObjectiveFunction.ScalarValue(f1);
-            var r1 = algorithm.FindMinimum(obj, -5, 5);
+        public double Point { get; }
+        public double Value { get; }
 
-            Assert.That(Math.Abs(r1.MinimizingPoint - 3.0), Is.LessThan(1e-4));
+        public double Derivative
+        {
+            get { throw new NotSupportedException(); }
+        }
+
+        public double SecondDerivative
+        {
+            get { throw new NotSupportedException(); }
+        }
+    }
+
+    internal class ScalarValueObjectiveFunction : IScalarObjectiveFunction
+    {
+        public Func<double, double> Objective { get; private set; }
+
+        public ScalarValueObjectiveFunction(Func<double, double> objective)
+        {
+            Objective = objective;
+        }
+
+        public bool IsDerivativeSupported
+        {
+            get { return false; }
+        }
+
+        public bool IsSecondDerivativeSupported
+        {
+            get { return false; }
+        }
+
+        public IScalarObjectiveFunctionEvaluation Evaluate(double point)
+        {
+            return new ScalarValueObjectiveFunctionEvaluation(point, Objective(point));
         }
     }
 }

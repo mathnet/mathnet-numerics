@@ -48,12 +48,12 @@ namespace MathNet.Numerics.Optimization
             UpperExpansionFactor = upperExpansionFactor;
         }
 
-        public MinimizationResult1D FindMinimum(IObjectiveFunction1D objective, double lowerBound, double upperBound)
+        public ScalarMinimizationResult FindMinimum(IScalarObjectiveFunction objective, double lowerBound, double upperBound)
         {
             return Minimum(objective, lowerBound, upperBound, XTolerance, MaximumIterations, MaximumExpansionSteps, LowerExpansionFactor, UpperExpansionFactor);
         }
 
-        public static MinimizationResult1D Minimum(IObjectiveFunction1D objective, double lowerBound, double upperBound, double xTolerance=1e-5, int maxIterations=1000, int maxExpansionSteps=10, double lowerExpansionFactor=2.0, double upperExpansionFactor=2.0)
+        public static ScalarMinimizationResult Minimum(IScalarObjectiveFunction objective, double lowerBound, double upperBound, double xTolerance=1e-5, int maxIterations=1000, int maxExpansionSteps=10, double lowerExpansionFactor=2.0, double upperExpansionFactor=2.0)
         {
             if (upperBound <= lowerBound)
             {
@@ -61,9 +61,9 @@ namespace MathNet.Numerics.Optimization
             }
 
             double middlePointX = lowerBound + (upperBound - lowerBound)/(1 + Constants.GoldenRatio);
-            IEvaluation1D lower = objective.Evaluate(lowerBound);
-            IEvaluation1D middle = objective.Evaluate(middlePointX);
-            IEvaluation1D upper = objective.Evaluate(upperBound);
+            IScalarObjectiveFunctionEvaluation lower = objective.Evaluate(lowerBound);
+            IScalarObjectiveFunctionEvaluation middle = objective.Evaluate(middlePointX);
+            IScalarObjectiveFunctionEvaluation upper = objective.Evaluate(upperBound);
 
             ValueChecker(lower.Value, lowerBound);
             ValueChecker(middle.Value, middlePointX);
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.Optimization
                 throw new MaximumIterationsException("Max iterations reached.");
             }
 
-            return new MinimizationResult1D(middle, iterations, ExitCondition.BoundTolerance);
+            return new ScalarMinimizationResult(middle, iterations, ExitCondition.BoundTolerance);
         }
 
         static void ValueChecker(double value, double point)

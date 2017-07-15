@@ -90,5 +90,29 @@ namespace MathNet.Numerics.Optimization
         {
             return new LazyObjectiveFunction(function, gradient: gradient, hessian: hessian);
         }
+
+        /// <summary>
+        /// Objective function where neither first nor second derivative is available.
+        /// </summary>
+        public static IScalarObjectiveFunction ScalarValue(Func<double, double> function)
+        {
+            return new ScalarValueObjectiveFunction(function);
+        }
+
+        /// <summary>
+        /// Objective function where the first derivative is available.
+        /// </summary>
+        public static IScalarObjectiveFunction ScalarDerivative(Func<double, double> function, Func<double, double> derivative)
+        {
+            return new ScalarObjectiveFunction(function, derivative);
+        }
+
+        /// <summary>
+        /// Objective function where the first and second derivatives are available.
+        /// </summary>
+        public static IScalarObjectiveFunction ScalarSecondDerivative(Func<double, double> function, Func<double, double> derivative, Func<double,double> secondDerivative)
+        {
+            return new ScalarObjectiveFunction(function, derivative, secondDerivative);
+        }
     }
 }

@@ -59,4 +59,19 @@ namespace MathNet.Numerics.Optimization
         /// <summary>Create a new independent copy of this objective function, evaluated at the same point.</summary>
         IObjectiveFunction Fork();
     }
+
+    public interface IScalarObjectiveFunctionEvaluation
+    {
+        double Point { get; }
+        double Value { get; }
+        double Derivative { get; }
+        double SecondDerivative { get; }
+    }
+
+    public interface IScalarObjectiveFunction
+    {
+        bool IsDerivativeSupported { get; }
+        bool IsSecondDerivativeSupported { get; }
+        IScalarObjectiveFunctionEvaluation Evaluate(double point);
+    }
 }
