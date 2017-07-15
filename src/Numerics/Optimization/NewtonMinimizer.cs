@@ -33,7 +33,7 @@ using MathNet.Numerics.Optimization.LineSearch;
 
 namespace MathNet.Numerics.Optimization
 {
-    public class NewtonMinimizer
+    public sealed class NewtonMinimizer
     {
         public double GradientTolerance { get; set; }
         public int MaximumIterations { get; set; }
@@ -48,6 +48,11 @@ namespace MathNet.Numerics.Optimization
 
         public MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess)
         {
+            return FindMinimum(objective, initialGuess, GradientTolerance, MaximumIterations, UseLineSearch);
+        }
+
+        public static MinimizationResult FindMinimum(IObjectiveFunction objective, Vector<double> initialGuess, double gradientTolerance, int maxIterations=1000, bool useLineSearch = false)
+        {
             if (!objective.IsGradientSupported)
             {
                 throw new IncompatibleObjectiveException("Gradient not supported in objective function, but required for Newton minimization.");
@@ -61,7 +66,7 @@ namespace MathNet.Numerics.Optimization
             // Check that we're not already done
             objective.EvaluateAt(initialGuess);
             ValidateGradient(objective);
-            if (ExitCriteriaSatisfied(objective.Gradient))
+            if (objective.Gradient.Norm(2.0) < gradientTolerance)
             {
                 return new MinimizationResult(objective, 0, ExitCondition.AbsoluteGradient);
             }
@@ -74,7 +79,7 @@ namespace MathNet.Numerics.Optimization
             int totalLineSearchSteps = 0;
             int iterationsWithNontrivialLineSearch = 0;
             bool tmpLineSearch = false;
-            while (!ExitCriteriaSatisfied(objective.Gradient) && iterations < MaximumIterations)
+            while (objective.Gradient.Norm(2.0) >= gradientTolerance && iterations < maxIterations)
             {
                 ValidateHessian(objective);
 
@@ -85,7 +90,7 @@ namespace MathNet.Numerics.Optimization
                     tmpLineSearch = true;
                 }
 
-                if (UseLineSearch || tmpLineSearch)
+                if (useLineSearch || tmpLineSearch)
                 {
                     LineSearchResult result;
                     try
@@ -112,17 +117,12 @@ namespace MathNet.Numerics.Optimization
                 iterations += 1;
             }
 
-            if (iterations == MaximumIterations)
+            if (iterations == maxIterations)
             {
-                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
+                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", maxIterations));
             }
 
             return new MinimizationWithLineSearchResult(objective, iterations, ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
-        }
-
-        bool ExitCriteriaSatisfied(Vector<double> gradient)
-        {
-            return gradient.Norm(2.0) < GradientTolerance;
         }
 
         static void ValidateGradient(IObjectiveFunctionEvaluation eval)
@@ -136,13 +136,7 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        private void ValidateObjective(IObjectiveFunctionEvaluation eval)
-        {
-            if (Double.IsNaN(eval.Value) || Double.IsInfinity(eval.Value))
-                throw new EvaluationException("Non-finite objective function returned.", eval);
-        }
-
-        private void ValidateHessian(IObjectiveFunctionEvaluation eval)
+        static void ValidateHessian(IObjectiveFunctionEvaluation eval)
         {
             for (int ii = 0; ii < eval.Hessian.RowCount; ++ii)
             {

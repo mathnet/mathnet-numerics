@@ -198,9 +198,8 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         public void Mgh_Tests(TestFunctions.TestCase test_case)
         {
             var obj = new MghObjectiveFunction(test_case.Function, true, true);
-            var solver = new NewtonMinimizer(1e-8, 1000, useLineSearch: false);
 
-            var result = solver.FindMinimum(obj, test_case.InitialGuess);
+            var result = NewtonMinimizer.FindMinimum(obj, test_case.InitialGuess, 1e-8, 1000, useLineSearch: false);
 
             if (test_case.MinimizingPoint != null)
             {

@@ -87,7 +87,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
         /// <param name="initialGuess">The intial guess</param>
         /// <returns>The minimum point</returns>
-        public static MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, double convergenceTolerance, int maximumIterations)
+        public static MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, double convergenceTolerance, int maximumIterations=1000)
         {
             var initalPertubation = new LinearAlgebra.Double.DenseVector(initialGuess.Count);
             for (int i = 0; i < initialGuess.Count; i++)
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="initialGuess">The intial guess</param>
         /// <param name="initalPertubation">The inital pertubation</param>
         /// <returns>The minimum point</returns>
-        public static MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation, double convergenceTolerance, int maximumIterations)
+        public static MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation, double convergenceTolerance, int maximumIterations=1000)
         {
             // confirm that we are in a position to commence
             if (objectiveFunction == null)
