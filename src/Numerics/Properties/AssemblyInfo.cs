@@ -47,7 +47,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("3.20.0.0")]
 [assembly: AssemblyFileVersion("3.20.0.0")]
-[assembly: AssemblyInformationalVersion("3.20.0-beta01")]
+[assembly: AssemblyInformationalVersion("3.20.0")]
 
 #if PORTABLE
 

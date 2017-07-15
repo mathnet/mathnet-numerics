@@ -1,5 +1,6 @@
-### 3.20.0-beta01 - 2017-05-31
+### 3.20.0 - 2017-07-15
 * Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*
+* Native Providers: from now on also supported in the .Net 3.5 build.
 * BUG: Special Functions: allow more iterations in BetaRegularized *~Elias Abou Jaoude*
 
 ### 3.19.0 - 2017-04-29
