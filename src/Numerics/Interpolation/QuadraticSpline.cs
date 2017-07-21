@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.Properties;
+using System.Threading;
 
 namespace MathNet.Numerics.Interpolation
 {
@@ -38,9 +39,7 @@ namespace MathNet.Numerics.Interpolation
     /// <remarks>Supports both differentiation and integration.</remarks>
     public class QuadraticSpline : IInterpolation
     {
-        private int _cachedLeftSegmentIndex;
-        private double _cachedLeftSegment;
-        private double _cachedRightSegment;
+        private ThreadLocal<SegmentCache> _cache;
         readonly double[] _x;
         readonly double[] _c0;
         readonly double[] _c1;
@@ -63,9 +62,7 @@ namespace MathNet.Numerics.Interpolation
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
             }
 
-            _cachedLeftSegmentIndex = -1;
-            _cachedLeftSegment = 0;
-            _cachedRightSegment = 0;
+            _cache = new ThreadLocal<SegmentCache>(() => new SegmentCache());
             _x = x;
             _c0 = c0;
             _c1 = c1;
@@ -162,9 +159,11 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         int LeftSegmentIndex(double t)
         {
-            if (_cachedLeftSegmentIndex >= 0 && t >= _cachedLeftSegment && t < _cachedRightSegment)
+            var cache = _cache.Value;
+
+            if (cache.LeftSegmentIndex >= 0 && t >= cache.LeftSegment && t < cache.RightSegment)
             {
-                return _cachedLeftSegmentIndex;
+                return cache.LeftSegmentIndex;
             }
 
             int index = Array.BinarySearch(_x, t);
@@ -173,11 +172,11 @@ namespace MathNet.Numerics.Interpolation
                 index = ~index - 1;
             }
 
-            _cachedLeftSegmentIndex = Math.Min(Math.Max(index, 0), _x.Length - 2);
-            _cachedLeftSegment = _x[_cachedLeftSegmentIndex];
-            _cachedRightSegment = _x[_cachedLeftSegmentIndex + 1];
+            cache.LeftSegmentIndex = Math.Min(Math.Max(index, 0), _x.Length - 2);
+            cache.LeftSegment = _x[cache.LeftSegmentIndex];
+            cache.RightSegment = _x[cache.LeftSegmentIndex + 1];
 
-            return _cachedLeftSegmentIndex;
+            return cache.LeftSegmentIndex;
         }
     }
 }

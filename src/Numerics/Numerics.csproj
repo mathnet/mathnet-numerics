@@ -104,6 +104,7 @@
     <Compile Include="Interpolation\CubicSpline.cs" />
     <Compile Include="Interpolation\LogLinear.cs" />
     <Compile Include="Interpolation\QuadraticSpline.cs" />
+    <Compile Include="Interpolation\SegmentCache.cs" />
     <Compile Include="Interpolation\StepInterpolation.cs" />
     <Compile Include="Interpolation\TransformedInterpolation.cs" />
     <Compile Include="LinearAlgebra\CreateMatrix.cs" />
