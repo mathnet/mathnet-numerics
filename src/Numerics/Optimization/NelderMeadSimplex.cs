@@ -167,6 +167,7 @@ namespace MathNet.Numerics.Optimization
                             evaluationCount += numVertices; // that required one function evaluation for each vertex; keep track
                         }
                     }
+                }
                 else if (reflectionPointValue >= errorValues[errorProfile.NextHighestIndex])
                 {
                     // it would be worse than the second best point, so attempt a contraction to look
