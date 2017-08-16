@@ -27,12 +27,12 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Threading;
 
-#if PORTABLE
-using System;
-#else
+#if !PORTABLE
 using System.Runtime;
 using System.Threading;
 #endif
@@ -42,8 +42,11 @@ namespace MathNet.Numerics.Random
     /// <summary>
     /// A random number generator based on the <see cref="System.Random"/> class in the .NET library.
     /// </summary>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public class SystemRandomSource : RandomSource
     {
+        [DataMember(Order = 1)]
         readonly System.Random _random;
 
         /// <summary>
@@ -126,6 +129,10 @@ namespace MathNet.Numerics.Random
             return _random.Next();
         }
 
+        /// <summary>
+        /// Returns a random 32-bit signed integer within the specified range.
+        /// </summary>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 2 (not verified, must be ensured by caller).</param>
         protected override int DoSampleInteger(int maxExclusive)
         {
             return _random.Next(maxExclusive);
@@ -135,12 +142,15 @@ namespace MathNet.Numerics.Random
         /// Returns a random 32-bit signed integer within the specified range.
         /// </summary>
         /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ minExclusive + 2 (not verified, must be ensured by caller).</param>
         protected override int DoSampleInteger(int minInclusive, int maxExclusive)
         {
             return _random.Next(minInclusive, maxExclusive);
         }
 
+        /// <summary>
+        /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
+        /// </summary>
         protected override void DoSampleBytes(byte[] buffer)
         {
             _random.NextBytes(buffer);

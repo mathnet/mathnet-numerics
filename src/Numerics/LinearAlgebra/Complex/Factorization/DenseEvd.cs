@@ -110,9 +110,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
         /// <param name="e">Output: Arrays for internal storage of imaginary parts of eigenvalues</param>
         /// <param name="tau">Output: Arrays that contains further information about the transformations.</param>
         /// <param name="order">Order of initial matrix</param>
-        /// <remarks>This is derived from the Algol procedures HTRIDI by 
-        /// Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for 
-        /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding 
+        /// <remarks>This is derived from the Algol procedures HTRIDI by
+        /// Smith, Boyle, Dongarra, Garbow, Ikebe, Klema, Moler, and Wilkinson, Handbook for
+        /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
         internal static void SymmetricTridiagonalize(Complex[] matrixA, double[] d, double[] e, Complex[] tau, int order)
         {
@@ -332,7 +332,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                         e[l] = s*p;
                         d[l] = c*p;
 
-                        // Check for convergence. If too many iterations have been performed, 
+                        // Check for convergence. If too many iterations have been performed,
                         // throw exception that Convergence Failed
                         if (iter >= maxiter)
                         {
@@ -747,7 +747,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
                 }
             }
 
-            // All roots found.  
+            // All roots found.
             // Backsubstitute to find vectors of upper triangular form
             norm = 0.0;
             for (var i = 0; i < order; i++)

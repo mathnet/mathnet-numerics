@@ -30,13 +30,17 @@
 #if NATIVE
 
 using System;
-using System.Numerics;
 using System.Security;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 {
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
@@ -357,7 +361,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             if (info > 0)
             {
                 throw new SingularUMatrixException(info);
-            } 
+            }
         }
 
         /// <summary>
@@ -811,7 +815,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             if (method == QRMethod.Full)
             {
                 var info = SafeNativeMethods.s_qr_solve_factored(rowsA, columnsA, columnsB, r, b, tau, x);
-                
+
                 if (info == (int)MklError.MemoryAllocation)
                 {
                     throw new MemoryAllocationException();
@@ -1083,6 +1087,46 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             }
 
             SafeNativeMethods.s_vector_divide(x.Length, x, y, result);
+        }
+
+        /// <summary>
+        /// Does a point wise power of two arrays <c>z = x ^ y</c>. This can be used
+        /// to raise elements of vectors or matrices to the powers of another vector or matrix.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise power.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public override void PointWisePowerArrays(float[] x, float[] y, float[] result)
+        {
+            if (_vectorFunctionsMajor != 0 || _vectorFunctionsMinor < 1)
+            {
+                base.PointWisePowerArrays(x, y, result);
+            }
+
+            if (y == null)
+            {
+                throw new ArgumentNullException("y");
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException("x");
+            }
+
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+
+            if (x.Length != result.Length)
+            {
+                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+            }
+
+            SafeNativeMethods.s_vector_power(x.Length, x, y, result);
         }
 
         /// <summary>

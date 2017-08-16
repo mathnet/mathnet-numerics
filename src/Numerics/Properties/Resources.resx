@@ -282,6 +282,9 @@
   <data name="ArgumentMinValueGreaterThanMaxValue" xml:space="preserve">
     <value>In the specified range, the minimum is greater than maximum.</value>
   </data>
+  <data name="ArgumentMaxExclusiveMustBeLargerThanMinInclusive" xml:space="preserve">
+    <value>In the specified range, the exclusive maximum must be greater than the inclusive minimum.</value>
+  </data>
   <data name="ArgumentUpperBoundMustBeLargerThanOrEqualToLowerBound" xml:space="preserve">
     <value>The upper bound must be at least as large as the lower bound.</value>
   </data>
@@ -367,7 +370,7 @@
     <value>The given array is too small. It must be at least {0} long.</value>
   </data>
   <data name="ArgumentArrayWrongLength" xml:space="preserve">
-    <value>The given array is the wrong length. Should be {0}.</value>
+    <value>The given array has the wrong length. Should be {0}.</value>
   </data>
   <data name="RowsLessThanColumns" xml:space="preserve">
     <value>The number of rows must greater than or equal to the number of columns.</value>
@@ -441,5 +444,8 @@
   </data>
   <data name="SampleVectorsSameLength" xml:space="preserve">
     <value>All sample vectors must have the same length. However, vectors with disagreeing length {0} and {1} have been provided. A sample with index i is given by the value at index i of each provided vector.</value>
+  </data>
+  <data name="DegreesOfFreedomMustBeLessThanSampleSize" xml:space="preserve">
+    <value>The sample size must be larger than the given degrees of freedom.</value>
   </data>
 </root>

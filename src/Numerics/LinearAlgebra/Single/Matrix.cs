@@ -67,6 +67,14 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
+        /// Puts the conjugate transpose of this matrix into the result matrix.
+        /// </summary>
+        public sealed override void ConjugateTranspose(Matrix<float> result)
+        {
+            Transpose(result);
+        }
+
+        /// <summary>
         /// Complex conjugates each element of this matrix and place the results into the result matrix.
         /// </summary>
         /// <param name="result">The result of the conjugation.</param>
@@ -357,13 +365,23 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Pointwise raise this matrix to an exponent and store the result into the result vector.
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
         /// </summary>
         /// <param name="exponent">The exponent to raise this matrix values to.</param>
-        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        /// <param name="result">The matrix to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(float exponent, Matrix<float> result)
         {
             Map(x => (float)Math.Pow(x, exponent), result, exponent > 0.0f ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        /// <summary>
+        /// Pointwise raise this matrix to an exponent and store the result into the result matrix.
+        /// </summary>
+        /// <param name="exponent">The exponent to raise this matrix values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Matrix<float> exponent, Matrix<float> result)
+        {
+            Map2((x, y) => (float)Math.Pow(x, y), result, Zeros.Include);
         }
 
         /// <summary>
@@ -406,6 +424,95 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             Map(x => (float)Math.Log(x), result, Zeros.Include);
         }
 
+        protected override void DoPointwiseAbs(Matrix<float> result)
+        {
+            Map(x => (float)Math.Abs(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAcos(Matrix<float> result)
+        {
+            Map(x => (float)Math.Acos(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseAsin(Matrix<float> result)
+        {
+            Map(x => (float)Math.Asin(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan(Matrix<float> result)
+        {
+            Map(x => (float)Math.Atan(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseAtan2(Matrix<float> other, Matrix<float> result)
+        {
+            Map2((x, y) => (float)Math.Atan2((double)x, (double)y), other, result, Zeros.Include);
+        }
+        protected override void DoPointwiseCeiling(Matrix<float> result)
+        {
+            Map(x => (float)Math.Ceiling(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseCos(Matrix<float> result)
+        {
+            Map(x => (float)Math.Cos(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseCosh(Matrix<float> result)
+        {
+            Map(x => (float)Math.Cosh(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseFloor(Matrix<float> result)
+        {
+            Map(x => (float)Math.Floor(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseLog10(Matrix<float> result)
+        {
+            Map(x => (float)Math.Log10(x), result, Zeros.Include);
+        }
+        protected override void DoPointwiseRound(Matrix<float> result)
+        {
+            Map(x => (float)Math.Round(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSign(Matrix<float> result)
+        {
+            Map(x => (float)Math.Sign(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSin(Matrix<float> result)
+        {
+            Map(x => (float)Math.Sin(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSinh(Matrix<float> result)
+        {
+            Map(x => (float)Math.Sinh(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseSqrt(Matrix<float> result)
+        {
+            Map(x => (float)Math.Sqrt(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTan(Matrix<float> result)
+        {
+            Map(x => (float)Math.Tan(x), result, Zeros.AllowSkip);
+        }
+        protected override void DoPointwiseTanh(Matrix<float> result)
+        {
+            Map(x => (float)Math.Tanh(x), result, Zeros.AllowSkip);
+        }
+
+
+        /// <summary>
+        /// Computes the Moore-Penrose Pseudo-Inverse of this matrix.
+        /// </summary>
+        public override Matrix<float> PseudoInverse()
+        {
+            var svd = Svd(true);
+            var w = svd.W;
+            var s = svd.S;
+            float tolerance = (float)(Math.Max(RowCount, ColumnCount) * svd.L2Norm * Precision.SinglePrecision);
+
+            for (int i = 0; i < s.Count; i++)
+            {
+                s[i] = s[i] < tolerance ? 0 : 1/s[i];
+            }
+
+            w.SetDiagonal(s);
+            return (svd.U * w * svd.VT).Transpose();
+        }
+
         /// <summary>
         /// Computes the trace of this matrix.
         /// </summary>
@@ -425,6 +532,48 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             return sum;
+        }
+
+        protected override void DoPointwiseMinimum(float scalar, Matrix<float> result)
+        {
+            Map(x => Math.Min(scalar, x), result, scalar >= 0d ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        protected override void DoPointwiseMaximum(float scalar, Matrix<float> result)
+        {
+            Map(x => Math.Max(scalar, x), result, scalar <= 0d ? Zeros.AllowSkip : Zeros.Include);
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(float scalar, Matrix<float> result)
+        {
+            float absolute = Math.Abs(scalar);
+            Map(x => Math.Min(absolute, Math.Abs(x)), result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(float scalar, Matrix<float> result)
+        {
+            float absolute = Math.Abs(scalar);
+            Map(x => Math.Max(absolute, Math.Abs(x)), result, Zeros.Include);
+        }
+
+        protected override void DoPointwiseMinimum(Matrix<float> other, Matrix<float> result)
+        {
+            Map2(Math.Min, other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseMaximum(Matrix<float> other, Matrix<float> result)
+        {
+            Map2(Math.Max, other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMinimum(Matrix<float> other, Matrix<float> result)
+        {
+            Map2((x, y) => Math.Min(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
+        }
+
+        protected override void DoPointwiseAbsoluteMaximum(Matrix<float> other, Matrix<float> result)
+        {
+            Map2((x, y) => Math.Max(Math.Abs(x), Math.Abs(y)), other, result, Zeros.AllowSkip);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>

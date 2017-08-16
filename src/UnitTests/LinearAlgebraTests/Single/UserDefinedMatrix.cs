@@ -73,6 +73,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             {
                 Data[row, column] = value;
             }
+
+            public override float[,] AsArray()
+            {
+                return Data;
+            }
         }
 
         /// <summary>

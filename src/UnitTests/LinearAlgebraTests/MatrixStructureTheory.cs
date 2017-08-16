@@ -279,10 +279,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanToColumnWiseArray(TestMatrix testMatrix)
+        public void CanToColumnMajorArray(TestMatrix testMatrix)
         {
             Matrix<T> matrix = Get(testMatrix);
-            var array = matrix.ToColumnWiseArray();
+            var array = matrix.ToColumnMajorArray();
             Assert.That(array.Length, Is.EqualTo(matrix.RowCount*matrix.ColumnCount));
             for (int i = 0; i < array.Length; i++)
             {
@@ -291,14 +291,121 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         }
 
         [Theory]
-        public void CanToRowWiseArray(TestMatrix testMatrix)
+        public void CanToRowMajorArray(TestMatrix testMatrix)
         {
             Matrix<T> matrix = Get(testMatrix);
-            var array = matrix.ToRowWiseArray();
+            var array = matrix.ToRowMajorArray();
             Assert.That(array.Length, Is.EqualTo(matrix.RowCount*matrix.ColumnCount));
             for (int i = 0; i < array.Length; i++)
             {
                 Assert.That(array[i], Is.EqualTo(matrix[i/matrix.ColumnCount, i%matrix.ColumnCount]));
+            }
+        }
+
+        [Theory]
+        public void CanAsArray(TestMatrix testMatrix)
+        {
+            Matrix<T> matrix = Get(testMatrix);
+            var array = matrix.AsArray();
+            if (array == null)
+            {
+                return;
+            }
+
+            Assert.That(array, Is.SameAs(matrix.AsArray()));
+            Assert.That(array, Is.Not.SameAs(matrix.ToArray()));
+            Assert.That(array.GetLength(0), Is.EqualTo(matrix.RowCount));
+            Assert.That(array.GetLength(1), Is.EqualTo(matrix.ColumnCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(array[i, j], Is.EqualTo(matrix[i, j]));
+                }
+            }
+        }
+
+        [Theory]
+        public void CanAsColumnArrays(TestMatrix testMatrix)
+        {
+            Matrix<T> matrix = Get(testMatrix);
+            var columnArrays = matrix.AsColumnArrays();
+            if (columnArrays == null)
+            {
+                return;
+            }
+
+            Assert.That(columnArrays, Is.SameAs(matrix.AsColumnArrays()));
+            Assert.That(columnArrays, Is.Not.SameAs(matrix.ToColumnArrays()));
+            Assert.That(columnArrays.Length, Is.EqualTo(matrix.ColumnCount));
+            Assert.That(columnArrays[0].Length, Is.EqualTo(matrix.RowCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(columnArrays[j][i], Is.EqualTo(matrix[i, j]));
+                }
+            }
+        }
+
+        [Theory]
+        public void CanAsRowArrays(TestMatrix testMatrix)
+        {
+            Matrix<T> matrix = Get(testMatrix);
+            var rowArrays = matrix.AsRowArrays();
+            if (rowArrays == null)
+            {
+                return;
+            }
+
+            Assert.That(rowArrays, Is.SameAs(matrix.AsRowArrays()));
+            Assert.That(rowArrays, Is.Not.SameAs(matrix.ToRowArrays()));
+            Assert.That(rowArrays.Length, Is.EqualTo(matrix.RowCount));
+            Assert.That(rowArrays[0].Length, Is.EqualTo(matrix.ColumnCount));
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.That(rowArrays[i][j], Is.EqualTo(matrix[i, j]));
+                }
+            }
+        }
+
+        [Theory]
+        public void CanAsColumnMajorArray(TestMatrix testMatrix)
+        {
+            Matrix<T> matrix = Get(testMatrix);
+            var array = matrix.AsColumnMajorArray();
+            if (array == null)
+            {
+                return;
+            }
+
+            Assert.That(array, Is.SameAs(matrix.AsColumnMajorArray()));
+            Assert.That(array, Is.Not.SameAs(matrix.ToColumnMajorArray()));
+            Assert.That(array.Length, Is.EqualTo(matrix.RowCount * matrix.ColumnCount));
+            for (int i = 0; i < array.Length; i++)
+            {
+                Assert.That(array[i], Is.EqualTo(matrix[i % matrix.RowCount, i / matrix.RowCount]));
+            }
+        }
+
+        [Theory]
+        public void CanAsRowMajorArray(TestMatrix testMatrix)
+        {
+            Matrix<T> matrix = Get(testMatrix);
+            var array = matrix.AsRowMajorArray();
+            if (array == null)
+            {
+                return;
+            }
+
+            Assert.That(array, Is.SameAs(matrix.AsRowMajorArray()));
+            Assert.That(array, Is.Not.SameAs(matrix.ToRowMajorArray()));
+            Assert.That(array.Length, Is.EqualTo(matrix.RowCount * matrix.ColumnCount));
+            for (int i = 0; i < array.Length; i++)
+            {
+                Assert.That(array[i], Is.EqualTo(matrix[i / matrix.ColumnCount, i % matrix.ColumnCount]));
             }
         }
 
@@ -339,6 +446,32 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             for (int i = 0; i < 4; i++)
                 for (int j = 0; j < 3; j++)
                     Assert.That(matrix[i, j], Is.EqualTo(array[i, j]));
+        }
+
+        [Test]
+        public void CanCreateDenseFromColumnMajor()
+        {
+            var columnMajor = Vector<T>.Build.Random(6, 0).ToArray();
+            var matrix = Matrix<T>.Build.DenseOfColumnMajor(2, 3, columnMajor);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(2));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(3));
+            for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 3; j++)
+                    Assert.That(matrix[i, j], Is.EqualTo(columnMajor[j*2 + i]));
+        }
+
+        [Test]
+        public void CanCreateDenseFromRowMajor()
+        {
+            var columnMajor = Vector<T>.Build.Random(6, 0).ToArray();
+            var matrix = Matrix<T>.Build.DenseOfRowMajor(2, 3, columnMajor);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("DenseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(2));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(3));
+            for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 3; j++)
+                    Assert.That(matrix[i, j], Is.EqualTo(columnMajor[i * 3 + j]));
         }
 
         [Test]

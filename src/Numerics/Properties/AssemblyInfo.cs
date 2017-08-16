@@ -1,6 +1,6 @@
 ﻿// <copyright file="AssemblyInfo.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// https://numerics.mathdotnet.com
 //
 // Copyright (c) 2009 Math.NET
 //
@@ -45,9 +45,9 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("en")]
 
-[assembly: AssemblyVersion("3.13.0.0")]
-[assembly: AssemblyFileVersion("3.13.0.0")]
-[assembly: AssemblyInformationalVersion("3.13.0")]
+[assembly: AssemblyVersion("3.20.0.0")]
+[assembly: AssemblyFileVersion("3.20.0.0")]
+[assembly: AssemblyInformationalVersion("3.20.0")]
 
 #if PORTABLE
 
@@ -78,7 +78,7 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsMKL")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsCUDA")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsOpenBLAS")]
-[assembly: InternalsVisibleTo("Performance")]
+[assembly: InternalsVisibleTo("Benchmark")]
 #endif
 
 #endif

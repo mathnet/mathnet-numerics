@@ -259,5 +259,186 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             return dividend.PointwiseRemainder(divisor);
         }
+
+        [SpecialName]
+        public static Vector<T> op_DotHat(Vector<T> vector, Vector<T> exponent)
+        {
+            return vector.PointwisePower(exponent);
+        }
+
+        [SpecialName]
+        public static Vector<T> op_DotHat(Vector<T> vector, T exponent)
+        {
+            return vector.PointwisePower(exponent);
+        }
+
+        /// <summary>
+        /// Computes the sqrt of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Sqrt(Vector<T> x)
+        {
+            return x.PointwiseSqrt();
+        }
+
+        /// <summary>
+        /// Computes the exponential of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Exp(Vector<T> x)
+        {
+            return x.PointwiseUnary(x.DoPointwiseExp);
+        }
+
+        /// <summary>
+        /// Computes the log of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Log(Vector<T> x)
+        {
+            return x.PointwiseUnary(x.PointwiseLog);
+        }
+        /// <summary>
+        /// Computes the log10 of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Log10(Vector<T> x)
+        {
+            return x.PointwiseLog10();
+        }
+
+        /// <summary>
+        /// Computes the sin of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Sin(Vector<T> x)
+        {
+            return x.PointwiseSin();
+        }
+
+        /// <summary>
+        /// Computes the cos of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Cos(Vector<T> x)
+        {
+            return x.PointwiseCos();
+        }
+
+        /// <summary>
+        /// Computes the tan of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Tan(Vector<T> x)
+        {
+            return x.PointwiseTan();
+        }
+
+        /// <summary>
+        /// Computes the asin of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Asin(Vector<T> x)
+        {
+            return x.PointwiseAsin();
+        }
+
+        /// <summary>
+        /// Computes the acos of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Acos(Vector<T> x)
+        {
+            return x.PointwiseAcos();
+        }
+
+        /// <summary>
+        /// Computes the atan of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Atan(Vector<T> x)
+        {
+            return x.PointwiseAtan();
+        }
+
+        /// <summary>
+        /// Computes the sinh of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Sinh(Vector<T> x)
+        {
+            return x.PointwiseSinh();
+        }
+
+        /// <summary>
+        /// Computes the cosh of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Cosh(Vector<T> x)
+        {
+            return x.PointwiseCosh();
+        }
+
+        /// <summary>
+        /// Computes the tanh of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Tanh(Vector<T> x)
+        {
+            return x.PointwiseTanh();
+        }
+
+        /// <summary>
+        /// Computes the absolute value of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Abs(Vector<T> x)
+        {
+            return x.PointwiseAbs();
+        }
+
+        /// <summary>
+        /// Computes the floor of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Floor(Vector<T> x)
+        {
+            return x.PointwiseFloor();
+        }
+
+        /// <summary>
+        /// Computes the ceiling of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Ceiling(Vector<T> x)
+        {
+            return x.PointwiseCeiling();
+        }
+
+        /// <summary>
+        /// Computes the rounded value of a vector pointwise
+        /// </summary>
+        /// <param name="x">The input vector</param>
+        /// <returns></returns>
+        public static Vector<T> Round(Vector<T> x)
+        {
+            return x.PointwiseRound();
+        }
     }
 }

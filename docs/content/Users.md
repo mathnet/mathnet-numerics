@@ -33,7 +33,7 @@ Open Source
 * [Maintenance Game](https://github.com/KaptenJon/MaintenanceGame)
 * [Monica](https://github.com/zhuazhua/Monica)
 * [Math.Net PowerShell](http://mathnetpowershell.codeplex.com/) (unaffiliated)
-* [Math.NET Symbolics](http://symbolics.mathdotnet.com) and other [Math.NET](http://www.mathdotnet.com) projects.
+* [Math.NET Symbolics](https://symbolics.mathdotnet.com) and other [Math.NET](https://www.mathdotnet.com) projects.
 
 Closed Source
 -------------

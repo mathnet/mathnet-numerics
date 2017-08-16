@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2016 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Random
@@ -38,6 +39,8 @@ namespace MathNet.Numerics.Random
     /// and the Math.Net Numerics random number generators to provide thread safety.
     /// When used directly it use the System.Random as random number source.
     /// </summary>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public abstract class RandomSource : System.Random
     {
         readonly bool _threadSafe;
@@ -133,28 +136,39 @@ namespace MathNet.Numerics.Random
                     return DoSampleInteger();
                 }
             }
-
-            return DoSampleInteger();
+            else
+            {
+                return DoSampleInteger();
+            }
         }
 
         /// <summary>
         /// Returns a random number less then a specified maximum.
         /// </summary>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1.</param>
         /// <returns>A 32-bit signed integer less than <paramref name="maxExclusive"/>.</returns>
-        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="maxExclusive"/> is negative. </exception>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="maxExclusive"/> is zero or negative.</exception>
         public sealed override int Next(int maxExclusive)
         {
+            // Invalid case: Zero and less are not valid use cases.
             if (maxExclusive <= 0)
             {
                 throw new ArgumentException(Resources.ArgumentMustBePositive);
             }
 
+            // Fast case: Only zero is allowed to be returned. No sampling is needed.
+            if (maxExclusive == 1)
+            {
+                return 0;
+            }
+
+            // Simple case: standard range
             if (maxExclusive == int.MaxValue)
             {
                 return Next();
             }
 
+            // Sample with maxExclusive ≥ 2
             if (_threadSafe)
             {
                 lock (_lock)
@@ -162,28 +176,39 @@ namespace MathNet.Numerics.Random
                     return DoSampleInteger(maxExclusive);
                 }
             }
-
-            return DoSampleInteger(maxExclusive);
+            else
+            {
+                return DoSampleInteger(maxExclusive);
+            }
         }
 
         /// <summary>
         /// Returns a random number within a specified range.
         /// </summary>
         /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive.</param>
         /// <returns>
         /// A 32-bit signed integer greater than or equal to <paramref name="minInclusive"/> and less than <paramref name="maxExclusive"/>; that is, the range of return values includes <paramref name="minInclusive"/> but not <paramref name="maxExclusive"/>. If <paramref name="minInclusive"/> equals <paramref name="maxExclusive"/>, <paramref name="minInclusive"/> is returned.
         /// </returns>
         /// <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="minInclusive"/> is greater than <paramref name="maxExclusive"/>. </exception>
         public sealed override int Next(int minInclusive, int maxExclusive)
         {
-            if (minInclusive > maxExclusive)
+            // Invalid case: empty range.
+            if (minInclusive >= maxExclusive)
             {
-                throw new ArgumentException(Resources.ArgumentMinValueGreaterThanMaxValue);
+                throw new ArgumentException(Resources.ArgumentMaxExclusiveMustBeLargerThanMinInclusive);
             }
 
+            // Fast case: Only minInclusive is allowed to be returned. No sampling is needed.
+            if (maxExclusive == minInclusive + 1)
+            {
+                return minInclusive;
+            }
+
+            // Simple case: simple range
             if (minInclusive == 0)
             {
+                // Simple case: standard range
                 if (maxExclusive == int.MaxValue)
                 {
                     return Next();
@@ -192,6 +217,7 @@ namespace MathNet.Numerics.Random
                 return Next(maxExclusive);
             }
 
+            // Sample with maxExclusive ≥ minExclusive + 2
             if (_threadSafe)
             {
                 lock (_lock)
@@ -199,8 +225,10 @@ namespace MathNet.Numerics.Random
                     return DoSampleInteger(minInclusive, maxExclusive);
                 }
             }
-
-            return DoSampleInteger(minInclusive, maxExclusive);
+            else
+            {
+                return DoSampleInteger(minInclusive, maxExclusive);
+            }
         }
 
         /// <summary>
@@ -243,15 +271,30 @@ namespace MathNet.Numerics.Random
         /// Fills an array with random numbers within a specified range.
         /// </summary>
         /// <param name="values">The array to fill with random values.</param>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1.</param>
         public void NextInt32s(int[] values, int maxExclusive)
         {
+            // Invalid case: Zero and less are not valid use cases.
+            if (maxExclusive <= 0)
+            {
+                throw new ArgumentException(Resources.ArgumentMustBePositive);
+            }
+
+            // Fast case: Only zero is allowed to be returned. No sampling is needed.
+            if (maxExclusive == 1)
+            {
+                Array.Clear(values, 0, values.Length);
+                return;
+            }
+
+            // Simple case: standard range
             if (maxExclusive == int.MaxValue)
             {
                 NextInt32s(values);
                 return;
             }
 
+            // Sample with maxExclusive ≥ 2
             if (_threadSafe)
             {
                 lock (_lock)
@@ -272,26 +315,45 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
+        /// Returns an array with random 32-bit signed integers within the specified range.
+        /// </summary>
+        /// <param name="count">The size of the array to fill.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1.</param>
+        public int[] NextInt32s(int count, int maxExclusive)
+        {
+            var values = new int[count];
+            NextInt32s(values, maxExclusive);
+            return values;
+        }
+
+        /// <summary>
         /// Fills an array with random numbers within a specified range.
         /// </summary>
         /// <param name="values">The array to fill with random values.</param>
         /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive.</param>
         public void NextInt32s(int[] values, int minInclusive, int maxExclusive)
         {
-            if (minInclusive > maxExclusive)
+            // Invalid case: empty range.
+            if (minInclusive >= maxExclusive)
             {
-                throw new ArgumentException(Resources.ArgumentMinValueGreaterThanMaxValue);
+                throw new ArgumentException(Resources.ArgumentMaxExclusiveMustBeLargerThanMinInclusive);
             }
 
-            if (maxExclusive == int.MaxValue && minInclusive == 0)
+            // Fast case: Only minInclusive is allowed to be returned. No sampling is needed.
+            if (maxExclusive == minInclusive + 1)
             {
-                NextInt32s(values);
+                for (var i = 0; i < values.Length; i++)
+                {
+                    values[i] = minInclusive;
+                }
                 return;
             }
 
+            // Simple case: simple range
             if (minInclusive == 0)
             {
+                // Simple case: standard range
                 if (maxExclusive == int.MaxValue)
                 {
                     NextInt32s(values);
@@ -302,6 +364,7 @@ namespace MathNet.Numerics.Random
                 return;
             }
 
+            // Sample with maxExclusive ≥ minExclusive + 2
             if (_threadSafe)
             {
                 lock (_lock)
@@ -326,7 +389,7 @@ namespace MathNet.Numerics.Random
         /// </summary>
         /// <param name="count">The size of the array to fill.</param>
         /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive.</param>
         public int[] NextInt32s(int count, int minInclusive, int maxExclusive)
         {
             var values = new int[count];
@@ -359,7 +422,7 @@ namespace MathNet.Numerics.Random
         /// Returns an infinite sequence of random numbers within a specified range.
         /// </summary>
         /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive.</param>
         public IEnumerable<int> NextInt32Sequence(int minInclusive, int maxExclusive)
         {
             if (minInclusive > maxExclusive)
@@ -455,6 +518,13 @@ namespace MathNet.Numerics.Random
         /// </summary>
         protected virtual int DoSampleInt32WithNBits(int bitCount)
         {
+			// Fast case: Only 0 is allowed to be returned
+            // No random call is needed
+            if (bitCount == 0)
+            {
+                return 0;
+            }
+
             var bytes = new byte[4];
             DoSampleBytes(bytes);
 
@@ -472,6 +542,13 @@ namespace MathNet.Numerics.Random
         /// </summary>
         protected virtual long DoSampleInt64WithNBits(int bitCount)
         {
+			// Fast case: Only 0 is allowed to be returned
+            // No random call is needed
+            if (bitCount == 0)
+            {
+                return 0;
+            }
+
             var bytes = new byte[8];
             DoSampleBytes(bytes);
 
@@ -486,7 +563,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random 32-bit signed integer within the specified range.
         /// </summary>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 2 (not verified, must be ensured by caller).</param>
         protected virtual int DoSampleInteger(int maxExclusive)
         {
             // non-biased implementation
@@ -516,9 +593,10 @@ namespace MathNet.Numerics.Random
         /// Returns a random 32-bit signed integer within the specified range.
         /// </summary>
         /// <param name="minInclusive">The inclusive lower bound of the random number returned.</param>
-        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. <paramref name="maxExclusive"/> must be greater than or equal to <paramref name="minInclusive"/>.</param>
+        /// <param name="maxExclusive">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ minExclusive + 2 (not verified, must be ensured by caller).</param>
         protected virtual int DoSampleInteger(int minInclusive, int maxExclusive)
         {
+            // Sample with maxExclusive ≥ 2
             return DoSampleInteger(maxExclusive - minInclusive) + minInclusive;
         }
     }

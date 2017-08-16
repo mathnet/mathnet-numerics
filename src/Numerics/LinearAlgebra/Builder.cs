@@ -688,6 +688,17 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense matrix as a copy of the given enumerable.
+        /// The enumerable is assumed to be in row-major order (row by row).
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DenseOfRowMajor(int rows, int columns, IEnumerable<T> columnMajor)
+        {
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfRowMajorEnumerable(rows, columns, columnMajor));
+        }
+
+        /// <summary>
         /// Create a new dense matrix as a copy of the given enumerable of enumerable rows.
         /// Each enumerable in the master enumerable specifies a row.
         /// This new matrix will be independent from the enumerables.

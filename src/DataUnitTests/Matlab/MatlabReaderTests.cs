@@ -24,7 +24,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.IO;
 using System.Numerics;
 using MathNet.Numerics.Data.Matlab;
 using NUnit.Framework;

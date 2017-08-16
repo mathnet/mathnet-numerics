@@ -10,6 +10,7 @@ out/
 *.userprefs
 .vagrant
 .vs
+.idea
 
 # Test & Analysis Results
 [Tt]est[Rr]esult*/
@@ -24,6 +25,7 @@ coverage.*
 *.vspx
 *.lnt
 *.svclog
+*.log
 
 # Caches
 _ReSharper*

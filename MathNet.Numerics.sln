@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
@@ -27,6 +27,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A4A66FA9-C00C-4D5C-A776-27516EA0C536}"
 	ProjectSection(SolutionItems) = preProject
 		docs\tools\build-docs.fsx = docs\tools\build-docs.fsx
+		build\build-framework.fsx = build\build-framework.fsx
 		build.fsx = build.fsx
 		build\MathNet.Numerics.Extension.nuspec = build\MathNet.Numerics.Extension.nuspec
 		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec

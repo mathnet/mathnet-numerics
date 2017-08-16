@@ -675,10 +675,10 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
 
         /// <summary>
-        /// Pointwise divide this vector with another vector and stores the result into the result vector.
+        /// Pointwise multiply this vector with another vector and stores the result into the result vector.
         /// </summary>
-        /// <param name="other">The vector to pointwise divide this one by.</param>
-        /// <param name="result">The vector to store the result of the pointwise division.</param>
+        /// <param name="other">The vector to pointwise multiply this one by.</param>
+        /// <param name="result">The vector to store the result of the pointwise multiplication.</param>
         protected override void DoPointwiseMultiply(Vector<float> other, Vector<float> result)
         {
             var denseOther = other as DenseVector;
@@ -712,6 +712,26 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             else
             {
                 Control.LinearAlgebraProvider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
+            }
+        }
+
+        /// <summary>
+        /// Pointwise raise this vector to an exponent vector and store the result into the result vector.
+        /// </summary>
+        /// <param name="exponent">The exponent vector to raise this vector values to.</param>
+        /// <param name="result">The vector to store the result of the pointwise power.</param>
+        protected override void DoPointwisePower(Vector<float> exponent, Vector<float> result)
+        {
+            var denseExponent = exponent as DenseVector;
+            var denseResult = result as DenseVector;
+
+            if (denseExponent == null || denseResult == null)
+            {
+                base.DoPointwisePower(exponent, result);
+            }
+            else
+            {
+                Control.LinearAlgebraProvider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
             }
         }
 

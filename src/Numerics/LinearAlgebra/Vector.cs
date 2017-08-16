@@ -238,15 +238,23 @@ namespace MathNet.Numerics.LinearAlgebra
 
         /// <summary>
         /// Returns the data contained in the vector as an array.
+        /// The returned array will be independent from this vector.
+        /// A new memory block will be allocated for the array.
         /// </summary>
-        /// <returns>
-        /// The vector's data as an array.
-        /// </returns>
+        /// <returns>The vector's data as an array.</returns>
         public T[] ToArray()
         {
-            var result = new DenseVectorStorage<T>(Count);
-            Storage.CopyToUnchecked(result, ExistingData.AssumeZeros);
-            return result.Data;
+            return Storage.ToArray();
+        }
+
+        /// <summary>
+        /// Returns the internal array of this vector if, and only if, this vector is stored by such an array internally.
+        /// Otherwise returns null. Changes to the returned array and the vector will affect each other.
+        /// Use ToArray instead if you always need an independent array.
+        /// </summary>
+        public T[] AsArray()
+        {
+            return Storage.AsArray();
         }
 
         /// <summary>

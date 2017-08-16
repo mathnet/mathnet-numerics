@@ -107,7 +107,7 @@ To fit to a polynomial we can choose the following linear model with $f_i(x) := 
 $$$
 y : x \mapsto p_0 + p_1 x + p_2 x^2 + \cdots + p_N x^N
 
-The predictor matrix of this model is the [Vandermonde matrix](http://en.wikipedia.org/wiki/Vandermonde_matrix).
+The predictor matrix of this model is the [Vandermonde matrix](https://en.wikipedia.org/wiki/Vandermonde_matrix).
 There is a special function in the `Fit` class for regressions to a polynomial,
 but note that regression to high order polynomials is numerically problematic.
 
@@ -254,7 +254,7 @@ are dependent on the point of interest $t$.
     // warning: preliminary api
     var p = WeightedRegression.Local(X,y,t,radius,kernel);
 
-    
+
 Regularization
 --------------
 

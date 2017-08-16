@@ -126,7 +126,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public Matrix<T> Solve(Matrix<T> input)
         {
-            var x = Build.SameAs(this, ColumnCount, input.ColumnCount);
+            var x = Build.SameAs(this, ColumnCount, input.ColumnCount, fullyMutable: true);
             Solve(input, x);
             return x;
         }

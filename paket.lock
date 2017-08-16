@@ -1,5 +1,5 @@
 NUGET
-  remote: http://www.nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
     FSharp.Core (3.1.2.5)
     TaskParallelLibrary (1.0.2856)
 GITHUB
@@ -7,43 +7,44 @@ GITHUB
     src/FsUnit.NUnit/FsUnit.fs (43086ca8981c7642c1067ad5e9de80caf73ba4ec)
     src/FsUnit.NUnit/FsUnitTyped.fs (43086ca8981c7642c1067ad5e9de80caf73ba4ec)
 GROUP Benchmark
+FRAMEWORK: NET45
 NUGET
-  remote: http://www.nuget.org/api/v2
-    BenchShark (1.0)
-    ConsoleDump (0.6.0.1)
+  remote: https://www.nuget.org/api/v2
+    BenchmarkDotNet (0.10.6) - content: none
+    BenchmarkDotNet.Diagnostics.Windows (0.10.6) - content: none
 
 GROUP Build
 NUGET
-  remote: http://www.nuget.org/api/v2
-    FAKE (4.37.2)
+  remote: https://www.nuget.org/api/v2
+    FAKE (4.61.2)
     FSharp.Compiler.Service (2.0.0.6)
     FSharp.Formatting (2.14.4)
       FSharp.Compiler.Service (2.0.0.6)
       FSharpVSPowerTools.Core (>= 2.3 < 2.4)
     FSharpVSPowerTools.Core (2.3)
       FSharp.Compiler.Service (>= 2.0.0.3)
-    NuGet.CommandLine (3.4.3)
-    NUnit.ConsoleRunner (3.4.1)
-    NUnit.Extension.NUnitProjectLoader (3.4.1)
-    NUnit.Extension.NUnitV2Driver (3.4.1)
-    NUnit.Extension.NUnitV2ResultWriter (3.4.1)
-    NUnit.Extension.TeamCityEventListener (1.0.1)
-    NUnit.Extension.VSProjectLoader (3.4.1)
-    NUnit.Runners (3.4.1)
-      NUnit.ConsoleRunner (>= 3.4.1)
-      NUnit.Extension.NUnitProjectLoader (>= 3.4.1)
-      NUnit.Extension.NUnitV2Driver (>= 3.4.1)
-      NUnit.Extension.NUnitV2ResultWriter (>= 3.4.1)
-      NUnit.Extension.TeamCityEventListener (>= 1.0.1)
-      NUnit.Extension.VSProjectLoader (>= 3.4.1)
+    NuGet.CommandLine (3.5)
+    NUnit.ConsoleRunner (3.6.1)
+    NUnit.Extension.NUnitProjectLoader (3.5)
+    NUnit.Extension.NUnitV2Driver (3.6)
+    NUnit.Extension.NUnitV2ResultWriter (3.5)
+    NUnit.Extension.TeamCityEventListener (1.0.2)
+    NUnit.Extension.VSProjectLoader (3.5)
+    NUnit.Runners (3.6.1)
+      NUnit.ConsoleRunner (>= 3.6.1)
+      NUnit.Extension.NUnitProjectLoader (>= 3.5)
+      NUnit.Extension.NUnitV2Driver (>= 3.6)
+      NUnit.Extension.NUnitV2ResultWriter (>= 3.5)
+      NUnit.Extension.TeamCityEventListener (>= 1.0.2)
+      NUnit.Extension.VSProjectLoader (>= 3.5)
 
 GROUP Data
 NUGET
-  remote: http://www.nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
     MathNet.Numerics (3.0)
 
 GROUP Test
 NUGET
-  remote: http://www.nuget.org/api/v2
+  remote: https://www.nuget.org/api/v2
     FSharp.Core (4.0.0.1)
-    NUnit (3.4.1)
+    NUnit (3.5)

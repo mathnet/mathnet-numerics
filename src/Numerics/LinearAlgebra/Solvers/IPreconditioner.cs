@@ -39,9 +39,9 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
     /// Preconditioners are used by iterative solvers to improve the convergence
     /// speed of the solving process. Increase in convergence speed
     /// is related to the number of iterations necessary to get a converged solution.
-    /// So while in general the use of a preconditioner means that the iterative 
+    /// So while in general the use of a preconditioner means that the iterative
     /// solver will perform fewer iterations it does not guarantee that the actual
-    /// solution time decreases given that some preconditioners can be expensive to 
+    /// solution time decreases given that some preconditioners can be expensive to
     /// setup and run.
     /// </para>
     /// <para>

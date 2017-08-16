@@ -1,6 +1,6 @@
 ﻿// <copyright file="AssemblyInfo.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// http://mathnet.opensourcedotnet.info
+// https://numerics.mathdotnet.com
 //
 // Copyright (c) 2009-2013 Math.NET
 //
@@ -42,6 +42,6 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 [assembly: Guid("1a350030-3ad3-4e15-953d-33342a371aba")]
 
-[assembly: AssemblyVersion("3.2.0.0")]
-[assembly: AssemblyFileVersion("3.2.0.0")]
-[assembly: AssemblyInformationalVersion("3.2.0")]
+[assembly: AssemblyVersion("3.2.1.0")]
+[assembly: AssemblyFileVersion("3.2.1.0")]
+[assembly: AssemblyInformationalVersion("3.2.1")]

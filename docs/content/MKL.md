@@ -3,7 +3,7 @@ Intel Math Kernel Library (MKL)
 
 Math.NET Numerics is designed such that performance-sensitive algorithms
 can be swapped with alternative implementations by the concept of providers.
-There is currently only a provider for [linear algebra related routines](http://numerics.mathdotnet.com/api/MathNet.Numerics.Providers.LinearAlgebra.Mkl/MklLinearAlgebraProvider.htm), but there
+There is currently only a provider for [linear algebra related routines](https://numerics.mathdotnet.com/api/MathNet.Numerics.Providers.LinearAlgebra.Mkl/MklLinearAlgebraProvider.htm), but there
 are plans to add additional more e.g. related to nonlinear optimization problems or signal processing.
 
 Providers become interesting when they can leverage a platform-native high performance library
@@ -47,7 +47,7 @@ We use P/Invoke to talk to the binaries, but for this to work they must
 have already been loaded or the platform service needs to be able to find and
 load them on its own.
 
-In order to make providers easier to use, since v3.6.0 Math.NET Numerics 
+In order to make providers easier to use, since v3.6.0 Math.NET Numerics
 first tries to load native providers from a set of known directories before
 falling back to the platform's default behavior. In each of these directories
 it first looks for a processor-architecture specific folder within the directory,
@@ -150,7 +150,7 @@ MKL provider automatically.
     [lang=fsharp]
     open System.IO
     open MathNet.Numerics
-    
+
     Control.NativeProviderPath <- Path.Combine(__SOURCE_DIRECTORY__,"../")
     Control.UseNativeMKL()
 

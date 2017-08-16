@@ -25,7 +25,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using System.Collections.Generic;
+using MathNet.Numerics.Properties;
 using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics
@@ -33,7 +35,7 @@ namespace MathNet.Numerics
     public static class GoodnessOfFit
     {
         /// <summary>
-        /// Calculated the R-Squared value, also known as coefficient of determination,
+        /// Calculates the R-Squared value, also known as coefficient of determination,
         /// given modelled and observed values
         /// </summary>
         /// <param name="modelledValues">The values expected from the modelled</param>
@@ -46,7 +48,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Calculated the R value, also known as linear correlation coefficient,
+        /// Calculates the R value, also known as linear correlation coefficient,
         /// given modelled and observed values
         /// </summary>
         /// <param name="modelledValues">The values expected from the modelled</param>
@@ -55,6 +57,55 @@ namespace MathNet.Numerics
         public static double R(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
         {
             return Correlation.Pearson(modelledValues, observedValues);
+        }
+
+        /// <summary>
+        /// Calculates the Standard Error of the regression, given a sequence of
+        /// modeled/predicted values, and a sequence of actual/observed values 
+        /// </summary>
+        /// <param name="modelledValues">The modelled/predicted values</param>
+        /// <param name="observedValues">The observed/actual values</param>
+        /// <returns>The Standard Error of the regression</returns>
+        public static double PopulationStandardError(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
+        {
+            return StandardError(modelledValues, observedValues, 0);
+        }
+
+        /// <summary>
+        /// Calculates the Standard Error of the regression, given a sequence of
+        /// modeled/predicted values, and a sequence of actual/observed values
+        /// </summary>
+        /// <param name="modelledValues">The modelled/predicted values</param>
+        /// <param name="observedValues">The observed/actual values</param>
+        /// <param name="degreesOfFreedom">The degrees of freedom by which the 
+        /// number of samples is reduced for performing the Standard Error calculation</param>
+        /// <returns>The Standard Error of the regression</returns>
+        public static double StandardError(IEnumerable<double> modelledValues, IEnumerable<double> observedValues, int degreesOfFreedom)
+        {
+            using (IEnumerator<double> ieM = modelledValues.GetEnumerator())
+            using (IEnumerator<double> ieO = observedValues.GetEnumerator())
+            {
+                double n = 0;
+                double accumulator = 0;
+                while (ieM.MoveNext())
+                {
+                    if (!ieO.MoveNext())
+                    {
+                        throw new ArgumentOutOfRangeException("modelledValues", Resources.ArgumentArraysSameLength);
+                    }
+                    double currentM = ieM.Current;
+                    double currentO = ieO.Current;
+                    var diff = currentM - currentO;
+                    accumulator += diff * diff;
+                    n++;
+                }
+
+                if (degreesOfFreedom >= n)
+                {
+                    throw new ArgumentOutOfRangeException("degreesOfFreedom", Resources.DegreesOfFreedomMustBeLessThanSampleSize);
+                }
+                return Math.Sqrt(accumulator / (n - degreesOfFreedom));
+            }
         }
     }
 }

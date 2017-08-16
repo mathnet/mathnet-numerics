@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Data.Text
 
         public static void WriteMatrix<T>(string filePath, Matrix<T> matrix, Compression compression = Compression.Uncompressed) where T : struct, IEquatable<T>, IFormattable
         {
-            using (var stream = File.OpenWrite(filePath))
+            using (var stream = File.Create(filePath))
             {
                 switch (compression)
                 {
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Data.Text
 
         public static void WriteVector<T>(string filePath, Vector<T> vector, Compression compression = Compression.Uncompressed) where T : struct, IEquatable<T>, IFormattable
         {
-            using (var stream = File.OpenWrite(filePath))
+            using (var stream = File.Create(filePath))
             {
                 switch (compression)
                 {

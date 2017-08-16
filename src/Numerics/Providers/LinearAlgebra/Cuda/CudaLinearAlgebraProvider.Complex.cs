@@ -30,12 +30,16 @@
 #if NATIVE
 
 using System;
-using System.Numerics;
 using System.Security;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.Common.Cuda;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 {
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// NVidia's CUDA Toolkit linear algebra provider.
     /// </summary>
@@ -569,7 +573,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
             if (columnsA > rowsA || !computeVectors) // see remarks http://docs.nvidia.com/cuda/cusolver/index.html#cuds-lt-t-gt-gesvd
                 base.SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt);
             else Solver(SafeNativeMethods.z_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt));
-        }               
+        }
     }
 }
 

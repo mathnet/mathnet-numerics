@@ -35,7 +35,7 @@ If you're extending some feature which is similar and close to existing code, fo
 
 ### When adding new features ...
 
-If you intend to add completely new features, say some spatial routines for geometrical transformations, we recommend to [talk to us](http://discuss.mathdotnet.com/c/numerics) first. This is mostly to avoid wasting your time in case we decide not to accept it, or require major refactoring. If the features is quite small it is perfectly fine to just open a pull request though. Sometimes it's easier to just show code instead of lengthy explanations.
+If you intend to add completely new features, say some spatial routines for geometrical transformations, we recommend to [talk to us](https://discuss.mathdotnet.com/c/numerics) first. This is mostly to avoid wasting your time in case we decide not to accept it, or require major refactoring. If the features is quite small it is perfectly fine to just open a pull request though. Sometimes it's easier to just show code instead of lengthy explanations.
 
 Note that your work does not need to be finished or complete at the time you open the pull request (but please do mention this in the message), as GitHub pull requests are an excellent tool to discuss an early prototype or skeleton before it is fully implemented.
 

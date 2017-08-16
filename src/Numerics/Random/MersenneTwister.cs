@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2017 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -65,20 +65,23 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-using System.Collections.Generic;
-
-#if PORTABLE
 using System;
-#else
+using System.Collections.Generic;
+using System.Runtime.Serialization;
+
+#if !PORTABLE
 using System.Runtime;
 using System.Threading;
 #endif
+
 
 namespace MathNet.Numerics.Random
 {
     /// <summary>
     /// Random number generator using Mersenne Twister 19937 algorithm.
     /// </summary>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public class MersenneTwister : RandomSource
     {
         /// <summary>
@@ -119,11 +122,13 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
+        [DataMember(Order = 1)]
         readonly uint[] _mt = new uint[N];
 
         /// <summary>
         /// Mersenne twister constant.
         /// </summary>
+        [DataMember(Order = 2)]
         int _mti = N + 1;
 
         /// <summary>

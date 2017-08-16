@@ -35,7 +35,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
     /// <para>A class which encapsulates the functionality of an LU factorization.</para>
     /// <para>For a matrix A, the LU factorization is a pair of lower triangular matrix L and
     /// upper triangular matrix U so that A = L*U.</para>
-    /// <para>In the Math.Net implementation we also store a set of pivot elements for increased 
+    /// <para>In the Math.Net implementation we also store a set of pivot elements for increased
     /// numerical stability. The pivot elements encode a permutation matrix P such that P*A = L*U.</para>
     /// </summary>
     /// <remarks>
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public virtual Matrix<T> Solve(Matrix<T> input)
         {
-            var x = Matrix<T>.Build.SameAs(input, input.RowCount, input.ColumnCount);
+            var x = Matrix<T>.Build.SameAs(input, input.RowCount, input.ColumnCount, fullyMutable: true);
             Solve(input, x);
             return x;
         }

@@ -32,11 +32,15 @@
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using System;
-using System.Numerics;
 using System.Security;
+using MathNet.Numerics.Providers.Common.OpenBlas;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 {
+#if !NOSYSNUMERICS
+    using Complex = System.Numerics.Complex;
+#endif
+
     /// <summary>
     /// OpenBLAS linear algebra provider.
     /// </summary>
@@ -357,7 +361,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
             if (info > 0)
             {
                 throw new SingularUMatrixException(info);
-            } 
+            }
         }
 
         /// <summary>

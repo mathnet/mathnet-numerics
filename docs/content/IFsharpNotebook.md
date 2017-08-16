@@ -9,7 +9,7 @@
 IF# Notebook
 ============
 
-[iPython](http://ipython.org/) provides a rich browser-based interactive notebook with support for code, text, mathematical expressions,
+[iPython](https://ipython.org/) provides a rich browser-based interactive notebook with support for code, text, mathematical expressions,
 inline plots and other rich media. [IfSharp](https://github.com/BayardRock/IfSharp), developed by Bayard Rock, is an F# profile
 for iPython with IntelliSense and embedded FSharp.Charting. Thanks to its NuGet support it can load other packages like Math.NET Numerics on demand.
 
@@ -23,10 +23,10 @@ Follow the instructions at [IfSharp/Installation](http://bayardrock.github.io/If
 
 Essentially:
 
-1. Install [Anaconda](http://continuum.io/downloads)
+1. Install [Anaconda](https://continuum.io/downloads)
 2. In a shell, run
 
-    conda update conda  
+    conda update conda
     conda update ipython
 
 3. Install [IfSharp](https://github.com/BayardRock/IfSharp/releases).

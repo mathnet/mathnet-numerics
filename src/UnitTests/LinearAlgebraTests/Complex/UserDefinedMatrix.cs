@@ -79,6 +79,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             {
                 Data[row, column] = value;
             }
+
+            public override Complex[,] AsArray()
+            {
+                return Data;
+            }
         }
 
         /// <summary>

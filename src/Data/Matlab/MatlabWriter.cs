@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Data.Matlab
 
         public static void Store(string filePath, IEnumerable<MatlabMatrix> matrices)
         {
-            using (var stream = File.OpenWrite(filePath))
+            using (var stream = File.Create(filePath))
             {
                 Store(stream, matrices);
             }

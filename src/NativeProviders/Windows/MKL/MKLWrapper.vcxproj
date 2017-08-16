@@ -294,6 +294,7 @@
     <ClCompile Include="..\..\MKL\capabilities.cpp" />
     <ClCompile Include="..\..\MKL\memory.c" />
     <ClCompile Include="..\..\MKL\vector_functions.c" />
+    <ClCompile Include="..\..\MKL\fft.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\MKL\resource.rc" />

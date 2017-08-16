@@ -44,7 +44,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1591</NoWarn>
-    <LangVersion>5</LangVersion>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>..\..\out\lib-debug\Net40\</OutputPath>
@@ -58,7 +58,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>5</LangVersion>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU'">
     <OutputPath>..\..\out\lib-signed\Net40\</OutputPath>
@@ -75,7 +75,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>1591</NoWarn>
-    <LangVersion>5</LangVersion>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -92,6 +92,7 @@
     <Compile Include="Distributions\BetaScaled.cs" />
     <Compile Include="Distributions\Triangular.cs" />
     <Compile Include="Euclid.cs" />
+    <Compile Include="FindMinimum.cs" />
     <Compile Include="Generate.cs" />
     <Compile Include="GoodnessOfFit.cs" />
     <Compile Include="IntegralTransforms\Fourier.cs" />
@@ -116,6 +117,27 @@
     <Compile Include="LinearRegression\Options.cs" />
     <Compile Include="OdeSolvers\AdamsBashforth.cs" />
     <Compile Include="OdeSolvers\RungeKutta.cs" />
+    <Compile Include="Optimization\BfgsMinimizerBase.cs" />
+    <Compile Include="Optimization\ExitCondition.cs" />
+    <Compile Include="Optimization\LineSearch\WolfeLineSearch.cs" />
+    <Compile Include="Optimization\NelderMeadSimplex.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ForwardDifferenceGradientObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunctionBase.cs" />
+    <Compile Include="Optimization\Exceptions.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ScalarObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ObjectiveFunctionBase.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\LazyObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ScalarValueObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\ValueObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\HessianObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\GradientObjectiveFunction.cs" />
+    <Compile Include="Optimization\ObjectiveFunctions\GradientHessianObjectiveFunction.cs" />
+    <Compile Include="Optimization\IObjectiveFunction.cs" />
+    <Compile Include="Optimization\LineSearch\LineSearchResult.cs" />
+    <Compile Include="Optimization\LineSearch\WeakWolfeLineSearch.cs" />
+    <Compile Include="Optimization\IUnconstrainedMinimizer.cs" />
+    <Compile Include="Optimization\MinimizationResult.cs" />
+    <Compile Include="Optimization\MinimizationWithLineSearchResult.cs" />
     <Compile Include="Precision.Comparison.cs" />
     <Compile Include="Precision.Equality.cs" />
     <Compile Include="Distributions\Bernoulli.cs" />
@@ -168,6 +190,19 @@
     <Compile Include="LinearRegression\WeightedRegression.cs" />
     <Compile Include="LinearRegression\SimpleRegression.cs" />
     <Compile Include="LinearRegression\Util.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Providers\Common\Cuda\CudaProvider.cs" />
+    <Compile Include="Providers\Common\Mkl\MklProvider.cs" />
+    <Compile Include="Providers\Common\Mkl\MklProviderPrecision.cs" />
+    <Compile Include="Providers\Common\OpenBlas\OpenBlasProvider.cs" />
+    <Compile Include="Providers\FourierTransform\IFourierTransformProvider.cs" />
+    <Compile Include="Providers\FourierTransform\FourierTransformControl.cs" />
+    <Compile Include="Providers\FourierTransform\ManagedFourierTransformProvider.cs" />
+    <Compile Include="Providers\FourierTransform\Mkl\MklFourierTransformProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\Acml\AcmlLinearAlgebraProvider.Double.cs" />
@@ -178,15 +213,16 @@
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Double.cs" />
     <Compile Include="Providers\LinearAlgebra\Cuda\CudaLinearAlgebraProvider.Single.cs" />
-    <Compile Include="Providers\LinearAlgebra\Cuda\CudaProviderCapabilities.cs" />
-    <Compile Include="Providers\LinearAlgebra\Cuda\SafeNativeMethods.cs" />
-    <Compile Include="Providers\LinearAlgebra\Mkl\MklProviderCapabilities.cs" />
+    <Compile Include="Providers\Common\Cuda\CudaProviderCapabilities.cs" />
+    <Compile Include="Providers\Common\Cuda\SafeNativeMethods.cs" />
+    <Compile Include="Providers\Common\Mkl\MklProviderCapabilities.cs" />
+    <Compile Include="Providers\LinearAlgebra\LinearAlgebraControl.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Double.cs" />
     <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasLinearAlgebraProvider.Single.cs" />
-    <Compile Include="Providers\LinearAlgebra\OpenBlas\SafeNativeMethods.cs" />
+    <Compile Include="Providers\Common\OpenBlas\SafeNativeMethods.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Complex32.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Complex.cs" />
     <Compile Include="Providers\LinearAlgebra\ManagedLinearAlgebraProvider.Double.cs" />
@@ -198,7 +234,7 @@
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Double.cs" />
     <Compile Include="Providers\LinearAlgebra\Mkl\MklLinearAlgebraProvider.Single.cs" />
-    <Compile Include="Providers\LinearAlgebra\Mkl\SafeNativeMethods.cs" />
+    <Compile Include="Providers\Common\Mkl\SafeNativeMethods.cs" />
     <Compile Include="ArrayExtensions.cs" />
     <Compile Include="Complex64.cs" />
     <Compile Include="Combinatorics.cs" />
@@ -216,10 +252,11 @@
     <Compile Include="LinearAlgebra\Vector.BCL.cs" />
     <Compile Include="LinearAlgebra\Vector.Operators.cs" />
     <Compile Include="Exceptions.cs" />
-    <Compile Include="Providers\LinearAlgebra\OpenBlas\OpenBlasProviderCapabilities.cs" />
-    <Compile Include="Providers\NativeProviderLoader.cs" />
+    <Compile Include="Providers\Common\OpenBlas\OpenBlasProviderCapabilities.cs" />
+    <Compile Include="Providers\Common\NativeProviderLoader.cs" />
     <Compile Include="Random\SystemRandomSource.cs" />
     <Compile Include="Random\RandomSeed.cs" />
+    <Compile Include="Optimization\BfgsSolver.cs" />
     <Compile Include="RootFinding\Broyden.cs" />
     <Compile Include="RootFinding\Cubic.cs" />
     <Compile Include="RootFinding\NewtonRaphson.cs" />
@@ -229,6 +266,15 @@
     <Compile Include="RootFinding\Brent.cs" />
     <Compile Include="FindRoots.cs" />
     <Compile Include="RootFinding\Bisection.cs" />
+    <Compile Include="Optimization\BfgsBMinimizer.cs" />
+    <Compile Include="Optimization\BfgsMinimizer.cs" />
+    <Compile Include="Optimization\ConjugateGradientMinimizer.cs" />
+    <Compile Include="Optimization\GoldenSectionMinimizer.cs" />
+    <Compile Include="Optimization\ScalarMinimizationResult.cs" />
+    <Compile Include="Optimization\NewtonMinimizer.cs" />
+    <Compile Include="Optimization\ObjectiveFunction.cs" />
+    <Compile Include="Optimization\LineSearch\StrongWolfeLineSearch.cs" />
+    <Compile Include="Optimization\QuadraticGradientProjectionSearch.cs" />
     <Compile Include="SpecialFunctions\Evaluate.cs" />
     <Compile Include="ExcelFunctions.cs" />
     <Compile Include="SpecialFunctions\ExponentialIntegral.cs" />
@@ -429,11 +475,6 @@
     <Compile Include="Interpolation\SplineBoundaryCondition.cs" />
     <Compile Include="Precision.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Random\RandomSource.cs" />
     <Compile Include="Random\Mcg31m1.cs" />
     <Compile Include="Random\Mcg59.cs" />
@@ -473,8 +514,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

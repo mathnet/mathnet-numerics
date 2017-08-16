@@ -1,3 +1,53 @@
+### 3.20.0 - 2017-07-15
+* Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*
+* Native Providers: from now on also supported in the .Net 3.5 build.
+* BUG: Special Functions: allow more iterations in BetaRegularized *~Elias Abou Jaoude*
+
+### 3.19.0 - 2017-04-29
+* Statistics: RunningStatistics.Combine to better handle empty statistics *~Lucas Godshalk*
+* Linear Algebra: Cholesky.Factorize to reuse the factorization matrix *~mjmckp*
+* Linear Algebra: Fix docs for DoPointwiseMultiply *~Jakub Arnold*
+
+### 3.18.0 - 2017-04-09
+* FFT: single-precision support *~AlexHild*
+
+### 3.17.0 - 2017-01-15
+* Random: random sources (all except crypto) now support ephemeral serialization.
+* Linear Algebra: explicit impl to copy a range of a row of a sparse matrix to a range of a sparse vector *~arthurvb*
+* Linear Algebra: explicitly demand fully modifiable matrix where needed, fixes issues with diagonal matrices.
+* FFT: leverage new matrix internal array access approach in 2D matrix transformations.
+
+### 3.16.0 - 2017-01-03
+* Root Finding: improve accuracy handling *~Konstantin Tretyakov*
+* Regression: GoodnessOfFit StandardError *~David Falkner*
+
+### 3.15.0 - 2016-12-27
+* FFT: MKL native provider backend.
+* FFT: 2D and multi-dimensional FFT (only supported by MKL provider, managed provider pending).
+* FFT: real conjugate-even FFT (only leveraging symmetry in MKL provider).
+* FFT: managed provider significantly faster on x64.
+* Linear Algebra: pointwise trigonometric and basic functions *~Albert Pang*
+* Linear Algebra: better support for F# built-in operators (sqrt, sin, exp, ..) *~Albert Pang*
+* Linear Algebra: pointwise power operator (F#)
+* Linear Algebra: enable experimental matrix product implementation
+* Linear Algebra: better support for matrix to/from row-major arrays and enumerables
+* Linear Algebra: transport allows specifying a result matrix to transpose into, inplace if square
+* Linear Algebra: vector and matrix AsArray and similar to access internal arrays if applicable
+* Linear Algebra: vector and matrix pointwise min/max and absmin/absmax
+* Linear Algebra: dot-power on vectors and matrices, supporting native providers.
+* Linear Algebra: matrix Moore-Penrose pseudo-inverse (SVD backed).
+* Provider Control: separate Control classes for LA and FFT Providers.
+* Provider Control: avoid internal exceptions on provider discovery.
+* Distributions: fix misleading inline docs on Negative-Binomial.
+* Generate: linear integer ranges
+* Root Finding: extend zero-crossing bracketing in derivative-free algorithms.
+* Window: periodic versions of Hamming, Hann, Cosine and Lanczos windows.
+* Special Functions: more robust GammaLowerRegularizedInv (and Gamma.InvCDF).
+* BUG: ODE Solver: fix bug in Runge-Kutta second order routine *~Ksero*
+
+### 3.13.1 - 2016-09-06
+* BUG: Random: Next(x,x+1) must always return x *~Juri*
+
 ### 3.13.0 - 2016-08-18
 * Linear Algebra: faster tall, wide managed matrix multiplication. *~Aixile*
 * Euclid: Integer Log2 (DeBruijn sequencences algorithm).
@@ -232,7 +282,7 @@
 * Update Vagrant setup to official Ubuntu 14.04 LTS box and proper apt-style Mono+F# provisioning.
 
 ### 3.0.0-beta01 - 2014-04-01
-* See also: [Roadmap](http://sdrv.ms/17wPFlW) and [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog/towards-mathnet-numerics-v3.html).
+* See also: [Roadmap](https://sdrv.ms/17wPFlW) and [Towards Math.NET Numerics Version 3](http://christoph.ruegg.name/blog/towards-mathnet-numerics-v3.html).
 * **Major release with breaking changes**
 * All obsolete code has been removed
 * Reworked redundancies, inconsistencies and unfortunate past design choices.

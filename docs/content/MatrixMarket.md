@@ -4,7 +4,7 @@ NIST MatrixMarket Text Files
 MatrixMarket is both a [vast repository of test data](http://math.nist.gov/MatrixMarket/)
 and a text-based [exchange file format](http://math.nist.gov/MatrixMarket/formats.html) provided by NIST.
 Being text-based makes it convenient to deal with and program against, and also works well with versioning
-tools like [Git](http://www.git-scm.com/). But other than [CSV](CSV.html) it can also store sparse matrices in a compact way.
+tools like [Git](https://www.git-scm.com/). But other than [CSV](CSV.html) it can also store sparse matrices in a compact way.
 
 Math.NET Numerics provides basic support for MatrixMarket files with the **MathNet.Numerics.Data.Text** package,
 which is available on NuGet as separate package and not included in the basic distribution.

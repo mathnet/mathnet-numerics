@@ -32,6 +32,7 @@
 using System;
 using System.Security;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.Common.Cuda;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 {
@@ -466,7 +467,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
             }
 
             Solver(SafeNativeMethods.c_cholesky_solve_factored(_solverHandle, orderA, columnsB, a, b));
-        }        
+        }
 
         /// <summary>
         /// Solves A*X=B for X using the singular value decomposition of A.
@@ -568,7 +569,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
             if (columnsA > rowsA || !computeVectors) // see remarks http://docs.nvidia.com/cuda/cusolver/index.html#cuds-lt-t-gt-gesvd
                 base.SingularValueDecomposition(computeVectors, a, rowsA, columnsA, s, u, vt);
             else Solver(SafeNativeMethods.c_svd_factor(_solverHandle, computeVectors, rowsA, columnsA, a, s, u, vt));
-        }        
+        }
     }
 }
 

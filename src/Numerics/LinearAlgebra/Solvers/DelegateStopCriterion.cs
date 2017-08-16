@@ -59,7 +59,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="residualVector">The vector containing the current residual vectors.</param>
         /// <remarks>
         /// The individual stop criteria may internally track the progress of the calculation based
-        /// on the invocation of this method. Therefore this method should only be called if the 
+        /// on the invocation of this method. Therefore this method should only be called if the
         /// calculation has moved forwards at least one step.
         /// </remarks>
         public IterationStatus DetermineStatus(int iterationNumber, Vector<T> solutionVector, Vector<T> sourceVector, Vector<T> residualVector)

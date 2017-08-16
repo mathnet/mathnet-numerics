@@ -34,13 +34,13 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
     /// <summary>
     /// <para>A class which encapsulates the functionality of the singular value decomposition (SVD) for <see cref="Matrix{T}"/>.</para>
-    /// <para>Suppose M is an m-by-n matrix whose entries are real numbers. 
+    /// <para>Suppose M is an m-by-n matrix whose entries are real numbers.
     /// Then there exists a factorization of the form M = UΣVT where:
     /// - U is an m-by-m unitary matrix;
     /// - Σ is m-by-n diagonal matrix with nonnegative real numbers on the diagonal;
-    /// - VT denotes transpose of V, an n-by-n unitary matrix; 
-    /// Such a factorization is called a singular-value decomposition of M. A common convention is to order the diagonal 
-    /// entries Σ(i,i) in descending order. In this case, the diagonal matrix Σ is uniquely determined 
+    /// - VT denotes transpose of V, an n-by-n unitary matrix;
+    /// Such a factorization is called a singular-value decomposition of M. A common convention is to order the diagonal
+    /// entries Σ(i,i) in descending order. In this case, the diagonal matrix Σ is uniquely determined
     /// by M (though the matrices U and V are not). The diagonal entries of Σ are known as the singular values of M.</para>
     /// </summary>
     /// <remarks>
@@ -62,8 +62,8 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var matrixCopy = matrix.Clone();
 
             var s = Vector<float>.Build.SameAs(matrixCopy, nm);
-            var u = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.RowCount, matrixCopy.RowCount);
-            var vt = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.ColumnCount, matrixCopy.ColumnCount);
+            var u = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.RowCount, matrixCopy.RowCount, fullyMutable: true);
+            var vt = Matrix<float>.Build.SameAs(matrixCopy, matrixCopy.ColumnCount, matrixCopy.ColumnCount, fullyMutable: true);
 
             const int maxiter = 1000;
             var e = new float[matrixCopy.ColumnCount];
@@ -328,7 +328,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             while (m > 0)
             {
-                // Quit if all the singular values have been found. If too many iterations have been performed, 
+                // Quit if all the singular values have been found. If too many iterations have been performed,
                 // throw exception that Convergence Failed
                 if (iter >= maxiter)
                 {
@@ -645,7 +645,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         }
 
         /// <summary>
-        /// Given the Cartesian coordinates (da, db) of a point p, these fucntion return the parameters da, db, c, and s 
+        /// Given the Cartesian coordinates (da, db) of a point p, these fucntion return the parameters da, db, c, and s
         /// associated with the Givens rotation that zeros the y-coordinate of the point.
         /// </summary>
         /// <param name="da">Provides the x-coordinate of the point p. On exit contains the parameter r associated with the Givens rotation</param>
@@ -758,7 +758,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         }
 
         /// <summary>
-        /// Performs rotation of points in the plane. Given two vectors x <paramref name="columnA"/> and y <paramref name="columnB"/>, 
+        /// Performs rotation of points in the plane. Given two vectors x <paramref name="columnA"/> and y <paramref name="columnB"/>,
         /// each vector element of these vectors is replaced as follows: x(i) = c*x(i) + s*y(i); y(i) = c*y(i) - s*x(i)
         /// </summary>
         /// <param name="a">Source matrix</param>

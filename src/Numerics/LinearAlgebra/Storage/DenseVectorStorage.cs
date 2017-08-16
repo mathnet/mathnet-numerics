@@ -329,6 +329,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
+        // EXTRACT
+
+        public override T[] ToArray()
+        {
+            var ret = new T[Data.Length];
+            Array.Copy(Data, 0, ret, 0, Data.Length);
+            return ret;
+        }
+
+        public override T[] AsArray()
+        {
+            return Data;
+        }
+
         // ENUMERATION
 
         public override IEnumerable<T> Enumerate()

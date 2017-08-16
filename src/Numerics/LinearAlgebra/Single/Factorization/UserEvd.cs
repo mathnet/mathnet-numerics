@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             var order = matrix.RowCount;
 
             // Initialize matricies for eigenvalues and eigenvectors
-            var eigenVectors = Matrix<float>.Build.SameAs(matrix, order, order);
+            var eigenVectors = Matrix<float>.Build.SameAs(matrix, order, order, fullyMutable: true);
             var blockDiagonal = Matrix<float>.Build.SameAs(matrix, order, order);
             var eigenValues = new LinearAlgebra.Complex.DenseVector(order);
 
@@ -145,9 +145,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <param name="d">Arrays for internal storage of real parts of eigenvalues</param>
         /// <param name="e">Arrays for internal storage of imaginary parts of eigenvalues</param>
         /// <param name="order">Order of initial matrix</param>
-        /// <remarks>This is derived from the Algol procedures tred2 by 
-        /// Bowdler, Martin, Reinsch, and Wilkinson, Handbook for 
-        /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding 
+        /// <remarks>This is derived from the Algol procedures tred2 by
+        /// Bowdler, Martin, Reinsch, and Wilkinson, Handbook for
+        /// Auto. Comp., Vol.ii-Linear Algebra, and the corresponding
         /// Fortran subroutine in EISPACK.</remarks>
         static void SymmetricTridiagonalize(Matrix<float> eigenVectors, float[] d, float[] e, int order)
         {
@@ -397,7 +397,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                         e[l] = s*p;
                         d[l] = c*p;
 
-                        // Check for convergence. If too many iterations have been performed, 
+                        // Check for convergence. If too many iterations have been performed,
                         // throw exception that Convergence Failed
                         if (iter >= maxiter)
                         {

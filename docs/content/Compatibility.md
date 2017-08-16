@@ -2,7 +2,7 @@ Platform Support
 ================
 
 *We're currently planning what platforms we should support in the future.
-Consider to [vote for the platforms you need to be supported](http://discuss.mathdotnet.com/t/poll-what-platforms-should-math-net-numerics-support/60),
+Consider to [vote for the platforms you need to be supported](https://discuss.mathdotnet.com/t/poll-what-platforms-should-math-net-numerics-support/60),
 especially if you need support for older or more exotic platforms.*
 
 Supported Platforms:
@@ -34,8 +34,8 @@ Dependencies
 Package Dependencies:
 
 - .Net 4.0 and higher, Mono, PCL Profiles: None
-- .Net 3.5: [Task Parallel Library for .NET 3.5](http://www.nuget.org/packages/TaskParallelLibrary)
-- F# on  .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core](http://www.nuget.org/packages/FSharp.Core)
+- .Net 3.5: [Task Parallel Library for .NET 3.5](https://www.nuget.org/packages/TaskParallelLibrary)
+- F# on  .Net 4.0 an higher, Mono, PCL Profiles: additionally [FSharp.Core](https://www.nuget.org/packages/FSharp.Core)
 
 Framework Dependencies (part of the .NET Framework):
 

@@ -4,10 +4,10 @@ NuGet Packages & Binaries
 The recommended way to get Math.NET Numerics is NuGet. The following packages are
 provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/).
 The complete set of Zip and NuGet packages including symbol packages is also available in the
-[release archive](http://1drv.ms/1NlUeDT).
+[release archive](https://1drv.ms/1NlUeDT).
 
 *We're currently planning what platforms we should support in the future.
-Consider to [vote for the platforms you need to be supported](http://discuss.mathdotnet.com/t/poll-what-platforms-should-math-net-numerics-support/60),
+Consider to [vote for the platforms you need to be supported](https://discuss.mathdotnet.com/t/poll-what-platforms-should-math-net-numerics-support/60),
 especially if you need support for older or more exotic platforms.*
 
 Math.NET Numerics

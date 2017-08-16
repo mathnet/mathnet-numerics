@@ -911,7 +911,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
 
             result.Clear();
-            
+
 
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;

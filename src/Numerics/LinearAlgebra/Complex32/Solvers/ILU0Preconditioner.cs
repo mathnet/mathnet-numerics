@@ -186,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
             var rowValues = new DenseVector(_decompositionLU.RowCount);
             for (var i = 0; i < _decompositionLU.RowCount; i++)
             {
-                // Clear the rowValues 
+                // Clear the rowValues
                 rowValues.Clear();
                 _decompositionLU.Row(i, rowValues);
 

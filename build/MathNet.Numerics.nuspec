@@ -7,9 +7,9 @@
     <summary>@summary@</summary>
     <description>@description@</description>
     <authors>@authors@</authors>
-    <projectUrl>http://numerics.mathdotnet.com/</projectUrl>
-    <iconUrl>http://www.mathdotnet.com/images/MathNet128.png</iconUrl>
-    <licenseUrl>http://numerics.mathdotnet.com/License.html</licenseUrl>
+    <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
+    <iconUrl>https://www.mathdotnet.com/images/MathNet128.png</iconUrl>
+    <licenseUrl>https://numerics.mathdotnet.com/License.html</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>@tags@</tags>
     <releaseNotes>@releaseNotes@</releaseNotes>

@@ -65,13 +65,19 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         public abstract T DeterminantLn { get; }
 
         /// <summary>
+        /// Calculates the Cholesky factorization of the input matrix.
+        /// </summary>
+        /// <param name="matrix">The matrix to be factorized<see cref="Matrix{T}"/>.</param>
+        public abstract void Factorize(Matrix<T> matrix);
+
+        /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A Cholesky factorized.
         /// </summary>
         /// <param name="input">The right hand side <see cref="Matrix{T}"/>, <b>B</b>.</param>
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public virtual Matrix<T> Solve(Matrix<T> input)
         {
-            var x = Matrix<T>.Build.SameAs(input, input.RowCount, input.ColumnCount);
+            var x = Matrix<T>.Build.SameAs(input, input.RowCount, input.ColumnCount, fullyMutable: true);
             Solve(input, x);
             return x;
         }

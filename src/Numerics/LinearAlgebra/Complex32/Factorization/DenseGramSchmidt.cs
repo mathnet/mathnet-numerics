@@ -45,7 +45,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     internal sealed class DenseGramSchmidt : GramSchmidt
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an unitary matrix 
+        /// Initializes a new instance of the <see cref="DenseGramSchmidt"/> class. This object creates an unitary matrix
         /// using the modified Gram-Schmidt method.
         /// </summary>
         /// <param name="matrix">The matrix to factor.</param>
@@ -110,7 +110,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                     {
                         dot += q[(k1 * rowsQ) + index].Conjugate() * q[(j1 * rowsQ) + index];
                     }
-                    
+
                     r[(j * columnsQ) + k] = dot;
                     for (var i = 0; i < rowsQ; i++)
                     {

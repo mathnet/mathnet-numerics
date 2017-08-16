@@ -90,7 +90,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// Gets or sets the eigen values (λ) of matrix in ascending value.
         /// </summary>
         public Vector<Complex> EigenValues { get; private set; }
-        
+
         /// <summary>
         /// Gets or sets eigenvectors.
         /// </summary>
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <returns>The left hand side <see cref="Matrix{T}"/>, <b>X</b>.</returns>
         public virtual Matrix<T> Solve(Matrix<T> input)
         {
-            var x = Matrix<T>.Build.SameAs(EigenVectors, EigenVectors.ColumnCount, input.ColumnCount);
+            var x = Matrix<T>.Build.SameAs(EigenVectors, EigenVectors.ColumnCount, input.ColumnCount, fullyMutable: true);
             Solve(input, x);
             return x;
         }

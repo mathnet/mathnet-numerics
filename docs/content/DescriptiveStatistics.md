@@ -78,8 +78,8 @@ The *arithmetic mean* or *average* of the provided samples. In statistics, the s
 a measure of the central tendency and estimates the expected value of the distribution.
 The mean is affected by outliers, so if you need a more robust estimate consider to use the Median instead.
 
-`Statistics.Mean(data)`  
-`StreamingStatistics.Mean(stream)`  
+`Statistics.Mean(data)`
+`StreamingStatistics.Mean(stream)`
 `ArrayStatistics.Mean(data)`
 
 $$$
@@ -103,7 +103,7 @@ Variance $\sigma^2$ and the Standard Deviation $\sigma$ are measures of how far 
 If the whole population is available, the functions with the Population-prefix
  will evaluate the respective measures with an $N$ normalizer for a population of size $N$.
 
-`Statistics.PopulationVariance(population)`  
+`Statistics.PopulationVariance(population)`
 `Statistics.PopulationStandardDeviation(population)`
 
 $$$
@@ -113,7 +113,7 @@ On the other hand, if only a sample of the full population is available, the fun
 without the Population-prefix will estimate unbiased population measures by applying
 Bessel's correction with an $N-1$ normalizer to a sample set of size $N$.
 
-`Statistics.Variance(samples)`  
+`Statistics.Variance(samples)`
 `Statistics.StandardDeviation(samples)`
 
 $$$
@@ -133,8 +133,8 @@ s^2 = \frac{1}{N-1}\sum_{i=1}^N (x_i - \overline{x})^2
 Since mean and variance are often needed together, there are routines
 that evaluate both in a single pass:
 
-`Statistics.MeanVariance(samples)`  
-`ArrayStatistics.MeanVariance(samples)`  
+`Statistics.MeanVariance(samples)`
+`ArrayStatistics.MeanVariance(samples)`
 `StreamingStatistics.MeanVariance(samples)`
 
     [lang=fsharp]
@@ -153,7 +153,7 @@ apply Bessel's correction to bias in case of sample data.
 $$$
 q = \frac{1}{N-1}\sum_{i=1}^N (x_i - \overline{x})(y_i - \overline{y})
 
-`Statistics.PopulationCovariance(population1, population2)`  
+`Statistics.PopulationCovariance(population1, population2)`
 
 $$$
 q = \frac{1}{N}\sum_{i=1}^N (x_i - \mu_x)(y_i - \mu_y)
@@ -173,7 +173,7 @@ The k-th order statistic of a sample set is the k-th smallest value. Note that,
 as an exception to most of Math.NET Numerics, the order k is one-based, meaning
 the smallest value is the order statistic of order 1 (there is no order 0).
 
-`Statistics.OrderStatistic(data, order)`  
+`Statistics.OrderStatistic(data, order)`
 `SortedArrayStatistics.OrderStatistic(data, order)`
 
 If the samples are sorted ascendingly, this is trivial and can be evaluated in constant time,
@@ -215,8 +215,8 @@ Median is a robust indicator of central tendency and much less affected by outli
 than the sample mean. The median is estimated by the value exactly in the middle of
 the sorted set of samples and thus separating the higher half of the data from the lower half.
 
-`Statistics.Median(data)`  
-`SortedArrayStatistics.Median(data)`  
+`Statistics.Median(data)`
+`SortedArrayStatistics.Median(data)`
 `ArrayStatistics.MedianInplace(data)`
 
 The median is only unique if the sample size is odd. This implementation internally
@@ -238,11 +238,11 @@ the middle number between the first two groups and the upper quartile by the mid
 number between the remaining two groups. The middle number between the two middle groups
 estimates the median as discussed above.
 
-`Statistics.LowerQuartile(data)`  
-`Statistics.UpperQuartile(data)`  
-`SortedArrayStatistics.LowerQuartile(data)`  
-`SortedArrayStatistics.UpperQuartile(data)`  
-`ArrayStatistics.LowerQuartileInplace(data)`  
+`Statistics.LowerQuartile(data)`
+`Statistics.UpperQuartile(data)`
+`SortedArrayStatistics.LowerQuartile(data)`
+`SortedArrayStatistics.UpperQuartile(data)`
+`ArrayStatistics.LowerQuartileInplace(data)`
 `ArrayStatistics.UpperQuartileInplace(data)`
 
     [lang=fsharp]
@@ -255,8 +255,8 @@ Using that data we can provide a useful set of indicators usually named 5-number
 which consists of the minimum value, the lower quartile, the median, the upper quartile and
 the maximum value. All these values can be visualized in the popular box plot diagrams.
 
-`Statistics.FiveNumberSummary(data)`  
-`SortedArrayStatistics.FiveNumberSummary(data)`  
+`Statistics.FiveNumberSummary(data)`
+`SortedArrayStatistics.FiveNumberSummary(data)`
 `ArrayStatistics.FiveNumberSummaryInplace(data)`
 
     [lang=fsharp]
@@ -268,8 +268,8 @@ the maximum value. All these values can be visualized in the popular box plot di
 The difference between the upper and the lower quartile is called inter-quartile range (IQR)
 and is a robust indicator of spread. In box plots the IQR is the total height of the box.
 
-`Statistics.InterquartileRange(data)`  
-`SortedArrayStatistics.InterquartileRange(data)`  
+`Statistics.InterquartileRange(data)`
+`SortedArrayStatistics.InterquartileRange(data)`
 `ArrayStatistics.InterquartileRangeInplace(data)`
 
 Just like median, quartiles use the default R8 quantile definition internally.
@@ -285,9 +285,9 @@ equal groups and looking at the 101 places (0,1,..,100) between and around them.
 The 0-percentile represents the minimum value, 25 the first quartile, 50 the median,
 75 the upper quartile and 100 the maximum value.
 
-`Statistics.Percentile(data, p)`  
-`Statistics.PercentileFunc(data)`  
-`SortedArrayStatistics.Percentile(data, p)`  
+`Statistics.Percentile(data, p)`
+`Statistics.PercentileFunc(data)`
+`SortedArrayStatistics.Percentile(data, p)`
 `ArrayStatistics.PercentileInplace(data, p)`
 
 Just like median, percentiles use the default R8 quantile definition internally.
@@ -305,9 +305,9 @@ of boxes and thus to arbitrary real numbers $\tau$ between 0.0 and 1.0, where 0.
 minimum value, 0.5 the median and 1.0 the maximum value. Quantiles are closely related to
 the inverse cumulative distribution function of the sample distribution.
 
-`Statistics.Quantile(data, tau)`  
-`Statistics.QuantileFunc(data)`  
-`SortedArrayStatistics.Quantile(data, tau)`  
+`Statistics.Quantile(data, tau)`
+`Statistics.QuantileFunc(data)`
+`SortedArrayStatistics.Quantile(data, tau)`
 `ArrayStatistics.QuantileInplace(data, tau)`
 
     [lang=fsharp]
@@ -325,11 +325,11 @@ and SciPy have their own way to parametrize the behavior.
 The `QuantileCustom` functions support all 9 modes from the R-project, which includes the one
 used by Microsoft Excel, and also the 4-parameter variant of Mathematica:
 
-`Statistics.QuantileCustom(data, tau, definition)`  
-`Statistics.QuantileCustomFunc(data, definition)`  
-`SortedArrayStatistics.QuantileCustom(data, tau, a, b, c, d)`  
-`SortedArrayStatistics.QuantileCustom(data, tau, definition)`  
-`ArrayStatistics.QuantileCustomInplace(data, tau, a, b, c, d)`  
+`Statistics.QuantileCustom(data, tau, definition)`
+`Statistics.QuantileCustomFunc(data, definition)`
+`SortedArrayStatistics.QuantileCustom(data, tau, a, b, c, d)`
+`SortedArrayStatistics.QuantileCustom(data, tau, definition)`
+`ArrayStatistics.QuantileCustomInplace(data, tau, a, b, c, d)`
 `ArrayStatistics.QuantileCustomInplace(data, tau, definition)`
 
 The `QuantileDefinition` enumeration has the following options:
@@ -366,8 +366,8 @@ Similar to `QuantileDefinition`, the `RankDefinition` enumeration controls how t
 * **First**: Permutation with increasing values at each index of ties.
 * **EmpiricalCDF**
 
-`Statistics.Ranks(data, definition)`  
-`SortedArrayStatistics.Ranks(data, definition)`  
+`Statistics.Ranks(data, definition)`
+`SortedArrayStatistics.Ranks(data, definition)`
 `ArrayStatistics.RanksInplace(data, definition)`
 
     [lang=fsharp]
@@ -384,8 +384,8 @@ Counterpart of the `Quantile` function, estimates $\tau$ of the provided $\tau$-
 $x$ from the provided samples. The $\tau$-quantile is the data value where the cumulative distribution
 function crosses $\tau$.
 
-`Statistics.QuantileRank(data, x, definition)`  
-`Statistics.QuantileRankFunc(data, definition)`  
+`Statistics.QuantileRank(data, x, definition)`
+`Statistics.QuantileRankFunc(data, definition)`
 `SortedArrayStatistics.QuantileRank(data, x, definition)`
 
     [lang=fsharp]
@@ -397,11 +397,11 @@ function crosses $\tau$.
 Empirical Distribution Functions
 --------------------------------
 
-`Statistics.EmpiricalCDF(data, x)`  
-`Statistics.EmpiricalCDFFunc(data)`  
-`Statistics.EmpiricalInvCDF(data, tau)`  
-`Statistics.EmpiricalInvCDFFunc(data)`  
-`SortedArrayStatistics.EmpiricalCDF(data, x)`  
+`Statistics.EmpiricalCDF(data, x)`
+`Statistics.EmpiricalCDFFunc(data)`
+`Statistics.EmpiricalInvCDF(data, tau)`
+`Statistics.EmpiricalInvCDFFunc(data)`
+`SortedArrayStatistics.EmpiricalCDF(data, x)`
 
     [lang=fsharp]
     let ecdf = Statistics.EmpiricalCDFFunc whiteNoise
@@ -425,7 +425,7 @@ A histogram can be computed using the [Histogram][hist] class. Its constructor t
 the samples enumerable, the number of buckets to create, plus optionally the range
 (minimum, maximum) of the sample data if available.
 
-  [hist]: http://numerics.mathdotnet.com/api/MathNet.Numerics.Statistics/Histogram.htm
+  [hist]: https://numerics.mathdotnet.com/api/MathNet.Numerics.Statistics/Histogram.htm
 
     [lang=csharp]
     var histogram = new Histogram(samples, 10);

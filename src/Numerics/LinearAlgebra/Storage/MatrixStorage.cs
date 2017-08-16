@@ -467,15 +467,16 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentNullException("target");
             }
 
-            if (ReferenceEquals(this, target))
-            {
-                throw new NotSupportedException("In-place transpose is not supported.");
-            }
-
             if (RowCount != target.ColumnCount || ColumnCount != target.RowCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
                 throw new ArgumentException(message, "target");
+            }
+
+            if (ReferenceEquals(this, target))
+            {
+                TransposeSquareInplaceUnchecked();
+                return;
             }
 
             TransposeToUnchecked(target, existingData);
@@ -488,6 +489,19 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 for (int i = 0; i < RowCount; i++)
                 {
                     target.At(j, i, At(i, j));
+                }
+            }
+        }
+
+        internal virtual void TransposeSquareInplaceUnchecked()
+        {
+            for (int j = 0; j < ColumnCount; j++)
+            {
+                for (int i = 0; i < j; i++)
+                {
+                    T swap = At(i, j);
+                    At(i, j, At(j, i));
+                    At(j, i, swap);
                 }
             }
         }
@@ -563,6 +577,31 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
             }
             return ret;
+        }
+
+        public virtual T[] AsRowMajorArray()
+        {
+            return null;
+        }
+
+        public virtual T[] AsColumnMajorArray()
+        {
+            return null;
+        }
+
+        public virtual T[][] AsRowArrays()
+        {
+            return null;
+        }
+
+        public virtual T[][] AsColumnArrays()
+        {
+            return null;
+        }
+
+        public virtual T[,] AsArray()
+        {
+            return null;
         }
 
         // ENUMERATION
