@@ -31,7 +31,9 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+#if !PORTABLE && !NETSTANDARD
 using System.Runtime.Serialization.Formatters.Binary;
+#endif
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 
@@ -67,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.Random
             Assert.That(actual.NextDoubleSequence().Take(10).ToArray(), Is.EqualTo(expected.NextDoubleSequence().Take(10).ToArray()).AsCollection);
         }
 
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD
         [Test]
         [TestCase(typeof(MersenneTwister))]
         [TestCase(typeof(Mcg59))]

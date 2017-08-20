@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD
 
 using MathNet.Numerics.Random;
 using NUnit.Framework;

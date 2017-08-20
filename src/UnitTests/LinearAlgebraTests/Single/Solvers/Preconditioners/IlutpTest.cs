@@ -79,6 +79,11 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         static T GetMethod<T>(ILUTPPreconditioner ilutp, string methodName)
         {
             var type = ilutp.GetType();
+#if NETSTANDARD
+            var methodInfo = type.GetMethod(
+                methodName,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+#else
             var methodInfo = type.GetMethod(
                 methodName,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static,
@@ -86,6 +91,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
                 CallingConventions.Standard,
                 new Type[0],
                 null);
+#endif
             var obj = methodInfo.Invoke(ilutp, null);
             return (T) obj;
         }

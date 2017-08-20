@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if PORTABLE
+#if PORTABLE || NETSTANDARD
 using System.Collections.Generic;
 using System.Linq;
 #endif
@@ -49,9 +49,13 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="array">The one-dimensional, zero-based Array to convert to a target type.</param>
         /// <param name="converter">A Converter that converts each element from one type to another type.</param>
         /// <returns>An array of the target type containing the converted elements from the source array.</returns>
+#if NETSTANDARD
+        public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Func<TInput, TOutput> converter)
+#else
         public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Converter<TInput, TOutput> converter)
+#endif
         {
-#if PORTABLE
+#if PORTABLE || NETSTANDARD
             if (array == null)
                 throw new ArgumentException();
 
@@ -61,7 +65,7 @@ namespace MathNet.Numerics.UnitTests
 #endif
         }
 
-#if PORTABLE
+#if PORTABLE || NETSTANDARD
     /// <summary>
     /// Determines whether the specified array contains elements that match the conditions defined by the specified predicate.
     /// </summary>

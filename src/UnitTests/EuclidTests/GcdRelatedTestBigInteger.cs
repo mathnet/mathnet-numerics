@@ -78,7 +78,7 @@ namespace MathNet.Numerics.UnitTests.EuclidTests
             Assert.AreEqual((BigInteger)1, Euclid.GreatestCommonDivisor((BigInteger)Int32.MaxValue, Int64.MaxValue), "Gcd(Int32Max,Int64Max)");
             Assert.AreEqual((BigInteger)(1 << 18), Euclid.GreatestCommonDivisor((BigInteger)(1 << 18), 1 << 20), "Gcd(1>>18,1<<20)");
             Assert.AreEqual((BigInteger)(1 << 18), Euclid.GreatestCommonDivisor((BigInteger)(1 << 18), 1 << 20), "Gcd(1>>18,1<<20)");
-#if !PORTABLE
+#if !(PORTABLE || NETSTANDARD)
             Assert.AreEqual((BigInteger)4569031055798, Euclid.GreatestCommonDivisor(BigInteger.Parse("7305316061155559483748611586449542122662"), BigInteger.Parse("57377277362010117405715236427413896")), "Gcd(large)");
 #endif
         }
@@ -100,7 +100,7 @@ namespace MathNet.Numerics.UnitTests.EuclidTests
             Assert.AreEqual((BigInteger)3, Euclid.ExtendedGreatestCommonDivisor(-6, -15, out x, out y), "Egcd(-6,-15)");
             Assert.AreEqual((BigInteger)3, (-6*x) + (-15*y), "Egcd(-6,-15) -> a*x+b*y");
 
-#if !PORTABLE
+#if !(PORTABLE || NETSTANDARD)
             var a = BigInteger.Parse("7305316061155559483748611586449542122662");
             var b = BigInteger.Parse("57377277362010117405715236427413896");
             Assert.AreEqual((BigInteger)4569031055798, Euclid.ExtendedGreatestCommonDivisor(a, b, out x, out y), "Egcd(large)");
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.UnitTests.EuclidTests
             Assert.AreEqual((BigInteger)Int64.MaxValue, Euclid.LeastCommonMultiple((BigInteger)Int64.MaxValue, Int64.MaxValue), "Lcm(Int64Max,Int64Max)");
             Assert.AreEqual((BigInteger)Int64.MaxValue, Euclid.LeastCommonMultiple((BigInteger)(-Int64.MaxValue), -Int64.MaxValue), "Lcm(-Int64Max,-Int64Max)");
             Assert.AreEqual((BigInteger)Int64.MaxValue, Euclid.LeastCommonMultiple((BigInteger)(-Int64.MaxValue), Int64.MaxValue), "Lcm(-Int64Max,Int64Max)");
-#if !PORTABLE
+#if !(PORTABLE || NETSTANDARD)
             Assert.AreEqual(BigInteger.Parse("91739176367857263082719902034485224119528064014300888465614024"), Euclid.LeastCommonMultiple(BigInteger.Parse("7305316061155559483748611586449542122662"), BigInteger.Parse("57377277362010117405715236427413896")), "Lcm(large)");
 #endif
         }

@@ -64,7 +64,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
             CollectionAssert.AreEqual(vector, clone);
         }
 
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD
         /// <summary>
         /// Can clone a vector using <c>IClonable</c> interface method.
         /// </summary>
