@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net35;netstandard1.6</TargetFrameworks>
+        <TargetFrameworks>net35;netstandard1.0</TargetFrameworks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <AssemblyName>MathNet.Numerics.TestData</AssemblyName>
         <RootNamespace>MathNet.Numerics.TestData</RootNamespace>

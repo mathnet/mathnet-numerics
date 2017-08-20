@@ -6,7 +6,7 @@ namespace MathNet.Numerics.TestData
 {
     public static class Data
     {
-#if NETSTANDARD1_6
+#if NETSTANDARD1_3
         static readonly Assembly DataAssembly = typeof(Data).GetTypeInfo().Assembly;
 #else
         static readonly Assembly DataAssembly = typeof (Data).Assembly;
