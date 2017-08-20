@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Threading
 #if NET35
     using Partitioner = MathNet.Numerics.Partitioner;
 #endif
-#if !PORTABLE && !NETSTANDARD1_6
+#if !PORTABLE && !NETSTANDARD
     using System.Collections.Concurrent;
 
 #endif

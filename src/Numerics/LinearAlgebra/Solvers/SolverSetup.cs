@@ -44,7 +44,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Assembly assembly, bool ignoreFailed = true, params Type[] typesToExclude)
         {
-#if NET45REFLECTION || NETSTANDARD1_6
+#if NET45REFLECTION || NETSTANDARD
             TypeInfo setupInterfaceType = typeof(IIterativeSolverSetup<T>).GetTypeInfo();
             IEnumerable<Type> candidates = assembly.DefinedTypes
                 .Where(typeInfo => !typeInfo.IsAbstract && !typeInfo.IsEnum && !typeInfo.IsInterface && typeInfo.IsVisible)
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
                 }
             }
 
-#if NET45REFLECTION || NETSTANDARD1_6
+#if NET45REFLECTION || NETSTANDARD
             var excludedTypes = new List<TypeInfo>(typesToExclude.Select(type => type.GetTypeInfo()));
             return setups
                 .Where(s => !excludedTypes.Any(t => t.IsAssignableFrom(s.SolverType.GetTypeInfo()) || t.IsAssignableFrom(s.PreconditionerType.GetTypeInfo())))
@@ -94,7 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(Type typeInAssembly, bool ignoreFailed = true, params Type[] typesToExclude)
         {
-#if NET45REFLECTION || NETSTANDARD1_6
+#if NET45REFLECTION || NETSTANDARD
             return LoadFromAssembly(typeInAssembly.GetTypeInfo().Assembly, ignoreFailed, typesToExclude);
 #else
             return LoadFromAssembly(typeInAssembly.Assembly, ignoreFailed, typesToExclude);
@@ -109,7 +109,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <param name="typesToExclude">The <see cref="IIterativeSolver{T}"/> types that should not be loaded.</param>
         public static IEnumerable<IIterativeSolverSetup<T>> LoadFromAssembly(AssemblyName assemblyName, bool ignoreFailed = true, params Type[] typesToExclude)
         {
-#if NET45REFLECTION || NETSTANDARD1_6
+#if NET45REFLECTION || NETSTANDARD
             return LoadFromAssembly(Assembly.Load(assemblyName), ignoreFailed, typesToExclude);
 #else
             return LoadFromAssembly(Assembly.Load(assemblyName.FullName), ignoreFailed, typesToExclude);

@@ -47,11 +47,9 @@ namespace MathNet.Numerics.Statistics
     /// </remarks>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics")]
-    public class Bucket :
-#if PORTABLE || NETSTANDARD1_6
-   IComparable<Bucket>
-#else
-    IComparable<Bucket>, ICloneable
+    public class Bucket : IComparable<Bucket>
+#if !(PORTABLE || NETSTANDARD)
+        , ICloneable
 #endif
     {
         /// <summary>

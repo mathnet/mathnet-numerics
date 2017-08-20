@@ -32,7 +32,7 @@ namespace MathNet.Numerics
     using System;
     using System.Collections.Generic;
 
-#if !PORTABLE && !NETSTANDARD1_6
+#if !PORTABLE && !NETSTANDARD
     using System.Runtime;
 #endif
 
@@ -607,7 +607,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if PORTABLE || NETSTANDARD1_6
+#if PORTABLE || NETSTANDARD
             var value = GlobalizationHelper.ParseDouble(ref token);
 #else
             var value = GlobalizationHelper.ParseDouble(ref token, format.GetCultureInfo());

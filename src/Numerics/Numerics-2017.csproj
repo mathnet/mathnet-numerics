@@ -6,7 +6,7 @@
         <PackageId>Math.Numerics</PackageId>
     </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-        <DefineConstants>NOSERIALIZATION</DefineConstants>
+        <DefineConstants>NETSTANDARD</DefineConstants>
     </PropertyGroup>
     <PropertyGroup>
         <OutputPath>..\..\out\test\Net35\</OutputPath>

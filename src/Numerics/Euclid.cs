@@ -430,7 +430,7 @@ namespace MathNet.Numerics
             while (b != 0)
             {
                 long rem;
-#if PORTABLE || NETSTANDARD1_6
+#if PORTABLE || NETSTANDARD
                 rem = a % b;
                 var quot = a / b;
 #else
