@@ -15,7 +15,7 @@
         <AssemblyName>MathNet.Numerics</AssemblyName>
         <RootNamespace>MathNet.Numerics</RootNamespace>
     </PropertyGroup>
-    <ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Numerics" />
