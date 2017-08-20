@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net40;netstandard1.6</TargetFrameworks>
+        <TargetFrameworks>net40;netstandard1.3</TargetFrameworks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <PackageId>Math.Numerics</PackageId>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
+    <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
         <DefineConstants>NETSTANDARD</DefineConstants>
     </PropertyGroup>
     <PropertyGroup>
@@ -21,7 +21,7 @@
         <Reference Include="System.Numerics" />
         <Reference Include="System.Runtime.Serialization" />
     </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.6'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
         <PackageReference Include="System.Runtime" Version="4.3.0" />
         <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
         <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
