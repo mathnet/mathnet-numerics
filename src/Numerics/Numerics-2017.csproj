@@ -6,7 +6,7 @@
         <PackageId>Math.Numerics</PackageId>
     </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
-        <DefineConstants>NETSTANDARD</DefineConstants>
+        <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
     </PropertyGroup>
     <PropertyGroup>
         <OutputPath>..\..\out\test\Net35\</OutputPath>
@@ -22,9 +22,11 @@
         <Reference Include="System.Runtime.Serialization" />
     </ItemGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
-        <PackageReference Include="System.Runtime" Version="4.3.0" />
-        <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.0" />
-        <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
-        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.0" />
+        <PackageReference Include="System.Runtime" Version="4.3.*" />
+        <PackageReference Include="System.Runtime.Numerics" Version="4.3.*" />
+        <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.*" />
+        <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.*" />
+        <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.*" />
+        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.*" />
     </ItemGroup>
 </Project>

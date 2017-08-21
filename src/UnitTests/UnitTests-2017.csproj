@@ -8,8 +8,8 @@
         <AssemblyName>MathNet.Numerics.UnitTests</AssemblyName>
         <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
     </PropertyGroup>
-    <PropertyGroup Condition="$(TargetFramework.Contains('netcoreapp'))">
-        <DefineConstants>NETSTANDARD</DefineConstants>
+    <PropertyGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
+        <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
     </PropertyGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
         <Reference Include="System" />
@@ -19,7 +19,7 @@
         <Reference Include="System.Runtime.Serialization" />
         <Reference Include="System.Xml" />
     </ItemGroup>
-    <ItemGroup Condition="$(TargetFramework.Contains('netcoreapp'))">
+    <ItemGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
         <PackageReference Include="System.Reflection" Version="4.3.*" />
         <PackageReference Include="System.Reflection.Extensions" Version="4.3.*" />
         <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.*" />
@@ -33,7 +33,7 @@
       <ProjectReference Include="..\Numerics\Numerics-2017.csproj" />
       <ProjectReference Include="..\TestData\TestData-2017.csproj" />
     </ItemGroup>
-    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.1' ">
+    <ItemGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
         <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.*" />
     </ItemGroup>
 </Project>
