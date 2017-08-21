@@ -94,7 +94,10 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Test]
         public void DenseColumnMajorMatrixStorageOfComplex64DataContractSerializationTest()
         {
-            MatrixStorage<Complex64> expected = Matrix<Complex64>.Build.Dense(2, 2, new[] { new Complex64(1.0, -1.0), 2.0, 0.0, 3.0 }).Storage;
+            var expectedMatrix = Matrix<Complex64>
+                .Build
+                .Dense(2, 2, new[] { new Complex64(1.0, -1.0), 2.0, 0.0, 3.0 });
+            MatrixStorage<Complex64> expected = expectedMatrix.Storage;
 
             var serializer = new DataContractSerializer(typeof(MatrixStorage<Complex64>), KnownTypes);
             var stream = new MemoryStream();
@@ -102,12 +105,15 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             stream.Position = 0;
 
             var actual = (MatrixStorage<Complex64>)serializer.ReadObject(stream);
+            var actualMatrix = Matrix<Complex64>
+                .Build
+                .Dense(actual as DenseColumnMajorMatrixStorage<Complex64>);
 
             Assert.That(actual.RowCount, Is.EqualTo(expected.RowCount));
             Assert.That(actual.ColumnCount, Is.EqualTo(expected.ColumnCount));
             Assert.That(actual, Is.TypeOf(typeof(DenseColumnMajorMatrixStorage<Complex64>)));
-            Assert.That(actual, Is.EqualTo(expected));
-            Assert.That(actual, Is.Not.SameAs(expected));
+            Assert.That(actualMatrix, Is.EqualTo(expectedMatrix));
+            Assert.That(actualMatrix, Is.Not.SameAs(expectedMatrix));
         }
 
         [Test]
