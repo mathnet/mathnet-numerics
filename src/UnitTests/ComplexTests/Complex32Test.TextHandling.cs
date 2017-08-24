@@ -249,7 +249,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(float.MinValue, z.Imaginary, "E3");
         }
 
-#if !PORTABLE
+#if !(PORTABLE || NETSTANDARD)
         /// <summary>
         /// Try parse can handle symbols with a culture.
         /// </summary>
