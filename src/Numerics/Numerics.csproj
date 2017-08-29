@@ -116,6 +116,8 @@
     <Compile Include="LinearRegression\Options.cs" />
     <Compile Include="OdeSolvers\AdamsBashforth.cs" />
     <Compile Include="OdeSolvers\RungeKutta.cs" />
+    <Compile Include="Optimization\MinimizerBase.cs" />
+    <Compile Include="Optimization\LimitedMemoryBfgsMinimizer.cs" />
     <Compile Include="Optimization\BfgsMinimizerBase.cs" />
     <Compile Include="Optimization\ExitCondition.cs" />
     <Compile Include="Optimization\LineSearch\WolfeLineSearch.cs" />
