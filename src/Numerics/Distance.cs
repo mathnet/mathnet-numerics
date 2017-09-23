@@ -116,6 +116,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static double SSD(double[] a, double[] b)
         {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             var diff = new double[a.Length];
             Control.LinearAlgebraProvider.SubtractArrays(a, b, diff);
             return Control.LinearAlgebraProvider.DotProduct(diff, diff);
@@ -126,6 +128,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static float SSD(float[] a, float[] b)
         {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             var diff = new float[a.Length];
             Control.LinearAlgebraProvider.SubtractArrays(a, b, diff);
             return Control.LinearAlgebraProvider.DotProduct(diff, diff);
@@ -217,7 +221,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static double Chebyshev(double[] a, double[] b)
         {
-            if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             double max = Math.Abs(a[0] - b[0]);
             for (int i = 1; i < a.Length; i++)
             {
@@ -235,7 +240,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static float Chebyshev(float[] a, float[] b)
         {
-            if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             float max = Math.Abs(a[0] - b[0]);
             for (int i = 1; i < a.Length; i++)
             {
@@ -262,6 +268,7 @@ namespace MathNet.Numerics
         public static double Minkowski(double p, double[] a, double[] b)
         {
             if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             if (p < 0d) throw new ArgumentOutOfRangeException("p");
             if (p == 1d) return Manhattan(a, b);
             if (p == 2d) return Euclidean(a, b);
@@ -281,6 +288,7 @@ namespace MathNet.Numerics
         public static float Minkowski(double p, float[] a, float[] b)
         {
             if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             if (p < 0d) throw new ArgumentOutOfRangeException("p");
             if (p == 1d) return Manhattan(a, b);
             if (p == 2d) return Euclidean(a, b);
@@ -329,6 +337,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static double Cosine(double[] a, double[] b)
         {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             var ab = Control.LinearAlgebraProvider.DotProduct(a, b);
             var a2 = Control.LinearAlgebraProvider.DotProduct(a, a);
             var b2 = Control.LinearAlgebraProvider.DotProduct(b, b);
@@ -340,6 +350,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static float Cosine(float[] a, float[] b)
         {
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             var ab = Control.LinearAlgebraProvider.DotProduct(a, b);
             var a2 = Control.LinearAlgebraProvider.DotProduct(a, a);
             var b2 = Control.LinearAlgebraProvider.DotProduct(b, b);
@@ -351,7 +363,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static double Hamming(double[] a, double[] b)
         {
-            if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             int count = 0;
             for (int i = 0; i < a.Length; i++)
             {
@@ -368,7 +381,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static float Hamming(float[] a, float[] b)
         {
-            if (a.Length != b.Length) throw new ArgumentOutOfRangeException("b");
+            if (a.Length != b.Length) throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+
             int count = 0;
             for (int i = 0; i < a.Length; i++)
             {
