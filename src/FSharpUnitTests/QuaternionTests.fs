@@ -16,12 +16,14 @@ module QuaternionTests =
     let q = {w= -4.0;x= 3.0; y= -2.0; z= 1.0}
 
     [<Test>]
+    [<System.Obsolete("Semantic Version Opt-Out: this routine has not been finalized yet and may change in breaking ways within minor versions.")>]
     let ``Quaternion.create`` () =
         let fourtyFiveDegreesInRadians = 45.0 * Math.PI / 180.0
         Quaternion.create fourtyFiveDegreesInRadians 1.0 0.0 0.0 |>
             shouldEqual {w = 0.92387953251128674; x = 0.38268343236508978; y = 0.0; z = 0.0;}
 
     [<Test>]
+    [<System.Obsolete("Semantic Version Opt-Out: this routine has not been finalized yet and may change in breaking ways within minor versions.")>]
     let ``Quaternion.create normalizes input vector`` () =
         let fourtyFiveDegreesInRadians = 45.0 * Math.PI / 180.0
         Quaternion.create fourtyFiveDegreesInRadians 100.0 0.0 0.0 |>

@@ -87,6 +87,7 @@
     <Compile Include="Quaternion.fs" />
     <None Include="MathNet.Numerics.fsx" />
     <None Include="MathNet.Numerics.IfSharp.fsx" />
+    <None Include="paket.references" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
