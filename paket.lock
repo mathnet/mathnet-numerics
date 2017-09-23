@@ -7,7 +7,7 @@ GITHUB
     src/FsUnit.NUnit/FsUnit.fs (43086ca8981c7642c1067ad5e9de80caf73ba4ec)
     src/FsUnit.NUnit/FsUnitTyped.fs (43086ca8981c7642c1067ad5e9de80caf73ba4ec)
 GROUP Benchmark
-FRAMEWORK: NET45
+RESTRICTION: == net45
 NUGET
   remote: https://www.nuget.org/api/v2
     BenchmarkDotNet (0.10.6) - content: none
