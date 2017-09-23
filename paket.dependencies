@@ -1,19 +1,18 @@
 source https://www.nuget.org/api/v2
+
 nuget FSharp.Core ~> 3.1.2
 nuget FSharp.Compiler.Tools
+
 nuget TaskParallelLibrary 1.0.2856
 
+nuget NUnit ~> 3.0 framework: net35, net45
 github fsprojects/FsUnit src/FsUnit.NUnit/FsUnit.fs
 github fsprojects/FsUnit src/FsUnit.NUnit/FsUnitTyped.fs
-
-group Test
-    source https://www.nuget.org/api/v2
-    nuget NUnit ~> 3.0
 
 group Build
     source https://www.nuget.org/api/v2
     nuget FAKE ~> 4.1
-    nuget NUnit.Runners ~> 3.0
+    nuget NUnit.ConsoleRunner ~> 3.0
     nuget FSharp.Formatting !~> 2.4
     nuget NuGet.CommandLine
 

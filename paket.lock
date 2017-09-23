@@ -2,6 +2,7 @@ NUGET
   remote: https://www.nuget.org/api/v2
     FSharp.Compiler.Tools (4.1.23)
     FSharp.Core (3.1.2.5)
+    NUnit (3.8.1) - restriction: || (== net35) (== net45)
     TaskParallelLibrary (1.0.2856)
 GITHUB
   remote: fsprojects/FsUnit
@@ -25,26 +26,9 @@ NUGET
     FSharpVSPowerTools.Core (2.3)
       FSharp.Compiler.Service (>= 2.0.0.3)
     NuGet.CommandLine (3.5)
-    NUnit.ConsoleRunner (3.6.1)
-    NUnit.Extension.NUnitProjectLoader (3.5)
-    NUnit.Extension.NUnitV2Driver (3.6)
-    NUnit.Extension.NUnitV2ResultWriter (3.5)
-    NUnit.Extension.TeamCityEventListener (1.0.2)
-    NUnit.Extension.VSProjectLoader (3.5)
-    NUnit.Runners (3.6.1)
-      NUnit.ConsoleRunner (>= 3.6.1)
-      NUnit.Extension.NUnitProjectLoader (>= 3.5)
-      NUnit.Extension.NUnitV2Driver (>= 3.6)
-      NUnit.Extension.NUnitV2ResultWriter (>= 3.5)
-      NUnit.Extension.TeamCityEventListener (>= 1.0.2)
-      NUnit.Extension.VSProjectLoader (>= 3.5)
+    NUnit.ConsoleRunner (3.7)
 
 GROUP Data
 NUGET
   remote: https://www.nuget.org/api/v2
     MathNet.Numerics (3.0)
-
-GROUP Test
-NUGET
-  remote: https://www.nuget.org/api/v2
-    NUnit (3.5)

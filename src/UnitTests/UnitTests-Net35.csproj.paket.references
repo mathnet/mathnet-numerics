@@ -1,4 +1,2 @@
-TaskParallelLibrary
-
-group Test
-    NUnit
+TaskParallelLibrary framework:net35
+NUnit framework:net35
