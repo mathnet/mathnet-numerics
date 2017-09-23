@@ -1,6 +1,8 @@
+FSharp.Core framework:net40
+FSharp.Compiler.Tools
+
 File:FsUnit.fs
 File:FsUnitTyped.fs
 
 group Test
     NUnit
-    FSharp.Core

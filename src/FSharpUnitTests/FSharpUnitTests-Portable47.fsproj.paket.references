@@ -1,6 +1,8 @@
+FSharp.Core framework:net45
+FSharp.Compiler.Tools
+
 File:FsUnit.fs
 File:FsUnitTyped.fs
 
 group Test
     NUnit framework:net45
-    FSharp.Core framework:net45

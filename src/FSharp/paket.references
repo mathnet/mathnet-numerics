@@ -1,1 +1,2 @@
-FSharp.Core
+FSharp.Core framework:net40
+FSharp.Compiler.Tools
