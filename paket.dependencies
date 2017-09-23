@@ -1,6 +1,6 @@
 source https://www.nuget.org/api/v2
 
-nuget FSharp.Core ~> 3.1.2
+nuget FSharp.Core
 nuget FSharp.Compiler.Tools
 
 nuget TaskParallelLibrary 1.0.2856
