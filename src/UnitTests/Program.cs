@@ -30,7 +30,7 @@
 using NUnitLite;
 using System.Reflection;
 
-namespace NodaTime.Test
+namespace MathNet.Numerics.UnitTests
 {
     class Program
     {
