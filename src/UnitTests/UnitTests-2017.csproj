@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net45;netcoreapp1.1;netcoreapp2.0</TargetFramework>
+        <TargetFrameworks>net45;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <OutputPath>..\..\out\test\$(Configuration)</OutputPath>
         <BaseIntermediateOutputPath>..\..\obj\test\$(Configuration)</BaseIntermediateOutputPath>
