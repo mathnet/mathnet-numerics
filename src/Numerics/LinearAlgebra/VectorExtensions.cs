@@ -80,6 +80,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Gets a double precision complex vector with the real parts from the given vector.
         /// </summary>
+        public static Vector<Complex64> ToComplex(this Vector<float> vector)
+        {
+            return vector.Map(x => new Complex64(x, 0d), Zeros.AllowSkip);
+        }
+
+        /// <summary>
+        /// Gets a double precision complex vector with the real parts from the given vector.
+        /// </summary>
         public static Vector<Complex64> ToComplex(this Vector<double> vector)
         {
             return vector.Map(x => new Complex64(x, 0d), Zeros.AllowSkip);

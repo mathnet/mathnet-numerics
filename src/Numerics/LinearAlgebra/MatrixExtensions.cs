@@ -80,6 +80,14 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Gets a double precision complex matrix with the real parts from the given matrix.
         /// </summary>
+        public static Matrix<Complex64> ToComplex(this Matrix<float> matrix)
+        {
+            return matrix.Map(x => new Complex64(x, 0d), Zeros.AllowSkip);
+        }
+
+        /// <summary>
+        /// Gets a double precision complex matrix with the real parts from the given matrix.
+        /// </summary>
         public static Matrix<Complex64> ToComplex(this Matrix<double> matrix)
         {
             return matrix.Map(x => new Complex64(x, 0d), Zeros.AllowSkip);

@@ -238,6 +238,17 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Divides a matrix with a matrix.
+        /// </summary>
+        /// <param name="dividend">The matrix to divide.</param>
+        /// <param name="divisor">The matrix divisor.</param>
+        /// <returns>The result of the division.</returns>
+        public static Matrix<T> operator /(Matrix<T> dividend, Matrix<T> divisor)
+        {
+            return dividend.Multiply(divisor.Inverse());
+        }
+
+        /// <summary>
         /// Computes the pointwise remainder (% operator), where the result has the sign of the dividend,
         /// of each element of the matrix of the given divisor.
         /// </summary>
