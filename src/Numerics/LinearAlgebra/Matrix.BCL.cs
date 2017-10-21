@@ -76,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra
             return Storage.GetHashCode();
         }
 
-#if !PORTABLE
+#if !(PORTABLE || ASPNETCORE50)
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance.

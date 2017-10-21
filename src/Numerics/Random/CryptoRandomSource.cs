@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
+#if !(PORTABLE || ASPNETCORE50)
 
 using System;
 using System.Collections.Generic;

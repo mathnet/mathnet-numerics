@@ -1,4 +1,4 @@
-﻿#if PORTABLE
+﻿#if PORTABLE || ASPNETCORE50
 namespace MathNet.Numerics
 {
     using System;
@@ -17,6 +17,7 @@ namespace MathNet.Numerics
     {
     }
 
+#if !ASPNETCORE50
     internal static class Partitioner
     {
         public static IEnumerable<Tuple<int, int>> Create(int fromInclusive, int toExclusive)
@@ -136,10 +137,11 @@ namespace MathNet.Numerics
             Task.WaitAll(tasks, parallelOptions.CancellationToken);
         }
     }
+#endif
 }
 #endif
 
-#if (PORTABLE || NET35)
+#if (PORTABLE || NET35 || ASPNETCORE50)
 namespace MathNet.Numerics
 {
     using System;
@@ -332,5 +334,7 @@ namespace MathNet.Numerics
             }
         }
     }
+    
+
 }
 #endif

@@ -701,7 +701,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if PORTABLE
+#if (PORTABLE || ASPNETCORE50)
             var value = GlobalizationHelper.ParseDouble(ref token);
 #else
             var value = GlobalizationHelper.ParseDouble(ref token, format.GetCultureInfo());

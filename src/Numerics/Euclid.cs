@@ -430,7 +430,7 @@ namespace MathNet.Numerics
             while (b != 0)
             {
                 long rem;
-#if PORTABLE
+#if PORTABLE || ASPNETCORE50
                 rem = a % b;
                 var quot = a / b;
 #else
