@@ -115,7 +115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// </summary>
         void RowColumnAtIndex(int index, out int row, out int column)
         {
-#if PORTABLE
+#if PORTABLE || NETSTANDARD1_6
             row = index % RowCount;
             column = index / RowCount;
 #else

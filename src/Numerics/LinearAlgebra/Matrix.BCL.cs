@@ -36,6 +36,7 @@ using System.Text;
 namespace MathNet.Numerics.LinearAlgebra
 {
     [DebuggerDisplay("Matrix {RowCount}x{ColumnCount}")]
+
     public abstract partial class Matrix<T>
     {
         /// <summary>
@@ -76,14 +77,14 @@ namespace MathNet.Numerics.LinearAlgebra
             return Storage.GetHashCode();
         }
 
-#if !PORTABLE
+#if !PORTABLE && !NETSTANDARD1_6
 
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// <returns>
         /// A new object that is a copy of this instance.
-        /// </returns>
+        /// </returns> 
         object ICloneable.Clone()
         {
             return Clone();
