@@ -109,7 +109,7 @@ To build the MKL native provider for OSX:
    If not, you can get a free trial on intel's web site.
 2. Open the terminal
 3. cd to the folder mathnet-numerics/src/NativeProviders/OSX
-4. Run the .sh script by typping sh mkl_build.sh
+4. Run the .sh script by typing sh mkl_build.sh
 5. ... wait for the build
 
 
@@ -120,7 +120,7 @@ To build the MKL native provider for OSX:
     lionel:OSX Lionel$ sh mkl_build.sh
 
 Check the /x86 and /x64 folders in mathnet-numerics/out/MKL: you should now find the `libiomp5.dylib` and `MathNet.Numerics.MKL.dll` libaries.
-You need to add the path to the generated libraies in your `DYLD_LIBRARY_PATH` environnement variable (which you can move to the folder of you choice before).
+You need to add the path to the generated libraries in your `DYLD_LIBRARY_PATH` environment variable (which you can move to the folder of you choice before).
 To do that, open your /Users/Lionel/.bas_profile.sh file with a text editor and add the following statements.
 
 	[lang=sh]
