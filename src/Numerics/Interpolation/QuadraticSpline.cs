@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.Properties;
+using System.Threading;
 
 namespace MathNet.Numerics.Interpolation
 {
@@ -38,6 +39,7 @@ namespace MathNet.Numerics.Interpolation
     /// <remarks>Supports both differentiation and integration.</remarks>
     public class QuadraticSpline : IInterpolation
     {
+        private ThreadLocal<SegmentCache> _cache;
         readonly double[] _x;
         readonly double[] _c0;
         readonly double[] _c1;
@@ -60,6 +62,7 @@ namespace MathNet.Numerics.Interpolation
                 throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
             }
 
+            _cache = new ThreadLocal<SegmentCache>(() => new SegmentCache());
             _x = x;
             _c0 = c0;
             _c1 = c1;
@@ -156,13 +159,24 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         int LeftSegmentIndex(double t)
         {
+            var cache = _cache.Value;
+
+            if (cache.LeftSegmentIndex >= 0 && t >= cache.LeftSegment && t < cache.RightSegment)
+            {
+                return cache.LeftSegmentIndex;
+            }
+
             int index = Array.BinarySearch(_x, t);
             if (index < 0)
             {
                 index = ~index - 1;
             }
 
-            return Math.Min(Math.Max(index, 0), _x.Length - 2);
+            cache.LeftSegmentIndex = Math.Min(Math.Max(index, 0), _x.Length - 2);
+            cache.LeftSegment = _x[cache.LeftSegmentIndex];
+            cache.RightSegment = _x[cache.LeftSegmentIndex + 1];
+
+            return cache.LeftSegmentIndex;
         }
     }
 }
