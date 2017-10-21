@@ -141,6 +141,7 @@
     <Compile Include="GenerateTests.cs" />
     <Compile Include="GoodnessOfFit\RSquaredTest.cs" />
     <Compile Include="GoodnessOfFit\StandardErrorTest.cs" />
+    <Compile Include="GoodnessOfFit\TStatisticTest.cs" />
     <Compile Include="Providers\FourierTransform\FourierTransformProviderTests.cs" />
     <Compile Include="IntegralTransformsTests\FourierTest.cs" />
     <Compile Include="IntegralTransformsTests\HartleyTest.cs" />

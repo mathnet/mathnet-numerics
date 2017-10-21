@@ -27,6 +27,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Statistics;
 
@@ -106,6 +107,55 @@ namespace MathNet.Numerics
                 }
                 return Math.Sqrt(accumulator / (n - degreesOfFreedom));
             }
+        }
+
+        /// <summary>
+        /// Calculates the T-Statistic for a linear model's slope and intercept values
+        /// </summary>
+        /// <param name="slope">The slope of the fitted line</param>
+        /// <param name="intercept">The y-intercept of the fitted line</param>
+        /// <param name="independentVariables">The independent, or "x" values used as inputs to the linear model</param>
+        /// <param name="dependentVariables">The dependent, or "y" values used as inputs to the linear model</param>
+        /// <param name="modelledValues">The "y" values predicted by the linear model</param>
+        /// <returns>A tuple containing the T-Statistic calculated for the intercept and the slope values</returns>
+        public static Tuple<double, double> TStatistics(double slope, double intercept, IEnumerable<double> independentVariables, IEnumerable<double> dependentVariables, IEnumerable<double> modelledValues)
+        {
+            int n = 0;
+            // Degrees of freedom for simple linear model. Will need to be updated if this code is used for most anything else.
+            int degreesOfFreedom = 2;
+            double errorSquared = 0.0;
+
+            using (IEnumerator<double> mv = modelledValues.GetEnumerator())
+            using (IEnumerator<double> dv = dependentVariables.GetEnumerator())
+            {
+                while (mv.MoveNext())
+                {
+                    if (!dv.MoveNext())
+                    {
+                        throw new ArgumentOutOfRangeException("modelledValues", Resources.ArgumentArraysSameLength);
+                    }
+                    double currentM = mv.Current;
+                    double currentO = dv.Current;
+
+                    errorSquared += Math.Pow(currentM - currentO, 2);
+                    n++;
+                }
+            }
+
+            if (degreesOfFreedom >= n)
+            {
+                throw new ArgumentOutOfRangeException("degreesOfFreedom", Resources.DegreesOfFreedomMustBeLessThanSampleSize);
+            }
+
+            double ivMean = independentVariables.Average();
+            double variance = independentVariables.Sum(x => Math.Pow(x - ivMean, 2));
+
+            double sampleResiduals = errorSquared / (n - degreesOfFreedom);
+            double coef_StdErr = Math.Sqrt(sampleResiduals / variance);
+            double t_slope = slope / coef_StdErr;
+            double t_intercept = intercept / Math.Sqrt(sampleResiduals * (1.0 / n + ivMean * ivMean / variance));
+
+            return new Tuple<double, double>(t_intercept, t_slope);
         }
     }
 }
