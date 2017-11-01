@@ -1,10 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <TargetFrameworks>net45</TargetFrameworks>
+    <!--<TargetFrameworks>net45;netstandard1.6</TargetFrameworks>-->
+    <!--<TargetFramework>netstandard1.6</TargetFramework>-->
+    <TargetFramework>net45</TargetFramework>
     <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
-    <DisableImplicitFSharpCoreReference>true</DisableImplicitFSharpCoreReference>
+    <AssemblyName>MathNet.Numerics.FSharp</AssemblyName>
+    <RootNamespace>MathNet.Numerics</RootNamespace>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <OutputType>Library</OutputType>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
   <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />

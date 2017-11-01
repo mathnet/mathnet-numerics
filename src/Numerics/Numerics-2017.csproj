@@ -4,16 +4,13 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <PackageId>Math.Numerics</PackageId>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <OutputType>Library</OutputType>
+        <AssemblyName>MathNet.Numerics</AssemblyName>
+        <RootNamespace>MathNet.Numerics</RootNamespace>
     </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
         <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup>
-        <OutputPath>..\..\out\test\Net35\</OutputPath>
-        <IntermediateOutputPath>..\..\obj\test\Net35\</IntermediateOutputPath>
-        <BaseIntermediateOutputPath>..\..\obj\test\Net35\</BaseIntermediateOutputPath>
-        <AssemblyName>MathNet.Numerics</AssemblyName>
-        <RootNamespace>MathNet.Numerics</RootNamespace>
     </PropertyGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
         <Reference Include="System" />
