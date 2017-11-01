@@ -49,7 +49,7 @@ module Random =
     let inline system () = SystemRandomSource() :> System.Random
     let inline systemSeed (seed:int) = SystemRandomSource(seed) :> System.Random
 
-#if PORTABLE
+#if PORTABLE || NETSTANDARD
 #else
     /// Creates a default .Net cryptographic system pRNG
     let inline crypto () = new CryptoRandomSource() :> System.Random

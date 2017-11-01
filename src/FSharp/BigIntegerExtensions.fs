@@ -1,6 +1,6 @@
 ﻿namespace System.Numerics
 
-#if PORTABLE
+#if PORTABLE || NETSTANDARD
 #if NOSYSNUMERICS
 #else
 
