@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2002
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics-2017", "src\Numerics\Numerics-2017.csproj", "{4C1F1555-F9C6-45A0-B076-97384CA2BA7F}"
 EndProject
@@ -28,9 +28,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40
 		paket.lock = paket.lock
 	EndProjectSection
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp-2017", "src\FSharp\FSharp-2017.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp-2017", "src\FSharp\FSharp-2017.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests-2017", "src\FSharpUnitTests\FSharpUnitTests-2017.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharpUnitTests-2017", "src\FSharpUnitTests\FSharpUnitTests-2017.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,14 +61,14 @@ Global
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
-		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
-		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,7 +14,7 @@ open System.Runtime.InteropServices
 [<assembly: AssemblyFileVersion("3.20.0.0")>]
 [<assembly: AssemblyInformationalVersion("3.20.0")>]
 
-#if PORTABLE
+#if PORTABLE || NETSTANDARD
 #else
 [<assembly: ComVisible(false)>]
 [<assembly: Guid("C9AA6156-F799-42E4-B50D-2E88AD7D1750")>]
