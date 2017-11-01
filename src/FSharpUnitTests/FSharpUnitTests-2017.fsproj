@@ -5,8 +5,8 @@
     <OutputType>Exe</OutputType>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-    <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
+  <PropertyGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
+      <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +15,13 @@
     <PackageReference Include="NUnitLite" Version="3.8.*" />
     <ProjectReference Include="..\FSharp\FSharp-2017.fsproj" />
     <ProjectReference Include="..\TestData\TestData-2017.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
+    <PackageReference Include="System.Reflection" Version="4.3.*" />
+    <PackageReference Include="System.Reflection.Extensions" Version="4.3.*" />
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.*" />
+    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.*" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.*" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
