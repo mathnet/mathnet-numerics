@@ -46,8 +46,8 @@ traceHeader releases
 
 let summary = "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use."
 let description = "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. "
-let support = "Supports .Net 4.0, netstandard1.6 and Mono on Windows, Linux and Mac, Android/iOS."
-let supportFsharp = "Supports F# .Net 4.5, netstandard1.6 and Mono on Windows, Linux and Mac, Android/iOS."
+let support = "Supports .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL portable profiles 7, 47, 78, 259 and 328; Android/iOS with Xamarin."
+let supportFsharp = "Supports F# 3.0 on .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5 and Windows 8 with PCL portable profile 47; Android/iOS with Xamarin."
 let supportSigned = "Supports .Net 4.0. This package contains strong-named assemblies for legacy use cases."
 let tags = "math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft"
 
@@ -348,17 +348,31 @@ Target "Prepare" DoNothing
 // BUILD
 // --------------------------------------------------------------------------------------
 
-Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
+let dotnetBuild solution = DotNetCli.Build (fun p ->
+        { p with
+            Project = solution
+            Configuration = "Release" })
+
+Target "BuildMain" (fun _ -> dotnetBuild "MathNet.Numerics.sln")
 Target "BuildSigned" (fun _ -> buildSigned !! "MathNet.Numerics.sln")
+Target "RestoreMain" (fun _ -> DotNetCli.Restore (fun p ->
+        { p with
+            Project = "MathNet.Numerics.sln"
+            NoCache = true }))
 
 Target "Build" DoNothing
 "Prepare"
+  ==> "RestoreMain"
   =?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
   =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "signed"))
   ==> "Build"
 
-Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
-"Prepare" ==> "DataBuild"
+Target "DataBuild" (fun _ -> dotnetBuild "MathNet.Numerics.Data.sln")
+Target "DataRestore" (fun _ -> DotNetCli.Restore (fun p ->
+        { p with
+            Project = "MathNet.Numerics.Data.sln"
+            NoCache = true }))
+"Prepare" ==> "DataRestore" ==> "DataBuild"
 
 Target "MklWin32Build" (fun _ -> buildConfig32 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")
 Target "MklWin64Build" (fun _ -> buildConfig64 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")
