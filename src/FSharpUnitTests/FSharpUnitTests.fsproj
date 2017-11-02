@@ -2,84 +2,30 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\packages\FSharp.Compiler.Tools\build\FSharp.Compiler.Tools.props" Condition="Exists('..\..\packages\FSharp.Compiler.Tools\build\FSharp.Compiler.Tools.props')" Label="Paket" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Name>FSharpUnitTests</Name>
-    <AssemblyName>MathNet.Numerics.FSharp.UnitTests</AssemblyName>
-    <RootNamespace>FSharpUnitTests</RootNamespace>
-    <OutputType>Library</OutputType>
-    <ProjectGuid>{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}</ProjectGuid>
-    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{F2A71F9B-5D33-465A-A702-920D77279786}</ProjectTypeGuids>
-    <TestProjectType>UnitTest</TestProjectType>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFSharpCoreVersion>4.3.0.0</TargetFSharpCoreVersion>
-    <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <TargetFrameworks>net45;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <Tailcalls>true</Tailcalls>
-    <OutputPath>..\..\out\test\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\Net40\</BaseIntermediateOutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
+
+  <PropertyGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
+      <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <Tailcalls>false</Tailcalls>
-    <OutputPath>..\..\out\test-debug\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-debug\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-debug\Net40\</BaseIntermediateOutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release-Signed|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <Tailcalls>true</Tailcalls>
-    <DefineConstants>TRACE</DefineConstants>
-    <WarningLevel>3</WarningLevel>
-    <OutputPath>..\..\out\test-signed\Net40\</OutputPath>
-    <IntermediateOutputPath>..\..\obj\test-signed\Net40\</IntermediateOutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test-signed\Net40\</BaseIntermediateOutputPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <!-- Workaround - remove once no longer needed! -->
-    <DefineConstants>$(DefineConstants);NOFSSLICESET1D</DefineConstants>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Compile Include="..\..\paket-files\fsprojects\FsUnit\src\FsUnit.NUnit\FsUnit.fs">
-      <Paket>True</Paket>
-      <Link>paket-files/FsUnit.fs</Link>
-    </Compile>
-    <Compile Include="..\..\paket-files\fsprojects\FsUnit\src\FsUnit.NUnit\FsUnitTyped.fs">
-      <Paket>True</Paket>
-      <Link>paket-files/FsUnitTyped.fs</Link>
-    </Compile>
-    <Reference Include="mscorlib" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
+    <PackageReference Include="FsUnit" Version="3.0.*" />
+    <PackageReference Include="NUnit" Version="3.8.*" />
+    <PackageReference Include="NUnitLite" Version="3.8.*" />
+    <ProjectReference Include="..\FSharp\FSharp.fsproj" />
+    <ProjectReference Include="..\TestData\TestData.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Numerics\Numerics.csproj">
-      <Name>Numerics</Name>
-      <Project>{B7CAE5F4-A23F-4438-B5BE-41226618B695}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\FSharp\FSharp.fsproj">
-      <Name>FSharp</Name>
-      <Project>{37E8E802-A354-4114-BFC1-6E1357DA605B}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\TestData\TestData.csproj">
-      <Name>TestData</Name>
-      <Project>{af3253c9-4db5-45a0-98cf-c105fda9da47}</Project>
-      <Private>True</Private>
-    </ProjectReference>
+  <ItemGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
+    <PackageReference Include="System.Reflection" Version="4.3.*" />
+    <PackageReference Include="System.Reflection.Extensions" Version="4.3.*" />
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.*" />
+    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.*" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.*" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
@@ -96,6 +42,7 @@
     <Compile Include="FitTests.fs" />
     <Compile Include="FindRootsTests.fs" />
     <Compile Include="QuaternionTests.fs" />
+    <Compile Include="Main.fs" />
     <None Include="paket.references" />
     <None Include="App.config" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,63 +9,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		CONTRIBUTORS.md = CONTRIBUTORS.md
 		LICENSE.md = LICENSE.md
 		README.md = README.md
-		RELEASENOTES-CUDA.md = RELEASENOTES-CUDA.md
-		RELEASENOTES-Data.md = RELEASENOTES-Data.md
-		RELEASENOTES-MKL.md = RELEASENOTES-MKL.md
-		RELEASENOTES-OpenBLAS.md = RELEASENOTES-OpenBLAS.md
+		RELEASENOTES-Native.md = RELEASENOTES-Native.md
 		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Numerics", "src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics", "src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp", "src\FSharp\FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp", "src\FSharp\FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpUnitTests", "src\FSharpUnitTests\FSharpUnitTests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharpUnitTests", "src\FSharpUnitTests\FSharpUnitTests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\UnitTests\UnitTests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "src\UnitTests\UnitTests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{A4A66FA9-C00C-4D5C-A776-27516EA0C536}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40-DE22-49FB-B1C0-6E5BDA3B0B2F}"
 	ProjectSection(SolutionItems) = preProject
-		docs\tools\build-docs.fsx = docs\tools\build-docs.fsx
 		build\build-framework.fsx = build\build-framework.fsx
 		build.fsx = build.fsx
-		build\MathNet.Numerics.Extension.nuspec = build\MathNet.Numerics.Extension.nuspec
 		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
-		build\NativeProvider.targets = build\NativeProvider.targets
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{039229DA-AFDA-48DB-B7FC-B064691DEE96}"
-	ProjectSection(SolutionItems) = preProject
-		docs\content\Build.md = docs\content\Build.md
-		docs\content\Compatibility.md = docs\content\Compatibility.md
-		docs\content\Constants.md = docs\content\Constants.md
-		docs\content\CSV.md = docs\content\CSV.md
-		docs\content\DescriptiveStatistics.md = docs\content\DescriptiveStatistics.md
-		docs\content\Distance.md = docs\content\Distance.md
-		docs\content\Euclid.md = docs\content\Euclid.md
-		docs\content\Functions.md = docs\content\Functions.md
-		docs\content\Generate.md = docs\content\Generate.md
-		docs\content\IFsharpNotebook.md = docs\content\IFsharpNotebook.md
-		docs\content\index.md = docs\content\index.md
-		docs\content\IntegralTransforms.md = docs\content\IntegralTransforms.md
-		docs\content\Integration.md = docs\content\Integration.md
-		docs\content\Interpolation.md = docs\content\Interpolation.md
-		docs\content\LinearEquations.md = docs\content\LinearEquations.md
-		docs\content\MatlabFiles.md = docs\content\MatlabFiles.md
-		docs\content\Matrix.md = docs\content\Matrix.md
-		docs\content\MatrixMarket.md = docs\content\MatrixMarket.md
-		docs\content\MKL.md = docs\content\MKL.md
-		docs\content\Packages.md = docs\content\Packages.md
-		docs\content\Probability.md = docs\content\Probability.md
-		docs\content\Random.md = docs\content\Random.md
-		docs\content\Regression.md = docs\content\Regression.md
-		docs\tools\templates\template.cshtml = docs\tools\templates\template.cshtml
-		docs\content\Users.md = docs\content\Users.md
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,35 +43,38 @@ Global
 		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
-		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{B7CAE5F4-A23F-4438-B5BE-41226618B695}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
-		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{37E8E802-A354-4114-BFC1-6E1357DA605B}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
-		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
-		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
-		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {148D7305-A64C-41B0-9A45-DE87ED5DF70F}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = src\Numerics\Numerics.csproj

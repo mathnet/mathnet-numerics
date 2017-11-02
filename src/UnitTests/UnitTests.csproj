@@ -456,4 +456,38 @@
       </ItemGroup>
     </When>
   </Choose>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFrameworks>net45;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <OutputPath>..\..\out\test\$(Configuration)</OutputPath>
+        <BaseIntermediateOutputPath>..\..\obj\test\$(Configuration)</BaseIntermediateOutputPath>
+        <AssemblyName>MathNet.Numerics.UnitTests</AssemblyName>
+        <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
+    </PropertyGroup>
+    <PropertyGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
+        <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
+    </PropertyGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Numerics" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Runtime.Serialization" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
+      <PackageReference Include="System.Reflection" Version="4.3.*" />
+      <PackageReference Include="System.Reflection.Extensions" Version="4.3.*" />
+      <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.*" />
+      <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.*" />
+      <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.*" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="NUnit" Version="3.8.*" />
+      <PackageReference Include="NUnitLite" Version="3.8.*" />
+      <ProjectReference Include="..\Numerics\Numerics.csproj" />
+      <ProjectReference Include="..\TestData\TestData.csproj" />
+    </ItemGroup>
 </Project>

@@ -1,7 +1,0 @@
-FSharp.Core framework:net35
-FSharp.Compiler.Tools
-TaskParallelLibrary framework:net35
-NUnit framework:net35
-
-File:FsUnit.fs
-File:FsUnitTyped.fs
