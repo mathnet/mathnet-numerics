@@ -46,8 +46,8 @@ traceHeader releases
 
 let summary = "Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use."
 let description = "Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. "
-let support = "Supports .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5, WindowsPhone/SL 8, WindowsPhone 8.1 and Windows 8 with PCL portable profiles 7, 47, 78, 259 and 328; Android/iOS with Xamarin."
-let supportFsharp = "Supports F# 3.0 on .Net 4.0, .Net 3.5 and Mono on Windows, Linux and Mac; Silverlight 5 and Windows 8 with PCL portable profile 47; Android/iOS with Xamarin."
+let support = "Supports .Net 4.0, netstandard1.6 and Mono on Windows, Linux and Mac, Android/iOS."
+let supportFsharp = "Supports F# .Net 4.5, netstandard1.6 and Mono on Windows, Linux and Mac, Android/iOS."
 let supportSigned = "Supports .Net 4.0. This package contains strong-named assemblies for legacy use cases."
 let tags = "math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft"
 
@@ -61,18 +61,10 @@ let numericsPack =
       Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
       FsLoader = false
       Dependencies =
-        [ { FrameworkVersion="net35"
-            Dependencies=[ "TaskParallelLibrary", GetPackageVersion "./packages/" "TaskParallelLibrary" ] }
-          { FrameworkVersion="net40"
+        [ { FrameworkVersion="net40"
             Dependencies=[] } ]
       Files =
-        [ @"..\..\out\lib\Net35\MathNet.Numerics.*", Some libnet35, Some @"**\MathNet.Numerics.FSharp.*";
-          @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
-          @"..\..\out\lib\Profile7\MathNet.Numerics.*", Some libpcl7, Some @"**\MathNet.Numerics.FSharp.*";
-          @"..\..\out\lib\Profile47\MathNet.Numerics.*", Some libpcl47, Some @"**\MathNet.Numerics.FSharp.*";
-          @"..\..\out\lib\Profile78\MathNet.Numerics.*", Some libpcl78, Some @"**\MathNet.Numerics.FSharp.*";
-          @"..\..\out\lib\Profile259\MathNet.Numerics.*", Some libpcl259, Some @"**\MathNet.Numerics.FSharp.*";
-          @"..\..\out\lib\Profile328\MathNet.Numerics.*", Some libpcl328, Some @"**\MathNet.Numerics.FSharp.*";
+        [ @"..\..\out\lib\Net40\MathNet.Numerics.*", Some libnet40, Some @"**\MathNet.Numerics.FSharp.*";
           @"..\..\src\Numerics\**\*.cs", Some "src/Common", None ] }
 
 let fsharpPack =
@@ -88,9 +80,7 @@ let fsharpPack =
               Dependencies=[ "MathNet.Numerics", RequireExactly numericsRelease.PackageVersion
                              "FSharp.Core", GetPackageVersion "./packages/" "FSharp.Core" ] } ]
         Files =
-          [ @"..\..\out\lib\Net35\MathNet.Numerics.FSharp.*", Some libnet35, None;
-            @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
-            @"..\..\out\lib\Profile47\MathNet.Numerics.FSharp.*", Some libpcl47, None;
+          [ @"..\..\out\lib\Net40\MathNet.Numerics.FSharp.*", Some libnet40, None;
             @"MathNet.Numerics.fsx", None, None;
             @"MathNet.Numerics.IfSharp.fsx", None, None;
             @"..\..\src\FSharp\**\*.fs", Some "src/Common", None ] }
@@ -328,10 +318,10 @@ Target "Start" DoNothing
 Target "Clean" (fun _ ->
     CleanDirs [ "obj" ]
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
-    CleanDirs [ "out/lib/Net35"; "out/lib/Net40"; "out/lib/Profile7"; "out/lib/Profile47"; "out/lib/Profile78"; "out/lib/Profile259"; "out/lib/Profile328" ]
-    CleanDirs [ "out/test/Net35"; "out/test/Net40"; "out/test/Profile7"; "out/test/Profile47"; "out/test/Profile78"; "out/test/Profile259"; "out/test/Profile328" ]
-    CleanDirs [ "out/lib-debug/Net35"; "out/lib-debug/Net40"; "out/lib-debug/Profile7"; "out/lib-debug/Profile47"; "out/lib-debug/Profile78"; "out/lib-debug/Profile259"; "out/lib-debug/Profile328" ]
-    CleanDirs [ "out/test-debug/Net35"; "out/test-debug/Net40"; "out/test-debug/Profile7"; "out/test-debug/Profile47"; "out/test-debug/Profile78"; "out/test-debug/Profile259"; "out/test-debug/Profile328" ]
+    CleanDirs [ "out/lib/Net40" ]
+    CleanDirs [ "out/test/Net40" ]
+    CleanDirs [ "out/lib-debug/Net40" ]
+    CleanDirs [ "out/test-debug/Net40" ]
     CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
     CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
     CleanDirs [ "out/Data" ]) // Data Extensions
@@ -359,16 +349,14 @@ Target "Prepare" DoNothing
 // --------------------------------------------------------------------------------------
 
 Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
-Target "BuildNet35" (fun _ -> build !! "MathNet.Numerics.Net35Only.sln")
 Target "BuildAll" (fun _ -> build !! "MathNet.Numerics.All.sln")
 Target "BuildSigned" (fun _ -> buildSigned !! "MathNet.Numerics.sln")
 
 Target "Build" DoNothing
 "Prepare"
-  =?> ("BuildNet35", hasBuildParam "net35")
   =?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
   =?> ("BuildAll", hasBuildParam "all" || hasBuildParam "release")
-  =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "net35" || hasBuildParam "signed"))
+  =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "signed"))
   ==> "Build"
 
 Target "DataBuild" (fun _ -> build !! "MathNet.Numerics.Data.sln")
