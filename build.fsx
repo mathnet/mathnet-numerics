@@ -402,21 +402,25 @@ let testLibrary testsDir testsProj framework =
             testsProj
             framework)
 
+let testLibraryCsharp framework = testLibrary "src/UnitTests" "UnitTests.csproj" framework
+
+let testLibraryFsharp framework = testLibrary "src/FSharpUnitTests" "FSharpUnitTests.csproj" framework
+
 Target "Test" DoNothing
 Target "TestF#" DoNothing
 Target "TestC#" DoNothing
 
-Target "TestC#Core1.1" (fun _ -> testLibrary "src/UnitTests" "UnitTests.csproj" "netcoreapp1.1")
-Target "TestC#Core2.0" DoNothing
-Target "TestC#NET40" DoNothing
-Target "TestC#NET45" DoNothing
-Target "TestC#NET46" DoNothing
+Target "TestC#Core1.1" (fun _ -> testLibraryCsharp "netcoreapp1.1")
+Target "TestC#Core2.0" (fun _ -> testLibraryCsharp "netcoreapp2.0")
+Target "TestC#NET40" (fun _ -> testLibraryCsharp "net40")
+Target "TestC#NET45" (fun _ -> testLibraryCsharp "net45")
+Target "TestC#NET46" (fun _ -> testLibraryCsharp "net46")
 Target "TestC#NET47" DoNothing
 
-Target "TestF#Core1.1" DoNothing
-Target "TestF#Core2.0" DoNothing
-Target "TestF#NET45" DoNothing
-Target "TestF#NET46" DoNothing
+Target "TestF#Core1.1" (fun _ -> testLibraryFsharp "netcoreapp1.1")
+Target "TestF#Core2.0" (fun _ -> testLibraryFsharp "netcoreapp2.0")
+Target "TestF#NET45" (fun _ -> testLibraryFsharp "net45")
+Target "TestF#NET46" (fun _ -> testLibraryFsharp "net46")
 Target "TestF#NET47" DoNothing
 
 "Build" ==> "TestF#Core1.1" ==> "TestF#"
