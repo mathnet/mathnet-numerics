@@ -404,7 +404,7 @@ let testLibrary testsDir testsProj framework =
 
 let testLibraryCsharp framework = testLibrary "src/UnitTests" "UnitTests.csproj" framework
 
-let testLibraryFsharp framework = testLibrary "src/FSharpUnitTests" "FSharpUnitTests.csproj" framework
+let testLibraryFsharp framework = testLibrary "src/FSharpUnitTests" "FSharpUnitTests.fsproj" framework
 
 Target "Test" DoNothing
 Target "TestF#" DoNothing
