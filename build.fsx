@@ -415,25 +415,25 @@ Target "TestC#Core2.0" (fun _ -> testLibraryCsharp "netcoreapp2.0")
 Target "TestC#NET40" (fun _ -> testLibraryCsharp "net40")
 Target "TestC#NET45" (fun _ -> testLibraryCsharp "net45")
 Target "TestC#NET46" (fun _ -> testLibraryCsharp "net46")
-Target "TestC#NET47" DoNothing
+Target "TestC#NET47"  (fun _ -> testLibraryCsharp "net47")
 
 Target "TestF#Core1.1" (fun _ -> testLibraryFsharp "netcoreapp1.1")
 Target "TestF#Core2.0" (fun _ -> testLibraryFsharp "netcoreapp2.0")
 Target "TestF#NET45" (fun _ -> testLibraryFsharp "net45")
 Target "TestF#NET46" (fun _ -> testLibraryFsharp "net46")
-Target "TestF#NET47" DoNothing
+Target "TestF#NET47" (fun _ -> testLibraryFsharp "net47")
 
 "Build" ==> "TestF#Core1.1" ==> "TestF#"
-"Build" ==> "TestF#Core2.0" ==> "TestF#"
+//"Build" ==> "TestF#Core2.0" ==> "TestF#"
 "Build" ==> "TestF#NET45" ==> "TestF#"
-"Build" ==> "TestF#NET46" ==> "TestF#"
-"Build" ==> "TestF#NET47" ==> "TestF#"
+//"Build" ==> "TestF#NET46" ==> "TestF#"
+//"Build" ==> "TestF#NET47" ==> "TestF#"
 "Build" ==> "TestC#Core1.1" ==> "TestC#"
-"Build" ==> "TestC#Core2.0" ==> "TestC#"
-"Build" ==> "TestC#NET40" ==> "TestC#"
+//"Build" ==> "TestC#Core2.0" ==> "TestC#"
+//"Build" ==> "TestC#NET40" ==> "TestC#"
 "Build" ==> "TestC#NET45" ==> "TestC#"
-"Build" ==> "TestC#NET46" ==> "TestC#"
-"Build" ==> "TestC#NET47" ==> "TestC#"
+//"Build" ==> "TestC#NET46" ==> "TestC#"
+//"Build" ==> "TestC#NET47" ==> "TestC#"
 "TestC#" ==> "Test"
 "TestF#" ==> "Test"
 
