@@ -1,4 +1,4 @@
-os: Windows Server 2012 R2
+image: Visual Studio 2017
 build_script:
   - build.cmd Test quick
 test: off
