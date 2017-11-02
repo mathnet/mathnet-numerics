@@ -1,0 +1,6 @@
+FSharp.Core framework:net45
+FSharp.Compiler.Tools
+NUnit framework:net45
+
+File:FsUnit.fs
+File:FsUnitTyped.fs
