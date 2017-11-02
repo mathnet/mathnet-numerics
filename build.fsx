@@ -349,13 +349,11 @@ Target "Prepare" DoNothing
 // --------------------------------------------------------------------------------------
 
 Target "BuildMain" (fun _ -> build !! "MathNet.Numerics.sln")
-Target "BuildAll" (fun _ -> build !! "MathNet.Numerics.All.sln")
 Target "BuildSigned" (fun _ -> buildSigned !! "MathNet.Numerics.sln")
 
 Target "Build" DoNothing
 "Prepare"
   =?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
-  =?> ("BuildAll", hasBuildParam "all" || hasBuildParam "release")
   =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "signed"))
   ==> "Build"
 
