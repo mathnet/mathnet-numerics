@@ -44,7 +44,7 @@
         <DefineConstants>NETSTANDARD</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-        <DefineConstants>NETSTANDARD</DefineConstants>
+        <DefineConstants>NETSTANDARD;NATIVE</DefineConstants>
     </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
         <DefineConstants>NATIVE</DefineConstants>
