@@ -4,6 +4,7 @@
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <AssemblyName>MathNet.Numerics.TestData</AssemblyName>
         <RootNamespace>MathNet.Numerics.TestData</RootNamespace>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.1'">
         <DefineConstants>NETSTANDARD</DefineConstants>

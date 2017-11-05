@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Construct a new random number generator with a random seed.
         /// </summary>
-        /// <remarks>Uses <see cref="System.Security.Cryptography.RNGCryptoServiceProvider"/> and uses the value of
+        /// <remarks>Uses <see cref="System.Security.Cryptography.RandomNumberGenerator"/> and uses the value of
         /// <see cref="Control.ThreadSafeRandomNumberGenerators"/> to set whether the instance is thread safe.</remarks>
         public CryptoRandomSource()
         {
@@ -67,7 +67,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Construct a new random number generator with random seed.
         /// </summary>
-        /// <remarks>Uses <see cref="System.Security.Cryptography.RNGCryptoServiceProvider"/></remarks>
+        /// <remarks>Uses <see cref="System.Security.Cryptography.RandomNumberGenerator"/></remarks>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
         public CryptoRandomSource(bool threadSafe) : base(threadSafe)
         {

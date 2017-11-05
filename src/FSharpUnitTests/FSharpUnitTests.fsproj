@@ -3,12 +3,11 @@
     <TargetFrameworks>net45;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
-
   <PropertyGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
-      <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
+      <DefineConstants>NETSTANDARD</DefineConstants>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="FsUnit" Version="3.0.*" />
     <PackageReference Include="NUnit" Version="3.8.*" />

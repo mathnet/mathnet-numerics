@@ -7,9 +7,10 @@
         <BaseIntermediateOutputPath>..\..\obj\test\$(Configuration)</BaseIntermediateOutputPath>
         <AssemblyName>MathNet.Numerics.UnitTests</AssemblyName>
         <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
     <PropertyGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
-        <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
+        <DefineConstants>NETSTANDARD</DefineConstants>
     </PropertyGroup>
     <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
         <Reference Include="System" />
