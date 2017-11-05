@@ -35,23 +35,11 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 #endif
 
-[assembly: AssemblyDescription("Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use.")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Math.NET Project")]
-[assembly: AssemblyProduct("Math.NET Numerics")]
-[assembly: AssemblyCopyright("Copyright (c) Math.NET Project")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(true)]
-[assembly: NeutralResourcesLanguage("en")]
 
-[assembly: AssemblyVersion("3.20.0.0")]
-[assembly: AssemblyFileVersion("3.20.0.0")]
-[assembly: AssemblyInformationalVersion("3.20.0")]
 
 #if PORTABLE || NETSTANDARD
 
-[assembly: AssemblyTitle("Math.NET Numerics - Portable Edition")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests7")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests47")]
@@ -61,13 +49,11 @@ using System.Runtime.InteropServices;
 
 #elif NET35
 
-[assembly: AssemblyTitle("Math.NET Numerics - .Net 3.5 Edition")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsNet35")]
 
 #else
 
-[assembly: AssemblyTitle("Math.NET Numerics")]
 [assembly: ComVisible(false)]
 [assembly: Guid("7b66646f-f0ee-425d-9065-910d1937a2df")]
 
