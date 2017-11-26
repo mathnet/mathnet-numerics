@@ -58,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
         {
             var value = new Complex(real, imag);
             var expected = new Complex(expectedReal, expectedImag);
-            AssertHelpers.AlmostEqualRelative(expected, value.Exp(), 15);
+            AssertHelpers.AlmostEqualRelative(expected, value.Exp(), 14);
         }
 
         /// <summary>
