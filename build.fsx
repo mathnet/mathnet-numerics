@@ -337,9 +337,15 @@ Target "ApplyVersion" (fun _ ->
     patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
     patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
 
+Target "RestoreMain" (fun _ -> DotNetCli.Restore (fun p ->
+        { p with
+            Project = "MathNet.Numerics.sln"
+            NoCache = true }))
+
 Target "Prepare" DoNothing
 "Start"
   =?> ("Clean", not (hasBuildParam "incremental"))
+  ==> "RestoreMain"
   ==> "ApplyVersion"
   ==> "Prepare"
 
@@ -355,14 +361,9 @@ let dotnetBuild solution = DotNetCli.Build (fun p ->
 
 Target "BuildMain" (fun _ -> dotnetBuild "MathNet.Numerics.sln")
 Target "BuildSigned" (fun _ -> buildSigned !! "MathNet.Numerics.sln")
-Target "RestoreMain" (fun _ -> DotNetCli.Restore (fun p ->
-        { p with
-            Project = "MathNet.Numerics.sln"
-            NoCache = true }))
 
 Target "Build" DoNothing
 "Prepare"
-  ==> "RestoreMain"
   =?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
   =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "signed"))
   ==> "Build"

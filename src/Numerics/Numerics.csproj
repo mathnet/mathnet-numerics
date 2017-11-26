@@ -27,7 +27,6 @@
         <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
         <PackageReleaseNotes>Release Notes</PackageReleaseNotes>
         <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
-        <PackageOutputPath>$(OutputPath)</PackageOutputPath>
         <IsTool>false</IsTool>
         <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
@@ -38,6 +37,7 @@
         <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
         <NoWarn>1701;1702;1705;1591</NoWarn>
     </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">

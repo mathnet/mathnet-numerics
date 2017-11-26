@@ -1,13 +1,44 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard1.6;netstandard2.0</TargetFrameworks>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <OutputType>Library</OutputType>
     <AssemblyName>MathNet.Numerics.FSharp</AssemblyName>
     <RootNamespace>MathNet.Numerics</RootNamespace>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <OutputType>Library</OutputType>
-    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <IsPackable>true</IsPackable>
+    <PackageId>MathNet.Numerics.FSharp</PackageId>
+    <VersionPrefix>0.0.0</VersionPrefix>
+    <VersionSuffix>alpha0</VersionSuffix>
+    <PackageVersion>0.0.0-alpha0</PackageVersion>
+    <Version>0.0.0-alpha0</Version>
+    <AssemblyVersion>0.0.0.0</AssemblyVersion>
+    <FileVersion>0.0.0.0</FileVersion>
+    <Title>Math.NET Numerics for F#</Title>
+    <Authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</Authors>
+    <Company>Math.NET Project</Company>
+    <Product>Math.NET Numerics</Product>
+    <Description>
+        F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.
+        Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.
+    </Description>
+    <Copyright>Copyright Math.NET Project</Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
+    <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
+    <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
+    <PackageReleaseNotes>Release Notes</PackageReleaseNotes>
+    <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
+    <IsTool>false</IsTool>
+    <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <NoPackageAnalysis>false</NoPackageAnalysis>
+    <IncludeBuildOutput>true</IncludeBuildOutput>
+    <IncludeContentInPack>false</IncludeContentInPack>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
     <DefineConstants>NETSTANDARD</DefineConstants>
