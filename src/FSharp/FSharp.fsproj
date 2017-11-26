@@ -44,6 +44,7 @@
     <DefineConstants>NETSTANDARD</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="FSharp.Core" Version="4.2.3" />
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
   </ItemGroup>
   <ItemGroup>
