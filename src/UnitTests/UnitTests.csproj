@@ -4,8 +4,6 @@
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net45;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <OutputPath>..\..\out\test\$(Configuration)</OutputPath>
-    <BaseIntermediateOutputPath>..\..\obj\test\$(Configuration)</BaseIntermediateOutputPath>
     <AssemblyName>MathNet.Numerics.UnitTests</AssemblyName>
     <RootNamespace>MathNet.Numerics.UnitTests</RootNamespace>
     <IsPackable>false</IsPackable>
@@ -34,5 +32,4 @@
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
     <ProjectReference Include="..\TestData\TestData.csproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

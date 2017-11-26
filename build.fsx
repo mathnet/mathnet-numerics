@@ -316,6 +316,10 @@ let dataBundle =
 Target "Start" DoNothing
 
 Target "Clean" (fun _ ->
+    DotNetCli.RunCommand id "clean MathNet.Numerics.sln"
+    DotNetCli.RunCommand id "clean MathNet.Numerics.Data.sln"
+    CleanDirs [ "src/Numerics/bin"; "src/FSharp/bin"; "src/TestData/bin"; "src/UnitTests/bin"; "src/FSharpUnitTests/bin" ]
+    CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/UnitTests/obj"; "src/FSharpUnitTests/obj" ]
     CleanDirs [ "obj" ]
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
     CleanDirs [ "out/lib/Net40" ]
@@ -337,15 +341,20 @@ Target "ApplyVersion" (fun _ ->
     patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
     patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
 
-Target "RestoreMain" (fun _ -> DotNetCli.Restore (fun p ->
+Target "DotnetRestore" (fun _ ->
+    DotNetCli.Restore (fun p ->
         { p with
             Project = "MathNet.Numerics.sln"
+            NoCache = true })
+    DotNetCli.Restore (fun p ->
+        { p with
+            Project = "MathNet.Numerics.Data.sln"
             NoCache = true }))
 
 Target "Prepare" DoNothing
 "Start"
   =?> ("Clean", not (hasBuildParam "incremental"))
-  ==> "RestoreMain"
+  ==> "DotnetRestore"
   ==> "ApplyVersion"
   ==> "Prepare"
 
@@ -354,26 +363,24 @@ Target "Prepare" DoNothing
 // BUILD
 // --------------------------------------------------------------------------------------
 
-let dotnetBuild solution = DotNetCli.Build (fun p ->
-        { p with
-            Project = solution
-            Configuration = "Release" })
+let dotnetBuild configuration solution = DotNetCli.Build (fun p ->
+    let defaultArgs = ["--no-restore"]
+    { p with
+        Project = solution
+        Configuration = configuration
+        AdditionalArgs = defaultArgs})
 
-Target "BuildMain" (fun _ -> dotnetBuild "MathNet.Numerics.sln")
-Target "BuildSigned" (fun _ -> buildSigned !! "MathNet.Numerics.sln")
+Target "BuildMain" (fun _ -> dotnetBuild "Release" "MathNet.Numerics.sln")
+Target "BuildSigned" (fun _ -> dotnetBuild "Release-StrongName" "MathNet.Numerics.sln")
 
 Target "Build" DoNothing
 "Prepare"
-  =?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
-  =?> ("BuildMain", not (hasBuildParam "all" || hasBuildParam "release" || hasBuildParam "signed"))
+  =?> ("BuildMain", not (hasBuildParam "signed"))
+  //=?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
   ==> "Build"
 
-Target "DataBuild" (fun _ -> dotnetBuild "MathNet.Numerics.Data.sln")
-Target "DataRestore" (fun _ -> DotNetCli.Restore (fun p ->
-        { p with
-            Project = "MathNet.Numerics.Data.sln"
-            NoCache = true }))
-"Prepare" ==> "DataRestore" ==> "DataBuild"
+Target "DataBuild" (fun _ -> dotnetBuild "Release" "MathNet.Numerics.Data.sln")
+"Prepare" ==> "DataBuild"
 
 Target "MklWin32Build" (fun _ -> buildConfig32 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")
 Target "MklWin64Build" (fun _ -> buildConfig64 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")
@@ -507,12 +514,20 @@ Target "OpenBlasWinZip" (fun _ ->
 
 // NUGET
 
+let dotnetPack solution = DotNetCli.Pack (fun p ->
+    let defaultArgs = ["--no-restore"; "--no-build" ]
+    { p with
+        Project = solution
+        Configuration = "Release"
+        AdditionalArgs = defaultArgs})
+
 Target "NuGet" (fun _ ->
-    CleanDir "out/packages/NuGet"
-    if hasBuildParam "signed" || hasBuildParam "release" then
-        nugetPack coreSignedBundle "out/packages/NuGet"
-    if hasBuildParam "all" || hasBuildParam "release" then
-        nugetPack coreBundle "out/packages/NuGet")
+    dotnetPack "MathNet.Numerics.sln")
+    //CleanDir "out/packages/NuGet"
+    //if hasBuildParam "signed" || hasBuildParam "release" then
+    //    nugetPack coreSignedBundle "out/packages/NuGet"
+    //if hasBuildParam "all" || hasBuildParam "release" then
+    //    nugetPack coreBundle "out/packages/NuGet")
 "Build" ==> "NuGet" ==> "Pack"
 
 Target "DataNuGet" (fun _ ->
