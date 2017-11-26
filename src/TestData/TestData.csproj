@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net40;netstandard1.1</TargetFrameworks>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

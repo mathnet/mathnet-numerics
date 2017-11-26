@@ -1,3 +1,6 @@
+### 4.0.0-alpha01 - 2017-11-26
+* Prerelease to test .Net Standard support and establish dotnet SDK build automation
+
 ### 3.20.0 - 2017-07-15
 * Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*
 * Native Providers: from now on also supported in the .Net 3.5 build.

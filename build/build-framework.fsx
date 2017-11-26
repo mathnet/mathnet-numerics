@@ -107,6 +107,19 @@ let patchVersionInResource path (release:Release) =
          >> regex_replace @"\d+,\d+,\d+,\d+" (replace "." "," release.AssemblyVersion))
         path
 
+let patchVersionInProjectFile path (release:Release) =
+    let semverSplit = release.PackageVersion.IndexOf('-')
+    let prefix = if semverSplit <= 0 then release.PackageVersion else release.PackageVersion.Substring(0, semverSplit)
+    let suffix = if semverSplit <= 0 then release.PackageVersion else release.PackageVersion.Substring(semverSplit+1)
+    ReplaceInFile
+        (regex_replace """\<PackageVersion\>.*\</PackageVersion\>""" (sprintf """<PackageVersion>%s</PackageVersion>""" release.PackageVersion)
+        >> regex_replace """\<Version\>.*\</Version\>""" (sprintf """<Version>%s</Version>""" release.PackageVersion)
+        >> regex_replace """\<AssemblyVersion\>.*\</AssemblyVersion\>""" (sprintf """<AssemblyVersion>%s</AssemblyVersion>""" release.AssemblyVersion)
+        >> regex_replace """\<FileVersion\>.*\</FileVersion\>""" (sprintf """<FileVersion>%s</FileVersion>""" release.AssemblyVersion)
+        >> regex_replace """\<VersionPrefix\>.*\</VersionPrefix\>""" (sprintf """<VersionPrefix>%s</VersionPrefix>""" prefix)
+        >> regex_replace """\<VersionSuffix\>.*\</VersionSuffix\>""" (sprintf """<VersionSuffix>%s</VersionSuffix>""" suffix)
+        >> regex_replace """\<PackageReleaseNotes\>.*\</PackageReleaseNotes\>""" (sprintf """<PackageReleaseNotes>%s</PackageReleaseNotes>""" release.ReleaseNotes))
+        path
 
 // --------------------------------------------------------------------------------------
 // BUILD

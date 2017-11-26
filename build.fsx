@@ -337,6 +337,11 @@ Target "ApplyVersion" (fun _ ->
     patchVersionInAssemblyInfo "src/FSharpUnitTests" numericsRelease
     patchVersionInAssemblyInfo "src/Data" dataRelease
     patchVersionInAssemblyInfo "src/DataUnitTests" dataRelease
+    patchVersionInProjectFile "src/Numerics/Numerics.csproj" numericsRelease
+    patchVersionInProjectFile "src/FSharp/FSharp.fsproj" numericsRelease
+    patchVersionInProjectFile "src/TestData/TestData.csproj" numericsRelease
+    patchVersionInProjectFile "src/UnitTests/UnitTests.csproj" numericsRelease
+    patchVersionInProjectFile "src/FSharpUnitTests/FSharpUnitTests.fsproj" numericsRelease
     patchVersionInResource "src/NativeProviders/MKL/resource.rc" mklRelease
     patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
     patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
