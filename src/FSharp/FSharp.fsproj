@@ -7,9 +7,9 @@
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp</PackageId>
     <VersionPrefix>4.0.0</VersionPrefix>
-    <VersionSuffix>alpha01</VersionSuffix>
-    <PackageVersion>4.0.0-alpha01</PackageVersion>
-    <Version>4.0.0-alpha01</Version>
+    <VersionSuffix>alpha02</VersionSuffix>
+    <PackageVersion>4.0.0-alpha02</PackageVersion>
+    <Version>4.0.0-alpha02</Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
     <Title>Math.NET Numerics for F#</Title>
@@ -22,7 +22,8 @@
     <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
     <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
     <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
-    <PackageReleaseNotes>Prerelease to test .Net Standard support and establish dotnet SDK build automation</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed whitespace and line breaks in package and assembly description
+Assembly code signing (X.509)</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>

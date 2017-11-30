@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27110.0
+VisualStudioVersion = 15.0.27128.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
@@ -9,7 +9,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		CONTRIBUTORS.md = CONTRIBUTORS.md
 		LICENSE.md = LICENSE.md
 		README.md = README.md
-		RELEASENOTES-Native.md = RELEASENOTES-Native.md
+		RELEASENOTES-CUDA.md = RELEASENOTES-CUDA.md
+		RELEASENOTES-Data.md = RELEASENOTES-Data.md
+		RELEASENOTES-MKL.md = RELEASENOTES-MKL.md
+		RELEASENOTES-OpenBLAS.md = RELEASENOTES-OpenBLAS.md
 		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject
