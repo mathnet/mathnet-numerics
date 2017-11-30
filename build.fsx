@@ -471,6 +471,16 @@ Target "OpenBlasWinTest" DoNothing
 
 
 // --------------------------------------------------------------------------------------
+// CODE SIGN
+// --------------------------------------------------------------------------------------
+
+Target "Sign" (fun _ ->
+    let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
+    let timeserver = "http://time.certum.pl/"
+    sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ))
+
+
+// --------------------------------------------------------------------------------------
 // PACKAGES
 // --------------------------------------------------------------------------------------
 
@@ -489,7 +499,7 @@ Target "Zip" (fun _ ->
         coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if hasBuildParam "signed" || hasBuildParam "release" then
         coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
-"Build" ==> "Zip" ==> "Pack"
+"Build" =?> ("Sign", hasBuildParam "sign") ==> "Zip" ==> "Pack"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
@@ -533,7 +543,7 @@ Target "NuGet" (fun _ ->
     //    nugetPack coreSignedBundle "out/packages/NuGet"
     //if hasBuildParam "all" || hasBuildParam "release" then
     //    nugetPack coreBundle "out/packages/NuGet")
-"Build" ==> "NuGet" ==> "Pack"
+"Build" =?> ("Sign", hasBuildParam "sign") ==> "NuGet" ==> "Pack"
 
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
