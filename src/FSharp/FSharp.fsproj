@@ -16,10 +16,7 @@
     <Authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</Authors>
     <Company>Math.NET Project</Company>
     <Product>Math.NET Numerics</Product>
-    <Description>
-        F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.
-        Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.
-    </Description>
+    <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.</Description>
     <Copyright>Copyright Math.NET Project</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
