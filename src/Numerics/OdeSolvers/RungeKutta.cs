@@ -116,7 +116,7 @@ namespace MathNet.Numerics.OdeSolvers
             for (int i = 1; i < N; i++)
             {
                 k1 = f(t, y0);
-                k2 = f(t, y0 + k1 + dt);
+                k2 = f(t, y0 + k1 * dt);
                 y[i] = y0 + dt * 0.5 * (k1 + k2);
                 t += dt;
                 y0 = y[i];
