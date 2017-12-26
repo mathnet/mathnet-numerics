@@ -316,8 +316,7 @@ let dataBundle =
 Target "Start" DoNothing
 
 Target "Clean" (fun _ ->
-    DotNetCli.RunCommand id "clean MathNet.Numerics.sln"
-    DotNetCli.RunCommand id "clean MathNet.Numerics.Data.sln"
+    // Force delete the obj folder first (dotnet SDK has a habbit of fucking this folder up to a state where not even clean works...)
     CleanDirs [ "src/Numerics/bin"; "src/FSharp/bin"; "src/TestData/bin"; "src/UnitTests/bin"; "src/FSharpUnitTests/bin" ]
     CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/UnitTests/obj"; "src/FSharpUnitTests/obj" ]
     CleanDirs [ "obj" ]
@@ -328,7 +327,9 @@ Target "Clean" (fun _ ->
     CleanDirs [ "out/test-debug/Net40" ]
     CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
     CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
-    CleanDirs [ "out/Data" ]) // Data Extensions
+    CleanDirs [ "out/Data" ] // Data Extensions
+    DotNetCli.RunCommand id "clean MathNet.Numerics.sln"
+    DotNetCli.RunCommand id "clean MathNet.Numerics.Data.sln")
 
 Target "ApplyVersion" (fun _ ->
     patchVersionInAssemblyInfo "src/Numerics" numericsRelease

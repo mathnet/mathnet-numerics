@@ -1,13 +1,13 @@
 NUGET
   remote: https://www.nuget.org/api/v2
-    FSharp.Compiler.Tools (4.1.23)
+    FSharp.Compiler.Tools (4.1.29)
     FSharp.Core (4.0.0.1)
-    NUnit (3.8.1) - restriction: || (== net35) (== net45)
+    NUnit (3.9) - restriction: || (== net35) (== net45)
     TaskParallelLibrary (1.0.2856)
 GITHUB
   remote: fsprojects/FsUnit
-    src/FsUnit.NUnit/FsUnit.fs (ccd7f01fe792b149731261c816b851bf4e8e5e43)
-    src/FsUnit.NUnit/FsUnitTyped.fs (ccd7f01fe792b149731261c816b851bf4e8e5e43)
+    src/FsUnit.NUnit/FsUnit.fs (4c0812f4b96de85cc20f02fca87f852735e2eaeb)
+    src/FsUnit.NUnit/FsUnitTyped.fs (4c0812f4b96de85cc20f02fca87f852735e2eaeb)
 GROUP Benchmark
 RESTRICTION: == net45
 NUGET
@@ -18,14 +18,14 @@ NUGET
 GROUP Build
 NUGET
   remote: https://www.nuget.org/api/v2
-    FAKE (4.63.2)
+    FAKE (4.64.3)
     FSharp.Compiler.Service (2.0.0.6)
     FSharp.Formatting (2.14.4)
       FSharp.Compiler.Service (2.0.0.6)
       FSharpVSPowerTools.Core (>= 2.3 < 2.4)
     FSharpVSPowerTools.Core (2.3)
       FSharp.Compiler.Service (>= 2.0.0.3)
-    NuGet.CommandLine (4.3)
+    NuGet.CommandLine (4.4.1)
     NUnit.ConsoleRunner (3.7)
 
 GROUP Data

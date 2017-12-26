@@ -9,9 +9,10 @@
       <DefineConstants>NETSTANDARD</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.2.3" />
     <PackageReference Include="FsUnit" Version="3.0.*" />
-    <PackageReference Include="NUnit" Version="3.8.*" />
-    <PackageReference Include="NUnitLite" Version="3.8.*" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="NUnitLite" Version="3.9.0" />
     <ProjectReference Include="..\FSharp\FSharp.fsproj" />
     <ProjectReference Include="..\TestData\TestData.csproj" />
   </ItemGroup>

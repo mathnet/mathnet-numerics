@@ -27,8 +27,8 @@
     <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.*" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.8.*" />
-    <PackageReference Include="NUnitLite" Version="3.8.*" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="NUnitLite" Version="3.9.0" />
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
     <ProjectReference Include="..\TestData\TestData.csproj" />
   </ItemGroup>
