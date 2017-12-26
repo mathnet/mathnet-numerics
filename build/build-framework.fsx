@@ -207,11 +207,11 @@ let provideNuGetExtraFiles path (bundle:Bundle) (pack:Package) =
 let sign fingerprint timeserver files =
     files
     |> Seq.map (sprintf "\"%s\"")
-    |> Seq.map (fun file -> sprintf """sign /v /sha1 "%s" /t "%s" %s""" fingerprint timeserver file)
+    |> Seq.map (fun file -> sprintf """sign /v /fd sha256 /sha1 "%s" /tr "%s" /td sha256 %s""" fingerprint timeserver file)
     |> Seq.iter (fun arguments ->
         let result =
             ExecProcess (fun info ->
-                info.FileName <- """C:\Program Files (x86)\Windows Kits\10\bin\x86\signtool.exe"""
+                info.FileName <- findToolInSubPath "signtool.exe" """C:\Program Files (x86)\Windows Kits\10\bin\x64"""
                 info.Arguments <- arguments) TimeSpan.MaxValue
         if result <> 0 then
             failwithf "Error during SignTool call ")
