@@ -191,7 +191,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 for (var i = 0; i < hashNum; i++)
                 {
                     var col = i%ColumnCount;
-                    var row = (i - col)/RowCount;
+                    var row = (i - col)%RowCount;
                     hash = hash*31 + At(row, col).GetHashCode();
                 }
             }
