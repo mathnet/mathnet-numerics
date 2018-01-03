@@ -45,12 +45,13 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="initialGuess">Initial guess of the root.</param>
         /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Default 1e-8.</param>
         /// <param name="maxIterations">Maximum number of iterations. Default 100.</param>
+        /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian matrix at first step. Default 1.0e-4</param>
         /// <returns>Returns the root with the specified accuracy.</returns>
         /// <exception cref="NonConvergenceException"></exception>
-        public static double[] FindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy = 1e-8, int maxIterations = 100)
+        public static double[] FindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy = 1e-8, int maxIterations = 100, double jacobianStepSize = 1.0e-4)
         {
             double[] root;
-            if (TryFindRoot(f, initialGuess, accuracy, maxIterations, out root))
+            if (TryFindRootWithJacobianStep(f, initialGuess, accuracy, maxIterations, jacobianStepSize, out root))
             {
                 return root;
             }
@@ -63,9 +64,10 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="initialGuess">Initial guess of the root.</param>
         /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached.</param>
         /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
+        /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian matrix at first step.</param>
         /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
         /// <returns>True if a root with the specified accuracy was found, else false.</returns>
-        public static bool TryFindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy, int maxIterations, out double[] root)
+        public static bool TryFindRootWithJacobianStep(Func<double[], double[]> f, double[] initialGuess, double accuracy, int maxIterations, double jacobianStepSize, out double[] root)
         {
             var x = new DenseVector(initialGuess);
 
@@ -73,7 +75,7 @@ namespace MathNet.Numerics.RootFinding
             var y = new DenseVector(y0);
             double g = y.L2Norm();
 
-            Matrix<double> B = CalculateApproximateJacobian(f, initialGuess, y0);
+            Matrix<double> B = CalculateApproximateJacobian(f, initialGuess, y0, jacobianStepSize);
 
             for (int i = 0; i <= maxIterations; i++)
             {
@@ -116,6 +118,17 @@ namespace MathNet.Numerics.RootFinding
             root = null;
             return false;
         }
+        /// <summary>Find a solution of the equation f(x)=0.</summary>
+        /// <param name="f">The function to find roots from.</param>
+        /// <param name="initialGuess">Initial guess of the root.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached.</param>
+        /// <param name="maxIterations">Maximum number of iterations. Usually 100.</param>
+        /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
+        /// <returns>True if a root with the specified accuracy was found, else false.</returns>
+        public static bool TryFindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy, int maxIterations, out double[] root)
+        {
+            return TryFindRootWithJacobianStep(f, initialGuess, accuracy, maxIterations, 1.0e-4, out root);
+        }
 
         /// <summary>
         /// Helper method to calculate an approximation of the Jacobian.
@@ -123,7 +136,8 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="f">The function.</param>
         /// <param name="x0">The argument (initial guess).</param>
         /// <param name="y0">The result (of initial guess).</param>
-        static Matrix<double> CalculateApproximateJacobian(Func<double[], double[]> f, double[] x0, double[] y0)
+        /// <param name="jacobianStepSize">Relative step size for calculating the Jacobian.</param>
+        static Matrix<double> CalculateApproximateJacobian(Func<double[], double[]> f, double[] x0, double[] y0, double jacobianStepSize)
         {
             int dim = x0.Length;
             var B = new DenseMatrix(dim);
@@ -133,11 +147,7 @@ namespace MathNet.Numerics.RootFinding
 
             for (int j = 0; j < dim; j++)
             {
-                double h = Math.Abs(x0[j])*1.0e-4;
-                if (h == 0.0)
-                {
-                    h = 1.0e-4;
-                }
+                double h = (1.0+Math.Abs(x0[j]))*jacobianStepSize;
 
                 var xj = x[j];
                 x[j] = xj + h;
