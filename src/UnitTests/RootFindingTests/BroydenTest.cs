@@ -2643,5 +2643,25 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[12], 1e-10);
             Assert.AreEqual(0, fa1(r)[13], 1e-11);
         }
+
+        /// <summary>
+        /// Demonstrate how Broyden method fails because Jacobian step size approaches zero without limits
+        /// when the initial value approaches coordinate axis.
+        /// </summary>
+        [Test]
+        public void NumericalAccuracyProblemsWithBroydenMethod()
+        {
+            Func<double[], double[]> f = xa => {
+                var x1 = xa[0];
+                var x2 = xa[1];
+                var f1 = 1 + x1;
+                var f2 = 1 + x2;
+                return new[] { f1, f2 };
+            };
+            var init = new[] { 10*Precision.PositiveMachineEpsilon, 1.0 };
+            double[] r = Broyden.FindRoot(f, init, 1e-5);
+            Assert.AreEqual(-1.0 , r[0], 1e-5);
+            Assert.AreEqual(-1.0, r[1], 1e-5);
+        }
     }
 }
