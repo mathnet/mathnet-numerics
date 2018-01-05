@@ -478,7 +478,7 @@ Target "OpenBlasWinTest" DoNothing
 Target "Sign" (fun _ ->
     let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
     let timeserver = "http://time.certum.pl/"
-    sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ))
+    sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ++ "src/FSharp/bin/Release/**/MathNet.Numerics.FSharp.dll" ))
 
 
 // --------------------------------------------------------------------------------------
