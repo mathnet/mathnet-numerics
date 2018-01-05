@@ -1,7 +1,8 @@
-### 4.0.0-alpha03 - 2017-12-26
+### 4.0.0-alpha04 - 2018-01-05
 * Prerelease to test .Net Standard support and establish dotnet SDK build automation
 * Assembly code signing (X.509) using SHA2 (256)
-* BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling.
+* BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling
+* BUG: Matrix.GetHashCode for wide matrices *~mjmckp*
 
 ### 3.20.0 - 2017-07-15
 * Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*
