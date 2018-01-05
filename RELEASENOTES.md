@@ -1,13 +1,7 @@
 ### 4.0.0-alpha03 - 2017-12-26
-* BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling.
-* Sign with SHA256 instead of SHA1
-
-### 4.0.0-alpha02 - 2017-11-30
-* Fixed whitespace and line breaks in package and assembly description
-* Assembly code signing (X.509)
-
-### 4.0.0-alpha01 - 2017-11-26
 * Prerelease to test .Net Standard support and establish dotnet SDK build automation
+* Assembly code signing (X.509) using SHA2 (256)
+* BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling.
 
 ### 3.20.0 - 2017-07-15
 * Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*

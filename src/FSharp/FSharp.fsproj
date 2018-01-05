@@ -22,8 +22,9 @@
     <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
     <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
     <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
-    <PackageReleaseNotes>Fixed whitespace and line breaks in package and assembly description
-Assembly code signing (X.509)</PackageReleaseNotes>
+    <PackageReleaseNotes>Prerelease to test .Net Standard support and establish dotnet SDK build automation
+Assembly code signing (X.509) using SHA2 (256)
+BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling.</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
