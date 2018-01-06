@@ -321,11 +321,8 @@ Target "Clean" (fun _ ->
     CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/UnitTests/obj"; "src/FSharpUnitTests/obj" ]
     CleanDirs [ "obj" ]
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
-    CleanDirs [ "out/lib/Net40" ]
-    CleanDirs [ "out/test/Net40" ]
-    CleanDirs [ "out/lib-debug/Net40" ]
-    CleanDirs [ "out/test-debug/Net40" ]
-    CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
+    CleanDirs [ "out/lib" ]
+    //CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
     CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
     CleanDirs [ "out/Data" ] // Data Extensions
     DotNetCli.RunCommand id "clean MathNet.Numerics.sln"
@@ -492,6 +489,14 @@ Target "MklLinuxPack" DoNothing
 Target "CudaWinPack" DoNothing
 Target "OpenBlasWinPack" DoNothing
 
+// COLLECT
+
+Target "Collect" (fun _ ->
+    // It is important that the libs have been signed before we collect them (that's why we cannot copy them right after the build)
+    CopyDir "out/lib" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
+    CopyDir "out/lib" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml")))
+"Build" =?> ("Sign", hasBuildParam "sign") ==> "Collect"
+
 // ZIP
 
 Target "Zip" (fun _ ->
@@ -500,7 +505,7 @@ Target "Zip" (fun _ ->
         coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if hasBuildParam "signed" || hasBuildParam "release" then
         coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
-"Build" =?> ("Sign", hasBuildParam "sign") ==> "Zip" ==> "Pack"
+"Collect" ==> "Zip" ==> "Pack"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
@@ -538,13 +543,15 @@ let dotnetPack solution = DotNetCli.Pack (fun p ->
         AdditionalArgs = defaultArgs})
 
 Target "NuGet" (fun _ ->
-    dotnetPack "MathNet.Numerics.sln")
+    dotnetPack "MathNet.Numerics.sln"
+    CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+    CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg")))
     //CleanDir "out/packages/NuGet"
     //if hasBuildParam "signed" || hasBuildParam "release" then
     //    nugetPack coreSignedBundle "out/packages/NuGet"
     //if hasBuildParam "all" || hasBuildParam "release" then
     //    nugetPack coreBundle "out/packages/NuGet")
-"Build" =?> ("Sign", hasBuildParam "sign") ==> "NuGet" ==> "Pack"
+"Collect" ==> "NuGet" ==> "Pack"
 
 Target "DataNuGet" (fun _ ->
     CleanDir "out/Data/packages/NuGet"
