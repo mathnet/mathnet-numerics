@@ -38,7 +38,7 @@ BUG: Matrix.GetHashCode for wide matrices ~mjmckp</PackageReleaseNotes>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
-        <NoWarn>1701;1702;1705;1591</NoWarn>
+        <NoWarn>1701;1702;1705;1591;1573</NoWarn>
     </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
         <DefineConstants>NETSTANDARD</DefineConstants>
