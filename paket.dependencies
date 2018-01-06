@@ -15,8 +15,8 @@ nuget System.Runtime.Serialization.Formatters framework:netstandard1.3,netstanda
 nuget System.Security.Cryptography.Algorithms framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 
 // why?
-nuget NETStandard.Library
-nuget Microsoft.NETCore.App framework:net45,netcoreapp1.1,netcoreapp2.0
+nuget NETStandard.Library strategy:min
+nuget Microsoft.NETCore.App strategy:min, framework:net45,netcoreapp1.1,netcoreapp2.0
 nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostPolicy framework:net45,netcoreapp1.1,netcoreapp2.0
 nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.Runtime.CoreCLR framework:net45,netcoreapp1.1,netcoreapp2.0
 nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostResolver framework:net45,netcoreapp1.1,netcoreapp2.0
