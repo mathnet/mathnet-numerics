@@ -1,6 +1,6 @@
 source https://www.nuget.org/api/v2
 
-nuget FSharp.Core
+nuget FSharp.Core 4.2.3
 nuget FSharp.Compiler.Tools
 
 nuget NUnit ~> 3.0 framework:net45,netcoreapp1.1,netcoreapp2.0
@@ -50,7 +50,7 @@ nuget runtime.win-x86.Microsoft.NETCore.DotNetAppHost framework:net45,netcoreapp
 group Build
     source https://www.nuget.org/api/v2
     nuget FAKE ~> 4.1
-    nuget NUnit.ConsoleRunner ~> 3.0
+    nuget NUnit.ConsoleRunner
     nuget FSharp.Formatting !~> 2.4
     nuget NuGet.CommandLine
 
