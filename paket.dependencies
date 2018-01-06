@@ -3,9 +3,9 @@ source https://www.nuget.org/api/v2
 nuget FSharp.Core 4.2.3
 nuget FSharp.Compiler.Tools
 
-nuget NUnit ~> 3.0 framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget NUnitLite ~> 3.0 framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget FsUnit ~> 3.0 framework:net45,netcoreapp1.1,netcoreapp2.0
+nuget NUnit ~> 3.0
+nuget NUnitLite ~> 3.0
+nuget FsUnit ~> 3.0
 
 nuget System.Runtime framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 nuget System.Runtime.Numerics framework:netstandard1.3,netstandard1.6,netcoreapp1.1
