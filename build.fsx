@@ -409,7 +409,7 @@ Target "OpenBlasWinBuild" DoNothing
 let testLibrary testsDir testsProj framework =
     DotNetCli.RunCommand
         (fun c -> { c with WorkingDir = testsDir})
-        (sprintf "run -p %s --configuration Release --framework %s"
+        (sprintf "run -p %s --configuration Release --framework %s --no-restore --no-build"
             testsProj
             framework)
 
