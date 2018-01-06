@@ -14,6 +14,37 @@ nuget System.Runtime.Serialization.Primitives framework:netstandard1.3,netstanda
 nuget System.Runtime.Serialization.Formatters framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 nuget System.Security.Cryptography.Algorithms framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 
+// why?
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostPolicy
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.Runtime.CoreCLR
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostResolver
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.Jit
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHost
+nuget runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy
+nuget runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR
+nuget runtime.win7-x64.Microsoft.NETCore.DotNetHostResolver
+nuget runtime.win7-x64.Microsoft.NETCore.Jit
+nuget runtime.win7-x64.Microsoft.NETCore.Windows.ApiSets
+nuget runtime.win7-x64.Microsoft.NETCore.DotNetHost
+nuget runtime.win7-x86.Microsoft.NETCore.DotNetHostPolicy
+nuget runtime.win7-x86.Microsoft.NETCore.Runtime.CoreCLR
+nuget runtime.win7-x86.Microsoft.NETCore.DotNetHostResolver
+nuget runtime.win7-x86.Microsoft.NETCore.Jit
+nuget runtime.win7-x86.Microsoft.NETCore.Windows.ApiSets
+nuget runtime.win7-x86.Microsoft.NETCore.DotNetHost
+nuget runtime.linux-x64.Microsoft.NETCore.App
+nuget runtime.linux-x64.Microsoft.NETCore.DotNetHostPolicy
+nuget runtime.linux-x64.Microsoft.NETCore.DotNetHostResolver
+nuget runtime.linux-x64.Microsoft.NETCore.DotNetAppHost
+nuget runtime.win-x64.Microsoft.NETCore.App
+nuget runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy
+nuget runtime.win-x64.Microsoft.NETCore.DotNetHostResolver
+nuget runtime.win-x64.Microsoft.NETCore.DotNetAppHost
+nuget runtime.win-x86.Microsoft.NETCore.App
+nuget runtime.win-x86.Microsoft.NETCore.DotNetHostPolicy
+nuget runtime.win-x86.Microsoft.NETCore.DotNetHostResolver
+nuget runtime.win-x86.Microsoft.NETCore.DotNetAppHost
+
 group Build
     source https://www.nuget.org/api/v2
     nuget FAKE ~> 4.1
