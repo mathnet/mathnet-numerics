@@ -1,0 +1,7 @@
+FSharp.Core
+System.Runtime framework:netstandard1.6
+System.Runtime.Numerics framework:netstandard1.6
+System.Runtime.Serialization.Xml framework:netstandard1.6
+System.Runtime.Serialization.Primitives framework:netstandard1.6
+System.Runtime.Serialization.Formatters framework:netstandard1.6
+System.Security.Cryptography.Algorithms framework:netstandard1.6

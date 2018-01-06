@@ -55,12 +55,5 @@ BUG: Matrix.GetHashCode for wide matrices ~mjmckp</PackageReleaseNotes>
         <Reference Include="System.Numerics" />
         <Reference Include="System.Runtime.Serialization" />
     </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
-        <PackageReference Include="System.Runtime" Version="4.3.*" />
-        <PackageReference Include="System.Runtime.Numerics" Version="4.3.*" />
-        <PackageReference Include="System.Runtime.Serialization.Xml" Version="4.3.*" />
-        <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.*" />
-        <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.*" />
-        <PackageReference Include="System.Security.Cryptography.Algorithms" Version="4.3.*" />
-    </ItemGroup>
+    <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

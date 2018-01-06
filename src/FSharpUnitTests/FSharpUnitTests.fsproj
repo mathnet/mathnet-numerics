@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net45;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
@@ -6,22 +7,11 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
-      <DefineConstants>NETSTANDARD</DefineConstants>
+    <DefineConstants>NETSTANDARD</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.2.3" />
-    <PackageReference Include="FsUnit" Version="3.0.*" />
-    <PackageReference Include="NUnit" Version="3.9.0" />
-    <PackageReference Include="NUnitLite" Version="3.9.0" />
     <ProjectReference Include="..\FSharp\FSharp.fsproj" />
     <ProjectReference Include="..\TestData\TestData.csproj" />
-  </ItemGroup>
-  <ItemGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
-    <PackageReference Include="System.Reflection" Version="4.3.*" />
-    <PackageReference Include="System.Reflection.Extensions" Version="4.3.*" />
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.4.*" />
-    <PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.*" />
-    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.*" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
@@ -42,4 +32,5 @@
     <None Include="paket.references" />
     <None Include="App.config" />
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

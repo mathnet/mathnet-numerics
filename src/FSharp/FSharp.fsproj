@@ -47,7 +47,6 @@ BUG: Matrix.GetHashCode for wide matrices ~mjmckp</PackageReleaseNotes>
     <DefineConstants>NETSTANDARD</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="FSharp.Core" Version="4.2.3" />
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -71,4 +70,5 @@ BUG: Matrix.GetHashCode for wide matrices ~mjmckp</PackageReleaseNotes>
     <None Include="MathNet.Numerics.fsx" />
     <None Include="MathNet.Numerics.IfSharp.fsx" />
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
