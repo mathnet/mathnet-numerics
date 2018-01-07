@@ -1283,15 +1283,6 @@ namespace MathNet.Numerics.LinearAlgebra
         public abstract bool IsHermitian();
 
         /// <summary>
-        /// Evaluates whether this matrix is conjugate symmetric.
-        /// </summary>
-        [Obsolete("Use IsHermitian instead. Will be removed in v4.")]
-        public bool IsConjugateSymmetric()
-        {
-            return IsHermitian();
-        }
-
-        /// <summary>
         /// Returns this matrix as a multidimensional array.
         /// The returned array will be independent from this matrix.
         /// A new memory block will be allocated for the array.
@@ -1320,12 +1311,6 @@ namespace MathNet.Numerics.LinearAlgebra
             return Storage.ToColumnMajorArray();
         }
 
-        [Obsolete("Use ToColumnMajorArray instead. Will be removed in v4.")]
-        public T[] ToColumnWiseArray()
-        {
-            return ToColumnMajorArray();
-        }
-
         /// <summary>
         /// Returns the matrix's elements as an array with the data laid row by row (row major).
         /// The returned array will be independent from this matrix.
@@ -1342,13 +1327,6 @@ namespace MathNet.Numerics.LinearAlgebra
         public T[] ToRowMajorArray()
         {
             return Storage.ToRowMajorArray();
-        }
-
-
-        [Obsolete("Use ToRowMajorArray instead. Will be removed in v4.")]
-        public T[] ToRowWiseArray()
-        {
-            return ToRowMajorArray();
         }
 
         /// <summary>
@@ -1497,32 +1475,6 @@ namespace MathNet.Numerics.LinearAlgebra
                 default:
                     return Storage.EnumerateIndexed();
             }
-        }
-
-        /// <summary>
-        /// Returns an IEnumerable that can be used to iterate through all non-zero values of the matrix.
-        /// </summary>
-        /// <remarks>
-        /// The enumerator will skip all elements with a zero value.
-        /// </remarks>
-        [Obsolete("Use Enumerate(Zeros.AllowSkip) instead. Will be removed in v4.")]
-        public IEnumerable<T> EnumerateNonZero()
-        {
-            return Storage.EnumerateNonZero();
-        }
-
-        /// <summary>
-        /// Returns an IEnumerable that can be used to iterate through all non-zero values of the matrix and their index.
-        /// </summary>
-        /// <remarks>
-        /// The enumerator returns a Tuple with the first two values being the row and column index
-        /// and the third value being the value of the element at that index.
-        /// The enumerator will skip all elements with a zero value.
-        /// </remarks>
-        [Obsolete("Use EnumerateIndexed(Zeros.AllowSkip) instead. Will be removed in v4.")]
-        public IEnumerable<Tuple<int, int, T>> EnumerateNonZeroIndexed()
-        {
-            return Storage.EnumerateNonZeroIndexed();
         }
 
         /// <summary>

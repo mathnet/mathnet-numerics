@@ -37,7 +37,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// <summary>
     /// Error codes return from the MKL provider.
     /// </summary>
-    public enum MklError : int
+    internal enum MklError : int
     {
         /// <summary>
         /// Unable to allocate memory.
@@ -46,49 +46,13 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     }
 
     /// <summary>
-    /// Consistency vs. performance trade-off between runs on different machines.
-    /// </summary>
-    [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
-    public enum MklConsistency : int
-    {
-        /// <summary>Consistent on the same CPU only (maximum performance)</summary>
-        Auto = 2,
-        /// <summary>Consistent on Intel and compatible CPUs with SSE2 support (maximum compatibility)</summary>
-        Compatible = 3,
-        /// <summary>Consistent on Intel CPUs supporting SSE2 or later</summary>
-        SSE2 = 4,
-        /// <summary>Consistent on Intel CPUs supporting SSE4.2 or later</summary>
-        SSE4_2 = 8,
-        /// <summary>Consistent on Intel CPUs supporting AVX or later</summary>
-        AVX = 9,
-        /// <summary>Consistent on Intel CPUs supporting AVX2 or later</summary>
-        AVX2 = 10
-    }
-
-    [CLSCompliant(false)]
-    [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
-    public enum MklAccuracy : uint
-    {
-        Low = 0x1,
-        High = 0x2
-    }
-
-    [CLSCompliant(false)]
-    [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
-    public enum MklPrecision : uint
-    {
-        Single = 0x10,
-        Double = 0x20
-    }
-
-    /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
     public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
-        readonly Common.Mkl.MklConsistency _consistency;
-        readonly Common.Mkl.MklPrecision _precision;
-        readonly Common.Mkl.MklAccuracy _accuracy;
+        readonly MklConsistency _consistency;
+        readonly MklPrecision _precision;
+        readonly MklAccuracy _accuracy;
 
         int _linearAlgebraMajor;
         int _linearAlgebraMinor;
@@ -102,28 +66,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <param name="precision">VML optimal precision and rounding.</param>
         /// <param name="accuracy">VML accuracy mode.</param>
         [CLSCompliant(false)]
-        [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
         public MklLinearAlgebraProvider(
             MklConsistency consistency = MklConsistency.Auto,
             MklPrecision precision = MklPrecision.Double,
             MklAccuracy accuracy = MklAccuracy.High)
-        {
-            _consistency = (Common.Mkl.MklConsistency)consistency;
-            _precision = (Common.Mkl.MklPrecision)precision;
-            _accuracy = (Common.Mkl.MklAccuracy)accuracy;
-        }
-
-        /// <param name="consistency">
-        /// Sets the desired bit consistency on repeated identical computations on varying CPU architectures,
-        /// as a trade-off with performance.
-        /// </param>
-        /// <param name="precision">VML optimal precision and rounding.</param>
-        /// <param name="accuracy">VML accuracy mode.</param>
-        [CLSCompliant(false)]
-        public MklLinearAlgebraProvider(
-            Common.Mkl.MklConsistency consistency = Common.Mkl.MklConsistency.Auto,
-            Common.Mkl.MklPrecision precision = Common.Mkl.MklPrecision.Double,
-            Common.Mkl.MklAccuracy accuracy = Common.Mkl.MklAccuracy.High)
         {
             _consistency = consistency;
             _precision = precision;
@@ -132,9 +78,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
         public MklLinearAlgebraProvider()
         {
-            _consistency = Common.Mkl.MklConsistency.Auto;
-            _precision = Common.Mkl.MklPrecision.Double;
-            _accuracy = Common.Mkl.MklAccuracy.High;
+            _consistency = MklConsistency.Auto;
+            _precision = MklPrecision.Double;
+            _accuracy = MklAccuracy.High;
         }
 
         /// <summary>

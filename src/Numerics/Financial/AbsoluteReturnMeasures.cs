@@ -36,12 +36,6 @@ namespace MathNet.Numerics.Financial
 {
     public static class AbsoluteReturnMeasures
     {
-        [Obsolete("Use CompoundReturn instead, will be removed in v4.0")]
-        public static double CompoundMonthlyReturn(this IEnumerable<double> data)
-        {
-            return CompoundReturn(data);
-        }
-
         /// <summary>
         /// Compound Monthly Return or Geometric Return or Annualized Return
         /// </summary>

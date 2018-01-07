@@ -108,24 +108,6 @@ namespace MathNet.Numerics
         /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
         /// </summary>
         [CLSCompliant(false)]
-        [Obsolete("Will be removed in the next major version. Use the enums in the Common namespace instead.")]
-        public static void UseNativeMKL(
-            Providers.LinearAlgebra.Mkl.MklConsistency consistency = Providers.LinearAlgebra.Mkl.MklConsistency.Auto,
-            Providers.LinearAlgebra.Mkl.MklPrecision precision = Providers.LinearAlgebra.Mkl.MklPrecision.Double,
-            Providers.LinearAlgebra.Mkl.MklAccuracy accuracy = Providers.LinearAlgebra.Mkl.MklAccuracy.High)
-        {
-            LinearAlgebraControl.UseNativeMKL(
-                (Providers.Common.Mkl.MklConsistency)consistency,
-                (Providers.Common.Mkl.MklPrecision)precision,
-                (Providers.Common.Mkl.MklAccuracy)accuracy);
-            FourierTransformControl.UseNativeMKL();
-        }
-
-        /// <summary>
-        /// Use the Intel MKL native provider for linear algebra, with the specified configuration parameters.
-        /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
-        /// </summary>
-        [CLSCompliant(false)]
         public static void UseNativeMKL(
             Providers.Common.Mkl.MklConsistency consistency = Providers.Common.Mkl.MklConsistency.Auto,
             Providers.Common.Mkl.MklPrecision precision = Providers.Common.Mkl.MklPrecision.Double,

@@ -125,12 +125,6 @@ namespace MathNet.Numerics.Distributions
             return shape >= 0 && rate >= 0.0;
         }
 
-        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
-        public static bool IsValidParameterSet(double shape, double rate)
-        {
-            return IsValidParameterSet((int)shape, rate);
-        }
-
         /// <summary>
         /// Gets the shape (k) of the Erlang distribution. Range: k ≥ 0.
         /// </summary>
@@ -419,12 +413,6 @@ namespace MathNet.Numerics.Distributions
             return Math.Pow(rate, shape)*Math.Pow(x, shape - 1.0)*Math.Exp(-rate*x)/SpecialFunctions.Gamma(shape);
         }
 
-        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
-        public static double PDF(double shape, double rate, double x)
-        {
-            return PDF((int)shape, rate, x);
-        }
-
         /// <summary>
         /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
         /// </summary>
@@ -458,12 +446,6 @@ namespace MathNet.Numerics.Distributions
             return (shape*Math.Log(rate)) + ((shape - 1.0)*Math.Log(x)) - (rate*x) - SpecialFunctions.GammaLn(shape);
         }
 
-        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
-        public static double PDFLn(double shape, double rate, double x)
-        {
-            return PDFLn((int)shape, rate, x);
-        }
-
         /// <summary>
         /// Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x).
         /// </summary>
@@ -492,12 +474,6 @@ namespace MathNet.Numerics.Distributions
             return SpecialFunctions.GammaLowerRegularized(shape, x*rate);
         }
 
-        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
-        public static double CDF(double shape, double rate, double x)
-        {
-            return CDF((int)shape, rate, x);
-        }
-
         /// <summary>
         /// Generates a sample from the distribution.
         /// </summary>
@@ -510,12 +486,6 @@ namespace MathNet.Numerics.Distributions
             return Gamma.Sample(rnd, shape, rate);
         }
 
-        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
-        public static double Sample(System.Random rnd, double shape, double rate)
-        {
-            return Sample(rnd, (int)shape, rate);
-        }
-
         /// <summary>
         /// Generates a sequence of samples from the distribution.
         /// </summary>
@@ -526,12 +496,6 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<double> Samples(System.Random rnd, int shape, double rate)
         {
             return Gamma.Samples(rnd, shape, rate);
-        }
-
-        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
-        public static IEnumerable<double> Samples(System.Random rnd, double shape, double rate)
-        {
-            return Samples(rnd, (int)shape, rate);
         }
 
         /// <summary>
@@ -558,12 +522,6 @@ namespace MathNet.Numerics.Distributions
             return Gamma.Sample(shape, rate);
         }
 
-        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
-        public static double Sample(double shape, double rate)
-        {
-            return Sample((int)shape, rate);
-        }
-
         /// <summary>
         /// Generates a sequence of samples from the distribution.
         /// </summary>
@@ -573,12 +531,6 @@ namespace MathNet.Numerics.Distributions
         public static IEnumerable<double> Samples(int shape, double rate)
         {
             return Gamma.Samples(shape, rate);
-        }
-
-        [Obsolete("Use the variant that expects an int shape, or use Gamma instead. Will be dropped in v4.")]
-        public static IEnumerable<double> Samples(double shape, double rate)
-        {
-            return Samples((int)shape, rate);
         }
 
         /// <summary>

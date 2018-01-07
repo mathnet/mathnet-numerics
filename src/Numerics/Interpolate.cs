@@ -180,12 +180,6 @@ namespace MathNet.Numerics
             return Interpolation.LogLinear.Interpolate(points, values);
         }
 
-        [Obsolete("Use Linear instead. Will be removed in the next major version.")]
-        public static IInterpolation LinearSpline(IEnumerable<double> points, IEnumerable<double> values)
-        {
-            return Interpolation.LinearSpline.Interpolate(points, values);
-        }
-
         /// <summary>
         /// Create an piecewise natural cubic spline interpolation based on arbitrary points,
         /// with zero secondary derivatives at the boundaries.

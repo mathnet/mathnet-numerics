@@ -344,32 +344,6 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Returns an IEnumerable that can be used to iterate through all non-zero values of the vector.
-        /// </summary>
-        /// <remarks>
-        /// The enumerator will skip all elements with a zero value.
-        /// </remarks>
-        [Obsolete("Use Enumerate(Zeros.AllowSkip) instead. Will be removed in v4.")]
-        public IEnumerable<T> EnumerateNonZero()
-        {
-            return Storage.EnumerateNonZero();
-        }
-
-        /// <summary>
-        /// Returns an IEnumerable that can be used to iterate through all non-zero values of the vector and their index.
-        /// </summary>
-        /// <remarks>
-        /// The enumerator returns a Tuple with the first value being the element index
-        /// and the second value being the value of the element at that index.
-        /// The enumerator will skip all elements with a zero value.
-        /// </remarks>
-        [Obsolete("Use EnumerateIndexed(Zeros.AllowSkip) instead. Will be removed in v4.")]
-        public IEnumerable<Tuple<int, T>> EnumerateNonZeroIndexed()
-        {
-            return Storage.EnumerateNonZeroIndexed();
-        }
-
-        /// <summary>
         /// Applies a function to each value of this vector and replaces the value with its result.
         /// If forceMapZero is not set to true, zero values may or may not be skipped depending
         /// on the actual data storage implementation (relevant mostly for sparse vectors).

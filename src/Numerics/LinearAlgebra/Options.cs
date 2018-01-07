@@ -77,9 +77,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         Hermitian = 2,
 
-        [Obsolete("Use Hermitian instead. Will be removed in v4.")]
-        ConjugateSymmetric = 2,
-
         /// <summary>
         /// A matrix is not symmetric
         /// </summary>
