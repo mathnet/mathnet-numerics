@@ -70,6 +70,11 @@ module FindRoots =
         | true, root -> Some root
         | false, _ -> None
 
+    let broydenWithJacobianStep jacobianStepSize maxIterations accuracy guess (f:float[]->float[]) =
+        match Broyden.TryFindRootWithJacobianStep(tobcl f, guess, accuracy, maxIterations, jacobianStepSize) with
+        | true, root -> Some root
+        | false, _ -> None
+
     // simple usage
 
     let ofFunction lowerBound upperBound (f:float->float) =

@@ -480,7 +480,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Func<double, double> f1 = rp => rp - 0.327 * Math.Pow(0.06 - 161 * rp, 0.804) * Math.Exp(-5230 / (1.987 * (373 + 1.84e6 * rp)));
 
             Assert.That(() => BroydenFindRoot(f1, 0, 0.00035), Throws.TypeOf<NonConvergenceException>());
-            double x = BroydenFindRoot(f1, 0.0003, 0.00035, 1e-14);
+            double x = BroydenFindRoot(f1, 0.0003, 0.00035, 1e-14, 100, 1.0e-8);
             Assert.AreEqual(0.000340568862275, x, 1e-5);
             Assert.AreEqual(0, f1(x), 1e-14);
         }
@@ -754,11 +754,11 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, f1(x), 1e-14);
         }
 
-        private static double BroydenFindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
+        private static double BroydenFindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100, double jacobianStepSize = 1.0e-4)
         {
             Func<double[], double[]> fw = x => new[] { f(x[0]) };
             double[] initialGuess = { (lowerBound + upperBound) * 0.5 };
-            return Broyden.FindRoot(fw, initialGuess, accuracy, maxIterations)[0];
+            return Broyden.FindRoot(fw, initialGuess, accuracy, maxIterations, jacobianStepSize)[0];
         }
 
         [Test]
@@ -1018,7 +1018,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return new[] { frp, fx };
             };
 
-            double[] r = Broyden.FindRoot(fa1, new[] { 0.0001, 0.01 }, 1e-14);
+            double[] r = Broyden.FindRoot(fa1, new[] { 0.0001, 0.01 }, 1e-14, 100, 1e-8);
             Assert.AreEqual(0.0003406054400, r[0], 1e-5);
             Assert.AreEqual(0.0051625241669, r[1], 1e-5);
             Assert.AreEqual(0, fa1(r)[0], 1e-14);
@@ -1175,12 +1175,12 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return new[] { fT, fCa, fTj };
             };
 
-            double[] r = Broyden.FindRoot(fa1, new[] { 600, 0.1, 600 }, 1e-11);
+            double[] r = Broyden.FindRoot(fa1, new[] { 600, 0.1, 600 }, 1e-11, 100, 1e-6);
             Assert.AreEqual(590.34979512380, r[0], 1e-5);
             Assert.AreEqual(0.3301868979161, r[1], 1e-5);
             Assert.AreEqual(585.72976766210, r[2], 1e-5);
-            Assert.AreEqual(0, fa1(r)[0], 1e-12);
-            Assert.AreEqual(0, fa1(r)[1], 1e-14);
+            Assert.AreEqual(0, fa1(r)[0], 1e-11);
+            Assert.AreEqual(0, fa1(r)[1], 1e-11);
             Assert.AreEqual(0, fa1(r)[2], 1e-11);
         }
 
@@ -1364,7 +1364,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return new[] { fp4, fQ24, fQ34 };
             };
 
-            double[] r = Broyden.FindRoot(fa1, new double[] { 50, 100, 100 }, 1e-11);
+            double[] r = Broyden.FindRoot(fa1, new double[] { 50, 100, 100 }, 1e-11, 100, 1e-5);
             Assert.AreEqual(57.12556038475, r[0], 1e-5);
             Assert.AreEqual(51.75154563498, r[1], 1e-5);
             Assert.AreEqual(92.91811138918, r[2], 1e-5);
@@ -1443,8 +1443,6 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             };
 
             double[] r = Broyden.FindRoot(fa1, new[] { 1, 100, 50, 0.4, 0.25 }, 1e-14);
-            Assert.IsFalse(r[3] >= 0);
-            Assert.IsFalse(r[4] >= 0);
             //Assert.AreEqual(1.1206138931808, r[0], 1e-5);
             //Assert.AreEqual(90, r[1], 1e-5);
             //Assert.AreEqual(54.8512245178517, r[2], 1e-5);
@@ -1929,7 +1927,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[2], 1e-12);
             Assert.AreEqual(0, fa1(r)[3], 1e-12);
             Assert.AreEqual(0, fa1(r)[4], 1e-12);
-            Assert.AreEqual(0, fa1(r)[5], 1e-10);
+            Assert.AreEqual(0, fa1(r)[5], 1e-9);
             Assert.AreEqual(0, fa1(r)[6], 1e-9);
         }
 
@@ -1978,7 +1976,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
                 return new[] { fq01, fq12, fq13, fq24, fq23, fq34, fq45 };
             };
 
-            double[] r = Broyden.FindRoot(fa1, new[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 }, 1e-10);
+            double[] r = Broyden.FindRoot(fa1, new[] { 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1 }, 1e-10, 100, 1e-6);
             Assert.AreEqual(0.110237410418775, r[0], 1e-8);
             Assert.AreEqual(0.073312448014583, r[1], 1e-8);
             Assert.AreEqual(0.036924962404192, r[2], 1e-8);
@@ -2642,6 +2640,26 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[11], 1e-10);
             Assert.AreEqual(0, fa1(r)[12], 1e-10);
             Assert.AreEqual(0, fa1(r)[13], 1e-11);
+        }
+
+        /// <summary>
+        /// Demonstrate how Broyden method fails because Jacobian step size approaches zero without limits
+        /// when the initial value approaches coordinate axis.
+        /// </summary>
+        [Test]
+        public void NumericalAccuracyProblemsWithBroydenMethod()
+        {
+            Func<double[], double[]> f = xa => {
+                var x1 = xa[0];
+                var x2 = xa[1];
+                var f1 = 1 + x1;
+                var f2 = 1 + x2;
+                return new[] { f1, f2 };
+            };
+            var init = new[] { 10*Precision.PositiveMachineEpsilon, 1.0 };
+            double[] r = Broyden.FindRoot(f, init, 1e-5);
+            Assert.AreEqual(-1.0 , r[0], 1e-5);
+            Assert.AreEqual(-1.0, r[1], 1e-5);
         }
     }
 }

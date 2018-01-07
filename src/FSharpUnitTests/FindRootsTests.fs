@@ -60,6 +60,11 @@ module FindRootsTests =
             | None ->   failwith "The element in array is not equal.") |> ignore
 
     [<Test>]
+    let ``Bryoden with Jacobian step size should find both roots of (x - 3) * (x - 4)``() =
+        f |> (fun g (x:float[]) -> [|g x.[0]|]) |> FindRoots.broydenWithJacobianStep 1e-6 100 1e-14 [|1.0;|] |> shouldEqual (Some [|3.0|])
+        f |> (fun g (x:float[]) -> [|g x.[0]|]) |> FindRoots.broydenWithJacobianStep 1e-6 100 1e-14 [|9.0;|] |> shouldEqual (Some [|4.0|])
+
+    [<Test>]
     let ``Simple method should find both roots of (x - 3) * (x - 4)``() =
         f |> FindRoots.ofFunction -5.0 3.5 |> Option.get |> should (equalWithin 1e-8) 3.0
         f |> FindRoots.ofFunction 3.2 5.0 |> Option.get |> should (equalWithin 1e-8) 4.0
