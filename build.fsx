@@ -374,7 +374,7 @@ let dotnetBuild configuration solution = DotNetCli.Build (fun p ->
         AdditionalArgs = defaultArgs})
 
 Target "BuildMain" (fun _ -> dotnetBuild "Release" "MathNet.Numerics.sln")
-Target "BuildSigned" (fun _ -> dotnetBuild "Release-StrongName" "MathNet.Numerics.sln")
+//Target "BuildSigned" (fun _ -> dotnetBuild "Release-StrongName" "MathNet.Numerics.sln")
 
 Target "Build" DoNothing
 "Prepare"
@@ -435,16 +435,16 @@ Target "TestF#NET46" (fun _ -> testLibraryFsharp "net46")
 Target "TestF#NET47" (fun _ -> testLibraryFsharp "net47")
 
 "Build" ==> "TestF#Core1.1" ==> "TestF#"
-//"Build" ==> "TestF#Core2.0" ==> "TestF#"
+"Build" ==> "TestF#Core2.0" //==> "TestF#"
 "Build" ==> "TestF#NET45" ==> "TestF#"
-//"Build" ==> "TestF#NET46" ==> "TestF#"
-//"Build" ==> "TestF#NET47" ==> "TestF#"
+"Build" ==> "TestF#NET46" //==> "TestF#"
+"Build" ==> "TestF#NET47" //==> "TestF#"
 "Build" ==> "TestC#Core1.1" ==> "TestC#"
-//"Build" ==> "TestC#Core2.0" ==> "TestC#"
-//"Build" ==> "TestC#NET40" ==> "TestC#"
+"Build" ==> "TestC#Core2.0" //==> "TestC#"
+"Build" ==> "TestC#NET40" //==> "TestC#"
 "Build" ==> "TestC#NET45" ==> "TestC#"
-//"Build" ==> "TestC#NET46" ==> "TestC#"
-//"Build" ==> "TestC#NET47" ==> "TestC#"
+"Build" ==> "TestC#NET46" //==> "TestC#"
+"Build" ==> "TestC#NET47" //==> "TestC#"
 "TestC#" ==> "Test"
 "TestF#" ==> "Test"
 

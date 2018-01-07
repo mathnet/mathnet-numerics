@@ -1013,7 +1013,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// the scalar argument.  The copy is then returned as the result
         /// </summary>
         /// <param name="f">Function which takes a scalar and a vector, modifies the vector in place and returns void</param>
-        /// <param name="x">The scalar to be passed to the function</param>
+        /// <param name="other">The scalar to be passed to the function</param>
         /// <returns>The resulting vector</returns>
         protected Vector<T> PointwiseBinary(Action<T, Vector<T>> f, T other)
         {
@@ -1048,7 +1048,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="f">Function which takes two vectors, modifies the second in place and returns void</param>
         /// <param name="other">The other vector to be passed to the function as argument. It is not modified</param>
         /// <returns>The resulting vector</returns>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         protected Vector<T> PointwiseBinary(Action<Vector<T>, Vector<T>> f, Vector<T> other)
         {
             if (Count != other.Count)
@@ -1067,8 +1067,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         /// <param name="f">Function which takes two vectors, modifies the second in place and returns void</param>
         /// <param name="other">The other vector to be passed to the function as argument. It is not modified</param>
-        /// <returns>The resulting vector</returns>
-        /// <exception cref="ArgumentException">If this vector and <paramref name="result"/> are not the same size.</exception>
+        /// <param name="result">The resulting vector</param>
+        /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         protected void PointwiseBinary(Action<Vector<T>, Vector<T>> f, Vector<T> other, Vector<T> result)
         {
             if (Count != other.Count)
@@ -1193,7 +1193,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// 'this' vector being the 'y'
         /// </summary>
         /// <param name="other"></param>
-        /// <returns></returns>
         public Vector<T> PointwiseAtan2(Vector<T> other)
         {
             return PointwiseBinary(DoPointwiseAtan2, other);
@@ -1205,7 +1204,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// 'this' vector being the 'y'
         /// </summary>
         /// <param name="other"></param>
-        /// <returns></returns>
+        /// <param name="result">The vector to store the result</param>
         public void PointwiseAtan2(Vector<T> other, Vector<T> result)
         {
             PointwiseBinary(DoPointwiseAtan2, other, result);
