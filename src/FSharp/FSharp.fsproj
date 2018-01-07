@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net45;netstandard1.6;netstandard2.0</TargetFrameworks>
     <OutputType>Library</OutputType>
+    <TargetFrameworks>net45;netstandard1.6;netstandard2.0</TargetFrameworks>
+    <NetStandardImplicitPackageVersion>2.0.1</NetStandardImplicitPackageVersion>
     <AssemblyName>MathNet.Numerics.FSharp</AssemblyName>
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
