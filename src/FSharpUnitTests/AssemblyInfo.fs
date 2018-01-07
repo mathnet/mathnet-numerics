@@ -12,7 +12,7 @@ open System.Runtime.InteropServices
 
 [<assembly: AssemblyVersion("4.0.0.0")>]
 [<assembly: AssemblyFileVersion("4.0.0.0")>]
-[<assembly: AssemblyInformationalVersion("4.0.0-alpha04")>]
+[<assembly: AssemblyInformationalVersion("4.0.0-beta01")>]
 
 #if PORTABLE || NETSTANDARD
 #else

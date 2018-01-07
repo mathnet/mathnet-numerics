@@ -1,8 +1,12 @@
-### 4.0.0-alpha04 - 2018-01-05
-* Prerelease to test .Net Standard support and establish dotnet SDK build automation
-* Assembly code signing (X.509) using SHA2 (256)
+### 4.0.0-beta01 - 2018-01-07
+* BREAKING: drop obsolete functionality (which has been marked as obsolete for a while)
+* BREAKING: drop support for .Net 3.5 and PCL profiles
+* BREAKING: F#: drop support for .Net 4.0 and PCL profiles
+* Explicit builds for .Net Framework 4.0 and higher and for .Net Standard 1.3 and 2.0
+* F#: explicit builds for .Net Framework 4.5 and higher and for .Net Standard 1.6 and 2.0
+* Assemblies are now code-signed with an X.509 certificate, using SHA2-256 hashes
 * BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling *~Ksero*
-* BUG: Matrix.GetHashCode for wide matrices *~mjmckp*
+* BUG: fix Matrix.GetHashCode for wide matrices *~mjmckp*
 
 ### 3.20.0 - 2017-07-15
 * Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*

@@ -11,6 +11,6 @@ using MathNet.Numerics.UnitTests;
 
 [assembly: AssemblyVersion("4.0.0.0")]
 [assembly: AssemblyFileVersion("4.0.0.0")]
-[assembly: AssemblyInformationalVersion("4.0.0-alpha04")]
+[assembly: AssemblyInformationalVersion("4.0.0-beta01")]
 
 [assembly: UseLinearAlgebraProvider]
