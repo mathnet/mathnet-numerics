@@ -1,3 +1,7 @@
+### 4.0.0-beta02 - 2018-01-07
+* Root Finding: Broyden: step size for calculating appox Jacobian, more robust step size formula *~Aappo Pulkkinen*
+* Statistics: Kernel Density Estimation *~Christoph Albert*
+
 ### 4.0.0-beta01 - 2018-01-07
 * BREAKING: drop obsolete functionality (which has been marked as obsolete for a while)
 * BREAKING: drop support for .Net 3.5 and PCL profiles
