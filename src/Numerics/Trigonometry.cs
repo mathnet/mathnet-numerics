@@ -572,7 +572,7 @@ namespace MathNet.Numerics
 
             var denom = (sini * sini) + (sinhr * sinhr);
 
-            return new Complex(sinhr * Cosh(value.Real) / denom, sini * Cos(value.Imaginary) / denom);
+            return new Complex(sinhr * Cosh(value.Real) / denom, -sini * Cos(value.Imaginary) / denom);
         }
 
         /// <summary>
