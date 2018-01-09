@@ -8,9 +8,9 @@
         <IsPackable>true</IsPackable>
         <PackageId>MathNet.Numerics</PackageId>
         <VersionPrefix>4.0.0</VersionPrefix>
-        <VersionSuffix>beta02</VersionSuffix>
-        <PackageVersion>4.0.0-beta02</PackageVersion>
-        <Version>4.0.0-beta02</Version>
+        <VersionSuffix>beta03</VersionSuffix>
+        <PackageVersion>4.0.0-beta03</PackageVersion>
+        <Version>4.0.0-beta03</Version>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
         <FileVersion>4.0.0.0</FileVersion>
         <Title>Math.NET Numerics</Title>
@@ -23,8 +23,8 @@
         <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
         <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
         <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
-        <PackageReleaseNotes>Root Finding: Broyden: step size for calculating appox Jacobian, more robust step size formula ~Aappo Pulkkinen
-Statistics: Kernel Density Estimation ~Christoph Albert</PackageReleaseNotes>
+        <PackageReleaseNotes>Optimization: Limited-Memory BFGS ~Florian Wechsung
+BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent</PackageReleaseNotes>
         <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
         <IsTool>false</IsTool>
         <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>

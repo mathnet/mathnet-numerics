@@ -1,3 +1,7 @@
+### 4.0.0-beta03 - 2018-01-09
+* Optimization: Limited-Memory BFGS *~Florian Wechsung*
+* BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent
+
 ### 4.0.0-beta02 - 2018-01-07
 * Root Finding: Broyden: step size for calculating appox Jacobian, more robust step size formula *~Aappo Pulkkinen*
 * Statistics: Kernel Density Estimation *~Christoph Albert*
