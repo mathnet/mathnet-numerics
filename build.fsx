@@ -361,7 +361,8 @@ Target "Prepare" DoNothing
 // --------------------------------------------------------------------------------------
 
 Target "BuildMain" (fun _ ->
-    build "MathNet.Numerics.sln")
+    build "MathNet.Numerics.sln"
+    chmodx (!! "src/**/bin/Release/*.exe"))
 //Target "BuildSigned" (fun _ -> dotnetBuild "Release-StrongName" "MathNet.Numerics.sln")
 
 Target "Build" DoNothing
@@ -394,7 +395,10 @@ Target "OpenBlasWinBuild" DoNothing
 // TEST
 // --------------------------------------------------------------------------------------
 
-let testLibrary testsDir testsProj framework =
+
+
+
+let testLibrary testsDir testsProj (framework:string) =
     DotNetCli.RunCommand
         (fun c -> { c with WorkingDir = testsDir})
         (sprintf "run -p %s --configuration Release --framework %s --no-restore --no-build"
@@ -424,13 +428,15 @@ Target "TestF#NET47" (fun _ -> testLibraryFsharp "net47")
 
 "Build" ==> "TestF#Core1.1" ==> "TestF#"
 "Build" ==> "TestF#Core2.0"
-"Build" =?> ("TestF#NET45", isWindows) ==> "TestF#"
+"Build" ==> "TestF#NET45" ==> "TestF#"
+//"Build" =?> ("TestF#NET45", isWindows) ==> "TestF#"
 "Build" =?> ("TestF#NET46", isWindows)
 "Build" =?> ("TestF#NET47", isWindows)
 "Build" ==> "TestC#Core1.1" ==> "TestC#"
 "Build" ==> "TestC#Core2.0"
 "Build" =?> ("TestC#NET40", isWindows)
-"Build" =?> ("TestC#NET45", isWindows) ==> "TestC#"
+"Build" ==> "TestC#NET45" ==> "TestC#"
+//"Build" =?> ("TestC#NET45", isWindows) ==> "TestC#"
 "Build" =?> ("TestC#NET46", isWindows)
 "Build" =?> ("TestC#NET47", isWindows)
 "TestC#" ==> "Test"

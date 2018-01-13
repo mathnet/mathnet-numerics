@@ -153,6 +153,15 @@ let pack project = msbuild [ "Pack" ] "Release" project
 let buildConfig32 config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration", config); ("Platform","Win32")] subject |> ignore
 let buildConfig64 config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration", config); ("Platform","x64")] subject |> ignore
 
+let chmodx files =
+    if isLinux || isUnix || isMacOS then
+        for file in files do
+            let result =
+                ExecProcess (fun info ->
+                    info.FileName <- "chmod"
+                    info.Arguments <- sprintf "+x %s" file) TimeSpan.MaxValue
+            if result <> 0 then
+                failwithf "'chmod +x %s' failed" file
 
 // --------------------------------------------------------------------------------------
 // TEST
