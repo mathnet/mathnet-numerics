@@ -1,3 +1,9 @@
+### 3.20.1 - 2018-01-13
+* Bugfixes backported from v4:
+* BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent
+* BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling *~Ksero*
+* BUG: fix Matrix.GetHashCode for wide matrices *~mjmckp*
+
 ### 3.20.0 - 2017-07-15
 * Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*
 * Native Providers: from now on also supported in the .Net 3.5 build.
