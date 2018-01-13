@@ -16,24 +16,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics", "src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics", "src/Numerics/Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp", "src\FSharp\FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp", "src/FSharp/FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharpUnitTests", "src\FSharpUnitTests\FSharpUnitTests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharpUnitTests", "src/FSharpUnitTests/FSharpUnitTests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "src\UnitTests\UnitTests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "src/UnitTests/UnitTests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40-DE22-49FB-B1C0-6E5BDA3B0B2F}"
 	ProjectSection(SolutionItems) = preProject
-		build\build-framework.fsx = build\build-framework.fsx
+		build/build-framework.fsx = build/build-framework.fsx
 		build.fsx = build.fsx
-		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
+		build/MathNet.Numerics.nuspec = build/MathNet.Numerics.nuspec
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src/TestData/TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +80,6 @@ Global
 		SolutionGuid = {148D7305-A64C-41B0-9A45-DE87ED5DF70F}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = src\Numerics\Numerics.csproj
+		StartupItem = src/Numerics/Numerics.csproj
 	EndGlobalSection
 EndGlobal
