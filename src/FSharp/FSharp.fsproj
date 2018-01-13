@@ -8,9 +8,9 @@
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp</PackageId>
     <VersionPrefix>4.0.0</VersionPrefix>
-    <VersionSuffix>beta03</VersionSuffix>
-    <PackageVersion>4.0.0-beta03</PackageVersion>
-    <Version>4.0.0-beta03</Version>
+    <VersionSuffix>beta04</VersionSuffix>
+    <PackageVersion>4.0.0-beta04</PackageVersion>
+    <Version>4.0.0-beta04</Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
     <Title>Math.NET Numerics for F#</Title>
@@ -23,8 +23,10 @@
     <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
     <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
     <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
-    <PackageReleaseNotes>Optimization: Limited-Memory BFGS ~Florian Wechsung
-BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent</PackageReleaseNotes>
+    <PackageReleaseNotes>BREAKING: Linear Algebra: Vector.Map consistent with Matrix.Map, automatic fallback to inplace
+BREAKING: Linear Algebra: Storage providers must always force all parameters (no defaults)
+Linear Algebra: F# vector/matrix functions to accept all #seq instead of lists only
+Linear Algebra: Vector MapInplace implemented at storage level</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
