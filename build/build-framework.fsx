@@ -132,9 +132,23 @@ let patchVersionInProjectFile path (release:Release) =
 // BUILD
 // --------------------------------------------------------------------------------------
 
-let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
-let build subject = buildConfig "Release" subject
-let buildSigned subject = buildConfig "Release-Signed" subject
+let msbuild targets project =
+    MSBuildHelper.build (fun p ->
+        { p with
+            NoLogo = true
+            NodeReuse = true
+            Targets = targets
+            Properties = [ "Configuration", "Release" ]
+            RestorePackagesFlag = false
+            Verbosity = Some MSBuildVerbosity.Minimal
+        }) project
+        
+let restore project = msbuild [ "Restore" ] project
+let build project = msbuild [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] project
+
+//let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
+//let build subject = buildConfig "Release" subject
+//let buildSigned subject = buildConfig "Release-Signed" subject
 let buildConfig32 config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration", config); ("Platform","Win32")] subject |> ignore
 let buildConfig64 config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration", config); ("Platform","x64")] subject |> ignore
 

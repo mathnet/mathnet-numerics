@@ -345,14 +345,16 @@ Target "ApplyVersion" (fun _ ->
     patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
 
 Target "DotnetRestore" (fun _ ->
-    DotNetCli.Restore (fun p ->
-        { p with
-            Project = "MathNet.Numerics.sln"
-            NoCache = false })
-    DotNetCli.Restore (fun p ->
-        { p with
-            Project = "MathNet.Numerics.Data.sln"
-            NoCache = false }))
+    restore "MathNet.Numerics.sln"
+    restore "MathNet.Numerics.Data.sln")
+    //DotNetCli.Restore (fun p ->
+    //    { p with
+    //        Project = "MathNet.Numerics.sln"
+    //        NoCache = false })
+    //DotNetCli.Restore (fun p ->
+    //    { p with
+    //        Project = "MathNet.Numerics.Data.sln"
+    //        NoCache = false }))
 
 Target "Prepare" DoNothing
 "Start"
@@ -366,21 +368,22 @@ Target "Prepare" DoNothing
 // BUILD
 // --------------------------------------------------------------------------------------
 
-let dotnetBuild configuration solution = DotNetCli.Build (fun p ->
-    { p with
-        Project = solution
-        Configuration = configuration
-        AdditionalArgs = ["--no-restore"]})
+//let dotnetBuild configuration solution = DotNetCli.Build (fun p ->
+//    { p with
+//        Project = solution
+//        Configuration = configuration
+//        AdditionalArgs = ["--no-restore"]})
 
 Target "BuildMain" (fun _ ->
-    // dotnetBuild "Release" "MathNet.Numerics.sln"
-    MSBuildHelper.build (fun p ->
-        { p with
-            Targets = [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ]
-            Properties = [ "Configuration", "Release" ]
-            RestorePackagesFlag = false
-            Verbosity = Some MSBuildVerbosity.Minimal
-        }) "MathNet.Numerics.sln")
+    build "MathNet.Numerics.sln")
+    
+    //MSBuildHelper.build (fun p ->
+    //    { p with
+    //        Targets = [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ]
+    //        Properties = [ "Configuration", "Release" ]
+    //        RestorePackagesFlag = false
+    //        Verbosity = Some MSBuildVerbosity.Minimal
+    //    }) "MathNet.Numerics.sln")
     //MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", "Release" ] (!!"MathNet.Numerics.sln") |> ignore)
 //Target "BuildSigned" (fun _ -> dotnetBuild "Release-StrongName" "MathNet.Numerics.sln")
 
@@ -390,7 +393,7 @@ Target "Build" DoNothing
   //=?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
   ==> "Build"
 
-Target "DataBuild" (fun _ -> dotnetBuild "Release" "MathNet.Numerics.Data.sln")
+Target "DataBuild" (fun _ -> build "MathNet.Numerics.Data.sln")
 "Prepare" ==> "DataBuild"
 
 Target "MklWin32Build" (fun _ -> buildConfig32 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")

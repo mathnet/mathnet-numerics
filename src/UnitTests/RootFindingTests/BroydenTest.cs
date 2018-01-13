@@ -2626,20 +2626,20 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(1.08137588467567, r[11], 1e-5);
             Assert.AreEqual(1.06683987591090, r[12], 1e-5);
             Assert.AreEqual(1.04952829661125, r[13], 1e-5);
-            Assert.AreEqual(0, fa1(r)[0], 1e-12);
-            Assert.AreEqual(0, fa1(r)[1], 1e-12);
-            Assert.AreEqual(0, fa1(r)[2], 1e-12);
-            Assert.AreEqual(0, fa1(r)[3], 1e-12);
-            Assert.AreEqual(0, fa1(r)[4], 1e-12);
-            Assert.AreEqual(0, fa1(r)[5], 1e-12);
-            Assert.AreEqual(0, fa1(r)[6], 1e-12);
-            Assert.AreEqual(0, fa1(r)[7], 1e-12);
-            Assert.AreEqual(0, fa1(r)[8], 1e-12);
-            Assert.AreEqual(0, fa1(r)[9], 1e-12);
-            Assert.AreEqual(0, fa1(r)[10], 1e-12);
+            Assert.AreEqual(0, fa1(r)[0], 1e-10);
+            Assert.AreEqual(0, fa1(r)[1], 1e-10);
+            Assert.AreEqual(0, fa1(r)[2], 1e-10);
+            Assert.AreEqual(0, fa1(r)[3], 1e-10);
+            Assert.AreEqual(0, fa1(r)[4], 1e-10);
+            Assert.AreEqual(0, fa1(r)[5], 1e-10);
+            Assert.AreEqual(0, fa1(r)[6], 1e-10);
+            Assert.AreEqual(0, fa1(r)[7], 1e-10);
+            Assert.AreEqual(0, fa1(r)[8], 1e-10);
+            Assert.AreEqual(0, fa1(r)[9], 1e-10);
+            Assert.AreEqual(0, fa1(r)[10], 1e-10);
             Assert.AreEqual(0, fa1(r)[11], 1e-10);
             Assert.AreEqual(0, fa1(r)[12], 1e-10);
-            Assert.AreEqual(0, fa1(r)[13], 1e-11);
+            Assert.AreEqual(0, fa1(r)[13], 1e-10);
         }
 
         /// <summary>
