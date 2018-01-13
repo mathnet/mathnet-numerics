@@ -348,11 +348,11 @@ Target "DotnetRestore" (fun _ ->
     DotNetCli.Restore (fun p ->
         { p with
             Project = "MathNet.Numerics.sln"
-            NoCache = true })
+            NoCache = false })
     DotNetCli.Restore (fun p ->
         { p with
             Project = "MathNet.Numerics.Data.sln"
-            NoCache = true }))
+            NoCache = false }))
 
 Target "Prepare" DoNothing
 "Start"
@@ -367,13 +367,21 @@ Target "Prepare" DoNothing
 // --------------------------------------------------------------------------------------
 
 let dotnetBuild configuration solution = DotNetCli.Build (fun p ->
-    let defaultArgs = ["--no-restore"]
     { p with
         Project = solution
         Configuration = configuration
-        AdditionalArgs = defaultArgs})
+        AdditionalArgs = ["--no-restore"]})
 
-Target "BuildMain" (fun _ -> dotnetBuild "Release" "MathNet.Numerics.sln")
+Target "BuildMain" (fun _ ->
+    // dotnetBuild "Release" "MathNet.Numerics.sln"
+    MSBuildHelper.build (fun p ->
+        { p with
+            Targets = [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ]
+            Properties = [ "Configuration", "Release" ]
+            RestorePackagesFlag = false
+            Verbosity = Some MSBuildVerbosity.Minimal
+        }) "MathNet.Numerics.sln")
+    //MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", "Release" ] (!!"MathNet.Numerics.sln") |> ignore)
 //Target "BuildSigned" (fun _ -> dotnetBuild "Release-StrongName" "MathNet.Numerics.sln")
 
 Target "Build" DoNothing
