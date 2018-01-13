@@ -37,7 +37,7 @@ BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent</Pack
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <NoWarn>FS2003</NoWarn>
+    <NoWarn>2003</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
     <DefineConstants>NETSTANDARD</DefineConstants>

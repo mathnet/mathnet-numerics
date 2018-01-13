@@ -7,7 +7,7 @@
     <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IsPackable>false</IsPackable>
-    <NoWarn>FS0044;FS2003</NoWarn>
+    <NoWarn>44;2003</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="$(TargetFramework.Contains('netcoreapp')) OR $(TargetFramework.Contains('netstandard'))">
     <DefineConstants>NETSTANDARD</DefineConstants>

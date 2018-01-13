@@ -344,22 +344,14 @@ Target "ApplyVersion" (fun _ ->
     patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
     patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
 
-Target "DotnetRestore" (fun _ ->
+Target "Restore" (fun _ ->
     restore "MathNet.Numerics.sln"
     restore "MathNet.Numerics.Data.sln")
-    //DotNetCli.Restore (fun p ->
-    //    { p with
-    //        Project = "MathNet.Numerics.sln"
-    //        NoCache = false })
-    //DotNetCli.Restore (fun p ->
-    //    { p with
-    //        Project = "MathNet.Numerics.Data.sln"
-    //        NoCache = false }))
 
 Target "Prepare" DoNothing
 "Start"
   =?> ("Clean", not (hasBuildParam "incremental"))
-  ==> "DotnetRestore"
+  ==> "Restore"
   ==> "ApplyVersion"
   ==> "Prepare"
 
@@ -368,23 +360,8 @@ Target "Prepare" DoNothing
 // BUILD
 // --------------------------------------------------------------------------------------
 
-//let dotnetBuild configuration solution = DotNetCli.Build (fun p ->
-//    { p with
-//        Project = solution
-//        Configuration = configuration
-//        AdditionalArgs = ["--no-restore"]})
-
 Target "BuildMain" (fun _ ->
     build "MathNet.Numerics.sln")
-    
-    //MSBuildHelper.build (fun p ->
-    //    { p with
-    //        Targets = [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ]
-    //        Properties = [ "Configuration", "Release" ]
-    //        RestorePackagesFlag = false
-    //        Verbosity = Some MSBuildVerbosity.Minimal
-    //    }) "MathNet.Numerics.sln")
-    //MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", "Release" ] (!!"MathNet.Numerics.sln") |> ignore)
 //Target "BuildSigned" (fun _ -> dotnetBuild "Release-StrongName" "MathNet.Numerics.sln")
 
 Target "Build" DoNothing
@@ -547,14 +524,14 @@ Target "OpenBlasWinZip" (fun _ ->
 // NUGET
 
 let dotnetPack solution = DotNetCli.Pack (fun p ->
-    let defaultArgs = ["--no-restore"; "--no-build" ]
     { p with
         Project = solution
         Configuration = "Release"
-        AdditionalArgs = defaultArgs})
+        AdditionalArgs = ["--no-restore"; "--no-build" ]})
 
 Target "NuGet" (fun _ ->
-    dotnetPack "MathNet.Numerics.sln"
+    pack "MathNet.Numerics.sln"
+    //dotnetPack "MathNet.Numerics.sln"
     CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
     CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg")))
     //CleanDir "out/packages/NuGet"
