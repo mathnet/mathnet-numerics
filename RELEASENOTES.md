@@ -1,4 +1,4 @@
-### 4.0.0-beta04 - 2017-01-13
+### 4.0.0-beta04 - 2018-01-13
 * BREAKING: Linear Algebra: Vector.Map consistent with Matrix.Map, automatic fallback to inplace
 * BREAKING: Linear Algebra: Storage providers must always force all parameters (no defaults)
 * Linear Algebra: F# vector/matrix functions to accept all #seq instead of lists only
