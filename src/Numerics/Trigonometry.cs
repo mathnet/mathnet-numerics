@@ -192,11 +192,39 @@ namespace MathNet.Numerics
                 return new Complex(Tan(value.Real), 0.0);
             }
 
-            var cosr = Cos(value.Real);
-            var sinhi = Sinh(value.Imaginary);
-            var denom = (cosr * cosr) + (sinhi * sinhi);
+            // tan(x + j*y) = (tan(x) + j*cosh(y)*sinh(y)/cos^2(x))/(1 + sinh^2(y)/cos^2(x))            
+            // if |y| > asinh(sqrt(max)), tan(z) = 4*cos(x)*sin(x)*exp(-2*|y|) + j*sign(y)
+            // if exp(-|y|) = 0, tan(z) = j*sign(y)
+            // if tan(x) = +/- oo or 1/cos^2(x) = 1 + tan^2(x) = oo, tan(z) = j*cosh(y)/sinh(y)
+            //
+            // The algorithm is from:
+            // Kahan, W. Branch Cuts for Complex Elementary Functions, or Much Ado
+            // About Nothing's Sign Bit." In The State of the Art in Numerical Analysis:
+            // Proceedings of the Joint IMA / SIAM Conference on the State of the Art in
+            // Numerical Analysis Held at the UN (Ed.A.Iserles and M.J.D.Powell).
+            // New York: Clarendon Press, pp. 165 - 211, 1987.
 
-            return new Complex(Sin(value.Real) * cosr / denom, sinhi * Cosh(value.Imaginary) / denom);
+            double upperLimit = Asinh(Math.Sqrt(double.MaxValue)); // 355.58450362725193
+
+            if (Math.Abs(value.Imaginary) > upperLimit)
+            {
+                double e = Math.Exp(-Math.Abs(value.Imaginary));
+                return e == 0.0
+                    ? new Complex(0.0, Math.Sign(value.Imaginary))
+                    : new Complex(4.0 * Math.Cos(value.Real) * Math.Sin(value.Real) * e * e, Math.Sign(value.Imaginary));
+            }
+
+            double tanr = Math.Tan(value.Real);
+            double beta = 1 + tanr * tanr; // beta = 1/cos(x)^2 = 1 + t^2
+            double sinhi = Math.Sinh(value.Imaginary); 
+            double coshi = Math.Cosh(value.Imaginary);
+
+            if (double.IsInfinity(tanr))
+                return new Complex(0.0, coshi / sinhi);
+
+            double denom = 1.0 + beta * sinhi * sinhi;
+
+            return new Complex(tanr / denom, beta * coshi * sinhi / denom);
         }
 
         /// <summary>
@@ -221,11 +249,34 @@ namespace MathNet.Numerics
                 return new Complex(Cot(value.Real), 0d);
             }
 
-            var sinr = Sin(value.Real);
-            var sinhi = Sinh(value.Imaginary);
-            var denom = (sinr * sinr) + (sinhi * sinhi);
+            // cot(x + j*y) = (cot(x) - j*cosh(y)*sinh(y)/sin^2(x))/(1 + sinh^2(y)/sin^2(x))            
+            // if |y| > asinh(sqrt(max)), cot(z) = 4*cos(x)*sin(x)*exp(-2*|y|) - j*sign(y)
+            // if exp(-|y|) = 0, cot(z) = -j*sign(y)
+            // if cot(x) = +/- oo or 1/sin^2(x) = 1 + cot^2(x) = oo, cot(z) = -j*cosh(y)/sinh(y)
+            //
+            // The algorithm is based on Kahan.
 
-            return new Complex(sinr * Cos(value.Real) / denom, -sinhi * Cosh(value.Imaginary) / denom);
+            double upperLimit = Asinh(Math.Sqrt(double.MaxValue)); // 355.58450362725193
+
+            if (Math.Abs(value.Imaginary) > upperLimit)
+            {
+                double e = Math.Exp(-Math.Abs(value.Imaginary));
+                return e == 0.0
+                    ? new Complex(0.0, -Math.Sign(value.Imaginary))
+                    : new Complex(4.0 * Math.Cos(value.Real) * Math.Sin(value.Real) * e * e, -Math.Sign(value.Imaginary));
+            }
+
+            double cotr = Cot(value.Real);
+            double beta = 1 + cotr * cotr; // beta = 1/cos(x)^2 = 1 + t^2
+            double sinhi = Sinh(value.Imaginary);
+            double coshi = Cosh(value.Imaginary);
+
+            if (double.IsInfinity(cotr))
+                return new Complex(0.0, - coshi / sinhi);
+
+            double denom = 1.0 + beta * sinhi * sinhi;
+
+            return new Complex(cotr / denom, - beta * coshi * sinhi / denom);
         }
 
         /// <summary>
@@ -515,17 +566,33 @@ namespace MathNet.Numerics
                 return new Complex(Tanh(value.Real), 0.0);
             }
 
-            var cosi = Cos(value.Imaginary);
-            var sinhr = Sinh(value.Real);
+            // tanh(x + j*y) = (cosh(x)*sinh(x)/cos^2(y) + j*tan(y))/(1 + sinh^2(x)/cos^2(y))            
+            // if |x| > asinh(sqrt(max)), tanh(z) = sign(x) + j*4*cos(y)*sin(y)*exp(-2*|x|)
+            // if exp(-|x|) = 0, tanh(z) = sign(x)
+            // if tan(y) = +/- oo or 1/cos^2(y) = 1 + tan^2(y) = oo, tanh(z) = cosh(x)/sinh(x)
+            //
+            // The algorithm is based on Kahan.
 
-            if (double.IsInfinity(sinhr))
+            double upperLimit = Asinh(Math.Sqrt(double.MaxValue)); // 355.58450362725193
+
+            if (Math.Abs(value.Real) > upperLimit)
             {
-                return new Complex(double.IsPositiveInfinity(sinhr) ? 1 : -1, 0.0);
+                double e = Math.Exp(-Math.Abs(value.Real));
+                return e == 0.0
+                    ? new Complex(Math.Sign(value.Real), 0.0)
+                    : new Complex(Math.Sign(value.Real), 4.0 * Math.Cos(value.Imaginary) * Math.Sin(value.Imaginary) * e * e);
             }
 
-            var denom = (cosi * cosi) + (sinhr * sinhr);
+            double tani = Tan(value.Imaginary);
+            double beta = 1 + tani * tani; // beta = 1/cos^2(y) = 1 + t^2
+            double sinhr = Sinh(value.Real);
+            double coshr = Cosh(value.Real);
 
-            return new Complex(Cosh(value.Real) * sinhr / denom, cosi * Sin(value.Imaginary) / denom);
+            if (double.IsInfinity(tani))
+                return new Complex(coshr / sinhr, 0.0);
+
+            double denom = 1.0 + beta * sinhr * sinhr;
+            return new Complex(beta * coshr * sinhr / denom, tani / denom);
         }
 
         /// <summary>
@@ -562,17 +629,33 @@ namespace MathNet.Numerics
                 return new Complex(Coth(value.Real), 0.0);
             }
 
-            var sini = Sin(value.Imaginary);
-            var sinhr = Sinh(value.Real);
+            // coth(x + j*y) = (cosh(x)*sinh(x)/sin^2(y) - j*cot(y))/(1 + sinh^2(x)/sin^2(y))            
+            // if |x| > asinh(sqrt(max)), coth(z) = sign(x) - j*4*cos(y)*sin(y)*exp(-2*|x|)
+            // if exp(-|x|) = 0, coth(z) = sign(x)
+            // if cot(y) = +/- oo or 1/sin^2(y) = 1 + cot^2(y) = oo, coth(z) = cosh(x)/sinh(x)
+            //
+            // The algorithm is based on Kahan.
 
-            if (double.IsInfinity(sinhr))
+            double upperLimit = Asinh(Math.Sqrt(double.MaxValue)); // 355.58450362725193
+
+            if (Math.Abs(value.Real) > upperLimit)
             {
-                return new Complex(double.IsPositiveInfinity(sinhr) ? 1 : -1, 0.0);
+                double e = Math.Exp(-Math.Abs(value.Real));
+                return e == 0.0
+                    ? new Complex(Math.Sign(value.Real), 0.0)
+                    : new Complex(Math.Sign(value.Real), -4.0 * Math.Cos(value.Imaginary) * Math.Sin(value.Imaginary) * e * e);
             }
 
-            var denom = (sini * sini) + (sinhr * sinhr);
+            double coti = Cot(value.Imaginary);
+            double beta = 1 + coti * coti;
+            double sinhr = Math.Sinh(value.Real);
+            double coshr = Math.Cosh(value.Real);
 
-            return new Complex(sinhr * Cosh(value.Real) / denom, -sini * Cos(value.Imaginary) / denom);
+            if (double.IsInfinity(coti))
+                return new Complex(coshr / sinhr, 0.0);
+
+            double denom = 1.0 + beta * sinhr * sinhr;
+            return new Complex(beta * coshr * sinhr / denom, -coti / denom);
         }
 
         /// <summary>
@@ -597,14 +680,36 @@ namespace MathNet.Numerics
                 return new Complex(Sech(value.Real), 0.0);
             }
 
-            var exp = value.Exp();
+            // sech(x + j*y) = (cosh(x)/cos(y) - j*sinh(x)*tan(y)/cos(y))/(1 + sinh^2(x)/cos^2(y))            
+            // if |x| > asinh(sqrt(max)), sech(z) = 4*cosh(x)*cos(y)*exp(-2*|x|) - j*4*sinh(x)*tan(y)*cos(y)*exp(-2*|x|)
+            // if exp(-|x|) = 0, sech(z) = 0
+            // if tan(y) = +/- oo or 1/cos^2(y) = 1 + tan^2(y) = oo, sech(z) = -j*sign(tan(y))/sinh(x)
+            //
+            // The algorithm is based on Kahan.
 
-            if (exp.IsInfinity())
+            double upperLimit = Asinh(Math.Sqrt(double.MaxValue)); // 355.58450362725193
+
+            double tani = Tan(value.Imaginary);
+            double cosi = Cos(value.Imaginary);
+            double beta = 1.0 + tani * tani;
+            double sinhr = Math.Sinh(value.Real);
+            double coshr = Math.Cosh(value.Real);
+            
+            if (Math.Abs(value.Real) > upperLimit)
             {
-                return Complex.Zero;
+                double e = Math.Exp(-Math.Abs(value.Real));
+                return e == 0.0
+                    ? new Complex(0, 0)
+                    : new Complex(4.0 * coshr * cosi * e * e, -4.0 * sinhr * tani * cosi * e * e);
             }
 
-            return 2 * exp / (exp.Square() + 1);
+            if (double.IsInfinity(tani))
+            {
+                return new Complex(0.0, -Math.Sign(tani) / sinhr);
+            }
+
+            double denom = 1.0 + beta * sinhr * sinhr;
+            return new Complex(coshr / cosi / denom, -sinhr * tani / cosi / denom);
         }
 
         /// <summary>
@@ -629,14 +734,36 @@ namespace MathNet.Numerics
                 return new Complex(Csch(value.Real), 0.0);
             }
 
-            var exp = value.Exp();
+            // csch(x + j*y) = (sinh(x)*cot(y)/sin(y) - j*cosh(x)/sin(y))/(1 + sinh^2(x)/sin^2(y))            
+            // if |x| > asinh(sqrt(max)), csch(z) = 4*sinh(x)*cot(y)*sin(y)*exp(-2*|x|) - j*4*cosh(x)*sin(y)*exp(-2*|x|)
+            // if exp(-|x|) = 0, csch(z) = 0
+            // if cot(y) = +/- oo or 1/sin^2(x) = 1 + cot^2(x) = oo, csch(z) = sign(cot(y))/sinh(x)
+            //
+            // The algorithm is based on Kahan.
 
-            if (exp.IsInfinity())
+            double upperLimit = Asinh(Math.Sqrt(double.MaxValue));
+
+            double coti = Cot(value.Imaginary);
+            double sini = Sin(value.Imaginary);
+            double beta = 1 + coti * coti;
+            double sinhr = Sinh(value.Real);
+            double coshr = Cosh(value.Real);
+            
+            if (Math.Abs(value.Real) > upperLimit)
             {
-                return Complex.Zero;
+                double e = Math.Exp(-Math.Abs(value.Real));
+                return e == 0.0
+                    ? new Complex(0, 0)
+                    : new Complex(4.0 * sinhr * coti * sini * e * e, -4.0 * coshr * sini * e * e);
             }
 
-            return 2 * exp / (exp.Square() - 1);
+            if (double.IsInfinity(coti))
+            {
+                return new Complex(Math.Sign(coti) / sinhr, 0.0);
+            }
+
+            double denom = 1.0 + beta * sinhr * sinhr;
+            return new Complex(sinhr * coti / sini / denom, -coshr / sini / denom);
         }
 
 
