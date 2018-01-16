@@ -58,6 +58,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(-1.19209289550780998537e-7, 0.0, 0.99999999999999289, 0.0)]
         [TestCase(8.388608e6, 1.19209289550780998537e-7, -0.90175467375876572, -5.1528001100635277e-8)]
         [TestCase(-1.19209289550780998537e-7, -8.388608e6, double.PositiveInfinity, double.NegativeInfinity)]
+        [TestCase(512.0, 32.0, -39356457675156.6, -3139507838262.74)]
+        [TestCase(-512.0, -32.0, -39356457675156.6, -3139507838262.74)]
+        [TestCase(32.0, -512.0, +9.52855589474963e+221, +6.29843301304523e+221)]
+        [TestCase(-32.0, -512.0, +9.52855589474963e+221, -6.29843301304523e+221)]
         public void CanComputeComplexCosine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Cos();
@@ -79,6 +83,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(-1.19209289550780998537e-7, 0.0, -1.19209289550780998537e-7, 0.0)]
         [TestCase(8.388608e6, 1.19209289550780998537e-7, 0.43224820225680083, -1.0749753400787824e-7)]
         [TestCase(-1.19209289550780998537e-7, -8.388608e6, double.NegativeInfinity, double.NegativeInfinity)]
+        [TestCase(512.0, 32.0, +3139507838262.74, -39356457675156.6)]
+        [TestCase(-512.0, -32.0, -3139507838262.74, +39356457675156.6)]
+        [TestCase(32.0, -512.0, +6.29843301304523e+221, -9.52855589474963e+221)]
+        [TestCase(-32.0, -512.0, -6.29843301304523e+221, -9.52855589474963e+221)]
         public void CanComputeComplexSine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Sin();
@@ -100,6 +108,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(-1.19209289550780998537e-7, 0.0, -1.1920928955078157e-7, 0.0)]
         [TestCase(8.388608e6, 1.19209289550780998537e-7, -0.47934123862653449, 1.4659977233982276e-7)]
         [TestCase(-8.388608e6, -1.19209289550780998537e-7, 0.47934123862653449, -1.4659977233982276e-7)]
+        [TestCase(512.0, 32.0, -5.08515122860094E-29, 1)]
+        [TestCase(-512.0, -32.0, +5.08515122860094E-29, -1)]
+        [TestCase(32.0, 512.0, +3.52598650243739e-445, 1)]
+        [TestCase(32.0, -512.0, +3.52598650243739e-445, -1)]
         public void CanComputeComplexTangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Tan();
@@ -549,6 +561,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(-1.19209289550780998537e-7, 0.0, -8388607.999999978, 0.0)]
         [TestCase(8.388608e6, 1.19209289550780998537e-7, -2.0861964701080704, -6.3803383253713457e-7)]
         [TestCase(-8.388608e6, -1.19209289550780998537e-7, 2.0861964701080704, 6.3803383253713457e-7)]
+        [TestCase(512.0, 32.0, -5.08515122860094E-29, -1.0)]
+        [TestCase(-512.0, -32.0, 5.08515122860094E-29, +1.0)]
+        [TestCase(32.0, 512.0, +3.52598650243739e-445, -1.0)]
+        [TestCase(32.0, -512.0, +3.52598650243739e-445, +1.0)]
         public void CanComputeComplexCotangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Cot();
@@ -570,6 +586,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(-1.19209289550780998537e-7, 0.0, 1.0000000000000071, 0.0)]
         [TestCase(8.388608e6, 1.19209289550780998537e-7, -1.1089490624226177, 6.3367488045143761e-8)]
         [TestCase(-8.388608e6, -1.19209289550780998537e-7, -1.1089490624226177, 6.3367488045143761e-8)]
+        [TestCase(512.0, 32.0, -2.52481261731330570134e-14, +2.01407074478744036413e-15)]
+        [TestCase(-512.0, -32.0, -2.52481261731330570134e-14, +2.01407074478744036413e-15)]
+        [TestCase(32.0, 512.0, +7.30361056703505e-223, +4.82773070945482e-223)]
+        [TestCase(32.0, -512.0, +7.30361056703505e-223, -4.82773070945482e-223)]
         public void CanComputeComplexSecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Sec();
@@ -591,6 +611,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(-1.19209289550780998537e-7, 0.0, -8388608.0000000376, 0.0)]
         [TestCase(8.388608e6, 1.19209289550780998537e-7, 2.3134856195557596, 5.7534999050657057e-7)]
         [TestCase(-8.388608e6, -1.19209289550780998537e-7, -2.3134856195557596, -5.7534999050657057e-7)]
+        [TestCase(512.0, 32.0, 2.01407074478744e-15, 2.52481261731331e-14)]
+        [TestCase(-512.0, -32.0, -2.01407074478744e-15, -2.52481261731331e-14)]
+        [TestCase(32.0, 512.0, +4.82773070945482e-223, -7.30361056703505e-223)]
+        [TestCase(32.0, -512.0, +4.82773070945482e-223, +7.30361056703505e-223)]
         public void CanComputeComplexCosecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Csc();
@@ -616,6 +640,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(0.5, -0.5, 0.45730415318424922, -0.54061268571315335)]
         [TestCase(-0.5, 0.5, -0.45730415318424922, 0.54061268571315335)]
         [TestCase(-0.5, -0.5, -0.45730415318424922, -0.54061268571315335)]
+        [TestCase(512.0, 32.0, 9.52855589474962752845e221, 6.29843301304522728211e221)]
+        [TestCase(-512.0, -32.0, -9.52855589474962752845e221, -6.29843301304522728211e221)]
+        [TestCase(-32.0, 512.0, +3.93564576751566e13, +3.13950783826274e12)]
+        [TestCase(32.0, -512.0, -3.93564576751566e13, -3.13950783826274e12)]
         public void CanComputeComplexHyperbolicSine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Sinh();
@@ -641,6 +669,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(0.5, -0.5, 0.9895848833999199, -0.24982639750046154)]
         [TestCase(-0.5, 0.5, 0.9895848833999199, -0.24982639750046154)]
         [TestCase(-0.5, -0.5, 0.9895848833999199, 0.24982639750046154)]
+        [TestCase(512.0, 32.0, 9.52855589474962752845e221, 6.29843301304522728211e221)]
+        [TestCase(-512.0, -32.0, 9.52855589474962752845e221, 6.29843301304522728211e221)]
+        [TestCase(-32.0, 512.0, -3.93564576751566e13, -3.13950783826274e12)]
+        [TestCase(32.0, -512.0, -3.93564576751566e13, -3.13950783826274e12)]
         public void CanComputeComplexHyperbolicCosine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Cosh();
@@ -666,6 +698,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(0.5, -0.5, 0.56408314126749848, -0.40389645531602575)]
         [TestCase(-0.5, 0.5, -0.56408314126749848, 0.40389645531602575)]
         [TestCase(-0.5, -0.5, -0.56408314126749848, -0.40389645531602575)]
+        [TestCase(512.0, 32.0, 1.0, 0.0)]
+        [TestCase(-512.0, -32.0, -1.0, 0.0)]
+        [TestCase(-32.0, 512.0, -1.0, -5.08515122860093626173e-29)]
+        [TestCase(32.0, -512.0, +1.0, +5.08515122860093626173e-29)]
         public void CanComputeComplexHyperbolicTangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Tanh();
@@ -691,6 +727,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(0.5, -0.5, 1.1719451445243514, 0.8391395790248311)]
         [TestCase(-0.5, 0.5, -1.1719451445243514, -0.8391395790248311)]
         [TestCase(-0.5, -0.5, -1.1719451445243514, 0.8391395790248311)]
+        [TestCase(512.0, 32.0, 1.0, 0.0)]
+        [TestCase(-512.0, -32.0, -1.0, 0.0)]
+        [TestCase(-32.0, 512.0, -1.0, 5.08515122860093626173e-29)]
+        [TestCase(32.0, -512.0, +1.0, -5.08515122860093626173e-29)]
         public void CanComputeComplexHyperbolicCotangent(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Coth();
@@ -716,6 +756,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(0.5, -0.5, 0.94997886761549463, 0.23982763093808804)]
         [TestCase(-0.5, 0.5, 0.94997886761549463, 0.23982763093808804)]
         [TestCase(-0.5, -0.5, 0.94997886761549463, -0.23982763093808804)]
+        [TestCase(512.0, 32.0, 7.30361056703505051822e-223, -4.82773070945482080706e-223)]
+        [TestCase(-512.0, -32.0, 7.30361056703505051822e-223, -4.82773070945482080706e-223)]
+        [TestCase(-32.0, 512.0, -2.52481261731330570134e-14, +2.01407074478744036413e-15)]
+        [TestCase(-32.0, -512.0, -2.52481261731330570134e-14, -2.01407074478744036413e-15)]
         public void CanComputeComplexHyperbolicSecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Sech();
@@ -741,6 +785,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(0.5, -0.5, 0.91207426403881078, 1.0782296946540223)]
         [TestCase(-0.5, 0.5, -0.91207426403881078, -1.0782296946540223)]
         [TestCase(-0.5, -0.5, -0.91207426403881078, 1.0782296946540223)]
+        [TestCase(512.0, 32.0, 7.30361056703505051822e-223, -4.82773070945482080706e-223)]
+        [TestCase(-512.0, -32.0, -7.30361056703505051822e-223, +4.82773070945482080706e-223)]
+        [TestCase(-32.0, 512.0, +2.52481261731330570134e-14, -2.01407074478744036413e-15)]
+        [TestCase(32.0, -512.0, -2.52481261731330570134e-14, +2.01407074478744036413e-15)]
         public void CanComputeComplexHyperbolicCosecant(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Csch();
