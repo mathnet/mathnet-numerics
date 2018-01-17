@@ -18,6 +18,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - [Marcus Cuda](http://marcuscuda.com/) (@marcuscuda)
 - Jurgen Van Gael (@jvangael)
 - Scott Stephens
+- Ignas Anikevicius
 - Alexander Karatarakis
 - Eirik Ovegard
 - Thomas Ibel
@@ -41,12 +42,14 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Evelina Gabasova
 - Superbest
 - lionpeloux
+- mjmckp
 - Anders Gustafsson
 - Gauthier Segay
 - Hythem Sidky
 - John C Barstow
 - Jon Smit
 - Justin Needham
+- Ksero
 - Patrick van der Velde
 - Robin Neatherway
 - Andrew Kazyrevich
@@ -57,9 +60,9 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Jon Larborn
 - Juri
 - Kyle Parrigan
+- Ryan Blackwell
 - bdodson
 - borfudin
-- mjmckp
 - Aixile
 - Albert Pang
 - Alex Hild
@@ -67,6 +70,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Dan
 - David Falkner
 - Elias Abou Jaoude
+- Florian Wechsung
 - Gregor959
 - Iain Sproat
 - Igor K
@@ -75,7 +79,6 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Joel Sleppy
 - Konstantin Tretyakov
 - Kosei ABE
-- Ksero
 - Lucas Godshalk
 - Martin Posch
 - Matt Heffron
@@ -92,8 +95,9 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - arthurvb
 - Baltazar Bieniek
 - bstrausser
-- Florian Wechsung
+- Christoph Albert
 - grovesNL
+- jb
 - liuzh
 - logophobia
 - Matthew Peacock
