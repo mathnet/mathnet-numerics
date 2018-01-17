@@ -338,6 +338,7 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="expected">Expected value.</param>
         [TestCase(1.0, 0.0)]
         [TestCase(8388608, 16.635532333438682)]
+        [TestCase(1.7976931348623157E+308, 710.47586007394394203711)]
         public void CanComputeInverseHyperbolicCosine(double value, double expected)
         {
             var actual = Trig.Acosh(value);
@@ -383,6 +384,8 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(-8388608, -16.63553233343869)]
         [TestCase(1.19209289550780998537e-7, 1.1920928955078072e-7)]
         [TestCase(-1.19209289550780998537e-7, -1.1920928955078072e-7)]
+        [TestCase(1.7976931348623157E+308, 710.47586007394394203711)]
+        [TestCase(-1.7976931348623157E+308, -710.47586007394394203711)]
         public void CanComputeInverseHyperbolicSine(double value, double expected)
         {
             var actual = Trig.Asinh(value);
