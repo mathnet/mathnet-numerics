@@ -447,9 +447,20 @@ namespace MathNet.Numerics
                 return new Complex(Sinh(value.Real), 0.0);
             }
 
+            // sinh(x + j y) = sinh(x)*cos(y) + j*cosh(x)*sin(y)
+            // if x > huge, sinh(x + jy) = sign(x)*exp(|x|)/2*cos(y) + j*exp(|x|)/2*sin(y)
+
+            if (Math.Abs(value.Real) >= 22.0) // Taken from the msun library in FreeBSD
+            {
+                double h = Math.Exp(Math.Abs(value.Real)) * 0.5;
+                return new Complex(
+                    Math.Sign(value.Real)*h*Cos(value.Imaginary),
+                    h*Sin(value.Imaginary));
+            }
+
             return new Complex(
                 Sinh(value.Real) * Cos(value.Imaginary),
-                Cosh(value.Real) * Sin(value.Imaginary));
+                Cosh(value.Real) * Sin(value.Imaginary));            
         }
 
         /// <summary>
@@ -472,6 +483,17 @@ namespace MathNet.Numerics
             if (value.IsReal())
             {
                 return new Complex(Cosh(value.Real), 0.0);
+            }
+
+            // cosh(x + j*y) = cosh(x)*cos(y) + j*sinh(x)*sin(y)
+            // if x > huge, cosh(x + j*y) = exp(|x|)/2*cos(y) + j*sign(x)*exp(|x|)/2*sin(y)
+
+            if (Math.Abs(value.Real) >= 22.0) // Taken from the msun library in FreeBSD
+            {
+                double h = Math.Exp(Math.Abs(value.Real)) * 0.5;
+                return new Complex(
+                    h * Cos(value.Imaginary),
+                    Math.Sign(value.Real) * h * Sin(value.Imaginary));
             }
 
             return new Complex(
@@ -519,10 +541,8 @@ namespace MathNet.Numerics
             // if tan(y) = +/- oo or 1/cos^2(y) = 1 + tan^2(y) = oo, tanh(z) = cosh(x)/sinh(x)
             //
             // The algorithm is based on Kahan.
-
-            double upperLimit = 177.6189650; // Asinh(double.MaxValue) / 4.0;
-
-            if (Math.Abs(value.Real) > upperLimit)
+            
+            if (Math.Abs(value.Real) >= 22.0) // Taken from the msun library in FreeBSD
             {
                 double e = Math.Exp(-Math.Abs(value.Real));
                 return e == 0.0
@@ -610,15 +630,13 @@ namespace MathNet.Numerics
             //
             // The algorithm is based on Kahan.
 
-            double upperLimit = 177.6189650; // Asinh(double.MaxValue) / 4.0;
-
             double tani = Tan(value.Imaginary);
             double cosi = Cos(value.Imaginary);
             double beta = 1.0 + tani * tani;
             double sinhr = Math.Sinh(value.Real);
             double coshr = Math.Cosh(value.Real);
             
-            if (Math.Abs(value.Real) > upperLimit)
+            if (Math.Abs(value.Real) >= 22.0) // Taken from the msun library in FreeBSD
             {
                 double e = Math.Exp(-Math.Abs(value.Real));
                 return e == 0.0
@@ -664,15 +682,13 @@ namespace MathNet.Numerics
             //
             // The algorithm is based on Kahan.
 
-            double upperLimit = 177.6189650; // Asinh(double.MaxValue) / 4.0;
-
             double coti = Cot(value.Imaginary);
             double sini = Sin(value.Imaginary);
             double beta = 1 + coti * coti;
             double sinhr = Sinh(value.Real);
             double coshr = Cosh(value.Real);
             
-            if (Math.Abs(value.Real) > upperLimit)
+            if (Math.Abs(value.Real) >= 22.0) // Taken from the msun library in FreeBSD
             {
                 double e = Math.Exp(-Math.Abs(value.Real));
                 return e == 0.0
