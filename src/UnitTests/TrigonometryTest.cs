@@ -660,6 +660,7 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(-512.0, -32.0, -9.52855589474962752845e221, -6.29843301304522728211e221)]
         [TestCase(-32.0, 512.0, +3.93564576751566e13, +3.13950783826274e12)]
         [TestCase(32.0, -512.0, -3.93564576751566e13, -3.13950783826274e12)]
+        [TestCase(709.0, 709.0, +2.22042071181169647963e307, -3.45764185010438140812e307)]
         public void CanComputeComplexHyperbolicSine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Sinh();
@@ -689,6 +690,7 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(-512.0, -32.0, 9.52855589474962752845e221, 6.29843301304522728211e221)]
         [TestCase(-32.0, 512.0, -3.93564576751566e13, -3.13950783826274e12)]
         [TestCase(32.0, -512.0, -3.93564576751566e13, -3.13950783826274e12)]
+        [TestCase(709.0, 709.0, +2.22042071181169647963e307, -3.45764185010438140812e307)]
         public void CanComputeComplexHyperbolicCosine(double real, double imag, double expectedReal, double expectedImag)
         {
             var actual = new Complex(real, imag).Cosh();
