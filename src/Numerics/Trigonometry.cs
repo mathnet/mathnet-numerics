@@ -713,7 +713,13 @@ namespace MathNet.Numerics
         /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
         public static double Asinh(double value)
         {
-            return Math.Log(value + Math.Sqrt((value * value) + 1), Math.E);
+            // asinh(x) = Sign(x) * ln(|x| + sqrt(x*x + 1))
+            // if |x| > huge, asinh(x) ~= Sign(x) * ln(2|x|)
+
+            if (Math.Abs(value) >= 268435456.0) // 2^28, taken from freeBSD
+                return Math.Sign(value) * (Math.Log(Math.Abs(value)) + Math.Log(2.0));
+
+            return Math.Sign(value) * Math.Log(Math.Abs(value) + Math.Sqrt((value * value) + 1));
         }
 
         /// <summary>
@@ -733,6 +739,12 @@ namespace MathNet.Numerics
         /// <returns>The hyperbolic angle, i.e. the area of its hyperbolic sector.</returns>
         public static double Acosh(double value)
         {
+            // acosh(x) = ln(x + sqrt(x*x - 1))
+            // if |x| >= 2^28, acosh(x) ~ ln(x) + ln(2)
+
+            if (Math.Abs(value) >= 268435456.0) // 2^28, taken from freeBSD
+                return Math.Log(value) + Math.Log(2.0);
+
             return Math.Log(value + (Math.Sqrt(value - 1) * Math.Sqrt(value + 1)), Math.E);
         }
 
