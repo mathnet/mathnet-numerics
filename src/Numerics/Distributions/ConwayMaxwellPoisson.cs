@@ -191,12 +191,12 @@ namespace MathNet.Numerics.Distributions
                     var a2 = a1*e;
                     var ax2 = ax1*ex;
 
-                    var m = zx/z;
-                    var upper = (zx + (ax1/(1 - (ax2/ax1))))/z;
-                    var lower = zx/(z + (a1/(1 - (a2/a1))));
-
                     if ((ax2 < ax1) && (a2 < a1))
                     {
+                        var m = zx/z;
+                        var upper = (zx + (ax1/(1 - (ax2/ax1))))/z;
+                        var lower = zx/(z + (a1/(1 - (a2/a1))));
+
                         var r = (upper - lower)/m;
                         if (r < Tolerance)
                         {
@@ -252,12 +252,12 @@ namespace MathNet.Numerics.Distributions
                     var a2 = a1*e;
                     var axx2 = axx1*exx;
 
-                    var m = zxx/z;
-                    var upper = (zxx + (axx1/(1 - (axx2/axx1))))/z;
-                    var lower = zxx/(z + (a1/(1 - (a2/a1))));
-
                     if ((axx2 < axx1) && (a2 < a1))
                     {
+                        var m = zxx/z;
+                        var upper = (zxx + (axx1/(1 - (axx2/axx1))))/z;
+                        var lower = zxx/(z + (a1/(1 - (a2/a1))));
+
                         var r = (upper - lower)/m;
                         if (r < Tolerance)
                         {
