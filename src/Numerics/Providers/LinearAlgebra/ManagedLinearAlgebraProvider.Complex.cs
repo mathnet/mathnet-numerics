@@ -70,11 +70,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if (y.Length != x.Length)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
-            }
-
             if (alpha.IsZero())
             {
                 y.Copy(result);
