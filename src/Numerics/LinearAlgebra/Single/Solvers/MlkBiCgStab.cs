@@ -189,7 +189,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             var orthogonalMatrix = gs.Q;
 
             // Now transfer this to vectors
-            var result = new List<Vector<float>>();
+            var result = new List<Vector<float>>(orthogonalMatrix.ColumnCount);
             for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
             {
                 result.Add(orthogonalMatrix.Column(i));
