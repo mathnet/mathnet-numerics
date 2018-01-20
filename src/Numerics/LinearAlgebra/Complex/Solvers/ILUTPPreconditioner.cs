@@ -552,20 +552,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <returns><c>true</c> if performed, otherwise <c>false</c></returns>
         bool PivotMapFound(Dictionary<int, int> knownPivots, int currentItem)
         {
-            if (knownPivots.ContainsKey(_pivots[currentItem]))
+            if (knownPivots.TryGetValue(_pivots[currentItem], out var knownPivot) && knownPivot.Equals(currentItem))
             {
-                if (knownPivots[_pivots[currentItem]].Equals(currentItem))
-                {
-                    return true;
-                }
+                return true;
             }
 
-            if (knownPivots.ContainsKey(currentItem))
+            if (knownPivots.TryGetValue(currentItem, out var pivot) && pivot.Equals(_pivots[currentItem]))
             {
-                if (knownPivots[currentItem].Equals(_pivots[currentItem]))
-                {
-                    return true;
-                }
+                return true;
             }
 
             return false;
