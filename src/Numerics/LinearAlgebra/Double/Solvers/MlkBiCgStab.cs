@@ -186,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
             var orthogonalMatrix = gs.Q;
 
             // Now transfer this to vectors
-            var result = new List<Vector<double>>();
+            var result = new List<Vector<double>>(orthogonalMatrix.ColumnCount);
             for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
             {
                 result.Add(orthogonalMatrix.Column(i));

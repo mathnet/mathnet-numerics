@@ -186,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
             var orthogonalMatrix = gs.Q;
 
             // Now transfer this to vectors
-            var result = new List<Vector<Numerics.Complex32>>();
+            var result = new List<Vector<Numerics.Complex32>>(orthogonalMatrix.ColumnCount);
             for (var i = 0; i < orthogonalMatrix.ColumnCount; i++)
             {
                 result.Add(orthogonalMatrix.Column(i));
