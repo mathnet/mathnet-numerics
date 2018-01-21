@@ -113,7 +113,7 @@ namespace MathNet.Numerics.Optimization
             if (initialGuess == null)
                 throw new ArgumentNullException("initialGuess", "initialGuess must be initialized");
 
-            if (initialGuess == null)
+            if (initalPertubation == null)
                 throw new ArgumentNullException("initalPertubation", "initalPertubation must be initialized, if unknown use overloaded version of FindMinimum()");
 
             SimplexConstant[] simplexConstants = SimplexConstant.CreateSimplexConstantsFromVectors(initialGuess,initalPertubation);

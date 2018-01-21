@@ -427,7 +427,7 @@ namespace MathNet.Numerics
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if ((a.Length == 0 && b.Length == 0) || (a == null && b == null))
+            if (a.Length == 0 && b.Length == 0)
             {
                 return 0;
             }
@@ -473,7 +473,7 @@ namespace MathNet.Numerics
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            if ((a.Length == 0 && b.Length == 0) || (a == null && b == null))
+            if (a.Length == 0 && b.Length == 0)
             {
                 return 0;
             }
