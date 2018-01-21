@@ -2875,7 +2875,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
             var matrixCopy = new Complex32[matrix.Length];
             Array.Copy(matrix, 0, matrixCopy, 0, matrix.Length);
-            var v = new DenseVector(order);
             if (isSymmetric)
             {
                 var tau = new Complex32[order];
@@ -2894,6 +2893,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             }
             else
             {
+                var v = new DenseVector(order);
+
                 DenseEvd.NonsymmetricReduceToHessenberg(matrixEv, matrixCopy, order);
                 DenseEvd.NonsymmetricReduceHessenberToRealSchur(v.Values, matrixEv, matrixCopy, order);
                 for (var i = 0; i < order; i++)
