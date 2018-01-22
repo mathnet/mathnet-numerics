@@ -162,7 +162,7 @@ namespace MathNet.Numerics.Statistics
         {
             get
             {
-                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0)
                 {
                     return double.NaN;
                 }
@@ -185,7 +185,7 @@ namespace MathNet.Numerics.Statistics
         {
             get
             {
-                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0)
                 {
                     return double.NaN;
                 }
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.Statistics
         {
             get
             {
-                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0)
                 {
                     return double.NaN;
                 }
@@ -231,7 +231,7 @@ namespace MathNet.Numerics.Statistics
         {
             get
             {
-                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0 || (_lastPosInfTimeToLive > 0 && _lastNegInfTimeToLive > 0))
+                if (_lastNaNTimeToLive > 0 || _lastNegInfTimeToLive > 0)
                 {
                     return double.NaN;
                 }

@@ -421,7 +421,7 @@ namespace MathNet.Numerics
                     result = (z*1.125) + (z*Evaluate.Polynomial(z, ErfImpAn)/Evaluate.Polynomial(z, ErfImpAd));
                 }
             }
-            else if ((z < 110) || ((z < 110) && invert))
+            else if (z < 110)
             {
                 // We'll be calculating erfc:
                 invert = !invert;
@@ -488,7 +488,7 @@ namespace MathNet.Numerics
                 }
                 else if (z < 60)
                 {
-                    // Worst case absolute error found: 5.896543869e-24 
+                    // Worst case absolute error found: 5.896543869e-24
                     r = Evaluate.Polynomial(z - 38, ErfImpLn) /Evaluate.Polynomial(z - 38, ErfImpLd);
                     b = 0.5640528202F;
                 }
