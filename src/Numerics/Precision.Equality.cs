@@ -258,7 +258,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Checks whether two Compex numbers are almost equal.
+        /// Checks whether two Complex numbers are almost equal.
         /// </summary>
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
@@ -269,7 +269,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Checks whether two Compex numbers are almost equal.
+        /// Checks whether two Complex numbers are almost equal.
         /// </summary>
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
@@ -302,7 +302,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Checks whether two Compex numbers are almost equal.
+        /// Checks whether two Complex numbers are almost equal.
         /// </summary>
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>
@@ -313,7 +313,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Checks whether two Compex numbers are almost equal.
+        /// Checks whether two Complex numbers are almost equal.
         /// </summary>
         /// <param name="a">The first number</param>
         /// <param name="b">The second number</param>

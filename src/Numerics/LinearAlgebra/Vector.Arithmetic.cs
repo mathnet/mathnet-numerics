@@ -431,7 +431,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Subtracts another vector from this vector.
         /// </summary>
         /// <param name="other">The vector to subtract from this one.</param>
-        /// <returns>A new vector containing the subtraction of the the two vectors.</returns>
+        /// <returns>A new vector containing the subtraction of the two vectors.</returns>
         /// <exception cref="ArgumentException">If this vector and <paramref name="other"/> are not the same size.</exception>
         public Vector<T> Subtract(Vector<T> other)
         {

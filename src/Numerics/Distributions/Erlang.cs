@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Erlang distribution.
-    /// This distribution is is a continuous probability distribution with wide applicability primarily due to its
+    /// This distribution is a continuous probability distribution with wide applicability primarily due to its
     /// relation to the exponential and Gamma distributions.
     /// <a href="http://en.wikipedia.org/wiki/Erlang_distribution">Wikipedia - Erlang distribution</a>.
     /// </summary>

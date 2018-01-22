@@ -50,7 +50,7 @@ namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
     /// <summary>
-    /// This partial implementation of the SpecialFunctions class contains all methods related to the modified bessel function.
+    /// This partial implementation of the SpecialFunctions class contains all methods related to the modified Bessel function.
     /// </summary>
     public static partial class SpecialFunctions
     {

@@ -531,7 +531,7 @@ namespace MathNet.Numerics.Random
             // every bit with independent uniform distribution
             uint uint32 = BitConverter.ToUInt32(bytes, 0);
 
-            // the least significant N bits with independend uniform distribution and the remaining bits zero
+            // the least significant N bits with independent uniform distribution and the remaining bits zero
             uint uintN = uint32 >> (32 - bitCount);
             return (int)uintN;
         }
@@ -555,7 +555,7 @@ namespace MathNet.Numerics.Random
             // every bit with independent uniform distribution
             ulong uint64 = BitConverter.ToUInt64(bytes, 0);
 
-            // the least significant N bits with independend uniform distribution and the remaining bits zero
+            // the least significant N bits with independent uniform distribution and the remaining bits zero
             ulong uintN = uint64 >> (64 - bitCount);
             return (long)uintN;
         }

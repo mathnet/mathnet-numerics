@@ -72,7 +72,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             int fftMinor = SafeNativeMethods.query_capability((int) ProviderCapability.FourierTransformMinor);
             if (!(fftMajor == 1 && fftMinor >= 0))
             {
-                throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting fourier transform v1 but provider implements v{0}.", fftMajor));
+                throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting Fourier transform v1 but provider implements v{0}.", fftMajor));
             }
         }
 

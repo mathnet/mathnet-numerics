@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Gets or sets the number of iterations in the Hamiltonian equation.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">When frogleap steps is negative or zero.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">When frog leap steps is negative or zero.</exception>
         public int FrogLeapSteps
         {
             get { return _frogLeapSteps; }
@@ -124,8 +124,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="x0">The initial sample.</param>
         /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
-        /// <param name="frogLeapSteps">Number frogleap simulation steps.</param>
-        /// <param name="stepSize">Size of the frogleap simulation steps.</param>
+        /// <param name="frogLeapSteps">Number frog leap simulation steps.</param>
+        /// <param name="stepSize">Size of the frog leap simulation steps.</param>
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <param name="randomSource">Random number generator used for sampling the momentum.</param>
         /// <param name="diff">The method used for differentiation.</param>

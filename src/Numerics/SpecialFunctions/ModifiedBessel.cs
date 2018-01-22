@@ -50,7 +50,7 @@ namespace MathNet.Numerics
 // ReSharper restore CheckNamespace
 {
     /// <summary>
-    /// This partial implementation of the SpecialFunctions class contains all methods related to the modified bessel function.
+    /// This partial implementation of the SpecialFunctions class contains all methods related to the modified Bessel function.
     /// </summary>
     public static partial class SpecialFunctions
     {
@@ -139,7 +139,7 @@ namespace MathNet.Numerics
         /// (8, infinity). Chebyshev polynomial expansions are employed
         /// in each interval.
         /// </summary>
-        /// <param name="x">The value to compute the bessel function of.
+        /// <param name="x">The value to compute the Bessel function of.
         /// </param>
         public static double BesselI0(double x)
         {
@@ -167,7 +167,7 @@ namespace MathNet.Numerics
         /// (8, infinity). Chebyshev polynomial expansions are employed
         /// in each interval.
         /// </summary>
-        /// <param name="x">The value to compute the bessel function of.
+        /// <param name="x">The value to compute the Bessel function of.
         /// </param>
         public static double BesselI1(double x)
         {
@@ -198,7 +198,7 @@ namespace MathNet.Numerics
         /// (8, infinity). Chebyshev polynomial expansions are employed
         /// in each interval.
         /// </summary>
-        /// <param name="x">The value to compute the bessel function of.
+        /// <param name="x">The value to compute the Bessel function of.
         /// </param>
         public static double BesselK0(double x)
         {
@@ -220,7 +220,7 @@ namespace MathNet.Numerics
         /// <summary>Returns the exponentially scaled modified Bessel function
         /// of the second kind of order 0 of the argument.
         /// </summary>
-        /// <param name="x">The value to compute the bessel function of.
+        /// <param name="x">The value to compute the Bessel function of.
         /// </param>
         public static double BesselK0e(double x)
         {
@@ -246,7 +246,7 @@ namespace MathNet.Numerics
         /// (2, infinity). Chebyshev polynomial expansions are employed
         /// in each interval.
         /// </summary>
-        /// <param name="x">The value to compute the bessel function of.
+        /// <param name="x">The value to compute the Bessel function of.
         /// </param>
         public static double BesselK1(double x)
         {
@@ -271,7 +271,7 @@ namespace MathNet.Numerics
         /// <p/>
         /// <tt>k1e(x) = exp(x) * k1(x)</tt>.
         /// </summary>
-        /// <param name="x">The value to compute the bessel function of.
+        /// <param name="x">The value to compute the Bessel function of.
         /// </param>
         public static double BesselK1e(double x)
         {

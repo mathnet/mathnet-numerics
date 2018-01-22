@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         /// <param name="gradientTolerance">The gradient tolerance</param>
         /// <param name="parameterTolerance">The parameter tolerance</param>
-        /// <param name="functionProgressTolerance">The funciton progress tolerance</param>
+        /// <param name="functionProgressTolerance">The function progress tolerance</param>
         /// <param name="maximumIterations">The maximum number of iterations</param>
         public BfgsMinimizer(double gradientTolerance, double parameterTolerance, double functionProgressTolerance, int maximumIterations=1000)
             :base(gradientTolerance,parameterTolerance,functionProgressTolerance,maximumIterations)

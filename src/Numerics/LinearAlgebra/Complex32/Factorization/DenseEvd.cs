@@ -44,8 +44,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// Eigenvalues and eigenvectors of a complex matrix.
     /// </summary>
     /// <remarks>
-    /// If A is hermitan, then A = V*D*V' where the eigenvalue matrix D is
-    /// diagonal and the eigenvector matrix V is hermitan.
+    /// If A is Hermitian, then A = V*D*V' where the eigenvalue matrix D is
+    /// diagonal and the eigenvector matrix V is Hermitian.
     /// I.e. A = V*D*V' and V*VH=I.
     /// If A is not symmetric, then the eigenvalue matrix D is block diagonal
     /// with the real eigenvalues in 1-by-1 blocks and any complex eigenvalues,
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         }
 
         /// <summary>
-        /// Reduces a complex hermitian matrix to a real symmetric tridiagonal matrix using unitary similarity transformations.
+        /// Reduces a complex Hermitian matrix to a real symmetric tridiagonal matrix using unitary similarity transformations.
         /// </summary>
         /// <param name="matrixA">Source matrix to reduce</param>
         /// <param name="d">Output: Arrays for internal storage of real parts of eigenvalues</param>

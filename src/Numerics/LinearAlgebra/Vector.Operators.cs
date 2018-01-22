@@ -120,7 +120,7 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Substracts each element of a vector from a scalar.
+        /// Subtracts each element of a vector from a scalar.
         /// </summary>
         /// <param name="leftSide">The scalar value to subtract from.</param>
         /// <param name="rightSide">The vector to subtract.</param>

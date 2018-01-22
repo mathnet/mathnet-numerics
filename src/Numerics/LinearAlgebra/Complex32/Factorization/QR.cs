@@ -43,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
     /// </summary>
     /// <remarks>
     /// The computation of the QR decomposition is done at construction time by Householder transformation.
-    /// If a <seealso cref="QRMethod.Full"/> factorization is peformed, the resulting Q matrix is an m x m matrix
+    /// If a <seealso cref="QRMethod.Full"/> factorization is performed, the resulting Q matrix is an m x m matrix
     /// and the R matrix is an m x n matrix. If a <seealso cref="QRMethod.Thin"/> factorization is performed, the
     /// resulting Q matrix is an m x n matrix and the R matrix is an n x n matrix.
     /// </remarks>

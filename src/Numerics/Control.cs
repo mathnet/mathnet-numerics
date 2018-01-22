@@ -260,7 +260,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Gets or sets the fourier transform provider. Consider to use UseNativeMKL or UseManaged instead.
+        /// Gets or sets the Fourier transform provider. Consider to use UseNativeMKL or UseManaged instead.
         /// </summary>
         /// <value>The linear algebra provider.</value>
         public static IFourierTransformProvider FourierTransformProvider
@@ -313,7 +313,7 @@ namespace MathNet.Numerics
         public static TaskScheduler TaskScheduler { get; set; }
 
         /// <summary>
-        /// Gets or sets the the block size to use for
+        /// Gets or sets the block size to use for
         /// the native linear algebra provider.
         /// </summary>
         /// <value>The block size. Default 512, must be at least 32.</value>

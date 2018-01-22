@@ -33,7 +33,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     using Properties;
 
     /// <summary>
-    /// Slice sampling produces samples from distribition P by uniformly sampling from under the pdf of P using
+    /// Slice sampling produces samples from distribution P by uniformly sampling from under the pdf of P using
     /// a technique described in "Slice Sampling", R. Neal, 2003. All densities are required to be in log space.
     ///
     /// The slice sampler is a stateful sampler. It keeps track of where it currently is in the domain

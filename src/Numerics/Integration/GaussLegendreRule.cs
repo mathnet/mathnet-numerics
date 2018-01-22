@@ -33,7 +33,7 @@ using MathNet.Numerics.Integration.GaussRule;
 namespace MathNet.Numerics.Integration
 {
     /// <summary>
-    /// Approximates a definite integral using an Nth order Gauss-Legendre rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calulcated on the fly.
+    /// Approximates a definite integral using an Nth order Gauss-Legendre rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.
     /// </summary>
     public class GaussLegendreRule
     {
@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Integration
         /// </summary>
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
-        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calulcated on the fly.</param>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
         public GaussLegendreRule(double intervalBegin, double intervalEnd, int order)
         {
             _gaussLegendrePoint = GaussLegendrePointFactory.GetGaussPoint(intervalBegin, intervalEnd, order);
@@ -131,7 +131,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="f">The analytic smooth function to integrate.</param>
         /// <param name="invervalBegin">Where the interval starts, exclusive and finite.</param>
         /// <param name="invervalEnd">Where the interval ends, exclusive and finite.</param>
-        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calulcated on the fly.</param>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
         public static double Integrate(Func<double, double> f, double invervalBegin, double invervalEnd, int order)
         {
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="invervalEndA">Where the interval ends for the first (inside) integral, exclusive and finite.</param>
         /// <param name="invervalBeginB">Where the interval starts for the second (outside) integral, exclusive and finite.</param>
         /// /// <param name="invervalEndB">Where the interval ends for the second (outside) integral, exclusive and finite.</param>
-        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calulcated on the fly.</param>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
         public static double Integrate(Func<double, double, double> f, double invervalBeginA, double invervalEndA, double invervalBeginB, double invervalEndB, int order)
         {

@@ -38,7 +38,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
     /// A simple milu(0) preconditioner.
     /// </summary>
     /// <remarks>
-    /// Original Fortran code by Youcef Saad (07 January 2004)
+    /// Original Fortran code by Yousef Saad (07 January 2004)
     /// </remarks>
     public sealed class MILU0Preconditioner : IPreconditioner<double>
     {

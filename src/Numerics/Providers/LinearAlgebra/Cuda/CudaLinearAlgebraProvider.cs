@@ -88,7 +88,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
                     throw new ArgumentException("Invalid value");
 
                 case 8:  // CUBLAS_STATUS_ARCH_MISMATCH
-                    throw new NotSupportedException("The device does not support this opeation.");
+                    throw new NotSupportedException("The device does not support this operation.");
 
                 case 11: // CUBLAS_STATUS_MAPPING_ERROR
                     throw new Exception("Mapping error.");

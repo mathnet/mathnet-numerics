@@ -53,7 +53,7 @@ namespace MathNet.Numerics.Differentiation
         /// <summary>
         /// A base step size value, eps (typically machine precision), is scaled according to the finite difference coefficient order
         /// and function input parameter. The initial scaling according to finite different coefficient order can be thought of as producing a
-        /// base step size, h, that is equivalent to <see cref="RelativeX"/> scaling. This stepsize is then scaled according to the function
+        /// base step size, h, that is equivalent to <see cref="RelativeX"/> scaling. This step size is then scaled according to the function
         /// input parameter. Although implementation may vary, an example of second order accurate scaling may be (eps)^(1/3)*(1+abs(x)).
         /// </summary>
         Relative
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.Differentiation
         }
 
         /// <summary>
-        /// Sets and gets the finite difference step size. This value is for each function evaluation if relative stepsize types are used.
+        /// Sets and gets the finite difference step size. This value is for each function evaluation if relative step size types are used.
         /// If the base step size used in scaling is desired, see <see cref="Epsilon"/>.
         /// </summary>
         /// <remarks>
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.Differentiation
         }
 
         /// <summary>
-        /// Sets and gets the base fininte difference step size. This assigned value to this parameter is only used if <see cref="StepType"/> is set to RelativeX.
+        /// Sets and gets the base finite difference step size. This assigned value to this parameter is only used if <see cref="StepType"/> is set to RelativeX.
         /// However, if the StepType is Relative, it will contain the base step size computed from <see cref="Epsilon"/> based on the finite difference order.
         /// </summary>
         public double BaseStepSize
