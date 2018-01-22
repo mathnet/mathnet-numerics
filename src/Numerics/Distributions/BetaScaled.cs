@@ -80,7 +80,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            _random = SystemRandomSource.Default;
+            _random = randomSource ?? SystemRandomSource.Default;
             _shapeA = a;
             _shapeB = b;
             _location = location;
