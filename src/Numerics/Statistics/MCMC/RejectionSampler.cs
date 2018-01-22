@@ -33,7 +33,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
     using Properties;
 
     /// <summary>
-    /// Rejection sampling produces samples from distribition P by sampling from a proposal distribution Q
+    /// Rejection sampling produces samples from distribution P by sampling from a proposal distribution Q
     /// and accepting/rejecting based on the density of P and Q. The density of P and Q don't need to
     /// to be normalized, but we do need that for each x, P(x) &lt; Q(x).
     /// </summary>

@@ -49,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
     /// The algorithm was taken from: <br/>
     /// ML(k)BiCGSTAB: A BiCGSTAB variant based on multiple Lanczos starting vectors
     /// <br/>
-    /// Man-chung Yeung and Tony F. Chan
+    /// Man-Chung Yeung and Tony F. Chan
     /// <br/>
     /// SIAM Journal of Scientific Computing
     /// <br/>
@@ -199,7 +199,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         }
 
         /// <summary>
-        /// Create random vecrors array
+        /// Create random vectors array
         /// </summary>
         /// <param name="arraySize">Number of vectors</param>
         /// <param name="vectorSize">Size of each vector</param>

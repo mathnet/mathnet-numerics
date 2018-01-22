@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-// Converted from code relased with a MIT liscense available at https://code.google.com/p/nelder-mead-simplex/
+// Converted from code released with a MIT license available at https://code.google.com/p/nelder-mead-simplex/
 
 using MathNet.Numerics.LinearAlgebra;
 using System;
@@ -55,12 +55,12 @@ namespace MathNet.Numerics.Optimization
         }
 
         /// <summary>
-        /// Finds the minimum of the objective function without an intial pertubation, the default values used
+        /// Finds the minimum of the objective function without an initial perturbation, the default values used
         /// by fminsearch() in Matlab are used instead
         /// http://se.mathworks.com/help/matlab/math/optimizing-nonlinear-functions.html#bsgpq6p-11
         /// </summary>
         /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
-        /// <param name="initialGuess">The intial guess</param>
+        /// <param name="initialGuess">The initial guess</param>
         /// <returns>The minimum point</returns>
         public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess)
         {
@@ -68,11 +68,11 @@ namespace MathNet.Numerics.Optimization
         }
 
         /// <summary>
-        /// Finds the minimum of the objective function with an intial pertubation
+        /// Finds the minimum of the objective function with an initial perturbation
         /// </summary>
         /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
-        /// <param name="initialGuess">The intial guess</param>
-        /// <param name="initalPertubation">The inital pertubation</param>
+        /// <param name="initialGuess">The initial guess</param>
+        /// <param name="initalPertubation">The initial perturbation</param>
         /// <returns>The minimum point</returns>
         public MinimizationResult FindMinimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation)
         {
@@ -80,12 +80,12 @@ namespace MathNet.Numerics.Optimization
         }
 
         /// <summary>
-        /// Finds the minimum of the objective function without an intial pertubation, the default values used
+        /// Finds the minimum of the objective function without an initial perturbation, the default values used
         /// by fminsearch() in Matlab are used instead
         /// http://se.mathworks.com/help/matlab/math/optimizing-nonlinear-functions.html#bsgpq6p-11
         /// </summary>
         /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
-        /// <param name="initialGuess">The intial guess</param>
+        /// <param name="initialGuess">The initial guess</param>
         /// <returns>The minimum point</returns>
         public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, double convergenceTolerance=1e-8, int maximumIterations=1000)
         {
@@ -98,11 +98,11 @@ namespace MathNet.Numerics.Optimization
         }
 
         /// <summary>
-        /// Finds the minimum of the objective function with an intial pertubation
+        /// Finds the minimum of the objective function with an initial perturbation
         /// </summary>
         /// <param name="objectiveFunction">The objective function, no gradient or hessian needed</param>
-        /// <param name="initialGuess">The intial guess</param>
-        /// <param name="initalPertubation">The inital pertubation</param>
+        /// <param name="initialGuess">The initial guess</param>
+        /// <param name="initalPertubation">The initial perturbation</param>
         /// <returns>The minimum point</returns>
         public static MinimizationResult Minimum(IObjectiveFunction objectiveFunction, Vector<double> initialGuess, Vector<double> initalPertubation, double convergenceTolerance=1e-8, int maximumIterations=1000)
         {

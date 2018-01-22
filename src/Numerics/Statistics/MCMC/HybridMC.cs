@@ -79,8 +79,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="x0">The initial sample.</param>
         /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
-        /// <param name="frogLeapSteps">Number frogleap simulation steps.</param>
-        /// <param name="stepSize">Size of the frogleap simulation steps.</param>
+        /// <param name="frogLeapSteps">Number frog leap simulation steps.</param>
+        /// <param name="stepSize">Size of the frog leap simulation steps.</param>
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <exception cref="ArgumentOutOfRangeException">When the number of burnInterval iteration is negative.</exception>
         public HybridMC(double[] x0, DensityLn<double[]> pdfLnP, int frogLeapSteps, double stepSize, int burnInterval = 0)
@@ -101,8 +101,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="x0">The initial sample.</param>
         /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
-        /// <param name="frogLeapSteps">Number frogleap simulation steps.</param>
-        /// <param name="stepSize">Size of the frogleap simulation steps.</param>
+        /// <param name="frogLeapSteps">Number frog leap simulation steps.</param>
+        /// <param name="stepSize">Size of the frog leap simulation steps.</param>
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <param name="pSdv">The standard deviations of the normal distributions that are used to sample
         /// the components of the momentum.</param>
@@ -121,8 +121,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="x0">The initial sample.</param>
         /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
-        /// <param name="frogLeapSteps">Number frogleap simulation steps.</param>
-        /// <param name="stepSize">Size of the frogleap simulation steps.</param>
+        /// <param name="frogLeapSteps">Number frog leap simulation steps.</param>
+        /// <param name="stepSize">Size of the frog leap simulation steps.</param>
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <param name="pSdv">The standard deviations of the normal distributions that are used to sample
         /// the components of the momentum.</param>
@@ -141,8 +141,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// </summary>
         /// <param name="x0">The initial sample.</param>
         /// <param name="pdfLnP">The log density of the distribution we want to sample from.</param>
-        /// <param name="frogLeapSteps">Number frogleap simulation steps.</param>
-        /// <param name="stepSize">Size of the frogleap simulation steps.</param>
+        /// <param name="frogLeapSteps">Number frog leap simulation steps.</param>
+        /// <param name="stepSize">Size of the frog leap simulation steps.</param>
         /// <param name="burnInterval">The number of iterations in between returning samples.</param>
         /// <param name="pSdv">The standard deviations of the normal distributions that are used to sample
         /// the components of the momentum.</param>

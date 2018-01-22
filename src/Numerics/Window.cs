@@ -354,7 +354,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Uniform rectangular (dirichlet) window.
+        /// Uniform rectangular (Dirichlet) window.
         /// </summary>
         public static double[] Dirichlet(int width)
         {

@@ -73,7 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             var order = matrix.RowCount;
 
-            // Initialize matricies for eigenvalues and eigenvectors
+            // Initialize matrices for eigenvalues and eigenvectors
             var eigenVectors = Matrix<double>.Build.SameAs(matrix, order, order, fullyMutable: true);
             var blockDiagonal = Matrix<double>.Build.SameAs(matrix, order, order);
             var eigenValues = new LinearAlgebra.Complex.DenseVector(order);

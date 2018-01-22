@@ -135,7 +135,7 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
-        /// Substracts each element of a matrix from a scalar.
+        /// Subtracts each element of a matrix from a scalar.
         /// </summary>
         /// <remarks>This operator will allocate new memory for the result. It will
         /// choose the representation of the provided matrix.</remarks>

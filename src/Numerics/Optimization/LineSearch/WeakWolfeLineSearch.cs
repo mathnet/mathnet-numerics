@@ -33,7 +33,7 @@ using MathNet.Numerics.LinearAlgebra;
 namespace MathNet.Numerics.Optimization.LineSearch
 {
     /// <summary>
-    /// Search for a step size alpha that satisfies the weak wolfe conditions. The weak Wolfe
+    /// Search for a step size alpha that satisfies the weak Wolfe conditions. The weak Wolfe
     /// Conditions are
     /// i)  Armijo Rule:         f(x_k + alpha_k p_k) &lt;= f(x_k) + c1 alpha_k p_k^T g(x_k)
     /// ii) Curvature Condition: p_k^T g(x_k + alpha_k p_k) &gt;= c2 p_k^T g(x_k)

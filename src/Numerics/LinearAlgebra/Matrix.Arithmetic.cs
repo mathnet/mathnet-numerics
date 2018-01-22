@@ -1568,7 +1568,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="f">Function which takes two matrices, modifies the second in place and returns void</param>
         /// <param name="other">The other matrix to be passed to the function as argument. It is not modified</param>
         /// <returns>The resulting matrix</returns>
-        /// <exception cref="ArgumentException">If this amtrix and <paramref name="other"/> are not the same dimension.</exception>
+        /// <exception cref="ArgumentException">If this matrix and <paramref name="other"/> are not the same dimension.</exception>
         protected Matrix<T> PointwiseBinary(Action<Matrix<T>, Matrix<T>> f, Matrix<T> other)
         {
             if (ColumnCount != other.ColumnCount || RowCount != other.RowCount)

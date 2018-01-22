@@ -514,7 +514,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Estimates the tau-th quantile from the unsorted data array.
         /// The tau-th quantile is the data value where the cumulative distribution
-        /// function crosses tau. The quantile defintion can be specified
+        /// function crosses tau. The quantile definition can be specified
         /// by 4 parameters a, b, c and d, consistent with Mathematica.
         /// WARNING: Works inplace and can thus causes the data array to be reordered.
         /// </summary>

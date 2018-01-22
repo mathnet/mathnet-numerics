@@ -115,7 +115,7 @@ namespace MathNet.Numerics.Integration
                 double arg = offset + t;
                 t += step;
 
-                // TODO: reuse abcissas as computed in EvaluateAbcissas
+                // TODO: reuse abscissas as computed in EvaluateAbcissas
                 double abcissa = Math.Tanh(Constants.PiOver2*Math.Sinh(arg));
                 weights[i] = Constants.PiOver2*(1 - (abcissa*abcissa))*Math.Cosh(arg);
             }
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Integration
             return weights;
         }
 
-        #region Precomputed Abcissas and Weights
+        #region Precomputed Abscissas and Weights
 
         /// <summary>
         /// Precomputed abscissa vector per level.

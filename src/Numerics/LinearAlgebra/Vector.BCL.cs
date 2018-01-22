@@ -353,9 +353,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns a string that represents the content of this vector, column by column.
         /// </summary>
         /// <param name="maxPerColumn">Maximum number of entries and thus lines per column. Typical value: 12; Minimum: 3.</param>
-        /// <param name="maxCharactersWidth">Maximum number of chatacters per line over all columns. Typical value: 80; Minimum: 16.</param>
+        /// <param name="maxCharactersWidth">Maximum number of characters per line over all columns. Typical value: 80; Minimum: 16.</param>
         /// <param name="ellipsis">Character to use to print if there is not enough space to print all entries. Typical value: "..".</param>
-        /// <param name="columnSeparator">Character to use to separate two coluns on a line. Typical value: "  " (2 spaces).</param>
+        /// <param name="columnSeparator">Character to use to separate two columns on a line. Typical value: "  " (2 spaces).</param>
         /// <param name="rowSeparator">Character to use to separate two rows/lines. Typical value: Environment.NewLine.</param>
         /// <param name="formatValue">Function to provide a string for any given entry value.</param>
         public string ToVectorString(int maxPerColumn, int maxCharactersWidth, string ellipsis, string columnSeparator, string rowSeparator, Func<T, string> formatValue)
@@ -369,7 +369,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns a string that represents the content of this vector, column by column.
         /// </summary>
         /// <param name="maxPerColumn">Maximum number of entries and thus lines per column. Typical value: 12; Minimum: 3.</param>
-        /// <param name="maxCharactersWidth">Maximum number of chatacters per line over all columns. Typical value: 80; Minimum: 16.</param>
+        /// <param name="maxCharactersWidth">Maximum number of characters per line over all columns. Typical value: 80; Minimum: 16.</param>
         /// <param name="format">Floating point format string. Can be null. Default value: G6.</param>
         /// <param name="provider">Format provider or culture. Can be null.</param>
         public string ToVectorString(int maxPerColumn, int maxCharactersWidth, string format = null, IFormatProvider provider = null)
@@ -401,7 +401,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Returns a string that summarizes this vector, column by column and with a type header.
         /// </summary>
         /// <param name="maxPerColumn">Maximum number of entries and thus lines per column. Typical value: 12; Minimum: 3.</param>
-        /// <param name="maxCharactersWidth">Maximum number of chatacters per line over all columns. Typical value: 80; Minimum: 16.</param>
+        /// <param name="maxCharactersWidth">Maximum number of characters per line over all columns. Typical value: 80; Minimum: 16.</param>
         /// <param name="format">Floating point format string. Can be null. Default value: G6.</param>
         /// <param name="provider">Format provider or culture. Can be null.</param>
         public string ToString(int maxPerColumn, int maxCharactersWidth, string format = null, IFormatProvider provider = null)

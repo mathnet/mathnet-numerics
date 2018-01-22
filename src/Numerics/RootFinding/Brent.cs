@@ -33,7 +33,7 @@ using MathNet.Numerics.Properties;
 namespace MathNet.Numerics.RootFinding
 {
     /// <summary>
-    /// Algorithm by by Brent, Van Wijngaarden, Dekker et al.
+    /// Algorithm by Brent, Van Wijngaarden, Dekker et al.
     /// Implementation inspired by Press, Teukolsky, Vetterling, and Flannery, "Numerical Recipes in C", 2nd edition, Cambridge University Press
     /// </summary>
     public static class Brent

@@ -403,7 +403,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Evaluates the variance from the provided full population.
-        /// On a dataset of size N will use an N normalize and would thus be biased if applied to a subsetr.
+        /// On a dataset of size N will use an N normalize and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// Null-entries are ignored.
         /// </summary>

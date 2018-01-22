@@ -57,7 +57,7 @@ namespace MathNet.Numerics
     }
 
     /// <summary>
-    /// An error occured calling native provider function.
+    /// An error occurred calling native provider function.
     /// </summary>
     [Serializable]
     public abstract class NativeInterfaceException : Exception
@@ -84,7 +84,7 @@ namespace MathNet.Numerics
     }
 
     /// <summary>
-    /// An error occured calling native provider function.
+    /// An error occurred calling native provider function.
     /// </summary>
     [Serializable]
     public class InvalidParameterException : NativeInterfaceException
@@ -112,7 +112,7 @@ namespace MathNet.Numerics
     }
 
     /// <summary>
-    /// Native provider was unable to allocate sufficent memory.
+    /// Native provider was unable to allocate sufficient memory.
     /// </summary>
     [Serializable]
     public class MemoryAllocationException : NativeInterfaceException

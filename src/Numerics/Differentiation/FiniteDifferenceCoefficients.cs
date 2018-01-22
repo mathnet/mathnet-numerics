@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Differentiation
         /// Gets the finite difference coefficients for all orders at a specified center.
         /// </summary>
         /// <param name="center">Current function position with respect to coefficients. Must be within point range.</param>
-        /// <returns>Rectangular array of coefficients, with columns specifing order.</returns>
+        /// <returns>Rectangular array of coefficients, with columns specifying order.</returns>
         public double[,] GetCoefficientsForAllOrders(int center)
         {
             if (center >= _coefficients.Length)

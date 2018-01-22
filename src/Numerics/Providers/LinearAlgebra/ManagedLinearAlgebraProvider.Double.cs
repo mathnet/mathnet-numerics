@@ -2287,11 +2287,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                 }
 
                 // This section of the program inspects for negligible elements in the s and e arrays,
-                // on completion the variables kase and l are set as follows:
-                // kase = 1: if mS[m] and e[l-1] are negligible and l < m
-                // kase = 2: if mS[l] is negligible and l < m
-                // kase = 3: if e[l-1] is negligible, l < m, and mS[l, ..., mS[m] are not negligible (qr step).
-                // kase = 4: if e[m-1] is negligible (convergence).
+                // on completion the variables case and l are set as follows:
+                // case = 1: if mS[m] and e[l-1] are negligible and l < m
+                // case = 2: if mS[l] is negligible and l < m
+                // case = 3: if e[l-1] is negligible, l < m, and mS[l, ..., mS[m] are not negligible (qr step).
+                // case = 4: if e[m-1] is negligible (convergence).
                 double ztest;
                 double test;
                 for (l = m - 2; l >= 0; l--)
@@ -2351,7 +2351,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
                 l = l + 1;
 
-                // Perform the task indicated by kase.
+                // Perform the task indicated by case.
                 int k;
                 double f;
                 double cs;
@@ -2772,10 +2772,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// </summary>
         /// <param name="isSymmetric">Whether the matrix is symmetric or not.</param>
         /// <param name="order">The order of the matrix.</param>
-        /// <param name="matrix">The matrix to decompose. The lenth of the array must be order * order.</param>
-        /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The lenth of the array must be order * order.</param>
-        /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the arry must <paramref name="order"/>.</param>
-        /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The lenth of the array must be order * order.</param>
+        /// <param name="matrix">The matrix to decompose. The length of the array must be order * order.</param>
+        /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The length of the array must be order * order.</param>
+        /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the array must <paramref name="order"/>.</param>
+        /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The length of the array must be order * order.</param>
         public virtual void EigenDecomp(bool isSymmetric, int order, double[] matrix, double[] matrixEv, Complex[] vectorEv, double[] matrixD)
         {
             if (matrix == null)

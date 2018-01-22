@@ -42,7 +42,7 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <summary>
         /// Getter for the GaussPoint.
         /// </summary>
-        /// <param name="order">Defines an Nth order Gauss-Legendre rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calulcated on the fly.</param>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
         /// <returns>Object containing the non-negative abscissas/weights, order, and intervalBegin/intervalEnd. The non-negative abscissas/weights are generated over the interval [-1,1] for the given order.</returns>
         public static GaussPoint GetGaussPoint(int order)
         {
@@ -65,7 +65,7 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// </summary>
         /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
-        /// <param name="order">Defines an Nth order Gauss-Legendre rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calulcated on the fly.</param>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
         /// <returns>Object containing the abscissas/weights, order, and intervalBegin/intervalEnd.</returns>
         public static GaussPoint GetGaussPoint(double intervalBegin, double intervalEnd, int order)
         {

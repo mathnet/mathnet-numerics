@@ -205,7 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Copies the values of a given vector into a region in this vector.
         /// </summary>
         /// <param name="index">The field to start copying to</param>
-        /// <param name="count">The number of fields to cpy. Must be positive.</param>
+        /// <param name="count">The number of fields to copy. Must be positive.</param>
         /// <param name="subVector">The sub-vector to copy from.</param>
         /// <exception cref="ArgumentNullException">If <paramref name="subVector"/> is <see langword="null" /></exception>
         public void SetSubVector(int index, int count, Vector<T> subVector)

@@ -838,9 +838,9 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Implicit conversion of a unsgined real short to a <c>Complex</c>.
+        /// Implicit conversion of a unsigned real short to a <c>Complex</c>.
         /// </summary>
-        /// <param name="value">The unsgined short value to convert.</param>
+        /// <param name="value">The unsigned short value to convert.</param>
         /// <returns>The result of the conversion.</returns>
         [CLSCompliant(false)]
         public static implicit operator Complex(ushort value)

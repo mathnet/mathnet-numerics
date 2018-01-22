@@ -352,11 +352,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 }
 
                 // This section of the program inspects for negligible elements in the s and e arrays. On
-                // completion the variables kase and l are set as follows.
-                // Kase = 1     if VectorS[m] and e[l-1] are negligible and l < m
-                // Kase = 2     if VectorS[l] is negligible and l < m
-                // Kase = 3     if e[l-1] is negligible, l < m, and VectorS[l, ..., VectorS[m] are not negligible (qr step).
-                // Лase = 4     if e[m-1] is negligible (convergence).
+                // completion the variables case and l are set as follows.
+                // Case = 1     if VectorS[m] and e[l-1] are negligible and l < m
+                // Case = 2     if VectorS[l] is negligible and l < m
+                // Case = 3     if e[l-1] is negligible, l < m, and VectorS[l, ..., VectorS[m] are not negligible (qr step).
+                // Case = 4     if e[m-1] is negligible (convergence).
                 float ztest;
                 float test;
                 for (l = m - 2; l >= 0; l--)
@@ -416,7 +416,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 
                 l = l + 1;
 
-                // Perform the task indicated by kase.
+                // Perform the task indicated by case.
                 int k;
                 float f;
                 float sn;
@@ -662,7 +662,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         }
 
         /// <summary>
-        /// Given the Cartesian coordinates (da, db) of a point p, these fucntion return the parameters da, db, c, and s
+        /// Given the Cartesian coordinates (da, db) of a point p, these function return the parameters da, db, c, and s
         /// associated with the Givens rotation that zeros the y-coordinate of the point.
         /// </summary>
         /// <param name="da">Provides the x-coordinate of the point p. On exit contains the parameter r associated with the Givens rotation</param>

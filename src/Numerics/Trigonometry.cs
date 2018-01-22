@@ -288,7 +288,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Trigonometric principal Arc Sine in radian
         /// </summary>
-        /// <param name="opposite">The opposite for a unit hypotenuse (i.e. opposite / hyptenuse).</param>
+        /// <param name="opposite">The opposite for a unit hypotenuse (i.e. opposite / hypotenuse).</param>
         /// <returns>The angle in radian.</returns>
         public static double Asin(double opposite)
         {

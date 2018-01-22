@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Differentiation
         /// Evaluates the Hessian of a multivariate function f at points x.
         /// </summary>
         /// <remarks>
-        /// This method of computing the Hessian is only vaid for Lipschitz continuous functions.
+        /// This method of computing the Hessian is only valid for Lipschitz continuous functions.
         /// The function mirrors the Hessian along the diagonal since d2f/dxdy = d2f/dydx for continuously differentiable functions.
         /// </remarks>
         /// <param name="f">Multivariate function handle.></param>

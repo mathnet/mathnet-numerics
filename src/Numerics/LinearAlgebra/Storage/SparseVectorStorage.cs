@@ -83,7 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// </summary>
         public override T At(int index)
         {
-            // Search if item idex exists in NonZeroIndices array in range "0 - nonzero values count"
+            // Search if item index exists in NonZeroIndices array in range "0 - nonzero values count"
             var itemIndex = Array.BinarySearch(Indices, 0, ValueCount, index);
             return itemIndex >= 0 ? Values[itemIndex] : Zero;
         }
