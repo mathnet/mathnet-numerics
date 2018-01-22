@@ -1,3 +1,8 @@
+### 4.0.0-beta05 - 2018-01-22
+* BUG: Distributions: BetaScaled no longer ignores optional random source parameter
+* BUG: Trigonometry: Complex trigonometric functions behave on large imput *~diluculo*
+* All: code quality fixes *~Jonas Nyrup*
+
 ### 4.0.0-beta04 - 2018-01-13
 * BREAKING: Linear Algebra: Vector.Map consistent with Matrix.Map, automatic fallback to inplace
 * BREAKING: Linear Algebra: Storage providers must always force all parameters (no defaults)

@@ -8,9 +8,9 @@
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp</PackageId>
     <VersionPrefix>4.0.0</VersionPrefix>
-    <VersionSuffix>beta04</VersionSuffix>
-    <PackageVersion>4.0.0-beta04</PackageVersion>
-    <Version>4.0.0-beta04</Version>
+    <VersionSuffix>beta05</VersionSuffix>
+    <PackageVersion>4.0.0-beta05</PackageVersion>
+    <Version>4.0.0-beta05</Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
     <Title>Math.NET Numerics for F#</Title>
@@ -23,10 +23,9 @@
     <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
     <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
     <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
-    <PackageReleaseNotes>BREAKING: Linear Algebra: Vector.Map consistent with Matrix.Map, automatic fallback to inplace
-BREAKING: Linear Algebra: Storage providers must always force all parameters (no defaults)
-Linear Algebra: F# vector/matrix functions to accept all #seq instead of lists only
-Linear Algebra: Vector MapInplace implemented at storage level</PackageReleaseNotes>
+    <PackageReleaseNotes>BUG: Distributions: BetaScaled no longer ignores optional random source parameter
+BUG: Trigonometry: Complex trigonometric functions behave on large imput ~diluculo
+All: code quality fixes ~Jonas Nyrup</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
