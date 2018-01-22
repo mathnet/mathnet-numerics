@@ -1,3 +1,8 @@
+### 3.20.2 - 2018-01-22
+* Bugfixes backported from v4:
+* BUG: Distributions: BetaScaled no longer ignores optional random source parameter
+* BUG: Trigonometry: Complex trigonometric functions behave on large imput *~diluculo*
+
 ### 3.20.1 - 2018-01-13
 * Bugfixes backported from v4:
 * BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent
