@@ -5,7 +5,6 @@ set -o pipefail
 
 cd "$(dirname "$0")"
 
-PAKET_BOOTSTRAPPER_EXE=.paket/paket.bootstrapper.exe
 PAKET_EXE=.paket/paket.exe
 FAKE_EXE=packages/build/FAKE/tools/FAKE.exe
 
@@ -35,6 +34,5 @@ then
   mozroots --import --sync --quiet
 fi
 
-run $PAKET_BOOTSTRAPPER_EXE
 run $PAKET_EXE restore
 run $FAKE_EXE "$@" $FSIARGS $FSIARGS2 build.fsx

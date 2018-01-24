@@ -3,13 +3,15 @@
 set -eu
 set -o pipefail
 
-cd `dirname $0`
+cd "$(dirname "$0")"
 
-FSIARGS=""
+PAKET_EXE=.paket/paket.exe
+
 OS=${OS:-"unknown"}
 if [[ "$OS" != "Windows_NT" ]]
 then
-  FSIARGS="--fsiargs -d:MONO"
+  # Allows NETFramework like net45 to be built using dotnet core tooling with mono
+  export FrameworkPathOverride=$(dirname $(which mono))/../lib/mono/4.5/
 fi
 
 function run() {
@@ -26,5 +28,4 @@ then
   mozroots --import --sync --quiet
 fi
 
-run .paket/paket.bootstrapper.exe
-run .paket/paket.exe restore
+run $PAKET_EXE restore

@@ -26,5 +26,4 @@ then
   mozroots --import --sync --quiet
 fi
 
-run .paket/paket.bootstrapper.exe
 run .paket/paket.exe "$@"
