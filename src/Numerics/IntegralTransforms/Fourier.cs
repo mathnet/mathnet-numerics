@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
@@ -35,10 +36,6 @@ using MathNet.Numerics.Providers.FourierTransform;
 
 namespace MathNet.Numerics.IntegralTransforms
 {
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
     /// </summary>
@@ -61,7 +58,7 @@ namespace MathNet.Numerics.IntegralTransforms
         {
             Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.SymmetricScaling);
         }
-        
+
         /// <summary>
         /// Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
         /// </summary>
@@ -113,7 +110,7 @@ namespace MathNet.Numerics.IntegralTransforms
                     break;
             }
         }
-        
+
         /// <summary>
         /// Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
         /// </summary>
@@ -175,7 +172,7 @@ namespace MathNet.Numerics.IntegralTransforms
                 imaginary[i] = data[i].Imaginary;
             }
         }
-        
+
         /// <summary>
         /// Packed Real-Complex forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
         /// Since for real-valued time samples the complex spectrum is conjugate-even (symmetry),
@@ -303,7 +300,7 @@ namespace MathNet.Numerics.IntegralTransforms
                     break;
             }
         }
-        
+
         /// <summary>
         /// Applies the forward Fast Fourier Transform (FFT) to two dimensional sample data.
         /// </summary>
@@ -329,7 +326,7 @@ namespace MathNet.Numerics.IntegralTransforms
         {
             ForwardMultiDim(samplesRowWise, new[] { rows, columns }, options);
         }
-        
+
         /// <summary>
         /// Applies the forward Fast Fourier Transform (FFT) to a two dimensional data in form of a matrix.
         /// </summary>
@@ -494,7 +491,7 @@ namespace MathNet.Numerics.IntegralTransforms
                 imaginary[i] = data[i].Imaginary;
             }
         }
-        
+
         /// <summary>
         /// Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
         /// </summary>

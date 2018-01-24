@@ -28,15 +28,12 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.IntegralTransforms
 {
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     /// <summary>
     /// Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT).
     /// </summary>

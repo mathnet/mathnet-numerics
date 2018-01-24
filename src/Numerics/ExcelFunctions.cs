@@ -31,7 +31,7 @@ using System;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Statistics;
 
-#if !PORTABLE
+#if !NETSTANDARD1_3
 using System.Runtime;
 #endif
 

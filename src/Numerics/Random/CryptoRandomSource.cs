@@ -27,12 +27,13 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE
-
 using System;
 using System.Collections.Generic;
-using System.Runtime;
 using System.Security.Cryptography;
+
+#if !NETSTANDARD1_3
+using System.Runtime;
+#endif
 
 namespace MathNet.Numerics.Random
 {
@@ -121,9 +122,7 @@ namespace MathNet.Numerics.Random
 
         public void Dispose()
         {
-#if !NET35
             _crypto.Dispose();
-#endif
         }
 
         /// <summary>
@@ -134,15 +133,10 @@ namespace MathNet.Numerics.Random
         {
             var bytes = new byte[values.Length*4];
 
-#if !NET35
             using (var rnd = RandomNumberGenerator.Create())
             {
                 rnd.GetBytes(bytes);
             }
-#else
-            var rnd = RandomNumberGenerator.Create();
-            rnd.GetBytes(bytes);
-#endif
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -182,5 +176,3 @@ namespace MathNet.Numerics.Random
         }
     }
 }
-
-#endif

@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Distributions;
@@ -37,10 +38,6 @@ using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics
 {
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     public static class Generate
     {
         /// <summary>
@@ -797,8 +794,6 @@ namespace MathNet.Numerics
             }
         }
 
-#if !NOSYSNUMERICS
-
         /// <summary>
         /// Generate a Fibonacci sequence, including zero as first value.
         /// </summary>
@@ -845,8 +840,6 @@ namespace MathNet.Numerics
                 yield return b;
             }
         }
-
-#endif
 
         /// <summary>
         /// Create random samples, uniform between 0 and 1.

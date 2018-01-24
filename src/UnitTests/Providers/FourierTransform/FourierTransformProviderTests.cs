@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Providers.FourierTransform;
 using MathNet.Numerics.Statistics;
@@ -35,12 +36,6 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// Fourier transform provider tests.
     /// </summary>

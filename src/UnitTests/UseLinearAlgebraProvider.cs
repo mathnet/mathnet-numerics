@@ -38,7 +38,7 @@ namespace MathNet.Numerics.UnitTests
     {
         public void BeforeTest(ITest testDetails)
         {
-#if !NET35 && NATIVE
+#if NATIVE && !NETCOREAPP1_1
 #if MKL
             Control.UseNativeMKL();
 #elif CUDA
@@ -46,6 +46,8 @@ namespace MathNet.Numerics.UnitTests
 #elif OPENBLAS
             Control.UseNativeOpenBLAS();
 #endif
+#else
+            Control.UseManaged();
 #endif
         }
 

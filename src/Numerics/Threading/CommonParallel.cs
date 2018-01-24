@@ -29,18 +29,14 @@
 
 using System;
 using System.Collections.Generic;
+
+#if !NETSTANDARD1_3
 using System.Threading.Tasks;
+using System.Collections.Concurrent;
+#endif
 
 namespace MathNet.Numerics.Threading
 {
-#if NET35
-    using Partitioner = MathNet.Numerics.Partitioner;
-#endif
-#if !PORTABLE && !NETSTANDARD
-    using System.Collections.Concurrent;
-
-#endif
-
     /// <summary>
     /// Used to simplify parallel code, particularly between the .NET 4.0 and Silverlight Code.
     /// </summary>
@@ -118,7 +114,7 @@ namespace MathNet.Numerics.Threading
         }
 
         /// <summary>
-        /// Executes each of the provided actions inside a discrete, asynchronous task. 
+        /// Executes each of the provided actions inside a discrete, asynchronous task.
         /// </summary>
         /// <param name="actions">An array of actions to execute.</param>
         /// <exception cref="ArgumentException">The actions array contains a <c>null</c> element.</exception>

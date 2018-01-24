@@ -41,12 +41,7 @@ using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     /// <summary>
     /// A Matrix class with dense storage. The underlying storage is a one dimensional array in column-major order (column by column).

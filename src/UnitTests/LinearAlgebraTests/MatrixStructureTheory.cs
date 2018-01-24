@@ -142,7 +142,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(clone.ColumnCount, Is.EqualTo(matrix.ColumnCount));
         }
 
-#if !PORTABLE && !NETSTANDARD
+#if !NETCOREAPP1_1
         [Theory]
         public void CanCloneUsingICloneable(TestMatrix testMatrix)
         {

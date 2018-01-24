@@ -28,17 +28,11 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.RootFindingTests
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-
-#endif
-
     [TestFixture, Category("RootFinding")]
     internal class FindRootsTest
     {

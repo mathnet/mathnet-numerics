@@ -37,12 +37,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Preconditioners
 {
-
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     /// <summary>
     /// Incomplete LU preconditioner test.
@@ -60,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         static T GetMethod<T>(ILU0Preconditioner ilu, string methodName)
         {
             var type = ilu.GetType();
-#if NETSTANDARD
+#if NETCOREAPP1_1
             var methodInfo = type.GetMethod(
                 methodName,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);

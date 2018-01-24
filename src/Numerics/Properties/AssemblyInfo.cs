@@ -27,32 +27,10 @@
 // </copyright>
 
 using System;
-using System.Reflection;
-using System.Resources;
 using System.Runtime.CompilerServices;
-
-#if !PORTABLE
 using System.Runtime.InteropServices;
-#endif
 
 [assembly: CLSCompliant(true)]
-
-
-#if PORTABLE || NETSTANDARD
-
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests7")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests47")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests78")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests259")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests328")]
-
-#elif NET35
-
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsNet35")]
-
-#else
 
 [assembly: ComVisible(false)]
 [assembly: Guid("7b66646f-f0ee-425d-9065-910d1937a2df")]
@@ -61,10 +39,8 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100ed2314a577643d859571b8b9307c6ff2670525c4598fbb307e57ea65ebf5d4417284cb3da9181636480b623f4db8cc3c1947244ba069df0df86e2431621f51a488f9929519a1c5d0ae595f6e2d0e4094685f0c1229ff658360acbb9f63f1a0258e984dda00dc7ad4fd16dbb550ec1ef8a11df138402b7c1998ee224e652c839b")]
 #else
 [assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsMKL")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsCUDA")]
-[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTestsOpenBLAS")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests.MKL")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests.CUDA")]
+[assembly: InternalsVisibleTo("MathNet.Numerics.UnitTests.OpenBLAS")]
 [assembly: InternalsVisibleTo("Benchmark")]
-#endif
-
 #endif

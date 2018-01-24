@@ -38,11 +38,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Complex
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     /// <summary>
     /// Base class for linear algebra provider tests.
@@ -1094,7 +1090,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Complex
         [TestCase("Wide10x50000", "Tall50000x10")]
         [TestCase("Square1000x1000", "Square1000x1000")]
         [Explicit]
-#if !NETSTANDARD
+#if !NETCOREAPP1_1 && !NETCOREAPP2_0
         [Timeout(1000*10)]
 #endif
         public void IsMatrixMultiplicationPerformant(string leftMatrixKey, string rightMatrixKey)

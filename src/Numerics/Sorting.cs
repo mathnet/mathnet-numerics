@@ -153,7 +153,6 @@ namespace MathNet.Numerics
                 return;
             }
 
-#if !PORTABLE
             // array case
             var keysArray = keys as TKey[];
             var itemsArray = items as TItem[];
@@ -162,7 +161,6 @@ namespace MathNet.Numerics
                 Array.Sort(keysArray, itemsArray, comparer);
                 return;
             }
-#endif
 
             // local sort implementation
             QuickSort(keys, items, comparer, 0, count - 1);
@@ -369,7 +367,6 @@ namespace MathNet.Numerics
                 return;
             }
 
-#if !PORTABLE
             // array case
             var keysArray = keys as TKey[];
             var itemsArray = items as TItem[];
@@ -378,7 +375,6 @@ namespace MathNet.Numerics
                 Array.Sort(keysArray, itemsArray, index, count, comparer);
                 return;
             }
-#endif
 
             // fall back: local sort implementation
             QuickSort(keys, items, comparer, index, count - 1);

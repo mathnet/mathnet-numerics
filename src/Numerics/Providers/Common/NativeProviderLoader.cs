@@ -79,9 +79,7 @@ namespace MathNet.Numerics.Providers.Common
 
         static string EvaluateArchitectureKey()
         {
-#if NET35
-            return (IntPtr.Size == 8) ? X64 : X86;
-#else
+            //return (IntPtr.Size == 8) ? X64 : X86;
             if (IsUnix)
             {
 
@@ -115,7 +113,6 @@ namespace MathNet.Numerics.Providers.Common
 
             // Fallback if unknown
             return architecture;
-#endif
         }
 
         /// <summary>

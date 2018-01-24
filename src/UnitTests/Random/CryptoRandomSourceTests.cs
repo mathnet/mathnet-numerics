@@ -27,8 +27,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !PORTABLE && !NETSTANDARD
-
 using MathNet.Numerics.Random;
 using NUnit.Framework;
 
@@ -48,5 +46,3 @@ namespace MathNet.Numerics.UnitTests.Random
         }
     }
 }
-
-#endif

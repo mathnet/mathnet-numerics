@@ -60,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
             CollectionAssert.AreEqual(vector, clone);
         }
 
-#if !PORTABLE && !NETSTANDARD
+#if !NETCOREAPP1_1
         /// <summary>
         /// Can clone a vector using <c>IClonable</c> interface method.
         /// </summary>

@@ -27,11 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-#if !PORTABLE
+#if !NETSTANDARD1_3
+using System;
 using System.Runtime;
 #endif
 
@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Random
     /// A 32-bit combined multiple recursive generator with 2 components of order 3.
     /// </summary>
     /// <remarks>Based off of P. L'Ecuyer, "Combined Multiple Recursive Random Number Generators," Operations Research, 44, 5 (1996), 816--822. </remarks>
-    /// 
+    ///
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics/Random")]
     public class Mrg32k3a : RandomSource

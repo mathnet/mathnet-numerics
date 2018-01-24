@@ -33,12 +33,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {
-
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     /// <summary>
     /// An incomplete, level 0, LU factorization preconditioner.

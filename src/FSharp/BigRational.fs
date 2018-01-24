@@ -7,9 +7,6 @@
 
 namespace MathNet.Numerics
 
-#if NOSYSNUMERICS
-#else
-
 open System
 open System.Numerics
 open System.Globalization
@@ -499,5 +496,3 @@ module NumericLiteralN =
 type BigNum = BigRational
 //
 type bignum = BigRational
-
-#endif

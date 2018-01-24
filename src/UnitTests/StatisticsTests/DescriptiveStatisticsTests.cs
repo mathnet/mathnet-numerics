@@ -34,7 +34,6 @@ using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
-#if !PORTABLE
     /// <summary>
     /// Descriptive statistics tests.
     /// </summary>
@@ -303,5 +302,4 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(stats.Kurtosis, Is.NaN);
         }
     }
-#endif
 }

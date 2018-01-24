@@ -35,12 +35,7 @@ using System.Diagnostics;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-
-#if NOSYSNUMERICS
-    using Numerics;
-#else
-    using System.Numerics;
-#endif
+    using Complex = System.Numerics.Complex;
 
     /// <summary>
     /// A vector with sparse storage, intended for very large vectors where most of the cells are zero.

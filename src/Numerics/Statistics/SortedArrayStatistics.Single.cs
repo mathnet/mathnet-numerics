@@ -210,11 +210,7 @@ namespace MathNet.Numerics.Statistics
             }
 
             var x = a + (data.Length + b)*tau - 1;
-#if PORTABLE
-            var ip = (int) x;
-#else
             var ip = Math.Truncate(x);
-#endif
             var fp = x - ip;
 
             if (Math.Abs(fp) < 1e-9)

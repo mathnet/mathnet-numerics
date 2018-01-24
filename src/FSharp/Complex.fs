@@ -6,12 +6,8 @@ namespace MathNet.Numerics
 
 open Microsoft.FSharp.Math
 open System
-open System.Globalization
-
-#if NOSYSNUMERICS
-#else
 open System.Numerics
-#endif
+open System.Globalization
 
 //
 type complex = Complex

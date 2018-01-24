@@ -32,17 +32,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+using System.Numerics;
+
+#if !NETSTANDARD1_3
+using System.Runtime;
+#endif
 
 namespace MathNet.Numerics
 {
-#if !PORTABLE
-    using System.Runtime;
-#endif
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-    using BigInteger = System.Numerics.BigInteger;
-#endif
-
     /// <summary>
     /// 32-bit single precision complex numbers class.
     /// </summary>
@@ -698,7 +695,7 @@ namespace MathNet.Numerics
 
         /// <summary>Division operator. Divides a float value by a complex number.</summary>
         /// <remarks>Algorithm based on Smith's algorithm</remarks>
-        /// <see cref="InternalDiv(float, float, float, float, bool)"/> 
+        /// <see cref="InternalDiv(float, float, float, float, bool)"/>
         /// <returns>The result of the division.</returns>
         /// <param name="dividend">The dividend.</param>
         /// <param name="divisor">The divisor.</param>
@@ -1030,7 +1027,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if PORTABLE || NETSTANDARD
+#if NETSTANDARD1_3
             var value = GlobalizationHelper.ParseSingle(ref token);
 #else
             var value = GlobalizationHelper.ParseSingle(ref token, format.GetCultureInfo());
@@ -1187,7 +1184,6 @@ namespace MathNet.Numerics
             return new Complex32(value, 0.0f);
         }
 
-#if !NOSYSNUMERICS
         /// <summary>
         /// Implicit conversion of a BigInteger int to a <c>Complex32</c>.
         /// </summary>
@@ -1197,7 +1193,6 @@ namespace MathNet.Numerics
         {
             return new Complex32((long)value, 0.0f);
         }
-#endif
 
         /// <summary>
         /// Implicit conversion of a real long to a <c>Complex32</c>.

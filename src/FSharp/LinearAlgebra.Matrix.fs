@@ -52,25 +52,25 @@ module Matrix =
     let inline toSeq (m: #Matrix<_>) = m.Enumerate(Zeros.Include)
 
     /// Transform a matrix into an indexed sequence.
-    let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> properTuple3Seq
+    let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include)
 
     /// Transform a matrix into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
     let inline toSeqSkipZeros (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip)
 
     /// Transform a matrix into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqiSkipZeros (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> properTuple3Seq
+    let inline toSeqiSkipZeros (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip)
 
     /// Transform a matrix into a column sequence.
     let inline toColSeq (m: #Matrix<_>) = m.EnumerateColumns()
 
     /// Transform a matrix into an indexed column sequence.
-    let inline toColSeqi (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> properTuple2Seq
+    let inline toColSeqi (m: #Matrix<_>) = m.EnumerateColumnsIndexed()
 
     /// Transform a matrix into a row sequence.
     let inline toRowSeq (m: #Matrix<_>) = m.EnumerateRows()
 
     /// Transform a matrix into an indexed row sequence.
-    let inline toRowSeqi (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> properTuple2Seq
+    let inline toRowSeqi (m: #Matrix<_>) = m.EnumerateRowsIndexed()
 
 
     /// Applies a function to all elements of the matrix.
@@ -475,10 +475,10 @@ module DenseMatrix =
     let inline ofColumnSeq2 (rows: int) (cols: int) (seqOfCols: #seq<seq<'T>>) = Matrix<'T>.Build.DenseOfColumns(rows, cols, seqOfCols)
 
     /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
-    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, Seq.ofList indexed |> internalTuple3Seq)
+    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, Seq.ofList indexed)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
-    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, indexed |> internalTuple3Seq)
+    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.DenseOfIndexed(rows, cols, indexed)
 
     /// Create a square matrix with the vector elements on the diagonal.
     let inline ofDiag (v: Vector<'T>) = Matrix<'T>.Build.DenseOfDiagonalVector(v)
@@ -579,10 +579,10 @@ module SparseMatrix =
     let inline ofColumnSeq2 (rows: int) (cols: int) (seqOfCols: #seq<seq<'T>>) = Matrix<'T>.Build.SparseOfColumns(rows, cols, seqOfCols)
 
     /// Create a matrix with a given dimension from an indexed list of row, column, value tuples.
-    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, Seq.ofList indexed |> internalTuple3Seq)
+    let inline ofListi (rows: int) (cols: int) (indexed: list<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, Seq.ofList indexed)
 
     /// Create a matrix with a given dimension from an indexed sequences of row, column, value tuples.
-    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, indexed |> internalTuple3Seq)
+    let inline ofSeqi (rows: int) (cols: int) (indexed: #seq<int * int * 'T>) = Matrix<'T>.Build.SparseOfIndexed(rows, cols, indexed)
 
     /// Create a square matrix with the vector elements on the diagonal.
     let inline ofDiag (v: Vector<'T>) = Matrix<'T>.Build.SparseOfDiagonalVector(v)

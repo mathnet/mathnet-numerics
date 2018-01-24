@@ -28,11 +28,8 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
-
-#if !NOSYSNUMERICS
 using System.Numerics;
-#endif
+using MathNet.Numerics.Properties;
 
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics
@@ -88,7 +85,6 @@ namespace MathNet.Numerics
             return double.PositiveInfinity;
         }
 
-#if !NOSYSNUMERICS
         /// <summary>
         /// Computes the factorial of an integer.
         /// </summary>
@@ -112,7 +108,6 @@ namespace MathNet.Numerics
 
             return r;
         }
-#endif
 
         /// <summary>
         /// Computes the logarithmic factorial function x -> ln(x!) of an integer number > 0.

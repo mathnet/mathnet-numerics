@@ -35,12 +35,7 @@ using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
-
-#if NOSYSNUMERICS
-    using Numerics;
-#else
-    using System.Numerics;
-#endif
+    using Complex = System.Numerics.Complex;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of the QR decomposition.</para>

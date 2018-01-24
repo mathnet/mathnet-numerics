@@ -28,17 +28,12 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using System.Globalization;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.ComplexTests
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// Complex text handling tests
     /// </summary>
@@ -155,7 +150,6 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(double.MinValue, z.Imaginary, "E3");
         }
 
-#if !(PORTABLE || NETSTANDARD)
         /// <summary>
         /// Try parse can handle symbols with a culture.
         /// </summary>
@@ -202,7 +196,6 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(double.MaxValue, z.Real, "E2");
             Assert.AreEqual(double.MinValue, z.Imaginary, "E3");
         }
-#endif
 
         /// <summary>
         /// Try parse returns <c>false</c> when given bad value with invariant.

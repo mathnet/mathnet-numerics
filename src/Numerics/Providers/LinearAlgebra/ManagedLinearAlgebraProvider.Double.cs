@@ -28,17 +28,13 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>

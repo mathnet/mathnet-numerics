@@ -1,8 +1,5 @@
 ﻿module MathNet.Numerics.Tests.RandomVariableTests
 
-#if NOSYSNUMERICS
-#else
-
 open NUnit.Framework
 open FsUnitTyped
 
@@ -81,5 +78,3 @@ let ``When switching in a MontyHall situation, the chances to win should be 2/3`
     |> RandomVariable.filter ((=) Car)
     |> RandomVariable.probability
     |> shouldEqual (2N/3N)
-
-#endif

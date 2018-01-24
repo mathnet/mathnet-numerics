@@ -98,7 +98,6 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
         }
 
-#if !NET35
         [Test]
         public void FindMinimum_Rosenbrock_Hard()
         {
@@ -109,7 +108,6 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
             Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
         }
-#endif
 
         [Test]
         public void FindMinimum_Rosenbrock_Overton()

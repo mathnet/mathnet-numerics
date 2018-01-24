@@ -29,15 +29,12 @@
 #if NATIVE
 
 using System;
+using System.Numerics;
 using System.Threading;
 using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     public class MklFourierTransformProvider : IFourierTransformProvider, IDisposable
     {
         class Kernel

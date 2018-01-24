@@ -40,18 +40,11 @@ All: code quality fixes ~Jonas Nyrup</PackageReleaseNotes>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <NoWarn>2003</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-    <DefineConstants>NETSTANDARD</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-    <DefineConstants>NETSTANDARD</DefineConstants>
-  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="Compatibility.fs" />
     <Compile Include="Statistics.fs" />
     <Compile Include="Random.fs" />
     <Compile Include="Distributions.fs" />

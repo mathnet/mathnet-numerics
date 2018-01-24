@@ -1119,7 +1119,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         [TestCase("Wide10x50000", "Tall50000x10")]
         [TestCase("Square1000x1000", "Square1000x1000")]
         [Explicit]
-#if !NETSTANDARD
+#if !NETCOREAPP1_1 && !NETCOREAPP2_0
         [Timeout(1000*5)]
 #endif
         public void IsMatrixMultiplicationPerformant(string leftMatrixKey, string rightMatrixKey)

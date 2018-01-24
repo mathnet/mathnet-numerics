@@ -762,11 +762,7 @@ namespace MathNet.Numerics
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         static double Truncate(double value)
         {
-#if PORTABLE
-            return value >= 0.0 ? Math.Floor(value) : Math.Ceiling(value);
-#else
             return Math.Truncate(value);
-#endif
         }
 
         static int SingleToInt32Bits(float value)

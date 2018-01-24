@@ -28,17 +28,12 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MathNet.Numerics.Statistics
 {
-#if NOSYSNUMERICS
-    using Complex64 = Numerics.Complex;
-#else
-    using Complex64 = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// Extension methods to return basic statistics on set of data.
     /// </summary>
@@ -187,9 +182,9 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <returns>The minimum value in the sample data.</returns>
-        public static Complex64 MinimumMagnitudePhase(this IEnumerable<Complex64> data)
+        public static Complex MinimumMagnitudePhase(this IEnumerable<Complex> data)
         {
-            var array = data as Complex64[];
+            var array = data as Complex[];
             return array != null
                 ? ArrayStatistics.MinimumMagnitudePhase(array)
                 : StreamingStatistics.MinimumMagnitudePhase(data);
@@ -215,9 +210,9 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">The sample data.</param>
         /// <returns>The minimum value in the sample data.</returns>
-        public static Complex64 MaximumMagnitudePhase(this IEnumerable<Complex64> data)
+        public static Complex MaximumMagnitudePhase(this IEnumerable<Complex> data)
         {
-            var array = data as Complex64[];
+            var array = data as Complex[];
             return array != null
                 ? ArrayStatistics.MaximumMagnitudePhase(array)
                 : StreamingStatistics.MaximumMagnitudePhase(data);

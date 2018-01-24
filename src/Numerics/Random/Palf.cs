@@ -32,7 +32,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using MathNet.Numerics.Properties;
 
-#if !PORTABLE
+#if !NETSTANDARD1_3
 using System.Runtime;
 #endif
 

@@ -44,10 +44,7 @@
 // </contribution>
 
 using System;
-
-#if !NOSYSNUMERICS
 using System.Numerics;
-#endif
 
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics

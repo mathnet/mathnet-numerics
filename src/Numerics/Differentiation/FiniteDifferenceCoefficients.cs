@@ -129,12 +129,12 @@ namespace MathNet.Numerics.Differentiation
                 // "Polish" results by rounding.
                 var fac = SpecialFunctions.Factorial(points);
                 for (int j = 0; j < points; j++)
+                {
                     for (int k = 0; k < points; k++)
-#if PORTABLE
-                        c[center][j, k] = (Math.Round(c[center][j, k] * fac)) / fac;
-#else
+                    {
                         c[center][j, k] = (Math.Round(c[center][j, k] * fac, MidpointRounding.AwayFromZero)) / fac;
-#endif
+                    }
+                }
             }
 
             _coefficients = c;

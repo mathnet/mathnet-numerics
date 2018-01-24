@@ -38,11 +38,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     /// <summary>
     /// Abstract class with the common set of vector tests.
@@ -68,7 +64,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
             CollectionAssert.AreEqual(vector, clone);
         }
 
-#if !PORTABLE && !NETSTANDARD
+#if !NETCOREAPP1_1
         /// <summary>
         /// Can clone a vector using <c>IClonable</c> interface method.
         /// </summary>

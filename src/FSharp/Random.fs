@@ -49,14 +49,11 @@ module Random =
     let inline system () = SystemRandomSource() :> System.Random
     let inline systemSeed (seed:int) = SystemRandomSource(seed) :> System.Random
 
-#if PORTABLE || NETSTANDARD
-#else
     /// Creates a default .Net cryptographic system pRNG
     let inline crypto () = new CryptoRandomSource() :> System.Random
     let inline cryptoWith (threadSafe:bool) = new CryptoRandomSource(threadSafe) :> System.Random
     let inline cryptoDoubles (length:int) = CryptoRandomSource.Doubles(length)
     let inline cryptoDoubleSeq () = CryptoRandomSource.DoubleSequence()
-#endif
 
     /// Creates a Mersenne Twister 19937 pRNG with a robust seed
     let mersenneTwisterShared = MersenneTwister.Default :> System.Random

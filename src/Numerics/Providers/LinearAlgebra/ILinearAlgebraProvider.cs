@@ -27,15 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System.Numerics;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// How to transpose a matrix.
     /// </summary>

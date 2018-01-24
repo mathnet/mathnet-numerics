@@ -33,12 +33,7 @@ using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     /// <summary>
     /// <c>Complex</c> version of the <see cref="Vector{T}"/> class.

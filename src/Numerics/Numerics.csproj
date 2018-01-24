@@ -1,59 +1,53 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>Library</OutputType>
-        <TargetFrameworks>net40;netstandard1.3;netstandard2.0</TargetFrameworks>
-        <NetStandardImplicitPackageVersion>2.0.1</NetStandardImplicitPackageVersion>
-        <AssemblyName>MathNet.Numerics</AssemblyName>
-        <RootNamespace>MathNet.Numerics</RootNamespace>
-        <IsPackable>true</IsPackable>
-        <PackageId>MathNet.Numerics</PackageId>
-        <VersionPrefix>4.0.0</VersionPrefix>
-        <VersionSuffix>beta05</VersionSuffix>
-        <PackageVersion>4.0.0-beta05</PackageVersion>
-        <Version>4.0.0-beta05</Version>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-        <FileVersion>4.0.0.0</FileVersion>
-        <Title>Math.NET Numerics</Title>
-        <Authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</Authors>
-        <Company>Math.NET Project</Company>
-        <Product>Math.NET Numerics</Product>
-        <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac.</Description>
-        <Copyright>Copyright Math.NET Project</Copyright>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
-        <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
-        <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
-        <PackageReleaseNotes>BUG: Distributions: BetaScaled no longer ignores optional random source parameter
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net40;netstandard1.3;netstandard2.0</TargetFrameworks>
+    <NetStandardImplicitPackageVersion>2.0.1</NetStandardImplicitPackageVersion>
+    <AssemblyName>MathNet.Numerics</AssemblyName>
+    <RootNamespace>MathNet.Numerics</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>MathNet.Numerics</PackageId>
+    <VersionPrefix>4.0.0</VersionPrefix>
+    <VersionSuffix>beta05</VersionSuffix>
+    <PackageVersion>4.0.0-beta05</PackageVersion>
+    <Version>4.0.0-beta05</Version>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
+    <Title>Math.NET Numerics</Title>
+    <Authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</Authors>
+    <Company>Math.NET Project</Company>
+    <Product>Math.NET Numerics</Product>
+    <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac.</Description>
+    <Copyright>Copyright Math.NET Project</Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
+    <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
+    <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
+    <PackageReleaseNotes>BUG: Distributions: BetaScaled no longer ignores optional random source parameter
 BUG: Trigonometry: Complex trigonometric functions behave on large imput ~diluculo
 All: code quality fixes ~Jonas Nyrup</PackageReleaseNotes>
-        <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
-        <IsTool>false</IsTool>
-        <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <NeutralLanguage>en</NeutralLanguage>
-        <NoPackageAnalysis>false</NoPackageAnalysis>
-        <IncludeBuildOutput>true</IncludeBuildOutput>
-        <IncludeContentInPack>false</IncludeContentInPack>
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
-        <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
-        <NoWarn>1701;1702;1705;1591;1573</NoWarn>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.3'">
-        <DefineConstants>NETSTANDARD</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
-        <DefineConstants>NETSTANDARD;NATIVE</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(TargetFramework)'=='net40'">
-        <DefineConstants>NATIVE</DefineConstants>
-    </PropertyGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Numerics" />
-        <Reference Include="System.Runtime.Serialization" />
-    </ItemGroup>
-    <Import Project="..\..\.paket\Paket.Restore.targets" />
+    <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
+    <IsTool>false</IsTool>
+    <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <NoPackageAnalysis>false</NoPackageAnalysis>
+    <IncludeBuildOutput>true</IncludeBuildOutput>
+    <IncludeContentInPack>false</IncludeContentInPack>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+    <NoWarn>1701;1702;1705;1591;1573</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)'!='netstandard1.3'">
+    <DefineConstants>NATIVE</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

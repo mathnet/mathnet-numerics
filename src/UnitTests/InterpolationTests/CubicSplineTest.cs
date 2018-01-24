@@ -183,7 +183,6 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
             Assert.That(CubicSpline.InterpolateNatural(new[] { 1.0, 2.0 }, new[] { 2.0, 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
         }
 
-#if !NET35 && !PORTABLE && !NETSTANDARD
         [Test]
         public void InterpolateAkimaSorted_MustBeThreadSafe_GitHub219([Values(8, 32, 256, 1024)] int samples)
         {
@@ -203,7 +202,5 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
 
             CollectionAssert.DoesNotContain(yipol, Double.NaN);
         }
-#endif
-
     }
 }

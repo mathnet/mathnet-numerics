@@ -28,15 +28,12 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using System.Linq;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
 {
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     [TestFixture]
     public class GenerateTests
     {
@@ -229,8 +226,6 @@ namespace MathNet.Numerics.UnitTests
                 Is.EqualTo(Generate.Unfold(250, (s => new Tuple<int, int>(s + 1, s + 1)), 0)).AsCollection);
         }
 
-#if !NOSYSNUMERICS
-
         [Test]
         public void FibonacciConsistentWithSequence()
         {
@@ -250,8 +245,5 @@ namespace MathNet.Numerics.UnitTests
                     return new Tuple<BigInteger, Tuple<BigInteger, BigInteger>>(z, new Tuple<BigInteger, BigInteger>(s.Item2, z));
                 }), new Tuple<BigInteger, BigInteger>(BigInteger.Zero, BigInteger.One)))).AsCollection);
         }
-
-#endif
-
     }
 }

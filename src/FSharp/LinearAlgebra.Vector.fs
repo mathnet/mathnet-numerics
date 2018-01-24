@@ -49,13 +49,13 @@ module Vector =
     let inline toSeq (v: #Vector<_>) = v.Enumerate(Zeros.Include)
 
     /// Transform a vector into an indexed sequence.
-    let inline toSeqi (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include) |> properTuple2Seq
+    let inline toSeqi (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include)
 
     /// Transform a vector into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
     let inline toSeqSkipZeros (v: #Vector<_>) = v.Enumerate(Zeros.AllowSkip)
 
     /// Transform a vector into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqiSkipZeros (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip) |> properTuple2Seq
+    let inline toSeqiSkipZeros (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip)
 
 
     /// Applies a function to all elements of the vector.
@@ -279,10 +279,10 @@ module DenseVector =
     let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.DenseOfEnumerable(fs)
 
     /// Create a vector with a given dimension from an indexed list of index, value pairs.
-    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, Seq.ofList fl |> internalTuple2Seq)
+    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, Seq.ofList fl)
 
     /// Create a vector with a given dimension from an indexed sequences of index, value pairs.
-    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, fs |> internalTuple2Seq)
+    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.DenseOfIndexed(n, fs)
 
     /// Create a vector with integer entries in the given range.
     let inline range (start: int) (step: int) (stop: int) = raw [| for i in start..step..stop -> float i |]
@@ -318,10 +318,10 @@ module SparseVector =
     let inline ofSeq (fs: #seq<'T>) = Vector<'T>.Build.SparseOfEnumerable(fs)
 
     /// Create a sparse vector with a given dimension from an indexed list of index, value pairs.
-    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, Seq.ofList fl |> internalTuple2Seq)
+    let inline ofListi (n: int) (fl: list<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, Seq.ofList fl)
 
     /// Create a sparse vector with a given dimension from an indexed sequence of index, value pairs.
-    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, fs |> internalTuple2Seq)
+    let inline ofSeqi (n: int) (fs: #seq<int * 'T>) = Vector<'T>.Build.SparseOfIndexed(n, fs)
 
 
 /// Module that contains implementation of useful F#-specific extension members for generic vectors

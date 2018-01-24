@@ -35,7 +35,6 @@ using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
-#if !PORTABLE
     /// <summary>
     /// Correlation tests
     /// </summary>
@@ -169,5 +168,4 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(() => Correlation.Spearman(dataA, dataB), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
     }
-#endif
 }

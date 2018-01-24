@@ -3,9 +3,6 @@
 
 namespace MathNet.Numerics.Tests
 
-#if NOSYSNUMERICS
-#else
-
 open MathNet.Numerics
 open NUnit.Framework
 open System
@@ -648,5 +645,3 @@ type BigNumType() =
         Assert.AreEqual(g_positive1.Numerator, g_bigintpositive)
         Assert.AreEqual(g_negative1.Numerator, g_bigintnegative)
         Assert.AreEqual(0N.Numerator, 0I)
-
-#endif

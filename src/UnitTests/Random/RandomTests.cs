@@ -84,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.Random
                 disposable.Dispose();
             }
         }
-		
+
 		/// <summary>
         ///     Next() result is in boundaries.
         /// </summary>
@@ -111,12 +111,10 @@ namespace MathNet.Numerics.UnitTests.Random
         [Test]
         public void Reproducible()
         {
-#if !PORTABLE
             if (_randomType == typeof (CryptoRandomSource))
             {
                 Assert.Ignore("CryptoRandomSource does not support seeds and is not reproducible by design.");
             }
-#endif
 
             Assert.That(
                 ((RandomSource)Activator.CreateInstance(_randomType, new object[] { 5, false })).NextDoubles(1000),

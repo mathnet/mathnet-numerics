@@ -28,16 +28,11 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// Trigonometry tests.
     /// </summary>

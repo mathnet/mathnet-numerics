@@ -65,15 +65,14 @@
    email: m-mat @ math.sci.hiroshima-u.ac.jp (remove space)
 */
 
-using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-
-#if !PORTABLE
-using System.Runtime;
 using System.Threading;
-#endif
 
+#if !NETSTANDARD1_3
+using System;
+using System.Runtime;
+#endif
 
 namespace MathNet.Numerics.Random
 {
@@ -172,25 +171,6 @@ namespace MathNet.Numerics.Random
             init_genrand((uint)seed);
         }
 
-#if PORTABLE
-        [ThreadStatic]
-        static MersenneTwister DefaultInstance;
-
-        /// <summary>
-        /// Default instance, thread-safe.
-        /// </summary>
-        public static MersenneTwister Default
-        {
-            get
-            {
-                if (DefaultInstance == null)
-                {
-                    DefaultInstance = new MersenneTwister(RandomSeed.Robust(), true);
-                }
-                return DefaultInstance;
-            }
-        }
-#else
         static readonly ThreadLocal<MersenneTwister> DefaultInstance = new ThreadLocal<MersenneTwister>(() => new MersenneTwister(RandomSeed.Robust(), true));
 
         /// <summary>
@@ -200,7 +180,6 @@ namespace MathNet.Numerics.Random
         {
             get { return DefaultInstance.Value; }
         }
-#endif
 
         /*/// <summary>
         /// Initializes a new instance of the <see cref="MersenneTwister"/> class.

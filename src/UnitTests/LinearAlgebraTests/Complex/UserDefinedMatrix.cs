@@ -28,11 +28,7 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     /// <summary>
     /// User-defined matrix implementation (internal class for testing purposes)
@@ -106,7 +102,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserDefinedMatrix"/> class from a 2D array. 
+        /// Initializes a new instance of the <see cref="UserDefinedMatrix"/> class from a 2D array.
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         public UserDefinedMatrix(Complex[,] data)

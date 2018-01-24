@@ -30,16 +30,13 @@
 #if NATIVE
 
 using System;
+using System.Numerics;
 using System.Security;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.Common.Cuda;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 {
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// NVidia's CUDA Toolkit linear algebra provider.
     /// </summary>

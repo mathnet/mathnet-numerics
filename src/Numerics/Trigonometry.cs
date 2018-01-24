@@ -27,14 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Numerics;
+
 namespace MathNet.Numerics
 {
-    using System;
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// Double-precision trigonometry toolkit.
     /// </summary>
@@ -195,7 +192,7 @@ namespace MathNet.Numerics
             // tan(z) = - j*tanh(j*z)
 
             Complex z = Tanh(new Complex(-value.Imaginary, value.Real));
-            return new Complex(z.Imaginary, -z.Real);            
+            return new Complex(z.Imaginary, -z.Real);
         }
 
         /// <summary>
@@ -460,7 +457,7 @@ namespace MathNet.Numerics
 
             return new Complex(
                 Sinh(value.Real) * Cos(value.Imaginary),
-                Cosh(value.Real) * Sin(value.Imaginary));            
+                Cosh(value.Real) * Sin(value.Imaginary));
         }
 
         /// <summary>
@@ -535,13 +532,13 @@ namespace MathNet.Numerics
                 return new Complex(Tanh(value.Real), 0.0);
             }
 
-            // tanh(x + j*y) = (cosh(x)*sinh(x)/cos^2(y) + j*tan(y))/(1 + sinh^2(x)/cos^2(y))            
+            // tanh(x + j*y) = (cosh(x)*sinh(x)/cos^2(y) + j*tan(y))/(1 + sinh^2(x)/cos^2(y))
             // if |x| > huge, tanh(z) = sign(x) + j*4*cos(y)*sin(y)*exp(-2*|x|)
             // if exp(-|x|) = 0, tanh(z) = sign(x)
             // if tan(y) = +/- oo or 1/cos^2(y) = 1 + tan^2(y) = oo, tanh(z) = cosh(x)/sinh(x)
             //
             // The algorithm is based on Kahan.
-            
+
             if (Math.Abs(value.Real) >= 22.0) // Taken from the msun library in FreeBSD
             {
                 double e = Math.Exp(-Math.Abs(value.Real));
@@ -623,7 +620,7 @@ namespace MathNet.Numerics
                 return new Complex(Sech(value.Real), 0.0);
             }
 
-            // sech(x + j*y) = (cosh(x)/cos(y) - j*sinh(x)*tan(y)/cos(y))/(1 + sinh^2(x)/cos^2(y))            
+            // sech(x + j*y) = (cosh(x)/cos(y) - j*sinh(x)*tan(y)/cos(y))/(1 + sinh^2(x)/cos^2(y))
             // if |x| > huge, sech(z) = 4*cosh(x)*cos(y)*exp(-2*|x|) - j*4*sinh(x)*tan(y)*cos(y)*exp(-2*|x|)
             // if exp(-|x|) = 0, sech(z) = 0
             // if tan(y) = +/- oo or 1/cos^2(y) = 1 + tan^2(y) = oo, sech(z) = -j*sign(tan(y))/sinh(x)
@@ -635,7 +632,7 @@ namespace MathNet.Numerics
             double beta = 1.0 + tani * tani;
             double sinhr = Math.Sinh(value.Real);
             double coshr = Math.Cosh(value.Real);
-            
+
             if (Math.Abs(value.Real) >= 22.0) // Taken from the msun library in FreeBSD
             {
                 double e = Math.Exp(-Math.Abs(value.Real));
@@ -675,7 +672,7 @@ namespace MathNet.Numerics
                 return new Complex(Csch(value.Real), 0.0);
             }
 
-            // csch(x + j*y) = (sinh(x)*cot(y)/sin(y) - j*cosh(x)/sin(y))/(1 + sinh^2(x)/sin^2(y))            
+            // csch(x + j*y) = (sinh(x)*cot(y)/sin(y) - j*cosh(x)/sin(y))/(1 + sinh^2(x)/sin^2(y))
             // if |x| > huge, csch(z) = 4*sinh(x)*cot(y)*sin(y)*exp(-2*|x|) - j*4*cosh(x)*sin(y)*exp(-2*|x|)
             // if exp(-|x|) = 0, csch(z) = 0
             // if cot(y) = +/- oo or 1/sin^2(x) = 1 + cot^2(x) = oo, csch(z) = sign(cot(y))/sinh(x)
@@ -687,7 +684,7 @@ namespace MathNet.Numerics
             double beta = 1 + coti * coti;
             double sinhr = Sinh(value.Real);
             double coshr = Cosh(value.Real);
-            
+
             if (Math.Abs(value.Real) >= 22.0) // Taken from the msun library in FreeBSD
             {
                 double e = Math.Exp(-Math.Abs(value.Real));

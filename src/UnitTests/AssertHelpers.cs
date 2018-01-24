@@ -28,17 +28,12 @@
 // </copyright>
 
 using System.Collections.Generic;
+using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// A class which includes some assertion helper methods particularly for numerical code.
     /// </summary>

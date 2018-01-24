@@ -27,11 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-#if !PORTABLE
+#if !NETSTANDARD1_3
+using System;
 using System.Runtime;
 #endif
 

@@ -580,7 +580,7 @@ namespace MathNet.Numerics.UnitTests
             xor = ExpressionUtil.CreateExpression<T, T, T>(Expression.ExclusiveOr);
 
             Type typeT = typeof (T);
-#if NETSTANDARD
+#if NETCOREAPP1_1
             var typeInfoT = typeT.GetTypeInfo();
             if (typeInfoT.IsValueType && typeInfoT.IsGenericType && (typeInfoT.GetGenericTypeDefinition() == typeof (Nullable<>)))
 #else
@@ -596,7 +596,7 @@ namespace MathNet.Numerics.UnitTests
             else
             {
                 zero = default(T);
-#if NETSTANDARD
+#if NETCOREAPP1_1
                 if (typeT.GetTypeInfo().IsValueType)
 #else
                 if (typeT.IsValueType)

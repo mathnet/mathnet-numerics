@@ -1,9 +1,5 @@
 ﻿namespace System.Numerics
 
-#if PORTABLE || NETSTANDARD
-#if NOSYSNUMERICS
-#else
-
 open System
 
 [<AutoOpen>]
@@ -30,6 +26,3 @@ module BigIntegerExtensions =
                 -(parseImpl str len 0I 1)
             else
                 parseImpl str len 0I 0
-
-#endif
-#endif

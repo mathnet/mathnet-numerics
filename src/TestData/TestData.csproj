@@ -8,10 +8,7 @@
         <RootNamespace>MathNet.Numerics.TestData</RootNamespace>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.1'">
-        <DefineConstants>NETSTANDARD</DefineConstants>
-    </PropertyGroup>
-    <ItemGroup Condition="'$(TargetFramework)' != 'netstandard1.1'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Xml.Linq" />

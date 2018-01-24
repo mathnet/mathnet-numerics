@@ -32,11 +32,7 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
-#if NOSYSNUMERICS
-    using Complex64 = Numerics.Complex;
-#else
     using Complex64 = System.Numerics.Complex;
-#endif
 
     /// <summary>
     /// Matrix utility functions to simplify tests.

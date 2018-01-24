@@ -33,12 +33,7 @@ using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
-
-#if NOSYSNUMERICS
-    using Numerics;
-#else
-    using System.Numerics;
-#endif
+    using Complex = System.Numerics.Complex;
 
     /// <summary>
     /// <para>A class which encapsulates the functionality of a Cholesky factorization for user matrices.</para>

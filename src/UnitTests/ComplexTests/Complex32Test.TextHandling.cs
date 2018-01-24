@@ -73,7 +73,6 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
                 a.ToString());
         }
 
-#if !PORTABLE
         /// <summary>
         /// Can format complex to string with culture.
         /// </summary>
@@ -99,7 +98,6 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual("(0, " + String.Format("{0}", number) + ")", new Complex32(0.0f, 1.1f).ToString(provider));
             Assert.AreEqual("(" + String.Format("{0}", number) + ", " + String.Format("{0}", number) + ")", new Complex32(1.1f, 1.1f).ToString(provider));
         }
-#endif
 
         /// <summary>
         /// Can format complex to string with format.
@@ -249,7 +247,6 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(float.MinValue, z.Imaginary, "E3");
         }
 
-#if !(PORTABLE || NETSTANDARD)
         /// <summary>
         /// Try parse can handle symbols with a culture.
         /// </summary>
@@ -294,7 +291,6 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(float.MaxValue, z.Real, "E2");
             Assert.AreEqual(float.MinValue, z.Imaginary, "E3");
         }
-#endif
 
         /// <summary>
         /// Try parse returns false when given bad value with invariant.

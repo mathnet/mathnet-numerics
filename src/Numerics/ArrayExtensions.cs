@@ -28,14 +28,10 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 
 namespace MathNet.Numerics
 {
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// Useful extension methods for Arrays.
     /// </summary>

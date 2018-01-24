@@ -29,11 +29,7 @@
 
 namespace MathNet.Numerics.LinearAlgebra
 {
-#if NOSYSNUMERICS
-    using Complex64 = Numerics.Complex;
-#else
     using Complex64 = System.Numerics.Complex;
-#endif
 
     public static class VectorExtensions
     {

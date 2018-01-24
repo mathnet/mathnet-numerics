@@ -79,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single.Solvers.Precondit
         static T GetMethod<T>(ILUTPPreconditioner ilutp, string methodName)
         {
             var type = ilutp.GetType();
-#if NETSTANDARD
+#if NETCOREAPP1_1
             var methodInfo = type.GetMethod(
                 methodName,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);

@@ -27,16 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
+using System.Numerics;
 
 namespace MathNet.Numerics.Statistics
 {
-#if NOSYSNUMERICS
-    using Complex64 = Numerics.Complex;
-#else
-    using Complex64 = System.Numerics.Complex;
-#endif
-
     public static partial class ArrayStatistics
     {
         /// <summary>
@@ -44,21 +38,21 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static Complex64 MinimumMagnitudePhase(Complex64[] data)
+        public static Complex MinimumMagnitudePhase(Complex[] data)
         {
             if (data.Length == 0)
             {
-                return new Complex64(double.NaN, double.NaN);
+                return new Complex(double.NaN, double.NaN);
             }
 
             double minMagnitude = double.PositiveInfinity;
-            Complex64 min = new Complex64(double.PositiveInfinity, double.PositiveInfinity);
+            Complex min = new Complex(double.PositiveInfinity, double.PositiveInfinity);
             for (int i = 0; i < data.Length; i++)
             {
                 double magnitude = data[i].Magnitude;
                 if (double.IsNaN(magnitude))
                 {
-                    return new Complex64(double.NaN, double.NaN);
+                    return new Complex(double.NaN, double.NaN);
                 }
                 if (magnitude < minMagnitude || magnitude == minMagnitude && data[i].Phase < min.Phase)
                 {
@@ -106,21 +100,21 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="data">Sample array, no sorting is assumed.</param>
-        public static Complex64 MaximumMagnitudePhase(Complex64[] data)
+        public static Complex MaximumMagnitudePhase(Complex[] data)
         {
             if (data.Length == 0)
             {
-                return new Complex64(double.NaN, double.NaN);
+                return new Complex(double.NaN, double.NaN);
             }
 
             double maxMagnitude = 0.0d;
-            Complex64 max = Complex64.Zero;
+            Complex max = Complex.Zero;
             for (int i = 0; i < data.Length; i++)
             {
                 double magnitude = data[i].Magnitude;
                 if (double.IsNaN(magnitude))
                 {
-                    return new Complex64(double.NaN, double.NaN);
+                    return new Complex(double.NaN, double.NaN);
                 }
                 if (magnitude > maxMagnitude || magnitude == maxMagnitude && data[i].Phase > max.Phase)
                 {

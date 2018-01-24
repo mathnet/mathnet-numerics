@@ -148,19 +148,7 @@ namespace MathNet.Numerics
             {
                 if (idx[i] != i)
                 {
-#if !PORTABLE
                     int q = Array.FindIndex(idx, i + 1, x => x == i);
-#else
-                    int q = -1;
-                    for(int j = i+1; j < Dimension; j++)
-                    {
-                        if(idx[j] == i)
-                        {
-                            q = j;
-                            break;
-                        }
-                    }
-#endif
                     var t = idx[i];
                     idx[i] = q;
                     idx[q] = t;

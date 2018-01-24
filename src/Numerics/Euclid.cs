@@ -29,10 +29,7 @@
 
 using System;
 using System.Collections.Generic;
-
-#if !NOSYSNUMERICS
 using System.Numerics;
-#endif
 
 namespace MathNet.Numerics
 {
@@ -73,7 +70,6 @@ namespace MathNet.Numerics
             return ((dividend%divisor) + divisor)%divisor;
         }
 
-#if !NOSYSNUMERICS
         /// <summary>
         /// Canonical Modulus. The result has the sign of the divisor.
         /// </summary>
@@ -81,7 +77,6 @@ namespace MathNet.Numerics
         {
             return ((dividend%divisor) + divisor)%divisor;
         }
-#endif
 
         /// <summary>
         /// Remainder (% operator). The result has the sign of the dividend.
@@ -115,7 +110,6 @@ namespace MathNet.Numerics
             return dividend%divisor;
         }
 
-#if !NOSYSNUMERICS
         /// <summary>
         /// Remainder (% operator). The result has the sign of the dividend.
         /// </summary>
@@ -123,7 +117,6 @@ namespace MathNet.Numerics
         {
             return dividend%divisor;
         }
-#endif
 
         /// <summary>
         /// Find out whether the provided 32 bit integer is an even number.
@@ -430,7 +423,7 @@ namespace MathNet.Numerics
             while (b != 0)
             {
                 long rem;
-#if PORTABLE || NETSTANDARD
+#if NETSTANDARD1_3
                 rem = a % b;
                 var quot = a / b;
 #else
@@ -513,7 +506,6 @@ namespace MathNet.Numerics
             return LeastCommonMultiple((IList<long>)integers);
         }
 
-#if !NOSYSNUMERICS
         /// <summary>
         /// Returns the greatest common divisor (<c>gcd</c>) of two big integers.
         /// </summary>
@@ -662,6 +654,5 @@ namespace MathNet.Numerics
         {
             return LeastCommonMultiple((IList<BigInteger>)integers);
         }
-#endif
     }
 }

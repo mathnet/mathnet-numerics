@@ -187,11 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     internal class MatrixBuilder : MatrixBuilder<Complex>
     {
@@ -343,14 +339,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
 namespace MathNet.Numerics.LinearAlgebra
 {
-
-#if NOSYSNUMERICS
-    using Complex64 = Numerics.Complex;
-#else
-    using Complex64 = System.Numerics.Complex;
-
-#endif
-
     /// <summary>
     /// Generic linear algebra type builder, for situations where a matrix or vector
     /// must be created in a generic way. Usage of generic builders should not be
@@ -1587,11 +1575,11 @@ namespace MathNet.Numerics.LinearAlgebra
 
         static Tuple<MatrixBuilder<T>, VectorBuilder<T>> Create()
         {
-            if (typeof (T) == typeof (Complex64))
+            if (typeof (T) == typeof (System.Numerics.Complex))
             {
                 return new Tuple<MatrixBuilder<T>, VectorBuilder<T>>(
-                    (MatrixBuilder<T>)(object)new Complex.MatrixBuilder(),
-                    (VectorBuilder<T>)(object)new Complex.VectorBuilder());
+                    (MatrixBuilder<T>)(object)new LinearAlgebra.Complex.MatrixBuilder(),
+                    (VectorBuilder<T>)(object)new LinearAlgebra.Complex.VectorBuilder());
             }
 
             if (typeof (T) == typeof (Numerics.Complex32))

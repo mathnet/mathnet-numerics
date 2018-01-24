@@ -32,12 +32,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
-
-#if NOSYSNUMERICS
-    using Numerics;
-#else
-    using System.Numerics;
-#endif
+    using Complex = System.Numerics.Complex;
 
     /// <summary>
     /// Eigenvalues and eigenvectors of a complex matrix.

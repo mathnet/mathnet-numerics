@@ -2,9 +2,6 @@
 
 #nowarn "40"
 
-#if NOSYSNUMERICS
-#else
-
 open System
 open System.Collections
 open System.Collections.Generic
@@ -96,5 +93,3 @@ module RandomVariable =
         |> map (fst >> List.rev)
 
     let remove items = Seq.filter (fun v -> Seq.forall ((<>) v) items)
-
-#endif

@@ -28,6 +28,7 @@
 // </copyright>
 
 using System.Linq;
+using System.Numerics;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.Statistics;
@@ -35,11 +36,6 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 {
-
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
-
     /// <summary>
     /// Parseval's theorem verification tests.
     /// </summary>

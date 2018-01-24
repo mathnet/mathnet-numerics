@@ -28,16 +28,12 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics
 {
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     // TODO PERF: Cache/Precompute 10^x terms
 
     public static partial class Precision
@@ -324,13 +320,13 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the 
+        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
         /// number of decimal places as an absolute measure.
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 0.5e-decimalPlaces. We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 0.5e-decimalPlaces. We divide by
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
@@ -357,19 +353,19 @@ namespace MathNet.Numerics
 
             // The values are equal if the difference between the two numbers is smaller than
             // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
-            // on each side of the numbers, e.g. if decimalPlaces == 2, 
+            // on each side of the numbers, e.g. if decimalPlaces == 2,
             // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
             return Math.Abs(diff) < Math.Pow(10, -decimalPlaces) / 2d;
         }
 
         /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the 
+        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
         /// number of decimal places as an absolute measure.
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 0.5e-decimalPlaces. We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 0.5e-decimalPlaces. We divide by
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
@@ -388,8 +384,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
@@ -433,7 +429,7 @@ namespace MathNet.Numerics
             {
                 // The values are equal if the difference between the two numbers is smaller than
                 // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
-                // on each side of the numbers, e.g. if decimalPlaces == 2, 
+                // on each side of the numbers, e.g. if decimalPlaces == 2,
                 // then 0.01 will equal between 0.005 and 0.015, but not 0.02 and not 0.00
                 return Math.Abs(diff) < Math.Pow(10, -decimalPlaces) / 2d;
             }
@@ -449,7 +445,7 @@ namespace MathNet.Numerics
 
             // The values are equal if the difference between the two numbers is smaller than
             // 10^(-numberOfDecimalPlaces). We divide by two so that we have half the range
-            // on each side of the numbers, e.g. if decimalPlaces == 2, 
+            // on each side of the numbers, e.g. if decimalPlaces == 2,
             // then 0.01 will equal between 0.00995 and 0.01005, but not 0.0015 and not 0.0095
             return Math.Abs(diff) < Math.Pow(10, magnitudeOfMax - decimalPlaces) / 2d;
         }
@@ -460,8 +456,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
@@ -475,7 +471,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the 
+        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
         /// number of decimal places as an absolute measure.
         /// </summary>
         /// <param name="a">The first value.</param>
@@ -487,7 +483,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the 
+        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
         /// number of decimal places as an absolute measure.
         /// </summary>
         /// <param name="a">The first value.</param>
@@ -499,7 +495,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the 
+        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
         /// number of decimal places as an absolute measure.
         /// </summary>
         /// <param name="a">The first value.</param>
@@ -511,7 +507,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the 
+        /// Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
         /// number of decimal places as an absolute measure.
         /// </summary>
         /// <param name="a">The first value.</param>
@@ -575,14 +571,14 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// Determines the 'number' of floating point numbers between two values (i.e. the number of discrete steps 
-        /// between the two numbers) and then checks if that is within the specified tolerance. So if a tolerance 
-        /// of 1 is passed then the result will be true only if the two numbers have the same binary representation 
+        /// Determines the 'number' of floating point numbers between two values (i.e. the number of discrete steps
+        /// between the two numbers) and then checks if that is within the specified tolerance. So if a tolerance
+        /// of 1 is passed then the result will be true only if the two numbers have the same binary representation
         /// OR if they are two adjacent numbers that only differ by one step.
         /// </para>
         /// <para>
         /// The comparison method used is explained in http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm . The article
-        /// at http://www.extremeoptimization.com/resources/Articles/FPDotNetConceptsAndFormats.aspx explains how to transform the C code to 
+        /// at http://www.extremeoptimization.com/resources/Articles/FPDotNetConceptsAndFormats.aspx explains how to transform the C code to
         /// .NET enabled code without using pointers and unsafe code.
         /// </para>
         /// </remarks>
@@ -620,7 +616,7 @@ namespace MathNet.Numerics
             // Get the second double and convert it to an integer value (by using the binary representation)
             long secondUlong = AsDirectionalInt64(b);
 
-            // Now compare the values. 
+            // Now compare the values.
             // Note that this comparison can overflow so we'll approach this differently
             // Do note that we could overflow this way too. We should probably check that we don't.
             return (a > b) ? (secondUlong + maxNumbersBetween >= firstUlong) : (firstUlong + maxNumbersBetween >= secondUlong);
@@ -663,7 +659,7 @@ namespace MathNet.Numerics
             // Get the second float and convert it to an integer value (by using the binary representation)
             int secondUlong = AsDirectionalInt32(b);
 
-            // Now compare the values. 
+            // Now compare the values.
             // Note that this comparison can overflow so we'll approach this differently
             // Do note that we could overflow this way too. We should probably check that we don't.
             return (a > b) ? (secondUlong + maxNumbersBetween >= firstUlong) : (firstUlong + maxNumbersBetween >= secondUlong);

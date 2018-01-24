@@ -190,7 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (var i = 0; i < hashNum; i++)
                 {
-#if PORTABLE || NETSTANDARD
+#if NETSTANDARD1_3
                     int col = i%ColumnCount;
                     int row = i/ColumnCount;
 #else

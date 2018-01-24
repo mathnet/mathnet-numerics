@@ -28,12 +28,9 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.RootFinding;
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
 
 namespace MathNet.Numerics
 {

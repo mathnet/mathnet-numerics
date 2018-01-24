@@ -27,19 +27,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using System.Collections.Generic;
+using System.Numerics;
+
+#if !NETSTANDARD1_3
+using System.Runtime;
+#endif
+
 namespace MathNet.Numerics
 {
-    using System;
-    using System.Collections.Generic;
-
-#if !PORTABLE && !NETSTANDARD
-    using System.Runtime;
-#endif
-
-#if !NOSYSNUMERICS
-    using Complex = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// Extension methods for the Complex type provided by System.Numerics
     /// </summary>
@@ -607,7 +604,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if PORTABLE || NETSTANDARD
+#if NETSTANDARD1_3
             var value = GlobalizationHelper.ParseDouble(ref token);
 #else
             var value = GlobalizationHelper.ParseDouble(ref token, format.GetCultureInfo());

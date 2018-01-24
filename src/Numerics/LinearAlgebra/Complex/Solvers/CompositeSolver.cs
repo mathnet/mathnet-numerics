@@ -35,12 +35,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {
-
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     /// <summary>
     /// A composite matrix solver. The actual solver is made by a sequence of
@@ -51,7 +46,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
     /// Solver based on:<br />
     /// Faster PDE-based simulations using robust composite linear solvers<br />
     /// S. Bhowmicka, P. Raghavan a,*, L. McInnes b, B. Norris<br />
-    /// Future Generation Computer Systems, Vol 20, 2004, pp 373–387<br />
+    /// Future Generation Computer Systems, Vol 20, 2004, pp 373ï¿½387<br />
     /// </para>
     /// <para>
     /// Note that if an iterator is passed to this solver it will be used for all the sub-solvers.

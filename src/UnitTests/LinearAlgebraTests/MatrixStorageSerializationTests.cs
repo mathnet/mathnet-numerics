@@ -36,11 +36,7 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
-#if NOSYSNUMERICS
-    using Complex64 = Numerics.Complex;
-#else
     using Complex64 = System.Numerics.Complex;
-#endif
 
     [TestFixture]
     public class MatrixStorageSerializationTests

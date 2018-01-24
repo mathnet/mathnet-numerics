@@ -32,10 +32,7 @@ using System;
 namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
     using Numerics;
-
-#if !NOSYSNUMERICS
-    using System.Numerics;
-#endif
+    using Complex = System.Numerics.Complex;
 
     /// <summary>
     /// Eigenvalues and eigenvectors of a real matrix.

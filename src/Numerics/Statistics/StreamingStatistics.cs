@@ -28,18 +28,13 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Statistics
 {
-#if NOSYSNUMERICS
-    using Complex64 = Numerics.Complex;
-#else
-    using Complex64 = System.Numerics.Complex;
-#endif
-
     /// <summary>
     /// Statistics operating on an IEnumerable in a single pass, without keeping the full data in memory.
     /// Can be used in a streaming way, e.g. on large datasets not fitting into memory.
@@ -238,10 +233,10 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static Complex64 MinimumMagnitudePhase(IEnumerable<Complex64> stream)
+        public static Complex MinimumMagnitudePhase(IEnumerable<Complex> stream)
         {
             double minMagnitude = double.PositiveInfinity;
-            Complex64 min = new Complex64(double.PositiveInfinity, double.PositiveInfinity);
+            Complex min = new Complex(double.PositiveInfinity, double.PositiveInfinity);
             bool any = false;
 
             foreach (var d in stream)
@@ -249,7 +244,7 @@ namespace MathNet.Numerics.Statistics
                 double magnitude = d.Magnitude;
                 if (double.IsNaN(magnitude))
                 {
-                    return new Complex64(double.NaN, double.NaN);
+                    return new Complex(double.NaN, double.NaN);
                 }
                 if (magnitude < minMagnitude || magnitude == minMagnitude && d.Phase < min.Phase)
                 {
@@ -260,7 +255,7 @@ namespace MathNet.Numerics.Statistics
                 any = true;
             }
 
-            return any ? min : new Complex64(double.NaN, double.NaN);
+            return any ? min : new Complex(double.NaN, double.NaN);
         }
 
         /// <summary>
@@ -298,10 +293,10 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN if data is empty or any entry is NaN.
         /// </summary>
         /// <param name="stream">Sample stream, no sorting is assumed.</param>
-        public static Complex64 MaximumMagnitudePhase(IEnumerable<Complex64> stream)
+        public static Complex MaximumMagnitudePhase(IEnumerable<Complex> stream)
         {
             double maxMagnitude = 0.0d;
-            Complex64 max = Complex64.Zero;
+            Complex max = Complex.Zero;
             bool any = false;
 
             foreach (var d in stream)
@@ -309,7 +304,7 @@ namespace MathNet.Numerics.Statistics
                 double magnitude = d.Magnitude;
                 if (double.IsNaN(magnitude))
                 {
-                    return new Complex64(double.NaN, double.NaN);
+                    return new Complex(double.NaN, double.NaN);
                 }
                 if (magnitude > maxMagnitude || magnitude == maxMagnitude && d.Phase > max.Phase)
                 {
@@ -320,7 +315,7 @@ namespace MathNet.Numerics.Statistics
                 any = true;
             }
 
-            return any ? max : new Complex64(double.NaN, double.NaN);
+            return any ? max : new Complex(double.NaN, double.NaN);
         }
 
         /// <summary>

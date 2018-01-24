@@ -32,11 +32,7 @@ using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
 {
-#if NOSYSNUMERICS
-    using Complex = Numerics.Complex;
-#else
     using Complex = System.Numerics.Complex;
-#endif
 
     public static class TestData
     {
