@@ -27,16 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+#if !NETCOREAPP1_1
+
 using System;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using MathNet.Numerics.Random;
 using NUnit.Framework;
-
-#if !NETCOREAPP1_1
-using System.Runtime.Serialization.Formatters.Binary;
-#endif
 
 namespace MathNet.Numerics.UnitTests.Random
 {
@@ -70,7 +69,6 @@ namespace MathNet.Numerics.UnitTests.Random
             Assert.That(actual.NextDoubleSequence().Take(10).ToArray(), Is.EqualTo(expected.NextDoubleSequence().Take(10).ToArray()).AsCollection);
         }
 
-#if !NETCOREAPP1_1
         [Test]
         [TestCase(typeof(MersenneTwister))]
         [TestCase(typeof(Mcg59))]
@@ -97,6 +95,7 @@ namespace MathNet.Numerics.UnitTests.Random
             Assert.That(actual.GetType(), Is.EqualTo(randomType));
             Assert.That(actual.NextDoubleSequence().Take(10).ToArray(), Is.EqualTo(expected.NextDoubleSequence().Take(10).ToArray()).AsCollection);
         }
-#endif
     }
 }
+
+#endif

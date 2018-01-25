@@ -247,6 +247,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(float.MinValue, z.Imaginary, "E3");
         }
 
+#if !NETCOREAPP1_1
         /// <summary>
         /// Try parse can handle symbols with a culture.
         /// </summary>
@@ -291,6 +292,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(float.MaxValue, z.Real, "E2");
             Assert.AreEqual(float.MinValue, z.Imaginary, "E3");
         }
+#endif
 
         /// <summary>
         /// Try parse returns false when given bad value with invariant.
