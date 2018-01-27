@@ -401,40 +401,58 @@ let testLibrary testsDir testsProj framework =
             testsProj
             framework)
 
-let testLibraryCsharp framework = testLibrary "src/UnitTests" "UnitTests.csproj" framework
+let testManaged framework = testLibrary "src/UnitTests" "UnitTests.csproj" framework
+Target "TestManaged" DoNothing
+Target "TestManagedCore1.1" (fun _ -> testManaged "netcoreapp1.1")
+Target "TestManagedCore2.0" (fun _ -> testManaged "netcoreapp2.0")
+Target "TestManagedNET40" (fun _ -> testManaged "net40")
+Target "TestManagedNET45" (fun _ -> testManaged "net45")
+Target "TestManagedNET46" (fun _ -> testManaged "net46")
+Target "TestManagedNET47"  (fun _ -> testManaged "net47")
+"Build" ==> "TestManagedCore1.1" ==> "TestManaged"
+"Build" ==> "TestManagedCore2.0"
+"Build" =?> ("TestManagedNET40", isWindows)
+"Build" =?> ("TestManagedNET45", isWindows) ==> "TestManaged"
+"Build" =?> ("TestManagedNET46", isWindows)
+"Build" =?> ("TestManagedNET47", isWindows)
 
-let testLibraryFsharp framework = testLibrary "src/FSharpUnitTests" "FSharpUnitTests.fsproj" framework
+let testFsharp framework = testLibrary "src/FSharpUnitTests" "FSharpUnitTests.fsproj" framework
+Target "TestFsharp" DoNothing
+Target "TestFsharpCore1.1" (fun _ -> testFsharp "netcoreapp1.1")
+Target "TestFsharpCore2.0" (fun _ -> testFsharp "netcoreapp2.0")
+Target "TestFsharpNET45" (fun _ -> testFsharp "net45")
+Target "TestFsharpNET46" (fun _ -> testFsharp "net46")
+Target "TestFsharpNET47" (fun _ -> testFsharp "net47")
+"Build" ==> "TestFsharpCore1.1" ==> "TestFsharp"
+"Build" ==> "TestFsharpCore2.0"
+"Build" =?> ("TestFsharpNET45", isWindows) ==> "TestFsharp"
+"Build" =?> ("TestFsharpNET46", isWindows)
+"Build" =?> ("TestFsharpNET47", isWindows)
+
+let testMKL framework = testLibrary "src/UnitTests" "UnitTests-MKL.csproj" framework
+Target "TestMKL" DoNothing
+Target "TestMKLCore2.0" (fun _ -> testMKL "netcoreapp2.0")
+Target "TestMKLNET40" (fun _ -> testMKL "net40")
+"Build" ==> "TestMKLCore2.0" ==> "TestMKL"
+"Build" =?> ("TestMKLNET40", isWindows) ==> "TestMKL"
+
+let testOpenBLAS framework = testLibrary "src/UnitTests" "UnitTests-OpenBLAS.csproj" framework
+Target "TestOpenBLAS" DoNothing
+Target "TestOpenBLASCore2.0" (fun _ -> testOpenBLAS "netcoreapp2.0")
+Target "TestOpenBLASNET40" (fun _ -> testOpenBLAS "net40")
+"Build" ==> "TestOpenBLASCore2.0" ==> "TestOpenBLAS"
+"Build" =?> ("TestOpenBLASNET40", isWindows) ==> "TestOpenBLAS"
+
+let testCUDA framework = testLibrary "src/UnitTests" "UnitTests-CUDA.csproj" framework
+Target "TestCUDA" DoNothing
+Target "TestCUDACore2.0" (fun _ -> testCUDA "netcoreapp2.0")
+Target "TestCUDANET40" (fun _ -> testCUDA "net40")
+"Build" ==> "TestCUDACore2.0" ==> "TestCUDA"
+"Build" =?> ("TestCUDANET40", isWindows) ==> "TestCUDA"
 
 Target "Test" DoNothing
-Target "TestF#" DoNothing
-Target "TestC#" DoNothing
-
-Target "TestC#Core1.1" (fun _ -> testLibraryCsharp "netcoreapp1.1")
-Target "TestC#Core2.0" (fun _ -> testLibraryCsharp "netcoreapp2.0")
-Target "TestC#NET40" (fun _ -> testLibraryCsharp "net40")
-Target "TestC#NET45" (fun _ -> testLibraryCsharp "net45")
-Target "TestC#NET46" (fun _ -> testLibraryCsharp "net46")
-Target "TestC#NET47"  (fun _ -> testLibraryCsharp "net47")
-
-Target "TestF#Core1.1" (fun _ -> testLibraryFsharp "netcoreapp1.1")
-Target "TestF#Core2.0" (fun _ -> testLibraryFsharp "netcoreapp2.0")
-Target "TestF#NET45" (fun _ -> testLibraryFsharp "net45")
-Target "TestF#NET46" (fun _ -> testLibraryFsharp "net46")
-Target "TestF#NET47" (fun _ -> testLibraryFsharp "net47")
-
-"Build" ==> "TestF#Core1.1" ==> "TestF#"
-"Build" ==> "TestF#Core2.0"
-"Build" =?> ("TestF#NET45", isWindows) ==> "TestF#"
-"Build" =?> ("TestF#NET46", isWindows)
-"Build" =?> ("TestF#NET47", isWindows)
-"Build" ==> "TestC#Core1.1" ==> "TestC#"
-"Build" ==> "TestC#Core2.0"
-"Build" =?> ("TestC#NET40", isWindows)
-"Build" =?> ("TestC#NET45", isWindows) ==> "TestC#"
-"Build" =?> ("TestC#NET46", isWindows)
-"Build" =?> ("TestC#NET47", isWindows)
-"TestC#" ==> "Test"
-"TestF#" ==> "Test"
+"TestManaged" ==> "Test"
+"TestFsharp" ==> "Test"
 
 Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
 "DataBuild" ==> "DataTest"

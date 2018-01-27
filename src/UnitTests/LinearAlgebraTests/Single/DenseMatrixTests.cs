@@ -38,6 +38,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     /// <summary>
     /// Dense matrix tests.
     /// </summary>
+    [TestFixture, Category("LA")]
     public class DenseMatrixTests : MatrixTests
     {
         /// <summary>

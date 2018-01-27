@@ -38,6 +38,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     /// <summary>
     /// Sparse matrix tests.
     /// </summary>
+    [TestFixture, Category("LA")]
     public class SparseMatrixTests : MatrixTests
     {
         /// <summary>

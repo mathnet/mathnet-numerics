@@ -39,6 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
     /// <summary>
     /// Diagonal matrix tests.
     /// </summary>
+    [TestFixture, Category("LA")]
     public class DiagonalMatrixTests : MatrixTests
     {
         /// <summary>

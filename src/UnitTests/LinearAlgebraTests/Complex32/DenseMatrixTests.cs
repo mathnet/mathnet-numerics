@@ -40,6 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     /// <summary>
     /// Dense matrix tests.
     /// </summary>
+    [TestFixture, Category("LA")]
     public class DenseMatrixTests : MatrixTests
     {
         /// <summary>

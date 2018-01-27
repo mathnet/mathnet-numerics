@@ -39,6 +39,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     /// <summary>
     /// Sparse vector tests.
     /// </summary>
+    [TestFixture, Category("LA")]
     public class SparseVectorTest : VectorTests
     {
         /// <summary>

@@ -40,6 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
     /// <summary>
     /// Dense vector tests.
     /// </summary>
+    [TestFixture, Category("LA")]
     public class DenseVectorTests : VectorTests
     {
         /// <summary>

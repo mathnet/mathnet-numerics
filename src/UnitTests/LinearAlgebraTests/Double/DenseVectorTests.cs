@@ -38,6 +38,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
     /// <summary>
     /// Dense vector tests.
     /// </summary>
+    [TestFixture, Category("LA")]
     public class DenseVectorTests : VectorTests
     {
         /// <summary>

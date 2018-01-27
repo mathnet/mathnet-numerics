@@ -40,6 +40,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
     /// <summary>
     /// Sparse matrix tests.
     /// </summary>
+    [TestFixture, Category("LA")]
     public class SparseMatrixTests : MatrixTests
     {
         /// <summary>

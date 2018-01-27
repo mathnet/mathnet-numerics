@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Runtime.InteropServices;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -38,6 +39,7 @@ namespace MathNet.Numerics.UnitTests
     {
         public void BeforeTest(ITest testDetails)
         {
+
 #if NATIVE && !NETCOREAPP1_1
 #if MKL
             Control.UseNativeMKL();
@@ -49,6 +51,22 @@ namespace MathNet.Numerics.UnitTests
 #else
             Control.UseManaged();
 #endif
+
+            // ReSharper disable LocalizableElement
+            Console.WriteLine();
+            Console.WriteLine("Math.NET Numerics Test Configuration:");
+            Console.WriteLine($"Operating System: {RuntimeInformation.OSDescription}");
+            Console.WriteLine($"Framework: {RuntimeInformation.FrameworkDescription}");
+            Console.WriteLine($"Operating System Architecture: {RuntimeInformation.OSArchitecture}");
+            Console.WriteLine($"Process Architecture: {RuntimeInformation.ProcessArchitecture}");
+            #if !NETCOREAPP1_1
+            Console.WriteLine($"CLR Version: {Environment.Version}");
+            Console.WriteLine($"OS Version: {Environment.OSVersion}");
+            #endif
+            Console.WriteLine($"Linear Algebra Provider: {Control.LinearAlgebraProvider}");
+            Console.WriteLine($"Fourier Transform Provider: {Control.FourierTransformProvider}");
+            Console.WriteLine();
+            // ReSharper restore LocalizableElement
         }
 
         public void AfterTest(ITest details)

@@ -1,5 +1,7 @@
 NUnit
 NUnitLite content:none
+System.Runtime.InteropServices.RuntimeInformation
+
 System.Reflection framework:netcoreapp1.1,netcoreapp2.0
 System.Reflection.Extensions framework:netcoreapp1.1,netcoreapp2.0
 System.Reflection.TypeExtensions framework:netcoreapp1.1,netcoreapp2.0

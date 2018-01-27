@@ -7,6 +7,8 @@ nuget NUnit ~> 3.0
 nuget NUnitLite ~> 3.0
 nuget FsUnit ~> 3.0
 
+nuget System.Runtime.InteropServices.RuntimeInformation
+
 nuget System.Runtime framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 nuget System.Runtime.Numerics framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 nuget System.Runtime.Serialization.Xml framework:netstandard1.3,netstandard1.6,netcoreapp1.1

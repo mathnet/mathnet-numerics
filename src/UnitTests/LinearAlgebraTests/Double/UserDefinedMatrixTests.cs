@@ -24,12 +24,14 @@
 // </copyright>
 
 using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
 {
     /// <summary>
     /// Test class for user-defined matrix.
     /// </summary>
+    [TestFixture, Category("LA")]
     public class UserDefinedMatrixTests : MatrixTests
     {
         /// <summary>
