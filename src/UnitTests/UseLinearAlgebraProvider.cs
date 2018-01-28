@@ -28,10 +28,6 @@
 // </copyright>
 
 using System;
-using System.Runtime.InteropServices;
-
-using MathNet.Numerics.Providers.FourierTransform;
-using MathNet.Numerics.Providers.LinearAlgebra;
 
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
@@ -58,18 +54,7 @@ namespace MathNet.Numerics.UnitTests
 
             // ReSharper disable LocalizableElement
             Console.WriteLine();
-            Console.WriteLine("Math.NET Numerics Test Configuration:");
-            Console.WriteLine($"Operating System: {RuntimeInformation.OSDescription}");
-            Console.WriteLine($"Framework: {RuntimeInformation.FrameworkDescription}");
-            Console.WriteLine($"Operating System Architecture: {RuntimeInformation.OSArchitecture}");
-            Console.WriteLine($"Process Architecture: {RuntimeInformation.ProcessArchitecture}");
-            #if !NETCOREAPP1_1
-            Console.WriteLine($"CLR Version: {Environment.Version}");
-            Console.WriteLine($"OS Version: {Environment.OSVersion}");
-            #endif
-            Console.WriteLine($"Linear Algebra Provider: {LinearAlgebraControl.Provider}");
-            Console.WriteLine($"Fourier Transform Provider: {FourierTransformControl.Provider}");
-            Console.WriteLine();
+            Console.WriteLine(Control.Describe());
             // ReSharper restore LocalizableElement
         }
 
