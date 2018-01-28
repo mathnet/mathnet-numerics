@@ -39,8 +39,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
     /// </summary>
     internal partial class CudaLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
     {
+        readonly string _hintPath;
         IntPtr _blasHandle;
         IntPtr _solverHandle;
+
+        /// <param name="hintPath">Hint path where to look for the native binaries</param>
+        internal CudaLinearAlgebraProvider(string hintPath)
+        {
+            _hintPath = hintPath;
+        }
 
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
@@ -48,7 +55,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         /// </summary>
         public override bool IsAvailable()
         {
-            return CudaProvider.IsAvailable(minRevision: 1);
+            return CudaProvider.IsAvailable(minRevision: 1, hintPath: _hintPath);
         }
 
         /// <summary>
@@ -57,7 +64,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         /// </summary>
         public override void InitializeVerify()
         {
-            CudaProvider.Load(minRevision: 1);
+            CudaProvider.Load(minRevision: 1, hintPath: _hintPath);
 
             int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
 

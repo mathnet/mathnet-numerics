@@ -66,7 +66,7 @@ namespace MathNet.Numerics.Providers.Common
         /// If the last native library failed to load then gets the corresponding exception
         /// which occurred or null if the library was successfully loaded.
         /// </summary>
-        public static Exception LastException { get; private set; }
+        internal static Exception LastException { get; private set; }
 
         static bool IsUnix
         {
@@ -119,28 +119,35 @@ namespace MathNet.Numerics.Providers.Common
         /// Load the native library with the given filename.
         /// </summary>
         /// <param name="fileName">The file name of the library to load.</param>
+        /// <param name="hintPath">Hint path where to look for the native binaries. Can be null.</param>
         /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
-        public static bool TryLoad(string fileName)
+        internal static bool TryLoad(string fileName, string hintPath)
         {
             if (string.IsNullOrEmpty(fileName))
             {
                 throw new ArgumentNullException("fileName");
             }
 
-            // If we have an extra path provided by the user, look there first
-            if (TryLoad(fileName, Control.NativeProviderPath))
+            // If we have hint path provided by the user, look there first
+            if (TryLoadFromDirectory(fileName, hintPath))
+            {
+                return true;
+            }
+
+            // If we have an overall hint path provided by the user, look there next
+            if (Control.NativeProviderPath != hintPath && TryLoadFromDirectory(fileName, Control.NativeProviderPath))
             {
                 return true;
             }
 
             // Look under the current AppDomain's base directory
-            if (TryLoad(fileName, AppDomain.CurrentDomain.BaseDirectory))
+            if (TryLoadFromDirectory(fileName, AppDomain.CurrentDomain.BaseDirectory))
             {
                 return true;
             }
 
             // Look at this assembly's directory
-            if (TryLoad(fileName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
+            if (TryLoadFromDirectory(fileName, Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)))
             {
                 return true;
             }
@@ -154,7 +161,7 @@ namespace MathNet.Numerics.Providers.Common
         /// and process mode if there is a matching subfolder.
         /// </summary>
         /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
-        public static bool TryLoad(string fileName, string directory)
+        static bool TryLoadFromDirectory(string fileName, string directory)
         {
             if (!Directory.Exists(directory))
             {
@@ -178,7 +185,7 @@ namespace MathNet.Numerics.Providers.Common
         /// Try to load a native library by providing the full path including the file name of the library.
         /// </summary>
         /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
-        public static bool TryLoadFile(FileInfo file)
+        static bool TryLoadFile(FileInfo file)
         {
             lock (StaticLock)
             {

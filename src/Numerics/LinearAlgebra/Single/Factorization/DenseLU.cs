@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
@@ -66,7 +67,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             // Create a new matrix for the LU factors, then perform factorization (while overwriting).
             var factors = (DenseMatrix) matrix.Clone();
-            Control.LinearAlgebraProvider.LUFactor(factors.Values, factors.RowCount, pivots);
+            LinearAlgebraControl.Provider.LUFactor(factors.Values, factors.RowCount, pivots);
 
             return new DenseLU(factors, pivots);
         }
@@ -127,7 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix) Factors;
-            Control.LinearAlgebraProvider.LUSolveFactored(input.ColumnCount, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
+            LinearAlgebraControl.Provider.LUSolveFactored(input.ColumnCount, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
         }
 
         /// <summary>
@@ -176,7 +177,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             // LU solve by overwriting result.
             var dfactors = (DenseMatrix) Factors;
-            Control.LinearAlgebraProvider.LUSolveFactored(1, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
+            LinearAlgebraControl.Provider.LUSolveFactored(1, dfactors.Values, dfactors.RowCount, Pivots, dresult.Values);
         }
 
         /// <summary>
@@ -186,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         public override Matrix<float> Inverse()
         {
             var result = (DenseMatrix) Factors.Clone();
-            Control.LinearAlgebraProvider.LUInverseFactored(result.Values, result.RowCount, Pivots);
+            LinearAlgebraControl.Provider.LUInverseFactored(result.Values, result.RowCount, Pivots);
             return result;
         }
     }

@@ -364,8 +364,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // 65536 = 2^16
             var samples = Generate.RandomComplex32(65536, GetUniform(1));
 
-            VerifyInplace(samples, 5, FourierOptions.NoScaling, (s, o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.Radix2Forward);
-            VerifyInplace(samples, 5, FourierOptions.NoScaling, (s, o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.BluesteinForward);
+            VerifyInplace(samples, 5, FourierOptions.NoScaling, (s, o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling), Fourier.Radix2Forward);
+            VerifyInplace(samples, 5, FourierOptions.NoScaling, (s, o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling), Fourier.BluesteinForward);
         }
 
         [Test]
@@ -374,8 +374,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // 65536 = 2^16
             var samples = Generate.RandomComplex(65536, GetUniform(1));
 
-            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s,o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.Radix2Forward);
-            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s, o) => Control.FourierTransformProvider.Forward(s, FourierTransformScaling.NoScaling), Fourier.BluesteinForward);
+            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s,o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling), Fourier.Radix2Forward);
+            VerifyInplace(samples, 10, FourierOptions.NoScaling, (s, o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling), Fourier.BluesteinForward);
         }
 
         [Test]
@@ -387,7 +387,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             var provider = new Complex32[samples.Length];
             samples.Copy(provider);
-            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
+            FourierTransformControl.Provider.Forward(provider, FourierTransformScaling.NoScaling);
 
             Verify(samples, 5, options, (a, b) => provider, Fourier.BluesteinForward);
         }
@@ -401,7 +401,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             var provider = new Complex[samples.Length];
             samples.Copy(provider);
-            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
+            FourierTransformControl.Provider.Forward(provider, FourierTransformScaling.NoScaling);
 
             Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
         }
@@ -414,7 +414,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             var provider = new Complex32[samples.Length];
             samples.Copy(provider);
-            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
+            FourierTransformControl.Provider.Forward(provider, FourierTransformScaling.NoScaling);
 
             Verify(samples, 5, options, (a, b) => provider, Fourier.BluesteinForward);
         }
@@ -427,7 +427,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             var provider = new Complex[samples.Length];
             samples.Copy(provider);
-            Control.FourierTransformProvider.Forward(provider, FourierTransformScaling.NoScaling);
+            FourierTransformControl.Provider.Forward(provider, FourierTransformScaling.NoScaling);
 
             Verify(samples, 10, options, (a, b) => provider, Fourier.BluesteinForward);
         }

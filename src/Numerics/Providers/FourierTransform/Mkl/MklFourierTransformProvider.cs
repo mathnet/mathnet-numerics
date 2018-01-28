@@ -46,7 +46,14 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             public bool Single;
         }
 
+        readonly string _hintPath;
         Kernel _kernel;
+
+        /// <param name="hintPath">Hint path where to look for the native binaries</param>
+        internal MklFourierTransformProvider(string hintPath)
+        {
+            _hintPath = hintPath;
+        }
 
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
@@ -54,7 +61,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         /// </summary>
         public bool IsAvailable()
         {
-            return MklProvider.IsAvailable(minRevision: 11);
+            return MklProvider.IsAvailable(minRevision: 11, hintPath: _hintPath);
         }
 
         /// <summary>
@@ -62,7 +69,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         /// </summary>
         public void InitializeVerify()
         {
-            MklProvider.Load(minRevision: 11);
+            MklProvider.Load(minRevision: 11, hintPath: _hintPath);
 
             // we only support exactly one major version, since major version changes imply a breaking change.
             int fftMajor = SafeNativeMethods.query_capability((int) ProviderCapability.FourierTransformMajor);

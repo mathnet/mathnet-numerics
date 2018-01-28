@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
@@ -60,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
             var factor = (DenseMatrix) matrix.Clone();
-            Control.LinearAlgebraProvider.CholeskyFactor(factor.Values, factor.RowCount);
+            LinearAlgebraControl.Provider.CholeskyFactor(factor.Values, factor.RowCount);
             return new DenseCholesky(factor);
         }
 
@@ -108,7 +109,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix) Factor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, dresult.ColumnCount);
+            LinearAlgebraControl.Provider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, dresult.ColumnCount);
         }
 
         /// <summary>
@@ -145,7 +146,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 
             // Cholesky solve by overwriting result.
             var dfactor = (DenseMatrix) Factor;
-            Control.LinearAlgebraProvider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, 1);
+            LinearAlgebraControl.Provider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, 1);
         }
 
         /// <summary>
@@ -180,7 +181,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             Buffer.BlockCopy(dmatrix.Values, 0, dfactor.Values, 0, dmatrix.Values.Length * Constants.SizeOfDouble);
 
             // Perform factorization (while overwriting).
-            Control.LinearAlgebraProvider.CholeskyFactor(dfactor.Values, dfactor.RowCount);
+            LinearAlgebraControl.Provider.CholeskyFactor(dfactor.Values, dfactor.RowCount);
         }
     }
 }

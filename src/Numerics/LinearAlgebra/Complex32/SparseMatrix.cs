@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
@@ -720,7 +721,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     CopyTo(result);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(2.0f, sparseResult._storage.Values, sparseResult._storage.Values);
+                LinearAlgebraControl.Provider.ScaleArray(2.0f, sparseResult._storage.Values, sparseResult._storage.Values);
                 return;
             }
 
@@ -869,7 +870,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                     CopyTo(sparseResult);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
+                LinearAlgebraControl.Provider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
             }
         }
 

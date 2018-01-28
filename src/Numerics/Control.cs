@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -43,9 +43,7 @@ namespace MathNet.Numerics
         static int _blockSize;
         static int _parallelizeOrder;
         static int _parallelizeElements;
-        static ILinearAlgebraProvider _linearAlgebraProvider;
-        static IFourierTransformProvider _fourierTransformProvider;
-        static readonly object _staticLock = new object();
+        static string _nativeProviderHintPath;
 
         static Control()
         {
@@ -195,8 +193,8 @@ namespace MathNet.Numerics
             _maxDegreeOfParallelism = 1;
             ThreadSafeRandomNumberGenerators = false;
 
-            LinearAlgebraProvider.InitializeVerify();
-            FourierTransformProvider.InitializeVerify();
+            LinearAlgebraControl.Provider.InitializeVerify();
+            FourierTransformControl.Provider.InitializeVerify();
         }
 
         public static void UseMultiThreading()
@@ -204,8 +202,8 @@ namespace MathNet.Numerics
             _maxDegreeOfParallelism = Environment.ProcessorCount;
             ThreadSafeRandomNumberGenerators = true;
 
-            LinearAlgebraProvider.InitializeVerify();
-            FourierTransformProvider.InitializeVerify();
+            LinearAlgebraControl.Provider.InitializeVerify();
+            FourierTransformControl.Provider.InitializeVerify();
         }
 
         /// <summary>
@@ -227,65 +225,14 @@ namespace MathNet.Numerics
         /// <summary>
         /// Optional path to try to load native provider binaries from.
         /// </summary>
-        public static string NativeProviderPath { get; set; }
-
-        /// <summary>
-        /// Gets or sets the linear algebra provider. Consider to use UseNativeMKL or UseManaged instead.
-        /// </summary>
-        /// <value>The linear algebra provider.</value>
-        public static ILinearAlgebraProvider LinearAlgebraProvider
+        public static string NativeProviderPath
         {
-            get
-            {
-                if (_linearAlgebraProvider == null)
-                {
-                    lock (_staticLock)
-                    {
-                        if (_linearAlgebraProvider == null)
-                        {
-                            LinearAlgebraControl.UseDefault();
-                        }
-                    }
-                }
-
-                return _linearAlgebraProvider;
-            }
+            get { return _nativeProviderHintPath; }
             set
             {
-                value.InitializeVerify();
-
-                // only actually set if verification did not throw
-                _linearAlgebraProvider = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the Fourier transform provider. Consider to use UseNativeMKL or UseManaged instead.
-        /// </summary>
-        /// <value>The linear algebra provider.</value>
-        public static IFourierTransformProvider FourierTransformProvider
-        {
-            get
-            {
-                if (_fourierTransformProvider == null)
-                {
-                    lock (_staticLock)
-                    {
-                        if (_fourierTransformProvider == null)
-                        {
-                            FourierTransformControl.UseDefault();
-                        }
-                    }
-                }
-
-                return _fourierTransformProvider;
-            }
-            set
-            {
-                value.InitializeVerify();
-
-                // only actually set if verification did not throw
-                _fourierTransformProvider = value;
+                _nativeProviderHintPath = value;
+                LinearAlgebraControl.HintPath = value;
+                FourierTransformControl.HintPath = value;
             }
         }
 
@@ -302,8 +249,8 @@ namespace MathNet.Numerics
                 _maxDegreeOfParallelism = Math.Max(1, Math.Min(1024, value));
 
                 // Reinitialize providers:
-                LinearAlgebraProvider.InitializeVerify();
-                FourierTransformProvider.InitializeVerify();
+                LinearAlgebraControl.Provider.InitializeVerify();
+                FourierTransformControl.Provider.InitializeVerify();
             }
         }
 

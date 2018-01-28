@@ -47,7 +47,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         public static void Forward(Complex32[] samples)
         {
-            Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.SymmetricScaling);
+            FourierTransformControl.Provider.Forward(samples, FourierTransformScaling.SymmetricScaling);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         public static void Forward(Complex[] samples)
         {
-            Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.SymmetricScaling);
+            FourierTransformControl.Provider.Forward(samples, FourierTransformScaling.SymmetricScaling);
         }
 
         /// <summary>
@@ -70,17 +70,17 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 case FourierOptions.NoScaling:
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.Forward(samples, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.Backward(samples, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.Backward(samples, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.Backward(samples, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.Backward(samples, FourierTransformScaling.NoScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.Forward(samples, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -96,17 +96,17 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 case FourierOptions.NoScaling:
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.Forward(samples, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.Backward(samples, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.Backward(samples, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.Backward(samples, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.Backward(samples, FourierTransformScaling.NoScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.Forward(samples, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.Forward(samples, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -199,10 +199,10 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 case FourierOptions.NoScaling:
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardReal(data, n, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.ForwardReal(data, n, FourierTransformScaling.NoScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.ForwardReal(data, n, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.ForwardReal(data, n, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -233,10 +233,10 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 case FourierOptions.NoScaling:
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardReal(data, n, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.ForwardReal(data, n, FourierTransformScaling.NoScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.ForwardReal(data, n, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.ForwardReal(data, n, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -256,17 +256,17 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 case FourierOptions.NoScaling:
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.BackwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.ForwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -286,17 +286,17 @@ namespace MathNet.Numerics.IntegralTransforms
             {
                 case FourierOptions.NoScaling:
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.BackwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(samples, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.ForwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(samples, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -389,7 +389,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="spectrum">Spectrum data, where the iFFT is evaluated in place.</param>
         public static void Inverse(Complex32[] spectrum)
         {
-            Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
+            FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
         }
 
         /// <summary>
@@ -398,7 +398,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="spectrum">Spectrum data, where the iFFT is evaluated in place.</param>
         public static void Inverse(Complex[] spectrum)
         {
-            Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
+            FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
         }
 
         /// <summary>
@@ -411,22 +411,22 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.BackwardScaling);
+                    FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.BackwardScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.Forward(spectrum, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.Forward(spectrum, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.ForwardScaling);
+                    FourierTransformControl.Provider.Forward(spectrum, FourierTransformScaling.ForwardScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -441,22 +441,22 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.BackwardScaling);
+                    FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.BackwardScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.Forward(spectrum, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.Forward(spectrum, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.Forward(spectrum, FourierTransformScaling.ForwardScaling);
+                    FourierTransformControl.Provider.Forward(spectrum, FourierTransformScaling.ForwardScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -548,13 +548,13 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.BackwardReal(data, n, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardReal(data, n, FourierTransformScaling.BackwardScaling);
+                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.BackwardScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.BackwardReal(data, n, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -584,13 +584,13 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.BackwardReal(data, n, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardReal(data, n, FourierTransformScaling.BackwardScaling);
+                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.BackwardScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.BackwardReal(data, n, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -609,22 +609,22 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.BackwardScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.BackwardScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.ForwardScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.ForwardScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -643,22 +643,22 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.BackwardScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.BackwardScaling);
                     break;
                 case FourierOptions.InverseExponent:
-                    Control.FourierTransformProvider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.NoScaling:
-                    Control.FourierTransformProvider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling:
-                    Control.FourierTransformProvider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.ForwardScaling);
+                    FourierTransformControl.Provider.ForwardMultidim(spectrum, dimensions, FourierTransformScaling.ForwardScaling);
                     break;
                 default:
-                    Control.FourierTransformProvider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.BackwardMultidim(spectrum, dimensions, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }

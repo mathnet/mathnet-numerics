@@ -35,6 +35,8 @@ using MathNet.Numerics.LinearAlgebra.Storage;
 
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
+    using MathNet.Numerics.Providers.LinearAlgebra;
+
     /// <summary>
     /// A Matrix with sparse storage, intended for very large matrices where most of the cells are zero.
     /// The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format.
@@ -724,7 +726,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     CopyTo(result);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(2.0f, sparseResult._storage.Values, sparseResult._storage.Values);
+                LinearAlgebraControl.Provider.ScaleArray(2.0f, sparseResult._storage.Values, sparseResult._storage.Values);
                 return;
             }
 
@@ -873,7 +875,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                     CopyTo(sparseResult);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
+                LinearAlgebraControl.Provider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
             }
         }
 

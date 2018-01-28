@@ -27,13 +27,15 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Providers.LinearAlgebra;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
@@ -394,7 +396,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 Array.Copy(_storage.Values, 0, sparseResult._storage.Values, 0, _storage.ValueCount);
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(-1.0d, sparseResult._storage.Values, sparseResult._storage.Values);
+            LinearAlgebraControl.Provider.ScaleArray(-1.0d, sparseResult._storage.Values, sparseResult._storage.Values);
         }
 
         /// <summary>
@@ -428,7 +430,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                     Array.Copy(_storage.Values, 0, sparseResult._storage.Values, 0, _storage.ValueCount);
                 }
 
-                Control.LinearAlgebraProvider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
+                LinearAlgebraControl.Provider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
             }
         }
 

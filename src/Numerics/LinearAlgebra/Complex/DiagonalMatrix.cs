@@ -34,6 +34,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.LinearAlgebra;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
@@ -194,7 +195,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var diagResult = result as DiagonalMatrix;
             if (diagResult != null)
             {
-                Control.LinearAlgebraProvider.ScaleArray(-1, _data, diagResult._data);
+                LinearAlgebraControl.Provider.ScaleArray(-1, _data, diagResult._data);
                 return;
             }
 
@@ -214,7 +215,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var diagResult = result as DiagonalMatrix;
             if (diagResult != null)
             {
-                Control.LinearAlgebraProvider.ConjugateArray(_data, diagResult._data);
+                LinearAlgebraControl.Provider.ConjugateArray(_data, diagResult._data);
                 return;
             }
 
@@ -238,7 +239,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var diagResult = result as DiagonalMatrix;
             if (diagOther != null && diagResult != null)
             {
-                Control.LinearAlgebraProvider.AddArrays(_data, diagOther._data, diagResult._data);
+                LinearAlgebraControl.Provider.AddArrays(_data, diagOther._data, diagResult._data);
                 return;
             }
 
@@ -262,7 +263,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var diagResult = result as DiagonalMatrix;
             if (diagOther != null && diagResult != null)
             {
-                Control.LinearAlgebraProvider.SubtractArrays(_data, diagOther._data, diagResult._data);
+                LinearAlgebraControl.Provider.SubtractArrays(_data, diagOther._data, diagResult._data);
                 return;
             }
 
@@ -300,7 +301,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             }
             else
             {
-                Control.LinearAlgebraProvider.ScaleArray(scalar, _data, diagResult._data);
+                LinearAlgebraControl.Provider.ScaleArray(scalar, _data, diagResult._data);
             }
         }
 
@@ -323,7 +324,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 var denseResult = result.Storage as DenseVectorStorage<Complex>;
                 if (denseOther != null && denseResult != null)
                 {
-                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
+                    LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
                     return;
                 }
             }
@@ -349,7 +350,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 var otherDataCopy = new Complex[diagonalResult._data.Length];
                 Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
                 Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
                 return;
             }
 
@@ -402,7 +403,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 var otherDataCopy = new Complex[diagonalResult._data.Length];
                 Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
                 Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
                 return;
             }
 
@@ -447,8 +448,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
                 Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
                 // TODO: merge/MulByConj
-                Control.LinearAlgebraProvider.ConjugateArray(otherDataCopy, otherDataCopy);
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                LinearAlgebraControl.Provider.ConjugateArray(otherDataCopy, otherDataCopy);
+                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
                 return;
             }
 
@@ -492,7 +493,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 var otherDataCopy = new Complex[diagonalResult._data.Length];
                 Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
                 Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
                 return;
             }
 
@@ -546,8 +547,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 Array.Copy(_data, 0, thisDataCopy, 0, (diagonalResult._data.Length > _data.Length) ? _data.Length : diagonalResult._data.Length);
                 Array.Copy(diagonalOther._data, 0, otherDataCopy, 0, (diagonalResult._data.Length > diagonalOther._data.Length) ? diagonalOther._data.Length : diagonalResult._data.Length);
                 // TODO: merge/MulByConj
-                Control.LinearAlgebraProvider.ConjugateArray(thisDataCopy, thisDataCopy);
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
+                LinearAlgebraControl.Provider.ConjugateArray(thisDataCopy, thisDataCopy);
+                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(thisDataCopy, otherDataCopy, diagonalResult._data);
                 return;
             }
 
@@ -601,7 +602,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 var denseResult = result.Storage as DenseVectorStorage<Complex>;
                 if (denseOther != null && denseResult != null)
                 {
-                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
+                    LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
                     return;
                 }
             }
@@ -632,8 +633,8 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 if (denseOther != null && denseResult != null)
                 {
                     // TODO: merge/MulByConj
-                    Control.LinearAlgebraProvider.ConjugateArray(_data, denseResult.Data);
-                    Control.LinearAlgebraProvider.PointWiseMultiplyArrays(denseResult.Data, denseOther.Data, denseResult.Data);
+                    LinearAlgebraControl.Provider.ConjugateArray(_data, denseResult.Data);
+                    LinearAlgebraControl.Provider.PointWiseMultiplyArrays(denseResult.Data, denseOther.Data, denseResult.Data);
                     return;
                 }
             }
@@ -660,7 +661,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             var diagResult = result as DiagonalMatrix;
             if (diagResult != null)
             {
-                Control.LinearAlgebraProvider.ScaleArray(1.0/divisor, _data, diagResult._data);
+                LinearAlgebraControl.Provider.ScaleArray(1.0/divisor, _data, diagResult._data);
                 return;
             }
 

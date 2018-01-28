@@ -57,13 +57,21 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
     /// </summary>
     internal partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
+        readonly string _hintPath;
+
+        /// <param name="hintPath">Hint path where to look for the native binaries</param>
+        internal OpenBlasLinearAlgebraProvider(string hintPath)
+        {
+            _hintPath = hintPath;
+        }
+
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
         /// </summary>
         public override bool IsAvailable()
         {
-            return OpenBlasProvider.IsAvailable(minRevision: 1);
+            return OpenBlasProvider.IsAvailable(minRevision: 1, hintPath: _hintPath);
         }
 
         /// <summary>
@@ -72,7 +80,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
         /// </summary>
         public override void InitializeVerify()
         {
-            OpenBlasProvider.Load(minRevision: 1);
+            OpenBlasProvider.Load(minRevision: 1, hintPath: _hintPath);
 
             int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
 

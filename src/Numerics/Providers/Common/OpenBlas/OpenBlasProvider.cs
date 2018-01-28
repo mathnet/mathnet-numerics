@@ -42,11 +42,11 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
         static bool _nativeIA64;
         static bool _nativeARM;
 
-        public static bool IsAvailable(int minRevision)
+        internal static bool IsAvailable(int minRevision, string hintPath)
         {
             try
             {
-                if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName))
+                if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName, hintPath))
                 {
                     return false;
                 }
@@ -62,12 +62,12 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
             }
         }
 
-        public static void Load(int minRevision)
+        internal static void Load(int minRevision, string hintPath)
         {
             int a, b;
             try
             {
-                NativeProviderLoader.TryLoad(SafeNativeMethods.DllName);
+                NativeProviderLoader.TryLoad(SafeNativeMethods.DllName, hintPath);
 
                 a = SafeNativeMethods.query_capability(0);
                 b = SafeNativeMethods.query_capability(1);
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
             }
         }
 
-        public static string Describe()
+        internal static string Describe()
         {
             var parts = new List<string>();
             if (_nativeX86) parts.Add("x86");

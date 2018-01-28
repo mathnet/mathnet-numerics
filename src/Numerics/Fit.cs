@@ -31,6 +31,7 @@ using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearRegression;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics
 {
@@ -78,7 +79,7 @@ namespace MathNet.Numerics
         public static Func<double[], double> MultiDimFunc(double[][] x, double[] y, bool intercept = false, DirectRegressionMethod method = DirectRegressionMethod.NormalEquations)
         {
             var parameters = MultipleRegression.DirectMethod(x, y, intercept, method);
-            return z => Control.LinearAlgebraProvider.DotProduct(parameters, z);
+            return z => LinearAlgebraControl.Provider.DotProduct(parameters, z);
         }
 
         /// <summary>

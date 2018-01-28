@@ -43,11 +43,11 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         static bool _nativeX64;
         static bool _nativeIA64;
 
-        public static bool IsAvailable(int minRevision)
+        internal static bool IsAvailable(int minRevision, string hintPath)
         {
             try
             {
-                if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName))
+                if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName, hintPath))
                 {
                     return false;
                 }
@@ -63,12 +63,12 @@ namespace MathNet.Numerics.Providers.Common.Mkl
             }
         }
 
-        public static void Load(int minRevision)
+        internal static void Load(int minRevision, string hintPath)
         {
             int a, b;
             try
             {
-                NativeProviderLoader.TryLoad(SafeNativeMethods.DllName);
+                NativeProviderLoader.TryLoad(SafeNativeMethods.DllName, hintPath);
 
                 a = SafeNativeMethods.query_capability(0);
                 b = SafeNativeMethods.query_capability(1);
@@ -126,7 +126,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         /// <summary>
         /// Frees the memory allocated to the MKL memory pool.
         /// </summary>
-        public static void FreeBuffers()
+        internal static void FreeBuffers()
         {
             if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         /// <summary>
         /// Frees the memory allocated to the MKL memory pool on the current thread.
         /// </summary>
-        public static void ThreadFreeBuffers()
+        internal static void ThreadFreeBuffers()
         {
             if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
@@ -152,7 +152,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         /// <summary>
         /// Disable the MKL memory pool. May impact performance.
         /// </summary>
-        public static void DisableMemoryPool()
+        internal static void DisableMemoryPool()
         {
             if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         /// </summary>
         /// <param name="allocatedBuffers">On output, returns the number of memory buffers allocated.</param>
         /// <returns>Returns the number of bytes allocated to all memory buffers.</returns>
-        public static long MemoryStatistics(out int allocatedBuffers)
+        internal static long MemoryStatistics(out int allocatedBuffers)
         {
             if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         /// <summary>
         /// Enable gathering of peak memory statistics of the MKL memory pool.
         /// </summary>
-        public static void EnablePeakMemoryStatistics()
+        internal static void EnablePeakMemoryStatistics()
         {
             if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
@@ -193,7 +193,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         /// <summary>
         /// Disable gathering of peak memory statistics of the MKL memory pool.
         /// </summary>
-        public static void DisablePeakMemoryStatistics()
+        internal static void DisablePeakMemoryStatistics()
         {
             if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
@@ -208,7 +208,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         /// </summary>
         /// <param name="reset">Whether the usage counter should be reset.</param>
         /// <returns>The peak number of bytes allocated to all memory buffers.</returns>
-        public static long PeakMemoryStatistics(bool reset = true)
+        internal static long PeakMemoryStatistics(bool reset = true)
         {
             if (SafeNativeMethods.query_capability((int)ProviderConfig.Memory) < 1)
             {
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
             return SafeNativeMethods.peak_mem_usage((int)(reset ? MklMemoryRequestMode.PeakMemoryReset : MklMemoryRequestMode.PeakMemory));
         }
 
-        public static string Describe()
+        internal static string Describe()
         {
             var parts = new List<string>();
             if (_nativeX86) parts.Add("x86");

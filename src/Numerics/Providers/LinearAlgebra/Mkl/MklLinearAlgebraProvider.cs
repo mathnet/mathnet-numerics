@@ -50,6 +50,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// </summary>
     internal partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
+        readonly string _hintPath;
         readonly MklConsistency _consistency;
         readonly MklPrecision _precision;
         readonly MklAccuracy _accuracy;
@@ -59,28 +60,19 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         int _vectorFunctionsMajor;
         int _vectorFunctionsMinor;
 
+        /// <param name="hintPath">Hint path where to look for the native binaries</param>
         /// <param name="consistency">
         /// Sets the desired bit consistency on repeated identical computations on varying CPU architectures,
         /// as a trade-off with performance.
         /// </param>
         /// <param name="precision">VML optimal precision and rounding.</param>
         /// <param name="accuracy">VML accuracy mode.</param>
-        [CLSCompliant(false)]
-        internal MklLinearAlgebraProvider(
-            MklConsistency consistency = MklConsistency.Auto,
-            MklPrecision precision = MklPrecision.Double,
-            MklAccuracy accuracy = MklAccuracy.High)
+        internal MklLinearAlgebraProvider(string hintPath, MklConsistency consistency, MklPrecision precision, MklAccuracy accuracy)
         {
+            _hintPath = hintPath;
             _consistency = consistency;
             _precision = precision;
             _accuracy = accuracy;
-        }
-
-        internal MklLinearAlgebraProvider()
-        {
-            _consistency = MklConsistency.Auto;
-            _precision = MklPrecision.Double;
-            _accuracy = MklAccuracy.High;
         }
 
         /// <summary>
@@ -89,7 +81,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public override bool IsAvailable()
         {
-            return MklProvider.IsAvailable(minRevision: 4);
+            return MklProvider.IsAvailable(minRevision: 4, hintPath: _hintPath);
         }
 
         /// <summary>
@@ -98,7 +90,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public override void InitializeVerify()
         {
-            MklProvider.Load(minRevision: 4);
+            MklProvider.Load(minRevision: 4, hintPath: _hintPath);
             MklProvider.ConfigurePrecision(_consistency, _precision, _accuracy);
 
             _linearAlgebraMajor = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);

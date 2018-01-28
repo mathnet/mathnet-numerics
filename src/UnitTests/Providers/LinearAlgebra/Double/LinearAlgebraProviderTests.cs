@@ -80,21 +80,21 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         {
             var result = new double[_y.Length];
 
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(_y, 0, _x, result);
+            LinearAlgebraControl.Provider.AddVectorToScaledVector(_y, 0, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i], result[i]);
             }
 
             Array.Copy(_y, result, _y.Length);
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(result, 1, _x, result);
+            LinearAlgebraControl.Provider.AddVectorToScaledVector(result, 1, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i] + _x[i], result[i]);
             }
 
             Array.Copy(_y, result, _y.Length);
-            Control.LinearAlgebraProvider.AddVectorToScaledVector(result, Math.PI, _x, result);
+            LinearAlgebraControl.Provider.AddVectorToScaledVector(result, Math.PI, _x, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i] + (Math.PI*_x[i]), result[i]);
@@ -109,14 +109,14 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         {
             var result = new double[_y.Length];
 
-            Control.LinearAlgebraProvider.ScaleArray(1, _y, result);
+            LinearAlgebraControl.Provider.ScaleArray(1, _y, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i], result[i]);
             }
 
             Array.Copy(_y, result, _y.Length);
-            Control.LinearAlgebraProvider.ScaleArray(Math.PI, result, result);
+            LinearAlgebraControl.Provider.ScaleArray(Math.PI, result, result);
             for (var i = 0; i < _y.Length; i++)
             {
                 Assert.AreEqual(_y[i]*Math.PI, result[i]);
@@ -129,7 +129,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         [Test]
         public void CanComputeDotProduct()
         {
-            var result = Control.LinearAlgebraProvider.DotProduct(_x, _y);
+            var result = LinearAlgebraControl.Provider.DotProduct(_x, _y);
             AssertHelpers.AlmostEqualRelative(152.35, result, 14);
         }
 
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         public void CanAddArrays()
         {
             var result = new double[_y.Length];
-            Control.LinearAlgebraProvider.AddArrays(_x, _y, result);
+            LinearAlgebraControl.Provider.AddArrays(_x, _y, result);
             for (var i = 0; i < result.Length; i++)
             {
                 Assert.AreEqual(_x[i] + _y[i], result[i]);
@@ -154,7 +154,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         public void CanSubtractArrays()
         {
             var result = new double[_y.Length];
-            Control.LinearAlgebraProvider.SubtractArrays(_x, _y, result);
+            LinearAlgebraControl.Provider.SubtractArrays(_x, _y, result);
             for (var i = 0; i < result.Length; i++)
             {
                 Assert.AreEqual(_x[i] - _y[i], result[i]);
@@ -168,7 +168,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         public void CanPointWiseMultiplyArrays()
         {
             var result = new double[_y.Length];
-            Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_x, _y, result);
+            LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_x, _y, result);
             for (var i = 0; i < result.Length; i++)
             {
                 Assert.AreEqual(_x[i]*_y[i], result[i]);
@@ -182,7 +182,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         public void CanPointWiseDivideArrays()
         {
             var result = new double[_y.Length];
-            Control.LinearAlgebraProvider.PointWiseDivideArrays(_x, _y, result);
+            LinearAlgebraControl.Provider.PointWiseDivideArrays(_x, _y, result);
             for (var i = 0; i < result.Length; i++)
             {
                 Assert.AreEqual(_x[i]/_y[i], result[i]);
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         public void CanComputeMatrixL1Norm()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
+            var norm = LinearAlgebraControl.Provider.MatrixNorm(Norm.OneNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
             AssertHelpers.AlmostEqualRelative(12.1, norm, 6);
         }
 
@@ -207,7 +207,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         public void CanComputeMatrixFrobeniusNorm()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
+            var norm = LinearAlgebraControl.Provider.MatrixNorm(Norm.FrobeniusNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
             AssertHelpers.AlmostEqualRelative(10.777754868246, norm, 8);
         }
 
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         public void CanComputeMatrixInfinityNorm()
         {
             var matrix = _matrices["Square3x3"];
-            var norm = Control.LinearAlgebraProvider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
+            var norm = LinearAlgebraControl.Provider.MatrixNorm(Norm.InfinityNorm, matrix.RowCount, matrix.ColumnCount, matrix.Values);
             Assert.AreEqual(16.5, norm);
         }
 
@@ -232,7 +232,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var y = _matrices["Square3x3"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiply(x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, c.Values);
+            LinearAlgebraControl.Provider.MatrixMultiply(x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -253,7 +253,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var y = _matrices["Tall3x2"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiply(x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, c.Values);
+            LinearAlgebraControl.Provider.MatrixMultiply(x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -274,7 +274,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var y = _matrices["Wide2x3"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiply(x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, c.Values);
+            LinearAlgebraControl.Provider.MatrixMultiply(x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -295,7 +295,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var y = _matrices["Square3x3"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2, x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, 1.0, c.Values);
+            LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2, x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, 1.0, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -316,7 +316,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var y = _matrices["Tall3x2"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2, x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, 1.0, c.Values);
+            LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2, x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, 1.0, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -337,7 +337,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var y = _matrices["Wide2x3"];
             var c = new DenseMatrix(x.RowCount, y.ColumnCount);
 
-            Control.LinearAlgebraProvider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2, x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, 1.0, c.Values);
+            LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 2.2, x.Values, x.RowCount, x.ColumnCount, y.Values, y.RowCount, y.ColumnCount, 1.0, c.Values);
 
             for (var i = 0; i < c.RowCount; i++)
             {
@@ -360,7 +360,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var ipiv = new int[matrix.RowCount];
 
-            Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv);
+            LinearAlgebraControl.Provider.LUFactor(a, matrix.RowCount, ipiv);
 
             AssertHelpers.AlmostEqualRelative(a[0], -4.4, 14);
             AssertHelpers.AlmostEqualRelative(a[1], 0.25, 14);
@@ -386,7 +386,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var a = new double[matrix.RowCount*matrix.RowCount];
             Array.Copy(matrix.Values, a, a.Length);
 
-            Control.LinearAlgebraProvider.LUInverse(a, matrix.RowCount);
+            LinearAlgebraControl.Provider.LUInverse(a, matrix.RowCount);
 
             AssertHelpers.AlmostEqualRelative(a[0], -0.454545454545454, 13);
             AssertHelpers.AlmostEqualRelative(a[1], -0.909090909090908, 13);
@@ -412,8 +412,8 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var ipiv = new int[matrix.RowCount];
 
-            Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv);
-            Control.LinearAlgebraProvider.LUInverseFactored(a, matrix.RowCount, ipiv);
+            LinearAlgebraControl.Provider.LUFactor(a, matrix.RowCount, ipiv);
+            LinearAlgebraControl.Provider.LUInverseFactored(a, matrix.RowCount, ipiv);
 
             AssertHelpers.AlmostEqualRelative(a[0], -0.454545454545454, 13);
             AssertHelpers.AlmostEqualRelative(a[1], -0.909090909090908, 13);
@@ -437,7 +437,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             Array.Copy(matrix.Values, a, a.Length);
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-            Control.LinearAlgebraProvider.LUSolve(2, a, matrix.RowCount, b);
+            LinearAlgebraControl.Provider.LUSolve(2, a, matrix.RowCount, b);
 
             AssertHelpers.AlmostEqualRelative(b[0], -1.477272727272726, 13);
             AssertHelpers.AlmostEqualRelative(b[1], -4.318181818181815, 13);
@@ -460,10 +460,10 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             Array.Copy(matrix.Values, a, a.Length);
 
             var ipiv = new int[matrix.RowCount];
-            Control.LinearAlgebraProvider.LUFactor(a, matrix.RowCount, ipiv);
+            LinearAlgebraControl.Provider.LUFactor(a, matrix.RowCount, ipiv);
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-            Control.LinearAlgebraProvider.LUSolveFactored(2, a, matrix.RowCount, ipiv, b);
+            LinearAlgebraControl.Provider.LUSolveFactored(2, a, matrix.RowCount, ipiv, b);
 
             AssertHelpers.AlmostEqualRelative(b[0], -1.477272727272726, 13);
             AssertHelpers.AlmostEqualRelative(b[1], -4.318181818181815, 13);
@@ -480,7 +480,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         public void CanComputeCholeskyFactor()
         {
             var matrix = new double[] {1, 1, 1, 1, 1, 5, 5, 5, 1, 5, 14, 14, 1, 5, 14, 15};
-            Control.LinearAlgebraProvider.CholeskyFactor(matrix, 4);
+            LinearAlgebraControl.Provider.CholeskyFactor(matrix, 4);
             Assert.AreEqual(matrix[0], 1);
             Assert.AreEqual(matrix[1], 1);
             Assert.AreEqual(matrix[2], 1);
@@ -509,7 +509,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var a = new double[] {1, 1, 1, 1, 2, 3, 1, 3, 6};
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-            Control.LinearAlgebraProvider.CholeskySolve(a, 3, b, 2);
+            LinearAlgebraControl.Provider.CholeskySolve(a, 3, b, 2);
 
             AssertHelpers.AlmostEqualRelative(b[0], 0, 14);
             AssertHelpers.AlmostEqualRelative(b[1], 1, 14);
@@ -529,10 +529,10 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         {
             var a = new double[] {1, 1, 1, 1, 2, 3, 1, 3, 6};
 
-            Control.LinearAlgebraProvider.CholeskyFactor(a, 3);
+            LinearAlgebraControl.Provider.CholeskyFactor(a, 3);
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-            Control.LinearAlgebraProvider.CholeskySolveFactored(a, 3, b, 2);
+            LinearAlgebraControl.Provider.CholeskySolveFactored(a, 3, b, 2);
 
             AssertHelpers.AlmostEqualRelative(b[0], 0, 14);
             AssertHelpers.AlmostEqualRelative(b[1], 1, 14);
@@ -554,7 +554,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var tau = new double[3];
             var q = new double[matrix.RowCount*matrix.RowCount];
-            Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
+            LinearAlgebraControl.Provider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
 
             var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, q);
             var mr = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
@@ -581,7 +581,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var tau = new double[3];
             var q = new double[matrix.RowCount*matrix.RowCount];
-            Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
+            LinearAlgebraControl.Provider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
 
             var mr = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
             var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, q);
@@ -608,7 +608,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var tau = new double[3];
             var q = new double[matrix.RowCount*matrix.RowCount];
-            Control.LinearAlgebraProvider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
+            LinearAlgebraControl.Provider.QRFactor(r, matrix.RowCount, matrix.ColumnCount, q, tau);
 
             var mr = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, r).UpperTriangle();
             var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.RowCount, q);
@@ -635,7 +635,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var q = new double[matrix.RowCount*matrix.ColumnCount];
             Array.Copy(matrix.Values, q, q.Length);
 
-            Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
+            LinearAlgebraControl.Provider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
 
             var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, q);
             var mr = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, r);
@@ -662,7 +662,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var q = new double[matrix.RowCount*matrix.ColumnCount];
             Array.Copy(matrix.Values, q, q.Length);
 
-            Control.LinearAlgebraProvider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
+            LinearAlgebraControl.Provider.ThinQRFactor(q, matrix.RowCount, matrix.ColumnCount, r, tau);
 
             var mq = Matrix<double>.Build.Dense(matrix.RowCount, matrix.ColumnCount, q);
             var mr = Matrix<double>.Build.Dense(matrix.ColumnCount, matrix.ColumnCount, r);
@@ -689,7 +689,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
+            LinearAlgebraControl.Provider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
 
             NotModified(3, 3, a, matrix);
 
@@ -716,7 +716,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
+            LinearAlgebraControl.Provider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
 
             NotModified(3, 2, a, matrix);
 
@@ -742,11 +742,11 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var tau = new double[matrix.ColumnCount];
             var q = new double[matrix.ColumnCount*matrix.ColumnCount];
-            Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau);
+            LinearAlgebraControl.Provider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau);
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x);
+            LinearAlgebraControl.Provider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x);
 
             var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
@@ -772,11 +772,11 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var tau = new double[matrix.ColumnCount];
             var q = new double[matrix.RowCount*matrix.RowCount];
-            Control.LinearAlgebraProvider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau);
+            LinearAlgebraControl.Provider.QRFactor(a, matrix.RowCount, matrix.ColumnCount, q, tau);
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x);
+            LinearAlgebraControl.Provider.QRSolveFactored(q, a, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x);
 
             var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
@@ -799,7 +799,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin);
+            LinearAlgebraControl.Provider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin);
 
             NotModified(3, 3, a, matrix);
 
@@ -826,7 +826,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin);
+            LinearAlgebraControl.Provider.QRSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x, QRMethod.Thin);
 
             NotModified(3, 2, a, matrix);
 
@@ -852,11 +852,11 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var tau = new double[matrix.ColumnCount];
             var r = new double[matrix.ColumnCount*matrix.ColumnCount];
-            Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau);
+            LinearAlgebraControl.Provider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau);
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin);
+            LinearAlgebraControl.Provider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin);
 
             var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
@@ -882,11 +882,11 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var tau = new double[matrix.ColumnCount];
             var r = new double[matrix.ColumnCount*matrix.ColumnCount];
-            Control.LinearAlgebraProvider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau);
+            LinearAlgebraControl.Provider.ThinQRFactor(a, matrix.RowCount, matrix.ColumnCount, r, tau);
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin);
+            LinearAlgebraControl.Provider.QRSolveFactored(a, r, matrix.RowCount, matrix.ColumnCount, tau, b, 2, x, QRMethod.Thin);
 
             var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;
@@ -911,7 +911,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var u = new double[matrix.RowCount*matrix.RowCount];
             var vt = new double[matrix.ColumnCount*matrix.ColumnCount];
 
-            Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+            LinearAlgebraControl.Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
 
             var w = new DenseMatrix(matrix.RowCount, matrix.ColumnCount);
             for (var index = 0; index < s.Length; index++)
@@ -948,7 +948,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var u = new double[matrix.RowCount*matrix.RowCount];
             var vt = new double[matrix.ColumnCount*matrix.ColumnCount];
 
-            Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+            LinearAlgebraControl.Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
 
             var w = new DenseMatrix(matrix.RowCount, matrix.ColumnCount);
             for (var index = 0; index < s.Length; index++)
@@ -982,7 +982,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var u = new double[matrix.RowCount*matrix.RowCount];
             var vt = new double[matrix.ColumnCount*matrix.ColumnCount];
 
-            Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+            LinearAlgebraControl.Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
 
             var w = new DenseMatrix(matrix.RowCount, matrix.ColumnCount);
             for (var index = 0; index < s.Length; index++)
@@ -1014,7 +1014,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
+            LinearAlgebraControl.Provider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
 
             NotModified(3, 3, a, matrix);
 
@@ -1041,7 +1041,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
+            LinearAlgebraControl.Provider.SvdSolve(a, matrix.RowCount, matrix.ColumnCount, b, 2, x);
 
             NotModified(3, 2, a, matrix);
 
@@ -1069,11 +1069,11 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var u = new double[matrix.RowCount*matrix.RowCount];
             var vt = new double[matrix.ColumnCount*matrix.ColumnCount];
 
-            Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+            LinearAlgebraControl.Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x);
+            LinearAlgebraControl.Provider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x);
 
             var mx = Matrix<double>.Build.Dense(matrix.ColumnCount, 2, x);
             var mb = matrix*mx;
@@ -1101,11 +1101,11 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             var u = new double[matrix.RowCount*matrix.RowCount];
             var vt = new double[matrix.ColumnCount*matrix.ColumnCount];
 
-            Control.LinearAlgebraProvider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
+            LinearAlgebraControl.Provider.SingularValueDecomposition(true, a, matrix.RowCount, matrix.ColumnCount, s, u, vt);
 
             var b = new[] {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
             var x = new double[matrix.ColumnCount*2];
-            Control.LinearAlgebraProvider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x);
+            LinearAlgebraControl.Provider.SvdSolveFactored(matrix.RowCount, matrix.ColumnCount, s, u, vt, b, 2, x);
 
             var mb = Matrix<double>.Build.Dense(matrix.RowCount, 2, b);
             var test = (matrix.Transpose()*matrix).Inverse()*matrix.Transpose()*mb;

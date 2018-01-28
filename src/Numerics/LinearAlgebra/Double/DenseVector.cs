@@ -27,15 +27,17 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Distributions;
-using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
-using MathNet.Numerics.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+
+using MathNet.Numerics.Distributions;
+using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.LinearAlgebra;
+using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
 {
@@ -241,7 +243,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.AddArrays(_values, otherDense._values, resultDense._values);
+                LinearAlgebraControl.Provider.AddArrays(_values, otherDense._values, resultDense._values);
             }
         }
 
@@ -313,7 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.SubtractArrays(_values, otherDense._values, resultDense._values);
+                LinearAlgebraControl.Provider.SubtractArrays(_values, otherDense._values, resultDense._values);
             }
         }
 
@@ -364,7 +366,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(-1.0d, _values, denseResult.Values);
+            LinearAlgebraControl.Provider.ScaleArray(-1.0d, _values, denseResult.Values);
         }
 
         /// <summary>
@@ -382,7 +384,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            Control.LinearAlgebraProvider.ScaleArray(scalar, _values, denseResult.Values);
+            LinearAlgebraControl.Provider.ScaleArray(scalar, _values, denseResult.Values);
         }
 
         /// <summary>
@@ -395,7 +397,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var denseVector = other as DenseVector;
             return denseVector == null
                 ? base.DoDotProduct(other)
-                : Control.LinearAlgebraProvider.DotProduct(_values, denseVector.Values);
+                : LinearAlgebraControl.Provider.DotProduct(_values, denseVector.Values);
         }
 
         /// <summary>
@@ -700,7 +702,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
+                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
             }
         }
 
@@ -721,7 +723,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
+                LinearAlgebraControl.Provider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
             }
         }
 
@@ -741,7 +743,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             }
             else
             {
-                Control.LinearAlgebraProvider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
+                LinearAlgebraControl.Provider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
             }
         }
 

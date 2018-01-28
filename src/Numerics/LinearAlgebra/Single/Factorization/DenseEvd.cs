@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.Properties;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
@@ -88,7 +89,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                     break;
             }
 
-            Control.LinearAlgebraProvider.EigenDecomp(isSymmetric, order, matrix.Values, eigenVectors.Values, eigenValues.Values, blockDiagonal.Values);
+            LinearAlgebraControl.Provider.EigenDecomp(isSymmetric, order, matrix.Values, eigenVectors.Values, eigenValues.Values, blockDiagonal.Values);
 
             return new DenseEvd(eigenVectors, eigenValues, blockDiagonal, isSymmetric);
         }

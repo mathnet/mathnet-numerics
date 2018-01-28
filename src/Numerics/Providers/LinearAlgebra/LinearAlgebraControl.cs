@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -34,20 +34,76 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     public static class LinearAlgebraControl
     {
         const string EnvVarLAProvider = "MathNetNumericsLAProvider";
+        const string EnvVarLAProviderPath = "MathNetNumericsLAProviderPath";
+
+        static ILinearAlgebraProvider _linearAlgebraProvider;
+        static readonly object StaticLock = new object();
+
+        /// <summary>
+        /// Gets or sets the linear algebra provider.
+        /// Consider to use UseNativeMKL or UseManaged instead.
+        /// </summary>
+        /// <value>The linear algebra provider.</value>
+        public static ILinearAlgebraProvider Provider
+        {
+            get
+            {
+                if (_linearAlgebraProvider == null)
+                {
+                    lock (StaticLock)
+                    {
+                        if (_linearAlgebraProvider == null)
+                        {
+                            UseDefault();
+                        }
+                    }
+                }
+
+                return _linearAlgebraProvider;
+            }
+            set
+            {
+                value.InitializeVerify();
+
+                // only actually set if verification did not throw
+                _linearAlgebraProvider = value;
+            }
+        }
+
+        /// <summary>
+        /// Optional path to try to load native provider binaries from.
+        /// If not set, Numerics will fall back to the environment variable
+        /// `MathNetNumericsLAProviderPath` or the default probing paths.
+        /// </summary>
+        public static string HintPath { get; set; }
+
+        public static ILinearAlgebraProvider CreateManaged()
+        {
+            return new ManagedLinearAlgebraProvider();
+        }
 
         public static void UseManaged()
         {
-            Control.LinearAlgebraProvider = new ManagedLinearAlgebraProvider();
+            Provider = CreateManaged();
         }
 
 #if NATIVE
+        [CLSCompliant(false)]
+        public static ILinearAlgebraProvider CreateNativeMKL(
+            Common.Mkl.MklConsistency consistency = Common.Mkl.MklConsistency.Auto,
+            Common.Mkl.MklPrecision precision = Common.Mkl.MklPrecision.Double,
+            Common.Mkl.MklAccuracy accuracy = Common.Mkl.MklAccuracy.High)
+        {
+            return new Mkl.MklLinearAlgebraProvider(GetCombinedHintPath(), consistency, precision, accuracy);
+        }
+
         [CLSCompliant(false)]
         public static void UseNativeMKL(
             Common.Mkl.MklConsistency consistency = Common.Mkl.MklConsistency.Auto,
             Common.Mkl.MklPrecision precision = Common.Mkl.MklPrecision.Double,
             Common.Mkl.MklAccuracy accuracy = Common.Mkl.MklAccuracy.High)
         {
-            Control.LinearAlgebraProvider = new Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy);
+            Provider = CreateNativeMKL(consistency, precision, accuracy);
         }
 
         [CLSCompliant(false)]
@@ -56,27 +112,37 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             Common.Mkl.MklPrecision precision = Common.Mkl.MklPrecision.Double,
             Common.Mkl.MklAccuracy accuracy = Common.Mkl.MklAccuracy.High)
         {
-            return TryUse(new Mkl.MklLinearAlgebraProvider(consistency, precision, accuracy));
+            return TryUse(CreateNativeMKL(consistency, precision, accuracy));
+        }
+
+        public static ILinearAlgebraProvider CreateNativeCUDA()
+        {
+            return new Cuda.CudaLinearAlgebraProvider(GetCombinedHintPath());
         }
 
         public static void UseNativeCUDA()
         {
-            Control.LinearAlgebraProvider = new Cuda.CudaLinearAlgebraProvider();
+            Provider = CreateNativeCUDA();
         }
 
         public static bool TryUseNativeCUDA()
         {
-            return TryUse(new Cuda.CudaLinearAlgebraProvider());
+            return TryUse(CreateNativeCUDA());
+        }
+
+        public static ILinearAlgebraProvider CreateNativeOpenBLAS()
+        {
+            return new OpenBlas.OpenBlasLinearAlgebraProvider(GetCombinedHintPath());
         }
 
         public static void UseNativeOpenBLAS()
         {
-            Control.LinearAlgebraProvider = new OpenBlas.OpenBlasLinearAlgebraProvider();
+            Provider = CreateNativeOpenBLAS();
         }
 
         public static bool TryUseNativeOpenBLAS()
         {
-            return TryUse(new OpenBlas.OpenBlasLinearAlgebraProvider());
+            return TryUse(CreateNativeOpenBLAS());
         }
 
         /// <summary>
@@ -97,7 +163,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
                     return false;
                 }
 
-                Control.LinearAlgebraProvider = provider;
+                Provider = provider;
                 return true;
             }
             catch
@@ -152,6 +218,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 #else
             UseBest();
 #endif
+        }
+
+        static string GetCombinedHintPath()
+        {
+            if (!String.IsNullOrEmpty(HintPath))
+            {
+                return HintPath;
+            }
+
+            var value = Environment.GetEnvironmentVariable(EnvVarLAProviderPath);
+            if (!String.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return null;
         }
     }
 }

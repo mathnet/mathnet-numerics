@@ -29,6 +29,10 @@
 
 using System;
 using System.Runtime.InteropServices;
+
+using MathNet.Numerics.Providers.FourierTransform;
+using MathNet.Numerics.Providers.LinearAlgebra;
+
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -63,8 +67,8 @@ namespace MathNet.Numerics.UnitTests
             Console.WriteLine($"CLR Version: {Environment.Version}");
             Console.WriteLine($"OS Version: {Environment.OSVersion}");
             #endif
-            Console.WriteLine($"Linear Algebra Provider: {Control.LinearAlgebraProvider}");
-            Console.WriteLine($"Fourier Transform Provider: {Control.FourierTransformProvider}");
+            Console.WriteLine($"Linear Algebra Provider: {LinearAlgebraControl.Provider}");
+            Console.WriteLine($"Fourier Transform Provider: {FourierTransformControl.Provider}");
             Console.WriteLine();
             // ReSharper restore LocalizableElement
         }

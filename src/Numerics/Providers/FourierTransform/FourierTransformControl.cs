@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -34,21 +34,72 @@ namespace MathNet.Numerics.Providers.FourierTransform
     public static class FourierTransformControl
     {
         const string EnvVarFFTProvider = "MathNetNumericsFFTProvider";
+        const string EnvVarFFTProviderPath = "MathNetNumericsFFTProviderPath";
+
+        static IFourierTransformProvider _fourierTransformProvider;
+        static readonly object StaticLock = new object();
+
+        /// <summary>
+        /// Gets or sets the Fourier transform provider. Consider to use UseNativeMKL or UseManaged instead.
+        /// </summary>
+        /// <value>The linear algebra provider.</value>
+        public static IFourierTransformProvider Provider
+        {
+            get
+            {
+                if (_fourierTransformProvider == null)
+                {
+                    lock (StaticLock)
+                    {
+                        if (_fourierTransformProvider == null)
+                        {
+                            UseDefault();
+                        }
+                    }
+                }
+
+                return _fourierTransformProvider;
+            }
+            set
+            {
+                value.InitializeVerify();
+
+                // only actually set if verification did not throw
+                _fourierTransformProvider = value;
+            }
+        }
+
+        /// <summary>
+        /// Optional path to try to load native provider binaries from.
+        /// If not set, Numerics will fall back to the environment variable
+        /// `MathNetNumericsFFTProviderPath` or the default probing paths.
+        /// </summary>
+        public static string HintPath { get; set; }
+
+        public static IFourierTransformProvider CreateManaged()
+        {
+            return new ManagedFourierTransformProvider();
+        }
 
         public static void UseManaged()
         {
-            Control.FourierTransformProvider = new ManagedFourierTransformProvider();
+            Provider = CreateManaged();
         }
 
 #if NATIVE
+        public static IFourierTransformProvider CreateNativeMKL()
+        {
+            return new Mkl.MklFourierTransformProvider(GetCombinedHintPath());
+        }
+
         public static void UseNativeMKL()
         {
-            Control.FourierTransformProvider = new Mkl.MklFourierTransformProvider();
+            Provider = CreateNativeMKL();
         }
 
         public static bool TryUseNativeMKL()
         {
-            return TryUse(new Mkl.MklFourierTransformProvider());
+            return TryUse(CreateNativeMKL());
         }
 
         /// <summary>
@@ -69,7 +120,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                     return false;
                 }
 
-                Control.FourierTransformProvider = provider;
+                Provider = provider;
                 return true;
             }
             catch
@@ -117,6 +168,22 @@ namespace MathNet.Numerics.Providers.FourierTransform
 #else
             UseBest();
 #endif
+        }
+
+        static string GetCombinedHintPath()
+        {
+            if (!String.IsNullOrEmpty(HintPath))
+            {
+                return HintPath;
+            }
+
+            var value = Environment.GetEnvironmentVariable(EnvVarFFTProviderPath);
+            if (!String.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            return null;
         }
     }
 }
