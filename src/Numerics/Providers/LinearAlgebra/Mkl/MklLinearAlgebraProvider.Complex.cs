@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
-    public partial class MklLinearAlgebraProvider
+    internal partial class MklLinearAlgebraProvider
     {
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.

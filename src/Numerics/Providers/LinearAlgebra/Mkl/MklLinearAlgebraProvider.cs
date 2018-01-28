@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
-    public partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
+    internal partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
         readonly MklConsistency _consistency;
         readonly MklPrecision _precision;
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// <param name="precision">VML optimal precision and rounding.</param>
         /// <param name="accuracy">VML accuracy mode.</param>
         [CLSCompliant(false)]
-        public MklLinearAlgebraProvider(
+        internal MklLinearAlgebraProvider(
             MklConsistency consistency = MklConsistency.Auto,
             MklPrecision precision = MklPrecision.Double,
             MklAccuracy accuracy = MklAccuracy.High)
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             _accuracy = accuracy;
         }
 
-        public MklLinearAlgebraProvider()
+        internal MklLinearAlgebraProvider()
         {
             _consistency = MklConsistency.Auto;
             _precision = MklPrecision.Double;

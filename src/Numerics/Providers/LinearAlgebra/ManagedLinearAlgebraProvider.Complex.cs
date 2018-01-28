@@ -39,7 +39,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
-    public partial class ManagedLinearAlgebraProvider
+    internal partial class ManagedLinearAlgebraProvider
     {
         /// <summary>
         /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.

@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
     /// <summary>
     /// OpenBLAS linear algebra provider.
     /// </summary>
-    public partial class OpenBlasLinearAlgebraProvider
+    internal partial class OpenBlasLinearAlgebraProvider
     {
         /// <summary>
         /// Computes the requested <see cref="Norm"/> of the matrix.

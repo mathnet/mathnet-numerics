@@ -35,7 +35,7 @@ using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {
-    public class MklFourierTransformProvider : IFourierTransformProvider, IDisposable
+    internal class MklFourierTransformProvider : IFourierTransformProvider, IDisposable
     {
         class Kernel
         {

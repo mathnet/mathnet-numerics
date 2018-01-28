@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
     /// <summary>
     /// AMD Core Math Library (ACML) linear algebra provider.
     /// </summary>
-    public partial class AcmlLinearAlgebraProvider : ManagedLinearAlgebraProvider
+    internal partial class AcmlLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
         /// <summary>
         /// Computes the dot product of x and y.

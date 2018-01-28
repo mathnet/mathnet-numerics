@@ -32,7 +32,7 @@ using MathNet.Numerics.IntegralTransforms;
 
 namespace MathNet.Numerics.Providers.FourierTransform
 {
-    public class ManagedFourierTransformProvider : IFourierTransformProvider
+    internal class ManagedFourierTransformProvider : IFourierTransformProvider
     {
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.

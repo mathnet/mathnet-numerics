@@ -39,7 +39,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
     /// <summary>
     /// NVidia's CUDA Toolkit linear algebra provider.
     /// </summary>
-    public partial class CudaLinearAlgebraProvider
+    internal partial class CudaLinearAlgebraProvider
     {
         /// <summary>
         /// Computes the dot product of x and y.

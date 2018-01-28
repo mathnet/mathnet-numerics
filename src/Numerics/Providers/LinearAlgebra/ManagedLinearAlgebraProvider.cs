@@ -40,11 +40,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
-    public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
+    internal partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
         private readonly Variation _variation;
 
-        public ManagedLinearAlgebraProvider()
+        internal ManagedLinearAlgebraProvider()
         {
             _variation = Variation.Experimental;
         }

@@ -55,7 +55,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
     /// <summary>
     /// OpenBLAS linear algebra provider.
     /// </summary>
-    public partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider
+    internal partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
