@@ -9,9 +9,9 @@
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics</PackageId>
     <VersionPrefix>4.0.0</VersionPrefix>
-    <VersionSuffix>beta05</VersionSuffix>
-    <PackageVersion>4.0.0-beta05</PackageVersion>
-    <Version>4.0.0-beta05</Version>
+    <VersionSuffix>beta06</VersionSuffix>
+    <PackageVersion>4.0.0-beta06</PackageVersion>
+    <Version>4.0.0-beta06</Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
     <Title>Math.NET Numerics</Title>
@@ -24,9 +24,13 @@
     <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
     <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
     <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
-    <PackageReleaseNotes>BUG: Distributions: BetaScaled no longer ignores optional random source parameter
-BUG: Trigonometry: Complex trigonometric functions behave on large imput ~diluculo
-All: code quality fixes ~Jonas Nyrup</PackageReleaseNotes>
+    <PackageReleaseNotes>Rework conditional compilation to simplify and increase the .Net Standard api surface
+BREAKING: Native provider implementation types internal (but can be constructed explicitly)
+BREAKING: Native provider control API moved from Control to per-provider Control classes
+Control.Describe: human readable summary of the effective Math.NET Numerics configuration
+Fixed a whole range of inline documentation typos ~Jonas Nyrup
+Build: reworked test build targets, switched to Paket magic mode
+Examples: moved to examples folder, new framework target integration project file examples</PackageReleaseNotes>
     <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>

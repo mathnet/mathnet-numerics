@@ -1,3 +1,12 @@
+### 4.0.0-beta06 - 2018-02-03
+* Rework conditional compilation to simplify and increase the .Net Standard api surface
+* BREAKING: Native provider implementation types internal (but can be constructed explicitly)
+* BREAKING: Native provider control API moved from Control to per-provider Control classes
+* Control.Describe: human readable summary of the effective Math.NET Numerics configuration
+* Fixed a whole range of inline documentation typos *~Jonas Nyrup*
+* Build: reworked test build targets, switched to Paket magic mode
+* Examples: moved to examples folder, new framework target integration project file examples
+
 ### 4.0.0-beta05 - 2018-01-22
 * BUG: Distributions: BetaScaled no longer ignores optional random source parameter
 * BUG: Trigonometry: Complex trigonometric functions behave on large imput *~diluculo*
