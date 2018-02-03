@@ -31,11 +31,14 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - MaLiN2223
 - Matthew Johnson
 - manyue
+- diluculo
 - David Prince
 - Frank A. Krueger
 - Andriy Bratiychuk
 - Jack Pappas
 - Phil Cleveland
+- jnyrup
+- Aappo Pulkkinen
 - Artyom Baranovskiy
 - Ashley Messer
 - Candy Chiu
