@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,6 +29,8 @@
 
 using System;
 using System.Linq;
+
+using MathNet.Numerics.LinearRegression;
 using MathNet.Numerics.Statistics;
 using NUnit.Framework;
 
@@ -72,6 +74,28 @@ namespace MathNet.Numerics.UnitTests
             {
                 Assert.AreEqual(7.01013 - 2.08551 * z, resf(z), 1e-4);
             }
+        }
+
+        [Test]
+        public void FitsToBestLineThroughOrigin()
+        {
+            // Mathematica: Fit[{{1,4.986},{2,2.347},{3,2.061},{4,-2.995},{5,-2.352},{6,-5.782}}, {x}, x]
+            // -> -0.467791 x
+
+            var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
+            var y = new[] { 4.986, 2.347, 2.061, -2.995, -2.352, -5.782 };
+
+            var resp = Fit.LineThroughOrigin(x, y);
+            Assert.AreEqual(-0.467791, resp, 1e-4);
+
+            var resf = Fit.LineThroughOriginFunc(x, y);
+            foreach (var z in Enumerable.Range(-3, 10))
+            {
+                Assert.AreEqual(-0.467791 * z, resf(z), 1e-4);
+            }
+
+            var respSeq = SimpleRegression.FitThroughOrigin(Generate.Map2(x, y, Tuple.Create));
+            Assert.AreEqual(-0.467791, respSeq, 1e-4);
         }
 
         [Test]

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -90,6 +90,57 @@ namespace MathNet.Numerics.LinearRegression
         {
             var xy = samples.UnpackSinglePass();
             return Fit(xy.Item1, xy.Item2);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a line y : x -> b*x,
+        /// returning its best fitting parameter b,
+        /// where the intercept is zero and b the slope.
+        /// </summary>
+        /// <param name="x">Predictor (independent)</param>
+        /// <param name="y">Response (dependent)</param>
+        public static double FitThroughOrigin(double[] x, double[] y)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.Length, y.Length));
+            }
+
+            if (x.Length <= 1)
+            {
+                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, 2, x.Length));
+            }
+
+            double mxy = 0.0;
+            double mxx = 0.0;
+            for (int i = 0; i < x.Length; i++)
+            {
+                mxx += x[i]*x[i];
+                mxy += x[i]*y[i];
+            }
+
+            return mxy / mxx;
+        }
+
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a line y : x -> b*x,
+        /// returning its best fitting parameter b,
+        /// where the intercept is zero and b the slope.
+        /// </summary>
+        /// <param name="samples">Predictor-Response samples as tuples</param>
+        public static double FitThroughOrigin(IEnumerable<Tuple<double, double>> samples)
+        {
+            double mxy = 0.0;
+            double mxx = 0.0;
+
+            foreach (var sample in samples)
+            {
+                mxx += sample.Item1 * sample.Item1;
+                mxy += sample.Item1 * sample.Item2;
+            }
+
+            return mxy / mxx;
         }
     }
 }

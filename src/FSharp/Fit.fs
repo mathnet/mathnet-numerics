@@ -47,6 +47,14 @@ module Fit =
     /// returning a function y' for the best fitting line.
     let lineFunc x y = Fit.LineFunc(x,y) |> tofs
 
+    /// Least-Squares fitting the points (x,y) to a line y : x -> b*x,
+    /// returning its best fitting parameter b.
+    let lineThroughOrigin x y = Fit.LineThroughOrigin(x,y)
+
+    /// Least-Squares fitting the points (x,y) to a line y : x -> b*x,
+    /// returning a function y' for the best fitting line.
+    let lineThroughOriginFunc x y = Fit.LineThroughOriginFunc(x,y) |> tofs
+
     /// Least-Squares fitting the points ((x0,x1,...,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
     /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
     let multiDim intercept x y = Fit.MultiDim(x,y,intercept)

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -59,6 +59,26 @@ namespace MathNet.Numerics
             var parameters = SimpleRegression.Fit(x, y);
             double intercept = parameters.Item1, slope = parameters.Item2;
             return z => intercept + slope*z;
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a line through origin y : x -> b*x,
+        /// returning its best fitting parameter b,
+        /// where the intercept is zero and b the slope.
+        /// </summary>
+        public static double LineThroughOrigin(double[] x, double[] y)
+        {
+            return SimpleRegression.FitThroughOrigin(x, y);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a line through origin y : x -> b*x,
+        /// returning a function y' for the best fitting line.
+        /// </summary>
+        public static Func<double, double> LineThroughOriginFunc(double[] x, double[] y)
+        {
+            double slope = SimpleRegression.FitThroughOrigin(x, y);
+            return z => slope * z;
         }
 
         /// <summary>
