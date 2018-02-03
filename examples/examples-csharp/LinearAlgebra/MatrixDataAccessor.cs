@@ -156,9 +156,9 @@ namespace Examples.LinearAlgebraExamples
             // 11. Convert matrix into multidimensional array
             var data = matrix.ToArray();
             Console.WriteLine(@"11. Convert matrix into multidimensional array");
-            for (var i = 0; i < data.GetLongLength(0); i++)
+            for (var i = 0; i < data.GetLength(0); i++)
             {
-                for (var j = 0; j < data.GetLongLength(1); j++)
+                for (var j = 0; j < data.GetLength(1); j++)
                 {
                     Console.Write(data[i, j].ToString("#0.00\t"));
                 }
@@ -169,7 +169,7 @@ namespace Examples.LinearAlgebraExamples
             Console.WriteLine();
 
             // 12. Convert matrix into row-wise array
-            var rowwise = matrix.ToRowWiseArray();
+            var rowwise = matrix.ToRowMajorArray();
             Console.WriteLine(@"12. Convert matrix into row-wise array");
             for (var i = 0; i < matrix.RowCount; i++)
             {
@@ -184,7 +184,7 @@ namespace Examples.LinearAlgebraExamples
             Console.WriteLine();
 
             // 13. Convert matrix into column-wise array
-            var columnise = matrix.ToColumnWiseArray();
+            var columnise = matrix.ToColumnMajorArray();
             Console.WriteLine(@"13. Convert matrix into column-wise array");
             for (var i = 0; i < matrix.RowCount; i++)
             {

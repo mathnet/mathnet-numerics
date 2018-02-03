@@ -12,9 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FSharp\FSharp.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="RandomAndDistributions.fsx" />
     <None Include="Histogram.fsx" />
     <None Include="MCMC.fsx" />

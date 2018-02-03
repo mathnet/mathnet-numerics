@@ -26,6 +26,8 @@
 
 using System;
 using System.Globalization;
+
+using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace Examples.LinearAlgebraExamples
@@ -158,7 +160,7 @@ namespace Examples.LinearAlgebraExamples
 
             // 12. Indexed non-zero enumerator usage
             Console.WriteLine(@"11. Non-Zero Enumerator usage");
-            foreach (var value in vectorA.EnumerateNonZeroIndexed())
+            foreach (var value in vectorA.EnumerateIndexed(Zeros.AllowSkip))
             {
                 Console.WriteLine(@"Index = {0}; Value = {1}", value.Item1, value.Item2.ToString("#0.00\t", formatProvider));
             }
