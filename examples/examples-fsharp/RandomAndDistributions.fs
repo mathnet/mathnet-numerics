@@ -102,7 +102,7 @@ boolean argument at creation or by setting `Control.ThreadSafeRandomNumberGenera
 
 let a = Random.system ()
 let b = Random.systemSeed (RandomSeed.Guid())
-//let c = Random.crypto ()
+let c = Random.crypto ()
 let d = Random.mersenneTwister ()
 let e = Random.mersenneTwisterWith 1000 true (* thread-safe *)
 let f = Random.xorshift ()
@@ -133,7 +133,7 @@ as last argument. A few more examples, this time in F#:
 // some probability distributions
 let normal = Normal.WithMeanVariance(3.0, 1.5, g)
 let exponential = Exponential(2.4)
-//let gamma = Gamma(2.0, 1.5, Random.crypto())
+let gamma = Gamma(2.0, 1.5, Random.crypto())
 let cauchy = Cauchy(0.0, 1.0, Random.mrg32k3aWith 10 false)
 let poisson = Poisson(3.0)
 let geometric = Geometric(0.8, Random.system())
@@ -141,8 +141,8 @@ let geometric = Geometric(0.8, Random.system())
 // sample some random rumbers from these distributions
 let continuous =
   [ yield normal.Sample()
-    yield exponential.Sample() ]
-//    yield! gamma.Samples() |> Seq.take 10 ]
+    yield exponential.Sample()
+    yield! gamma.Samples() |> Seq.take 10 ]
 
 let discrete =
   [ poisson.Sample()
@@ -167,13 +167,13 @@ some of them are also available with the `Ln`-suffix.
 *)
 
 // distribution properties of the gamma we've configured above
-//let gammaStats =
-//  ( gamma.Mean,
-//    gamma.Variance,
-//    gamma.StdDev,
-//    gamma.Entropy,
-//    gamma.Skewness,
-//    gamma.Mode )
+let gammaStats =
+  ( gamma.Mean,
+    gamma.Variance,
+    gamma.StdDev,
+    gamma.Entropy,
+    gamma.Skewness,
+    gamma.Mode )
 
 // probability distribution functions of the normal we've configured above.
 let nd = normal.Density(4.0)  (* pdf *)

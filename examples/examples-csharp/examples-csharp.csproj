@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="4.0.0-beta05" />
+    <PackageReference Include="MathNet.Numerics" Version="4.0.0-beta06" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.6'">
     <PackageReference Include="NETStandard.Library" Version="2.0.1" />

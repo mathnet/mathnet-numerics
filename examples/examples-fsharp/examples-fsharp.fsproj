@@ -23,8 +23,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Update="FSharp.Core" Version="4.2.3" />
-    <PackageReference Include="MathNet.Numerics" Version="4.0.0-beta05" />
-    <PackageReference Include="MathNet.Numerics.FSharp" Version="4.0.0-beta05" />
+    <PackageReference Include="MathNet.Numerics" Version="4.0.0-beta06" />
+    <PackageReference Include="MathNet.Numerics.FSharp" Version="4.0.0-beta06" />
   </ItemGroup>
 
 </Project>
