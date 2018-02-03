@@ -15,22 +15,9 @@ distribution, like a Gaussian or Poisson. You can do that with one of our probab
 distribution classes, or in F# also using the `Sample` module. Once parametrized,
 the distribution classes also provide a variety of other functionality around probability
 distributions, like evaluating statistical distribution properties or functions.
-
-Initialization
---------------
-
-We need to reference Math.NET Numerics and open the namespaces for
-random numbers and probability distributions:
-
-    using MathNet.Numerics.Random;
-    using MathNet.Numerics.Distributions;
-
-Or in F#:
 *)
 
-// Only needed in scripts/interactive
-#r "../../out/lib/Net40/MathNet.Numerics.dll"
-#r "../../out/lib/Net40/MathNet.Numerics.FSharp.dll"
+module RandomAndDistributions
 
 open MathNet.Numerics.Random
 open MathNet.Numerics.Distributions
@@ -115,7 +102,7 @@ boolean argument at creation or by setting `Control.ThreadSafeRandomNumberGenera
 
 let a = Random.system ()
 let b = Random.systemSeed (RandomSeed.Guid())
-let c = Random.crypto ()
+//let c = Random.crypto ()
 let d = Random.mersenneTwister ()
 let e = Random.mersenneTwisterWith 1000 true (* thread-safe *)
 let f = Random.xorshift ()
@@ -146,7 +133,7 @@ as last argument. A few more examples, this time in F#:
 // some probability distributions
 let normal = Normal.WithMeanVariance(3.0, 1.5, g)
 let exponential = Exponential(2.4)
-let gamma = Gamma(2.0, 1.5, Random.crypto())
+//let gamma = Gamma(2.0, 1.5, Random.crypto())
 let cauchy = Cauchy(0.0, 1.0, Random.mrg32k3aWith 10 false)
 let poisson = Poisson(3.0)
 let geometric = Geometric(0.8, Random.system())
@@ -154,8 +141,8 @@ let geometric = Geometric(0.8, Random.system())
 // sample some random rumbers from these distributions
 let continuous =
   [ yield normal.Sample()
-    yield exponential.Sample()
-    yield! gamma.Samples() |> Seq.take 10 ]
+    yield exponential.Sample() ]
+//    yield! gamma.Samples() |> Seq.take 10 ]
 
 let discrete =
   [ poisson.Sample()
@@ -165,7 +152,7 @@ let discrete =
 // direct sampling (without creating a distribution object)
 let u = Normal.Sample(Random.system(), 2.0, 4.0)
 let v = Laplace.Samples(Random.mersenneTwister(), 1.0, 3.0) |> Seq.take 100 |> List.ofSeq
-let w = Rayleigh.Sample(c, 1.5)
+//let w = Rayleigh.Sample(c, 1.5)
 let x = Hypergeometric.Sample(h, 100, 20, 5)
 
 (**
@@ -180,13 +167,13 @@ some of them are also available with the `Ln`-suffix.
 *)
 
 // distribution properties of the gamma we've configured above
-let gammaStats =
-  ( gamma.Mean,
-    gamma.Variance,
-    gamma.StdDev,
-    gamma.Entropy,
-    gamma.Skewness,
-    gamma.Mode )
+//let gammaStats =
+//  ( gamma.Mean,
+//    gamma.Variance,
+//    gamma.StdDev,
+//    gamma.Entropy,
+//    gamma.Skewness,
+//    gamma.Mode )
 
 // probability distribution functions of the normal we've configured above.
 let nd = normal.Density(4.0)  (* pdf *)
@@ -220,8 +207,8 @@ or in C#:
 Let's do some random walks, using distributions and random sources defined above (TODO: Graph):
 *)
 
-Seq.scan (+) 0.0 (normal.Samples()) |> Seq.take 10 |> Seq.toArray
-Seq.scan (+) 0.0 (Sample.normalSeq 0.0 0.5 a) |> Seq.take 10 |> Seq.toArray
+let a1 = Seq.scan (+) 0.0 (normal.Samples()) |> Seq.take 10 |> Seq.toArray
+let a2 = Seq.scan (+) 0.0 (Sample.normalSeq 0.0 0.5 a) |> Seq.take 10 |> Seq.toArray
 
 (**
 Composing Distributions
@@ -247,7 +234,7 @@ let s2f rng = Sample.map2 (*) (Sample.normal 2.0 1.5) (Sample.cauchy 2.0 0.5) rn
 let s2s rng = Sample.mapSeq2 (*) (Sample.normalSeq 2.0 1.5) (Sample.cauchySeq 2.0 0.5) rng
 
 // Taking some samples from the composed function
-Seq.take 10 (s2s (Random.system())) |> Seq.toArray
+let a3 = Seq.take 10 (s2s (Random.system())) |> Seq.toArray
 
 // The random walk from above, but this time using the composition from above
-Seq.scan (+) 0.0 (s1s a) |> Seq.take 10 |> Seq.toArray
+let a4 = Seq.scan (+) 0.0 (s1s a) |> Seq.take 10 |> Seq.toArray

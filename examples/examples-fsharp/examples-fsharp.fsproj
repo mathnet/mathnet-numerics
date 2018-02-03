@@ -1,4 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFrameworks>net45;net46;netstandard1.6;netstandard2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -7,17 +8,23 @@
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='netstandard1.6'">
-    <DefineConstants>NETSTANDARD;NOSYSNUMERICS</DefineConstants>
-  </PropertyGroup>
-
   <ItemGroup>
-    <None Include="RandomAndDistributions.fsx" />
-    <None Include="Histogram.fsx" />
-    <None Include="MCMC.fsx" />
-    <None Include="Vectors.fsx" />
-    <None Include="Matrices.fsx" />
-    <None Include="LinearRegression.fsx" />
-    <None Include="Apply.fsx" />
+    <Compile Include="RandomAndDistributions.fs" />
+    <Compile Include="Histogram.fs" />
+    <Compile Include="MCMC.fs" />
+    <Compile Include="Vectors.fs" />
+    <Compile Include="Matrices.fs" />
+    <Compile Include="LinearRegression.fs" />
+    <Compile Include="Apply.fs" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.6'">
+    <PackageReference Include="NETStandard.Library" Version="2.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.2.3" />
+    <PackageReference Include="MathNet.Numerics" Version="4.0.0-beta05" />
+    <PackageReference Include="MathNet.Numerics.FSharp" Version="4.0.0-beta05" />
+  </ItemGroup>
+
 </Project>
