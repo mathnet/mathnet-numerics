@@ -30,6 +30,7 @@
     <ProjectGuid>{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}</ProjectGuid>
     <RootNamespace>MKLWrapper</RootNamespace>
     <ProjectName>MKL</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -98,36 +99,48 @@
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
+    <IncludePath>$(ICPP_COMPILER18)\mkl\include\;$(ICPP_COMPILER18)\mkl\include\fftw\;$(ICPP_COMPILER18)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER18)mkl\lib;$(ICPP_COMPILER18)mkl\lib\ia32_win;$(ICPP_COMPILER18)compiler\lib;$(ICPP_COMPILER18)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|Win32'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
+    <IncludePath>$(ICPP_COMPILER18)\mkl\include\;$(ICPP_COMPILER18)\mkl\include\fftw\;$(ICPP_COMPILER18)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER18)mkl\lib;$(ICPP_COMPILER18)mkl\lib\ia32_win;$(ICPP_COMPILER18)compiler\lib;$(ICPP_COMPILER18)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x64\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
+    <LibraryPath>$(ICPP_COMPILER18)mkl\lib;$(ICPP_COMPILER18)mkl\lib\intel64_win;$(ICPP_COMPILER18)compiler\lib;$(ICPP_COMPILER18)compiler\lib\intel64_win;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ICPP_COMPILER18)\mkl\include\;$(ICPP_COMPILER18)\mkl\include\fftw\;$(ICPP_COMPILER18)\compiler\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|x64'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x64\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
+    <IncludePath>$(ICPP_COMPILER18)\mkl\include\;$(ICPP_COMPILER18)\mkl\include\fftw\;$(ICPP_COMPILER18)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER18)mkl\lib;$(ICPP_COMPILER18)mkl\lib\intel64_win;$(ICPP_COMPILER18)compiler\lib;$(ICPP_COMPILER18)compiler\lib\intel64_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
+    <IncludePath>$(ICPP_COMPILER18)\mkl\include\;$(ICPP_COMPILER18)\mkl\include\fftw\;$(ICPP_COMPILER18)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER18)mkl\lib;$(ICPP_COMPILER18)mkl\lib\ia32_win;$(ICPP_COMPILER18)compiler\lib;$(ICPP_COMPILER18)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x64\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
+    <IncludePath>$(ICPP_COMPILER18)\mkl\include\;$(ICPP_COMPILER18)\mkl\include\fftw\;$(ICPP_COMPILER18)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER18)mkl\lib;$(ICPP_COMPILER18)mkl\lib\intel64_win;$(ICPP_COMPILER18)compiler\lib;$(ICPP_COMPILER18)compiler\lib\intel64_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -139,7 +152,7 @@
     <Link>
       <AdditionalDependencies>libiomp5md.lib;mkl_intel_c.lib;mkl_intel_thread.lib;mkl_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;$(LibraryPath)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
@@ -151,7 +164,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -165,7 +178,7 @@
     <Link>
       <AdditionalDependencies>libiomp5md.lib;mkl_intel_c.lib;mkl_intel_thread.lib;mkl_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;$(LibraryPath)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX86</TargetMachine>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
@@ -180,7 +193,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -192,7 +205,7 @@
     <Link>
       <AdditionalDependencies>libiomp5md.lib;mkl_intel_lp64.lib;mkl_intel_thread.lib;mkl_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;$(LibraryPath)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX64</TargetMachine>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
@@ -207,7 +220,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -221,7 +234,7 @@
     <Link>
       <AdditionalDependencies>libiomp5md.lib;mkl_intel_lp64.lib;mkl_intel_thread.lib;mkl_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;$(LibraryPath)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <TargetMachine>MachineX64</TargetMachine>
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
@@ -234,7 +247,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -246,7 +259,7 @@
     <Link>
       <AdditionalDependencies>libiomp5md.lib;mkl_intel_c.lib;mkl_intel_thread.lib;mkl_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;$(LibraryPath)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -264,7 +277,7 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(MKLIncludeDir);$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -276,7 +289,7 @@
     <Link>
       <AdditionalDependencies>libiomp5md.lib;mkl_intel_lp64.lib;mkl_intel_thread.lib;mkl_core.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(OmpLibDir)\;$(MKLLibDir)\;$(LibraryPath)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
