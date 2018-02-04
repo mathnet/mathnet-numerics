@@ -1,4 +1,5 @@
-source https://www.nuget.org/api/v2
+source https://api.nuget.org/v3/index.json
+storage: packages
 
 nuget FSharp.Core 4.2.3
 nuget FSharp.Compiler.Tools
@@ -16,9 +17,13 @@ nuget System.Runtime.Serialization.Primitives framework:netstandard1.3,netstanda
 nuget System.Runtime.Serialization.Formatters framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 nuget System.Security.Cryptography.Algorithms framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 
+nuget NETStandard.Library 2.0 strategy:min, framework:netstandard1.3,netstandard1.6,netcoreapp1.1,netcoreapp2.0
+nuget Microsoft.NETCore.App 2.0 strategy:min, framework:netcoreapp1.1,netcoreapp2.0
+nuget Microsoft.NETCore.DotNetAppHost 2.0 strategy:min, framework:netcoreapp1.1,netcoreapp2.0
+nuget Microsoft.NETCore.DotNetHostPolicy 2.0 strategy:min, framework:netcoreapp1.1,netcoreapp2.0
+nuget Microsoft.NETCore.DotNetHostResolver 2.0 strategy:min, framework:netcoreapp1.1,netcoreapp2.0
+
 // why?
-nuget NETStandard.Library strategy:min
-nuget Microsoft.NETCore.App strategy:min, framework:net45,netcoreapp1.1,netcoreapp2.0
 nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostPolicy framework:net45,netcoreapp1.1,netcoreapp2.0
 nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.Runtime.CoreCLR framework:net45,netcoreapp1.1,netcoreapp2.0
 nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostResolver framework:net45,netcoreapp1.1,netcoreapp2.0
@@ -50,14 +55,15 @@ nuget runtime.win-x86.Microsoft.NETCore.DotNetHostResolver framework:net45,netco
 nuget runtime.win-x86.Microsoft.NETCore.DotNetAppHost framework:net45,netcoreapp1.1,netcoreapp2.0
 
 group Build
-    source https://www.nuget.org/api/v2
+    source https://api.nuget.org/v3/index.json
+    storage: packages
     nuget FAKE ~> 4.1
     nuget NUnit.ConsoleRunner
     nuget FSharp.Formatting !~> 2.4
     nuget NuGet.CommandLine
 
 group Data
-    source https://www.nuget.org/api/v2
+    source https://api.nuget.org/v3/index.json
     storage: none
     framework: net40, netstandard1.3, netstandard2.0, net45, netcoreapp1.1, netcoreapp2.0
     nuget MathNet.Numerics 4.0.0-beta06 prerelease
@@ -65,7 +71,8 @@ group Data
     nuget NUnitLite ~> 3.0
 
 group Benchmark
-    source https://www.nuget.org/api/v2
+    source https://api.nuget.org/v3/index.json
+    storage: none
     framework: net46
     nuget BenchmarkDotNet content:none, strategy:min
     nuget BenchmarkDotNet.Diagnostics.Windows content:none, strategy:min
