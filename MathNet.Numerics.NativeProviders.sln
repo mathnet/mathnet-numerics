@@ -57,7 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{97C9717A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics.Tests", "src\Numerics.Tests\Numerics.Tests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark", "src\Benchmark\Benchmark.csproj", "{F2CA84AE-4B7C-46F5-9889-82BC5F9F0F4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "src\Benchmark\Benchmark.csproj", "{F2CA84AE-4B7C-46F5-9889-82BC5F9F0F4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -210,7 +210,9 @@ Global
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Win32.ActiveCfg = Release|Any CPU
+		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Win32.Build.0 = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|x64.ActiveCfg = Release|Any CPU
+		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|x64.Build.0 = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release-CUDA|Any CPU.ActiveCfg = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release-CUDA|Any CPU.Build.0 = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release-CUDA|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -285,7 +287,9 @@ Global
 		{E79C0395-01DC-4BC9-B86C-ED45790892C5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{E79C0395-01DC-4BC9-B86C-ED45790892C5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E79C0395-01DC-4BC9-B86C-ED45790892C5}.Release|Win32.ActiveCfg = Release|Any CPU
+		{E79C0395-01DC-4BC9-B86C-ED45790892C5}.Release|Win32.Build.0 = Release|Any CPU
 		{E79C0395-01DC-4BC9-B86C-ED45790892C5}.Release|x64.ActiveCfg = Release|Any CPU
+		{E79C0395-01DC-4BC9-B86C-ED45790892C5}.Release|x64.Build.0 = Release|Any CPU
 		{E79C0395-01DC-4BC9-B86C-ED45790892C5}.Release-CUDA|Any CPU.ActiveCfg = Release|Any CPU
 		{E79C0395-01DC-4BC9-B86C-ED45790892C5}.Release-CUDA|Any CPU.Build.0 = Release|Any CPU
 		{E79C0395-01DC-4BC9-B86C-ED45790892C5}.Release-CUDA|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -358,7 +362,9 @@ Global
 		{96B903EF-3EE1-4569-803C-0482D2F5ED37}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{96B903EF-3EE1-4569-803C-0482D2F5ED37}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{96B903EF-3EE1-4569-803C-0482D2F5ED37}.Release|Win32.ActiveCfg = Release|Any CPU
+		{96B903EF-3EE1-4569-803C-0482D2F5ED37}.Release|Win32.Build.0 = Release|Any CPU
 		{96B903EF-3EE1-4569-803C-0482D2F5ED37}.Release|x64.ActiveCfg = Release|Any CPU
+		{96B903EF-3EE1-4569-803C-0482D2F5ED37}.Release|x64.Build.0 = Release|Any CPU
 		{96B903EF-3EE1-4569-803C-0482D2F5ED37}.Release-CUDA|Any CPU.ActiveCfg = Release|Any CPU
 		{96B903EF-3EE1-4569-803C-0482D2F5ED37}.Release-CUDA|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{96B903EF-3EE1-4569-803C-0482D2F5ED37}.Release-CUDA|Win32.ActiveCfg = Release|Any CPU
@@ -390,7 +396,9 @@ Global
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Win32.ActiveCfg = Release|Any CPU
+		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Win32.Build.0 = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|x64.ActiveCfg = Release|Any CPU
+		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|x64.Build.0 = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-CUDA|Any CPU.ActiveCfg = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-CUDA|Any CPU.Build.0 = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-CUDA|Mixed Platforms.ActiveCfg = Release|Any CPU

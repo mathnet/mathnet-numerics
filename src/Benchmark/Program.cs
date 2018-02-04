@@ -12,8 +12,7 @@ namespace Benchmark
         public static void Main()
         {
             Providers.ForceNativeMKL();
-            Console.WriteLine("Linear Algebra:  " + Control.LinearAlgebraProvider);
-            Console.WriteLine("FFT:             " + Control.FourierTransformProvider);
+            Console.WriteLine(Control.Describe());
 
             var subject = new LinearAlgebra.DenseMatrixProduct();
             subject.Verify();

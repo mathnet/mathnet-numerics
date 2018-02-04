@@ -1,12 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <!--<TargetFrameworks>net46;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>-->
-        <TargetFrameworks>net46</TargetFrameworks>
-    </PropertyGroup>
-    <ItemGroup>
-      <PackageReference Include="BenchmarkDotNet" Version="*" />
-      <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="*" Condition="'$(TargetFramework)'=='net46'" />
-      <ProjectReference Include="..\Numerics\Numerics.csproj" />
-    </ItemGroup>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <!--<TargetFrameworks>net46;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>-->
+    <TargetFrameworks>net46</TargetFrameworks>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Numerics\Numerics.csproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
