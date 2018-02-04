@@ -24,35 +24,35 @@ nuget Microsoft.NETCore.DotNetHostPolicy 2.0 strategy:min, framework:netcoreapp1
 nuget Microsoft.NETCore.DotNetHostResolver 2.0 strategy:min, framework:netcoreapp1.1,netcoreapp2.0
 
 // why?
-nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostPolicy framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.Runtime.CoreCLR framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostResolver framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.Jit framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHost framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x64.Microsoft.NETCore.DotNetHostResolver framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x64.Microsoft.NETCore.Jit framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x64.Microsoft.NETCore.Windows.ApiSets framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x64.Microsoft.NETCore.DotNetHost framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x86.Microsoft.NETCore.DotNetHostPolicy framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x86.Microsoft.NETCore.Runtime.CoreCLR framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x86.Microsoft.NETCore.DotNetHostResolver framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x86.Microsoft.NETCore.Jit framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x86.Microsoft.NETCore.Windows.ApiSets framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win7-x86.Microsoft.NETCore.DotNetHost framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.linux-x64.Microsoft.NETCore.App framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.linux-x64.Microsoft.NETCore.DotNetHostPolicy framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.linux-x64.Microsoft.NETCore.DotNetHostResolver framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.linux-x64.Microsoft.NETCore.DotNetAppHost framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win-x64.Microsoft.NETCore.App framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win-x64.Microsoft.NETCore.DotNetHostResolver framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win-x64.Microsoft.NETCore.DotNetAppHost framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win-x86.Microsoft.NETCore.App framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win-x86.Microsoft.NETCore.DotNetHostPolicy framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win-x86.Microsoft.NETCore.DotNetHostResolver framework:net45,netcoreapp1.1,netcoreapp2.0
-nuget runtime.win-x86.Microsoft.NETCore.DotNetAppHost framework:net45,netcoreapp1.1,netcoreapp2.0
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostPolicy framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.Runtime.CoreCLR framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHostResolver framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.Jit framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.ubuntu.16.10-x64.Microsoft.NETCore.DotNetHost framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x64.Microsoft.NETCore.DotNetHostPolicy framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x64.Microsoft.NETCore.Runtime.CoreCLR framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x64.Microsoft.NETCore.DotNetHostResolver framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x64.Microsoft.NETCore.Jit framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x64.Microsoft.NETCore.Windows.ApiSets framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x64.Microsoft.NETCore.DotNetHost framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x86.Microsoft.NETCore.DotNetHostPolicy framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x86.Microsoft.NETCore.Runtime.CoreCLR framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x86.Microsoft.NETCore.DotNetHostResolver framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x86.Microsoft.NETCore.Jit framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x86.Microsoft.NETCore.Windows.ApiSets framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win7-x86.Microsoft.NETCore.DotNetHost framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.linux-x64.Microsoft.NETCore.App framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.linux-x64.Microsoft.NETCore.DotNetHostPolicy framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.linux-x64.Microsoft.NETCore.DotNetHostResolver framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.linux-x64.Microsoft.NETCore.DotNetAppHost framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win-x64.Microsoft.NETCore.App framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win-x64.Microsoft.NETCore.DotNetHostResolver framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win-x64.Microsoft.NETCore.DotNetAppHost framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win-x86.Microsoft.NETCore.App framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win-x86.Microsoft.NETCore.DotNetHostPolicy framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win-x86.Microsoft.NETCore.DotNetHostResolver framework:netcoreapp1.1,netcoreapp2.0
+nuget runtime.win-x86.Microsoft.NETCore.DotNetAppHost framework:netcoreapp1.1,netcoreapp2.0
 
 group Build
     source https://api.nuget.org/v3/index.json
