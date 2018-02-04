@@ -6,6 +6,8 @@
     <RuntimeIdentifiers>win7-x64;win-7x86;ubuntu.16.10-x64</RuntimeIdentifiers>
     <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyName>MathNet.Numerics.FSharp.Tests</AssemblyName>
+    <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
     <NoWarn>44;2003</NoWarn>
   </PropertyGroup>

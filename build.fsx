@@ -317,8 +317,8 @@ Target "Start" DoNothing
 
 Target "Clean" (fun _ ->
     // Force delete the obj folder first (dotnet SDK has a habbit of fucking this folder up to a state where not even clean works...)
-    CleanDirs [ "src/Numerics/bin"; "src/FSharp/bin"; "src/TestData/bin"; "src/UnitTests/bin"; "src/FSharpUnitTests/bin"; "src/Data/Text/bin"; "src/Data/Matlab/bin" ]
-    CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/UnitTests/obj"; "src/FSharpUnitTests/obj"; "src/Data/Text/obj"; "src/Data/Matlab/obj" ]
+    CleanDirs [ "src/Numerics/bin"; "src/FSharp/bin"; "src/TestData/bin"; "src/Numerics.Tests/bin"; "src/FSharp.Tests/bin"; "src/Data/Text/bin"; "src/Data/Matlab/bin"; "src/Data.Tests/bin" ]
+    CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/Numerics.Tests/obj"; "src/FSharp.Tests/obj"; "src/Data/Text/obj"; "src/Data/Matlab/obj"; "src/Data.Tests/obj" ]
     CleanDirs [ "obj" ]
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
     CleanDirs [ "out/lib" ]
@@ -329,17 +329,13 @@ Target "Clean" (fun _ ->
     DotNetCli.RunCommand id "clean MathNet.Numerics.Data.sln")
 
 Target "ApplyVersion" (fun _ ->
-    patchVersionInAssemblyInfo "src/Numerics" numericsRelease
     patchVersionInAssemblyInfo "src/FSharp" numericsRelease
-    patchVersionInAssemblyInfo "src/UnitTests" numericsRelease
-    patchVersionInAssemblyInfo "src/FSharpUnitTests" numericsRelease
-    patchVersionInAssemblyInfo "src/Data" dataRelease
-    patchVersionInAssemblyInfo "src/DataUnitTests" dataRelease
+    patchVersionInAssemblyInfo "src/TestData" numericsRelease
+    patchVersionInAssemblyInfo "src/Numerics.Tests" numericsRelease
+    patchVersionInAssemblyInfo "src/FSharp.Tests" numericsRelease
+    patchVersionInAssemblyInfo "src/Data.Tests" dataRelease
     patchVersionInProjectFile "src/Numerics/Numerics.csproj" numericsRelease
     patchVersionInProjectFile "src/FSharp/FSharp.fsproj" numericsRelease
-    patchVersionInProjectFile "src/TestData/TestData.csproj" numericsRelease
-    patchVersionInProjectFile "src/UnitTests/UnitTests.csproj" numericsRelease
-    patchVersionInProjectFile "src/FSharpUnitTests/FSharpUnitTests.fsproj" numericsRelease
     patchVersionInProjectFile "src/Data/Text/Text.csproj" dataRelease
     patchVersionInProjectFile "src/Data/Matlab/Matlab.csproj" dataRelease
     patchVersionInResource "src/NativeProviders/MKL/resource.rc" mklRelease
@@ -396,22 +392,21 @@ let testLibrary testsDir testsProj framework =
             testsProj
             framework)
 
-let testManaged framework = testLibrary "src/UnitTests" "UnitTests.csproj" framework
-Target "TestManaged" DoNothing
-Target "TestManagedCore1.1" (fun _ -> testManaged "netcoreapp1.1")
-Target "TestManagedCore2.0" (fun _ -> testManaged "netcoreapp2.0")
-Target "TestManagedNET40" (fun _ -> testManaged "net40")
-Target "TestManagedNET45" (fun _ -> testManaged "net45")
-Target "TestManagedNET46" (fun _ -> testManaged "net46")
-Target "TestManagedNET47"  (fun _ -> testManaged "net47")
-"Build" ==> "TestManagedCore1.1" ==> "TestManaged"
-"Build" ==> "TestManagedCore2.0"
-"Build" =?> ("TestManagedNET40", isWindows)
-"Build" =?> ("TestManagedNET45", isWindows) ==> "TestManaged"
-"Build" =?> ("TestManagedNET46", isWindows)
-"Build" =?> ("TestManagedNET47", isWindows)
-
-let testFsharp framework = testLibrary "src/FSharpUnitTests" "FSharpUnitTests.fsproj" framework
+let testNumerics framework = testLibrary "src/Numerics.Tests" "Numerics.Tests.csproj" framework
+Target "TestNumerics" DoNothing
+Target "TestNumericsCore1.1" (fun _ -> testNumerics "netcoreapp1.1")
+Target "TestNumericsCore2.0" (fun _ -> testNumerics "netcoreapp2.0")
+Target "TestNumericsNET40" (fun _ -> testNumerics "net40")
+Target "TestNumericsNET45" (fun _ -> testNumerics "net45")
+Target "TestNumericsNET46" (fun _ -> testNumerics "net46")
+Target "TestNumericsNET47"  (fun _ -> testNumerics "net47")
+"Build" ==> "TestNumericsCore1.1" ==> "TestNumerics"
+"Build" ==> "TestNumericsCore2.0"
+"Build" =?> ("TestNumericsNET40", isWindows)
+"Build" =?> ("TestNumericsNET45", isWindows) ==> "TestNumerics"
+"Build" =?> ("TestNumericsNET46", isWindows)
+"Build" =?> ("TestNumericsNET47", isWindows)
+let testFsharp framework = testLibrary "src/FSharp.Tests" "FSharp.Tests.fsproj" framework
 Target "TestFsharp" DoNothing
 Target "TestFsharpCore1.1" (fun _ -> testFsharp "netcoreapp1.1")
 Target "TestFsharpCore2.0" (fun _ -> testFsharp "netcoreapp2.0")
@@ -423,33 +418,32 @@ Target "TestFsharpNET47" (fun _ -> testFsharp "net47")
 "Build" =?> ("TestFsharpNET45", isWindows) ==> "TestFsharp"
 "Build" =?> ("TestFsharpNET46", isWindows)
 "Build" =?> ("TestFsharpNET47", isWindows)
-
-let testMKL framework = testLibrary "src/UnitTests" "UnitTests-MKL.csproj" framework
-Target "TestMKL" DoNothing
-Target "TestMKLCore2.0" (fun _ -> testMKL "netcoreapp2.0")
-Target "TestMKLNET40" (fun _ -> testMKL "net40")
-"Build" ==> "TestMKLCore2.0" ==> "TestMKL"
-"Build" =?> ("TestMKLNET40", isWindows) ==> "TestMKL"
-
-let testOpenBLAS framework = testLibrary "src/UnitTests" "UnitTests-OpenBLAS.csproj" framework
-Target "TestOpenBLAS" DoNothing
-Target "TestOpenBLASCore2.0" (fun _ -> testOpenBLAS "netcoreapp2.0")
-Target "TestOpenBLASNET40" (fun _ -> testOpenBLAS "net40")
-"Build" ==> "TestOpenBLASCore2.0" ==> "TestOpenBLAS"
-"Build" =?> ("TestOpenBLASNET40", isWindows) ==> "TestOpenBLAS"
-
-let testCUDA framework = testLibrary "src/UnitTests" "UnitTests-CUDA.csproj" framework
-Target "TestCUDA" DoNothing
-Target "TestCUDACore2.0" (fun _ -> testCUDA "netcoreapp2.0")
-Target "TestCUDANET40" (fun _ -> testCUDA "net40")
-"Build" ==> "TestCUDACore2.0" ==> "TestCUDA"
-"Build" =?> ("TestCUDANET40", isWindows) ==> "TestCUDA"
-
 Target "Test" DoNothing
-"TestManaged" ==> "Test"
+"TestNumerics" ==> "Test"
 "TestFsharp" ==> "Test"
 
-let testData framework = testLibrary "src/DataUnitTests" "UnitTests.csproj" framework
+let testMKL framework = testLibrary "src/Numerics.Tests" "Numerics.Tests.MKL.csproj" framework
+Target "MklTest" DoNothing
+Target "MklTestCore2.0" (fun _ -> testMKL "netcoreapp2.0")
+Target "MklTestNET40" (fun _ -> testMKL "net40")
+"Build" ==> "MklTestCore2.0" ==> "MklTest"
+"Build" =?> ("MklTestNET40", isWindows) ==> "MklTest"
+
+let testOpenBLAS framework = testLibrary "src/Numerics.Tests" "Numerics.Tests.OpenBLAS.csproj" framework
+Target "OpenBlasTest" DoNothing
+Target "OpenBlasTestCore2.0" (fun _ -> testOpenBLAS "netcoreapp2.0")
+Target "OpenBlasTestNET40" (fun _ -> testOpenBLAS "net40")
+"Build" ==> "OpenBlasTestCore2.0" ==> "OpenBlasTest"
+"Build" =?> ("OpenBlasTestNET40", isWindows) ==> "OpenBlasTest"
+
+let testCUDA framework = testLibrary "src/Numerics.Tests" "Numerics.Tests.CUDA.csproj" framework
+Target "CudaTest" DoNothing
+Target "CudaTestCore2.0" (fun _ -> testCUDA "netcoreapp2.0")
+Target "CudaTestNET40" (fun _ -> testCUDA "net40")
+"Build" ==> "CudaTestCore2.0" ==> "CudaTest"
+"Build" =?> ("CudaTestNET40", isWindows) ==> "CudaTest"
+
+let testData framework = testLibrary "src/Data.Tests" "Data.Tests.csproj" framework
 Target "DataTest" DoNothing
 Target "DataTestCore1.1" (fun _ -> testData "netcoreapp1.1")
 Target "DataTestCore2.0" (fun _ -> testData "netcoreapp2.0")
@@ -457,22 +451,6 @@ Target "DataTestNET45" (fun _ -> testData "net45")
 "DataBuild" ==> "DataTestCore1.1" ==> "DataTest"
 "DataBuild" ==> "DataTestCore2.0"
 "DataBuild" =?> ("DataTestNET45", isWindows) ==> "DataTest"
-
-Target "MklWin32Test" (fun _ -> test32 !! "out/MKL/Windows/*UnitTests*.dll")
-Target "MklWin64Test" (fun _ -> test !! "out/MKL/Windows/*UnitTests*.dll")
-Target "MklWinTest" DoNothing
-"MklWin32Build" ==> "MklWin32Test" ==> "MklWinTest"
-"MklWin64Build" ==> "MklWin64Test" ==> "MklWinTest"
-
-Target "CudaWin64Test" (fun _ -> test !! "out/CUDA/Windows/*UnitTests*.dll")
-Target "CudaWinTest" DoNothing
-"CudaWin64Build" ==> "CudaWin64Test" ==> "CudaWinTest"
-
-Target "OpenBlasWin32Test" (fun _ -> test32 !! "out/OpenBLAS/Windows/*UnitTests*.dll")
-Target "OpenBlasWin64Test" (fun _ -> test !! "out/OpenBLAS/Windows/*UnitTests*.dll")
-Target "OpenBlasWinTest" DoNothing
-"OpenBlasWin32Build" ==> "OpenBlasWin32Test" ==> "OpenBlasWinTest"
-"OpenBlasWin64Build" ==> "OpenBlasWin64Test" ==> "OpenBlasWinTest"
 
 
 // --------------------------------------------------------------------------------------
@@ -697,13 +675,13 @@ Target "All" DoNothing
 Dependencies "All" [ "Pack"; "Docs"; "Api"; "Test" ]
 
 Target "MklWinAll" DoNothing
-Dependencies "MklWinAll" [ "MklWinPack"; "MklWinTest" ]
+Dependencies "MklWinAll" [ "MklWinPack"; "MklTest" ]
 
 Target "CudaWinAll" DoNothing
-Dependencies "CudaWinAll" [ "CudaWinPack"; "CudaWinTest" ]
+Dependencies "CudaWinAll" [ "CudaWinPack"; "CudaTest" ]
 
 Target "OpenBlasWinAll" DoNothing
-Dependencies "OpenBlasWinAll" [ "OpenBlasWinPack"; "OpenBlasWinTest" ]
+Dependencies "OpenBlasWinAll" [ "OpenBlasWinPack"; "OpenBlasTest" ]
 
 Target "DataAll" DoNothing
 Dependencies "DataAll" [ "DataPack"; "DataTest" ]

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27128.1
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,30 +16,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 		RELEASENOTES.md = RELEASENOTES.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics", "src/Numerics/Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics", "src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp", "src/FSharp/FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp", "src\FSharp\FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharpUnitTests", "src/FSharpUnitTests/FSharpUnitTests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Tests", "src\FSharp.Tests\FSharp.Tests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "src/UnitTests/UnitTests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics.Tests", "src\Numerics.Tests\Numerics.Tests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40-DE22-49FB-B1C0-6E5BDA3B0B2F}"
 	ProjectSection(SolutionItems) = preProject
-		build/build-framework.fsx = build/build-framework.fsx
+		build\build-framework.fsx = build\build-framework.fsx
 		build.fsx = build.fsx
-		build/MathNet.Numerics.nuspec = build/MathNet.Numerics.nuspec
+		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src/TestData/TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-MKL", "src/UnitTests/UnitTests-MKL.csproj", "{0F171596-CDE9-4197-A8B2-07C406814CE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics.Tests.MKL", "src\Numerics.Tests\Numerics.Tests.MKL.csproj", "{0F171596-CDE9-4197-A8B2-07C406814CE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-OpenBLAS", "src/UnitTests/UnitTests-OpenBLAS.csproj", "{9C4A3651-3C4D-405A-8D25-503E04A1B459}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics.Tests.OpenBLAS", "src\Numerics.Tests\Numerics.Tests.OpenBLAS.csproj", "{9C4A3651-3C4D-405A-8D25-503E04A1B459}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests-CUDA", "src/UnitTests/UnitTests-CUDA.csproj", "{E184F219-F9F9-4396-AE0A-B431375CF06F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics.Tests.CUDA", "src\Numerics.Tests\Numerics.Tests.CUDA.csproj", "{E184F219-F9F9-4396-AE0A-B431375CF06F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

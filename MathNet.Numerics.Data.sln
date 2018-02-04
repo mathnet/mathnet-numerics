@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matlab", "src\Data\Matlab\Matlab.csproj", "{550FB330-C86F-4C9D-9B4C-6D830CEB7520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matlab", "src\Data\Matlab\Matlab.csproj", "{550FB330-C86F-4C9D-9B4C-6D830CEB7520}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\DataUnitTests\UnitTests.csproj", "{6B0247F6-B332-41BC-B100-C0E5509EE612}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Tests", "src\Data.Tests\Data.Tests.csproj", "{6B0247F6-B332-41BC-B100-C0E5509EE612}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Text", "src\Data\Text\Text.csproj", "{9D3A08E1-6B96-4552-A535-412E589B3264}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Text", "src\Data\Text\Text.csproj", "{9D3A08E1-6B96-4552-A535-412E589B3264}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{F510F04E-7503-4F87-A1EC-3A5FBA1DF7B8}"
 	ProjectSection(SolutionItems) = preProject
