@@ -281,7 +281,7 @@ let dataTextPack =
       FsLoader = false
       Dependencies =
         [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", GetPackageVersion "./packages/data/" "MathNet.Numerics" ] } ]
+            Dependencies=[ "MathNet.Numerics", "4.0.0" ] } ]
       Files =
         [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.dll", Some libnet40, None;
           @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Text.xml", Some libnet40, None ] }
@@ -297,7 +297,7 @@ let dataMatlabPack =
       FsLoader = false
       Dependencies =
         [ { FrameworkVersion=""
-            Dependencies=[ "MathNet.Numerics", GetPackageVersion "./packages/data/" "MathNet.Numerics" ] } ]
+            Dependencies=[ "MathNet.Numerics", "4.0.0" ] } ]
       Files =
         [ @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.dll", Some libnet40, None;
           @"..\..\out\Data\lib\Net40\MathNet.Numerics.Data.Matlab.xml", Some libnet40, None ] }
@@ -317,8 +317,8 @@ Target "Start" DoNothing
 
 Target "Clean" (fun _ ->
     // Force delete the obj folder first (dotnet SDK has a habbit of fucking this folder up to a state where not even clean works...)
-    CleanDirs [ "src/Numerics/bin"; "src/FSharp/bin"; "src/TestData/bin"; "src/UnitTests/bin"; "src/FSharpUnitTests/bin" ]
-    CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/UnitTests/obj"; "src/FSharpUnitTests/obj" ]
+    CleanDirs [ "src/Numerics/bin"; "src/FSharp/bin"; "src/TestData/bin"; "src/UnitTests/bin"; "src/FSharpUnitTests/bin"; "src/Data/Text/bin"; "src/Data/Matlab/bin" ]
+    CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/UnitTests/obj"; "src/FSharpUnitTests/obj"; "src/Data/Text/obj"; "src/Data/Matlab/obj" ]
     CleanDirs [ "obj" ]
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
     CleanDirs [ "out/lib" ]
@@ -340,6 +340,8 @@ Target "ApplyVersion" (fun _ ->
     patchVersionInProjectFile "src/TestData/TestData.csproj" numericsRelease
     patchVersionInProjectFile "src/UnitTests/UnitTests.csproj" numericsRelease
     patchVersionInProjectFile "src/FSharpUnitTests/FSharpUnitTests.fsproj" numericsRelease
+    patchVersionInProjectFile "src/Data/Text/Text.csproj" dataRelease
+    patchVersionInProjectFile "src/Data/Matlab/Matlab.csproj" dataRelease
     patchVersionInResource "src/NativeProviders/MKL/resource.rc" mklRelease
     patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
     patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
@@ -360,15 +362,8 @@ Target "Prepare" DoNothing
 // BUILD
 // --------------------------------------------------------------------------------------
 
-Target "BuildMain" (fun _ ->
-    build "MathNet.Numerics.sln")
-//Target "BuildSigned" (fun _ -> dotnetBuild "Release-StrongName" "MathNet.Numerics.sln")
-
-Target "Build" DoNothing
-"Prepare"
-  =?> ("BuildMain", not (hasBuildParam "signed"))
-  //=?> ("BuildSigned", hasBuildParam "signed" || hasBuildParam "release")
-  ==> "Build"
+Target "Build" (fun _ -> build "MathNet.Numerics.sln")
+"Prepare" ==> "Build"
 
 Target "DataBuild" (fun _ -> build "MathNet.Numerics.Data.sln")
 "Prepare" ==> "DataBuild"
@@ -454,8 +449,14 @@ Target "Test" DoNothing
 "TestManaged" ==> "Test"
 "TestFsharp" ==> "Test"
 
-Target "DataTest" (fun _ -> test !! "out/Data/test/**/*UnitTests*.dll")
-"DataBuild" ==> "DataTest"
+let testData framework = testLibrary "src/DataUnitTests" "UnitTests.csproj" framework
+Target "DataTest" DoNothing
+Target "DataTestCore1.1" (fun _ -> testData "netcoreapp1.1")
+Target "DataTestCore2.0" (fun _ -> testData "netcoreapp2.0")
+Target "DataTestNET45" (fun _ -> testData "net45")
+"DataBuild" ==> "DataTestCore1.1" ==> "DataTest"
+"DataBuild" ==> "DataTestCore2.0"
+"DataBuild" =?> ("DataTestNET45", isWindows) ==> "DataTest"
 
 Target "MklWin32Test" (fun _ -> test32 !! "out/MKL/Windows/*UnitTests*.dll")
 Target "MklWin64Test" (fun _ -> test !! "out/MKL/Windows/*UnitTests*.dll")
@@ -482,7 +483,11 @@ Target "Sign" (fun _ ->
     let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
     let timeserver = "http://time.certum.pl/"
     sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ++ "src/FSharp/bin/Release/**/MathNet.Numerics.FSharp.dll" ))
-
+    
+Target "DataSign" (fun _ ->
+    let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
+    let timeserver = "http://time.certum.pl/"
+    sign fingerprint timeserver (!! "src/Data/Text/bin/Release/**/MathNet.Numerics.Data.Text.dll" ++ "src/Data/Matlab/bin/Release/**/MathNet.Numerics.Data.Matlab.dll" ))
 
 // --------------------------------------------------------------------------------------
 // PACKAGES
@@ -503,20 +508,23 @@ Target "Collect" (fun _ ->
     CopyDir "out/lib" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml")))
 "Build" =?> ("Sign", hasBuildParam "sign") ==> "Collect"
 
+Target "DataCollect" (fun _ ->
+    // It is important that the libs have been signed before we collect them (that's why we cannot copy them right after the build)
+    CopyDir "out/Data/lib" "src/Data/Text/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Text.dll") || n.Contains("MathNet.Numerics.Data.Text.pdb") || n.Contains("MathNet.Numerics.Data.Text.xml"))
+    CopyDir "out/Data/lib" "src/Data/Matlab/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Matlab.dll") || n.Contains("MathNet.Numerics.Data.Matlab.pdb") || n.Contains("MathNet.Numerics.Data.Matlab.xml")))
+"DataBuild" =?> ("DataSign", hasBuildParam "sign") ==> "DataCollect"
+
 // ZIP
 
 Target "Zip" (fun _ ->
     CleanDir "out/packages/Zip"
-    if not (hasBuildParam "signed") || hasBuildParam "release" then
-        coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
-    if hasBuildParam "signed" || hasBuildParam "release" then
-        coreSignedBundle |> zip "out/packages/Zip" "out/lib-signed" (fun f -> f.Contains("MathNet.Numerics.")))
+    coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core.")))
 "Collect" ==> "Zip" ==> "Pack"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
-"DataBuild" ==> "DataZip" ==> "DataPack"
+"DataCollect" ==> "DataZip" ==> "DataPack"
 
 Target "MklWinZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
@@ -549,20 +557,16 @@ let dotnetPack solution = DotNetCli.Pack (fun p ->
 
 Target "NuGet" (fun _ ->
     pack "MathNet.Numerics.sln"
-    //dotnetPack "MathNet.Numerics.sln"
     CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
     CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg")))
-    //CleanDir "out/packages/NuGet"
-    //if hasBuildParam "signed" || hasBuildParam "release" then
-    //    nugetPack coreSignedBundle "out/packages/NuGet"
-    //if hasBuildParam "all" || hasBuildParam "release" then
-    //    nugetPack coreBundle "out/packages/NuGet")
 "Collect" ==> "NuGet" ==> "Pack"
 
 Target "DataNuGet" (fun _ ->
-    CleanDir "out/Data/packages/NuGet"
-    nugetPackExtension dataBundle "out/Data/packages/NuGet")
-"DataBuild" ==> "DataNuGet" ==> "DataPack"
+    pack "src/Data/Text/Text.csproj"
+    pack "src/Data/Matlab/Matlab.csproj"
+    CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+    CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg")))
+"DataCollect" ==> "DataNuGet" ==> "DataPack"
 
 Target "MklWinNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"

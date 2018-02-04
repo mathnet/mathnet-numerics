@@ -1,8 +1,9 @@
-﻿// <copyright file="AssemblyInfo.cs" company="Math.NET">
+// <copyright file="Program.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// https://numerics.mathdotnet.com
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2017 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -26,22 +27,16 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
+using NUnitLite;
 using System.Reflection;
-using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Math.NET Numerics - MATLAB Data I/O Extensions")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Marcus Cuda, Christoph Ruegg")]
-[assembly: AssemblyProduct("Math.NET Numerics")]
-[assembly: AssemblyCopyright("Copyright (c) Math.NET Project")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-[assembly: CLSCompliant(true)]
-[assembly: ComVisible(false)]
-[assembly: Guid("1a350030-3ad3-4e15-953d-33342a371aba")]
-
-[assembly: AssemblyVersion("3.2.1.0")]
-[assembly: AssemblyFileVersion("3.2.1.0")]
-[assembly: AssemblyInformationalVersion("3.2.1")]
+namespace MathNet.Numerics.Data.UnitTests
+{
+    class Program
+    {
+        public static int Main(string[] args)
+        {
+            return new AutoRun(typeof(Program).GetTypeInfo().Assembly).Execute(args);
+        }
+    }
+}

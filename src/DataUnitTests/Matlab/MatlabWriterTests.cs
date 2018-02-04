@@ -44,13 +44,21 @@ namespace MathNet.Numerics.Data.UnitTests.Matlab
         public void WriteBadMatricesThrowsArgumentException()
         {
             Matrix<float> matrix = Matrix<float>.Build.Dense(1, 1);
-            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", matrix, string.Empty));
-            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", matrix, null));
-            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", matrix, "some matrix"));
-            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", new[] { matrix }, new[] { string.Empty }));
-            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", new[] { matrix }, new string[] { null }));
-            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", new[] { matrix, matrix }, new[] { "matrix" }));
-            Assert.Throws<ArgumentException>(() => MatlabWriter.Write("somefile3", new[] { matrix }, new[] { "some matrix" }));
+            var filePath = Path.GetTempFileName();
+            try
+            {
+                Assert.Throws<ArgumentException>(() => MatlabWriter.Write(filePath, matrix, string.Empty));
+                Assert.Throws<ArgumentException>(() => MatlabWriter.Write(filePath, matrix, null));
+                Assert.Throws<ArgumentException>(() => MatlabWriter.Write(filePath, matrix, "some matrix"));
+                Assert.Throws<ArgumentException>(() => MatlabWriter.Write(filePath, new[] { matrix }, new[] { string.Empty }));
+                Assert.Throws<ArgumentException>(() => MatlabWriter.Write(filePath, new[] { matrix }, new string[] { null }));
+                Assert.Throws<ArgumentException>(() => MatlabWriter.Write(filePath, new[] { matrix, matrix }, new[] { "matrix" }));
+                Assert.Throws<ArgumentException>(() => MatlabWriter.Write(filePath, new[] { matrix }, new[] { "some matrix" }));
+            }
+            finally
+            {
+                File.Delete(filePath);
+            }
         }
 
         [Test]

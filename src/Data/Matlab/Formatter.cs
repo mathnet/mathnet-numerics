@@ -65,8 +65,12 @@ namespace MathNet.Numerics.Data.Matlab
         /// </summary>
         internal static void FormatFile(Stream stream, IEnumerable<MatlabMatrix> matrices)
         {
+#if NETSTANDARD1_3
+            using (var writer = new BinaryWriter(stream))
+#else
             using (var buffer = new BufferedStream(stream))
             using (var writer = new BinaryWriter(buffer))
+#endif
             {
                 // write header and subsystem data offset (116+8 bytes)
                 var header = Encoding.ASCII.GetBytes(HeaderText + DateTime.Now.ToString(Resources.MatlabDateHeaderFormat));
@@ -94,7 +98,9 @@ namespace MathNet.Numerics.Data.Matlab
                 }
 
                 writer.Flush();
+#if !NETSTANDARD1_3
                 writer.Close();
+#endif
             }
         }
 

@@ -159,7 +159,9 @@ namespace MathNet.Numerics.Data.Text
                 }
             }
 
+#if !NETSTANDARD1_3
             reader.Close();
+#endif
             reader.Dispose();
 
             return matrix;
@@ -179,7 +181,8 @@ namespace MathNet.Numerics.Data.Text
         public static Matrix<T> Read<T>(string filePath, bool sparse = false, string delimiter = @"\s", bool hasHeaders = false, IFormatProvider formatProvider = null, T? missingValue = null)
             where T : struct, IEquatable<T>, IFormattable
         {
-            using (var reader = new StreamReader(filePath))
+            using (var stream = File.OpenRead(filePath))
+            using (var reader = new StreamReader(stream))
             {
                 return Read(reader, sparse, delimiter, hasHeaders, formatProvider, missingValue);
             }
@@ -274,7 +277,7 @@ namespace MathNet.Numerics.Data.Text
             var pos = 0;
             var count = 0;
 
-            while ((pos = obj.IndexOf(demlimiter, pos, StringComparison.InvariantCultureIgnoreCase)) != -1)
+            while ((pos = obj.IndexOf(demlimiter, pos, StringComparison.OrdinalIgnoreCase)) != -1)
             {
                 count++;
                 pos++;

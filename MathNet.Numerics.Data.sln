@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Matlab", "src\Data\Matlab\Matlab.csproj", "{550FB330-C86F-4C9D-9B4C-6D830CEB7520}"
 EndProject
@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{D954831A
 		paket.lock = paket.lock
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,10 +60,13 @@ Global
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.ActiveCfg = Release-Signed|Any CPU
-		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.Build.0 = Release-Signed|Any CPU
+		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8EB85351-0EA6-4FE9-BF02-091C0328718C}
 	EndGlobalSection
 EndGlobal

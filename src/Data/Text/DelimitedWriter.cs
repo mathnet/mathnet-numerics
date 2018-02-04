@@ -143,7 +143,8 @@ namespace MathNet.Numerics.Data.Text
         public static void Write<T>(string filePath, Matrix<T> matrix, string delimiter = "\t", IList<string> columnHeaders = null, string format = null, IFormatProvider formatProvider = null, T? missingValue = null)
             where T : struct, IEquatable<T>, IFormattable
         {
-            using (var writer = new StreamWriter(filePath))
+            using (var stream = File.Create(filePath))
+            using (var writer = new StreamWriter(stream))
             {
                 Write(writer, matrix, delimiter: delimiter, columnHeaders: columnHeaders, format: format, formatProvider: formatProvider, missingValue: missingValue);
             }
