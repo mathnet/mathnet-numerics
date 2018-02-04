@@ -1,8 +1,7 @@
 source https://api.nuget.org/v3/index.json
 storage: packages
 
-nuget FSharp.Core 4.2.3
-nuget FSharp.Compiler.Tools
+nuget FSharp.Core 4.3.3
 
 nuget NUnit ~> 3.0
 nuget NUnitLite ~> 3.0
