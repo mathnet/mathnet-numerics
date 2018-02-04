@@ -142,7 +142,8 @@ let msbuild targets configuration project =
             RestorePackagesFlag = false
             Verbosity = Some MSBuildVerbosity.Minimal
         }) project
-        
+
+let clean project = msbuild [ "Clean" ] "Release" project
 let restore project = msbuild [ "Restore" ] "Release" project
 let build project = msbuild [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" project
 let pack project = msbuild [ "Pack" ] "Release" project

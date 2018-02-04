@@ -325,8 +325,8 @@ Target "Clean" (fun _ ->
     //CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
     CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
     CleanDirs [ "out/Data" ] // Data Extensions
-    DotNetCli.RunCommand id "clean MathNet.Numerics.sln"
-    DotNetCli.RunCommand id "clean MathNet.Numerics.Data.sln")
+    clean "MathNet.Numerics.sln"
+    clean "MathNet.Numerics.Data.sln")
 
 Target "ApplyVersion" (fun _ ->
     patchVersionInAssemblyInfo "src/FSharp" numericsRelease
@@ -461,7 +461,7 @@ Target "Sign" (fun _ ->
     let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
     let timeserver = "http://time.certum.pl/"
     sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ++ "src/FSharp/bin/Release/**/MathNet.Numerics.FSharp.dll" ))
-    
+
 Target "DataSign" (fun _ ->
     let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
     let timeserver = "http://time.certum.pl/"
