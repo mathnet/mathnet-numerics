@@ -316,9 +316,8 @@ let dataBundle =
 Target "Start" DoNothing
 
 Target "Clean" (fun _ ->
-    // Force delete the obj folder first (dotnet SDK has a habbit of fucking this folder up to a state where not even clean works...)
-    CleanDirs [ "src/Numerics/bin"; "src/FSharp/bin"; "src/TestData/bin"; "src/Numerics.Tests/bin"; "src/FSharp.Tests/bin"; "src/Data/Text/bin"; "src/Data/Matlab/bin"; "src/Data.Tests/bin" ]
-    CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/Numerics.Tests/obj"; "src/FSharp.Tests/obj"; "src/Data/Text/obj"; "src/Data/Matlab/obj"; "src/Data.Tests/obj" ]
+    CleanDirs [ "src/Numerics/bin"; "src/FSharp/bin"; "src/TestData/bin"; "src/Numerics.Tests/bin"; "src/FSharp.Tests/bin"; "src/Data/Text/bin"; "src/Data/Matlab/bin"; "src/Data.Tests/bin"; "src/Benchmark/bin" ]
+    CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/Numerics.Tests/obj"; "src/FSharp.Tests/obj"; "src/Data/Text/obj"; "src/Data/Matlab/obj"; "src/Data.Tests/obj"; "src/Benchmark/obj" ]
     CleanDirs [ "obj" ]
     CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
     CleanDirs [ "out/lib" ]

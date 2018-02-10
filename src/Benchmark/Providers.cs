@@ -1,21 +1,45 @@
 ﻿using MathNet.Numerics;
+using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace Benchmark
 {
+    public enum Provider : int
+    {
+        Managed = 0,
+        NativeMKLAutoHigh = 1,
+        NativeMKLAutoLow = 2,
+        NativeMKLAvx2High = 3,
+        NativeMKLAvx2Low = 4,
+        NativeOpenBLAS = 5
+    }
+
     public static class Providers
     {
-        public static void ForceNativeMKL()
+        public static void ForceProvider(Provider provider)
         {
-            //Control.NativeProviderPath = @"C:\Triage\NATIVE-Win\";
-            Control.NativeProviderPath = @"..\..\..\..\out\MKL\Windows\";
-            Control.UseNativeMKL();
-        }
+            //Control.NativeProviderPath = @"..\..\..\..\out\MKL\Windows\";
 
-        public static void ForceOpenBLAS()
-        {
-            //Control.NativeProviderPath = @"C:\Triage\NATIVE-Win\";
-            Control.NativeProviderPath = @"..\..\..\..\out\OpenBLAS\Windows\";
-            Control.UseNativeOpenBLAS();
+            switch (provider)
+            {
+                case Provider.Managed:
+                    Control.UseManaged();
+                    break;
+                case Provider.NativeMKLAutoHigh:
+                    Control.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
+                    break;
+                case Provider.NativeMKLAutoLow:
+                    Control.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.Low);
+                    break;
+                case Provider.NativeMKLAvx2High:
+                    Control.UseNativeMKL(MklConsistency.AVX2, MklPrecision.Double, MklAccuracy.High);
+                    break;
+                case Provider.NativeMKLAvx2Low:
+                    Control.UseNativeMKL(MklConsistency.AVX2, MklPrecision.Double, MklAccuracy.Low);
+                    break;
+                case Provider.NativeOpenBLAS:
+                    Control.UseNativeOpenBLAS();
+                    break;
+            }
         }
     }
 }

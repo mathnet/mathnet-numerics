@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net45;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
-    <RuntimeFrameworkVersion>2.0.0</RuntimeFrameworkVersion>
+    <RuntimeFrameworkVersion>2.0.5</RuntimeFrameworkVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>MathNet.Numerics.Tests.OpenBLAS</AssemblyName>
     <RootNamespace>MathNet.Numerics.Tests</RootNamespace>

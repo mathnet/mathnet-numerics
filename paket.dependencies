@@ -46,4 +46,3 @@ group Benchmark
     storage: none
     framework: net46
     nuget BenchmarkDotNet content:none, strategy:min
-    nuget BenchmarkDotNet.Diagnostics.Windows content:none, strategy:min
