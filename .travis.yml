@@ -18,7 +18,7 @@ addons:
       key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
     packages:
     - dotnet-hostfxr-1.0.1
-    - dotnet-sharedframework-microsoft.netcore.app-1.0.5
+    - dotnet-sharedframework-microsoft.netcore.app-1.1.2
 
 branches:
   except:

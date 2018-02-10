@@ -23,22 +23,24 @@ namespace Benchmark.Transforms
                     new Job("CLR RyuJit x86", RunMode.Default, EnvMode.RyuJitX86)
                     {
                         Env = { Runtime = Runtime.Clr, Platform = Platform.X86 }
-                    },
-                    new Job("CLR LegacyJit x64", RunMode.Default, EnvMode.LegacyJitX64)
-                    {
-                        Env = { Runtime = Runtime.Clr, Platform = Platform.X64 }
-                    },
-                    new Job("CLR LegacyJit x86", RunMode.Default, EnvMode.LegacyJitX86)
-                    {
-                        Env = { Runtime = Runtime.Clr, Platform = Platform.X86 }
                     });
+#if !NET46
+                Add(new Job("Core RyuJit x64", RunMode.Default, EnvMode.RyuJitX64)
+                    {
+                        Env = { Runtime = Runtime.Core, Platform = Platform.X64 }
+                    });
+#endif
             }
         }
 
-        [Params(32, 128)] //, 64, 1024, 8192, 65536)]
+        [Params(32)] //, 128, 64, 1024, 8192, 65536)]
         public int N { get; set; }
 
-        [Params(Provider.Managed, Provider.NativeMKLAutoHigh, Provider.NativeMKLAvx2High)]
+#if NETCOREAPP1_1
+        [Params(Provider.Managed)]
+#else
+        [Params(Provider.Managed, Provider.NativeMKLAutoHigh)]
+#endif
         public Provider Provider { get; set; }
 
         Complex[] _data;

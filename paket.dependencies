@@ -7,6 +7,8 @@ nuget NUnit ~> 3.0
 nuget NUnitLite ~> 3.0
 nuget FsUnit ~> 3.0
 
+nuget BenchmarkDotNet content:none, strategy:min
+
 nuget System.Runtime.InteropServices.RuntimeInformation
 
 nuget System.Runtime framework:netstandard1.3,netstandard1.6,netcoreapp1.1
@@ -16,7 +18,11 @@ nuget System.Runtime.Serialization.Primitives framework:netstandard1.3,netstanda
 nuget System.Runtime.Serialization.Formatters framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 nuget System.Security.Cryptography.Algorithms framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 
+// .NET Standard
 nuget NETStandard.Library 2.0.1 strategy:min, framework:netstandard1.3,netstandard1.6,netcoreapp1.1,netcoreapp2.0
+nuget Microsoft.NETCore.Platforms 2.0.1 strategy:min, framework:netstandard1.3,netstandard1.6,netcoreapp1.1,netcoreapp2.0
+
+// .NET Core
 nuget Microsoft.NETCore.App 2.0.5 strategy:min, framework:netcoreapp1.1,netcoreapp2.0
 nuget Microsoft.NETCore.DotNetHost 2.0.5 strategy:min, framework:netcoreapp1.1,netcoreapp2.0
 nuget Microsoft.NETCore.DotNetAppHost 2.0.5 strategy:min, framework:netcoreapp1.1,netcoreapp2.0
@@ -40,9 +46,3 @@ group Data
     nuget MathNet.Numerics 4.0.0-beta06 prerelease
     nuget NUnit ~> 3.0
     nuget NUnitLite ~> 3.0
-
-group Benchmark
-    source https://api.nuget.org/v3/index.json
-    storage: none
-    framework: net46
-    nuget BenchmarkDotNet content:none, strategy:min

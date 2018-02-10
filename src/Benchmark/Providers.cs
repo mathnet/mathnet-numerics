@@ -1,5 +1,9 @@
-﻿using MathNet.Numerics;
+﻿using System;
+using MathNet.Numerics;
+
+#if !NETCOREAPP1_1
 using MathNet.Numerics.Providers.Common.Mkl;
+#endif
 
 namespace Benchmark
 {
@@ -24,6 +28,7 @@ namespace Benchmark
                 case Provider.Managed:
                     Control.UseManaged();
                     break;
+#if !NETCOREAPP1_1
                 case Provider.NativeMKLAutoHigh:
                     Control.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
                     break;
@@ -39,6 +44,9 @@ namespace Benchmark
                 case Provider.NativeOpenBLAS:
                     Control.UseNativeOpenBLAS();
                     break;
+#endif
+                default:
+                    throw new NotSupportedException($"Provider {provider} not supported.");
             }
         }
     }
