@@ -526,12 +526,6 @@ Target "OpenBlasWinZip" (fun _ ->
 
 // NUGET
 
-let dotnetPack solution = DotNetCli.Pack (fun p ->
-    { p with
-        Project = solution
-        Configuration = "Release"
-        AdditionalArgs = ["--no-restore"; "--no-build" ]})
-
 Target "NuGet" (fun _ ->
     pack "MathNet.Numerics.sln"
     CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
