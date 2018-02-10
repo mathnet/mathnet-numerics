@@ -1,3 +1,8 @@
+### 4.0.0-beta07 - 2018-02-10
+* Curve Fitting: Fit.LineThroughOrigin shortcut
+* Build: Target FSharp.Core 4.3.3 (for better netstandard2.0 compatibility)
+* Build: use latest SDKs and runtimes, cleanups
+
 ### 4.0.0-beta06 - 2018-02-03
 * Rework conditional compilation to simplify and increase the .Net Standard api surface
 * BREAKING: Native provider implementation types internal (but can be constructed explicitly)
