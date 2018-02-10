@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Random;
@@ -50,8 +49,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
         public const double ErrorTolerance = 0.01;
         public const double ErrorProbability = 0.001;
 
-        readonly List<IDiscreteDistribution> _discreteDistributions =
-            new List<IDiscreteDistribution>
+        static readonly IDiscreteDistribution[] DiscreteDistributions =
             {
                 new Bernoulli(0.6),
                 new Binomial(0.7, 10),
@@ -65,8 +63,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 new Zipf(3.0, 10),
             };
 
-        readonly List<IContinuousDistribution> _continuousDistributions =
-            new List<IContinuousDistribution>
+        static readonly IContinuousDistribution[] ContinuousDistributions =
             {
                 new Beta(1.0, 1.0),
                 new BetaScaled(1.0, 1.5, 0.5, 2.0),
@@ -90,100 +87,76 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 new Weibull(1.0, 1.0),
             };
 
-        [Test]
-        public void ValidateThatUnivariateDistributionsHaveRandomSource()
+        [Test, TestCaseSource(nameof(DiscreteDistributions))]
+        public void HasRandomSourceDiscrete(IDiscreteDistribution distribution)
         {
-            foreach (var dd in _discreteDistributions)
-            {
-                Assert.IsNotNull(dd.RandomSource);
-            }
-
-            foreach (var cd in _continuousDistributions)
-            {
-                Assert.IsNotNull(cd.RandomSource);
-            }
+            Assert.IsNotNull(distribution.RandomSource);
         }
 
-        [Test]
-        public void CanSetRandomSource()
+        [Test, TestCaseSource(nameof(ContinuousDistributions))]
+        public void HasRandomSourceContinuous(IContinuousDistribution distribution)
         {
-            foreach (var dd in _discreteDistributions)
-            {
-                dd.RandomSource = MersenneTwister.Default;
-            }
-
-            foreach (var cd in _continuousDistributions)
-            {
-                cd.RandomSource = MersenneTwister.Default;
-            }
+            Assert.IsNotNull(distribution.RandomSource);
         }
 
-        [Test]
-        public void HasRandomSourceEvenAfterSetToNull()
+        [Test, TestCaseSource(nameof(DiscreteDistributions))]
+        public void CanSetRandomSourceDiscrete(IDiscreteDistribution distribution)
         {
-            foreach (var dd in _discreteDistributions)
-            {
-                Assert.DoesNotThrow(() => dd.RandomSource = null);
-                Assert.IsNotNull(dd.RandomSource);
-            }
-
-            foreach (var cd in _continuousDistributions)
-            {
-                Assert.DoesNotThrow(() => cd.RandomSource = null);
-                Assert.IsNotNull(cd.RandomSource);
-            }
+            distribution.RandomSource = MersenneTwister.Default;
         }
 
-        [Test, Category("LongRunning")]
-        public void DiscreteSampleIsDistributedCorrectly()
+        [Test, TestCaseSource(nameof(ContinuousDistributions))]
+        public void CanSetRandomSourceContinuous(IContinuousDistribution distribution)
         {
-            foreach (var dist in _discreteDistributions)
-            {
-                dist.RandomSource = new SystemRandomSource(1, false);
-                var samples = new int[NumberOfTestSamples];
-                for (var i = 0; i < NumberOfTestSamples; i++)
-                {
-                    samples[i] = dist.Sample();
-                }
-                DiscreteVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dist);
-            }
+            distribution.RandomSource = MersenneTwister.Default;
         }
 
-        [Test, Category("LongRunning")]
-        public void DiscreteSampleSequenceIsDistributedCorrectly()
+        [Test, TestCaseSource(nameof(DiscreteDistributions))]
+        public void HasRandomSourceEvenAfterSetToNullDiscrete(IDiscreteDistribution distribution)
         {
-            foreach (var dist in _discreteDistributions)
-            {
-                dist.RandomSource = new SystemRandomSource(1, false);
-                var samples = dist.Samples().Take(NumberOfTestSamples).ToArray();
-                DiscreteVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dist);
-            }
+            Assert.DoesNotThrow(() => distribution.RandomSource = null);
+            Assert.IsNotNull(distribution.RandomSource);
         }
 
-        [Test, Category("LongRunning")]
-        public void ContinuousSampleIsDistributedCorrectly()
+        [Test, TestCaseSource(nameof(ContinuousDistributions))]
+        public void HasRandomSourceEvenAfterSetToNullContinuous(IContinuousDistribution distribution)
         {
-            foreach (var dist in _continuousDistributions)
-            {
-                dist.RandomSource = new SystemRandomSource(1, false);
-                var samples = new double[NumberOfTestSamples];
-                for (var i = 0; i < NumberOfTestSamples; i++)
-                {
-                    samples[i] = dist.Sample();
-                }
-                ContinuousVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dist);
-            }
+            Assert.DoesNotThrow(() => distribution.RandomSource = null);
+            Assert.IsNotNull(distribution.RandomSource);
         }
 
-        [Test, Category("LongRunning")]
-        public void ContinuousSampleSequenceIsDistributedCorrectly()
+        [Test, Category("LongRunning"), TestCaseSource(nameof(DiscreteDistributions))]
+        public void SampleIsDistributedCorrectlyDiscrete(IDiscreteDistribution distribution)
         {
-            foreach (var dist in _continuousDistributions)
-            {
-                dist.RandomSource = new SystemRandomSource(1, false);
-                var samples = dist.Samples().Take(NumberOfTestSamples).ToArray();
-                ContinuousVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, dist);
-            }
+            distribution.RandomSource = new SystemRandomSource(1, false);
+            var samples = new int[NumberOfTestSamples];
+            distribution.Samples(samples);
+            DiscreteVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, distribution);
+        }
+
+        [Test, Category("LongRunning"), TestCaseSource(nameof(DiscreteDistributions))]
+        public void SampleSequenceIsDistributedCorrectlyDiscrete(IDiscreteDistribution distribution)
+        {
+            distribution.RandomSource = new SystemRandomSource(1, false);
+            var samples = distribution.Samples().Take(NumberOfTestSamples).ToArray();
+            DiscreteVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, distribution);
+        }
+
+        [Test, Category("LongRunning"), TestCaseSource(nameof(ContinuousDistributions))]
+        public void SampleIsDistributedCorrectlyContinuous(IContinuousDistribution distribution)
+        {
+            distribution.RandomSource = new SystemRandomSource(1, false);
+            var samples = new double[NumberOfTestSamples];
+            distribution.Samples(samples);
+            ContinuousVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, distribution);
+        }
+
+        [Test, Category("LongRunning"), TestCaseSource(nameof(ContinuousDistributions))]
+        public void SampleSequenceIsDistributedCorrectlyContinuous(IContinuousDistribution distribution)
+        {
+            distribution.RandomSource = new SystemRandomSource(1, false);
+            var samples = distribution.Samples().Take(NumberOfTestSamples).ToArray();
+            ContinuousVapnikChervonenkisTest(ErrorTolerance, ErrorProbability, samples, distribution);
         }
 
         /// <summary>
