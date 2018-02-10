@@ -36,11 +36,7 @@ namespace Benchmark.Transforms
         [Params(32)] //, 128, 64, 1024, 8192, 65536)]
         public int N { get; set; }
 
-#if NETCOREAPP1_1
-        [Params(Provider.Managed)]
-#else
         [Params(Provider.Managed, Provider.NativeMKLAutoHigh)]
-#endif
         public Provider Provider { get; set; }
 
         Complex[] _data;

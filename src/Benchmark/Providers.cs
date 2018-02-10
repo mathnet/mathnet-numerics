@@ -28,7 +28,6 @@ namespace Benchmark
                 case Provider.Managed:
                     Control.UseManaged();
                     break;
-#if !NETCOREAPP1_1
                 case Provider.NativeMKLAutoHigh:
                     Control.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
                     break;
@@ -44,7 +43,6 @@ namespace Benchmark
                 case Provider.NativeOpenBLAS:
                     Control.UseNativeOpenBLAS();
                     break;
-#endif
                 default:
                     throw new NotSupportedException($"Provider {provider} not supported.");
             }
