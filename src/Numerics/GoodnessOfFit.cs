@@ -37,11 +37,12 @@ namespace MathNet.Numerics
     public static class GoodnessOfFit
     {
         /// <summary>
-        /// Calculates the R-Squared value, also known as coefficient of determination,
-        /// given modelled and observed values
+        /// Calculates r^2, the square of the sample correlation coefficient between
+        /// the observed outcomes and the observed predictor values.
+        /// Not to be confused with R^2, the coefficient of determination, see <see cref="CoefficientOfDetermination"/>.
         /// </summary>
-        /// <param name="modelledValues">The values expected from the modelled</param>
-        /// <param name="observedValues">The actual data set values obtained</param>
+        /// <param name="modelledValues">The modelled/predicted values</param>
+        /// <param name="observedValues">The observed/actual values</param>
         /// <returns>Squared Person product-momentum correlation coefficient.</returns>
         public static double RSquared(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
         {
@@ -50,11 +51,11 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Calculates the R value, also known as linear correlation coefficient,
-        /// given modelled and observed values
+        /// Calculates r, the sample correlation coefficient between the observed outcomes
+        /// and the observed predictor values.
         /// </summary>
-        /// <param name="modelledValues">The values expected from the modelled</param>
-        /// <param name="observedValues">The actual data set values obtained</param>
+        /// <param name="modelledValues">The modelled/predicted values</param>
+        /// <param name="observedValues">The observed/actual values</param>
         /// <returns>Person product-momentum correlation coefficient.</returns>
         public static double R(IEnumerable<double> modelledValues, IEnumerable<double> observedValues)
         {
