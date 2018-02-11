@@ -1267,7 +1267,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="data">The data sample sequence.</param>
         /// <param name="definition">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with</param>
-        public static double[] Ranks(this IEnumerable<float> data, RankDefinition definition = RankDefinition.Default)
+        public static float[] Ranks(this IEnumerable<float> data, RankDefinition definition = RankDefinition.Default)
         {
             float[] array = data.ToArray();
             return ArrayStatistics.RanksInplace(array, definition);

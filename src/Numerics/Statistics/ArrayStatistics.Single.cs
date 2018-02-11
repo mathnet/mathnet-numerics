@@ -759,9 +759,9 @@ namespace MathNet.Numerics.Statistics
         /// with an existing system.
         /// WARNING: Works inplace and can thus causes the data array to be reordered.
         /// </summary>
-        public static double[] RanksInplace(float[] data, RankDefinition definition = RankDefinition.Default)
+        public static float[] RanksInplace(float[] data, RankDefinition definition = RankDefinition.Default)
         {
-            var ranks = new double[data.Length];
+            var ranks = new float[data.Length];
             var index = new int[data.Length];
             for (int i = 0; i < index.Length; i++)
             {
@@ -802,6 +802,40 @@ namespace MathNet.Numerics.Statistics
 
             RanksTies(ranks, index, previousIndex, data.Length, definition);
             return ranks;
+        }
+
+        static void RanksTies(float[] ranks, int[] index, int a, int b, RankDefinition definition)
+        {
+            // TODO: potential for PERF optimization
+            float rank;
+            switch (definition)
+            {
+                case RankDefinition.Average:
+                {
+                    rank = (b + a - 1) / 2f + 1;
+                    break;
+                }
+
+                case RankDefinition.Min:
+                {
+                    rank = a + 1;
+                    break;
+                }
+
+                case RankDefinition.Max:
+                {
+                    rank = b;
+                    break;
+                }
+
+                default:
+                    throw new NotSupportedException();
+            }
+
+            for (int k = a; k < b; k++)
+            {
+                ranks[index[k]] = rank;
+            }
         }
     }
 }
