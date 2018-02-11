@@ -43,6 +43,6 @@ group Data
     source https://api.nuget.org/v3/index.json
     storage: none
     framework: net40, netstandard1.3, netstandard2.0, net45, netcoreapp1.1, netcoreapp2.0
-    nuget MathNet.Numerics 4.0.0-beta06 prerelease
+    nuget MathNet.Numerics 4.0.0
     nuget NUnit ~> 3.0
     nuget NUnitLite ~> 3.0
