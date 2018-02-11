@@ -12,7 +12,8 @@
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <UseStandardResourceNames>true</UseStandardResourceNames>
-    <TargetFSharpCoreVersion>4.4.1.0</TargetFSharpCoreVersion>
+    <TargetFSharpCoreVersion>4.4.3.0</TargetFSharpCoreVersion>
+    <FSharpCoreImplicitPackageVersion>4.3.3</FSharpCoreImplicitPackageVersion>
     <Name>net471-console-fsharp</Name>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -64,22 +65,19 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="FSharp.Core">
-      <HintPath>packages\FSharp.Core.4.2.3\lib\net45\FSharp.Core.dll</HintPath>
+      <HintPath>packages\FSharp.Core.4.3.3\lib\net45\FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics">
-      <HintPath>packages\MathNet.Numerics.4.0.0-beta05\lib\net40\MathNet.Numerics.dll</HintPath>
+      <HintPath>packages\MathNet.Numerics.4.0.0\lib\net40\MathNet.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="MathNet.Numerics.FSharp">
-      <HintPath>packages\MathNet.Numerics.FSharp.4.0.0-beta05\lib\net45\MathNet.Numerics.FSharp.dll</HintPath>
+      <HintPath>packages\MathNet.Numerics.FSharp.4.0.0\lib\net45\MathNet.Numerics.FSharp.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ValueTuple">
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <Import Project="packages\MathNet.Numerics.MKL.Win.2.2.0\build\MathNet.Numerics.MKL.Win.targets" Condition="Exists('packages\MathNet.Numerics.MKL.Win.2.2.0\build\MathNet.Numerics.MKL.Win.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -88,7 +86,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('packages\MathNet.Numerics.MKL.Win.2.2.0\build\MathNet.Numerics.MKL.Win.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MathNet.Numerics.MKL.Win.2.2.0\build\MathNet.Numerics.MKL.Win.targets'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>

@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="4.0.0-beta05" />
+    <PackageReference Include="MathNet.Numerics" Version="4.0.0" />
     <PackageReference Include="MathNet.Numerics.MKL.Win" Version="2.2.0" />
   </ItemGroup>
 

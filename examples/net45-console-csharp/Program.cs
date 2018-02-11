@@ -17,7 +17,7 @@ namespace Integration
             Matrix<Complex> matrix = CreateMatrix.Random<Complex>(10, 10, 100);
             Vector<Complex> vector = matrix.Svd().S;
             Fourier.Forward(vector.AsArray());
-            Console.WriteLine($"LinearAlgebra={Control.LinearAlgebraProvider}; FFT={Control.FourierTransformProvider}");
+            Console.WriteLine(Control.Describe());
             Console.WriteLine($"DC={vector[0].Magnitude}; Low={vector[1].Magnitude}; Hight={vector[5].Magnitude}");
 
             if (Debugger.IsAttached)

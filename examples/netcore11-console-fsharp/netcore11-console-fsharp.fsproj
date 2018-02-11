@@ -3,6 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFSharpCoreVersion>4.4.3.0</TargetFSharpCoreVersion>
+    <FSharpCoreImplicitPackageVersion>4.3.3</FSharpCoreImplicitPackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,8 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="4.0.0-beta05" />
-    <PackageReference Include="MathNet.Numerics.FSharp" Version="4.0.0-beta05" />
+    <PackageReference Include="MathNet.Numerics" Version="4.0.0" />
+    <PackageReference Include="MathNet.Numerics.FSharp" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="4.3.3" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>net45;net46;netstandard1.6;netstandard2.0</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFSharpCoreVersion>4.4.3.0</TargetFSharpCoreVersion>
+    <FSharpCoreImplicitPackageVersion>4.3.3</FSharpCoreImplicitPackageVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <OutputType>Library</OutputType>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
@@ -22,9 +24,9 @@
     <PackageReference Include="NETStandard.Library" Version="2.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="4.2.3" />
-    <PackageReference Include="MathNet.Numerics" Version="4.0.0-beta06" />
-    <PackageReference Include="MathNet.Numerics.FSharp" Version="4.0.0-beta06" />
+    <PackageReference Update="FSharp.Core" Version="4.3.3" />
+    <PackageReference Include="MathNet.Numerics" Version="4.0.0" />
+    <PackageReference Include="MathNet.Numerics.FSharp" Version="4.0.0" />
   </ItemGroup>
 
 </Project>
