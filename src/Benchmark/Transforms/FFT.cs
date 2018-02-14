@@ -33,7 +33,7 @@ namespace Benchmark.Transforms
             }
         }
 
-        [Params(32)] //, 128, 64, 1024, 8192, 65536)]
+        [Params(32, 128, 1024)] // 32, 64, 128, 1024, 8192, 65536
         public int N { get; set; }
 
         [Params(Provider.Managed, Provider.NativeMKLAutoHigh)]

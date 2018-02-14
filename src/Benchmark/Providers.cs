@@ -1,6 +1,5 @@
 ﻿using System;
 using MathNet.Numerics;
-
 #if !NETCOREAPP1_1
 using MathNet.Numerics.Providers.Common.Mkl;
 #endif
@@ -14,15 +13,13 @@ namespace Benchmark
         NativeMKLAutoLow = 2,
         NativeMKLAvx2High = 3,
         NativeMKLAvx2Low = 4,
-        NativeOpenBLAS = 5
+        //NativeOpenBLAS = 5
     }
 
     public static class Providers
     {
         public static void ForceProvider(Provider provider)
         {
-            //Control.NativeProviderPath = @"..\..\..\..\out\MKL\Windows\";
-
             switch (provider)
             {
                 case Provider.Managed:
@@ -40,9 +37,9 @@ namespace Benchmark
                 case Provider.NativeMKLAvx2Low:
                     Control.UseNativeMKL(MklConsistency.AVX2, MklPrecision.Double, MklAccuracy.Low);
                     break;
-                case Provider.NativeOpenBLAS:
-                    Control.UseNativeOpenBLAS();
-                    break;
+                //case Provider.NativeOpenBLAS:
+                //    Control.UseNativeOpenBLAS();
+                //    break;
                 default:
                     throw new NotSupportedException($"Provider {provider} not supported.");
             }

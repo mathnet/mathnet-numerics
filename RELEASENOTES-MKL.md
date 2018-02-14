@@ -1,3 +1,6 @@
+### 2.3.0 - 2018-02-14
+* r12 with Intel MKL 2018.0 Update 1
+
 ### 2.2.0 - 2016-10-30
 * r11 with Intel MKL 2017.0
 * Vector Functions v0.1: vector power
