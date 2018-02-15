@@ -82,36 +82,6 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
-        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
-        /// If an intercept is added, its coefficient will be prepended to the resulting parameters.
-        /// </summary>
-        public static double[] MultiDim(double[][] x, double[] y, bool intercept = false, DirectRegressionMethod method = DirectRegressionMethod.NormalEquations)
-        {
-            return MultipleRegression.DirectMethod(x, y, intercept, method);
-        }
-
-        /// <summary>
-        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
-        /// returning a function y' for the best fitting combination.
-        /// If an intercept is added, its coefficient will be prepended to the resulting parameters.
-        /// </summary>
-        public static Func<double[], double> MultiDimFunc(double[][] x, double[] y, bool intercept = false, DirectRegressionMethod method = DirectRegressionMethod.NormalEquations)
-        {
-            var parameters = MultipleRegression.DirectMethod(x, y, intercept, method);
-            return z => LinearAlgebraControl.Provider.DotProduct(parameters, z);
-        }
-
-        /// <summary>
-        /// Weighted Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) and weights w to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
-        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
-        /// </summary>
-        public static double[] MultiDimWeighted(double[][] x, double[] y, double[] w)
-        {
-            return WeightedRegression.Weighted(x, y, w);
-        }
-
-        /// <summary>
         /// Least-Squares fitting the points (x,y) to an exponential y : x -> a*exp(r*x),
         /// returning its best fitting parameters as (a, r) tuple.
         /// </summary>
@@ -169,6 +139,7 @@ namespace MathNet.Numerics
             double[] p_hat = Fit.LinearCombination(x, y_hat, method, t => 1.0, Math.Log);
             return Tuple.Create(Math.Exp(p_hat[0]), p_hat[1]);
         }
+
         /// <summary>
         /// Least-Squares fitting the points (x,y) to a power y : x -> a*x^b,
         /// returning a function y' for the best fitting line.
@@ -252,6 +223,36 @@ namespace MathNet.Numerics
         {
             var parameters = LinearCombination(x, y, method, functions);
             return z => functions.Zip(parameters, (f, p) => p*f(z)).Sum();
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// If an intercept is added, its coefficient will be prepended to the resulting parameters.
+        /// </summary>
+        public static double[] MultiDim(double[][] x, double[] y, bool intercept = false, DirectRegressionMethod method = DirectRegressionMethod.NormalEquations)
+        {
+            return MultipleRegression.DirectMethod(x, y, intercept, method);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
+        /// returning a function y' for the best fitting combination.
+        /// If an intercept is added, its coefficient will be prepended to the resulting parameters.
+        /// </summary>
+        public static Func<double[], double> MultiDimFunc(double[][] x, double[] y, bool intercept = false, DirectRegressionMethod method = DirectRegressionMethod.NormalEquations)
+        {
+            var parameters = MultipleRegression.DirectMethod(x, y, intercept, method);
+            return z => LinearAlgebraControl.Provider.DotProduct(parameters, z);
+        }
+
+        /// <summary>
+        /// Weighted Least-Squares fitting the points (X,y) = ((x0,x1,..,xk),y) and weights w to a linear surface y : X -> p0*x0 + p1*x1 + ... + pk*xk,
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array.
+        /// </summary>
+        public static double[] MultiDimWeighted(double[][] x, double[] y, double[] w)
+        {
+            return WeightedRegression.Weighted(x, y, w);
         }
 
         /// <summary>
