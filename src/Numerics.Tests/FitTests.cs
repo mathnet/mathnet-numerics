@@ -99,6 +99,127 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
+        public void FitsToLineSameAsExcelTrendLine()
+        {
+            // X	Y
+            // 1   0.2
+            // 2   0.3
+            // 4   1.3
+            // 6   4.2
+            // -> y = -1.078 + 0.7932*x
+
+            var x = new[] { 1.0, 2.0, 4.0, 6.0 };
+            var y = new[] { 0.2, 0.3, 1.3, 4.2 };
+
+            var resp = Fit.Line(x, y);
+            Assert.AreEqual(-1.078, resp.Item1, 1e-3);
+            Assert.AreEqual(0.7932, resp.Item2, 1e-3);
+
+            var resf = Fit.LineFunc(x, y);
+            foreach (var z in Enumerable.Range(-3, 10))
+            {
+                Assert.AreEqual(-1.078 + 0.7932*z, resf(z), 1e-2);
+            }
+        }
+
+        [Test]
+        public void FitsToExponentialSameAsExcelTrendLine()
+        {
+            // X	Y
+            // 1   0.2
+            // 2   0.3
+            // 4   1.3
+            // 6   4.2
+            // -> y = 0.0981*exp(0.6284*x)
+
+            var x = new[] { 1.0, 2.0, 4.0, 6.0 };
+            var y = new[] { 0.2, 0.3, 1.3, 4.2 };
+
+            var resp = Fit.Exponential(x, y);
+            Assert.AreEqual(0.0981, resp.Item1, 1e-3);
+            Assert.AreEqual(0.6284, resp.Item2, 1e-3);
+
+            var resf = Fit.ExponentialFunc(x, y);
+            foreach (var z in Enumerable.Range(-3, 10))
+            {
+                Assert.AreEqual(0.0981 * Math.Exp(0.6284 * z), resf(z), 1e-2);
+            }
+        }
+
+        [Test]
+        public void FitsToLogarithmSameAsExcelTrendLine()
+        {
+            // X	Y
+            // 1   0.2
+            // 2   0.3
+            // 4   1.3
+            // 6   4.2
+            // -> y = -0.4338 + 1.9981*ln(x)
+
+            var x = new[] { 1.0, 2.0, 4.0, 6.0 };
+            var y = new[] { 0.2, 0.3, 1.3, 4.2 };
+
+            var resp = Fit.Logarithm(x, y);
+            Assert.AreEqual(-0.4338, resp.Item1, 1e-3);
+            Assert.AreEqual(1.9981, resp.Item2, 1e-3);
+
+            var resf = Fit.LogarithmFunc(x, y);
+            foreach (var z in Enumerable.Range(-3, 10))
+            {
+                Assert.AreEqual(-0.4338 + 1.9981 * Math.Log(z), resf(z), 1e-2);
+            }
+        }
+
+        [Test]
+        public void FitsToPowerSameAsExcelTrendLine()
+        {
+            // X	Y
+            // 1   0.2
+            // 2   0.3
+            // 4   1.3
+            // 6   4.2
+            // -> y = 0.1454*x^1.7044
+
+            var x = new[] { 1.0, 2.0, 4.0, 6.0 };
+            var y = new[] { 0.2, 0.3, 1.3, 4.2 };
+
+            var resp = Fit.Power(x, y);
+            Assert.AreEqual(0.1454, resp.Item1, 1e-3);
+            Assert.AreEqual(1.7044, resp.Item2, 1e-3);
+
+            var resf = Fit.PowerFunc(x, y);
+            foreach (var z in Enumerable.Range(-3, 10))
+            {
+                Assert.AreEqual(0.1454 * Math.Pow(z, 1.7044), resf(z), 1e-2);
+            }
+        }
+
+        [Test]
+        public void FitsToOrder2PolynomialSameAsExcelTrendLine()
+        {
+            // X	Y
+            // 1   0.2
+            // 2   0.3
+            // 4   1.3
+            // 6   4.2
+            // -> y = 0.7101 - 0.6675*x + 0.2077*x^2
+
+            var x = new[] { 1.0, 2.0, 4.0, 6.0 };
+            var y = new[] { 0.2, 0.3, 1.3, 4.2 };
+
+            var resp = Fit.Polynomial(x, y, 2);
+            Assert.AreEqual(0.7101, resp[0], 1e-3);
+            Assert.AreEqual(-0.6675, resp[1], 1e-3);
+            Assert.AreEqual(0.2077, resp[2], 1e-3);
+
+            var resf = Fit.PolynomialFunc(x, y, 2);
+            foreach (var z in Enumerable.Range(-3, 10))
+            {
+                Assert.AreEqual(0.7101 - 0.6675*z + 0.2077*z*z, resf(z), 1e-2);
+            }
+        }
+
+        [Test]
         public void FitsToMeanOnOrder0Polynomial()
         {
             // Mathematica: Fit[{{1,4.986},{2,2.347},{3,2.061},{4,-2.995},{5,-2.352},{6,-5.782}}, {1}, x]

@@ -112,6 +112,76 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Least-Squares fitting the points (x,y) to an exponential y : x -> a*exp(r*x),
+        /// returning its best fitting parameters as (a, r) tuple.
+        /// </summary>
+        public static Tuple<double, double> Exponential(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        {
+            // Transformation: y_h := ln(y) ~> y_h : x -> ln(a) + r*x;
+            double[] y_hat = Generate.Map(y, Math.Log);
+            double[] p_hat = Fit.LinearCombination(x, y_hat, method, t => 1.0, t => t);
+            return Tuple.Create(Math.Exp(p_hat[0]), p_hat[1]);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to an exponential y : x -> a*exp(r*x),
+        /// returning a function y' for the best fitting line.
+        /// </summary>
+        public static Func<double, double> ExponentialFunc(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        {
+            var parameters = Exponential(x, y, method);
+            var a = parameters.Item1;
+            var r = parameters.Item2;
+            return z => a * Math.Exp(r * z);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a logarithm y : x -> a + b*ln(x),
+        /// returning its best fitting parameters as (a, b) tuple.
+        /// </summary>
+        public static Tuple<double, double> Logarithm(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        {
+            double[] lnx = Generate.Map(x, Math.Log);
+            double[] p = Fit.LinearCombination(lnx, y, method, t => 1.0, t => t);
+            return Tuple.Create(p[0], p[1]);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a logarithm y : x -> a + b*ln(x),
+        /// returning a function y' for the best fitting line.
+        /// </summary>
+        public static Func<double, double> LogarithmFunc(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        {
+            var parameters = Logarithm(x, y, method);
+            var a = parameters.Item1;
+            var b = parameters.Item2;
+            return z => a + b * Math.Log(z);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a power y : x -> a*x^b,
+        /// returning its best fitting parameters as (a, b) tuple.
+        /// </summary>
+        public static Tuple<double, double> Power(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        {
+            // Transformation: y_h := ln(y) ~> y_h : x -> ln(a) + b*ln(x);
+            double[] y_hat = Generate.Map(y, Math.Log);
+            double[] p_hat = Fit.LinearCombination(x, y_hat, method, t => 1.0, Math.Log);
+            return Tuple.Create(Math.Exp(p_hat[0]), p_hat[1]);
+        }
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a power y : x -> a*x^b,
+        /// returning a function y' for the best fitting line.
+        /// </summary>
+        public static Func<double, double> PowerFunc(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        {
+            var parameters = Power(x, y, method);
+            var a = parameters.Item1;
+            var b = parameters.Item2;
+            return z => a * Math.Pow(z, b);
+        }
+
+        /// <summary>
         /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
         /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
         /// A polynomial with order/degree k has (k+1) coefficients and thus requires at least (k+1) samples.
