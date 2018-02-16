@@ -88,9 +88,9 @@ namespace MathNet.Numerics
         public static Tuple<double, double> Exponential(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
             // Transformation: y_h := ln(y) ~> y_h : x -> ln(a) + r*x;
-            double[] y_hat = Generate.Map(y, Math.Log);
-            double[] p_hat = Fit.LinearCombination(x, y_hat, method, t => 1.0, t => t);
-            return Tuple.Create(Math.Exp(p_hat[0]), p_hat[1]);
+            double[] lny = Generate.Map(y, Math.Log);
+            double[] p = LinearCombination(x, lny, method, t => 1.0, t => t);
+            return Tuple.Create(Math.Exp(p[0]), p[1]);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace MathNet.Numerics
         public static Tuple<double, double> Logarithm(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
             double[] lnx = Generate.Map(x, Math.Log);
-            double[] p = Fit.LinearCombination(lnx, y, method, t => 1.0, t => t);
+            double[] p = LinearCombination(lnx, y, method, t => 1.0, t => t);
             return Tuple.Create(p[0], p[1]);
         }
 
@@ -135,9 +135,9 @@ namespace MathNet.Numerics
         public static Tuple<double, double> Power(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
             // Transformation: y_h := ln(y) ~> y_h : x -> ln(a) + b*ln(x);
-            double[] y_hat = Generate.Map(y, Math.Log);
-            double[] p_hat = Fit.LinearCombination(x, y_hat, method, t => 1.0, Math.Log);
-            return Tuple.Create(Math.Exp(p_hat[0]), p_hat[1]);
+            double[] lny = Generate.Map(y, Math.Log);
+            double[] p = LinearCombination(x, lny, method, t => 1.0, Math.Log);
+            return Tuple.Create(Math.Exp(p[0]), p[1]);
         }
 
         /// <summary>
