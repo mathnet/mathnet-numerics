@@ -1,3 +1,6 @@
+### 4.1.0 - 2018-02-19
+* Curve Fitting: Fit.Power, Fit.Exponential, Fit.Logarithm (similar to excel trend curves)
+
 ### 4.0.0 - 2018-02-11
 * Explicit builds for .Net Framework 4.0 and higher and for .Net Standard 1.3 and 2.0
 * F#: explicit builds for .Net Framework 4.5 and higher and for .Net Standard 1.6 and 2.0
