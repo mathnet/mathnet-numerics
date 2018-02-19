@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="4.0.0" />
-    <PackageReference Include="MathNet.Numerics.MKL.Win" Version="2.2.0" />
+    <PackageReference Include="MathNet.Numerics.MKL.Win" Version="2.3.0" />
   </ItemGroup>
 
 </Project>
