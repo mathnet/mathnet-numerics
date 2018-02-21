@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Providers.Common.Cuda
         {
             if (!_loaded)
             {
-                throw new InvalidOperationException();
+                return "Nvidia CUDA (not loaded)";
             }
 
             var parts = new List<string>();

@@ -284,7 +284,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         {
             if (!_loaded)
             {
-                throw new InvalidOperationException();
+                return "Intel MKL (not loaded)";
             }
 
             var parts = new List<string>();
