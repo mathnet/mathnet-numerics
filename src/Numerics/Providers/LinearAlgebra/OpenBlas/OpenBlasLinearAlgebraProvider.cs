@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -57,6 +57,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
     /// </summary>
     internal partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
+        const int _minimumCompatibleRevision = 1;
+
         readonly string _hintPath;
 
         /// <param name="hintPath">Hint path where to look for the native binaries</param>
@@ -71,7 +73,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
         /// </summary>
         public override bool IsAvailable()
         {
-            return OpenBlasProvider.IsAvailable(minRevision: 1, hintPath: _hintPath);
+            return OpenBlasProvider.IsAvailable(hintPath: _hintPath);
         }
 
         /// <summary>
@@ -80,7 +82,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
         /// </summary>
         public override void InitializeVerify()
         {
-            OpenBlasProvider.Load(minRevision: 1, hintPath: _hintPath);
+            int revision = OpenBlasProvider.Load(hintPath: _hintPath);
+            if (revision < _minimumCompatibleRevision)
+            {
+                throw new NotSupportedException($"OpenBLAS Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{_minimumCompatibleRevision} and newer are supported.");
+            }
 
             int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
 

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -50,6 +50,8 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// </summary>
     internal partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
     {
+        const int _minimumCompatibleRevision = 4;
+
         readonly string _hintPath;
         readonly MklConsistency _consistency;
         readonly MklPrecision _precision;
@@ -81,7 +83,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public override bool IsAvailable()
         {
-            return MklProvider.IsAvailable(minRevision: 4, hintPath: _hintPath);
+            return MklProvider.IsAvailable(hintPath: _hintPath);
         }
 
         /// <summary>
@@ -90,7 +92,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public override void InitializeVerify()
         {
-            MklProvider.Load(minRevision: 4, hintPath: _hintPath);
+            int revision = MklProvider.Load(hintPath: _hintPath);
+            if (revision < _minimumCompatibleRevision)
+            {
+                throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{_minimumCompatibleRevision} and newer are supported.");
+            }
+
             MklProvider.ConfigurePrecision(_consistency, _precision, _accuracy);
 
             _linearAlgebraMajor = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);

@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // https://numerics.mathdotnet.com
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -37,6 +37,8 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {
     internal class MklFourierTransformProvider : IFourierTransformProvider, IDisposable
     {
+        const int _minimumCompatibleRevision = 11;
+
         class Kernel
         {
             public IntPtr Handle;
@@ -61,7 +63,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         /// </summary>
         public bool IsAvailable()
         {
-            return MklProvider.IsAvailable(minRevision: 11, hintPath: _hintPath);
+            return MklProvider.IsAvailable(hintPath: _hintPath);
         }
 
         /// <summary>
@@ -69,7 +71,11 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         /// </summary>
         public void InitializeVerify()
         {
-            MklProvider.Load(minRevision: 11, hintPath: _hintPath);
+            int revision = MklProvider.Load(hintPath: _hintPath);
+            if (revision < _minimumCompatibleRevision)
+            {
+                throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{_minimumCompatibleRevision} and newer are supported.");
+            }
 
             // we only support exactly one major version, since major version changes imply a breaking change.
             int fftMajor = SafeNativeMethods.query_capability((int) ProviderCapability.FourierTransformMajor);

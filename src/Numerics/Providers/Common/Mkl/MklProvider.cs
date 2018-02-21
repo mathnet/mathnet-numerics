@@ -48,12 +48,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
 
         public static bool IsAvailable(string hintPath = null)
         {
-            return IsAvailable(_minimumCompatibleRevision, hintPath);
-        }
-
-        internal static bool IsAvailable(int minRevision, string hintPath)
-        {
-            if (_loaded && _nativeRevision >= minRevision)
+            if (_loaded)
             {
                 return true;
             }
@@ -68,7 +63,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
                 int a = SafeNativeMethods.query_capability(0);
                 int b = SafeNativeMethods.query_capability(1);
                 int nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
-                return a == 0 && b == -1 && nativeRevision >= minRevision;
+                return a == 0 && b == -1 && nativeRevision >= _minimumCompatibleRevision;
             }
             catch
             {
@@ -76,16 +71,12 @@ namespace MathNet.Numerics.Providers.Common.Mkl
             }
         }
 
-        public static void Load(string hintPath = null)
+        /// <returns>Revision</returns>
+        internal static int Load(string hintPath = null)
         {
-            Load(_minimumCompatibleRevision, hintPath);
-        }
-
-        internal static void Load(int minRevision, string hintPath)
-        {
-            if (_loaded && _nativeRevision >= minRevision)
+            if (_loaded)
             {
-                return;
+                return _nativeRevision;
             }
 
             int a, b;
@@ -119,7 +110,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
                 throw new NotSupportedException("MKL Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
             }
 
-            if (a != 0 || b != -1 || _nativeRevision < minRevision)
+            if (a != 0 || b != -1 || _nativeRevision < _minimumCompatibleRevision)
             {
                 throw new NotSupportedException("MKL Native Provider too old. Consider upgrading to a newer version.");
             }
@@ -131,6 +122,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
             }
 
             _loaded = true;
+            return _nativeRevision;
         }
 
         internal static void ConfigureThreading()

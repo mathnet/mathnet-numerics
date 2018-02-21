@@ -47,12 +47,7 @@ namespace MathNet.Numerics.Providers.Common.Cuda
 
         public static bool IsAvailable(string hintPath = null)
         {
-            return IsAvailable(_minimumCompatibleRevision, hintPath);
-        }
-
-        internal static bool IsAvailable(int minRevision, string hintPath)
-        {
-            if (_loaded && _nativeRevision >= minRevision)
+            if (_loaded)
             {
                 return true;
             }
@@ -67,7 +62,7 @@ namespace MathNet.Numerics.Providers.Common.Cuda
                 int a = SafeNativeMethods.query_capability(0);
                 int b = SafeNativeMethods.query_capability(1);
                 int nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
-                return a == 0 && b == -1 && nativeRevision >= minRevision;
+                return a == 0 && b == -1 && nativeRevision >= _minimumCompatibleRevision;
             }
             catch
             {
@@ -75,16 +70,12 @@ namespace MathNet.Numerics.Providers.Common.Cuda
             }
         }
 
-        public static void Load(string hintPath = null)
+        /// <returns>Revision</returns>
+        public static int Load(string hintPath = null)
         {
-            Load(_minimumCompatibleRevision, hintPath);
-        }
-
-        internal static void Load(int minRevision, string hintPath)
-        {
-            if (_loaded && _nativeRevision >= minRevision)
+            if (_loaded)
             {
-                return;
+                return _nativeRevision;
             }
 
             int a, b;
@@ -113,12 +104,13 @@ namespace MathNet.Numerics.Providers.Common.Cuda
                 throw new NotSupportedException("Cuda Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
             }
 
-            if (a != 0 || b != -1 || _nativeRevision < minRevision)
+            if (a != 0 || b != -1 || _nativeRevision < _minimumCompatibleRevision)
             {
                 throw new NotSupportedException("Cuda Native Provider too old. Consider upgrading to a newer version.");
             }
 
             _loaded = true;
+            return _nativeRevision;
         }
 
         public static string Describe()
