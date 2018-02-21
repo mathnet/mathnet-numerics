@@ -36,12 +36,20 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
 {
     internal static class OpenBlasProvider
     {
+        const int _designTimeRevision = 1;
+        const int _minimumCompatibleRevision = 1;
+
         static int _nativeRevision;
         static bool _nativeX86;
         static bool _nativeX64;
         static bool _nativeIA64;
         static bool _nativeARM;
         static bool _loaded;
+
+        public static bool IsAvailable(string hintPath = null)
+        {
+            return IsAvailable(_minimumCompatibleRevision, hintPath);
+        }
 
         internal static bool IsAvailable(int minRevision, string hintPath)
         {
@@ -66,6 +74,11 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
             {
                 return false;
             }
+        }
+
+        public static void Load(string hintPath = null)
+        {
+            Load(_minimumCompatibleRevision, hintPath);
         }
 
         internal static void Load(int minRevision, string hintPath)
