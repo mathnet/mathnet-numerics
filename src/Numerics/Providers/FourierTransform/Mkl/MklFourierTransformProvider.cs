@@ -89,7 +89,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         /// <summary>
         /// Frees the memory allocated to the MKL memory pool.
         /// </summary>
-        public void FreeBuffers()
+        internal void FreeBuffers()
         {
             Kernel kernel = Interlocked.Exchange(ref _kernel, null);
             if (kernel != null)
@@ -98,58 +98,6 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             }
 
             MklProvider.FreeBuffers();
-        }
-
-        /// <summary>
-        /// Frees the memory allocated to the MKL memory pool on the current thread.
-        /// </summary>
-        public void ThreadFreeBuffers()
-        {
-            MklProvider.ThreadFreeBuffers();
-        }
-
-        /// <summary>
-        /// Disable the MKL memory pool. May impact performance.
-        /// </summary>
-        public void DisableMemoryPool()
-        {
-            MklProvider.DisableMemoryPool();
-        }
-
-        /// <summary>
-        /// Retrieves information about the MKL memory pool.
-        /// </summary>
-        /// <param name="allocatedBuffers">On output, returns the number of memory buffers allocated.</param>
-        /// <returns>Returns the number of bytes allocated to all memory buffers.</returns>
-        public long MemoryStatistics(out int allocatedBuffers)
-        {
-            return MklProvider.MemoryStatistics(out allocatedBuffers);
-        }
-
-        /// <summary>
-        /// Enable gathering of peak memory statistics of the MKL memory pool.
-        /// </summary>
-        public void EnablePeakMemoryStatistics()
-        {
-            MklProvider.EnablePeakMemoryStatistics();
-        }
-
-        /// <summary>
-        /// Disable gathering of peak memory statistics of the MKL memory pool.
-        /// </summary>
-        public void DisablePeakMemoryStatistics()
-        {
-            MklProvider.DisablePeakMemoryStatistics();
-        }
-
-        /// <summary>
-        /// Measures peak memory usage of the MKL memory pool.
-        /// </summary>
-        /// <param name="reset">Whether the usage counter should be reset.</param>
-        /// <returns>The peak number of bytes allocated to all memory buffers.</returns>
-        public long PeakMemoryStatistics(bool reset = true)
-        {
-            return MklProvider.PeakMemoryStatistics(reset);
         }
 
         public override string ToString()
