@@ -72,7 +72,18 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         }
 
         /// <returns>Revision</returns>
-        internal static int Load(string hintPath = null)
+        public static int Load(string hintPath = null)
+        {
+            return Load(hintPath, MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
+        }
+
+        /// <returns>Revision</returns>
+        [CLSCompliant(false)]
+        public static int Load(
+            string hintPath = null,
+            MklConsistency consistency = MklConsistency.Auto,
+            MklPrecision precision = MklPrecision.Double,
+            MklAccuracy accuracy = MklAccuracy.High)
         {
             if (_loaded)
             {
@@ -91,6 +102,19 @@ namespace MathNet.Numerics.Providers.Common.Mkl
                 _nativeX86 = SafeNativeMethods.query_capability((int)ProviderPlatform.x86) > 0;
                 _nativeX64 = SafeNativeMethods.query_capability((int)ProviderPlatform.x64) > 0;
                 _nativeIA64 = SafeNativeMethods.query_capability((int)ProviderPlatform.ia64) > 0;
+
+                // set numerical consistency, precision and accuracy modes, if supported
+                if (SafeNativeMethods.query_capability((int)ProviderConfig.Precision) > 0)
+                {
+                    SafeNativeMethods.set_consistency_mode((int)consistency);
+                    SafeNativeMethods.set_vml_mode((uint)precision | (uint)accuracy);
+                }
+
+                // set threading settings, if supported
+                if (SafeNativeMethods.query_capability((int)ProviderConfig.Threading) > 0)
+                {
+                    SafeNativeMethods.set_max_threads(Control.MaxDegreeOfParallelism);
+                }
 
                 _mklVersion = new Version(
                     SafeNativeMethods.query_capability((int)ProviderConfig.MklMajorVersion),
@@ -115,43 +139,8 @@ namespace MathNet.Numerics.Providers.Common.Mkl
                 throw new NotSupportedException("MKL Native Provider too old. Consider upgrading to a newer version.");
             }
 
-            // set threading settings, if supported
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Threading) > 0)
-            {
-                SafeNativeMethods.set_max_threads(Control.MaxDegreeOfParallelism);
-            }
-
             _loaded = true;
             return _nativeRevision;
-        }
-
-        internal static void ConfigureThreading()
-        {
-            if (!_loaded)
-            {
-                throw new InvalidOperationException();
-            }
-
-            // set threading settings, if supported
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Threading) > 0)
-            {
-                SafeNativeMethods.set_max_threads(Control.MaxDegreeOfParallelism);
-            }
-        }
-
-        internal static void ConfigurePrecision(MklConsistency consistency, MklPrecision precision, MklAccuracy accuracy)
-        {
-            if (!_loaded)
-            {
-                throw new InvalidOperationException();
-            }
-
-            // set numerical consistency, precision and accuracy modes, if supported
-            if (SafeNativeMethods.query_capability((int)ProviderConfig.Precision) > 0)
-            {
-                SafeNativeMethods.set_consistency_mode((int)consistency);
-                SafeNativeMethods.set_vml_mode((uint)precision | (uint)accuracy);
-            }
         }
 
         /// <summary>

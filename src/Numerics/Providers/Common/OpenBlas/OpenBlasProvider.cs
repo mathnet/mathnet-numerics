@@ -34,7 +34,7 @@ using System.Collections.Generic;
 
 namespace MathNet.Numerics.Providers.Common.OpenBlas
 {
-    internal static class OpenBlasProvider
+    public static class OpenBlasProvider
     {
         const int _designTimeRevision = 1;
         const int _minimumCompatibleRevision = 1;

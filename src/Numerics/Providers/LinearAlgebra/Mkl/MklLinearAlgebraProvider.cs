@@ -92,13 +92,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         /// </summary>
         public override void InitializeVerify()
         {
-            int revision = MklProvider.Load(hintPath: _hintPath);
+            int revision = MklProvider.Load(_hintPath, _consistency, _precision, _accuracy);
             if (revision < _minimumCompatibleRevision)
             {
                 throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{_minimumCompatibleRevision} and newer are supported.");
             }
-
-            MklProvider.ConfigurePrecision(_consistency, _precision, _accuracy);
 
             _linearAlgebraMajor = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
             _linearAlgebraMinor = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMinor);
