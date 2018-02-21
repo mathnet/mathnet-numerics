@@ -52,6 +52,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         void InitializeVerify();
 
+        /// <summary>
+        /// Frees memory buffers, caches and handles allocated in or to the provider.
+        /// Does not unload the provider itself, it is still usable afterwards.
+        /// </summary>
+        void FreeResources();
+
         void Forward(Complex32[] samples, FourierTransformScaling scaling);
         void Forward(Complex[] samples, FourierTransformScaling scaling);
         void Backward(Complex32[] spectrum, FourierTransformScaling scaling);

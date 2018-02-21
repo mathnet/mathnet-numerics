@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
-    internal partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider
+    internal partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
     {
         const int _minimumCompatibleRevision = 4;
 
@@ -112,9 +112,23 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             }
         }
 
+        /// <summary>
+        /// Frees memory buffers, caches and handles allocated in or to the provider.
+        /// Does not unload the provider itself, it is still usable afterwards.
+        /// </summary>
+        public override void FreeResources()
+        {
+            MklProvider.FreeResources();
+        }
+
         public override string ToString()
         {
             return MklProvider.Describe();
+        }
+
+        public void Dispose()
+        {
+            FreeResources();
         }
     }
 }

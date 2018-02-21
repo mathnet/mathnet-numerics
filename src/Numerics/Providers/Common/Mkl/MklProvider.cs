@@ -155,6 +155,21 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         }
 
         /// <summary>
+        /// Frees memory buffers, caches and handles allocated in or to the provider.
+        /// Does not unload the provider itself, it is still usable afterwards.
+        /// This method is safe to call, even if the provider is not loaded.
+        /// </summary>
+        public static void FreeResources()
+        {
+            if (!_loaded)
+            {
+                return;
+            }
+
+            FreeBuffers();
+        }
+
+        /// <summary>
         /// Frees the memory allocated to the MKL memory pool.
         /// </summary>
         public static void FreeBuffers()

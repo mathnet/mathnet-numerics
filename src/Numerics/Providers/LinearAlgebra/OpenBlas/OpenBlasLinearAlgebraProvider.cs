@@ -55,7 +55,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
     /// <summary>
     /// OpenBLAS linear algebra provider.
     /// </summary>
-    internal partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider
+    internal partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
     {
         const int _minimumCompatibleRevision = 1;
 
@@ -97,9 +97,23 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
             }
         }
 
+        /// <summary>
+        /// Frees memory buffers, caches and handles allocated in or to the provider.
+        /// Does not unload the provider itself, it is still usable afterwards.
+        /// </summary>
+        public override void FreeResources()
+        {
+            OpenBlasProvider.FreeResources();
+        }
+
         public override string ToString()
         {
             return OpenBlasProvider.Describe();
+        }
+
+        public void Dispose()
+        {
+            FreeResources();
         }
     }
 }

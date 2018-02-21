@@ -113,6 +113,15 @@ namespace MathNet.Numerics.Providers.Common.Cuda
             return _nativeRevision;
         }
 
+        /// <summary>
+        /// Frees memory buffers, caches and handles allocated in or to the provider.
+        /// Does not unload the provider itself, it is still usable afterwards.
+        /// This method is safe to call, even if the provider is not loaded.
+        /// </summary>
+        public static void FreeResources()
+        {
+        }
+
         public static string Describe()
         {
             if (!_loaded)

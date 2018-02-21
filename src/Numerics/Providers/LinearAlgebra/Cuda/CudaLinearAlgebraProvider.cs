@@ -84,6 +84,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
             Solver(SafeNativeMethods.createSolverHandle(ref _solverHandle));
         }
 
+        /// <summary>
+        /// Frees memory buffers, caches and handles allocated in or to the provider.
+        /// Does not unload the provider itself, it is still usable afterwards.
+        /// </summary>
+        public override void FreeResources()
+        {
+            CudaProvider.FreeResources();
+        }
+
         private void BLAS(int status)
         {
             switch (status)
@@ -177,6 +186,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             BLAS(SafeNativeMethods.destroyBLASHandle(_blasHandle));
             Solver(SafeNativeMethods.destroySolverHandle(_solverHandle));
+            FreeResources();
         }
     }
 }

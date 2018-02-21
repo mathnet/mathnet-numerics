@@ -70,6 +70,14 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         {
         }
 
+        /// <summary>
+        /// Frees memory buffers, caches and handles allocated in or to the provider.
+        /// Does not unload the provider itself, it is still usable afterwards.
+        /// </summary>
+        public virtual void FreeResources()
+        {
+        }
+
         public override string ToString()
         {
             return "Managed";

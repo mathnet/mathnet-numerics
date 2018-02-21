@@ -170,6 +170,11 @@ namespace MathNet.Numerics.Providers.FourierTransform
 #endif
         }
 
+        public static void FreeResources()
+        {
+            Provider.FreeResources();
+        }
+
         static string GetCombinedHintPath()
         {
             if (!String.IsNullOrEmpty(HintPath))

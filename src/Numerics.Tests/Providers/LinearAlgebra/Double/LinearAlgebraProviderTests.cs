@@ -72,6 +72,25 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
             { "Square1000x1000", (DenseMatrix)Matrix<double>.Build.Random(1000, 1000, Dist) }
         };
 
+        [Test]
+        public void ProviderSurvivesFreeResources()
+        {
+            var samples = Generate.PeriodicMap(16, w => Math.Sin(w), 16, 1.0, Constants.Pi2);
+
+            var result1 = new double[samples.Length];
+            LinearAlgebraControl.Provider.ScaleArray(2.5, samples, result1);
+
+            LinearAlgebraControl.FreeResources();
+
+            var result2 = new double[samples.Length];
+            LinearAlgebraControl.Provider.ScaleArray(2.5, samples, result2);
+
+            for (var i = 0; i < result1.Length; i++)
+            {
+                Assert.AreEqual(result1[i], result2[i]);
+            }
+        }
+
         /// <summary>
         /// Can add a vector to scaled vector
         /// </summary>

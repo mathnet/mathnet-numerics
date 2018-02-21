@@ -87,9 +87,10 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         }
 
         /// <summary>
-        /// Frees the memory allocated to the MKL memory pool.
+        /// Frees memory buffers, caches and handles allocated in or to the provider.
+        /// Does not unload the provider itself, it is still usable afterwards.
         /// </summary>
-        internal void FreeBuffers()
+        public virtual void FreeResources()
         {
             Kernel kernel = Interlocked.Exchange(ref _kernel, null);
             if (kernel != null)
@@ -97,7 +98,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
                 SafeNativeMethods.x_fft_free(ref kernel.Handle);
             }
 
-            MklProvider.FreeBuffers();
+            MklProvider.FreeResources();
         }
 
         public override string ToString()
@@ -362,7 +363,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 
         public void Dispose()
         {
-            FreeBuffers();
+            FreeResources();
         }
     }
 }

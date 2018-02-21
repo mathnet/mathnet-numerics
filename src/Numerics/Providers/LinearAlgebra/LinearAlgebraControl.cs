@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Net;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {
@@ -218,6 +219,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 #else
             UseBest();
 #endif
+        }
+
+        public static void FreeResources()
+        {
+            Provider.FreeResources();
         }
 
         static string GetCombinedHintPath()

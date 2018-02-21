@@ -190,6 +190,12 @@ namespace MathNet.Numerics
         }
 #endif
 
+        public static void FreeResources()
+        {
+            LinearAlgebraControl.FreeResources();
+            FourierTransformControl.FreeResources();
+        }
+
         public static void UseSingleThread()
         {
             _maxDegreeOfParallelism = 1;

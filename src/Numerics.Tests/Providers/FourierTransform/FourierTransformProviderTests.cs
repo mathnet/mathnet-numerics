@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -42,6 +42,27 @@ namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
     [TestFixture, Category("LAProvider")]
     public class FourierTransformProviderTests
     {
+        [Test]
+        public void ProviderSurvivesFreeResources()
+        {
+            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+
+            var spectrum1 = new Complex[samples.Length];
+            samples.Copy(spectrum1);
+            FourierTransformControl.Provider.Forward(spectrum1, FourierTransformScaling.ForwardScaling);
+
+            FourierTransformControl.FreeResources();
+
+            var spectrum2 = new Complex[samples.Length];
+            samples.Copy(spectrum2);
+            FourierTransformControl.Provider.Forward(spectrum2, FourierTransformScaling.ForwardScaling);
+
+            for (var i = 0; i < spectrum1.Length; i++)
+            {
+                Assert.AreEqual(spectrum1[i], spectrum2[i]);
+            }
+        }
+
         [Test]
         public void ForwardInplaceRealSine()
         {
