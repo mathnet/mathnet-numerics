@@ -34,15 +34,21 @@ using System.Collections.Generic;
 
 namespace MathNet.Numerics.Providers.Common.Cuda
 {
-    internal static class CudaProvider
+    public static class CudaProvider
     {
         static int _nativeRevision;
         static bool _nativeX86;
         static bool _nativeX64;
         static bool _nativeIA64;
+        static bool _loaded;
 
         internal static bool IsAvailable(int minRevision, string hintPath)
         {
+            if (_loaded && _nativeRevision >= minRevision)
+            {
+                return true;
+            }
+
             try
             {
                 if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName, hintPath))
@@ -63,6 +69,11 @@ namespace MathNet.Numerics.Providers.Common.Cuda
 
         internal static void Load(int minRevision, string hintPath)
         {
+            if (_loaded && _nativeRevision >= minRevision)
+            {
+                return;
+            }
+
             int a, b;
             try
             {
@@ -93,10 +104,17 @@ namespace MathNet.Numerics.Providers.Common.Cuda
             {
                 throw new NotSupportedException("Cuda Native Provider too old. Consider upgrading to a newer version.");
             }
+
+            _loaded = true;
         }
 
-        internal static string Describe()
+        public static string Describe()
         {
+            if (!_loaded)
+            {
+                throw new InvalidOperationException();
+            }
+
             var parts = new List<string>();
             if (_nativeX86) parts.Add("x86");
             if (_nativeX64) parts.Add("x64");

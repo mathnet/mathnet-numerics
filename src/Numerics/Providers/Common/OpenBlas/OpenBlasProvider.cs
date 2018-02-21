@@ -41,9 +41,15 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
         static bool _nativeX64;
         static bool _nativeIA64;
         static bool _nativeARM;
+        static bool _loaded;
 
         internal static bool IsAvailable(int minRevision, string hintPath)
         {
+            if (_loaded && _nativeRevision >= minRevision)
+            {
+                return true;
+            }
+
             try
             {
                 if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName, hintPath))
@@ -64,6 +70,11 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
 
         internal static void Load(int minRevision, string hintPath)
         {
+            if (_loaded && _nativeRevision >= minRevision)
+            {
+                return;
+            }
+
             int a, b;
             try
             {
@@ -96,11 +107,22 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
                 throw new NotSupportedException("OpenBLAS Native Provider too old. Consider upgrading to a newer version.");
             }
 
-            ConfigureThreading();
+            // set threading settings, if supported
+            if (SafeNativeMethods.query_capability((int)ProviderConfig.Threading) > 0)
+            {
+                SafeNativeMethods.set_max_threads(Control.MaxDegreeOfParallelism);
+            }
+
+            _loaded = true;
         }
 
-        static void ConfigureThreading()
+        internal static void ConfigureThreading()
         {
+            if (!_loaded)
+            {
+                throw new InvalidOperationException();
+            }
+
             // set threading settings, if supported
             if (SafeNativeMethods.query_capability((int)ProviderConfig.Threading) > 0)
             {
@@ -108,8 +130,13 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
             }
         }
 
-        internal static string Describe()
+        public static string Describe()
         {
+            if (!_loaded)
+            {
+                throw new InvalidOperationException();
+            }
+
             var parts = new List<string>();
             if (_nativeX86) parts.Add("x86");
             if (_nativeX64) parts.Add("x64");
