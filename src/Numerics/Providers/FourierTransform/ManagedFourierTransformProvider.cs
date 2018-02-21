@@ -65,7 +65,21 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public void Forward(Complex32[] samples, FourierTransformScaling scaling)
         {
-            Bluestein(samples, -1);
+            if (samples.Length.IsPowerOfTwo())
+            {
+                if (samples.Length >= 1024)
+                {
+                    Radix2ForwardParallel(samples);
+                }
+                else
+                {
+                    Radix2Forward(samples);
+                }
+            }
+            else
+            {
+                BluesteinForward(samples);
+            }
 
             switch (scaling)
             {
@@ -84,7 +98,21 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public void Forward(Complex[] samples, FourierTransformScaling scaling)
         {
-            Bluestein(samples, -1);
+            if (samples.Length.IsPowerOfTwo())
+            {
+                if (samples.Length >= 1024)
+                {
+                    Radix2ForwardParallel(samples);
+                }
+                else
+                {
+                    Radix2Forward(samples);
+                }
+            }
+            else
+            {
+                BluesteinForward(samples);
+            }
 
             switch (scaling)
             {
@@ -103,7 +131,21 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public void Backward(Complex32[] spectrum, FourierTransformScaling scaling)
         {
-            Bluestein(spectrum, 1);
+            if (spectrum.Length.IsPowerOfTwo())
+            {
+                if (spectrum.Length >= 1024)
+                {
+                    Radix2InverseParallel(spectrum);
+                }
+                else
+                {
+                    Radix2Inverse(spectrum);
+                }
+            }
+            else
+            {
+                BluesteinInverse(spectrum);
+            }
 
             switch (scaling)
             {
@@ -122,7 +164,21 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public void Backward(Complex[] spectrum, FourierTransformScaling scaling)
         {
-            Bluestein(spectrum, 1);
+            if (spectrum.Length.IsPowerOfTwo())
+            {
+                if (spectrum.Length >= 1024)
+                {
+                    Radix2InverseParallel(spectrum);
+                }
+                else
+                {
+                    Radix2Inverse(spectrum);
+                }
+            }
+            else
+            {
+                BluesteinInverse(spectrum);
+            }
 
             switch (scaling)
             {

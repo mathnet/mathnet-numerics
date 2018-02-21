@@ -28,7 +28,6 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 using Complex = System.Numerics.Complex;
@@ -38,9 +37,9 @@ namespace MathNet.Numerics.Providers.FourierTransform
     internal partial class ManagedFourierTransformProvider
     {
         /// <summary>
-     /// Sequences with length greater than Math.Sqrt(Int32.MaxValue) + 1
-     /// will cause k*k in the Bluestein sequence to overflow (GH-286).
-     /// </summary>
+        /// Sequences with length greater than Math.Sqrt(Int32.MaxValue) + 1
+        /// will cause k*k in the Bluestein sequence to overflow (GH-286).
+        /// </summary>
         const int BluesteinSequenceLengthThreshold = 46341;
 
         /// <summary>
@@ -135,7 +134,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                         b[i] = sequence[m - i];
                     }
 
-                    Radix2(b, -1);
+                    Radix2Forward(b);
                 },
                 () =>
                 {
@@ -145,7 +144,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                         a[i] = sequence[i].Conjugate() * samples[i];
                     }
 
-                    Radix2(a, -1);
+                    Radix2Forward(a);
                 });
 
             for (int i = 0; i < a.Length; i++)
@@ -153,7 +152,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                 a[i] *= b[i];
             }
 
-            Radix2Parallel(a, 1);
+            Radix2InverseParallel(a);
 
             var nbinv = 1.0f / m;
             for (int i = 0; i < samples.Length; i++)
@@ -190,7 +189,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                         b[i] = sequence[m - i];
                     }
 
-                    Radix2(b, -1);
+                    Radix2Forward(b);
                 },
                 () =>
                 {
@@ -200,7 +199,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                         a[i] = sequence[i].Conjugate() * samples[i];
                     }
 
-                    Radix2(a, -1);
+                    Radix2Forward(a);
                 });
 
             for (int i = 0; i < a.Length; i++)
@@ -208,7 +207,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                 a[i] *= b[i];
             }
 
-            Radix2Parallel(a, 1);
+            Radix2InverseParallel(a);
 
             var nbinv = 1.0 / m;
             for (int i = 0; i < samples.Length; i++)
@@ -244,55 +243,37 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        /// <param name="samples">Time-space sample vector.</param>
-        /// <param name="exponentSign">Fourier series exponent sign.</param>
-        private static void Bluestein(Complex32[] samples, int exponentSign)
+        private static void BluesteinForward(Complex[] samples)
         {
-            int n = samples.Length;
-            if (n.IsPowerOfTwo())
-            {
-                Radix2Parallel(samples, exponentSign);
-                return;
-            }
-
-            if (exponentSign == 1)
-            {
-                SwapRealImaginary(samples);
-            }
-
             BluesteinConvolutionParallel(samples);
-
-            if (exponentSign == 1)
-            {
-                SwapRealImaginary(samples);
-            }
         }
 
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        /// <param name="samples">Time-space sample vector.</param>
-        /// <param name="exponentSign">Fourier series exponent sign.</param>
-        private static void Bluestein(Complex[] samples, int exponentSign)
+        private static void BluesteinInverse(Complex[] spectrum)
         {
-            int n = samples.Length;
-            if (n.IsPowerOfTwo())
-            {
-                Radix2Parallel(samples, exponentSign);
-                return;
-            }
+            SwapRealImaginary(spectrum);
+            BluesteinConvolutionParallel(spectrum);
+            SwapRealImaginary(spectrum);
+        }
 
-            if (exponentSign == 1)
-            {
-                SwapRealImaginary(samples);
-            }
-
+        /// <summary>
+        /// Bluestein generic FFT for arbitrary sized sample vectors.
+        /// </summary>
+        private static void BluesteinForward(Complex32[] samples)
+        {
             BluesteinConvolutionParallel(samples);
+        }
 
-            if (exponentSign == 1)
-            {
-                SwapRealImaginary(samples);
-            }
+        /// <summary>
+        /// Bluestein generic FFT for arbitrary sized sample vectors.
+        /// </summary>
+        private static void BluesteinInverse(Complex32[] spectrum)
+        {
+            SwapRealImaginary(spectrum);
+            BluesteinConvolutionParallel(spectrum);
+            SwapRealImaginary(spectrum);
         }
     }
 }
