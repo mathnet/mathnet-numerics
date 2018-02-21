@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // https://numerics.mathdotnet.com
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -27,12 +27,13 @@
 // </copyright>
 
 using System;
-using System.Numerics;
 using MathNet.Numerics.IntegralTransforms;
+
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.FourierTransform
 {
-    internal class ManagedFourierTransformProvider : IFourierTransformProvider
+    internal partial class ManagedFourierTransformProvider : IFourierTransformProvider
     {
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
@@ -65,67 +66,97 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public void Forward(Complex32[] samples, FourierTransformScaling scaling)
         {
+            Bluestein(samples, -1);
+
             switch (scaling)
             {
                 case FourierTransformScaling.SymmetricScaling:
-                    Fourier.BluesteinForward(samples, FourierOptions.Default);
+                {
+                    ForwardScaleByOptions(FourierOptions.Default, samples);
                     break;
+                }
                 case FourierTransformScaling.ForwardScaling:
-                    // Only backward scaling can be expressed with options, hence the double-inverse
-                    Fourier.BluesteinInverse(samples, FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent);
+                {
+                    InverseScaleByOptions(FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent, samples);
                     break;
+                }
                 default:
-                    Fourier.BluesteinForward(samples, FourierOptions.NoScaling);
+                {
+                    ForwardScaleByOptions(FourierOptions.NoScaling, samples);
                     break;
+                }
             }
         }
 
         public void Forward(Complex[] samples, FourierTransformScaling scaling)
         {
+            Bluestein(samples, -1);
+
             switch (scaling)
             {
                 case FourierTransformScaling.SymmetricScaling:
-                    Fourier.BluesteinForward(samples, FourierOptions.Default);
+                {
+                    ForwardScaleByOptions(FourierOptions.Default, samples);
                     break;
+                }
                 case FourierTransformScaling.ForwardScaling:
-                    // Only backward scaling can be expressed with options, hence the double-inverse
-                    Fourier.BluesteinInverse(samples, FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent);
+                {
+                    InverseScaleByOptions(FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent, samples);
                     break;
+                }
                 default:
-                    Fourier.BluesteinForward(samples, FourierOptions.NoScaling);
+                {
+                    ForwardScaleByOptions(FourierOptions.NoScaling, samples);
                     break;
+                }
             }
         }
 
         public void Backward(Complex32[] spectrum, FourierTransformScaling scaling)
         {
+            Bluestein(spectrum, 1);
+
             switch (scaling)
             {
                 case FourierTransformScaling.SymmetricScaling:
-                    Fourier.BluesteinInverse(spectrum, FourierOptions.Default);
+                {
+                    InverseScaleByOptions(FourierOptions.Default, spectrum);
                     break;
+                }
                 case FourierTransformScaling.BackwardScaling:
-                    Fourier.BluesteinInverse(spectrum, FourierOptions.AsymmetricScaling);
+                {
+                    InverseScaleByOptions(FourierOptions.AsymmetricScaling, spectrum);
                     break;
+                }
                 default:
-                    Fourier.BluesteinInverse(spectrum, FourierOptions.NoScaling);
+                {
+                    InverseScaleByOptions(FourierOptions.NoScaling, spectrum);
                     break;
+                }
             }
         }
 
         public void Backward(Complex[] spectrum, FourierTransformScaling scaling)
         {
+            Bluestein(spectrum, 1);
+
             switch (scaling)
             {
                 case FourierTransformScaling.SymmetricScaling:
-                    Fourier.BluesteinInverse(spectrum, FourierOptions.Default);
+                {
+                    InverseScaleByOptions(FourierOptions.Default, spectrum);
                     break;
+                }
                 case FourierTransformScaling.BackwardScaling:
-                    Fourier.BluesteinInverse(spectrum, FourierOptions.AsymmetricScaling);
+                {
+                    InverseScaleByOptions(FourierOptions.AsymmetricScaling, spectrum);
                     break;
+                }
                 default:
-                    Fourier.BluesteinInverse(spectrum, FourierOptions.NoScaling);
+                {
+                    InverseScaleByOptions(FourierOptions.NoScaling, spectrum);
                     break;
+                }
             }
         }
 
@@ -269,6 +300,94 @@ namespace MathNet.Numerics.Providers.FourierTransform
         public void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
             throw new NotSupportedException();
+        }
+
+        /// <summary>
+        /// Rescale FFT-the resulting vector according to the provided convention options.
+        /// </summary>
+        /// <param name="options">Fourier Transform Convention Options.</param>
+        /// <param name="samples">Sample Vector.</param>
+        private static void ForwardScaleByOptions(FourierOptions options, Complex32[] samples)
+        {
+            if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling ||
+                (options & FourierOptions.AsymmetricScaling) == FourierOptions.AsymmetricScaling)
+            {
+                return;
+            }
+
+            var scalingFactor = (float)Math.Sqrt(1.0 / samples.Length);
+            for (int i = 0; i < samples.Length; i++)
+            {
+                samples[i] *= scalingFactor;
+            }
+        }
+
+        /// <summary>
+        /// Rescale FFT-the resulting vector according to the provided convention options.
+        /// </summary>
+        /// <param name="options">Fourier Transform Convention Options.</param>
+        /// <param name="samples">Sample Vector.</param>
+        private static void ForwardScaleByOptions(FourierOptions options, Complex[] samples)
+        {
+            if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling ||
+                (options & FourierOptions.AsymmetricScaling) == FourierOptions.AsymmetricScaling)
+            {
+                return;
+            }
+
+            var scalingFactor = Math.Sqrt(1.0 / samples.Length);
+            for (int i = 0; i < samples.Length; i++)
+            {
+                samples[i] *= scalingFactor;
+            }
+        }
+
+        /// <summary>
+        /// Rescale the iFFT-resulting vector according to the provided convention options.
+        /// </summary>
+        /// <param name="options">Fourier Transform Convention Options.</param>
+        /// <param name="samples">Sample Vector.</param>
+        private static void InverseScaleByOptions(FourierOptions options, Complex32[] samples)
+        {
+            if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling)
+            {
+                return;
+            }
+
+            var scalingFactor = (float)1.0 / samples.Length;
+            if ((options & FourierOptions.AsymmetricScaling) != FourierOptions.AsymmetricScaling)
+            {
+                scalingFactor = (float)Math.Sqrt(scalingFactor);
+            }
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                samples[i] *= scalingFactor;
+            }
+        }
+
+        /// <summary>
+        /// Rescale the iFFT-resulting vector according to the provided convention options.
+        /// </summary>
+        /// <param name="options">Fourier Transform Convention Options.</param>
+        /// <param name="samples">Sample Vector.</param>
+        private static void InverseScaleByOptions(FourierOptions options, Complex[] samples)
+        {
+            if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling)
+            {
+                return;
+            }
+
+            var scalingFactor = 1.0 / samples.Length;
+            if ((options & FourierOptions.AsymmetricScaling) != FourierOptions.AsymmetricScaling)
+            {
+                scalingFactor = Math.Sqrt(scalingFactor);
+            }
+
+            for (int i = 0; i < samples.Length; i++)
+            {
+                samples[i] *= scalingFactor;
+            }
         }
     }
 }
