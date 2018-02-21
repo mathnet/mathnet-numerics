@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime;
+using System.Runtime.CompilerServices;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
@@ -92,12 +93,16 @@ namespace MathNet.Numerics.LinearAlgebra
         /// to get and set values without range checking.</remarks>
         public T this[int row, int column]
         {
+#if !NET40
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
             get { return Storage[row, column]; }
 
+#if !NET40
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-            //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
             set { Storage[row, column] = value; }
         }
 
@@ -113,8 +118,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>
         /// The requested element.
         /// </returns>
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
         public T At(int row, int column)
         {
             return Storage.At(row, column);
@@ -132,8 +139,10 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="value">
         /// The value to set the element to.
         /// </param>
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        //[MethodImpl(MethodImplOptions.AggressiveInlining)] .Net 4.5 only
         public void At(int row, int column, T value)
         {
             Storage.At(row, column, value);

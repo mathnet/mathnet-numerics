@@ -397,25 +397,25 @@ Target "TestNumericsCore1.1" (fun _ -> testNumerics "netcoreapp1.1")
 Target "TestNumericsCore2.0" (fun _ -> testNumerics "netcoreapp2.0")
 Target "TestNumericsNET40" (fun _ -> testNumerics "net40")
 Target "TestNumericsNET45" (fun _ -> testNumerics "net45")
-Target "TestNumericsNET46" (fun _ -> testNumerics "net46")
+Target "TestNumericsNET461" (fun _ -> testNumerics "net461")
 Target "TestNumericsNET47"  (fun _ -> testNumerics "net47")
 "Build" ==> "TestNumericsCore1.1" ==> "TestNumerics"
 "Build" ==> "TestNumericsCore2.0"
 "Build" =?> ("TestNumericsNET40", isWindows)
-"Build" =?> ("TestNumericsNET45", isWindows) ==> "TestNumerics"
-"Build" =?> ("TestNumericsNET46", isWindows)
+"Build" =?> ("TestNumericsNET45", isWindows)
+"Build" =?> ("TestNumericsNET461", isWindows) ==> "TestNumerics"
 "Build" =?> ("TestNumericsNET47", isWindows)
 let testFsharp framework = testLibrary "src/FSharp.Tests" "FSharp.Tests.fsproj" framework
 Target "TestFsharp" DoNothing
 Target "TestFsharpCore1.1" (fun _ -> testFsharp "netcoreapp1.1")
 Target "TestFsharpCore2.0" (fun _ -> testFsharp "netcoreapp2.0")
 Target "TestFsharpNET45" (fun _ -> testFsharp "net45")
-Target "TestFsharpNET46" (fun _ -> testFsharp "net46")
+Target "TestFsharpNET461" (fun _ -> testFsharp "net461")
 Target "TestFsharpNET47" (fun _ -> testFsharp "net47")
 "Build" ==> "TestFsharpCore1.1" ==> "TestFsharp"
 "Build" ==> "TestFsharpCore2.0"
-"Build" =?> ("TestFsharpNET45", isWindows) ==> "TestFsharp"
-"Build" =?> ("TestFsharpNET46", isWindows)
+"Build" =?> ("TestFsharpNET45", isWindows)
+"Build" =?> ("TestFsharpNET461", isWindows) ==> "TestFsharp"
 "Build" =?> ("TestFsharpNET47", isWindows)
 Target "Test" DoNothing
 "TestNumerics" ==> "Test"

@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net45;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
     <RuntimeFrameworkVersion>2.0.5</RuntimeFrameworkVersion>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>MathNet.Numerics.Tests.CUDA</AssemblyName>
@@ -10,7 +10,7 @@
     <IsPackable>false</IsPackable>
     <DefineConstants>NATIVE;CUDA</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />

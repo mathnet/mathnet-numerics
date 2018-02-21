@@ -303,6 +303,8 @@ namespace MathNet.Numerics
             sb.AppendLine("Built for .Net Standard 2.0");
 #elif NET40
             sb.AppendLine("Built for .Net Framework 4.0");
+#elif NET461
+            sb.AppendLine("Built for .Net Framework 4.6.1");
 #endif
 #if !NATIVE
             sb.AppendLine("No Native Provider Support");

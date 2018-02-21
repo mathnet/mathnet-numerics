@@ -29,6 +29,7 @@
 
 using System;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
@@ -74,6 +75,9 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <param name="levelSize">Level Group Size.</param>
         /// <param name="k">Index inside of the level.</param>
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         static void Radix2Step(Complex32[] samples, int exponentSign, int levelSize, int k)
         {
             // Twiddle Factor
@@ -97,6 +101,9 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <param name="levelSize">Level Group Size.</param>
         /// <param name="k">Index inside of the level.</param>
+#if !NET40
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         static void Radix2Step(Complex[] samples, int exponentSign, int levelSize, int k)
         {
             // Twiddle Factor
