@@ -27,7 +27,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.IntegralTransforms;
 
 using Complex = System.Numerics.Complex;
 
@@ -72,17 +71,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
             {
                 case FourierTransformScaling.SymmetricScaling:
                 {
-                    ForwardScaleByOptions(FourierOptions.Default, samples);
+                    HalfRescale(samples);
                     break;
                 }
                 case FourierTransformScaling.ForwardScaling:
                 {
-                    InverseScaleByOptions(FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent, samples);
-                    break;
-                }
-                default:
-                {
-                    ForwardScaleByOptions(FourierOptions.NoScaling, samples);
+                    FullRescale(samples);
                     break;
                 }
             }
@@ -96,17 +90,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
             {
                 case FourierTransformScaling.SymmetricScaling:
                 {
-                    ForwardScaleByOptions(FourierOptions.Default, samples);
+                    HalfRescale(samples);
                     break;
                 }
                 case FourierTransformScaling.ForwardScaling:
                 {
-                    InverseScaleByOptions(FourierOptions.AsymmetricScaling | FourierOptions.InverseExponent, samples);
-                    break;
-                }
-                default:
-                {
-                    ForwardScaleByOptions(FourierOptions.NoScaling, samples);
+                    FullRescale(samples);
                     break;
                 }
             }
@@ -120,17 +109,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
             {
                 case FourierTransformScaling.SymmetricScaling:
                 {
-                    InverseScaleByOptions(FourierOptions.Default, spectrum);
+                    HalfRescale(spectrum);
                     break;
                 }
                 case FourierTransformScaling.BackwardScaling:
                 {
-                    InverseScaleByOptions(FourierOptions.AsymmetricScaling, spectrum);
-                    break;
-                }
-                default:
-                {
-                    InverseScaleByOptions(FourierOptions.NoScaling, spectrum);
+                    FullRescale(spectrum);
                     break;
                 }
             }
@@ -144,17 +128,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
             {
                 case FourierTransformScaling.SymmetricScaling:
                 {
-                    InverseScaleByOptions(FourierOptions.Default, spectrum);
+                    HalfRescale(spectrum);
                     break;
                 }
                 case FourierTransformScaling.BackwardScaling:
                 {
-                    InverseScaleByOptions(FourierOptions.AsymmetricScaling, spectrum);
-                    break;
-                }
-                default:
-                {
-                    InverseScaleByOptions(FourierOptions.NoScaling, spectrum);
+                    FullRescale(spectrum);
                     break;
                 }
             }
@@ -303,18 +282,37 @@ namespace MathNet.Numerics.Providers.FourierTransform
         }
 
         /// <summary>
-        /// Rescale FFT-the resulting vector according to the provided convention options.
+        /// Fully rescale the FFT result.
         /// </summary>
-        /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        private static void ForwardScaleByOptions(FourierOptions options, Complex32[] samples)
+        private static void FullRescale(Complex32[] samples)
         {
-            if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling ||
-                (options & FourierOptions.AsymmetricScaling) == FourierOptions.AsymmetricScaling)
+            var scalingFactor = (float)1.0 / samples.Length;
+            for (int i = 0; i < samples.Length; i++)
             {
-                return;
+                samples[i] *= scalingFactor;
             }
+        }
 
+        /// <summary>
+        /// Fully rescale the FFT result.
+        /// </summary>
+        /// <param name="samples">Sample Vector.</param>
+        private static void FullRescale(Complex[] samples)
+        {
+            var scalingFactor = 1.0 / samples.Length;
+            for (int i = 0; i < samples.Length; i++)
+            {
+                samples[i] *= scalingFactor;
+            }
+        }
+
+        /// <summary>
+        /// Half rescale the FFT result (e.g. for symmetric transforms).
+        /// </summary>
+        /// <param name="samples">Sample Vector.</param>
+        private static void HalfRescale(Complex32[] samples)
+        {
             var scalingFactor = (float)Math.Sqrt(1.0 / samples.Length);
             for (int i = 0; i < samples.Length; i++)
             {
@@ -323,67 +321,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
         }
 
         /// <summary>
-        /// Rescale FFT-the resulting vector according to the provided convention options.
+        /// Fully rescale the FFT result (e.g. for symmetric transforms).
         /// </summary>
-        /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        private static void ForwardScaleByOptions(FourierOptions options, Complex[] samples)
+        private static void HalfRescale(Complex[] samples)
         {
-            if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling ||
-                (options & FourierOptions.AsymmetricScaling) == FourierOptions.AsymmetricScaling)
-            {
-                return;
-            }
-
             var scalingFactor = Math.Sqrt(1.0 / samples.Length);
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] *= scalingFactor;
-            }
-        }
-
-        /// <summary>
-        /// Rescale the iFFT-resulting vector according to the provided convention options.
-        /// </summary>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <param name="samples">Sample Vector.</param>
-        private static void InverseScaleByOptions(FourierOptions options, Complex32[] samples)
-        {
-            if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling)
-            {
-                return;
-            }
-
-            var scalingFactor = (float)1.0 / samples.Length;
-            if ((options & FourierOptions.AsymmetricScaling) != FourierOptions.AsymmetricScaling)
-            {
-                scalingFactor = (float)Math.Sqrt(scalingFactor);
-            }
-
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] *= scalingFactor;
-            }
-        }
-
-        /// <summary>
-        /// Rescale the iFFT-resulting vector according to the provided convention options.
-        /// </summary>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <param name="samples">Sample Vector.</param>
-        private static void InverseScaleByOptions(FourierOptions options, Complex[] samples)
-        {
-            if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling)
-            {
-                return;
-            }
-
-            var scalingFactor = 1.0 / samples.Length;
-            if ((options & FourierOptions.AsymmetricScaling) != FourierOptions.AsymmetricScaling)
-            {
-                scalingFactor = Math.Sqrt(scalingFactor);
-            }
-
             for (int i = 0; i < samples.Length; i++)
             {
                 samples[i] *= scalingFactor;
