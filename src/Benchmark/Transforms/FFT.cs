@@ -42,7 +42,7 @@ namespace Benchmark.Transforms
         Complex[] _data;
 
         [GlobalSetup]
-        public void Setup()
+        public void GlobalSetup()
         {
             Providers.ForceProvider(Provider);
             var realSinusoidal = Generate.Sinusoidal(N, 32, -2.0, 2.0);
@@ -53,8 +53,8 @@ namespace Benchmark.Transforms
         [Benchmark(OperationsPerInvoke = 2)]
         public void Transform()
         {
-            Fourier.Forward(_data, FourierOptions.NoScaling);
-            Fourier.Inverse(_data, FourierOptions.NoScaling);
+            Fourier.Forward(_data, FourierOptions.Default);
+            Fourier.Inverse(_data, FourierOptions.Default);
         }
     }
 }
