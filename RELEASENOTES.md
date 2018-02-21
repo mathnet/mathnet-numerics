@@ -1,3 +1,10 @@
+### 4.2.0 - 2018-02-21
+* Native Providers: MklProvider and similar types now public (entry point for memory management, etc)
+* Native Providers: All providers now support freeing resources without unloading the provider
+* Native Providers: MKL provider sets consistency, precision and accuracy modes earlier to ensure they are applied
+* Native Providers: If a provider has been loaded successfully, skip any future loading attempts (faster switching)
+* Build: add .Net Framework 4.6.1 target (main package), switch to 4.6.1 for testing projects
+
 ### 4.1.0 - 2018-02-19
 * Curve Fitting: Fit.Power, Fit.Exponential, Fit.Logarithm (similar to excel trend curves)
 
