@@ -58,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             // real-odd transforms to imaginary odd
-            var spectrum = Fourier.NaiveForward(samples, FourierOptions.Matlab);
+            var spectrum = ReferenceDiscreteFourierTransform.NaiveForward(samples, FourierOptions.Matlab);
 
             // all real components must be zero
             foreach (var c in spectrum)
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             // real-odd transforms to imaginary odd
-            var spectrum = Fourier.NaiveForward(samples, FourierOptions.Matlab);
+            var spectrum = ReferenceDiscreteFourierTransform.NaiveForward(samples, FourierOptions.Matlab);
 
             // all real components must be zero
             foreach (var c in spectrum)

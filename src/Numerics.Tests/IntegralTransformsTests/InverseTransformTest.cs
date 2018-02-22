@@ -60,10 +60,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var work = new Complex32[samples.Length];
             samples.CopyTo(work, 0);
 
-            work = Fourier.NaiveForward(work, options);
+            work = ReferenceDiscreteFourierTransform.NaiveForward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            work = Fourier.NaiveInverse(work, options);
+            work = ReferenceDiscreteFourierTransform.NaiveInverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 11);
         }
 
@@ -79,10 +79,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
-            work = Fourier.NaiveForward(work, options);
+            work = ReferenceDiscreteFourierTransform.NaiveForward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            work = Fourier.NaiveInverse(work, options);
+            work = ReferenceDiscreteFourierTransform.NaiveInverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 12);
         }
 

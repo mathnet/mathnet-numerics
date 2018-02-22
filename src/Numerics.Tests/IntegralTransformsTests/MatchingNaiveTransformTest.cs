@@ -129,8 +129,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
-            Verify(samples, 6, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 6, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 6, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 6, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -144,8 +144,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
-            Verify(samples, 12, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 12, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 12, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 12, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -159,8 +159,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex32(0x80, GetUniform(1));
 
-            Verify(samples, 5, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 5, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 5, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 5, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -174,8 +174,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex(0x80, GetUniform(1));
 
-            Verify(samples, 10, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 10, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 10, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 10, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -189,8 +189,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.PeriodicMap(14, w => new Complex32((float)Math.Sin(w), 0), 14, 1.0, Constants.Pi2);
 
-            Verify(samples, 6, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 6, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 6, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 6, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -204,8 +204,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.PeriodicMap(14, w => new Complex(Math.Sin(w), 0), 14, 1.0, Constants.Pi2);
 
-            Verify(samples, 12, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 12, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 12, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 12, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -219,8 +219,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex32(0x80, GetUniform(1));
 
-            Verify(samples, 5, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 5, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 5, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 5, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -234,8 +234,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex(0x80, GetUniform(1));
 
-            Verify(samples, 10, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 10, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 10, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 10, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -249,8 +249,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex32(0x7F, GetUniform(1));
 
-            Verify(samples, 5, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 5, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 5, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 5, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -264,8 +264,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex(0x7F, GetUniform(1));
 
-            Verify(samples, 10, options, Fourier.NaiveForward, Fourier.Forward);
-            Verify(samples, 10, options, Fourier.NaiveInverse, Fourier.Inverse);
+            Verify(samples, 10, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
+            Verify(samples, 10, options, ReferenceDiscreteFourierTransform.NaiveInverse, Fourier.Inverse);
         }
 
         /// <summary>
@@ -422,7 +422,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // 65536 = 2^16
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex32(65536, GetUniform(1));
-            var naive = Fourier.NaiveForward(samples, options);
+            var naive = ReferenceDiscreteFourierTransform.NaiveForward(samples, options);
 
             Verify(samples, 3, options, (a, b) => naive, Fourier.Forward);
         }
@@ -433,7 +433,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // 65536 = 2^16
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(65536, GetUniform(1));
-            var naive = Fourier.NaiveForward(samples, options);
+            var naive = ReferenceDiscreteFourierTransform.NaiveForward(samples, options);
 
             Verify(samples, 10, options, (a, b) => naive, Fourier.Forward);
         }
@@ -445,7 +445,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex32(30870, GetUniform(1));
 
-            Verify(samples, 4, options, Fourier.NaiveForward, Fourier.Forward);
+            Verify(samples, 4, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
         }
 
         [Test, Explicit("Long-Running")]
@@ -454,7 +454,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             // 30870 = 2*3*3*5*7*7*7
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(30870, GetUniform(1));
-            var naive = Fourier.NaiveForward(samples, options);
+            var naive = ReferenceDiscreteFourierTransform.NaiveForward(samples, options);
 
             Verify(samples, 10, options, (a, b) => naive, Fourier.Forward);
         }
@@ -465,7 +465,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex32(46500, GetUniform(1));
 
-            Verify(samples, 4, options, Fourier.NaiveForward, Fourier.Forward);
+            Verify(samples, 4, options, ReferenceDiscreteFourierTransform.NaiveForward, Fourier.Forward);
         }
 
         [Test, Explicit("Long-Running")]
@@ -473,7 +473,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(46500, GetUniform(1));
-            var naive = Fourier.NaiveForward(samples, options);
+            var naive = ReferenceDiscreteFourierTransform.NaiveForward(samples, options);
 
             Verify(samples, 10, options, (a, b) => naive, Fourier.Forward);
         }
