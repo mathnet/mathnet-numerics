@@ -36,8 +36,8 @@ namespace MathNet.Numerics.Providers.Common.Mkl
 {
     public static class MklProvider
     {
-        const int _designTimeRevision = 12;
-        const int _minimumCompatibleRevision = 4;
+        const int DesignTimeRevision = 12;
+        const int MinimumCompatibleRevision = 4;
 
         static int _nativeRevision;
         static Version _mklVersion;
@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
                 int a = SafeNativeMethods.query_capability(0);
                 int b = SafeNativeMethods.query_capability(1);
                 int nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
-                return a == 0 && b == -1 && nativeRevision >= _minimumCompatibleRevision;
+                return a == 0 && b == -1 && nativeRevision >= MinimumCompatibleRevision;
             }
             catch
             {
@@ -134,7 +134,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
                 throw new NotSupportedException("MKL Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
             }
 
-            if (a != 0 || b != -1 || _nativeRevision < _minimumCompatibleRevision)
+            if (a != 0 || b != -1 || _nativeRevision < MinimumCompatibleRevision)
             {
                 throw new NotSupportedException("MKL Native Provider too old. Consider upgrading to a newer version.");
             }
@@ -300,8 +300,8 @@ namespace MathNet.Numerics.Providers.Common.Mkl
             if (_nativeX64) parts.Add("x64");
             if (_nativeIA64) parts.Add("IA64");
             parts.Add("revision " + _nativeRevision);
-            if (_nativeRevision > _designTimeRevision) parts.Add("ahead revision " + _designTimeRevision);
-            if (_nativeRevision < _designTimeRevision) parts.Add("behind revision " + _designTimeRevision);
+            if (_nativeRevision > DesignTimeRevision) parts.Add("ahead revision " + DesignTimeRevision);
+            if (_nativeRevision < DesignTimeRevision) parts.Add("behind revision " + DesignTimeRevision);
             if (_mklVersion.Major > 0)
             {
                 parts.Add(_mklVersion.Build == 0

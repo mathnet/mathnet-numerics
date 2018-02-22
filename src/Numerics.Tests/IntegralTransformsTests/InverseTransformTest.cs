@@ -98,10 +98,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var work = new Complex32[samples.Length];
             samples.CopyTo(work, 0);
 
-            Fourier.Radix2Forward(work, options);
+            Fourier.Forward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            Fourier.Radix2Inverse(work, options);
+            Fourier.Inverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 12);
         }
 
@@ -117,10 +117,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
-            Fourier.Radix2Forward(work, options);
+            Fourier.Forward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            Fourier.Radix2Inverse(work, options);
+            Fourier.Inverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 12);
         }
 
@@ -136,10 +136,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var work = new Complex32[samples.Length];
             samples.CopyTo(work, 0);
 
-            Fourier.BluesteinForward(work, options);
+            Fourier.Forward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            Fourier.BluesteinInverse(work, options);
+            Fourier.Inverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 10);
         }
 
@@ -155,10 +155,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
-            Fourier.BluesteinForward(work, options);
+            Fourier.Forward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            Fourier.BluesteinInverse(work, options);
+            Fourier.Inverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 10);
         }
 

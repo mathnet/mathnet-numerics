@@ -50,7 +50,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// </summary>
     internal partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
     {
-        const int _minimumCompatibleRevision = 4;
+        const int MinimumCompatibleRevision = 4;
 
         readonly string _hintPath;
         readonly MklConsistency _consistency;
@@ -93,9 +93,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
         public override void InitializeVerify()
         {
             int revision = MklProvider.Load(_hintPath, _consistency, _precision, _accuracy);
-            if (revision < _minimumCompatibleRevision)
+            if (revision < MinimumCompatibleRevision)
             {
-                throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{_minimumCompatibleRevision} and newer are supported.");
+                throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported.");
             }
 
             _linearAlgebraMajor = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);

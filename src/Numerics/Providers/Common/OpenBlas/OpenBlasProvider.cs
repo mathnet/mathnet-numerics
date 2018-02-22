@@ -36,8 +36,8 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
 {
     public static class OpenBlasProvider
     {
-        const int _designTimeRevision = 1;
-        const int _minimumCompatibleRevision = 1;
+        const int DesignTimeRevision = 1;
+        const int MinimumCompatibleRevision = 1;
 
         static int _nativeRevision;
         static bool _nativeX86;
@@ -63,7 +63,7 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
                 int a = SafeNativeMethods.query_capability(0);
                 int b = SafeNativeMethods.query_capability(1);
                 int nativeRevision = SafeNativeMethods.query_capability((int)ProviderConfig.Revision);
-                return a == 0 && b == -1 && nativeRevision >= _minimumCompatibleRevision;
+                return a == 0 && b == -1 && nativeRevision >= MinimumCompatibleRevision;
             }
             catch
             {
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
                 throw new NotSupportedException("OpenBLAS Native Provider does not support capability querying and is therefore not compatible. Consider upgrading to a newer version.", e);
             }
 
-            if (a != 0 || b != -1 || _nativeRevision < _minimumCompatibleRevision)
+            if (a != 0 || b != -1 || _nativeRevision < MinimumCompatibleRevision)
             {
                 throw new NotSupportedException("OpenBLAS Native Provider too old. Consider upgrading to a newer version.");
             }

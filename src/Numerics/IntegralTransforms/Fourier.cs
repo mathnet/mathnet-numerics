@@ -803,10 +803,10 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <exception cref="ArgumentException"/>
+        [Obsolete("Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.")]
         public static void Radix2Forward(Complex32[] samples, FourierOptions options = FourierOptions.Default)
         {
-            Radix2Parallel(samples, SignByOptions(options));
-            ForwardScaleByOptions(options, samples);
+            Forward(samples, options);
         }
 
         /// <summary>
@@ -815,10 +815,10 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <exception cref="ArgumentException"/>
+        [Obsolete("Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.")]
         public static void Radix2Forward(Complex[] samples, FourierOptions options = FourierOptions.Default)
         {
-            Radix2Parallel(samples, SignByOptions(options));
-            ForwardScaleByOptions(options, samples);
+            Forward(samples, options);
         }
 
         /// <summary>
@@ -827,10 +827,10 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="spectrum">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <exception cref="ArgumentException"/>
+        [Obsolete("Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.")]
         public static void Radix2Inverse(Complex32[] spectrum, FourierOptions options = FourierOptions.Default)
         {
-            Radix2Parallel(spectrum, -SignByOptions(options));
-            InverseScaleByOptions(options, spectrum);
+            Inverse(spectrum, options);
         }
 
         /// <summary>
@@ -839,10 +839,10 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="spectrum">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <exception cref="ArgumentException"/>
+        [Obsolete("Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.")]
         public static void Radix2Inverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
         {
-            Radix2Parallel(spectrum, -SignByOptions(options));
-            InverseScaleByOptions(options, spectrum);
+            Inverse(spectrum, options);
         }
 
         /// <summary>
@@ -850,10 +850,10 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
+        [Obsolete("Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.")]
         public static void BluesteinForward(Complex32[] samples, FourierOptions options = FourierOptions.Default)
         {
-            Bluestein(samples, SignByOptions(options));
-            ForwardScaleByOptions(options, samples);
+            Forward(samples, options);
         }
 
         /// <summary>
@@ -861,10 +861,10 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
+        [Obsolete("Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.")]
         public static void BluesteinForward(Complex[] samples, FourierOptions options = FourierOptions.Default)
         {
-            Bluestein(samples, SignByOptions(options));
-            ForwardScaleByOptions(options, samples);
+            Forward(samples, options);
         }
 
         /// <summary>
@@ -872,10 +872,10 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="spectrum">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
+        [Obsolete("Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.")]
         public static void BluesteinInverse(Complex32[] spectrum, FourierOptions options = FourierOptions.Default)
         {
-            Bluestein(spectrum, -SignByOptions(options));
-            InverseScaleByOptions(options, spectrum);
+            Inverse(spectrum, options);
         }
 
         /// <summary>
@@ -883,10 +883,10 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="spectrum">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
+        [Obsolete("Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.")]
         public static void BluesteinInverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
         {
-            Bluestein(spectrum, -SignByOptions(options));
-            InverseScaleByOptions(options, spectrum);
+            Inverse(spectrum, options);
         }
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {
     internal class MklFourierTransformProvider : IFourierTransformProvider, IDisposable
     {
-        const int _minimumCompatibleRevision = 11;
+        const int MinimumCompatibleRevision = 11;
 
         class Kernel
         {
@@ -72,9 +72,9 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
         public void InitializeVerify()
         {
             int revision = MklProvider.Load(hintPath: _hintPath);
-            if (revision < _minimumCompatibleRevision)
+            if (revision < MinimumCompatibleRevision)
             {
-                throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{_minimumCompatibleRevision} and newer are supported.");
+                throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported.");
             }
 
             // we only support exactly one major version, since major version changes imply a breaking change.

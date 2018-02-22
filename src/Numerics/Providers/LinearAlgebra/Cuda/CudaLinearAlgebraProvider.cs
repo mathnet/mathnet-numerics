@@ -39,7 +39,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
     /// </summary>
     internal partial class CudaLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
     {
-        const int _minimumCompatibleRevision = 1;
+        const int MinimumCompatibleRevision = 1;
 
         readonly string _hintPath;
         IntPtr _blasHandle;
@@ -67,9 +67,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         public override void InitializeVerify()
         {
             int revision = CudaProvider.Load(hintPath: _hintPath);
-            if (revision < _minimumCompatibleRevision)
+            if (revision < MinimumCompatibleRevision)
             {
-                throw new NotSupportedException($"Cuda Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{_minimumCompatibleRevision} and newer are supported.");
+                throw new NotSupportedException($"Cuda Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported.");
             }
 
             int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);

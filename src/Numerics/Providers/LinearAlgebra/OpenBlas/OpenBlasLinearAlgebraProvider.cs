@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
     /// </summary>
     internal partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
     {
-        const int _minimumCompatibleRevision = 1;
+        const int MinimumCompatibleRevision = 1;
 
         readonly string _hintPath;
 
@@ -83,9 +83,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
         public override void InitializeVerify()
         {
             int revision = OpenBlasProvider.Load(hintPath: _hintPath);
-            if (revision < _minimumCompatibleRevision)
+            if (revision < MinimumCompatibleRevision)
             {
-                throw new NotSupportedException($"OpenBLAS Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{_minimumCompatibleRevision} and newer are supported.");
+                throw new NotSupportedException($"OpenBLAS Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported.");
             }
 
             int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);

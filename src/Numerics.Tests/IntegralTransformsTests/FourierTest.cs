@@ -118,33 +118,5 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                 }
             }
         }
-
-        /// <summary>
-        /// Radix2XXX when not power of two throws <c>ArgumentException</c>.
-        /// </summary>
-        [Test]
-        public void Radix2ThrowsWhenNotPowerOfTwo32()
-        {
-            var samples = Generate.RandomComplex32(0x7F, GetUniform(1));
-
-            Assert.Throws(typeof(ArgumentException), () => Fourier.Radix2Forward(samples, FourierOptions.Default));
-            Assert.Throws(typeof(ArgumentException), () => Fourier.Radix2Inverse(samples, FourierOptions.Default));
-            Assert.Throws(typeof(ArgumentException), () => Fourier.Radix2(samples, -1));
-            Assert.Throws(typeof(ArgumentException), () => Fourier.Radix2Parallel(samples, -1));
-        }
-
-        /// <summary>
-        /// Radix2XXX when not power of two throws <c>ArgumentException</c>.
-        /// </summary>
-        [Test]
-        public void Radix2ThrowsWhenNotPowerOfTwo()
-        {
-            var samples = Generate.RandomComplex(0x7F, GetUniform(1));
-
-            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Forward(samples, FourierOptions.Default));
-            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Inverse(samples, FourierOptions.Default));
-            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2(samples, -1));
-            Assert.Throws(typeof (ArgumentException), () => Fourier.Radix2Parallel(samples, -1));
-        }
     }
 }
