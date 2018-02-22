@@ -10,53 +10,37 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Naive forward DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        /// <param name="samples">Time-space sample vector.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <returns>Corresponding frequency-space vector.</returns>
-        public static Complex32[] NaiveForward(Complex32[] samples, FourierOptions options = FourierOptions.Default)
+        public static void Forward(Complex32[] samples, FourierOptions options = FourierOptions.Default)
         {
-            var frequencySpace = Naive(samples, SignByOptions(options));
-            ForwardScaleByOptions(options, frequencySpace);
-            return frequencySpace;
+            Naive(samples, SignByOptions(options));
+            ForwardScaleByOptions(options, samples);
         }
 
         /// <summary>
         /// Naive forward DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        /// <param name="samples">Time-space sample vector.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <returns>Corresponding frequency-space vector.</returns>
-        public static Complex[] NaiveForward(Complex[] samples, FourierOptions options = FourierOptions.Default)
+        public static void Forward(Complex[] samples, FourierOptions options = FourierOptions.Default)
         {
-            var frequencySpace = Naive(samples, SignByOptions(options));
-            ForwardScaleByOptions(options, frequencySpace);
-            return frequencySpace;
+            Naive(samples, SignByOptions(options));
+            ForwardScaleByOptions(options, samples);
         }
 
         /// <summary>
         /// Naive inverse DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        /// <param name="spectrum">Frequency-space sample vector.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <returns>Corresponding time-space vector.</returns>
-        public static Complex32[] NaiveInverse(Complex32[] spectrum, FourierOptions options = FourierOptions.Default)
+        public static void Inverse(Complex32[] spectrum, FourierOptions options = FourierOptions.Default)
         {
-            var timeSpace = Naive(spectrum, -SignByOptions(options));
-            InverseScaleByOptions(options, timeSpace);
-            return timeSpace;
+            Naive(spectrum, -SignByOptions(options));
+            InverseScaleByOptions(options, spectrum);
         }
 
         /// <summary>
         /// Naive inverse DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        /// <param name="spectrum">Frequency-space sample vector.</param>
-        /// <param name="options">Fourier Transform Convention Options.</param>
-        /// <returns>Corresponding time-space vector.</returns>
-        public static Complex[] NaiveInverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
+        public static void Inverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
         {
-            var timeSpace = Naive(spectrum, -SignByOptions(options));
-            InverseScaleByOptions(options, timeSpace);
-            return timeSpace;
+            Naive(spectrum, -SignByOptions(options));
+            InverseScaleByOptions(options, spectrum);
         }
 
         /// <summary>
@@ -65,7 +49,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="samples">Time-space sample vector.</param>
         /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
-        static Complex32[] Naive(Complex32[] samples, int exponentSign)
+        static void Naive(Complex32[] samples, int exponentSign)
         {
             var w0 = exponentSign * Constants.Pi2 / samples.Length;
             var spectrum = new Complex32[samples.Length];
@@ -86,7 +70,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                 }
             });
 
-            return spectrum;
+            spectrum.Copy(samples);
         }
 
         /// <summary>
@@ -95,7 +79,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="samples">Time-space sample vector.</param>
         /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
-        static Complex[] Naive(Complex[] samples, int exponentSign)
+        static void Naive(Complex[] samples, int exponentSign)
         {
             var w0 = exponentSign * Constants.Pi2 / samples.Length;
             var spectrum = new Complex[samples.Length];
@@ -116,7 +100,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                 }
             });
 
-            return spectrum;
+            spectrum.Copy(samples);
         }
 
         /// <summary>

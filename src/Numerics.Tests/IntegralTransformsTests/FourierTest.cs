@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -29,7 +29,6 @@
 
 using System;
 using System.Numerics;
-using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using NUnit.Framework;
 
@@ -42,14 +41,6 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     public class FourierTest
     {
         /// <summary>
-        /// Continuous uniform distribution.
-        /// </summary>
-        IContinuousDistribution GetUniform(int seed)
-        {
-            return new ContinuousUniform(-1, 1, new System.Random(seed));
-        }
-
-        /// <summary>
         /// Naive transforms real sine correctly.
         /// </summary>
         [Test]
@@ -58,28 +49,28 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             // real-odd transforms to imaginary odd
-            var spectrum = ReferenceDiscreteFourierTransform.NaiveForward(samples, FourierOptions.Matlab);
+            ReferenceDiscreteFourierTransform.Forward(samples, FourierOptions.Matlab);
 
             // all real components must be zero
-            foreach (var c in spectrum)
+            foreach (var c in samples)
             {
                 Assert.AreEqual(0, c.Real, 1e-6, "real");
             }
 
             // all imaginary components except second and last musth be zero
-            for (var i = 0; i < spectrum.Length; i++)
+            for (var i = 0; i < samples.Length; i++)
             {
                 if (i == 1)
                 {
-                    Assert.AreEqual(-8, spectrum[i].Imaginary, 1e-12, "imag second");
+                    Assert.AreEqual(-8, samples[i].Imaginary, 1e-12, "imag second");
                 }
-                else if (i == spectrum.Length - 1)
+                else if (i == samples.Length - 1)
                 {
-                    Assert.AreEqual(8, spectrum[i].Imaginary, 1e-12, "imag last");
+                    Assert.AreEqual(8, samples[i].Imaginary, 1e-12, "imag last");
                 }
                 else
                 {
-                    Assert.AreEqual(0, spectrum[i].Imaginary, 1e-6, "imag");
+                    Assert.AreEqual(0, samples[i].Imaginary, 1e-6, "imag");
                 }
             }
         }
@@ -93,28 +84,28 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             // real-odd transforms to imaginary odd
-            var spectrum = ReferenceDiscreteFourierTransform.NaiveForward(samples, FourierOptions.Matlab);
+            ReferenceDiscreteFourierTransform.Forward(samples, FourierOptions.Matlab);
 
             // all real components must be zero
-            foreach (var c in spectrum)
+            foreach (var c in samples)
             {
                 Assert.AreEqual(0, c.Real, 1e-12, "real");
             }
 
             // all imaginary components except second and last musth be zero
-            for (var i = 0; i < spectrum.Length; i++)
+            for (var i = 0; i < samples.Length; i++)
             {
                 if (i == 1)
                 {
-                    Assert.AreEqual(-8, spectrum[i].Imaginary, 1e-12, "imag second");
+                    Assert.AreEqual(-8, samples[i].Imaginary, 1e-12, "imag second");
                 }
-                else if (i == spectrum.Length - 1)
+                else if (i == samples.Length - 1)
                 {
-                    Assert.AreEqual(8, spectrum[i].Imaginary, 1e-12, "imag last");
+                    Assert.AreEqual(8, samples[i].Imaginary, 1e-12, "imag last");
                 }
                 else
                 {
-                    Assert.AreEqual(0, spectrum[i].Imaginary, 1e-12, "imag");
+                    Assert.AreEqual(0, samples[i].Imaginary, 1e-12, "imag");
                 }
             }
         }

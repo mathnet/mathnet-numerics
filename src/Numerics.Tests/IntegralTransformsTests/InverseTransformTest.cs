@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -60,10 +60,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var work = new Complex32[samples.Length];
             samples.CopyTo(work, 0);
 
-            work = ReferenceDiscreteFourierTransform.NaiveForward(work, options);
+            ReferenceDiscreteFourierTransform.Forward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            work = ReferenceDiscreteFourierTransform.NaiveInverse(work, options);
+            ReferenceDiscreteFourierTransform.Inverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 11);
         }
 
@@ -79,10 +79,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
-            work = ReferenceDiscreteFourierTransform.NaiveForward(work, options);
+            ReferenceDiscreteFourierTransform.Forward(work, options);
             Assert.IsFalse(work.ListAlmostEqual(samples, 6));
 
-            work = ReferenceDiscreteFourierTransform.NaiveInverse(work, options);
+            ReferenceDiscreteFourierTransform.Inverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 12);
         }
 
