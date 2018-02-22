@@ -56,19 +56,15 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="count">Samples count.</param>
         [TestCase(0x1000)]
         [TestCase(0x7FF)]
-        public void FourierDefaultTransformSatisfiesParsevalsTheorem32(int count)
+        public void ReferenceDftSatisfiesParsevalsTheorem32(int count)
         {
             var samples = Generate.RandomComplex32(count, GetUniform(1));
-
             var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
-            var work = new Complex32[samples.Length];
-            samples.CopyTo(work, 0);
-
-            // Default -> Symmetric Scaling
-            Fourier.Forward(work);
-
-            var frequencySpaceEnergy = (from s in work select s.MagnitudeSquared()).Mean();
+            var spectrum = new Complex32[samples.Length];
+            samples.CopyTo(spectrum, 0);
+            ReferenceDiscreteFourierTransform.Forward(spectrum);
+            var frequencySpaceEnergy = (from s in spectrum select s.MagnitudeSquared()).Mean();
 
             Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-7);
         }
@@ -79,19 +75,53 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="count">Samples count.</param>
         [TestCase(0x1000)]
         [TestCase(0x7FF)]
-        public void FourierDefaultTransformSatisfiesParsevalsTheorem(int count)
+        public void ReferenceDftSatisfiesParsevalsTheorem64(int count)
         {
             var samples = Generate.RandomComplex(count, GetUniform(1));
-
             var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
-            var work = new Complex[samples.Length];
-            samples.CopyTo(work, 0);
+            var spectrum = new Complex[samples.Length];
+            samples.CopyTo(spectrum, 0);
+            ReferenceDiscreteFourierTransform.Forward(spectrum);
+            var frequencySpaceEnergy = (from s in spectrum select s.MagnitudeSquared()).Mean();
 
-            // Default -> Symmetric Scaling
-            Fourier.Forward(work);
+            Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-12);
+        }
 
-            var frequencySpaceEnergy = (from s in work select s.MagnitudeSquared()).Mean();
+        /// <summary>
+        /// Fourier default transform satisfies Parseval's theorem.
+        /// </summary>
+        /// <param name="count">Samples count.</param>
+        [TestCase(0x1000)]
+        [TestCase(0x7FF)]
+        public void FourierDefaultTransformSatisfiesParsevalsTheorem32(int count)
+        {
+            var samples = Generate.RandomComplex32(count, GetUniform(1));
+            var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
+
+            var spectrum = new Complex32[samples.Length];
+            samples.CopyTo(spectrum, 0);
+            Fourier.Forward(spectrum);
+            var frequencySpaceEnergy = (from s in spectrum select s.MagnitudeSquared()).Mean();
+
+            Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-7);
+        }
+
+        /// <summary>
+        /// Fourier default transform satisfies Parseval's theorem.
+        /// </summary>
+        /// <param name="count">Samples count.</param>
+        [TestCase(0x1000)]
+        [TestCase(0x7FF)]
+        public void FourierDefaultTransformSatisfiesParsevalsTheorem64(int count)
+        {
+            var samples = Generate.RandomComplex(count, GetUniform(1));
+            var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
+
+            var spectrum = new Complex[samples.Length];
+            samples.CopyTo(spectrum, 0);
+            Fourier.Forward(spectrum);
+            var frequencySpaceEnergy = (from s in spectrum select s.MagnitudeSquared()).Mean();
 
             Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-12);
         }
@@ -102,19 +132,16 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="count">Samples count.</param>
         [TestCase(0x40)]
         [TestCase(0x1F)]
-        public void HartleyDefaultNaiveSatisfiesParsevalsTheorem(int count)
+        public void HartleyDefaultNaiveSatisfiesParsevalsTheorem64(int count)
         {
             var samples = Generate.Random(count, GetUniform(1));
-
             var timeSpaceEnergy = (from s in samples select s*s).Mean();
 
-            var work = new double[samples.Length];
-            samples.CopyTo(work, 0);
+            var spectrum = new double[samples.Length];
+            samples.CopyTo(spectrum, 0);
+            spectrum = Hartley.NaiveForward(spectrum, HartleyOptions.Default);
 
-            // Default -> Symmetric Scaling
-            work = Hartley.NaiveForward(work, HartleyOptions.Default);
-
-            var frequencySpaceEnergy = (from s in work select s*s).Mean();
+            var frequencySpaceEnergy = (from s in spectrum select s*s).Mean();
             Assert.AreEqual(timeSpaceEnergy, frequencySpaceEnergy, 1e-12);
         }
     }

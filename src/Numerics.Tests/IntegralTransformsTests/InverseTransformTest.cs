@@ -54,7 +54,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="options">Fourier options.</param>
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
-        public void FourierNaiveIsReversible32(FourierOptions options)
+        public void ReferenceDftIsReversible32(FourierOptions options)
         {
             var samples = Generate.RandomComplex32(0x80, GetUniform(1));
             var work = new Complex32[samples.Length];
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="options">Fourier options.</param>
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
-        public void FourierNaiveIsReversible(FourierOptions options)
+        public void ReferenceDftIsReversible64(FourierOptions options)
         {
             var samples = Generate.RandomComplex(0x80, GetUniform(1));
             var work = new Complex[samples.Length];
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="options">Fourier options.</param>
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
-        public void FourierRadix2IsReversible(FourierOptions options)
+        public void FourierRadix2IsReversible64(FourierOptions options)
         {
             var samples = Generate.RandomComplex(0x8000, GetUniform(1));
             var work = new Complex[samples.Length];
@@ -149,7 +149,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="options">Fourier options.</param>
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
-        public void FourierBluesteinIsReversible(FourierOptions options)
+        public void FourierBluesteinIsReversible64(FourierOptions options)
         {
             var samples = Generate.RandomComplex(0x7FFF, GetUniform(1));
             var work = new Complex[samples.Length];
@@ -187,7 +187,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="options">Fourier options.</param>
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
-        public void FourierRealIsReversible(FourierOptions options)
+        public void FourierRealIsReversible64(FourierOptions options)
         {
             var samples = Generate.Random(0x7FFF, GetUniform(1));
             var work = new double[samples.Length+2];
@@ -206,7 +206,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="options">Hartley options.</param>
         [TestCase(HartleyOptions.Default)]
         [TestCase(HartleyOptions.AsymmetricScaling)]
-        public void HartleyNaiveIsReversible(HartleyOptions options)
+        public void HartleyNaiveIsReversible64(HartleyOptions options)
         {
             var samples = Generate.Random(0x80, GetUniform(1));
             var work = new double[samples.Length];
@@ -217,52 +217,6 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             work = Hartley.NaiveInverse(work, options);
             AssertHelpers.AlmostEqual(samples, work, 12);
-        }
-
-        /// <summary>
-        /// Fourier default transform is reversible.
-        /// </summary>
-        [Test]
-        public void FourierDefaultTransformIsReversible32()
-        {
-            var samples = Generate.RandomComplex32(0x7FFF, GetUniform(1));
-            var work = new Complex32[samples.Length];
-            samples.CopyTo(work, 0);
-
-            Fourier.Forward(work);
-            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
-
-            Fourier.Inverse(work);
-            AssertHelpers.AlmostEqual(samples, work, 10);
-
-            Fourier.Inverse(work, FourierOptions.Default);
-            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
-
-            Fourier.Forward(work, FourierOptions.Default);
-            AssertHelpers.AlmostEqual(samples, work, 10);
-        }
-
-        /// <summary>
-        /// Fourier default transform is reversible.
-        /// </summary>
-        [Test]
-        public void FourierDefaultTransformIsReversible()
-        {
-            var samples = Generate.RandomComplex(0x7FFF, GetUniform(1));
-            var work = new Complex[samples.Length];
-            samples.CopyTo(work, 0);
-
-            Fourier.Forward(work);
-            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
-
-            Fourier.Inverse(work);
-            AssertHelpers.AlmostEqual(samples, work, 10);
-
-            Fourier.Inverse(work, FourierOptions.Default);
-            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
-
-            Fourier.Forward(work, FourierOptions.Default);
-            AssertHelpers.AlmostEqual(samples, work, 10);
         }
     }
 }

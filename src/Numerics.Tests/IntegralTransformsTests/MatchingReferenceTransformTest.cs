@@ -40,7 +40,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     /// Matching Naive transform tests.
     /// </summary>
     [TestFixture, Category("FFT")]
-    public class MatchingNaiveTransformTest
+    public class MatchingReferenceTransformTest
     {
         /// <summary>
         /// Continuous uniform distribution.
@@ -86,6 +86,42 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             AssertHelpers.AlmostEqual(spectrumExpected, spectrumActual, maximumErrorDecimalPlaces);
         }
 
+        static void Verify(
+            Complex32[] samples,
+            int maximumErrorDecimalPlaces,
+            FourierTransformScaling options,
+            Action<Complex32[], FourierTransformScaling> expected,
+            Action<Complex32[], FourierTransformScaling> actual)
+        {
+            var spectrumExpected = new Complex32[samples.Length];
+            samples.CopyTo(spectrumExpected, 0);
+            expected(spectrumExpected, options);
+
+            var spectrumActual = new Complex32[samples.Length];
+            samples.CopyTo(spectrumActual, 0);
+            actual(spectrumActual, options);
+
+            AssertHelpers.AlmostEqual(spectrumExpected, spectrumActual, maximumErrorDecimalPlaces);
+        }
+
+        static void Verify(
+            Complex[] samples,
+            int maximumErrorDecimalPlaces,
+            FourierTransformScaling options,
+            Action<Complex[], FourierTransformScaling> expected,
+            Action<Complex[], FourierTransformScaling> actual)
+        {
+            var spectrumExpected = new Complex[samples.Length];
+            samples.CopyTo(spectrumExpected, 0);
+            expected(spectrumExpected, options);
+
+            var spectrumActual = new Complex[samples.Length];
+            samples.CopyTo(spectrumActual, 0);
+            actual(spectrumActual, options);
+
+            AssertHelpers.AlmostEqual(spectrumExpected, spectrumActual, maximumErrorDecimalPlaces);
+        }
+
         /// <summary>
         /// Fourier Radix2XX matches naive on real sine.
         /// </summary>
@@ -93,10 +129,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierRadix2MatchesNaive_RealSine_32(FourierOptions options)
+        public void FourierRadix2MatchesReferenceRealSine32(FourierOptions options)
         {
             var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
-
             Verify(samples, 6, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 6, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
         }
@@ -108,10 +143,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierRadix2MatchesNaive_RealSine(FourierOptions options)
+        public void FourierRadix2MatchesReferenceRealSine64(FourierOptions options)
         {
             var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
-
             Verify(samples, 12, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 12, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
         }
@@ -123,10 +157,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierRadix2MatchesNaive_Random_32(FourierOptions options)
+        public void FourierRadix2MatchesReferenceRandom32(FourierOptions options)
         {
             var samples = Generate.RandomComplex32(0x80, GetUniform(1));
-
             Verify(samples, 5, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 5, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
         }
@@ -138,10 +171,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierRadix2MatchesNaive_Random(FourierOptions options)
+        public void FourierRadix2MatchesReferenceRandom64(FourierOptions options)
         {
             var samples = Generate.RandomComplex(0x80, GetUniform(1));
-
             Verify(samples, 10, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 10, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
         }
@@ -153,10 +185,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierBluesteinMatchesNaive_RealSine_Arbitrary_32(FourierOptions options)
+        public void FourierBluesteinMatchesReferenceRealSineArbitrary32(FourierOptions options)
         {
             var samples = Generate.PeriodicMap(14, w => new Complex32((float)Math.Sin(w), 0), 14, 1.0, Constants.Pi2);
-
             Verify(samples, 6, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 6, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
         }
@@ -168,10 +199,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierBluesteinMatchesNaive_RealSine_Arbitrary(FourierOptions options)
+        public void FourierBluesteinMatchesReferenceRealSineArbitrary64(FourierOptions options)
         {
             var samples = Generate.PeriodicMap(14, w => new Complex(Math.Sin(w), 0), 14, 1.0, Constants.Pi2);
-
             Verify(samples, 12, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 12, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
         }
@@ -183,10 +213,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierBluesteinMatchesNaive_Random_PowerOfTwo_32(FourierOptions options)
+        public void FourierBluesteinMatchesReferenceRandomPowerOfTwo32(FourierOptions options)
         {
             var samples = Generate.RandomComplex32(0x80, GetUniform(1));
-
             Verify(samples, 5, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 5, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
         }
@@ -198,10 +227,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierBluesteinMatchesNaive_Random_PowerOfTwo(FourierOptions options)
+        public void FourierBluesteinMatchesReferenceRandomPowerOfTwo64(FourierOptions options)
         {
             var samples = Generate.RandomComplex(0x80, GetUniform(1));
-
             Verify(samples, 10, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 10, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
         }
@@ -213,10 +241,9 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierBluesteinMatchesNaive_Random_Arbitrary_32(FourierOptions options)
+        public void FourierBluesteinMatchesReferenceRandomArbitrary32(FourierOptions options)
         {
             var samples = Generate.RandomComplex32(0x7F, GetUniform(1));
-
             Verify(samples, 5, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 5, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
         }
@@ -228,48 +255,11 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Default)]
         [TestCase(FourierOptions.Matlab)]
         [TestCase(FourierOptions.NumericalRecipes)]
-        public void FourierBluesteinMatchesNaive_Random_Arbitrary(FourierOptions options)
+        public void FourierBluesteinMatchesReferenceRandomArbitrary64(FourierOptions options)
         {
             var samples = Generate.RandomComplex(0x7F, GetUniform(1));
-
             Verify(samples, 10, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
             Verify(samples, 10, options, ReferenceDiscreteFourierTransform.Inverse, Fourier.Inverse);
-        }
-
-        /// <summary>
-        /// Fourier bluestein matches providers on random power of two.
-        /// </summary>
-        /// <param name="options">Fourier options.</param>
-        [TestCase(FourierOptions.Default)]
-        [TestCase(FourierOptions.NoScaling)]
-        [TestCase(FourierOptions.AsymmetricScaling)]
-        [TestCase(FourierOptions.InverseExponent)]
-        [TestCase(FourierOptions.InverseExponent | FourierOptions.NoScaling)]
-        [TestCase(FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling)]
-        public void FourierBluesteinMatchesProvider_Random_Arbitrary_32(FourierOptions options)
-        {
-            var samples = Generate.RandomComplex32(0x7F, GetUniform(1));
-
-            Verify(samples, 5, options, Fourier.Forward, Fourier.Forward);
-            Verify(samples, 5, options, Fourier.Inverse, Fourier.Inverse);
-        }
-
-        /// <summary>
-        /// Fourier bluestein matches providers on random power of two.
-        /// </summary>
-        /// <param name="options">Fourier options.</param>
-        [TestCase(FourierOptions.Default)]
-        [TestCase(FourierOptions.NoScaling)]
-        [TestCase(FourierOptions.AsymmetricScaling)]
-        [TestCase(FourierOptions.InverseExponent)]
-        [TestCase(FourierOptions.InverseExponent | FourierOptions.NoScaling)]
-        [TestCase(FourierOptions.InverseExponent | FourierOptions.AsymmetricScaling)]
-        public void FourierBluesteinMatchesProvider_Random_Arbitrary(FourierOptions options)
-        {
-            var samples = Generate.RandomComplex(0x7F, GetUniform(1));
-
-            Verify(samples, 10, options, Fourier.Forward, Fourier.Forward);
-            Verify(samples, 10, options, Fourier.Inverse, Fourier.Inverse);
         }
 
         [TestCase(FourierOptions.Default, 128)]
@@ -305,7 +295,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.NoScaling, 129)]
         [TestCase(FourierOptions.AsymmetricScaling, 128)]
         [TestCase(FourierOptions.AsymmetricScaling, 129)]
-        public void RealMatchesComplex(FourierOptions options, int n)
+        public void RealMatchesComplex64(FourierOptions options, int n)
         {
             var real = Generate.Random(n.IsEven() ? n + 2 : n + 1, GetUniform(1));
             real[n] = 0d;
@@ -327,119 +317,95 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         }
 
         [Test]
-        public void ProviderMatchesManagedProvider_PowerOfTwo_Large_32()
+        public void ProviderMatchesManagedProviderPowerOfTwoLarge32()
         {
             // 65536 = 2^16
             var samples = Generate.RandomComplex32(65536, GetUniform(1));
-            var managed = FourierTransformControl.CreateManaged();
-
-            Verify(samples, 5, FourierOptions.NoScaling, (s, o) => managed.Forward(s, FourierTransformScaling.NoScaling), (s, o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling));
+            Verify(samples, 5, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
-        public void ProviderMatchesManagedProvider_PowerOfTwo_Large()
+        public void ProviderMatchesManagedProviderPowerOfTwoLarge64()
         {
             // 65536 = 2^16
             var samples = Generate.RandomComplex(65536, GetUniform(1));
-            var managed = FourierTransformControl.CreateManaged();
-
-            Verify(samples, 10, FourierOptions.NoScaling, (s, o) => managed.Forward(s, FourierTransformScaling.NoScaling), (s, o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling));
+            Verify(samples, 10, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
-        public void ProviderMatchesManagedProvider_Arbitrary_Large_32()
+        public void ProviderMatchesManagedProviderArbitraryLarge32()
         {
             // 30870 = 2*3*3*5*7*7*7
             var samples = Generate.RandomComplex32(30870, GetUniform(1));
-            var managed = FourierTransformControl.CreateManaged();
-
-            Verify(samples, 5, FourierOptions.NoScaling, (s, o) => managed.Forward(s, FourierTransformScaling.NoScaling), (s, o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling));
+            Verify(samples, 5, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
-        public void ProviderMatchesManagedProvider_Arbitrary_Large()
+        public void ProviderMatchesManagedProviderArbitraryLarge64()
         {
             // 30870 = 2*3*3*5*7*7*7
             var samples = Generate.RandomComplex(30870, GetUniform(1));
-            var managed = FourierTransformControl.CreateManaged();
-
-            Verify(samples, 10, FourierOptions.NoScaling, (s, o) => managed.Forward(s, FourierTransformScaling.NoScaling), (s, o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling));
+            Verify(samples, 10, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
-        public void ProviderMatchesManagedProvider_Arbitrary_Large_GH286_32()
+        public void ProviderMatchesManagedProviderArbitraryLarge32_GH286()
         {
             var samples = Generate.RandomComplex32(46500, GetUniform(1));
-            var managed = FourierTransformControl.CreateManaged();
-
-            Verify(samples, 5, FourierOptions.NoScaling, (s, o) => managed.Forward(s, FourierTransformScaling.NoScaling), (s, o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling));
+            Verify(samples, 5, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
-        public void ProviderMatchesManagedProvider_Arbitrary_Large_GH286()
+        public void ProviderMatchesManagedProviderArbitraryLarge64_GH286()
         {
             var samples = Generate.RandomComplex(46500, GetUniform(1));
-            var managed = FourierTransformControl.CreateManaged();
-
-            Verify(samples, 10, FourierOptions.NoScaling, (s, o) => managed.Forward(s, FourierTransformScaling.NoScaling), (s, o) => FourierTransformControl.Provider.Forward(s, FourierTransformScaling.NoScaling));
+            Verify(samples, 10, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test, Explicit("Long-Running")]
-        public void AlgorithmsMatchNaive_PowerOfTwo_Large_32()
+        public void AlgorithmsMatchReferencePowerOfTwoLarge32()
         {
             // 65536 = 2^16
-            const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex32(65536, GetUniform(1));
-
-            Verify(samples, 3, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
+            Verify(samples, 3, FourierOptions.NoScaling, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
         }
 
         [Test, Explicit("Long-Running")]
-        public void AlgorithmsMatchNaive_PowerOfTwo_Large()
+        public void AlgorithmsMatchReferencePowerOfTwoLarge64()
         {
             // 65536 = 2^16
-            const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(65536, GetUniform(1));
-
-            Verify(samples, 10, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
+            Verify(samples, 10, FourierOptions.NoScaling, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
         }
 
         [Test, Explicit("Long-Running")]
-        public void AlgorithmsMatchNaive_Arbitrary_Large_32()
+        public void AlgorithmsMatchReferenceArbitraryLarge32()
         {
             // 30870 = 2*3*3*5*7*7*7
-            const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex32(30870, GetUniform(1));
-
-            Verify(samples, 4, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
+            Verify(samples, 4, FourierOptions.NoScaling, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
         }
 
         [Test, Explicit("Long-Running")]
-        public void AlgorithmsMatchNaive_Arbitrary_Large()
+        public void AlgorithmsMatchReferenceArbitraryLarge64()
         {
             // 30870 = 2*3*3*5*7*7*7
-            const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(30870, GetUniform(1));
-
-            Verify(samples, 10, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
+            Verify(samples, 10, FourierOptions.NoScaling, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
         }
 
         [Test, Explicit("Long-Running")]
-        public void AlgorithmsMatchNaive_Arbitrary_Large_GH286_32()
+        public void AlgorithmsMatchReferenceArbitraryLarge32_GH286()
         {
-            const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex32(46500, GetUniform(1));
-
-            Verify(samples, 4, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
+            Verify(samples, 4, FourierOptions.NoScaling, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
         }
 
         [Test, Explicit("Long-Running")]
-        public void AlgorithmsMatchNaive_Arbitrary_Large_GH286()
+        public void AlgorithmsMatchReferenceArbitraryLarge64_GH286()
         {
-            const FourierOptions options = FourierOptions.NoScaling;
             var samples = Generate.RandomComplex(46500, GetUniform(1));
-
-            Verify(samples, 10, options, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
+            Verify(samples, 10, FourierOptions.NoScaling, ReferenceDiscreteFourierTransform.Forward, Fourier.Forward);
         }
     }
 }

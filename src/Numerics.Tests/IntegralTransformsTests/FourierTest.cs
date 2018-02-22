@@ -40,11 +40,8 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
     [TestFixture, Category("FFT")]
     public class FourierTest
     {
-        /// <summary>
-        /// Naive transforms real sine correctly.
-        /// </summary>
         [Test]
-        public void NaiveTransformsRealSineCorrectly32()
+        public void ReferenceDftTransformsRealSineCorrectly32()
         {
             var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
@@ -75,16 +72,77 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             }
         }
 
-        /// <summary>
-        /// Naive transforms real sine correctly.
-        /// </summary>
         [Test]
-        public void NaiveTransformsRealSineCorrectly()
+        public void ReferenceDftTransformsRealSineCorrectly64()
         {
             var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
 
             // real-odd transforms to imaginary odd
             ReferenceDiscreteFourierTransform.Forward(samples, FourierOptions.Matlab);
+
+            // all real components must be zero
+            foreach (var c in samples)
+            {
+                Assert.AreEqual(0, c.Real, 1e-12, "real");
+            }
+
+            // all imaginary components except second and last musth be zero
+            for (var i = 0; i < samples.Length; i++)
+            {
+                if (i == 1)
+                {
+                    Assert.AreEqual(-8, samples[i].Imaginary, 1e-12, "imag second");
+                }
+                else if (i == samples.Length - 1)
+                {
+                    Assert.AreEqual(8, samples[i].Imaginary, 1e-12, "imag last");
+                }
+                else
+                {
+                    Assert.AreEqual(0, samples[i].Imaginary, 1e-12, "imag");
+                }
+            }
+        }
+
+        [Test]
+        public void FourierDefaultTransformsRealSineCorrectly32()
+        {
+            var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+
+            // real-odd transforms to imaginary odd
+            Fourier.Forward(samples, FourierOptions.Matlab);
+
+            // all real components must be zero
+            foreach (var c in samples)
+            {
+                Assert.AreEqual(0, c.Real, 1e-6, "real");
+            }
+
+            // all imaginary components except second and last musth be zero
+            for (var i = 0; i < samples.Length; i++)
+            {
+                if (i == 1)
+                {
+                    Assert.AreEqual(-8, samples[i].Imaginary, 1e-12, "imag second");
+                }
+                else if (i == samples.Length - 1)
+                {
+                    Assert.AreEqual(8, samples[i].Imaginary, 1e-12, "imag last");
+                }
+                else
+                {
+                    Assert.AreEqual(0, samples[i].Imaginary, 1e-6, "imag");
+                }
+            }
+        }
+
+        [Test]
+        public void FourierDefaultTransformsRealSineCorrectly64()
+        {
+            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+
+            // real-odd transforms to imaginary odd
+            Fourier.Forward(samples, FourierOptions.Matlab);
 
             // all real components must be zero
             foreach (var c in samples)
