@@ -384,14 +384,7 @@ Target "OpenBlasWinBuild" DoNothing
 // TEST
 // --------------------------------------------------------------------------------------
 
-let testLibrary testsDir testsProj framework =
-    DotNetCli.RunCommand
-        (fun c -> { c with WorkingDir = testsDir})
-        (sprintf "run -p %s --configuration Release --framework %s --no-restore --no-build"
-            testsProj
-            framework)
-
-let testNumerics framework = testLibrary "src/Numerics.Tests" "Numerics.Tests.csproj" framework
+let testNumerics framework = test "src/Numerics.Tests" "Numerics.Tests.csproj" framework
 Target "TestNumerics" DoNothing
 Target "TestNumericsCore1.1" (fun _ -> testNumerics "netcoreapp1.1")
 Target "TestNumericsCore2.0" (fun _ -> testNumerics "netcoreapp2.0")
@@ -405,7 +398,7 @@ Target "TestNumericsNET47"  (fun _ -> testNumerics "net47")
 "Build" =?> ("TestNumericsNET45", isWindows)
 "Build" =?> ("TestNumericsNET461", isWindows) ==> "TestNumerics"
 "Build" =?> ("TestNumericsNET47", isWindows)
-let testFsharp framework = testLibrary "src/FSharp.Tests" "FSharp.Tests.fsproj" framework
+let testFsharp framework = test "src/FSharp.Tests" "FSharp.Tests.fsproj" framework
 Target "TestFsharp" DoNothing
 Target "TestFsharpCore1.1" (fun _ -> testFsharp "netcoreapp1.1")
 Target "TestFsharpCore2.0" (fun _ -> testFsharp "netcoreapp2.0")
@@ -421,28 +414,28 @@ Target "Test" DoNothing
 "TestNumerics" ==> "Test"
 "TestFsharp" ==> "Test"
 
-let testMKL framework = testLibrary "src/Numerics.Tests" "Numerics.Tests.MKL.csproj" framework
+let testMKL framework = test "src/Numerics.Tests" "Numerics.Tests.MKL.csproj" framework
 Target "MklTest" DoNothing
 Target "MklTestCore2.0" (fun _ -> testMKL "netcoreapp2.0")
 Target "MklTestNET40" (fun _ -> testMKL "net40")
 "Build" ==> "MklTestCore2.0" ==> "MklTest"
 "Build" =?> ("MklTestNET40", isWindows) ==> "MklTest"
 
-let testOpenBLAS framework = testLibrary "src/Numerics.Tests" "Numerics.Tests.OpenBLAS.csproj" framework
+let testOpenBLAS framework = test "src/Numerics.Tests" "Numerics.Tests.OpenBLAS.csproj" framework
 Target "OpenBlasTest" DoNothing
 Target "OpenBlasTestCore2.0" (fun _ -> testOpenBLAS "netcoreapp2.0")
 Target "OpenBlasTestNET40" (fun _ -> testOpenBLAS "net40")
 "Build" ==> "OpenBlasTestCore2.0" ==> "OpenBlasTest"
 "Build" =?> ("OpenBlasTestNET40", isWindows) ==> "OpenBlasTest"
 
-let testCUDA framework = testLibrary "src/Numerics.Tests" "Numerics.Tests.CUDA.csproj" framework
+let testCUDA framework = test "src/Numerics.Tests" "Numerics.Tests.CUDA.csproj" framework
 Target "CudaTest" DoNothing
 Target "CudaTestCore2.0" (fun _ -> testCUDA "netcoreapp2.0")
 Target "CudaTestNET40" (fun _ -> testCUDA "net40")
 "Build" ==> "CudaTestCore2.0" ==> "CudaTest"
 "Build" =?> ("CudaTestNET40", isWindows) ==> "CudaTest"
 
-let testData framework = testLibrary "src/Data.Tests" "Data.Tests.csproj" framework
+let testData framework = test "src/Data.Tests" "Data.Tests.csproj" framework
 Target "DataTest" DoNothing
 Target "DataTestCore1.1" (fun _ -> testData "netcoreapp1.1")
 Target "DataTestCore2.0" (fun _ -> testData "netcoreapp2.0")

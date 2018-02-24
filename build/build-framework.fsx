@@ -159,22 +159,12 @@ let buildConfig64 config subject = MSBuild "" (if hasBuildParam "incremental" th
 // TEST
 // --------------------------------------------------------------------------------------
 
-let test target =
-    let quick p = if hasBuildParam "quick" then { p with Where="cat!=LongRunning" } else p
-    NUnit3 (fun p ->
-        { p with
-            ShadowCopy = false
-            Labels = LabelsLevel.Off
-            TimeOut = TimeSpan.FromMinutes 60. } |> quick) target
-
-let test32 target =
-    let quick p = if hasBuildParam "quick" then { p with Where="cat!=LongRunning" } else p
-    NUnit3 (fun p ->
-        { p with
-            Force32bit = true
-            ShadowCopy = false
-            Labels = LabelsLevel.Off
-            TimeOut = TimeSpan.FromMinutes 60. } |> quick) target
+let test testsDir testsProj framework =
+    DotNetCli.RunCommand
+        (fun c -> { c with WorkingDir = testsDir})
+        (sprintf "run -p %s --configuration Release --framework %s --no-restore --no-build"
+            testsProj
+            framework)
 
 
 // --------------------------------------------------------------------------------------
