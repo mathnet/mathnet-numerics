@@ -1,156 +1,101 @@
-﻿//using System;
-//using MathNet.Numerics;
-//using MathNet.Numerics.LinearAlgebra;
-//using MathNet.Numerics.LinearAlgebra.Storage;
-//using MathNet.Numerics.Providers.LinearAlgebra;
-//using MathNet.Numerics.Providers.LinearAlgebra.Mkl;
-//using MathNet.Numerics.Threading;
+﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Jobs;
+using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.Providers.Common.Mkl;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace Benchmark.LinearAlgebra
 {
+    [Config(typeof(Config))]
+    public class DenseVectorAdd
+    {
+        class Config : ManualConfig
+        {
+            public Config()
+            {
+                Add(
+                    new Job("CLR x64", RunMode.Default, EnvMode.RyuJitX64)
+                    {
+                        Env = { Runtime = Runtime.Clr, Platform = Platform.X64 }
+                    },
+                    new Job("CLR x86", RunMode.Default, EnvMode.LegacyJitX86)
+                    {
+                        Env = { Runtime = Runtime.Clr, Platform = Platform.X86 }
+                    });
+#if !NET461
+                Add(new Job("Core RyuJit x64", RunMode.Default, EnvMode.RyuJitX64)
+                    {
+                        Env = { Runtime = Runtime.Core, Platform = Platform.X64 }
+                    });
+#endif
+            }
+        }
 
+        public enum ProviderId
+        {
+            Managed,
+            NativeMKL,
+        }
 
-//Benchmark(new LinearAlgebra.DenseVectorAdd(10000000,1), 10, "Large (10'000'000) - 10x1 iterations");
-//Benchmark(new LinearAlgebra.DenseVectorAdd(100,1000), 100, "Small (100) - 100x1000 iterations");
+        [Params(4, 32, 128, 4096, 524288)]
+        public int N { get; set; }
 
+        [Params(ProviderId.Managed, ProviderId.NativeMKL)]
+        public ProviderId Provider { get; set; }
 
+        //const int Rounds = 1024;
 
-//    public class DenseVectorAdd
-//    {
-//        readonly int _rounds;
-//        readonly Vector<double> _a;
-//        readonly Vector<double> _b;
+        double[] _a;
+        double[] _b;
+        Vector<double> _av;
+        Vector<double> _bv;
 
-//        readonly ILinearAlgebraProvider _managed = new ManagedLinearAlgebraProvider();
-//        readonly ILinearAlgebraProvider _mkl = new MklLinearAlgebraProvider();
+        [GlobalSetup]
+        public void Setup()
+        {
+            switch (Provider)
+            {
+                case ProviderId.Managed:
+                    Control.UseManaged();
+                    break;
+                case ProviderId.NativeMKL:
+                    Control.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
+                    break;
+            }
 
-//        public DenseVectorAdd(int size, int rounds)
-//        {
-//            _rounds = rounds;
+            _a = Generate.Normal(N, 2.0, 10.0);
+            _b = Generate.Normal(N, 200.0, 10.0);
+            _av = Vector<double>.Build.Dense(_a);
+            _bv = Vector<double>.Build.Dense(_b);
+        }
 
-//            _b = Vector<double>.Build.Random(size);
-//            _a = Vector<double>.Build.Random(size);
+        [Benchmark(OperationsPerInvoke = 1, Baseline = true)]
+        public double[] ForLoop()
+        {
+            double[] r = new double[_a.Length];
+            for (int i = 0; i < r.Length; i++)
+            {
+                r[i] = _a[i] + _b[i];
+            }
 
-//            _managed.InitializeVerify();
-//            Control.LinearAlgebraProvider = _managed;
+            return r;
+        }
 
-//#if NATIVE
-//            _mkl.InitializeVerify();
-//#endif
-//        }
+        [Benchmark(OperationsPerInvoke = 1)]
+        public double[] ProviderAddArrays()
+        {
+            double[] r = new double[_a.Length];
+            LinearAlgebraControl.Provider.AddArrays(_a, _b, r);
+            return r;
+        }
 
-//        [BenchSharkTask("AddOperator")]
-//        public Vector<double> AddOperator()
-//        {
-//            var z = _b;
-//            for (int i = 0; i < _rounds; i++)
-//            {
-//                z = _a + z;
-//            }
-//            return z;
-//        }
-
-//        [BenchSharkTask("Map2")]
-//        public Vector<double> Map2()
-//        {
-//            var z = _b;
-//            for (int i = 0; i < _rounds; i++)
-//            {
-//                z = _a.Map2((u, v) => u + v, z);
-//            }
-//            return z;
-//        }
-
-//        [BenchSharkTask("Loop")]
-//        public Vector<double> Loop()
-//        {
-//            var z = _b;
-//            for (int i = 0; i < _rounds; i++)
-//            {
-//                var aa = ((DenseVectorStorage<double>)_a.Storage).Data;
-//                var az = ((DenseVectorStorage<double>)z.Storage).Data;
-//                var ar = new Double[aa.Length];
-//                for (int k = 0; k < ar.Length; k++)
-//                {
-//                    ar[k] = aa[k] + az[k];
-//                }
-//                z = Vector<double>.Build.Dense(ar);
-//            }
-//            return z;
-//        }
-
-//        [BenchSharkTask("ParallelLoop4096")]
-//        public Vector<double> ParallelLoop4096()
-//        {
-//            var z = _b;
-//            for (int i = 0; i < _rounds; i++)
-//            {
-//                var aa = ((DenseVectorStorage<double>)_a.Storage).Data;
-//                var az = ((DenseVectorStorage<double>)z.Storage).Data;
-//                var ar = new Double[aa.Length];
-//                CommonParallel.For(0, ar.Length, 4096, (u, v) =>
-//                {
-//                    for (int k = u; k < v; k++)
-//                    {
-//                        ar[k] = aa[k] + az[k];
-//                    }
-//                });
-//                z = Vector<double>.Build.Dense(ar);
-//            }
-//            return z;
-//        }
-
-//        [BenchSharkTask("ParallelLoop32768")]
-//        public Vector<double> ParallelLoop32768()
-//        {
-//            var z = _b;
-//            for (int i = 0; i < _rounds; i++)
-//            {
-//                var aa = ((DenseVectorStorage<double>)_a.Storage).Data;
-//                var az = ((DenseVectorStorage<double>)z.Storage).Data;
-//                var ar = new Double[aa.Length];
-//                CommonParallel.For(0, ar.Length, 32768, (u, v) =>
-//                {
-//                    for (int k = u; k < v; k++)
-//                    {
-//                        ar[k] = aa[k] + az[k];
-//                    }
-//                });
-//                z = Vector<double>.Build.Dense(ar);
-//            }
-//            return z;
-//        }
-
-//        [BenchSharkTask("ManagedProvider")]
-//        public Vector<double> ManagedProvider()
-//        {
-//            var z = _b;
-//            for (int i = 0; i < _rounds; i++)
-//            {
-//                var aa = ((DenseVectorStorage<double>)_a.Storage).Data;
-//                var az = ((DenseVectorStorage<double>)z.Storage).Data;
-//                var ar = new Double[aa.Length];
-//                _managed.AddArrays(aa, az, ar);
-//                z = Vector<double>.Build.Dense(ar);
-//            }
-//            return z;
-//        }
-
-//#if NATIVEMKL
-//        [BenchSharkTask("MklProvider")]
-//        public Vector<double> MklProvider()
-//        {
-//            var z = _b;
-//            for (int i = 0; i < _rounds; i++)
-//            {
-//                var aa = ((DenseVectorStorage<double>)_a.Storage).Data;
-//                var az = ((DenseVectorStorage<double>)z.Storage).Data;
-//                var ar = new Double[aa.Length];
-//                _mkl.AddArrays(aa, az, ar);
-//                z = Vector<double>.Build.Dense(ar);
-//            }
-//            return z;
-//        }
-//#endif
-//    }
+        [Benchmark(OperationsPerInvoke = 1)]
+        public Vector<double> VectorAddOp()
+        {
+            return _av + _bv;
+        }
+    }
 }
