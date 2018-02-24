@@ -5,6 +5,7 @@ using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
+using MathNet.Numerics.Providers.Common.Mkl;
 
 namespace Benchmark.Transforms
 {
@@ -33,18 +34,33 @@ namespace Benchmark.Transforms
             }
         }
 
+        public enum ProviderId
+        {
+            Managed,
+            NativeMKL,
+        }
+
         [Params(32, 128, 1024)] // 32, 64, 128, 1024, 8192, 65536
         public int N { get; set; }
 
-        [Params(Provider.Managed, Provider.NativeMKLAutoHigh)]
-        public Provider Provider { get; set; }
+        [Params(ProviderId.Managed, ProviderId.NativeMKL)]
+        public ProviderId Provider { get; set; }
 
         Complex[] _data;
 
         [GlobalSetup]
         public void GlobalSetup()
         {
-            Providers.ForceProvider(Provider);
+            switch (Provider)
+            {
+                case ProviderId.Managed:
+                    Control.UseManaged();
+                    break;
+                case ProviderId.NativeMKL:
+                    Control.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
+                    break;
+            }
+
             var realSinusoidal = Generate.Sinusoidal(N, 32, -2.0, 2.0);
             var imagSawtooth = Generate.Sawtooth(N, 32, -20.0, 20.0);
             _data = Generate.Map2(realSinusoidal, imagSawtooth, (r, i) => new Complex(r, i));
