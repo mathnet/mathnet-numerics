@@ -1,3 +1,9 @@
+### 4.3.0 - 2018-02-24
+* FFT: migrate managed algorithms to provider, streamline implementation wiring, scaling logic.
+* FFT: obsoleted algorithm-specific functions like Radix2Forward, they use Forward internally until v5.
+* FFT: migrate "naive" implementation to tests as reference implementation.
+* Build: fix NuGet packaging sucht that the included assemblies are really code-signed.
+
 ### 4.2.0 - 2018-02-21
 * Native Providers: MklProvider and similar types now public (entry point for memory management, etc)
 * Native Providers: All providers now support freeing resources without unloading the provider
