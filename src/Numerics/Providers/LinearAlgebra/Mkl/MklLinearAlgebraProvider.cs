@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
     /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
-    internal partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
+    internal partial class MklLinearAlgebraProvider : Managed.ManagedLinearAlgebraProvider, IDisposable
     {
         const int MinimumCompatibleRevision = 4;
 

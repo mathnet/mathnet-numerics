@@ -30,7 +30,7 @@ using System;
 
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics.Providers.FourierTransform
+namespace MathNet.Numerics.Providers.FourierTransform.Managed
 {
     internal partial class ManagedFourierTransformProvider : IFourierTransformProvider
     {

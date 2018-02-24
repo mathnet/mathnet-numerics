@@ -37,7 +37,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
     /// <summary>
     /// NVidia's CUDA Toolkit linear algebra provider.
     /// </summary>
-    internal partial class CudaLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
+    internal partial class CudaLinearAlgebraProvider : Managed.ManagedLinearAlgebraProvider, IDisposable
     {
         const int MinimumCompatibleRevision = 1;
 

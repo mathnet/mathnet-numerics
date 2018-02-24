@@ -33,7 +33,7 @@ using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra
+namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
 {
     /// <summary>
     /// The managed linear algebra provider.

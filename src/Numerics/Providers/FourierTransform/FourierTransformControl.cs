@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
 
         public static IFourierTransformProvider CreateManaged()
         {
-            return new ManagedFourierTransformProvider();
+            return new Managed.ManagedFourierTransformProvider();
         }
 
         public static void UseManaged()

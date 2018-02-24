@@ -29,7 +29,7 @@
 
 using System;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra
+namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
 {
     internal enum Variation
     {

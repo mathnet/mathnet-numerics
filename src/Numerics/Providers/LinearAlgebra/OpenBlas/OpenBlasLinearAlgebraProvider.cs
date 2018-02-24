@@ -55,7 +55,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
     /// <summary>
     /// OpenBLAS linear algebra provider.
     /// </summary>
-    internal partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
+    internal partial class OpenBlasLinearAlgebraProvider : Managed.ManagedLinearAlgebraProvider, IDisposable
     {
         const int MinimumCompatibleRevision = 1;
 

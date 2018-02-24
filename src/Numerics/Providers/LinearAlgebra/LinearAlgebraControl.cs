@@ -80,7 +80,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
 
         public static ILinearAlgebraProvider CreateManaged()
         {
-            return new ManagedLinearAlgebraProvider();
+            return new Managed.ManagedLinearAlgebraProvider();
         }
 
         public static void UseManaged()
