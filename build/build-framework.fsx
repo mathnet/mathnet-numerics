@@ -24,8 +24,9 @@ open Fake.Testing.NUnit3
 open System
 open System.IO
 
-Environment.CurrentDirectory <- Path.Combine (__SOURCE_DIRECTORY__ + "/../")
-trace Environment.CurrentDirectory
+let rootDir = Path.GetFullPath (Path.Combine (__SOURCE_DIRECTORY__ + "/../"))
+Environment.CurrentDirectory <- rootDir
+trace rootDir
 
 let header = ReadFile(__SOURCE_DIRECTORY__ </> __SOURCE_FILE__) |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> toLines
 
@@ -73,6 +74,7 @@ let traceHeader (releases:Release list) =
         trace ([ " "; release.Title.PadRight titleLength; "  v"; release.PackageVersion ] |> String.concat "")
     trace ""
 
+
 // --------------------------------------------------------------------------------------
 // TARGET FRAMEWORKS
 // --------------------------------------------------------------------------------------
@@ -88,6 +90,27 @@ let libpcl47 = "lib/portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1"
 let libpcl78 = "lib/portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1"
 let libpcl259 = "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
 let libpcl328 = "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
+
+
+// --------------------------------------------------------------------------------------
+// .Net SDK
+// --------------------------------------------------------------------------------------
+
+let msbuild targets configuration project =
+    MSBuildHelper.build (fun p ->
+        { p with
+            NoLogo = true
+            NodeReuse = true
+            Targets = targets
+            Properties = [ "Configuration", configuration ]
+            RestorePackagesFlag = false
+            Verbosity = Some MSBuildVerbosity.Minimal
+        }) project
+
+let dotnet workingDir command =
+    DotNetCli.RunCommand
+        (fun c -> { c with WorkingDir = workingDir})
+        command
 
 
 // --------------------------------------------------------------------------------------
@@ -128,25 +151,15 @@ let patchVersionInProjectFile path (release:Release) =
         >> regex_replace_singleline """\<PackageReleaseNotes\>.*\</PackageReleaseNotes\>""" (sprintf """<PackageReleaseNotes>%s</PackageReleaseNotes>""" release.ReleaseNotes))
         path
 
+
 // --------------------------------------------------------------------------------------
 // BUILD
 // --------------------------------------------------------------------------------------
 
-let msbuild targets configuration project =
-    MSBuildHelper.build (fun p ->
-        { p with
-            NoLogo = true
-            NodeReuse = true
-            Targets = targets
-            Properties = [ "Configuration", configuration ]
-            RestorePackagesFlag = false
-            Verbosity = Some MSBuildVerbosity.Minimal
-        }) project
-
 let clean project = msbuild [ "Clean" ] "Release" project
 let restore project = msbuild [ "Restore" ] "Release" project
 let build project = msbuild [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" project
-let pack project = msbuild [ "Pack" ] "Release" project
+let pack project = dotnet rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" project)
 
 //let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
 //let build subject = buildConfig "Release" subject
@@ -160,11 +173,7 @@ let buildConfig64 config subject = MSBuild "" (if hasBuildParam "incremental" th
 // --------------------------------------------------------------------------------------
 
 let test testsDir testsProj framework =
-    DotNetCli.RunCommand
-        (fun c -> { c with WorkingDir = testsDir})
-        (sprintf "run -p %s --configuration Release --framework %s --no-restore --no-build"
-            testsProj
-            framework)
+    dotnet testsDir (sprintf "run -p %s --configuration Release --framework %s --no-restore --no-build" testsProj framework)
 
 
 // --------------------------------------------------------------------------------------
