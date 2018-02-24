@@ -140,7 +140,7 @@ let patchVersionInResource path (release:Release) =
 let patchVersionInProjectFile path (release:Release) =
     let semverSplit = release.PackageVersion.IndexOf('-')
     let prefix = if semverSplit <= 0 then release.PackageVersion else release.PackageVersion.Substring(0, semverSplit)
-    let suffix = if semverSplit <= 0 then release.PackageVersion else release.PackageVersion.Substring(semverSplit+1)
+    let suffix = if semverSplit <= 0 then "" else release.PackageVersion.Substring(semverSplit+1)
     ReplaceInFile
         (regex_replace """\<PackageVersion\>.*\</PackageVersion\>""" (sprintf """<PackageVersion>%s</PackageVersion>""" release.PackageVersion)
         >> regex_replace """\<Version\>.*\</Version\>""" (sprintf """<Version>%s</Version>""" release.PackageVersion)

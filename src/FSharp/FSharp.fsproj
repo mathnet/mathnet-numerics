@@ -9,7 +9,7 @@
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp</PackageId>
     <VersionPrefix>4.3.0</VersionPrefix>
-    <VersionSuffix>4.3.0</VersionSuffix>
+    <VersionSuffix></VersionSuffix>
     <PackageVersion>4.3.0</PackageVersion>
     <Version>4.3.0</Version>
     <AssemblyVersion>4.3.0.0</AssemblyVersion>
