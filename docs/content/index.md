@@ -9,9 +9,8 @@ regression, optimization problems and more.
 Math.NET Numerics is part of the [Math.NET initiative](https://www.mathdotnet.com/)
 and is the result of merging dnAnalytics with Math.NET Iridium, replacing both.
 Available for free under the [MIT/X11 License](License.html).
-It targets Microsoft .Net 4, .Net 3.5 and Mono
-(Windows, Linux and Mac), Silverlight 5, WindowsPhone 8 and 8.1, Windows 8/Store
-(PCL 7, 47, 78, 259 and 328) and Android/iOS (Xamarin). In addition to a purely
+It targets Microsoft .Net 4.0 and higher, including Mono, and .Net Standard 1.3
+and higher (with builds for .Net Standard 2.0). In addition to a purely
 managed implementation it also supports native hardware optimization.
 See [Platform Support](Compatibility.html) for full details.
 
