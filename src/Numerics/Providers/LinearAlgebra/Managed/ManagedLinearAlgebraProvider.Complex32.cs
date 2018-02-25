@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -73,13 +73,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
             }
             else if (alpha.IsOne())
             {
-                CommonParallel.For(0, y.Length, 4096, (a, b) =>
+                for (int i = 0; i < result.Length; i++)
                 {
-                    for (int i = a; i < b; i++)
-                    {
-                        result[i] = y[i] + x[i];
-                    }
-                });
+                    result[i] = y[i] + x[i];
+                }
             }
             else
             {
@@ -215,13 +212,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.For(0, y.Length, 4096, (a, b) =>
+            for (int i = 0; i < result.Length; i++)
             {
-                for (int i = a; i < b; i++)
-                {
-                    result[i] = x[i] + y[i];
-                }
-            });
+                result[i] = x[i] + y[i];
+            }
         }
 
         /// <summary>
@@ -256,13 +250,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.For(0, y.Length, 4096, (a, b) =>
+            for (int i = 0; i < result.Length; i++)
             {
-                for (int i = a; i < b; i++)
-                {
-                    result[i] = x[i] - y[i];
-                }
-            });
+                result[i] = x[i] - y[i];
+            }
         }
 
         /// <summary>

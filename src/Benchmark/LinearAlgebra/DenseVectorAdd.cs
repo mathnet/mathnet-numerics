@@ -7,6 +7,8 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Providers.Common.Mkl;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
+using Complex = System.Numerics.Complex;
+
 namespace Benchmark.LinearAlgebra
 {
     [Config(typeof(Config))]
@@ -47,12 +49,12 @@ namespace Benchmark.LinearAlgebra
         [Params(ProviderId.Managed, ProviderId.ManagedReference, ProviderId.NativeMKL)]
         public ProviderId Provider { get; set; }
 
-        //const int Rounds = 1024;
-
         double[] _a;
         double[] _b;
-        Vector<double> _av;
-        Vector<double> _bv;
+        //Complex[] _ac;
+        //Complex[] _bc;
+        //Vector<double> _av;
+        //Vector<double> _bv;
 
         [GlobalSetup]
         public void Setup()
@@ -72,9 +74,33 @@ namespace Benchmark.LinearAlgebra
 
             _a = Generate.Normal(N, 2.0, 10.0);
             _b = Generate.Normal(N, 200.0, 10.0);
-            _av = Vector<double>.Build.Dense(_a);
-            _bv = Vector<double>.Build.Dense(_b);
+            //_ac = Generate.Map2(_a, Generate.Normal(N, 2.0, 10.0), (a, i) => new Complex(a, i));
+            //_bc = Generate.Map2(_b, Generate.Normal(N, 200.0, 10.0), (b, i) => new Complex(b, i));
+            //_av = Vector<double>.Build.Dense(_a);
+            //_bv = Vector<double>.Build.Dense(_b);
         }
+
+        [Benchmark(OperationsPerInvoke = 1)]
+        public double[] ProviderAddArrays()
+        {
+            double[] r = new double[_a.Length];
+            LinearAlgebraControl.Provider.AddArrays(_a, _b, r);
+            return r;
+        }
+
+        //[Benchmark(OperationsPerInvoke = 1)]
+        //public Complex[] ProviderAddArraysComplex()
+        //{
+        //    Complex[] r = new Complex[_a.Length];
+        //    LinearAlgebraControl.Provider.AddArrays(_ac, _bc, r);
+        //    return r;
+        //}
+
+        //[Benchmark(OperationsPerInvoke = 1)]
+        //public Vector<double> VectorAddOp()
+        //{
+        //    return _av + _bv;
+        //}
 
         //[Benchmark(OperationsPerInvoke = 1, Baseline = true)]
         //public double[] ForLoop()
@@ -86,20 +112,6 @@ namespace Benchmark.LinearAlgebra
         //    }
 
         //    return r;
-        //}
-
-        [Benchmark(OperationsPerInvoke = 1)]
-        public double[] ProviderAddArrays()
-        {
-            double[] r = new double[_a.Length];
-            LinearAlgebraControl.Provider.AddArrays(_a, _b, r);
-            return r;
-        }
-
-        //[Benchmark(OperationsPerInvoke = 1)]
-        //public Vector<double> VectorAddOp()
-        //{
-        //    return _av + _bv;
         //}
     }
 }
