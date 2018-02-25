@@ -465,74 +465,95 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
         public virtual void MatrixMultiply(double[] x, int rowsX, int columnsX, double[] y, int rowsY, int columnsY, double[] result)
         {
-            if (_variation == Variation.Experimental)
-            {
-                MatrixMultiplyWithUpdateExperimental(Transpose.DontTranspose, Transpose.DontTranspose, 1.0, x, rowsX, columnsX, y, rowsY, columnsY, 0.0, result);
-                return;
-            }
-
-            // First check some basic requirement on the parameters of the matrix multiplication.
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException("a");
             }
 
             if (y == null)
             {
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException("b");
             }
 
             if (result == null)
             {
-                throw new ArgumentNullException("result");
-            }
-
-            if (rowsX * columnsX != x.Length)
-            {
-                throw new ArgumentException("x.Length != xRows * xColumns");
-            }
-
-            if (rowsY * columnsY != y.Length)
-            {
-                throw new ArgumentException("y.Length != yRows * yColumns");
+                throw new ArgumentNullException("c");
             }
 
             if (columnsX != rowsY)
             {
-                throw new ArgumentException("xColumns != yRows");
+                throw new ArgumentOutOfRangeException(string.Format("columnsA ({0}) != rowsB ({1})", columnsX, rowsY));
+            }
+
+            if (rowsX * columnsX != x.Length)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsA ({1}) != a.Length ({2})", rowsX, columnsX, x.Length));
+            }
+
+            if (rowsY * columnsY != y.Length)
+            {
+                throw new ArgumentOutOfRangeException(string.Format("rowsB ({0}) * columnsB ({1}) != b.Length ({2})", rowsY, columnsY, y.Length));
             }
 
             if (rowsX * columnsY != result.Length)
             {
-                throw new ArgumentException("xRows * yColumns != result.Length");
+                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsB ({1}) != c.Length ({2})", rowsX, columnsY, result.Length));
             }
 
-            // Check whether we will be overwriting any of our inputs and make copies if necessary.
-            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
-            // as result, we can do it on a row wise basis. We should investigate this.
-            double[] xdata;
-            if (ReferenceEquals(x, result))
-            {
-                xdata = (double[])x.Clone();
-            }
-            else
-            {
-                xdata = x;
-            }
-
-            double[] ydata;
-            if (ReferenceEquals(y, result))
-            {
-                ydata = (double[])y.Clone();
-            }
-            else
-            {
-                ydata = y;
-            }
-
+            // handle degenerate cases
             Array.Clear(result, 0, result.Length);
 
-            CacheObliviousMatrixMultiply(Transpose.DontTranspose, Transpose.DontTranspose, 1.0, xdata, 0, 0, ydata, 0, 0, result, 0, 0, rowsX, columnsY, columnsX, rowsX, columnsY, columnsX, true);
+            // Extract column arrays
+            var columnDataB = new double[columnsY][];
+            for (int i = 0; i < columnDataB.Length; i++)
+            {
+                var column = new double[rowsY];
+                GetColumn(Transpose.DontTranspose, i, rowsY, columnsY, y, column);
+                columnDataB[i] = column;
+            }
+
+            var shouldNotParallelize = rowsX + columnsY + columnsX < Control.ParallelizeOrder || Control.MaxDegreeOfParallelism < 2;
+            if (shouldNotParallelize)
+            {
+                var row = new double[columnsX];
+                for (int i = 0; i < rowsX; i++)
+                {
+                    GetRow(Transpose.DontTranspose, i, rowsX, columnsX, x, row);
+                    for (int j = 0; j < columnsY; j++)
+                    {
+                        var col = columnDataB[j];
+                        double sum = 0;
+                        for (int ii = 0; ii < row.Length; ii++)
+                        {
+                            sum += row[ii] * col[ii];
+                        }
+
+                        result[j * rowsX + i] += 1.0 * sum;
+                    }
+                }
+            }
+            else
+            {
+                CommonParallel.For(0, rowsX, 1, (u, v) =>
+                {
+                    var row = new double[columnsX];
+                    for (int i = u; i < v; i++)
+                    {
+                        GetRow(Transpose.DontTranspose, i, rowsX, columnsX, x, row);
+                        for (int j = 0; j < columnsY; j++)
+                        {
+                            var column = columnDataB[j];
+                            double sum = 0;
+                            for (int ii = 0; ii < row.Length; ii++)
+                            {
+                                sum += row[ii] * column[ii];
+                            }
+
+                            result[j * rowsX + i] += 1.0 * sum;
+                        }
+                    }
+                });
+            }
         }
 
         /// <summary>
@@ -550,286 +571,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         public virtual void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, int rowsA, int columnsA, double[] b, int rowsB, int columnsB, double beta, double[] c)
-        {
-            if (_variation == Variation.Experimental)
-            {
-                MatrixMultiplyWithUpdateExperimental(transposeA, transposeB, alpha, a, rowsA, columnsA, b, rowsB, columnsB, beta, c);
-                return;
-            }
-
-            int m; // The number of rows of matrix op(A) and of the matrix C.
-            int n; // The number of columns of matrix op(B) and of the matrix C.
-            int k; // The number of columns of matrix op(A) and the rows of the matrix op(B).
-
-            // First check some basic requirement on the parameters of the matrix multiplication.
-            if (a == null)
-            {
-                throw new ArgumentNullException("a");
-            }
-
-            if (b == null)
-            {
-                throw new ArgumentNullException("b");
-            }
-
-            if ((int)transposeA > 111 && (int)transposeB > 111)
-            {
-                if (rowsA != columnsB)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                if (columnsA * rowsB != c.Length)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                m = columnsA;
-                n = rowsB;
-                k = rowsA;
-            }
-            else if ((int)transposeA > 111)
-            {
-                if (rowsA != rowsB)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                if (columnsA * columnsB != c.Length)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                m = columnsA;
-                n = columnsB;
-                k = rowsA;
-            }
-            else if ((int)transposeB > 111)
-            {
-                if (columnsA != columnsB)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                if (rowsA * rowsB != c.Length)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                m = rowsA;
-                n = rowsB;
-                k = columnsA;
-            }
-            else
-            {
-                if (columnsA != rowsB)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                if (rowsA * columnsB != c.Length)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-
-                m = rowsA;
-                n = columnsB;
-                k = columnsA;
-            }
-
-            if (alpha == 0.0 && beta == 0.0)
-            {
-                Array.Clear(c, 0, c.Length);
-                return;
-            }
-
-            // Check whether we will be overwriting any of our inputs and make copies if necessary.
-            // TODO - we can don't have to allocate a completely new matrix when x or y point to the same memory
-            // as result, we can do it on a row wise basis. We should investigate this.
-            double[] adata;
-            if (ReferenceEquals(a, c))
-            {
-                adata = (double[])a.Clone();
-            }
-            else
-            {
-                adata = a;
-            }
-
-            double[] bdata;
-            if (ReferenceEquals(b, c))
-            {
-                bdata = (double[])b.Clone();
-            }
-            else
-            {
-                bdata = b;
-            }
-
-            if (beta == 0.0)
-            {
-                Array.Clear(c, 0, c.Length);
-            }
-            else if (beta != 1.0)
-            {
-                ScaleArray(beta, c, c);
-            }
-
-            if (alpha == 0.0)
-            {
-                return;
-            }
-
-            CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, adata, 0, 0, bdata, 0, 0, c, 0, 0, m, n, k, m, n, k, true);
-        }
-
-        /// <summary>
-        /// Cache-Oblivious Matrix Multiplication
-        /// </summary>
-        /// <param name="transposeA">if set to <c>true</c> transpose matrix A.</param>
-        /// <param name="transposeB">if set to <c>true</c> transpose matrix B.</param>
-        /// <param name="alpha">The value to scale the matrix A with.</param>
-        /// <param name="matrixA">The matrix A.</param>
-        /// <param name="shiftArow">Row-shift of the left matrix</param>
-        /// <param name="shiftAcol">Column-shift of the left matrix</param>
-        /// <param name="matrixB">The matrix B.</param>
-        /// <param name="shiftBrow">Row-shift of the right matrix</param>
-        /// <param name="shiftBcol">Column-shift of the right matrix</param>
-        /// <param name="result">The matrix C.</param>
-        /// <param name="shiftCrow">Row-shift of the result matrix</param>
-        /// <param name="shiftCcol">Column-shift of the result matrix</param>
-        /// <param name="m">The number of rows of matrix op(A) and of the matrix C.</param>
-        /// <param name="n">The number of columns of matrix op(B) and of the matrix C.</param>
-        /// <param name="k">The number of columns of matrix op(A) and the rows of the matrix op(B).</param>
-        /// <param name="constM">The constant number of rows of matrix op(A) and of the matrix C.</param>
-        /// <param name="constN">The constant number of columns of matrix op(B) and of the matrix C.</param>
-        /// <param name="constK">The constant number of columns of matrix op(A) and the rows of the matrix op(B).</param>
-        /// <param name="first">Indicates if this is the first recursion.</param>
-        static void CacheObliviousMatrixMultiply(Transpose transposeA, Transpose transposeB, double alpha, double[] matrixA, int shiftArow, int shiftAcol, double[] matrixB, int shiftBrow, int shiftBcol, double[] result, int shiftCrow, int shiftCcol, int m, int n, int k, int constM, int constN, int constK, bool first)
-        {
-            if (m + n <= Control.ParallelizeOrder || m == 1 || n == 1 || k == 1)
-            {
-                if ((int) transposeA > 111 && (int) transposeB > 111)
-                {
-                    for (var m1 = 0; m1 < m; m1++)
-                    {
-                        var matArowPos = m1 + shiftArow;
-                        var matCrowPos = m1 + shiftCrow;
-                        for (var n1 = 0; n1 < n; ++n1)
-                        {
-                            var matBcolPos = n1 + shiftBcol;
-                            double sum = 0;
-                            for (var k1 = 0; k1 < k; ++k1)
-                            {
-                                sum += matrixA[(matArowPos*constK) + k1 + shiftAcol]*
-                                    matrixB[((k1 + shiftBrow)*constN) + matBcolPos];
-                            }
-
-                            result[((n1 + shiftCcol)*constM) + matCrowPos] += alpha*sum;
-                        }
-                    }
-                }
-                else if ((int) transposeA > 111)
-                {
-                    for (var m1 = 0; m1 < m; m1++)
-                    {
-                        var matArowPos = m1 + shiftArow;
-                        var matCrowPos = m1 + shiftCrow;
-                        for (var n1 = 0; n1 < n; ++n1)
-                        {
-                            var matBcolPos = n1 + shiftBcol;
-                            double sum = 0;
-                            for (var k1 = 0; k1 < k; ++k1)
-                            {
-                                sum += matrixA[(matArowPos*constK) + k1 + shiftAcol]*
-                                    matrixB[(matBcolPos*constK) + k1 + shiftBrow];
-                            }
-
-                            result[((n1 + shiftCcol)*constM) + matCrowPos] += alpha*sum;
-                        }
-                    }
-                }
-                else if ((int) transposeB > 111)
-                {
-                    for (var m1 = 0; m1 < m; m1++)
-                    {
-                        var matArowPos = m1 + shiftArow;
-                        var matCrowPos = m1 + shiftCrow;
-                        for (var n1 = 0; n1 < n; ++n1)
-                        {
-                            var matBcolPos = n1 + shiftBcol;
-                            double sum = 0;
-                            for (var k1 = 0; k1 < k; ++k1)
-                            {
-                                sum += matrixA[((k1 + shiftAcol)*constM) + matArowPos]*
-                                    matrixB[((k1 + shiftBrow)*constN) + matBcolPos];
-                            }
-
-                            result[((n1 + shiftCcol)*constM) + matCrowPos] += alpha*sum;
-                        }
-                    }
-                }
-                else
-                {
-                    for (var m1 = 0; m1 < m; m1++)
-                    {
-                        var matArowPos = m1 + shiftArow;
-                        var matCrowPos = m1 + shiftCrow;
-                        for (var n1 = 0; n1 < n; ++n1)
-                        {
-                            var matBcolPos = n1 + shiftBcol;
-                            double sum = 0;
-                            for (var k1 = 0; k1 < k; ++k1)
-                            {
-                                sum += matrixA[((k1 + shiftAcol)*constM) + matArowPos]*
-                                    matrixB[(matBcolPos*constK) + k1 + shiftBrow];
-                            }
-
-                            result[((n1 + shiftCcol)*constM) + matCrowPos] += alpha*sum;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                // divide and conquer
-                int m2 = m/2, n2 = n/2, k2 = k/2;
-
-                if (first)
-                {
-                    CommonParallel.Invoke(
-                        () => CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow, shiftAcol, matrixB, shiftBrow, shiftBcol, result, shiftCrow, shiftCcol, m2, n2, k2, constM, constN, constK, false),
-                        () => CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow, shiftAcol, matrixB, shiftBrow, shiftBcol + n2, result, shiftCrow, shiftCcol + n2, m2, n - n2, k2, constM, constN, constK, false),
-                        () => CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol, matrixB, shiftBrow, shiftBcol, result, shiftCrow + m2, shiftCcol, m - m2, n2, k2, constM, constN, constK, false),
-                        () => CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol, matrixB, shiftBrow, shiftBcol + n2, result, shiftCrow + m2, shiftCcol + n2, m - m2, n - n2, k2, constM, constN, constK, false));
-
-                    CommonParallel.Invoke(
-                        () => CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol, result, shiftCrow, shiftCcol, m2, n2, k - k2, constM, constN, constK, false),
-                        () => CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol + n2, result, shiftCrow, shiftCcol + n2, m2, n - n2, k - k2, constM, constN, constK, false),
-                        () => CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol, result, shiftCrow + m2, shiftCcol, m - m2, n2, k - k2, constM, constN, constK, false),
-                        () => CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol + n2, result, shiftCrow + m2, shiftCcol + n2, m - m2, n - n2, k - k2, constM, constN, constK, false));
-                }
-                else
-                {
-                    CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow, shiftAcol, matrixB, shiftBrow, shiftBcol, result, shiftCrow, shiftCcol, m2, n2, k2, constM, constN, constK, false);
-                    CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow, shiftAcol, matrixB, shiftBrow, shiftBcol + n2, result, shiftCrow, shiftCcol + n2, m2, n - n2, k2, constM, constN, constK, false);
-
-                    CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol, result, shiftCrow, shiftCcol, m2, n2, k - k2, constM, constN, constK, false);
-                    CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol + n2, result, shiftCrow, shiftCcol + n2, m2, n - n2, k - k2, constM, constN, constK, false);
-
-                    CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol, matrixB, shiftBrow, shiftBcol, result, shiftCrow + m2, shiftCcol, m - m2, n2, k2, constM, constN, constK, false);
-                    CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol, matrixB, shiftBrow, shiftBcol + n2, result, shiftCrow + m2, shiftCcol + n2, m - m2, n - n2, k2, constM, constN, constK, false);
-
-                    CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol, result, shiftCrow + m2, shiftCcol, m - m2, n2, k - k2, constM, constN, constK, false);
-                    CacheObliviousMatrixMultiply(transposeA, transposeB, alpha, matrixA, shiftArow + m2, shiftAcol + k2, matrixB, shiftBrow + k2, shiftBcol + n2, result, shiftCrow + m2, shiftCcol + n2, m - m2, n - n2, k - k2, constM, constN, constK, false);
-                }
-            }
-        }
-
-        public void MatrixMultiplyWithUpdateExperimental(
-                Transpose transposeA, Transpose transposeB, double alpha, double[] a, int rowsA, int columnsA,
-                double[] b,
-                int rowsB, int columnsB, double beta, double[] c)
         {
             if (a == null)
             {

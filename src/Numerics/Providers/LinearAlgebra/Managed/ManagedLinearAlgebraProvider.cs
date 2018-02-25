@@ -42,18 +42,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
     /// </summary>
     internal partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
-        private readonly Variation _variation;
-
-        internal ManagedLinearAlgebraProvider()
-        {
-            _variation = Variation.Experimental;
-        }
-
-        internal ManagedLinearAlgebraProvider(Variation variation)
-        {
-            _variation = variation;
-        }
-
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
