@@ -3,14 +3,9 @@
 set -eu
 set -o pipefail
 
-cd `dirname $0`
+cd "$(dirname "$0")"
 
-FSIARGS=""
-OS=${OS:-"unknown"}
-if [[ "$OS" != "Windows_NT" ]]
-then
-  FSIARGS="--fsiargs -d:MONO"
-fi
+PAKET_EXE=.paket/paket.exe
 
 function run() {
   if [[ "$OS" != "Windows_NT" ]]
@@ -26,4 +21,4 @@ then
   mozroots --import --sync --quiet
 fi
 
-run .paket/paket.exe "$@"
+run $PAKET_EXE "$@"
