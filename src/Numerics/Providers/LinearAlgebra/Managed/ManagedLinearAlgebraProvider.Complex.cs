@@ -79,13 +79,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
             }
             else
             {
-                CommonParallel.For(0, y.Length, 4096, (a, b) =>
+                for (int i = 0; i < result.Length; i++)
                 {
-                    for (int i = a; i < b; i++)
-                    {
-                        result[i] = y[i] + (alpha*x[i]);
-                    }
-                });
+                    result[i] = y[i] + (alpha * x[i]);
+                }
             }
         }
 
@@ -113,13 +110,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
             }
             else
             {
-                CommonParallel.For(0, x.Length, 4096, (a, b) =>
+                for (int i = 0; i < result.Length; i++)
                 {
-                    for (int i = a; i < b; i++)
-                    {
-                        result[i] = alpha*x[i];
-                    }
-                });
+                    result[i] = alpha * x[i];
+                }
             }
         }
 
@@ -135,13 +129,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
                 throw new ArgumentNullException("x");
             }
 
-            CommonParallel.For(0, x.Length, 4096, (a, b) =>
+            for (int i = 0; i < result.Length; i++)
             {
-                for (int i = a; i < b; i++)
-                {
-                    result[i] = x[i].Conjugate();
-                }
-            });
+                result[i] = x[i].Conjugate();
+            }
         }
 
         /// <summary>
@@ -168,7 +159,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            var dot = Complex.Zero;
+            Complex dot = Complex.Zero;
             for (var index = 0; index < y.Length; index++)
             {
                 dot += y[index]*x[index];

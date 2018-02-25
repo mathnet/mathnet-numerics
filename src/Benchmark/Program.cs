@@ -15,7 +15,7 @@ namespace Benchmark
                     {
                         typeof(Transforms.FFT),
                         typeof(LinearAlgebra.DenseMatrixProduct),
-                        typeof(LinearAlgebra.DenseVectorAdd),
+                        typeof(LinearAlgebra.DenseVector),
                     });
 
             switcher.Run(args);

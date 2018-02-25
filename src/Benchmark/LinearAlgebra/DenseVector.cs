@@ -12,7 +12,7 @@ using Complex = System.Numerics.Complex;
 namespace Benchmark.LinearAlgebra
 {
     [Config(typeof(Config))]
-    public class DenseVectorAdd
+    public class DenseVector
     {
         class Config : ManualConfig
         {
@@ -51,8 +51,8 @@ namespace Benchmark.LinearAlgebra
 
         double[] _a;
         double[] _b;
-        //Complex[] _ac;
-        //Complex[] _bc;
+        Complex[] _ac;
+        Complex[] _bc;
         //Vector<double> _av;
         //Vector<double> _bv;
 
@@ -74,27 +74,31 @@ namespace Benchmark.LinearAlgebra
 
             _a = Generate.Normal(N, 2.0, 10.0);
             _b = Generate.Normal(N, 200.0, 10.0);
-            //_ac = Generate.Map2(_a, Generate.Normal(N, 2.0, 10.0), (a, i) => new Complex(a, i));
-            //_bc = Generate.Map2(_b, Generate.Normal(N, 200.0, 10.0), (b, i) => new Complex(b, i));
+            _ac = Generate.Map2(_a, Generate.Normal(N, 2.0, 10.0), (a, i) => new Complex(a, i));
+            _bc = Generate.Map2(_b, Generate.Normal(N, 200.0, 10.0), (b, i) => new Complex(b, i));
             //_av = Vector<double>.Build.Dense(_a);
             //_bv = Vector<double>.Build.Dense(_b);
         }
 
-        [Benchmark(OperationsPerInvoke = 1)]
+        //[Benchmark(OperationsPerInvoke = 1)]
         public double[] ProviderAddArrays()
         {
             double[] r = new double[_a.Length];
             LinearAlgebraControl.Provider.AddArrays(_a, _b, r);
             return r;
+
+            //Complex[] r = new Complex[_a.Length];
+            //LinearAlgebraControl.Provider.AddArrays(_ac, _bc, r);
+            //return r;
         }
 
-        //[Benchmark(OperationsPerInvoke = 1)]
-        //public Complex[] ProviderAddArraysComplex()
-        //{
-        //    Complex[] r = new Complex[_a.Length];
-        //    LinearAlgebraControl.Provider.AddArrays(_ac, _bc, r);
-        //    return r;
-        //}
+        [Benchmark(OperationsPerInvoke = 1)]
+        public double[] ProviderScaleArrays()
+        {
+            double[] r = new double[_a.Length];
+            LinearAlgebraControl.Provider.ScaleArray(2.0, _a, r);
+            return r;
+        }
 
         //[Benchmark(OperationsPerInvoke = 1)]
         //public Vector<double> VectorAddOp()
