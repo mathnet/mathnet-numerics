@@ -1,3 +1,6 @@
+### 4.4.0 - 2018-02-25
+* Linear Algebra: managed provider performance improvements on basic vector arithmetics
+
 ### 4.3.0 - 2018-02-24
 * FFT: migrate managed algorithms to provider, streamline implementation wiring, scaling logic.
 * FFT: obsoleted algorithm-specific functions like Radix2Forward, they use Forward internally until v5.

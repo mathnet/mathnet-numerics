@@ -8,12 +8,12 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics</PackageId>
-    <VersionPrefix>4.3.0</VersionPrefix>
+    <VersionPrefix>4.4.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
-    <PackageVersion>4.3.0</PackageVersion>
-    <Version>4.3.0</Version>
-    <AssemblyVersion>4.3.0.0</AssemblyVersion>
-    <FileVersion>4.3.0.0</FileVersion>
+    <PackageVersion>4.4.0</PackageVersion>
+    <Version>4.4.0</Version>
+    <AssemblyVersion>4.4.0.0</AssemblyVersion>
+    <FileVersion>4.4.0.0</FileVersion>
     <Title>Math.NET Numerics</Title>
     <Authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</Authors>
     <Company>Math.NET Project</Company>
@@ -24,10 +24,7 @@
     <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
     <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
     <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
-    <PackageReleaseNotes>FFT: migrate managed algorithms to provider, streamline implementation wiring, scaling logic.
-FFT: obsoleted algorithm-specific functions like Radix2Forward, they use Forward internally until v5.
-FFT: migrate "naive" implementation to tests as reference implementation.
-Build: fix NuGet packaging sucht that the included assemblies are really code-signed.</PackageReleaseNotes>
+    <PackageReleaseNotes>Linear Algebra: managed provider performance improvements on basic vector arithmetics</PackageReleaseNotes>
     <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
