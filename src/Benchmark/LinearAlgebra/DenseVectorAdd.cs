@@ -16,20 +16,20 @@ namespace Benchmark.LinearAlgebra
         {
             public Config()
             {
-                Add(
-                    new Job("CLR x64", RunMode.Default, EnvMode.RyuJitX64)
-                    {
-                        Env = { Runtime = Runtime.Clr, Platform = Platform.X64 }
-                    },
-                    new Job("CLR x86", RunMode.Default, EnvMode.LegacyJitX86)
-                    {
-                        Env = { Runtime = Runtime.Clr, Platform = Platform.X86 }
-                    });
-#if !NET461
+                Add(new Job("CLR x64", RunMode.Default, EnvMode.RyuJitX64)
+                {
+                    Env = { Runtime = Runtime.Clr, Platform = Platform.X64 }
+                });
+#if NET461
+                Add(new Job("CLR x86", RunMode.Default, EnvMode.LegacyJitX86)
+                {
+                    Env = { Runtime = Runtime.Clr, Platform = Platform.X86 }
+                });
+#else
                 Add(new Job("Core RyuJit x64", RunMode.Default, EnvMode.RyuJitX64)
-                    {
-                        Env = { Runtime = Runtime.Core, Platform = Platform.X64 }
-                    });
+                {
+                    Env = { Runtime = Runtime.Core, Platform = Platform.X64 }
+                });
 #endif
             }
         }
@@ -37,13 +37,14 @@ namespace Benchmark.LinearAlgebra
         public enum ProviderId
         {
             Managed,
+            ManagedReference,
             NativeMKL,
         }
 
         [Params(4, 32, 128, 4096, 524288)]
         public int N { get; set; }
 
-        [Params(ProviderId.Managed, ProviderId.NativeMKL)]
+        [Params(ProviderId.Managed, ProviderId.ManagedReference, ProviderId.NativeMKL)]
         public ProviderId Provider { get; set; }
 
         //const int Rounds = 1024;
@@ -61,6 +62,9 @@ namespace Benchmark.LinearAlgebra
                 case ProviderId.Managed:
                     Control.UseManaged();
                     break;
+                case ProviderId.ManagedReference:
+                    Control.UseManagedReference();
+                    break;
                 case ProviderId.NativeMKL:
                     Control.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
                     break;
@@ -72,17 +76,17 @@ namespace Benchmark.LinearAlgebra
             _bv = Vector<double>.Build.Dense(_b);
         }
 
-        [Benchmark(OperationsPerInvoke = 1, Baseline = true)]
-        public double[] ForLoop()
-        {
-            double[] r = new double[_a.Length];
-            for (int i = 0; i < r.Length; i++)
-            {
-                r[i] = _a[i] + _b[i];
-            }
+        //[Benchmark(OperationsPerInvoke = 1, Baseline = true)]
+        //public double[] ForLoop()
+        //{
+        //    double[] r = new double[_a.Length];
+        //    for (int i = 0; i < r.Length; i++)
+        //    {
+        //        r[i] = _a[i] + _b[i];
+        //    }
 
-            return r;
-        }
+        //    return r;
+        //}
 
         [Benchmark(OperationsPerInvoke = 1)]
         public double[] ProviderAddArrays()
@@ -92,10 +96,10 @@ namespace Benchmark.LinearAlgebra
             return r;
         }
 
-        [Benchmark(OperationsPerInvoke = 1)]
-        public Vector<double> VectorAddOp()
-        {
-            return _av + _bv;
-        }
+        //[Benchmark(OperationsPerInvoke = 1)]
+        //public Vector<double> VectorAddOp()
+        //{
+        //    return _av + _bv;
+        //}
     }
 }

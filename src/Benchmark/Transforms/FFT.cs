@@ -16,20 +16,20 @@ namespace Benchmark.Transforms
         {
             public Config()
             {
-                Add(
-                    new Job("CLR x64", RunMode.Default, EnvMode.RyuJitX64)
-                    {
-                        Env = { Runtime = Runtime.Clr, Platform = Platform.X64 }
-                    },
-                    new Job("CLR x86", RunMode.Default, EnvMode.LegacyJitX86)
-                    {
-                        Env = { Runtime = Runtime.Clr, Platform = Platform.X86 }
-                    });
-#if !NET461
+                Add(new Job("CLR x64", RunMode.Default, EnvMode.RyuJitX64)
+                {
+                    Env = { Runtime = Runtime.Clr, Platform = Platform.X64 }
+                });
+#if NET461
+                Add(new Job("CLR x86", RunMode.Default, EnvMode.LegacyJitX86)
+                {
+                    Env = { Runtime = Runtime.Clr, Platform = Platform.X86 }
+                });
+#else
                 Add(new Job("Core RyuJit x64", RunMode.Default, EnvMode.RyuJitX64)
-                    {
-                        Env = { Runtime = Runtime.Core, Platform = Platform.X64 }
-                    });
+                {
+                    Env = { Runtime = Runtime.Core, Platform = Platform.X64 }
+                });
 #endif
             }
         }

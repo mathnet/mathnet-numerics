@@ -72,6 +72,12 @@ namespace MathNet.Numerics
             FourierTransformControl.UseManaged();
         }
 
+        public static void UseManagedReference()
+        {
+            LinearAlgebraControl.UseManagedReference();
+            FourierTransformControl.UseManaged();
+        }
+
         /// <summary>
         /// Use a specific provider if configured, e.g. using
         /// environment variables, or fall back to the best providers.

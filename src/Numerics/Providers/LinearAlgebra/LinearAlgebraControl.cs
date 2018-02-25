@@ -88,6 +88,16 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
             Provider = CreateManaged();
         }
 
+        internal static ILinearAlgebraProvider CreateManagedReference()
+        {
+            return new ManagedReference.ManagedReferenceLinearAlgebraProvider();
+        }
+
+        internal static void UseManagedReference()
+        {
+            Provider = CreateManagedReference();
+        }
+
 #if NATIVE
         [CLSCompliant(false)]
         public static ILinearAlgebraProvider CreateNativeMKL(
