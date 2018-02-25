@@ -43,10 +43,10 @@ namespace Benchmark.LinearAlgebra
             NativeMKL,
         }
 
-        [Params(4, 32, 128, 4096, 524288)]
+        [Params(4, 32, 128, 4096, 16384, 524288)]
         public int N { get; set; }
 
-        [Params(ProviderId.Managed, ProviderId.ManagedReference, ProviderId.NativeMKL)]
+        [Params(ProviderId.Managed, ProviderId.ManagedReference)] //, ProviderId.NativeMKL)]
         public ProviderId Provider { get; set; }
 
         double[] _a;
@@ -92,11 +92,39 @@ namespace Benchmark.LinearAlgebra
             //return r;
         }
 
-        [Benchmark(OperationsPerInvoke = 1)]
+        //[Benchmark(OperationsPerInvoke = 1)]
         public double[] ProviderScaleArrays()
         {
             double[] r = new double[_a.Length];
             LinearAlgebraControl.Provider.ScaleArray(2.0, _a, r);
+            return r;
+        }
+
+        [Benchmark(OperationsPerInvoke = 1)]
+        public double[] ProviderPointMultiply()
+        {
+            double[] r = new double[_a.Length];
+            LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_a, _b, r);
+            return r;
+
+            //Complex[] r = new Complex[_a.Length];
+            //LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_ac, _bc, r);
+            //return r;
+        }
+
+        //[Benchmark(OperationsPerInvoke = 1)]
+        public double[] ProviderPointDivide()
+        {
+            double[] r = new double[_a.Length];
+            LinearAlgebraControl.Provider.PointWiseDivideArrays(_a, _b, r);
+            return r;
+        }
+
+        //[Benchmark(OperationsPerInvoke = 1)]
+        public double[] ProviderPointPower()
+        {
+            double[] r = new double[_a.Length];
+            LinearAlgebraControl.Provider.PointWisePowerArrays(_a, _b, r);
             return r;
         }
 

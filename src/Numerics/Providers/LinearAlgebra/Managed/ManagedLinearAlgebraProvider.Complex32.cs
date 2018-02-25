@@ -278,13 +278,10 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
                 throw new ArgumentException(Resources.ArgumentVectorsSameLength);
             }
 
-            CommonParallel.For(0, y.Length, 4096, (a, b) =>
+            for (int i = 0; i < result.Length; i++)
             {
-                for (int i = a; i < b; i++)
-                {
-                    result[i] = x[i] * y[i];
-                }
-            });
+                result[i] = x[i] * y[i];
+            }
         }
 
         /// <summary>
