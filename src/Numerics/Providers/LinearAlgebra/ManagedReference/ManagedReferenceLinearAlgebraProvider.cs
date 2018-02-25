@@ -31,12 +31,6 @@ using System;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.ManagedReference
 {
-    internal enum Variation
-    {
-        Original,
-        Experimental
-    }
-
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
