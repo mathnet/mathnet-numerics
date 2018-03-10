@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F37492-38AE-4186-8A7F-17B0B080942C}"
 	ProjectSection(SolutionItems) = preProject
@@ -44,6 +44,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics.Tests.CUDA", "src\Numerics.Tests\Numerics.Tests.CUDA.csproj", "{E184F219-F9F9-4396-AE0A-B431375CF06F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "src\Benchmark\Benchmark.csproj", "{82444930-9FD7-41B6-B476-CCE41A0C0A0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Issue552", "Issue552\Issue552.csproj", "{B96C4895-F2FB-45FE-BE03-C28FEE4FB431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,6 +108,12 @@ Global
 		{82444930-9FD7-41B6-B476-CCE41A0C0A0B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{82444930-9FD7-41B6-B476-CCE41A0C0A0B}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
 		{82444930-9FD7-41B6-B476-CCE41A0C0A0B}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
+		{B96C4895-F2FB-45FE-BE03-C28FEE4FB431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B96C4895-F2FB-45FE-BE03-C28FEE4FB431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B96C4895-F2FB-45FE-BE03-C28FEE4FB431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B96C4895-F2FB-45FE-BE03-C28FEE4FB431}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B96C4895-F2FB-45FE-BE03-C28FEE4FB431}.Release-Signed|Any CPU.ActiveCfg = Release|Any CPU
+		{B96C4895-F2FB-45FE-BE03-C28FEE4FB431}.Release-Signed|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
