@@ -26,7 +26,7 @@ namespace Issue552
 
                 if ( ij == 0 )
                 {
-                    a[0] = Math.Sqrt(a[0]);
+                    l[0] = Math.Sqrt(a[0]);
                 }
                 else
                 {
