@@ -10,6 +10,11 @@ namespace Issue552
     class Program
     {
 
+        static void log(string what, int i, int j)
+        {
+            Console.Write("  " + what + "[" + i + "," + j + "]");
+        }
+
         // Re-arranging the Cholesky factor code as suggested by diluculo
         public static void CholeskyFactor_Rearranged(double[] a, int order)
         {
@@ -18,40 +23,32 @@ namespace Issue552
                 throw new ArgumentNullException("a");
             }
 
-            double[] t = new double[order * order];
-            double[] l = new double[order * order];
+            double[] t = new double[order]; // tmp space
 
-            for (int ij = 0; ij < order; ij++ )
+            for (int ij = 0; ij < order; ij++)
             {
-
-                if ( ij == 0 )
+                t[ij] = 0.0;
+                if (ij > 0)
                 {
-                    l[0] = Math.Sqrt(a[0]);
-                }
-                else
-                {
-                    t[ij * order + ij] = 0.0;
-                    for ( int k = 0; k < ij; k++ )
+                    for (int k = 0; k < ij; k++)
                     {
-                        t[ij * order + ij] += l[k * order + ij] * l[k * order + ij];
+                        t[ij] += a[k * order + ij] * a[k * order + ij];
                     }
-                    l[ij * order + ij] = Math.Sqrt(a[ij * order + ij] - t[ij * order + ij]);
                 }
 
-                for ( int i = ij + 1; i < order ; i++ )
+                a[ij * order + ij] = Math.Sqrt(a[ij * order + ij] - t[ij]);
+                for (int i = ij + 1; i < order; i++)
                 {
-                    t[ij * order + i] = 0.0;
-                    for ( int k = 0; k < i; k++ )
+                    t[i] = 0.0;
+                    for (int k = 0; k < ij; k++)
                     {
-                        t[ij * order + i] += l[k * order + i] * l[k * order + ij];
+                        t[i] += a[k * order + i] * a[k * order + ij];
                     }
-                    l[ij * order + i] = ( a[ij * order + i] - t[ij * order + i] ) / l[ij * order + ij];
-                }
 
+                    a[ij * order + i] = (a[ij * order + i] - t[i]) / a[ij * order + ij];
+                    a[i * order + ij] = 0.0;
+                }
             }
-
-            // To do: Calculation expected to be in place
-            for (int i = 0; i < order * order; i++) a[i] = l[i];
 
         }
 
