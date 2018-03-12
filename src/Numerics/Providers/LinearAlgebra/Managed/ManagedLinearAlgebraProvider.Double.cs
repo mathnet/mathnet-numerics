@@ -990,36 +990,31 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
                 throw new ArgumentNullException("a");
             }
 
-            var tmpColumn = new double[order];
-
             // Main loop - along the diagonal
             for (int ij = 0; ij < order; ij++)
             {
-                // "Pivot" element
-                double tmpVal = a[(ij*order) + ij];
-
-                if (tmpVal > 0.0)
+                if (a[ij * order + ij] > 0.0)
                 {
-                    tmpVal = Math.Sqrt(tmpVal);
-                    a[(ij*order) + ij] = tmpVal;
-                    tmpColumn[ij] = tmpVal;
-
-                    // Calculate multipliers and copy to local column
-                    // Current column, below the diagonal
-                    for (int i = ij + 1; i < order; i++)
+                    // Compute diagonal element
+                    double tmp = 0.0;
+                    if (ij > 0)
                     {
-                        a[(ij*order) + i] /= tmpVal;
-                        tmpColumn[i] = a[(ij*order) + i];
+                        for (int k = 0; k < ij; k++)
+                        {
+                            tmp += a[k * order + ij] * a[k * order + ij];
+                        }
                     }
+                    a[ij * order + ij] = Math.Sqrt(a[ij * order + ij] - tmp);
 
-                    // Remaining columns, below the diagonal
-                    DoCholeskyStep(a, order, ij + 1, order, tmpColumn, Control.MaxDegreeOfParallelism);
+                    // Compute elements below this diagonal element
+                    DoCholeskyStep(a, order, ij, ij + 1, order, Control.MaxDegreeOfParallelism);
                 }
                 else
                 {
                     throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
                 }
 
+                // Zero out the upper triangular part
                 for (int i = ij + 1; i < order; i++)
                 {
                     a[(i*order) + ij] = 0.0;
@@ -1031,33 +1026,35 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
         /// Calculate Cholesky step
         /// </summary>
         /// <param name="data">Factor matrix</param>
-        /// <param name="rowDim">Number of rows</param>
-        /// <param name="firstCol">Column start</param>
-        /// <param name="colLimit">Total columns</param>
-        /// <param name="multipliers">Multipliers calculated previously</param>
+        /// <param name="order">Number of rows or columns</param>
+        /// <param name="currDiag">The current diagonal element that was just calculated</param>
+        /// <param name="firrstRow">Row number of the first element to comput under the current diagonal</param>
+        /// <param name="rowLimit">Row number of the last element to comput under the current diagonal</param>
         /// <param name="availableCores">Number of available processors</param>
-        static void DoCholeskyStep(double[] data, int rowDim, int firstCol, int colLimit, double[] multipliers, int availableCores)
+        static void DoCholeskyStep(double[] data, int order, int currDiag, int firstRow, int rowLimit, int availableCores)
         {
-            var tmpColCount = colLimit - firstCol;
+            var tmpRowCount = rowLimit - firstRow;
 
-            if ((availableCores > 1) && (tmpColCount > Control.ParallelizeElements))
+            if ((availableCores > 1) && (tmpRowCount > Control.ParallelizeElements))
             {
-                var tmpSplit = firstCol + (tmpColCount/3);
+                var tmpSplit = firstRow + (tmpRowCount / 3);
                 var tmpCores = availableCores/2;
 
                 CommonParallel.Invoke(
-                    () => DoCholeskyStep(data, rowDim, firstCol, tmpSplit, multipliers, tmpCores),
-                    () => DoCholeskyStep(data, rowDim, tmpSplit, colLimit, multipliers, tmpCores));
+                    () => DoCholeskyStep(data, order, currDiag, firstRow, tmpSplit, tmpCores),
+                    () => DoCholeskyStep(data, order, currDiag, tmpSplit, rowLimit, tmpCores));
             }
             else
             {
-                for (var j = firstCol; j < colLimit; j++)
+                double tmp;
+                for (int i = firstRow; i < rowLimit; i++)
                 {
-                    var tmpVal = multipliers[j];
-                    for (var i = j; i < rowDim; i++)
+                    tmp = 0.0;
+                    for (int k = 0; k < currDiag; k++)
                     {
-                        data[(j*rowDim) + i] -= multipliers[i]*tmpVal;
+                        tmp += data[k * order + i] * data[k * order + currDiag];
                     }
+                    data[currDiag * order + i] = (data[currDiag * order + i] - tmp) / data[currDiag * order + currDiag];
                 }
             }
         }
