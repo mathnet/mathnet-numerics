@@ -2,7 +2,6 @@
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <TargetFrameworks>net40;netstandard1.1</TargetFrameworks>
-        <NetStandardImplicitPackageVersion>2.0.2</NetStandardImplicitPackageVersion>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <AssemblyName>MathNet.Numerics.TestData</AssemblyName>
         <RootNamespace>MathNet.Numerics.TestData</RootNamespace>

@@ -1,4 +1,6 @@
+Microsoft.NET.Test.Sdk
 FSharp.Core
+NUnit3TestAdapter
 NUnit
 NUnitLite content:none
 FsUnit
