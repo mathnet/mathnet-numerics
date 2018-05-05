@@ -28,6 +28,32 @@ let rootDir = Path.GetFullPath (Path.Combine (__SOURCE_DIRECTORY__ + "/../"))
 Environment.CurrentDirectory <- rootDir
 trace rootDir
 
+
+// --------------------------------------------------------------------------------------
+// .Net SDK
+// --------------------------------------------------------------------------------------
+
+let msbuild targets configuration project =
+    MSBuildHelper.build (fun p ->
+        { p with
+            NoLogo = true
+            NodeReuse = true
+            Targets = targets
+            Properties = [ "Configuration", configuration ]
+            RestorePackagesFlag = false
+            Verbosity = Some MSBuildVerbosity.Minimal
+        }) project
+
+let dotnet workingDir command =
+    DotNetCli.RunCommand
+        (fun c -> { c with WorkingDir = workingDir})
+        command
+
+
+// --------------------------------------------------------------------------------------
+// Header
+// --------------------------------------------------------------------------------------
+
 let header = ReadFile(__SOURCE_DIRECTORY__ </> __SOURCE_FILE__) |> Seq.take 10 |> Seq.map (fun s -> s.Substring(2)) |> toLines
 
 type Release =
@@ -73,6 +99,8 @@ let traceHeader (releases:Release list) =
     for release in releases do
         trace ([ " "; release.Title.PadRight titleLength; "  v"; release.PackageVersion ] |> String.concat "")
     trace ""
+    dotnet rootDir "--info"
+    trace ""
 
 
 // --------------------------------------------------------------------------------------
@@ -90,27 +118,6 @@ let libpcl47 = "lib/portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1"
 let libpcl78 = "lib/portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1"
 let libpcl259 = "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
 let libpcl328 = "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
-
-
-// --------------------------------------------------------------------------------------
-// .Net SDK
-// --------------------------------------------------------------------------------------
-
-let msbuild targets configuration project =
-    MSBuildHelper.build (fun p ->
-        { p with
-            NoLogo = true
-            NodeReuse = true
-            Targets = targets
-            Properties = [ "Configuration", configuration ]
-            RestorePackagesFlag = false
-            Verbosity = Some MSBuildVerbosity.Minimal
-        }) project
-
-let dotnet workingDir command =
-    DotNetCli.RunCommand
-        (fun c -> { c with WorkingDir = workingDir})
-        command
 
 
 // --------------------------------------------------------------------------------------

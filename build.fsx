@@ -392,8 +392,8 @@ Target "TestNumericsNET40" (fun _ -> testNumerics "net40")
 Target "TestNumericsNET45" (fun _ -> testNumerics "net45")
 Target "TestNumericsNET461" (fun _ -> testNumerics "net461")
 Target "TestNumericsNET47"  (fun _ -> testNumerics "net47")
-"Build" ==> "TestNumericsCore1.1" ==> "TestNumerics"
-"Build" ==> "TestNumericsCore2.0"
+"Build" ==> "TestNumericsCore1.1"
+"Build" ==> "TestNumericsCore2.0" ==> "TestNumerics"
 "Build" =?> ("TestNumericsNET40", isWindows)
 "Build" =?> ("TestNumericsNET45", isWindows)
 "Build" =?> ("TestNumericsNET461", isWindows) ==> "TestNumerics"
@@ -405,8 +405,8 @@ Target "TestFsharpCore2.0" (fun _ -> testFsharp "netcoreapp2.0")
 Target "TestFsharpNET45" (fun _ -> testFsharp "net45")
 Target "TestFsharpNET461" (fun _ -> testFsharp "net461")
 Target "TestFsharpNET47" (fun _ -> testFsharp "net47")
-"Build" ==> "TestFsharpCore1.1" ==> "TestFsharp"
-"Build" ==> "TestFsharpCore2.0"
+"Build" ==> "TestFsharpCore1.1"
+"Build" ==> "TestFsharpCore2.0" ==> "TestFsharp"
 "Build" =?> ("TestFsharpNET45", isWindows)
 "Build" =?> ("TestFsharpNET461", isWindows) ==> "TestFsharp"
 "Build" =?> ("TestFsharpNET47", isWindows)
@@ -440,8 +440,8 @@ Target "DataTest" DoNothing
 Target "DataTestCore1.1" (fun _ -> testData "netcoreapp1.1")
 Target "DataTestCore2.0" (fun _ -> testData "netcoreapp2.0")
 Target "DataTestNET45" (fun _ -> testData "net45")
-"DataBuild" ==> "DataTestCore1.1" ==> "DataTest"
-"DataBuild" ==> "DataTestCore2.0"
+"DataBuild" ==> "DataTestCore1.1"
+"DataBuild" ==> "DataTestCore2.0" ==> "DataTest"
 "DataBuild" =?> ("DataTestNET45", isWindows) ==> "DataTest"
 
 

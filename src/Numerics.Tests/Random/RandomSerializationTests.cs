@@ -27,7 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if !NETCOREAPP1_1
+#if !NETCOREAPP1_1 && !NETCOREAPP2_0
+// Rationale: System.Random is no longer serializable in .Net Core
 
 using System;
 using System.IO;
