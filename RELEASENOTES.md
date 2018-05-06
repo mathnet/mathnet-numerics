@@ -1,3 +1,6 @@
+### 4.4.1 - 2018-05-06
+* Build: strong-name edition .Signed NuGet packages are available again
+
 ### 4.4.0 - 2018-02-25
 * Linear Algebra: managed provider performance improvements on basic vector arithmetics
 

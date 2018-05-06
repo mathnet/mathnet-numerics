@@ -7,15 +7,15 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.4.0</VersionPrefix>
+    <VersionPrefix>4.4.1</VersionPrefix>
     <VersionSuffix></VersionSuffix>
-    <PackageVersion>4.4.0</PackageVersion>
-    <Version>4.4.0</Version>
-    <AssemblyVersion>4.4.0.0</AssemblyVersion>
-    <FileVersion>4.4.0.0</FileVersion>
+    <PackageVersion>4.4.1</PackageVersion>
+    <Version>4.4.1</Version>
+    <AssemblyVersion>4.4.1.0</AssemblyVersion>
+    <FileVersion>4.4.1.0</FileVersion>
     <Title>Math.NET Numerics$(TitleSuffix)</Title>
     <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>Linear Algebra: managed provider performance improvements on basic vector arithmetics</PackageReleaseNotes>
+    <PackageReleaseNotes>Build: strong-name edition .Signed NuGet packages are available again</PackageReleaseNotes>
     <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <NeutralLanguage>en</NeutralLanguage>
