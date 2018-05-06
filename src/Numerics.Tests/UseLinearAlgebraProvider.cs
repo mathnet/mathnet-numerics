@@ -47,6 +47,8 @@ namespace MathNet.Numerics.UnitTests
             Control.UseNativeCUDA();
 #elif OPENBLAS
             Control.UseNativeOpenBLAS();
+#else
+            Control.UseManaged();
 #endif
 #else
             Control.UseManaged();
