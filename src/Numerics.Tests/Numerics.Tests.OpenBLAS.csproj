@@ -8,7 +8,7 @@
     <AssemblyName>MathNet.Numerics.Tests.OpenBLAS</AssemblyName>
     <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
-    <DefineConstants>NATIVE;OPENBLAS</DefineConstants>
+    <DefineConstants>NATIVE;OPENBLAS;$(CommonConstants)</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
     <Reference Include="System" />

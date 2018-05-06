@@ -3,27 +3,18 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>net40;netstandard1.3;netstandard2.0</TargetFrameworks>
-    <NetStandardImplicitPackageVersion>2.0.2</NetStandardImplicitPackageVersion>
     <AssemblyName>MathNet.Numerics.Data.Matlab</AssemblyName>
     <RootNamespace>MathNet.Numerics.Data.Matlab</RootNamespace>
     <IsPackable>true</IsPackable>
-    <PackageId>MathNet.Numerics.Data.Matlab</PackageId>
+    <PackageId>MathNet.Numerics.Data.Matlab$(PackageIdSuffix)</PackageId>
     <VersionPrefix>4.0.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <PackageVersion>4.0.0</PackageVersion>
     <Version>4.0.0</Version>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
     <FileVersion>4.0.0.0</FileVersion>
-    <Title>Math.NET Numerics - MATLAB Data I/O Extensions</Title>
-    <Authors>Christoph Ruegg, Marcus Cuda</Authors>
-    <Company>Math.NET Project</Company>
-    <Product>Math.NET Numerics</Product>
-    <Description>MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.</Description>
-    <Copyright>Copyright Math.NET Project</Copyright>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
-    <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
-    <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
+    <Title>Math.NET Numerics - MATLAB Data I/O Extensions$(TitleSuffix)</Title>
+    <Description>MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>
     <PackageReleaseNotes>Support for Math.NET Numerics v4
 In addition to .Net 4.0 and newer now also targets .Net Standard 1.3 and 2.0.</PackageReleaseNotes>
     <PackageTags>math numeric data matlab</PackageTags>

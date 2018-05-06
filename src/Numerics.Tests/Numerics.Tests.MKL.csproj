@@ -8,7 +8,7 @@
     <AssemblyName>MathNet.Numerics.Tests.MKL</AssemblyName>
     <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
-    <DefineConstants>NATIVE;MKL</DefineConstants>
+    <DefineConstants>NATIVE;MKL;$(CommonConstants)</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
     <Reference Include="System" />

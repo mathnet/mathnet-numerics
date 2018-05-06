@@ -8,7 +8,7 @@
     <AssemblyName>MathNet.Numerics.Tests.CUDA</AssemblyName>
     <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
-    <DefineConstants>NATIVE;CUDA</DefineConstants>
+    <DefineConstants>NATIVE;CUDA;$(CommonConstants)</DefineConstants>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
     <Reference Include="System" />

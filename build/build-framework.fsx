@@ -34,20 +34,30 @@ trace rootDir
 // --------------------------------------------------------------------------------------
 
 let msbuild targets configuration project =
+    let properties =
+        [
+            yield "Configuration", configuration
+            if hasBuildParam "strongname" then yield "StrongName", "True"
+        ]
     MSBuildHelper.build (fun p ->
         { p with
             NoLogo = true
             NodeReuse = true
             Targets = targets
-            Properties = [ "Configuration", configuration ]
+            Properties = properties
             RestorePackagesFlag = false
             Verbosity = Some MSBuildVerbosity.Minimal
         }) project
 
 let dotnet workingDir command =
+    let properties =
+        [
+            if hasBuildParam "strongname" then yield "StrongName", "True"
+        ]
+    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" """ name value) |> String.concat ""
     DotNetCli.RunCommand
         (fun c -> { c with WorkingDir = workingDir})
-        command
+        (command + suffix)
 
 
 // --------------------------------------------------------------------------------------
