@@ -30,10 +30,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40
 		appveyor.yml = appveyor.yml
 		build\build-framework.fsx = build\build-framework.fsx
 		build.fsx = build.fsx
+		src\Directory.Build.props = src\Directory.Build.props
 		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
-		src\Directory.Build.props = src\Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"

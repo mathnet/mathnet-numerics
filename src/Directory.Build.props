@@ -13,6 +13,7 @@
         <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <NeutralLanguage>en</NeutralLanguage>
+        <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     </PropertyGroup>
     <PropertyGroup Condition="'$(StrongName)'=='True'">
         <SignAssembly>true</SignAssembly>

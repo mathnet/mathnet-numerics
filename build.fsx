@@ -316,12 +316,8 @@ let dataBundle =
 Target "Start" DoNothing
 
 Target "Clean" (fun _ ->
-    CleanDirs [ "src/Numerics/bin"; "src/FSharp/bin"; "src/TestData/bin"; "src/Numerics.Tests/bin"; "src/FSharp.Tests/bin"; "src/Data/Text/bin"; "src/Data/Matlab/bin"; "src/Data.Tests/bin"; "src/Benchmark/bin" ]
-    CleanDirs [ "src/Numerics/obj"; "src/FSharp/obj"; "src/TestData/obj"; "src/Numerics.Tests/obj"; "src/FSharp.Tests/obj"; "src/Data/Text/obj"; "src/Data/Matlab/obj"; "src/Data.Tests/obj"; "src/Benchmark/obj" ]
-    CleanDirs [ "obj" ]
-    CleanDirs [ "out/api"; "out/docs"; "out/packages" ]
-    CleanDirs [ "out/lib" ]
-    //CleanDirs [ "out/lib-signed/Net40"; "out/test-signed/Net40" ] // Signed Build
+    DeleteDirs (!! "src/**/obj/" ++ "src/**/bin/" )
+    CleanDirs [ "out/api"; "out/docs"; "out/packages"; "out/lib" ]
     CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
     CleanDirs [ "out/Data" ] // Data Extensions
     clean "MathNet.Numerics.sln"
@@ -354,13 +350,41 @@ Target "Prepare" DoNothing
 
 
 // --------------------------------------------------------------------------------------
-// BUILD
+// BUILD, SIGN, COLLECT
 // --------------------------------------------------------------------------------------
 
-Target "Build" (fun _ -> build "MathNet.Numerics.sln")
+Target "Build" (fun _ ->
+
+    // Build
+    build "MathNet.Numerics.sln"
+
+    // Sign
+    if hasBuildParam "sign" then
+        let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
+        let timeserver = "http://time.certum.pl/"
+        sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ++ "src/FSharp/bin/Release/**/MathNet.Numerics.FSharp.dll" )
+
+    // Collect
+    CopyDir "out/lib" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
+    CopyDir "out/lib" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
+    )
 "Prepare" ==> "Build"
 
-Target "DataBuild" (fun _ -> build "MathNet.Numerics.Data.sln")
+Target "DataBuild" (fun _ ->
+
+    // Build
+    build "MathNet.Numerics.Data.sln"
+
+    // Sign
+    if hasBuildParam "sign" then
+        let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
+        let timeserver = "http://time.certum.pl/"
+        sign fingerprint timeserver (!! "src/Data/Text/bin/Release/**/MathNet.Numerics.Data.Text.dll" ++ "src/Data/Matlab/bin/Release/**/MathNet.Numerics.Data.Matlab.dll" )
+
+    // Collect
+    CopyDir "out/Data/lib" "src/Data/Text/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Text.dll") || n.Contains("MathNet.Numerics.Data.Text.pdb") || n.Contains("MathNet.Numerics.Data.Text.xml"))
+    CopyDir "out/Data/lib" "src/Data/Matlab/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Matlab.dll") || n.Contains("MathNet.Numerics.Data.Matlab.pdb") || n.Contains("MathNet.Numerics.Data.Matlab.xml"))
+    )
 "Prepare" ==> "DataBuild"
 
 Target "MklWin32Build" (fun _ -> buildConfig32 "Release-MKL" !! "MathNet.Numerics.NativeProviders.sln")
@@ -446,20 +470,6 @@ Target "DataTestNET45" (fun _ -> testData "net45")
 
 
 // --------------------------------------------------------------------------------------
-// CODE SIGN
-// --------------------------------------------------------------------------------------
-
-Target "Sign" (fun _ ->
-    let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
-    let timeserver = "http://time.certum.pl/"
-    sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ++ "src/FSharp/bin/Release/**/MathNet.Numerics.FSharp.dll" ))
-
-Target "DataSign" (fun _ ->
-    let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
-    let timeserver = "http://time.certum.pl/"
-    sign fingerprint timeserver (!! "src/Data/Text/bin/Release/**/MathNet.Numerics.Data.Text.dll" ++ "src/Data/Matlab/bin/Release/**/MathNet.Numerics.Data.Matlab.dll" ))
-
-// --------------------------------------------------------------------------------------
 // PACKAGES
 // --------------------------------------------------------------------------------------
 
@@ -470,31 +480,18 @@ Target "MklLinuxPack" DoNothing
 Target "CudaWinPack" DoNothing
 Target "OpenBlasWinPack" DoNothing
 
-// COLLECT
-
-Target "Collect" (fun _ ->
-    // It is important that the libs have been signed before we collect them (that's why we cannot copy them right after the build)
-    CopyDir "out/lib" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
-    CopyDir "out/lib" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml")))
-"Build" =?> ("Sign", hasBuildParam "sign") ==> "Collect"
-
-Target "DataCollect" (fun _ ->
-    // It is important that the libs have been signed before we collect them (that's why we cannot copy them right after the build)
-    CopyDir "out/Data/lib" "src/Data/Text/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Text.dll") || n.Contains("MathNet.Numerics.Data.Text.pdb") || n.Contains("MathNet.Numerics.Data.Text.xml"))
-    CopyDir "out/Data/lib" "src/Data/Matlab/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Matlab.dll") || n.Contains("MathNet.Numerics.Data.Matlab.pdb") || n.Contains("MathNet.Numerics.Data.Matlab.xml")))
-"DataBuild" =?> ("DataSign", hasBuildParam "sign") ==> "DataCollect"
 
 // ZIP
 
 Target "Zip" (fun _ ->
     CleanDir "out/packages/Zip"
     coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core.")))
-"Collect" ==> "Zip" ==> "Pack"
+"Build" ==> "Zip" ==> "Pack"
 
 Target "DataZip" (fun _ ->
     CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
-"DataCollect" ==> "DataZip" ==> "DataPack"
+"DataBuild" ==> "DataZip" ==> "DataPack"
 
 Target "MklWinZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
@@ -523,14 +520,14 @@ Target "NuGet" (fun _ ->
     pack "MathNet.Numerics.sln"
     CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
     CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg")))
-"Collect" ==> "NuGet" ==> "Pack"
+"Build" ==> "NuGet" ==> "Pack"
 
 Target "DataNuGet" (fun _ ->
     pack "src/Data/Text/Text.csproj"
     pack "src/Data/Matlab/Matlab.csproj"
     CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
     CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg")))
-"DataCollect" ==> "DataNuGet" ==> "DataPack"
+"DataBuild" ==> "DataNuGet" ==> "DataPack"
 
 Target "MklWinNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"
