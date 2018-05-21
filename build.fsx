@@ -367,6 +367,16 @@ Target "Build" (fun _ ->
     // Collect
     CopyDir "out/lib" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
     CopyDir "out/lib" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
+
+    // ZIP Archive
+    CleanDir "out/packages/Zip"
+    coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
+
+    // NUGET Pack
+    pack "MathNet.Numerics.sln"
+    CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+    CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+
     )
 "Prepare" ==> "Build"
 
@@ -384,6 +394,17 @@ Target "DataBuild" (fun _ ->
     // Collect
     CopyDir "out/Data/lib" "src/Data/Text/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Text.dll") || n.Contains("MathNet.Numerics.Data.Text.pdb") || n.Contains("MathNet.Numerics.Data.Text.xml"))
     CopyDir "out/Data/lib" "src/Data/Matlab/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Matlab.dll") || n.Contains("MathNet.Numerics.Data.Matlab.pdb") || n.Contains("MathNet.Numerics.Data.Matlab.xml"))
+
+    // ZIP Archive
+    CleanDir "out/Data/packages/Zip"
+    dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data."))
+
+    // NUGET Pack
+    pack "src/Data/Text/Text.csproj"
+    pack "src/Data/Matlab/Matlab.csproj"
+    CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+    CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+
     )
 "Prepare" ==> "DataBuild"
 
@@ -483,16 +504,6 @@ Target "OpenBlasWinPack" DoNothing
 
 // ZIP
 
-Target "Zip" (fun _ ->
-    CleanDir "out/packages/Zip"
-    coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core.")))
-"Build" ==> "Zip" ==> "Pack"
-
-Target "DataZip" (fun _ ->
-    CleanDir "out/Data/packages/Zip"
-    dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data.")))
-"DataBuild" ==> "DataZip" ==> "DataPack"
-
 Target "MklWinZip" (fun _ ->
     CreateDir "out/MKL/packages/Zip"
     mklWinBundle |> zip "out/MKL/packages/Zip" "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll")))
@@ -515,19 +526,6 @@ Target "OpenBlasWinZip" (fun _ ->
 "OpenBlasWinBuild" ==> "OpenBlasWinZip" ==> "OpenBlasWinPack"
 
 // NUGET
-
-Target "NuGet" (fun _ ->
-    pack "MathNet.Numerics.sln"
-    CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-    CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg")))
-"Build" ==> "NuGet" ==> "Pack"
-
-Target "DataNuGet" (fun _ ->
-    pack "src/Data/Text/Text.csproj"
-    pack "src/Data/Matlab/Matlab.csproj"
-    CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-    CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg")))
-"DataBuild" ==> "DataNuGet" ==> "DataPack"
 
 Target "MklWinNuGet" (fun _ ->
     CreateDir "out/MKL/packages/NuGet"
@@ -655,7 +653,10 @@ Dependencies "OpenBlasPublish" [ "OpenBlasPublishTag"; "PublishDocs"; "OpenBlasP
 // --------------------------------------------------------------------------------------
 
 Target "All" DoNothing
-Dependencies "All" [ "Pack"; "Docs"; "Api"; "Test" ]
+Dependencies "All" [ "Build"; "Docs"; "Api"; "Test" ]
+
+Target "DataAll" DoNothing
+Dependencies "DataAll" [ "DataBuild"; "DataTest" ]
 
 Target "MklWinAll" DoNothing
 Dependencies "MklWinAll" [ "MklWinPack"; "MklTest" ]
@@ -665,8 +666,5 @@ Dependencies "CudaWinAll" [ "CudaWinPack"; "CudaTest" ]
 
 Target "OpenBlasWinAll" DoNothing
 Dependencies "OpenBlasWinAll" [ "OpenBlasWinPack"; "OpenBlasTest" ]
-
-Target "DataAll" DoNothing
-Dependencies "DataAll" [ "DataPack"; "DataTest" ]
 
 RunTargetOrDefault "Test"
