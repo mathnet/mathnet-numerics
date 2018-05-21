@@ -323,7 +323,7 @@ Target "Start" DoNothing
 
 Target "Clean" (fun _ ->
     DeleteDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-    CleanDirs [ "out/api"; "out/docs"; "out/packages/Zip"; "out/packages/NuGet"; "out/lib"; "out/lib-strongname" ]
+    CleanDirs [ "out/api"; "out/docs"; "out/Numerics/packages/Zip"; "out/Numerics/packages/NuGet"; "out/Numerics/lib"; "out/Numerics/lib-strongname" ]
     CleanDirs [ "out/Data"; "out/Data/packages/Zip"; "out/Data/packages/NuGet"; "out/Data/lib"; "out/Data/lib-strongname" ] // Data Extensions
     CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
     clean "MathNet.Numerics.sln"
@@ -346,6 +346,9 @@ Target "ApplyVersion" (fun _ ->
 Target "Restore" (fun _ ->
     restore "MathNet.Numerics.sln"
     restore "MathNet.Numerics.Data.sln")
+"Start"
+  =?> ("Clean", not (hasBuildParam "incremental"))
+  ==> "Restore"
 
 Target "Prepare" DoNothing
 "Start"
@@ -368,13 +371,13 @@ Target "Build" (fun _ ->
         CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
         restoreSN "MathNet.Numerics.sln"
         buildSN "MathNet.Numerics.sln"
-        CopyDir "out/lib-strongname" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
-        CopyDir "out/lib-strongname" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
-        coreSignedBundle |> zip "out/packages/Zip" "out/lib-strongname" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
+        CopyDir "out/Numerics/lib-strongname" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
+        CopyDir "out/Numerics/lib-strongname" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
+        coreSignedBundle |> zip "out/Numerics/packages/Zip" "out/Numerics/lib-strongname" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
         if isWindows then
             packSN "MathNet.Numerics.sln"
-            CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-            CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+            CopyDir "out/Numerics/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+            CopyDir "out/Numerics/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
 
     // Normal Build (without strong name, with certificate signature)
     CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
@@ -382,13 +385,13 @@ Target "Build" (fun _ ->
     build "MathNet.Numerics.sln"
     if isWindows && hasBuildParam "sign" then
         sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ++ "src/FSharp/bin/Release/**/MathNet.Numerics.FSharp.dll" )
-    CopyDir "out/lib" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
-    CopyDir "out/lib" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
-    coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
+    CopyDir "out/Numerics/lib" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
+    CopyDir "out/Numerics/lib" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
+    coreBundle |> zip "out/Numerics/packages/Zip" "out/Numerics/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if isWindows then
         pack "MathNet.Numerics.sln"
-        CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-        CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+        CopyDir "out/Numerics/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+        CopyDir "out/Numerics/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
 
     )
 "Prepare" ==> "Build"
@@ -639,13 +642,13 @@ Target "PublishMirrors" (fun _ -> publishMirrors ())
 Target "PublishDocs" (fun _ -> publishDocs numericsRelease)
 Target "PublishApi" (fun _ -> publishApi numericsRelease)
 
-Target "PublishArchive" (fun _ -> publishArchive "out/packages/Zip" "out/packages/NuGet" [coreBundle; coreSignedBundle])
+Target "PublishArchive" (fun _ -> publishArchive "out/Numerics/packages/Zip" "out/Numerics/packages/NuGet" [coreBundle; coreSignedBundle])
 Target "MklPublishArchive" (fun _ -> publishArchive "out/MKL/packages/Zip" "out/MKL/packages/NuGet" [mklWinBundle; mklLinuxBundle])
 Target "CudaPublishArchive" (fun _ -> publishArchive "out/CUDA/packages/Zip" "out/CUDA/packages/NuGet" [cudaWinBundle])
 Target "OpenBlasPublishArchive" (fun _ -> publishArchive "out/OpenBLAS/packages/Zip" "out/OpenBLAS/packages/NuGet" [openBlasWinBundle])
 Target "DataPublishArchive" (fun _ -> publishArchive "out/Data/packages/Zip" "out/Data/packages/NuGet" [dataBundle])
 
-Target "PublishNuGet" (fun _ -> !! "out/packages/NuGet/*.nupkg" -- "out/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
+Target "PublishNuGet" (fun _ -> !! "out/Numerics/packages/NuGet/*.nupkg" -- "out/Numerics/packages/NuGet/*.symbols.nupkg" |> publishNuGet)
 Target "MklPublishNuGet" (fun _ -> !! "out/MKL/packages/NuGet/*.nupkg" |> publishNuGet)
 Target "CudaPublishNuGet" (fun _ -> !! "out/CUDA/packages/NuGet/*.nupkg" |> publishNuGet)
 Target "OpenBlasPublishNuGet" (fun _ -> !! "out/OpenBLAS/packages/NuGet/*.nupkg" |> publishNuGet)
