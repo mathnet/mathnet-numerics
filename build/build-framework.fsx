@@ -37,12 +37,28 @@ let msbuild targets configuration project =
     let properties =
         [
             yield "Configuration", configuration
-            if hasBuildParam "strongname" then yield "StrongName", "True"
+            yield "StrongName", "False"
         ]
     MSBuildHelper.build (fun p ->
         { p with
             NoLogo = true
-            NodeReuse = true
+            NodeReuse = false
+            Targets = targets
+            Properties = properties
+            RestorePackagesFlag = false
+            Verbosity = Some MSBuildVerbosity.Minimal
+        }) project
+
+let msbuildSN targets configuration project =
+    let properties =
+        [
+            yield "Configuration", configuration
+            yield "StrongName", "True"
+        ]
+    MSBuildHelper.build (fun p ->
+        { p with
+            NoLogo = true
+            NodeReuse = false
             Targets = targets
             Properties = properties
             RestorePackagesFlag = false
@@ -52,7 +68,17 @@ let msbuild targets configuration project =
 let dotnet workingDir command =
     let properties =
         [
-            if hasBuildParam "strongname" then yield "StrongName", "True"
+            yield "StrongName", "False"
+        ]
+    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" """ name value) |> String.concat ""
+    DotNetCli.RunCommand
+        (fun c -> { c with WorkingDir = workingDir})
+        (command + suffix)
+
+let dotnetSN workingDir command =
+    let properties =
+        [
+            yield "StrongName", "True"
         ]
     let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" """ name value) |> String.concat ""
     DotNetCli.RunCommand
@@ -175,8 +201,11 @@ let patchVersionInProjectFile path (release:Release) =
 
 let clean project = msbuild [ "Clean" ] "Release" project
 let restore project = msbuild [ "Restore" ] "Release" project
+let restoreSN project = msbuildSN [ "Restore" ] "Release" project
 let build project = msbuild [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" project
+let buildSN project = msbuildSN [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" project
 let pack project = dotnet rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" project)
+let packSN project = dotnetSN rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" project)
 
 //let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
 //let build subject = buildConfig "Release" subject

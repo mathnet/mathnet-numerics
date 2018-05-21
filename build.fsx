@@ -317,7 +317,7 @@ Target "Start" DoNothing
 
 Target "Clean" (fun _ ->
     DeleteDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-    CleanDirs [ "out/api"; "out/docs"; "out/packages"; "out/lib" ]
+    CleanDirs [ "out/api"; "out/docs"; "out/packages/Zip"; "out/packages/NuGet"; "out/lib"; "out/lib-strongname" ]
     CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
     CleanDirs [ "out/Data" ] // Data Extensions
     clean "MathNet.Numerics.sln"
@@ -344,7 +344,6 @@ Target "Restore" (fun _ ->
 Target "Prepare" DoNothing
 "Start"
   =?> ("Clean", not (hasBuildParam "incremental"))
-  ==> "Restore"
   ==> "ApplyVersion"
   ==> "Prepare"
 
@@ -353,26 +352,33 @@ Target "Prepare" DoNothing
 // BUILD, SIGN, COLLECT
 // --------------------------------------------------------------------------------------
 
+let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
+let timeserver = "http://time.certum.pl/"
+
 Target "Build" (fun _ ->
 
-    // Build
+    // Strong Name Build (with strong name, without certificate signature)
+    if hasBuildParam "strongname" then
+        CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
+        restoreSN "MathNet.Numerics.sln"
+        buildSN "MathNet.Numerics.sln"
+        CopyDir "out/lib-strongname" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
+        CopyDir "out/lib-strongname" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
+        coreSignedBundle |> zip "out/packages/Zip" "out/lib-strongname" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
+        if isWindows then
+            packSN "MathNet.Numerics.sln"
+            CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+            CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+
+    // Normal Build (without strong name, with certificate signature)
+    CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
+    restore "MathNet.Numerics.sln"
     build "MathNet.Numerics.sln"
-
-    // Sign (Windows only)
     if isWindows && hasBuildParam "sign" then
-        let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
-        let timeserver = "http://time.certum.pl/"
         sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ++ "src/FSharp/bin/Release/**/MathNet.Numerics.FSharp.dll" )
-
-    // Collect
     CopyDir "out/lib" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
     CopyDir "out/lib" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
-
-    // ZIP Archive
-    CleanDir "out/packages/Zip"
     coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
-
-    // NUGET Pack (Windows only)
     if isWindows then
         pack "MathNet.Numerics.sln"
         CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
@@ -384,12 +390,11 @@ Target "Build" (fun _ ->
 Target "DataBuild" (fun _ ->
 
     // Build
+    restore "MathNet.Numerics.Data.sln"
     build "MathNet.Numerics.Data.sln"
 
     // Sign (Windows only)
     if isWindows && hasBuildParam "sign" then
-        let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
-        let timeserver = "http://time.certum.pl/"
         sign fingerprint timeserver (!! "src/Data/Text/bin/Release/**/MathNet.Numerics.Data.Text.dll" ++ "src/Data/Matlab/bin/Release/**/MathNet.Numerics.Data.Matlab.dll" )
 
     // Collect
