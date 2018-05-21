@@ -358,8 +358,8 @@ Target "Build" (fun _ ->
     // Build
     build "MathNet.Numerics.sln"
 
-    // Sign
-    if hasBuildParam "sign" then
+    // Sign (Windows only)
+    if isWindows && hasBuildParam "sign" then
         let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
         let timeserver = "http://time.certum.pl/"
         sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ++ "src/FSharp/bin/Release/**/MathNet.Numerics.FSharp.dll" )
@@ -372,10 +372,11 @@ Target "Build" (fun _ ->
     CleanDir "out/packages/Zip"
     coreBundle |> zip "out/packages/Zip" "out/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
 
-    // NUGET Pack
-    pack "MathNet.Numerics.sln"
-    CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-    CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+    // NUGET Pack (Windows only)
+    if isWindows then
+        pack "MathNet.Numerics.sln"
+        CopyDir "out/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+        CopyDir "out/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
 
     )
 "Prepare" ==> "Build"
@@ -385,8 +386,8 @@ Target "DataBuild" (fun _ ->
     // Build
     build "MathNet.Numerics.Data.sln"
 
-    // Sign
-    if hasBuildParam "sign" then
+    // Sign (Windows only)
+    if isWindows && hasBuildParam "sign" then
         let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
         let timeserver = "http://time.certum.pl/"
         sign fingerprint timeserver (!! "src/Data/Text/bin/Release/**/MathNet.Numerics.Data.Text.dll" ++ "src/Data/Matlab/bin/Release/**/MathNet.Numerics.Data.Matlab.dll" )
@@ -400,10 +401,11 @@ Target "DataBuild" (fun _ ->
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data."))
 
     // NUGET Pack
-    pack "src/Data/Text/Text.csproj"
-    pack "src/Data/Matlab/Matlab.csproj"
-    CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-    CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+    if isWindows then
+        pack "src/Data/Text/Text.csproj"
+        pack "src/Data/Matlab/Matlab.csproj"
+        CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+        CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
 
     )
 "Prepare" ==> "DataBuild"
