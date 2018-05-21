@@ -17,7 +17,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(StrongName)'=='True'">
         <SignAssembly>true</SignAssembly>
-        <AssemblyOriginatorKeyFile>../MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
         <DelaySign>false</DelaySign>
         <CommonConstants>STRONGNAME</CommonConstants>
         <PackageIdSuffix>.Signed</PackageIdSuffix>

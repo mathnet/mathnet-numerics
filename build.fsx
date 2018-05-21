@@ -308,6 +308,12 @@ let dataBundle =
       Title = "Math.NET Numerics Data Extensions"
       Packages = [ dataTextPack; dataMatlabPack ] }
 
+let dataSignedBundle =
+    { Id = "MathNet.Numerics.Data.Signed"
+      Release = dataRelease
+      Title = "Math.NET Numerics Data Extensions"
+      Packages = [ dataTextPack; dataMatlabPack ] }
+
 
 // --------------------------------------------------------------------------------------
 // PREPARE
@@ -318,8 +324,8 @@ Target "Start" DoNothing
 Target "Clean" (fun _ ->
     DeleteDirs (!! "src/**/obj/" ++ "src/**/bin/" )
     CleanDirs [ "out/api"; "out/docs"; "out/packages/Zip"; "out/packages/NuGet"; "out/lib"; "out/lib-strongname" ]
+    CleanDirs [ "out/Data"; "out/Data/packages/Zip"; "out/Data/packages/NuGet"; "out/Data/lib"; "out/Data/lib-strongname" ] // Data Extensions
     CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
-    CleanDirs [ "out/Data" ] // Data Extensions
     clean "MathNet.Numerics.sln"
     clean "MathNet.Numerics.Data.sln")
 
@@ -389,23 +395,29 @@ Target "Build" (fun _ ->
 
 Target "DataBuild" (fun _ ->
 
-    // Build
+    // Strong Name Build (with strong name, without certificate signature)
+    if hasBuildParam "strongname" then
+        CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
+        restoreSN "MathNet.Numerics.Data.sln"
+        buildSN "MathNet.Numerics.Data.sln"
+        CopyDir "out/Data/lib-strongname" "src/Data/Text/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Text.dll") || n.Contains("MathNet.Numerics.Data.Text.pdb") || n.Contains("MathNet.Numerics.Data.Text.xml"))
+        CopyDir "out/Data/lib-strongname" "src/Data/Matlab/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Matlab.dll") || n.Contains("MathNet.Numerics.Data.Matlab.pdb") || n.Contains("MathNet.Numerics.Data.Matlab.xml"))
+        dataSignedBundle |> zip "out/Data/packages/Zip" "out/Data/lib-strongname" (fun f -> f.Contains("MathNet.Numerics.Data."))
+        if isWindows then
+            packSN "src/Data/Text/Text.csproj"
+            packSN "src/Data/Matlab/Matlab.csproj"
+            CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+            CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+
+    // Normal Build (without strong name, with certificate signature)
+    CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
     restore "MathNet.Numerics.Data.sln"
     build "MathNet.Numerics.Data.sln"
-
-    // Sign (Windows only)
     if isWindows && hasBuildParam "sign" then
         sign fingerprint timeserver (!! "src/Data/Text/bin/Release/**/MathNet.Numerics.Data.Text.dll" ++ "src/Data/Matlab/bin/Release/**/MathNet.Numerics.Data.Matlab.dll" )
-
-    // Collect
     CopyDir "out/Data/lib" "src/Data/Text/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Text.dll") || n.Contains("MathNet.Numerics.Data.Text.pdb") || n.Contains("MathNet.Numerics.Data.Text.xml"))
     CopyDir "out/Data/lib" "src/Data/Matlab/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Matlab.dll") || n.Contains("MathNet.Numerics.Data.Matlab.pdb") || n.Contains("MathNet.Numerics.Data.Matlab.xml"))
-
-    // ZIP Archive
-    CleanDir "out/Data/packages/Zip"
     dataBundle |> zip "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data."))
-
-    // NUGET Pack
     if isWindows then
         pack "src/Data/Text/Text.csproj"
         pack "src/Data/Matlab/Matlab.csproj"
