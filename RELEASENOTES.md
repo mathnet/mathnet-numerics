@@ -1,3 +1,6 @@
+### 4.5.0 - 2018-05-22
+* Random: New Xoshiro256StarStar random source *~Colin Green*
+
 ### 4.4.1 - 2018-05-06
 * Build: strong-name edition .Signed NuGet packages are available again
 

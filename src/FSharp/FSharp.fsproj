@@ -7,15 +7,11 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.4.1</VersionPrefix>
+    <VersionPrefix>4.5.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
-    <PackageVersion>4.4.1</PackageVersion>
-    <Version>4.4.1</Version>
-    <AssemblyVersion>4.4.1.0</AssemblyVersion>
-    <FileVersion>4.4.1.0</FileVersion>
     <Title>Math.NET Numerics for F#$(TitleSuffix)</Title>
     <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>Build: strong-name edition .Signed NuGet packages are available again</PackageReleaseNotes>
+    <PackageReleaseNotes>Random: New Xoshiro256StarStar random source ~Colin Green</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <NeutralLanguage>en</NeutralLanguage>
