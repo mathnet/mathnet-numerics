@@ -392,6 +392,8 @@ Target "Build" (fun _ ->
         pack "MathNet.Numerics.sln"
         CopyDir "out/Numerics/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
         CopyDir "out/Numerics/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+        if hasBuildParam "sign" then
+            Seq.iter (signNuGet fingerprint timeserver) (!! "out/Numerics/packages/NuGet/*.nupkg" -- "out/Numerics/packages/NuGet/*.Signed.*.nupkg")
 
     )
 "Prepare" ==> "Build"
@@ -426,6 +428,8 @@ Target "DataBuild" (fun _ ->
         pack "src/Data/Matlab/Matlab.csproj"
         CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
         CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+        if hasBuildParam "sign" then
+            Seq.iter (signNuGet fingerprint timeserver) (!! "out/Data/packages/NuGet/*.nupkg" -- "out/Data/packages/NuGet/*.Signed.*.nupkg")
 
     )
 "Prepare" ==> "DataBuild"

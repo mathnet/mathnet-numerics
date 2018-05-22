@@ -283,6 +283,17 @@ let sign fingerprint timeserver files =
     if result <> 0 then
         failwithf "Error during SignTool call "
 
+let signNuGet fingerprint timeserver file =
+    CleanDir "obj/NuGet"
+    let args = sprintf """sign "%s" -HashAlgorithm SHA256 -TimestampHashAlgorithm SHA256 -CertificateFingerprint "%s" -Timestamper "%s""" (FullName file) fingerprint timeserver
+    let result =
+        ExecProcess (fun info ->
+            info.FileName <- "packages/build/NuGet.CommandLine/tools/NuGet.exe"
+            info.WorkingDirectory <- FullName "obj/NuGet"
+            info.Arguments <- args) (TimeSpan.FromMinutes 10.)
+    if result <> 0 then failwith "Error during NuGet sign."
+    DeleteDir "obj/NuGet"
+
 
 // ZIP
 

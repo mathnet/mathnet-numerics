@@ -1,3 +1,6 @@
+### 4.5.1 - 2018-05-22
+* Signed NuGet packages
+
 ### 4.5.0 - 2018-05-22
 * Random: New Xoshiro256StarStar random source *~Colin Green*
 
