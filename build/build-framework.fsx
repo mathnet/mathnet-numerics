@@ -292,7 +292,7 @@ let zip zipDir filesDir filesFilter (bundle:Bundle) =
     CopyDir workPath filesDir filesFilter
     provideZipExtraFiles workPath bundle
     Zip "obj/Zip/" (zipDir </> sprintf "%s-%s.zip" bundle.Id bundle.Release.PackageVersion) !! (workPath + "/**/*.*")
-    CleanDir "obj/Zip"
+    DeleteDir "obj/Zip"
 
 // NUGET
 
@@ -327,6 +327,7 @@ let nugetPack (bundle:Bundle) outPath =
         // second pass - generate only normal package, again, but this time explicitly drop the sources (and the debug symbols)
         NuGet (updateNuspec pack outPath NugetSymbolPackage.None (withLicenseReadme >> withoutSymbolsSources)) "build/MathNet.Numerics.nuspec"
         CleanDir "obj/NuGet"
+    DeleteDir "obj/NuGet"
 
 let nugetPackExtension (bundle:Bundle) outPath =
     CleanDir "obj/NuGet"
@@ -335,6 +336,7 @@ let nugetPackExtension (bundle:Bundle) outPath =
         let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
         NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Extension.nuspec"
         CleanDir "obj/NuGet"
+    DeleteDir "obj/NuGet"
 
 
 // --------------------------------------------------------------------------------------
@@ -407,6 +409,7 @@ let publishReleaseTag title prefix (release:Release) =
 
 let publishNuGet packageFiles =
     // TODO: Migrate to NuGet helper once it supports direct (non-integrated) operations
+    CleanDir "obj/NuGet"
     let rec impl trials file =
         trace ("NuGet Push: " + System.IO.Path.GetFileName(file) + ".")
         try
@@ -421,6 +424,7 @@ let publishNuGet packageFiles =
             if trials > 0 then impl (trials-1) file
             else ()
     Seq.iter (impl 3) packageFiles
+    DeleteDir "obj/NuGet"
 
 let publishMirrors () =
     let repo = "../mirror-numerics"
