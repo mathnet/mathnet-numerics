@@ -59,6 +59,9 @@ let numericsFSharpNuGetPackage = { Id = "MathNet.Numerics.FSharp"; Release = num
 let numericsStrongNameNuGetPackage = { Id = "MathNet.Numerics.Signed"; Release = numericsRelease }
 let numericsFSharpStrongNameNuGetPackage = { Id = "MathNet.Numerics.FSharp.Signed"; Release = numericsRelease }
 
+let numericsProject = { AssemblyName = "MathNet.Numerics"; ProjectFile = "src/Numerics/Numerics.csproj"; OutputDir = "src/Numerics/bin/Release" }
+let fsharpProject = { AssemblyName = "MathNet.Numerics.FSharp"; ProjectFile = "src/FSharp/FSharp.fsproj"; OutputDir = "src/FSharp/bin/Release" }
+
 
 // DATA EXTENSION PACKAGES
 
@@ -76,6 +79,9 @@ let dataTextNuGetPackage = { Id = "MathNet.Numerics.Data.Text"; Release = dataRe
 let dataMatlabNuGetPackage = { Id = "MathNet.Numerics.Data.Matlab"; Release = dataRelease }
 let dataTextStrongNameNuGetPackage = { Id = "MathNet.Numerics.Data.Text.Signed"; Release = dataRelease }
 let dataMatlabStrongNameNuGetPackage = { Id = "MathNet.Numerics.Data.Matlab.Signed"; Release = dataRelease }
+
+let dataTextProject = { AssemblyName = "MathNet.Numerics.Data.Text"; ProjectFile = "src/Data/Text/Text.csproj"; OutputDir = "src/Data/Text/bin/Release" }
+let dataMatlabProject = { AssemblyName = "MathNet.Numerics.Data.Matlab"; ProjectFile = "src/Data/Matlab/Matlab.csproj"; OutputDir = "src/Data/Matlab/bin/Release" }
 
 
 // MKL NATIVE PROVIDER PACKAGES
@@ -313,27 +319,27 @@ Target "Build" (fun _ ->
         CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
         restoreSN "MathNet.Numerics.sln"
         buildSN "MathNet.Numerics.sln"
-        CopyDir "out/Numerics/lib-strongname" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
-        CopyDir "out/Numerics/lib-strongname" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
+        collectBinaries numericsProject "out/Numerics/lib-strongname"
+        collectBinaries fsharpProject "out/Numerics/lib-strongname"
         zip numericsStrongNameZipPackage "out/Numerics/packages/Zip" "out/Numerics/lib-strongname" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
         if isWindows then
             packSN "MathNet.Numerics.sln"
-            CopyDir "out/Numerics/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-            CopyDir "out/Numerics/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+            collectNuGetPackages numericsProject "out/Numerics/packages/NuGet"
+            collectNuGetPackages fsharpProject "out/Numerics/packages/NuGet"
 
     // Normal Build (without strong name, with certificate signature)
     CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
     restore "MathNet.Numerics.sln"
     build "MathNet.Numerics.sln"
     if isWindows && hasBuildParam "sign" then
-        sign fingerprint timeserver (!! "src/Numerics/bin/Release/**/MathNet.Numerics.dll" ++ "src/FSharp/bin/Release/**/MathNet.Numerics.FSharp.dll" )
-    CopyDir "out/Numerics/lib" "src/Numerics/bin/Release" (fun n -> n.Contains("MathNet.Numerics.dll") || n.Contains("MathNet.Numerics.pdb") || n.Contains("MathNet.Numerics.xml"))
-    CopyDir "out/Numerics/lib" "src/FSharp/bin/Release" (fun n -> n.Contains("MathNet.Numerics.FSharp.dll") || n.Contains("MathNet.Numerics.FSharp.pdb") || n.Contains("MathNet.Numerics.FSharp.xml"))
+        sign fingerprint timeserver (!! (numericsProject.OutputDir + "**/MathNet.Numerics.dll") ++ (fsharpProject.OutputDir + "**/MathNet.Numerics.FSharp.dll") )
+    collectBinaries numericsProject "out/Numerics/lib"
+    collectBinaries fsharpProject "out/Numerics/lib"
     zip numericsZipPackage "out/Numerics/packages/Zip" "out/Numerics/lib" (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if isWindows then
         pack "MathNet.Numerics.sln"
-        CopyDir "out/Numerics/packages/NuGet" "src/Numerics/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-        CopyDir "out/Numerics/packages/NuGet" "src/FSharp/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+        collectNuGetPackages numericsProject "out/Numerics/packages/NuGet"
+        collectNuGetPackages fsharpProject "out/Numerics/packages/NuGet"
 
     // NuGet Sign (all or nothing)
     if isWindows && hasBuildParam "sign" then
@@ -349,29 +355,29 @@ Target "DataBuild" (fun _ ->
         CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
         restoreSN "MathNet.Numerics.Data.sln"
         buildSN "MathNet.Numerics.Data.sln"
-        CopyDir "out/Data/lib-strongname" "src/Data/Text/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Text.dll") || n.Contains("MathNet.Numerics.Data.Text.pdb") || n.Contains("MathNet.Numerics.Data.Text.xml"))
-        CopyDir "out/Data/lib-strongname" "src/Data/Matlab/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Matlab.dll") || n.Contains("MathNet.Numerics.Data.Matlab.pdb") || n.Contains("MathNet.Numerics.Data.Matlab.xml"))
+        collectBinaries dataTextProject "out/Data/lib-strongname"
+        collectBinaries dataMatlabProject "out/Data/lib-strongname"
         zip dataStrongNameZipPackage "out/Data/packages/Zip" "out/Data/lib-strongname" (fun f -> f.Contains("MathNet.Numerics.Data."))
         if isWindows then
-            packSN "src/Data/Text/Text.csproj"
-            packSN "src/Data/Matlab/Matlab.csproj"
-            CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-            CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+            packSN dataTextProject.ProjectFile
+            packSN dataMatlabProject.ProjectFile
+            collectNuGetPackages dataTextProject "out/Data/packages/NuGet"
+            collectNuGetPackages dataMatlabProject "out/Data/packages/NuGet"
 
     // Normal Build (without strong name, with certificate signature)
     CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
     restore "MathNet.Numerics.Data.sln"
     build "MathNet.Numerics.Data.sln"
     if isWindows && hasBuildParam "sign" then
-        sign fingerprint timeserver (!! "src/Data/Text/bin/Release/**/MathNet.Numerics.Data.Text.dll" ++ "src/Data/Matlab/bin/Release/**/MathNet.Numerics.Data.Matlab.dll" )
-    CopyDir "out/Data/lib" "src/Data/Text/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Text.dll") || n.Contains("MathNet.Numerics.Data.Text.pdb") || n.Contains("MathNet.Numerics.Data.Text.xml"))
-    CopyDir "out/Data/lib" "src/Data/Matlab/bin/Release" (fun n -> n.Contains("MathNet.Numerics.Data.Matlab.dll") || n.Contains("MathNet.Numerics.Data.Matlab.pdb") || n.Contains("MathNet.Numerics.Data.Matlab.xml"))
+        sign fingerprint timeserver (!! (dataTextProject.OutputDir + "**/MathNet.Numerics.Data.Text.dll") ++ (dataMatlabProject.OutputDir + "**/MathNet.Numerics.Data.Matlab.dll") )
+    collectBinaries dataTextProject "out/Data/lib"
+    collectBinaries dataMatlabProject "out/Data/lib"
     zip dataZipPackage "out/Data/packages/Zip" "out/Data/lib" (fun f -> f.Contains("MathNet.Numerics.Data."))
     if isWindows then
-        pack "src/Data/Text/Text.csproj"
-        pack "src/Data/Matlab/Matlab.csproj"
-        CopyDir "out/Data/packages/NuGet" "src/Data/Text/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
-        CopyDir "out/Data/packages/NuGet" "src/Data/Matlab/bin/Release/" (fun n -> n.EndsWith(".nupkg"))
+        pack dataTextProject.ProjectFile
+        pack dataMatlabProject.ProjectFile
+        collectNuGetPackages dataTextProject "out/Data/packages/NuGet"
+        collectNuGetPackages dataMatlabProject "out/Data/packages/NuGet"
 
     // NuGet Sign (all or nothing)
     if isWindows && hasBuildParam "sign" then

@@ -127,6 +127,11 @@ type NuGetPackage =
     { Id: string
       Release: Release }
 
+type Project =
+    { AssemblyName: string
+      ProjectFile: string
+      OutputDir: string }
+
 let release title releaseNotesFile : Release =
     let info = LoadReleaseNotes releaseNotesFile
     let buildPart = "0"
@@ -210,10 +215,13 @@ let patchVersionInProjectFile path (release:Release) =
 // --------------------------------------------------------------------------------------
 
 let clean project = msbuild [ "Clean" ] "Release" project
+
 let restore project = msbuild [ "Restore" ] "Release" project
 let restoreSN project = msbuildSN [ "Restore" ] "Release" project
+
 let build project = msbuild [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" project
 let buildSN project = msbuildSN [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" project
+
 let pack project = dotnet rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" project)
 let packSN project = dotnetSN rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" project)
 
@@ -222,6 +230,17 @@ let packSN project = dotnetSN rootDir (sprintf "pack %s --configuration Release 
 //let buildSigned subject = buildConfig "Release-Signed" subject
 let buildConfig32 config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration", config); ("Platform","Win32")] subject |> ignore
 let buildConfig64 config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [("Configuration", config); ("Platform","x64")] subject |> ignore
+
+
+// --------------------------------------------------------------------------------------
+// COLLECT
+// --------------------------------------------------------------------------------------
+
+let collectBinaries (project:Project) targetDir =
+    CopyDir targetDir project.OutputDir (fun n -> n.Contains(project.AssemblyName + ".dll") || n.Contains(project.AssemblyName + ".pdb") || n.Contains(project.AssemblyName + ".xml"))
+
+let collectNuGetPackages (project:Project) targetDir =
+    CopyDir targetDir project.OutputDir (fun n -> n.EndsWith(".nupkg"))
 
 
 // --------------------------------------------------------------------------------------
