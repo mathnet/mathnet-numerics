@@ -117,6 +117,16 @@ type Bundle =
       Title: string
       Packages: Package list }
 
+type ZipPackage =
+    { Id: string
+      Release: Release
+      Title: string
+      FsLoader: bool }
+
+type NuGetPackage =
+    { Id: string
+      Release: Release }
+
 let release title releaseNotesFile : Release =
     let info = LoadReleaseNotes releaseNotesFile
     let buildPart = "0"
@@ -251,10 +261,10 @@ let provideFsIfSharpLoader path =
     let startIndex = fullScript |> Seq.findIndex (fun s -> s.Contains "***MathNet.Numerics.IfSharp.fsx***")
     ReplaceFile (path </> "MathNet.Numerics.IfSharp.fsx") (fullScript .[startIndex + 1 ..] |> toLines)
 
-let provideZipExtraFiles path (bundle:Bundle) =
+let provideZipExtraFiles (package:ZipPackage) path =
     provideLicense path
-    provideReadme (sprintf "%s v%s" bundle.Title bundle.Release.PackageVersion) bundle.Release path
-    if bundle.Packages |> List.exists (fun p -> p.FsLoader) then
+    provideReadme (sprintf "%s v%s" package.Title package.Release.PackageVersion) package.Release path
+    if package.FsLoader then
         let includes = [ for root in [ ""; "../"; "../../" ] -> sprintf "#I \"%sNet40\"" root ]
         provideFsLoader includes path
         provideFsIfSharpLoader path
@@ -297,12 +307,12 @@ let signNuGet fingerprint timeserver file =
 
 // ZIP
 
-let zip zipDir filesDir filesFilter (bundle:Bundle) =
+let zip (package:ZipPackage) zipDir filesDir filesFilter =
     CleanDir "obj/Zip"
-    let workPath = "obj/Zip/" + bundle.Id
+    let workPath = "obj/Zip/" + package.Id
     CopyDir workPath filesDir filesFilter
-    provideZipExtraFiles workPath bundle
-    Zip "obj/Zip/" (zipDir </> sprintf "%s-%s.zip" bundle.Id bundle.Release.PackageVersion) !! (workPath + "/**/*.*")
+    provideZipExtraFiles package workPath
+    Zip "obj/Zip/" (zipDir </> sprintf "%s-%s.zip" package.Id package.Release.PackageVersion) !! (workPath + "/**/*.*")
     DeleteDir "obj/Zip"
 
 // NUGET
@@ -459,9 +469,9 @@ let publishApi (release:Release) =
     Git.Commit.Commit repo (sprintf "Numerics: %s api update" release.PackageVersion)
     Git.Branches.pushBranch repo "origin" "master"
 
-let publishNuGetToArchive archivePath nupkgFile (pack:Package) =
+let publishNuGetToArchive (package:NuGetPackage) archivePath nupkgFile =
     let tempDir = Path.GetTempPath() </> Path.GetRandomFileName()
-    let archiveDir = archivePath </> pack.Id </> pack.Release.PackageVersion
+    let archiveDir = archivePath </> package.Id </> package.Release.PackageVersion
     CleanDirs [tempDir; archiveDir]
     nupkgFile |> CopyFile archiveDir
     use sha512 = System.Security.Cryptography.SHA512.Create()
@@ -471,18 +481,18 @@ let publishNuGetToArchive archivePath nupkgFile (pack:Package) =
     !! (tempDir </> "*.nuspec") |> Copy archiveDir
     DeleteDir tempDir
 
-let publishArchive zipOutPath nugetOutPath (bundles:Bundle list) =
+let publishArchive zipOutPath nugetOutPath (zipPackages:ZipPackage list) (nugetPackages:NuGetPackage list) =
     let archivePath = (environVarOrFail "MathNetReleaseArchive") </> "Math.NET Numerics"
     if directoryExists archivePath |> not then failwith "Release archive directory does not exists. Safety Check failed."
-    for bundle in bundles do
-        let zipFile = zipOutPath </> sprintf "%s-%s.zip" bundle.Id bundle.Release.PackageVersion
+    for zipPackage in zipPackages do
+        let zipFile = zipOutPath </> sprintf "%s-%s.zip" zipPackage.Id zipPackage.Release.PackageVersion
         if FileSystemHelper.fileExists zipFile then
             zipFile |> CopyFile (archivePath </> "Zip")
-    for package in bundles |> List.collect (fun b -> b.Packages) do
-        let nupkgFile = nugetOutPath </> sprintf "%s.%s.nupkg" package.Id package.Release.PackageVersion
+    for nugetPackage in nugetPackages do
+        let nupkgFile = nugetOutPath </> sprintf "%s.%s.nupkg" nugetPackage.Id nugetPackage.Release.PackageVersion
         if FileSystemHelper.fileExists nupkgFile then
             trace nupkgFile
-            publishNuGetToArchive (archivePath </> "NuGet") nupkgFile package
-        let symbolsFile = nugetOutPath </> sprintf "%s.%s.symbols.nupkg" package.Id package.Release.PackageVersion
+            publishNuGetToArchive nugetPackage (archivePath </> "NuGet") nupkgFile
+        let symbolsFile = nugetOutPath </> sprintf "%s.%s.symbols.nupkg" nugetPackage.Id nugetPackage.Release.PackageVersion
         if FileSystemHelper.fileExists symbolsFile then
             symbolsFile |> CopyFile (archivePath </> "Symbols")
