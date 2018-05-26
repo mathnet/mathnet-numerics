@@ -54,7 +54,7 @@ let numericsFSharpStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.FSharp
 
 let numericsProject = project "MathNet.Numerics" "src/Numerics/Numerics.csproj" [numericsNuGetPackage; numericsStrongNameNuGetPackage]
 let numericsFsharpProject = project "MathNet.Numerics.FSharp" "src/FSharp/FSharp.fsproj" [numericsFSharpNuGetPackage; numericsFSharpStrongNameNuGetPackage]
-let numericsSolution = solution "Numerics" "MathNet.Numerics.sln" [numericsProject; numericsFsharpProject]
+let numericsSolution = solution "Numerics" "MathNet.Numerics.sln" [numericsProject; numericsFsharpProject] [numericsZipPackage; numericsStrongNameZipPackage]
 
 
 // DATA EXTENSION PACKAGES
@@ -69,7 +69,7 @@ let dataMatlabStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Data.Matla
 
 let dataTextProject = project "MathNet.Numerics.Data.Text" "src/Data/Text/Text.csproj" [dataTextNuGetPackage; dataTextStrongNameNuGetPackage]
 let dataMatlabProject = project "MathNet.Numerics.Data.Matlab" "src/Data/Matlab/Matlab.csproj" [dataMatlabNuGetPackage; dataMatlabStrongNameNuGetPackage]
-let dataSolution = solution "Data" "MathNet.Numerics.Data.sln" [dataTextProject; dataMatlabProject]
+let dataSolution = solution "Data" "MathNet.Numerics.Data.sln" [dataTextProject; dataMatlabProject] [dataZipPackage; dataStrongNameZipPackage]
 
 
 // MKL NATIVE PROVIDER PACKAGES
@@ -552,11 +552,11 @@ Target "PublishMirrors" (fun _ -> publishMirrors ())
 Target "PublishDocs" (fun _ -> publishDocs numericsRelease)
 Target "PublishApi" (fun _ -> publishApi numericsRelease)
 
-Target "PublishArchive" (fun _ -> publishArchive numericsSolution.OutputZipDir numericsSolution.OutputNuGetDir [numericsZipPackage; numericsStrongNameZipPackage] [numericsNuGetPackage; numericsFSharpNuGetPackage; numericsStrongNameNuGetPackage; numericsFSharpStrongNameNuGetPackage])
-Target "DataPublishArchive" (fun _ -> publishArchive dataSolution.OutputZipDir dataSolution.OutputNuGetDir [dataZipPackage; dataStrongNameZipPackage] [dataTextNuGetPackage; dataMatlabNuGetPackage; dataTextStrongNameNuGetPackage; dataMatlabStrongNameNuGetPackage])
-Target "MklPublishArchive" (fun _ -> publishArchive "out/MKL/packages/Zip" "out/MKL/packages/NuGet" [mklWinZipPackage; mklLinuxZipPackage] [mklWinNuGetPackage; mklWin32NuGetPackage; mklWin64NuGetPackage; mklLinuxNuGetPackage; mklLinux32NuGetPackage; mklLinux64NuGetPackage])
-Target "CudaPublishArchive" (fun _ -> publishArchive "out/CUDA/packages/Zip" "out/CUDA/packages/NuGet" [cudaWinZipPackage] [cudaWinNuGetPackage])
-Target "OpenBlasPublishArchive" (fun _ -> publishArchive "out/OpenBLAS/packages/Zip" "out/OpenBLAS/packages/NuGet" [openBlasWinZipPackage] [openBlasWinNuGetPackage])
+Target "PublishArchive" (fun _ -> publishArchive numericsSolution)
+Target "DataPublishArchive" (fun _ -> publishArchive dataSolution)
+Target "MklPublishArchive" (fun _ -> publishArchiveManual "out/MKL/packages/Zip" "out/MKL/packages/NuGet" [mklWinZipPackage; mklLinuxZipPackage] [mklWinNuGetPackage; mklWin32NuGetPackage; mklWin64NuGetPackage; mklLinuxNuGetPackage; mklLinux32NuGetPackage; mklLinux64NuGetPackage])
+Target "CudaPublishArchive" (fun _ -> publishArchiveManual "out/CUDA/packages/Zip" "out/CUDA/packages/NuGet" [cudaWinZipPackage] [cudaWinNuGetPackage])
+Target "OpenBlasPublishArchive" (fun _ -> publishArchiveManual "out/OpenBLAS/packages/Zip" "out/OpenBLAS/packages/NuGet" [openBlasWinZipPackage] [openBlasWinNuGetPackage])
 
 Target "PublishNuGet" (fun _ -> publishNuGet !! (numericsSolution.OutputNuGetDir </> "/*.nupkg"))
 Target "DataPublishNuGet" (fun _ -> publishNuGet !! (dataSolution.OutputNuGetDir </> "/*.nupkg"))

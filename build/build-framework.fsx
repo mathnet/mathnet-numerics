@@ -121,6 +121,7 @@ type Solution =
       SolutionFile: string
       Projects: Project list
       Release: Release
+      ZipPackages: ZipPackage list
       OutputDir: string
       OutputLibDir: string
       OutputLibStrongNameDir: string
@@ -175,11 +176,12 @@ let project assemblyName projectFile nuGetPackages =
       NuGetPackages = nuGetPackages
       Release = nuGetPackages |> List.map (fun p -> p.Release) |> List.distinct |> List.exactlyOne }
 
-let solution key solutionFile projects =
+let solution key solutionFile projects zipPackages =
     { Solution.Key = key
       SolutionFile = solutionFile
       Projects = projects
-      Release = projects  |> List.map (fun p -> p.Release) |> List.distinct |> List.exactlyOne
+      ZipPackages = zipPackages
+      Release = List.concat [ projects |> List.map (fun p -> p.Release); zipPackages |> List.map (fun p -> p.Release) ] |> List.distinct |> List.exactlyOne
       OutputDir = "out" </> key
       OutputLibDir = "out" </> key </> "Lib"
       OutputLibStrongNameDir = "out" </> key </> "Lib-StrongName"
@@ -548,7 +550,7 @@ let publishNuGetToArchive (package:NuGetPackage) archivePath nupkgFile =
     !! (tempDir </> "*.nuspec") |> Copy archiveDir
     DeleteDir tempDir
 
-let publishArchive zipOutPath nugetOutPath (zipPackages:ZipPackage list) (nugetPackages:NuGetPackage list) =
+let publishArchiveManual zipOutPath nugetOutPath (zipPackages:ZipPackage list) (nugetPackages:NuGetPackage list) =
     let archivePath = (environVarOrFail "MathNetReleaseArchive") </> "Math.NET Numerics"
     if directoryExists archivePath |> not then failwith "Release archive directory does not exists. Safety Check failed."
     for zipPackage in zipPackages do
@@ -563,3 +565,10 @@ let publishArchive zipOutPath nugetOutPath (zipPackages:ZipPackage list) (nugetP
         let symbolsFile = nugetOutPath </> sprintf "%s.%s.symbols.nupkg" nugetPackage.Id nugetPackage.Release.PackageVersion
         if FileSystemHelper.fileExists symbolsFile then
             symbolsFile |> CopyFile (archivePath </> "Symbols")
+
+let publishArchive (solution:Solution) =
+    let zipOutPath = solution.OutputZipDir
+    let nugetOutPath = solution.OutputNuGetDir
+    let zipPackages = solution.ZipPackages
+    let nugetPackages = solution.Projects |> List.collect (fun p -> p.NuGetPackages) |> List.distinct
+    publishArchiveManual zipOutPath nugetOutPath zipPackages nugetPackages
