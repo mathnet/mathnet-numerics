@@ -18,6 +18,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
     <ProjectReference Include="..\TestData\TestData.csproj" />
   </ItemGroup>
