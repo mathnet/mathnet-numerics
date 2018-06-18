@@ -176,7 +176,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <summary>
         /// Packed Real-Complex forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
         /// Since for real-valued time samples the complex spectrum is conjugate-even (symmetry),
-        /// the spectrum can be fully reconstructed form the positive frequencies only (first half).
+        /// the spectrum can be fully reconstructed from the positive frequencies only (first half).
         /// The data array needs to be N+2 (if N is even) or N+1 (if N is odd) long in order to support such a packed spectrum.
         /// </summary>
         /// <param name="data">Data array of length N+2 (if N is even) or N+1 (if N is odd).</param>
