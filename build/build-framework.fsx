@@ -147,23 +147,15 @@ type Solution =
       OutputZipDir: string
       OutputNuGetDir: string }
 
-type Package =
-    { Id: string
-      Release: Release
+type NuGetSpecification =
+    { NuGet: NuGetPackage
       Title: string
       Summary: string
       Description: string
       Tags: string
-      FsLoader: bool
       Authors: string list
       Dependencies: NugetFrameworkDependencies list
       Files: (string * string option * string option) list }
-
-type Bundle =
-    { Id: string
-      Release: Release
-      Title: string
-      Packages: Package list }
 
 
 let release title releaseNotesFile : Release =
@@ -395,24 +387,6 @@ let provideFsIfSharpLoader path =
     let startIndex = fullScript |> Seq.findIndex (fun s -> s.Contains "***MathNet.Numerics.IfSharp.fsx***")
     ReplaceFile (path </> "MathNet.Numerics.IfSharp.fsx") (fullScript .[startIndex + 1 ..] |> toLines)
 
-let provideZipExtraFiles (package:ZipPackage) path =
-    provideLicense path
-    provideReadme (sprintf "%s v%s" package.Title package.Release.PackageVersion) package.Release path
-    if package.FsLoader then
-        let includes = [ for root in [ ""; "../"; "../../" ] -> sprintf "#I \"%sNet40\"" root ]
-        provideFsLoader includes path
-        provideFsIfSharpLoader path
-
-let provideNuGetExtraFiles path (bundle:Bundle) (pack:Package) =
-    provideLicense path
-    provideReadme (sprintf "%s v%s" pack.Title pack.Release.PackageVersion) bundle.Release path
-    if pack.FsLoader then
-        let includes = [ for root in [ ""; "../"; "../../"; "../../../" ] do
-                         for package in bundle.Packages do
-                         yield sprintf "#I \"%spackages/%s/lib/net40/\"" root package.Id
-                         yield sprintf "#I \"%spackages/%s.%s/lib/net40/\"" root package.Id package.Release.PackageVersion ]
-        provideFsLoader includes path
-        provideFsIfSharpLoader path
 
 // SIGN
 
@@ -450,19 +424,25 @@ let zip (package:ZipPackage) zipDir filesDir filesFilter =
     CleanDir "obj/Zip"
     let workPath = "obj/Zip/" + package.Id
     CopyDir workPath filesDir filesFilter
-    provideZipExtraFiles package workPath
+    provideLicense workPath
+    provideReadme (sprintf "%s v%s" package.Title package.Release.PackageVersion) package.Release workPath
+    if package.FsLoader then
+        let includes = [ for root in [ ""; "../"; "../../" ] -> sprintf "#I \"%sNet40\"" root ]
+        provideFsLoader includes workPath
+        provideFsIfSharpLoader workPath
     Zip "obj/Zip/" (zipDir </> sprintf "%s-%s.zip" package.Id package.Release.PackageVersion) !! (workPath + "/**/*.*")
     DeleteDir "obj/Zip"
 
+
 // NUGET
 
-let updateNuspec (pack:Package) outPath symbols updateFiles spec =
+let updateNuspec (nuget:NuGetPackage) (pack:NuGetSpecification) outPath symbols updateFiles spec =
     { spec with ToolPath = "packages/build/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
-                Version = pack.Release.PackageVersion
-                ReleaseNotes = pack.Release.ReleaseNotes
-                Project = pack.Id
+                Version = nuget.Release.PackageVersion
+                ReleaseNotes = nuget.Release.ReleaseNotes
+                Project = nuget.Id
                 Title = pack.Title
                 Summary = pack.Summary
                 Description = pack.Description
@@ -473,28 +453,13 @@ let updateNuspec (pack:Package) outPath symbols updateFiles spec =
                 Files = updateFiles pack.Files
                 Publish = false }
 
-let nugetPack (bundle:Bundle) outPath =
+let nugetPackManually (solution:Solution) (packages:NuGetSpecification list) =
     CleanDir "obj/NuGet"
-    for pack in bundle.Packages do
-        provideNuGetExtraFiles "obj/NuGet" bundle pack
+    for pack in packages do
+        provideLicense "obj/NuGet"
+        provideReadme (sprintf "%s v%s" pack.Title pack.NuGet.Release.PackageVersion) pack.NuGet.Release "obj/NuGet"
         let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
-        let withoutSymbolsSources f =
-            List.choose (function | (_, Some (target:string), _) when target.StartsWith("src") -> None
-                                  | (s, t, None) -> Some (s, t, Some ("**/*.pdb"))
-                                  | (s, t, Some e) -> Some (s, t, Some (e + ";**/*.pdb"))) f
-        // first pass - generates symbol + normal package. NuGet does drop the symbols from the normal package, but unfortunately not the sources.
-        // NuGet (updateNuspec pack outPath NugetSymbolPackage.Nuspec withLicenseReadme) "build/MathNet.Numerics.nuspec"
-        // second pass - generate only normal package, again, but this time explicitly drop the sources (and the debug symbols)
-        NuGet (updateNuspec pack outPath NugetSymbolPackage.None (withLicenseReadme >> withoutSymbolsSources)) "build/MathNet.Numerics.nuspec"
-        CleanDir "obj/NuGet"
-    DeleteDir "obj/NuGet"
-
-let nugetPackExtension (bundle:Bundle) outPath =
-    CleanDir "obj/NuGet"
-    for pack in bundle.Packages do
-        provideNuGetExtraFiles "obj/NuGet" bundle pack
-        let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
-        NuGet (updateNuspec pack outPath NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Extension.nuspec"
+        NuGet (updateNuspec pack.NuGet pack solution.OutputNuGetDir NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Extension.nuspec"
         CleanDir "obj/NuGet"
     DeleteDir "obj/NuGet"
 
