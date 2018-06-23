@@ -42,7 +42,7 @@ inline void shift_ipiv_up(int m, int ipiv[])
 	}
 }
 
-template<typename T> 
+template<typename T>
 inline T* Clone(const int m, const int n, const T* a)
 {
 	auto clone = new T[m*n];
@@ -50,7 +50,7 @@ inline T* Clone(const int m, const int n, const T* a)
 	return clone;
 }
 
-template<typename T> 
+template<typename T>
 inline void copyBtoX (int m, int n, int bn, T b[], T x[])
 {
 	for (auto i = 0; i < n; ++i)

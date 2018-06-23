@@ -109,12 +109,31 @@ type NuGetPackage =
     { Id: string
       Release: Release }
 
-type Project =
+type VisualStudioProject =
     { AssemblyName: string
       ProjectFile: string
       OutputDir: string
       Release: Release
       NuGetPackages: NuGetPackage list }
+
+type NativeVisualStudioProject =
+    { BinaryName: string
+      ProjectFile: string
+      OutputDir: string
+      Release: Release
+      NuGetPackages: NuGetPackage list }
+
+type NativeBashScriptProject =
+    { BinaryName: string
+      BashScriptFile: string
+      OutputDir: string
+      Release: Release
+      NuGetPackages: NuGetPackage list }
+
+type Project =
+    | VisualStudio of VisualStudioProject
+    | NativeVisualStudio of NativeVisualStudioProject
+    | NativeBashScript of NativeBashScriptProject
 
 type Solution =
     { Key: string
@@ -170,18 +189,51 @@ let nugetPackage packageId release =
       Release = release }
 
 let project assemblyName projectFile nuGetPackages =
-    { Project.AssemblyName = assemblyName
+    { VisualStudioProject.AssemblyName = assemblyName
       ProjectFile = projectFile
       OutputDir = (Path.GetDirectoryName projectFile) </> "bin" </> "Release"
       NuGetPackages = nuGetPackages
       Release = nuGetPackages |> List.map (fun p -> p.Release) |> List.distinct |> List.exactlyOne }
+    |> Project.VisualStudio
+
+let nativeProject binaryName projectFile nuGetPackages =
+    { NativeVisualStudioProject.BinaryName = binaryName
+      ProjectFile = projectFile
+      OutputDir = (Path.GetDirectoryName projectFile) </> "bin" </> "Release"
+      NuGetPackages = nuGetPackages
+      Release = nuGetPackages |> List.map (fun p -> p.Release) |> List.distinct |> List.exactlyOne }
+    |> Project.NativeVisualStudio
+
+let nativeBashScriptProject binaryName bashScriptFile nuGetPackages =
+    { NativeBashScriptProject.BinaryName = binaryName
+      BashScriptFile = bashScriptFile
+      OutputDir = (Path.GetDirectoryName bashScriptFile) </> "bin" </> "Release"
+      NuGetPackages = nuGetPackages
+      Release = nuGetPackages |> List.map (fun p -> p.Release) |> List.distinct |> List.exactlyOne }
+    |> Project.NativeBashScript
+
+
+let projectOutputDir = function
+    | VisualStudio p -> p.OutputDir
+    | NativeVisualStudio p -> p.OutputDir
+    | NativeBashScript p -> p.OutputDir
+
+let projectRelease = function
+    | VisualStudio p -> p.Release
+    | NativeVisualStudio p -> p.Release
+    | NativeBashScript p -> p.Release
+
+let projectNuGetPackages = function
+    | VisualStudio p -> p.NuGetPackages
+    | NativeVisualStudio p -> p.NuGetPackages
+    | NativeBashScript p -> p.NuGetPackages
 
 let solution key solutionFile projects zipPackages =
     { Solution.Key = key
       SolutionFile = solutionFile
       Projects = projects
       ZipPackages = zipPackages
-      Release = List.concat [ projects |> List.map (fun p -> p.Release); zipPackages |> List.map (fun p -> p.Release) ] |> List.distinct |> List.exactlyOne
+      Release = List.concat [ projects |> List.map projectRelease; zipPackages |> List.map (fun p -> p.Release) ] |> List.distinct |> List.exactlyOne
       OutputDir = "out" </> key
       OutputLibDir = "out" </> key </> "Lib"
       OutputLibStrongNameDir = "out" </> key </> "Lib-StrongName"
@@ -240,19 +292,22 @@ let patchVersionInResource path (release:Release) =
         path
 
 let patchVersionInProjectFile (project:Project) =
-    let semverSplit = project.Release.PackageVersion.IndexOf('-')
-    let prefix = if semverSplit <= 0 then project.Release.PackageVersion else project.Release.PackageVersion.Substring(0, semverSplit)
-    let suffix = if semverSplit <= 0 then "" else project.Release.PackageVersion.Substring(semverSplit+1)
-    ReplaceInFile
-        (regex_replace """\<PackageVersion\>.*\</PackageVersion\>""" (sprintf """<PackageVersion>%s</PackageVersion>""" project.Release.PackageVersion)
-        >> regex_replace """\<Version\>.*\</Version\>""" (sprintf """<Version>%s</Version>""" project.Release.PackageVersion)
-        >> regex_replace """\<AssemblyVersion\>.*\</AssemblyVersion\>""" (sprintf """<AssemblyVersion>%s</AssemblyVersion>""" project.Release.AssemblyVersion)
-        >> regex_replace """\<FileVersion\>.*\</FileVersion\>""" (sprintf """<FileVersion>%s</FileVersion>""" project.Release.AssemblyVersion)
-        >> regex_replace """\<VersionPrefix\>.*\</VersionPrefix\>""" (sprintf """<VersionPrefix>%s</VersionPrefix>""" prefix)
-        >> regex_replace """\<VersionSuffix\>.*\</VersionSuffix\>""" (sprintf """<VersionSuffix>%s</VersionSuffix>""" suffix)
-        >> regex_replace_singleline """\<PackageReleaseNotes\>.*\</PackageReleaseNotes\>""" (sprintf """<PackageReleaseNotes>%s</PackageReleaseNotes>""" project.Release.ReleaseNotes))
-        project.ProjectFile
-
+    match project with
+    | VisualStudio p ->
+        let semverSplit = p.Release.PackageVersion.IndexOf('-')
+        let prefix = if semverSplit <= 0 then p.Release.PackageVersion else p.Release.PackageVersion.Substring(0, semverSplit)
+        let suffix = if semverSplit <= 0 then "" else p.Release.PackageVersion.Substring(semverSplit+1)
+        ReplaceInFile
+            (regex_replace """\<PackageVersion\>.*\</PackageVersion\>""" (sprintf """<PackageVersion>%s</PackageVersion>""" p.Release.PackageVersion)
+            >> regex_replace """\<Version\>.*\</Version\>""" (sprintf """<Version>%s</Version>""" p.Release.PackageVersion)
+            >> regex_replace """\<AssemblyVersion\>.*\</AssemblyVersion\>""" (sprintf """<AssemblyVersion>%s</AssemblyVersion>""" p.Release.AssemblyVersion)
+            >> regex_replace """\<FileVersion\>.*\</FileVersion\>""" (sprintf """<FileVersion>%s</FileVersion>""" p.Release.AssemblyVersion)
+            >> regex_replace """\<VersionPrefix\>.*\</VersionPrefix\>""" (sprintf """<VersionPrefix>%s</VersionPrefix>""" prefix)
+            >> regex_replace """\<VersionSuffix\>.*\</VersionSuffix\>""" (sprintf """<VersionSuffix>%s</VersionSuffix>""" suffix)
+            >> regex_replace_singleline """\<PackageReleaseNotes\>.*\</PackageReleaseNotes\>""" (sprintf """<PackageReleaseNotes>%s</PackageReleaseNotes>""" p.Release.ReleaseNotes))
+            p.ProjectFile
+    | NativeVisualStudio _ -> ()
+    | NativeBashScript _ -> ()
 
 // --------------------------------------------------------------------------------------
 // BUILD
@@ -266,8 +321,15 @@ let restoreSN (solution:Solution) = msbuildSN [ "Restore" ] "Release" solution.S
 let build (solution:Solution) = msbuild [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" solution.SolutionFile
 let buildSN (solution:Solution) = msbuildSN [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" solution.SolutionFile
 
-let pack project = dotnet rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" project)
-let packSN project = dotnetSN rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" project)
+let pack (solution:Solution) = dotnet rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" solution.SolutionFile)
+let packSN (solution:Solution) = dotnetSN rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" solution.SolutionFile)
+
+let packProject = function
+    | VisualStudio p -> dotnet rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
+    | _ -> failwith "Project type not supported"
+let packProjectSN = function
+    | VisualStudio p -> dotnetSN rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
+    | _ -> failwith "Project type not supported"
 
 //let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
 //let build subject = buildConfig "Release" subject
@@ -281,13 +343,19 @@ let buildConfig64 config subject = MSBuild "" (if hasBuildParam "incremental" th
 // --------------------------------------------------------------------------------------
 
 let collectBinaries (solution:Solution) =
-    solution.Projects |> List.iter (fun project -> CopyDir solution.OutputLibDir project.OutputDir (fun n -> n.Contains(project.AssemblyName + ".dll") || n.Contains(project.AssemblyName + ".pdb") || n.Contains(project.AssemblyName + ".xml")))
+    solution.Projects |> List.iter (function
+        | VisualStudio project -> CopyDir solution.OutputLibDir project.OutputDir (fun n -> n.Contains(project.AssemblyName + ".dll") || n.Contains(project.AssemblyName + ".pdb") || n.Contains(project.AssemblyName + ".xml"))
+        | _ -> failwith "Project type not supported")
 
 let collectBinariesSN (solution:Solution) =
-    solution.Projects |> List.iter (fun project -> CopyDir solution.OutputLibStrongNameDir project.OutputDir (fun n -> n.Contains(project.AssemblyName + ".dll") || n.Contains(project.AssemblyName + ".pdb") || n.Contains(project.AssemblyName + ".xml")))
+    solution.Projects |> List.iter (function
+        | VisualStudio project -> CopyDir solution.OutputLibStrongNameDir project.OutputDir (fun n -> n.Contains(project.AssemblyName + ".dll") || n.Contains(project.AssemblyName + ".pdb") || n.Contains(project.AssemblyName + ".xml"))
+        | _ -> failwith "Project type not supported")
 
 let collectNuGetPackages (solution:Solution) =
-    solution.Projects |> List.iter (fun project -> CopyDir solution.OutputNuGetDir project.OutputDir (fun n -> n.EndsWith(".nupkg")))
+    solution.Projects |> List.iter (function
+        | VisualStudio project -> CopyDir solution.OutputNuGetDir project.OutputDir (fun n -> n.EndsWith(".nupkg"))
+        | _ -> failwith "Project type not supported")
 
 
 // --------------------------------------------------------------------------------------
@@ -349,7 +417,9 @@ let provideNuGetExtraFiles path (bundle:Bundle) (pack:Package) =
 // SIGN
 
 let sign fingerprint timeserver (solution: Solution) =
-    let files = solution.Projects |> Seq.collect (fun p -> !! (p.OutputDir + "/**/" + p.AssemblyName + ".dll"))
+    let files = solution.Projects |> Seq.collect (function
+        | VisualStudio project -> !! (project.OutputDir + "/**/" + project.AssemblyName + ".dll")
+        | _ -> failwith "Project type not supported")
     let fileArgs = files |> Seq.map (sprintf "\"%s\"") |> String.concat " "
     let optionsArgs = sprintf """/v /fd sha256 /sha1 "%s" /tr "%s" /td sha256""" fingerprint timeserver
     let arguments = sprintf """sign %s %s""" optionsArgs fileArgs
@@ -570,5 +640,5 @@ let publishArchive (solution:Solution) =
     let zipOutPath = solution.OutputZipDir
     let nugetOutPath = solution.OutputNuGetDir
     let zipPackages = solution.ZipPackages
-    let nugetPackages = solution.Projects |> List.collect (fun p -> p.NuGetPackages) |> List.distinct
+    let nugetPackages = solution.Projects |> List.collect projectNuGetPackages |> List.distinct
     publishArchiveManual zipOutPath nugetOutPath zipPackages nugetPackages

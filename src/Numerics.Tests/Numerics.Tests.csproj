@@ -18,6 +18,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="TestResult.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
     <ProjectReference Include="..\TestData\TestData.csproj" />
   </ItemGroup>
