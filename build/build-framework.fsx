@@ -149,13 +149,8 @@ type Solution =
 
 type NuGetSpecification =
     { NuGet: NuGetPackage
-      Title: string
-      Summary: string
-      Description: string
-      Tags: string
-      Authors: string list
-      Dependencies: NugetFrameworkDependencies list
-      Files: (string * string option * string option) list }
+      NuSpecFile: string
+      Title: string }
 
 
 let release title releaseNotesFile : Release =
@@ -243,23 +238,6 @@ let traceHeader (releases:Release list) =
 
 
 // --------------------------------------------------------------------------------------
-// TARGET FRAMEWORKS
-// --------------------------------------------------------------------------------------
-
-let libnet35 = "lib/net35"
-let libnet40 = "lib/net40"
-let libnet45 = "lib/net45"
-let netstandard13 = "lib/netstandard1.3"
-let netstandard16 = "lib/netstandard1.6"
-let netstandard20 = "lib/netstandard2.0"
-let libpcl7 = "lib/portable-net45+netcore45+MonoAndroid1+MonoTouch1"
-let libpcl47 = "lib/portable-net45+sl5+netcore45+MonoAndroid1+MonoTouch1"
-let libpcl78 = "lib/portable-net45+netcore45+wp8+MonoAndroid1+MonoTouch1"
-let libpcl259 = "lib/portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
-let libpcl328 = "lib/portable-net4+sl5+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1"
-
-
-// --------------------------------------------------------------------------------------
 // PREPARE
 // --------------------------------------------------------------------------------------
 
@@ -300,6 +278,7 @@ let patchVersionInProjectFile (project:Project) =
             p.ProjectFile
     | NativeVisualStudio _ -> ()
     | NativeBashScript _ -> ()
+
 
 // --------------------------------------------------------------------------------------
 // BUILD
@@ -436,21 +415,12 @@ let zip (package:ZipPackage) zipDir filesDir filesFilter =
 
 // NUGET
 
-let updateNuspec (nuget:NuGetPackage) (pack:NuGetSpecification) outPath symbols updateFiles spec =
+let updateNuspec (nuget:NuGetPackage) outPath spec =
     { spec with ToolPath = "packages/build/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
                 Version = nuget.Release.PackageVersion
                 ReleaseNotes = nuget.Release.ReleaseNotes
-                Project = nuget.Id
-                Title = pack.Title
-                Summary = pack.Summary
-                Description = pack.Description
-                Tags = pack.Tags
-                Authors = pack.Authors
-                DependenciesByFramework = pack.Dependencies
-                SymbolPackage = symbols
-                Files = updateFiles pack.Files
                 Publish = false }
 
 let nugetPackManually (solution:Solution) (packages:NuGetSpecification list) =
@@ -458,8 +428,7 @@ let nugetPackManually (solution:Solution) (packages:NuGetSpecification list) =
     for pack in packages do
         provideLicense "obj/NuGet"
         provideReadme (sprintf "%s v%s" pack.Title pack.NuGet.Release.PackageVersion) pack.NuGet.Release "obj/NuGet"
-        let withLicenseReadme f = [ "license.txt", None, None; "readme.txt", None, None; ] @ f
-        NuGet (updateNuspec pack.NuGet pack solution.OutputNuGetDir NugetSymbolPackage.None withLicenseReadme) "build/MathNet.Numerics.Extension.nuspec"
+        NuGet (updateNuspec pack.NuGet solution.OutputNuGetDir) pack.NuSpecFile
         CleanDir "obj/NuGet"
     DeleteDir "obj/NuGet"
 

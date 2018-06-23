@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MathNet.Numerics.MKL.Linux-x64</id>
+    <version>@build.number@</version>
+    <title>Math.NET Numerics - MKL Native Provider for Linux (x64)</title>
+    <authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</authors>
+    <owners>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://numerics.mathdotnet.com/License.html</licenseUrl>
+    <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
+    <iconUrl>https://www.mathdotnet.com/images/MathNet128.png</iconUrl>
+    <repository type="git" url="https://github.com/mathnet/mathnet-numerics" />
+    <description>Intel MKL native libraries for Math.NET Numerics on Linux.</description>
+    <summary>Intel MKL native libraries for Math.NET Numerics on Linux.</summary>
+    <releaseNotes>@releaseNotes@</releaseNotes>
+    <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native mkl</tags>
+  </metadata>
+  <files>
+    <file src="..\..\out\MKL\Linux\x64\libiomp5.so" target="build\x64\libiomp5.so" />
+    <file src="..\..\out\MKL\Linux\x64\MathNet.Numerics.MKL.dll" target="build\x64\MathNet.Numerics.MKL.dll" />
+    <file src="..\..\build\NativeProvider.targets" target="build\MathNet.Numerics.MKL.Linux-x64.targets" />
+    <file src="license.txt" target="license.txt" />
+    <file src="readme.txt" target="readme.txt" />
+  </files>
+</package>

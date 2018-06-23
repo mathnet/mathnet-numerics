@@ -90,69 +90,33 @@ let mklSolution = solution "MKL" "MathNet.Numerics.MKL.sln" [mklWinProject; mklL
 
 let mklWinPack =
     { NuGet = mklWinNuGetPackage
-      Title = "Math.NET Numerics - MKL Native Provider for Windows (x64 and x86)"
-      Summary = ""
-      Description = "Intel MKL native libraries for Math.NET Numerics on Windows."
-      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
-      Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies = []
-      Files =
-        [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Win.targets", None;
-          @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some @"build\x64", None;
-          @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some @"build\x64", None;
-          @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some @"build\x86", None;
-          @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some @"build\x86", None ] }
+      NuSpecFile = "build/MathNet.Numerics.MKL.Win.nuspec"
+      Title = "Math.NET Numerics - MKL Native Provider for Windows (x64 and x86)" }
 
 let mklWin32Pack =
-    { mklWinPack with
-        NuGet = mklWin32NuGetPackage
-        Title = "Math.NET Numerics - MKL Native Provider for Windows (x86)"
-        Files =
-          [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Win-x86.targets", None;
-            @"..\..\out\MKL\Windows\x86\libiomp5md.dll", Some @"build\x86", None;
-            @"..\..\out\MKL\Windows\x86\MathNet.Numerics.MKL.dll", Some @"build\x86", None ] }
+    { NuGet = mklWin32NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.MKL.Win-x86.nuspec"
+      Title = "Math.NET Numerics - MKL Native Provider for Windows (x86)" }
 
 let mklWin64Pack =
-    { mklWinPack with
-        NuGet = mklWin64NuGetPackage
-        Title = "Math.NET Numerics - MKL Native Provider for Windows (x64)"
-        Files =
-          [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Win-x64.targets", None;
-            @"..\..\out\MKL\Windows\x64\libiomp5md.dll", Some @"build\x64", None;
-            @"..\..\out\MKL\Windows\x64\MathNet.Numerics.MKL.dll", Some @"build\x64", None ] }
+    { NuGet = mklWin64NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.MKL.Win-x64.nuspec"
+      Title = "Math.NET Numerics - MKL Native Provider for Windows (x64)" }
 
 let mklLinuxPack =
     { NuGet = mklLinuxNuGetPackage
-      Title = "Math.NET Numerics - MKL Native Provider for Linux (x64 and x86)"
-      Summary = ""
-      Description = "Intel MKL native libraries for Math.NET Numerics on Linux."
-      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native mkl"
-      Authors = [ "Christoph Ruegg"; "Marcus Cuda"; "Jurgen Van Gael" ]
-      Dependencies = []
-      Files =
-        [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Linux.targets", None;
-          @"..\..\out\MKL\Linux\x64\libiomp5.so", Some @"build\x64", None;
-          @"..\..\out\MKL\Linux\x64\MathNet.Numerics.MKL.dll", Some @"build\x64", None;
-          @"..\..\out\MKL\Linux\x86\libiomp5.so", Some @"build\x86", None;
-          @"..\..\out\MKL\Linux\x86\MathNet.Numerics.MKL.dll", Some @"build\x86", None ] }
+      NuSpecFile = "build/MathNet.Numerics.MKL.Linux.nuspec"
+      Title = "Math.NET Numerics - MKL Native Provider for Linux (x64 and x86)" }
 
 let mklLinux32Pack =
-    { mklLinuxPack with
-        NuGet = mklLinux32NuGetPackage
-        Title = "Math.NET Numerics - MKL Native Provider for Linux (x86)"
-        Files =
-          [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Linux-x86.targets", None;
-            @"..\..\out\MKL\Linux\x86\libiomp5.so", Some @"build\x86", None;
-            @"..\..\out\MKL\Linux\x86\MathNet.Numerics.MKL.dll", Some @"build\x86", None ] }
+    { NuGet = mklLinux32NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.MKL.Linux-x86.nuspec"
+      Title = "Math.NET Numerics - MKL Native Provider for Linux (x86)" }
 
 let mklLinux64Pack =
-    { mklLinuxPack with
-        NuGet = mklLinux64NuGetPackage
-        Title = "Math.NET Numerics - MKL Native Provider for Linux (x64)"
-        Files =
-          [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.MKL.Linux-x64.targets", None;
-            @"..\..\out\MKL\Linux\x64\libiomp5.so", Some @"build\x64", None;
-            @"..\..\out\MKL\Linux\x64\MathNet.Numerics.MKL.dll", Some @"build\x64", None ] }
+    { NuGet = mklLinux64NuGetPackage
+      NuSpecFile = "build/MathNet.Numerics.MKL.Linux-x64.nuspec"
+      Title = "Math.NET Numerics - MKL Native Provider for Linux (x64)" }
 
 
 // CUDA NATIVE PROVIDER PACKAGES
@@ -165,18 +129,8 @@ let cudaSolution = solution "CUDA" "MathNet.Numerics.CUDA.sln" [cudaWinProject] 
 
 let cudaWinPack =
     { NuGet = cudaWinNuGetPackage
-      Title = "Math.NET Numerics - CUDA Native Provider for Windows (x64)"
-      Summary = ""
-      Description = "Nvidia CUDA native libraries for Math.NET Numerics."
-      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native cuda gpu"
-      Authors = [ "Matthew A Johnson"; "Christoph Ruegg" ]
-      Dependencies = []
-      Files =
-        [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.CUDA.Win.targets", None;
-          @"..\..\out\CUDA\Windows\x64\cublas64_70.dll", Some "content", None;
-          @"..\..\out\CUDA\Windows\x64\cudart64_70.dll", Some "content", None;
-          @"..\..\out\CUDA\Windows\x64\cusolver64_70.dll", Some "content", None;
-          @"..\..\out\CUDA\Windows\x64\MathNet.Numerics.CUDA.dll", Some "content", None ] }
+      NuSpecFile = "build/MathNet.Numerics.CUDA.Win.nuspec"
+      Title = "Math.NET Numerics - CUDA Native Provider for Windows (x64)" }
 
 
 // OpenBLAS NATIVE PROVIDER PACKAGES
@@ -189,24 +143,8 @@ let openBlasSolution = solution "OpenBLAS" "MathNet.Numerics.OpenBLAS.sln" [open
 
 let openBlasWinPack =
     { NuGet = openBlasWinNuGetPackage
-      Title = "Math.NET Numerics - OpenBLAS Native Provider for Windows (x64 and x86)"
-      Summary = ""
-      Description = "OpenBLAS native libraries for Math.NET Numerics."
-      Tags = "math numeric statistics probability integration interpolation linear algebra matrix fft native openblas"
-      Authors = [ "Kuan Bartel"; "Christoph Ruegg"; "Marcus Cuda" ]
-      Dependencies = []
-      Files =
-        [ @"..\..\build\NativeProvider.targets", Some "build\MathNet.Numerics.OpenBLAS.Win.targets", None;
-          @"..\..\out\OpenBLAS\Windows\x64\libgcc_s_seh-1.dll", Some @"build\x64", None;
-          @"..\..\out\OpenBLAS\Windows\x64\libgfortran-3.dll", Some @"build\x64", None;
-          @"..\..\out\OpenBLAS\Windows\x64\libopenblas.dll", Some @"build\x64", None;
-          @"..\..\out\OpenBLAS\Windows\x64\libquadmath-0.dll", Some @"build\x64", None;
-          @"..\..\out\OpenBLAS\Windows\x64\MathNet.Numerics.OpenBLAS.dll", Some @"build\x64", None;
-          @"..\..\out\OpenBLAS\Windows\x86\libgcc_s_sjlj-1.dll", Some @"build\x86", None;
-          @"..\..\out\OpenBLAS\Windows\x86\libgfortran-3.dll", Some @"build\x86", None;
-          @"..\..\out\OpenBLAS\Windows\x86\libopenblas.dll", Some @"build\x86", None;
-          @"..\..\out\OpenBLAS\Windows\x86\libquadmath-0.dll", Some @"build\x86", None;
-          @"..\..\out\OpenBLAS\Windows\x86\MathNet.Numerics.OpenBLAS.dll", Some @"build\x86", None ] }
+      NuSpecFile = "build/MathNet.Numerics.OpenBLAS.Win.nuspec"
+      Title = "Math.NET Numerics - OpenBLAS Native Provider for Windows (x64 and x86)" }
 
 
 // ALL

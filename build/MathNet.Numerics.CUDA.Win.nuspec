@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MathNet.Numerics.CUDA.Win</id>
+    <version>@build.number@</version>
+    <title>Math.NET Numerics - CUDA Native Provider for Windows (x64)</title>
+    <authors>Matthew A Johnson, Christoph Ruegg</authors>
+    <owners>Matthew A Johnson, Christoph Ruegg</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://numerics.mathdotnet.com/License.html</licenseUrl>
+    <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
+    <iconUrl>https://www.mathdotnet.com/images/MathNet128.png</iconUrl>
+    <repository type="git" url="https://github.com/mathnet/mathnet-numerics" />
+    <description>Nvidia CUDA native libraries for Math.NET Numerics.</description>
+    <summary>Nvidia CUDA native libraries for Math.NET Numerics.</summary>
+    <releaseNotes>@releaseNotes@</releaseNotes>
+    <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native cuda gpu</tags>
+  </metadata>
+  <files>
+    <file src="..\..\out\CUDA\Windows\x64\cublas64_70.dll" target="build\x64\cublas64_70.dll" />
+    <file src="..\..\out\CUDA\Windows\x64\cudart64_70.dll" target="build\x64\cudart64_70.dll" />
+    <file src="..\..\out\CUDA\Windows\x64\cusolver64_70.dll" target="build\x64\cusolver64_70.dll" />
+    <file src="..\..\out\CUDA\Windows\x64\MathNet.Numerics.CUDA.dll" target="build\x64\MathNet.Numerics.CUDA.dll" />
+    <file src="..\..\build\NativeProvider.targets" target="build\MathNet.Numerics.CUDA.Win.targets" />
+    <file src="license.txt" target="license.txt" />
+    <file src="readme.txt" target="readme.txt" />
+  </files>
+</package>

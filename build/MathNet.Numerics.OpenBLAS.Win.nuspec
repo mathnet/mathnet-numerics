@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MathNet.Numerics.OpenBLAS.Win</id>
+    <version>@build.number@</version>
+    <title>Math.NET Numerics - OpenBLAS Native Provider for Windows (x64 and x86)</title>
+    <authors>Kuan Bartel, Christoph Ruegg, Marcus Cuda</authors>
+    <owners>Kuan Bartel, Christoph Ruegg, Marcus Cuda</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://numerics.mathdotnet.com/License.html</licenseUrl>
+    <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
+    <iconUrl>https://www.mathdotnet.com/images/MathNet128.png</iconUrl>
+    <repository type="git" url="https://github.com/mathnet/mathnet-numerics" />
+    <description>OpenBLAS native libraries for Math.NET Numerics.</description>
+    <summary>OpenBLAS native libraries for Math.NET Numerics.</summary>
+    <releaseNotes>@releaseNotes@</releaseNotes>
+    <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native openblas</tags>
+  </metadata>
+  <files>
+    <file src="..\..\out\OpenBLAS\Windows\x64\libgcc_s_seh-1.dll" target="build\x64\libgcc_s_seh-1.dll" />
+    <file src="..\..\out\OpenBLAS\Windows\x64\libgfortran-3.dll" target="build\x64\libgfortran-3.dll" />
+    <file src="..\..\out\OpenBLAS\Windows\x64\libopenblas.dll" target="build\x64\libopenblas.dll" />
+    <file src="..\..\out\OpenBLAS\Windows\x64\libquadmath-0.dll" target="build\x64\libquadmath-0.dll" />
+    <file src="..\..\out\OpenBLAS\Windows\x64\MathNet.Numerics.OpenBLAS.dll" target="build\x64\MathNet.Numerics.OpenBLAS.dll" />
+    <file src="..\..\out\OpenBLAS\Windows\x86\libgcc_s_sjlj-1.dll" target="build\x86\libgcc_s_sjlj-1.dll" />
+    <file src="..\..\out\OpenBLAS\Windows\x86\libgfortran-3.dll" target="build\x86\libgfortran-3.dll" />
+    <file src="..\..\out\OpenBLAS\Windows\x86\libopenblas.dll" target="build\x86\libopenblas.dll" />
+    <file src="..\..\out\OpenBLAS\Windows\x86\libquadmath-0.dll" target="build\x86\libquadmath-0.dll" />
+    <file src="..\..\out\OpenBLAS\Windows\x86\MathNet.Numerics.OpenBLAS.dll" target="build\x86\MathNet.Numerics.OpenBLAS.dll" />
+    <file src="..\..\build\NativeProvider.targets" target="build\MathNet.Numerics.OpenBLAS.Win.targets" />
+    <file src="license.txt" target="license.txt" />
+    <file src="readme.txt" target="readme.txt" />
+  </files>
+</package>
