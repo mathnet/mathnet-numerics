@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         }
 
         /// <summary>
-        /// Returns a new <see cref="Line2D"/> from a pair of strings which represent points.
+        /// Returns a new <see cref="Line3D"/> from a pair of strings which represent points.
         /// See <see cref="Point3D.Parse(string, IFormatProvider)" /> for details on acceptable formats.
         /// </summary>
         /// <param name="startPoint">The string representation of the first point.</param>

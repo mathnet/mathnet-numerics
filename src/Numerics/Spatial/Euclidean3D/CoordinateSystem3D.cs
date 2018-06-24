@@ -19,7 +19,7 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         /// <summary>
         /// A local regex pattern for 3D items
         /// </summary>
-        private static readonly string Item3DPattern = Parser.Vector3DPattern.Trim('^', '$');
+        private static readonly string Item3DPattern = string.Format(@"^ *\(?(?<x>{0}){1}(?<y>{0}){1}(?<z>{0})\)? *$", @"[+-]?\d*(?:[.,]\d+)?(?:[eE][+-]?\d+)?", @" *[,;] *").Trim('^', '$');
 
         /// <summary>
         /// A local regex pattern for a coordinate system
@@ -556,17 +556,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         public CoordinateSystem3D Transform(CoordinateSystem3D cs)
         {
             return new CoordinateSystem3D(this.Multiply(cs));
-        }
-
-        /// <summary>
-        /// Transforms a line and returns the transformed.
-        /// </summary>
-        /// <param name="l">A line</param>
-        /// <returns>A transformed line</returns>
-        [Obsolete("Use LineSegment3D, Obsolete from 2017-12-10")]
-        public Line3D Transform(Line3D l)
-        {
-            return new Line3D(this.Transform(l.StartPoint), this.Transform(l.EndPoint));
         }
 
         /// <summary>

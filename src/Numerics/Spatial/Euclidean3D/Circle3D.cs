@@ -40,32 +40,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Circle3D"/> struct.
-        /// Create a circle from the midpoint between two points, in a direction along a specified axis
-        /// </summary>
-        /// <param name="p1">First point on the circumference of the circle</param>
-        /// <param name="p2">Second point on the circumference of the circle</param>
-        /// <param name="axis">Direction of the plane in which the circle lies</param>
-        [Obsolete("This constructor will be removed, use factory method FromPointsAndAxis. Made obsolete 2017-12-05.")]
-        public Circle3D(Point3D p1, Point3D p2, UnitVector3D axis)
-        {
-            this = FromPointsAndAxis(p1, p2, axis);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Circle3D"/> struct.
-        /// Create a circle from three points which lie along its circumference.
-        /// </summary>
-        /// <param name="p1">The first point on the circle</param>
-        /// <param name="p2">The second point on the circle</param>
-        /// <param name="p3">The third point on the circle</param>
-        [Obsolete("This constructor will be removed, use factory method FromPoints. Made obsolete 2017-12-05.")]
-        public Circle3D(Point3D p1, Point3D p2, Point3D p3)
-        {
-            this = FromPoints(p1, p2, p3);
-        }
-
-        /// <summary>
         /// Gets the diameter of the circle
         /// </summary>
         [Pure]

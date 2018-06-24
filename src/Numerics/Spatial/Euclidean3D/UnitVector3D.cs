@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -39,8 +37,7 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         /// <param name="x">The x component.</param>
         /// <param name="y">The y component.</param>
         /// <param name="z">The z component.</param>
-        [Obsolete("This constructor will be made private, prefer the factory method Create. Made obsolete 2017-12-05.")]
-        public UnitVector3D(double x, double y, double z)
+        private UnitVector3D(double x, double y, double z)
         {
             if (double.IsNaN(x) || double.IsInfinity(x))
             {
@@ -66,30 +63,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
             this.X = x / norm;
             this.Y = y / norm;
             this.Z = z / norm;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UnitVector3D"/> struct.
-        /// </summary>
-        /// <param name="data">A list of 3 points</param>
-        [Obsolete("This constructor will be removed. Made obsolete 2017-12-05.")]
-        public UnitVector3D(IEnumerable<double> data)
-            : this(data.ToArray())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UnitVector3D"/> struct.
-        /// </summary>
-        /// <param name="data">A list of 3 points</param>
-        [Obsolete("This constructor will be removed. Made obsolete 2017-12-05.")]
-        public UnitVector3D(double[] data)
-            : this(data[0], data[1], data[2])
-        {
-            if (data.Length != 3)
-            {
-                throw new ArgumentException("Size must be 3");
-            }
         }
 
         /// <summary>
@@ -601,7 +574,7 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         /// </summary>
         /// <param name="v">a vector to subtract</param>
         /// <returns>A new vector</returns>
-        [Obsolete("Use - instead")]
+        [Pure]
         public Vector3D Subtract(UnitVector3D v)
         {
             return new Vector3D(this.X - v.X, this.Y - v.Y, this.Z - v.Z);
@@ -612,7 +585,7 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         /// </summary>
         /// <param name="v">a vector to add</param>
         /// <returns>A new vector</returns>
-        [Obsolete("Use + instead")]
+        [Pure]
         public Vector3D Add(UnitVector3D v)
         {
             return new Vector3D(this.X + v.X, this.Y + v.Y, this.Z + v.Z);

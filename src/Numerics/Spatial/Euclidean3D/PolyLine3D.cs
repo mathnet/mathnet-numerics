@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -10,7 +9,7 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
     /// <summary>
     /// A PolyLine is an ordered series of line segments in space represented as list of connected Point3Ds.
     /// </summary>
-    public class PolyLine3D : IEnumerable<Point3D>, IEquatable<PolyLine3D>
+    public class PolyLine3D : IEquatable<PolyLine3D>
     {
         /// <summary>
         /// An internal list of points
@@ -26,12 +25,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         {
             this.points = new List<Point3D>(points);
         }
-
-        /// <summary>
-        /// Gets an integer representing the number of Point3D objects in the polyline
-        /// </summary>
-        [Obsolete("Use VertexCount instead, obsolete since 2018-01-12")]
-        public int Count => this.points.Count;
 
         /// <summary>
         /// Gets the number of vertices in the polyline.
@@ -56,14 +49,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
                 }
             }
         }
-
-        /// <summary>
-        /// Returns a point in the polyline by index number
-        /// </summary>
-        /// <param name="key">The index of a point</param>
-        /// <returns>The indexed point</returns>
-        [Obsolete("Use Vertices instead, obsolete since 2018-01-12")]
-        public Point3D this[int key] => this.points[key];
 
         /// <summary>
         /// Returns a value that indicates whether each pair of elements in two specified lines is equal.
@@ -222,20 +207,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         public override int GetHashCode()
         {
             return HashCode.CombineMany(this.points);
-        }
-
-        /// <inheritdoc />
-        [Obsolete("Use Vertices instead, obsolete since 2018-01-12")]
-        public IEnumerator<Point3D> GetEnumerator()
-        {
-            return this.points.GetEnumerator();
-        }
-
-        /// <inheritdoc />
-        [Obsolete("Use Vertices instead, obsolete since 2018-01-12")]
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
         }
 
         /// <summary>

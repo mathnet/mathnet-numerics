@@ -46,34 +46,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Point3D"/> struct.
-        /// Creates a point from a list of coordinates (x, y, z)
-        /// </summary>
-        /// <param name="data">a list of coordinates in the order x, y, z</param>
-        /// <exception cref="ArgumentException">Exception thrown if anything other than 3 coordinates are passed</exception>
-        [Obsolete("This constructor will be removed. Made obsolete 2017-12-05.")]
-        public Point3D(IEnumerable<double> data)
-            : this(data.ToArray())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Point3D"/> struct.
-        /// Creates a point from a list of coordinates (x, y, z)
-        /// </summary>
-        /// <param name="data">a size 3 array of coordinates in the order x, y, z</param>
-        /// <exception cref="ArgumentException">Exception thrown if anything other than 3 coordinates are passed</exception>
-        [Obsolete("This constructor will be removed. Made obsolete 2017-12-05.")]
-        public Point3D(double[] data)
-            : this(data[0], data[1], data[2])
-        {
-            if (data.Length != 3)
-            {
-                throw new ArgumentException("Size must be 3");
-            }
-        }
-
-        /// <summary>
         /// Gets a point at the origin
         /// </summary>
         public static Point3D Origin { get; } = new Point3D(0, 0, 0);

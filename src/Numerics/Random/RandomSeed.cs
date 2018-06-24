@@ -28,7 +28,7 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Provides a seed based on an internal random number generator (crypto if available), time and unique GUIDs.
+        /// Provides a seed based on the internal crypto random number generator.
         /// WARNING: There is only medium randomness in this seed, but quick repeated
         /// calls will result in different seed values. Do not use for cryptography!
         /// </summary>

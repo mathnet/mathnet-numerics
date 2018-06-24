@@ -40,50 +40,6 @@ namespace MathNet.Numerics.Spatial.Euclidean2D
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Point2D"/> struct.
-        /// Creates a point r from origin rotated a counterclockwise from X-Axis
-        /// </summary>
-        /// <param name="r">distance from origin</param>
-        /// <param name="a">the angle</param>
-        [Obsolete("This constructor will be removed, use FromPolar. Made obsolete 2017-12-03.")]
-        public Point2D(double r, Angle a)
-            : this(r * Math.Cos(a.Radians), r * Math.Sin(a.Radians))
-        {
-            if (r < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(r), r, "Expected a radius greater than or equal to zero.");
-            }
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Point2D"/> struct.
-        /// Creates a point from a list of coordinates (x, y)
-        /// </summary>
-        /// <param name="data">a pair of coordinates in the order x, y</param>
-        /// <exception cref="ArgumentException">Exception thrown if more than 2 coordinates are passed</exception>
-        [Obsolete("This constructor will be removed. Made obsolete 2017-12-03.")]
-        public Point2D(IEnumerable<double> data)
-            : this(data.ToArray())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Point2D"/> struct.
-        /// Creates a point from a list of coordinates (x, y)
-        /// </summary>
-        /// <param name="data">a pair of coordinates in the order x, y</param>
-        /// <exception cref="ArgumentException">Exception thrown if more than 2 coordinates are passed</exception>
-        [Obsolete("This constructor will be removed. Made obsolete 2017-12-03.")]
-        public Point2D(double[] data)
-            : this(data[0], data[1])
-        {
-            if (data.Length != 2)
-            {
-                throw new ArgumentException("data.Length != 2!");
-            }
-        }
-
-        /// <summary>
         /// Gets a point at the origin (0,0)
         /// </summary>
         public static Point2D Origin => new Point2D(0, 0);

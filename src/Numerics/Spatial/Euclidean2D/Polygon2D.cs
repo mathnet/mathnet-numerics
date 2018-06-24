@@ -11,7 +11,7 @@ namespace MathNet.Numerics.Spatial.Euclidean2D
     /// <summary>
     /// Class to represent a closed polygon.
     /// </summary>
-    public class Polygon2D : IEnumerable<Point2D>, IEquatable<Polygon2D>
+    public class Polygon2D : IEquatable<Polygon2D>
     {
         /// <summary>
         /// A list of vertices.
@@ -56,12 +56,6 @@ namespace MathNet.Numerics.Spatial.Euclidean2D
         }
 
         /// <summary>
-        /// Gets the number of vertices in the polygon.
-        /// </summary>
-        [Obsolete("Use VertexCount instead, obsolete since 6/12/2017")]
-        public int Count => this.points.Count;
-
-        /// <summary>
         /// Gets a list of vertices
         /// </summary>
         public IEnumerable<Point2D> Vertices
@@ -100,39 +94,6 @@ namespace MathNet.Numerics.Spatial.Euclidean2D
         public int VertexCount => this.points.Count;
 
         /// <summary>
-        /// A index into the list of vertices
-        /// </summary>
-        /// <param name="key">An index for the vertex number</param>
-        /// <returns>A Vertex</returns>
-        [Obsolete("Use Vertices instead, obsolete since 6/12/2017")]
-        public Point2D this[int key] => this.points[key];
-
-        /// <summary>
-        /// Adds a vector to the each point on the polygon
-        /// </summary>
-        /// <param name="shift">The vector to add</param>
-        /// <param name="poly">The polygon</param>
-        /// <returns>A new <see cref="Polygon2D"/> at the adjusted points</returns>
-        [Obsolete("Use Translate instance method instead, obsolete since 6/12/2017")]
-        public static Polygon2D operator +(Vector2D shift, Polygon2D poly)
-        {
-            var newPoints = from p in poly select p + shift;
-            return new Polygon2D(newPoints);
-        }
-
-        /// <summary>
-        /// Adds a vector to the each point on the polygon
-        /// </summary>
-        /// <param name="poly">The polygon</param>
-        /// <param name="shift">The vector to add</param>
-        /// <returns>A new <see cref="Polygon2D"/> at the adjusted points</returns>
-        [Obsolete("Use Translate instance method instead, obsolete since 6/12/2017")]
-        public static Polygon2D operator +(Polygon2D poly, Vector2D shift)
-        {
-            return shift + poly;
-        }
-
-        /// <summary>
         /// Returns a value that indicates whether each point in two specified polygons is equal.
         /// </summary>
         /// <param name="left">The first polygon to compare</param>
@@ -166,32 +127,6 @@ namespace MathNet.Numerics.Spatial.Euclidean2D
         public static bool ArePolygonVerticesColliding(Polygon2D a, Polygon2D b)
         {
             return a.points.Any(b.EnclosesPoint) || b.points.Any(a.EnclosesPoint);
-        }
-
-        /// <summary>
-        /// Determine whether or not a point is inside a polygon using the intersection counting
-        /// method.  Return true if the point is contained, false if it is not. Points which lie
-        /// on the edge are not counted as inside the polygon.
-        /// </summary>
-        /// <param name="p">A point</param>
-        /// <param name="poly">A polygon</param>
-        /// <returns>True if the point is inside the polygon; otherwise false.</returns>
-        [Obsolete("Use instance method EnclosesPoint instead, obsolete since 6/12/2017")]
-        public static bool IsPointInPolygon(Point2D p, Polygon2D poly)
-        {
-            // Algorithm from http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-            // translated into C#
-            var c = false;
-            for (int i = 0, j = poly.Count - 1; i < poly.Count; j = i++)
-            {
-                if (((poly[i].Y > p.Y) != (poly[j].Y > p.Y)) &&
-                    (p.X < ((poly[j].X - poly[i].X) * (p.Y - poly[i].Y) / (poly[j].Y - poly[i].Y)) + poly[i].X))
-                {
-                    c = !c;
-                }
-            }
-
-            return c;
         }
 
         /// <summary>
@@ -261,7 +196,7 @@ namespace MathNet.Numerics.Spatial.Euclidean2D
         /// <returns>A polygon</returns>
         public Polygon2D ReduceComplexity(double singleStepTolerance)
         {
-            return new Polygon2D(PolyLine2D.ReduceComplexity(this.ToPolyLine2D(), singleStepTolerance));
+            return new Polygon2D(PolyLine2D.ReduceComplexity(this.ToPolyLine2D().Vertices, singleStepTolerance).Vertices);
         }
 
         /// <summary>
@@ -314,26 +249,6 @@ namespace MathNet.Numerics.Spatial.Euclidean2D
             var points = this.points.ToList();
             points.Add(points.First());
             return new PolyLine2D(points);
-        }
-
-        /// <summary>
-        /// Returns an enumerator for the vertices
-        /// </summary>
-        /// <returns>An enumerator for the vertices</returns>
-        [Obsolete("Use Vertices instead, obsolete since 6/12/2017")]
-        public IEnumerator<Point2D> GetEnumerator()
-        {
-            return this.points.GetEnumerator();
-        }
-
-        /// <summary>
-        /// Returns an enumerator for the vertices
-        /// </summary>
-        /// <returns>An enumerator for the vertices</returns>
-        [Obsolete("Use Vertices instead, obsolete since 6/12/2017")]
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
         }
 
         /// <summary>

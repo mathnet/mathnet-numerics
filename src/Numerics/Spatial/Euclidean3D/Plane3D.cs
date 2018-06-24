@@ -73,21 +73,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Plane3D"/> struct.
-        /// Creates a Plane that contains the three given points.
-        /// http://www.had2know.com/academics/equation-plane-through-3-points.html
-        /// </summary>
-        /// <param name="p1">The first point on the Plane.</param>
-        /// <param name="p2">The second point on the Plane.</param>
-        /// <param name="p3">The third point on the Plane.</param>
-        /// <returns>The Plane containing the three points.</returns>
-        [Obsolete("This constructor will be removed, use factory method Plane.FromPoints. Made obsolete 2017-12-05.")]
-        public Plane3D(Point3D p1, Point3D p2, Point3D p3)
-        {
-            this = FromPoints(p1, p2, p3);
-        }
-
-        /// <summary>
         /// Gets the <see cref="Normal"/> x component.
         /// </summary>
         public double A => this.Normal.X;
@@ -170,17 +155,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         }
 
         /// <summary>
-        /// Creates a Plane from its string representation
-        /// </summary>
-        /// <param name="s">The string representation of the Plane</param>
-        /// <returns>a new Plane</returns>
-        [Obsolete("Should not have been made public, removed on 9/12/2017")]
-        public static Plane3D Parse(string s)
-        {
-            return Parser.ParsePlane(s);
-        }
-
-        /// <summary>
         /// Get the distance to the point along the <see cref="Normal"/>
         /// </summary>
         /// <param name="point">The <see cref="Point3D"/></param>
@@ -258,7 +232,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         /// </summary>
         /// <param name="line3DToProject">The line to project</param>
         /// <returns>A projected line</returns>
-        [Obsolete("Use LineSegment3D instead, obsolete from 2017-12-10")]
         public Line3D Project(Line3D line3DToProject)
         {
             var projectedStartPoint = this.Project(line3DToProject.StartPoint);
@@ -354,7 +327,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         /// <param name="line">A line segment</param>
         /// <param name="tolerance">A tolerance (epsilon) to account for floating point error.</param>
         /// <returns>Intersection Point or null</returns>
-        [Obsolete("Use LineSegment3D instead, Obsolete from 2017-12-10")]
         public Point3D? IntersectionWith(Line3D line, double tolerance = float.Epsilon)
         {
             if (line.Direction.IsPerpendicularTo(this.Normal, tolerance))

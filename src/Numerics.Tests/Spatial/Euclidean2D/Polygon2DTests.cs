@@ -55,7 +55,7 @@ namespace MathNet.Numerics.Tests.Spatial.Euclidean2D
             // being duplicates, the point at the beginning of the list is removed
             var polygon = TestPolygon2();
             var checkList = new List<Point2D> { new Point2D(0.25, 0.5), new Point2D(1, 1), new Point2D(-1, 1), new Point2D(0.5, -0.5), new Point2D(0, 0) };
-            CollectionAssert.AreEqual(checkList, polygon);
+            CollectionAssert.AreEqual(checkList, polygon.Vertices);
         }
 
         [TestCase(0.5, 0, true)]
@@ -128,7 +128,7 @@ namespace MathNet.Numerics.Tests.Spatial.Euclidean2D
             }
             */
 
-            var pointsNotOnConvexHull = testPoints.Except(hullCounterClockwise);
+            var pointsNotOnConvexHull = testPoints.Except(hullCounterClockwise.Vertices);
             foreach (var pointNotOnConvexHull in pointsNotOnConvexHull)
             {
                 var pointIsInsideConvexHull = hullCounterClockwise.EnclosesPoint(pointNotOnConvexHull);
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.Tests.Spatial.Euclidean2D
             // convex hull is the actual convex hull, which means the original one wasn't!
             foreach (var pointToRemove in counterClockwiseVertices)
             {
-                var convexHullWithPointRemoved = new Polygon2D(hullCounterClockwise.Except(new[] { pointToRemove }));
+                var convexHullWithPointRemoved = new Polygon2D(hullCounterClockwise.Vertices.Except(new[] { pointToRemove }));
                 var pointIsInsideConvexHull =
                     convexHullWithPointRemoved.EnclosesPoint(pointToRemove);
                 Assert.That(pointIsInsideConvexHull, Is.Not.True);
@@ -156,7 +156,7 @@ namespace MathNet.Numerics.Tests.Spatial.Euclidean2D
             var expected = new Polygon2D(expectedPoints);
             var thinned = poly.ReduceComplexity(0.00001);
 
-            CollectionAssert.AreEqual(expected, thinned);
+            CollectionAssert.AreEqual(expected.Vertices, thinned.Vertices);
         }
 
         private static Polygon2D TestPolygon1()

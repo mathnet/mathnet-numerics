@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Globalization;
-using System.Linq;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -43,30 +41,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
             this.X = x;
             this.Y = y;
             this.Z = z;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Vector3D"/> struct.
-        /// </summary>
-        /// <param name="data">A list of 3 doubles</param>
-        [Obsolete("This constructor will be removed. Made obsolete 2017-12-05.")]
-        public Vector3D(IEnumerable<double> data)
-            : this(data.ToArray())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Vector3D"/> struct.
-        /// </summary>
-        /// <param name="data">A list of 3 doubles</param>
-        [Obsolete("This constructor will be removed. Made obsolete 2017-12-05.")]
-        public Vector3D(double[] data)
-            : this(data[0], data[1], data[2])
-        {
-            if (data.Length != 3)
-            {
-                throw new ArgumentException("Size must be 3");
-            }
         }
 
         /// <summary>
@@ -454,7 +428,7 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         /// </summary>
         /// <param name="v">a vector to subtract</param>
         /// <returns>A new vector</returns>
-        [Obsolete("Use - instead")]
+        [Pure]
         public Vector3D Subtract(Vector3D v)
         {
             return new Vector3D(this.X - v.X, this.Y - v.Y, this.Z - v.Z);
@@ -465,7 +439,6 @@ namespace MathNet.Numerics.Spatial.Euclidean3D
         /// </summary>
         /// <param name="v">a vector to add</param>
         /// <returns>A new vector</returns>
-        [Obsolete("Use + instead")]
         [Pure]
         public Vector3D Add(Vector3D v)
         {
