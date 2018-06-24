@@ -203,6 +203,7 @@ Target "Build" (fun _ ->
         CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
         restoreSN numericsSolution
         buildSN numericsSolution
+        if isWindows && hasBuildParam "sign" then sign fingerprint timeserver numericsSolution
         collectBinariesSN numericsSolution
         zip numericsStrongNameZipPackage numericsSolution.OutputZipDir numericsSolution.OutputLibStrongNameDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
         if isWindows then
@@ -233,6 +234,7 @@ Target "DataBuild" (fun _ ->
         CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
         restoreSN dataSolution
         buildSN dataSolution
+        if isWindows && hasBuildParam "sign" then sign fingerprint timeserver dataSolution
         collectBinariesSN dataSolution
         zip dataStrongNameZipPackage dataSolution.OutputZipDir dataSolution.OutputLibStrongNameDir (fun f -> f.Contains("MathNet.Numerics.Data."))
         if isWindows then
