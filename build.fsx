@@ -268,6 +268,9 @@ Target "MklWinBuild" (fun _ ->
     CreateDir mklSolution.OutputNuGetDir
     nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ]
 
+    // NuGet Sign (all or nothing)
+    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver mklSolution
+
     )
 "Prepare" ==> "MklWinBuild"
 
@@ -279,6 +282,9 @@ Target "CudaWinBuild" (fun _ ->
     zip cudaWinZipPackage cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
     CreateDir cudaSolution.OutputNuGetDir
     nugetPackManually cudaSolution [ cudaWinPack ]
+
+    // NuGet Sign (all or nothing)
+    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver cudaSolution
 
     )
 "Prepare" ==> "CudaWinBuild"
@@ -292,6 +298,9 @@ Target "OpenBlasWinBuild" (fun _ ->
     zip openBlasWinZipPackage openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
     CreateDir openBlasSolution.OutputNuGetDir
     nugetPackManually openBlasSolution [ openBlasWinPack ]
+
+    // NuGet Sign (all or nothing)
+    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver openBlasSolution
 
     )
 "Prepare" ==> "OpenBlasWinBuild"
