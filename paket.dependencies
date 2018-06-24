@@ -2,6 +2,7 @@ source https://api.nuget.org/v3/index.json
 storage: packages
 
 nuget FSharp.Core 4.3.3
+nuget System.Diagnostics.Contracts framework:netstandard1.3
 
 // Testing
 nuget NUnit ~> 3.0 framework:net461,netcoreapp1.1,netcoreapp2.0
