@@ -47,9 +47,9 @@ namespace MathNet.Numerics.Statistics
         /// First element is hidden since ACF(k = 0) = 1 </summary>
         /// <param name="x"> data array to calculate auto correlation for</param>
         /// <returns>an array with the ACF as a function of the lags k</returns>
-        public static double[] AutoCorrelation(double[] x)
+        public static double[] AutoCorrelation(IEnumerable<double> x)
         {
-            return autoCorrFft(x, tmpk, 0, x.Length-1);
+            return autoCorrFft(x, tmpk, 0, x.Count()-1);
         }
 
         /// <summary> 
@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="x"> the data array to calculate auto correlation for</param>
         /// <param name="kMax"> max lag to calculate ACF for must be positive and smaller than x.Length-1</param>
         /// <param name="kMax"> min lag to calculate ACF for (0 = no shift with acf=1) must be zero or positive and smaller than x.Length-1</param>
-        public static double[] AutoCorrelation(double[] x, int kMax, int kMin = 0)
+        public static double[] AutoCorrelation(IEnumerable<double> x, int kMax, int kMin = 0)
         {
             // assert max and min in proper order
             var kMax2 = Math.Max(kMax, kMin);
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Statistics
         /// First element is skipped since ACF(k = 0) = 1 </summary>
         /// <param name="x"> the data array to calculate auto correlation for</param>
         /// <param name="k"> array with lags to calculate ACF for</param>
-        public static double[] AutoCorrelation(double[] x, int[] k)
+        public static double[] AutoCorrelation(IEnumerable<double> x, int[] k)
         {
             if (k == null)
                 throw new ArgumentNullException("k");
@@ -93,46 +93,46 @@ namespace MathNet.Numerics.Statistics
             return acfReturn;
         }
 
-        private static double[] autoCorrFft(double[] x, int k_low, int k_high)
+        private static double[] autoCorrFft(IEnumerable<double> x, int k_low, int k_high)
         {
             if(x == null)
                 throw new ArgumentNullException("x");
 
-            if (k_low < 0 || k_low >= x.Length)
+            if (k_low < 0 || k_low >= x.Count())
                 throw new ArgumentOutOfRangeException("kMin must be zero or positive and smaller than x.Length");
-            if (k_high < 0 || k_high >= x.Length)
+            if (k_high < 0 || k_high >= x.Count())
                 throw new ArgumentOutOfRangeException("kMax must be positive and smaller than x.Length");
 
-            if (x.Length < 1)
+            if (x.Count() < 1)
                 return new double[0];
 
-            int N = x.Length;    // Sample size
-
-            int[] idx = new int[k_high - k_low];
-            idx[0] = k_low;
-
-            for (int ii = 1; ii < idx.Length; ii++)
-                idx[ii] = idx[ii - 1] + 1;
-
-            int numLags = N - 1;
-            int nFFT = (int)Math.Pow(2, Euclid.CeilingToPowerOfTwo(N) + 1);
+            int N = x.Count();    // Sample size
+            int nFFT = (int)Math.Pow(2, Euclid.CeilingToPowerOfTwo(N));
 
             Complex[] x_fft = new Complex[nFFT];
             Complex[] x_fft2 = new Complex[nFFT];
 
             double x_dash = Statistics.Mean(x);
 
-            for (int ii = 0; ii < x_fft.Length; ii++)
+            using (IEnumerator<double> ieX = x.GetEnumerator())
             {
-                if (ii < N)
-                    x_fft[ii] = new Complex(x[ii] - x_dash, 0.0);    // copy values in range and substract mean
-                else
-                    x_fft[ii] = new Complex(0.0, 0.0);      // pad all remaining points
+                for (int ii = 0; ii < x_fft.Length; ii++)
+                {
+                    if (!ieX.MoveNext())
+                        throw new ArgumentOutOfRangeException("x", Resources.ArgumentArraysSameLength);
+
+                    if (ii < N)
+                        x_fft[ii] = new Complex(ieX.Current - x_dash, 0.0);    // copy values in range and substract mean
+                    else
+                        x_fft[ii] = new Complex(0.0, 0.0);      // pad all remaining points
+                }
             }
+
 
             Fourier.Forward(x_fft, FourierOptions.Matlab);
 
 
+            // maybe a Vector<Complex> implementation here would be faster
             for (int ii = 0; ii < x_fft.Length; ii++)
             {
                 x_fft2[ii] = Complex.Multiply(x_fft[ii], Complex.Conjugate(x_fft[ii]));
@@ -141,20 +141,19 @@ namespace MathNet.Numerics.Statistics
             Fourier.Inverse(x_fft2, FourierOptions.Matlab);
             double acf_Val1 = x_fft2[0].Real;
 
-            double[] acf_Vec = new double[idx.Length];
-            double[] acf_Val = new double[numLags];
+            double[] acf_Vec = new double[k_high - k_low];
+            double[] acf_Val = new double[k_high + 1];
 
             // normalize such that acf[0] would be 1.0 and drop the first element
-            for (int ii = 0; ii < numLags; ii++)
+            for (int ii = 0; ii < k_high + 1; ii++)
             {
                 acf_Val[ii] = x_fft2[ii + 1].Real / acf_Val1;
-
             }
 
             // only return requested lags
-            for (int ii = 0; ii < idx.Length; ii++)
+            for (int ii = 0; ii < (k_high - k_low + 1); ii++)
             {
-                acf_Vec[ii] = acf_Val[idx[ii]];
+                acf_Vec[ii] = acf_Val[k_low + ii];
             }
 
             return (acf_Vec);
