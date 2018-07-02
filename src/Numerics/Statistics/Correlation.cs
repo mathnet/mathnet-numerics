@@ -40,6 +40,126 @@ namespace MathNet.Numerics.Statistics
     /// </summary>
     public static class Correlation
     {
+
+
+        /// <summary> 
+        /// autocorrelation function (ACF) based on fft (usually faster then direct brute force implementation) for all possible lags k 
+        /// First element is hidden since ACF(k = 0) = 1 </summary>
+        /// <param name="x"> data array to calculate auto correlation for</param>
+        /// <returns>an array with the ACF as a function of the lags k</returns>
+        public static double[] AutoCorrelation(double[] x)
+        {
+            return autoCorrFft(x, tmpk, 0, x.Length-1);
+        }
+
+        /// <summary> 
+        /// autocorrelation function (ACF) based on fft (usually faster then direct brute force implementation) for lags
+        /// between kMin and kMax
+        /// First element is hidden since ACF(k = 0) = 1 </summary>
+        /// <param name="x"> the data array to calculate auto correlation for</param>
+        /// <param name="kMax"> max lag to calculate ACF for must be positive and smaller than x.Length-1</param>
+        /// <param name="kMax"> min lag to calculate ACF for (0 = no shift with acf=1) must be zero or positive and smaller than x.Length-1</param>
+        public static double[] AutoCorrelation(double[] x, int kMax, int kMin = 0)
+        {
+            // assert max and min in proper order
+            var kMax2 = Math.Max(kMax, kMin);
+            var kMin2 = Math.Min(kMax, kMin);
+
+            return (CorrCov.autoCorrFft(x, kMin2, kMax2));
+        }
+
+
+        /// <summary> 
+        /// autocorrelation function based on fft for lags k (faster than brute force calculation for big sample sizes). 
+        /// First element is skipped since ACF(k = 0) = 1 </summary>
+        /// <param name="x"> the data array to calculate auto correlation for</param>
+        /// <param name="k"> array with lags to calculate ACF for</param>
+        public static double[] AutoCorrelation(double[] x, int[] k)
+        {
+            if (k == null)
+                throw new ArgumentNullException("k");
+
+            if (k.Length < 1)
+                throw new ArgumentException("k");
+
+            // get acf between full range
+            var acf = autoCorrFft(x, k.Min(), k.Max());
+
+            // map output by indexing
+            var acfReturn = new double[k.Length];
+            for (int i = 0; i < acfReturn.Length; i++)
+                acfReturn[i] = acf[k[i]];
+
+            return acfReturn;
+        }
+
+        private static double[] autoCorrFft(double[] x, int k_low, int k_high)
+        {
+            if(x == null)
+                throw new ArgumentNullException("x");
+
+            if (k_low < 0 || k_low >= x.Length)
+                throw new ArgumentOutOfRangeException("kMin must be zero or positive and smaller than x.Length");
+            if (k_high < 0 || k_high >= x.Length)
+                throw new ArgumentOutOfRangeException("kMax must be positive and smaller than x.Length");
+
+            if (x.Length < 1)
+                return new double[0];
+
+            int N = x.Length;    // Sample size
+
+            int[] idx = new int[k_high - k_low];
+            idx[0] = k_low;
+
+            for (int ii = 1; ii < idx.Length; ii++)
+                idx[ii] = idx[ii - 1] + 1;
+
+            int numLags = N - 1;
+            int nFFT = (int)Math.Pow(2, Euclid.CeilingToPowerOfTwo(N) + 1);
+
+            Complex[] x_fft = new Complex[nFFT];
+            Complex[] x_fft2 = new Complex[nFFT];
+
+            double x_dash = Statistics.Mean(x);
+
+            for (int ii = 0; ii < x_fft.Length; ii++)
+            {
+                if (ii < N)
+                    x_fft[ii] = new Complex(x[ii] - x_dash, 0.0);    // copy values in range and substract mean
+                else
+                    x_fft[ii] = new Complex(0.0, 0.0);      // pad all remaining points
+            }
+
+            Fourier.Forward(x_fft, FourierOptions.Matlab);
+
+
+            for (int ii = 0; ii < x_fft.Length; ii++)
+            {
+                x_fft2[ii] = Complex.Multiply(x_fft[ii], Complex.Conjugate(x_fft[ii]));
+            }
+
+            Fourier.Inverse(x_fft2, FourierOptions.Matlab);
+            double acf_Val1 = x_fft2[0].Real;
+
+            double[] acf_Vec = new double[idx.Length];
+            double[] acf_Val = new double[numLags];
+
+            // normalize such that acf[0] would be 1.0 and drop the first element
+            for (int ii = 0; ii < numLags; ii++)
+            {
+                acf_Val[ii] = x_fft2[ii + 1].Real / acf_Val1;
+
+            }
+
+            // only return requested lags
+            for (int ii = 0; ii < idx.Length; ii++)
+            {
+                acf_Vec[ii] = acf_Val[idx[ii]];
+            }
+
+            return (acf_Vec);
+        }
+
         /// <summary>
         /// Computes the Pearson Product-Moment Correlation coefficient.
         /// </summary>
