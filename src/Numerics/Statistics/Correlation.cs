@@ -30,6 +30,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.Properties;
 
@@ -41,7 +43,6 @@ namespace MathNet.Numerics.Statistics
     public static class Correlation
     {
 
-
         /// <summary> 
         /// autocorrelation function (ACF) based on fft (usually faster then direct brute force implementation) for all possible lags k 
         /// First element is hidden since ACF(k = 0) = 1 </summary>
@@ -49,7 +50,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>an array with the ACF as a function of the lags k</returns>
         public static double[] AutoCorrelation(IEnumerable<double> x)
         {
-            return autoCorrFft(x, tmpk, 0, x.Count()-1);
+            return autoCorrelationFft(x, 0, x.Count() - 1);
         }
 
         /// <summary> 
@@ -58,14 +59,15 @@ namespace MathNet.Numerics.Statistics
         /// First element is hidden since ACF(k = 0) = 1 </summary>
         /// <param name="x"> the data array to calculate auto correlation for</param>
         /// <param name="kMax"> max lag to calculate ACF for must be positive and smaller than x.Length-1</param>
-        /// <param name="kMax"> min lag to calculate ACF for (0 = no shift with acf=1) must be zero or positive and smaller than x.Length-1</param>
+        /// <param name="kMin"> min lag to calculate ACF for (0 = no shift with acf=1) must be zero or positive and smaller than x.Length-1</param>
+        /// <returns>an array with the ACF as a function of the lags k</returns>
         public static double[] AutoCorrelation(IEnumerable<double> x, int kMax, int kMin = 0)
         {
             // assert max and min in proper order
             var kMax2 = Math.Max(kMax, kMin);
             var kMin2 = Math.Min(kMax, kMin);
 
-            return (CorrCov.autoCorrFft(x, kMin2, kMax2));
+            return (autoCorrelationFft(x, kMin2, kMax2));
         }
 
 
@@ -74,6 +76,7 @@ namespace MathNet.Numerics.Statistics
         /// First element is skipped since ACF(k = 0) = 1 </summary>
         /// <param name="x"> the data array to calculate auto correlation for</param>
         /// <param name="k"> array with lags to calculate ACF for</param>
+        /// <returns>an array with the ACF as a function of the lags k</returns>
         public static double[] AutoCorrelation(IEnumerable<double> x, int[] k)
         {
             if (k == null)
@@ -83,7 +86,7 @@ namespace MathNet.Numerics.Statistics
                 throw new ArgumentException("k");
 
             // get acf between full range
-            var acf = autoCorrFft(x, k.Min(), k.Max());
+            var acf = autoCorrelationFft(x, k.Min(), k.Max());
 
             // map output by indexing
             var acfReturn = new double[k.Length];
@@ -93,9 +96,16 @@ namespace MathNet.Numerics.Statistics
             return acfReturn;
         }
 
-        private static double[] autoCorrFft(IEnumerable<double> x, int k_low, int k_high)
+        /// <summary>
+        /// this is the internal core method for calculating the autocorrelation
+        /// </summary>
+        /// <param name="x">the data array to calculate auto correlation for</param>
+        /// <param name="k_low"> min lag to calculate ACF for (0 = no shift with acf=1) must be zero or positive and smaller than x.Length-1</param>
+        /// <param name="k_high"> max lag to calculate ACF for must be positive and smaller than x.Length-1</param>
+        /// <returns>an array with the ACF as a function of the lags k</returns>
+        private static double[] autoCorrelationFft(IEnumerable<double> x, int k_low, int k_high)
         {
-            if(x == null)
+            if (x == null)
                 throw new ArgumentNullException("x");
 
             if (k_low < 0 || k_low >= x.Count())
@@ -107,30 +117,33 @@ namespace MathNet.Numerics.Statistics
                 return new double[0];
 
             int N = x.Count();    // Sample size
-            int nFFT = (int)Math.Pow(2, Euclid.CeilingToPowerOfTwo(N));
+            int nFFT = Euclid.CeilingToPowerOfTwo(N) * 2;
 
             Complex[] x_fft = new Complex[nFFT];
             Complex[] x_fft2 = new Complex[nFFT];
 
             double x_dash = Statistics.Mean(x);
+            double xArrNow = 0.0d;
 
-            using (IEnumerator<double> ieX = x.GetEnumerator())
+            using (IEnumerator<double> iex = x.GetEnumerator())
             {
-                for (int ii = 0; ii < x_fft.Length; ii++)
+                for (int ii = 0; ii < nFFT; ii++)
                 {
-                    if (!ieX.MoveNext())
-                        throw new ArgumentOutOfRangeException("x", Resources.ArgumentArraysSameLength);
+                    if (!iex.MoveNext())
+                    {
+                        throw new ArgumentOutOfRangeException("x");
+                    }
+                    xArrNow = iex.Current;
 
                     if (ii < N)
-                        x_fft[ii] = new Complex(ieX.Current - x_dash, 0.0);    // copy values in range and substract mean
+                        x_fft[ii] = new Complex(xArrNow - x_dash, 0.0);    // copy values in range and substract mean
                     else
                         x_fft[ii] = new Complex(0.0, 0.0);      // pad all remaining points
                 }
+
             }
 
-
             Fourier.Forward(x_fft, FourierOptions.Matlab);
-
 
             // maybe a Vector<Complex> implementation here would be faster
             for (int ii = 0; ii < x_fft.Length; ii++)
@@ -145,15 +158,9 @@ namespace MathNet.Numerics.Statistics
             double[] acf_Val = new double[k_high + 1];
 
             // normalize such that acf[0] would be 1.0 and drop the first element
-            for (int ii = 0; ii < k_high + 1; ii++)
+            for (int ii = 0; ii < (k_high - k_low); ii++)
             {
-                acf_Val[ii] = x_fft2[ii + 1].Real / acf_Val1;
-            }
-
-            // only return requested lags
-            for (int ii = 0; ii < (k_high - k_low + 1); ii++)
-            {
-                acf_Vec[ii] = acf_Val[k_low + ii];
+                acf_Vec[ii] = x_fft2[k_low + ii + 1].Real / acf_Val1;
             }
 
             return (acf_Vec);
