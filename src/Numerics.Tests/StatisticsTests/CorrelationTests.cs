@@ -32,6 +32,10 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using MathNet.Numerics.Statistics;
+using MathNet.Numerics.LinearAlgebra.Double;
+using System.IO;
+using MathNet.Numerics.TestData;
+using System.Globalization;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
@@ -57,6 +61,30 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             _data.Add("lottery", lottery);
             var lew = new StatTestData("NIST.Lew.dat");
             _data.Add("lew", lew);
+        }
+
+        [TestCase("numpy.CorrNumpyData_sqr.csv", 0.005)]
+        [TestCase("numpy.CorrNumpyData_pwm.csv", 0.005)]
+        [TestCase("numpy.CorrNumpyData_sin.csv", 0.005)]
+        [TestCase("numpy.CorrNumpyData_rnd.csv", 0.005)]
+        public void TestAutocorrelation(string fName, double tol)
+        {
+
+            var data = Data.ReadAllLines(fName)
+                            .Select(line =>
+                            {
+                                var vals = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                                return new Tuple<string, string>(vals[0], vals[1]);
+                            }).ToArray();
+
+            var series = data.Select(tuple => Double.Parse(tuple.Item1, CultureInfo.InvariantCulture)).ToArray();
+            var resNumpy = data.Select(tuple => Double.Parse(tuple.Item2, CultureInfo.InvariantCulture)).ToArray();
+
+
+            var resMathNet = Statistics.Correlation.AutoCorrelation(series);
+
+            for (int i = 0; i < resMathNet.Length; i++)
+                Assert.AreEqual(resNumpy[i], resMathNet[i], tol);
         }
 
         /// <summary>
