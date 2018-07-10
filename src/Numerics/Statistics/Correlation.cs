@@ -129,14 +129,14 @@ namespace MathNet.Numerics.Statistics
             {
                 for (int ii = 0; ii < nFFT; ii++)
                 {
-                    if (!iex.MoveNext())
-                    {
-                        throw new ArgumentOutOfRangeException("x");
-                    }
-                    xArrNow = iex.Current;
 
                     if (ii < N)
+                    {
+                        if (!iex.MoveNext())
+                            throw new ArgumentOutOfRangeException("x");
+                        xArrNow = iex.Current;
                         x_fft[ii] = new Complex(xArrNow - x_dash, 0.0);    // copy values in range and substract mean
+                    }
                     else
                         x_fft[ii] = new Complex(0.0, 0.0);      // pad all remaining points
                 }
