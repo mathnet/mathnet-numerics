@@ -560,15 +560,15 @@ namespace MathNet.Numerics.LtiSystems
         /// <summary> calculates y_k = G(q^-1) * x_k for a given x_k array </summary>
         public IEnumerable<double> CalcResponse(IEnumerable<double> x)
         {
-            return (this.CalcResponse(this.b, this.a, x.ToArray()));
+            return this.CalcResponse(x.ToArray());
         }
 
         /// <summary> calculates y_k = G(q^-1) * x_k for a given x_k array </summary>
         public double[] CalcResponse(double[] x)
         {
-            // this is basically a two step convoltion and could be replaced by a
+            // this is basically a two step convolution and could be replaced by a
             // conv implementation.
-            // however... this code works and replacing it would be more work
+            // however... this code works fine and replacing it would be more work
 
             double y_now = 0.0d;
             int idx_a = 0;
