@@ -39,6 +39,63 @@ namespace MathNet.Numerics.UnitTests
     [TestFixture, Category("Calculus")]
     public class PolynomialTests
     {
+
+        [TestCase(new double[] { 5, 4, 3, 0, 2 }, "5 + 4x^1 + 3x^2 + 0x^3 + 2x^4")]
+        [TestCase(new double[0], "")]
+        [TestCase(new double[] { 0, 4, 3, 0, 0 }, "0 + 4x^1 + 3x^2 + 0x^3 + 0x^4")]
+        public void ToStringTest(double[] x, string expected)
+        {
+            var p = new Polynomial(x);
+            Assert.AreEqual(expected, p.ToString());
+        }
+
+        [TestCase(new double[] { 5, 4, 3, 0, 2 }, new double[] { 4*1, 3*2, 0*3, 2*4 })]
+        [TestCase(new double[0], null)]
+        [TestCase(new double[] { 0, 4, 3, 0, 0 }, new double[] { 4*1, 3*2 })]
+        public void DifferentiateTest(double[] x, double[] expected)
+        {
+            var p = new Polynomial(x);
+            var p_res = p.Differentiate();
+
+            if (expected == null)
+            {
+                Assert.IsNull(p_res);
+                return;
+            }
+            else
+            {
+                Assert.AreEqual(expected.Length, p_res.Length, "length mismatch");
+                for (int k = 0; k < p_res.Length; k++)
+                {
+                    Assert.AreEqual(expected[k], p_res.Coeffs[k], "idx: " + k + " mismatch");
+                }
+            }
+            
+        }
+
+        [TestCase(new double[] { 5, 4, 3, 0, 2 }, new double[] { 0, 5.0/1.0, 4.0/2.0, 3.0/3.0, 0.0/4.0, 2.0/5.0 })]
+        [TestCase(new double[0], new double[1] { 0 })]
+        [TestCase(new double[] { 0, 1, 6, 8 }, new double[] {0, 0.0/1.0, 1.0/2.0, 6.0/3.0, 8.0/4.0})]
+        public void IntegrateTest(double[] x, double[] expected)
+        {
+            var p = new Polynomial(x);
+            var p_res = p.Integrate();
+
+            if (expected == null)
+            {
+                Assert.IsNull(p_res);
+                return;
+            }
+            else
+            {
+                Assert.AreEqual(expected.Length, p_res.Length, "length mismatch");
+                for (int k = 0; k < p_res.Length; k++)
+                {
+                    Assert.AreEqual(expected[k], p_res.Coeffs[k], "idx: " + k + " mismatch");
+                }
+            }
+        }
+
         [Test]
         public void AddTest()
         {
@@ -67,7 +124,7 @@ namespace MathNet.Numerics.UnitTests
                     p_res.CutTrailZeros();
                     p_tar.CutTrailZeros();
 
-                    Assert.AreEqual(p_tar.Length, p_res.Length);
+                    Assert.AreEqual(p_tar.Length, p_res.Length, "length mismatch");
                     for (int k = 0; k < p_res.Length; k++)
                     {
                         Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
@@ -104,7 +161,7 @@ namespace MathNet.Numerics.UnitTests
                     p_res.CutTrailZeros();
                     p_tar.CutTrailZeros();
 
-                    Assert.AreEqual(p_tar.Length, p_res.Length);
+                    Assert.AreEqual(p_tar.Length, p_res.Length, "length mismatch");
                     for (int k = 0; k < p_res.Length; k++)
                     {
                         Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
@@ -140,7 +197,7 @@ namespace MathNet.Numerics.UnitTests
                     p_res.CutTrailZeros();
                     p_tar.CutTrailZeros();
 
-                    Assert.AreEqual(p_tar.Length, p_res.Length);
+                    Assert.AreEqual(p_tar.Length, p_res.Length, "length mismatch");
                     for (int k = 0; k < p_res.Length; k++)
                     {
                         Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
