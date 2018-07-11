@@ -140,9 +140,7 @@ namespace MathNet.Numerics
         #region Data Interaction
 
         /// <summary>
-        /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
-        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
-        /// A polynomial with order/degree k has (k+1) coefficients and thus requires at least (k+1) samples.
+        /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k
         /// </summary>
         public static Polynomial Fit(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
