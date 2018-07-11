@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Numerics;
 using MathNet.Numerics;
@@ -44,7 +40,7 @@ namespace MathNet.Numerics
         {
             get
             {
-                return (Coeffs.Length);
+                return (Coeffs == null ? 0 : Coeffs.Length);
             }
         }
 
@@ -54,8 +50,39 @@ namespace MathNet.Numerics
         /// <param name="n">size of Polynomial</param>
         public Polynomial(int n)
         {
+            if (n < 0)
+            {
+                throw new ArgumentOutOfRangeException("n must be postive");
+            }
             Coeffs = new double[n];
         }
+
+
+        /// <summary>
+        /// make Polynomial: e.G 3.0 = 3.0 + 0 x^1 + 0 x^2
+        /// </summary>
+        /// <param name="coeff">just the "x^0" part</param>
+        public Polynomial(double coeff)
+        {
+            IsFlipped = false;
+            this.Coeffs = new double[1];
+            Coeffs[0] = coeff;
+        }
+
+        /// <summary>
+        /// make Polynomial: e.G new double[] {5, 0, 2} = "5 + 0 x^1 + 2 x^2"
+        /// </summary>
+        /// <param name="coeffs"> Polynomial coefficiens as array</param>
+        public Polynomial(double[] coeffs)
+        {
+            if (coeffs == null)
+            {
+                throw new ArgumentNullException("coeffs");
+            }
+            this.Coeffs = new double[coeffs.Length];
+            Array.Copy(coeffs, this.Coeffs, coeffs.Length);
+        }
+
 
         /// <summary>
         /// constructor setting Polynomial coefficiens and flipping them if necessary.
@@ -68,41 +95,23 @@ namespace MathNet.Numerics
         /// xP1:  5 x^3 + 4 x^2 + 3 x^2 + 0 x^1 + 2
         /// xP2:  2 x^3 + 0 x^2 + 3 x^2 + 4 x^1 + 5
         /// 
-        /// WARNING cut all trailing zeros before, since they would result in zeros at the end
         /// </summary>
         /// <param name="coeffs"> Polynomial coefficiens as array</param>
         /// <param name="isFlip">use true for flipping</param>
-        public Polynomial(double[] coeffs, bool isFlip = false)
+        public Polynomial(double[] coeffs, bool isFlip)
         {
-            this.Coeffs = new double[Coeffs.Length];
+            if (coeffs == null)
+            {
+                throw new ArgumentNullException("coeffs");
+            }
+            this.Coeffs = new double[coeffs.Length];
             Array.Copy(coeffs, Coeffs, coeffs.Length);
 
             if (isFlip)
             {
                 Coeffs = Coeffs.Reverse().ToArray();
                 IsFlipped = true;
-            }          
-        }
-
-        /// <summary>
-        /// constructor setting Polynomial coefficiens
-        /// </summary>
-        /// <param name="coeff">just the x^0 part</param>
-        public Polynomial(double coeff)
-        {
-            IsFlipped = false;
-            this.Coeffs = new double[1];
-            Coeffs[0] = coeff;
-        }
-
-        /// <summary>
-        /// constructor setting Polynomial coefficiens
-        /// </summary>
-        /// <param name="Coeffs"> Polynomial coefficiens as array</param>
-        public Polynomial(double[] Coeffs)
-        {
-            this.Coeffs = new double[Coeffs.Length];
-            Array.Copy(Coeffs, this.Coeffs, Coeffs.Length);
+            }
         }
 
         /// <summary>
@@ -129,9 +138,45 @@ namespace MathNet.Numerics
             }
         }
 
+        #region diff/int
+        public Polynomial Differentiate()
+        {
+            
+            if (Coeffs.Length == 0)
+            {
+                return null;
+            }
+
+            var t = this.Clone() as Polynomial;
+            t.CutTrailZeros();
+            var cNew = new double[t.Length - 1];
+            for (int i = 1; i < t.Coeffs.Length; i++)
+            {
+                cNew[i-1] = t.Coeffs[i] * i;
+            }
+            var p = new Polynomial(cNew, isFlip: IsFlipped);
+            p.CutTrailZeros();
+            return p;
+        }
+
+        public Polynomial Integrate()
+        {
+            var t = this.Clone() as Polynomial;
+            t.CutTrailZeros();
+            var cNew = new double[t.Length + 1];
+            for (int i = 1; i < cNew.Length; i++)
+            {
+                cNew[i] = t.Coeffs[i-1] / i;
+            }
+            var p = new Polynomial(cNew, isFlip: IsFlipped);
+            p.CutTrailZeros();
+            return p;
+        }
+
+        #endregion
         #region Operators
 
-        
+
         /// <summary>
         /// multiplies a Polynomial by a Polynomial using convolution [ASINCO.libs.subfun.conv(a.Coeffs, b.Coeffs)]
         /// </summary>
@@ -387,18 +432,52 @@ namespace MathNet.Numerics
         /// <returns>string in displayed format</returns>
         public override string ToString()
         {
+            return ToString(highestFirst:false);
+        }
+
+        /// <summary>
+        /// "0.00 x^3 + 0.00 x^2 + 0.00 x^1 + 0.00" like display of this Polynomial
+        /// </summary>
+        /// <returns>string in displayed format</returns>
+        public string ToString(bool highestFirst)
+        {
             string strLoc = "";
-
-            for (int ii = Length - 1; ii >= 0; ii--)
+            if (this.Coeffs == null)
             {
-
-                if (ii == 0)
-                    strLoc = String.Concat(strLoc, this.Coeffs[ii].ToString());
-                else
-                    strLoc = String.Concat(strLoc, this.Coeffs[ii].ToString(), VarName, ii.ToString(), " + ");
+                return "null";
             }
+            if (this.Coeffs.Length == 0)
+            {
+                return "";
+            }
+
+            if (!highestFirst)
+            {
+                for (int ii = 0; ii < Length; ii++)
+                {
+
+                    if (ii == 0)
+                        strLoc += String.Format("{0} + ", this.Coeffs[ii], VarName, ii);
+                    else if (ii == Length - 1)
+                        strLoc += String.Format("{0}{1}{2}", this.Coeffs[ii], VarName, ii);
+                    else
+                        strLoc += String.Format("{0}{1}{2} + ", this.Coeffs[ii], VarName, ii);
+                }
+            }
+            else
+            {
+                for (int ii = Length - 1; ii >= 0; ii--)
+                {
+                    if (ii == 0)
+                        strLoc += this.Coeffs[ii].ToString();
+                    else
+                        strLoc += String.Format("{0}{1}{2} + ", this.Coeffs[ii], VarName, ii);
+                }
+            }
+
             return strLoc;
         }
+
 
         #endregion
 
@@ -463,6 +542,13 @@ namespace MathNet.Numerics
                 }
             }
             return ret;
+        }
+
+        public object Clone()
+        {
+            var p = new double[this.Length];
+            Array.Copy(Coeffs, p, Length);
+            return new Polynomial(p, isFlip: IsFlipped);
         }
         #endregion
 
