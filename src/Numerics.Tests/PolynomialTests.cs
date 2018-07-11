@@ -64,8 +64,8 @@ namespace MathNet.Numerics.UnitTests
             }
             else
             {
-                Assert.AreEqual(expected.Length, p_res.Length, "length mismatch");
-                for (int k = 0; k < p_res.Length; k++)
+                Assert.AreEqual(expected.Length, p_res.Degree, "length mismatch");
+                for (int k = 0; k < p_res.Degree; k++)
                 {
                     Assert.AreEqual(expected[k], p_res.Coeffs[k], "idx: " + k + " mismatch");
                 }
@@ -88,8 +88,8 @@ namespace MathNet.Numerics.UnitTests
             }
             else
             {
-                Assert.AreEqual(expected.Length, p_res.Length, "length mismatch");
-                for (int k = 0; k < p_res.Length; k++)
+                Assert.AreEqual(expected.Length, p_res.Degree, "length mismatch");
+                for (int k = 0; k < p_res.Degree; k++)
                 {
                     Assert.AreEqual(expected[k], p_res.Coeffs[k], "idx: " + k + " mismatch");
                 }
@@ -118,14 +118,14 @@ namespace MathNet.Numerics.UnitTests
                     var p1 = new Polynomial(c1);
                     var p2 = new Polynomial(c2);
 
-                    var p_res = Polynomial.add(p1, p2);
+                    var p_res = Polynomial.Add(p1, p2);
                     var p_tar = new Polynomial(tgt);
 
                     p_res.CutTrailZeros();
                     p_tar.CutTrailZeros();
 
-                    Assert.AreEqual(p_tar.Length, p_res.Length, "length mismatch");
-                    for (int k = 0; k < p_res.Length; k++)
+                    Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
+                    for (int k = 0; k < p_res.Degree; k++)
                     {
                         Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
                     }
@@ -155,14 +155,14 @@ namespace MathNet.Numerics.UnitTests
                     var p1 = new Polynomial(c1);
                     var p2 = new Polynomial(c2);
 
-                    var p_res = Polynomial.substract(p1, p2);
+                    var p_res = Polynomial.Substract(p1, p2);
                     var p_tar = new Polynomial(tgt);
 
                     p_res.CutTrailZeros();
                     p_tar.CutTrailZeros();
 
-                    Assert.AreEqual(p_tar.Length, p_res.Length, "length mismatch");
-                    for (int k = 0; k < p_res.Length; k++)
+                    Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
+                    for (int k = 0; k < p_res.Degree; k++)
                     {
                         Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
                     }
@@ -197,13 +197,14 @@ namespace MathNet.Numerics.UnitTests
                     p_res.CutTrailZeros();
                     p_tar.CutTrailZeros();
 
-                    Assert.AreEqual(p_tar.Length, p_res.Length, "length mismatch");
-                    for (int k = 0; k < p_res.Length; k++)
+                    Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
+                    for (int k = 0; k < p_res.Degree; k++)
                     {
                         Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
                     }
                 }
             }
         }
+        
     }
 }
