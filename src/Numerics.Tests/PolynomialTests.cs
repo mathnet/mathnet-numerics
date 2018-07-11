@@ -28,7 +28,9 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearRegression;
 using MathNet.Numerics.Statistics;
@@ -205,6 +207,63 @@ namespace MathNet.Numerics.UnitTests
                 }
             }
         }
-        
+
+        [Test]
+        public void GetRootsTest()
+        {
+            var tol = 1e-14;
+            var p1 = new Polynomial(1.0);
+            var r = p1.GetRoots();
+
+            Assert.AreEqual(1, r.Length, "length mismatch");
+            Assert.AreEqual(1.0, r.FirstOrDefault().Real);
+
+            var p2 = new Polynomial(new double[] { 1, 2 });
+
+            var r2 = p2.GetRoots();
+            Assert.AreEqual(1, r2.Length, "length mismatch");
+            Assert.AreEqual(-0.5, r2.FirstOrDefault().Real, tol);
+
+            // T.G: the following expected values were generated using
+            // numpys np.roots(x) method
+            // which is equivalent to np.polynomial.polynomial.polyroots
+
+            var x_2 = new double[] { -1.0, 1.0 };
+            var expected_2 = new List<Complex>();
+            expected_2.Add(new Complex(1.0, 0.0));
+            testEqual(x_2, expected_2);
+
+            var x_3 = new double[] { -1.0, 0.0, 1.0 };
+            var expected_3 = new List<Complex>();
+            expected_3.Add(new Complex(1.0, 0.0));
+            expected_3.Add(new Complex(-1.0, 0.0));
+            testEqual(x_3, expected_3);
+
+            var x_4 = new double[] { -1.0, -0.33333333333333337, 0.33333333333333326, 1.0 };
+            var expected_4 = new List<Complex>();
+            expected_4.Add(new Complex(0.9999999999999996, 0.0));
+            expected_4.Add(new Complex(-0.6666666666666666, 0.7453559924999296));
+            expected_4.Add(new Complex(-0.6666666666666666, -0.7453559924999296));
+            testEqual(x_4, expected_4);
+        }
+
+        private void testEqual(double[] x, List<Complex> eIn)
+        {
+            var tol = 1e-10;
+            var r0 = new Polynomial(x).GetRoots().ToList();
+
+            var e = eIn.OrderBy(v => v.Real).ToArray();
+            var r = r0.OrderBy(v => v.Real).ToArray();
+            
+            Assert.IsNotNull(r);
+            Assert.AreEqual(e.Length, r.Length, "length mismatch");
+            for (int k = 0; k < r.Length; k++)
+            {
+                var msg = String.Format("At k={0}", k);
+                Assert.AreEqual(e[k].Real, r[k].Real, tol, msg);
+                Assert.AreEqual(e[k].Imaginary, r[k].Imaginary, tol, msg);
+            }
+
+        }
     }
 }
