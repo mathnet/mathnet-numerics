@@ -16,18 +16,6 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-		<EmbeddedResource Include="..\..\data\numpy\CorrNumpyData_pwm.csv">
-		  <Link>Data\numpy\CorrNumpyData_pwm.csv</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\..\data\numpy\CorrNumpyData_sin.csv">
-		  <Link>Data\numpy\CorrNumpyData_sin.csv</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\..\data\numpy\CorrNumpyData_sqr.csv">
-		  <Link>Data\numpy\CorrNumpyData_sqr.csv</Link>
-		</EmbeddedResource>
-		<EmbeddedResource Include="..\..\data\numpy\CorrNumpyData_rnd.csv">
-		  <Link>Data\numpy\CorrNumpyData_rnd.csv</Link>
-		</EmbeddedResource>
         <EmbeddedResource Include="..\..\data\Codeplex-5667.csv">
             <Link>Data\Codeplex-5667.csv</Link>
         </EmbeddedResource>
