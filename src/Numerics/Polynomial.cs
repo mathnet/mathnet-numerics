@@ -25,11 +25,6 @@ namespace MathNet.Numerics
         public double[] Coeffs { get; set; }
 
         /// <summary>
-        /// indicator if Polynomial was flipped
-        /// </summary>
-        public bool IsFlipped { get; }
-
-        /// <summary>
         /// Only needed for the ToString method
         /// </summary>
         public string VarName = "x^";
@@ -65,9 +60,21 @@ namespace MathNet.Numerics
         /// <param name="coeff">just the "x^0" part</param>
         public Polynomial(double coeff)
         {
-            IsFlipped = false;
             this.Coeffs = new double[1];
             Coeffs[0] = coeff;
+        }
+
+        /// <summary>
+        /// make Polynomial: e.G new double[] {5, 0, 2} = "5 + 0 x^1 + 2 x^2"
+        /// </summary>
+        /// <param name="coeffs"> Polynomial coefficiens as enumerable</param>
+        public Polynomial(IEnumerable<double> coeffs)
+        {
+            if (coeffs == null)
+            {
+                throw new ArgumentNullException("coeffs");
+            }
+            this.Coeffs = coeffs.ToArray();
         }
 
         /// <summary>
@@ -84,48 +91,20 @@ namespace MathNet.Numerics
             Array.Copy(coeffs, this.Coeffs, coeffs.Length);
         }
 
-
         /// <summary>
-        /// constructor setting Polynomial coefficiens and flipping them if necessary.
-        /// 
-        /// e.G: 
-        /// var x = new double[] {5, 4, 3, 0, 2};
-        /// var xP1 = new Polynomial(x, isFlip:true);
-        /// var xP2 = new Polynomial(x, isFlip:false);
-        /// 
-        /// xP1:  2 + 0x^1 + 3x^2 + 4x^3 + 5x^4
-        /// xP2:  5 + 4x^1 + 3x^2 + 0x^3 + 2x^4
-        /// 
-        /// </summary>
-        /// <param name="coeffs"> Polynomial coefficiens as array</param>
-        /// <param name="isFlip">use true for flipping</param>
-        public Polynomial(double[] coeffs, bool isFlip)
-        {
-            if (coeffs == null)
-            {
-                throw new ArgumentNullException("coeffs");
-            }
-            this.Coeffs = new double[coeffs.Length];
-            Array.Copy(coeffs, Coeffs, coeffs.Length);
-
-            if (isFlip)
-            {
-                Coeffs = Coeffs.Reverse().ToArray();
-                IsFlipped = true;
-            }
-        }
-
-        /// <summary>
-        /// remove all trailing zeros, e.G before: "0.00 x^2 + 1.0 x^1 + 1.00" after: "1.0 x^1 + 1.00"
+        /// remove all trailing zeros, e.G before: "3 + 2 x^1 + 0 x^2" after: "3 + 2 x^1"
         /// </summary>
         public void Trim()
         {
+            if (Degree == 1)
+                return;
+
             int i = Degree - 1;
             while (i >= 0 && Coeffs[i] == 0.0)
                 i--;
             
-            if (i < 0)
-                Coeffs = new double[0];
+            if (i <= 0)
+                Coeffs = new double[1] { 0.0 };
             else
             {
                 var hold = new double[i+1];
@@ -187,7 +166,7 @@ namespace MathNet.Numerics
             {
                 cNew[i-1] = t.Coeffs[i] * i;
             }
-            var p = new Polynomial(cNew, isFlip: IsFlipped);
+            var p = new Polynomial(cNew);
             p.Trim();
             return p;
         }
@@ -201,7 +180,7 @@ namespace MathNet.Numerics
             {
                 cNew[i] = t.Coeffs[i-1] / i;
             }
-            var p = new Polynomial(cNew, isFlip: IsFlipped);
+            var p = new Polynomial(cNew);
             p.Trim();
             return p;
         }
@@ -219,11 +198,13 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial operator *( Polynomial a, Polynomial b)
         {
+            var aa = a.Clone() as Polynomial;
+            var bb = b.Clone() as Polynomial;
             // do not cut trailing zeros, since it may corrupt the outcom, if the array is of form 1 + x^-1 + x^-2 + x^-3
             //a.Trim();
             //b.Trim();
 
-            double[] ret = conv(a.Coeffs, b.Coeffs);
+            double[] ret = conv(aa.Coeffs, bb.Coeffs);
             Polynomial ret_p = new Polynomial(ret);
 
             //ret_p.Trim();
@@ -240,10 +221,13 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial operator *( Polynomial a, double k)
         {
-            for (int ii = 0; ii < a.Coeffs.Length; ii++)
-                a.Coeffs[ii] *= k;
+            var aa = a.Clone() as Polynomial;
+            
 
-            return a;
+            for (int ii = 0; ii < aa.Coeffs.Length; ii++)
+                aa.Coeffs[ii] *= k;
+
+            return aa;
         }
 
         /// <summary>
@@ -254,8 +238,10 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial operator +( Polynomial a, double k)
         {
-            a.Coeffs[0] += k;
-            return a;
+            var aa = a.Clone() as Polynomial;
+
+            aa.Coeffs[0] += k;
+            return aa;
         }
 
         /// <summary>
@@ -266,9 +252,10 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial operator -( Polynomial a, double k)
         {
+            var aa = a.Clone() as Polynomial;
 
             a.Coeffs[0] -= k;
-            return a;
+            return aa;
         }
 
         /// <summary>
@@ -279,10 +266,12 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial operator /( Polynomial a, double k)
         {
-            for (int ii = 0; ii < a.Coeffs.Length; ii++)
-                a.Coeffs[ii] /= k;
+            var aa = a.Clone() as Polynomial;
+            
+            for (int ii = 0; ii < aa.Coeffs.Length; ii++)
+                aa.Coeffs[ii] /= k;
 
-            return a;
+            return aa;
         }
 
         /// <summary>
@@ -372,16 +361,19 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial DividePointwise( Polynomial a, Polynomial b)
         {
-            if (a.Coeffs.Length != b.Coeffs.Length)
-                mkSameLength(ref a, ref b);
+            var aa = a.Clone() as Polynomial;
+            var bb = b.Clone() as Polynomial;
 
-            int n = a.Coeffs.Length;
-            double[] res = new double[a.Coeffs.Length];
+            if (aa.Coeffs.Length != bb.Coeffs.Length)
+                mkSameLength(ref aa, ref bb);
+
+            int n = aa.Coeffs.Length;
+            double[] res = new double[aa.Coeffs.Length];
 
 
             for (int ii = 0; ii < n; ii++)
             {
-                res[ii] = a.Coeffs[ii] / b.Coeffs[ii];
+                res[ii] = aa.Coeffs[ii] / bb.Coeffs[ii];
             }
             Polynomial res_poly = new Polynomial(res);
             return (res_poly);
@@ -395,16 +387,19 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial MultiplyPointwise( Polynomial a, Polynomial b)
         {
-            if (a.Coeffs.Length != b.Coeffs.Length)
-                mkSameLength(ref a, ref b);
+            var aa = a.Clone() as Polynomial;
+            var bb = b.Clone() as Polynomial;
 
-            int n = a.Coeffs.Length;
-            double[] res = new double[a.Coeffs.Length];
+            if (aa.Coeffs.Length != bb.Coeffs.Length)
+                mkSameLength(ref aa, ref bb);
+
+            int n = aa.Coeffs.Length;
+            double[] res = new double[aa.Coeffs.Length];
 
 
             for (int ii = 0; ii < n; ii++)
             {
-                res[ii] = a.Coeffs[ii] * b.Coeffs[ii];
+                res[ii] = aa.Coeffs[ii] * bb.Coeffs[ii];
             }
             Polynomial res_poly = new Polynomial(res);
             return (res_poly);
@@ -418,17 +413,19 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial Add( Polynomial a, Polynomial b)
         {
+            var aa = a.Clone() as Polynomial;
+            var bb = b.Clone() as Polynomial;
 
-            if (a.Degree != b.Degree)
-                mkSameLength(ref a, ref b);
+            if (aa.Degree != bb.Degree)
+                mkSameLength(ref aa, ref bb);
 
-            int n = a.Degree;
+            int n = aa.Degree;
             double[] res = new double[n];
 
 
             for (int ii = 0; ii < n; ii++)
             {
-                res[ii] = a.Coeffs[ii] + b.Coeffs[ii];
+                res[ii] = aa.Coeffs[ii] + bb.Coeffs[ii];
             }
             Polynomial res_poly = new Polynomial(res);
             return (res_poly);
@@ -442,17 +439,19 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial Substract( Polynomial a, Polynomial b)
         {
+            var aa = a.Clone() as Polynomial;
+            var bb = b.Clone() as Polynomial;
 
-            if (a.Degree != b.Degree)
-                mkSameLength(ref a, ref b);
+            if (aa.Degree != bb.Degree)
+                mkSameLength(ref aa, ref bb);
 
-            int n = a.Degree;
+            int n = aa.Degree;
             double[] res = new double[n];
 
 
             for (int ii = 0; ii < n; ii++)
             {
-                res[ii] = a.Coeffs[ii] - b.Coeffs[ii];
+                res[ii] = aa.Coeffs[ii] - bb.Coeffs[ii];
             }
             Polynomial res_poly = new Polynomial(res);
             return (res_poly);
@@ -476,7 +475,7 @@ namespace MathNet.Numerics
             if (b.Degree <= 0)
                 throw new ArgumentOutOfRangeException("b Degree must be greater than zero");
 
-            if (b.Coeffs.Last() == 0)
+            if (b.Coeffs[b.Degree-1] == 0)
                 throw new DivideByZeroException("b polynomial ends with zero");
             
             var c1 = a.Coeffs.ToArray();
@@ -514,24 +513,25 @@ namespace MathNet.Numerics
                 int j = n1 - 1;
                 while (i >= 0)
                 {
+                    var v = c1[j];
                     var vals = new double[j - i];
-                    for (int k = 0; k < vals.Length; k++)
-                        vals[k] = c22[k] * c1[j];
-
-                    for (int idx = i; idx < j; idx++)
-                        c1[idx] -= vals[idx - i];
-
+                    for (int k = i; k < j; k++)
+                        c1[k] -= c22[k-i] * v;
                     i--;
                     j--;
                 }
 
-                rem = new double[j + 1];
-                quo = new double[n1 - j + 1];
+                var j1 = j + 1;
+                var l1 = n1 - j1;
 
-                Array.Copy(c1, rem, j + 1);
+                rem = new double[j1];
+                quo = new double[l1];
 
-                for (int idx2 = j+1; idx2 < n1; idx2++)
-                    quo[idx2 - j + 1] = c1[idx2] / scl;
+                for (int k = 0; k < l1; k++)
+                    quo[k] = c1[k + j1] / scl;
+
+                for (int k = 0; k < j1; k++)
+                    rem[k] = c1[k];
                 
             }
 
@@ -545,9 +545,9 @@ namespace MathNet.Numerics
             // output mapping
             var pQuo = new Polynomial(quo);
             var pRem = new Polynomial(rem);
+            
+            pRem.Trim();
             pQuo.Trim();
-            pQuo.Trim();
-
             return new Tuple<Polynomial, Polynomial>(pQuo, pRem);
         }
 
@@ -633,10 +633,7 @@ namespace MathNet.Numerics
         /// <returns>the coefficcients of the Polynomial as an array</returns>
         public double[] ToArray()
         {
-            if (IsFlipped == true)
-                return (Coeffs.Reverse().ToArray());
-            else
-                return (Coeffs);
+            return (Coeffs.ToArray());
         }
 
         #endregion
@@ -689,9 +686,7 @@ namespace MathNet.Numerics
 
         public object Clone()
         {
-            var p = new double[this.Coeffs.Length];
-            Array.Copy(Coeffs, p, Coeffs.Length);
-            return new Polynomial(p, isFlip: IsFlipped);
+            return new Polynomial(p);
         }
         #endregion
 
