@@ -210,6 +210,19 @@ namespace MathNet.Numerics.UnitTests
         }
 
 
+        [TestCase(new double[] { 5, 4, 0 }, "5 + 4x^1")]
+        [TestCase(new double[] { 0, 0, 0 }, "0")]
+        [TestCase(new double[] { 5, 4, 3, 0, 2 }, "5 + 4x^1 + 3x^2 + 0x^3 + 2x^4")]
+        [TestCase(new double[] { 0, 0, 8, 0, 0 }, "0 + 0x^1 + 8x^2")]
+        [TestCase(new double[] { 0, 4, 3, 0, 0 }, "0 + 4x^1 + 3x^2")]
+        public void TrimTest(double[] x, string expected)
+        {
+            var p = new Polynomial(x);
+            p.Trim();
+            Assert.AreEqual(expected, p.ToString());
+
+        }
+
         public void DivideLongTestScalar(Tuple<double[], double> inVals, Tuple<double[], double> expectedVals)
         {
             var p1 = new Polynomial(1.0d);

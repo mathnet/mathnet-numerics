@@ -93,8 +93,8 @@ namespace MathNet.Numerics
         /// var xP1 = new Polynomial(x, isFlip:true);
         /// var xP2 = new Polynomial(x, isFlip:false);
         /// 
-        /// xP1:  5 x^3 + 4 x^2 + 3 x^2 + 0 x^1 + 2
-        /// xP2:  2 x^3 + 0 x^2 + 3 x^2 + 4 x^1 + 5
+        /// xP1:  2 + 0x^1 + 3x^2 + 4x^3 + 5x^4
+        /// xP2:  5 + 4x^1 + 3x^2 + 0x^3 + 2x^4
         /// 
         /// </summary>
         /// <param name="coeffs"> Polynomial coefficiens as array</param>
@@ -120,22 +120,17 @@ namespace MathNet.Numerics
         /// </summary>
         public void Trim()
         {
-            int count = 0;
-            for (int ii = Degree - 1; ii >= 0; ii--)
+            int i = Degree - 1;
+            while (i >= 0 && Coeffs[i] == 0.0)
+                i--;
+            
+            if (i < 0)
+                Coeffs = new double[0];
+            else
             {
-                if (Coeffs[ii] == 0.0)
-                {
-                    count++;
-                }
-                else
-                {
-                    double[] CoeffsHold = new double[Coeffs.Length];
-                    Coeffs.CopyTo(CoeffsHold, 0);
-                    Array.Resize(ref CoeffsHold, Degree - count);
-                    Coeffs = new double[Degree - count];
-                    CoeffsHold.CopyTo(Coeffs, 0);
-                    return;
-                }
+                var hold = new double[i+1];
+                Array.Copy(Coeffs, hold, i+1);
+                Coeffs = hold;
             }
         }
         
