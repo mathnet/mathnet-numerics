@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using MathNet.Numerics;
@@ -123,8 +124,8 @@ namespace MathNet.Numerics.UnitTests
                     var p_res = Polynomial.Add(p1, p2);
                     var p_tar = new Polynomial(tgt);
 
-                    p_res.CutTrailZeros();
-                    p_tar.CutTrailZeros();
+                    p_res.TrimTrailingZeros();
+                    p_tar.TrimTrailingZeros();
 
                     Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
                     for (int k = 0; k < p_res.Degree; k++)
@@ -160,8 +161,8 @@ namespace MathNet.Numerics.UnitTests
                     var p_res = Polynomial.Substract(p1, p2);
                     var p_tar = new Polynomial(tgt);
 
-                    p_res.CutTrailZeros();
-                    p_tar.CutTrailZeros();
+                    p_res.TrimTrailingZeros();
+                    p_tar.TrimTrailingZeros();
 
                     Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
                     for (int k = 0; k < p_res.Degree; k++)
@@ -196,8 +197,8 @@ namespace MathNet.Numerics.UnitTests
                     var p_res = p1 * p2;
                     var p_tar = new Polynomial(tgt);
 
-                    p_res.CutTrailZeros();
-                    p_tar.CutTrailZeros();
+                    p_res.TrimTrailingZeros();
+                    p_tar.TrimTrailingZeros();
 
                     Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
                     for (int k = 0; k < p_res.Degree; k++)
@@ -207,6 +208,82 @@ namespace MathNet.Numerics.UnitTests
                 }
             }
         }
+
+
+        public void DivideLongTestScalar(Tuple<double[], double> inVals, Tuple<double[], double> expectedVals)
+        {
+            var p1 = new Polynomial(1.0d);
+            var p2 = new Polynomial(new double[0]);
+            var tpl = Polynomial.DivideLong(p1, p2);
+
+
+        }
+
+        [Test]
+        public void DivideLongTest()
+        {
+            Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
+            {
+                var p1 = new Polynomial(1.0d);
+                var p2 = new Polynomial(new double[0]);
+                var tpl = Polynomial.DivideLong(p1, p2);
+            });
+            Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
+            {
+                var p1 = new Polynomial(1.0d);
+                var p2 = new Polynomial(new double[0]);
+                var tpl = Polynomial.DivideLong(p2, p1);
+            });
+            Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
+            {
+                var p1 = new Polynomial(new double[0]);
+                var p2 = new Polynomial(new double[0]);
+                var tpl = Polynomial.DivideLong(p2, p1);
+            });
+            Assert.Throws(typeof(DivideByZeroException), () =>
+            {
+                var p1 = new Polynomial(1.0d);
+                var p2 = new Polynomial(0.0d);
+                var tpl = Polynomial.DivideLong(p1, p2);
+            });
+
+            var p11 = new Polynomial(2.0d);
+            var p21 = new Polynomial(2.0d);
+            var tpl1 = Polynomial.DivideLong(p11, p21);
+            testEqual(new double[] { 1.0 }, tpl1.Item1);
+            testEqual(new double[] { 0.0 }, tpl1.Item2);
+
+            var p12 = new Polynomial(new double[] { 2.0d, 2.0d });
+            var p22 = new Polynomial(2.0d);
+            var tpl2 = Polynomial.DivideLong(p12, p22);
+            testEqual(new double[] { 1.0, 1.0 }, tpl2.Item1);
+            testEqual(new double[] { 0.0 }, tpl2.Item2);
+
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    var msg = String.Format("At i={0}, j={1}", i, j);
+                    var ci = new double[Math.Max(2, i+1)];
+                    var cj = new double[Math.Max(2, j+1)];
+                    ci[ci.Length - 1] = 2;
+                    ci[ci.Length - 2] = 1;
+                    cj[cj.Length - 1] = 2;
+                    cj[cj.Length - 2] = 1;
+
+                    var pi = new Polynomial(ci);
+                    var pj = new Polynomial(cj);
+                    var tgt = Polynomial.Add(pi, pj);
+                    var tpl3 = Polynomial.DivideLong(tgt, pi);
+                    var pquo = tpl3.Item1;
+                    var prem = tpl3.Item2;
+                    var pres = (pquo * pi) + prem;
+                    testEqual(pres, tgt, msg);
+                }
+            }
+        }
+
+
 
         [Test]
         public void GetRootsTest()
@@ -263,7 +340,33 @@ namespace MathNet.Numerics.UnitTests
                 Assert.AreEqual(e[k].Real, r[k].Real, tol, msg);
                 Assert.AreEqual(e[k].Imaginary, r[k].Imaginary, tol, msg);
             }
+        }
 
+        private void testEqual(double[] p_tar, double[] p_res, string msg = null)
+        {
+            Assert.AreEqual(p_tar.Length, p_res.Length, "length mismatch");
+            for (int k = 0; k < p_res.Length; k++)
+            {
+                Assert.AreEqual(p_tar[k], p_res[k], msg);
+            }
+        }
+
+        private void testEqual(double[] p_tar, Polynomial p_res, string msg = null)
+        {
+            Assert.AreEqual(p_tar.Length, p_res.Degree, "length mismatch");
+            for (int k = 0; k < p_res.Degree; k++)
+            {
+                Assert.AreEqual(p_tar[k], p_res.Coeffs[k], msg);
+            }
+
+        }
+        private void testEqual(Polynomial p_tar, Polynomial p_res, string msg = null)
+        {
+            Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
+            for (int k = 0; k < p_res.Degree; k++)
+            {
+                Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
+            }
         }
     }
 }

@@ -15,11 +15,13 @@ using MathNet.Numerics.LinearAlgebra.Factorization;
 namespace MathNet.Numerics
 {
     /// <summary>
-    /// a class handlin REAL VALUED Polynomials, complex coefficients can not be handled (yet)
+    /// a class handling REAL VALUED Polynomials, complex coefficients can not be handled (yet)
     /// </summary>
     public class Polynomial
     {
-
+        /// <summary>
+        /// The coefficients of the polynomial in a
+        /// </summary>
         public double[] Coeffs { get; set; }
 
         /// <summary>
@@ -116,7 +118,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// remove all trailing zeros, e.G before: "0.00 x^2 + 1.0 x^1 + 1.00" after: "1.0 x^1 + 1.00"
         /// </summary>
-        public void CutTrailZeros()
+        public void TrimTrailingZeros()
         {
             int count = 0;
             for (int ii = Degree - 1; ii >= 0; ii--)
@@ -183,28 +185,28 @@ namespace MathNet.Numerics
             }
 
             var t = this.Clone() as Polynomial;
-            t.CutTrailZeros();
+            t.TrimTrailingZeros();
             var cNew = new double[t.Coeffs.Length - 1];
             for (int i = 1; i < t.Coeffs.Length; i++)
             {
                 cNew[i-1] = t.Coeffs[i] * i;
             }
             var p = new Polynomial(cNew, isFlip: IsFlipped);
-            p.CutTrailZeros();
+            p.TrimTrailingZeros();
             return p;
         }
 
         public Polynomial Integrate()
         {
             var t = this.Clone() as Polynomial;
-            t.CutTrailZeros();
+            t.TrimTrailingZeros();
             var cNew = new double[t.Coeffs.Length + 1];
             for (int i = 1; i < cNew.Length; i++)
             {
                 cNew[i] = t.Coeffs[i-1] / i;
             }
             var p = new Polynomial(cNew, isFlip: IsFlipped);
-            p.CutTrailZeros();
+            p.TrimTrailingZeros();
             return p;
         }
 
@@ -222,13 +224,13 @@ namespace MathNet.Numerics
         public static Polynomial operator *( Polynomial a, Polynomial b)
         {
             // do not cut trailing zeros, since it may corrupt the outcom, if the array is of form 1 + x^-1 + x^-2 + x^-3
-            //a.CutTrailZeros();
-            //b.CutTrailZeros();
+            //a.TrimTrailingZeros();
+            //b.TrimTrailingZeros();
 
             double[] ret = conv(a.Coeffs, b.Coeffs);
             Polynomial ret_p = new Polynomial(ret);
 
-            //ret_p.CutTrailZeros();
+            //ret_p.TrimTrailingZeros();
 
             return (ret_p);
 
@@ -310,7 +312,7 @@ namespace MathNet.Numerics
         }
         
         /// <summary>
-        /// Calculates the complex roots of the Polynomial in the same way as matlab does
+        /// Calculates the complex roots of the Polynomial by eigenvalue decomposition
         /// </summary>
         /// <returns>a vector of complex numbers with the roots</returns>
         public Complex[] GetRoots()
@@ -337,13 +339,14 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// get the eigenvalue matrix A of this Polynomial such that eig(A) = roots of this Polynomial
+        /// get the eigenvalue matrix A of this Polynomial such that eig(A) = roots of this Polynomial.
         /// </summary>
         /// <returns>Eigenvalue matrix A</returns>
+        /// <note>this matrix is similar to the companion matrix of this polynomial, in such a way, that it's transpose is the columnflip of the companion matrix</note>
         public DenseMatrix GetEigValMatrix()
         {
             Polynomial pLoc = new Polynomial(this.Coeffs);
-            pLoc.CutTrailZeros();
+            pLoc.TrimTrailingZeros();
 
             int n = pLoc.Coeffs.Length - 1;
             if (n < 2)
@@ -459,6 +462,112 @@ namespace MathNet.Numerics
             return (res_poly);
         }
 
+        /// <summary>
+        /// Division of two polynomials returning the quotient-with-remainder of the two polynomials given
+        /// </summary>
+        /// <param name="a">left polynomial</param>
+        /// <param name="b">right polynomial</param>
+        /// <returns>a tuple holding quotient in first and remainder in second</returns>
+        public static Tuple<Polynomial, Polynomial> DivideLong(Polynomial a, Polynomial b)
+        {
+            if (a == null)
+                throw new ArgumentNullException("a");
+            if (b == null)
+                throw new ArgumentNullException("b");
+
+            if (a.Degree <= 0)
+                throw new ArgumentOutOfRangeException("a Degree must be greater than zero");
+            if (b.Degree <= 0)
+                throw new ArgumentOutOfRangeException("b Degree must be greater than zero");
+
+            if (b.Coeffs.Last() == 0)
+                throw new DivideByZeroException("b polynomial ends with zero");
+            
+            var c1 = a.Coeffs.ToArray();
+            var c2 = b.Coeffs.ToArray();
+
+            var n1 = c1.Length;
+            var n2 = c2.Length;
+
+            double[] quo = null;
+            double[] rem = null;
+
+            if (n2 == 1) // division by scalar
+            {
+                var fact = c2[0];
+                quo = new double[n1];
+                for (int i = 0; i < n1; i++)
+                    quo[i] = c1[i] / fact;
+                rem = new double[] { 0 };
+            }
+            else if(n1 < n2) // denominator degree higher than nominator degree 
+            {
+                // quotient always be 0 and return c1 as remainder
+                quo = new double[] { 0 };
+                rem = c1.ToArray();
+            }
+            else
+            {
+                var dn = n1 - n2;
+                var scl = c2[n2 - 1];
+                var c22 = new double[n2 - 1];
+                for (int ii = 0; ii < c22.Length; ii++)
+                    c22[ii] = c2[ii] / scl;
+
+                int i = dn;
+                int j = n1 - 1;
+                while (i >= 0)
+                {
+                    var vals = new double[j - i];
+                    for (int k = 0; k < vals.Length; k++)
+                        vals[k] = c22[k] * c1[j];
+
+                    for (int idx = i; idx < j; idx++)
+                        c1[idx] -= vals[idx - i];
+
+                    i--;
+                    j--;
+                }
+
+                rem = new double[j + 1];
+                quo = new double[n1 - j + 1];
+
+                Array.Copy(c1, rem, j + 1);
+
+                for (int idx2 = j+1; idx2 < n1; idx2++)
+                    quo[idx2 - j + 1] = c1[idx2] / scl;
+                
+            }
+
+            if (rem == null)
+                throw new NullReferenceException("resulting remainder was null");
+
+            if (quo == null)
+                throw new NullReferenceException("resulting quotient was null");
+
+
+            // output mapping
+            var pQuo = new Polynomial(quo);
+            var pRem = new Polynomial(rem);
+            pQuo.TrimTrailingZeros();
+            pQuo.TrimTrailingZeros();
+
+            return new Tuple<Polynomial, Polynomial>(pQuo, pRem);
+        }
+
+
+        /// <summary>
+        /// Division of two polynomials returning the quotient-with-remainder of the two polynomials given
+        /// </summary>
+        /// <param name="a">left polynomial</param>
+        /// <param name="b">right polynomial</param>
+        /// <returns>a tuple holding quotient in first and remainder in second</returns>
+        public Tuple<Polynomial, Polynomial> DivideLong(Polynomial b)
+        {
+            return DivideLong(this, b);
+        }
+
+
         #endregion
 
         #region Displaying
@@ -492,7 +601,9 @@ namespace MathNet.Numerics
                 for (int ii = 0; ii < Coeffs.Length; ii++)
                 {
 
-                    if (ii == 0)
+                    if (ii == 0 && Coeffs.Length == 1)
+                        strLoc += String.Format("{0}", this.Coeffs[ii], VarName, ii);
+                    else if(ii == 0)
                         strLoc += String.Format("{0} + ", this.Coeffs[ii], VarName, ii);
                     else if (ii == Coeffs.Length - 1)
                         strLoc += String.Format("{0}{1}{2}", this.Coeffs[ii], VarName, ii);
