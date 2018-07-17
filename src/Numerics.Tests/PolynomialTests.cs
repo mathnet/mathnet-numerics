@@ -39,10 +39,14 @@ using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
 {
+    /// <Note>
+    /// some of these tests were inspired by numpys tests in python for the Polynomial functions.
+    /// Thanks to the numpy contributers!
+    /// </Note>
     [TestFixture, Category("Calculus")]
     public class PolynomialTests
     {
-
+        
         [TestCase(new double[] { 5, 4, 3, 0, 2 }, "5 + 4x^1 + 3x^2 + 0x^3 + 2x^4")]
         [TestCase(new double[0], "")]
         [TestCase(new double[] { 0, 4, 3, 0, 0 }, "0 + 4x^1 + 3x^2 + 0x^3 + 0x^4")]
@@ -233,7 +237,7 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
-        public void DivideLongTest()
+        public void DivideLongTestWrongInputs()
         {
             Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
             {
@@ -259,6 +263,11 @@ namespace MathNet.Numerics.UnitTests
                 var p2 = new Polynomial(0.0d);
                 var tpl = Polynomial.DivideLong(p1, p2);
             });
+        }
+
+        [Test]
+        public void DivideLongTest()
+        {
 
             var p11 = new Polynomial(2.0d);
             var p21 = new Polynomial(2.0d);
@@ -277,8 +286,8 @@ namespace MathNet.Numerics.UnitTests
                 for (int j = 0; j < 5; j++)
                 {
                     var msg = String.Format("At i={0}, j={1}", i, j);
-                    var ci = new double[Math.Max(2, i+1)];
-                    var cj = new double[Math.Max(2, j+1)];
+                    var ci = new double[i + 2];
+                    var cj = new double[j + 2];
                     ci[ci.Length - 1] = 2;
                     ci[ci.Length - 2] = 1;
                     cj[cj.Length - 1] = 2;
@@ -291,12 +300,12 @@ namespace MathNet.Numerics.UnitTests
                     var pquo = tpl3.Item1;
                     var prem = tpl3.Item2;
                     var pres = (pquo * pi) + prem;
+                    pres.Trim();
+
                     testEqual(pres, tgt, msg);
                 }
             }
         }
-
-
 
         [Test]
         public void GetRootsTest()
