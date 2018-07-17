@@ -124,8 +124,8 @@ namespace MathNet.Numerics.UnitTests
                     var p_res = Polynomial.Add(p1, p2);
                     var p_tar = new Polynomial(tgt);
 
-                    p_res.TrimTrailingZeros();
-                    p_tar.TrimTrailingZeros();
+                    p_res.Trim();
+                    p_tar.Trim();
 
                     Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
                     for (int k = 0; k < p_res.Degree; k++)
@@ -161,8 +161,8 @@ namespace MathNet.Numerics.UnitTests
                     var p_res = Polynomial.Substract(p1, p2);
                     var p_tar = new Polynomial(tgt);
 
-                    p_res.TrimTrailingZeros();
-                    p_tar.TrimTrailingZeros();
+                    p_res.Trim();
+                    p_tar.Trim();
 
                     Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
                     for (int k = 0; k < p_res.Degree; k++)
@@ -197,8 +197,8 @@ namespace MathNet.Numerics.UnitTests
                     var p_res = p1 * p2;
                     var p_tar = new Polynomial(tgt);
 
-                    p_res.TrimTrailingZeros();
-                    p_tar.TrimTrailingZeros();
+                    p_res.Trim();
+                    p_tar.Trim();
 
                     Assert.AreEqual(p_tar.Degree, p_res.Degree, "length mismatch");
                     for (int k = 0; k < p_res.Degree; k++)

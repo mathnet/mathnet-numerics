@@ -118,7 +118,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// remove all trailing zeros, e.G before: "0.00 x^2 + 1.0 x^1 + 1.00" after: "1.0 x^1 + 1.00"
         /// </summary>
-        public void TrimTrailingZeros()
+        public void Trim()
         {
             int count = 0;
             for (int ii = Degree - 1; ii >= 0; ii--)
@@ -138,6 +138,7 @@ namespace MathNet.Numerics
                 }
             }
         }
+        
 
         #region Data Interaction
 
@@ -185,28 +186,28 @@ namespace MathNet.Numerics
             }
 
             var t = this.Clone() as Polynomial;
-            t.TrimTrailingZeros();
+            t.Trim();
             var cNew = new double[t.Coeffs.Length - 1];
             for (int i = 1; i < t.Coeffs.Length; i++)
             {
                 cNew[i-1] = t.Coeffs[i] * i;
             }
             var p = new Polynomial(cNew, isFlip: IsFlipped);
-            p.TrimTrailingZeros();
+            p.Trim();
             return p;
         }
 
         public Polynomial Integrate()
         {
             var t = this.Clone() as Polynomial;
-            t.TrimTrailingZeros();
+            t.Trim();
             var cNew = new double[t.Coeffs.Length + 1];
             for (int i = 1; i < cNew.Length; i++)
             {
                 cNew[i] = t.Coeffs[i-1] / i;
             }
             var p = new Polynomial(cNew, isFlip: IsFlipped);
-            p.TrimTrailingZeros();
+            p.Trim();
             return p;
         }
 
@@ -224,13 +225,13 @@ namespace MathNet.Numerics
         public static Polynomial operator *( Polynomial a, Polynomial b)
         {
             // do not cut trailing zeros, since it may corrupt the outcom, if the array is of form 1 + x^-1 + x^-2 + x^-3
-            //a.TrimTrailingZeros();
-            //b.TrimTrailingZeros();
+            //a.Trim();
+            //b.Trim();
 
             double[] ret = conv(a.Coeffs, b.Coeffs);
             Polynomial ret_p = new Polynomial(ret);
 
-            //ret_p.TrimTrailingZeros();
+            //ret_p.Trim();
 
             return (ret_p);
 
@@ -346,7 +347,7 @@ namespace MathNet.Numerics
         public DenseMatrix GetEigValMatrix()
         {
             Polynomial pLoc = new Polynomial(this.Coeffs);
-            pLoc.TrimTrailingZeros();
+            pLoc.Trim();
 
             int n = pLoc.Coeffs.Length - 1;
             if (n < 2)
@@ -549,8 +550,8 @@ namespace MathNet.Numerics
             // output mapping
             var pQuo = new Polynomial(quo);
             var pRem = new Polynomial(rem);
-            pQuo.TrimTrailingZeros();
-            pQuo.TrimTrailingZeros();
+            pQuo.Trim();
+            pQuo.Trim();
 
             return new Tuple<Polynomial, Polynomial>(pQuo, pRem);
         }
