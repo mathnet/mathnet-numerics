@@ -103,8 +103,10 @@ namespace MathNet.Numerics
             while (i >= 0 && Coeffs[i] == 0.0)
                 i--;
             
-            if (i <= 0)
+            if (i < 0)
                 Coeffs = new double[1] { 0.0 };
+            else if (i == 0)
+                Coeffs = new double[1] { Coeffs[0] };
             else
             {
                 var hold = new double[i+1];
@@ -686,7 +688,7 @@ namespace MathNet.Numerics
 
         public object Clone()
         {
-            return new Polynomial(p);
+            return new Polynomial(this.Coeffs);
         }
         #endregion
 
