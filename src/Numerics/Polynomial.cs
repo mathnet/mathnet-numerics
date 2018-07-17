@@ -557,7 +557,6 @@ namespace MathNet.Numerics
         /// <summary>
         /// Division of two polynomials returning the quotient-with-remainder of the two polynomials given
         /// </summary>
-        /// <param name="a">left polynomial</param>
         /// <param name="b">right polynomial</param>
         /// <returns>a tuple holding quotient in first and remainder in second</returns>
         public Tuple<Polynomial, Polynomial> DivideLong(Polynomial b)
