@@ -110,6 +110,15 @@ namespace MathNet.Numerics
         {
             return RootFinding.Cubic.Roots(d, c, b, a);
         }
+        /// <summary>
+        /// Find all roots of a polynomial by calculating the characteristic polynomial of the companion matrix
+        /// </summary>
+        /// <param name="poly">the values for the polynomial in ascending order e.G new double[] {5, 0, 2} = "5 + 0 x^1 + 2 x^2"</param>
+        /// <returns>the roots of the polynomial</returns>
+        public static Complex[] Polynomial(double[] poly)
+        {
+            return new Polynomial(poly).GetRoots();
+        }
 
         /// <summary>
         /// Find all roots of the Chebychev polynomial of the first kind.
