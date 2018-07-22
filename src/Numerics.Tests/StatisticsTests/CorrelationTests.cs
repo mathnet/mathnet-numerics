@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,8 +32,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using MathNet.Numerics.Statistics;
-using MathNet.Numerics.LinearAlgebra.Double;
-using System.IO;
 using MathNet.Numerics.TestData;
 using System.Globalization;
 
@@ -67,24 +65,23 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         [TestCase("numpy.CorrNumpyData_pwm.csv", 0.005)]
         [TestCase("numpy.CorrNumpyData_sin.csv", 0.005)]
         [TestCase("numpy.CorrNumpyData_rnd.csv", 0.005)]
-        public void TestAutocorrelation(string fName, double tol)
+        public void AutoCorrelationTest(string fName, double tol)
         {
-
             var data = Data.ReadAllLines(fName)
-                            .Select(line =>
-                            {
-                                var vals = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                                return new Tuple<string, string>(vals[0], vals[1]);
-                            }).ToArray();
+                .Select(line =>
+                {
+                    var vals = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    return new Tuple<string, string>(vals[0], vals[1]);
+                }).ToArray();
 
             var series = data.Select(tuple => Double.Parse(tuple.Item1, CultureInfo.InvariantCulture)).ToArray();
             var resNumpy = data.Select(tuple => Double.Parse(tuple.Item2, CultureInfo.InvariantCulture)).ToArray();
 
-
-            var resMathNet = Statistics.Correlation.AutoCorrelation(series);
-
+            var resMathNet = Correlation.Auto(series);
             for (int i = 0; i < resMathNet.Length; i++)
+            {
                 Assert.AreEqual(resNumpy[i], resMathNet[i], tol);
+            }
         }
 
         /// <summary>
