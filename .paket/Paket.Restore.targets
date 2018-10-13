@@ -71,7 +71,7 @@
       <PaketRestoreRequired Condition=" '$(PaketRestoreLockFileHash)' == '$(PaketRestoreCachedHash)' ">false</PaketRestoreRequired>
       <PaketRestoreRequired Condition=" '$(PaketRestoreLockFileHash)' == '' ">true</PaketRestoreRequired>
     </PropertyGroup>
-    
+
     <PropertyGroup Condition="'$(PaketPropsVersion)' != '5.174.2' ">
       <PaketRestoreRequired>true</PaketRestoreRequired>
     </PropertyGroup>
@@ -96,7 +96,7 @@
       <PaketOriginalReferencesFilePath Condition=" !Exists('$(PaketOriginalReferencesFilePath)')">$(MSBuildProjectDirectory)\$(MSBuildProjectName).paket.references</PaketOriginalReferencesFilePath>
       <!-- paket.references -->
       <PaketOriginalReferencesFilePath Condition=" !Exists('$(PaketOriginalReferencesFilePath)')">$(MSBuildProjectDirectory)\paket.references</PaketOriginalReferencesFilePath>
-      
+
       <DoAllResolvedFilesExist>false</DoAllResolvedFilesExist>
       <DoAllResolvedFilesExist Condition="Exists(%(PaketResolvedFilePaths.Identity))">true</DoAllResolvedFilesExist>
       <PaketRestoreRequired>true</PaketRestoreRequired>
@@ -144,11 +144,12 @@
         <PackageName>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[0])</PackageName>
         <PackageVersion>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[1])</PackageVersion>
         <AllPrivateAssets>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[4])</AllPrivateAssets>
+        <CopyLocal>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[5])</CopyLocal>
       </PaketReferencesFileLinesInfo>
       <PackageReference Include="%(PaketReferencesFileLinesInfo.PackageName)">
         <Version>%(PaketReferencesFileLinesInfo.PackageVersion)</Version>
         <PrivateAssets Condition=" ('%(PaketReferencesFileLinesInfo.AllPrivateAssets)' == 'true') Or ('$(PackAsTool)' == 'true') ">All</PrivateAssets>
-        <ExcludeAssets Condition="%(PaketReferencesFileLinesInfo.AllPrivateAssets) == 'exclude'">runtime</ExcludeAssets>
+        <ExcludeAssets Condition="%(PaketReferencesFileLinesInfo.CopyLocal) == 'false'">runtime</ExcludeAssets>
         <Publish Condition=" '$(PackAsTool)' == 'true' ">true</Publish>
       </PackageReference>
     </ItemGroup>
