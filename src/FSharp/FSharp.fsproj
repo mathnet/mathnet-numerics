@@ -39,6 +39,7 @@
     <Compile Include="BigIntegerExtensions.fs" />
     <Compile Include="BigRational.fsi" />
     <Compile Include="BigRational.fs" />
+    <Compile Include="BlackScholes.fs" />
     <Compile Include="Differentiate.fs" />
     <Compile Include="Fit.fs" />
     <Compile Include="FindRoots.fs" />
