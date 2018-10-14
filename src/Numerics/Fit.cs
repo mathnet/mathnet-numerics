@@ -32,7 +32,6 @@ using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearRegression;
 using MathNet.Numerics.Providers.LinearAlgebra;
-using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics
 {
