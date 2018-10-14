@@ -10,7 +10,7 @@ using MathNet.Numerics.LinearAlgebra.Factorization;
 namespace MathNet.Numerics
 {
     /// <summary>
-    /// A single-variable polynomial with real-valued coefficients.
+    /// A single-variable polynomial with real-valued coefficients and non-negative exponents.
     /// </summary>
     public class Polynomial
     {
@@ -136,8 +136,8 @@ namespace MathNet.Numerics
         /// </summary>
         public static Polynomial Fit(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
-            var pArr = Numerics.Fit.Polynomial(x, y, order, method);
-            return new Polynomial(pArr);
+            var coefficients = Numerics.Fit.Polynomial(x, y, order, method);
+            return new Polynomial(coefficients);
         }
 
         /// <summary>
@@ -150,18 +150,30 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Evaluate a polynomial at point x.
+        /// </summary>
+        /// <param name="z">The location where to evaluate the polynomial at.</param>
+        public Complex Evaluate(Complex z)
+        {
+            return Numerics.Evaluate.Polynomial(z, Coefficients);
+        }
+
+        /// <summary>
         /// Evaluate a polynomial at points z.
         /// </summary>
         /// <param name="z">The locations where to evaluate the polynomial at.</param>
         public IEnumerable<double> Evaluate(IEnumerable<double> z)
         {
-            var result = new List<double>();
-            foreach (var item in z)
-            {
-                result.Add(Evaluate(item));
-            }
+            return z.Select(Evaluate);
+        }
 
-            return result;
+        /// <summary>
+        /// Evaluate a polynomial at points z.
+        /// </summary>
+        /// <param name="z">The locations where to evaluate the polynomial at.</param>
+        public IEnumerable<Complex> Evaluate(IEnumerable<Complex> z)
+        {
+            return z.Select(Evaluate);
         }
 
         public Polynomial Differentiate()
@@ -200,10 +212,86 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Addition of two Polynomials (piecewise)
+        /// </summary>
+        /// <param name="a">Left polynomial</param>
+        /// <param name="b">Right polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator +(Polynomial a, Polynomial b)
+        {
+            return Add(a, b);
+        }
+
+        /// <summary>
+        /// adds a scalar to a polynomial.
+        /// </summary>
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator +(Polynomial a, double k)
+        {
+            return Add(a, k);
+        }
+
+        /// <summary>
+        /// adds a scalar to a polynomial.
+        /// </summary>
+        /// <param name="k">Scalar value</param>
+        /// <param name="a">Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator +(double k, Polynomial a)
+        {
+            return Add(a, k);
+        }
+
+        /// <summary>
+        /// Subtraction of two polynomial.
+        /// </summary>
+        /// <param name="a">Left polynomial</param>
+        /// <param name="b">Right polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator -(Polynomial a, Polynomial b)
+        {
+            return Subtract(a, b);
+        }
+
+        /// <summary>
+        /// Subtracts a scalar from a polynomial.
+        /// </summary>
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator -(Polynomial a, double k)
+        {
+            return Subtract(a, k);
+        }
+
+        /// <summary>
+        /// Subtracts a polynomial from a scalar.
+        /// </summary>
+        /// <param name="k">Scalar value</param>
+        /// <param name="a">Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator -(double k, Polynomial a)
+        {
+            return Subtract(k, a);
+        }
+
+        /// <summary>
+        /// Negates a polynomial.
+        /// </summary>
+        /// <param name="a">Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator -(Polynomial a)
+        {
+            return Negate(a);
+        }
+
+        /// <summary>
         /// multiplies a Polynomial by a Polynomial using convolution [ASINCO.libs.subfun.conv(a.Coeffs, b.Coeffs)]
         /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="b">right Polynomial</param>
+        /// <param name="a">Left polynomial</param>
+        /// <param name="b">Right polynomial</param>
         /// <returns>resulting Polynomial</returns>
         public static Polynomial operator *(Polynomial a, Polynomial b)
         {
@@ -219,15 +307,14 @@ namespace MathNet.Numerics
             //ret_p.Trim();
 
             return result;
-
         }
 
         /// <summary>
         /// multiplies a Polynomial by a scalar
         /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="k">scalar value</param>
-        /// <returns>resulting Polynomial</returns>
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
         public static Polynomial operator *(Polynomial a, double k)
         {
             var aa = a.Clone() as Polynomial;
@@ -239,39 +326,11 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// adds a scalar to a Polynomial (to the x^0 element)
-        /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="k">scalar value</param>
-        /// <returns>resulting Polynomial</returns>
-        public static Polynomial operator +(Polynomial a, double k)
-        {
-            var aa = a.Clone() as Polynomial;
-
-            aa.Coefficients[0] += k;
-            return aa;
-        }
-
-        /// <summary>
-        /// substracs a scalar from a Polynomial (from the x^0 element)
-        /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="k">scalar value</param>
-        /// <returns>resulting Polynomial</returns>
-        public static Polynomial operator -(Polynomial a, double k)
-        {
-            var aa = a.Clone() as Polynomial;
-
-            a.Coefficients[0] -= k;
-            return aa;
-        }
-
-        /// <summary>
         /// divide Polynomial by scalar value
         /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="k">scalar value</param>
-        /// <returns>resulting Polynomial</returns>
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
         public static Polynomial operator /(Polynomial a, double k)
         {
             var aa = a.Clone() as Polynomial;
@@ -280,28 +339,6 @@ namespace MathNet.Numerics
                 aa.Coefficients[ii] /= k;
 
             return aa;
-        }
-
-        /// <summary>
-        /// Addition of two Polynomials (piecewise)
-        /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="b">right Polynomial</param>
-        /// <returns>resulting Polynomial</returns>
-        public static Polynomial operator +(Polynomial a, Polynomial b)
-        {
-            return Add(a, b);
-        }
-
-        /// <summary>
-        /// Subtraction of two Polynomials (piecewise)
-        /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="b">right Polynomial</param>
-        /// <returns>resulting Polynomial</returns>
-        public static Polynomial operator -(Polynomial a, Polynomial b)
-        {
-            return Subtract(a, b);
         }
 
         /// <summary>
@@ -365,6 +402,148 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Addition of two Polynomials (point-wise).
+        /// </summary>
+        /// <param name="a">Left Polynomial</param>
+        /// <param name="b">Right Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial Add(Polynomial a, Polynomial b)
+        {
+            var ac = a.Coefficients;
+            var bc = b.Coefficients;
+
+            var degree = Math.Max(a.Degree, b.Degree);
+            var result = new double[degree + 1];
+
+            var commonLength = Math.Min(Math.Min(ac.Length, bc.Length), result.Length);
+            for (int i = 0; i < commonLength; i++)
+            {
+                result[i] = ac[i] + bc[i];
+            }
+
+            int acLength = Math.Min(ac.Length, result.Length);
+            for (int i = commonLength; i < acLength; i++)
+            {
+                // no need to add since only one of both applies
+                result[i] = ac[i];
+            }
+
+            int bcLength = Math.Min(bc.Length, result.Length);
+            for (int i = commonLength; i < bcLength; i++)
+            {
+                // no need to add since only one of both applies
+                result[i] = bc[i];
+            }
+
+            return new Polynomial(result);
+        }
+
+        /// <summary>
+        /// Addition of a polynomial and a scalar.
+        /// </summary>
+        public static Polynomial Add(Polynomial a, double b)
+        {
+            var ac = a.Coefficients;
+
+            var degree = Math.Max(a.Degree, 0);
+            var result = new double[degree + 1];
+
+            var commonLength = Math.Min(ac.Length, result.Length);
+            for (int i = 0; i < commonLength; i++)
+            {
+                result[i] = ac[i];
+            }
+
+            result[0] += b;
+
+            return new Polynomial(result);
+        }
+
+        /// <summary>
+        /// Subtraction of two Polynomials (point-wise).
+        /// </summary>
+        /// <param name="a">Left Polynomial</param>
+        /// <param name="b">Right Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial Subtract(Polynomial a, Polynomial b)
+        {
+            var ac = a.Coefficients;
+            var bc = b.Coefficients;
+
+            var degree = Math.Max(a.Degree, b.Degree);
+            var result = new double[degree + 1];
+
+            var commonLength = Math.Min(Math.Min(ac.Length, bc.Length), result.Length);
+            for (int i = 0; i < commonLength; i++)
+            {
+                result[i] = ac[i] - bc[i];
+            }
+
+            int acLength = Math.Min(ac.Length, result.Length);
+            for (int i = commonLength; i < acLength; i++)
+            {
+                // no need to add since only one of both applies
+                result[i] = ac[i];
+            }
+
+            int bcLength = Math.Min(bc.Length, result.Length);
+            for (int i = commonLength; i < bcLength; i++)
+            {
+                // no need to add since only one of both applies
+                result[i] = -bc[i];
+            }
+
+            return new Polynomial(result);
+        }
+
+        /// <summary>
+        /// Addition of a scalar from a polynomial.
+        /// </summary>
+        public static Polynomial Subtract(Polynomial a, double b)
+        {
+            return Add(a, -b);
+        }
+
+        /// <summary>
+        /// Addition of a polynomial from a scalar.
+        /// </summary>
+        public static Polynomial Subtract(double b, Polynomial a)
+        {
+            var ac = a.Coefficients;
+
+            var degree = Math.Max(a.Degree, 0);
+            var result = new double[degree + 1];
+
+            var commonLength = Math.Min(ac.Length, result.Length);
+            for (int i = 0; i < commonLength; i++)
+            {
+                result[i] = -ac[i];
+            }
+
+            result[0] += b;
+
+            return new Polynomial(result);
+        }
+
+        /// <summary>
+        /// Negation of a polynomial.
+        /// </summary>
+        public static Polynomial Negate(Polynomial a)
+        {
+            var ac = a.Coefficients;
+
+            var degree = a.Degree;
+            var result = new double[degree + 1];
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = -ac[i];
+            }
+
+            return new Polynomial(result);
+        }
+
+        /// <summary>
         /// Point-wise division of two Polynomials
         /// </summary>
         /// <param name="a">Left Polynomial</param>
@@ -408,80 +587,6 @@ namespace MathNet.Numerics
             for (int i = 0; i < result.Length; i++)
             {
                 result[i] = ac[i] * bc[i];
-            }
-
-            return new Polynomial(result);
-        }
-
-        /// <summary>
-        /// Addition of two Polynomials (point-wise).
-        /// </summary>
-        /// <param name="a">Left Polynomial</param>
-        /// <param name="b">Right Polynomial</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial Add(Polynomial a, Polynomial b)
-        {
-            var ac = a.Coefficients;
-            var bc = b.Coefficients;
-
-            var degree = Math.Max(a.Degree, b.Degree);
-            var result = new double[degree + 1];
-
-            var commonLength = Math.Min(Math.Min(ac.Length, bc.Length), result.Length);
-            for (int i = 0; i < commonLength; i++)
-            {
-                result[i] = ac[i] + bc[i];
-            }
-
-            int acLength = Math.Min(ac.Length, result.Length);
-            for (int i = commonLength; i < acLength; i++)
-            {
-                // no need to add since only one of both applies
-                result[i] = ac[i];
-            }
-
-            int bcLength = Math.Min(bc.Length, result.Length);
-            for (int i = commonLength; i < bcLength; i++)
-            {
-                // no need to add since only one of both applies
-                result[i] = bc[i];
-            }
-
-            return new Polynomial(result);
-        }
-
-        /// <summary>
-        /// Subtraction of two Polynomials (point-wise).
-        /// </summary>
-        /// <param name="a">Left Polynomial</param>
-        /// <param name="b">Right Polynomial</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial Subtract(Polynomial a, Polynomial b)
-        {
-            var ac = a.Coefficients;
-            var bc = b.Coefficients;
-
-            var degree = Math.Max(a.Degree, b.Degree);
-            var result = new double[degree + 1];
-
-            var commonLength = Math.Min(Math.Min(ac.Length, bc.Length), result.Length);
-            for (int i = 0; i < commonLength; i++)
-            {
-                result[i] = ac[i] - bc[i];
-            }
-
-            int acLength = Math.Min(ac.Length, result.Length);
-            for (int i = commonLength; i < acLength; i++)
-            {
-                // no need to add since only one of both applies
-                result[i] = ac[i];
-            }
-
-            int bcLength = Math.Min(bc.Length, result.Length);
-            for (int i = commonLength; i < bcLength; i++)
-            {
-                // no need to add since only one of both applies
-                result[i] = -bc[i];
             }
 
             return new Polynomial(result);
