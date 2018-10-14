@@ -50,6 +50,28 @@ namespace MathNet.Numerics
         /// Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
         /// For more options and diagnostics consider to use <see cref="NelderMeadSimplex"/> directly.
         /// </summary>
+        public static Tuple<double, double> OfFunction(Func<double, double, double> function, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
+        {
+            var objective = ObjectiveFunction.Value(v => function(v[0], v[1]));
+            var result = NelderMeadSimplex.Minimum(objective, CreateVector.Dense(new[] { initialGuess0, initialGuess1 }), tolerance, maxIterations);
+            return Tuple.Create(result.MinimizingPoint[0], result.MinimizingPoint[1]);
+        }
+
+        /// <summary>
+        /// Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
+        /// For more options and diagnostics consider to use <see cref="NelderMeadSimplex"/> directly.
+        /// </summary>
+        public static Tuple<double, double, double> OfFunction(Func<double, double, double, double> function, double initialGuess0, double initialGuess1, double initialGuess2, double tolerance = 1e-8, int maxIterations = 1000)
+        {
+            var objective = ObjectiveFunction.Value(v => function(v[0], v[1], v[2]));
+            var result = NelderMeadSimplex.Minimum(objective, CreateVector.Dense(new[] { initialGuess0, initialGuess1, initialGuess2 }), tolerance, maxIterations);
+            return Tuple.Create(result.MinimizingPoint[0], result.MinimizingPoint[1], result.MinimizingPoint[2]);
+        }
+
+        /// <summary>
+        /// Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
+        /// For more options and diagnostics consider to use <see cref="NelderMeadSimplex"/> directly.
+        /// </summary>
         public static Vector<double> OfFunction(Func<Vector<double>, double> function, Vector<double> initialGuess, double tolerance=1e-8, int maxIterations=1000)
         {
             var objective = ObjectiveFunction.Value(function);
