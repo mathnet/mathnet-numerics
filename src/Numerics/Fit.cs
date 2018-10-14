@@ -345,13 +345,51 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
-        /// returning a function y' for the best fitting line.
+        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, x),
+        /// returning its best fitting parameter p0 and p1.
+        /// </summary>
+        public static Tuple<double, double> Curve(double[] x, double[] y, Func<double, double, double, double> f, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
+        {
+            return FindMinimum.OfFunction((p0, p1) => Distance.Euclidean(Generate.Map(x, t => f(p0, p1, t)), y), initialGuess0, initialGuess1, tolerance, maxIterations);
+        }
+
+        /// <summary>
+        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, x),
+        /// returning its best fitting parameter p0, p1 and p2.
+        /// </summary>
+        public static Tuple<double, double, double> Curve(double[] x, double[] y, Func<double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double tolerance = 1e-8, int maxIterations = 1000)
+        {
+            return FindMinimum.OfFunction((p0, p1, p2) => Distance.Euclidean(Generate.Map(x, t => f(p0, p1, p2, t)), y), initialGuess0, initialGuess1, initialGuess2, tolerance, maxIterations);
+        }
+
+        /// <summary>
+        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p, x),
+        /// returning a function y' for the best fitting curve.
         /// </summary>
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double> f, double initialGuess, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var parameters = Curve(x, y, f, initialGuess, tolerance, maxIterations);
             return z => f(parameters, z);
+        }
+
+        /// <summary>
+        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, x),
+        /// returning a function y' for the best fitting curve.
+        /// </summary>
+        public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double> f, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
+        {
+            var parameters = Curve(x, y, f, initialGuess0, initialGuess1, tolerance, maxIterations);
+            return z => f(parameters.Item1, parameters.Item2, z);
+        }
+
+        /// <summary>
+        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, x),
+        /// returning a function y' for the best fitting curve.
+        /// </summary>
+        public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double tolerance = 1e-8, int maxIterations = 1000)
+        {
+            var parameters = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, tolerance, maxIterations);
+            return z => f(parameters.Item1, parameters.Item2, parameters.Item3, z);
         }
     }
 }

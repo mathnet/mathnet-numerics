@@ -339,5 +339,25 @@ namespace MathNet.Numerics.UnitTests
                 Assert.AreEqual(-0.467791 * z, resf(z), 1e-4);
             }
         }
+
+        [Test]
+        public void FitsCurveToBestLine()
+        {
+            // Mathematica: Fit[{{1,4.986},{2,2.347},{3,2.061},{4,-2.995},{5,-2.352},{6,-5.782}}, {1, x}, x]
+            // -> 7.01013 - 2.08551*x
+
+            var x = Enumerable.Range(1, 6).Select(Convert.ToDouble).ToArray();
+            var y = new[] { 4.986, 2.347, 2.061, -2.995, -2.352, -5.782 };
+
+            var resp = Fit.Curve(x, y, (m, s, t) => m + s*t, 1.0, -1.0, 1e-12);
+            Assert.AreEqual(7.01013, resp.Item1, 1e-4);
+            Assert.AreEqual(-2.08551, resp.Item2, 1e-4);
+
+            var resf = Fit.CurveFunc(x, y, (m, s, t) => m + s * t, 1.0, -1.0, 1e-12);
+            foreach (var z in Enumerable.Range(-3, 10))
+            {
+                Assert.AreEqual(7.01013 - 2.08551 * z, resf(z), 1e-4);
+            }
+        }
     }
 }
