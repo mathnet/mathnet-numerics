@@ -32,6 +32,7 @@ using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearRegression;
 using MathNet.Numerics.Providers.LinearAlgebra;
+using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics
 {
@@ -333,6 +334,25 @@ namespace MathNet.Numerics
         {
             var parameters = LinearGeneric(x, y, method, functions);
             return z => functions.Zip(parameters, (f, p) => p * f(z)).Sum();
+        }
+
+        /// <summary>
+        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p, x),
+        /// returning its best fitting parameter p.
+        /// </summary>
+        public static double Curve(double[] x, double[] y, Func<double, double, double> f, double initialGuess, double tolerance = 1e-8, int maxIterations = 1000)
+        {
+            return FindMinimum.OfScalarFunction(p => Distance.Euclidean(Generate.Map(x, t => f(p, t)), y), initialGuess, tolerance, maxIterations);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
+        /// returning a function y' for the best fitting line.
+        /// </summary>
+        public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double> f, double initialGuess, double tolerance = 1e-8, int maxIterations = 1000)
+        {
+            var parameters = Curve(x, y, f, initialGuess, tolerance, maxIterations);
+            return z => f(parameters, z);
         }
     }
 }

@@ -50,6 +50,17 @@ namespace MathNet.Numerics
         /// Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
         /// For more options and diagnostics consider to use <see cref="NelderMeadSimplex"/> directly.
         /// </summary>
+        public static double OfScalarFunction(Func<double, double> function, double initialGuess, double tolerance = 1e-8, int maxIterations = 1000)
+        {
+            var objective = ObjectiveFunction.Value(v => function(v[0]));
+            var result = NelderMeadSimplex.Minimum(objective, CreateVector.Dense(new[] { initialGuess }), tolerance, maxIterations);
+            return result.MinimizingPoint[0];
+        }
+
+        /// <summary>
+        /// Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
+        /// For more options and diagnostics consider to use <see cref="NelderMeadSimplex"/> directly.
+        /// </summary>
         public static Tuple<double, double> OfFunction(Func<double, double, double> function, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var objective = ObjectiveFunction.Value(v => function(v[0], v[1]));
