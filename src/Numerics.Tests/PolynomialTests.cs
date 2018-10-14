@@ -296,14 +296,14 @@ namespace MathNet.Numerics.UnitTests
         {
             var tol = 1e-14;
             var p1 = new Polynomial(1.0);
-            var r = p1.GetRoots();
+            var r = p1.Roots();
 
             Assert.AreEqual(1, r.Length, "length mismatch");
             Assert.AreEqual(1.0, r.FirstOrDefault().Real);
 
             var p2 = new Polynomial(new double[] { 1, 2 });
 
-            var r2 = p2.GetRoots();
+            var r2 = p2.Roots();
             Assert.AreEqual(1, r2.Length, "length mismatch");
             Assert.AreEqual(-0.5, r2.FirstOrDefault().Real, tol);
 
@@ -333,7 +333,7 @@ namespace MathNet.Numerics.UnitTests
         static void TestEqual(double[] x, List<Complex> eIn)
         {
             var tol = 1e-10;
-            var r0 = new Polynomial(x).GetRoots().ToList();
+            var r0 = new Polynomial(x).Roots().ToList();
 
             var e = eIn.OrderBy(v => v.Real).ToArray();
             var r = r0.OrderBy(v => v.Real).ToArray();

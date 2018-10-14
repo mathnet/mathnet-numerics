@@ -294,7 +294,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// substraction of two Polynomials (piecewise)
+        /// Subtraction of two Polynomials (piecewise)
         /// </summary>
         /// <param name="a">left Polynomial</param>
         /// <param name="b">right Polynomial</param>
@@ -308,9 +308,9 @@ namespace MathNet.Numerics
         /// Calculates the complex roots of the Polynomial by eigenvalue decomposition
         /// </summary>
         /// <returns>a vector of complex numbers with the roots</returns>
-        public Complex[] GetRoots()
+        public Complex[] Roots()
         {
-            DenseMatrix A = GetEigValMatrix();
+            DenseMatrix A = EigenvalueMatrix();
             Complex[] roots;
 
             if (A == null)
@@ -337,7 +337,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <returns>Eigenvalue matrix A</returns>
         /// <note>this matrix is similar to the companion matrix of this polynomial, in such a way, that it's transpose is the columnflip of the companion matrix</note>
-        public DenseMatrix GetEigValMatrix()
+        public DenseMatrix EigenvalueMatrix()
         {
             Polynomial pLoc = new Polynomial(Coefficients);
             pLoc.Trim();

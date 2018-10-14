@@ -110,6 +110,7 @@ namespace MathNet.Numerics
         {
             return RootFinding.Cubic.Roots(d, c, b, a);
         }
+
         /// <summary>
         /// Find all roots of a polynomial by calculating the characteristic polynomial of the companion matrix
         /// </summary>
@@ -117,7 +118,7 @@ namespace MathNet.Numerics
         /// <returns>the roots of the polynomial</returns>
         public static Complex[] Polynomial(double[] poly)
         {
-            return new Polynomial(poly).GetRoots();
+            return new Polynomial(poly).Roots();
         }
 
         /// <summary>
