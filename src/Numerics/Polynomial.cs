@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Numerics;
-using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.Statistics;
-using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.LinearRegression;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
 namespace MathNet.Numerics
 {
     /// <summary>
-    /// a class handling REAL VALUED Polynomials, complex coefficients can not be handled (yet)
+    /// A single-variable polynomial with real-valued coefficients.
     /// </summary>
     public class Polynomial
     {
@@ -32,11 +27,36 @@ namespace MathNet.Numerics
         /// <summary>
         /// Length of Polynomial (max element + 1) e.G x^5 highest element, will give Length = 6
         /// </summary>
-        public int Degree
+        public int CoefficientCount
         {
             get
             {
                 return (Coeffs == null ? 0 : Coeffs.Length);
+            }
+        }
+
+        /// <summary>
+        /// Degree of the polynomial, i.e. the largest monomial exponent. For example, the degree of x^2+x^5 is 5.
+        /// The null-polynomial returns degree -1 because the correct degree, negative infinity, cannot be represented by integers.
+        /// </summary>
+        public int Degree
+        {
+            get
+            {
+                if (Coeffs == null)
+                {
+                    return -1;
+                }
+
+                for (int i = Coeffs.Length - 1; i >= 0; i--)
+                {
+                    if (Coeffs[i] != 0.0)
+                    {
+                        return i;
+                    }
+                }
+
+                return -1;
             }
         }
 
@@ -96,13 +116,13 @@ namespace MathNet.Numerics
         /// </summary>
         public void Trim()
         {
-            if (Degree == 1)
+            if (CoefficientCount == 1)
                 return;
 
-            int i = Degree - 1;
+            int i = CoefficientCount - 1;
             while (i >= 0 && Coeffs[i] == 0.0)
                 i--;
-            
+
             if (i < 0)
                 Coeffs = new double[1] { 0.0 };
             else if (i == 0)
@@ -114,7 +134,7 @@ namespace MathNet.Numerics
                 Coeffs = hold;
             }
         }
-        
+
 
         #region Data Interaction
 
@@ -155,7 +175,7 @@ namespace MathNet.Numerics
         #region diff/int
         public Polynomial Differentiate()
         {
-            
+
             if (Coeffs.Length == 0)
             {
                 return null;
@@ -224,7 +244,7 @@ namespace MathNet.Numerics
         public static Polynomial operator *( Polynomial a, double k)
         {
             var aa = a.Clone() as Polynomial;
-            
+
 
             for (int ii = 0; ii < aa.Coeffs.Length; ii++)
                 aa.Coeffs[ii] *= k;
@@ -269,7 +289,7 @@ namespace MathNet.Numerics
         public static Polynomial operator /( Polynomial a, double k)
         {
             var aa = a.Clone() as Polynomial;
-            
+
             for (int ii = 0; ii < aa.Coeffs.Length; ii++)
                 aa.Coeffs[ii] /= k;
 
@@ -297,7 +317,7 @@ namespace MathNet.Numerics
         {
             return Substract(a, b);
         }
-        
+
         /// <summary>
         /// Calculates the complex roots of the Polynomial by eigenvalue decomposition
         /// </summary>
@@ -418,10 +438,10 @@ namespace MathNet.Numerics
             var aa = a.Clone() as Polynomial;
             var bb = b.Clone() as Polynomial;
 
-            if (aa.Degree != bb.Degree)
+            if (aa.CoefficientCount != bb.CoefficientCount)
                 mkSameLength(ref aa, ref bb);
 
-            int n = aa.Degree;
+            int n = aa.CoefficientCount;
             double[] res = new double[n];
 
 
@@ -444,10 +464,10 @@ namespace MathNet.Numerics
             var aa = a.Clone() as Polynomial;
             var bb = b.Clone() as Polynomial;
 
-            if (aa.Degree != bb.Degree)
+            if (aa.CoefficientCount != bb.CoefficientCount)
                 mkSameLength(ref aa, ref bb);
 
-            int n = aa.Degree;
+            int n = aa.CoefficientCount;
             double[] res = new double[n];
 
 
@@ -472,14 +492,14 @@ namespace MathNet.Numerics
             if (b == null)
                 throw new ArgumentNullException("b");
 
-            if (a.Degree <= 0)
+            if (a.CoefficientCount <= 0)
                 throw new ArgumentOutOfRangeException("a Degree must be greater than zero");
-            if (b.Degree <= 0)
+            if (b.CoefficientCount <= 0)
                 throw new ArgumentOutOfRangeException("b Degree must be greater than zero");
 
-            if (b.Coeffs[b.Degree-1] == 0)
+            if (b.Coeffs[b.CoefficientCount-1] == 0)
                 throw new DivideByZeroException("b polynomial ends with zero");
-            
+
             var c1 = a.Coeffs.ToArray();
             var c2 = b.Coeffs.ToArray();
 
@@ -497,7 +517,7 @@ namespace MathNet.Numerics
                     quo[i] = c1[i] / fact;
                 rem = new double[] { 0 };
             }
-            else if(n1 < n2) // denominator degree higher than nominator degree 
+            else if(n1 < n2) // denominator degree higher than nominator degree
             {
                 // quotient always be 0 and return c1 as remainder
                 quo = new double[] { 0 };
@@ -534,7 +554,7 @@ namespace MathNet.Numerics
 
                 for (int k = 0; k < j1; k++)
                     rem[k] = c1[k];
-                
+
             }
 
             if (rem == null)
@@ -547,7 +567,7 @@ namespace MathNet.Numerics
             // output mapping
             var pQuo = new Polynomial(quo);
             var pRem = new Polynomial(rem);
-            
+
             pRem.Trim();
             pQuo.Trim();
             return new Tuple<Polynomial, Polynomial>(pQuo, pRem);
@@ -628,7 +648,7 @@ namespace MathNet.Numerics
         #region Interfacing
 
         /// <summary>
-        /// This method returns the coefficcients of the Polynomial as an array the "IsFlipped" property, 
+        /// This method returns the coefficcients of the Polynomial as an array the "IsFlipped" property,
         /// which is set during construction is taken into account automatically.
         /// </summary>
         /// <returns>the coefficcients of the Polynomial as an array</returns>
@@ -666,7 +686,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// (full) convolution of two arrays 
+        /// (full) convolution of two arrays
         /// </summary>
         /// <param name="a">left vector</param>
         /// <param name="b">right vector</param>
