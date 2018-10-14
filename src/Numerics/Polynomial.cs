@@ -17,23 +17,12 @@ namespace MathNet.Numerics
         /// <summary>
         /// The coefficients of the polynomial in a
         /// </summary>
-        public double[] Coefficients { get; set; }
+        public double[] Coefficients { get; private set; }
 
         /// <summary>
         /// Only needed for the ToString method
         /// </summary>
         public string VarName = "x^";
-
-        /// <summary>
-        /// Length of Polynomial (max element + 1) e.G x^5 highest element, will give Length = 6
-        /// </summary>
-        public int CoefficientCount
-        {
-            get
-            {
-                return (Coefficients == null ? 0 : Coefficients.Length);
-            }
-        }
 
         /// <summary>
         /// Degree of the polynomial, i.e. the largest monomial exponent. For example, the degree of x^2+x^5 is 5.
@@ -115,17 +104,25 @@ namespace MathNet.Numerics
         /// </summary>
         public void Trim()
         {
-            if (CoefficientCount == 1)
+            if (Coefficients.Length == 1)
+            {
                 return;
+            }
 
-            int i = CoefficientCount - 1;
+            int i = Coefficients.Length - 1;
             while (i >= 0 && Coefficients[i] == 0.0)
+            {
                 i--;
+            }
 
             if (i < 0)
+            {
                 Coefficients = new[] { 0.0 };
+            }
             else if (i == 0)
+            {
                 Coefficients = new[] { Coefficients[0] };
+            }
             else
             {
                 var hold = new double[i+1];
@@ -304,7 +301,7 @@ namespace MathNet.Numerics
         /// <returns>resulting Polynomial</returns>
         public static Polynomial operator -(Polynomial a, Polynomial b)
         {
-            return Substract(a, b);
+            return Subtract(a, b);
         }
 
         /// <summary>
@@ -368,128 +365,147 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// pointwise division of two Polynomials
+        /// Point-wise division of two Polynomials
         /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="b">right Polynomial</param>
-        /// <returns>resulting Polynomial</returns>
-        public static Polynomial DividePointwise(Polynomial a, Polynomial b)
+        /// <param name="a">Left Polynomial</param>
+        /// <param name="b">Right Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial PointwiseDivide(Polynomial a, Polynomial b)
         {
-            var aa = a.Clone() as Polynomial;
-            var bb = b.Clone() as Polynomial;
+            var ac = a.Coefficients;
+            var bc = b.Coefficients;
 
-            if (aa.Coefficients.Length != bb.Coefficients.Length)
+            var degree = a.Degree;
+            var result = new double[degree + 1];
+
+            var commonLength = Math.Min(Math.Min(ac.Length, bc.Length), result.Length);
+            for (int i = 0; i < commonLength; i++)
             {
-                MakeSameLength(ref aa, ref bb);
+                result[i] = ac[i] / bc[i];
             }
 
-            int n = aa.Coefficients.Length;
-            double[] res = new double[aa.Coefficients.Length];
-            for (int ii = 0; ii < n; ii++)
+            for (int i = commonLength; i < result.Length; i++)
             {
-                res[ii] = aa.Coefficients[ii] / bb.Coefficients[ii];
+                result[i] = ac[i] / 0.0;
             }
 
-            return new Polynomial(res);
+            return new Polynomial(result);
         }
 
         /// <summary>
-        /// pointwise multiplication of two Polynomials
+        /// Point-wise multiplication of two Polynomials
         /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="b">right Polynomial</param>
-        /// <returns>resulting Polynomial</returns>
-        public static Polynomial MultiplyPointwise(Polynomial a, Polynomial b)
+        /// <param name="a">Left Polynomial</param>
+        /// <param name="b">Right Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial PointwiseMultiply(Polynomial a, Polynomial b)
         {
-            var aa = a.Clone() as Polynomial;
-            var bb = b.Clone() as Polynomial;
+            var ac = a.Coefficients;
+            var bc = b.Coefficients;
 
-            if (aa.Coefficients.Length != bb.Coefficients.Length)
+            var degree = Math.Min(a.Degree, b.Degree);
+            var result = new double[degree + 1];
+            for (int i = 0; i < result.Length; i++)
             {
-                MakeSameLength(ref aa, ref bb);
+                result[i] = ac[i] * bc[i];
             }
 
-            int n = aa.Coefficients.Length;
-            double[] res = new double[aa.Coefficients.Length];
-            for (int ii = 0; ii < n; ii++)
-            {
-                res[ii] = aa.Coefficients[ii] * bb.Coefficients[ii];
-            }
-
-            return new Polynomial(res);
+            return new Polynomial(result);
         }
 
         /// <summary>
-        /// Addition of two Polynomials (piecewise)
+        /// Addition of two Polynomials (point-wise).
         /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="b">right Polynomial</param>
-        /// <returns>resulting Polynomial</returns>
+        /// <param name="a">Left Polynomial</param>
+        /// <param name="b">Right Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
         public static Polynomial Add(Polynomial a, Polynomial b)
         {
-            var aa = a.Clone() as Polynomial;
-            var bb = b.Clone() as Polynomial;
+            var ac = a.Coefficients;
+            var bc = b.Coefficients;
 
-            if (aa.CoefficientCount != bb.CoefficientCount)
+            var degree = Math.Max(a.Degree, b.Degree);
+            var result = new double[degree + 1];
+
+            var commonLength = Math.Min(Math.Min(ac.Length, bc.Length), result.Length);
+            for (int i = 0; i < commonLength; i++)
             {
-                MakeSameLength(ref aa, ref bb);
+                result[i] = ac[i] + bc[i];
             }
 
-            int n = aa.CoefficientCount;
-            double[] res = new double[n];
-            for (int ii = 0; ii < n; ii++)
+            int acLength = Math.Min(ac.Length, result.Length);
+            for (int i = commonLength; i < acLength; i++)
             {
-                res[ii] = aa.Coefficients[ii] + bb.Coefficients[ii];
+                // no need to add since only one of both applies
+                result[i] = ac[i];
             }
 
-            return new Polynomial(res);
+            int bcLength = Math.Min(bc.Length, result.Length);
+            for (int i = commonLength; i < bcLength; i++)
+            {
+                // no need to add since only one of both applies
+                result[i] = bc[i];
+            }
+
+            return new Polynomial(result);
         }
 
         /// <summary>
-        /// substraction of two Polynomials (piecewise)
+        /// Subtraction of two Polynomials (point-wise).
         /// </summary>
-        /// <param name="a">left Polynomial</param>
-        /// <param name="b">right Polynomial</param>
-        /// <returns>resulting Polynomial</returns>
-        public static Polynomial Substract(Polynomial a, Polynomial b)
+        /// <param name="a">Left Polynomial</param>
+        /// <param name="b">Right Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial Subtract(Polynomial a, Polynomial b)
         {
-            var aa = a.Clone() as Polynomial;
-            var bb = b.Clone() as Polynomial;
+            var ac = a.Coefficients;
+            var bc = b.Coefficients;
 
-            if (aa.CoefficientCount != bb.CoefficientCount)
+            var degree = Math.Max(a.Degree, b.Degree);
+            var result = new double[degree + 1];
+
+            var commonLength = Math.Min(Math.Min(ac.Length, bc.Length), result.Length);
+            for (int i = 0; i < commonLength; i++)
             {
-                MakeSameLength(ref aa, ref bb);
+                result[i] = ac[i] - bc[i];
             }
 
-            int n = aa.CoefficientCount;
-            double[] res = new double[n];
-            for (int ii = 0; ii < n; ii++)
+            int acLength = Math.Min(ac.Length, result.Length);
+            for (int i = commonLength; i < acLength; i++)
             {
-                res[ii] = aa.Coefficients[ii] - bb.Coefficients[ii];
+                // no need to add since only one of both applies
+                result[i] = ac[i];
             }
 
-            return new Polynomial(res);
+            int bcLength = Math.Min(bc.Length, result.Length);
+            for (int i = commonLength; i < bcLength; i++)
+            {
+                // no need to add since only one of both applies
+                result[i] = -bc[i];
+            }
+
+            return new Polynomial(result);
         }
 
         /// <summary>
         /// Division of two polynomials returning the quotient-with-remainder of the two polynomials given
         /// </summary>
-        /// <param name="a">left polynomial</param>
-        /// <param name="b">right polynomial</param>
-        /// <returns>a tuple holding quotient in first and remainder in second</returns>
+        /// <param name="a">Left polynomial</param>
+        /// <param name="b">Right polynomial</param>
+        /// <returns>A tuple holding quotient in first and remainder in second</returns>
         public static Tuple<Polynomial, Polynomial> DivideLong(Polynomial a, Polynomial b)
         {
             if (a == null)
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             if (b == null)
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
 
-            if (a.CoefficientCount <= 0)
+            if (a.Coefficients.Length <= 0)
                 throw new ArgumentOutOfRangeException("a Degree must be greater than zero");
-            if (b.CoefficientCount <= 0)
+            if (b.Coefficients.Length <= 0)
                 throw new ArgumentOutOfRangeException("b Degree must be greater than zero");
 
-            if (b.Coefficients[b.CoefficientCount-1] == 0)
+            if (b.Coefficients[b.Coefficients.Length - 1] == 0)
                 throw new DivideByZeroException("b polynomial ends with zero");
 
             var c1 = a.Coefficients.ToArray();
@@ -572,8 +588,8 @@ namespace MathNet.Numerics
         /// <summary>
         /// Division of two polynomials returning the quotient-with-remainder of the two polynomials given
         /// </summary>
-        /// <param name="b">right polynomial</param>
-        /// <returns>a tuple holding quotient in first and remainder in second</returns>
+        /// <param name="b">Right polynomial</param>
+        /// <returns>A tuple holding quotient in first and remainder in second</returns>
         public Tuple<Polynomial, Polynomial> DivideLong(Polynomial b)
         {
             return DivideLong(this, b);
@@ -641,30 +657,6 @@ namespace MathNet.Numerics
         public double[] ToArray()
         {
             return Coefficients.ToArray();
-        }
-
-        static void MakeSameLength(ref Polynomial a, ref Polynomial b)
-        {
-            double[] aHold = new double[a.Coefficients.Length];
-            double[] bHold = new double[b.Coefficients.Length];
-            Array.Copy(a.Coefficients, aHold, a.Coefficients.Length);
-            Array.Copy(b.Coefficients, bHold, b.Coefficients.Length);
-
-            if (a.Coefficients.Length < b.Coefficients.Length)
-            {
-                a.Coefficients = new double[b.Coefficients.Length];
-                b.Coefficients = new double[b.Coefficients.Length];
-                Array.Copy(aHold, a.Coefficients, aHold.Length);
-                Array.Copy(bHold, b.Coefficients, bHold.Length);
-            }
-            else
-            {
-                a.Coefficients = new double[a.Coefficients.Length];
-                b.Coefficients = new double[a.Coefficients.Length];
-                Array.Copy(aHold, a.Coefficients, aHold.Length);
-                Array.Copy(bHold, b.Coefficients, bHold.Length);
-            }
-
         }
 
         /// <summary>

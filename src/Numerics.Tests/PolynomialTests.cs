@@ -66,8 +66,8 @@ namespace MathNet.Numerics.UnitTests
             }
             else
             {
-                Assert.AreEqual(expected.Length, p_res.CoefficientCount, "length mismatch");
-                for (int k = 0; k < p_res.CoefficientCount; k++)
+                Assert.AreEqual(expected.Length, p_res.Coefficients.Length, "length mismatch");
+                for (int k = 0; k < p_res.Coefficients.Length; k++)
                 {
                     Assert.AreEqual(expected[k], p_res.Coefficients[k], "idx: " + k + " mismatch");
                 }
@@ -89,8 +89,8 @@ namespace MathNet.Numerics.UnitTests
             }
             else
             {
-                Assert.AreEqual(expected.Length, p_res.CoefficientCount, "length mismatch");
-                for (int k = 0; k < p_res.CoefficientCount; k++)
+                Assert.AreEqual(expected.Length, p_res.Coefficients.Length, "length mismatch");
+                for (int k = 0; k < p_res.Coefficients.Length; k++)
                 {
                     Assert.AreEqual(expected[k], p_res.Coefficients[k], "idx: " + k + " mismatch");
                 }
@@ -125,8 +125,8 @@ namespace MathNet.Numerics.UnitTests
                     p_res.Trim();
                     p_tar.Trim();
 
-                    Assert.AreEqual(p_tar.CoefficientCount, p_res.CoefficientCount, "length mismatch");
-                    for (int k = 0; k < p_res.CoefficientCount; k++)
+                    Assert.AreEqual(p_tar.Coefficients.Length, p_res.Coefficients.Length, "length mismatch");
+                    for (int k = 0; k < p_res.Coefficients.Length; k++)
                     {
                         Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
                     }
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
-        public void SubstractTest()
+        public void SubtractTest()
         {
             for (int i = 0; i < 5; i++)
             {
@@ -156,14 +156,14 @@ namespace MathNet.Numerics.UnitTests
                     var p1 = new Polynomial(c1);
                     var p2 = new Polynomial(c2);
 
-                    var p_res = Polynomial.Substract(p1, p2);
+                    var p_res = Polynomial.Subtract(p1, p2);
                     var p_tar = new Polynomial(tgt);
 
                     p_res.Trim();
                     p_tar.Trim();
 
-                    Assert.AreEqual(p_tar.CoefficientCount, p_res.CoefficientCount, "length mismatch");
-                    for (int k = 0; k < p_res.CoefficientCount; k++)
+                    Assert.AreEqual(p_tar.Coefficients.Length, p_res.Coefficients.Length, "length mismatch");
+                    for (int k = 0; k < p_res.Coefficients.Length; k++)
                     {
                         Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
                     }
@@ -198,8 +198,8 @@ namespace MathNet.Numerics.UnitTests
                     p_res.Trim();
                     p_tar.Trim();
 
-                    Assert.AreEqual(p_tar.CoefficientCount, p_res.CoefficientCount, "length mismatch");
-                    for (int k = 0; k < p_res.CoefficientCount; k++)
+                    Assert.AreEqual(p_tar.Coefficients.Length, p_res.Coefficients.Length, "length mismatch");
+                    for (int k = 0; k < p_res.Coefficients.Length; k++)
                     {
                         Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
                     }
@@ -256,14 +256,14 @@ namespace MathNet.Numerics.UnitTests
             var p11 = new Polynomial(2.0d);
             var p21 = new Polynomial(2.0d);
             var tpl1 = Polynomial.DivideLong(p11, p21);
-            testEqual(new double[] { 1.0 }, tpl1.Item1);
-            testEqual(new double[] { 0.0 }, tpl1.Item2);
+            TestEqual(new double[] { 1.0 }, tpl1.Item1);
+            TestEqual(new double[] { 0.0 }, tpl1.Item2);
 
             var p12 = new Polynomial(new double[] { 2.0d, 2.0d });
             var p22 = new Polynomial(2.0d);
             var tpl2 = Polynomial.DivideLong(p12, p22);
-            testEqual(new double[] { 1.0, 1.0 }, tpl2.Item1);
-            testEqual(new double[] { 0.0 }, tpl2.Item2);
+            TestEqual(new double[] { 1.0, 1.0 }, tpl2.Item1);
+            TestEqual(new double[] { 0.0 }, tpl2.Item2);
 
             for (int i = 0; i < 5; i++)
             {
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.UnitTests
                     var pres = (pquo * pi) + prem;
                     pres.Trim();
 
-                    testEqual(pres, tgt, msg);
+                    TestEqual(pres, tgt, msg);
                 }
             }
         }
@@ -314,23 +314,23 @@ namespace MathNet.Numerics.UnitTests
             var x_2 = new double[] { -1.0, 1.0 };
             var expected_2 = new List<Complex>();
             expected_2.Add(new Complex(1.0, 0.0));
-            testEqual(x_2, expected_2);
+            TestEqual(x_2, expected_2);
 
             var x_3 = new double[] { -1.0, 0.0, 1.0 };
             var expected_3 = new List<Complex>();
             expected_3.Add(new Complex(1.0, 0.0));
             expected_3.Add(new Complex(-1.0, 0.0));
-            testEqual(x_3, expected_3);
+            TestEqual(x_3, expected_3);
 
             var x_4 = new double[] { -1.0, -0.33333333333333337, 0.33333333333333326, 1.0 };
             var expected_4 = new List<Complex>();
             expected_4.Add(new Complex(0.9999999999999996, 0.0));
             expected_4.Add(new Complex(-0.6666666666666666, 0.7453559924999296));
             expected_4.Add(new Complex(-0.6666666666666666, -0.7453559924999296));
-            testEqual(x_4, expected_4);
+            TestEqual(x_4, expected_4);
         }
 
-        private void testEqual(double[] x, List<Complex> eIn)
+        static void TestEqual(double[] x, List<Complex> eIn)
         {
             var tol = 1e-10;
             var r0 = new Polynomial(x).GetRoots().ToList();
@@ -348,7 +348,7 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        private void testEqual(double[] p_tar, double[] p_res, string msg = null)
+        static void TestEqual(double[] p_tar, double[] p_res, string msg = null)
         {
             Assert.AreEqual(p_tar.Length, p_res.Length, "length mismatch");
             for (int k = 0; k < p_res.Length; k++)
@@ -357,19 +357,20 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
-        private void testEqual(double[] p_tar, Polynomial p_res, string msg = null)
+        static void TestEqual(double[] p_tar, Polynomial p_res, string msg = null)
         {
-            Assert.AreEqual(p_tar.Length, p_res.CoefficientCount, "length mismatch");
-            for (int k = 0; k < p_res.CoefficientCount; k++)
+            Assert.AreEqual(p_tar.Length, p_res.Coefficients.Length, "length mismatch");
+            for (int k = 0; k < p_res.Coefficients.Length; k++)
             {
                 Assert.AreEqual(p_tar[k], p_res.Coefficients[k], msg);
             }
 
         }
-        private void testEqual(Polynomial p_tar, Polynomial p_res, string msg = null)
+
+        static void TestEqual(Polynomial p_tar, Polynomial p_res, string msg = null)
         {
-            Assert.AreEqual(p_tar.CoefficientCount, p_res.CoefficientCount, "length mismatch");
-            for (int k = 0; k < p_res.CoefficientCount; k++)
+            Assert.AreEqual(p_tar.Coefficients.Length, p_res.Coefficients.Length, "length mismatch");
+            for (int k = 0; k < p_res.Coefficients.Length; k++)
             {
                 Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
             }
