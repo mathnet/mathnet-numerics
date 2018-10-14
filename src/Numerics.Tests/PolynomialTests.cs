@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests
                 Assert.AreEqual(expected.Length, p_res.CoefficientCount, "length mismatch");
                 for (int k = 0; k < p_res.CoefficientCount; k++)
                 {
-                    Assert.AreEqual(expected[k], p_res.Coeffs[k], "idx: " + k + " mismatch");
+                    Assert.AreEqual(expected[k], p_res.Coefficients[k], "idx: " + k + " mismatch");
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.UnitTests
                 Assert.AreEqual(expected.Length, p_res.CoefficientCount, "length mismatch");
                 for (int k = 0; k < p_res.CoefficientCount; k++)
                 {
-                    Assert.AreEqual(expected[k], p_res.Coeffs[k], "idx: " + k + " mismatch");
+                    Assert.AreEqual(expected[k], p_res.Coefficients[k], "idx: " + k + " mismatch");
                 }
             }
         }
@@ -128,7 +128,7 @@ namespace MathNet.Numerics.UnitTests
                     Assert.AreEqual(p_tar.CoefficientCount, p_res.CoefficientCount, "length mismatch");
                     for (int k = 0; k < p_res.CoefficientCount; k++)
                     {
-                        Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
+                        Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
                     }
                 }
             }
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.UnitTests
                     Assert.AreEqual(p_tar.CoefficientCount, p_res.CoefficientCount, "length mismatch");
                     for (int k = 0; k < p_res.CoefficientCount; k++)
                     {
-                        Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
+                        Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
                     }
                 }
             }
@@ -201,7 +201,7 @@ namespace MathNet.Numerics.UnitTests
                     Assert.AreEqual(p_tar.CoefficientCount, p_res.CoefficientCount, "length mismatch");
                     for (int k = 0; k < p_res.CoefficientCount; k++)
                     {
-                        Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
+                        Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
                     }
                 }
             }
@@ -362,7 +362,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(p_tar.Length, p_res.CoefficientCount, "length mismatch");
             for (int k = 0; k < p_res.CoefficientCount; k++)
             {
-                Assert.AreEqual(p_tar[k], p_res.Coeffs[k], msg);
+                Assert.AreEqual(p_tar[k], p_res.Coefficients[k], msg);
             }
 
         }
@@ -371,7 +371,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(p_tar.CoefficientCount, p_res.CoefficientCount, "length mismatch");
             for (int k = 0; k < p_res.CoefficientCount; k++)
             {
-                Assert.AreEqual(p_tar.Coeffs[k], p_res.Coeffs[k], msg);
+                Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
             }
         }
     }
