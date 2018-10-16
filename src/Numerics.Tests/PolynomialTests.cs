@@ -228,25 +228,25 @@ namespace MathNet.Numerics.UnitTests
             {
                 var p1 = new Polynomial(1.0d);
                 var p2 = new Polynomial(new double[0]);
-                var tpl = Polynomial.DivideLong(p1, p2);
+                var tpl = Polynomial.DivideRemainder(p1, p2);
             });
             Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
             {
                 var p1 = new Polynomial(1.0d);
                 var p2 = new Polynomial(new double[0]);
-                var tpl = Polynomial.DivideLong(p2, p1);
+                var tpl = Polynomial.DivideRemainder(p2, p1);
             });
             Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
             {
                 var p1 = new Polynomial(new double[0]);
                 var p2 = new Polynomial(new double[0]);
-                var tpl = Polynomial.DivideLong(p2, p1);
+                var tpl = Polynomial.DivideRemainder(p2, p1);
             });
             Assert.Throws(typeof(DivideByZeroException), () =>
             {
                 var p1 = new Polynomial(1.0d);
                 var p2 = new Polynomial(0.0d);
-                var tpl = Polynomial.DivideLong(p1, p2);
+                var tpl = Polynomial.DivideRemainder(p1, p2);
             });
         }
 
@@ -255,13 +255,13 @@ namespace MathNet.Numerics.UnitTests
         {
             var p11 = new Polynomial(2.0d);
             var p21 = new Polynomial(2.0d);
-            var tpl1 = Polynomial.DivideLong(p11, p21);
+            var tpl1 = Polynomial.DivideRemainder(p11, p21);
             TestEqual(new double[] { 1.0 }, tpl1.Item1);
             TestEqual(new double[] { 0.0 }, tpl1.Item2);
 
             var p12 = new Polynomial(new double[] { 2.0d, 2.0d });
             var p22 = new Polynomial(2.0d);
-            var tpl2 = Polynomial.DivideLong(p12, p22);
+            var tpl2 = Polynomial.DivideRemainder(p12, p22);
             TestEqual(new double[] { 1.0, 1.0 }, tpl2.Item1);
             TestEqual(new double[] { 0.0 }, tpl2.Item2);
 
@@ -280,7 +280,7 @@ namespace MathNet.Numerics.UnitTests
                     var pi = new Polynomial(ci);
                     var pj = new Polynomial(cj);
                     var tgt = Polynomial.Add(pi, pj);
-                    var tpl3 = Polynomial.DivideLong(tgt, pi);
+                    var tpl3 = Polynomial.DivideRemainder(tgt, pi);
                     var pquo = tpl3.Item1;
                     var prem = tpl3.Item2;
                     var pres = (pquo * pi) + prem;
@@ -295,14 +295,14 @@ namespace MathNet.Numerics.UnitTests
         public void GetRootsTest()
         {
             var tol = 1e-14;
+
+            // 0 = 1 -> no roots
             var p1 = new Polynomial(1.0);
             var r = p1.Roots();
+            Assert.AreEqual(0, r.Length, "length mismatch");
 
-            Assert.AreEqual(1, r.Length, "length mismatch");
-            Assert.AreEqual(1.0, r.FirstOrDefault().Real);
-
+            // 0 = 1 + 2*x -> single root at -1/2
             var p2 = new Polynomial(new double[] { 1, 2 });
-
             var r2 = p2.Roots();
             Assert.AreEqual(1, r2.Length, "length mismatch");
             Assert.AreEqual(-0.5, r2.FirstOrDefault().Real, tol);

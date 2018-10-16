@@ -25,78 +25,75 @@ namespace MathNet.Numerics
         public string VarName = "x^";
 
         /// <summary>
-        /// Degree of the polynomial, i.e. the largest monomial exponent. For example, the degree of x^2+x^5 is 5.
+        /// Degree of the polynomial, i.e. the largest monomial exponent. For example, the degree of y=x^2+x^5 is 5, for y=3 it is 0.
         /// The null-polynomial returns degree -1 because the correct degree, negative infinity, cannot be represented by integers.
         /// </summary>
-        public int Degree
-        {
-            get
-            {
-                if (Coefficients == null)
-                {
-                    return -1;
-                }
-
-                for (int i = Coefficients.Length - 1; i >= 0; i--)
-                {
-                    if (Coefficients[i] != 0.0)
-                    {
-                        return i;
-                    }
-                }
-
-                return -1;
-            }
-        }
+        public int Degree => EvaluateDegree(Coefficients);
 
         /// <summary>
-        /// constructor setting a Polynomial of size n containing only zeros
+        /// Create a zero-polynomial with a coefficient array of the given length.
         /// </summary>
-        /// <param name="n">size of Polynomial</param>
+        /// <param name="n">Length of the coefficient array</param>
         public Polynomial(int n)
         {
             if (n < 0)
             {
-                throw new ArgumentOutOfRangeException("n must be postive");
+                throw new ArgumentOutOfRangeException(nameof(n), "n must be non-negative");
             }
+
             Coefficients = new double[n];
         }
 
         /// <summary>
-        /// make Polynomial: e.G 3.0 = 3.0 + 0 x^1 + 0 x^2
+        /// Create a zero-polynomial
+        /// </summary>
+        public Polynomial()
+        {
+            Coefficients = new double[0];
+        }
+
+        /// <summary>
+        /// Create a constant polynomial.
+        /// Example: 3.0 -> "p : x -> 3.0"
         /// </summary>
         /// <param name="coefficient">just the "x^0" part</param>
         public Polynomial(double coefficient)
         {
-            Coefficients = new double[1];
-            Coefficients[0] = coefficient;
+            Coefficients = coefficient == 0.0 ? new double[0] : new[] { coefficient };
         }
 
         /// <summary>
-        /// make Polynomial: e.G new double[] {5, 0, 2} = "5 + 0 x^1 + 2 x^2"
-        /// </summary>
-        /// <param name="coefficients">Polynomial coefficients as enumerable</param>
-        public Polynomial(IEnumerable<double> coefficients)
-        {
-            if (coefficients == null)
-            {
-                throw new ArgumentNullException(nameof(coefficients));
-            }
-            Coefficients = coefficients.ToArray();
-        }
-
-        /// <summary>
-        /// make Polynomial: e.G new double[] {5, 0, 2} = "5 + 0 x^1 + 2 x^2"
+        /// Create a polynomial with the provided coefficients (in ascending order, where the index matches the exponent).
+        /// Example: {5, 0, 2} -> "p : x -> 5 + 0 x^1 + 2 x^2".
         /// </summary>
         /// <param name="coefficients">Polynomial coefficients as array</param>
         public Polynomial(double[] coefficients)
         {
-            if (coefficients == null)
+            int degree = EvaluateDegree(coefficients);
+            Coefficients = new double[degree + 1];
+            Array.Copy(coefficients, Coefficients, Coefficients.Length);
+        }
+
+        /// <summary>
+        /// Create a polynomial with the provided coefficients (in ascending order, where the index matches the exponent).
+        /// Example: {5, 0, 2} -> "p : x -> 5 + 0 x^1 + 2 x^2".
+        /// </summary>
+        /// <param name="coefficients">Polynomial coefficients as enumerable</param>
+        public Polynomial(IEnumerable<double> coefficients) : this(coefficients.ToArray())
+        {
+        }
+
+        static int EvaluateDegree(double[] coefficients)
+        {
+            for (int i = coefficients.Length - 1; i >= 0; i--)
             {
-                throw new ArgumentNullException(nameof(coefficients));
+                if (coefficients[i] != 0.0)
+                {
+                    return i;
+                }
             }
-            Coefficients = new double[coefficients.Length];
-            Array.Copy(coefficients, Coefficients, coefficients.Length);
+
+            return -1;
         }
 
         /// <summary>
@@ -141,6 +138,23 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// This method returns the coefficients of the Polynomial as an array the "IsFlipped" property,
+        /// which is set during construction is taken into account automatically.
+        /// </summary>
+        /// <returns>The coefficients of the polynomial as an array</returns>
+        public double[] ToArray()
+        {
+            return Coefficients.ToArray();
+        }
+
+        public object Clone()
+        {
+            // TODO: this assumes the constructor does a copy
+            return new Polynomial(Coefficients);
+        }
+
+        #region Evaluation
+        /// <summary>
         /// Evaluate a polynomial at point x.
         /// </summary>
         /// <param name="z">The location where to evaluate the polynomial at.</param>
@@ -175,7 +189,9 @@ namespace MathNet.Numerics
         {
             return z.Select(Evaluate);
         }
+        #endregion
 
+        #region Calculus
         public Polynomial Differentiate()
         {
             if (Coefficients.Length == 0)
@@ -188,7 +204,7 @@ namespace MathNet.Numerics
             var cNew = new double[t.Coefficients.Length - 1];
             for (int i = 1; i < t.Coefficients.Length; i++)
             {
-                cNew[i-1] = t.Coefficients[i] * i;
+                cNew[i - 1] = t.Coefficients[i] * i;
             }
 
             var p = new Polynomial(cNew);
@@ -210,186 +226,48 @@ namespace MathNet.Numerics
             p.Trim();
             return p;
         }
+        #endregion
 
-        /// <summary>
-        /// Addition of two Polynomials (piecewise)
-        /// </summary>
-        /// <param name="a">Left polynomial</param>
-        /// <param name="b">Right polynomial</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial operator +(Polynomial a, Polynomial b)
-        {
-            return Add(a, b);
-        }
-
-        /// <summary>
-        /// adds a scalar to a polynomial.
-        /// </summary>
-        /// <param name="a">Polynomial</param>
-        /// <param name="k">Scalar value</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial operator +(Polynomial a, double k)
-        {
-            return Add(a, k);
-        }
-
-        /// <summary>
-        /// adds a scalar to a polynomial.
-        /// </summary>
-        /// <param name="k">Scalar value</param>
-        /// <param name="a">Polynomial</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial operator +(double k, Polynomial a)
-        {
-            return Add(a, k);
-        }
-
-        /// <summary>
-        /// Subtraction of two polynomial.
-        /// </summary>
-        /// <param name="a">Left polynomial</param>
-        /// <param name="b">Right polynomial</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial operator -(Polynomial a, Polynomial b)
-        {
-            return Subtract(a, b);
-        }
-
-        /// <summary>
-        /// Subtracts a scalar from a polynomial.
-        /// </summary>
-        /// <param name="a">Polynomial</param>
-        /// <param name="k">Scalar value</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial operator -(Polynomial a, double k)
-        {
-            return Subtract(a, k);
-        }
-
-        /// <summary>
-        /// Subtracts a polynomial from a scalar.
-        /// </summary>
-        /// <param name="k">Scalar value</param>
-        /// <param name="a">Polynomial</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial operator -(double k, Polynomial a)
-        {
-            return Subtract(k, a);
-        }
-
-        /// <summary>
-        /// Negates a polynomial.
-        /// </summary>
-        /// <param name="a">Polynomial</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial operator -(Polynomial a)
-        {
-            return Negate(a);
-        }
-
-        /// <summary>
-        /// multiplies a Polynomial by a Polynomial using convolution [ASINCO.libs.subfun.conv(a.Coeffs, b.Coeffs)]
-        /// </summary>
-        /// <param name="a">Left polynomial</param>
-        /// <param name="b">Right polynomial</param>
-        /// <returns>resulting Polynomial</returns>
-        public static Polynomial operator *(Polynomial a, Polynomial b)
-        {
-            var aa = a.Clone() as Polynomial;
-            var bb = b.Clone() as Polynomial;
-            // do not cut trailing zeros, since it may corrupt the outcom, if the array is of form 1 + x^-1 + x^-2 + x^-3
-            //a.Trim();
-            //b.Trim();
-
-            double[] ret = Convolution(aa.Coefficients, bb.Coefficients);
-            Polynomial result = new Polynomial(ret);
-
-            //ret_p.Trim();
-
-            return result;
-        }
-
-        /// <summary>
-        /// multiplies a Polynomial by a scalar
-        /// </summary>
-        /// <param name="a">Polynomial</param>
-        /// <param name="k">Scalar value</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial operator *(Polynomial a, double k)
-        {
-            var aa = a.Clone() as Polynomial;
-
-            for (int ii = 0; ii < aa.Coefficients.Length; ii++)
-                aa.Coefficients[ii] *= k;
-
-            return aa;
-        }
-
-        /// <summary>
-        /// divide Polynomial by scalar value
-        /// </summary>
-        /// <param name="a">Polynomial</param>
-        /// <param name="k">Scalar value</param>
-        /// <returns>Resulting Polynomial</returns>
-        public static Polynomial operator /(Polynomial a, double k)
-        {
-            var aa = a.Clone() as Polynomial;
-
-            for (int ii = 0; ii < aa.Coefficients.Length; ii++)
-                aa.Coefficients[ii] /= k;
-
-            return aa;
-        }
-
+        #region Linear Algebra
         /// <summary>
         /// Calculates the complex roots of the Polynomial by eigenvalue decomposition
         /// </summary>
         /// <returns>a vector of complex numbers with the roots</returns>
         public Complex[] Roots()
         {
+            switch (Degree)
+            {
+                case -1: // Zero-polynomial
+                case 0: // Non-zero constant: y = a0
+                    return new Complex[0];
+                case 1: // Linear: y = a0 + a1*x
+                    return new[] { new Complex(-Coefficients[0] / Coefficients[1], 0) };
+            }
+
             DenseMatrix A = EigenvalueMatrix();
-            Complex[] roots;
-
-            if (A == null)
-            {
-                if (Coefficients.Length < 2)
-                {
-                    var val = Coefficients.Length == 1 ? Coefficients[0] : Double.NaN;
-                    roots = new Complex[] { val };
-                }
-                else
-                    roots = new[] { new Complex(-Coefficients[0] / Coefficients[1], 0) };
-            }
-            else
-            {
-                Evd<double> eigen = A.Evd(Symmetricity.Asymmetric);
-                roots = eigen.EigenValues.ToArray();
-            }
-
-            return roots;
+            Evd<double> eigen = A.Evd(Symmetricity.Asymmetric);
+            return eigen.EigenValues.AsArray();
         }
 
         /// <summary>
-        /// get the eigenvalue matrix A of this Polynomial such that eig(A) = roots of this Polynomial.
+        /// Get the eigenvalue matrix A of this polynomial such that eig(A) = roots of this polynomial.
         /// </summary>
         /// <returns>Eigenvalue matrix A</returns>
-        /// <note>this matrix is similar to the companion matrix of this polynomial, in such a way, that it's transpose is the columnflip of the companion matrix</note>
+        /// <note>This matrix is similar to the companion matrix of this polynomial, in such a way, that it's transpose is the columnflip of the companion matrix</note>
         public DenseMatrix EigenvalueMatrix()
         {
-            Polynomial pLoc = new Polynomial(Coefficients);
-            pLoc.Trim();
-
-            int n = pLoc.Coefficients.Length - 1;
+            int n = Degree;
             if (n < 2)
             {
                 return null;
             }
 
-            double a0 = pLoc.Coefficients[n];
+            // Negate, and normalize (scale such that the polynomial becomes monic)
+            double aN = Coefficients[n];
             double[] p = new double[n];
             for (int ii = n - 1; ii >= 0; ii--)
             {
-                p[ii] = -pLoc.Coefficients[ii] / a0;
+                p[ii] = -Coefficients[ii] / aN;
             }
 
             DenseMatrix A0 = DenseMatrix.CreateDiagonal(n - 1, n - 1, 1.0);
@@ -400,7 +278,9 @@ namespace MathNet.Numerics
 
             return A;
         }
+        #endregion
 
+        #region Arithmetic Operations
         /// <summary>
         /// Addition of two Polynomials (point-wise).
         /// </summary>
@@ -544,6 +424,171 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Multiplies a polynomial by a polynomial (convolution)
+        /// </summary>
+        /// <param name="a">Left polynomial</param>
+        /// <param name="b">Right polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial Multiply(Polynomial a, Polynomial b)
+        {
+            var aa = a.Clone() as Polynomial;
+            var bb = b.Clone() as Polynomial;
+            // do not cut trailing zeros, since it may corrupt the outcom, if the array is of form 1 + x^-1 + x^-2 + x^-3
+            //a.Trim();
+            //b.Trim();
+
+            double[] a1 = aa.Coefficients;
+            double[] b1 = bb.Coefficients;
+            double[] ret = new double[a1.Length + b1.Length];
+
+            for (int i = 0; i < a1.Length; i++)
+            {
+                for (int j = 0; j < b1.Length; j++)
+                {
+                    ret[i + j] += a1[i] * b1[j];
+                }
+            }
+
+            Polynomial result = new Polynomial(ret);
+
+            //ret_p.Trim();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Scales a polynomial by a scalar
+        /// </summary>
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial Multiply(Polynomial a, double k)
+        {
+            var aa = a.Clone() as Polynomial;
+
+            for (int ii = 0; ii < aa.Coefficients.Length; ii++)
+                aa.Coefficients[ii] *= k;
+
+            return aa;
+        }
+
+        /// <summary>
+        /// Scales a polynomial by division by a scalar
+        /// </summary>
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial Divide(Polynomial a, double k)
+        {
+            var aa = a.Clone() as Polynomial;
+
+            for (int ii = 0; ii < aa.Coefficients.Length; ii++)
+                aa.Coefficients[ii] /= k;
+
+            return aa;
+        }
+
+        /// <summary>
+        /// Euclidean long division of two polynomials, returning the quotient q and remainder r of the two polynomials a and b such that a = q*b + r
+        /// </summary>
+        /// <param name="a">Left polynomial</param>
+        /// <param name="b">Right polynomial</param>
+        /// <returns>A tuple holding quotient in first and remainder in second</returns>
+        public static Tuple<Polynomial, Polynomial> DivideRemainder(Polynomial a, Polynomial b)
+        {
+            if (a == null)
+                throw new ArgumentNullException(nameof(a));
+            if (b == null)
+                throw new ArgumentNullException(nameof(b));
+
+            if (a.Coefficients.Length <= 0)
+                throw new ArgumentOutOfRangeException("a Degree must be greater than zero");
+            if (b.Coefficients.Length <= 0)
+                throw new ArgumentOutOfRangeException("b Degree must be greater than zero");
+
+            if (b.Coefficients[b.Coefficients.Length - 1] == 0)
+                throw new DivideByZeroException("b polynomial ends with zero");
+
+            var c1 = a.Coefficients.ToArray();
+            var c2 = b.Coefficients.ToArray();
+
+            var n1 = c1.Length;
+            var n2 = c2.Length;
+
+            double[] quo = null;
+            double[] rem = null;
+
+            if (n2 == 1) // division by scalar
+            {
+                var fact = c2[0];
+                quo = new double[n1];
+                for (int i = 0; i < n1; i++)
+                    quo[i] = c1[i] / fact;
+                rem = new double[] { 0 };
+            }
+            else if (n1 < n2) // denominator degree higher than nominator degree
+            {
+                // quotient always be 0 and return c1 as remainder
+                quo = new double[] { 0 };
+                rem = c1.ToArray();
+            }
+            else
+            {
+                var dn = n1 - n2;
+                var scl = c2[n2 - 1];
+                var c22 = new double[n2 - 1];
+                for (int ii = 0; ii < c22.Length; ii++)
+                {
+                    c22[ii] = c2[ii] / scl;
+                }
+
+                int i = dn;
+                int j = n1 - 1;
+                while (i >= 0)
+                {
+                    var v = c1[j];
+                    for (int k = i; k < j; k++)
+                        c1[k] -= c22[k - i] * v;
+                    i--;
+                    j--;
+                }
+
+                var j1 = j + 1;
+                var l1 = n1 - j1;
+
+                rem = new double[j1];
+                quo = new double[l1];
+
+                for (int k = 0; k < l1; k++)
+                {
+                    quo[k] = c1[k + j1] / scl;
+                }
+
+                for (int k = 0; k < j1; k++)
+                {
+                    rem[k] = c1[k];
+                }
+
+            }
+
+            if (rem == null)
+                throw new NullReferenceException("resulting remainder was null");
+
+            if (quo == null)
+                throw new NullReferenceException("resulting quotient was null");
+
+            // output mapping
+            var pQuo = new Polynomial(quo);
+            var pRem = new Polynomial(rem);
+
+            pRem.Trim();
+            pQuo.Trim();
+            return new Tuple<Polynomial, Polynomial>(pQuo, pRem);
+        }
+        #endregion
+
+        #region Arithmetic Pointwise Operations
+        /// <summary>
         /// Point-wise division of two Polynomials
         /// </summary>
         /// <param name="a">Left Polynomial</param>
@@ -591,122 +636,150 @@ namespace MathNet.Numerics
 
             return new Polynomial(result);
         }
+        #endregion
 
+        #region Arithmetic Instance Methods (forwarders)
         /// <summary>
         /// Division of two polynomials returning the quotient-with-remainder of the two polynomials given
+        /// </summary>
+        /// <param name="b">Right polynomial</param>
+        /// <returns>A tuple holding quotient in first and remainder in second</returns>
+        public Tuple<Polynomial, Polynomial> DivideRemainder(Polynomial b)
+        {
+            return DivideRemainder(this, b);
+        }
+        #endregion
+
+        #region Arithmetic Operator Overloads (forwarders)
+        /// <summary>
+        /// Addition of two Polynomials (piecewise)
         /// </summary>
         /// <param name="a">Left polynomial</param>
         /// <param name="b">Right polynomial</param>
-        /// <returns>A tuple holding quotient in first and remainder in second</returns>
-        public static Tuple<Polynomial, Polynomial> DivideLong(Polynomial a, Polynomial b)
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator +(Polynomial a, Polynomial b)
         {
-            if (a == null)
-                throw new ArgumentNullException(nameof(a));
-            if (b == null)
-                throw new ArgumentNullException(nameof(b));
-
-            if (a.Coefficients.Length <= 0)
-                throw new ArgumentOutOfRangeException("a Degree must be greater than zero");
-            if (b.Coefficients.Length <= 0)
-                throw new ArgumentOutOfRangeException("b Degree must be greater than zero");
-
-            if (b.Coefficients[b.Coefficients.Length - 1] == 0)
-                throw new DivideByZeroException("b polynomial ends with zero");
-
-            var c1 = a.Coefficients.ToArray();
-            var c2 = b.Coefficients.ToArray();
-
-            var n1 = c1.Length;
-            var n2 = c2.Length;
-
-            double[] quo = null;
-            double[] rem = null;
-
-            if (n2 == 1) // division by scalar
-            {
-                var fact = c2[0];
-                quo = new double[n1];
-                for (int i = 0; i < n1; i++)
-                    quo[i] = c1[i] / fact;
-                rem = new double[] { 0 };
-            }
-            else if(n1 < n2) // denominator degree higher than nominator degree
-            {
-                // quotient always be 0 and return c1 as remainder
-                quo = new double[] { 0 };
-                rem = c1.ToArray();
-            }
-            else
-            {
-                var dn = n1 - n2;
-                var scl = c2[n2 - 1];
-                var c22 = new double[n2 - 1];
-                for (int ii = 0; ii < c22.Length; ii++)
-                {
-                    c22[ii] = c2[ii] / scl;
-                }
-
-                int i = dn;
-                int j = n1 - 1;
-                while (i >= 0)
-                {
-                    var v = c1[j];
-                    for (int k = i; k < j; k++)
-                        c1[k] -= c22[k-i] * v;
-                    i--;
-                    j--;
-                }
-
-                var j1 = j + 1;
-                var l1 = n1 - j1;
-
-                rem = new double[j1];
-                quo = new double[l1];
-
-                for (int k = 0; k < l1; k++)
-                {
-                    quo[k] = c1[k + j1] / scl;
-                }
-
-                for (int k = 0; k < j1; k++)
-                {
-                    rem[k] = c1[k];
-                }
-
-            }
-
-            if (rem == null)
-                throw new NullReferenceException("resulting remainder was null");
-
-            if (quo == null)
-                throw new NullReferenceException("resulting quotient was null");
-
-            // output mapping
-            var pQuo = new Polynomial(quo);
-            var pRem = new Polynomial(rem);
-
-            pRem.Trim();
-            pQuo.Trim();
-            return new Tuple<Polynomial, Polynomial>(pQuo, pRem);
+            return Add(a, b);
         }
 
         /// <summary>
-        /// Division of two polynomials returning the quotient-with-remainder of the two polynomials given
+        /// adds a scalar to a polynomial.
         /// </summary>
-        /// <param name="b">Right polynomial</param>
-        /// <returns>A tuple holding quotient in first and remainder in second</returns>
-        public Tuple<Polynomial, Polynomial> DivideLong(Polynomial b)
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator +(Polynomial a, double k)
         {
-            return DivideLong(this, b);
+            return Add(a, k);
         }
 
+        /// <summary>
+        /// adds a scalar to a polynomial.
+        /// </summary>
+        /// <param name="k">Scalar value</param>
+        /// <param name="a">Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator +(double k, Polynomial a)
+        {
+            return Add(a, k);
+        }
+
+        /// <summary>
+        /// Subtraction of two polynomial.
+        /// </summary>
+        /// <param name="a">Left polynomial</param>
+        /// <param name="b">Right polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator -(Polynomial a, Polynomial b)
+        {
+            return Subtract(a, b);
+        }
+
+        /// <summary>
+        /// Subtracts a scalar from a polynomial.
+        /// </summary>
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator -(Polynomial a, double k)
+        {
+            return Subtract(a, k);
+        }
+
+        /// <summary>
+        /// Subtracts a polynomial from a scalar.
+        /// </summary>
+        /// <param name="k">Scalar value</param>
+        /// <param name="a">Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator -(double k, Polynomial a)
+        {
+            return Subtract(k, a);
+        }
+
+        /// <summary>
+        /// Negates a polynomial.
+        /// </summary>
+        /// <param name="a">Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator -(Polynomial a)
+        {
+            return Negate(a);
+        }
+
+        /// <summary>
+        /// Multiplies a polynomial by a polynomial (convolution).
+        /// </summary>
+        /// <param name="a">Left polynomial</param>
+        /// <param name="b">Right polynomial</param>
+        /// <returns>resulting Polynomial</returns>
+        public static Polynomial operator *(Polynomial a, Polynomial b)
+        {
+            return Multiply(a, b);
+        }
+
+        /// <summary>
+        /// Multiplies a polynomial by a scalar.
+        /// </summary>
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator *(Polynomial a, double k)
+        {
+            return Multiply(a, k);
+        }
+
+        /// <summary>
+        /// Multiplies a polynomial by a scalar.
+        /// </summary>
+        /// <param name="k">Scalar value</param>
+        /// <param name="a">Polynomial</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator *(double k, Polynomial a)
+        {
+            return Multiply(a, k);
+        }
+
+        /// <summary>
+        /// Divides a polynomial by scalar value.
+        /// </summary>
+        /// <param name="a">Polynomial</param>
+        /// <param name="k">Scalar value</param>
+        /// <returns>Resulting Polynomial</returns>
+        public static Polynomial operator /(Polynomial a, double k)
+        {
+            return Divide(a, k);
+        }
+        #endregion
+
+        #region ToString
         /// <summary>
         /// "0.00 x^3 + 0.00 x^2 + 0.00 x^1 + 0.00" like display of this Polynomial
         /// </summary>
         /// <returns>string in displayed format</returns>
         public override string ToString()
         {
-            return ToString(highestFirst:false);
+            return ToString(highestFirst: false);
         }
 
         /// <summary>
@@ -732,7 +805,7 @@ namespace MathNet.Numerics
 
                     if (ii == 0 && Coefficients.Length == 1)
                         result += String.Format("{0}", Coefficients[ii], VarName, ii);
-                    else if(ii == 0)
+                    else if (ii == 0)
                         result += String.Format("{0} + ", Coefficients[ii], VarName, ii);
                     else if (ii == Coefficients.Length - 1)
                         result += String.Format("{0}{1}{2}", Coefficients[ii], VarName, ii);
@@ -753,39 +826,6 @@ namespace MathNet.Numerics
 
             return result;
         }
-
-        /// <summary>
-        /// This method returns the coefficients of the Polynomial as an array the "IsFlipped" property,
-        /// which is set during construction is taken into account automatically.
-        /// </summary>
-        /// <returns>the coefficients of the Polynomial as an array</returns>
-        public double[] ToArray()
-        {
-            return Coefficients.ToArray();
-        }
-
-        /// <summary>
-        /// Full convolution of two arrays
-        /// </summary>
-        /// <returns>convolution of a and b as vector</returns>
-        static double[] Convolution(double[] a, double[] b)
-        {
-            double[] ret = new double[a.Length + b.Length];
-
-            for (int i = 0; i < a.Length; i++)
-            {
-                for (int j = 0; j < b.Length; j++)
-                {
-                    ret[i + j] += a[i] * b[j];
-                }
-            }
-            return ret;
-        }
-
-        public object Clone()
-        {
-            // TODO: this assumes the constructor does a copy
-            return new Polynomial(Coefficients);
-        }
+        #endregion
     }
 }
