@@ -42,58 +42,57 @@ namespace MathNet.Numerics.UnitTests
     [TestFixture, Category("Calculus")]
     public class PolynomialTests
     {
-        [TestCase(new double[] { 5, 4, 3, 0, 2 }, "5 + 4x^1 + 3x^2 + 0x^3 + 2x^4")]
-        [TestCase(new double[0], "")]
-        [TestCase(new double[] { 0, 4, 3, 0, 0 }, "0 + 4x^1 + 3x^2 + 0x^3 + 0x^4")]
+        [TestCase(new double[] { 5, 4, 3, 0, 2 }, "5 + 4x + 3x^2 + 2x^4")]
+        [TestCase(new double[0], "0")]
+        [TestCase(new double[] { 0, 4, 3, 0, 0 }, "4x + 3x^2")]
+        [TestCase(new double[] { 0, -4, 3 }, "-4x + 3x^2")]
+        [TestCase(new double[] { 0, -4, -3 }, "-4x - 3x^2")]
+        [TestCase(new double[] { 0, 4, -3 }, "4x - 3x^2")]
         public void ToStringTest(double[] x, string expected)
         {
             var p = new Polynomial(x);
             Assert.AreEqual(expected, p.ToString());
         }
 
+        [TestCase(new double[] { 5, 4, 3, 0, 2 }, "2x^4 + 3x^2 + 4x + 5")]
+        [TestCase(new double[0], "0")]
+        [TestCase(new double[] { 0, 4, 3, 0, 0 }, "3x^2 + 4x")]
+        [TestCase(new double[] { 0, -4, 3 }, "3x^2 - 4x")]
+        [TestCase(new double[] { 0, -4, -3 }, "-3x^2 - 4x")]
+        [TestCase(new double[] { 0, 4, -3 }, "-3x^2 + 4x")]
+        public void ToStringTestReverse(double[] x, string expected)
+        {
+            var p = new Polynomial(x);
+            Assert.AreEqual(expected, p.ToString(highestFirst:true));
+        }
+
         [TestCase(new double[] { 5, 4, 3, 0, 2 }, new double[] { 4*1, 3*2, 0*3, 2*4 })]
-        [TestCase(new double[0], null)]
+        [TestCase(new double[0], new double[0])]
         [TestCase(new double[] { 0, 4, 3, 0, 0 }, new double[] { 4*1, 3*2 })]
         public void DifferentiateTest(double[] x, double[] expected)
         {
             var p = new Polynomial(x);
             var p_res = p.Differentiate();
 
-            if (expected == null)
+            Assert.AreEqual(expected.Length, p_res.Coefficients.Length, "length mismatch");
+            for (int k = 0; k < p_res.Coefficients.Length; k++)
             {
-                Assert.IsNull(p_res);
-                return;
-            }
-            else
-            {
-                Assert.AreEqual(expected.Length, p_res.Coefficients.Length, "length mismatch");
-                for (int k = 0; k < p_res.Coefficients.Length; k++)
-                {
-                    Assert.AreEqual(expected[k], p_res.Coefficients[k], "idx: " + k + " mismatch");
-                }
+                Assert.AreEqual(expected[k], p_res.Coefficients[k], "idx: " + k + " mismatch");
             }
         }
 
         [TestCase(new double[] { 5, 4, 3, 0, 2 }, new double[] { 0, 5.0/1.0, 4.0/2.0, 3.0/3.0, 0.0/4.0, 2.0/5.0 })]
-        [TestCase(new double[0], new double[1] { 0 })]
+        [TestCase(new double[0], new double[0])]
         [TestCase(new double[] { 0, 1, 6, 8 }, new double[] {0, 0.0/1.0, 1.0/2.0, 6.0/3.0, 8.0/4.0})]
         public void IntegrateTest(double[] x, double[] expected)
         {
             var p = new Polynomial(x);
             var p_res = p.Integrate();
 
-            if (expected == null)
+            Assert.AreEqual(expected.Length, p_res.Coefficients.Length, "length mismatch");
+            for (int k = 0; k < p_res.Coefficients.Length; k++)
             {
-                Assert.IsNull(p_res);
-                return;
-            }
-            else
-            {
-                Assert.AreEqual(expected.Length, p_res.Coefficients.Length, "length mismatch");
-                for (int k = 0; k < p_res.Coefficients.Length; k++)
-                {
-                    Assert.AreEqual(expected[k], p_res.Coefficients[k], "idx: " + k + " mismatch");
-                }
+                Assert.AreEqual(expected[k], p_res.Coefficients[k], "idx: " + k + " mismatch");
             }
         }
 
@@ -121,9 +120,6 @@ namespace MathNet.Numerics.UnitTests
 
                     var p_res = Polynomial.Add(p1, p2);
                     var p_tar = new Polynomial(tgt);
-
-                    p_res.Trim();
-                    p_tar.Trim();
 
                     Assert.AreEqual(p_tar.Coefficients.Length, p_res.Coefficients.Length, "length mismatch");
                     for (int k = 0; k < p_res.Coefficients.Length; k++)
@@ -159,9 +155,6 @@ namespace MathNet.Numerics.UnitTests
                     var p_res = Polynomial.Subtract(p1, p2);
                     var p_tar = new Polynomial(tgt);
 
-                    p_res.Trim();
-                    p_tar.Trim();
-
                     Assert.AreEqual(p_tar.Coefficients.Length, p_res.Coefficients.Length, "length mismatch");
                     for (int k = 0; k < p_res.Coefficients.Length; k++)
                     {
@@ -195,9 +188,6 @@ namespace MathNet.Numerics.UnitTests
                     var p_res = p1 * p2;
                     var p_tar = new Polynomial(tgt);
 
-                    p_res.Trim();
-                    p_tar.Trim();
-
                     Assert.AreEqual(p_tar.Coefficients.Length, p_res.Coefficients.Length, "length mismatch");
                     for (int k = 0; k < p_res.Coefficients.Length; k++)
                     {
@@ -208,15 +198,14 @@ namespace MathNet.Numerics.UnitTests
         }
 
 
-        [TestCase(new double[] { 5, 4, 0 }, "5 + 4x^1")]
+        [TestCase(new double[] { 5, 4, 0 }, "5 + 4x")]
         [TestCase(new double[] { 0, 0, 0 }, "0")]
-        [TestCase(new double[] { 5, 4, 3, 0, 2 }, "5 + 4x^1 + 3x^2 + 0x^3 + 2x^4")]
-        [TestCase(new double[] { 0, 0, 8, 0, 0 }, "0 + 0x^1 + 8x^2")]
-        [TestCase(new double[] { 0, 4, 3, 0, 0 }, "0 + 4x^1 + 3x^2")]
+        [TestCase(new double[] { 5, 4, 3, 0, 2 }, "5 + 4x + 3x^2 + 2x^4")]
+        [TestCase(new double[] { 0, 0, 8, 0, 0 }, "8x^2")]
+        [TestCase(new double[] { 0, 4, 3, 0, 0 }, "4x + 3x^2")]
         public void TrimTest(double[] x, string expected)
         {
             var p = new Polynomial(x);
-            p.Trim();
             Assert.AreEqual(expected, p.ToString());
 
         }
@@ -224,29 +213,29 @@ namespace MathNet.Numerics.UnitTests
         [Test]
         public void DivideLongTestWrongInputs()
         {
-            Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
+            Assert.Throws(typeof(DivideByZeroException), () =>
             {
                 var p1 = new Polynomial(1.0d);
                 var p2 = new Polynomial(new double[0]);
-                var tpl = Polynomial.DivideRemainder(p1, p2);
+                GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
-            Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
+            Assert.DoesNotThrow(() =>
             {
-                var p1 = new Polynomial(1.0d);
-                var p2 = new Polynomial(new double[0]);
-                var tpl = Polynomial.DivideRemainder(p2, p1);
+                var p1 = new Polynomial(new double[0]);
+                var p2 = new Polynomial(1.0d);
+                GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
-            Assert.Throws(typeof(ArgumentOutOfRangeException), () =>
+            Assert.Throws(typeof(DivideByZeroException), () =>
             {
                 var p1 = new Polynomial(new double[0]);
                 var p2 = new Polynomial(new double[0]);
-                var tpl = Polynomial.DivideRemainder(p2, p1);
+                GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
             Assert.Throws(typeof(DivideByZeroException), () =>
             {
                 var p1 = new Polynomial(1.0d);
                 var p2 = new Polynomial(0.0d);
-                var tpl = Polynomial.DivideRemainder(p1, p2);
+                GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
         }
 
@@ -257,13 +246,13 @@ namespace MathNet.Numerics.UnitTests
             var p21 = new Polynomial(2.0d);
             var tpl1 = Polynomial.DivideRemainder(p11, p21);
             TestEqual(new double[] { 1.0 }, tpl1.Item1);
-            TestEqual(new double[] { 0.0 }, tpl1.Item2);
+            TestEqual(new double[0], tpl1.Item2);
 
             var p12 = new Polynomial(new double[] { 2.0d, 2.0d });
             var p22 = new Polynomial(2.0d);
             var tpl2 = Polynomial.DivideRemainder(p12, p22);
             TestEqual(new double[] { 1.0, 1.0 }, tpl2.Item1);
-            TestEqual(new double[] { 0.0 }, tpl2.Item2);
+            TestEqual(new double[0], tpl2.Item2);
 
             for (int i = 0; i < 5; i++)
             {
@@ -284,7 +273,6 @@ namespace MathNet.Numerics.UnitTests
                     var pquo = tpl3.Item1;
                     var prem = tpl3.Item2;
                     var pres = (pquo * pi) + prem;
-                    pres.Trim();
 
                     TestEqual(pres, tgt, msg);
                 }

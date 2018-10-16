@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Text;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearRegression;
@@ -22,7 +23,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Only needed for the ToString method
         /// </summary>
-        public string VarName = "x^";
+        public string VarName = "x";
 
         /// <summary>
         /// Degree of the polynomial, i.e. the largest monomial exponent. For example, the degree of y=x^2+x^5 is 5, for y=3 it is 0.
@@ -194,37 +195,41 @@ namespace MathNet.Numerics
         #region Calculus
         public Polynomial Differentiate()
         {
-            if (Coefficients.Length == 0)
+            int n = Degree;
+            if (n < 0)
             {
-                return null;
+                return this;
+            }
+            if (n == 0)
+            {
+                // Zero
+                return new Polynomial();
             }
 
-            var t = Clone() as Polynomial;
-            t.Trim();
-            var cNew = new double[t.Coefficients.Length - 1];
-            for (int i = 1; i < t.Coefficients.Length; i++)
+            var c = new double[n];
+            for (int i = 0; i < c.Length; i++)
             {
-                cNew[i - 1] = t.Coefficients[i] * i;
+                c[i] = Coefficients[i + 1] * (i + 1);
             }
 
-            var p = new Polynomial(cNew);
-            p.Trim();
-            return p;
+            return new Polynomial(c);
         }
 
         public Polynomial Integrate()
         {
-            var t = Clone() as Polynomial;
-            t.Trim();
-            var cNew = new double[t.Coefficients.Length + 1];
-            for (int i = 1; i < cNew.Length; i++)
+            int n = Degree;
+            if (n < 0)
             {
-                cNew[i] = t.Coefficients[i - 1] / i;
+                return this;
             }
 
-            var p = new Polynomial(cNew);
-            p.Trim();
-            return p;
+            var c = new double[n + 2];
+            for (int i = 1; i < c.Length; i++)
+            {
+                c[i] = Coefficients[i - 1] / i;
+            }
+
+            return new Polynomial(c);
         }
         #endregion
 
@@ -496,18 +501,14 @@ namespace MathNet.Numerics
         /// <returns>A tuple holding quotient in first and remainder in second</returns>
         public static Tuple<Polynomial, Polynomial> DivideRemainder(Polynomial a, Polynomial b)
         {
-            if (a == null)
-                throw new ArgumentNullException(nameof(a));
-            if (b == null)
-                throw new ArgumentNullException(nameof(b));
-
-            if (a.Coefficients.Length <= 0)
-                throw new ArgumentOutOfRangeException("a Degree must be greater than zero");
-            if (b.Coefficients.Length <= 0)
-                throw new ArgumentOutOfRangeException("b Degree must be greater than zero");
-
-            if (b.Coefficients[b.Coefficients.Length - 1] == 0)
+            if (b.Degree < 0)
                 throw new DivideByZeroException("b polynomial ends with zero");
+
+            if (a.Degree < 0)
+            {
+                // zero divided by non-zero is zero without remainder
+                return Tuple.Create(a, a);
+            }
 
             var c1 = a.Coefficients.ToArray();
             var c2 = b.Coefficients.ToArray();
@@ -581,8 +582,6 @@ namespace MathNet.Numerics
             var pQuo = new Polynomial(quo);
             var pRem = new Polynomial(rem);
 
-            pRem.Trim();
-            pQuo.Trim();
             return new Tuple<Polynomial, Polynomial>(pQuo, pRem);
         }
         #endregion
@@ -788,43 +787,113 @@ namespace MathNet.Numerics
         /// <returns>string in displayed format</returns>
         public string ToString(bool highestFirst)
         {
-            if (Coefficients == null)
+            if (Degree < 0)
             {
-                return "null";
-            }
-            if (Coefficients.Length == 0)
-            {
-                return "";
+                return "0";
             }
 
-            string result = "";
-            if (!highestFirst)
+            var sb = new StringBuilder();
+            bool first = true;
+            if (highestFirst)
             {
-                for (int ii = 0; ii < Coefficients.Length; ii++)
+                for (int i = Coefficients.Length - 1; i >= 0; i--)
                 {
+                    double c = Coefficients[i];
+                    if (c == 0.0)
+                    {
+                        continue;
+                    }
 
-                    if (ii == 0 && Coefficients.Length == 1)
-                        result += String.Format("{0}", Coefficients[ii], VarName, ii);
-                    else if (ii == 0)
-                        result += String.Format("{0} + ", Coefficients[ii], VarName, ii);
-                    else if (ii == Coefficients.Length - 1)
-                        result += String.Format("{0}{1}{2}", Coefficients[ii], VarName, ii);
+                    if (first)
+                    {
+                        sb.Append(c);
+                        if (i > 0)
+                        {
+                            sb.Append(VarName);
+                        }
+                        if (i > 1)
+                        {
+                            sb.Append("^");
+                            sb.Append(i);
+                        }
+
+                        first = false;
+                    }
                     else
-                        result += String.Format("{0}{1}{2} + ", Coefficients[ii], VarName, ii);
+                    {
+                        if (c < 0.0)
+                        {
+                            sb.Append(" - ");
+                            sb.Append(-c);
+                        }
+                        else
+                        {
+                            sb.Append(" + ");
+                            sb.Append(c);
+                        }
+                        if (i > 0)
+                        {
+                            sb.Append(VarName);
+                        }
+                        if (i > 1)
+                        {
+                            sb.Append("^");
+                            sb.Append(i);
+                        }
+                    }
                 }
             }
             else
             {
-                for (int ii = Coefficients.Length - 1; ii >= 0; ii--)
+                for (int i = 0; i < Coefficients.Length; i++)
                 {
-                    if (ii == 0)
-                        result += Coefficients[ii].ToString();
+                    double c = Coefficients[i];
+                    if (c == 0.0)
+                    {
+                        continue;
+                    }
+
+                    if (first)
+                    {
+                        sb.Append(c);
+                        if (i > 0)
+                        {
+                            sb.Append(VarName);
+                        }
+                        if (i > 1)
+                        {
+                            sb.Append("^");
+                            sb.Append(i);
+                        }
+
+                        first = false;
+                    }
                     else
-                        result += String.Format("{0}{1}{2} + ", Coefficients[ii], VarName, ii);
+                    {
+                        if (c < 0.0)
+                        {
+                            sb.Append(" - ");
+                            sb.Append(-c);
+                        }
+                        else
+                        {
+                            sb.Append(" + ");
+                            sb.Append(c);
+                        }
+                        if (i > 0)
+                        {
+                            sb.Append(VarName);
+                        }
+                        if (i > 1)
+                        {
+                            sb.Append("^");
+                            sb.Append(i);
+                        }
+                    }
                 }
             }
 
-            return result;
+            return sb.ToString();
         }
         #endregion
     }
