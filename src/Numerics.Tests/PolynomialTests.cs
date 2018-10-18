@@ -60,10 +60,10 @@ namespace MathNet.Numerics.UnitTests
         [TestCase(new double[] { 0, -4, 3 }, "3x^2 - 4x")]
         [TestCase(new double[] { 0, -4, -3 }, "-3x^2 - 4x")]
         [TestCase(new double[] { 0, 4, -3 }, "-3x^2 + 4x")]
-        public void ToStringTestReverse(double[] x, string expected)
+        public void ToStringTestDescending(double[] x, string expected)
         {
             var p = new Polynomial(x);
-            Assert.AreEqual(expected, p.ToString(highestFirst:true));
+            Assert.AreEqual(expected, p.ToStringDescending());
         }
 
         [TestCase(new double[] { 5, 4, 3, 0, 2 }, new double[] { 4*1, 3*2, 0*3, 2*4 })]

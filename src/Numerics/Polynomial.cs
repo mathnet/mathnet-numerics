@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -13,7 +14,7 @@ namespace MathNet.Numerics
     /// <summary>
     /// A single-variable polynomial with real-valued coefficients and non-negative exponents.
     /// </summary>
-    public class Polynomial
+    public class Polynomial : IFormattable
     {
         /// <summary>
         /// The coefficients of the polynomial in a
@@ -95,38 +96,6 @@ namespace MathNet.Numerics
             }
 
             return -1;
-        }
-
-        /// <summary>
-        /// remove all trailing zeros, e.G before: "3 + 2 x^1 + 0 x^2" after: "3 + 2 x^1"
-        /// </summary>
-        public void Trim()
-        {
-            if (Coefficients.Length == 1)
-            {
-                return;
-            }
-
-            int i = Coefficients.Length - 1;
-            while (i >= 0 && Coefficients[i] == 0.0)
-            {
-                i--;
-            }
-
-            if (i < 0)
-            {
-                Coefficients = new[] { 0.0 };
-            }
-            else if (i == 0)
-            {
-                Coefficients = new[] { Coefficients[0] };
-            }
-            else
-            {
-                var hold = new double[i+1];
-                Array.Copy(Coefficients, hold, i+1);
-                Coefficients = hold;
-            }
         }
 
         /// <summary>
@@ -773,19 +742,56 @@ namespace MathNet.Numerics
 
         #region ToString
         /// <summary>
-        /// "0.00 x^3 + 0.00 x^2 + 0.00 x^1 + 0.00" like display of this Polynomial
+        /// Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3".
         /// </summary>
-        /// <returns>string in displayed format</returns>
         public override string ToString()
         {
-            return ToString(highestFirst: false);
+            return ToString("G", CultureInfo.CurrentCulture);
         }
 
         /// <summary>
-        /// "0.00 x^3 + 0.00 x^2 + 0.00 x^1 + 0.00" like display of this Polynomial
+        /// Format the polynomial in descending order, e.g. "x^3 + 2.0x^2 - 4.3".
         /// </summary>
-        /// <returns>string in displayed format</returns>
-        public string ToString(bool highestFirst)
+        public string ToStringDescending()
+        {
+            return ToStringDescending("G", CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3".
+        /// </summary>
+        public string ToString(string format)
+        {
+            return ToString(format, CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Format the polynomial in descending order, e.g. "x^3 + 2.0x^2 - 4.3".
+        /// </summary>
+        public string ToStringDescending(string format)
+        {
+            return ToStringDescending(format, CultureInfo.CurrentCulture);
+        }
+        /// <summary>
+        /// Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3".
+        /// </summary>
+        public string ToString(IFormatProvider formatProvider)
+        {
+            return ToString("G", formatProvider);
+        }
+
+        /// <summary>
+        /// Format the polynomial in descending order, e.g. "x^3 + 2.0x^2 - 4.3".
+        /// </summary>
+        public string ToStringDescending(IFormatProvider formatProvider)
+        {
+            return ToStringDescending("G", formatProvider);
+        }
+
+        /// <summary>
+        /// Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3".
+        /// </summary>
+        public string ToString(string format, IFormatProvider formatProvider)
         {
             if (Degree < 0)
             {
@@ -794,101 +800,111 @@ namespace MathNet.Numerics
 
             var sb = new StringBuilder();
             bool first = true;
-            if (highestFirst)
+            for (int i = 0; i < Coefficients.Length; i++)
             {
-                for (int i = Coefficients.Length - 1; i >= 0; i--)
+                double c = Coefficients[i];
+                if (c == 0.0)
                 {
-                    double c = Coefficients[i];
-                    if (c == 0.0)
+                    continue;
+                }
+
+                if (first)
+                {
+                    sb.Append(c.ToString(format, formatProvider));
+                    if (i > 0)
                     {
-                        continue;
+                        sb.Append(VarName);
+                    }
+                    if (i > 1)
+                    {
+                        sb.Append("^");
+                        sb.Append(i);
                     }
 
-                    if (first)
+                    first = false;
+                }
+                else
+                {
+                    if (c < 0.0)
                     {
-                        sb.Append(c);
-                        if (i > 0)
-                        {
-                            sb.Append(VarName);
-                        }
-                        if (i > 1)
-                        {
-                            sb.Append("^");
-                            sb.Append(i);
-                        }
-
-                        first = false;
+                        sb.Append(" - ");
+                        sb.Append((-c).ToString(format, formatProvider));
                     }
                     else
                     {
-                        if (c < 0.0)
-                        {
-                            sb.Append(" - ");
-                            sb.Append(-c);
-                        }
-                        else
-                        {
-                            sb.Append(" + ");
-                            sb.Append(c);
-                        }
-                        if (i > 0)
-                        {
-                            sb.Append(VarName);
-                        }
-                        if (i > 1)
-                        {
-                            sb.Append("^");
-                            sb.Append(i);
-                        }
+                        sb.Append(" + ");
+                        sb.Append(c.ToString(format, formatProvider));
+                    }
+                    if (i > 0)
+                    {
+                        sb.Append(VarName);
+                    }
+                    if (i > 1)
+                    {
+                        sb.Append("^");
+                        sb.Append(i);
                     }
                 }
             }
-            else
+
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Format the polynomial in descending order, e.g. "x^3 + 2.0x^2 - 4.3".
+        /// </summary>
+        public string ToStringDescending(string format, IFormatProvider formatProvider)
+        {
+            if (Degree < 0)
             {
-                for (int i = 0; i < Coefficients.Length; i++)
+                return "0";
+            }
+
+            var sb = new StringBuilder();
+            bool first = true;
+            for (int i = Coefficients.Length - 1; i >= 0; i--)
+            {
+                double c = Coefficients[i];
+                if (c == 0.0)
                 {
-                    double c = Coefficients[i];
-                    if (c == 0.0)
+                    continue;
+                }
+
+                if (first)
+                {
+                    sb.Append(c.ToString(format, formatProvider));
+                    if (i > 0)
                     {
-                        continue;
+                        sb.Append(VarName);
+                    }
+                    if (i > 1)
+                    {
+                        sb.Append("^");
+                        sb.Append(i);
                     }
 
-                    if (first)
+                    first = false;
+                }
+                else
+                {
+                    if (c < 0.0)
                     {
-                        sb.Append(c);
-                        if (i > 0)
-                        {
-                            sb.Append(VarName);
-                        }
-                        if (i > 1)
-                        {
-                            sb.Append("^");
-                            sb.Append(i);
-                        }
-
-                        first = false;
+                        sb.Append(" - ");
+                        sb.Append((-c).ToString(format, formatProvider));
                     }
                     else
                     {
-                        if (c < 0.0)
-                        {
-                            sb.Append(" - ");
-                            sb.Append(-c);
-                        }
-                        else
-                        {
-                            sb.Append(" + ");
-                            sb.Append(c);
-                        }
-                        if (i > 0)
-                        {
-                            sb.Append(VarName);
-                        }
-                        if (i > 1)
-                        {
-                            sb.Append("^");
-                            sb.Append(i);
-                        }
+                        sb.Append(" + ");
+                        sb.Append(c.ToString(format, formatProvider));
+                    }
+                    if (i > 0)
+                    {
+                        sb.Append(VarName);
+                    }
+                    if (i > 1)
+                    {
+                        sb.Append("^");
+                        sb.Append(i);
                     }
                 }
             }
