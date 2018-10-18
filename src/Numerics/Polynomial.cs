@@ -14,7 +14,7 @@ namespace MathNet.Numerics
     /// <summary>
     /// A single-variable polynomial with real-valued coefficients and non-negative exponents.
     /// </summary>
-    public class Polynomial : IFormattable
+    public class Polynomial : IFormattable, IEquatable<Polynomial>
     {
         /// <summary>
         /// The coefficients of the polynomial in a
@@ -910,6 +910,52 @@ namespace MathNet.Numerics
             }
 
             return sb.ToString();
+        }
+        #endregion
+
+        #region Equality
+        public bool Equals(Polynomial other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            int n = Degree;
+            if (n != other.Degree)
+            {
+                return false;
+            }
+
+            for (var i = 0; i <= n; i++)
+            {
+                if (!Coefficients[i].Equals(other.Coefficients[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof(Polynomial)) return false;
+            return Equals((Polynomial)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashNum = Math.Min(Degree + 1, 25);
+            int hash = 17;
+            unchecked
+            {
+                for (var i = 0; i < hashNum; i++)
+                {
+                    hash = hash * 31 + Coefficients[i].GetHashCode();
+                }
+            }
+            return hash;
         }
         #endregion
     }
