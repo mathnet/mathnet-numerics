@@ -241,5 +241,36 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         }
 
         #endregion
+
+        #region Ratio of Bessel I : I(n + 1, z) / I(n, z)
+
+        [TestCase(0, 1, 1, 0.57495795977223997079, 0.35054769385125934266, 14)]
+        [TestCase(0, 10, 10, 0.97503660846868673171, 0.025655591609138262390, 14)]
+        [TestCase(0, 100, 100, 0.99750003174335729017, 0.0025062812447888833561, 12)]
+        [TestCase(0, 1E6, 1E6, 0.99999975000000000003, 2.5000006250003125000E-7, 8)] // cf. BesselI(0, 1e6 + 1e6 j) = 7.4E434290 - 6.9E434290 j and BesselI(1, 1e6 + 1e6 j) = 7.4E434290 - 6.9E434290 j
+        public void BesselIRatioExact(int n, double zr, double zi, double cyr, double cyi, int decimalPlaces)
+        {
+            var z = new Complex(zr, zi);
+            var actual = SpecialFunctions.BesselI(n + 1, z, true) / SpecialFunctions.BesselI(n, z, true);
+            AssertHelpers.AlmostEqualRelative(new Complex(cyr, cyi), actual, decimalPlaces);
+        }
+
+        #endregion
+
+        #region Ratio of Bessel K : K(n + 1, z) / K(n, z)
+
+        [TestCase(0, 1E-6, 1E-6, 38803.844378426554737, -34562.243460439510287, 14)]
+        [TestCase(0, 1, 1, 1.2397012468882428039, -0.20950920530836317445, 14)]
+        [TestCase(0, 10, 10, 1.0249731393042359657, -0.024405853995209668702, 14)]
+        [TestCase(0, 100, 100, 1.0024999692332050665, -0.0024937812450508461147, 12)]
+        [TestCase(0, 1E6, 1E6, 1.0000002500000000000, -2.4999993750003125000E-7, 9)]
+        public void BesselKRatioExact(int n, double zr, double zi, double cyr, double cyi, int decimalPlaces)
+        {
+            var z = new Complex(zr, zi);
+            var actual = SpecialFunctions.BesselK(n + 1, z, true) / SpecialFunctions.BesselK(n, z, true);
+            AssertHelpers.AlmostEqualRelative(new Complex(cyr, cyi), actual, decimalPlaces);
+        }
+
+        #endregion
     }
 }
