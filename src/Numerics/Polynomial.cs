@@ -234,9 +234,9 @@ namespace MathNet.Numerics
             // Negate, and normalize (scale such that the polynomial becomes monic)
             double aN = Coefficients[n];
             double[] p = new double[n];
-            for (int ii = n - 1; ii >= 0; ii--)
+            for (int i = n - 1; i >= 0; i--)
             {
-                p[ii] = -Coefficients[ii] / aN;
+                p[i] = -Coefficients[i] / aN;
             }
 
             DenseMatrix A0 = DenseMatrix.CreateDiagonal(n - 1, n - 1, 1.0);
@@ -465,88 +465,71 @@ namespace MathNet.Numerics
         /// <returns>A tuple holding quotient in first and remainder in second</returns>
         public static Tuple<Polynomial, Polynomial> DivideRemainder(Polynomial a, Polynomial b)
         {
-            if (b.Degree < 0)
+            var bDegree = b.Degree;
+            if (bDegree < 0)
+            {
                 throw new DivideByZeroException("b polynomial ends with zero");
+            }
 
-            if (a.Degree < 0)
+            var aDegree = a.Degree;
+            if (aDegree < 0)
             {
                 // zero divided by non-zero is zero without remainder
                 return Tuple.Create(a, a);
             }
 
+            if (bDegree == 0)
+            {
+                // division by scalar
+                return Tuple.Create(Divide(a, b.Coefficients[0]), new Polynomial());
+            }
+
+            if (aDegree < bDegree)
+            {
+                // denominator degree higher than nominator degree
+                // quotient always be 0 and return c1 as remainder
+                return Tuple.Create(new Polynomial(), a);
+            }
+
             var c1 = a.Coefficients.ToArray();
             var c2 = b.Coefficients.ToArray();
 
-            var n1 = c1.Length;
-            var n2 = c2.Length;
-
-            double[] quo = null;
-            double[] rem = null;
-
-            if (n2 == 1) // division by scalar
+            var scl = c2[bDegree];
+            var c22 = new double[bDegree];
+            for (int ii = 0; ii < c22.Length; ii++)
             {
-                var fact = c2[0];
-                quo = new double[n1];
-                for (int i = 0; i < n1; i++)
-                    quo[i] = c1[i] / fact;
-                rem = new double[] { 0 };
-            }
-            else if (n1 < n2) // denominator degree higher than nominator degree
-            {
-                // quotient always be 0 and return c1 as remainder
-                quo = new double[] { 0 };
-                rem = c1.ToArray();
-            }
-            else
-            {
-                var dn = n1 - n2;
-                var scl = c2[n2 - 1];
-                var c22 = new double[n2 - 1];
-                for (int ii = 0; ii < c22.Length; ii++)
-                {
-                    c22[ii] = c2[ii] / scl;
-                }
-
-                int i = dn;
-                int j = n1 - 1;
-                while (i >= 0)
-                {
-                    var v = c1[j];
-                    for (int k = i; k < j; k++)
-                        c1[k] -= c22[k - i] * v;
-                    i--;
-                    j--;
-                }
-
-                var j1 = j + 1;
-                var l1 = n1 - j1;
-
-                rem = new double[j1];
-                quo = new double[l1];
-
-                for (int k = 0; k < l1; k++)
-                {
-                    quo[k] = c1[k + j1] / scl;
-                }
-
-                for (int k = 0; k < j1; k++)
-                {
-                    rem[k] = c1[k];
-                }
-
+                c22[ii] = c2[ii] / scl;
             }
 
-            if (rem == null)
-                throw new NullReferenceException("resulting remainder was null");
+            int i = aDegree - bDegree;
+            int j = aDegree;
+            while (i >= 0)
+            {
+                var v = c1[j];
+                for (int k = i; k < j; k++)
+                {
+                    c1[k] -= c22[k - i] * v;
+                }
+                i--;
+                j--;
+            }
 
-            if (quo == null)
-                throw new NullReferenceException("resulting quotient was null");
+            var j1 = j + 1;
+            var l1 = aDegree - j;
 
-            // output mapping
-            var pQuo = new Polynomial(quo);
-            var pRem = new Polynomial(rem);
+            var quo = new double[l1];
+            for (int k = 0; k < l1; k++)
+            {
+                quo[k] = c1[k + j1] / scl;
+            }
 
-            return new Tuple<Polynomial, Polynomial>(pQuo, pRem);
+            var rem = new double[j1];
+            for (int k = 0; k < j1; k++)
+            {
+                rem[k] = c1[k];
+            }
+
+            return Tuple.Create(new Polynomial(quo), new Polynomial(rem));
         }
         #endregion
 
@@ -954,7 +937,7 @@ namespace MathNet.Numerics
         }
         #endregion
 
-        #region
+        #region Clone
         public Polynomial Clone()
         {
             int degree = EvaluateDegree(Coefficients);
