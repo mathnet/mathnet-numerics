@@ -106,12 +106,12 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void ComplexRootsAreRoots(double d, double c, double b, double a)
         {
             var roots = FindRoots.Cubic(d, c, b, a);
-            Assert.That(Evaluate.Polynomial(roots.Item1, d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
-            Assert.That(Evaluate.Polynomial(roots.Item1, d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
-            Assert.That(Evaluate.Polynomial(roots.Item2, d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
-            Assert.That(Evaluate.Polynomial(roots.Item2, d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
-            Assert.That(Evaluate.Polynomial(roots.Item3, d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
-            Assert.That(Evaluate.Polynomial(roots.Item3, d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots.Item1, d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots.Item1, d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots.Item2, d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots.Item2, d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots.Item3, d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots.Item3, d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
         }
     }
 }

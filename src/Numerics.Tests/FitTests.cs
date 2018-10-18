@@ -273,7 +273,7 @@ namespace MathNet.Numerics.UnitTests
             var resf = Fit.PolynomialFunc(x, y, 2);
             foreach (var z in Enumerable.Range(-3, 10))
             {
-                Assert.AreEqual(Evaluate.Polynomial(z, resp), resf(z), 1e-4);
+                Assert.AreEqual(Polynomial.Evaluate(z, resp), resf(z), 1e-4);
             }
         }
 

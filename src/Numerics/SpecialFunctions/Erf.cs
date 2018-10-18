@@ -418,7 +418,7 @@ namespace MathNet.Numerics
                 else
                 {
                     // Worst case absolute error found: 6.688618532e-21
-                    result = (z*1.125) + (z*Evaluate.Polynomial(z, ErfImpAn)/Evaluate.Polynomial(z, ErfImpAd));
+                    result = (z*1.125) + (z*Polynomial.Evaluate(z, ErfImpAn)/Polynomial.Evaluate(z, ErfImpAd));
                 }
             }
             else if (z < 110)
@@ -429,79 +429,79 @@ namespace MathNet.Numerics
                 if (z < 0.75)
                 {
                     // Worst case absolute error found: 5.582813374e-21
-                    r = Evaluate.Polynomial(z - 0.5, ErfImpBn)/Evaluate.Polynomial(z - 0.5, ErfImpBd);
+                    r = Polynomial.Evaluate(z - 0.5, ErfImpBn)/Polynomial.Evaluate(z - 0.5, ErfImpBd);
                     b = 0.3440242112F;
                 }
                 else if (z < 1.25)
                 {
                     // Worst case absolute error found: 4.01854729e-21
-                    r = Evaluate.Polynomial(z - 0.75, ErfImpCn)/Evaluate.Polynomial(z - 0.75, ErfImpCd);
+                    r = Polynomial.Evaluate(z - 0.75, ErfImpCn)/Polynomial.Evaluate(z - 0.75, ErfImpCd);
                     b = 0.419990927F;
                 }
                 else if (z < 2.25)
                 {
                     // Worst case absolute error found: 2.866005373e-21
-                    r = Evaluate.Polynomial(z - 1.25, ErfImpDn)/Evaluate.Polynomial(z - 1.25, ErfImpDd);
+                    r = Polynomial.Evaluate(z - 1.25, ErfImpDn)/Polynomial.Evaluate(z - 1.25, ErfImpDd);
                     b = 0.4898625016F;
                 }
                 else if (z < 3.5)
                 {
                     // Worst case absolute error found: 1.045355789e-21
-                    r = Evaluate.Polynomial(z - 2.25, ErfImpEn) /Evaluate.Polynomial(z - 2.25, ErfImpEd);
+                    r = Polynomial.Evaluate(z - 2.25, ErfImpEn) /Polynomial.Evaluate(z - 2.25, ErfImpEd);
                     b = 0.5317370892F;
                 }
                 else if (z < 5.25)
                 {
                     // Worst case absolute error found: 8.300028706e-22
-                    r = Evaluate.Polynomial(z - 3.5, ErfImpFn) /Evaluate.Polynomial(z - 3.5, ErfImpFd);
+                    r = Polynomial.Evaluate(z - 3.5, ErfImpFn) /Polynomial.Evaluate(z - 3.5, ErfImpFd);
                     b = 0.5489973426F;
                 }
                 else if (z < 8)
                 {
                     // Worst case absolute error found: 1.700157534e-21
-                    r = Evaluate.Polynomial(z - 5.25, ErfImpGn) /Evaluate.Polynomial(z - 5.25, ErfImpGd);
+                    r = Polynomial.Evaluate(z - 5.25, ErfImpGn) /Polynomial.Evaluate(z - 5.25, ErfImpGd);
                     b = 0.5571740866F;
                 }
                 else if (z < 11.5)
                 {
                     // Worst case absolute error found: 3.002278011e-22
-                    r = Evaluate.Polynomial(z - 8, ErfImpHn) /Evaluate.Polynomial(z - 8, ErfImpHd);
+                    r = Polynomial.Evaluate(z - 8, ErfImpHn) /Polynomial.Evaluate(z - 8, ErfImpHd);
                     b = 0.5609807968F;
                 }
                 else if (z < 17)
                 {
                     // Worst case absolute error found: 6.741114695e-21
-                    r = Evaluate.Polynomial(z - 11.5, ErfImpIn) /Evaluate.Polynomial(z - 11.5, ErfImpId);
+                    r = Polynomial.Evaluate(z - 11.5, ErfImpIn) /Polynomial.Evaluate(z - 11.5, ErfImpId);
                     b = 0.5626493692F;
                 }
                 else if (z < 24)
                 {
                     // Worst case absolute error found: 7.802346984e-22
-                    r = Evaluate.Polynomial(z - 17, ErfImpJn) /Evaluate.Polynomial(z - 17, ErfImpJd);
+                    r = Polynomial.Evaluate(z - 17, ErfImpJn) /Polynomial.Evaluate(z - 17, ErfImpJd);
                     b = 0.5634598136F;
                 }
                 else if (z < 38)
                 {
                     // Worst case absolute error found: 2.414228989e-22
-                    r = Evaluate.Polynomial(z - 24, ErfImpKn) /Evaluate.Polynomial(z - 24, ErfImpKd);
+                    r = Polynomial.Evaluate(z - 24, ErfImpKn) /Polynomial.Evaluate(z - 24, ErfImpKd);
                     b = 0.5638477802F;
                 }
                 else if (z < 60)
                 {
                     // Worst case absolute error found: 5.896543869e-24
-                    r = Evaluate.Polynomial(z - 38, ErfImpLn) /Evaluate.Polynomial(z - 38, ErfImpLd);
+                    r = Polynomial.Evaluate(z - 38, ErfImpLn) /Polynomial.Evaluate(z - 38, ErfImpLd);
                     b = 0.5640528202F;
                 }
                 else if (z < 85)
                 {
                     // Worst case absolute error found: 3.080612264e-21
-                    r = Evaluate.Polynomial(z - 60, ErfImpMn) /Evaluate.Polynomial(z - 60, ErfImpMd);
+                    r = Polynomial.Evaluate(z - 60, ErfImpMn) /Polynomial.Evaluate(z - 60, ErfImpMd);
                     b = 0.5641309023F;
                 }
                 else
                 {
                     // Worst case absolute error found: 8.094633491e-22
-                    r = Evaluate.Polynomial(z - 85, ErfImpNn) /Evaluate.Polynomial(z - 85, ErfImpNd);
+                    r = Polynomial.Evaluate(z - 85, ErfImpNn) /Polynomial.Evaluate(z - 85, ErfImpNd);
                     b = 0.5641584396F;
                 }
 
@@ -589,7 +589,7 @@ namespace MathNet.Numerics
                 // Maximum Deviation Found (actual error term at infinite precision) 8.030e-21
                 const float y = 0.0891314744949340820313f;
                 double g = p*(p + 10);
-                double r = Evaluate.Polynomial(p, ErvInvImpAn) /Evaluate.Polynomial(p, ErvInvImpAd);
+                double r = Polynomial.Evaluate(p, ErvInvImpAn) /Polynomial.Evaluate(p, ErvInvImpAd);
                 result = (g*y) + (g*r);
             }
             else if (q >= 0.25)
@@ -607,7 +607,7 @@ namespace MathNet.Numerics
                 const float y = 2.249481201171875f;
                 double g = Math.Sqrt(-2*Math.Log(q));
                 double xs = q - 0.25;
-                double r = Evaluate.Polynomial(xs, ErvInvImpBn) /Evaluate.Polynomial(xs, ErvInvImpBd);
+                double r = Polynomial.Evaluate(xs, ErvInvImpBn) /Polynomial.Evaluate(xs, ErvInvImpBd);
                 result = g/(y + r);
             }
             else
@@ -635,7 +635,7 @@ namespace MathNet.Numerics
                     // Max error found: 1.089051e-20
                     const float y = 0.807220458984375f;
                     double xs = x - 1.125;
-                    double r = Evaluate.Polynomial(xs, ErvInvImpCn) /Evaluate.Polynomial(xs, ErvInvImpCd);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpCn) /Polynomial.Evaluate(xs, ErvInvImpCd);
                     result = (y*x) + (r*x);
                 }
                 else if (x < 6)
@@ -643,7 +643,7 @@ namespace MathNet.Numerics
                     // Max error found: 8.389174e-21
                     const float y = 0.93995571136474609375f;
                     double xs = x - 3;
-                    double r = Evaluate.Polynomial(xs, ErvInvImpDn) /Evaluate.Polynomial(xs, ErvInvImpDd);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpDn) /Polynomial.Evaluate(xs, ErvInvImpDd);
                     result = (y*x) + (r*x);
                 }
                 else if (x < 18)
@@ -651,7 +651,7 @@ namespace MathNet.Numerics
                     // Max error found: 1.481312e-19
                     const float y = 0.98362827301025390625f;
                     double xs = x - 6;
-                    double r = Evaluate.Polynomial(xs, ErvInvImpEn) /Evaluate.Polynomial(xs, ErvInvImpEd);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpEn) /Polynomial.Evaluate(xs, ErvInvImpEd);
                     result = (y*x) + (r*x);
                 }
                 else if (x < 44)
@@ -659,7 +659,7 @@ namespace MathNet.Numerics
                     // Max error found: 5.697761e-20
                     const float y = 0.99714565277099609375f;
                     double xs = x - 18;
-                    double r = Evaluate.Polynomial(xs, ErvInvImpFn) /Evaluate.Polynomial(xs, ErvInvImpFd);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpFn) /Polynomial.Evaluate(xs, ErvInvImpFd);
                     result = (y*x) + (r*x);
                 }
                 else
@@ -667,7 +667,7 @@ namespace MathNet.Numerics
                     // Max error found: 1.279746e-20
                     const float y = 0.99941349029541015625f;
                     double xs = x - 44;
-                    double r = Evaluate.Polynomial(xs, ErvInvImpGn) /Evaluate.Polynomial(xs, ErvInvImpGd);
+                    double r = Polynomial.Evaluate(xs, ErvInvImpGn) /Polynomial.Evaluate(xs, ErvInvImpGd);
                     result = (y*x) + (r*x);
                 }
             }

@@ -121,11 +121,68 @@ namespace MathNet.Numerics
         #region Evaluation
         /// <summary>
         /// Evaluate a polynomial at point x.
+        /// Coefficients are ordered by power with power k at index k.
+        /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
+        /// </summary>
+        /// <param name="z">The location where to evaluate the polynomial at.</param>
+        /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
+        public static double Evaluate(double z, params double[] coefficients)
+        {
+            double sum = coefficients[coefficients.Length - 1];
+            for (int i = coefficients.Length - 2; i >= 0; --i)
+            {
+                sum *= z;
+                sum += coefficients[i];
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        /// Evaluate a polynomial at point x.
+        /// Coefficients are ordered by power with power k at index k.
+        /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
+        /// </summary>
+        /// <param name="z">The location where to evaluate the polynomial at.</param>
+        /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
+        public static Complex Evaluate(Complex z, params double[] coefficients)
+        {
+            Complex sum = coefficients[coefficients.Length - 1];
+            for (int i = coefficients.Length - 2; i >= 0; --i)
+            {
+                sum *= z;
+                sum += coefficients[i];
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        /// Evaluate a polynomial at point x.
+        /// Coefficients are ordered by power with power k at index k.
+        /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
+        /// </summary>
+        /// <param name="z">The location where to evaluate the polynomial at.</param>
+        /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
+        public static Complex Evaluate(Complex z, params Complex[] coefficients)
+        {
+            Complex sum = coefficients[coefficients.Length - 1];
+            for (int i = coefficients.Length - 2; i >= 0; --i)
+            {
+                sum *= z;
+                sum += coefficients[i];
+            }
+
+            return sum;
+        }
+
+        /// <summary>
+        /// Evaluate a polynomial at point x.
         /// </summary>
         /// <param name="z">The location where to evaluate the polynomial at.</param>
         public double Evaluate(double z)
         {
-            return Numerics.Evaluate.Polynomial(z, Coefficients);
+            return Evaluate(z, Coefficients);
         }
 
         /// <summary>
@@ -134,7 +191,7 @@ namespace MathNet.Numerics
         /// <param name="z">The location where to evaluate the polynomial at.</param>
         public Complex Evaluate(Complex z)
         {
-            return Numerics.Evaluate.Polynomial(z, Coefficients);
+            return Evaluate(z, Coefficients);
         }
 
         /// <summary>

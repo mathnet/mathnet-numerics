@@ -154,7 +154,7 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
-        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Polynomial.Evaluate.
         /// A polynomial with order/degree k has (k+1) coefficients and thus requires at least (k+1) samples.
         /// </summary>
         public static double[] Polynomial(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
@@ -171,12 +171,12 @@ namespace MathNet.Numerics
         public static Func<double, double> PolynomialFunc(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
             var parameters = Polynomial(x, y, order, method);
-            return z => Evaluate.Polynomial(z, parameters);
+            return z => Numerics.Polynomial.Evaluate(z, parameters);
         }
 
         /// <summary>
         /// Weighted Least-Squares fitting the points (x,y) and weights w to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
-        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
+        /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Polynomial.Evaluate.
         /// A polynomial with order/degree k has (k+1) coefficients and thus requires at least (k+1) samples.
         /// </summary>
         public static double[] PolynomialWeighted(double[] x, double[] y, double[] w, int order)
