@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -9,22 +11,30 @@ using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearRegression;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 
+#if !NETSTANDARD1_3
+using System.Runtime;
+#endif
+
 namespace MathNet.Numerics
 {
     /// <summary>
     /// A single-variable polynomial with real-valued coefficients and non-negative exponents.
     /// </summary>
+    [Serializable]
+    [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class Polynomial : IFormattable, IEquatable<Polynomial>
     {
         /// <summary>
         /// The coefficients of the polynomial in a
         /// </summary>
+        [DataMember(Order = 1)]
         public double[] Coefficients { get; private set; }
 
         /// <summary>
         /// Only needed for the ToString method
         /// </summary>
-        public string VarName = "x";
+        [DataMember(Order = 2)]
+        public string VariableName = "x";
 
         /// <summary>
         /// Degree of the polynomial, i.e. the largest monomial exponent. For example, the degree of y=x^2+x^5 is 5, for y=3 it is 0.
@@ -813,7 +823,7 @@ namespace MathNet.Numerics
                     sb.Append(c.ToString(format, formatProvider));
                     if (i > 0)
                     {
-                        sb.Append(VarName);
+                        sb.Append(VariableName);
                     }
                     if (i > 1)
                     {
@@ -837,7 +847,7 @@ namespace MathNet.Numerics
                     }
                     if (i > 0)
                     {
-                        sb.Append(VarName);
+                        sb.Append(VariableName);
                     }
                     if (i > 1)
                     {
@@ -875,7 +885,7 @@ namespace MathNet.Numerics
                     sb.Append(c.ToString(format, formatProvider));
                     if (i > 0)
                     {
-                        sb.Append(VarName);
+                        sb.Append(VariableName);
                     }
                     if (i > 1)
                     {
@@ -899,7 +909,7 @@ namespace MathNet.Numerics
                     }
                     if (i > 0)
                     {
-                        sb.Append(VarName);
+                        sb.Append(VariableName);
                     }
                     if (i > 1)
                     {

@@ -29,8 +29,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.Serialization;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
@@ -316,6 +318,25 @@ namespace MathNet.Numerics.UnitTests
             expected_4.Add(new Complex(-0.6666666666666666, 0.7453559924999296));
             expected_4.Add(new Complex(-0.6666666666666666, -0.7453559924999296));
             TestEqual(x_4, expected_4);
+        }
+
+        [Test]
+        public void DataContractSerializationTest()
+        {
+            Polynomial expected = new Polynomial(new [] { 1.0d, 2.0d, 0.0d, 3.0d });
+            expected.VariableName = "z";
+
+            var serializer = new DataContractSerializer(typeof(Polynomial));
+            var stream = new MemoryStream();
+            serializer.WriteObject(stream, expected);
+            stream.Position = 0;
+
+            var actual = (Polynomial)serializer.ReadObject(stream);
+
+            Assert.That(actual.Degree, Is.EqualTo(expected.Degree));
+            Assert.That(actual.VariableName, Is.EqualTo(expected.VariableName));
+            Assert.That(actual, Is.EqualTo(expected));
+            Assert.That(actual, Is.Not.SameAs(expected));
         }
 
         static void TestEqual(double[] x, List<Complex> eIn)
