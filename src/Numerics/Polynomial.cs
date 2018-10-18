@@ -23,6 +23,9 @@ namespace MathNet.Numerics
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics")]
     public class Polynomial : IFormattable, IEquatable<Polynomial>
+#if !NETSTANDARD1_3
+        , ICloneable
+#endif
     {
         /// <summary>
         /// The coefficients of the polynomial in a
@@ -79,11 +82,9 @@ namespace MathNet.Numerics
         /// Example: {5, 0, 2} -> "p : x -> 5 + 0 x^1 + 2 x^2".
         /// </summary>
         /// <param name="coefficients">Polynomial coefficients as array</param>
-        public Polynomial(double[] coefficients)
+        public Polynomial(params double[] coefficients)
         {
-            int degree = EvaluateDegree(coefficients);
-            Coefficients = new double[degree + 1];
-            Array.Copy(coefficients, Coefficients, Coefficients.Length);
+            Coefficients = coefficients;
         }
 
         /// <summary>
@@ -115,22 +116,6 @@ namespace MathNet.Numerics
         {
             var coefficients = Numerics.Fit.Polynomial(x, y, order, method);
             return new Polynomial(coefficients);
-        }
-
-        /// <summary>
-        /// This method returns the coefficients of the Polynomial as an array the "IsFlipped" property,
-        /// which is set during construction is taken into account automatically.
-        /// </summary>
-        /// <returns>The coefficients of the polynomial as an array</returns>
-        public double[] ToArray()
-        {
-            return Coefficients.ToArray();
-        }
-
-        public object Clone()
-        {
-            // TODO: this assumes the constructor does a copy
-            return new Polynomial(Coefficients);
         }
 
         #region Evaluation
@@ -415,29 +400,23 @@ namespace MathNet.Numerics
         /// <returns>Resulting Polynomial</returns>
         public static Polynomial Multiply(Polynomial a, Polynomial b)
         {
-            var aa = a.Clone() as Polynomial;
-            var bb = b.Clone() as Polynomial;
-            // do not cut trailing zeros, since it may corrupt the outcom, if the array is of form 1 + x^-1 + x^-2 + x^-3
-            //a.Trim();
-            //b.Trim();
+            var ad = a.Degree;
+            var bd = b.Degree;
+            double[] ac = a.Coefficients;
+            double[] bc = b.Coefficients;
 
-            double[] a1 = aa.Coefficients;
-            double[] b1 = bb.Coefficients;
-            double[] ret = new double[a1.Length + b1.Length];
+            var degree = ad + bd;
+            double[] result = new double[degree + 1];
 
-            for (int i = 0; i < a1.Length; i++)
+            for (int i = 0; i <= ad; i++)
             {
-                for (int j = 0; j < b1.Length; j++)
+                for (int j = 0; j <= bd; j++)
                 {
-                    ret[i + j] += a1[i] * b1[j];
+                    result[i + j] += ac[i] * bc[j];
                 }
             }
 
-            Polynomial result = new Polynomial(ret);
-
-            //ret_p.Trim();
-
-            return result;
+            return new Polynomial(result);
         }
 
         /// <summary>
@@ -448,12 +427,15 @@ namespace MathNet.Numerics
         /// <returns>Resulting Polynomial</returns>
         public static Polynomial Multiply(Polynomial a, double k)
         {
-            var aa = a.Clone() as Polynomial;
+            var ac = a.Coefficients;
 
-            for (int ii = 0; ii < aa.Coefficients.Length; ii++)
-                aa.Coefficients[ii] *= k;
+            var result = new double[a.Degree + 1];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = ac[i] * k;
+            }
 
-            return aa;
+            return new Polynomial(result);
         }
 
         /// <summary>
@@ -464,12 +446,15 @@ namespace MathNet.Numerics
         /// <returns>Resulting Polynomial</returns>
         public static Polynomial Divide(Polynomial a, double k)
         {
-            var aa = a.Clone() as Polynomial;
+            var ac = a.Coefficients;
 
-            for (int ii = 0; ii < aa.Coefficients.Length; ii++)
-                aa.Coefficients[ii] /= k;
+            var result = new double[a.Degree + 1];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = ac[i] / k;
+            }
 
-            return aa;
+            return new Polynomial(result);
         }
 
         /// <summary>
@@ -967,6 +952,29 @@ namespace MathNet.Numerics
             }
             return hash;
         }
+        #endregion
+
+        #region
+        public Polynomial Clone()
+        {
+            int degree = EvaluateDegree(Coefficients);
+            var coefficients = new double[degree + 1];
+            Array.Copy(Coefficients, coefficients, coefficients.Length);
+            return new Polynomial(coefficients);
+        }
+
+#if !NETSTANDARD1_3
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+#endif
         #endregion
     }
 }

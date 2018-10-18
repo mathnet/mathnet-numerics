@@ -218,25 +218,25 @@ namespace MathNet.Numerics.UnitTests
             Assert.Throws(typeof(DivideByZeroException), () =>
             {
                 var p1 = new Polynomial(1.0d);
-                var p2 = new Polynomial(new double[0]);
+                var p2 = new Polynomial();
                 GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
             Assert.DoesNotThrow(() =>
             {
-                var p1 = new Polynomial(new double[0]);
+                var p1 = new Polynomial();
                 var p2 = new Polynomial(1.0d);
                 GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
             Assert.Throws(typeof(DivideByZeroException), () =>
             {
-                var p1 = new Polynomial(new double[0]);
-                var p2 = new Polynomial(new double[0]);
+                var p1 = new Polynomial();
+                var p2 = new Polynomial();
                 GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
             Assert.Throws(typeof(DivideByZeroException), () =>
             {
                 var p1 = new Polynomial(1.0d);
-                var p2 = new Polynomial(0.0d);
+                var p2 = new Polynomial();
                 GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
         }
@@ -250,7 +250,7 @@ namespace MathNet.Numerics.UnitTests
             TestEqual(new double[] { 1.0 }, tpl1.Item1);
             TestEqual(new double[0], tpl1.Item2);
 
-            var p12 = new Polynomial(new double[] { 2.0d, 2.0d });
+            var p12 = new Polynomial(2.0d, 2.0d);
             var p22 = new Polynomial(2.0d);
             var tpl2 = Polynomial.DivideRemainder(p12, p22);
             TestEqual(new double[] { 1.0, 1.0 }, tpl2.Item1);
@@ -292,7 +292,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(0, r.Length, "length mismatch");
 
             // 0 = 1 + 2*x -> single root at -1/2
-            var p2 = new Polynomial(new double[] { 1, 2 });
+            var p2 = new Polynomial(1, 2);
             var r2 = p2.Roots();
             Assert.AreEqual(1, r2.Length, "length mismatch");
             Assert.AreEqual(-0.5, r2.FirstOrDefault().Real, tol);
@@ -304,27 +304,44 @@ namespace MathNet.Numerics.UnitTests
             var x_2 = new double[] { -1.0, 1.0 };
             var expected_2 = new List<Complex>();
             expected_2.Add(new Complex(1.0, 0.0));
-            TestEqual(x_2, expected_2);
+            TestRootsEqual(x_2, expected_2);
 
             var x_3 = new double[] { -1.0, 0.0, 1.0 };
             var expected_3 = new List<Complex>();
             expected_3.Add(new Complex(1.0, 0.0));
             expected_3.Add(new Complex(-1.0, 0.0));
-            TestEqual(x_3, expected_3);
+            TestRootsEqual(x_3, expected_3);
 
             var x_4 = new double[] { -1.0, -0.33333333333333337, 0.33333333333333326, 1.0 };
             var expected_4 = new List<Complex>();
             expected_4.Add(new Complex(0.9999999999999996, 0.0));
             expected_4.Add(new Complex(-0.6666666666666666, 0.7453559924999296));
             expected_4.Add(new Complex(-0.6666666666666666, -0.7453559924999296));
-            TestEqual(x_4, expected_4);
+            TestRootsEqual(x_4, expected_4);
+        }
+
+        static void TestRootsEqual(double[] x, List<Complex> eIn)
+        {
+            var tol = 1e-10;
+            var r0 = new Polynomial(x).Roots().ToList();
+
+            var e = eIn.OrderBy(v => v.Real).ToArray();
+            var r = r0.OrderBy(v => v.Real).ToArray();
+
+            Assert.IsNotNull(r);
+            Assert.AreEqual(e.Length, r.Length, "Length mismatch");
+            for (int k = 0; k < r.Length; k++)
+            {
+                var msg = String.Format("At k={0}", k);
+                Assert.AreEqual(e[k].Real, r[k].Real, tol, msg);
+                Assert.AreEqual(e[k].Imaginary, r[k].Imaginary, tol, msg);
+            }
         }
 
         [Test]
         public void DataContractSerializationTest()
         {
-            Polynomial expected = new Polynomial(new [] { 1.0d, 2.0d, 0.0d, 3.0d });
-            expected.VariableName = "z";
+            Polynomial expected = new Polynomial(1.0d, 2.0d, 0.0d, 3.0d) { VariableName = "z" };
 
             var serializer = new DataContractSerializer(typeof(Polynomial));
             var stream = new MemoryStream();
@@ -339,27 +356,9 @@ namespace MathNet.Numerics.UnitTests
             Assert.That(actual, Is.Not.SameAs(expected));
         }
 
-        static void TestEqual(double[] x, List<Complex> eIn)
-        {
-            var tol = 1e-10;
-            var r0 = new Polynomial(x).Roots().ToList();
-
-            var e = eIn.OrderBy(v => v.Real).ToArray();
-            var r = r0.OrderBy(v => v.Real).ToArray();
-
-            Assert.IsNotNull(r);
-            Assert.AreEqual(e.Length, r.Length, "length mismatch");
-            for (int k = 0; k < r.Length; k++)
-            {
-                var msg = String.Format("At k={0}", k);
-                Assert.AreEqual(e[k].Real, r[k].Real, tol, msg);
-                Assert.AreEqual(e[k].Imaginary, r[k].Imaginary, tol, msg);
-            }
-        }
-
         static void TestEqual(double[] p_tar, double[] p_res, string msg = null)
         {
-            Assert.AreEqual(p_tar.Length, p_res.Length, "length mismatch");
+            Assert.AreEqual(p_tar.Length, p_res.Length, "Length mismatch");
             for (int k = 0; k < p_res.Length; k++)
             {
                 Assert.AreEqual(p_tar[k], p_res[k], msg);
@@ -368,18 +367,17 @@ namespace MathNet.Numerics.UnitTests
 
         static void TestEqual(double[] p_tar, Polynomial p_res, string msg = null)
         {
-            Assert.AreEqual(p_tar.Length, p_res.Coefficients.Length, "length mismatch");
-            for (int k = 0; k < p_res.Coefficients.Length; k++)
+            Assert.AreEqual(p_tar.Length, p_res.Degree + 1, "Degree mismatch");
+            for (int k = 0; k <= p_res.Degree; k++)
             {
                 Assert.AreEqual(p_tar[k], p_res.Coefficients[k], msg);
             }
-
         }
 
         static void TestEqual(Polynomial p_tar, Polynomial p_res, string msg = null)
         {
-            Assert.AreEqual(p_tar.Coefficients.Length, p_res.Coefficients.Length, "length mismatch");
-            for (int k = 0; k < p_res.Coefficients.Length; k++)
+            Assert.AreEqual(p_tar.Degree, p_res.Degree, "Degree mismatch");
+            for (int k = 0; k <= p_res.Degree; k++)
             {
                 Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
             }
