@@ -193,7 +193,7 @@ Target "Prepare" DoNothing
 // BUILD, SIGN, COLLECT
 // --------------------------------------------------------------------------------------
 
-let fingerprint = "5dbea70701b40cab1b2ca62c75401342b4f0f03a"
+let fingerprint = "490408de3618bed0a28e68dc5face46e5a3a97dd"
 let timeserver = "http://time.certum.pl/"
 
 Target "Build" (fun _ ->
