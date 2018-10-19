@@ -218,25 +218,25 @@ namespace MathNet.Numerics.UnitTests
             Assert.Throws(typeof(DivideByZeroException), () =>
             {
                 var p1 = new Polynomial(1.0d);
-                var p2 = new Polynomial();
+                var p2 = Polynomial.Zero;
                 GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
             Assert.DoesNotThrow(() =>
             {
-                var p1 = new Polynomial();
+                var p1 = Polynomial.Zero;
                 var p2 = new Polynomial(1.0d);
                 GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
             Assert.Throws(typeof(DivideByZeroException), () =>
             {
-                var p1 = new Polynomial();
-                var p2 = new Polynomial();
+                var p1 = Polynomial.Zero;
+                var p2 = Polynomial.Zero;
                 GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
             Assert.Throws(typeof(DivideByZeroException), () =>
             {
                 var p1 = new Polynomial(1.0d);
-                var p2 = new Polynomial();
+                var p2 = Polynomial.Zero;
                 GC.KeepAlive(Polynomial.DivideRemainder(p1, p2));
             });
         }

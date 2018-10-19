@@ -47,6 +47,7 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Create a zero-polynomial with a coefficient array of the given length.
+        /// An array of length N can support polynomials of a degree of at most N-1.
         /// </summary>
         /// <param name="n">Length of the coefficient array</param>
         public Polynomial(int n)
@@ -64,7 +65,11 @@ namespace MathNet.Numerics
         /// </summary>
         public Polynomial()
         {
+#if NET40
             Coefficients = new double[0];
+#else
+            Coefficients = Array.Empty<double>();
+#endif
         }
 
         /// <summary>
@@ -109,6 +114,8 @@ namespace MathNet.Numerics
             return -1;
         }
 
+        public static Polynomial Zero => new Polynomial();
+
         /// <summary>
         /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k
         /// </summary>
@@ -119,6 +126,7 @@ namespace MathNet.Numerics
         }
 
         #region Evaluation
+
         /// <summary>
         /// Evaluate a polynomial at point x.
         /// Coefficients are ordered by power with power k at index k.
@@ -211,9 +219,11 @@ namespace MathNet.Numerics
         {
             return z.Select(Evaluate);
         }
+
         #endregion
 
         #region Calculus
+
         public Polynomial Differentiate()
         {
             int n = Degree;
@@ -221,10 +231,11 @@ namespace MathNet.Numerics
             {
                 return this;
             }
+
             if (n == 0)
             {
                 // Zero
-                return new Polynomial();
+                return Zero;
             }
 
             var c = new double[n];
@@ -252,9 +263,11 @@ namespace MathNet.Numerics
 
             return new Polynomial(c);
         }
+
         #endregion
 
         #region Linear Algebra
+
         /// <summary>
         /// Calculates the complex roots of the Polynomial by eigenvalue decomposition
         /// </summary>
@@ -304,9 +317,11 @@ namespace MathNet.Numerics
 
             return A;
         }
+
         #endregion
 
         #region Arithmetic Operations
+
         /// <summary>
         /// Addition of two Polynomials (point-wise).
         /// </summary>
@@ -538,14 +553,14 @@ namespace MathNet.Numerics
             if (bDegree == 0)
             {
                 // division by scalar
-                return Tuple.Create(Divide(a, b.Coefficients[0]), new Polynomial());
+                return Tuple.Create(Divide(a, b.Coefficients[0]), Zero);
             }
 
             if (aDegree < bDegree)
             {
                 // denominator degree higher than nominator degree
                 // quotient always be 0 and return c1 as remainder
-                return Tuple.Create(new Polynomial(), a);
+                return Tuple.Create(Zero, a);
             }
 
             var c1 = a.Coefficients.ToArray();
@@ -567,6 +582,7 @@ namespace MathNet.Numerics
                 {
                     c1[k] -= c22[k - i] * v;
                 }
+
                 i--;
                 j--;
             }
@@ -588,9 +604,11 @@ namespace MathNet.Numerics
 
             return Tuple.Create(new Polynomial(quo), new Polynomial(rem));
         }
+
         #endregion
 
         #region Arithmetic Pointwise Operations
+
         /// <summary>
         /// Point-wise division of two Polynomials
         /// </summary>
@@ -639,9 +657,11 @@ namespace MathNet.Numerics
 
             return new Polynomial(result);
         }
+
         #endregion
 
         #region Arithmetic Instance Methods (forwarders)
+
         /// <summary>
         /// Division of two polynomials returning the quotient-with-remainder of the two polynomials given
         /// </summary>
@@ -651,9 +671,11 @@ namespace MathNet.Numerics
         {
             return DivideRemainder(this, b);
         }
+
         #endregion
 
         #region Arithmetic Operator Overloads (forwarders)
+
         /// <summary>
         /// Addition of two Polynomials (piecewise)
         /// </summary>
@@ -773,9 +795,11 @@ namespace MathNet.Numerics
         {
             return Divide(a, k);
         }
+
         #endregion
 
         #region ToString
+
         /// <summary>
         /// Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3".
         /// </summary>
@@ -807,6 +831,7 @@ namespace MathNet.Numerics
         {
             return ToStringDescending(format, CultureInfo.CurrentCulture);
         }
+
         /// <summary>
         /// Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3".
         /// </summary>
@@ -850,6 +875,7 @@ namespace MathNet.Numerics
                     {
                         sb.Append(VariableName);
                     }
+
                     if (i > 1)
                     {
                         sb.Append("^");
@@ -870,10 +896,12 @@ namespace MathNet.Numerics
                         sb.Append(" + ");
                         sb.Append(c.ToString(format, formatProvider));
                     }
+
                     if (i > 0)
                     {
                         sb.Append(VariableName);
                     }
+
                     if (i > 1)
                     {
                         sb.Append("^");
@@ -912,6 +940,7 @@ namespace MathNet.Numerics
                     {
                         sb.Append(VariableName);
                     }
+
                     if (i > 1)
                     {
                         sb.Append("^");
@@ -932,10 +961,12 @@ namespace MathNet.Numerics
                         sb.Append(" + ");
                         sb.Append(c.ToString(format, formatProvider));
                     }
+
                     if (i > 0)
                     {
                         sb.Append(VariableName);
                     }
+
                     if (i > 1)
                     {
                         sb.Append("^");
@@ -946,9 +977,11 @@ namespace MathNet.Numerics
 
             return sb.ToString();
         }
+
         #endregion
 
         #region Equality
+
         public bool Equals(Polynomial other)
         {
             if (ReferenceEquals(null, other)) return false;
@@ -990,11 +1023,14 @@ namespace MathNet.Numerics
                     hash = hash * 31 + Coefficients[i].GetHashCode();
                 }
             }
+
             return hash;
         }
+
         #endregion
 
         #region Clone
+
         public Polynomial Clone()
         {
             int degree = EvaluateDegree(Coefficients);
@@ -1015,6 +1051,7 @@ namespace MathNet.Numerics
             return Clone();
         }
 #endif
+
         #endregion
     }
 }
