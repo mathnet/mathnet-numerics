@@ -114,11 +114,21 @@ namespace MathNet.Numerics
         /// <summary>
         /// Find all roots of a polynomial by calculating the characteristic polynomial of the companion matrix
         /// </summary>
-        /// <param name="poly">the values for the polynomial in ascending order e.G new double[] {5, 0, 2} = "5 + 0 x^1 + 2 x^2"</param>
-        /// <returns>the roots of the polynomial</returns>
-        public static Complex[] Polynomial(double[] poly)
+        /// <param name="coefficients">The coefficients of the polynomial in ascending order, e.g. new double[] {5, 0, 2} = "5 + 0 x^1 + 2 x^2"</param>
+        /// <returns>The roots of the polynomial</returns>
+        public static Complex[] Polynomial(double[] coefficients)
         {
-            return new Polynomial(poly).Roots();
+            return new Polynomial(coefficients).Roots();
+        }
+
+        /// <summary>
+        /// Find all roots of a polynomial by calculating the characteristic polynomial of the companion matrix
+        /// </summary>
+        /// <param name="polynomial">The polynomial.</param>
+        /// <returns>The roots of the polynomial</returns>
+        public static Complex[] Polynomial(Polynomial polynomial)
+        {
+            return polynomial.Roots();
         }
 
         /// <summary>
@@ -139,7 +149,7 @@ namespace MathNet.Numerics
             double location = 0.5*(intervalBegin + intervalEnd);
             double scale = 0.5*(intervalEnd - intervalBegin);
 
-            // evaluate first kind chebyshev nodes
+            // evaluate first kind chebychev nodes
             double angleFactor = Constants.Pi/(2*degree);
 
             var samples = new double[degree];
@@ -168,7 +178,7 @@ namespace MathNet.Numerics
             double location = 0.5*(intervalBegin + intervalEnd);
             double scale = 0.5*(intervalEnd - intervalBegin);
 
-            // evaluate second kind chebyshev nodes
+            // evaluate second kind chebychev nodes
             double angleFactor = Constants.Pi/(degree + 1);
 
             var samples = new double[degree];

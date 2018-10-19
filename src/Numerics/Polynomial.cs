@@ -76,10 +76,21 @@ namespace MathNet.Numerics
         /// Create a constant polynomial.
         /// Example: 3.0 -> "p : x -> 3.0"
         /// </summary>
-        /// <param name="coefficient">just the "x^0" part</param>
+        /// <param name="coefficient">The coefficient of the "x^0" monomial.</param>
         public Polynomial(double coefficient)
         {
-            Coefficients = coefficient == 0.0 ? new double[0] : new[] { coefficient };
+            if (coefficient == 0.0)
+            {
+#if NET40
+                Coefficients = new double[0];
+#else
+                Coefficients = Array.Empty<double>();
+#endif
+            }
+            else
+            {
+                Coefficients = new[] { coefficient };
+            }
         }
 
         /// <summary>
@@ -101,6 +112,17 @@ namespace MathNet.Numerics
         {
         }
 
+        public static Polynomial Zero => new Polynomial();
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k
+        /// </summary>
+        public static Polynomial Fit(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        {
+            var coefficients = Numerics.Fit.Polynomial(x, y, order, method);
+            return new Polynomial(coefficients);
+        }
+
         static int EvaluateDegree(double[] coefficients)
         {
             for (int i = coefficients.Length - 1; i >= 0; i--)
@@ -114,22 +136,11 @@ namespace MathNet.Numerics
             return -1;
         }
 
-        public static Polynomial Zero => new Polynomial();
-
-        /// <summary>
-        /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k
-        /// </summary>
-        public static Polynomial Fit(double[] x, double[] y, int order, DirectRegressionMethod method = DirectRegressionMethod.QR)
-        {
-            var coefficients = Numerics.Fit.Polynomial(x, y, order, method);
-            return new Polynomial(coefficients);
-        }
-
         #region Evaluation
 
         /// <summary>
         /// Evaluate a polynomial at point x.
-        /// Coefficients are ordered by power with power k at index k.
+        /// Coefficients are ordered ascending by power with power k at index k.
         /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
         /// </summary>
         /// <param name="z">The location where to evaluate the polynomial at.</param>
@@ -148,7 +159,7 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Evaluate a polynomial at point x.
-        /// Coefficients are ordered by power with power k at index k.
+        /// Coefficients are ordered ascending by power with power k at index k.
         /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
         /// </summary>
         /// <param name="z">The location where to evaluate the polynomial at.</param>
@@ -167,7 +178,7 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Evaluate a polynomial at point x.
-        /// Coefficients are ordered by power with power k at index k.
+        /// Coefficients are ordered ascending by power with power k at index k.
         /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
         /// </summary>
         /// <param name="z">The location where to evaluate the polynomial at.</param>

@@ -97,6 +97,19 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.That(roots.Item3.Imaginary, Is.EqualTo(0).Within(1e-14));
         }
 
+        [TestCase(6.0, -5.0, -2.0, 1.0, 3.0, -2.0, 1.0)]
+        public void ComplexRoots_TripleReal_AsPolynomial(double d, double c, double b, double a, double x1, double x2, double x3)
+        {
+            var roots = FindRoots.Polynomial(new[] { d, c, b, a });
+            Assert.That(roots.Length, Is.EqualTo(3));
+            Assert.That(roots[0].Real, Is.EqualTo(x1).Within(1e-14));
+            Assert.That(roots[0].Imaginary, Is.EqualTo(0).Within(1e-14));
+            Assert.That(roots[1].Real, Is.EqualTo(x2).Within(1e-14));
+            Assert.That(roots[1].Imaginary, Is.EqualTo(0).Within(1e-14));
+            Assert.That(roots[2].Real, Is.EqualTo(x3).Within(1e-14));
+            Assert.That(roots[2].Imaginary, Is.EqualTo(0).Within(1e-14));
+        }
+
         [TestCase(-350.0, 162.0, -30.0, 2.0)]
         [TestCase(6.0, -5.0, -2.0, 1.0)]
         [TestCase(1.0, 5.0, 2.0, 1.0)]
@@ -112,6 +125,24 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.That(Polynomial.Evaluate(roots.Item2, d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
             Assert.That(Polynomial.Evaluate(roots.Item3, d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
             Assert.That(Polynomial.Evaluate(roots.Item3, d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
+        }
+
+        [TestCase(-350.0, 162.0, -30.0, 2.0)]
+        [TestCase(6.0, -5.0, -2.0, 1.0)]
+        [TestCase(1.0, 5.0, 2.0, 1.0)]
+        [TestCase(1.0, 5.0, 0.0, 1.0)]
+        [TestCase(1.0, 0.0, 2.0, 1.0)]
+        [TestCase(0.0, 0.0, 0.0, 2.0)]
+        public void ComplexRootsAreRoots_AsPolynomial(double d, double c, double b, double a)
+        {
+            var roots = FindRoots.Polynomial(new[] { d, c, b, a });
+            Assert.That(roots.Length, Is.EqualTo(3));
+            Assert.That(Polynomial.Evaluate(roots[0], d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots[0], d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots[1], d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots[1], d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots[2], d, c, b, a).Real, Is.EqualTo(0).Within(1e-12));
+            Assert.That(Polynomial.Evaluate(roots[2], d, c, b, a).Imaginary, Is.EqualTo(0).Within(1e-12));
         }
     }
 }
