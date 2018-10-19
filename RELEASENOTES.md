@@ -1,6 +1,7 @@
 ### 4.6.0 - 2018-10-19
 * Polynomial: New Polynomial data structure *~Tobias Glaubach*
 * Statistics: Correlate.Auto auto correlation *~Tobias Glaubach*
+* Curve Fitting: Fit.Curve for non-linear least-squares fitting to an arbitray function
 
 ### 4.5.1 - 2018-05-22
 * Signed NuGet packages

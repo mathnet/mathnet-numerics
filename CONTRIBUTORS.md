@@ -20,6 +20,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Scott Stephens
 - Ignas Anikevicius
 - Alexander Karatarakis
+- Tobias Glaubach
 - Eirik Ovegard
 - Thomas Ibel
 - Yoonku Hwang
@@ -36,6 +37,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Frank A. Krueger
 - Andriy Bratiychuk
 - Jack Pappas
+- Jon Smit
 - Phil Cleveland
 - jnyrup
 - Aappo Pulkkinen
@@ -50,7 +52,6 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Gauthier Segay
 - Hythem Sidky
 - John C Barstow
-- Jon Smit
 - Justin Needham
 - Ksero
 - Patrick van der Velde
@@ -70,6 +71,7 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Albert Pang
 - Alex Hild
 - Ben Hewins
+- Colin Green
 - Dan
 - David Falkner
 - Elias Abou Jaoude
@@ -86,8 +88,10 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Martin Posch
 - Matt Heffron
 - Max Malook
+- Michael Holroyd
 - Mirth Hickford
 - Paul Varkey
+- Richard Reader
 - Sergey Kosukhin
 - Sunny Ahuwanya
 - Till Hoffmann
