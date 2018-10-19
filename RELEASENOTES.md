@@ -1,3 +1,7 @@
+### 4.6.0 - 2018-10-19
+* Polynomial: New Polynomial data structure *~Tobias Glaubach*
+* Statistics: Correlate.Auto auto correlation *~Tobias Glaubach*
+
 ### 4.5.1 - 2018-05-22
 * Signed NuGet packages
 
