@@ -504,7 +504,7 @@ let publishReleaseTag title prefix (release:Release) =
 let publishNuGet packageFiles =
     // TODO: Migrate to NuGet helper once it supports direct (non-integrated) operations
     CleanDir "obj/NuGet"
-    let rec impl trials file =
+    let rec impl trials (file:string) =
         trace ("NuGet Push: " + System.IO.Path.GetFileName(file) + ".")
         try
             let args = sprintf """push "%s" -Source https://api.nuget.org/v3/index.json -T 900""" (FullName file)

@@ -70,11 +70,11 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void Cubic()
         {
             // with complex roots (looking for the real root only): 3x^3 + 4x^2 + 5x + 6
-            Func<double, double> f1 = x => Evaluate.Polynomial(x, 6, 5, 4, 3);
+            Func<double, double> f1 = x => Polynomial.Evaluate(x, 6, 5, 4, 3);
             Assert.AreEqual(-1.265328088928, Brent.FindRoot(f1, -2, -1, 1e-8, 100), 1e-6);
 
             // real roots only: 2x^3 + 4x^2 - 50x + 6
-            Func<double, double> f2 = x => Evaluate.Polynomial(x, 6, -50, 4, 2);
+            Func<double, double> f2 = x => Polynomial.Evaluate(x, 6, -50, 4, 2);
             Assert.AreEqual(-6.1466562197069, Brent.FindRoot(f2, -6.5, -5.5, 1e-8, 100), 1e-6);
             Assert.AreEqual(0.12124737195841, Brent.FindRoot(f2, -0.5, 0.5, 1e-8, 100), 1e-6);
             Assert.AreEqual(4.0254088477485, Brent.FindRoot(f2, 3.5, 4.5, 1e-8, 100), 1e-6);

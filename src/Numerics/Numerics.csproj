@@ -7,11 +7,12 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.5.1</VersionPrefix>
+    <VersionPrefix>4.6.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics$(TitleSuffix)</Title>
     <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>Signed NuGet packages</PackageReleaseNotes>
+    <PackageReleaseNotes>Polynomial: New Polynomial data structure ~Tobias Glaubach
+Statistics: Correlate.Auto auto correlation ~Tobias Glaubach</PackageReleaseNotes>
     <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <NeutralLanguage>en</NeutralLanguage>

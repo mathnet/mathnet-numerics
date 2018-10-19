@@ -112,6 +112,26 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Find all roots of a polynomial by calculating the characteristic polynomial of the companion matrix
+        /// </summary>
+        /// <param name="coefficients">The coefficients of the polynomial in ascending order, e.g. new double[] {5, 0, 2} = "5 + 0 x^1 + 2 x^2"</param>
+        /// <returns>The roots of the polynomial</returns>
+        public static Complex[] Polynomial(double[] coefficients)
+        {
+            return new Polynomial(coefficients).Roots();
+        }
+
+        /// <summary>
+        /// Find all roots of a polynomial by calculating the characteristic polynomial of the companion matrix
+        /// </summary>
+        /// <param name="polynomial">The polynomial.</param>
+        /// <returns>The roots of the polynomial</returns>
+        public static Complex[] Polynomial(Polynomial polynomial)
+        {
+            return polynomial.Roots();
+        }
+
+        /// <summary>
         /// Find all roots of the Chebychev polynomial of the first kind.
         /// </summary>
         /// <param name="degree">The polynomial order and therefore the number of roots.</param>
@@ -129,7 +149,7 @@ namespace MathNet.Numerics
             double location = 0.5*(intervalBegin + intervalEnd);
             double scale = 0.5*(intervalEnd - intervalBegin);
 
-            // evaluate first kind chebyshev nodes
+            // evaluate first kind chebychev nodes
             double angleFactor = Constants.Pi/(2*degree);
 
             var samples = new double[degree];
@@ -158,7 +178,7 @@ namespace MathNet.Numerics
             double location = 0.5*(intervalBegin + intervalEnd);
             double scale = 0.5*(intervalEnd - intervalBegin);
 
-            // evaluate second kind chebyshev nodes
+            // evaluate second kind chebychev nodes
             double angleFactor = Constants.Pi/(degree + 1);
 
             var samples = new double[degree];

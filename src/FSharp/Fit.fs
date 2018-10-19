@@ -64,7 +64,7 @@ module Fit =
     let multiDimFunc intercept x y = Fit.MultiDimFunc(x,y,intercept) |> tofs
 
     /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,
-    /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Evaluate.Polynomial.
+    /// returning its best fitting parameters as [p0, p1, p2, ..., pk] array, compatible with Polynomial.Evaluate.
     let polynomial order x y = Fit.Polynomial(x,y,order)
 
     /// Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 + ... + pk*x^k,

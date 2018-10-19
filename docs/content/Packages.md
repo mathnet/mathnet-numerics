@@ -6,9 +6,6 @@ provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles
 The complete set of Zip and NuGet packages including symbol packages is also available in the
 [release archive](https://1drv.ms/1NlUeDT).
 
-*We're currently planning what platforms we should support in the future.
-Consider to [vote for the platforms you need to be supported](https://discuss.mathdotnet.com/t/poll-what-platforms-should-math-net-numerics-support/60),
-especially if you need support for older or more exotic platforms.*
 
 Math.NET Numerics
 -----------------
@@ -19,7 +16,7 @@ for a more natural and idiomatic experience.
 
 [MathNet.NET Numerics Release Notes](ReleaseNotes.html)
 
-- [**MathNet.Numerics**](https://www.nuget.org/packages/MathNet.Numerics/) - core package, including .Net 4, .Net 3.5 and portable/PCL builds.
+- [**MathNet.Numerics**](https://www.nuget.org/packages/MathNet.Numerics/) - core package, including .Net 4.0, .Net Standard 1.3 and higher.
 - [**MathNet.Numerics.FSharp**](https://www.nuget.org/packages/MathNet.Numerics.FSharp/) - optional extensions for a better F# experience. BigRational.
 
 Both packages above do not have a strong name. While we do not recommend it,

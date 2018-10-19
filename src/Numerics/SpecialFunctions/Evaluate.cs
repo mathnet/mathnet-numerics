@@ -62,16 +62,10 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="z">The location where to evaluate the polynomial at.</param>
         /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
+        [Obsolete("Use Polynomial.Evaluate instead. Will be removed in the next major version.")]
         public static double Polynomial(double z, params double[] coefficients)
         {
-            double sum = coefficients[coefficients.Length - 1];
-            for (int i = coefficients.Length - 2; i >= 0; --i)
-            {
-                sum *= z;
-                sum += coefficients[i];
-            }
-
-            return sum;
+            return Numerics.Polynomial.Evaluate(z, coefficients);
         }
 
         /// <summary>
@@ -81,16 +75,10 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="z">The location where to evaluate the polynomial at.</param>
         /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
+        [Obsolete("Use Polynomial.Evaluate instead. Will be removed in the next major version.")]
         public static Complex Polynomial(Complex z, params double[] coefficients)
         {
-            Complex sum = coefficients[coefficients.Length - 1];
-            for (int i = coefficients.Length - 2; i >= 0; --i)
-            {
-                sum *= z;
-                sum += coefficients[i];
-            }
-
-            return sum;
+            return Numerics.Polynomial.Evaluate(z, coefficients);
         }
 
         /// <summary>
@@ -100,16 +88,10 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="z">The location where to evaluate the polynomial at.</param>
         /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
+        [Obsolete("Use Polynomial.Evaluate instead. Will be removed in the next major version.")]
         public static Complex Polynomial(Complex z, params Complex[] coefficients)
         {
-            Complex sum = coefficients[coefficients.Length - 1];
-            for (int i = coefficients.Length - 2; i >= 0; --i)
-            {
-                sum *= z;
-                sum += coefficients[i];
-            }
-
-            return sum;
+            return Numerics.Polynomial.Evaluate(z, coefficients);
         }
 
         /// <summary>

@@ -72,6 +72,9 @@
       <PaketRestoreRequired Condition=" '$(PaketRestoreLockFileHash)' == '' ">true</PaketRestoreRequired>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(PaketPropsVersion)' != '5.174.2' ">
+      <PaketRestoreRequired>true</PaketRestoreRequired>
+    </PropertyGroup>
 
     <!-- Do a global restore if required -->
     <Exec Command='$(PaketBootStrapperCommand)' Condition="Exists('$(PaketBootStrapperExePath)') AND !(Exists('$(PaketExePath)'))" ContinueOnError="false" />
@@ -93,7 +96,7 @@
       <PaketOriginalReferencesFilePath Condition=" !Exists('$(PaketOriginalReferencesFilePath)')">$(MSBuildProjectDirectory)\$(MSBuildProjectName).paket.references</PaketOriginalReferencesFilePath>
       <!-- paket.references -->
       <PaketOriginalReferencesFilePath Condition=" !Exists('$(PaketOriginalReferencesFilePath)')">$(MSBuildProjectDirectory)\paket.references</PaketOriginalReferencesFilePath>
-      
+
       <DoAllResolvedFilesExist>false</DoAllResolvedFilesExist>
       <DoAllResolvedFilesExist Condition="Exists(%(PaketResolvedFilePaths.Identity))">true</DoAllResolvedFilesExist>
       <PaketRestoreRequired>true</PaketRestoreRequired>
@@ -132,20 +135,21 @@
     <Error Condition=" '$(DoAllResolvedFilesExist)' != 'true' AND '$(ResolveNuGetPackages)' != 'False' " Text="One Paket file '@(PaketResolvedFilePaths)' is missing while restoring $(MSBuildProjectFile). Please delete 'paket-files/paket.restore.cached' and call 'paket restore'." />
 
     <!-- Step 4 forward all msbuild properties (PackageReference, DotNetCliToolReference) to msbuild -->
-    <ReadLinesFromFile Condition="'@(PaketResolvedFilePaths)' != ''" File="%(PaketResolvedFilePaths.Identity)" ><!--Condition="Exists('%(PaketResolvedFilePaths.Identity)')"-->
+    <ReadLinesFromFile Condition="($(DesignTimeBuild) != true OR '$(PaketPropsLoaded)' != 'true') AND '@(PaketResolvedFilePaths)' != ''" File="%(PaketResolvedFilePaths.Identity)" >
       <Output TaskParameter="Lines" ItemName="PaketReferencesFileLines"/>
     </ReadLinesFromFile>
 
-    <ItemGroup Condition=" '@(PaketReferencesFileLines)' != '' " >
+    <ItemGroup Condition="($(DesignTimeBuild) != true OR '$(PaketPropsLoaded)' != 'true') AND '@(PaketReferencesFileLines)' != '' " >
       <PaketReferencesFileLinesInfo Include="@(PaketReferencesFileLines)" >
         <PackageName>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[0])</PackageName>
         <PackageVersion>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[1])</PackageVersion>
         <AllPrivateAssets>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[4])</AllPrivateAssets>
+        <CopyLocal>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[5])</CopyLocal>
       </PaketReferencesFileLinesInfo>
       <PackageReference Include="%(PaketReferencesFileLinesInfo.PackageName)">
         <Version>%(PaketReferencesFileLinesInfo.PackageVersion)</Version>
         <PrivateAssets Condition=" ('%(PaketReferencesFileLinesInfo.AllPrivateAssets)' == 'true') Or ('$(PackAsTool)' == 'true') ">All</PrivateAssets>
-        <ExcludeAssets Condition="%(PaketReferencesFileLinesInfo.AllPrivateAssets) == 'exclude'">runtime</ExcludeAssets>
+        <ExcludeAssets Condition="%(PaketReferencesFileLinesInfo.CopyLocal) == 'false'">runtime</ExcludeAssets>
         <Publish Condition=" '$(PackAsTool)' == 'true' ">true</Publish>
       </PackageReference>
     </ItemGroup>

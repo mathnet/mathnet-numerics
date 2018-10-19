@@ -102,14 +102,14 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void Cubic()
         {
             // with complex roots (looking for the real root only): 3x^3 + 4x^2 + 5x + 6, derivative 9x^2 + 8x + 5
-            Func<double, double> f1 = x => Evaluate.Polynomial(x, 6, 5, 4, 3);
-            Func<double, double> df1 = x => Evaluate.Polynomial(x, 5, 8, 9);
+            Func<double, double> f1 = x => Polynomial.Evaluate(x, 6, 5, 4, 3);
+            Func<double, double> df1 = x => Polynomial.Evaluate(x, 5, 8, 9);
             Assert.AreEqual(-1.265328088928, RobustNewtonRaphson.FindRoot(f1, df1, -2, -1, 1e-10, 100, 20), 1e-6);
             Assert.AreEqual(-1.265328088928, RobustNewtonRaphson.FindRoot(f1, df1, -5, 5, 1e-10, 100, 20), 1e-6);
 
             // real roots only: 2x^3 + 4x^2 - 50x + 6, derivative 6x^2 + 8x - 50
-            Func<double, double> f2 = x => Evaluate.Polynomial(x, 6, -50, 4, 2);
-            Func<double, double> df2 = x => Evaluate.Polynomial(x, -50, 8, 6);
+            Func<double, double> f2 = x => Polynomial.Evaluate(x, 6, -50, 4, 2);
+            Func<double, double> df2 = x => Polynomial.Evaluate(x, -50, 8, 6);
             Assert.AreEqual(-6.1466562197069, RobustNewtonRaphson.FindRoot(f2, df2, -8, -5, 1e-10, 100, 20), 1e-6);
             Assert.AreEqual(0.12124737195841, RobustNewtonRaphson.FindRoot(f2, df2, -1, 1, 1e-10, 100, 20), 1e-6);
             Assert.AreEqual(4.0254088477485, RobustNewtonRaphson.FindRoot(f2, df2, 3, 5, 1e-10, 100, 20), 1e-6);

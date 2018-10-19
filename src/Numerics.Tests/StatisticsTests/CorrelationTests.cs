@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2018 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,6 +32,8 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using MathNet.Numerics.Statistics;
+using MathNet.Numerics.TestData;
+using System.Globalization;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
@@ -57,6 +59,65 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             _data.Add("lottery", lottery);
             var lew = new StatTestData("NIST.Lew.dat");
             _data.Add("lew", lew);
+        }
+
+        [TestCase("numpy.CorrNumpyData_sqr.csv", 0.005)]
+        [TestCase("numpy.CorrNumpyData_pwm.csv", 0.005)]
+        [TestCase("numpy.CorrNumpyData_sin.csv", 0.005)]
+        [TestCase("numpy.CorrNumpyData_rnd.csv", 0.005)]
+        public void AutoCorrelationTest(string fName, double tol)
+        {
+            var data = Data.ReadAllLines(fName)
+                .Select(line =>
+                {
+                    var vals = line.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    return new Tuple<string, string>(vals[0], vals[1]);
+                }).ToArray();
+
+            var series = data.Select(tuple => Double.Parse(tuple.Item1, CultureInfo.InvariantCulture)).ToArray();
+            var resNumpy = data.Select(tuple => Double.Parse(tuple.Item2, CultureInfo.InvariantCulture)).ToArray();
+
+            var resMathNet = Correlation.Auto(series);
+
+            Assert.AreEqual(resNumpy.Length, resMathNet.Length);
+            for (int i = 0; i < resMathNet.Length; i++)
+            {
+                Assert.AreEqual(resNumpy[i], resMathNet[i], tol);
+            }
+        }
+
+        [TestCase()]
+        public void AutoCorrelationTest2()
+        {
+            var tol = 1e-14;
+            var n = 10;
+            // make some dummy data
+            var a = Generate.LinearSpacedMap(n, 0, 2*Constants.Pi, Math.Sin);
+
+            var idxs = new int[] { 2, 1, 7 };
+
+            var resFull = Correlation.Auto(a);
+            var resLim = Correlation.Auto(a, 4);
+
+            Assert.AreEqual(4+1, resLim.Length);
+            for (int i = 0; i < resLim.Length; i++)
+            {
+                Assert.AreEqual(resFull[i], resLim[i], tol);
+            }
+
+            var resRange = Correlation.Auto(a, 3, 6);   // -> Order will be set in function anyways
+            Assert.AreEqual(6-3+1, resRange.Length);
+            for (int i = 0; i < resRange.Length; i++)
+            {
+                Assert.AreEqual(resFull[i], resLim[i], tol);
+            }
+
+            var resIdxs = Correlation.Auto(a, idxs);
+            Assert.AreEqual(idxs.Length, resIdxs.Length);
+            Assert.AreEqual(resFull[2], resIdxs[0], tol);
+            Assert.AreEqual(resFull[1], resIdxs[1], tol);
+            Assert.AreEqual(resFull[7], resIdxs[2], tol);
+
         }
 
         /// <summary>

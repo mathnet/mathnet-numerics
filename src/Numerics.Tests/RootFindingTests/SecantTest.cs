@@ -68,12 +68,12 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
         public void Cubic()
         {
             // with complex roots (looking for the real root only): 3x^3 + 4x^2 + 5x + 6
-            Func<double, double> f1 = x => Evaluate.Polynomial(x, 6, 5, 4, 3);
+            Func<double, double> f1 = x => Polynomial.Evaluate(x, 6, 5, 4, 3);
             Assert.AreEqual(-1.265328088928, Secant.FindRoot(f1, -2, -1, -10, 10, 1e-10), 1e-6);
             Assert.AreEqual(-1.265328088928, Secant.FindRoot(f1, -5, 6, -10, 10, 1e-10), 1e-6);
 
             // real roots only: 2x^3 + 4x^2 - 50x + 6
-            Func<double, double> f2 = x => Evaluate.Polynomial(x, 6, -50, 4, 2);
+            Func<double, double> f2 = x => Polynomial.Evaluate(x, 6, -50, 4, 2);
             Assert.AreEqual(-6.1466562197069, Secant.FindRoot(f2, -8, -5, -10, 10, 1e-10), 1e-6);
             Assert.AreEqual(0.12124737195841, Secant.FindRoot(f2, -1, 1, -10, 10, 1e-10), 1e-6);
             Assert.AreEqual(4.0254088477485, Secant.FindRoot(f2, 3, 5, 0, 10, 1e-10), 1e-6);
