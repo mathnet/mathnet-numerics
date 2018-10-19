@@ -1146,6 +1146,35 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         }
 
         /// <summary>
+        /// Multiplies the transpose of this matrix with a vector and places the results into the result vector.
+        /// </summary>
+        /// <param name="rightSide">The vector to multiply with.</param>
+        /// <param name="result">The result of the multiplication.</param>
+        protected override void DoTransposeThisAndMultiply(Vector<Complex> rightSide, Vector<Complex> result)
+        {
+            var rowPointers = _storage.RowPointers;
+            var columnIndices = _storage.ColumnIndices;
+            var values = _storage.Values;
+
+            for (var row = 0; row < RowCount; row++)
+            {
+                var startIndex = rowPointers[row];
+                var endIndex = rowPointers[row + 1];
+
+                if (startIndex == endIndex)
+                {
+                    continue;
+                }
+
+                var rightSideValue = rightSide[row];
+                for (var index = startIndex; index < endIndex; index++)
+                {
+                    result[columnIndices[index]] += values[index] * rightSideValue;
+                }
+            }
+        }
+
+        /// <summary>
         /// Pointwise multiplies this matrix with another matrix and stores the result into the result matrix.
         /// </summary>
         /// <param name="other">The matrix to pointwise multiply with this one.</param>
