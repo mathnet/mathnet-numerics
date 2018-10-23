@@ -22,7 +22,7 @@ nuget System.Runtime.Serialization.Formatters framework:netstandard1.3,netstanda
 nuget System.Security.Cryptography.Algorithms framework:netstandard1.3,netstandard1.6,netcoreapp1.1
 
 // .NET Standard
-nuget NETStandard.Library 2.0.2 strategy:min, framework:netstandard1.3,netstandard1.6,netcoreapp1.1,netcoreapp2.0
+nuget NETStandard.Library 2.0.3 strategy:min, framework:netstandard1.3,netstandard1.6,netcoreapp1.1,netcoreapp2.0
 nuget Microsoft.NETCore.Platforms 2.0.2 strategy:min, framework:netstandard1.3,netstandard1.6,netcoreapp1.1,netcoreapp2.0
 
 // .NET Core
