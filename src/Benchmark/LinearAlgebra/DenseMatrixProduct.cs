@@ -17,20 +17,10 @@ namespace Benchmark.LinearAlgebra
         {
             public Config()
             {
-                Add(
-                    new Job("CLR x64", RunMode.Default, EnvMode.RyuJitX64)
-                    {
-                        Env = { Runtime = Runtime.Clr, Platform = Platform.X64 }
-                    },
-                    new Job("CLR x86", RunMode.Default, EnvMode.LegacyJitX86)
-                    {
-                        Env = { Runtime = Runtime.Clr, Platform = Platform.X86 }
-                    });
+                Add(Job.Clr.With(Platform.X64).With(Jit.RyuJit));
+                Add(Job.Clr.With(Platform.X86).With(Jit.LegacyJit));
 #if !NET461
-                Add(new Job("Core RyuJit x64", RunMode.Default, EnvMode.RyuJitX64)
-                    {
-                        Env = { Runtime = Runtime.Core, Platform = Platform.X64 }
-                    });
+                Add(Job.Core.With(Platform.X64).With(Jit.RyuJit));
 #endif
             }
         }
@@ -61,7 +51,7 @@ namespace Benchmark.LinearAlgebra
 
         [Params(ProviderId.Managed, ProviderId.NativeMKLAutoHigh, ProviderId.NativeMKLAvx2High)]
         public ProviderId Provider { get; set; }
-    
+
         readonly Dictionary<string, Matrix<double>> _data = new Dictionary<string, Matrix<double>>();
 
         public DenseMatrixProduct()
