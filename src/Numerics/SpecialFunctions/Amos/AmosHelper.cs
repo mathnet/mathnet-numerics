@@ -2447,18 +2447,18 @@ namespace MathNet.Numerics
 
                 #endregion
 
-                const int FLT_RADIX = 2;
-                const double DBL_EPSILON = 2.2204460492503130808E-16; // DBL_EPSILON is not double.Epsilon; // 2^(1 - 53)
-                const double DBL_MAX = double.MaxValue; // 2^1024 * (1 - 2^(-53)) = 1.7976931348623151094E308
-                const double DBL_MIN = 2.225073858507201383090232717E-308; // 2^(-1021 - 1)
+                const int FLT_RADIX = 2; // the radix used by the representation of all floating-point types 
+                const double DBL_EPSILON = 2.2204460492503130808E-16; // 2^(1 - 53) 
+                const double DBL_MAX = double.MaxValue; // 2^1024 * (1 - 2^(-53))
+                const double DBL_MIN = 2.2250738585072013831E-308; // 2^(-1021 - 1)
 
                 switch (i)
                 {
-                    case 1: return DBL_MIN; // the smallest positive magnitude. 
+                    case 1: return DBL_MIN; // the smallest positive magnitude.
                     case 2: return DBL_MAX; // the largest magnitude.
-                    case 3: return DBL_EPSILON / FLT_RADIX; // the smallest relative spacing. // 2^(-51) = 4.4408920985006261617E-16
-                    case 4: return DBL_EPSILON; // the largest relative spacing.
-                    case 5: return Math.Log10((double)FLT_RADIX);
+                    case 3: return DBL_EPSILON / FLT_RADIX; // return Precision.DoublePrecision; // the smallest relative spacing.
+                    case 4: return DBL_EPSILON; // return Precision.PositiveDoublePrecision; // the largest relative spacing.
+                    case 5: return Math.Log10(FLT_RADIX);
                 }
                 return 0;
             }
@@ -2542,17 +2542,12 @@ namespace MathNet.Numerics
 
                 #endregion
 
-                int INT_MAX = Int32.MaxValue;
-                int DBL_MANT_DIG = 53;
-                int DBL_MIN_EXP = -1021;
-                int DBL_MAX_EXP = 1024;
-
                 switch (i)
                 {
-                    case 9: return INT_MAX;
-                    case 14: return DBL_MANT_DIG;
-                    case 15: return DBL_MIN_EXP;
-                    case 16: return DBL_MAX_EXP;
+                    case 9: return Int32.MaxValue; // the largest magnitude of integer = 2^31 - 1 = 2147483647
+                    case 14: return 53; // return Precision.DoubleWidth; // the number of base-2 digits. 
+                    case 15: return -1021; // EMIN, the smallest exponent E.
+                    case 16: return 1024; // EMAX, the largest exponent E = 2^10
                 }
                 return 0;
             }
