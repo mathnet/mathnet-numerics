@@ -65,7 +65,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions
                     MinimizingPoint = new double[] { 1e6, 2e-6 },
                     LowerBound = new double[] { 0, 3e-5 },
                     UpperBound = new double[] { 1e6, 100 },
-                    CaseName = "tight bounds"                 
+                    CaseName = "tight bounds"
                 };
             }
         }

@@ -31,10 +31,10 @@
 //    CERN - European Laboratory for Particle Physics
 //        http://www.docjar.com/html/api/cern/jet/math/Bessel.java.html
 //        Copyright 1999 CERN - European Laboratory for Particle Physics.
-//        Permission to use, copy, modify, distribute and sell this software and its documentation for any purpose 
-//        is hereby granted without fee, provided that the above copyright notice appear in all copies and 
-//        that both that copyright notice and this permission notice appear in supporting documentation. 
-//        CERN makes no representations about the suitability of this software for any purpose. 
+//        Permission to use, copy, modify, distribute and sell this software and its documentation for any purpose
+//        is hereby granted without fee, provided that the above copyright notice appear in all copies and
+//        that both that copyright notice and this permission notice appear in supporting documentation.
+//        CERN makes no representations about the suitability of this software for any purpose.
 //        It is provided "as is" without expressed or implied warranty.
 //    TOMS757 - Uncommon Special Functions (Fortran77) by Allan McLeod
 //        http://people.sc.fsu.edu/~jburkardt/f77_src/toms757/toms757.html
@@ -324,15 +324,15 @@ namespace MathNet.Numerics
             //
             //      NTERM2 - INTEGER - The no. of terms for the array ARL1AS.
             //                         The recommended value is such that
-            //                             ABS(ARL1AS(NTERM2)) < EPS/100 
+            //                             ABS(ARL1AS(NTERM2)) < EPS/100
             //
             //      NTERM3 - INTEGER - The no. of terms for the array AI1ML1.
             //                         The recommended value is such that
             //                             ABS(AI1ML1(NTERM3)) < EPS/100
             //
-            //      XLOW1 - DOUBLE PRECISION - The value of x below which 
+            //      XLOW1 - DOUBLE PRECISION - The value of x below which
             //                                     L1(x) = 2*x*x/(3*pi)
-            //                                 to machine precision. The recommended 
+            //                                 to machine precision. The recommended
             //                                 value is     SQRT(15*EPS)
             //
             //      XLOW2 - DOUBLE PRECISION - The value of x below which L1(x) set to 0.0.
@@ -349,12 +349,12 @@ namespace MathNet.Numerics
             //                      series in the asymptotic expansion of I1 - L1
             //                      equals 1.0 to machine precision. The recommended
             //                      value is   30 / EPSNEG.
-            // 
+            //
             //      XMAX - DOUBLE PRECISION - The value of XMAX, where XMAX is the
             //                    largest possible floating-pt argument.
             //                    This is used to prevent overflow.
             //
-            //      For values of EPS, EPSNEG, XMIN, and XMAX the user should refer 
+            //      For values of EPS, EPSNEG, XMIN, and XMAX the user should refer
             //      to the file MACHCON.TXT
             //
             //      The machine-arithmetic constants are given in DATA

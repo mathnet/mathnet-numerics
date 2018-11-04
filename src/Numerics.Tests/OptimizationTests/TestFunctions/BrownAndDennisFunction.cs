@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions
                     Function = new BrownAndDennisFunction(20),
                     InitialGuess = new double[] { 25, 5, -5, -1 },
                     MinimalValue = 85822.2,
-                    MinimizingPoint = null, 
+                    MinimizingPoint = null,
                     CaseName = "unbounded"
                 };
                 yield return new TestCase()
@@ -55,7 +55,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions
                     MinimizingPoint = null,
                     LowerBound = new double[] { -1000, -1000, -1000, -1000 },
                     UpperBound = new double[] {1000, 1000, 1000, 1000 },
-                    CaseName = "loose bounds"                    
+                    CaseName = "loose bounds"
                 };
                 yield return new TestCase()
                 {
@@ -69,7 +69,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions
                 };
             }
         }
-        
+
         private readonly int _items;
 
         public BrownAndDennisFunction(int items)

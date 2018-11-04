@@ -100,7 +100,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserDefinedMatrix"/> class from a 2D array. 
+        /// Initializes a new instance of the <see cref="UserDefinedMatrix"/> class from a 2D array.
         /// </summary>
         /// <param name="data">The 2D array to create this matrix from.</param>
         public UserDefinedMatrix(double[,] data)

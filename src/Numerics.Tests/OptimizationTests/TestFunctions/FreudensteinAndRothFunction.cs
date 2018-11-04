@@ -82,7 +82,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions
         {
             if (itemIndex == 0)
                 return -13 + x[0] + ((5 - x[1]) * x[1] - 2) * x[1];
-            else 
+            else
                 return -29 + x[0] + ((x[1] + 1) * x[1] - 14) * x[1];
         }
 

@@ -608,7 +608,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         /// it is overwritten with the R matrix of the QR factorization. </param>
         /// <param name="rowsR">The number of rows in the A matrix.</param>
         /// <param name="columnsR">The number of columns in the A matrix.</param>
-        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the 
+        /// <param name="q">On exit, A M by M matrix that holds the Q matrix of the
         /// QR factorization.</param>
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>

@@ -33,13 +33,13 @@ using MathNet.Numerics.LinearAlgebra;
 namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 {
     /// <summary>
-    /// Adapts an objective function with only value implemented 
-    /// to provide a gradient as well. Gradient calculation is 
-    /// done using the finite difference method, specifically 
+    /// Adapts an objective function with only value implemented
+    /// to provide a gradient as well. Gradient calculation is
+    /// done using the finite difference method, specifically
     /// forward differences.
-    /// 
-    /// For each gradient computed, the algorithm requires an 
-    /// additional number of function evaluations equal to the 
+    ///
+    /// For each gradient computed, the algorithm requires an
+    /// additional number of function evaluations equal to the
     /// functions's number of input parameters.
     /// </summary>
     public class ForwardDifferenceGradientObjectiveFunction : IObjectiveFunction

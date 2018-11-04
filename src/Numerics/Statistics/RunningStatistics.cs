@@ -245,7 +245,7 @@ namespace MathNet.Numerics.Statistics
             {
                 return a;
             }
-            
+
             long n = a._n + b._n;
             double d = b._m1 - a._m1;
             double d2 = d*d;

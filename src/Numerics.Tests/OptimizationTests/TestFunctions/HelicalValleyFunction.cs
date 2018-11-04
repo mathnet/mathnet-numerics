@@ -185,7 +185,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions
         {
             return -((x1 * x2) / (Math.PI * Math.Pow(x1*x1 + x2*x2, 2)));
         }
-        
+
         public override double ItemValue(Vector<double> x, int itemIndex)
         {
             switch (itemIndex)

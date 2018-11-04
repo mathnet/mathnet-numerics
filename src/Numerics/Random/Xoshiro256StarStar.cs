@@ -135,8 +135,8 @@ namespace MathNet.Numerics.Random
         protected override int DoSampleInteger()
         {
             retry:
-            // Handle the special case where the value int.MaxValue is generated; this is outside 
-            // the range of permitted return values for this method. 
+            // Handle the special case where the value int.MaxValue is generated; this is outside
+            // the range of permitted return values for this method.
             ulong rtn = NextInnerULong() & 0x7fff_ffffUL;
             if (rtn == 0x7fff_ffffUL)
             {
@@ -250,7 +250,7 @@ namespace MathNet.Numerics.Random
             _s2 = Splitmix64(ref longSeed);
             _s3 = Splitmix64(ref longSeed);
         }
-        
+
         private ulong NextInnerULong()
         {
             ulong s0 = _s0;

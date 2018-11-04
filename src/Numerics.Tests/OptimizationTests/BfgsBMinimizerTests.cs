@@ -216,7 +216,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             }
             public IEnumerator<ITestCaseData> GetEnumerator()
             {
-                return 
+                return
                     RosenbrockFunction2.TestCases
                         .Concat(BealeFunction.TestCases)
                         .Concat(HelicalValleyFunction.TestCases)

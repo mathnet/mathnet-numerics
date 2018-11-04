@@ -34,7 +34,7 @@ using NUnit.Framework;
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
 {
     using Complex = System.Numerics.Complex;
-    
+
     /// <summary>
     /// Cholesky factorization tests for a dense matrix.
     /// </summary>

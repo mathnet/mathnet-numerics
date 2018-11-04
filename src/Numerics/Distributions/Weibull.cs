@@ -420,7 +420,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Implemented according to: Parameter estimation of the Weibull probability distribution, 1994, Hongzhu Qiao, Chris P. Tsokos 
+        /// Implemented according to: Parameter estimation of the Weibull probability distribution, 1994, Hongzhu Qiao, Chris P. Tsokos
         /// </summary>
         /// <param name="samples"></param>
         /// <param name="randomSource"></param>

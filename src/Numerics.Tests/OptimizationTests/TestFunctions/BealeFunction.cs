@@ -44,7 +44,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions
                     Function = new BealeFunction(),
                     InitialGuess = new double[] { 1, 1 },
                     MinimalValue = 0,
-                    MinimizingPoint = new double[] { 3, 0.5 }, 
+                    MinimizingPoint = new double[] { 3, 0.5 },
                     CaseName = "unbounded"
                 };
                 yield return new TestCase()

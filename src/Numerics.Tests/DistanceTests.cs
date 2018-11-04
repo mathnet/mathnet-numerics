@@ -97,7 +97,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.That(Distance.Jaccard(_dp3, _dq3), Is.EqualTo(0));
             Assert.That(Distance.Jaccard(_dp4, _dq4), Is.EqualTo(0.66666).Within(0.00001));
             Assert.That(Distance.Jaccard(_dp5, _dq5), Is.EqualTo(0.9).Within(0.1));
-            
+
             Assert.That(() => Distance.Jaccard(_fp0, _fq4), Throws.ArgumentException);
             Assert.That(() => Distance.Jaccard(null, _fq4), Throws.ArgumentNullException);
             Assert.That(() => Distance.Jaccard(_fp0, null), Throws.ArgumentNullException);
@@ -143,7 +143,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.That(Distance.Manhattan(_dp3, _dq3), Is.EqualTo(0));
             Assert.That(Distance.Manhattan(_dp4, _dq4), Is.EqualTo(4.5));
             Assert.That(Distance.Manhattan(_dp5, _dq5), Is.EqualTo(12));
-            
+
             Assert.That(() => Distance.Manhattan(_fp0, _fq4), Throws.ArgumentException);
 
             Assert.That(Distance.Manhattan(_fp0, _fq0), Is.EqualTo(1));
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.UnitTests
             Assert.That(Distance.Cosine(_dp3, _dq3), Is.EqualTo(0).Within(0.00001));
             Assert.That(Distance.Cosine(_dp4, _dq4), Is.EqualTo(0.039354).Within(0.00001));
             Assert.That(Distance.Cosine(_dp5, _dq5), Is.EqualTo(0.031026).Within(0.00001));
-            
+
             Assert.That(() => Distance.Cosine(_fp0, _fq4), Throws.ArgumentException);
 
             Assert.That(Distance.Cosine(_fp0, _fq0), Is.EqualTo(0.2).Within(0.00001));

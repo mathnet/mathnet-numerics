@@ -219,8 +219,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
@@ -247,8 +247,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
@@ -317,8 +317,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
@@ -345,8 +345,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+        /// two so that we have half the range on each side of the numbers, e.g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
@@ -457,8 +457,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of th<paramref name="decimalPlaces"/>g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+        /// two so that we have half the range on each side of th<paramref name="decimalPlaces"/>g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
@@ -485,8 +485,8 @@ namespace MathNet.Numerics
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by 
-        /// two so that we have half the range on each side of th<paramref name="decimalPlaces"/>g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between 
+        /// The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+        /// two so that we have half the range on each side of th<paramref name="decimalPlaces"/>g. if <paramref name="decimalPlaces"/> == 2, then 0.01 will equal between
         /// 0.005 and 0.015, but not 0.02 and not 0.00
         /// </para>
         /// </remarks>
