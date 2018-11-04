@@ -129,12 +129,12 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (count < 1)
             {
-                throw new ArgumentOutOfRangeException("count", Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(count), Resources.ArgumentMustBePositive);
             }
 
             if (index + count > Count || index < 0)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             Storage.Clear(index, count);
@@ -186,7 +186,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             Storage.CopyTo(target.Storage);
@@ -221,7 +221,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (subVector == null)
             {
-                throw new ArgumentNullException("subVector");
+                throw new ArgumentNullException(nameof(subVector));
             }
 
             subVector.Storage.CopySubVectorTo(Storage, 0, index, count);
@@ -238,7 +238,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (destination == null)
             {
-                throw new ArgumentNullException("destination");
+                throw new ArgumentNullException(nameof(destination));
             }
 
             // TODO: refactor range checks

@@ -737,7 +737,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (source.Length != _data.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(source));
             }
 
             Array.Copy(source, 0, _data, 0, source.Length);
@@ -763,7 +763,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
             if (_data.Length != denseSource.Values.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(source));
             }
 
             Array.Copy(denseSource.Values, 0, _data, 0, denseSource.Values.Length);

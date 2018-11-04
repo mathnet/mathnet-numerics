@@ -72,13 +72,13 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         {
             if (maximumRelativeIncrease <= 0)
             {
-                throw new ArgumentOutOfRangeException("maximumRelativeIncrease");
+                throw new ArgumentOutOfRangeException(nameof(maximumRelativeIncrease));
             }
 
             // There must be at least three iterations otherwise we can't calculate the relative increase
             if (minimumIterations < 3)
             {
-                throw new ArgumentOutOfRangeException("minimumIterations");
+                throw new ArgumentOutOfRangeException(nameof(minimumIterations));
             }
 
             _maximumRelativeIncrease = maximumRelativeIncrease;
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _maximumRelativeIncrease = value;
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
                 // the relative increase
                 if (value < 3)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _minimumNumberOfIterations = value;
@@ -147,7 +147,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         {
             if (iterationNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("iterationNumber");
+                throw new ArgumentOutOfRangeException(nameof(iterationNumber));
             }
 
             if (_lastIteration >= iterationNumber)

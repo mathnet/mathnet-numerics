@@ -399,7 +399,7 @@ namespace MathNet.Numerics
             if (decimalPlaces < 0)
             {
                 // Can't have a negative number of decimal places
-                throw new ArgumentOutOfRangeException("decimalPlaces");
+                throw new ArgumentOutOfRangeException(nameof(decimalPlaces));
             }
 
             // If A or B are a NAN, return false. NANs are equal to nothing,
@@ -592,7 +592,7 @@ namespace MathNet.Numerics
             // default NAN won't compare as equal to anything.
             if (maxNumbersBetween < 1)
             {
-                throw new ArgumentOutOfRangeException("maxNumbersBetween");
+                throw new ArgumentOutOfRangeException(nameof(maxNumbersBetween));
             }
 
             // If A or B are infinity (positive or negative) then
@@ -635,7 +635,7 @@ namespace MathNet.Numerics
             // default NAN won't compare as equal to anything.
             if (maxNumbersBetween < 1)
             {
-                throw new ArgumentOutOfRangeException("maxNumbersBetween");
+                throw new ArgumentOutOfRangeException(nameof(maxNumbersBetween));
             }
 
             // If A or B are infinity (positive or negative) then

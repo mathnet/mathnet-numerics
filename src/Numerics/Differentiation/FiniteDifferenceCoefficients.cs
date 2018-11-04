@@ -79,9 +79,9 @@ namespace MathNet.Numerics.Differentiation
         public double[] GetCoefficients(int center, int order)
         {
             if (center >= _coefficients.Length)
-                throw new ArgumentOutOfRangeException("center", "Center position must be within the point range.");
+                throw new ArgumentOutOfRangeException(nameof(center), "Center position must be within the point range.");
             if (order >= _coefficients.Length)
-                throw new ArgumentOutOfRangeException("order", "Maximum difference order is points-1.");
+                throw new ArgumentOutOfRangeException(nameof(order), "Maximum difference order is points-1.");
 
             // Return proper row
             var columns = _coefficients[center].GetLength(1);
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.Differentiation
         public double[,] GetCoefficientsForAllOrders(int center)
         {
             if (center >= _coefficients.Length)
-                throw new ArgumentOutOfRangeException("center", "Center position must be within the point range.");
+                throw new ArgumentOutOfRangeException(nameof(center), "Center position must be within the point range.");
 
             return _coefficients[center];
         }

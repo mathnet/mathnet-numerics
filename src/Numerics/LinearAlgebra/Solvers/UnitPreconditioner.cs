@@ -56,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
+                throw new ArgumentException(Resources.ArgumentMatrixSquare, nameof(matrix));
             }
 
             _size = matrix.RowCount;

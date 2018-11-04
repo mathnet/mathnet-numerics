@@ -106,7 +106,7 @@ namespace MathNet.Numerics.Statistics
 
             if (count < 0.0)
             {
-                throw new ArgumentOutOfRangeException("count", Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(count), Resources.ArgumentMustBePositive);
             }
 
             LowerBound = lowerBound;
@@ -288,7 +288,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (nbuckets < 1)
             {
-                throw new ArgumentOutOfRangeException("data", "The number of bins in a histogram should be at least 1.");
+                throw new ArgumentOutOfRangeException(nameof(data), "The number of bins in a histogram should be at least 1.");
             }
 
             double lower = data.Minimum();
@@ -297,7 +297,7 @@ namespace MathNet.Numerics.Statistics
 
             if (double.IsNaN(width))
             {
-                throw new ArgumentException("Data must contain at least one entry.", "data");
+                throw new ArgumentException("Data must contain at least one entry.", nameof(data));
             }
 
             // Add buckets for each bin; the smallest bucket's lowerbound must be slightly smaller
@@ -326,12 +326,12 @@ namespace MathNet.Numerics.Statistics
         {
             if (lower > upper)
             {
-                throw new ArgumentOutOfRangeException("upper", "The histogram lower bound must be smaller than the upper bound.");
+                throw new ArgumentOutOfRangeException(nameof(upper), "The histogram lower bound must be smaller than the upper bound.");
             }
 
             if (nbuckets < 1)
             {
-                throw new ArgumentOutOfRangeException("nbuckets", "The number of bins in a histogram should be at least 1.");
+                throw new ArgumentOutOfRangeException(nameof(nbuckets), "The number of bins in a histogram should be at least 1.");
             }
 
             double width = (upper - lower) / nbuckets;

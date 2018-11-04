@@ -65,7 +65,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         {
             if (iterationNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("iterationNumber");
+                throw new ArgumentOutOfRangeException(nameof(iterationNumber));
             }
 
             if (solutionVector.Count != residualVector.Count)

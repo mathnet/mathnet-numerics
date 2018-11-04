@@ -293,7 +293,7 @@ namespace MathNet.Numerics
 
             if (p < 0d)
             {
-                throw new ArgumentOutOfRangeException("p");
+                throw new ArgumentOutOfRangeException(nameof(p));
             }
 
             if (p == 1d)
@@ -331,7 +331,7 @@ namespace MathNet.Numerics
 
             if (p < 0d)
             {
-                throw new ArgumentOutOfRangeException("p");
+                throw new ArgumentOutOfRangeException(nameof(p));
             }
 
             if (p == 1d)
@@ -487,12 +487,12 @@ namespace MathNet.Numerics
 
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (a.Length != b.Length)
@@ -533,12 +533,12 @@ namespace MathNet.Numerics
 
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (a.Length != b.Length)

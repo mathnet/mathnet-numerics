@@ -38,7 +38,7 @@ using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra
 {
-    [DebuggerDisplay("Vector {Count}")]
+    [DebuggerDisplay("Vector {" + nameof(Count) + "}")]
     public abstract partial class Vector<T>
     {
         /// <summary>
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (array == null)
             {
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             }
 
             Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, array), 0, arrayIndex, Count);
@@ -218,11 +218,11 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (array == null)
             {
-                throw new ArgumentNullException("array");
+                throw new ArgumentNullException(nameof(array));
             }
             if (array.Rank != 1)
             {
-                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "array");
+                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, nameof(array));
             }
 
             Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, (T[]) array), 0, index, Count);

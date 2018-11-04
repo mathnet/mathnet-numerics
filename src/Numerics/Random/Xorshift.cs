@@ -248,7 +248,7 @@ namespace MathNet.Numerics.Random
 
             if (a <= c)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentOutOfRangeGreater, "a", "c"), "a");
+                throw new ArgumentException(string.Format(Resources.ArgumentOutOfRangeGreater, "a", "c"), nameof(a));
             }
 
             _x = (uint)seed;
@@ -316,7 +316,7 @@ namespace MathNet.Numerics.Random
         {
             if (a <= c)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentOutOfRangeGreater, "a", "c"), "a");
+                throw new ArgumentException(string.Format(Resources.ArgumentOutOfRangeGreater, "a", "c"), nameof(a));
             }
 
             if (seed == 0)
@@ -359,7 +359,7 @@ namespace MathNet.Numerics.Random
         {
             if (a <= c)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentOutOfRangeGreater, "a", "c"), "a");
+                throw new ArgumentException(string.Format(Resources.ArgumentOutOfRangeGreater, "a", "c"), nameof(a));
             }
 
             if (seed == 0)

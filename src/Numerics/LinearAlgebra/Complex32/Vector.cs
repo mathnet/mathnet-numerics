@@ -555,7 +555,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </returns>
         public override double Norm(double p)
         {
-            if (p < 0d) throw new ArgumentOutOfRangeException("p");
+            if (p < 0d) throw new ArgumentOutOfRangeException(nameof(p));
 
             if (p == 1d) return L1Norm();
             if (p == 2d) return L2Norm();
@@ -600,7 +600,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         {
             if (p < 0d)
             {
-                throw new ArgumentOutOfRangeException("p");
+                throw new ArgumentOutOfRangeException(nameof(p));
             }
 
             double norm = Norm(p);

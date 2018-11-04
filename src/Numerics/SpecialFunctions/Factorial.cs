@@ -74,7 +74,7 @@ namespace MathNet.Numerics
         {
             if (x < 0)
             {
-                throw new ArgumentOutOfRangeException("x", Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException(nameof(x), Resources.ArgumentPositive);
             }
 
             if (x < _factorialCache.Length)
@@ -92,7 +92,7 @@ namespace MathNet.Numerics
         {
             if (x < 0)
             {
-                throw new ArgumentOutOfRangeException("x", Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException(nameof(x), Resources.ArgumentPositive);
             }
 
             if (x == 0)
@@ -117,7 +117,7 @@ namespace MathNet.Numerics
         {
             if (x < 0)
             {
-                throw new ArgumentOutOfRangeException("x", Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException(nameof(x), Resources.ArgumentPositive);
             }
 
             if (x <= 1)
@@ -178,12 +178,12 @@ namespace MathNet.Numerics
         {
             if (n < 0)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "n");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(n));
             }
 
             if (ni == null)
             {
-                throw new ArgumentNullException("ni");
+                throw new ArgumentNullException(nameof(ni));
             }
 
             int sum = 0;
@@ -202,7 +202,7 @@ namespace MathNet.Numerics
             // Before returning, check that the sum of all elements was equal to n.
             if (sum != n)
             {
-                throw new ArgumentException(Resources.ArgumentParameterSetInvalid, "ni");
+                throw new ArgumentException(Resources.ArgumentParameterSetInvalid, nameof(ni));
             }
 
             return Math.Floor(0.5 + Math.Exp(ret));

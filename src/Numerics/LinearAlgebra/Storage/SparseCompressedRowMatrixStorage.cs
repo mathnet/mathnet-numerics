@@ -522,7 +522,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(data.Length, data[0].Length);
@@ -554,7 +554,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(data[0].Length, data.Length);
@@ -586,7 +586,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(data.Length, data[0].Length);
@@ -620,7 +620,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException("data", Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(data[0].Length, data.Length);
@@ -700,23 +700,23 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int row = 0; row < rows; row++)
                 {
-                    if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows));
+                    if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
                     rowPointers[row] = values.Count;
                     using (var columnIterator = rowIterator.Current.GetEnumerator())
                     {
                         for (int col = 0; col < columns; col++)
                         {
-                            if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, columns));
+                            if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
                             if (!Zero.Equals(columnIterator.Current))
                             {
                                 values.Add(columnIterator.Current);
                                 columnIndices.Add(col);
                             }
                         }
-                        if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, columns));
+                        if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
                     }
                 }
-                if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows));
+                if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
             }
 
             rowPointers[rows] = values.Count;
@@ -732,12 +732,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int column = 0; column < columns; column++)
                 {
-                    if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, columns));
+                    if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
                     using (var rowIterator = columnIterator.Current.GetEnumerator())
                     {
                         for (int row = 0; row < rows; row++)
                         {
-                            if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException("data", string.Format(Resources.ArgumentArrayWrongLength, rows));
+                            if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
                             if (!Zero.Equals(rowIterator.Current))
                             {
                                 var trow = trows[row] ?? (trows[row] = new List<Tuple<int, T>>());
@@ -920,7 +920,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
@@ -1087,7 +1087,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                         int newValueCount  = targetSparse.ValueCount - (targetEndPos - targetStartPos) + positionsToCopy;
                         T[] newValues = new T[newValueCount];
                         int[] newIndices = new int[newValueCount];
-                        // copy before 
+                        // copy before
                         Array.Copy(targetSparse.Indices, 0, newIndices, 0, targetStartPos);
                         Array.Copy(targetSparse.Values, 0, newValues, 0, targetStartPos);
                         // copy values themselves, with new positions
@@ -1115,7 +1115,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 }
                 return;
             }
-            // FALLBACK 
+            // FALLBACK
             if (existingData == ExistingData.Clear)
             {
                 target.Clear(targetColumnIndex, columnCount);

@@ -64,7 +64,7 @@ namespace MathNet.Numerics
         {
             if (p < 0.0 || p > 1.0)
             {
-                throw new ArgumentOutOfRangeException("p", Resources.ArgumentBetween0And1);
+                throw new ArgumentOutOfRangeException(nameof(p), Resources.ArgumentBetween0And1);
             }
 
             return Math.Log(p/(1.0 - p));

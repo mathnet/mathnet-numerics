@@ -182,15 +182,15 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (pSdv == null)
             {
-                throw new ArgumentNullException("pSdv", "Standard deviation cannot be null.");
+                throw new ArgumentNullException(nameof(pSdv), "Standard deviation cannot be null.");
             }
             if (pSdv.Length != _length)
             {
-                throw new ArgumentOutOfRangeException("pSdv", "Standard deviation of momentum must have same length as sample.");
+                throw new ArgumentOutOfRangeException(nameof(pSdv), "Standard deviation of momentum must have same length as sample.");
             }
             if (pSdv.Any(sdv => sdv < 0))
             {
-                throw new ArgumentOutOfRangeException("pSdv", "Standard deviation must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(pSdv), "Standard deviation must be positive.");
             }
         }
 

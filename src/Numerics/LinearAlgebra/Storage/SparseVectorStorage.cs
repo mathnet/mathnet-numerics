@@ -317,7 +317,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (length < 1)
             {
-                throw new ArgumentOutOfRangeException("length", string.Format(Resources.ArgumentLessThanOne, length));
+                throw new ArgumentOutOfRangeException(nameof(length), string.Format(Resources.ArgumentLessThanOne, length));
             }
 
             var indices = new int[length];
@@ -340,7 +340,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (length < 1)
             {
-                throw new ArgumentOutOfRangeException("length", string.Format(Resources.ArgumentLessThanOne, length));
+                throw new ArgumentOutOfRangeException(nameof(length), string.Format(Resources.ArgumentLessThanOne, length));
             }
 
             var indices = new List<int>();
@@ -366,7 +366,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data == null)
             {
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             }
 
             var indices = new List<int>();
@@ -395,7 +395,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data == null)
             {
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             }
 
             var indices = new List<int>();
@@ -458,7 +458,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             if (Length != target.Length)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, Length, target.Length);
-                throw new ArgumentException(message, "target");
+                throw new ArgumentException(message, nameof(target));
             }
 
             target.ValueCount = ValueCount;

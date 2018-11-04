@@ -94,7 +94,7 @@ namespace MathNet.Numerics
                 {
                     if (!ieO.MoveNext())
                     {
-                        throw new ArgumentOutOfRangeException("modelledValues", Resources.ArgumentArraysSameLength);
+                        throw new ArgumentOutOfRangeException(nameof(modelledValues), Resources.ArgumentArraysSameLength);
                     }
                     double currentM = ieM.Current;
                     double currentO = ieO.Current;
@@ -105,7 +105,7 @@ namespace MathNet.Numerics
 
                 if (degreesOfFreedom >= n)
                 {
-                    throw new ArgumentOutOfRangeException("degreesOfFreedom", Resources.DegreesOfFreedomMustBeLessThanSampleSize);
+                    throw new ArgumentOutOfRangeException(nameof(degreesOfFreedom), Resources.DegreesOfFreedomMustBeLessThanSampleSize);
                 }
                 return Math.Sqrt(accumulator / (n - degreesOfFreedom));
             }
@@ -135,7 +135,7 @@ namespace MathNet.Numerics
                 {
                     if (!ieF.MoveNext())
                     {
-                        throw new ArgumentOutOfRangeException("modelledValues", Resources.ArgumentArraysSameLength);
+                        throw new ArgumentOutOfRangeException(nameof(modelledValues), Resources.ArgumentArraysSameLength);
                     }
 
                     double currentY = ieY.Current;
@@ -165,7 +165,7 @@ namespace MathNet.Numerics
 
                 if (ieF.MoveNext())
                 {
-                    throw new ArgumentOutOfRangeException("observedValues", Resources.ArgumentArraysSameLength);
+                    throw new ArgumentOutOfRangeException(nameof(observedValues), Resources.ArgumentArraysSameLength);
                 }
             }
             return 1 - ssRes/ssTot;

@@ -114,7 +114,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (h == null)
             {
-                throw new ArgumentNullException("h");
+                throw new ArgumentNullException(nameof(h));
             }
 
             // The probability distribution vector.
@@ -254,12 +254,12 @@ namespace MathNet.Numerics.Distributions
         {
             if (null == x)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (x.Length != _p.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "x");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(x));
             }
 
             if (x.Sum() == _trials)
@@ -288,12 +288,12 @@ namespace MathNet.Numerics.Distributions
         {
             if (null == x)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (x.Length != _p.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "x");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(x));
             }
 
             if (x.Sum() == _trials)

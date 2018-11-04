@@ -94,7 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
+                throw new ArgumentException(Resources.ArgumentMatrixSquare, nameof(matrix));
             }
 
             if (input.Count != matrix.RowCount || result.Count != input.Count)

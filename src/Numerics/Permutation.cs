@@ -58,7 +58,7 @@ namespace MathNet.Numerics
         {
             if (!CheckForProperPermutation(indices))
             {
-                throw new ArgumentException(Resources.PermutationAsIntArrayInvalid, "indices");
+                throw new ArgumentException(Resources.PermutationAsIntArrayInvalid, nameof(indices));
             }
 
             _indices = (int[])indices.Clone();

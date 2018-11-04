@@ -68,7 +68,7 @@ namespace MathNet.Numerics
         {
             if (pointsA.Length != pointsB.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "pointsB");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(pointsB));
             }
 
             var res = new T[pointsA.Length];
@@ -95,7 +95,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             if (length == 0) return new double[0];
@@ -119,7 +119,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             if (length == 0) return new T[0];
@@ -144,7 +144,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             if (length == 0) return new double[0];
@@ -168,7 +168,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             if (length == 0) return new T[0];
@@ -335,7 +335,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             double step = frequency/samplingRate*amplitude;
@@ -371,7 +371,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             double step = frequency/samplingRate*amplitude;
@@ -464,7 +464,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             double step = frequency/samplingRate*Constants.Pi2;
@@ -602,7 +602,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var data = new T[length];
@@ -638,7 +638,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var data = new double[length];
@@ -677,7 +677,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var data = new double[length];
@@ -722,7 +722,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var data = new double[length];
@@ -768,7 +768,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var data = new T[length];
@@ -801,7 +801,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var data = new BigInteger[length];
@@ -849,7 +849,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             return SystemRandomSource.FastDoubles(length);
@@ -873,7 +873,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var samples = SystemRandomSource.FastDoubles(length);
@@ -897,7 +897,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var samples1 = SystemRandomSource.FastDoubles(length);
@@ -947,7 +947,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var samples = new double[length];
@@ -970,7 +970,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var samples = new double[length];
@@ -993,7 +993,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var samples = new double[length];
@@ -1048,7 +1048,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var samples = new double[length];
@@ -1071,7 +1071,7 @@ namespace MathNet.Numerics
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException("length");
+                throw new ArgumentOutOfRangeException(nameof(length));
             }
 
             var samples1 = new double[length];

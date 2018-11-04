@@ -508,12 +508,12 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result.RowCount != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "result");
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(result));
             }
 
             if (result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "result");
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(result));
             }
 
             if (scalar.Equals(One))
@@ -563,12 +563,12 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result.RowCount != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "result");
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(result));
             }
 
             if (result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "result");
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(result));
             }
 
             if (scalar.Equals(One))
@@ -607,12 +607,12 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result.RowCount != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "result");
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(result));
             }
 
             if (result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "result");
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(result));
             }
 
             DoDivideByThis(scalar, result);

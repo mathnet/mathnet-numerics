@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), "x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), nameof(x));
             }
 
             _x = x;

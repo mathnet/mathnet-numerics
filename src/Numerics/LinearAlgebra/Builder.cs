@@ -362,7 +362,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Matrix<T> OfStorage(MatrixStorage<T> storage)
         {
-            if (storage == null) throw new ArgumentNullException("storage");
+            if (storage == null) throw new ArgumentNullException(nameof(storage));
 
             var dense = storage as DenseColumnMajorMatrixStorage<T>;
             if (dense != null) return Dense(dense);
@@ -1327,7 +1327,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public Vector<T> OfStorage(VectorStorage<T> storage)
         {
-            if (storage == null) throw new ArgumentNullException("storage");
+            if (storage == null) throw new ArgumentNullException(nameof(storage));
 
             var dense = storage as DenseVectorStorage<T>;
             if (dense != null) return Dense(dense);

@@ -53,12 +53,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (y == null)
             {
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (x.Length != y.Length)
@@ -82,12 +82,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (y == null)
             {
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (y.Length != x.Length)
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (!ReferenceEquals(x, result))
@@ -172,17 +172,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (c == null)
             {
-                throw new ArgumentNullException("c");
+                throw new ArgumentNullException(nameof(c));
             }
 
             var m = transposeA == Transpose.DontTranspose ? rowsA : columnsA;
@@ -217,22 +217,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (data == null)
             {
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             }
 
             if (ipiv == null)
             {
-                throw new ArgumentNullException("ipiv");
+                throw new ArgumentNullException(nameof(ipiv));
             }
 
             if (data.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "data");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(data));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
             }
 
             SafeNativeMethods.s_lu_factor(order, data, ipiv);
@@ -249,12 +249,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             var work = new float[order];
@@ -273,22 +273,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (ipiv == null)
             {
-                throw new ArgumentNullException("ipiv");
+                throw new ArgumentNullException(nameof(ipiv));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
             }
 
             var work = new float[order];
@@ -309,22 +309,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (work == null)
             {
-                throw new ArgumentNullException("work");
+                throw new ArgumentNullException(nameof(work));
             }
 
             if (work.Length < order)
             {
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                throw new ArgumentException(Resources.WorkArrayTooSmall, nameof(work));
             }
 
             SafeNativeMethods.s_lu_inverse(order, a, work, work.Length);
@@ -345,32 +345,32 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (ipiv == null)
             {
-                throw new ArgumentNullException("ipiv");
+                throw new ArgumentNullException(nameof(ipiv));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
             }
 
             if (work == null)
             {
-                throw new ArgumentNullException("work");
+                throw new ArgumentNullException(nameof(work));
             }
 
             if (work.Length < order)
             {
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                throw new ArgumentException(Resources.WorkArrayTooSmall, nameof(work));
             }
 
             SafeNativeMethods.s_lu_inverse_factored(order, a, ipiv, work, order);
@@ -389,17 +389,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (b.Length != columnsOfB*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -424,27 +424,27 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (ipiv == null)
             {
-                throw new ArgumentNullException("ipiv");
+                throw new ArgumentNullException(nameof(ipiv));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
             }
 
             if (b.Length != columnsOfB*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -467,17 +467,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (order < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "order");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(order));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             var info = SafeNativeMethods.s_cholesky_factor(order, a);
@@ -502,17 +502,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (b.Length != orderA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -536,17 +536,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (b.Length != orderA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -574,12 +574,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (r == null)
             {
-                throw new ArgumentNullException("r");
+                throw new ArgumentNullException(nameof(r));
             }
 
             if (q == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException(nameof(q));
             }
 
             if (r.Length != rowsR*columnsR)
@@ -621,17 +621,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (r == null)
             {
-                throw new ArgumentNullException("r");
+                throw new ArgumentNullException(nameof(r));
             }
 
             if (q == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException(nameof(q));
             }
 
             if (work == null)
             {
-                throw new ArgumentNullException("work");
+                throw new ArgumentNullException(nameof(work));
             }
 
             if (r.Length != rowsR*columnsR)
@@ -652,7 +652,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
             if (work.Length < columnsR*Control.BlockSize)
             {
                 work[0] = columnsR*Control.BlockSize;
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                throw new ArgumentException(Resources.WorkArrayTooSmall, nameof(work));
             }
 
             SafeNativeMethods.s_qr_factor(rowsR, columnsR, r, tau, q, work, work.Length);
@@ -672,32 +672,32 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (a.Length != rows*columns)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (b.Length != rows*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (x.Length != columns*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(x));
             }
 
             if (rows < columns)
@@ -726,37 +726,37 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (work == null)
             {
-                throw new ArgumentNullException("work");
+                throw new ArgumentNullException(nameof(work));
             }
 
             if (a.Length != rows*columns)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (b.Length != rows*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (x.Length != columns*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(x));
             }
 
             if (rows < columns)
@@ -767,7 +767,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
             if (work.Length < 1)
             {
                 work[0] = rows*Control.BlockSize;
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                throw new ArgumentException(Resources.WorkArrayTooSmall, nameof(work));
             }
 
             SafeNativeMethods.s_qr_solve(rows, columns, columnsB, a, b, x, work, work.Length);
@@ -791,42 +791,42 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (r == null)
             {
-                throw new ArgumentNullException("r");
+                throw new ArgumentNullException(nameof(r));
             }
 
             if (q == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException(nameof(q));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException(nameof(q));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException(nameof(q));
             }
 
             if (r.Length != rowsR*columnsR)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(r));
             }
 
             if (q.Length != rowsR*rowsR)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(q));
             }
 
             if (b.Length != rowsR*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (x.Length != columnsR*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(x));
             }
 
             if (rowsR < columnsR)
@@ -859,47 +859,47 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (r == null)
             {
-                throw new ArgumentNullException("r");
+                throw new ArgumentNullException(nameof(r));
             }
 
             if (q == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException(nameof(q));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException(nameof(q));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("q");
+                throw new ArgumentNullException(nameof(q));
             }
 
             if (work == null)
             {
-                throw new ArgumentNullException("work");
+                throw new ArgumentNullException(nameof(work));
             }
 
             if (r.Length != rowsR*columnsR)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "r");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(r));
             }
 
             if (q.Length != rowsR*rowsR)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "q");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(q));
             }
 
             if (b.Length != rowsR*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (x.Length != columnsR*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "x");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(x));
             }
 
             if (rowsR < columnsR)
@@ -910,7 +910,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
             if (work.Length < 1)
             {
                 work[0] = rowsR*Control.BlockSize;
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                throw new ArgumentException(Resources.WorkArrayTooSmall, nameof(work));
             }
 
             SafeNativeMethods.s_qr_solve_factored(rowsR, columnsR, columnsB, r, b, tau, x, work, work.Length);
@@ -934,37 +934,37 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (s == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException(nameof(s));
             }
 
             if (u == null)
             {
-                throw new ArgumentNullException("u");
+                throw new ArgumentNullException(nameof(u));
             }
 
             if (vt == null)
             {
-                throw new ArgumentNullException("vt");
+                throw new ArgumentNullException(nameof(vt));
             }
 
             if (u.Length != rowsA*rowsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(u));
             }
 
             if (vt.Length != columnsA*columnsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(vt));
             }
 
             if (s.Length != Math.Min(rowsA, columnsA))
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(s));
             }
 
             var work = new float[Math.Max(((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)), 5*Math.Min(rowsA, columnsA))];
@@ -984,27 +984,27 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (b.Length != rowsA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (x.Length != columnsA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             var work = new float[Math.Max(((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)), 5*Math.Min(rowsA, columnsA))];
@@ -1039,53 +1039,53 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (s == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException(nameof(s));
             }
 
             if (u == null)
             {
-                throw new ArgumentNullException("u");
+                throw new ArgumentNullException(nameof(u));
             }
 
             if (vt == null)
             {
-                throw new ArgumentNullException("vt");
+                throw new ArgumentNullException(nameof(vt));
             }
 
             if (work == null)
             {
-                throw new ArgumentNullException("work");
+                throw new ArgumentNullException(nameof(work));
             }
 
             if (u.Length != rowsA*rowsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(u));
             }
 
             if (vt.Length != columnsA*columnsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(vt));
             }
 
             if (s.Length != Math.Min(rowsA, columnsA))
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(s));
             }
 
             if (work.Length == 0)
             {
-                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, "work");
+                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, nameof(work));
             }
 
             if (work.Length < Math.Max(((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA)), 5*Math.Min(rowsA, columnsA)))
             {
                 work[0] = Math.Max((3*Math.Min(rowsA, columnsA)) + Math.Max(rowsA, columnsA), 5*Math.Min(rowsA, columnsA));
-                throw new ArgumentException(Resources.WorkArrayTooSmall, "work");
+                throw new ArgumentException(Resources.WorkArrayTooSmall, nameof(work));
             }
 
             SafeNativeMethods.s_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt, work, work.Length);

@@ -91,7 +91,7 @@ namespace MathNet.Numerics.Differentiation
         {
             if (points < 2)
             {
-                throw new ArgumentOutOfRangeException("points", "Points must be two or greater.");
+                throw new ArgumentOutOfRangeException(nameof(points), "Points must be two or greater.");
             }
 
             _center = center;
@@ -158,7 +158,7 @@ namespace MathNet.Numerics.Differentiation
             set
             {
                 if (value >= _points || value < 0)
-                    throw new ArgumentOutOfRangeException("value", "Center must lie between 0 and points -1");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Center must lie between 0 and points -1");
                 _center = value;
             }
         }
@@ -189,10 +189,10 @@ namespace MathNet.Numerics.Differentiation
         public double EvaluateDerivative(double[] points, int order, double stepSize)
         {
             if (points == null)
-                throw new ArgumentNullException("points");
+                throw new ArgumentNullException(nameof(points));
 
             if (order >= _points || order < 0)
-                throw new ArgumentOutOfRangeException("order", "Order must be between zero and points-1.");
+                throw new ArgumentOutOfRangeException(nameof(order), "Order must be between zero and points-1.");
 
             var c = _coefficients.GetCoefficients(Center, order);
             var result = c.Select((t, i) => t*points[i]).Sum();
@@ -347,7 +347,7 @@ namespace MathNet.Numerics.Differentiation
                                                      int order, double? currentValue = null)
         {
             if (parameterIndex.Length != order)
-                throw new ArgumentOutOfRangeException("parameterIndex",
+                throw new ArgumentOutOfRangeException(nameof(parameterIndex),
                                                       "The number of parameters must match derivative order.");
 
             if (order == 1)

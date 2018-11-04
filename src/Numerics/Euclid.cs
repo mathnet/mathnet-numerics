@@ -291,7 +291,7 @@ namespace MathNet.Numerics
         {
             if (exponent < 0 || exponent >= 31)
             {
-                throw new ArgumentOutOfRangeException("exponent");
+                throw new ArgumentOutOfRangeException(nameof(exponent));
             }
 
             return 1 << exponent;
@@ -307,7 +307,7 @@ namespace MathNet.Numerics
         {
             if (exponent < 0 || exponent >= 63)
             {
-                throw new ArgumentOutOfRangeException("exponent");
+                throw new ArgumentOutOfRangeException(nameof(exponent));
             }
 
             return ((long)1) << (int)exponent;
@@ -351,7 +351,7 @@ namespace MathNet.Numerics
             const int maxPowerOfTwo = 0x40000000;
             if (number > maxPowerOfTwo)
             {
-                throw new ArgumentOutOfRangeException("number");
+                throw new ArgumentOutOfRangeException(nameof(number));
             }
 
             number--;
@@ -380,7 +380,7 @@ namespace MathNet.Numerics
             const long maxPowerOfTwo = 0x4000000000000000;
             if (number > maxPowerOfTwo)
             {
-                throw new ArgumentOutOfRangeException("number");
+                throw new ArgumentOutOfRangeException(nameof(number));
             }
 
             number--;
@@ -421,7 +421,7 @@ namespace MathNet.Numerics
         {
             if (null == integers)
             {
-                throw new ArgumentNullException("integers");
+                throw new ArgumentNullException(nameof(integers));
             }
 
             if (integers.Count == 0)
@@ -527,7 +527,7 @@ namespace MathNet.Numerics
         {
             if (null == integers)
             {
-                throw new ArgumentNullException("integers");
+                throw new ArgumentNullException(nameof(integers));
             }
 
             if (integers.Count == 0)
@@ -575,7 +575,7 @@ namespace MathNet.Numerics
         {
             if (null == integers)
             {
-                throw new ArgumentNullException("integers");
+                throw new ArgumentNullException(nameof(integers));
             }
 
             if (integers.Count == 0)
@@ -676,7 +676,7 @@ namespace MathNet.Numerics
         {
             if (null == integers)
             {
-                throw new ArgumentNullException("integers");
+                throw new ArgumentNullException(nameof(integers));
             }
 
             if (integers.Count == 0)

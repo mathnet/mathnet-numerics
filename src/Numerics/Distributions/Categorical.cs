@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (histogram == null)
             {
-                throw new ArgumentNullException("histogram");
+                throw new ArgumentNullException(nameof(histogram));
             }
 
             // The probability distribution vector.
@@ -386,7 +386,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (probability < 0.0 || probability > 1.0 || double.IsNaN(probability))
             {
-                throw new ArgumentOutOfRangeException("probability");
+                throw new ArgumentOutOfRangeException(nameof(probability));
             }
 
             var denormalizedProbability = probability*_cdfUnnormalized[_cdfUnnormalized.Length - 1];
@@ -484,7 +484,7 @@ namespace MathNet.Numerics.Distributions
 
             if (probability < 0.0 || probability > 1.0 || double.IsNaN(probability))
             {
-                throw new ArgumentOutOfRangeException("probability");
+                throw new ArgumentOutOfRangeException(nameof(probability));
             }
 
             var cdfUnnormalized = ProbabilityMassToCumulativeDistribution(probabilityMass);
@@ -514,7 +514,7 @@ namespace MathNet.Numerics.Distributions
 
             if (probability < 0.0 || probability > 1.0 || double.IsNaN(probability))
             {
-                throw new ArgumentOutOfRangeException("probability");
+                throw new ArgumentOutOfRangeException(nameof(probability));
             }
 
             var denormalizedProbability = probability*cdfUnnormalized[cdfUnnormalized.Length - 1];

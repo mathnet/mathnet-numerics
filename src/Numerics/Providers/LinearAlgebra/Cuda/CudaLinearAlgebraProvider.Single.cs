@@ -53,12 +53,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (y == null)
             {
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (x.Length != y.Length)
@@ -82,12 +82,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (y == null)
             {
-                throw new ArgumentNullException("y");
+                throw new ArgumentNullException(nameof(y));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (y.Length != x.Length)
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (!ReferenceEquals(x, result))
@@ -172,17 +172,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (c == null)
             {
-                throw new ArgumentNullException("c");
+                throw new ArgumentNullException(nameof(c));
             }
 
             var m = transposeA == Transpose.DontTranspose ? rowsA : columnsA;
@@ -217,22 +217,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (data == null)
             {
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             }
 
             if (ipiv == null)
             {
-                throw new ArgumentNullException("ipiv");
+                throw new ArgumentNullException(nameof(ipiv));
             }
 
             if (data.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "data");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(data));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
             }
 
             Solver(SafeNativeMethods.s_lu_factor(_solverHandle, order, data, ipiv));
@@ -249,12 +249,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             Solver(SafeNativeMethods.s_lu_inverse(_solverHandle, _blasHandle, order, a));
@@ -272,22 +272,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (ipiv == null)
             {
-                throw new ArgumentNullException("ipiv");
+                throw new ArgumentNullException(nameof(ipiv));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
             }
 
             BLAS(SafeNativeMethods.s_lu_inverse_factored(_blasHandle, order, a, ipiv));
@@ -306,17 +306,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (b.Length != columnsOfB*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -341,27 +341,27 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (ipiv == null)
             {
-                throw new ArgumentNullException("ipiv");
+                throw new ArgumentNullException(nameof(ipiv));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "ipiv");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
             }
 
             if (b.Length != columnsOfB*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -384,17 +384,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (order < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, "order");
+                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(order));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "a");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
             }
 
             Solver(SafeNativeMethods.s_cholesky_factor(_solverHandle, order, a));
@@ -414,17 +414,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (b.Length != orderA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -448,17 +448,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (b.Length != orderA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (ReferenceEquals(a, b))
@@ -482,27 +482,27 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (b == null)
             {
-                throw new ArgumentNullException("b");
+                throw new ArgumentNullException(nameof(b));
             }
 
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             if (b.Length != rowsA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             if (x.Length != columnsA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "b");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
             }
 
             var s = new float[Math.Min(rowsA, columnsA)];
@@ -533,37 +533,37 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
         {
             if (a == null)
             {
-                throw new ArgumentNullException("a");
+                throw new ArgumentNullException(nameof(a));
             }
 
             if (s == null)
             {
-                throw new ArgumentNullException("s");
+                throw new ArgumentNullException(nameof(s));
             }
 
             if (u == null)
             {
-                throw new ArgumentNullException("u");
+                throw new ArgumentNullException(nameof(u));
             }
 
             if (vt == null)
             {
-                throw new ArgumentNullException("vt");
+                throw new ArgumentNullException(nameof(vt));
             }
 
             if (u.Length != rowsA*rowsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "u");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(u));
             }
 
             if (vt.Length != columnsA*columnsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "vt");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(vt));
             }
 
             if (s.Length != Math.Min(rowsA, columnsA))
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "s");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(s));
             }
 
             if (columnsA > rowsA || !computeVectors) // see remarks http://docs.nvidia.com/cuda/cusolver/index.html#cuds-lt-t-gt-gesvd

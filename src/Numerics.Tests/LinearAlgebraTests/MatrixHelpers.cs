@@ -48,7 +48,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("matrix must be square.", "matrix");
+                throw new ArgumentException("matrix must be square.", nameof(matrix));
             }
             for (var row = 0; row < matrix.RowCount; row++)
             {
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("matrix must be square.", "matrix");
+                throw new ArgumentException("matrix must be square.", nameof(matrix));
             }
             for (var row = 0; row < matrix.RowCount; row++)
             {
@@ -88,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException("matrix must be square.", "matrix");
+                throw new ArgumentException("matrix must be square.", nameof(matrix));
             }
             for (var row = 0; row < matrix.RowCount; row++)
             {

@@ -379,7 +379,7 @@ namespace MathNet.Numerics
         {
             if (maxNumbersBetween < 0)
             {
-                throw new ArgumentOutOfRangeException("maxNumbersBetween");
+                throw new ArgumentOutOfRangeException(nameof(maxNumbersBetween));
             }
 
             if (double.IsInfinity(a) || double.IsNaN(a))
@@ -410,7 +410,7 @@ namespace MathNet.Numerics
         {
             if (maximumAbsoluteError < 0)
             {
-                throw new ArgumentOutOfRangeException("maximumAbsoluteError");
+                throw new ArgumentOutOfRangeException(nameof(maximumAbsoluteError));
             }
 
             if (double.IsInfinity(a) || double.IsNaN(a))
@@ -450,7 +450,7 @@ namespace MathNet.Numerics
             // Make sure ulpDifference is non-negative
             if (maxNumbersBetween < 1)
             {
-                throw new ArgumentOutOfRangeException("maxNumbersBetween");
+                throw new ArgumentOutOfRangeException(nameof(maxNumbersBetween));
             }
 
             // If the value is infinity (positive or negative) just
@@ -569,20 +569,20 @@ namespace MathNet.Numerics
             // Make sure the relative is non-negative
             if (relativeDifference < 0)
             {
-                throw new ArgumentOutOfRangeException("relativeDifference");
+                throw new ArgumentOutOfRangeException(nameof(relativeDifference));
             }
 
             // If the value is infinity (positive or negative) then
             // we can't determine the range.
             if (double.IsInfinity(value))
             {
-                throw new ArgumentOutOfRangeException("value");
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
 
             // If the value is a NaN then we can't determine the range.
             if (double.IsNaN(value))
             {
-                throw new ArgumentOutOfRangeException("value");
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
 
             // If the value is zero (0.0) then we can't calculate the relative difference
@@ -629,12 +629,12 @@ namespace MathNet.Numerics
         {
             if (double.IsNaN(a) || double.IsInfinity(a))
             {
-                throw new ArgumentOutOfRangeException("a");
+                throw new ArgumentOutOfRangeException(nameof(a));
             }
 
             if (double.IsNaN(b) || double.IsInfinity(b))
             {
-                throw new ArgumentOutOfRangeException("b");
+                throw new ArgumentOutOfRangeException(nameof(b));
             }
 
             // Calculate the ulps for the maximum and minimum values

@@ -282,7 +282,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException("value", Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(value), Resources.ArgumentNotNegative);
             }
             return value;
         }
@@ -297,7 +297,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException("value", Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(value), Resources.ArgumentNotNegative);
             }
             return value;
         }
@@ -312,7 +312,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException("value", Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(value), Resources.ArgumentNotNegative);
             }
             return value;
         }

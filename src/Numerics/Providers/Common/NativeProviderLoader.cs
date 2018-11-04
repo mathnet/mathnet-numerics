@@ -125,7 +125,7 @@ namespace MathNet.Numerics.Providers.Common
         {
             if (string.IsNullOrEmpty(fileName))
             {
-                throw new ArgumentNullException("fileName");
+                throw new ArgumentNullException(nameof(fileName));
             }
 
             // If we have hint path provided by the user, look there first

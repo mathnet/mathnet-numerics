@@ -53,12 +53,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (rowCount <= 0)
             {
-                throw new ArgumentOutOfRangeException("rowCount", Resources.MatrixRowsMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(rowCount), Resources.MatrixRowsMustBePositive);
             }
 
             if (columnCount <= 0)
             {
-                throw new ArgumentOutOfRangeException("columnCount", Resources.MatrixColumnsMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(columnCount), Resources.MatrixColumnsMustBePositive);
             }
 
             RowCount = rowCount;
@@ -225,12 +225,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (rowIndex + rowCount > RowCount || rowIndex < 0)
             {
-                throw new ArgumentOutOfRangeException("rowIndex");
+                throw new ArgumentOutOfRangeException(nameof(rowIndex));
             }
 
             if (columnIndex + columnCount > ColumnCount || columnIndex < 0)
             {
-                throw new ArgumentOutOfRangeException("columnIndex");
+                throw new ArgumentOutOfRangeException(nameof(columnIndex));
             }
 
             ClearUnchecked(rowIndex, rowCount, columnIndex, columnCount);
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 if (rowIndices[k] < 0 || rowIndices[k] >= RowCount)
                 {
-                    throw new ArgumentOutOfRangeException("rowIndices");
+                    throw new ArgumentOutOfRangeException(nameof(rowIndices));
                 }
             }
 
@@ -276,7 +276,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 if (columnIndices[k] < 0 || columnIndices[k] >= ColumnCount)
                 {
-                    throw new ArgumentOutOfRangeException("columnIndices");
+                    throw new ArgumentOutOfRangeException(nameof(columnIndices));
                 }
             }
 
@@ -313,7 +313,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (ReferenceEquals(this, target))
@@ -324,7 +324,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
+                throw new ArgumentException(message, nameof(target));
             }
 
             CopyToUnchecked(target, existingData);
@@ -348,7 +348,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (rowCount == 0 || columnCount == 0)
@@ -389,7 +389,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             ValidateRowRange(target, rowIndex);
@@ -402,7 +402,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (columnCount == 0)
@@ -429,7 +429,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             ValidateColumnRange(target, columnIndex);
@@ -442,7 +442,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (rowCount == 0)
@@ -469,13 +469,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (RowCount != target.ColumnCount || ColumnCount != target.RowCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
+                throw new ArgumentException(message, nameof(target));
             }
 
             if (ReferenceEquals(this, target))
@@ -686,13 +686,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (other == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException(nameof(other));
             }
 
             if (RowCount != other.RowCount || ColumnCount != other.ColumnCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, other.RowCount + "x" + other.ColumnCount);
-                throw new ArgumentException(message, "other");
+                throw new ArgumentException(message, nameof(other));
             }
 
             return Find2Unchecked(other, predicate, zeros);
@@ -745,13 +745,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
+                throw new ArgumentException(message, nameof(target));
             }
 
             MapToUnchecked(target, f, zeros, existingData);
@@ -774,13 +774,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
+                throw new ArgumentException(message, nameof(target));
             }
 
             MapIndexedToUnchecked(target, f, zeros, existingData);
@@ -806,7 +806,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (rowCount == 0 || columnCount == 0)
@@ -845,24 +845,24 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (other == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException(nameof(other));
             }
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
-                throw new ArgumentException(message, "target");
+                throw new ArgumentException(message, nameof(target));
             }
 
             if (RowCount != other.RowCount || ColumnCount != other.ColumnCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, other.RowCount + "x" + other.ColumnCount);
-                throw new ArgumentException(message, "other");
+                throw new ArgumentException(message, nameof(other));
             }
 
             Map2ToUnchecked(target, other, f, zeros, existingData);
@@ -886,20 +886,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
             if (target.Length != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
             }
 
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
             if (state.Length != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "state");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(state));
             }
 
             FoldByRowUnchecked(target, f, finalize, state, zeros);
@@ -924,20 +924,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
             if (target.Length != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
             }
 
             if (state == null)
             {
-                throw new ArgumentNullException("state");
+                throw new ArgumentNullException(nameof(state));
             }
             if (state.Length != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "state");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(state));
             }
 
             FoldByColumnUnchecked(target, f, finalize, state, zeros);
@@ -962,13 +962,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (other == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException(nameof(other));
             }
 
             if (RowCount != other.RowCount || ColumnCount != other.ColumnCount)
             {
                 var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, other.RowCount + "x" + other.ColumnCount);
-                throw new ArgumentException(message, "other");
+                throw new ArgumentException(message, nameof(other));
             }
 
             return Fold2Unchecked(other, f, state, zeros);

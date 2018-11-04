@@ -120,17 +120,17 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         {
             if (fillLevel < 0)
             {
-                throw new ArgumentOutOfRangeException("fillLevel");
+                throw new ArgumentOutOfRangeException(nameof(fillLevel));
             }
 
             if (dropTolerance < 0)
             {
-                throw new ArgumentOutOfRangeException("dropTolerance");
+                throw new ArgumentOutOfRangeException(nameof(dropTolerance));
             }
 
             if (pivotTolerance < 0)
             {
-                throw new ArgumentOutOfRangeException("pivotTolerance");
+                throw new ArgumentOutOfRangeException(nameof(pivotTolerance));
             }
 
             _fillLevel = fillLevel;
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _fillLevel = value;
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _dropTolerance = value;
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 _pivotTolerance = value;
@@ -293,12 +293,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
         {
             if (matrix == null)
             {
-                throw new ArgumentNullException("matrix");
+                throw new ArgumentNullException(nameof(matrix));
             }
 
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
+                throw new ArgumentException(Resources.ArgumentMatrixSquare, nameof(matrix));
             }
 
             SparseMatrix sparseMatrix = matrix as SparseMatrix ?? SparseMatrix.OfMatrix(matrix);
@@ -621,7 +621,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Solvers
 
             if ((lhs.Count != rhs.Count) || (lhs.Count != _upper.RowCount))
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(rhs));
             }
 
             // Solve equation here

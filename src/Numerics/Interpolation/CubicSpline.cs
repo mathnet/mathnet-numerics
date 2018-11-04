@@ -61,7 +61,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
             }
 
             _x = x;
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
             }
 
             var c0 = new double[x.Length - 1];
@@ -117,7 +117,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
             }
 
             Sorting.Sort(x, y, firstDerivatives);
@@ -146,7 +146,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 5)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 5), "x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 5), nameof(x));
             }
 
             /* Prepare divided differences (diff) and weights (w) */
@@ -226,7 +226,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), "x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
             }
 
             int n = x.Length;

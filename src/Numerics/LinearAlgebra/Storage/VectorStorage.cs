@@ -50,7 +50,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (length <= 0)
             {
-                throw new ArgumentOutOfRangeException("length", Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentMustBePositive);
             }
 
             Length = length;
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (ReferenceEquals(this, target))
@@ -206,7 +206,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
             }
 
             CopyToUnchecked(target, existingData);
@@ -226,12 +226,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (Length != target.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
             }
 
             ValidateRowRange(target, rowIndex);
@@ -252,12 +252,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (Length != target.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
             }
 
             ValidateColumnRange(target, columnIndex);
@@ -280,7 +280,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (count == 0)
@@ -324,7 +324,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (columnCount == 0)
@@ -353,7 +353,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (rowCount == 0)
@@ -453,12 +453,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (other == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException(nameof(other));
             }
 
             if (Length != other.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(other));
             }
 
             return Find2Unchecked(other, predicate, zeros);
@@ -502,12 +502,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (Length != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
             }
 
             MapToUnchecked(target, f, zeros, existingData);
@@ -527,12 +527,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (Length != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
             }
 
             MapIndexedToUnchecked(target, f, zeros, existingData);
@@ -551,22 +551,22 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             if (other == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException(nameof(other));
             }
 
             if (Length != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "target");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
             }
 
             if (Length != other.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(other));
             }
 
             Map2ToUnchecked(target, other, f, zeros, existingData);
@@ -587,12 +587,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (other == null)
             {
-                throw new ArgumentNullException("other");
+                throw new ArgumentNullException(nameof(other));
             }
 
             if (Length != other.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "other");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(other));
             }
 
             return Fold2Unchecked(other, f, state, zeros);

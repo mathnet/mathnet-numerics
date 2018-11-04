@@ -586,7 +586,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (source.Length != _data.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(source));
             }
 
             Buffer.BlockCopy(source, 0, _data, 0, source.Length * Constants.SizeOfFloat);
@@ -612,7 +612,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
             if (_data.Length != denseSource.Values.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(source));
             }
 
             Buffer.BlockCopy(denseSource.Values, 0, _data, 0, denseSource.Values.Length * Constants.SizeOfFloat);

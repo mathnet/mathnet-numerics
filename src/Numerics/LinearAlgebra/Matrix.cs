@@ -163,7 +163,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (rowIndex < 0 || rowIndex >= RowCount)
             {
-                throw new ArgumentOutOfRangeException("rowIndex");
+                throw new ArgumentOutOfRangeException(nameof(rowIndex));
             }
 
             Storage.ClearUnchecked(rowIndex, 1, 0, ColumnCount);
@@ -176,7 +176,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (columnIndex < 0 || columnIndex >= ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("columnIndex");
+                throw new ArgumentOutOfRangeException(nameof(columnIndex));
             }
 
             Storage.ClearUnchecked(0, RowCount, columnIndex, 1);
@@ -248,7 +248,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (target == null)
             {
-                throw new ArgumentNullException("target");
+                throw new ArgumentNullException(nameof(target));
             }
 
             Storage.CopyTo(target.Storage);
@@ -265,7 +265,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (index >= RowCount || index < 0)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             var ret = Vector<T>.Build.SameAs(this, ColumnCount);
@@ -286,7 +286,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             Storage.CopyRowTo(result.Storage, index);
@@ -333,7 +333,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             Storage.CopySubRowTo(result.Storage, rowIndex, columnIndex, 0, length);
@@ -350,7 +350,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (index >= ColumnCount || index < 0)
             {
-                throw new ArgumentOutOfRangeException("index");
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             var ret = Vector<T>.Build.SameAs(this, RowCount);
@@ -371,7 +371,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             Storage.CopyColumnTo(result.Storage, index);
@@ -419,7 +419,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             Storage.CopySubColumnTo(result.Storage, columnIndex, rowIndex, 0, length);
@@ -469,7 +469,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
@@ -496,7 +496,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
@@ -584,7 +584,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
@@ -629,7 +629,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             if (result.RowCount != RowCount || result.ColumnCount != ColumnCount)
@@ -659,17 +659,17 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (column == null)
             {
-                throw new ArgumentNullException("column");
+                throw new ArgumentNullException(nameof(column));
             }
 
             if (columnIndex < 0 || columnIndex > ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("columnIndex");
+                throw new ArgumentOutOfRangeException(nameof(columnIndex));
             }
 
             if (column.Count != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "column");
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(column));
             }
 
             var result = Build.SameAs(this, RowCount, ColumnCount + 1, fullyMutable: true);
@@ -689,7 +689,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (columnIndex < 0 || columnIndex >= ColumnCount)
             {
-                throw new ArgumentOutOfRangeException("columnIndex");
+                throw new ArgumentOutOfRangeException(nameof(columnIndex));
             }
 
             var result = Build.SameAs(this, RowCount, ColumnCount - 1, fullyMutable: true);
@@ -712,7 +712,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (column == null)
             {
-                throw new ArgumentNullException("column");
+                throw new ArgumentNullException(nameof(column));
             }
 
             column.Storage.CopyToColumn(Storage, columnIndex);
@@ -734,7 +734,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (column == null)
             {
-                throw new ArgumentNullException("column");
+                throw new ArgumentNullException(nameof(column));
             }
 
             column.Storage.CopyToSubColumn(Storage, columnIndex, 0, rowIndex, length);
@@ -756,7 +756,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (column == null)
             {
-                throw new ArgumentNullException("column");
+                throw new ArgumentNullException(nameof(column));
             }
 
             new DenseVectorStorage<T>(column.Length, column).CopyToColumn(Storage, columnIndex);
@@ -775,17 +775,17 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (row == null)
             {
-                throw new ArgumentNullException("row");
+                throw new ArgumentNullException(nameof(row));
             }
 
             if (rowIndex < 0 || rowIndex > RowCount)
             {
-                throw new ArgumentOutOfRangeException("rowIndex");
+                throw new ArgumentOutOfRangeException(nameof(rowIndex));
             }
 
             if (row.Count != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, "row");
+                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(row));
             }
 
             var result = Build.SameAs(this, RowCount + 1, ColumnCount, fullyMutable: true);
@@ -805,7 +805,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (rowIndex < 0 || rowIndex >= RowCount)
             {
-                throw new ArgumentOutOfRangeException("rowIndex");
+                throw new ArgumentOutOfRangeException(nameof(rowIndex));
             }
 
             var result = Build.SameAs(this, RowCount - 1, ColumnCount, fullyMutable: true);
@@ -828,7 +828,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (row == null)
             {
-                throw new ArgumentNullException("row");
+                throw new ArgumentNullException(nameof(row));
             }
 
             row.Storage.CopyToRow(Storage, rowIndex);
@@ -850,7 +850,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (row == null)
             {
-                throw new ArgumentNullException("row");
+                throw new ArgumentNullException(nameof(row));
             }
 
             row.Storage.CopyToSubRow(Storage, rowIndex, 0, columnIndex, length);
@@ -871,7 +871,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (row == null)
             {
-                throw new ArgumentNullException("row");
+                throw new ArgumentNullException(nameof(row));
             }
 
             new DenseVectorStorage<T>(row.Length, row).CopyToRow(Storage, rowIndex);
@@ -954,14 +954,14 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
 
             var min = Math.Min(RowCount, ColumnCount);
 
             if (source.Count != min)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "source");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(source));
             }
 
             for (var i = 0; i < min; i++)
@@ -984,14 +984,14 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
 
             var min = Math.Min(RowCount, ColumnCount);
 
             if (source.Length != min)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "source");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(source));
             }
 
             for (var i = 0; i < min; i++)
@@ -1038,7 +1038,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (p.Dimension != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "p");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(p));
             }
 
             // Get a sequence of inversions from the permutation.
@@ -1067,7 +1067,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (p.Dimension != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, "p");
+                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(p));
             }
 
             // Get a sequence of inversions from the permutation.
@@ -1099,7 +1099,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (right == null)
             {
-                throw new ArgumentNullException("right");
+                throw new ArgumentNullException(nameof(right));
             }
 
             if (right.RowCount != RowCount)
@@ -1124,7 +1124,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (right == null)
             {
-                throw new ArgumentNullException("right");
+                throw new ArgumentNullException(nameof(right));
             }
 
             if (right.RowCount != RowCount)
@@ -1134,7 +1134,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             if (result.ColumnCount != (ColumnCount + right.ColumnCount) || result.RowCount != RowCount)
@@ -1159,12 +1159,12 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (lower == null)
             {
-                throw new ArgumentNullException("lower");
+                throw new ArgumentNullException(nameof(lower));
             }
 
             if (lower.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "lower");
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(lower));
             }
 
             var result = Build.SameAs(this, lower, RowCount + lower.RowCount, ColumnCount, fullyMutable: true);
@@ -1186,17 +1186,17 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (lower == null)
             {
-                throw new ArgumentNullException("lower");
+                throw new ArgumentNullException(nameof(lower));
             }
 
             if (lower.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, "lower");
+                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(lower));
             }
 
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             if (result.RowCount != (RowCount + lower.RowCount) || result.ColumnCount != ColumnCount)
@@ -1222,7 +1222,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (lower == null)
             {
-                throw new ArgumentNullException("lower");
+                throw new ArgumentNullException(nameof(lower));
             }
 
             var result = Build.SameAs(this, lower, RowCount + lower.RowCount, ColumnCount + lower.ColumnCount, RowCount != ColumnCount);
@@ -1245,12 +1245,12 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (lower == null)
             {
-                throw new ArgumentNullException("lower");
+                throw new ArgumentNullException(nameof(lower));
             }
 
             if (result == null)
             {
-                throw new ArgumentNullException("result");
+                throw new ArgumentNullException(nameof(result));
             }
 
             if (result.RowCount != RowCount + lower.RowCount || result.ColumnCount != ColumnCount + lower.ColumnCount)

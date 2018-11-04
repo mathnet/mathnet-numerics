@@ -53,13 +53,13 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (lag < 0)
             {
-                throw new ArgumentOutOfRangeException("lag", Resources.LagMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(lag), Resources.LagMustBePositive);
             }
 
             int length = series.Count();
             if (lag >= length)
             {
-                throw new ArgumentOutOfRangeException("lag", Resources.LagMustBeSmallerThanTheSampleSize);
+                throw new ArgumentOutOfRangeException(nameof(lag), Resources.LagMustBeSmallerThanTheSampleSize);
             }
 
             var transformedSeries = series.Select(f);

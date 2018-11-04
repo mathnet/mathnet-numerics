@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Financial
         {
             if (data == null)
             {
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             }
 
             int count = 0;
@@ -67,7 +67,7 @@ namespace MathNet.Numerics.Financial
         {
             if (data == null)
             {
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             }
 
             return data.Where(x => x >= 0).Mean();
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Financial
         {
             if (data == null)
             {
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException(nameof(data));
             }
 
             return data.Where(x => x < 0).Mean();

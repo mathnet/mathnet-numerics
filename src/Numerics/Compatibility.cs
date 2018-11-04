@@ -27,8 +27,8 @@ namespace MathNet.Numerics
 
         public static IEnumerable<Tuple<int, int>> Create(int fromInclusive, int toExclusive, int rangeSize)
         {
-            if (toExclusive <= fromInclusive) throw new ArgumentOutOfRangeException("toExclusive");
-            if (rangeSize <= 0) throw new ArgumentOutOfRangeException("rangeSize");
+            if (toExclusive <= fromInclusive) throw new ArgumentOutOfRangeException(nameof(toExclusive));
+            if (rangeSize <= 0) throw new ArgumentOutOfRangeException(nameof(rangeSize));
             return CreateRanges(fromInclusive, toExclusive, rangeSize);
         }
 
@@ -102,7 +102,7 @@ namespace MathNet.Numerics
                 var action = actions[i];
                 if (action == null)
                 {
-                    throw new ArgumentException(String.Format(Properties.Resources.ArgumentItemNull, "actions"), "actions");
+                    throw new ArgumentException(String.Format(Properties.Resources.ArgumentItemNull, nameof(actions)), "actions");
                 }
 
                 tasks[i] = Task.Factory.StartNew(action, parallelOptions.CancellationToken, TaskCreationOptions.None, parallelOptions.TaskScheduler);

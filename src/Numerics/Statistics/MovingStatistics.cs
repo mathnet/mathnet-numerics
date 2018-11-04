@@ -57,7 +57,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (windowSize < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentMustBePositive), "windowSize");
+                throw new ArgumentException(string.Format(Resources.ArgumentMustBePositive), nameof(windowSize));
             }
             _windowSize = windowSize;
             _oldValues = new double[_windowSize];

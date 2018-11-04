@@ -112,7 +112,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             if (iterationNumber < 0)
             {
-                throw new ArgumentOutOfRangeException("iterationNumber");
+                throw new ArgumentOutOfRangeException(nameof(iterationNumber));
             }
 
             // While we're cancelled we don't call on the stop-criteria.

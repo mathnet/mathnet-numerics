@@ -56,7 +56,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), "x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), nameof(x));
             }
 
             _x = x;
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), "x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), nameof(x));
             }
 
             var weights = new double[x.Length];
@@ -142,12 +142,12 @@ namespace MathNet.Numerics.Interpolation
 
             if (x.Length < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), "x");
+                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), nameof(x));
             }
 
             if (0 > order || x.Length <= order)
             {
-                throw new ArgumentOutOfRangeException("order");
+                throw new ArgumentOutOfRangeException(nameof(order));
             }
 
             var weights = new double[x.Length];

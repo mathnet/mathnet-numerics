@@ -263,7 +263,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (x == null)
             {
-                throw new ArgumentNullException("x");
+                throw new ArgumentNullException(nameof(x));
             }
 
             var shortVersion = x.Length == (_alpha.Length - 1);

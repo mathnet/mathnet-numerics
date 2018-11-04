@@ -196,7 +196,7 @@ namespace MathNet.Numerics.Distributions
 
             if (x.RowCount != p || x.ColumnCount != p)
             {
-                throw new ArgumentOutOfRangeException("x", Resources.ArgumentMatrixDimensions);
+                throw new ArgumentOutOfRangeException(nameof(x), Resources.ArgumentMatrixDimensions);
             }
 
             var chol = x.Cholesky();

@@ -73,22 +73,22 @@ namespace MathNet.Numerics.Threading
         {
             if (body == null)
             {
-                throw new ArgumentNullException("body");
+                throw new ArgumentNullException(nameof(body));
             }
 
             if (fromInclusive < 0)
             {
-                throw new ArgumentOutOfRangeException("fromInclusive");
+                throw new ArgumentOutOfRangeException(nameof(fromInclusive));
             }
 
             if (fromInclusive > toExclusive)
             {
-                throw new ArgumentOutOfRangeException("toExclusive");
+                throw new ArgumentOutOfRangeException(nameof(toExclusive));
             }
 
             if (rangeSize < 1)
             {
-                throw new ArgumentOutOfRangeException("rangeSize");
+                throw new ArgumentOutOfRangeException(nameof(rangeSize));
             }
 
             var length = toExclusive - fromInclusive;
@@ -163,12 +163,12 @@ namespace MathNet.Numerics.Threading
         {
             if (select == null)
             {
-                throw new ArgumentNullException("select");
+                throw new ArgumentNullException(nameof(select));
             }
 
             if (reduce == null)
             {
-                throw new ArgumentNullException("reduce");
+                throw new ArgumentNullException(nameof(reduce));
             }
 
             // Special case: no action
@@ -234,12 +234,12 @@ namespace MathNet.Numerics.Threading
         {
             if (select == null)
             {
-                throw new ArgumentNullException("select");
+                throw new ArgumentNullException(nameof(select));
             }
 
             if (reduce == null)
             {
-                throw new ArgumentNullException("reduce");
+                throw new ArgumentNullException(nameof(reduce));
             }
 
             // Special case: no action

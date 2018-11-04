@@ -455,7 +455,7 @@ namespace MathNet.Numerics.Random
         {
             if (buffer == null)
             {
-                throw new ArgumentNullException("buffer");
+                throw new ArgumentNullException(nameof(buffer));
             }
 
             if (_threadSafe)

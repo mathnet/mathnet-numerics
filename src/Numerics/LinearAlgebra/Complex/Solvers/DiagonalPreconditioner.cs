@@ -72,7 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
+                throw new ArgumentException(Resources.ArgumentMatrixSquare, nameof(matrix));
             }
 
             _inverseDiagonals = new Complex[matrix.RowCount];
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 
             if ((lhs.Count != rhs.Count) || (lhs.Count != _inverseDiagonals.Length))
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, "rhs");
+                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(rhs));
             }
 
             for (var i = 0; i < _inverseDiagonals.Length; i++)

@@ -87,7 +87,7 @@ namespace MathNet.Numerics.RootFinding
 
             if (lowerBound >= upperBound)
             {
-                throw new ArgumentOutOfRangeException("upperBound", string.Format(Resources.ArgumentOutOfRangeGreater, "xmax", "xmin"));
+                throw new ArgumentOutOfRangeException(nameof(upperBound), string.Format(Resources.ArgumentOutOfRangeGreater, "xmax", "xmin"));
             }
 
             double fmin = f(lowerBound);
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.RootFinding
 
             if (lowerBound >= upperBound)
             {
-                throw new ArgumentOutOfRangeException("upperBound", string.Format(Resources.ArgumentOutOfRangeGreater, "xmax", "xmin"));
+                throw new ArgumentOutOfRangeException(nameof(upperBound), string.Format(Resources.ArgumentOutOfRangeGreater, "xmax", "xmin"));
             }
 
             // TODO: Consider binary-style search instead of linear scan

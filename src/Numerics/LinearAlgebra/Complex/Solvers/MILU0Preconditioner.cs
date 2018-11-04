@@ -86,14 +86,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             var csr = matrix.Storage as SparseCompressedRowMatrixStorage<Complex>;
             if (csr == null)
             {
-                throw new ArgumentException(Resources.MatrixMustBeSparse, "matrix");
+                throw new ArgumentException(Resources.MatrixMustBeSparse, nameof(matrix));
             }
 
             // Dimension of matrix
             int n = csr.RowCount;
             if (n != csr.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare, "matrix");
+                throw new ArgumentException(Resources.ArgumentMatrixSquare, nameof(matrix));
             }
 
             // Original matrix compressed sparse row storage.
