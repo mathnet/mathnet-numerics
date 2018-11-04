@@ -161,7 +161,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void ClearRow(int rowIndex)
         {
-            if (rowIndex < 0 || rowIndex >= RowCount)
+            if ((uint)rowIndex >= (uint)RowCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowIndex));
             }
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public void ClearColumn(int columnIndex)
         {
-            if (columnIndex < 0 || columnIndex >= ColumnCount)
+            if ((uint)columnIndex >= (uint)ColumnCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(columnIndex));
             }
@@ -263,7 +263,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// or greater than or equal to the number of rows.</exception>
         public Vector<T> Row(int index)
         {
-            if (index >= RowCount || index < 0)
+            if ((uint)index >= (uint)RowCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
@@ -348,7 +348,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// or greater than or equal to the number of columns.</exception>
         public Vector<T> Column(int index)
         {
-            if (index >= ColumnCount || index < 0)
+            if ((uint)index >= (uint)ColumnCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
@@ -662,7 +662,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentNullException(nameof(column));
             }
 
-            if (columnIndex < 0 || columnIndex > ColumnCount)
+            if ((uint)columnIndex > (uint)ColumnCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(columnIndex));
             }
@@ -687,7 +687,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="columnIndex"/> is &lt; zero or &gt;= the number of columns.</exception>
         public Matrix<T> RemoveColumn(int columnIndex)
         {
-            if (columnIndex < 0 || columnIndex >= ColumnCount)
+            if ((uint)columnIndex >= (uint)ColumnCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(columnIndex));
             }
@@ -778,7 +778,7 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new ArgumentNullException(nameof(row));
             }
 
-            if (rowIndex < 0 || rowIndex > RowCount)
+            if ((uint)rowIndex > (uint)RowCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowIndex));
             }
@@ -803,7 +803,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <exception cref="ArgumentOutOfRangeException">If <paramref name="rowIndex"/> is &lt; zero or &gt;= the number of rows.</exception>
         public Matrix<T> RemoveRow(int rowIndex)
         {
-            if (rowIndex < 0 || rowIndex >= RowCount)
+            if ((uint)rowIndex >= (uint)RowCount)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowIndex));
             }

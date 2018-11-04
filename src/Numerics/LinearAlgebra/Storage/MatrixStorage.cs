@@ -274,7 +274,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             for (int k = 0; k < columnIndices.Length; k++)
             {
-                if (columnIndices[k] < 0 || columnIndices[k] >= ColumnCount)
+                if ((uint)columnIndices[k] >= (uint)ColumnCount)
                 {
                     throw new ArgumentOutOfRangeException(nameof(columnIndices));
                 }
