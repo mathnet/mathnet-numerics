@@ -149,6 +149,34 @@ namespace MathNet.Numerics.LinearRegression
         }
 
         /// <summary>
+        /// Returns closed form solution for ridge regression calculation according to the following formula:
+        /// weights = (X' * X + lambda * I ) * X' * Y . Where X' stands for X' transposed
+        /// </summary>
+        /// <param name="xTrain">Training inputs</param>
+        /// <param name="yTrain">Training outputs</param>
+        /// <param name="lambda">Learning parameter. Will be used for decreasing weithgs. Default is set to 1</param>
+        /// <returns></returns>
+        public static double[] RidgeRegression(double[][] xTrain, double[] yTrain, double lambda = 1)
+        {
+            var M = Matrix<double>.Build;
+            var x = M.DenseOfRowArrays(xTrain);
+
+            var ones = Vector<double>.Build.Dense(x.RowCount, 1);
+            x = x.InsertColumn(0, ones);
+            var y = Vector<double>.Build.DenseOfArray(yTrain);
+
+            var xt = x.Transpose();
+
+            var lambdaIdentity = lambda * M.DenseIdentity(x.ColumnCount);
+            var sumDot = xt.Multiply(x) + lambdaIdentity;
+            var theInverse = sumDot.Inverse();
+            var inverseXt = theInverse * xt;
+            var w = inverseXt * y;
+
+            return w.ToArray();
+        }
+
+        /// <summary>
         /// Find the model parameters β such that X*β with predictor X becomes as close to response Y as possible, with least squares residuals.
         /// Uses the cholesky decomposition of the normal equations.
         /// </summary>
