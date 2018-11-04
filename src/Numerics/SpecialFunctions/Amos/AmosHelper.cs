@@ -177,9 +177,9 @@ namespace MathNet.Numerics
                 tol = Math.Max(d1mach(4), 1.0E-18);
                 fid = (double)id;
                 if (az > 1.0) goto L70;
-                // ----------------------------------------------------------------------- 
-                //     POWER SERIES FOR ABS(Z).LE.1. 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     POWER SERIES FOR ABS(Z).LE.1.
+                // -----------------------------------------------------------------------
                 s1r = coner;
                 s1i = conei;
                 s2r = coner;
@@ -258,21 +258,21 @@ namespace MathNet.Numerics
                 aii = str * aii + sti * air;
                 air = ptr;
                 return 0;
-                // ----------------------------------------------------------------------- 
-                //     CASE FOR ABS(Z).GT.1.0 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     CASE FOR ABS(Z).GT.1.0
+                // -----------------------------------------------------------------------
             L70:
                 fnu = (1.0 + fid) / 3.0;
-                // ----------------------------------------------------------------------- 
-                //     SET PARAMETERS RELATED TO MACHINE CONSTANTS. 
-                //     TOL IS THE APPROXIMATE UNIT ROUNDOFF LIMITED TO 1.0D-18. 
-                //     ELIM IS THE APPROXIMATE EXPONENTIAL OVER- AND UNDERFLOW LIMIT. 
-                //     EXP(-ELIM).LT.EXP(-ALIM)=EXP(-ELIM)/TOL    AND 
-                //     EXP(ELIM).GT.EXP(ALIM)=EXP(ELIM)*TOL       ARE INTERVALS NEAR 
-                //     UNDERFLOW AND OVERFLOW LIMITS WHERE SCALED ARITHMETIC IS DONE. 
-                //     RL IS THE LOWER BOUNDARY OF THE ASYMPTOTIC EXPANSION FOR LARGE Z. 
-                //     DIG = NUMBER OF BASE 10 DIGITS IN TOL = 10**(-DIG). 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     SET PARAMETERS RELATED TO MACHINE CONSTANTS.
+                //     TOL IS THE APPROXIMATE UNIT ROUNDOFF LIMITED TO 1.0D-18.
+                //     ELIM IS THE APPROXIMATE EXPONENTIAL OVER- AND UNDERFLOW LIMIT.
+                //     EXP(-ELIM).LT.EXP(-ALIM)=EXP(-ELIM)/TOL    AND
+                //     EXP(ELIM).GT.EXP(ALIM)=EXP(ELIM)*TOL       ARE INTERVALS NEAR
+                //     UNDERFLOW AND OVERFLOW LIMITS WHERE SCALED ARITHMETIC IS DONE.
+                //     RL IS THE LOWER BOUNDARY OF THE ASYMPTOTIC EXPANSION FOR LARGE Z.
+                //     DIG = NUMBER OF BASE 10 DIGITS IN TOL = 10**(-DIG).
+                // -----------------------------------------------------------------------
                 k1 = i1mach(15);
                 k2 = i1mach(16);
                 r1m5 = d1mach(5);
@@ -285,9 +285,9 @@ namespace MathNet.Numerics
                 alim = elim + Math.Max(-aa, -41.45);
                 rl = 1.2 * dig + 3.0;
                 alaz = Math.Log(az);
-                // ----------------------------------------------------------------------- 
-                //     TEST FOR PROPER RANGE 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     TEST FOR PROPER RANGE
+                // -----------------------------------------------------------------------
                 aa = 0.5 / tol;
                 bb = i1mach(9) * 0.5;
                 aa = Math.Min(aa, bb);
@@ -298,9 +298,9 @@ namespace MathNet.Numerics
                 zsqrt(zr, zi, ref csqr, ref csqi);
                 ztar = tth * (zr * csqr - zi * csqi);
                 ztai = tth * (zr * csqi + zi * csqr);
-                // ----------------------------------------------------------------------- 
-                //     RE(ZTA).LE.0 WHEN RE(Z).LT.0, ESPECIALLY WHEN IM(Z) IS SMALL 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     RE(ZTA).LE.0 WHEN RE(Z).LT.0, ESPECIALLY WHEN IM(Z) IS SMALL
+                // -----------------------------------------------------------------------
                 iflag = 0;
                 sfac = 1.0;
                 ak = ztai;
@@ -318,18 +318,18 @@ namespace MathNet.Numerics
                 aa = ztar;
                 if (aa >= 0.0 && zr > 0.0) goto L110;
                 if (kode == 2) goto L100;
-                // ----------------------------------------------------------------------- 
-                //     OVERFLOW TEST 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     OVERFLOW TEST
+                // -----------------------------------------------------------------------
                 if (aa > -alim) goto L100;
                 aa = -aa + alaz * 0.25;
                 iflag = 1;
                 sfac = tol;
                 if (aa > elim) goto L270;
             L100:
-                // ----------------------------------------------------------------------- 
-                //     CBKNU AND CACON RETURN EXP(ZTA)*K(FNU,ZTA) ON KODE=2 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     CBKNU AND CACON RETURN EXP(ZTA)*K(FNU,ZTA) ON KODE=2
+                // -----------------------------------------------------------------------
                 mr = 1;
                 if (zi < 0.0) mr = -1;
                 zacai(ztar, ztai, fnu, kode, mr, 1, cyr, cyi, ref nn, rl, tol, elim, alim);
@@ -338,9 +338,9 @@ namespace MathNet.Numerics
                 goto L130;
             L110:
                 if (kode == 2) goto L120;
-                // ----------------------------------------------------------------------- 
-                //     UNDERFLOW TEST 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     UNDERFLOW TEST
+                // -----------------------------------------------------------------------
                 if (aa < alim) goto L120;
                 aa = -aa - 0.25 * alaz;
                 iflag = 2;
@@ -419,7 +419,7 @@ namespace MathNet.Numerics
                 nz = 0;
                 return 0;
             }
-            
+
             // The Airy function Bi(z) and derivative
             public int zbiry(double zr, double zi, int id, int kode, ref double bir, ref double bii, ref int nz, ref int ierr)
             {
@@ -1762,17 +1762,17 @@ namespace MathNet.Numerics
                 if (n < 1) ierr = 1;
                 if (ierr != 0) return 0;
                 nn = n;
-                // ----------------------------------------------------------------------- 
-                //     SET PARAMETERS RELATED TO MACHINE CONSTANTS. 
-                //     TOL IS THE APPROXIMATE UNIT ROUNDOFF LIMITED TO 1.0E-18. 
-                //     ELIM IS THE APPROXIMATE EXPONENTIAL OVER- AND UNDERFLOW LIMIT. 
-                //     EXP(-ELIM).LT.EXP(-ALIM)=EXP(-ELIM)/TOL    AND 
-                //     EXP(ELIM).GT.EXP(ALIM)=EXP(ELIM)*TOL       ARE INTERVALS NEAR 
-                //     UNDERFLOW AND OVERFLOW LIMITS WHERE SCALED ARITHMETIC IS DONE. 
-                //     RL IS THE LOWER BOUNDARY OF THE ASYMPTOTIC EXPANSION FOR LARGE Z. 
-                //     DIG = NUMBER OF BASE 10 DIGITS IN TOL = 10**(-DIG). 
-                //     FNUL IS THE LOWER BOUNDARY OF THE ASYMPTOTIC SERIES FOR LARGE FNU 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     SET PARAMETERS RELATED TO MACHINE CONSTANTS.
+                //     TOL IS THE APPROXIMATE UNIT ROUNDOFF LIMITED TO 1.0E-18.
+                //     ELIM IS THE APPROXIMATE EXPONENTIAL OVER- AND UNDERFLOW LIMIT.
+                //     EXP(-ELIM).LT.EXP(-ALIM)=EXP(-ELIM)/TOL    AND
+                //     EXP(ELIM).GT.EXP(ALIM)=EXP(ELIM)*TOL       ARE INTERVALS NEAR
+                //     UNDERFLOW AND OVERFLOW LIMITS WHERE SCALED ARITHMETIC IS DONE.
+                //     RL IS THE LOWER BOUNDARY OF THE ASYMPTOTIC EXPANSION FOR LARGE Z.
+                //     DIG = NUMBER OF BASE 10 DIGITS IN TOL = 10**(-DIG).
+                //     FNUL IS THE LOWER BOUNDARY OF THE ASYMPTOTIC SERIES FOR LARGE FNU
+                // -----------------------------------------------------------------------
                 tol = Math.Max(d1mach(4), 1.0E-18);
                 k1 = i1mach(15);
                 k2 = i1mach(16);
@@ -1786,9 +1786,9 @@ namespace MathNet.Numerics
                 alim = elim + Math.Max(-aa, -41.45);
                 fnul = (dig - 3.0) * 6.0 + 10.0;
                 rl = 1.2 * dig + 3.0;
-                // ----------------------------------------------------------------------- 
-                //     TEST FOR PROPER RANGE 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     TEST FOR PROPER RANGE
+                // -----------------------------------------------------------------------
                 az = zabs(zr, zi);
                 fn = fnu + (nn - 1);
                 aa = 0.5 / tol;
@@ -1799,9 +1799,9 @@ namespace MathNet.Numerics
                 aa = Math.Sqrt(aa);
                 if (az > aa) ierr = 3;
                 if (fn > aa) ierr = 3;
-                // ----------------------------------------------------------------------- 
-                //     OVERFLOW TEST ON THE LAST MEMBER OF THE SEQUENCE 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     OVERFLOW TEST ON THE LAST MEMBER OF THE SEQUENCE
+                // -----------------------------------------------------------------------
                 //     UFL = EXP(-ELIM)
                 ufl = d1mach(1) * 1.0E3;
                 if (az < ufl) goto L180;
@@ -1818,24 +1818,24 @@ namespace MathNet.Numerics
                 if (nuf < 0) goto L180;
                 nz += nuf;
                 nn -= nuf;
-                // ----------------------------------------------------------------------- 
-                //     HERE NN=N OR NN=0 SINCE NUF=0,NN, OR -1 ON RETURN FROM CUOIK 
-                //     IF NUF=NN, THEN CY(I)=CZERO FOR ALL I 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     HERE NN=N OR NN=0 SINCE NUF=0,NN, OR -1 ON RETURN FROM CUOIK
+                //     IF NUF=NN, THEN CY(I)=CZERO FOR ALL I
+                // -----------------------------------------------------------------------
                 if (nn == 0) goto L100;
             L60:
                 if (zr < 0.0) goto L70;
-                // ----------------------------------------------------------------------- 
-                //     RIGHT HALF PLANE COMPUTATION, REAL(Z).GE.0. 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     RIGHT HALF PLANE COMPUTATION, REAL(Z).GE.0.
+                // -----------------------------------------------------------------------
                 zbknu(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, tol, elim, alim);
                 if (nw < 0) goto L200;
                 nz = nw;
                 return 0;
-                // ----------------------------------------------------------------------- 
-                //     LEFT HALF PLANE COMPUTATION 
-                //     PI/2.LT.ARG(Z).LE.PI AND -PI.LT.ARG(Z).LT.-PI/2. 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     LEFT HALF PLANE COMPUTATION
+                //     PI/2.LT.ARG(Z).LE.PI AND -PI.LT.ARG(Z).LT.-PI/2.
+                // -----------------------------------------------------------------------
             L70:
                 if (nz != 0) goto L180;
                 mr = 1;
@@ -1844,9 +1844,9 @@ namespace MathNet.Numerics
                 if (nw < 0) goto L200;
                 nz = nw;
                 return 0;
-                // ----------------------------------------------------------------------- 
-                //     UNIFORM ASYMPTOTIC EXPANSIONS FOR FNU.GT.FNUL 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     UNIFORM ASYMPTOTIC EXPANSIONS FOR FNU.GT.FNUL
+                // -----------------------------------------------------------------------
             L80:
                 mr = 0;
                 if (zr >= 0.0) goto L90;
@@ -2447,8 +2447,8 @@ namespace MathNet.Numerics
 
                 #endregion
 
-                const int FLT_RADIX = 2; // the radix used by the representation of all floating-point types 
-                const double DBL_EPSILON = 2.2204460492503130808E-16; // 2^(1 - 53) 
+                const int FLT_RADIX = 2; // the radix used by the representation of all floating-point types
+                const double DBL_EPSILON = 2.2204460492503130808E-16; // 2^(1 - 53)
                 const double DBL_MAX = double.MaxValue; // 2^1024 * (1 - 2^(-53))
                 const double DBL_MIN = 2.2250738585072013831E-308; // 2^(-1021 - 1)
 
@@ -2545,7 +2545,7 @@ namespace MathNet.Numerics
                 switch (i)
                 {
                     case 9: return Int32.MaxValue; // the largest magnitude of integer = 2^31 - 1 = 2147483647
-                    case 14: return 53; // return Precision.DoubleWidth; // the number of base-2 digits. 
+                    case 14: return 53; // return Precision.DoubleWidth; // the number of base-2 digits.
                     case 15: return -1021; // EMIN, the smallest exponent E.
                     case 16: return 1024; // EMAX, the largest exponent E = 2^10
                 }
@@ -2823,29 +2823,29 @@ namespace MathNet.Numerics
                 if (az <= 2.0) goto L10;
                 if (az * az * 0.25 > dfnu + 1.0) goto L20;
             L10:
-                // ----------------------------------------------------------------------- 
-                //     POWER SERIES FOR THE I FUNCTION 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     POWER SERIES FOR THE I FUNCTION
+                // -----------------------------------------------------------------------
                 zseri(znr, zni, fnu, kode, nn, yr, yi, ref nw, tol, elim, alim);
                 goto L40;
             L20:
                 if (az < rl) goto L30;
-                // ----------------------------------------------------------------------- 
-                //     ASYMPTOTIC EXPANSION FOR LARGE Z FOR THE I FUNCTION 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     ASYMPTOTIC EXPANSION FOR LARGE Z FOR THE I FUNCTION
+                // -----------------------------------------------------------------------
                 zasyi(znr, zni, fnu, kode, nn, yr, yi, ref nw, rl, tol, elim, alim);
                 if (nw < 0) goto L80;
                 goto L40;
             L30:
-                // ----------------------------------------------------------------------- 
-                //     MILLER ALGORITHM NORMALIZED BY THE SERIES FOR THE I FUNCTION 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     MILLER ALGORITHM NORMALIZED BY THE SERIES FOR THE I FUNCTION
+                // -----------------------------------------------------------------------
                 zmlri(znr, zni, fnu, kode, nn, yr, yi, ref nw, tol);
                 if (nw < 0) goto L80;
             L40:
-                // ----------------------------------------------------------------------- 
-                //     ANALYTIC CONTINUATION TO THE LEFT HALF PLANE FOR THE K FUNCTION 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     ANALYTIC CONTINUATION TO THE LEFT HALF PLANE FOR THE K FUNCTION
+                // -----------------------------------------------------------------------
                 zbknu(znr, zni, fnu, kode, 1, cyr, cyi, ref nw, tol, elim, alim);
                 if (nw != 0) goto L80;
                 fmr = (double)mr;
@@ -2857,10 +2857,10 @@ namespace MathNet.Numerics
                 csgnr = -csgni * Math.Sin(yy);
                 csgni = csgni * Math.Cos(yy);
             L50:
-                // ----------------------------------------------------------------------- 
-                //     CALCULATE CSPN=EXP(FNU*PI*I) TO MINIMIZE LOSSES OF SIGNIFICANCE 
-                //     WHEN FNU IS LARGE 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     CALCULATE CSPN=EXP(FNU*PI*I) TO MINIMIZE LOSSES OF SIGNIFICANCE
+                //     WHEN FNU IS LARGE
+                // -----------------------------------------------------------------------
                 inu = (int)fnu;
                 arg = (fnu - (double)inu) * sgn;
                 cspnr = Math.Cos(arg);
@@ -2932,9 +2932,9 @@ namespace MathNet.Numerics
                 nn = n;
                 zbinu(znr, zni, fnu, kode, nn, yr, yi, ref nw, rl, fnul, tol, elim, alim);
                 if (nw < 0) goto L90;
-                // ----------------------------------------------------------------------- 
-                //     ANALYTIC CONTINUATION TO THE LEFT HALF PLANE FOR THE K FUNCTION 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     ANALYTIC CONTINUATION TO THE LEFT HALF PLANE FOR THE K FUNCTION
+                // -----------------------------------------------------------------------
                 nn = Math.Min(2, n);
                 zbknu(znr, zni, fnu, kode, nn, cyr, cyi, ref nw, tol, elim, alim);
                 if (nw != 0) goto L90;
@@ -2950,10 +2950,10 @@ namespace MathNet.Numerics
                 spn = Math.Sin(yy);
                 zmlt(csgnr, csgni, cpn, spn, ref csgnr, ref csgni);
             L10:
-                // ----------------------------------------------------------------------- 
-                //     CALCULATE CSPN=EXP(FNU*PI*I) TO MINIMIZE LOSSES OF SIGNIFICANCE 
-                //     WHEN FNU IS LARGE 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     CALCULATE CSPN=EXP(FNU*PI*I) TO MINIMIZE LOSSES OF SIGNIFICANCE
+                //     WHEN FNU IS LARGE
+                // -----------------------------------------------------------------------
                 inu = (int)fnu;
                 arg = (fnu - (double)inu) * sgn;
                 cpn = Math.Cos(arg);
@@ -3011,9 +3011,9 @@ namespace MathNet.Numerics
                 fn = fnu + 1.0;
                 ckr = fn * rzr;
                 cki = fn * rzi;
-                // ----------------------------------------------------------------------- 
-                //     SCALE NEAR EXPONENT EXTREMES DURING RECURRENCE ON K FUNCTIONS 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     SCALE NEAR EXPONENT EXTREMES DURING RECURRENCE ON K FUNCTIONS
+                // -----------------------------------------------------------------------
                 cscl = 1.0 / tol;
                 cscr = tol;
                 cssr[0] = cscl;
@@ -3142,9 +3142,9 @@ namespace MathNet.Numerics
                 rtr1 = Math.Sqrt(arm);
                 il = Math.Min(2, n);
                 dfnu = fnu + (n - il);
-                // ----------------------------------------------------------------------- 
-                //     OVERFLOW TEST 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     OVERFLOW TEST
+                // -----------------------------------------------------------------------
                 raz = 1.0 / az;
                 str = zr * raz;
                 sti = -zi * raz;
@@ -3169,21 +3169,21 @@ namespace MathNet.Numerics
                 if (dnu2 > rtr1) fdn = dnu2 * dnu2;
                 ezr = zr * 8.0;
                 ezi = zi * 8.0;
-                // ----------------------------------------------------------------------- 
-                //     WHEN Z IS IMAGINARY, THE ERROR TEST MUST BE MADE RELATIVE TO THE 
-                //     FIRST RECIPROCAL POWER SINCE THIS IS THE LEADING TERM OF THE 
-                //     EXPANSION FOR THE IMAGINARY PART. 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     WHEN Z IS IMAGINARY, THE ERROR TEST MUST BE MADE RELATIVE TO THE
+                //     FIRST RECIPROCAL POWER SINCE THIS IS THE LEADING TERM OF THE
+                //     EXPANSION FOR THE IMAGINARY PART.
+                // -----------------------------------------------------------------------
                 aez = 8.0 * az;
                 s = tol / aez;
                 jl = (int)(rl + rl) + 2;
                 p1r = zeror;
                 p1i = zeroi;
                 if (zi == 0.0) goto L30;
-                // ----------------------------------------------------------------------- 
-                //     CALCULATE EXP(PI*(0.5+FNU+N-IL)*I) TO MINIMIZE LOSSES OF 
-                //     SIGNIFICANCE WHEN FNU OR N IS LARGE 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     CALCULATE EXP(PI*(0.5+FNU+N-IL)*I) TO MINIMIZE LOSSES OF
+                //     SIGNIFICANCE WHEN FNU OR N IS LARGE
+                // -----------------------------------------------------------------------
                 inu = (int)fnu;
                 arg = (fnu - (double)inu) * pi;
                 inu = inu + n - il;
@@ -3313,9 +3313,9 @@ namespace MathNet.Numerics
                 if (az <= 2.0) goto L10;
                 if (az * az * 0.25 > dfnu + 1.0) goto L20;
             L10:
-                // ----------------------------------------------------------------------- 
-                //     POWER SERIES 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     POWER SERIES
+                // -----------------------------------------------------------------------
                 zseri(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, tol, elim, alim);
                 inw = Math.Abs(nw);
                 nz = nz + inw;
@@ -3327,9 +3327,9 @@ namespace MathNet.Numerics
                 if (az < rl) goto L40;
                 if (dfnu <= 1.0) goto L30;
                 if (az + az < dfnu * dfnu) goto L50;
-                // ----------------------------------------------------------------------- 
-                //     ASYMPTOTIC EXPANSION FOR LARGE Z 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     ASYMPTOTIC EXPANSION FOR LARGE Z
+                // -----------------------------------------------------------------------
             L30:
                 zasyi(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, rl, tol, elim, alim);
                 if (nw < 0) goto L130;
@@ -3337,9 +3337,9 @@ namespace MathNet.Numerics
             L40:
                 if (dfnu <= 1.0) goto L70;
             L50:
-                // ----------------------------------------------------------------------- 
-                //     OVERFLOW AND UNDERFLOW TEST ON I SEQUENCE FOR MILLER ALGORITHM 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     OVERFLOW AND UNDERFLOW TEST ON I SEQUENCE FOR MILLER ALGORITHM
+                // -----------------------------------------------------------------------
                 zuoik(zr, zi, fnu, kode, 1, nn, cyr, cyi, ref nw, tol, elim, alim);
                 if (nw < 0) goto L130;
                 nz = nz + nw;
@@ -3351,19 +3351,19 @@ namespace MathNet.Numerics
             L60:
                 if (az > rl) goto L80;
             L70:
-                // ----------------------------------------------------------------------- 
-                //     MILLER ALGORITHM NORMALIZED BY THE SERIES 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     MILLER ALGORITHM NORMALIZED BY THE SERIES
+                // -----------------------------------------------------------------------
                 zmlri(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, tol);
                 if (nw < 0) goto L130;
                 goto L120;
             L80:
-                // ----------------------------------------------------------------------- 
-                //     MILLER ALGORITHM NORMALIZED BY THE WRONSKIAN 
-                // ----------------------------------------------------------------------- 
-                // ----------------------------------------------------------------------- 
-                //     OVERFLOW TEST ON K FUNCTIONS USED IN WRONSKIAN 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     MILLER ALGORITHM NORMALIZED BY THE WRONSKIAN
+                // -----------------------------------------------------------------------
+                // -----------------------------------------------------------------------
+                //     OVERFLOW TEST ON K FUNCTIONS USED IN WRONSKIAN
+                // -----------------------------------------------------------------------
                 zuoik(zr, zi, fnu, kode, 2, 2, cwr, cwi, ref nw, tol, elim, alim);
                 if (nw >= 0) goto L100;
                 nz = nn;
@@ -3379,9 +3379,9 @@ namespace MathNet.Numerics
                 if (nw < 0) goto L130;
                 goto L120;
             L110:
-                // ----------------------------------------------------------------------- 
-                //     INCREMENT FNU+NN-1 UP TO FNUL, COMPUTE AND RECUR BACKWARD 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     INCREMENT FNU+NN-1 UP TO FNUL, COMPUTE AND RECUR BACKWARD
+                // -----------------------------------------------------------------------
                 nui = (int)(fnul - dfnu) + 1;
                 nui = Math.Max(nui, 0);
                 zbuni(zr, zi, fnu, kode, nn, cyr, cyi, ref nw, nui, ref nlast, fnul, tol, elim, alim);
@@ -4031,26 +4031,26 @@ namespace MathNet.Numerics
                 dfnu = fnu + (double)(n - 1);
                 gnu = dfnu + fnui;
                 if (iform == 2) goto L10;
-                // ----------------------------------------------------------------------- 
-                //     ASYMPTOTIC EXPANSION FOR I(FNU,Z) FOR LARGE FNU APPLIED IN 
-                //     -PI/3.LE.ARG(Z).LE.PI/3 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     ASYMPTOTIC EXPANSION FOR I(FNU,Z) FOR LARGE FNU APPLIED IN
+                //     -PI/3.LE.ARG(Z).LE.PI/3
+                // -----------------------------------------------------------------------
                 zuni1(zr, zi, gnu, kode, 2, cyr, cyi, ref nw, ref nlast, fnul, tol, elim, alim);
                 goto L20;
             L10:
-                // ----------------------------------------------------------------------- 
-                //     ASYMPTOTIC EXPANSION FOR J(FNU,Z*EXP(M*HPI)) FOR LARGE FNU 
-                //     APPLIED IN PI/3.LT.ABS(ARG(Z)).LE.PI/2 WHERE M=+I OR -I 
-                //     AND HPI=PI/2 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     ASYMPTOTIC EXPANSION FOR J(FNU,Z*EXP(M*HPI)) FOR LARGE FNU
+                //     APPLIED IN PI/3.LT.ABS(ARG(Z)).LE.PI/2 WHERE M=+I OR -I
+                //     AND HPI=PI/2
+                // -----------------------------------------------------------------------
                 zuni2(zr, zi, gnu, kode, 2, cyr, cyi, ref nw, ref nlast, fnul, tol, elim, alim);
             L20:
                 if (nw < 0) goto L50;
                 if (nw != 0) goto L90;
                 str = zabs(cyr[0], cyi[0]);
-                // ---------------------------------------------------------------------- 
-                //     SCALE BACKWARD RECURRENCE, BRY(3) IS DEFINED BUT NEVER USED 
-                // ---------------------------------------------------------------------- 
+                // ----------------------------------------------------------------------
+                //     SCALE BACKWARD RECURRENCE, BRY(3) IS DEFINED BUT NEVER USED
+                // ----------------------------------------------------------------------
                 bry[0] = d1mach(1) * 1.0E3 / tol;
                 bry[1] = 1.0 / bry[0];
                 bry[2] = bry[1];
@@ -4156,18 +4156,18 @@ namespace MathNet.Numerics
                 return 0;
             L60:
                 if (iform == 2) goto L70;
-                // ----------------------------------------------------------------------- 
-                //     ASYMPTOTIC EXPANSION FOR I(FNU,Z) FOR LARGE FNU APPLIED IN 
-                //     -PI/3.LE.ARG(Z).LE.PI/3 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     ASYMPTOTIC EXPANSION FOR I(FNU,Z) FOR LARGE FNU APPLIED IN
+                //     -PI/3.LE.ARG(Z).LE.PI/3
+                // -----------------------------------------------------------------------
                 zuni1(zr, zi, fnu, kode, n, yr, yi, ref nw, ref nlast, fnul, tol, elim, alim);
                 goto L80;
             L70:
-                // ----------------------------------------------------------------------- 
-                //     ASYMPTOTIC EXPANSION FOR J(FNU,Z*EXP(M*HPI)) FOR LARGE FNU 
-                //     APPLIED IN PI/3.LT.ABS(ARG(Z)).LE.PI/2 WHERE M=+I OR -I 
-                //     AND HPI=PI/2 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     ASYMPTOTIC EXPANSION FOR J(FNU,Z*EXP(M*HPI)) FOR LARGE FNU
+                //     APPLIED IN PI/3.LT.ABS(ARG(Z)).LE.PI/2 WHERE M=+I OR -I
+                //     AND HPI=PI/2
+                // -----------------------------------------------------------------------
                 zuni2(zr, zi, fnu, kode, n, yr, yi, ref nw, ref nlast, fnul, tol, elim, alim);
             L80:
                 if (nw < 0) goto L50;
@@ -4831,9 +4831,9 @@ namespace MathNet.Numerics
             L20:
                 dfnu = fnu + (double)(nn - 1);
                 fnup = dfnu + 1.0;
-                // ----------------------------------------------------------------------- 
-                //     UNDERFLOW TEST 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     UNDERFLOW TEST
+                // -----------------------------------------------------------------------
                 ak1r = ckr * dfnu;
                 ak1i = cki * dfnu;
                 ak = dgamln(fnup, ref idum);
@@ -4923,14 +4923,14 @@ namespace MathNet.Numerics
                     k--;
                 }
                 return 0;
-                // ----------------------------------------------------------------------- 
-                //     RECUR BACKWARD WITH SCALED VALUES 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     RECUR BACKWARD WITH SCALED VALUES
+                // -----------------------------------------------------------------------
             L120:
-                // ----------------------------------------------------------------------- 
-                //     EXP(-ALIM)=EXP(-ELIM)/TOL=APPROX. ONE PRECISION ABOVE THE 
-                //     UNDERFLOW LIMIT = ASCLE = D1MACH(1)*SS*1.0D+3 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     EXP(-ALIM)=EXP(-ELIM)/TOL=APPROX. ONE PRECISION ABOVE THE
+                //     UNDERFLOW LIMIT = ASCLE = D1MACH(1)*SS*1.0D+3
+                // -----------------------------------------------------------------------
                 s1r = wr[0];
                 s1i = wi[0];
                 s2r = wr[1];
@@ -4973,10 +4973,10 @@ namespace MathNet.Numerics
                     yi[i - 1] = zeroi;
                 }
                 return 0;
-                // ----------------------------------------------------------------------- 
-                //     RETURN WITH NZ.LT.0 IF ABS(Z*Z/4).GT.FNU+N-NZ-1 COMPLETE 
-                //     THE CALCULATION IN CBINU WITH N=N-ABS(NZ) 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     RETURN WITH NZ.LT.0 IF ABS(Z*Z/4).GT.FNU+N-NZ-1 COMPLETE
+                //     THE CALCULATION IN CBINU WITH N=N-ABS(NZ)
+                // -----------------------------------------------------------------------
             L190:
                 nz = -nz;
                 return 0;
@@ -5942,11 +5942,11 @@ namespace MathNet.Numerics
                 nz = 0;
                 nd = n;
                 nlast = 0;
-                // ----------------------------------------------------------------------- 
-                //     COMPUTED VALUES WITH EXPONENTS BETWEEN ALIM AND ELIM IN MAG- 
-                //     NITUDE ARE SCALED TO KEEP INTERMEDIATE ARITHMETIC ON SCALE, 
-                //     EXP(ALIM)=EXP(ELIM)*TOL 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     COMPUTED VALUES WITH EXPONENTS BETWEEN ALIM AND ELIM IN MAG-
+                //     NITUDE ARE SCALED TO KEEP INTERMEDIATE ARITHMETIC ON SCALE,
+                //     EXP(ALIM)=EXP(ELIM)*TOL
+                // -----------------------------------------------------------------------
                 cscl = 1.0 / tol;
                 crsc = tol;
                 cssr[0] = cscl;
@@ -5956,9 +5956,9 @@ namespace MathNet.Numerics
                 csrr[1] = coner;
                 csrr[2] = cscl;
                 bry[0] = d1mach(1) * 1.0E3 / tol;
-                // ----------------------------------------------------------------------- 
-                //     ZN IS IN THE RIGHT HALF PLANE AFTER ROTATION BY CI OR -CI 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     ZN IS IN THE RIGHT HALF PLANE AFTER ROTATION BY CI OR -CI
+                // -----------------------------------------------------------------------
                 znr = zi;
                 zni = -zr;
                 zbr = zr;
@@ -5981,9 +5981,9 @@ namespace MathNet.Numerics
                 cidi = -cidi;
                 c2i = -c2i;
             L10:
-                // ----------------------------------------------------------------------- 
-                //     CHECK FOR UNDERFLOW AND OVERFLOW ON FIRST MEMBER 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     CHECK FOR UNDERFLOW AND OVERFLOW ON FIRST MEMBER
+                // -----------------------------------------------------------------------
                 fn = Math.Max(fnu, 1.0);
                 zunhj(znr, zni, fn, 1, tol, ref phir, ref phii, ref argr, ref argi, ref zeta1r, ref zeta1i, ref zeta2r, ref zeta2i, ref asumr, ref asumi, ref bsumr, ref bsumi);
                 if (kode == 1) goto L20;
@@ -6020,17 +6020,17 @@ namespace MathNet.Numerics
                     s1r = -zeta1r + zeta2r;
                     s1i = -zeta1i + zeta2i;
             L60:
-                    // ----------------------------------------------------------------------- 
-                    //     TEST FOR UNDERFLOW AND OVERFLOW 
-                    // ----------------------------------------------------------------------- 
+                    // -----------------------------------------------------------------------
+                    //     TEST FOR UNDERFLOW AND OVERFLOW
+                    // -----------------------------------------------------------------------
                     rs1 = s1r;
                     if (Math.Abs(rs1) > elim) goto L120;
                     if (i == 1) iflag = 2;
                     if (Math.Abs(rs1) < alim) goto L70;
-                    // ----------------------------------------------------------------------- 
-                    //     REFINE  TEST AND SCALE 
-                    // ----------------------------------------------------------------------- 
-                    // ----------------------------------------------------------------------- 
+                    // -----------------------------------------------------------------------
+                    //     REFINE  TEST AND SCALE
+                    // -----------------------------------------------------------------------
+                    // -----------------------------------------------------------------------
                     aphi = zabs(phir, phii);
                     aarg = zabs(argr, argi);
                     rs1 = rs1 + Math.Log(aphi) - Math.Log(aarg) * 0.25 - aic;
@@ -6039,10 +6039,10 @@ namespace MathNet.Numerics
                     if (rs1 < 0.0) goto L70;
                     if (i == 1) iflag = 3;
             L70:
-                    // ----------------------------------------------------------------------- 
-                    //     SCALE S1 TO KEEP INTERMEDIATE ARITHMETIC ON SCALE NEAR 
-                    //     EXPONENT EXTREMES 
-                    // ----------------------------------------------------------------------- 
+                    // -----------------------------------------------------------------------
+                    //     SCALE S1 TO KEEP INTERMEDIATE ARITHMETIC ON SCALE NEAR
+                    //     EXPONENT EXTREMES
+                    // -----------------------------------------------------------------------
                     zairy(argr, argi, 0, 2, ref air, ref aii, ref nai, ref idum);
                     zairy(argr, argi, 1, 2, ref dair, ref daii, ref ndai, ref idum);
                     str = dair * bsumr - daii * bsumi;
@@ -6127,9 +6127,9 @@ namespace MathNet.Numerics
                 return 0;
             L120:
                 if (rs1 > 0.0) goto L140;
-                // ----------------------------------------------------------------------- 
-                //     SET UNDERFLOW AND UPDATE PARAMETERS 
-                // ----------------------------------------------------------------------- 
+                // -----------------------------------------------------------------------
+                //     SET UNDERFLOW AND UPDATE PARAMETERS
+                // -----------------------------------------------------------------------
                 yr[nd - 1] = zeror;
                 yi[nd - 1] = zeroi;
                 nz++;
@@ -6142,15 +6142,15 @@ namespace MathNet.Numerics
                 if (nd == 0) goto L110;
                 fn = fnu + (nd - 1);
                 if (fn < fnul) goto L130;
-                //      FN = CIDI 
-                //      J = NUF + 1 
-                //      K = MOD(J,4) + 1 
-                //      S1R = CIPR(K) 
-                //      S1I = CIPI(K) 
-                //      IF (FN.LT.0.0D0) S1I = -S1I 
-                //      STR = C2R*S1R - C2I*S1I 
-                //      C2I = C2R*S1I + C2I*S1R 
-                //      C2R = STR 
+                //      FN = CIDI
+                //      J = NUF + 1
+                //      K = MOD(J,4) + 1
+                //      S1R = CIPR(K)
+                //      S1I = CIPI(K)
+                //      IF (FN.LT.0.0D0) S1I = -S1I
+                //      STR = C2R*S1R - C2I*S1I
+                //      C2I = C2R*S1I + C2I*S1R
+                //      C2R = STR
                 ink = inu + nd - 1;
                 ink = (ink % 4) + 1;
                 c2r = car * cipr[ink - 1] - sar * cipi[ink - 1];
@@ -7669,7 +7669,7 @@ namespace MathNet.Numerics
                 if (nw == -2) nz = -2;
                 return 0;
             }
-            
+
             #endregion
         }
     }

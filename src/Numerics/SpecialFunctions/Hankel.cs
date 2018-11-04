@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
 namespace MathNet.Numerics
 {
@@ -18,7 +14,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="n">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Hankel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Hankel function</param>
         /// <returns></returns>
         public static Complex HankelH1(double n, Complex z, bool expScaled = false)
         {
@@ -33,7 +29,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="n">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Hankel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Hankel function</param>
         /// <returns></returns>
         public static double HankelH1(double n, double z, bool expScaled = false)
         {
@@ -47,7 +43,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="n">The order of the Hankel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Hankel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Hankel function</param>
         /// <returns></returns>
         public static Complex HankelH2(double n, Complex z, bool expScaled = false)
         {
@@ -62,7 +58,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="n">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Hankel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Hankel function</param>
         /// <returns></returns>
         public static double HankelH2(double n, double z, bool expScaled = false)
         {

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 
 namespace MathNet.Numerics
 {
@@ -264,7 +261,7 @@ namespace MathNet.Numerics
                     return double.NaN;
                 }
 
-                return Cbesj(v, new Complex(z, 0)).Real;                 
+                return Cbesj(v, new Complex(z, 0)).Real;
             }
 
             // Return Exp(-Abs(y)) * J(v, z) where y = z.Imaginary

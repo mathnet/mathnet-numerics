@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
 namespace MathNet.Numerics
 {
@@ -31,7 +27,7 @@ namespace MathNet.Numerics
         /// If expScaled is true, returns Exp(zta) * Ai(z), where zta = (2/3) * z * Sqrt(z).
         /// </summary>
         /// <param name="z">The value to compute the Airy function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param> 
+        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>
         /// <returns></returns>
         public static double AiryAi(double z, bool expScaled = false)
         {
@@ -52,7 +48,7 @@ namespace MathNet.Numerics
         /// If expScaled is true, returns Exp(zta) * d/dz Ai(z), where zta = (2/3) * z * Sqrt(z).
         /// </summary>
         /// <param name="z">The value to compute the derivative of the Airy function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param> 
+        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>
         /// <returns></returns>
         public static Complex AiryAiPrime(Complex z, bool expScaled = false)
         {
@@ -66,7 +62,7 @@ namespace MathNet.Numerics
         /// If expScaled is true, returns Exp(zta) * d/dz Ai(z), where zta = (2/3) * z * Sqrt(z).
         /// </summary>
         /// <param name="z">The value to compute the derivative of the Airy function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>
         /// <returns></returns>
         public static double AiryAiPrime(double z, bool expScaled = false)
         {
@@ -87,7 +83,7 @@ namespace MathNet.Numerics
         /// If expScaled is true, returns Exp(-axzta) * Bi(z) where zta = (2 / 3) * z * Sqrt(z) and axzta = Abs(zta.Real).
         /// </summary>
         /// <param name="z">The value to compute the Airy function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>
         /// <returns></returns>
         public static Complex AiryBi(Complex z, bool expScaled = false)
         {
@@ -101,7 +97,7 @@ namespace MathNet.Numerics
         /// If expScaled is true, returns Exp(-axzta) * Bi(z) where zta = (2 / 3) * z * Sqrt(z) and axzta = Abs(zta.Real).
         /// </summary>
         /// <param name="z">The value to compute the Airy function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>
         /// <returns></returns>
         public static double AiryBi(double z, bool expScaled = false)
         {
@@ -114,7 +110,7 @@ namespace MathNet.Numerics
         /// If expScaled is true, returns Exp(-axzta) * d/dz Bi(z) where zta = (2 / 3) * z * Sqrt(z) and axzta = Abs(zta.Real).
         /// </summary>
         /// <param name="z">The value to compute the derivative of the Airy function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>
         /// <returns></returns>
         public static Complex AiryBiPrime(Complex z, bool expScaled = false)
         {
@@ -128,7 +124,7 @@ namespace MathNet.Numerics
         /// If expScaled is true, returns Exp(-axzta) * d/dz Bi(z) where zta = (2 / 3) * z * Sqrt(z) and axzta = Abs(zta.Real).
         /// </summary>
         /// <param name="z">The value to compute the derivative of the Airy function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Airy function</param>
         /// <returns></returns>
         public static double AiryBiPrime(double z, bool expScaled = false)
         {

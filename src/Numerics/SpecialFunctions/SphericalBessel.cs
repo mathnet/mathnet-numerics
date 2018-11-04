@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 
 namespace MathNet.Numerics
 {
@@ -18,7 +15,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the spherical Bessel function</param>
         /// <param name="z">The value to compute the spherical Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled spherical Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled spherical Bessel function</param>
         /// <returns></returns>
         public static Complex SphericalBesselJ(double v, Complex z, bool expScaled = false)
         {
@@ -34,7 +31,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the spherical Bessel function</param>
         /// <param name="z">The value to compute the spherical Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled spherical Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled spherical Bessel function</param>
         /// <returns></returns>
         public static double SphericalBesselJ(double v, double z, bool expScaled = false)
         {
@@ -50,7 +47,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the spherical Bessel function</param>
         /// <param name="z">The value to compute the spherical Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled spherical Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled spherical Bessel function</param>
         /// <returns></returns>
         public static Complex SphericalBesselY(double v, Complex z, bool expScaled = false)
         {
@@ -66,7 +63,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the spherical Bessel function</param>
         /// <param name="z">The value to compute the spherical Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled spherical Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled spherical Bessel function</param>
         /// <returns></returns>
         public static double SphericalBesselY(double v, double z, bool expScaled = false)
         {

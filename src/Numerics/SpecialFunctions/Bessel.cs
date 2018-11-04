@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
+﻿using System.Numerics;
 
 namespace MathNet.Numerics
 {
@@ -18,7 +14,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
         /// <returns></returns>
         public static Complex BesselJ(double v, Complex z, bool expScaled = false)
         {
@@ -33,7 +29,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
         /// <returns></returns>
         public static double BesselJ(double v, double z, bool expScaled = false)
         {
@@ -48,7 +44,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
         /// <returns></returns>
         public static Complex BesselY(double v, Complex z, bool expScaled = false)
         {
@@ -63,7 +59,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
         /// <returns></returns>
         public static double BesselY(double v, double z, bool expScaled = false)
         {
@@ -78,7 +74,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
         /// <returns></returns>
         public static Complex BesselI(double v, Complex z, bool expScaled = false)
         {
@@ -93,7 +89,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
         /// <returns></returns>
         public static double BesselI(double v, double z, bool expScaled = false)
         {
@@ -115,7 +111,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
         /// <returns></returns>
         public static Complex BesselK(double v, Complex z, bool expScaled = false)
         {
@@ -130,7 +126,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="v">The order of the Bessel function</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>  
+        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
         /// <returns></returns>
         public static double BesselK(double v, double z, bool expScaled = false)
         {
