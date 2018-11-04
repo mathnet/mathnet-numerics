@@ -7,12 +7,12 @@ namespace MathNet.Numerics
     // [1] https://github.com/scipy/scipy/blob/master/scipy/special/amos_wrappers.c
     public static partial class SpecialFunctions
     {
-        private class AmosWrapper
+        private static class Amos
         {
             #region AiryAi
 
             // Returns Ai(z)
-            public Complex Cairy(Complex z)
+            public static Complex Cairy(Complex z)
             {
                 int id = 0;
                 int kode = 1;
@@ -22,13 +22,12 @@ namespace MathNet.Numerics
                 double air = double.NaN;
                 double aii = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zairy(z.Real, z.Imaginary, id, kode, ref air, ref aii, ref nz, ref ierr);
+                AmosHelper.zairy(z.Real, z.Imaginary, id, kode, ref air, ref aii, ref nz, ref ierr);
                 return new Complex(air, aii);
             }
 
             // Returns Exp(zta) * Ai(z) where zta = (2/3) * z * Sqrt(z)
-            public Complex ScaledCairy(Complex z)
+            public static Complex ScaledCairy(Complex z)
             {
                 int id = 0;
                 int kode = 2;
@@ -38,13 +37,12 @@ namespace MathNet.Numerics
                 double air = double.NaN;
                 double aii = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zairy(z.Real, z.Imaginary, id, kode, ref air, ref aii, ref nz, ref ierr);
+                AmosHelper.zairy(z.Real, z.Imaginary, id, kode, ref air, ref aii, ref nz, ref ierr);
                 return new Complex(air, aii);
             }
 
             // Returns Exp(zta) * Ai(z) where zta = (2/3) * z * Sqrt(z)
-            public double ScaledCairy(double z)
+            public static double ScaledCairy(double z)
             {
                 if (z < 0)
                 {
@@ -59,13 +57,12 @@ namespace MathNet.Numerics
                 double air = double.NaN;
                 double aii = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zairy(z, 0.0, id, kode, ref air, ref aii, ref nz, ref ierr);
+                AmosHelper.zairy(z, 0.0, id, kode, ref air, ref aii, ref nz, ref ierr);
                 return air;
             }
 
             // Returns d/dz Ai(z)
-            public Complex CairyPrime(Complex z)
+            public static Complex CairyPrime(Complex z)
             {
                 int id = 1;
                 int kode = 1;
@@ -75,13 +72,12 @@ namespace MathNet.Numerics
                 double air = double.NaN;
                 double aii = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zairy(z.Real, z.Imaginary, id, kode, ref air, ref aii, ref nz, ref ierr);
+                AmosHelper.zairy(z.Real, z.Imaginary, id, kode, ref air, ref aii, ref nz, ref ierr);
                 return new Complex(air, aii);
             }
 
             // Returns Exp(zta) * d/dz Ai(z) where zta = (2/3) * z * Sqrt(z)
-            public Complex ScaledCairyPrime(Complex z)
+            public static Complex ScaledCairyPrime(Complex z)
             {
                 int id = 1;
                 int kode = 2;
@@ -91,13 +87,12 @@ namespace MathNet.Numerics
                 double air = double.NaN;
                 double aii = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zairy(z.Real, z.Imaginary, id, kode, ref air, ref aii, ref nz, ref ierr);
+                AmosHelper.zairy(z.Real, z.Imaginary, id, kode, ref air, ref aii, ref nz, ref ierr);
                 return new Complex(air, aii);
             }
 
             // Returns Exp(zta) * d/dz Ai(z) where zta = (2/3) * z * Sqrt(z)
-            public double ScaledCairyPrime(double z)
+            public static double ScaledCairyPrime(double z)
             {
                 if (z < 0)
                 {
@@ -112,8 +107,7 @@ namespace MathNet.Numerics
                 double air = double.NaN;
                 double aii = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zairy(z, 0.0, id, kode, ref air, ref aii, ref nz, ref ierr);
+                AmosHelper.zairy(z, 0.0, id, kode, ref air, ref aii, ref nz, ref ierr);
                 return air;
             }
 
@@ -122,7 +116,7 @@ namespace MathNet.Numerics
             #region AiryBi
 
             // Returns Bi(z)
-            public Complex Cbiry(Complex z)
+            public static Complex Cbiry(Complex z)
             {
                 int id = 0;
                 int kode = 1;
@@ -132,13 +126,12 @@ namespace MathNet.Numerics
                 double bir = double.NaN;
                 double bii = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zbiry(z.Real, z.Imaginary, id, kode, ref bir, ref bii, ref nz, ref ierr);
+                AmosHelper.zbiry(z.Real, z.Imaginary, id, kode, ref bir, ref bii, ref nz, ref ierr);
                 return new Complex(bir, bii);
             }
 
             // Returns Exp(-axzta) * Bi(z) where zta = (2 / 3) * z * Sqrt(z) and axzta = Abs(zta.Real)
-            public Complex ScaledCbiry(Complex z)
+            public static Complex ScaledCbiry(Complex z)
             {
                 int id = 0;
                 int kode = 2;
@@ -148,13 +141,12 @@ namespace MathNet.Numerics
                 double bir = double.NaN;
                 double bii = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zbiry(z.Real, z.Imaginary, id, kode, ref bir, ref bii, ref nz, ref ierr);
+                AmosHelper.zbiry(z.Real, z.Imaginary, id, kode, ref bir, ref bii, ref nz, ref ierr);
                 return new Complex(bir, bii);
             }
 
             // Returns d/dz Bi(z)
-            public Complex CbiryPrime(Complex z)
+            public static Complex CbiryPrime(Complex z)
             {
                 int id = 1;
                 int kode = 1;
@@ -164,13 +156,12 @@ namespace MathNet.Numerics
                 double bipr = double.NaN;
                 double bipi = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zbiry(z.Real, z.Imaginary, id, kode, ref bipr, ref bipi, ref nz, ref ierr);
+                AmosHelper.zbiry(z.Real, z.Imaginary, id, kode, ref bipr, ref bipi, ref nz, ref ierr);
                 return new Complex(bipr, bipi);
             }
 
             // Returns Exp(-axzta) * d/dz Bi(z) where zta = (2 / 3) * z * Sqrt(z) and axzta = Abs(zta.Real)
-            public Complex ScaledCbiryPrime(Complex z)
+            public static Complex ScaledCbiryPrime(Complex z)
             {
                 int id = 1;
                 int kode = 2;
@@ -180,8 +171,7 @@ namespace MathNet.Numerics
                 double bipr = double.NaN;
                 double bipi = double.NaN;
 
-                var amos = new AmosHelper();
-                amos.zbiry(z.Real, z.Imaginary, id, kode, ref bipr, ref bipi, ref nz, ref ierr);
+                AmosHelper.zbiry(z.Real, z.Imaginary, id, kode, ref bipr, ref bipi, ref nz, ref ierr);
                 return new Complex(bipr, bipi);
             }
 
@@ -190,7 +180,7 @@ namespace MathNet.Numerics
             #region BesselJ
 
             // Return J(v, z)
-            public Complex Cbesj(double v, Complex z)
+            public static Complex Cbesj(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -216,8 +206,7 @@ namespace MathNet.Numerics
                     cyji[i] = double.NaN;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesj(z.Real, z.Imaginary, v, kode, n, cyjr, cyji, ref nz, ref ierr);
+                AmosHelper.zbesj(z.Real, z.Imaginary, v, kode, n, cyjr, cyji, ref nz, ref ierr);
                 Complex cyj = new Complex(cyjr[0], cyji[0]);
 
                 if (ierr == 2)
@@ -244,7 +233,7 @@ namespace MathNet.Numerics
                             cwrki[i] = double.NaN;
                         }
 
-                        amos.zbesy(z.Real, z.Imaginary, v, kode, n, cyyr, cyyi, ref nz, cwrkr, cwrki, ref ierr);
+                        AmosHelper.zbesy(z.Real, z.Imaginary, v, kode, n, cyyr, cyyi, ref nz, cwrkr, cwrki, ref ierr);
                         Complex cyy = new Complex(cyyr[0], cyyi[0]);
 
                         cyj = RotateJY(cyj, cyy, v);
@@ -254,7 +243,7 @@ namespace MathNet.Numerics
             }
 
             // Return J(v, z)
-            public double Cbesj(double v, double z)
+            public static double Cbesj(double v, double z)
             {
                 if (z < 0 && v != (int)v)
                 {
@@ -265,7 +254,7 @@ namespace MathNet.Numerics
             }
 
             // Return Exp(-Abs(y)) * J(v, z) where y = z.Imaginary
-            public Complex ScaledCbesj(double v, Complex z)
+            public static Complex ScaledCbesj(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -292,8 +281,7 @@ namespace MathNet.Numerics
                     cyji[i] = double.NaN;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesj(z.Real, z.Imaginary, v, kode, n, cyjr, cyji, ref nz, ref ierr);
+                AmosHelper.zbesj(z.Real, z.Imaginary, v, kode, n, cyjr, cyji, ref nz, ref ierr);
                 Complex cyj = new Complex(cyjr[0], cyji[0]);
 
                 if (sign == -1)
@@ -312,7 +300,7 @@ namespace MathNet.Numerics
                             cworki[i] = double.NaN;
                         }
 
-                        amos.zbesy(z.Real, z.Imaginary, v, kode, n, cyyr, cyyi, ref nz, cworkr, cworki, ref ierr);
+                        AmosHelper.zbesy(z.Real, z.Imaginary, v, kode, n, cyyr, cyyi, ref nz, cworkr, cworki, ref ierr);
                         Complex cyy = new Complex(cyyr[0], cyyi[0]);
 
                         cyj = RotateJY(cyj, cyy, v);
@@ -322,7 +310,7 @@ namespace MathNet.Numerics
             }
 
             // Return Exp(-Abs(y)) * J(v, z) where y = z.Imaginary
-            public double ScaledCbesj(double v, double z)
+            public static double ScaledCbesj(double v, double z)
             {
                 if (z < 0 && v != (int)v)
                 {
@@ -337,7 +325,7 @@ namespace MathNet.Numerics
             #region BesselY
 
             // Return Y(v, z)
-            public Complex Cbesy(double v, Complex z)
+            public static Complex Cbesy(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -357,7 +345,6 @@ namespace MathNet.Numerics
                 int ierr = 0;
                 Complex cyy;
 
-                var amos = new AmosHelper();
                 if (z.Real == 0 && z.Imaginary == 0)
                 {
                     //overflow
@@ -377,7 +364,7 @@ namespace MathNet.Numerics
                         cworki[i] = double.NaN;
                     }
 
-                    amos.zbesy(z.Real, z.Imaginary, v, kode, n, cyyr, cyyi, ref nz, cworkr, cworki, ref ierr);
+                    AmosHelper.zbesy(z.Real, z.Imaginary, v, kode, n, cyyr, cyyi, ref nz, cworkr, cworki, ref ierr);
                     cyy = new Complex(cyyr[0], cyyi[0]);
 
                     if (ierr == 2)
@@ -402,7 +389,7 @@ namespace MathNet.Numerics
                             cyji[i] = double.NaN;
                         }
 
-                        amos.zbesj(z.Real, z.Imaginary, v, kode, n, cyjr, cyji, ref nz, ref ierr);
+                        AmosHelper.zbesj(z.Real, z.Imaginary, v, kode, n, cyjr, cyji, ref nz, ref ierr);
                         Complex cyj = new Complex(cyjr[0], cyji[0]);
 
                         cyy = RotateJY(cyy, cyj, -v);
@@ -412,7 +399,7 @@ namespace MathNet.Numerics
             }
 
             // Return Y(v, z)
-            public double Cbesy(double v, double x)
+            public static double Cbesy(double v, double x)
             {
                 if (x < 0.0)
                 {
@@ -424,7 +411,7 @@ namespace MathNet.Numerics
             }
 
             // Return Exp(-Abs(y)) * Y(v, z) where y = z.Imaginary
-            public Complex ScaledCbesy(double v, Complex z)
+            public static Complex ScaledCbesy(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -455,8 +442,7 @@ namespace MathNet.Numerics
                     cwrki[i] = double.NaN;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesy(z.Real, z.Imaginary, v, kode, n, cyyr, cyyi, ref nz, cwrkr, cwrki, ref ierr);
+                AmosHelper.zbesy(z.Real, z.Imaginary, v, kode, n, cyyr, cyyi, ref nz, cwrkr, cwrki, ref ierr);
                 Complex cyy = new Complex(cyyr[0], cyyi[0]);
 
                 if (ierr == 2)
@@ -480,7 +466,7 @@ namespace MathNet.Numerics
                             cyji[i] = double.NaN;
                         }
 
-                        amos.zbesj(z.Real, z.Imaginary, v, kode, n, cyjr, cyji, ref nz, ref ierr);
+                        AmosHelper.zbesj(z.Real, z.Imaginary, v, kode, n, cyjr, cyji, ref nz, ref ierr);
                         Complex cyj = new Complex(cyjr[0], cyji[0]);
                         cyy = RotateJY(cyy, cyj, -v);
                     }
@@ -489,7 +475,7 @@ namespace MathNet.Numerics
             }
 
             // Return Exp(-Abs(y)) * Y(v, z) where y = z.Imaginary
-            public double ScaledCbesy(double v, double x)
+            public static double ScaledCbesy(double v, double x)
             {
                 if (x < 0)
                 {
@@ -504,7 +490,7 @@ namespace MathNet.Numerics
             #region BesselI
 
             // Returns I(v, z)
-            public Complex Cbesi(double v, Complex z)
+            public static Complex Cbesi(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -531,8 +517,7 @@ namespace MathNet.Numerics
                     cyii[i] = double.NaN;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesi(z.Real, z.Imaginary, v, kode, n, cyir, cyii, ref nz, ref ierr);
+                AmosHelper.zbesi(z.Real, z.Imaginary, v, kode, n, cyir, cyii, ref nz, ref ierr);
                 Complex cyi = new Complex(cyir[0], cyii[0]);
 
                 if (ierr == 2)
@@ -558,7 +543,7 @@ namespace MathNet.Numerics
                     {
                         double[] cykr = new double[n];
                         double[] cyki = new double[n];
-                        amos.zbesk(z.Real, z.Imaginary, v, kode, n, cykr, cyki, ref nz, ref ierr);
+                        AmosHelper.zbesk(z.Real, z.Imaginary, v, kode, n, cykr, cyki, ref nz, ref ierr);
                         Complex cyk = new Complex(cykr[0], cyki[0]);
 
                         cyi = RotateI(cyi, cyk, v);
@@ -569,7 +554,7 @@ namespace MathNet.Numerics
             }
 
             // Return Exp(-Abs(x)) * I(v, z) where x = z.Real
-            public Complex ScaledCbesi(double v, Complex z)
+            public static Complex ScaledCbesi(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -596,8 +581,7 @@ namespace MathNet.Numerics
                     cyii[i] = double.NaN;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesi(z.Real, z.Imaginary, v, kode, n, cyir, cyii, ref nz, ref ierr);
+                AmosHelper.zbesi(z.Real, z.Imaginary, v, kode, n, cyir, cyii, ref nz, ref ierr);
                 Complex cyi = new Complex(cyir[0], cyii[0]);
 
                 if (sign == -1)
@@ -606,7 +590,7 @@ namespace MathNet.Numerics
                     {
                         double[] cykr = new double[n];
                         double[] cyki = new double[n];
-                        amos.zbesk(z.Real, z.Imaginary, v, kode, n, cykr, cyki, ref nz, ref ierr);
+                        AmosHelper.zbesk(z.Real, z.Imaginary, v, kode, n, cykr, cyki, ref nz, ref ierr);
                         Complex cyk = new Complex(cykr[0], cyki[0]);
 
                         //adjust scaling to match zbesi
@@ -624,7 +608,7 @@ namespace MathNet.Numerics
             }
 
             // Return Exp(-Abs(x)) * I(v, z) where x = z.Real
-            public double ScaledCbesi(double v, double x)
+            public static double ScaledCbesi(double v, double x)
             {
                 if (v != Math.Floor(v) && x < 0)
                 {
@@ -639,7 +623,7 @@ namespace MathNet.Numerics
             #region BesselK
 
             // Returns K(v, z)
-            public Complex Cbesk(double v, Complex z)
+            public static Complex Cbesk(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -664,8 +648,7 @@ namespace MathNet.Numerics
                     cyki[i] = double.NaN;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesk(z.Real, z.Imaginary, v, kode, n, cykr, cyki, ref nz, ref ierr);
+                AmosHelper.zbesk(z.Real, z.Imaginary, v, kode, n, cykr, cyki, ref nz, ref ierr);
                 Complex cyk = new Complex(cykr[0], cyki[0]);
 
                 if (ierr == 1)
@@ -688,7 +671,7 @@ namespace MathNet.Numerics
             }
 
             // Returns K(v, z)
-            public double Cbesk(double v, double z)
+            public static double Cbesk(double v, double z)
             {
                 if (z < 0)
                 {
@@ -714,7 +697,7 @@ namespace MathNet.Numerics
             }
 
             // returns Exp(z) * K(v, z)
-            public Complex ScaledCbesk(double v, Complex z)
+            public static Complex ScaledCbesk(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -740,9 +723,7 @@ namespace MathNet.Numerics
                     cyki[i] = double.NaN;
                 }
 
-                var amos = new AmosHelper();
-
-                amos.zbesk(z.Real, z.Imaginary, v, kode, n, cykr, cyki, ref nz, ref ierr);
+                AmosHelper.zbesk(z.Real, z.Imaginary, v, kode, n, cykr, cyki, ref nz, ref ierr);
                 Complex cyk = new Complex(cykr[0], cyki[0]);
 
                 if (ierr == 2)
@@ -758,7 +739,7 @@ namespace MathNet.Numerics
             }
 
             // returns Exp(z) * K(v, z)
-            public double ScaledCbesk(double v, double z)
+            public static double ScaledCbesk(double v, double z)
             {
                 if (z < 0)
                 {
@@ -780,7 +761,7 @@ namespace MathNet.Numerics
             #region HankelH1
 
             // Returns H1(v, z)
-            public Complex Cbesh1(double v, Complex z)
+            public static Complex Cbesh1(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -808,8 +789,7 @@ namespace MathNet.Numerics
                     sign = -1;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesh(z.Real, z.Imaginary, v, kode, m, n, cyhr, cyhi, ref nz, ref ierr);
+                AmosHelper.zbesh(z.Real, z.Imaginary, v, kode, m, n, cyhr, cyhi, ref nz, ref ierr);
                 Complex cyh = new Complex(cyhr[0], cyhi[0]);
 
                 if (sign == -1)
@@ -821,7 +801,7 @@ namespace MathNet.Numerics
             }
 
             // Returns Exp(-z * j) * H1(n, z) where j = Sqrt(-1)
-            public Complex ScaledCbesh1(double v, Complex z)
+            public static Complex ScaledCbesh1(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -849,8 +829,7 @@ namespace MathNet.Numerics
                     sign = -1;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesh(z.Real, z.Imaginary, v, kode, m, n, cyhr, cyhi, ref nz, ref ierr);
+                AmosHelper.zbesh(z.Real, z.Imaginary, v, kode, m, n, cyhr, cyhi, ref nz, ref ierr);
                 Complex cyh = new Complex(cyhr[0], cyhi[0]);
 
                 if (sign == -1)
@@ -866,7 +845,7 @@ namespace MathNet.Numerics
             #region HankelH2
 
             // Returns H2(v, z)
-            public Complex Cbesh2(double v, Complex z)
+            public static Complex Cbesh2(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -899,8 +878,7 @@ namespace MathNet.Numerics
                     sign = -1;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesh(z.Real, z.Imaginary, v, kode, m, n, cyhr, cyhi, ref nz, ref ierr);
+                AmosHelper.zbesh(z.Real, z.Imaginary, v, kode, m, n, cyhr, cyhi, ref nz, ref ierr);
                 Complex cyh = new Complex(cyhr[0], cyhi[0]);
 
                 if (sign == -1)
@@ -911,7 +889,7 @@ namespace MathNet.Numerics
             }
 
             // Returns Exp(z * j) * H2(n, z) where j = Sqrt(-1)
-            public Complex ScaledCbesh2(double v, Complex z)
+            public static Complex ScaledCbesh2(double v, Complex z)
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
@@ -944,8 +922,7 @@ namespace MathNet.Numerics
                     sign = -1;
                 }
 
-                var amos = new AmosHelper();
-                amos.zbesh(z.Real, z.Imaginary, v, kode, m, n, cyhr, cyhi, ref nz, ref ierr);
+                AmosHelper.zbesh(z.Real, z.Imaginary, v, kode, m, n, cyhr, cyhi, ref nz, ref ierr);
                 Complex cyh = new Complex(cyhr[0], cyhi[0]);
 
                 if (sign == -1)
@@ -959,7 +936,7 @@ namespace MathNet.Numerics
 
             #region utilities
 
-            private double SinPi(double x)
+            private static double SinPi(double x)
             {
                 if (Math.Floor(x) == x && Math.Abs(x) < 1.0e14)
                 {
@@ -971,7 +948,7 @@ namespace MathNet.Numerics
                 return Math.Sin(Math.PI * x);
             }
 
-            private double CosPi(double x)
+            private static double CosPi(double x)
             {
                 if (Math.Floor(x + 0.5) == x + 0.5 && Math.Abs(x) < 1.0E14)
                 {
@@ -983,21 +960,21 @@ namespace MathNet.Numerics
                 return Math.Cos(Math.PI * x);
             }
 
-            private Complex Rotate(Complex z, double v)
+            private static Complex Rotate(Complex z, double v)
             {
                 double c = CosPi(v);
                 double s = SinPi(v);
                 return new Complex(z.Real * c - z.Imaginary * s, z.Real * s + z.Imaginary * c);
             }
 
-            private Complex RotateJY(Complex j, Complex y, double v)
+            private static Complex RotateJY(Complex j, Complex y, double v)
             {
                 double c = CosPi(v);
                 double s = SinPi(v);
                 return new Complex(j.Real * c - y.Real * s, j.Imaginary * c - y.Imaginary * s);
             }
 
-            private bool ReflectJY(ref Complex jy, double v)
+            private static bool ReflectJY(ref Complex jy, double v)
             {
                 //NB: Y_v may be huge near negative integers -- so handle exact
                 //     integers carefully
@@ -1016,7 +993,7 @@ namespace MathNet.Numerics
                 return true;
             }
 
-            private bool ReflectI(Complex ik, double v)
+            private static bool ReflectI(Complex ik, double v)
             {
                 if (v != Math.Floor(v))
                 {
@@ -1026,7 +1003,7 @@ namespace MathNet.Numerics
                 return true; //I is symmetric for integer v
             }
 
-            private Complex RotateI(Complex i, Complex k, double v)
+            private static Complex RotateI(Complex i, Complex k, double v)
             {
                 double s = Math.Sin(v * Math.PI) * (2.0 / Math.PI);
                 return new Complex(i.Real + s * k.Real, i.Imaginary + s * k.Imaginary);

@@ -18,8 +18,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex HankelH1(double n, Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbesh1(n, z) : amos.Cbesh1(n, z);
+            return (expScaled) ? Amos.ScaledCbesh1(n, z) : Amos.Cbesh1(n, z);
         }
 
         /// <summary>
@@ -47,8 +46,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex HankelH2(double n, Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbesh2(n, z) :amos.Cbesh2(n, z);
+            return (expScaled) ? Amos.ScaledCbesh2(n, z) : Amos.Cbesh2(n, z);
         }
 
         /// <summary>

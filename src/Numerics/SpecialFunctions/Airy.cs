@@ -17,8 +17,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex AiryAi(Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCairy(z) : amos.Cairy(z);
+            return (expScaled) ? Amos.ScaledCairy(z) : Amos.Cairy(z);
         }
 
         /// <summary>
@@ -33,8 +32,7 @@ namespace MathNet.Numerics
         {
             if (expScaled)
             {
-                var amos = new AmosWrapper();
-                return amos.ScaledCairy(z);
+                return Amos.ScaledCairy(z);
             }
             else
             {
@@ -52,8 +50,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex AiryAiPrime(Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCairyPrime(z) : amos.CairyPrime(z);
+            return (expScaled) ? Amos.ScaledCairyPrime(z) : Amos.CairyPrime(z);
         }
 
         /// <summary>
@@ -68,8 +65,7 @@ namespace MathNet.Numerics
         {
             if (expScaled)
             {
-                var amos = new AmosWrapper();
-                return amos.ScaledCairyPrime(z);
+                return Amos.ScaledCairyPrime(z);
             }
             else
             {
@@ -87,8 +83,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex AiryBi(Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbiry(z) : amos.Cbiry(z);
+            return (expScaled) ? Amos.ScaledCbiry(z) : Amos.Cbiry(z);
         }
 
         /// <summary>
@@ -114,8 +109,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex AiryBiPrime(Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbiryPrime(z) : amos.CbiryPrime(z);
+            return (expScaled) ? Amos.ScaledCbiryPrime(z) : Amos.CbiryPrime(z);
         }
 
         /// <summary>

@@ -18,8 +18,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex BesselJ(double v, Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbesj(v, z) : amos.Cbesj(v, z);
+            return (expScaled) ? Amos.ScaledCbesj(v, z) : Amos.Cbesj(v, z);
         }
 
         /// <summary>
@@ -33,8 +32,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static double BesselJ(double v, double z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbesj(v, z) : amos.Cbesj(v, z);
+            return (expScaled) ? Amos.ScaledCbesj(v, z) : Amos.Cbesj(v, z);
         }
 
         /// <summary>
@@ -48,8 +46,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex BesselY(double v, Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbesy(v, z) : amos.Cbesy(v, z);
+            return (expScaled) ? Amos.ScaledCbesy(v, z) : Amos.Cbesy(v, z);
         }
 
         /// <summary>
@@ -63,8 +60,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static double BesselY(double v, double z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbesy(v, z) : amos.Cbesy(v, z);
+            return (expScaled) ? Amos.ScaledCbesy(v, z) : Amos.Cbesy(v, z);
         }
 
         /// <summary>
@@ -78,8 +74,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex BesselI(double v, Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbesi(v, z) : amos.Cbesi(v, z);
+            return (expScaled) ? Amos.ScaledCbesi(v, z) : Amos.Cbesi(v, z);
         }
 
         /// <summary>
@@ -95,8 +90,7 @@ namespace MathNet.Numerics
         {
             if (expScaled)
             {
-                var amos = new AmosWrapper();
-                return amos.ScaledCbesi(v, z);
+                return Amos.ScaledCbesi(v, z);
             }
             else
             {
@@ -115,8 +109,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static Complex BesselK(double v, Complex z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbesk(v, z) : amos.Cbesk(v, z);
+            return (expScaled) ? Amos.ScaledCbesk(v, z) : Amos.Cbesk(v, z);
         }
 
         /// <summary>
@@ -130,8 +123,7 @@ namespace MathNet.Numerics
         /// <returns></returns>
         public static double BesselK(double v, double z, bool expScaled = false)
         {
-            var amos = new AmosWrapper();
-            return (expScaled) ? amos.ScaledCbesk(v, z) : amos.Cbesk(v, z);
+            return (expScaled) ? Amos.ScaledCbesk(v, z) : Amos.Cbesk(v, z);
         }
     }
 }
