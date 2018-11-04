@@ -28,6 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
+		docs\tools\build-docs.fsx = docs\tools\build-docs.fsx
 		build\build-framework.fsx = build\build-framework.fsx
 		build.fsx = build.fsx
 		src\Directory.Build.props = src\Directory.Build.props

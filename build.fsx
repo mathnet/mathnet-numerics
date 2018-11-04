@@ -467,11 +467,11 @@ Target "MklPublishArchive" (fun _ -> publishArchive mklSolution)
 Target "CudaPublishArchive" (fun _ -> publishArchive cudaSolution)
 Target "OpenBlasPublishArchive" (fun _ -> publishArchive openBlasSolution)
 
-Target "PublishNuGet" (fun _ -> publishNuGet !! (numericsSolution.OutputNuGetDir </> "/*.nupkg"))
-Target "DataPublishNuGet" (fun _ -> publishNuGet !! (dataSolution.OutputNuGetDir </> "/*.nupkg"))
-Target "MklPublishNuGet" (fun _ -> publishNuGet !! (mklSolution.OutputNuGetDir </> "/*.nupkg"))
-Target "CudaPublishNuGet" (fun _ -> publishNuGet !! (cudaSolution.OutputNuGetDir </> "/*.nupkg"))
-Target "OpenBlasPublishNuGet" (fun _ -> publishNuGet !! (openBlasSolution.OutputNuGetDir </> "/*.nupkg"))
+Target "PublishNuGet" (fun _ -> publishNuGet !! (numericsSolution.OutputNuGetDir </> "*.nupkg"))
+Target "DataPublishNuGet" (fun _ -> publishNuGet !! (dataSolution.OutputNuGetDir </> "*.nupkg"))
+Target "MklPublishNuGet" (fun _ -> publishNuGet !! (mklSolution.OutputNuGetDir </> "*.nupkg"))
+Target "CudaPublishNuGet" (fun _ -> publishNuGet !! (cudaSolution.OutputNuGetDir </> "*.nupkg"))
+Target "OpenBlasPublishNuGet" (fun _ -> publishNuGet !! (openBlasSolution.OutputNuGetDir </> "*.nupkg"))
 
 Target "Publish" DoNothing
 Dependencies "Publish" [ "PublishTag"; "PublishDocs"; "PublishApi"; "PublishArchive"; "PublishNuGet" ]
