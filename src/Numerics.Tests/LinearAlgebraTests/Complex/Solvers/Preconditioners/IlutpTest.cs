@@ -81,11 +81,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
         static T GetMethod<T>(ILUTPPreconditioner ilutp, string methodName)
         {
             var type = ilutp.GetType();
-#if NETCOREAPP1_1
-            var methodInfo = type.GetMethod(
-                methodName,
-                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-#else
             var methodInfo = type.GetMethod(
                 methodName,
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static,
@@ -93,7 +88,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.Precondi
                 CallingConventions.Standard,
                 new Type[0],
                 null);
-#endif
             var obj = methodInfo.Invoke(ilutp, null);
             return (T) obj;
         }

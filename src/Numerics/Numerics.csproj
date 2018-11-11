@@ -8,7 +8,8 @@
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics$(PackageIdSuffix)</PackageId>
     <VersionPrefix>4.6.0</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
+    <VersionSuffix>
+    </VersionSuffix>
     <Title>Math.NET Numerics$(TitleSuffix)</Title>
     <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
     <PackageReleaseNotes>Polynomial: New Polynomial data structure ~Tobias Glaubach
@@ -25,12 +26,14 @@ Curve Fitting: Fit.Curve for non-linear least-squares fitting to an arbitray fun
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <NoWarn>1701;1702;1705;1591;1573</NoWarn>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
+    <Content Include="app.config" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

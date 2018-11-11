@@ -141,8 +141,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(clone.RowCount, Is.EqualTo(matrix.RowCount));
             Assert.That(clone.ColumnCount, Is.EqualTo(matrix.ColumnCount));
         }
-
-#if !NETCOREAPP1_1
+        
         [Theory]
         public void CanCloneUsingICloneable(TestMatrix testMatrix)
         {
@@ -153,7 +152,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(clone.RowCount, Is.EqualTo(matrix.RowCount));
             Assert.That(clone.ColumnCount, Is.EqualTo(matrix.ColumnCount));
         }
-#endif
 
         [Theory]
         public void CanCopyTo(TestMatrix testMatrix)

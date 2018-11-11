@@ -87,7 +87,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(actual, Is.Not.SameAs(expected));
         }
 
-#if !NETCOREAPP1_1
         [Test]
         public void DenseColumnMajorMatrixStorageOfComplex64DataContractSerializationTest()
         {
@@ -112,7 +111,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(actualMatrix, Is.EqualTo(expectedMatrix));
             Assert.That(actualMatrix, Is.Not.SameAs(expectedMatrix));
         }
-#endif
 
         [Test]
         public void DenseColumnMajorMatrixStorageOfComplex32DataContractSerializationTest()

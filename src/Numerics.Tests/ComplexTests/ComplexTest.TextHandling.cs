@@ -28,9 +28,9 @@
 // </copyright>
 
 using System;
-using Complex = System.Numerics.Complex;
 using System.Globalization;
 using NUnit.Framework;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.UnitTests.ComplexTests
 {
@@ -149,8 +149,7 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(double.MaxValue, z.Real, "E2");
             Assert.AreEqual(double.MinValue, z.Imaginary, "E3");
         }
-
-#if !NETCOREAPP1_1
+        
         /// <summary>
         /// Try parse can handle symbols with a culture.
         /// </summary>
@@ -197,7 +196,6 @@ namespace MathNet.Numerics.UnitTests.ComplexTests
             Assert.AreEqual(double.MaxValue, z.Real, "E2");
             Assert.AreEqual(double.MinValue, z.Imaginary, "E3");
         }
-#endif
 
         /// <summary>
         /// Try parse returns <c>false</c> when given bad value with invariant.

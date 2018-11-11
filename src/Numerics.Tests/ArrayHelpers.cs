@@ -27,11 +27,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if NETCOREAPP1_1
-using System.Collections.Generic;
-using System.Linq;
-#endif
-
 namespace MathNet.Numerics.UnitTests
 {
     using System;
@@ -49,37 +44,9 @@ namespace MathNet.Numerics.UnitTests
         /// <param name="array">The one-dimensional, zero-based Array to convert to a target type.</param>
         /// <param name="converter">A Converter that converts each element from one type to another type.</param>
         /// <returns>An array of the target type containing the converted elements from the source array.</returns>
-#if NETCOREAPP1_1
-        public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Func<TInput, TOutput> converter)
-#else
         public static TOutput[] ConvertAll<TInput, TOutput>(TInput[] array, Converter<TInput, TOutput> converter)
-#endif
         {
-#if NETCOREAPP1_1
-            if (array == null)
-                throw new ArgumentException();
-
-            return (from item in array select converter(item)).ToArray();
-#else
             return Array.ConvertAll(array, converter);
-#endif
         }
-
-#if NETCOREAPP1_1
-    /// <summary>
-    /// Determines whether the specified array contains elements that match the conditions defined by the specified predicate.
-    /// </summary>
-    /// <typeparam name="T">The type of the elements of the array.</typeparam>
-    /// <param name="list">The one-dimensional, zero-based Array to search.</param>
-    /// <param name="match">The Predicate that defines the conditions of the elements to search for.</param>
-    /// <returns>true if array contains one or more elements that match the conditions defined by the specified predicate; otherwise, false.</returns>
-        public static bool Exists<T>(this List<T> list, Predicate<T> match)
-        {
-            if (list == null)
-                throw new ArgumentException();
-
-            return list.Any(item => match(item));
-        }
-#endif
     }
 }

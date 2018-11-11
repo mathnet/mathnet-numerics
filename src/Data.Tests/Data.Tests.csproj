@@ -2,11 +2,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net45;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net45;netcoreapp2.1</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>MathNet.Numerics.Data.Tests</AssemblyName>
     <RootNamespace>MathNet.Numerics.Data.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <Reference Include="System" />
@@ -15,6 +16,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
+    <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Matlab\Matlab.csproj" />

@@ -60,8 +60,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.AreEqual(vector.Count, clone.Count);
             CollectionAssert.AreEqual(vector, clone);
         }
-
-#if !NETCOREAPP1_1
+        
         /// <summary>
         /// Can clone a vector using <c>IClonable</c> interface method.
         /// </summary>
@@ -75,7 +74,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.AreEqual(vector.Count, clone.Count);
             CollectionAssert.AreEqual(vector, clone);
         }
-#endif
 
         /// <summary>
         /// Can copy part of a vector to another vector.

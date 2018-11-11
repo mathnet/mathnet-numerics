@@ -84,8 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(actual, Is.EqualTo(expected));
             Assert.That(actual, Is.Not.SameAs(expected));
         }
-
-#if !NETCOREAPP1_1
+        
         [Test]
         public void DenseVectorStorageOfComplex64DataContractSerializationTest()
         {
@@ -103,7 +102,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(actual, Is.EqualTo(expected));
             Assert.That(actual, Is.Not.SameAs(expected));
         }
-#endif
 
         [Test]
         public void DenseVectorStorageOfComplex32DataContractSerializationTest()

@@ -1090,9 +1090,6 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Complex
         [TestCase("Wide10x50000", "Tall50000x10")]
         [TestCase("Square1000x1000", "Square1000x1000")]
         [Explicit]
-#if !NETCOREAPP1_1 && !NETCOREAPP2_0
-        [Timeout(1000*10)]
-#endif
         public void IsMatrixMultiplicationPerformant(string leftMatrixKey, string rightMatrixKey)
         {
             var leftMatrix = _matrices[leftMatrixKey];

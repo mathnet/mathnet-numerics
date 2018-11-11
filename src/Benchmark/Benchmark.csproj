@@ -2,16 +2,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>net461;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>Benchmark</AssemblyName>
     <RootNamespace>Benchmark</RootNamespace>
     <IsPackable>false</IsPackable>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="BenchmarkDotNet.Artifacts\**" />
     <EmbeddedResource Remove="BenchmarkDotNet.Artifacts\**" />
     <None Remove="BenchmarkDotNet.Artifacts\**" />
+    <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics.csproj" />

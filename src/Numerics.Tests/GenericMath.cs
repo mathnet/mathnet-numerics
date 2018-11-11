@@ -51,7 +51,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 using System;
-using System.Reflection;
 using System.Linq.Expressions;
 
 namespace MathNet.Numerics.UnitTests
@@ -580,12 +579,7 @@ namespace MathNet.Numerics.UnitTests
             xor = ExpressionUtil.CreateExpression<T, T, T>(Expression.ExclusiveOr);
 
             Type typeT = typeof (T);
-#if NETCOREAPP1_1
-            var typeInfoT = typeT.GetTypeInfo();
-            if (typeInfoT.IsValueType && typeInfoT.IsGenericType && (typeInfoT.GetGenericTypeDefinition() == typeof (Nullable<>)))
-#else
             if (typeT.IsValueType && typeT.IsGenericType && (typeT.GetGenericTypeDefinition() == typeof (Nullable<>)))
-#endif
             {
                 // get the *inner* zero (not a null Nullable<TValue>, but default(TValue))
                 Type nullType = typeT.GetGenericArguments()[0];
@@ -596,11 +590,7 @@ namespace MathNet.Numerics.UnitTests
             else
             {
                 zero = default(T);
-#if NETCOREAPP1_1
-                if (typeT.GetTypeInfo().IsValueType)
-#else
                 if (typeT.IsValueType)
-#endif
                 {
                     nullOp = (INullOp<T>)Activator.CreateInstance(
                         typeof (StructNullOp<>).MakeGenericType(typeT));

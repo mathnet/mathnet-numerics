@@ -1,13 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <GenerateProgramFile>false</GenerateProgramFile>
-    <TargetFrameworks>net461;netcoreapp1.1;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net461;netcoreapp2.1</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>MathNet.Numerics.Tests</AssemblyName>
     <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
     <Reference Include="System" />
@@ -16,6 +17,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
+    <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="TestResult.xml" />
