@@ -32,7 +32,6 @@
     <Compile Include="QuaternionTests.fs" />
     <Compile Include="Main.fs" />
     <None Include="paket.references" />
-    <None Include="App.config" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

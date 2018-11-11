@@ -7,14 +7,19 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.6.0</VersionPrefix>
+    <VersionPrefix>4.7.0</VersionPrefix>
     <VersionSuffix>
     </VersionSuffix>
     <Title>Math.NET Numerics for F#$(TitleSuffix)</Title>
     <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>Polynomial: New Polynomial data structure ~Tobias Glaubach
-Statistics: Correlate.Auto auto correlation ~Tobias Glaubach
-Curve Fitting: Fit.Curve for non-linear least-squares fitting to an arbitray function</PackageReleaseNotes>
+    <PackageReleaseNotes>Special Functions: Airy functions Ai, Bi ~Jong Hyun Kim
+Special Functions: Bessel functions of the first and second kind ~Jong Hyun Kim
+Special Functions: Modified Bessel functions of the first and second kind ~Jong Hyun Kim
+Special Functions: Spherical Bessel functions of the first and second kind ~Jong Hyun Kim
+Special Functions: Hankel functions of the first and second kind ~Jong Hyun Kim
+Special Functions: Kelvin functions of the first and second kind, and derivatives ~Jong Hyun Kim
+Linear Algebra: optimized sparse implementation of transpose-multiply ~Richard Reader
+Linear Algebra: optimized range checking in vectors and matrices</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <NeutralLanguage>en</NeutralLanguage>
@@ -30,7 +35,6 @@ Curve Fitting: Fit.Curve for non-linear least-squares fitting to an arbitray fun
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
-    <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />

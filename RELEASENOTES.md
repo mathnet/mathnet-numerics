@@ -1,3 +1,13 @@
+### 4.7.0 - 2018-11-11
+* Special Functions: Airy functions Ai, Bi *~Jong Hyun Kim*
+* Special Functions: Bessel functions of the first and second kind *~Jong Hyun Kim*
+* Special Functions: Modified Bessel functions of the first and second kind *~Jong Hyun Kim*
+* Special Functions: Spherical Bessel functions of the first and second kind *~Jong Hyun Kim*
+* Special Functions: Hankel functions of the first and second kind *~Jong Hyun Kim*
+* Special Functions: Kelvin functions of the first and second kind, and derivatives *~Jong Hyun Kim*
+* Linear Algebra: optimized sparse implementation of transpose-multiply *~Richard Reader*
+* Linear Algebra: optimized range checking in vectors and matrices
+
 ### 4.6.0 - 2018-10-19
 * Polynomial: New Polynomial data structure *~Tobias Glaubach*
 * Statistics: Correlate.Auto auto correlation *~Tobias Glaubach*
