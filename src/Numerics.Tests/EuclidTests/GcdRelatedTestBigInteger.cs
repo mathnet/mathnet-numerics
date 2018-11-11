@@ -28,8 +28,8 @@
 // </copyright>
 
 using System;
-using System.Numerics;
 using NUnit.Framework;
+using BigInteger = System.Numerics.BigInteger;
 
 namespace MathNet.Numerics.UnitTests.EuclidTests
 {

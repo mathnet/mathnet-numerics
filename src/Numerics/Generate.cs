@@ -28,13 +28,14 @@
 // </copyright>
 
 using System;
-using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Threading;
+using BigInteger = System.Numerics.BigInteger;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics
 {

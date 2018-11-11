@@ -28,10 +28,10 @@
 // </copyright>
 
 using System;
-using System.Numerics;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
 {

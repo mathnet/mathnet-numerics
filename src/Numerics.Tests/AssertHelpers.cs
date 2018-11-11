@@ -28,7 +28,7 @@
 // </copyright>
 
 using System.Collections.Generic;
-using System.Numerics;
+using Complex = System.Numerics.Complex;
 using MathNet.Numerics.LinearAlgebra;
 using NUnit.Framework;
 

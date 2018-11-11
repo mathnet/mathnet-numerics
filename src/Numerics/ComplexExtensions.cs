@@ -29,7 +29,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Numerics;
+using Complex = System.Numerics.Complex;
 
 #if !NETSTANDARD1_3
 using System.Runtime;

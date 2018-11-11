@@ -27,9 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Threading;
-using System;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex
 {

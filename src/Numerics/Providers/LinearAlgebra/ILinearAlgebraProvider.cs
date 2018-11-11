@@ -27,8 +27,8 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Numerics;
 using MathNet.Numerics.LinearAlgebra.Factorization;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra
 {

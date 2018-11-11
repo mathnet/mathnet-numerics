@@ -27,10 +27,9 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.Optimization.LineSearch;
-using System;
 
 namespace MathNet.Numerics.Optimization
 {

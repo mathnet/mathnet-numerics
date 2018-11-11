@@ -28,7 +28,7 @@
 // </copyright>
 
 using System;
-using System.Numerics;
+using Complex = System.Numerics.Complex;
 using System.Globalization;
 using NUnit.Framework;
 

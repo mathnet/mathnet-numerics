@@ -29,7 +29,6 @@
 
 using System.Collections.Generic;
 using MathNet.Numerics.Interpolation;
-using System;
 
 namespace MathNet.Numerics
 {

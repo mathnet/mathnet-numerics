@@ -29,8 +29,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Runtime.CompilerServices;
+using BigInteger = System.Numerics.BigInteger;
 
 namespace MathNet.Numerics
 {

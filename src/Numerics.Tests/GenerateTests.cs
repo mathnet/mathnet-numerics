@@ -28,9 +28,9 @@
 // </copyright>
 
 using System;
-using System.Numerics;
 using System.Linq;
 using NUnit.Framework;
+using BigInteger = System.Numerics.BigInteger;
 
 namespace MathNet.Numerics.UnitTests
 {

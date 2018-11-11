@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Numerics;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics
 {

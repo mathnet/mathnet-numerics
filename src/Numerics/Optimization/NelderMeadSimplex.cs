@@ -29,8 +29,8 @@
 
 // Converted from code released with a MIT license available at https://code.google.com/p/nelder-mead-simplex/
 
-using MathNet.Numerics.LinearAlgebra;
 using System;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace MathNet.Numerics.Optimization
 {

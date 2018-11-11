@@ -29,12 +29,12 @@
 
 #if NATIVE
 
+using System;
+using System.Security;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
-using System;
-using System.Numerics;
-using System.Security;
 using MathNet.Numerics.Providers.Common.OpenBlas;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
 {

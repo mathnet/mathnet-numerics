@@ -28,11 +28,11 @@
 // </copyright>
 
 using System;
-using System.Numerics;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Storage;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.FourierTransform;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.IntegralTransforms
 {

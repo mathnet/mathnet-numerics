@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Numerics;
+using Complex = System.Numerics.Complex;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.ComplexTests

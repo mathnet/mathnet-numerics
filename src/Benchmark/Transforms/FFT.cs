@@ -1,11 +1,11 @@
-﻿using System.Numerics;
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.Providers.Common.Mkl;
+using Complex = System.Numerics.Complex;
 
 namespace Benchmark.Transforms
 {

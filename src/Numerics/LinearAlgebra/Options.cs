@@ -27,7 +27,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 
 namespace MathNet.Numerics.LinearAlgebra
 {

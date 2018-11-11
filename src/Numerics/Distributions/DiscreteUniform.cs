@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
-using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Distributions
 {

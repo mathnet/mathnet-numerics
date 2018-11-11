@@ -28,9 +28,9 @@
 // </copyright>
 
 using System;
-using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Statistics
 {

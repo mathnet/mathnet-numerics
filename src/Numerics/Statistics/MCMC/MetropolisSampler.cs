@@ -30,8 +30,8 @@
 namespace MathNet.Numerics.Statistics.Mcmc
 {
     using System;
-    using Properties;
     using Distributions;
+    using Properties;
 
     /// <summary>
     /// Metropolis sampling produces samples from distribution P by sampling from a proposal distribution Q

@@ -28,7 +28,7 @@
 // </copyright>
 
 using System.Linq;
-using System.Numerics;
+using Complex = System.Numerics.Complex;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.Statistics;

@@ -31,7 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Numerics;
+using Complex = System.Numerics.Complex;
 using System.Runtime.Serialization;
 using NUnit.Framework;
 

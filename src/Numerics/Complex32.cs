@@ -32,7 +32,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
-using System.Numerics;
+using Complex = System.Numerics.Complex;
+using BigInteger = System.Numerics.BigInteger;
 
 #if !NETSTANDARD1_3
 using System.Runtime;

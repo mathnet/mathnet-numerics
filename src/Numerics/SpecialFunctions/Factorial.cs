@@ -28,8 +28,8 @@
 // </copyright>
 
 using System;
-using System.Numerics;
 using MathNet.Numerics.Properties;
+using BigInteger = System.Numerics.BigInteger;
 
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics

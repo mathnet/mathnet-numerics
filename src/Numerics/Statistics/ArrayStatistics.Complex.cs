@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System.Numerics;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Statistics
 {

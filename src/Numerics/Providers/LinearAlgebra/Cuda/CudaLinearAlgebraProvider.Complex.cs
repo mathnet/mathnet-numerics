@@ -30,10 +30,10 @@
 #if NATIVE
 
 using System;
-using System.Numerics;
 using System.Security;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.Common.Cuda;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 {

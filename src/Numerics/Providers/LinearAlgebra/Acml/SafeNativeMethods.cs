@@ -28,9 +28,9 @@
 
 #if NATIVEACML
 
-using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Acml
 {

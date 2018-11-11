@@ -28,11 +28,11 @@
 
 #if NATIVE
 
-using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security;
 using MathNet.Numerics.Providers.LinearAlgebra;
 using MathNet.Numerics.Providers.LinearAlgebra.OpenBlas;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.Common.OpenBlas
 {

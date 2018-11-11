@@ -29,9 +29,9 @@
 #if NATIVE
 
 using System;
-using System.Numerics;
 using System.Threading;
 using MathNet.Numerics.Providers.Common.Mkl;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.FourierTransform.Mkl
 {

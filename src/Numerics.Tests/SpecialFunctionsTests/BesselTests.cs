@@ -1,7 +1,7 @@
 ﻿using MathNet.Numerics.UnitTests;
 using NUnit.Framework;
 using System;
-using System.Numerics;
+using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
 {
