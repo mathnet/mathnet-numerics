@@ -1,6 +1,5 @@
-﻿using MathNet.Numerics.UnitTests;
+﻿using System;
 using NUnit.Framework;
-using System;
 using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
@@ -251,7 +250,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselIRatioExact(int n, double zr, double zi, double cyr, double cyi, int decimalPlaces)
         {
             var z = new Complex(zr, zi);
-            var actual = SpecialFunctions.BesselI(n + 1, z, SpecialFunctions.Scale.Exponential) / SpecialFunctions.BesselI(n, z, SpecialFunctions.Scale.Exponential);
+            var actual = SpecialFunctions.BesselIScaled(n + 1, z) / SpecialFunctions.BesselIScaled(n, z);
             AssertHelpers.AlmostEqualRelative(new Complex(cyr, cyi), actual, decimalPlaces);
         }
 
@@ -267,7 +266,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselKRatioExact(int n, double zr, double zi, double cyr, double cyi, int decimalPlaces)
         {
             var z = new Complex(zr, zi);
-            var actual = SpecialFunctions.BesselK(n + 1, z, SpecialFunctions.Scale.Exponential) / SpecialFunctions.BesselK(n, z, SpecialFunctions.Scale.Exponential);
+            var actual = SpecialFunctions.BesselKScaled(n + 1, z) / SpecialFunctions.BesselKScaled(n, z);
             AssertHelpers.AlmostEqualRelative(new Complex(cyr, cyi), actual, decimalPlaces);
         }
 

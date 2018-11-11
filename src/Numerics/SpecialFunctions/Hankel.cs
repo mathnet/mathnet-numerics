@@ -10,15 +10,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the Hankel function of the first kind.
         /// <para>HankelH1(n, z) is defined as BesselJ(n, z) + j * BesselY(n, z).</para>
-        /// <para>HankelH1(n, z, Scale.Exponential) returns Exp(-z * j) * HankelH1(n, z) where j = Sqrt(-1).</para>
         /// </summary>
         /// <param name="n">The order of the Hankel function.</param>
         /// <param name="z">The value to compute the Hankel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The Hankel function of the first kind.</returns>
-        public static Complex HankelH1(double n, Complex z, Scale scale = Scale.Unity)
+        public static Complex HankelH1(double n, Complex z)
         {
-            return (scale ==  Scale.Exponential) ? Amos.ScaledCbesh1(n, z) : Amos.Cbesh1(n, z);
+            return Amos.Cbesh1(n, z);
         }
 
         /// <summary>
@@ -28,7 +26,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the Hankel function.</param>
         /// <param name="z">The value to compute the Hankel function of.</param>
         /// <returns>The exponentially scaled Hankel function of the first kind.</returns>
-        public static Complex ScaledHankelH1(double n, Complex z)
+        public static Complex HankelH1Scaled(double n, Complex z)
         {
             return Amos.ScaledCbesh1(n, z);
         }
@@ -36,15 +34,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the Hankel function of the second kind.
         /// <para>HankelH2(n, z) is defined as BesselJ(n, z) - j * BesselY(n, z).</para>
-        /// <para>HankelH2(n, z, Scale.Exponential) returns Exp(z * j) * HankelH2(n, z) where j = Sqrt(-1).</para>
         /// </summary>
         /// <param name="n">The order of the Hankel function.</param>
         /// <param name="z">The value to compute the Hankel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The Hankel function of the second kind.</returns>
-        public static Complex HankelH2(double n, Complex z, Scale scale = Scale.Unity)
+        public static Complex HankelH2(double n, Complex z)
         {
-            return (scale == Scale.Exponential) ? Amos.ScaledCbesh2(n, z) : Amos.Cbesh2(n, z);
+            return Amos.Cbesh2(n, z);
         }
 
         /// <summary>
@@ -54,7 +50,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the Hankel function.</param>
         /// <param name="z">The value to compute the Hankel function of.</param>
         /// <returns>The exponentially scaled Hankel function of the second kind.</returns>
-        public static Complex ScaledHankelH2(double n, Complex z)
+        public static Complex HankelH2Scaled(double n, Complex z)
         {
             return Amos.ScaledCbesh2(n, z);
         }

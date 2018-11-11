@@ -10,15 +10,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the Bessel function of the first kind.
         /// <para>BesselJ(n, z) is a solution to the Bessel differential equation.</para>
-        /// <para>BesselJ(n, z, Scale.Exponential) returns Exp(-Abs(z.Imaginary)) * BesselJ(n, z).</para>
         /// </summary>
         /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The Bessel function of the first kind.</returns>
-        public static Complex BesselJ(double n, Complex z, Scale scale = Scale.Unity)
+        public static Complex BesselJ(double n, Complex z)
         {
-            return (scale == Scale.Exponential) ? Amos.ScaledCbesj(n, z) : Amos.Cbesj(n, z);
+            return Amos.Cbesj(n, z);
         }
 
         /// <summary>
@@ -28,7 +26,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
         /// <returns>The exponentially scaled Bessel function of the first kind.</returns>
-        public static Complex ScaledBesselJ(double n, Complex z)
+        public static Complex BesselJScaled(double n, Complex z)
         {
             return Amos.ScaledCbesj(n, z);
         }
@@ -36,15 +34,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the Bessel function of the first kind.
         /// <para>BesselJ(n, z) is a solution to the Bessel differential equation.</para>
-        /// <para>BesselJ(n, z, Scale.Exponential) returns Exp(-Abs(z.Imaginary)) * J(n, z).</para>
         /// </summary>
         /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The Bessel function of the first kind.</returns>
-        public static double BesselJ(double n, double z, Scale scale = Scale.Unity)
+        public static double BesselJ(double n, double z)
         {
-            return (scale == Scale.Exponential) ? Amos.ScaledCbesj(n, z) : Amos.Cbesj(n, z);
+            return Amos.Cbesj(n, z);
         }
 
         /// <summary>
@@ -54,7 +50,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
         /// <returns>The exponentially scaled Bessel function of the first kind.</returns>
-        public static double ScaledBesselJ(double n, double z)
+        public static double BesselJScaled(double n, double z)
         {
             return Amos.ScaledCbesj(n, z);
         }
@@ -62,15 +58,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the Bessel function of the second kind.
         /// <para>BesselY(n, z) is a solution to the Bessel differential equation.</para>
-        /// <para>BesselY(n, z, Scale.Exponential) returns Exp(-Abs(z.Imaginary)) * BesselY(n, z).</para>
         /// </summary>
         /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The Bessel function of the second kind.</returns>
-        public static Complex BesselY(double n, Complex z, Scale scale = Scale.Unity)
+        public static Complex BesselY(double n, Complex z)
         {
-            return (scale == Scale.Exponential) ? Amos.ScaledCbesy(n, z) : Amos.Cbesy(n, z);
+            return Amos.Cbesy(n, z);
         }
 
         /// <summary>
@@ -80,7 +74,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
         /// <returns>The exponentially scaled Bessel function of the second kind.</returns>
-        public static Complex ScaledBesselY(double n, Complex z)
+        public static Complex BesselYScaled(double n, Complex z)
         {
             return Amos.ScaledCbesy(n, z);
         }
@@ -88,15 +82,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the Bessel function of the second kind.
         /// <para>BesselY(n, z) is a solution to the Bessel differential equation.</para>
-        /// <para>BesselY(n, z, Scale.Exponential) returns Exp(-Abs(z.Imaginary)) * BesselY(n, z).</para>
         /// </summary>
         /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The Bessel function of the second kind.</returns>
-        public static double BesselY(double n, double z, Scale scale = Scale.Unity)
+        public static double BesselY(double n, double z)
         {
-            return (scale == Scale.Exponential) ? Amos.ScaledCbesy(n, z) : Amos.Cbesy(n, z);
+            return Amos.Cbesy(n, z);
         }
 
         /// <summary>
@@ -106,7 +98,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
         /// <returns>The exponentially scaled Bessel function of the second kind.</returns>
-        public static double ScaledBesselY(double n, double z)
+        public static double BesselYScaled(double n, double z)
         {
             return Amos.ScaledCbesy(n, z);
         }
@@ -114,15 +106,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the modified Bessel function of the first kind.
         /// <para>BesselI(n, z) is a solution to the modified Bessel differential equation.</para>
-        /// <para>BesselI(n, z, Scale.Exponential) returns Exp(-Abs(z.Real)) * BesselI(n, z).</para>
         /// </summary>
         /// <param name="n">The order of the modified Bessel function.</param>
         /// <param name="z">The value to compute the modified Bessel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The modified Bessel function of the first kind.</returns>
-        public static Complex BesselI(double n, Complex z, Scale scale = Scale.Unity)
+        public static Complex BesselI(double n, Complex z)
         {
-            return (scale == Scale.Exponential) ? Amos.ScaledCbesi(n, z) : Amos.Cbesi(n, z);
+            return Amos.Cbesi(n, z);
         }
 
         /// <summary>
@@ -132,7 +122,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the modified Bessel function.</param>
         /// <param name="z">The value to compute the modified Bessel function of.</param>
         /// <returns>The exponentially scaled modified Bessel function of the first kind.</returns>
-        public static Complex ScaledBesselI(double n, Complex z)
+        public static Complex BesselIScaled(double n, Complex z)
         {
             return Amos.ScaledCbesi(n, z);
         }
@@ -140,15 +130,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the modified Bessel function of the first kind.
         /// <para>BesselI(n, z) is a solution to the modified Bessel differential equation.</para>
-        /// <para>BesselI(n, z, Scale.Exponential) returns Exp(-Abs(z.Real)) * BesselI(n, z).</para>
         /// </summary>
         /// <param name="n">The order of the modified Bessel function.</param>
         /// <param name="z">The value to compute the modified Bessel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The modified Bessel function of the first kind.</returns>
-        public static double BesselI(double n, double z, Scale scale = Scale.Unity)
+        public static double BesselI(double n, double z)
         {
-            return (scale == Scale.Exponential) ? Amos.ScaledCbesi(n, z) : BesselI(n, new Complex(z, 0), scale).Real;
+            return BesselI(n, new Complex(z, 0)).Real;
         }
 
         /// <summary>
@@ -158,7 +146,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the modified Bessel function.</param>
         /// <param name="z">The value to compute the modified Bessel function of.</param>
         /// <returns>The exponentially scaled modified Bessel function of the first kind.</returns>
-        public static double ScaledBesselI(double n, double z)
+        public static double BesselIScaled(double n, double z)
         {
             return Amos.ScaledCbesi(n, z);
         }
@@ -166,15 +154,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the modified Bessel function of the second kind.
         /// <para>BesselK(n, z) is a solution to the modified Bessel differential equation.</para>
-        /// <para>BesselK(n, z, Scale.Exponential) returns Exp(z) * BesselK(n, z).</para>
         /// </summary>
         /// <param name="n">The order of the modified Bessel function.</param>
         /// <param name="z">The value to compute the modified Bessel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The modified Bessel function of the second kind.</returns>
-        public static Complex BesselK(double n, Complex z, Scale scale = Scale.Unity)
+        public static Complex BesselK(double n, Complex z)
         {
-            return (scale == Scale.Exponential) ? Amos.ScaledCbesk(n, z) : Amos.Cbesk(n, z);
+            return Amos.Cbesk(n, z);
         }
 
         /// <summary>
@@ -184,7 +170,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the modified Bessel function.</param>
         /// <param name="z">The value to compute the modified Bessel function of.</param>
         /// <returns>The exponentially scaled modified Bessel function of the second kind.</returns>
-        public static Complex ScaledBesselK(double n, Complex z)
+        public static Complex BesselKScaled(double n, Complex z)
         {
             return Amos.ScaledCbesk(n, z);
         }
@@ -192,15 +178,13 @@ namespace MathNet.Numerics
         /// <summary>
         /// Returns the modified Bessel function of the second kind.
         /// <para>BesselK(n, z) is a solution to the modified Bessel differential equation.</para>
-        /// <para>BesselK(n, z, Scale.Exponential) returns Exp(z) * BesselK(n, z).</para>
         /// </summary>
         /// <param name="n">The order of the modified Bessel function.</param>
         /// <param name="z">The value to compute the modified Bessel function of.</param>
-        /// <param name="scale">The option to set the scaling factor.</param>
         /// <returns>The modified Bessel function of the second kind.</returns>
-        public static double BesselK(double n, double z, Scale scale = Scale.Unity)
+        public static double BesselK(double n, double z)
         {
-            return (scale == Scale.Exponential) ? Amos.ScaledCbesk(n, z) : Amos.Cbesk(n, z);
+            return Amos.Cbesk(n, z);
         }
 
         /// <summary>
@@ -210,7 +194,7 @@ namespace MathNet.Numerics
         /// <param name="n">The order of the modified Bessel function.</param>
         /// <param name="z">The value to compute the modified Bessel function of.</param>
         /// <returns>The exponentially scaled modified Bessel function of the second kind.</returns>
-        public static double ScaledBesselK(double n, double z)
+        public static double BesselKScaled(double n, double z)
         {
             return Amos.ScaledCbesk(n, z);
         }
