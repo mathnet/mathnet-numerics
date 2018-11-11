@@ -8,122 +8,211 @@ namespace MathNet.Numerics
     public static partial class SpecialFunctions
     {
         /// <summary>
-        /// Bessel function of the first kind, J(v, z).
-        /// <p/>
-        /// If expScaled is true, returns Exp(-Abs(y)) * J(v, z) where y = z.Imaginary.
+        /// Returns the Bessel function of the first kind.
+        /// <para>BesselJ(n, z) is a solution to the Bessel differential equation.</para>
+        /// <para>BesselJ(n, z, Scale.Exponential) returns Exp(-Abs(z.Imaginary)) * BesselJ(n, z).</para>
         /// </summary>
-        /// <param name="v">The order of the Bessel function</param>
+        /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
-        /// <returns></returns>
-        public static Complex BesselJ(double v, Complex z, bool expScaled = false)
+        /// <param name="scale">The option to set the scaling factor.</param>
+        /// <returns>The Bessel function of the first kind.</returns>
+        public static Complex BesselJ(double n, Complex z, Scale scale = Scale.Unity)
         {
-            return (expScaled) ? Amos.ScaledCbesj(v, z) : Amos.Cbesj(v, z);
+            return (scale == Scale.Exponential) ? Amos.ScaledCbesj(n, z) : Amos.Cbesj(n, z);
         }
 
         /// <summary>
-        /// Bessel function of the first kind, J(v, z).
-        /// <p/>
-        /// If expScaled is true, returns Exp(-Abs(y)) * J(v, z) where y = z.Imaginary.
+        /// Returns the exponentially scaled Bessel function of the first kind.
+        /// <para>ScaledBesselJ(n, z) is given by Exp(-Abs(z.Imaginary)) * BesselJ(n, z).</para>
         /// </summary>
-        /// <param name="v">The order of the Bessel function</param>
+        /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
-        /// <returns></returns>
-        public static double BesselJ(double v, double z, bool expScaled = false)
+        /// <returns>The exponentially scaled Bessel function of the first kind.</returns>
+        public static Complex ScaledBesselJ(double n, Complex z)
         {
-            return (expScaled) ? Amos.ScaledCbesj(v, z) : Amos.Cbesj(v, z);
+            return Amos.ScaledCbesj(n, z);
         }
 
         /// <summary>
-        /// Bessel function of the second kind, Y(v, z).
-        /// <p/>
-        /// If expScaled is true, returns Exp(-Abs(y)) * Y(v, z) where y = z.Imaginary.
+        /// Returns the Bessel function of the first kind.
+        /// <para>BesselJ(n, z) is a solution to the Bessel differential equation.</para>
+        /// <para>BesselJ(n, z, Scale.Exponential) returns Exp(-Abs(z.Imaginary)) * J(n, z).</para>
         /// </summary>
-        /// <param name="v">The order of the Bessel function</param>
+        /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
-        /// <returns></returns>
-        public static Complex BesselY(double v, Complex z, bool expScaled = false)
+        /// <param name="scale">The option to set the scaling factor.</param>
+        /// <returns>The Bessel function of the first kind.</returns>
+        public static double BesselJ(double n, double z, Scale scale = Scale.Unity)
         {
-            return (expScaled) ? Amos.ScaledCbesy(v, z) : Amos.Cbesy(v, z);
+            return (scale == Scale.Exponential) ? Amos.ScaledCbesj(n, z) : Amos.Cbesj(n, z);
         }
 
         /// <summary>
-        /// Bessel function of the second kind, Y(v, z).
-        /// <p/>
-        /// If expScaled is true, returns Exp(-Abs(y)) * Y(v, z) where y = z.Imaginary.
+        /// Returns the exponentially scaled Bessel function of the first kind.
+        /// <para>ScaledBesselJ(n, z) is given by Exp(-Abs(z.Imaginary)) * BesselJ(n, z).</para>
         /// </summary>
-        /// <param name="v">The order of the Bessel function</param>
+        /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
-        /// <returns></returns>
-        public static double BesselY(double v, double z, bool expScaled = false)
+        /// <returns>The exponentially scaled Bessel function of the first kind.</returns>
+        public static double ScaledBesselJ(double n, double z)
         {
-            return (expScaled) ? Amos.ScaledCbesy(v, z) : Amos.Cbesy(v, z);
+            return Amos.ScaledCbesj(n, z);
         }
 
         /// <summary>
-        /// Modified Bessel function of the first kind, I(v, z).
-        /// <p/>
-        /// If expScaled is true, returns Exp(-Abs(x)) * I(v, z) where x = z.Real.
+        /// Returns the Bessel function of the second kind.
+        /// <para>BesselY(n, z) is a solution to the Bessel differential equation.</para>
+        /// <para>BesselY(n, z, Scale.Exponential) returns Exp(-Abs(z.Imaginary)) * BesselY(n, z).</para>
         /// </summary>
-        /// <param name="v">The order of the Bessel function</param>
+        /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
-        /// <returns></returns>
-        public static Complex BesselI(double v, Complex z, bool expScaled = false)
+        /// <param name="scale">The option to set the scaling factor.</param>
+        /// <returns>The Bessel function of the second kind.</returns>
+        public static Complex BesselY(double n, Complex z, Scale scale = Scale.Unity)
         {
-            return (expScaled) ? Amos.ScaledCbesi(v, z) : Amos.Cbesi(v, z);
+            return (scale == Scale.Exponential) ? Amos.ScaledCbesy(n, z) : Amos.Cbesy(n, z);
         }
 
         /// <summary>
-        /// Modified Bessel function of the first kind, I(v, z).
-        /// <p/>
-        /// If expScaled is true, returns Exp(-Abs(x)) * I(v, z) where x = z.Real.
+        /// Returns the exponentially scaled Bessel function of the second kind.
+        /// <para>ScaledBesselY(n, z) is given by Exp(-Abs(z.Imaginary)) * Y(n, z).</para>
         /// </summary>
-        /// <param name="v">The order of the Bessel function</param>
+        /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
-        /// <returns></returns>
-        public static double BesselI(double v, double z, bool expScaled = false)
+        /// <returns>The exponentially scaled Bessel function of the second kind.</returns>
+        public static Complex ScaledBesselY(double n, Complex z)
         {
-            if (expScaled)
-            {
-                return Amos.ScaledCbesi(v, z);
-            }
-            else
-            {
-                return BesselI(v, new Complex(z, 0), expScaled).Real;
-            }
+            return Amos.ScaledCbesy(n, z);
         }
 
         /// <summary>
-        /// Modified Bessel function of the second kind, K(v, z).
-        /// <p/>
-        /// If expScaled is true, returns Exp(z) * K(v, z).
+        /// Returns the Bessel function of the second kind.
+        /// <para>BesselY(n, z) is a solution to the Bessel differential equation.</para>
+        /// <para>BesselY(n, z, Scale.Exponential) returns Exp(-Abs(z.Imaginary)) * BesselY(n, z).</para>
         /// </summary>
-        /// <param name="v">The order of the Bessel function</param>
+        /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
-        /// <returns></returns>
-        public static Complex BesselK(double v, Complex z, bool expScaled = false)
+        /// <param name="scale">The option to set the scaling factor.</param>
+        /// <returns>The Bessel function of the second kind.</returns>
+        public static double BesselY(double n, double z, Scale scale = Scale.Unity)
         {
-            return (expScaled) ? Amos.ScaledCbesk(v, z) : Amos.Cbesk(v, z);
+            return (scale == Scale.Exponential) ? Amos.ScaledCbesy(n, z) : Amos.Cbesy(n, z);
         }
 
         /// <summary>
-        /// Modified Bessel function of the second kind, K(v, z).
-        /// <p/>
-        /// If expScaled is true, returns Exp(z) * K(v, z).
+        /// Returns the exponentially scaled Bessel function of the second kind.
+        /// <para>ScaledBesselY(n, z) is given by Exp(-Abs(z.Imaginary)) * BesselY(n, z).</para>
         /// </summary>
-        /// <param name="v">The order of the Bessel function</param>
+        /// <param name="n">The order of the Bessel function.</param>
         /// <param name="z">The value to compute the Bessel function of.</param>
-        /// <param name="expScaled">If true, returns exponentially-scaled Bessel function</param>
-        /// <returns></returns>
-        public static double BesselK(double v, double z, bool expScaled = false)
+        /// <returns>The exponentially scaled Bessel function of the second kind.</returns>
+        public static double ScaledBesselY(double n, double z)
         {
-            return (expScaled) ? Amos.ScaledCbesk(v, z) : Amos.Cbesk(v, z);
+            return Amos.ScaledCbesy(n, z);
+        }
+
+        /// <summary>
+        /// Returns the modified Bessel function of the first kind.
+        /// <para>BesselI(n, z) is a solution to the modified Bessel differential equation.</para>
+        /// <para>BesselI(n, z, Scale.Exponential) returns Exp(-Abs(z.Real)) * BesselI(n, z).</para>
+        /// </summary>
+        /// <param name="n">The order of the modified Bessel function.</param>
+        /// <param name="z">The value to compute the modified Bessel function of.</param>
+        /// <param name="scale">The option to set the scaling factor.</param>
+        /// <returns>The modified Bessel function of the first kind.</returns>
+        public static Complex BesselI(double n, Complex z, Scale scale = Scale.Unity)
+        {
+            return (scale == Scale.Exponential) ? Amos.ScaledCbesi(n, z) : Amos.Cbesi(n, z);
+        }
+
+        /// <summary>
+        /// Returns the exponentially scaled modified Bessel function of the first kind.
+        /// <para>ScaledBesselI(n, z) is given by Exp(-Abs(z.Real)) * BesselI(n, z).</para>
+        /// </summary>
+        /// <param name="n">The order of the modified Bessel function.</param>
+        /// <param name="z">The value to compute the modified Bessel function of.</param>
+        /// <returns>The exponentially scaled modified Bessel function of the first kind.</returns>
+        public static Complex ScaledBesselI(double n, Complex z)
+        {
+            return Amos.ScaledCbesi(n, z);
+        }
+
+        /// <summary>
+        /// Returns the modified Bessel function of the first kind.
+        /// <para>BesselI(n, z) is a solution to the modified Bessel differential equation.</para>
+        /// <para>BesselI(n, z, Scale.Exponential) returns Exp(-Abs(z.Real)) * BesselI(n, z).</para>
+        /// </summary>
+        /// <param name="n">The order of the modified Bessel function.</param>
+        /// <param name="z">The value to compute the modified Bessel function of.</param>
+        /// <param name="scale">The option to set the scaling factor.</param>
+        /// <returns>The modified Bessel function of the first kind.</returns>
+        public static double BesselI(double n, double z, Scale scale = Scale.Unity)
+        {
+            return (scale == Scale.Exponential) ? Amos.ScaledCbesi(n, z) : BesselI(n, new Complex(z, 0), scale).Real;
+        }
+
+        /// <summary>
+        /// Returns the exponentially scaled modified Bessel function of the first kind.
+        /// <para>ScaledBesselI(n, z) is given by Exp(-Abs(z.Real)) * BesselI(n, z).</para>
+        /// </summary>
+        /// <param name="n">The order of the modified Bessel function.</param>
+        /// <param name="z">The value to compute the modified Bessel function of.</param>
+        /// <returns>The exponentially scaled modified Bessel function of the first kind.</returns>
+        public static double ScaledBesselI(double n, double z)
+        {
+            return Amos.ScaledCbesi(n, z);
+        }
+
+        /// <summary>
+        /// Returns the modified Bessel function of the second kind.
+        /// <para>BesselK(n, z) is a solution to the modified Bessel differential equation.</para>
+        /// <para>BesselK(n, z, Scale.Exponential) returns Exp(z) * BesselK(n, z).</para>
+        /// </summary>
+        /// <param name="n">The order of the modified Bessel function.</param>
+        /// <param name="z">The value to compute the modified Bessel function of.</param>
+        /// <param name="scale">The option to set the scaling factor.</param>
+        /// <returns>The modified Bessel function of the second kind.</returns>
+        public static Complex BesselK(double n, Complex z, Scale scale = Scale.Unity)
+        {
+            return (scale == Scale.Exponential) ? Amos.ScaledCbesk(n, z) : Amos.Cbesk(n, z);
+        }
+
+        /// <summary>
+        /// Returns the exponentially scaled modified Bessel function of the second kind.
+        /// <para>ScaledBesselK(n, z) is given by Exp(z) * BesselK(n, z).</para>
+        /// </summary>
+        /// <param name="n">The order of the modified Bessel function.</param>
+        /// <param name="z">The value to compute the modified Bessel function of.</param>
+        /// <returns>The exponentially scaled modified Bessel function of the second kind.</returns>
+        public static Complex ScaledBesselK(double n, Complex z)
+        {
+            return Amos.ScaledCbesk(n, z);
+        }
+
+        /// <summary>
+        /// Returns the modified Bessel function of the second kind.
+        /// <para>BesselK(n, z) is a solution to the modified Bessel differential equation.</para>
+        /// <para>BesselK(n, z, Scale.Exponential) returns Exp(z) * BesselK(n, z).</para>
+        /// </summary>
+        /// <param name="n">The order of the modified Bessel function.</param>
+        /// <param name="z">The value to compute the modified Bessel function of.</param>
+        /// <param name="scale">The option to set the scaling factor.</param>
+        /// <returns>The modified Bessel function of the second kind.</returns>
+        public static double BesselK(double n, double z, Scale scale = Scale.Unity)
+        {
+            return (scale == Scale.Exponential) ? Amos.ScaledCbesk(n, z) : Amos.Cbesk(n, z);
+        }
+
+        /// <summary>
+        /// Returns the exponentially scaled modified Bessel function of the second kind.
+        /// <para>ScaledBesselK(n, z) is given by Exp(z) * BesselK(n, z).</para>
+        /// </summary>
+        /// <param name="n">The order of the modified Bessel function.</param>
+        /// <param name="z">The value to compute the modified Bessel function of.</param>
+        /// <returns>The exponentially scaled modified Bessel function of the second kind.</returns>
+        public static double ScaledBesselK(double n, double z)
+        {
+            return Amos.ScaledCbesk(n, z);
         }
     }
 }

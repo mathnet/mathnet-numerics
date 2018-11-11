@@ -17,7 +17,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselJ0Approx([Range(-3, 3, 0.25)] double x)
         {
             // Approx by Abramowitz/Stegun 9.4.1
-            Assert.AreEqual(Evaluate.Polynomial(x / 3.0, 1.0, 0.0, -2.2499997, 0.0, 1.2656208, 0.0, -0.3163866, 0.0, 0.0444479, 0.0, -0.0039444, 0.0, 0.0002100), SpecialFunctions.BesselJ(0, x), 1e-7);
+            Assert.AreEqual(Polynomial.Evaluate(x / 3.0, 1.0, 0.0, -2.2499997, 0.0, 1.2656208, 0.0, -0.3163866, 0.0, 0.0444479, 0.0, -0.0039444, 0.0, 0.0002100), SpecialFunctions.BesselJ(0, x), 1e-7);
         }
 
         [TestCase(0, 0.0, 0.0, 1.0000000000000000000, 0.0000000000000000000, 14)]
@@ -57,7 +57,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         {
             // Approx by Abramowitz/Stegun 9.4.2
             Assert.AreEqual(
-                Evaluate.Polynomial(x / 3.0, 2.0 / Math.PI * Math.Log(x / 2.0) * SpecialFunctions.BesselJ(0, x) + 0.36746691, 0.0, 0.60559366, 0.0, -0.74350384, 0.0, 0.25300117, 0.0, -0.04261214, 0.0, 0.00427916, 0.0, -0.00024846),
+                Polynomial.Evaluate(x / 3.0, 2.0 / Math.PI * Math.Log(x / 2.0) * SpecialFunctions.BesselJ(0, x) + 0.36746691, 0.0, 0.60559366, 0.0, -0.74350384, 0.0, 0.25300117, 0.0, -0.04261214, 0.0, 0.00427916, 0.0, -0.00024846),
                 SpecialFunctions.BesselY(0, x), 1e-7);
         }
 
@@ -91,7 +91,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselI0Approx([Range(-3.75, 3.75, 0.25)] double x)
         {
             // Approx by Abramowitz/Stegun 9.8.1
-            Assert.AreEqual(Evaluate.Polynomial(x / 3.75, 1.0, 0.0, 3.5156229, 0.0, 3.0899424, 0.0, 1.2067492, 0.0, 0.2659732, 0.0, 0.0360768, 0.0, 0.0045813), SpecialFunctions.BesselI(0, x), 1e-7);
+            Assert.AreEqual(Polynomial.Evaluate(x / 3.75, 1.0, 0.0, 3.5156229, 0.0, 3.0899424, 0.0, 1.2067492, 0.0, 0.2659732, 0.0, 0.0360768, 0.0, 0.0045813), SpecialFunctions.BesselI(0, x), 1e-7);
         }
 
         [TestCase(0.0, 1.0)]
@@ -111,7 +111,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselI1Approx([Range(-3.75, 3.75, 0.25)] double x)
         {
             // Approx by Abramowitz/Stegun 9.8.3
-            Assert.AreEqual(Evaluate.Polynomial(x / 3.75, 0.5, 0.0, 0.87890594, 0.0, 0.51498869, 0.0, 0.15084934, 0.0, 0.02658733, 0.0, 0.00301532, 0.0, 0.00032411) * x, SpecialFunctions.BesselI(1, x), 1e-8);
+            Assert.AreEqual(Polynomial.Evaluate(x / 3.75, 0.5, 0.0, 0.87890594, 0.0, 0.51498869, 0.0, 0.15084934, 0.0, 0.02658733, 0.0, 0.00301532, 0.0, 0.00032411) * x, SpecialFunctions.BesselI(1, x), 1e-8);
         }
 
         [TestCase(0.0, 0.0)]
@@ -177,7 +177,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselK0Approx([Range(0.20, 2.0, 0.20)] double x)
         {
             // Approx by Abramowitz/Stegun 9.8.5
-            Assert.AreEqual(Evaluate.Polynomial(x / 2.0, -Math.Log(x / 2.0) * SpecialFunctions.BesselI(0, x) - 0.57721566, 0.0, 0.42278420, 0.0, 0.23069756, 0.0, 0.03488590, 0.0, 0.00262698, 0.0, 0.00010750, 0.0, 0.00000740), SpecialFunctions.BesselK(0, x), 1e-8);
+            Assert.AreEqual(Polynomial.Evaluate(x / 2.0, -Math.Log(x / 2.0) * SpecialFunctions.BesselI(0, x) - 0.57721566, 0.0, 0.42278420, 0.0, 0.23069756, 0.0, 0.03488590, 0.0, 0.00262698, 0.0, 0.00010750, 0.0, 0.00000740), SpecialFunctions.BesselK(0, x), 1e-8);
         }
 
         [TestCase(1e-10, 23.14178244559887)]
@@ -196,7 +196,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselK1Approx([Range(0.20, 2.0, 0.20)] double x)
         {
             // Approx by Abramowitz/Stegun 9.8.7
-            Assert.AreEqual(Evaluate.Polynomial(x / 2.0, x * Math.Log(x / 2.0) * SpecialFunctions.BesselI(1, x) + 1.0, 0.0, 0.15443144, 0.0, -0.67278579, 0.0, -0.18156897, 0.0, -0.01919402, 0.0, -0.00110404, 0.0, -0.00004686), SpecialFunctions.BesselK(1, x) * x, 1e-8);
+            Assert.AreEqual(Polynomial.Evaluate(x / 2.0, x * Math.Log(x / 2.0) * SpecialFunctions.BesselI(1, x) + 1.0, 0.0, 0.15443144, 0.0, -0.67278579, 0.0, -0.18156897, 0.0, -0.01919402, 0.0, -0.00110404, 0.0, -0.00004686), SpecialFunctions.BesselK(1, x) * x, 1e-8);
         }
 
         [TestCase(1e-10, 1.0e+10)]
@@ -251,7 +251,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselIRatioExact(int n, double zr, double zi, double cyr, double cyi, int decimalPlaces)
         {
             var z = new Complex(zr, zi);
-            var actual = SpecialFunctions.BesselI(n + 1, z, true) / SpecialFunctions.BesselI(n, z, true);
+            var actual = SpecialFunctions.BesselI(n + 1, z, SpecialFunctions.Scale.Exponential) / SpecialFunctions.BesselI(n, z, SpecialFunctions.Scale.Exponential);
             AssertHelpers.AlmostEqualRelative(new Complex(cyr, cyi), actual, decimalPlaces);
         }
 
@@ -267,7 +267,7 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         public void BesselKRatioExact(int n, double zr, double zi, double cyr, double cyi, int decimalPlaces)
         {
             var z = new Complex(zr, zi);
-            var actual = SpecialFunctions.BesselK(n + 1, z, true) / SpecialFunctions.BesselK(n, z, true);
+            var actual = SpecialFunctions.BesselK(n + 1, z, SpecialFunctions.Scale.Exponential) / SpecialFunctions.BesselK(n, z, SpecialFunctions.Scale.Exponential);
             AssertHelpers.AlmostEqualRelative(new Complex(cyr, cyi), actual, decimalPlaces);
         }
 
