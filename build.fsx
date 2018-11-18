@@ -222,7 +222,7 @@ Target "Build" (fun _ ->
         collectNuGetPackages numericsSolution
 
     // NuGet Sign (all or nothing)
-    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver numericsSolution
+    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver [numericsSolution]
 
     )
 "Prepare" ==> "Build"
@@ -255,7 +255,7 @@ Target "DataBuild" (fun _ ->
         collectNuGetPackages dataSolution
 
     // NuGet Sign (all or nothing)
-    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver dataSolution
+    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver [dataSolution]
 
     )
 "Prepare" ==> "DataBuild"
@@ -271,7 +271,7 @@ Target "MklWinBuild" (fun _ ->
     nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ]
 
     // NuGet Sign (all or nothing)
-    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver mklSolution
+    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver [mklSolution]
 
     )
 "Prepare" ==> "MklWinBuild"
@@ -286,7 +286,7 @@ Target "CudaWinBuild" (fun _ ->
     nugetPackManually cudaSolution [ cudaWinPack ]
 
     // NuGet Sign (all or nothing)
-    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver cudaSolution
+    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver [cudaSolution]
 
     )
 "Prepare" ==> "CudaWinBuild"
@@ -302,7 +302,7 @@ Target "OpenBlasWinBuild" (fun _ ->
     nugetPackManually openBlasSolution [ openBlasWinPack ]
 
     // NuGet Sign (all or nothing)
-    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver openBlasSolution
+    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver [openBlasSolution]
 
     )
 "Prepare" ==> "OpenBlasWinBuild"
@@ -455,17 +455,17 @@ Target "PublishMirrors" (fun _ -> publishMirrors ())
 Target "PublishDocs" (fun _ -> publishDocs numericsRelease)
 Target "PublishApi" (fun _ -> publishApi numericsRelease)
 
-Target "PublishArchive" (fun _ -> publishArchive numericsSolution)
-Target "DataPublishArchive" (fun _ -> publishArchive dataSolution)
-Target "MklPublishArchive" (fun _ -> publishArchive mklSolution)
-Target "CudaPublishArchive" (fun _ -> publishArchive cudaSolution)
-Target "OpenBlasPublishArchive" (fun _ -> publishArchive openBlasSolution)
+Target "PublishArchive" (fun _ -> publishArchives [numericsSolution])
+Target "DataPublishArchive" (fun _ -> publishArchives [dataSolution])
+Target "MklPublishArchive" (fun _ -> publishArchives [mklSolution])
+Target "CudaPublishArchive" (fun _ -> publishArchives [cudaSolution])
+Target "OpenBlasPublishArchive" (fun _ -> publishArchives [openBlasSolution])
 
-Target "PublishNuGet" (fun _ -> publishNuGet !! (numericsSolution.OutputNuGetDir </> "*.nupkg"))
-Target "DataPublishNuGet" (fun _ -> publishNuGet !! (dataSolution.OutputNuGetDir </> "*.nupkg"))
-Target "MklPublishNuGet" (fun _ -> publishNuGet !! (mklSolution.OutputNuGetDir </> "*.nupkg"))
-Target "CudaPublishNuGet" (fun _ -> publishNuGet !! (cudaSolution.OutputNuGetDir </> "*.nupkg"))
-Target "OpenBlasPublishNuGet" (fun _ -> publishNuGet !! (openBlasSolution.OutputNuGetDir </> "*.nupkg"))
+Target "PublishNuGet" (fun _ -> publishNuGet [numericsSolution])
+Target "DataPublishNuGet" (fun _ -> publishNuGet [dataSolution])
+Target "MklPublishNuGet" (fun _ -> publishNuGet [mklSolution])
+Target "CudaPublishNuGet" (fun _ -> publishNuGet [cudaSolution])
+Target "OpenBlasPublishNuGet" (fun _ -> publishNuGet [openBlasSolution])
 
 Target "Publish" DoNothing
 Dependencies "Publish" [ "PublishTag"; "PublishDocs"; "PublishApi"; "PublishArchive"; "PublishNuGet" ]

@@ -383,9 +383,11 @@ let sign fingerprint timeserver (solution: Solution) =
     if result <> 0 then
         failwithf "Error during SignTool call "
 
-let signNuGet fingerprint timeserver (solution: Solution) =
+let signNuGet fingerprint timeserver (solutions: Solution list) =
     CleanDir "obj/NuGet"
-    !! (solution.OutputNuGetDir </> "*.nupkg")
+    solutions
+    |> Seq.collect (fun solution -> !! (solution.OutputNuGetDir </> "*.nupkg"))
+    |> Seq.distinct
     |> Seq.iter (fun file ->
         let args = sprintf """sign "%s" -HashAlgorithm SHA256 -TimestampHashAlgorithm SHA256 -CertificateFingerprint "%s" -Timestamper "%s""" (FullName file) fingerprint timeserver
         let result =
@@ -501,8 +503,7 @@ let publishReleaseTag title prefix (release:Release) =
     let remoteName = main.Split('\t').[0]
     Git.Branches.pushTag "." remoteName tagName
 
-let publishNuGet packageFiles =
-    // TODO: Migrate to NuGet helper once it supports direct (non-integrated) operations
+let publishNuGet (solutions: Solution list) =
     CleanDir "obj/NuGet"
     let rec impl trials (file:string) =
         trace ("NuGet Push: " + System.IO.Path.GetFileName(file) + ".")
@@ -517,7 +518,10 @@ let publishNuGet packageFiles =
         with exn ->
             if trials > 0 then impl (trials-1) file
             else ()
-    Seq.iter (impl 3) packageFiles
+    solutions
+    |> Seq.collect (fun solution -> !! (solution.OutputNuGetDir </> "*.nupkg"))
+    |> Seq.distinct
+    |> Seq.iter (impl 3)
     DeleteDir "obj/NuGet"
 
 let publishMirrors () =
@@ -576,3 +580,5 @@ let publishArchive (solution:Solution) =
     let zipPackages = solution.ZipPackages
     let nugetPackages = solution.Projects |> List.collect projectNuGetPackages |> List.distinct
     publishArchiveManual zipOutPath nugetOutPath zipPackages nugetPackages
+
+let publishArchives (solutions: Solution list) = solutions |> List.iter publishArchive
