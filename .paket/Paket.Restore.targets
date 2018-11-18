@@ -151,15 +151,17 @@
 
     <ItemGroup Condition="($(DesignTimeBuild) != true OR '$(PaketPropsLoaded)' != 'true') AND '@(PaketReferencesFileLines)' != '' " >
       <PaketReferencesFileLinesInfo Include="@(PaketReferencesFileLines)" >
+        <Splits>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',').Length)</Splits>
         <PackageName>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[0])</PackageName>
         <PackageVersion>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[1])</PackageVersion>
         <AllPrivateAssets>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[4])</AllPrivateAssets>
-        <CopyLocal>$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[5])</CopyLocal>
+        <CopyLocal Condition="'$(Splits)' == '6'">$([System.String]::Copy('%(PaketReferencesFileLines.Identity)').Split(',')[5])</CopyLocal>
       </PaketReferencesFileLinesInfo>
       <PackageReference Include="%(PaketReferencesFileLinesInfo.PackageName)">
         <Version>%(PaketReferencesFileLinesInfo.PackageVersion)</Version>
         <PrivateAssets Condition=" ('%(PaketReferencesFileLinesInfo.AllPrivateAssets)' == 'true') Or ('$(PackAsTool)' == 'true') ">All</PrivateAssets>
-        <ExcludeAssets Condition="%(PaketReferencesFileLinesInfo.CopyLocal) == 'false'">runtime</ExcludeAssets>
+        <ExcludeAssets Condition=" '%(PaketReferencesFileLinesInfo.Splits)' == '6' And %(PaketReferencesFileLinesInfo.CopyLocal) == 'false'">runtime</ExcludeAssets>
+        <ExcludeAssets Condition=" '%(PaketReferencesFileLinesInfo.Splits)' != '6' And %(PaketReferencesFileLinesInfo.AllPrivateAssets) == 'exclude'">runtime</ExcludeAssets>
         <Publish Condition=" '$(PackAsTool)' == 'true' ">true</Publish>
       </PackageReference>
     </ItemGroup>
@@ -192,19 +194,27 @@
   <Target Name="PaketDisableDirectPack" AfterTargets="_IntermediatePack" BeforeTargets="GenerateNuspec" Condition="('$(IsPackable)' == '' Or '$(IsPackable)' == 'true') And Exists('$(MSBuildProjectDirectory)/obj/$(MSBuildProjectFile).references')" >
     <PropertyGroup>
       <ContinuePackingAfterGeneratingNuspec>false</ContinuePackingAfterGeneratingNuspec>
+      <DetectedMSBuildVersion>$(MSBuildVersion)</DetectedMSBuildVersion>
+      <DetectedMSBuildVersion Condition="$(MSBuildVersion) == ''">15.8.0</DetectedMSBuildVersion>
     </PropertyGroup>
   </Target>
 
   <Target Name="PaketOverrideNuspec" AfterTargets="GenerateNuspec" Condition="('$(IsPackable)' == '' Or '$(IsPackable)' == 'true') And Exists('$(MSBuildProjectDirectory)/obj/$(MSBuildProjectFile).references')" >
     <ItemGroup>
       <_NuspecFilesNewLocation Include="$(BaseIntermediateOutputPath)$(Configuration)\*.nuspec"/>
+      <MSBuildMajorVersion Include="$(DetectedMSBuildVersion.Replace(`-`, `.`).Split(`.`)[0])" />
+      <MSBuildMinorVersion Include="$(DetectedMSBuildVersion.Replace(`-`, `.`).Split(`.`)[1])" />
     </ItemGroup>
 
     <PropertyGroup>
       <PaketProjectFile>$(MSBuildProjectDirectory)/$(MSBuildProjectFile)</PaketProjectFile>
       <ContinuePackingAfterGeneratingNuspec>true</ContinuePackingAfterGeneratingNuspec>
-      <UseNewPack>false</UseNewPack>
-      <UseNewPack Condition=" '$(NuGetToolVersion)' != '4.0.0' ">true</UseNewPack>
+      <UseMSBuild15_9_Pack>false</UseMSBuild15_9_Pack>
+      <UseMSBuild15_9_Pack Condition=" '@(MSBuildMajorVersion)' > '15' OR ('@(MSBuildMajorVersion)' == '15' AND '@(MSBuildMinorVersion)' > '8') ">true</UseMSBuild15_9_Pack>
+      <UseMSBuild15_8_Pack>false</UseMSBuild15_8_Pack>
+      <UseMSBuild15_8_Pack Condition=" '$(NuGetToolVersion)' != '4.0.0' AND (! $(UseMSBuild15_9_Pack)) ">true</UseMSBuild15_8_Pack>
+      <UseNuGet4_Pack>false</UseNuGet4_Pack>
+      <UseNuGet4_Pack Condition=" (! $(UseMSBuild15_8_Pack)) AND (! $(UseMSBuild15_9_Pack)) ">true</UseNuGet4_Pack>
       <AdjustedNuspecOutputPath>$(BaseIntermediateOutputPath)$(Configuration)</AdjustedNuspecOutputPath>
       <AdjustedNuspecOutputPath Condition="@(_NuspecFilesNewLocation) == ''">$(BaseIntermediateOutputPath)</AdjustedNuspecOutputPath>
     </PropertyGroup>
@@ -219,9 +229,52 @@
       <Output TaskParameter="AbsolutePaths" PropertyName="NuspecFileAbsolutePath" />
     </ConvertToAbsolutePath>
 
-
     <!-- Call Pack -->
-    <PackTask Condition="$(UseNewPack)"
+    <PackTask Condition="$(UseMSBuild15_9_Pack)"
+              PackItem="$(PackProjectInputFile)"
+              PackageFiles="@(_PackageFiles)"
+              PackageFilesToExclude="@(_PackageFilesToExclude)"
+              PackageVersion="$(PackageVersion)"
+              PackageId="$(PackageId)"
+              Title="$(Title)"
+              Authors="$(Authors)"
+              Description="$(Description)"
+              Copyright="$(Copyright)"
+              RequireLicenseAcceptance="$(PackageRequireLicenseAcceptance)"
+              LicenseUrl="$(PackageLicenseUrl)"
+              ProjectUrl="$(PackageProjectUrl)"
+              IconUrl="$(PackageIconUrl)"
+              ReleaseNotes="$(PackageReleaseNotes)"
+              Tags="$(PackageTags)"
+              DevelopmentDependency="$(DevelopmentDependency)"
+              BuildOutputInPackage="@(_BuildOutputInPackage)"
+              TargetPathsToSymbols="@(_TargetPathsToSymbols)"
+              SymbolPackageFormat="symbols.nupkg"
+              TargetFrameworks="@(_TargetFrameworks)"
+              AssemblyName="$(AssemblyName)"
+              PackageOutputPath="$(PackageOutputAbsolutePath)"
+              IncludeSymbols="$(IncludeSymbols)"
+              IncludeSource="$(IncludeSource)"
+              PackageTypes="$(PackageType)"
+              IsTool="$(IsTool)"
+              RepositoryUrl="$(RepositoryUrl)"
+              RepositoryType="$(RepositoryType)"
+              SourceFiles="@(_SourceFiles->Distinct())"
+              NoPackageAnalysis="$(NoPackageAnalysis)"
+              MinClientVersion="$(MinClientVersion)"
+              Serviceable="$(Serviceable)"
+              FrameworkAssemblyReferences="@(_FrameworkAssemblyReferences)"
+              ContinuePackingAfterGeneratingNuspec="$(ContinuePackingAfterGeneratingNuspec)"
+              NuspecOutputPath="$(AdjustedNuspecOutputPath)"
+              IncludeBuildOutput="$(IncludeBuildOutput)"
+              BuildOutputFolder="$(BuildOutputTargetFolder)"
+              ContentTargetFolders="$(ContentTargetFolders)"
+              RestoreOutputPath="$(RestoreOutputAbsolutePath)"
+              NuspecFile="$(NuspecFileAbsolutePath)"
+              NuspecBasePath="$(NuspecBasePath)"
+              NuspecProperties="$(NuspecProperties)"/>
+
+    <PackTask Condition="$(UseMSBuild15_8_Pack)"
               PackItem="$(PackProjectInputFile)"
               PackageFiles="@(_PackageFiles)"
               PackageFilesToExclude="@(_PackageFilesToExclude)"
@@ -264,7 +317,7 @@
               NuspecBasePath="$(NuspecBasePath)"
               NuspecProperties="$(NuspecProperties)"/>
 
-    <PackTask Condition="! $(UseNewPack)"
+    <PackTask Condition="$(UseNuGet4_Pack)"
               PackItem="$(PackProjectInputFile)"
               PackageFiles="@(_PackageFiles)"
               PackageFilesToExclude="@(_PackageFilesToExclude)"
