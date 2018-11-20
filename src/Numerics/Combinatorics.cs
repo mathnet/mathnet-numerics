@@ -147,6 +147,20 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Inverts a permutation, returning a new permutation.
+        /// No checks are performed to validate the input (apart from null checks).
+        /// </summary>
+        /// <param name="permutation">Permutation to invert.</param>
+        /// <returns>The inverted permutation.</returns>
+        public static int[] InvertPermutation(int[] permutation)
+        {
+            if (permutation == null) throw new ArgumentNullException(nameof(permutation));
+            var result = Enumerable.Range(0, permutation.Length).ToArray();
+            Sorting.Sort(permutation, result);
+            return result;
+        }
+
+        /// <summary>
         /// Select a random permutation, without repetition, from a data array by reordering the provided array in-place.
         /// Implemented using Fisher-Yates Shuffling. The provided data array will be modified.
         /// </summary>
