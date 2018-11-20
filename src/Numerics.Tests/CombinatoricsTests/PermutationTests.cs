@@ -39,6 +39,21 @@ namespace MathNet.Numerics.Tests.CombinatoricsTests
             Assert.AreEqual(expected,count);
         }
 
+        [TestCase(1,1)]
+        [TestCase(2,1)]
+        [TestCase(3,3)]
+        [TestCase(4,2)]
+        [TestCase(4,3)]
+        [TestCase(7,3)]
+        public void NumberOfCombinationsGeneratedMatchesNChooseK(int n,int k)
+        {
+            // See the xml comment on lazy enumeration danger.
+            var combinations = Combinatorics.GenerateAllCombinations(n,k).Select(pi => pi.AsEnumerable().ToArray()).ToArray();
+            var count = combinations.Distinct(_comparer).Count();
+            var expected = Combinatorics.Combinations(n,k);
+            Assert.AreEqual(expected, count);
+        }
+
 
         [TestCase(2,5,0,1,4,3)]
         public void InversePermutationInverts(params int[] permutation)
