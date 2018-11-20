@@ -198,6 +198,78 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Lazily generates all combinations lexicographically.
+        /// Note that the same array is yielded on each iteration,
+        /// so care is needed when converting to a collection.
+        /// </summary>
+        /// <param name="n">Number of items in the set.</param>
+        /// <param name="k">Number of items to choose, without replacement.</param>
+        /// <returns>A lazy enumeration of all unique subsets of size k.</returns>
+        public static IEnumerable<int[]> GenerateAllCombinations(int n, int k)
+        {
+            // This method follows Algorithm T found in
+            // Knuth, "Combinatorial Algorithms," The Art of Computer Science vol. 4A, 7.2.1.3
+
+            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), Resources.ArgumentNotNegative);
+            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), Resources.ArgumentNotNegative);
+
+            // We'll repeatedly yield the following array as we generate the permutations.
+            // The first entry is just the items in lexicographical order.
+            var a = new int[k];
+
+            var c = Enumerable.Range(0, k + 2).ToArray();
+            c[k] = n;
+            c[k + 1] = 0;
+
+            int x;
+            int j = k;
+            if (k <= n) // Returns empty enumerable if k > n;
+            {
+                if (k == n)
+                    yield return c.Take(k).ToArray();
+                else
+                    while (true)
+                    {
+                        for (int i = 0; i < k; i++)
+                            a[i] = c[i];
+                        yield return a;
+
+                        if (j > 0)
+                        {
+                            x = j;
+                        }
+                        else
+                        {
+                            // Easy case?
+                            if (c[0] + 1 < c[1])
+                            {
+                                c[0] = c[0] + 1;
+                                continue;
+                            }
+
+                            // We differ slightly here from Knuth.
+                            // Instead of j=2, we set to 1.
+                            // But we put j++ at the beginning of the do loop that immediately follows.
+                            j = 1;
+
+                            do
+                            {
+                                j++;
+                                c[j - 2] = j - 2;
+                                x = c[j - 1] + 1;
+                            } while (x == c[j]);
+
+                            if (j > k) break;
+                        }
+
+
+                        c[j - 1] = x;
+                        j--;
+                    }
+            }
+        }
+
+        /// <summary>
         /// Select a random permutation, without repetition, from a data array by reordering the provided array in-place.
         /// Implemented using Fisher-Yates Shuffling. The provided data array will be modified.
         /// </summary>
