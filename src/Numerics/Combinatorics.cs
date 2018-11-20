@@ -161,6 +161,43 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Lazily generates all permutations lexicographically.
+        /// Note that the same array is yielded on each iteration,
+        /// so care is needed when converting to a collection.
+        /// </summary>
+        /// <param name="n">Number of (distinguishable) elements in the set.</param>
+        /// <returns>A lazy enumeration of all unique permutations of the set.</returns>
+        public static IEnumerable<int[]> GenerateAllPermutations(int n)
+        {
+            // This method follows Algorithm L found in
+            // Knuth, "Combinatorial Algorithms" The Art of Computer Science vol. 4A, 7.2.1.2
+
+            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), Resources.ArgumentNotNegative);
+
+            // We'll repeatedly yield the following array as we generate the permutations.
+            // The first entry is just the items in lexicographical order.
+            var a = Enumerable.Range(0, n).ToArray();
+            int j, l, swap;
+            while (true)
+            {
+                yield return a;
+                j = n - 1;
+                // Following Knuth's notation, the entry a_j is found at position a[j-1].
+                while (j > 0 && a[j - 1] >= a[j])
+                    j--;
+                if (j == 0) break; // Terminates the algorithm.
+                l = n;
+                while (a[j - 1] >= a[l - 1])
+                    l--;
+                // Swap aj and al
+                swap = a[j - 1];
+                a[j - 1] = a[l - 1];
+                a[l - 1] = swap;
+                Array.Reverse(a, j, n - j);
+            }
+        }
+
+        /// <summary>
         /// Select a random permutation, without repetition, from a data array by reordering the provided array in-place.
         /// Implemented using Fisher-Yates Shuffling. The provided data array will be modified.
         /// </summary>
