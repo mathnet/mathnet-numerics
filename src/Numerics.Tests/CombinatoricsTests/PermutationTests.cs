@@ -25,6 +25,20 @@ namespace MathNet.Numerics.Tests.CombinatoricsTests
             }
         }
 
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        public void NumberOfPermutationsGeneratedMatchesNFactorial(int n)
+        {
+            // See the xml comment on lazy enumeration danger.
+            var permutations = Combinatorics.GenerateAllPermutations(n).Select(pi => pi.AsEnumerable().ToArray()).ToArray();
+            var count = permutations.Distinct(_comparer).Count();
+            var expected = Combinatorics.Permutations(n);
+            Assert.AreEqual(expected,count);
+        }
+
 
         [TestCase(2,5,0,1,4,3)]
         public void InversePermutationInverts(params int[] permutation)
