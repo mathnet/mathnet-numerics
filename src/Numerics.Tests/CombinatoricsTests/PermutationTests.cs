@@ -25,5 +25,18 @@ namespace MathNet.Numerics.Tests.CombinatoricsTests
             }
         }
 
+
+        [TestCase(2,5,0,1,4,3)]
+        public void InversePermutationInverts(params int[] permutation)
+        {
+            var identityPermutation = Enumerable.Range(0, permutation.Length).ToArray();
+            var permuted = permutation.Select(p => identityPermutation[p]).ToArray();
+            var inversePermutation = Combinatorics.InvertPermutation(permutation);
+            var shouldBeIdentity = inversePermutation.Select(p => permuted[p]).ToArray();
+
+            bool shouldBeTrue = _comparer.Equals(identityPermutation, shouldBeIdentity);
+
+            Assert.IsTrue(shouldBeTrue);
+        }
     }
 }
