@@ -329,30 +329,34 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
             ValidateParameters(parameters);
 
             // To handle the box constrained minimization as the unconstrained minimization,
-            // parameters are mapping by the following rule.
+            // the parameters are mapping by the following rules,
+            // which are modified the rules shown in the ref[1] in order to introduce scales.
             //
-            // 1. lower < P < upper
+            // 1. lower < Pext < upper
             //    Pint = asin(2 * (Pext - lower) / (upper - lower) - 1)
             //    Pext = lower + (sin(Pint) + 1) * (upper - lower) / 2
             //    dPext/dPint = (upper - lower) / 2 * cos(Pint)
-            // 2. lower < P
-            //    Pint = sqrt((Pext - lower + 1)^2 - 1)
-            //    Pext = lower - 1 + sqrt(Pint^2 + 1)
-            //    dPext/dPint = Pint / sqrt(Pint^2 + 1)
-            // 3. P < upper
-            //    Pint = sqrt((upper - Pext + 1)^2 - 1)
-            //    Pext = upper + 1 - sqrt(Pint^2 + 1)
-            //    dPext/dPint = - Pint / sqrt(Pint^2 + 1)
+            //
+            // 2. lower < Pext
+            //    Pint = sqrt((Pext/scale - lower/scale + 1)^2 - 1)
+            //    Pext = lower + scale * (sqrt(Pint^2 + 1) - 1)
+            //    dPext/dPint = scale * Pint / sqrt(Pint^2 + 1)
+            //
+            // 3. Pext < upper
+            //    Pint = sqrt((upper / scale - Pext / scale + 1)^2 - 1)
+            //    Pext = upper + scale - scale * sqrt(Pint^2 + 1)
+            //    dPext/dPint = - scale * Pint / sqrt(Pint^2 + 1)
+            //
             // 4. no bounds, but scales
             //    Pint = Pext / scale
             //    Pext = Pint * scale
             //    dPext/dPint = scale
             //
-            // see ProjectParametersToInternal(Pext), ProjectParametersToExternal(Pint), ScaleFactorsOfJacobian(Pint) methods.
+            // The rules are applied in ProjectParametersToInternal, ProjectParametersToExternal, and ScaleFactorsOfJacobian methods.
             //
             // References:
             // [1] https://lmfit.github.io/lmfit-py/bounds.html
-            //
+            // [2] MINUIT User's Guide, https://root.cern.ch/download/minuit.pdf
             //
             // Except when it is initial guess, the parameters argument is always internal parameter.
             // So, first map the parameters argument to the external parameters in order to calculate function values.
@@ -617,7 +621,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
             {
                 for (int i = 0; i < Pext.Count; i++)
                 {
-                    Pint[i] = Math.Sqrt(Math.Pow(Pext[i] - LowerBound[i] + 1.0, 2) - 1.0);
+                    Pint[i] = (Scales == null)
+                        ? Math.Sqrt(Math.Pow(Pext[i] - LowerBound[i] + 1.0, 2) - 1.0)
+                        : Math.Sqrt(Math.Pow((Pext[i] - LowerBound[i]) / Scales[i] + 1.0, 2) - 1.0);
                 }
 
                 return Pint;
@@ -626,7 +632,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
             {
                 for (int i = 0; i < Pext.Count; i++)
                 {
-                    Pint[i] = Math.Sqrt(Math.Pow(UpperBound[i] - Pext[i] + 1.0, 2) - 1.0);
+                    Pint[i] = (Scales == null)
+                        ? Math.Sqrt(Math.Pow(UpperBound[i] - Pext[i] + 1.0, 2) - 1.0)
+                        : Math.Sqrt(Math.Pow((UpperBound[i] - Pext[i]) / Scales[i] + 1.0, 2) - 1.0);
                 }
 
                 return Pint;
@@ -661,7 +669,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
             {
                 for (int i = 0; i < Pint.Count; i++)
                 {
-                    Pext[i] = LowerBound[i] + Math.Sqrt(Pint[i] * Pint[i] + 1.0) - 1.0;
+                    Pext[i] = (Scales == null)
+                        ? LowerBound[i] + Math.Sqrt(Pint[i] * Pint[i] + 1.0) - 1.0
+                        : LowerBound[i] + Scales[i] * (Math.Sqrt(Pint[i] * Pint[i] + 1.0) - 1.0);
                 }
 
                 return Pext;
@@ -670,7 +680,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
             {
                 for (int i = 0; i < Pint.Count; i++)
                 {
-                    Pext[i] = UpperBound[i] - Math.Sqrt(Pint[i] * Pint[i] + 1.0) + 1.0;
+                    Pext[i] = (Scales == null)
+                        ? UpperBound[i] - Math.Sqrt(Pint[i] * Pint[i] + 1.0) + 1.0
+                        : UpperBound[i] - Scales[i] * (Math.Sqrt(Pint[i] * Pint[i] + 1.0) - 1.0);
                 }
 
                 return Pext;
@@ -704,7 +716,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
             {
                 for (int i = 0; i < Pint.Count; i++)
                 {
-                    scale[i] = Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0);
+                    scale[i] = (Scales == null)
+                        ? Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0)
+                        : Scales[i] * Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0);
                 }
                 return scale;
             }
@@ -712,7 +726,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
             {
                 for (int i = 0; i < Pint.Count; i++)
                 {
-                    scale[i] = -Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0);
+                    scale[i] = (Scales == null)
+                        ? -Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0)
+                        : -Scales[i] * Pint[i] / Math.Sqrt(Pint[i] * Pint[i] + 1.0);
                 }
                 return scale;
             }

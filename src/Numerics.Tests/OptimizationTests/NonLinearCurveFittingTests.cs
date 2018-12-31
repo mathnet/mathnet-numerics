@@ -42,11 +42,12 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY);
             var solver = new LevenbergMarquardtMinimizer(maximumIterations: 10000);
-
             var result = solver.FindMinimum(obj, RosenbrockStart1);
 
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[0], result.BestFitParameters[0], 3);
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[1], result.BestFitParameters[1], 3);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(RosenbrockPbest[i], result.BestFitParameters[i], 3);
+            }
         }
 
         [Test]
@@ -54,11 +55,12 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockX, RosenbrockY, accuracyOrder:2);
             var solver = new LevenbergMarquardtMinimizer(maximumIterations: 10000);
-
             var result = solver.FindMinimum(obj, RosenbrockStart1);
-            
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[0], result.BestFitParameters[0], 3);
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[1], result.BestFitParameters[1], 3);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(RosenbrockPbest[i], result.BestFitParameters[i], 3);
+            }
         }
 
         [Test]
@@ -67,11 +69,12 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             var obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY,
                 lowerBound : RosebbrockLowerBound, upperBound : RosenbrockUpperBound);
             var solver = new LevenbergMarquardtMinimizer(maximumIterations: 10000);
-
             var result = solver.FindMinimum(obj, RosenbrockStart1);
 
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[0], result.BestFitParameters[0], 3);
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[1], result.BestFitParameters[1], 3);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(RosenbrockPbest[i], result.BestFitParameters[i], 3);
+            }
         }
 
         [Test]
@@ -79,13 +82,14 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockX, RosenbrockY,
                 lowerBound: RosebbrockLowerBound, upperBound: RosenbrockUpperBound,
-                accuracyOrder: 2);
+                accuracyOrder: 6);
             var solver = new LevenbergMarquardtMinimizer(maximumIterations: 10000);
-
             var result = solver.FindMinimum(obj, RosenbrockStart1);
 
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[0], result.BestFitParameters[0], 3);
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[1], result.BestFitParameters[1], 3);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(RosenbrockPbest[i], result.BestFitParameters[i], 3);
+            }
         }
 
         [Test]
@@ -93,11 +97,12 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY);
             var solver = new TrustRegionDogLegMinimizer(maximumIterations: 10000);
-
             var result = solver.FindMinimum(obj, RosenbrockStart1);
 
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[0], result.BestFitParameters[0], 1);
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[1], result.BestFitParameters[1], 1);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(RosenbrockPbest[i], result.BestFitParameters[i], 1);
+            }
         }
 
         [Test]
@@ -105,11 +110,12 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY);
             var solver = new TrustRegionDogLegMinimizer(maximumIterations: 10000);
-
             var result = solver.FindMinimum(obj, RosenbrockStart1);
 
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[0], result.BestFitParameters[0], 1);
-            AssertHelpers.AlmostEqualRelative(RosenbrockPbest[1], result.BestFitParameters[1], 1);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(RosenbrockPbest[i], result.BestFitParameters[i], 1);
+            }
         }
 
         // model: Rat43 (https://www.itl.nist.gov/div898/strd/nls/data/ratkowsky3.shtml)
@@ -147,7 +153,6 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(Rat43Model, Rat43X, Rat43Y, accuracyOrder: 6);
             var solver = new LevenbergMarquardtMinimizer();
-
             var result = solver.FindMinimum(obj, Rat43Start1);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
@@ -162,7 +167,6 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(Rat43Model, Rat43X, Rat43Y, accuracyOrder: 6);
             var solver = new TrustRegionDogLegMinimizer();
-
             var result = solver.FindMinimum(obj, Rat43Start2);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
@@ -199,23 +203,22 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
         private Vector<double> BoxBodStart1 = new DenseVector(new double[] { 1.0, 1.0 });
         private Vector<double> BoxBodStart2 = new DenseVector(new double[] { 100.0, 0.75 });
-        private Vector<double> BoxBodLowerBound = new DenseVector(new double[] { 0, 0 });
-        private Vector<double> BoxBodUpperBound = new DenseVector(new double[] { 500.0, 10 });
-        private Vector<double> BoxBodScales = new DenseVector(new double[] { 100.0, 1 });
+        private Vector<double> BoxBodLowerBound = new DenseVector(new double[] { -1000, -100 });
+        private Vector<double> BoxBodUpperBound = new DenseVector(new double[] { 1000.0, 100 });
+        private Vector<double> BoxBodScales = new DenseVector(new double[] { 100.0, 0.1 });
 
         [Test]
         public void LMDER_FindMinimum_BoxBod_Unconstrained()
         {
             var obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
             var solver = new LevenbergMarquardtMinimizer();
-
             var result = solver.FindMinimum(obj, BoxBodStart1);
 
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[0], result.BestFitParameters[0], 6);
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[1], result.BestFitParameters[1], 6);
-
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[0], result.StandardErrors[0], 6);
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[1], result.StandardErrors[1], 6);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 6);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 6);
+            }
         }
 
         [Test]
@@ -223,30 +226,96 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodX, BoxBodY, accuracyOrder:6);
             var solver = new LevenbergMarquardtMinimizer();
-
             var result = solver.FindMinimum(obj, BoxBodStart1);
 
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[0], result.BestFitParameters[0], 6);
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[1], result.BestFitParameters[1], 6);
-
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[0], result.StandardErrors[0], 6);
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[1], result.StandardErrors[1], 6);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 6);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 6);
+            }
         }
 
         [Test]
         public void LMDER_FindMinimum_BoxBod_BoxConstrained()
         {
+            // lower < parameters < upper
+            // Note that in this case, scales have no effect.
+
             var obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
                 lowerBound: BoxBodLowerBound, upperBound: BoxBodUpperBound);
             var solver = new LevenbergMarquardtMinimizer();
-
             var result = solver.FindMinimum(obj, BoxBodStart1);
 
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[0], result.BestFitParameters[0], 6);
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[1], result.BestFitParameters[1], 6);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 6);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 6);
+            }
 
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[0], result.StandardErrors[0], 6);
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[1], result.StandardErrors[1], 6);
+            // lower < parameters, no scales
+
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
+                lowerBound: BoxBodLowerBound);
+            solver = new LevenbergMarquardtMinimizer();
+            result = solver.FindMinimum(obj, BoxBodStart1);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 6);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 6);
+            }
+
+            // lower < parameters, scales
+
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
+                lowerBound: BoxBodLowerBound, scales: BoxBodScales);
+            solver = new LevenbergMarquardtMinimizer();
+            result = solver.FindMinimum(obj, BoxBodStart1);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 6);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 6);
+            }
+
+            // parameters < upper, no scales
+
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
+                upperBound: BoxBodUpperBound);
+            solver = new LevenbergMarquardtMinimizer();
+            result = solver.FindMinimum(obj, BoxBodStart1);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 6);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 6);
+            }
+
+            // parameters < upper, scales
+
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
+                upperBound: BoxBodUpperBound, scales: BoxBodScales);
+            solver = new LevenbergMarquardtMinimizer();
+            result = solver.FindMinimum(obj, BoxBodStart1);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 6);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 6);
+            }
+
+            // only scales
+
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
+                scales: BoxBodScales);
+            solver = new LevenbergMarquardtMinimizer();
+            result = solver.FindMinimum(obj, BoxBodStart1);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 6);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 6);
+            }
         }
 
         [Test]
@@ -256,14 +325,13 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
                 lowerBound: BoxBodLowerBound, upperBound: BoxBodUpperBound,
                 accuracyOrder: 6);
             var solver = new LevenbergMarquardtMinimizer();
-
             var result = solver.FindMinimum(obj, BoxBodStart1);
 
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[0], result.BestFitParameters[0], 6);
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[1], result.BestFitParameters[1], 6);
-
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[0], result.StandardErrors[0], 6);
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[1], result.StandardErrors[1], 6);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 6);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 6);
+            }
         }
 
         [Test]
@@ -271,14 +339,13 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodX, BoxBodY, accuracyOrder: 6);
             var solver = new TrustRegionDogLegMinimizer();
-
             var result = solver.FindMinimum(obj, BoxBodStart1);
 
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[0], result.BestFitParameters[0], 3);
-            AssertHelpers.AlmostEqualRelative(BoxBodPbest[1], result.BestFitParameters[1], 3);
-
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[0], result.StandardErrors[0], 3);
-            AssertHelpers.AlmostEqualRelative(BoxBodPstd[1], result.StandardErrors[1], 3);
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 3);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 3);
+            }
         }
 
         // model : Thurber (https://www.itl.nist.gov/div898/strd/nls/data/thurber.shtml)
@@ -359,7 +426,6 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberPrime, ThurberX, ThurberY);
             var solver = new LevenbergMarquardtMinimizer();
-
             var result = solver.FindMinimum(obj, ThurberInitialGuess);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
@@ -374,7 +440,6 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberX, ThurberY, accuracyOrder: 6);
             var solver = new LevenbergMarquardtMinimizer();
-
             var result = solver.FindMinimum(obj, ThurberInitialGuess);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
@@ -391,7 +456,6 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
                 scales: ThurberScales,
                 accuracyOrder: 6);
             var solver = new TrustRegionDogLegMinimizer();
-
             var result = solver.FindMinimum(obj, ThurberInitialGuess);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
