@@ -125,11 +125,11 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
         /// <summary>
         /// Get the number of calls to function.
         /// </summary>
-        public int FunctionEvaluations { get; private set; }
+        public int FunctionEvaluations { get; set; }
         /// <summary>
         /// Get the number of calls to jacobian.
         /// </summary>
-        public int JacobianEvaluations { get; private set; }
+        public int JacobianEvaluations { get; set; }
 
         /// <summary>
         /// Set or get the desired accuracy order of the numerical jacobian.

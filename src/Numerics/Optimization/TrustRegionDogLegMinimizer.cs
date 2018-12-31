@@ -121,6 +121,10 @@ namespace MathNet.Numerics.Optimization
 
             ExitCondition exitCondition = ExitCondition.None;
 
+            // Initialize objective
+            objective.FunctionEvaluations = 0;
+            objective.JacobianEvaluations = 0;
+
             // First, calculate function values and setup variables
             objective.EvaluateFunction(initialGuess);
             var P = objective.Parameters; // current parameters

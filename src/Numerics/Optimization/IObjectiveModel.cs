@@ -41,11 +41,11 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// Get the number of calls to function.
         /// </summary>
-        int FunctionEvaluations { get; }
+        int FunctionEvaluations { get; set; }
         /// <summary>
         /// Get the number of calls to jacobian.
         /// </summary>
-        int JacobianEvaluations { get; }
+        int JacobianEvaluations { get; set; }
 
         /// <summary>
         /// Get the degree of freedom.
