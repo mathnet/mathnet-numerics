@@ -8,5 +8,10 @@ namespace MathNet.Numerics.Optimization
         {
             return new DogLegSubproblem();
         }
+
+        public static ITrustRegionSubproblem NewtonCG()
+        {
+            return new NewtonCGSubproblem();
+        }
     }
 }

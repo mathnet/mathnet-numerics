@@ -13,7 +13,6 @@ namespace MathNet.Numerics.Optimization.Subproblems
             var Jacobian = objective.Jacobian;
             var Gradient = objective.Gradient;
             var Hessian = objective.Hessian;
-            var RSS = objective.Residue;
 
             // newton point
             // the Gauss–Newton step by solving the normal equations

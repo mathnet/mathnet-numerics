@@ -93,7 +93,31 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         }
 
         [Test]
-        public void TRLMDER_FindMinimum_Rosenbrock_Unconstrained()
+        public void TRDLDER_FindMinimum_Rosenbrock_Unconstrained()
+        {
+            // DogLeg Minimizer
+            var obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY);
+            var solver = new TrustRegionDogLegMinimizer(maximumIterations: 10000);
+            var result = solver.FindMinimum(obj, RosenbrockStart1);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(RosenbrockPbest[i], result.BestFitParameters[i], 1);
+            }
+
+            // NewtonCG Minimizer
+            obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY);
+            var solverNCG = new TrustRegionNewtonCGMinimizer(maximumIterations: 10000);
+            result = solverNCG.FindMinimum(obj, RosenbrockStart1);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(RosenbrockPbest[i], result.BestFitParameters[i], 1);
+            }
+        }
+
+        [Test]
+        public void TRDLDIF_FindMinimum_Rosenbrock_Unconstrained()
         {
             var obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY);
             var solver = new TrustRegionDogLegMinimizer(maximumIterations: 10000);
@@ -106,10 +130,10 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         }
 
         [Test]
-        public void TRLMDIF_FindMinimum_Rosenbrock_Unconstrained()
+        public void TRNCGDER_FindMinimum_Rosenbrock_Unconstrained()
         {
             var obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY);
-            var solver = new TrustRegionDogLegMinimizer(maximumIterations: 10000);
+            var solver = new TrustRegionNewtonCGMinimizer(maximumIterations: 10000);
             var result = solver.FindMinimum(obj, RosenbrockStart1);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
@@ -335,10 +359,24 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         }
 
         [Test]
-        public void TRLMDIF_FindMinimum_BoxBod_Unconstrained()
+        public void TRDLDIF_FindMinimum_BoxBod_Unconstrained()
         {
             var obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodX, BoxBodY, accuracyOrder: 6);
             var solver = new TrustRegionDogLegMinimizer();
+            var result = solver.FindMinimum(obj, BoxBodStart1);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.BestFitParameters[i], 3);
+                AssertHelpers.AlmostEqualRelative(BoxBodPstd[i], result.StandardErrors[i], 3);
+            }
+        }
+
+        [Test]
+        public void TRNCGDIF_FindMinimum_BoxBod_Unconstrained()
+        {
+            var obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodX, BoxBodY, accuracyOrder: 6);
+            var solver = new TrustRegionNewtonCGMinimizer();
             var result = solver.FindMinimum(obj, BoxBodStart1);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
@@ -450,12 +488,28 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         }
         
         [Test]
-        public void TRLMDIF_FindMinimum_Thurber_Scaled()
+        public void TRDLDIF_FindMinimum_Thurber_Scaled()
         {
             var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberX, ThurberY,
                 scales: ThurberScales,
                 accuracyOrder: 6);
             var solver = new TrustRegionDogLegMinimizer();
+            var result = solver.FindMinimum(obj, ThurberInitialGuess);
+
+            for (int i = 0; i < result.BestFitParameters.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(ThurberPbest[i], result.BestFitParameters[i], 3);
+                AssertHelpers.AlmostEqualRelative(ThurberPstd[i], result.StandardErrors[i], 3);
+            }
+        }
+
+        [Test]
+        public void TRNCGDIF_FindMinimum_Thurber_Scaled()
+        {
+            var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberX, ThurberY,
+                scales: ThurberScales,
+                accuracyOrder: 6);
+            var solver = new TrustRegionNewtonCGMinimizer();
             var result = solver.FindMinimum(obj, ThurberInitialGuess);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
