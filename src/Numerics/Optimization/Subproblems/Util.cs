@@ -26,7 +26,10 @@ namespace MathNet.Numerics.Optimization.Subproblems
             var beta1 = -aux / 2.0 / a;
             var beta2 = -2.0 * c / aux;
 
-            return new Tuple<double, double>(beta1, beta2);
+            // return sorted beta
+            return (beta1 < beta2)
+                ? new Tuple<double, double>(beta1, beta2)
+                : new Tuple<double, double>(beta2, beta1);
         }
     }
 }

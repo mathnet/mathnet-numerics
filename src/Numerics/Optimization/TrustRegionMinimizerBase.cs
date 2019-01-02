@@ -189,8 +189,9 @@ namespace MathNet.Numerics.Optimization
                 // solve the subproblem
                 subproblem.Solve(objective, delta);
                 var Pstep = subproblem.Pstep;
-                var predictedReduction = subproblem.PredictedReduction;
                 var hitBoundary = subproblem.HitBoundary;
+                // predicted reduction = L(0) - L(Δp) = Δp'g - 1/2 * Δp'HΔp
+                var predictedReduction = objective.Gradient.DotProduct(Pstep) - 0.5 * Pstep.DotProduct(objective.Hessian * Pstep);
 
                 if (Pstep.L2Norm() <= stepTolerance * (stepTolerance + P.L2Norm()))
                 {

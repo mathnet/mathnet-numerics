@@ -2,11 +2,9 @@
 
 namespace MathNet.Numerics.Optimization.Subproblems
 {
-    internal class QuadraticSubproblem : ITrustRegionSubproblem
+    internal class DogLegSubproblem : ITrustRegionSubproblem
     {
         public Vector<double> Pstep { get; private set; }
-
-        public double PredictedReduction { get; private set; }
 
         public bool HitBoundary { get; private set; }
 
@@ -32,14 +30,12 @@ namespace MathNet.Numerics.Optimization.Subproblems
                 // Pgn is inside trust region radius
                 HitBoundary = false;
                 Pstep = Pgn;
-                PredictedReduction = RSS;
             }
             else if (alpha * Psd.L2Norm() >= delta)
             {
                 // Psd is outside trust region radius
                 HitBoundary = true;
                 Pstep = delta / Psd.L2Norm() * Psd;
-                PredictedReduction = delta * (2.0 * (alpha * Gradient).L2Norm() - delta) / 2.0 / alpha;
             }
             else
             {
@@ -47,7 +43,6 @@ namespace MathNet.Numerics.Optimization.Subproblems
                 HitBoundary = true;
                 var beta = Util.FindBeta(alpha, Psd, Pgn, delta).Item2;
                 Pstep = alpha * Psd + beta * (Pgn - alpha * Psd);
-                PredictedReduction = 0.5 * alpha * (1 - beta) * (1 - beta) * Gradient.DotProduct(Gradient) + beta * (2 - beta) * RSS;
             }
         }
     }

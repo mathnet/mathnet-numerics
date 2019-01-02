@@ -4,9 +4,9 @@ namespace MathNet.Numerics.Optimization
 {
     public static class TrustRegionSubproblem
     {
-        public static ITrustRegionSubproblem Quadratic()
+        public static ITrustRegionSubproblem DogLeg()
         {
-            return new QuadraticSubproblem();
+            return new DogLegSubproblem();
         }
     }
 }
