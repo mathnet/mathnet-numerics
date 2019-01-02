@@ -1,4 +1,5 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.Optimization.ObjectiveFunctions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -172,7 +173,27 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
 
         public IObjectiveModel CreateNew()
         {
-            return new FittingObjectiveModel(userFunction, userDerivatives);
+            return new FittingObjectiveModel(userFunction, userDerivatives, AccuracyOrder);
+        }
+
+        public IObjectiveFunction ToObjectiveFunction()
+        {
+            Tuple<double, Vector<double>, Matrix<double>> function(Vector<double> point)
+            {
+                EvaluateFunction(point);
+                EvaluateJacobian(point);
+
+                return new Tuple<double, Vector<double>, Matrix<double>>(Residue, -Gradient, Hessian);
+            }
+
+            LowerBound = null;
+            UpperBound = null;
+            Scales = null;
+            IsFixed = null;
+            IsBounded = false;
+
+            var objective = new GradientHessianObjectiveFunction(function);
+            return objective;
         }
 
         /// <summary>

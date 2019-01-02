@@ -386,6 +386,19 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             }
         }
 
+        [Test]
+        public void Bfgs_FindMinimum_BoxBod_Unconstrained()
+        {
+            var obj = ObjectiveModel.FittingFunction(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
+            var solver = new BfgsMinimizer(1e-10, 1e-10, 1e-10, 100);
+            var result = solver.FindMinimum(obj, BoxBodStart2);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(BoxBodPbest[i], result.MinimizingPoint[i], 6);
+            }
+        }
+
         // model : Thurber (https://www.itl.nist.gov/div898/strd/nls/data/thurber.shtml)
         //       f(x; b1 ... b7) = (b1 + b2*x + b3*x^2 + b4*x^3) / (1 + b5*x + b6*x^2 + b7*x^3) 
         // derivatives:
@@ -456,7 +469,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         private Vector<double> ThurberPstd = new DenseVector(new double[] {
             4.6647963344E+00, 3.9571156086E+01, 2.8698696102E+01, 5.5675370270E+00, 3.1333340687E-02,
             1.4984928198E-02, 6.5842344623E-03 });
-        private Vector<double> ThurberInitialGuess = new DenseVector(new double[] { 1000.0, 1000.0, 400.0, 40.0, 0.7, 0.3, 0.03 });
+        private Vector<double> ThurberStart = new DenseVector(new double[] { 1000.0, 1000.0, 400.0, 40.0, 0.7, 0.3, 0.03 });
+        private Vector<double> ThurberLowerBound = new DenseVector(new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 });
+        private Vector<double> ThurberUpperBound = new DenseVector(new double[] { 1E6, 1E6, 1E6, 1E6, 1E6, 1E6, 1E6 });
         private Vector<double> ThurberScales = new DenseVector(new double[7] { 1000, 1000, 400, 40, 0.7, 0.3, 0.03 });
 
         [Test]
@@ -464,7 +479,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberPrime, ThurberX, ThurberY);
             var solver = new LevenbergMarquardtMinimizer();
-            var result = solver.FindMinimum(obj, ThurberInitialGuess);
+            var result = solver.FindMinimum(obj, ThurberStart);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -478,7 +493,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberX, ThurberY, accuracyOrder: 6);
             var solver = new LevenbergMarquardtMinimizer();
-            var result = solver.FindMinimum(obj, ThurberInitialGuess);
+            var result = solver.FindMinimum(obj, ThurberStart);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -494,7 +509,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
                 scales: ThurberScales,
                 accuracyOrder: 6);
             var solver = new TrustRegionDogLegMinimizer();
-            var result = solver.FindMinimum(obj, ThurberInitialGuess);
+            var result = solver.FindMinimum(obj, ThurberStart);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -510,12 +525,51 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
                 scales: ThurberScales,
                 accuracyOrder: 6);
             var solver = new TrustRegionNewtonCGMinimizer();
-            var result = solver.FindMinimum(obj, ThurberInitialGuess);
+            var result = solver.FindMinimum(obj, ThurberStart);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
                 AssertHelpers.AlmostEqualRelative(ThurberPbest[i], result.BestFitParameters[i], 3);
                 AssertHelpers.AlmostEqualRelative(ThurberPstd[i], result.StandardErrors[i], 3);
+            }
+        }
+
+        [Test]
+        public void Bfgs_FindMinimum_Thurber_Unconstrained()
+        {
+            var obj = ObjectiveModel.FittingFunction(ThurberModel, ThurberX, ThurberY, accuracyOrder: 6);
+            var solver = new BfgsMinimizer(1e-10, 1e-10, 1e-10, 1000);
+            var result = solver.FindMinimum(obj, ThurberStart);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(ThurberPbest[i], result.MinimizingPoint[i], 6);
+            }
+        }
+
+        [Test]
+        public void BfgsB_FindMinimum_Thurber()
+        {
+            var obj = ObjectiveModel.FittingFunction(ThurberModel, ThurberX, ThurberY, accuracyOrder: 6);
+            var solver = new BfgsBMinimizer(1e-10, 1e-10, 1e-10, 1000);
+            var result = solver.FindMinimum(obj, ThurberLowerBound, ThurberUpperBound, ThurberStart);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(ThurberPbest[i], result.MinimizingPoint[i], 6);
+            }
+        }
+
+        [Test]
+        public void LBfgs_FindMinimum_Thurber()
+        {
+            var obj = ObjectiveModel.FittingFunction(ThurberModel, ThurberX, ThurberY, accuracyOrder: 6);
+            var solver = new LimitedMemoryBfgsMinimizer(1e-10, 1e-10, 1e-10, 1000);
+            var result = solver.FindMinimum(obj, ThurberStart);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(ThurberPbest[i], result.MinimizingPoint[i], 6);
             }
         }
     }

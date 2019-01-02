@@ -66,5 +66,7 @@ namespace MathNet.Numerics.Optimization
 
         /// <summary>Create a new independent copy of this objective function, evaluated at the same point.</summary>
         IObjectiveModel Fork();
+
+        IObjectiveFunction ToObjectiveFunction();
     }
 }
