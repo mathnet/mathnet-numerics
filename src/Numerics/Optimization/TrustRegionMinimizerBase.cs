@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Optimization
             MaximumIterations = maximumIterations;            
         }
 
-        public ModelMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess)
+        public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess)
         {
             if (objective == null)
                 throw new ArgumentNullException("objective");
@@ -56,7 +56,7 @@ namespace MathNet.Numerics.Optimization
             return Minimum(objective, initialGuess, Subproblem, GradientTolerance, StepTolerance, FunctionTolerance, RadiusTolerance, MaximumIterations);
         }
 
-        public ModelMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess)
+        public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess)
         {
             if (objective == null)
                 throw new ArgumentNullException("objective");
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="radiusTolerance">The stopping threshold for trust region radius</param>
         /// <param name="maximumIterations">The max iterations.</param>
         /// <returns></returns>
-        public static ModelMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess, ITrustRegionSubproblem subproblem, double gradientTolerance = 1E-8, double stepTolerance = 1E-8, double functionTolerance = 1E-8, double radiusTolerance = 1E-18, int maximumIterations = -1)
+        public static NonlinearMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess, ITrustRegionSubproblem subproblem, double gradientTolerance = 1E-8, double stepTolerance = 1E-8, double functionTolerance = 1E-8, double radiusTolerance = 1E-18, int maximumIterations = -1)
         {
             // Non-linear least square fitting by the trust-region algorithm.
             //
@@ -144,7 +144,7 @@ namespace MathNet.Numerics.Optimization
             if (double.IsNaN(RSS))
             {
                 exitCondition = ExitCondition.InvalidValues;
-                return new ModelMinimizationResult(objective, -1, exitCondition);
+                return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
             // When only function evaluation is needed, set maximumIterations to zero, 
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.Optimization
             {
                 // finalize
                 objective.EvaluateCovariance(P);
-                return new ModelMinimizationResult(objective, -1, exitCondition);
+                return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
             // initialize trust-region radius, Δ
@@ -256,7 +256,7 @@ namespace MathNet.Numerics.Optimization
             // finalize
             objective.EvaluateCovariance(P);
 
-            return new ModelMinimizationResult(objective, iterations, exitCondition);
+            return new NonlinearMinimizationResult(objective, iterations, exitCondition);
         }
     }
 }

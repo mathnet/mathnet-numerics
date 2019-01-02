@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Optimization
             MaximumIterations = maximumIterations;
         }
 
-        public ModelMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess)
+        public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess)
         {
             if (objective == null)
                 throw new ArgumentNullException("objective");
@@ -54,7 +54,7 @@ namespace MathNet.Numerics.Optimization
             return Minimum(objective, initialGuess, InitialMu, FunctionTolerance, GradientTolerance, StepTolerance, MaximumIterations);
         }
 
-        public ModelMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess)
+        public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess)
         {
             if (objective == null)
                 throw new ArgumentNullException("objective");
@@ -75,7 +75,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="functionTolerance">The stopping threshold for L2 norm of the residuals.</param>
         /// <param name="maximumIterations">The max iterations.</param>
         /// <returns>The result of the Levenberg-Marquardt minimization</returns>
-        public static ModelMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess, double initialMu = 1E-3, double gradientTolerance = 1E-18, double stepTolerance = 1E-18, double functionTolerance = 1E-18, int maximumIterations = -1)
+        public static NonlinearMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess, double initialMu = 1E-3, double gradientTolerance = 1E-18, double stepTolerance = 1E-18, double functionTolerance = 1E-18, int maximumIterations = -1)
         {
             // Non-linear least square fitting by the Levenberg-Marduardt algorithm.
             //
@@ -141,7 +141,7 @@ namespace MathNet.Numerics.Optimization
             if (double.IsNaN(RSS))
             {
                 exitCondition = ExitCondition.InvalidValues;
-                return new ModelMinimizationResult(objective, -1, exitCondition);
+                return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
             // When only function evaluation is needed, set maximumIterations to zero, 
@@ -171,7 +171,7 @@ namespace MathNet.Numerics.Optimization
             if (exitCondition != ExitCondition.None)
             {
                 objective.EvaluateCovariance(P);
-                return new ModelMinimizationResult(objective, -1, exitCondition);
+                return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
             double mu = initialMu * diagonalOfHessian.Max(); // μ 
@@ -261,7 +261,7 @@ namespace MathNet.Numerics.Optimization
             // finalize
             objective.EvaluateCovariance(P);
 
-            return new ModelMinimizationResult(objective, iterations, exitCondition);
+            return new NonlinearMinimizationResult(objective, iterations, exitCondition);
         }
     }
 }

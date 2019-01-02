@@ -10,7 +10,6 @@ namespace MathNet.Numerics.Optimization.Subproblems
 
         public void Solve(IObjectiveModel objective, double delta)
         {
-            var Jacobian = objective.Jacobian;
             var Gradient = objective.Gradient;
             var Hessian = objective.Hessian;
 

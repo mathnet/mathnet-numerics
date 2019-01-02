@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MathNet.Numerics.Optimization
 {
-    public class ModelMinimizationResult
+    public class NonlinearMinimizationResult
     {
         public IObjectiveModel ModelInfoAtMinimum { get; private set; }
 
@@ -42,7 +42,7 @@ namespace MathNet.Numerics.Optimization
         public int Iterations { get; private set; }
         public ExitCondition ReasonForExit { get; private set; }
 
-        public ModelMinimizationResult(IObjectiveModel modelInfo, int iterations, ExitCondition reasonForExit)
+        public NonlinearMinimizationResult(IObjectiveModel modelInfo, int iterations, ExitCondition reasonForExit)
         {
             ModelInfoAtMinimum = modelInfo;
             Iterations = iterations;
