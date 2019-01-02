@@ -7,6 +7,16 @@ namespace MathNet.Numerics.Optimization
         IObjectiveModel CreateNew();
 
         /// <summary>
+        /// Get the y-values of the observations.
+        /// </summary>
+        Vector<double> ObservedY { get; }
+
+        /// <summary>
+        /// Get the values of the weights for the observations.
+        /// </summary>
+        Matrix<double> Weights { get; }
+
+        /// <summary>
         /// Get the y-values of the fitted model that correspond to the independent values.
         /// </summary>
         Vector<double> Values { get; }
@@ -37,6 +47,11 @@ namespace MathNet.Numerics.Optimization
         /// Get the covariance matrix.
         /// </summary>
         Matrix<double> Covariance { get; }
+
+        /// <summary>
+        /// Get the correlation matrix.
+        /// </summary>
+        Matrix<double> Correlation { get; }
 
         /// <summary>
         /// Get the number of calls to function.

@@ -124,6 +124,11 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
         public Matrix<double> Covariance { get; private set; }
 
         /// <summary>
+        /// Get the correlation matrix.
+        /// </summary>
+        public Matrix<double> Correlation { get; private set; }
+
+        /// <summary>
         /// Get the number of calls to function.
         /// </summary>
         public int FunctionEvaluations { get; set; }
@@ -484,18 +489,23 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
             EvaluateFunction(Pext);
             EvaluateJacobian(Pext);
 
+            // restore isBounded
+            this.IsBounded = (LowerBound != null || UpperBound != null);
+
             if (Hessian == null || Residuals == null || DegreeOfFreedom < 1)
             {
                 Covariance = null;
+                Correlation = null;
                 return;
             }
 
             var covariance = Hessian.PseudoInverse() * Residuals.DotProduct(Residuals) / DegreeOfFreedom;
-
             Covariance = covariance;
 
-            // restore isBounded
-            this.IsBounded = (LowerBound != null || UpperBound != null);
+            var correlation = covariance.Clone();
+            var d = correlation.Diagonal().PointwiseSqrt();
+            var dd = d.OuterProduct(d);
+            Correlation = correlation.PointwiseDivide(dd);
 
             return;
         }
