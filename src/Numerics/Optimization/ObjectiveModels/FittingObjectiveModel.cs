@@ -188,7 +188,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
                 EvaluateFunction(point);
                 EvaluateJacobian(point);
 
-                return new Tuple<double, Vector<double>, Matrix<double>>(Residue, -Gradient, Hessian);
+                return new Tuple<double, Vector<double>, Matrix<double>>(Residue, Gradient, Hessian);
             }
 
             LowerBound = null;
@@ -465,10 +465,10 @@ namespace MathNet.Numerics.Optimization.ObjectiveModels
                 }
             }
 
-            // Gradient, g = J'W(y − f(x; p)) = J'L(L'E) = J'LR
+            // Gradient, g = -J'W(y − f(x; p)) = -J'L(L'E) = -J'LR
             Gradient = (Weights == null)
-                ? Jacobian.Transpose() * (ObservedY - Values)
-                : Jacobian.Transpose() * Weights * (ObservedY - Values);
+                ? -Jacobian.Transpose() * (ObservedY - Values)
+                : -Jacobian.Transpose() * Weights * (ObservedY - Values);
 
             // approximated Hessian, H = J'WJ + ∑LRiHi ~ J'WJ near the minimum
             Hessian = (Weights == null)

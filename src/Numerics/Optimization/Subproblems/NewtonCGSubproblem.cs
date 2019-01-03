@@ -15,11 +15,12 @@ namespace MathNet.Numerics.Optimization.Subproblems
             var Hessian = objective.Hessian;
 
             // define tolerance
-            var tolerance = Math.Min(0.5, Math.Sqrt(Gradient.L2Norm())) * Gradient.L2Norm();
+            var gnorm = Gradient.L2Norm();
+            var tolerance = Math.Min(0.5, Math.Sqrt(gnorm)) * gnorm;
 
             // initialize internal variables
             var z = Vector<double>.Build.Dense(Hessian.RowCount);
-            var r = -Gradient;
+            var r = Gradient;
             var d = -r;
 
             while (true)

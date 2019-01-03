@@ -92,14 +92,14 @@ namespace MathNet.Numerics.Optimization
             //    Residuals, R = L(y - f(x; p))
             //    Residual sum of squares, RSS = ||R||^2 = R.DotProduct(R)
             //    Jacobian J = df(x; p)/dp
-            //    Gradient g = J'W(y − f(x; p)) = J'LR 
+            //    Gradient g = -J'W(y − f(x; p)) = -J'LR 
             //    Approximated Hessian H = J'WJ
             //
             // The Levenberg-Marquardt algorithm is summarized as follows:
-            //    initially let μ = τ * max(diag(J'WJ)).
+            //    initially let μ = τ * max(diag(H)).
             //    repeat 
-            //       solve linear equations: (J'WJ + μI)ΔP = J'R
-            //       let ρ = (||R||^2 - ||Rnew||^2) / (Δp'(μΔp + J'R)).
+            //       solve linear equations: (H + μI)ΔP = -g
+            //       let ρ = (||R||^2 - ||Rnew||^2) / (Δp'(μΔp - g)).
             //       if ρ > ε, P = P + ΔP; μ = μ * max(1/3, 1 - (2ρ - 1)^3); ν = 2;
             //       otherwise μ = μ*ν; ν = 2*ν;
             //
@@ -186,7 +186,7 @@ namespace MathNet.Numerics.Optimization
                     Hessian.SetDiagonal(Hessian.Diagonal() + mu); // hessian[i, i] = hessian[i, i] + mu;
                     
                     // solve normal equations
-                    Pstep = Hessian.Solve(Gradient);
+                    Pstep = Hessian.Solve(-Gradient);
 
                     // if ||ΔP|| <= xTol * (||P|| + xTol), found and stop
                     if (Pstep.L2Norm() <= stepTolerance * (stepTolerance + P.DotProduct(P)))
@@ -207,8 +207,8 @@ namespace MathNet.Numerics.Optimization
                     }
 
                     // calculate the ratio of the actual to the predicted reduction.
-                    // ρ = (RSS - RSSnew) / (Δp'(μΔp + g))
-                    var predictedReduction = Pstep.DotProduct(mu * Pstep + Gradient);
+                    // ρ = (RSS - RSSnew) / (Δp'(μΔp - g))
+                    var predictedReduction = Pstep.DotProduct(mu * Pstep - Gradient);
                     var rho = (predictedReduction != 0)
                             ? (RSS - RSSnew) / predictedReduction
                             : 0;

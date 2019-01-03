@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Optimization
             //    Residuals, R = L(y - f(x; p))
             //    Residual sum of squares, RSS = ||R||^2 = R.DotProduct(R)
             //    Jacobian J = df(x; p)/dp
-            //    Gradient g = J'W(y − f(x; p)) = J'LR
+            //    Gradient g = -J'W(y − f(x; p)) = -J'LR
             //    Approximated Hessian H = J'WJ
             //
             // The trust region algorithm is summarized as follows:
@@ -190,8 +190,8 @@ namespace MathNet.Numerics.Optimization
                 subproblem.Solve(objective, delta);
                 var Pstep = subproblem.Pstep;
                 var hitBoundary = subproblem.HitBoundary;
-                // predicted reduction = L(0) - L(Δp) = Δp'g - 1/2 * Δp'HΔp
-                var predictedReduction = objective.Gradient.DotProduct(Pstep) - 0.5 * Pstep.DotProduct(objective.Hessian * Pstep);
+                // predicted reduction = L(0) - L(Δp) = -Δp'g - 1/2 * Δp'HΔp
+                var predictedReduction = -objective.Gradient.DotProduct(Pstep) - 0.5 * Pstep.DotProduct(objective.Hessian * Pstep);
 
                 if (Pstep.L2Norm() <= stepTolerance * (stepTolerance + P.L2Norm()))
                 {

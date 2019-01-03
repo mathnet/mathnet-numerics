@@ -15,12 +15,12 @@ namespace MathNet.Numerics.Optimization.Subproblems
 
             // newton point
             // the Gauss–Newton step by solving the normal equations
-            var Pgn = Hessian.PseudoInverse() * Gradient; // Hessian.Solve(Gradient) fails so many times...
+            var Pgn = -Hessian.PseudoInverse() * Gradient; // Hessian.Solve(Gradient) fails so many times...
 
             // cauchy point
             // steepest descent direction is given by
             var alpha = Gradient.DotProduct(Gradient) / (Hessian * Gradient).DotProduct(Gradient);
-            var Psd = alpha * Gradient;
+            var Psd = -alpha * Gradient;
 
             // update step and prectted reduction
             if (Pgn.L2Norm() <= delta)
