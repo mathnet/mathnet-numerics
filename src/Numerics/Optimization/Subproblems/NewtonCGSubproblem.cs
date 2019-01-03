@@ -58,7 +58,7 @@ namespace MathNet.Numerics.Optimization.Subproblems
 
                 z = znext;
                 r = rnext;
-                d = -rnext + rnext_sq / r_sq * d; ;
+                d = -rnext + rnext_sq / r_sq * d;
             }
         }
     }

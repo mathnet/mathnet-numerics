@@ -1,5 +1,6 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MathNet.Numerics.Optimization
@@ -44,24 +45,31 @@ namespace MathNet.Numerics.Optimization
             MaximumIterations = maximumIterations;
         }
 
-        public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess)
+        public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess,
+            Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null)
         {
             if (objective == null)
                 throw new ArgumentNullException("objective");
             if (initialGuess == null)
                 throw new ArgumentNullException("initialGuess");
 
-            return Minimum(objective, initialGuess, InitialMu, FunctionTolerance, GradientTolerance, StepTolerance, MaximumIterations);
+            return Minimum(objective, initialGuess, lowerBound, upperBound, scales, isFixed, InitialMu, FunctionTolerance, GradientTolerance, StepTolerance, MaximumIterations);
         }
 
-        public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess)
+        public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess,
+            double[] lowerBound = null, double[] upperBound = null, double[] scales = null, bool[] isFixed = null)
         {
             if (objective == null)
                 throw new ArgumentNullException("objective");
             if (initialGuess == null)
                 throw new ArgumentNullException("initialGuess");
 
-            return Minimum(objective, CreateVector.DenseOfArray<double>(initialGuess), InitialMu, GradientTolerance, StepTolerance, FunctionTolerance, MaximumIterations);
+            var lb = (lowerBound == null) ? null : CreateVector.Dense<double>(lowerBound);
+            var ub = (upperBound == null) ? null : CreateVector.Dense<double>(upperBound);
+            var sc = (scales == null) ? null : CreateVector.Dense<double>(scales);
+            var fx = (isFixed == null) ? null : isFixed.ToList();
+
+            return Minimum(objective, CreateVector.DenseOfArray<double>(initialGuess), lb, ub, sc, fx, InitialMu, GradientTolerance, StepTolerance, FunctionTolerance, MaximumIterations);
         }
 
         /// <summary>
@@ -75,7 +83,9 @@ namespace MathNet.Numerics.Optimization
         /// <param name="functionTolerance">The stopping threshold for L2 norm of the residuals.</param>
         /// <param name="maximumIterations">The max iterations.</param>
         /// <returns>The result of the Levenberg-Marquardt minimization</returns>
-        public static NonlinearMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess, double initialMu = 1E-3, double gradientTolerance = 1E-18, double stepTolerance = 1E-18, double functionTolerance = 1E-18, int maximumIterations = -1)
+        public static NonlinearMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess,
+            Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null,
+            double initialMu = 1E-3, double gradientTolerance = 1E-18, double stepTolerance = 1E-18, double functionTolerance = 1E-18, int maximumIterations = -1)
         {
             // Non-linear least square fitting by the Levenberg-Marduardt algorithm.
             //
@@ -118,23 +128,24 @@ namespace MathNet.Numerics.Optimization
             if (initialGuess == null)
                 throw new ArgumentNullException("initialGuess");
 
+            objective.SetParameters(initialGuess, lowerBound, upperBound, scales, isFixed);
+
             ExitCondition exitCondition = ExitCondition.None;
 
             // Initialize objective
             objective.FunctionEvaluations = 0;
             objective.JacobianEvaluations = 0;
+            objective.IsFinished = false;
 
             // First, calculate function values and setup variables
-            objective.EvaluateFunction(initialGuess);
-            var P = objective.Parameters; // current parameters
+            objective.EvaluateAt(initialGuess);
+            var P = objective.Point; // current parameters
             var Pstep = Vector<double>.Build.Dense(P.Count); // the change of parameters    
-            var RSS = objective.Residue; // Residual Sum of Squares = R'R
+            var RSS = objective.Value; // Residual Sum of Squares = R'R
 
             if (maximumIterations < 0)
             {
-                maximumIterations = (objective.IsJacobianSupported)
-                    ? 100 * (initialGuess.Count + 1)
-                    : 200 * (initialGuess.Count + 1);
+                maximumIterations = 200 * (initialGuess.Count + 1);
             }
 
             // if RSS == NaN, stop
@@ -157,9 +168,8 @@ namespace MathNet.Numerics.Optimization
             }
 
             // Evaluate gradient and Hessian
-            objective.EvaluateJacobian(P);
             var Gradient = objective.Gradient;
-            var Hessian = objective.Hessian; 
+            var Hessian = objective.Hessian;
             var diagonalOfHessian = Hessian.Diagonal(); // diag(H)
 
             // if ||g||oo <= gtol, found and stop
@@ -170,7 +180,6 @@ namespace MathNet.Numerics.Optimization
 
             if (exitCondition != ExitCondition.None)
             {
-                objective.EvaluateCovariance(P);
                 return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
@@ -197,8 +206,8 @@ namespace MathNet.Numerics.Optimization
 
                     var Pnew = P + Pstep; // new parameters to test
 
-                    objective.EvaluateFunction(Pnew);
-                    var RSSnew = objective.Residue;
+                    objective.EvaluateAt(Pnew);
+                    var RSSnew = objective.Value;
 
                     if (double.IsNaN(RSSnew))
                     {
@@ -220,7 +229,6 @@ namespace MathNet.Numerics.Optimization
                         RSS = RSSnew;
 
                         // update gradient and Hessian
-                        objective.EvaluateJacobian(P);
                         Gradient = objective.Gradient;
                         Hessian = objective.Hessian;
                         diagonalOfHessian = Hessian.Diagonal();                        
@@ -257,9 +265,6 @@ namespace MathNet.Numerics.Optimization
             {
                 exitCondition = ExitCondition.ExceedIterations;
             }
-
-            // finalize
-            objective.EvaluateCovariance(P);
 
             return new NonlinearMinimizationResult(objective, iterations, exitCondition);
         }

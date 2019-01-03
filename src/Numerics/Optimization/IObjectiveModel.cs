@@ -1,4 +1,5 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
+using System.Collections.Generic;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -19,44 +20,33 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// Get the y-values of the fitted model that correspond to the independent values.
         /// </summary>
-        Vector<double> Values { get; }
+        Vector<double> ModelValues { get; }
 
         /// <summary>
         /// Get the values of the parameters.
         /// </summary>
-        Vector<double> Parameters { get; }
+        Vector<double> Point { get; }
 
         /// <summary>
         /// Get the residual sum of squares.
         /// </summary>
-        double Residue { get; }
+        double Value { get; }
 
-        /// <summary>
-        /// Get the Jacobian matrix, J(x; p) = df(x; p)/dp.
-        /// </summary>
-        Matrix<double> Jacobian { get; }
         /// <summary>
         /// Get the Gradient vector. G = J'(y - f(x; p))
         /// </summary>
         Vector<double> Gradient { get; }
+
         /// <summary>
         /// Get the approximated Hessian matrix. H = J'J
         /// </summary>
         Matrix<double> Hessian { get; }
-        /// <summary>
-        /// Get the covariance matrix.
-        /// </summary>
-        Matrix<double> Covariance { get; }
-
-        /// <summary>
-        /// Get the correlation matrix.
-        /// </summary>
-        Matrix<double> Correlation { get; }
 
         /// <summary>
         /// Get the number of calls to function.
         /// </summary>
         int FunctionEvaluations { get; set; }
+
         /// <summary>
         /// Get the number of calls to jacobian.
         /// </summary>
@@ -67,17 +57,17 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         int DegreeOfFreedom { get; }
 
-        /// <summary>
-        /// Get whether or not the analytical jacobian is supported.
-        /// </summary>
-        bool IsJacobianSupported { get; }
+        bool IsGradientSupported { get; }
+        bool IsHessianSupported { get; }
+
+        bool IsFinished { get; set; }
     }
 
     public interface IObjectiveModel : IObjectiveModelEvaluation
     {
-        void EvaluateFunction(Vector<double> parameters);
-        void EvaluateJacobian(Vector<double> parameters);
-        void EvaluateCovariance(Vector<double> parameters);
+        void SetParameters(Vector<double> initialGuess, Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null);
+
+        void EvaluateAt(Vector<double> parameters);
 
         /// <summary>Create a new independent copy of this objective function, evaluated at the same point.</summary>
         IObjectiveModel Fork();

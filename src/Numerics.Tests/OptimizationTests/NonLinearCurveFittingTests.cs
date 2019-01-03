@@ -55,10 +55,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             }
 
             // box constrained
-            obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY,
-                lowerBound: RosebbrockLowerBound, upperBound: RosenbrockUpperBound);
+            obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockPrime, RosenbrockX, RosenbrockY);
             solver = new LevenbergMarquardtMinimizer(maximumIterations: 10000);
-            result = solver.FindMinimum(obj, RosenbrockStart1);
+            result = solver.FindMinimum(obj, RosenbrockStart1, lowerBound: RosebbrockLowerBound, upperBound: RosenbrockUpperBound);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -80,11 +79,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             }
 
             // box constrained
-            obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockX, RosenbrockY,
-                lowerBound: RosebbrockLowerBound, upperBound: RosenbrockUpperBound,
-                accuracyOrder: 6);
+            obj = ObjectiveModel.FittingModel(RosenbrockModel, RosenbrockX, RosenbrockY, accuracyOrder: 6);
             solver = new LevenbergMarquardtMinimizer(maximumIterations: 10000);
-            result = solver.FindMinimum(obj, RosenbrockStart1);
+            result = solver.FindMinimum(obj, RosenbrockStart1, lowerBound: RosebbrockLowerBound, upperBound: RosenbrockUpperBound);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -272,10 +269,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             // lower < parameters < upper
             // Note that in this case, scales have no effect.
 
-            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
-                lowerBound: BoxBodLowerBound, upperBound: BoxBodUpperBound);
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
             solver = new LevenbergMarquardtMinimizer();
-            result = solver.FindMinimum(obj, BoxBodStart1);
+            result = solver.FindMinimum(obj, BoxBodStart1, lowerBound: BoxBodLowerBound, upperBound: BoxBodUpperBound);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -285,10 +281,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
             // lower < parameters, no scales
 
-            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
-                lowerBound: BoxBodLowerBound);
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
             solver = new LevenbergMarquardtMinimizer();
-            result = solver.FindMinimum(obj, BoxBodStart1);
+            result = solver.FindMinimum(obj, BoxBodStart1, lowerBound: BoxBodLowerBound);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -298,10 +293,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
             // lower < parameters, scales
 
-            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
-                lowerBound: BoxBodLowerBound, scales: BoxBodScales);
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
             solver = new LevenbergMarquardtMinimizer();
-            result = solver.FindMinimum(obj, BoxBodStart1);
+            result = solver.FindMinimum(obj, BoxBodStart1, lowerBound: BoxBodLowerBound, scales: BoxBodScales);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -311,10 +305,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
             // parameters < upper, no scales
 
-            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
-                upperBound: BoxBodUpperBound);
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
             solver = new LevenbergMarquardtMinimizer();
-            result = solver.FindMinimum(obj, BoxBodStart1);
+            result = solver.FindMinimum(obj, BoxBodStart1, upperBound: BoxBodUpperBound);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -324,10 +317,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
             // parameters < upper, scales
 
-            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
-                upperBound: BoxBodUpperBound, scales: BoxBodScales);
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
             solver = new LevenbergMarquardtMinimizer();
-            result = solver.FindMinimum(obj, BoxBodStart1);
+            result = solver.FindMinimum(obj, BoxBodStart1, upperBound: BoxBodUpperBound, scales: BoxBodScales);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -337,10 +329,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
 
             // only scales
 
-            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY,
-                scales: BoxBodScales);
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
             solver = new LevenbergMarquardtMinimizer();
-            result = solver.FindMinimum(obj, BoxBodStart1);
+            result = solver.FindMinimum(obj, BoxBodStart1, scales: BoxBodScales);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -364,11 +355,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             }
 
             // box constrained
-            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodX, BoxBodY,
-                lowerBound: BoxBodLowerBound, upperBound: BoxBodUpperBound,
-                accuracyOrder: 6);
+            obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodX, BoxBodY, accuracyOrder: 6);
             solver = new LevenbergMarquardtMinimizer();
-            result = solver.FindMinimum(obj, BoxBodStart1);
+            result = solver.FindMinimum(obj, BoxBodStart1, lowerBound: BoxBodLowerBound, upperBound: BoxBodUpperBound);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -394,9 +383,10 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void BoxBod_TRNCG_Dif()
         {
-            var obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodX, BoxBodY, accuracyOrder: 6);
+            var obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodPrime, BoxBodX, BoxBodY);
+            //var obj = ObjectiveModel.FittingModel(BoxBodModel, BoxBodX, BoxBodY, accuracyOrder: 6);
             var solver = new TrustRegionNewtonCGMinimizer();
-            var result = solver.FindMinimum(obj, BoxBodStart1);
+            var result = solver.FindMinimum(obj, BoxBodStart2);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -528,11 +518,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void Thurber_TRDL_Dif()
         {
-            var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberX, ThurberY,
-                scales: ThurberScales,
-                accuracyOrder: 6);
+            var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberX, ThurberY, accuracyOrder: 6);
             var solver = new TrustRegionDogLegMinimizer();
-            var result = solver.FindMinimum(obj, ThurberStart);
+            var result = solver.FindMinimum(obj, ThurberStart, scales: ThurberScales);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
@@ -544,11 +532,9 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         [Test]
         public void Thurber_TRNCG_Dif()
         {
-            var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberX, ThurberY,
-                scales: ThurberScales,
-                accuracyOrder: 6);
+            var obj = ObjectiveModel.FittingModel(ThurberModel, ThurberX, ThurberY, accuracyOrder: 6);
             var solver = new TrustRegionNewtonCGMinimizer();
-            var result = solver.FindMinimum(obj, ThurberStart);
+            var result = solver.FindMinimum(obj, ThurberStart, scales: ThurberScales);
 
             for (int i = 0; i < result.BestFitParameters.Count; i++)
             {
