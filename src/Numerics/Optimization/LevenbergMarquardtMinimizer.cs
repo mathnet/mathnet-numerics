@@ -5,55 +5,23 @@ using System.Linq;
 
 namespace MathNet.Numerics.Optimization
 {
-    public sealed class LevenbergMarquardtMinimizer
+    public class LevenbergMarquardtMinimizer : NonlinearMinimizerBase
     {
-        #region Tolerances and options
-
         /// <summary>
         /// The scale factor for initial mu
         /// </summary>
         public static double InitialMu { get; set; }
 
-        /// <summary>
-        /// The stopping threshold for infinity norm of the gradient.
-        /// </summary>
-        public static double GradientTolerance { get; set; }
-
-        /// <summary>
-        /// The stopping threshold for L2 norm of the change of the parameters.
-        /// </summary>
-        public static double StepTolerance { get; set; }
-
-        /// <summary>
-        /// The stopping threshold for the function value or L2 norm of the residuals.
-        /// </summary>
-        public static double FunctionTolerance { get; set; }
-
-        /// <summary>
-        /// The maximum number of iterations.
-        /// </summary>
-        public int MaximumIterations { get; set; }
-
-        #endregion Tolerances and options
-
-        public LevenbergMarquardtMinimizer(double initialMu = 1E-3, double gradientTolerance = 1E-18, double stepTolerance = 1E-18, double functionTolerance = 1E-18, int maximumIterations = -1)
+        public LevenbergMarquardtMinimizer(double initialMu = 1E-3, double gradientTolerance = 1E-15, double stepTolerance = 1E-15, double functionTolerance = 1E-15, int maximumIterations = -1)
+            : base(gradientTolerance, stepTolerance, functionTolerance, maximumIterations)
         {
             InitialMu = initialMu;
-            GradientTolerance = gradientTolerance;
-            StepTolerance = stepTolerance;
-            FunctionTolerance = functionTolerance;
-            MaximumIterations = maximumIterations;
         }
 
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess,
             Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null)
         {
-            if (objective == null)
-                throw new ArgumentNullException("objective");
-            if (initialGuess == null)
-                throw new ArgumentNullException("initialGuess");
-
-            return Minimum(objective, initialGuess, lowerBound, upperBound, scales, isFixed, InitialMu, FunctionTolerance, GradientTolerance, StepTolerance, MaximumIterations);
+            return Minimum(objective, initialGuess, lowerBound, upperBound, scales, isFixed, InitialMu, GradientTolerance, StepTolerance, FunctionTolerance, MaximumIterations);
         }
 
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess,
@@ -85,7 +53,7 @@ namespace MathNet.Numerics.Optimization
         /// <returns>The result of the Levenberg-Marquardt minimization</returns>
         public static NonlinearMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess,
             Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null,
-            double initialMu = 1E-3, double gradientTolerance = 1E-18, double stepTolerance = 1E-18, double functionTolerance = 1E-18, int maximumIterations = -1)
+            double initialMu = 1E-3, double gradientTolerance = 1E-15, double stepTolerance = 1E-15, double functionTolerance = 1E-15, int maximumIterations = -1)
         {
             // Non-linear least square fitting by the Levenberg-Marduardt algorithm.
             //
@@ -125,23 +93,16 @@ namespace MathNet.Numerics.Optimization
             if (objective == null)
                 throw new ArgumentNullException("objective");
             
-            if (initialGuess == null)
-                throw new ArgumentNullException("initialGuess");
-
-            objective.SetParameters(initialGuess, lowerBound, upperBound, scales, isFixed);
+            ValidateBounds(initialGuess, lowerBound, upperBound, scales);
+            
+            objective.SetParameters(initialGuess, isFixed);
 
             ExitCondition exitCondition = ExitCondition.None;
 
-            // Initialize objective
-            objective.FunctionEvaluations = 0;
-            objective.JacobianEvaluations = 0;
-            objective.IsFinished = false;
-
             // First, calculate function values and setup variables
-            objective.EvaluateAt(initialGuess);
-            var P = objective.Point; // current parameters
+            var P = ProjectToInternalParameters(initialGuess); // current internal parameters
             var Pstep = Vector<double>.Build.Dense(P.Count); // the change of parameters    
-            var RSS = objective.Value; // Residual Sum of Squares = R'R
+            var RSS = EvaluateFunction(objective, P);  // Residual Sum of Squares = R'R
 
             if (maximumIterations < 0)
             {
@@ -168,8 +129,9 @@ namespace MathNet.Numerics.Optimization
             }
 
             // Evaluate gradient and Hessian
-            var Gradient = objective.Gradient;
-            var Hessian = objective.Hessian;
+            var jac = EvaluateJacobian(objective, P);
+            var Gradient = jac.Item1; // objective.Gradient;
+            var Hessian = jac.Item2; // objective.Hessian;
             var diagonalOfHessian = Hessian.Diagonal(); // diag(H)
 
             // if ||g||oo <= gtol, found and stop
@@ -200,14 +162,13 @@ namespace MathNet.Numerics.Optimization
                     // if ||ΔP|| <= xTol * (||P|| + xTol), found and stop
                     if (Pstep.L2Norm() <= stepTolerance * (stepTolerance + P.DotProduct(P)))
                     {
-                        exitCondition = ExitCondition.RelativePoints; // SmallRelativeParameters
+                        exitCondition = ExitCondition.RelativePoints;
                         break;
                     }
 
                     var Pnew = P + Pstep; // new parameters to test
-
-                    objective.EvaluateAt(Pnew);
-                    var RSSnew = objective.Value;
+                    // evaluate function at Pnew
+                    var RSSnew = EvaluateFunction(objective, Pnew);
 
                     if (double.IsNaN(RSSnew))
                     {
@@ -229,8 +190,9 @@ namespace MathNet.Numerics.Optimization
                         RSS = RSSnew;
 
                         // update gradient and Hessian
-                        Gradient = objective.Gradient;
-                        Hessian = objective.Hessian;
+                        jac = EvaluateJacobian(objective, P);
+                        Gradient = jac.Item1; // objective.Gradient;
+                        Hessian = jac.Item2; // objective.Hessian;
                         diagonalOfHessian = Hessian.Diagonal();                        
 
                         // if ||g||_oo <= gtol, found and stop

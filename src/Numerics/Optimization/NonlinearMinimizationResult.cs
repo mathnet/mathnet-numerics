@@ -1,8 +1,4 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MathNet.Numerics.Optimization
 {
@@ -13,7 +9,7 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// Returns the best fit parameters.
         /// </summary>
-        public Vector<double> BestFitParameters { get { return ModelInfoAtMinimum.Point; } }
+        public Vector<double> MinimizingPoint { get { return ModelInfoAtMinimum.Point; } }
 
         /// <summary>
         /// Returns the standard errors of the corresponding parameters 
@@ -23,17 +19,20 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// Returns the y-values of the fitted model that correspond to the independent values.
         /// </summary>
-        public Vector<double> BestFitValues { get { return ModelInfoAtMinimum.ModelValues; } }
+        public Vector<double> MinimizedValues { get { return ModelInfoAtMinimum.ModelValues; } }
 
         /// <summary>
-        /// Returns the residual sum of squares.
+        /// Returns the covariance matrix at minimizing point.
         /// </summary>
-        public double Residue { get { return ModelInfoAtMinimum.Value; } }
-        public double DegreeOfFreedom { get { return ModelInfoAtMinimum.DegreeOfFreedom; } }
         public Matrix<double> Covariance { get; private set; }
+
+        /// <summary>
+        ///  Returns the correlation matrix at minimizing point.
+        /// </summary>
         public Matrix<double> Correlation { get; private set; }
 
         public int Iterations { get; private set; }
+
         public ExitCondition ReasonForExit { get; private set; }
 
         public NonlinearMinimizationResult(IObjectiveModel modelInfo, int iterations, ExitCondition reasonForExit)
@@ -42,16 +41,15 @@ namespace MathNet.Numerics.Optimization
             Iterations = iterations;
             ReasonForExit = reasonForExit;
 
-            AnalyzeResult(modelInfo);
+            EvaluateCovariance(modelInfo);
         }
 
-        private void AnalyzeResult(IObjectiveModel objective)
+        private void EvaluateCovariance(IObjectiveModel objective)
         {
-            objective.IsFinished = true;
-            objective.EvaluateAt(objective.Point);
+            objective.EvaluateAt(objective.Point); // Hessian may be not yet updated.
 
             var Hessian = objective.Hessian;
-            if (Hessian == null || DegreeOfFreedom < 1)
+            if (Hessian == null || objective.DegreeOfFreedom < 1)
             {
                 Covariance = null;
                 Correlation = null;
@@ -59,7 +57,7 @@ namespace MathNet.Numerics.Optimization
                 return;
             }
 
-            Covariance = Hessian.PseudoInverse() * objective.Value / DegreeOfFreedom;
+            Covariance = Hessian.PseudoInverse() * objective.Value / objective.DegreeOfFreedom;
 
             if (Covariance != null)
             {

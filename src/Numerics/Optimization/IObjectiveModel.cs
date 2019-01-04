@@ -59,17 +59,14 @@ namespace MathNet.Numerics.Optimization
 
         bool IsGradientSupported { get; }
         bool IsHessianSupported { get; }
-
-        bool IsFinished { get; set; }
     }
 
     public interface IObjectiveModel : IObjectiveModelEvaluation
     {
-        void SetParameters(Vector<double> initialGuess, Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null);
+        void SetParameters(Vector<double> initialGuess, List<bool> isFixed = null);
 
         void EvaluateAt(Vector<double> parameters);
 
-        /// <summary>Create a new independent copy of this objective function, evaluated at the same point.</summary>
         IObjectiveModel Fork();
 
         IObjectiveFunction ToObjectiveFunction();

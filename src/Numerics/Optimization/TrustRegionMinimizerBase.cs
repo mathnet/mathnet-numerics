@@ -5,57 +5,32 @@ using System.Linq;
 
 namespace MathNet.Numerics.Optimization
 {
-    public abstract class TrustRegionMinimizerBase
+    public abstract class TrustRegionMinimizerBase : NonlinearMinimizerBase
     {
+        /// <summary>
+        /// The trust region subproblem. 
+        /// </summary>
         public static ITrustRegionSubproblem Subproblem;
-
-        /// <summary>
-        /// The stopping threshold for infinity norm of the gradient.
-        /// </summary>
-        public static double GradientTolerance { get; set; }
-
-        /// <summary>
-        /// The stopping threshold for L2 norm of the change of the parameters.
-        /// </summary>
-        public static double StepTolerance { get; set; }
-
-        /// <summary>
-        /// The stopping threshold for the function value or L2 norm of the residuals.
-        /// </summary>
-        public static double FunctionTolerance { get; set; }
 
         /// <summary>
         /// The stopping threshold for the trust region radius.
         /// </summary>
         public static double RadiusTolerance { get; set; }
 
-        /// <summary>
-        /// The maximum number of iterations.
-        /// </summary>
-        public int MaximumIterations { get; set; }
-        
         public TrustRegionMinimizerBase(ITrustRegionSubproblem subproblem,
             double gradientTolerance = 1E-8, double stepTolerance = 1E-8, double functionTolerance = 1E-8, double radiusTolerance = 1E-8, int maximumIterations = -1)
+            : base(gradientTolerance, stepTolerance, functionTolerance, maximumIterations)
         {
             if (subproblem == null)
                 throw new ArgumentNullException("subproblem");
 
             Subproblem = subproblem;
-            FunctionTolerance = functionTolerance;
-            GradientTolerance = gradientTolerance;
-            StepTolerance = stepTolerance;
             RadiusTolerance = radiusTolerance;
-            MaximumIterations = maximumIterations;            
         }
 
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, Vector<double> initialGuess,
             Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null)
         {
-            if (objective == null)
-                throw new ArgumentNullException("objective");
-            if (initialGuess == null)
-                throw new ArgumentNullException("initialGuess");
-
             return Minimum(Subproblem, objective, initialGuess, lowerBound, upperBound, scales, isFixed,
                 GradientTolerance, StepTolerance, FunctionTolerance, RadiusTolerance, MaximumIterations);
         }
@@ -63,11 +38,6 @@ namespace MathNet.Numerics.Optimization
         public NonlinearMinimizationResult FindMinimum(IObjectiveModel objective, double[] initialGuess,
             double[] lowerBound = null, double[] upperBound = null, double[] scales = null, bool[] isFixed = null)
         {
-            if (objective == null)
-                throw new ArgumentNullException("objective");
-            if (initialGuess == null)
-                throw new ArgumentNullException("initialGuess");
-
             var lb = (lowerBound == null) ? null : CreateVector.Dense<double>(lowerBound);
             var ub = (upperBound == null) ? null : CreateVector.Dense<double>(upperBound);
             var sc = (scales == null) ? null : CreateVector.Dense<double>(scales);
@@ -133,23 +103,17 @@ namespace MathNet.Numerics.Optimization
 
             if (objective == null)
                 throw new ArgumentNullException("objective");
-            if (initialGuess == null)
-                throw new ArgumentNullException("initialGuess");
 
-            objective.SetParameters(initialGuess, lowerBound, upperBound, scales, isFixed);
+            ValidateBounds(initialGuess, lowerBound, upperBound, scales);
+
+            objective.SetParameters(initialGuess, isFixed);
 
             ExitCondition exitCondition = ExitCondition.None;
 
-            // Initialize objective
-            objective.FunctionEvaluations = 0;
-            objective.JacobianEvaluations = 0;
-            objective.IsFinished = false;
-
             // First, calculate function values and setup variables
-            objective.EvaluateAt(initialGuess);
-            var P = objective.Point; // current parameters
-            var RSS = objective.Value; // Residual Sum of Squares = R'R
-            var RSSinit = RSS; // RSS at initial gussing parameters
+            var P = ProjectToInternalParameters(initialGuess); // current internal parameters
+            var Pstep = Vector<double>.Build.Dense(P.Count); // the change of parameters    
+            var RSS = EvaluateFunction(objective, initialGuess); // Residual Sum of Squares
 
             if (maximumIterations < 0)
             {
@@ -176,8 +140,9 @@ namespace MathNet.Numerics.Optimization
             }
 
             // evaluate projected gradient and Hessian
-            var Gradient = objective.Gradient;
-            var Hessian = objective.Hessian;            
+            var jac = EvaluateJacobian(objective, P);
+            var Gradient = jac.Item1; // objective.Gradient;
+            var Hessian = jac.Item2; // objective.Hessian;            
 
             // if ||g||_oo <= gtol, found and stop
             if (Gradient.InfinityNorm() <= gradientTolerance)
@@ -195,14 +160,16 @@ namespace MathNet.Numerics.Optimization
             delta = Math.Max(1.0, Math.Min(delta, maxDelta));
 
             int iterations = 0;
+            bool hitBoundary = false;
             while (iterations < maximumIterations && exitCondition == ExitCondition.None)
             {
                 iterations++;
 
                 // solve the subproblem
                 subproblem.Solve(objective, delta);
-                var Pstep = subproblem.Pstep;
-                var hitBoundary = subproblem.HitBoundary;
+                Pstep = subproblem.Pstep;
+                hitBoundary = subproblem.HitBoundary;
+
                 // predicted reduction = L(0) - L(Δp) = -Δp'g - 1/2 * Δp'HΔp
                 var predictedReduction = -Gradient.DotProduct(Pstep) - 0.5 * Pstep.DotProduct(Hessian * Pstep);
 
@@ -213,10 +180,9 @@ namespace MathNet.Numerics.Optimization
                 }
 
                 var Pnew = P + Pstep; // parameters to test
-
-                objective.EvaluateAt(Pnew);
-                var RSSnew = objective.Value;
-
+                // evaluate function at Pnew
+                var RSSnew = EvaluateFunction(objective, Pnew);
+                
                 // if RSS == NaN, stop
                 if (double.IsNaN(RSSnew))
                 {
@@ -238,7 +204,7 @@ namespace MathNet.Numerics.Optimization
                     delta = delta * 0.25;
                     if (delta <= radiusTolerance * (radiusTolerance + P.DotProduct(P)))
                     {
-                        exitCondition = ExitCondition.RelativePoints; // SmallRelativeParameters
+                        exitCondition = ExitCondition.LackOfProgress; 
                         break;
                     }
                 }
@@ -250,8 +216,9 @@ namespace MathNet.Numerics.Optimization
                     RSS = RSSnew;
 
                     // evaluate projected gradient and Hessian
-                    Gradient = objective.Gradient;
-                    Hessian = objective.Hessian;
+                    jac = EvaluateJacobian(objective, P);
+                    Gradient = jac.Item1; // objective.Gradient;
+                    Hessian = jac.Item2; // objective.Hessian;
 
                     // if ||g||_oo <= gtol, found and stop
                     if (Gradient.InfinityNorm() <= gradientTolerance)
