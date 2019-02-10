@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Cholesky&lt;T&gt; - Math.NET Numerics Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="../main.css"/>
+    <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="../js/navigation.js"></script>
+    <script type="text/javascript" src="../js/example.js"></script>
+  </head>
+  <body><div id="namespaces">
+	<h2 class="fixed">Namespaces</h2>
+	<div class="scroll">
+		<ul>
+			<li>
+          <a href="../MathNet.Numerics/index.htm">MathNet.Numerics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Differentiation/index.htm">MathNet.Numerics.Differentiation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Distributions/index.htm">MathNet.Numerics.Distributions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Financial/index.htm">MathNet.Numerics.Financial</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.IntegralTransforms/index.htm">MathNet.Numerics.IntegralTransforms</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Integration/index.htm">MathNet.Numerics.Integration</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Interpolation/index.htm">MathNet.Numerics.Interpolation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra/index.htm">MathNet.Numerics.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex/index.htm">MathNet.Numerics.LinearAlgebra.Complex</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32/index.htm">MathNet.Numerics.LinearAlgebra.Complex32</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex32.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double/index.htm">MathNet.Numerics.LinearAlgebra.Double</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Double.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Factorization/index.htm" class="current">MathNet.Numerics.LinearAlgebra.Factorization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single/index.htm">MathNet.Numerics.LinearAlgebra.Single</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Single.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Storage/index.htm">MathNet.Numerics.LinearAlgebra.Storage</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearRegression/index.htm">MathNet.Numerics.LinearRegression</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.OdeSolvers/index.htm">MathNet.Numerics.OdeSolvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization/index.htm">MathNet.Numerics.Optimization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.LineSearch/index.htm">MathNet.Numerics.Optimization.LineSearch</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.ObjectiveFunctions/index.htm">MathNet.Numerics.Optimization.ObjectiveFunctions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Properties/index.htm">MathNet.Numerics.Properties</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Random/index.htm">MathNet.Numerics.Random</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.RootFinding/index.htm">MathNet.Numerics.RootFinding</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics/index.htm">MathNet.Numerics.Statistics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics.Mcmc/index.htm">MathNet.Numerics.Statistics.Mcmc</a>
+      </li>
+		</ul>
+	</div>
+</div><div id="types">
+  <h2 class="fixed">Types in MathNet.Numerics.LinearAlgebra.Factorization</h2>
+	<div class="scroll">
+		<ul>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm" class="current">Cholesky&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Factorization/Evd`1.htm">Evd&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Factorization/GramSchmidt`1.htm">GramSchmidt&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Factorization/ISolver`1.htm">ISolver&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Factorization/LU`1.htm">LU&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Factorization/QR`1.htm">QR&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Factorization/QRMethod.htm">QRMethod</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Factorization/Svd`1.htm">Svd&lt;T&gt;</a>
+        </li>
+		</ul>
+	</div>
+</div>
+    <div class="header">
+		<p class="class"><strong>Type</strong> Cholesky&lt;T&gt;</p>
+		<p><strong>Namespace</strong> MathNet.Numerics.LinearAlgebra.Factorization</p>
+		<p><strong>Interfaces</strong> <a href="../MathNet.Numerics.LinearAlgebra.Factorization/ISolver`1.htm">ISolver&lt;T&gt;</a></p>
+	</div>
+    <div class="sub-header">
+			<div id="summary"><p>A class which encapsulates the functionality of a Cholesky factorization. </p> <p>For a symmetric, positive definite matrix A, the Cholesky factorization
+is an lower triangular matrix L so that A = L*L'. </p> <blockquote class="remarks">
+  The computation of the Cholesky factorization is done at construction time. If the matrix is not symmetric
+or positive definite, the constructor will throw an exception. 
+</blockquote>
+			</div>
+		
+
+			<h3 class="section">Methods</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#Factorize">Factorize</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#GetHashCode">GetHashCode</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#GetType">GetType</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#Solve">Solve</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#Solve">Solve</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#Solve">Solve</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#Solve">Solve</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#ToString">ToString</a></li>
+			</ul>
+		
+
+			<h3 class="section">Properties</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#Determinant">Determinant</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#DeterminantLn">DeterminantLn</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Factorization/Cholesky`1.htm#Factor">Factor</a></li>
+			</ul>
+		
+	</div>
+	
+	
+	
+
+	<h3 class="section">Public Methods</h3>
+	
+	<div id="Equals" class="method">
+		<h4><span title="System.bool">bool</span> <strong>Equals</strong>(<span title="System.object">object</span> obj)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Factorize" class="method">
+		<h4><span title="System.void">void</span> <strong>Factorize</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> matrix)</h4>
+		<div class="content">Calculates the Cholesky factorization of the input matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> matrix</h6>
+          <p class="comments">The matrix to be factorized <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a>. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="GetHashCode" class="method">
+		<h4><span title="System.int">int</span> <strong>GetHashCode</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="GetType" class="method">
+		<h4><span title="System.Type">Type</span> <strong>GetType</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Solve" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> input)</h4>
+		<div class="content">Solves a system of linear equations,  , with A Cholesky factorized. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> input</h6>
+          <p class="comments">The right hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
+        <p>The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Solve" class="method">
+		<h4><span title="System.void">void</span> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Solves a system of linear equations,  , with A Cholesky factorized. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> input</h6>
+          <p class="comments">The right hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Solve" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> input)</h4>
+		<div class="content">Solves a system of linear equations,  , with A Cholesky factorized. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> input</h6>
+          <p class="comments">The right hand side vector, . </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector`1</a> , . </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Solve" class="method">
+		<h4><span title="System.void">void</span> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Solves a system of linear equations,  , with A Cholesky factorized. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> input</h6>
+          <p class="comments">The right hand side vector, . </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	
+  <h3 class="section">Public Properties</h3>
+
+  <div id="Determinant" class="method">
+    <h4><span title="MathNet.Numerics.LinearAlgebra.Factorization.T">T</span> <strong>Determinant</strong> get; </h4>
+    <div class="content">Gets the determinant of the matrix for which the Cholesky matrix was computed. 
+      
+    </div>
+  </div>
+  <div id="DeterminantLn" class="method">
+    <h4><span title="MathNet.Numerics.LinearAlgebra.Factorization.T">T</span> <strong>DeterminantLn</strong> get; </h4>
+    <div class="content">Gets the log determinant of the matrix for which the Cholesky matrix was computed. 
+      
+    </div>
+  </div>
+  <div id="Factor" class="method">
+    <h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Factor</strong> get; set;</h4>
+    <div class="content">Gets the lower triangular form of the Cholesky matrix. 
+      
+    </div>
+  </div>
+	<div id="footer">
+  <p>Based on v4.7.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
+</div>
+  </body>
+</html>

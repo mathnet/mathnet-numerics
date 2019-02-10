@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Matrices and Vectors
+</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content="Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use. .Net 4, .Net 3.5, SL5, Win8, WP8, PCL 47 and 136, Mono, Xamarin Android/iOS."/>
+        <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael"/>
+
+        <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+        <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+        <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/style.css" />
+        <style>
+          #main table:not(.pre) {
+              border: 1px solid #dddddd;
+              max-width: 100%;
+              border-style: solid;
+              border-width: 1px;
+              border-color: gray;
+              border-collapse: collapse;
+              border-right-width: 1px;
+              border-bottom-width: 1px;
+              margin-top: 15px;
+              margin-bottom: 25px;
+          }
+          #main table:not(.pre) th, #main table:not(.pre) td {
+              border: 1px solid #dddddd;
+              padding: 6px;
+          }
+          #main table:not(.pre) th p, #main table:not(.pre) td p {
+              margin-bottom: 5px;
+          }
+        </style>
+        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/tips.js"></script>
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="masthead">
+                <ul class="nav nav-pills pull-right">
+                    <li><a href="https://www.mathdotnet.com">Math.NET Project</a></li>
+                    <li><a href="https://numerics.mathdotnet.com">Math.NET Numerics</a></li>
+                    <li><a href="https://github.com/mathnet/mathnet-numerics">GitHub</a></li>
+                </ul>
+                <h3 class="muted">Math.NET Numerics</h3>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="span9" id="main">
+                    
+<h1><a name="Matrices-and-Vectors" class="anchor" href="#Matrices-and-Vectors">Matrices and Vectors</a></h1>
+<p>Math.NET Numerics includes rich types for matrices and vectors.
+They support both single and double precision, real and complex floating point numbers.</p>
+<p><span class="math">\[\mathbf{A}=
+\begin{bmatrix}
+a_{0,0} &amp; a_{0,1} &amp; \cdots &amp; a_{0,(n-1)} \\
+a_{1,0} &amp; a_{1,1} &amp; \cdots &amp; a_{1,(n-1)} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+a_{(m-1),0} &amp; a_{(m-1),1} &amp; \cdots &amp; a_{(m-1),(n-1)}
+\end{bmatrix},\quad
+\mathbf{v}=\begin{bmatrix}v_0\\v_1\\ \vdots \\v_{n-1}\end{bmatrix}\]</span></p>
+<p>Like all data structures in .Net they are 0-indexed, i.e. the top left cell has index (0,0). In matrices,
+the first index always refers to the row and the second index to the column.
+Empty matrices or vectors are not supported, i.e. each dimension must have a length of at least 1.</p>
+<h3><a name="Context-Linear-Algebra" class="anchor" href="#Context-Linear-Algebra">Context: Linear Algebra</a></h3>
+<p>The context and primary scenario for these types is linear algebra. Their API is broad enough
+to use them in other contexts as well, but they are <em>not</em> optimized for geometry or
+as general purpose storage structure as common in MATLAB. This is intentional, as
+spatial problems, geography and geometry have quite different usage patterns and requirements
+to linear algebra. All places where Math.NET Numerics can be used have a strong
+programming language with their own data structures. For example, if you have a collection of vectors,
+consider to store them in a list or array of vectors, not in a matrix (unless you need matrix operations, of course).</p>
+<h2><a name="Storage-Layout" class="anchor" href="#Storage-Layout">Storage Layout</a></h2>
+<p>Both dense and sparse vectors are supported:</p>
+<ul>
+<li><strong>Dense Vector</strong> uses a single array of the same length as the vector.</li>
+<li>
+<strong>Sparse Vector</strong> uses two arrays which are usually much shorter than the vector.
+One array stores all values that are not zero, the other stores their indices.
+They are sorted ascendingly by index.
+</li>
+</ul>
+<p>Matrices can be either dense, diagonal or sparse:</p>
+<ul>
+<li><strong>Dense Matrix</strong> uses a single array in column-major order.</li>
+<li><strong>Diagonal Matrix</strong> stores only the diagonal values, in a single array.</li>
+<li>
+<strong>Sparse Matrix</strong> stores non-zero values in 3 arrays in the standard compressed sparse row (CSR) format.
+One array stores all values that are not zero, another array of the same length stores
+the their corresponding column index. The third array of the length of the number of rows plus one,
+stores the offsets where each row starts, and the total number of non-zero values in the last field.
+</li>
+</ul>
+<p>If your data  contains only very few zeros, using the sparse variant is orders of magnitudes
+slower than their dense counterparts, so consider to use dense types unless the data is very sparse (i.e. almost all zeros).</p>
+<h2><a name="Creating-Matrices-and-Vectors" class="anchor" href="#Creating-Matrices-and-Vectors">Creating Matrices and Vectors</a></h2>
+<p>The <code>Matrix&lt;T&gt;</code> and <code>Vector&lt;T&gt;</code> types are defined in the <code>MathNet.Numerics.LinearAlgebra</code> namespace.</p>
+<p>For technical and performance reasons there are distinct implementations for each data type.
+For example, for double precision numbers there is a <code>DenseMatrix</code> class in the <code>MathNet.Numerics.LinearAlgebra.Double</code>
+namespace. You do not normally need to be aware of that, but as consequence the generic <code>Matrix&lt;T&gt;</code> type is abstract
+and we need other ways to create a matrix or vector instance.</p>
+<p>The matrix and vector builder provide functions to create instances from a variety of formats or approaches.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// create a dense matrix with 3 rows and 4 columns</span>
+<span class="c">// filled with random numbers sampled from the standard distribution</span>
+Matrix&lt;<span class="k">double</span>&gt; m <span class="o">=</span> Matrix&lt;<span class="k">double</span>&gt;.Build.Random(<span class="n">3</span>, <span class="n">4</span>);
+
+<span class="c">// create a dense zero-vector of length 10</span>
+Vector&lt;<span class="k">double</span>&gt; v <span class="o">=</span> Vector&lt;<span class="k">double</span>&gt;.Build.Dense(<span class="n">10</span>);
+</code></pre></td></tr></table>
+<p>Since within an application you often only work with one specific data type, a common trick to keep this a bit shorter
+is to define shortcuts to the builders:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> M <span class="o">=</span> Matrix&lt;<span class="k">double</span>&gt;.Build;
+<span class="k">var</span> V <span class="o">=</span> Vector&lt;<span class="k">double</span>&gt;.Build;
+
+<span class="c">// build the same as above</span>
+<span class="k">var</span> m <span class="o">=</span> M.Random(<span class="n">3</span>, <span class="n">4</span>);
+<span class="k">var</span> v <span class="o">=</span> V.Dense(<span class="n">10</span>);
+</code></pre></td></tr></table>
+<p>The builder functions usually start with the layout (Dense, Sparse, Diagonal),
+so if we'd like to build a sparse matrix, intellisense will list all available options
+together once you type <code>M.Sparse</code>.</p>
+<p>There are variants to generate synthetic matrices, for example:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// 3x4 dense matrix filled with zeros</span>
+M.Dense(<span class="n">3</span>, <span class="n">4</span>);
+
+<span class="c">// 3x4 dense matrix filled with 1.0.</span>
+M.Dense(<span class="n">3</span>, <span class="n">4</span>, <span class="n">1.0</span>);
+
+<span class="c">// 3x4 dense matrix where each field is initialized using a function</span>
+M.Dense(<span class="n">3</span>, <span class="n">4</span>, (i,j) <span class="o">=</span><span class="o">&gt;</span> <span class="n">100</span>*i <span class="o">+</span> j);
+
+<span class="c">// 3x4 square dense matrix with each diagonal value set to 2.0</span>
+M.DenseDiagonal(<span class="n">3</span>, <span class="n">4</span>, <span class="n">2.0</span>);
+
+<span class="c">// 3x3 dense identity matrix</span>
+M.DenseIdentity(<span class="n">3</span>);
+
+<span class="c">// 3x4 dense random matrix sampled from a Gamma distribution</span>
+M.Random(<span class="n">3</span>, <span class="n">4</span>, <span class="k">new</span> Gamma(<span class="n">1.0</span>, <span class="n">5.0</span>));
+</code></pre></td></tr></table>
+<p>But often we already have data available in some format and
+need a matrix representing the same data. Whenever a function contains
+"Of" in its name it does create a copy of the original data.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+<span class="l">36: </span>
+<span class="l">37: </span>
+<span class="l">38: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// Copy of an existing matrix (can also be sparse or diagonal)</span>
+Matrix&lt;<span class="k">double</span>&gt; x <span class="o">=</span> <span class="o">.</span><span class="o">.</span><span class="o">.</span>
+M.DenseOfMatrix(x);
+
+<span class="c">// Directly bind to an existing column-major array without copying (note: no "Of")</span>
+<span class="k">double</span>[] x <span class="o">=</span> existing.<span class="o">.</span><span class="o">.</span>
+M.Dense(<span class="n">3</span>, <span class="n">4</span>, x);
+
+<span class="c">// From a 2D-array</span>
+<span class="k">double</span>[,] x <span class="o">=</span> {{ <span class="n">1.0</span>, <span class="n">2.0</span> },
+               { <span class="n">3.0</span>, <span class="n">4.0</span> }};
+M.DenseOfArray(x);
+
+<span class="c">// From an enumerable of values and their coordinates</span>
+Tuple&lt;<span class="k">int</span>,<span class="k">int</span>,<span class="k">double</span>&gt;[] x <span class="o">=</span> {Tuple.Create(<span class="n">0</span>,<span class="n">0</span>,<span class="n">2.0</span>), Tuple.Create(<span class="n">0</span>,<span class="n">1</span>,<span class="n">-3.0</span>)};
+M.DenseOfIndexed(<span class="n">3</span>,<span class="n">4</span>,x);
+
+<span class="c">// From an enumerable in column major order (column by column)</span>
+<span class="k">double</span>[] x <span class="o">=</span> {<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>, <span class="n">4.0</span>};
+M.DenseOfColumnMajor(<span class="n">2</span>, <span class="n">2</span>, x);
+
+<span class="c">// From an enumerable of enumerable-columns (optional with explicit size)</span>
+IEnumerable&lt;IEnumerable&lt;<span class="k">double</span>&gt;<span class="o">&gt;</span> x <span class="o">=</span> <span class="o">.</span><span class="o">.</span><span class="o">.</span>
+M.DenseOfColumns(x);
+
+<span class="c">// From a params-array of array-columns (or an enumerable of them)</span>
+M.DenseOfColumnArrays(<span class="k">new</span>[] {<span class="n">2.0</span>, <span class="n">3.0</span>}, <span class="k">new</span>[] {<span class="n">4.0</span>, <span class="n">5.0</span>});
+
+<span class="c">// From a params-array of column vectors (or an enumerable of them)</span>
+M.DenseOfColumnVectors(V.Random(<span class="n">3</span>), V.Random(<span class="n">3</span>));
+
+<span class="c">// Equivalent variants also for rows or diagonals:</span>
+M.DenseOfRowArrays(<span class="k">new</span>[] {<span class="n">2.0</span>, <span class="n">3.0</span>}, <span class="k">new</span>[] {<span class="n">4.0</span>, <span class="n">5.0</span>});
+M.DenseOfDiagonalArray(<span class="k">new</span>[] {<span class="n">2.0</span>, <span class="n">3.0</span>, <span class="n">4.0</span>});
+
+<span class="c">// if you already have existing matrices and want to concatenate them</span>
+Matrix&lt;<span class="k">double</span>&gt;[,] x <span class="o">=</span> <span class="o">.</span><span class="o">.</span><span class="o">.</span>
+M.DenseOfMatrixArray(x);
+</code></pre></td></tr></table>
+<p>Very similar variants also exist for sparse and diagonal matrices, prefixed
+with <code>Sparse</code> and <code>Diagonal</code> respectively.</p>
+<p>The approach for vectors is exactly the same:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// Standard-distributed random vector of length 10</span>
+V.Random(<span class="n">10</span>);
+
+<span class="c">// All-zero vector of length 10</span>
+V.Dense(<span class="n">10</span>);
+
+<span class="c">// Each field is initialized using a function</span>
+V.Dense(<span class="n">10</span>, i <span class="o">=</span><span class="o">&gt;</span> i*i);
+
+<span class="c">// From an enumerable of values and their index</span>
+Tuple&lt;<span class="k">int</span>,<span class="k">double</span>&gt;[] x <span class="o">=</span> {Tuple.Create(<span class="n">3</span>,<span class="n">2.0</span>), Tuple.Create(<span class="n">1</span>,<span class="n">-3.0</span>)};
+V.DenseOfIndexed(x);
+
+<span class="c">// Directly bind to an existing array without copying (note: no "Of")</span>
+<span class="k">double</span>[] x <span class="o">=</span> existing.<span class="o">.</span><span class="o">.</span>
+V.Dense(x);
+</code></pre></td></tr></table>
+<h3><a name="Creating-matrices-and-vectors-in-F" class="anchor" href="#Creating-matrices-and-vectors-in-F">Creating matrices and vectors in F#</a></h3>
+<p>In F# we can use the builders just like in C#, but we can also use the F# modules:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">m1</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">2.0</span>; <span class="n">3.0</span> ]
+                 [ <span class="n">4.0</span>; <span class="n">5.0</span> ]]
+
+<span class="k">let</span> <span class="i">v1</span> <span class="o">=</span> <span class="i">vector</span> [ <span class="n">1.0</span>; <span class="n">2.0</span>; <span class="n">3.0</span> ]
+
+<span class="c">// dense 3x4 matrix filled with zeros.</span>
+<span class="c">// (usually the type is inferred, but not for zero matrices)</span>
+<span class="k">let</span> <span class="i">m2</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">zero</span><span class="o">&lt;</span><span class="i">float</span><span class="o">&gt;</span> <span class="n">3</span> <span class="n">4</span>
+
+<span class="c">// dense 3x4 matrix initialized by a function</span>
+<span class="k">let</span> <span class="i">m3</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">init</span> <span class="n">3</span> <span class="n">4</span> (<span class="k">fun</span> <span class="i">i</span> <span class="i">j</span> <span class="k">-&gt;</span> <span class="i">float</span> (<span class="i">i</span><span class="o">+</span><span class="i">j</span>))
+
+<span class="c">// diagonal 4x4 identity matrix of single precision</span>
+<span class="k">let</span> <span class="i">m4</span> <span class="o">=</span> <span class="i">DiagonalMatrix</span><span class="o">.</span><span class="i">identity</span><span class="o">&lt;</span><span class="i">float32</span><span class="o">&gt;</span> <span class="n">4</span>
+
+<span class="c">// dense 3x4 matrix created from a sequence of sequence-columns</span>
+<span class="k">let</span> <span class="i">x</span> <span class="o">=</span> <span class="i">Seq</span><span class="o">.</span><span class="i">init</span> <span class="n">4</span> (<span class="k">fun</span> <span class="i">c</span> <span class="k">-&gt;</span> <span class="i">Seq</span><span class="o">.</span><span class="i">init</span> <span class="n">3</span> (<span class="k">fun</span> <span class="i">r</span> <span class="k">-&gt;</span> <span class="i">float</span> (<span class="n">100</span><span class="o">*</span><span class="i">r</span> <span class="o">+</span> <span class="i">c</span>)))
+<span class="k">let</span> <span class="i">m5</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">ofColumnSeq</span> <span class="i">x</span>
+
+<span class="c">// random matrix with standard distribution:</span>
+<span class="k">let</span> <span class="i">m6</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">randomStandard</span><span class="o">&lt;</span><span class="i">float</span><span class="o">&gt;</span> <span class="n">3</span> <span class="n">4</span>
+
+<span class="c">// random matrix with a uniform and one with a Gamma distribution:</span>
+<span class="k">let</span> <span class="i">m7a</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">random</span><span class="o">&lt;</span><span class="i">float</span><span class="o">&gt;</span> <span class="n">3</span> <span class="n">4</span> (<span class="i">ContinuousUniform</span>(<span class="o">-</span><span class="n">2.0</span>, <span class="n">4.0</span>))
+<span class="k">let</span> <span class="i">m7b</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">random</span><span class="o">&lt;</span><span class="i">float</span><span class="o">&gt;</span> <span class="n">3</span> <span class="n">4</span> (<span class="i">Gamma</span>(<span class="n">1.0</span>, <span class="n">2.0</span>))
+</code></pre></td>
+</tr>
+</table>
+<p>Or using any other of all the available functions.</p>
+<h2><a name="Arithmetics" class="anchor" href="#Arithmetics">Arithmetics</a></h2>
+<p>All the common arithmetic operators like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and <code>%</code> are provided,
+between matrices, vectors and scalars. In F# there are additional pointwise
+operators <code>.*</code>, <code>./</code> and <code>.%</code> available for convenience.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">m</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">1.0</span>; <span class="n">4.0</span>; <span class="n">7.0</span> ]
+                [ <span class="n">2.0</span>; <span class="n">5.0</span>; <span class="n">8.0</span> ]
+                [ <span class="n">3.0</span>; <span class="n">6.0</span>; <span class="n">9.0</span> ]]
+
+<span class="k">let</span> <span class="i">v</span> <span class="o">=</span> <span class="i">vector</span> [ <span class="n">10.0</span>; <span class="n">20.0</span>; <span class="n">30.0</span> ]
+
+<span class="k">let</span> <span class="i">v&#39;</span> <span class="o">=</span> <span class="i">m</span> <span class="o">*</span> <span class="i">v</span>
+<span class="k">let</span> <span class="i">m&#39;</span> <span class="o">=</span> <span class="i">m</span> <span class="o">+</span> <span class="n">2.0</span><span class="o">*</span><span class="i">m</span>
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Arithmetic-Instance-Methods" class="anchor" href="#Arithmetic-Instance-Methods">Arithmetic Instance Methods</a></h3>
+<p>All other operations are covered by methods, like <code>Transpose</code> and <code>Conjugate</code>,
+or in F# as functions in the Matrix module, e.g. <code>Matrix.transpose</code>.
+But even the operators have equivalent methods. The equivalent code from
+above when using instance methods:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> v<span class="n">2</span> <span class="o">=</span> m.Multiply(v);
+<span class="k">var</span> m<span class="n">2</span> <span class="o">=</span> m.Add(m.Multiply(<span class="n">2</span>));
+</code></pre></td></tr></table>
+<p>These methods also have an overload that accepts the result data structure as last argument,
+allowing to avoid allocating new structures for every single operation. Provided the
+dimensions match, most also allow one of the arguments to be passed as result,
+resulting in an in-place application. For example, an in-place version of the code above:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.Multiply(v, v); <span class="c">// v &lt;- m*v</span>
+m.Multiply(<span class="n">3</span>, m); <span class="c">// m &lt;- 3*m</span>
+</code></pre></td></tr></table>
+<h3><a name="Shortcut-Methods" class="anchor" href="#Shortcut-Methods">Shortcut Methods</a></h3>
+<p>A typical linear algebra problem is the regression normal equation
+<span class="math">\(\mathbf{X}^T\mathbf y = \mathbf{X}^T\mathbf X \mathbf p\)</span> which we would like to solve
+for <span class="math">\(p\)</span>. By matrix inversion we get <span class="math">\(\mathbf p = (\mathbf{X}^T\mathbf X)^{-1}(\mathbf{X}^T\mathbf y)\)</span>.
+This can directly be translated to the following code:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">(X.Transpose() <span class="o">*</span> X).Inverse() <span class="o">*</span> (X.Transpose() <span class="o">*</span> y)
+</code></pre></td></tr></table>
+<p>Since products where one of the arguments is transposed are common, there are a few shortcut routines
+that are more efficient:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">X.TransposeThisAndMultiply(X).Inverse() <span class="o">*</span> X.TransposeThisAndMultiply(y)
+</code></pre></td></tr></table>
+<p>Of course in practice you would not use the matrix inverse but a decomposition:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">X.TransposeThisAndMultiply(X).Cholesky().Solve(X.TransposeThisAndMultiply(y))
+
+<span class="c">// or if the problem is small enough, simply:</span>
+X.Solve(y);
+</code></pre></td></tr></table>
+<h2><a name="Norms" class="anchor" href="#Norms">Norms</a></h2>
+<p>With norms we assign a "size" to vectors and matrices, satisfying certain
+properties pertaining to scalability and additivity. Except for the zero element,
+the norm is strictly positive.</p>
+<p>Vectors support the following norms:</p>
+<ul>
+<li><strong>L1Norm</strong> or Manhattan norm (p=1): the sum of the absolute values.</li>
+<li>
+<strong>L2Norm</strong> or Euclidean norm (p=2): the square root of the sum of the squared values.
+This is the most common norm and assumed if nothing else is stated.
+</li>
+<li><strong>InfinityNorm</strong> (p=infinity): the maximum absolute value.</li>
+<li><strong>Norm(p)</strong>: generalized norm, essentially the p-th root of the sum of the absolute p-power of the values.</li>
+</ul>
+<p>Similarly, matrices support the following norms:</p>
+<ul>
+<li><strong>L1Norm</strong> (induced): the maximum absolute column sum.</li>
+<li><strong>L2Norm</strong> (induced): the largest singular value of the matrix (expensive).</li>
+<li><strong>InfinityNorm</strong> (induced): the maximum absolute row sum.</li>
+<li><strong>FrobeniusNorm</strong> (entry-wise): the square root of the sum of the squared values.</li>
+<li><strong>RowNorms(p)</strong>: the generalized p-norm for each row vector.</li>
+<li><strong>ColumnNorms(p)</strong>: the generalized p-norm for each column vector.</li>
+</ul>
+<p>Vectors can be normalized to unit p-norm with the <code>Normalize</code> method, matrices can
+normalize all rows or all columns to unit p-norm with <code>NormalizeRows</code> and <code>NormalizeColumns</code>.</p>
+<h2><a name="Sums" class="anchor" href="#Sums">Sums</a></h2>
+<p>Closely related to the norms are sum functions. Vectors have a <code>Sum</code> function
+that returns the sum of all vector elements, and <code>SumMagnitudes</code> that returns
+the sum of the absolute vector elements (and is identical to the L1-norm).</p>
+<p>Matrices provide <code>RowSums</code> and <code>ColumnSums</code> functions that return the sum of each
+row or column vector, and <code>RowAbsoluteSums</code> and <code>ColumnAbsoluteSums</code> for the
+sums of the absolute elements.</p>
+<h2><a name="Condition-Number" class="anchor" href="#Condition-Number">Condition Number</a></h2>
+<p>The condition number of a function measures how much the output value can change
+for a small change in the input arguments. A problem with a low condition number
+is said to be <em>well-conditioned</em>, with a high condition number <em>ill-conditioned</em>.
+For a linear equation <span class="math">\(Ax=b\)</span> the condition number is the maximum ratio of the
+relative error in <span class="math">\(x\)</span> divided by the relative error in <span class="math">\(b\)</span>. It therefore gives a bound on how
+inaccurate the solution <span class="math">\(x\)</span> will be after approximation.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">M.Random(<span class="n">4</span>,<span class="n">4</span>).ConditionNumber(); <span class="c">// e.g. 14.829</span>
+</code></pre></td></tr></table>
+<h2><a name="Trace-and-Determinant" class="anchor" href="#Trace-and-Determinant">Trace and Determinant</a></h2>
+<p>For a square matrix, the trace of a matrix is the sum of the elements on the main diagonal,
+which is equal to the sum of all its eigenvalues with multiplicities. Similarly, the determinant
+of a square matrix is the product of all its eigenvalues with multiplicities.
+A matrix is said to be <em>singular</em> if its determinant is zero and <em>non-singular</em> otherwise.
+In the latter case the matrix is invertible and the linear equation system it
+represents has a single unique solution.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m <span class="o">=</span> M.DenseOfArray(<span class="k">new</span>[,] {{ <span class="n">1.0</span>,  <span class="n">2.0</span>, <span class="n">1.0</span>},
+                               {<span class="n">-2.0</span>, <span class="n">-3.0</span>, <span class="n">1.0</span>},
+                               { <span class="n">3.0</span>,  <span class="n">5.0</span>, <span class="n">0.0</span>}});
+
+m.Trace();       <span class="c">// -2</span>
+m.Determinant(); <span class="c">// ~0 hence not invertible, either none or multiple solutions</span>
+</code></pre></td></tr></table>
+<h2><a name="Column-Space-Rank-and-Range" class="anchor" href="#Column-Space-Rank-and-Range">Column Space, Rank and Range</a></h2>
+<p>The rank of a matrix is the dimension of its column and row space, i.e. the maximum
+number of linearly independent column and row vectors of the matrix. It is a measure
+of the non-degenerateness of the linear equation system the matrix represents.</p>
+<p>An orthonormal basis of the column space can be computed with the range method.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// with the same m as above</span>
+m.Rank();  <span class="c">// 2</span>
+m.Range(); <span class="c">// [-0.30519,0.503259,-0.808449], [-0.757315,-0.64296,-0.114355]</span>
+</code></pre></td></tr></table>
+<h2><a name="Null-Space-Nullity-and-Kernel" class="anchor" href="#Null-Space-Nullity-and-Kernel">Null Space, Nullity and Kernel</a></h2>
+<p>The null space or kernel of a matrix <span class="math">\(A\)</span> is the set of solutions to the equation <span class="math">\(Ax=0\)</span>.
+It is the orthogonal complement to the row space of the matrix.</p>
+<p>The nullity of a matrix is the dimension of its null space.
+An orthonormal basis of the null space can be computed with the kernel method.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// with the same m as above</span>
+m.Nullity(); <span class="c">// 1</span>
+m.Kernel();  <span class="c">// [0.845154,-0.507093,0.169031]</span>
+
+<span class="c">// verify:</span>
+(m <span class="o">*</span> (<span class="n">10</span>*m.Kernel()[<span class="n">0</span>])); <span class="c">// ~[0,0,0]</span>
+</code></pre></td></tr></table>
+<h2><a name="Matrix-Decompositions" class="anchor" href="#Matrix-Decompositions">Matrix Decompositions</a></h2>
+<p>Most common matrix decompositions are directly available as instance methods.
+Computing a decomposition can be expensive for large matrices, so if you need
+to access multiple properties of a decomposition, consider to reuse the returned instance.</p>
+<p>All decompositions provide Solve methods than can be used to solve linear
+equations of the form <span class="math">\(Ax=b\)</span> or <span class="math">\(AX=B\)</span>. For simplicity the Matrix class
+also provides direct <code>Solve</code> methods that automatically choose
+a decomposition. See <a href="LinearEquations.html">Linear Equation Systems</a> for details.</p>
+<p>Currently these decompositions are optimized for dense matrices only,
+and can leverage native providers like Intel MKL if available.
+For sparse data consider to use the iterative solvers instead if appropriate,
+or convert to dense if small enough.</p>
+<ul>
+<li><strong>Cholesky</strong>: Cholesky decomposition of symmetric positive definite matrices</li>
+<li><strong>LU</strong>: LU decomposition of square matrices</li>
+<li>
+<strong>QR(method)</strong>: QR by Householder transformation.
+Thin by default (Q: mxn, R: nxn) but can optionally be computed fully (Q: mxm, R: mxn).
+</li>
+<li><strong>GramSchmidt</strong>: QR by Modified Gram-Schmidt Orthogonalization</li>
+<li>
+<strong>Svd(computeVectors)</strong>: Singular Value Decomposition.
+Computation of the singular U and VT vectors can optionally be disabled.
+</li>
+<li>
+<strong>Evd(symmetricity)</strong>: Eigenvalue Decomposition.
+If the symmetricity of the matrix is known, the algorithm can optionally skip its own check.
+</li>
+</ul>
+<h2><a name="Manipulating-Matrices-and-Vectors" class="anchor" href="#Manipulating-Matrices-and-Vectors">Manipulating Matrices and Vectors</a></h2>
+<p>Individual values can be get and set in matrices and vectors using the indexers
+or the <code>At</code> methods. Using <code>At</code> instead of the indexers is slightly faster but
+skips some range checks, so use it only after checking the range yourself.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m <span class="o">=</span> Matrix&lt;<span class="k">double</span>&gt;.Build.Dense(<span class="n">3</span>,<span class="n">4</span>,(i,j) <span class="o">=</span><span class="o">&gt;</span> <span class="n">10</span>*i <span class="o">+</span> j);
+m[<span class="n">0</span>,<span class="n">0</span>]; <span class="c">// 0   (row 0, column 0)</span>
+m[<span class="n">2</span>,<span class="n">0</span>]; <span class="c">// 20 (row 2, column 0)</span>
+m[<span class="n">0</span>,<span class="n">2</span>]; <span class="c">// 2   (row 0, column 2)</span>
+m[<span class="n">0</span>,<span class="n">2</span>] <span class="o">=</span> <span class="n">-1.0</span>;
+m[<span class="n">0</span>,<span class="n">2</span>]; <span class="c">// -1</span>
+</code></pre></td></tr></table>
+<p>In F#:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">m</span><span class="o">.</span>[<span class="n">2</span>,<span class="n">0</span>] <span class="c">// 20</span>
+</code></pre></td>
+</tr>
+</table>
+<p>We can also get entire column or row vectors, or a new matrix from parts of an existing one.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m <span class="o">=</span> M.Dense(<span class="n">6</span>,<span class="n">4</span>,(i,j) <span class="o">=</span><span class="o">&gt;</span> <span class="n">10</span>*i <span class="o">+</span> j);
+m.Column(<span class="n">2</span>);          <span class="c">// [2,12,22,32,42,52]</span>
+m.Row(<span class="n">3</span>);             <span class="c">// [30,31,32,33]</span>
+m.SubMatrix(<span class="n">1</span>,<span class="n">2</span>,<span class="n">1</span>,<span class="n">2</span>); <span class="c">// [11,12; 21,22]</span>
+</code></pre></td></tr></table>
+<p>For each of these methods there is also a variant prefixed with <code>Set</code> that can be used
+to overwrite those elements with the provided data.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.SetRow(<span class="n">3</span>, V.Random(<span class="n">4</span>));
+</code></pre></td></tr></table>
+<p>In F# we can also use its slicing syntax:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">m</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">init</span> <span class="n">6</span> <span class="n">4</span> (<span class="k">fun</span> <span class="i">i</span> <span class="i">j</span> <span class="k">-&gt;</span> <span class="i">float</span> (<span class="n">10</span><span class="o">*</span><span class="i">i</span> <span class="o">+</span> <span class="i">j</span>))
+<span class="i">m</span><span class="o">.</span>[<span class="n">0</span>,<span class="n">0..</span><span class="n">3</span>]    <span class="c">// vector [0,1,2,3]</span>
+<span class="i">m</span><span class="o">.</span>[<span class="n">1..</span><span class="n">2</span>,<span class="n">0..</span><span class="n">3</span>] <span class="c">// matrix [10,11,12,13; 20,21,22,23]</span>
+<span class="c">// overwrite a sub-matrix with the content of another matrix:</span>
+<span class="i">m</span><span class="o">.</span>[<span class="n">0..</span><span class="n">1</span>,<span class="n">1..</span><span class="n">2</span>] <span class="o">&lt;-</span> <span class="i">matrix</span> [[ <span class="n">3.0</span>; <span class="n">4.0</span> ]; [ <span class="n">5.0</span>; <span class="n">6.0</span> ]]
+</code></pre></td>
+</tr>
+</table>
+<p>To set the whole matrix or some of its columns or rows to zero, use one of the clear methods:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.Clear(); <span class="c">// set all elements to 0</span>
+m.ClearColumn(<span class="n">2</span>); <span class="c">// set the 3rd column to 0 (0-based indexing)</span>
+m.ClearColumns(<span class="n">1</span>,<span class="n">3</span>); <span class="c">// set the 2nd and 4th columns to 0 (params-array)</span>
+m.ClearSubMatrix(<span class="n">1</span>,<span class="n">2</span>,<span class="n">1</span>,<span class="n">2</span>); <span class="c">// set the 2x2 submatrix with offset 1,1 to zero</span>
+</code></pre></td></tr></table>
+<p>Because of the limitations of floating point numbers, we may want to set very small numbers to zero:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.CoerceZero(<span class="n">1</span>e<span class="n">-14</span>); <span class="c">// set all elements smaller than 1e-14 to 0</span>
+m.CoerceZero(x <span class="o">=</span><span class="o">&gt;</span> x <span class="o">&lt;</span> <span class="n">10</span>); <span class="c">// set all elements that match a predicate function to 0.</span>
+</code></pre></td></tr></table>
+<p>Even though matrices and vectors are mutable, their dimension is fixed and cannot be changed
+after creation. However, we can still insert or remove rows or columns, or concatenate matrices together.
+But all these operations will create and return a new instance.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m<span class="n">2</span> <span class="o">=</span> m.RemoveRow(<span class="n">2</span>); <span class="c">// remove the 3rd rows</span>
+<span class="k">var</span> m<span class="n">3</span> <span class="o">=</span> m<span class="n">2</span>.RemoveColumn(<span class="n">3</span>); <span class="c">// remove the 4th column</span>
+
+<span class="k">var</span> m<span class="n">4</span> <span class="o">=</span> m.Stack(m<span class="n">2</span>); <span class="c">// new matrix with m on top and m2 on the bottom</span>
+<span class="k">var</span> m<span class="n">5</span> <span class="o">=</span> m<span class="n">2</span>.Append(m<span class="n">3</span>); <span class="c">// new matrix with m2 on the left and m3 on the right</span>
+<span class="k">var</span> m<span class="n">6</span> <span class="o">=</span> m.DiagonalStack(m<span class="n">3</span>); <span class="c">// m on the top left and m3 on the bottom right</span>
+</code></pre></td></tr></table>
+<h2><a name="Enumerators-and-Higher-Order-Functions" class="anchor" href="#Enumerators-and-Higher-Order-Functions">Enumerators and Higher Order Functions</a></h2>
+<p>Since looping over all entries of a matrix or vector with direct access is inefficient,
+especially with a sparse storage layout, and working with the raw structures is non-trivial,
+both vectors and matrices provide specialized enumerators and higher order functions that
+understand the actual layout and can use it more efficiently.</p>
+<p>Most of these functions can optionally skip zero-value entries. If you do not need to handle
+zero-value elements, skipping them can massively speed up execution on sparse layouts.</p>
+<h3><a name="Iterate" class="anchor" href="#Iterate">Iterate</a></h3>
+<p>Both vectors and matrices have Enumerate methods that return an <code>IEnumerable&lt;T&gt;</code>,
+that can be used to iterate through all elements. All these methods optionally
+accept a <code>Zeros</code> enumeration to control whether zero-values may be skipped or not.</p>
+<ul>
+<li><strong>Enumerate</strong>: returns a straight forward enumerator over all values.</li>
+<li><strong>EnumerateIndexed</strong>: returns an enumerable with index-value-tuples.</li>
+</ul>
+<p>Matrices can also enumerate over all column or row vectors, or all of them
+within a range:</p>
+<ul>
+<li><strong>EnumerateColumns</strong>: returns an enumerable with all or a range of the column vectors.</li>
+<li><strong>EnumerateColumnsIndexed</strong>: like EnumerateColumns buth returns index-column tuples.</li>
+<li><strong>EnumerateRows</strong>: returns an enumerable with all or a range of the row vectors.</li>
+<li><strong>EnumerateRowsIndexed</strong>: like EnumerateRows buth returns index-row tuples.</li>
+</ul>
+<h3><a name="Map" class="anchor" href="#Map">Map</a></h3>
+<p>Similarly there are also Map methods that replace each element with the result
+of applying a function to its value. Or, if indexed, to its index and value.</p>
+<ul>
+<li><strong>MapInplace(f,zeros)</strong>: map in-place with a function on the element's value</li>
+<li><strong>MapIndexedInplace(f,zeros)</strong>: map in-place with a function on the element's index and value.</li>
+<li><strong>Map(f,result,zeros)</strong>: map into a result structure provided as argument.</li>
+<li><strong>MapIndexed(f,result,zeros)</strong>: indexed variant of Map.</li>
+<li><strong>MapConvert(f,result,zeros)</strong>: variant where the function can return a different type</li>
+<li><strong>MapIndexedConvert(f,result,zeros)</strong>: indexed variant of MapConvert.</li>
+<li><strong>Map(f,zeros)</strong>: like MapConvert but returns a new structure instead of the result argument.</li>
+<li><strong>MapIndexed(f,zeros)</strong>: indexed variant of Map.</li>
+</ul>
+<p>Example: Convert a complex vector to a real vector containing only the real parts in C#:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">Vector&lt;Complex&gt; u <span class="o">=</span> Vector&lt;Complex&gt;.Build.Random(<span class="n">10</span>);
+Vector&lt;Double&gt; v <span class="o">=</span> u.Map(c <span class="o">=</span><span class="o">&gt;</span> c.Real);
+</code></pre></td></tr></table>
+<p>Or in F#:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">u</span> <span class="o">=</span> <span class="i">DenseVector</span><span class="o">.</span><span class="i">randomStandard</span><span class="o">&lt;</span><span class="i">Complex</span><span class="o">&gt;</span> <span class="n">10</span>
+<span class="k">let</span> <span class="i">v</span> <span class="o">=</span> <span class="i">u</span> <span class="o">|&gt;</span> <span class="i">Vector</span><span class="o">.</span><span class="i">map</span> (<span class="k">fun</span> <span class="i">c</span> <span class="k">-&gt;</span> <span class="i">c</span><span class="o">.</span><span class="i">Real</span>)
+</code></pre></td>
+</tr>
+</table>
+<h3><a name="Fold-and-Reduce" class="anchor" href="#Fold-and-Reduce">Fold and Reduce</a></h3>
+<p>Matrices also provide column/row fold and reduce routines:</p>
+<ul>
+<li><strong>FoldByRow(f,state,zeros)</strong>: fold through the values of each row, returns an column-array.</li>
+<li><strong>FoldRows(f,state)</strong>: fold over all row vectors, returns a row vector.</li>
+<li><strong>ReduceRows(f)</strong>: reduce all row vectors, returns a row vector.</li>
+</ul>
+<h2><a name="Printing-and-Strings" class="anchor" href="#Printing-and-Strings">Printing and Strings</a></h2>
+<p>Matrices and vectors try to print themselves to a string with the <code>ToString</code>
+in a reasonable way, without overflowing the output device on a large matrix.</p>
+<p>Note that this function is not intended to export a data structure to a string or
+file, but to give an informative summary about it. For data import/export,
+use one of the MathNet.Numerics.Data packages instead.</p>
+<p>Some matrix examples:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+<span class="l">35: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="text">// Matrix&lt;double&gt;.Build.Dense(3,4,(i,j) =&gt; i*10*j).ToString()
+DenseMatrix 3x4-Double
+0   0   0   0
+0  10  20  30
+0  20  40  60
+
+// Matrix&lt;double&gt;.Build.Dense(100,100,(i,j) =&gt; i*10*j).ToString()
+DenseMatrix 100x100-Double
+ 0    0     0     0     0     0     0     0     0     0     0  ..      0      0
+ 0   10    20    30    40    50    60    70    80    90   100  ..    980    990
+ 0   20    40    60    80   100   120   140   160   180   200  ..   1960   1980
+ 0   30    60    90   120   150   180   210   240   270   300  ..   2940   2970
+ 0   40    80   120   160   200   240   280   320   360   400  ..   3920   3960
+ 0   50   100   150   200   250   300   350   400   450   500  ..   4900   4950
+ 0   60   120   180   240   300   360   420   480   540   600  ..   5880   5940
+ 0   70   140   210   280   350   420   490   560   630   700  ..   6860   6930
+..   ..    ..    ..    ..    ..    ..    ..    ..    ..    ..  ..     ..     ..
+ 0  960  1920  2880  3840  4800  5760  6720  7680  8640  9600  ..  94080  95040
+ 0  970  1940  2910  3880  4850  5820  6790  7760  8730  9700  ..  95060  96030
+ 0  980  1960  2940  3920  4900  5880  6860  7840  8820  9800  ..  96040  97020
+ 0  990  1980  2970  3960  4950  5940  6930  7920  8910  9900  ..  97020  98010
+
+// Matrix&lt;double&gt;.Build.Random(4,4).ToString()
+DenseMatrix 4x4-Double
+  1.6286    -1.1126    1.95526  0.950545
+0.537503  -0.465534    2.00984   1.90885
+-1.62816    1.04109   -2.06876  0.812197
+0.452355  -0.689394  -0.277921   2.72224
+
+// Matrix&lt;double&gt;.Build.SparseOfIndexed(4,100,new[] {Tuple.Create(1,2,3.0)})
+SparseMatrix 4x100-Double 0.25% Filled
+0  0    0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  ..  0  0
+0  0  3.5  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  ..  0  0
+0  0    0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  ..  0  0
+0  0    0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  ..  0  0
+</code></pre></td></tr></table>
+<p>Vectors are printed as a column that can wrap over to multiple columns if needed:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="text">// Vector&lt;double&gt;.Build.Random(15).ToString()
+DenseVector 15-Double
+ 0.519184  0.0950414
+  1.65913    2.56783
+ 0.743408   0.574037
+ -1.73394           
+-0.906662           
+ 0.853759           
+-0.162181           
+-0.231667           
+ -1.26393           
+-0.434873           
+ 0.693421           
+-0.513683           
+
+// Vector&lt;double&gt;.Build.Dense(500,i =&gt; i).ToString()
+DenseVector 500-Double
+ 0  12  24  36  48  60  72  84   96  108  120  132  144  156  168  180  192
+ 1  13  25  37  49  61  73  85   97  109  121  133  145  157  169  181  193
+ 2  14  26  38  50  62  74  86   98  110  122  134  146  158  170  182  194
+ 3  15  27  39  51  63  75  87   99  111  123  135  147  159  171  183  195
+ 4  16  28  40  52  64  76  88  100  112  124  136  148  160  172  184  196
+ 5  17  29  41  53  65  77  89  101  113  125  137  149  161  173  185  197
+ 6  18  30  42  54  66  78  90  102  114  126  138  150  162  174  186  198
+ 7  19  31  43  55  67  79  91  103  115  127  139  151  163  175  187  199
+ 8  20  32  44  56  68  80  92  104  116  128  140  152  164  176  188   ..
+ 9  21  33  45  57  69  81  93  105  117  129  141  153  165  177  189   ..
+10  22  34  46  58  70  82  94  106  118  130  142  154  166  178  190  498
+11  23  35  47  59  71  83  95  107  119  131  143  155  167  179  191  499
+</code></pre></td></tr></table>
+<p>The format is customizable to some degree, for example we can choose the
+floating point format and culture, or how many rows or columns should be shown:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+<span class="l">33: </span>
+<span class="l">34: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="text">// var m = Matrix&lt;double&gt;.Build.Random(5,100,42); // 42 = random seed
+
+// m.ToString()
+DenseMatrix 5x100-Double
+ 0.408388  -0.847291  -0.320552   0.162242    2.46434  ..   0.180466   -0.278793
+ -1.06988   0.063008  -0.527378    1.40716    -0.5962  ..  -0.622447   -0.488186
+-0.734176  -0.703003    1.33158   0.286498    1.44158  ..  -0.834335  -0.0756724
+  1.78532   0.020217    1.94275  -0.742821  -0.790251  ..    1.52823     2.49427
+-0.660645    1.28166   -1.71351   -1.33282  -0.328162  ..   0.110989    0.252272
+
+// m.ToString("G2", CultureInfo.GetCultureInfo("de-DE"))
+DenseMatrix 5x100-Double
+ 0,41  -0,85  -0,32   0,16    2,5     -0,77   0,12   0,58  ..   0,18   -0,28
+ -1,1  0,063  -0,53    1,4   -0,6      -2,8  -0,35    0,3  ..  -0,62   -0,49
+-0,73   -0,7    1,3   0,29    1,4  -0,00022   -0,3   0,51  ..  -0,83  -0,076
+  1,8   0,02    1,9  -0,74  -0,79     0,088   0,78  -0,94  ..    1,5     2,5
+-0,66    1,3   -1,7   -1,3  -0,33     -0,69  -0,27  -0,68  ..   0,11    0,25
+
+// m.ToString(3,5) // max 3 rows, 5 columns
+DenseMatrix 5x100-Double
+ 0.408388  -0.847291  -0.320552  ..   0.180466   -0.278793
+ -1.06988   0.063008  -0.527378  ..  -0.622447   -0.488186
+-0.734176  -0.703003    1.33158  ..  -0.834335  -0.0756724
+       ..         ..         ..  ..         ..          ..
+
+// Matrix&lt;double&gt;.Build.Random(100,100,42)
+// .ToMatrixString(2,4,3,4,"=","||",@"\\"," ",Environment.NewLine,x=&gt;x.ToString("G2"))
+ 0.41   0.36  0.29  =  0.43 0.56   -0.56  0.98
+ -1.1  -0.64   0.9  =  0.49 -0.3       2  -0.5
+   ||     ||    || \\    ||   ||      ||    ||
+-0.87   -2.2  0.79  =  0.96  1.8     1.4 0.067
+-0.14 -0.016 -0.55  = -0.36 0.33    0.24  0.52
+ -1.3     -1 -0.81  =   1.3    1    -1.1 -0.28
+-0.21   -1.7   2.6  =  -1.5 -1.2 -0.0014   3.4
+</code></pre></td></tr></table>
+<p>If you are using Math.NET Numerics from within F# interactive, you may want
+to load the MathNet.Numerics.fsx script of the F# package. Besides loading
+the assemblies it also adds proper FSI printers for both matrices and vectors.</p>
+
+
+                </div>
+                <div class="span3">
+                    <ul class="nav nav-list" id="menu">
+
+                        <li class="nav-header">Math.NET Numerics</li>
+                        <li><a href="https://numerics.mathdotnet.com/Packages.html">NuGet & Binaries</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/ReleaseNotes.html">Release Notes</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/License.html">MIT/X11 License</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Compatibility.html">Platform Support</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/api/">Class Reference</a></li>
+                        <li><a href="https://github.com/mathnet/mathnet-numerics/issues">Issues & Bugs</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Users.html">Who is using Math.NET?</a></li>
+
+                        <li class="nav-header">Contributing</li>
+                        <li><a href="https://numerics.mathdotnet.com/Contributors.html">Contributors</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Contributing.html">Contributing</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Build.html">Build & Tools</a></li>
+                        <li><a href="http://feedback.mathdotnet.com/forums/2060-math-net-numerics">Your Ideas</a></li>
+
+                        <li class="nav-header">Getting Help</li>
+                        <li><a href="https://discuss.mathdotnet.com/c/numerics">Discuss</a></li>
+                        <li><a href="https://stackoverflow.com/questions/tagged/mathdotnet">Stack Overflow</a></li>
+
+                        <li class="nav-header">Getting Started</li>
+                        <li><a href="https://numerics.mathdotnet.com/">Getting started</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Constants.html">Constants</a></li>
+                        <li>Floating-Point Numbers</li>
+                        <li>Arbitrary Precision Numbers</li>
+                        <li>Complex Numbers</li>
+                        <li><a href="https://numerics.mathdotnet.com/Matrix.html">Matrices and Vectors</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Euclid.html">Euclid & Number Theory</a></li>
+                        <li>Combinatorics</li>
+
+                        <li class="nav-header">Evaluation</li>
+                        <li><a href="https://numerics.mathdotnet.com/Functions.html">Special Functions</a></li>
+                        <li>Differentiation</li>
+                        <li><a href="https://numerics.mathdotnet.com/Integration.html">Integration</a></li>
+
+                        <li class="nav-header">Statistics/Probability</li>
+                        <li><a href="https://numerics.mathdotnet.com/DescriptiveStatistics.html">Descriptive Statistics</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Probability.html">Probability Distributions</a></li>
+
+                        <li class="nav-header">Generation</li>
+                        <li><a href="https://numerics.mathdotnet.com/Generate.html">Generating Data</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Random.html">Random Numbers</a></li>
+
+                        <li class="nav-header">Transformation</li>
+                        <li>Fourier Transform (FFT)</li>
+                        <li>Filtering & DSP</li>
+                        <li>Window Functions</li>
+
+                        <li class="nav-header">Solving Equations</li>
+                        <li><a href="https://numerics.mathdotnet.com/LinearEquations.html">Linear Equation Systems</a></li>
+                        <li>Nonlinear Root Finding</li>
+
+                        <li class="nav-header">Optimization</li>
+                        <li>Linear Least Squares</li>
+                        <li>Nonlinear Optimization</li>
+                        <li><a href="https://numerics.mathdotnet.com/Distance.html">Distance Metrics</a></li>
+
+                        <li class="nav-header">Curve Fitting</li>
+                        <li><a href="https://numerics.mathdotnet.com/Regression.html">Regression</a></li>
+                        <li>Interpolation</li>
+                        <li>Fourier Approximation</li>
+
+                        <li class="nav-header">Native Providers</li>
+                        <li><a href="https://numerics.mathdotnet.com/MKL.html">Intel MKL</a></li>
+
+                        <li class="nav-header">Working Together</li>
+                        <li><a href="https://numerics.mathdotnet.com/CSV.html">Delimited Text Files (CSV)</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/MatrixMarket.html">NIST MatrixMarket</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/MatlabFiles.html">MATLAB</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/IFSharpNotebook.html">IF# Notebook</a></li>
+                        <li>FsLab & Deedle</li>
+                        <li>Microsoft Excel</li>
+                        <li>numl.net machine learning</li>
+                        <li>R-project</li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

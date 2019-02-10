@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>MetropolisHastingsSampler&lt;T&gt; - Math.NET Numerics Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="../main.css"/>
+    <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="../js/navigation.js"></script>
+    <script type="text/javascript" src="../js/example.js"></script>
+  </head>
+  <body><div id="namespaces">
+	<h2 class="fixed">Namespaces</h2>
+	<div class="scroll">
+		<ul>
+			<li>
+          <a href="../MathNet.Numerics/index.htm">MathNet.Numerics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Differentiation/index.htm">MathNet.Numerics.Differentiation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Distributions/index.htm">MathNet.Numerics.Distributions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Financial/index.htm">MathNet.Numerics.Financial</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.IntegralTransforms/index.htm">MathNet.Numerics.IntegralTransforms</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Integration/index.htm">MathNet.Numerics.Integration</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Interpolation/index.htm">MathNet.Numerics.Interpolation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra/index.htm">MathNet.Numerics.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex/index.htm">MathNet.Numerics.LinearAlgebra.Complex</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32/index.htm">MathNet.Numerics.LinearAlgebra.Complex32</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex32.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double/index.htm">MathNet.Numerics.LinearAlgebra.Double</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Double.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Factorization/index.htm">MathNet.Numerics.LinearAlgebra.Factorization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single/index.htm">MathNet.Numerics.LinearAlgebra.Single</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Single.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Storage/index.htm">MathNet.Numerics.LinearAlgebra.Storage</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearRegression/index.htm">MathNet.Numerics.LinearRegression</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.OdeSolvers/index.htm">MathNet.Numerics.OdeSolvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization/index.htm">MathNet.Numerics.Optimization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.LineSearch/index.htm">MathNet.Numerics.Optimization.LineSearch</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.ObjectiveFunctions/index.htm">MathNet.Numerics.Optimization.ObjectiveFunctions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Properties/index.htm">MathNet.Numerics.Properties</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Random/index.htm">MathNet.Numerics.Random</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.RootFinding/index.htm">MathNet.Numerics.RootFinding</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics/index.htm">MathNet.Numerics.Statistics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics.Mcmc/index.htm" class="current">MathNet.Numerics.Statistics.Mcmc</a>
+      </li>
+		</ul>
+	</div>
+</div><div id="types">
+  <h2 class="fixed">Types in MathNet.Numerics.Statistics.Mcmc</h2>
+	<div class="scroll">
+		<ul>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/Density`1.htm">Density&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/DensityLn`1.htm">DensityLn&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/DiffMethod.htm">DiffMethod</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/GlobalProposalSampler`1.htm">GlobalProposalSampler&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/HybridMC.htm">HybridMC</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/HybridMCGeneric`1.htm">HybridMCGeneric&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/LocalProposalSampler`1.htm">LocalProposalSampler&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/MCMCDiagnostics.htm">MCMCDiagnostics</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/McmcSampler`1.htm">McmcSampler&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm" class="current">MetropolisHastingsSampler&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisSampler`1.htm">MetropolisSampler&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/RejectionSampler`1.htm">RejectionSampler&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/TransitionKernelLn`1.htm">TransitionKernelLn&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/UnivariateHybridMC.htm">UnivariateHybridMC</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Statistics.Mcmc/UnivariateSliceSampler.htm">UnivariateSliceSampler</a>
+        </li>
+		</ul>
+	</div>
+</div>
+    <div class="header">
+		<p class="class"><strong>Type</strong> MetropolisHastingsSampler&lt;T&gt;</p>
+		<p><strong>Namespace</strong> MathNet.Numerics.Statistics.Mcmc</p>
+		<p><strong>Parent</strong> <a href="../MathNet.Numerics.Statistics.Mcmc/McmcSampler`1.htm">McmcSampler&lt;T&gt;</a></p>
+	</div>
+    <div class="sub-header">
+			<div id="summary">Metropolis-Hastings sampling produces samples from distribution P by sampling from a proposal distribution Q
+and accepting/rejecting based on the density of P. Metropolis-Hastings sampling doesn't require that the
+proposal distribution Q is symmetric in comparison to . It does need to
+be able to evaluate the proposal sampler's log density though. All densities are required to be in log space.
+The Metropolis-Hastings sampler is a stateful sampler. It keeps track of where it currently is in the domain
+of the distribution P. 
+			</div>
+		
+			<h3 class="section">Constructors</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#.ctor">MetropolisHastingsSampler&lt;T&gt;</a></li>
+			</ul>
+
+			<h3 class="section">Methods</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#GetHashCode">GetHashCode</a></li>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#GetType">GetType</a></li>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#Sample">Sample</a></li>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#Sample">Sample</a></li>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#ToString">ToString</a></li>
+			</ul>
+		
+
+			<h3 class="section">Properties</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#AcceptanceRate">AcceptanceRate</a></li>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#BurnInterval">BurnInterval</a></li>
+				<li><a href="../MathNet.Numerics.Statistics.Mcmc/MetropolisHastingsSampler`1.htm#RandomSource">RandomSource</a></li>
+			</ul>
+		
+	</div>
+	
+	
+	<h3 class="section">Public Constructors</h3>
+	
+	<div id=".ctor" class="method">
+		<h4> <strong>MetropolisHastingsSampler&lt;T&gt;</strong>(<span title="MathNet.Numerics.Statistics.Mcmc.T">T</span> x0, <a href="../MathNet.Numerics.Statistics.Mcmc/DensityLn`1.htm">DensityLn&lt;T&gt;</a> pdfLnP, <a href="../MathNet.Numerics.Statistics.Mcmc/TransitionKernelLn`1.htm">TransitionKernelLn&lt;T&gt;</a> krnlQ, <a href="../MathNet.Numerics.Statistics.Mcmc/LocalProposalSampler`1.htm">LocalProposalSampler&lt;T&gt;</a> proposal, <span title="System.int">int</span> burnInterval)</h4>
+		<div class="content">Constructs a new Metropolis-Hastings sampler using the default  <span title="System.Random">Random</span>  random number generator. This
+constructor will set the burn interval. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Statistics.Mcmc.T">T</span></code> x0</h6>
+          <p class="comments">The initial sample. </p>
+          <h6><code><a href="../MathNet.Numerics.Statistics.Mcmc/DensityLn`1.htm">DensityLn&lt;T&gt;</a></code> pdfLnP</h6>
+          <p class="comments">The log density of the distribution we want to sample from. </p>
+          <h6><code><a href="../MathNet.Numerics.Statistics.Mcmc/TransitionKernelLn`1.htm">TransitionKernelLn&lt;T&gt;</a></code> krnlQ</h6>
+          <p class="comments">The log transition probability for the proposal distribution. </p>
+          <h6><code><a href="../MathNet.Numerics.Statistics.Mcmc/LocalProposalSampler`1.htm">LocalProposalSampler&lt;T&gt;</a></code> proposal</h6>
+          <p class="comments">A method that samples from the proposal distribution. </p>
+          <h6><code><span title="System.int">int</span></code> burnInterval</h6>
+          <p class="comments">The number of iterations in between returning samples. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	
+
+	<h3 class="section">Public Methods</h3>
+	
+	<div id="Equals" class="method">
+		<h4><span title="System.bool">bool</span> <strong>Equals</strong>(<span title="System.object">object</span> obj)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="GetHashCode" class="method">
+		<h4><span title="System.int">int</span> <strong>GetHashCode</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="GetType" class="method">
+		<h4><span title="System.Type">Type</span> <strong>GetType</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Sample" class="method">
+		<h4><span title="MathNet.Numerics.Statistics.Mcmc.T">T</span> <strong>Sample</strong>()</h4>
+		<div class="content">Returns a sample from the distribution P. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Sample" class="method">
+		<h4><span title="MathNet.Numerics.Statistics.Mcmc.T[]">T[]</span> <strong>Sample</strong>(<span title="System.int">int</span> n)</h4>
+		<div class="content">Returns a number of samples. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of samples we want. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="MathNet.Numerics.Statistics.Mcmc.T[]">T[]</span></code></h6>
+        <p>An array of samples. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	
+  <h3 class="section">Public Properties</h3>
+
+  <div id="AcceptanceRate" class="method">
+    <h4><span title="System.double">double</span> <strong>AcceptanceRate</strong> get; </h4>
+    <div class="content">
+      
+    </div>
+  </div>
+  <div id="BurnInterval" class="method">
+    <h4><span title="System.int">int</span> <strong>BurnInterval</strong> get; set;</h4>
+    <div class="content">Gets or sets the number of iterations in between returning samples. 
+      
+    </div>
+  </div>
+  <div id="RandomSource" class="method">
+    <h4><span title="System.Random">Random</span> <strong>RandomSource</strong> get; set;</h4>
+    <div class="content">
+      
+    </div>
+  </div>
+	<div id="footer">
+  <p>Based on v4.7.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
+</div>
+  </body>
+</html>

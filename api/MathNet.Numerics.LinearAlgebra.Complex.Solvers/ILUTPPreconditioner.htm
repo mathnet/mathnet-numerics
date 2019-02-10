@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>ILUTPPreconditioner - Math.NET Numerics Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="../main.css"/>
+    <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="../js/navigation.js"></script>
+    <script type="text/javascript" src="../js/example.js"></script>
+  </head>
+  <body><div id="namespaces">
+	<h2 class="fixed">Namespaces</h2>
+	<div class="scroll">
+		<ul>
+			<li>
+          <a href="../MathNet.Numerics/index.htm">MathNet.Numerics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Differentiation/index.htm">MathNet.Numerics.Differentiation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Distributions/index.htm">MathNet.Numerics.Distributions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Financial/index.htm">MathNet.Numerics.Financial</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.IntegralTransforms/index.htm">MathNet.Numerics.IntegralTransforms</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Integration/index.htm">MathNet.Numerics.Integration</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Interpolation/index.htm">MathNet.Numerics.Interpolation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra/index.htm">MathNet.Numerics.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex/index.htm">MathNet.Numerics.LinearAlgebra.Complex</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/index.htm" class="current">MathNet.Numerics.LinearAlgebra.Complex.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32/index.htm">MathNet.Numerics.LinearAlgebra.Complex32</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex32.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double/index.htm">MathNet.Numerics.LinearAlgebra.Double</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Double.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Factorization/index.htm">MathNet.Numerics.LinearAlgebra.Factorization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single/index.htm">MathNet.Numerics.LinearAlgebra.Single</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Single.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Storage/index.htm">MathNet.Numerics.LinearAlgebra.Storage</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearRegression/index.htm">MathNet.Numerics.LinearRegression</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.OdeSolvers/index.htm">MathNet.Numerics.OdeSolvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization/index.htm">MathNet.Numerics.Optimization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.LineSearch/index.htm">MathNet.Numerics.Optimization.LineSearch</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.ObjectiveFunctions/index.htm">MathNet.Numerics.Optimization.ObjectiveFunctions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Properties/index.htm">MathNet.Numerics.Properties</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Random/index.htm">MathNet.Numerics.Random</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.RootFinding/index.htm">MathNet.Numerics.RootFinding</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics/index.htm">MathNet.Numerics.Statistics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics.Mcmc/index.htm">MathNet.Numerics.Statistics.Mcmc</a>
+      </li>
+		</ul>
+	</div>
+</div><div id="types">
+  <h2 class="fixed">Types in MathNet.Numerics.LinearAlgebra.Complex.Solvers</h2>
+	<div class="scroll">
+		<ul>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/BiCgStab.htm">BiCgStab</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/CompositeSolver.htm">CompositeSolver</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/DiagonalPreconditioner.htm">DiagonalPreconditioner</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/GpBiCg.htm">GpBiCg</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILU0Preconditioner.htm">ILU0Preconditioner</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm" class="current">ILUTPPreconditioner</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/MILU0Preconditioner.htm">MILU0Preconditioner</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/MlkBiCgStab.htm">MlkBiCgStab</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/TFQMR.htm">TFQMR</a>
+        </li>
+		</ul>
+	</div>
+</div>
+    <div class="header">
+		<p class="class"><strong>Type</strong> ILUTPPreconditioner</p>
+		<p><strong>Namespace</strong> MathNet.Numerics.LinearAlgebra.Complex.Solvers</p>
+		<p><strong>Interfaces</strong> <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IPreconditioner`1.htm">IPreconditioner&lt;T&gt;</a></p>
+	</div>
+    <div class="sub-header">
+			<div id="summary">This class performs an Incomplete LU factorization with drop tolerance
+and partial pivoting. The drop tolerance indicates which additional entries
+will be dropped from the factorized LU matrices. <blockquote class="remarks">
+  The ILUTP-Mem algorithm was taken from:  ILUTP_Mem: a Space-Efficient Incomplete LU Preconditioner Tzu-Yi Chen, Department of Mathematics and Computer Science,  Pomona College, Claremont CA 91711, USA  Published in:  Lecture Notes in Computer Science  Volume 3046 / 2004  pp. 20 - 28  Algorithm is described in Section 2, page 22 
+</blockquote>
+			</div>
+		
+			<h3 class="section">Constructors</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#.ctor">ILUTPPreconditioner</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#.ctor">ILUTPPreconditioner</a></li>
+			</ul>
+
+			<h3 class="section">Methods</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#Approximate">Approximate</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#GetHashCode">GetHashCode</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#GetType">GetType</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#Initialize">Initialize</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#ToString">ToString</a></li>
+			</ul>
+		
+
+			<h3 class="section">Properties</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#DropTolerance">DropTolerance</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#FillLevel">FillLevel</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#PivotTolerance">PivotTolerance</a></li>
+			</ul>
+		
+			<h3 class="section">Fields</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#DefaultFillLevel">DefaultFillLevel</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm#DefaultDropTolerance">DefaultDropTolerance</a></li>
+			</ul>
+	</div>
+	
+	
+	<h3 class="section">Public Constructors</h3>
+	
+	<div id=".ctor" class="method">
+		<h4> <strong>ILUTPPreconditioner</strong>()</h4>
+		<div class="content">Initializes a new instance of the  <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm">ILUTPPreconditioner</a>  class with the default settings. 
+
+
+
+      
+    </div>
+	</div>
+	<div id=".ctor" class="method">
+		<h4> <strong>ILUTPPreconditioner</strong>(<span title="System.double">double</span> fillLevel, <span title="System.double">double</span> dropTolerance, <span title="System.double">double</span> pivotTolerance)</h4>
+		<div class="content">Initializes a new instance of the  <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/ILUTPPreconditioner.htm">ILUTPPreconditioner</a>  class with the specified settings. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> fillLevel</h6>
+          <p class="comments">The amount of fill that is allowed in the matrix. The value is a fraction of
+the number of non-zero entries in the original matrix. Values should be positive. </p>
+          <h6><code><span title="System.double">double</span></code> dropTolerance</h6>
+          <p class="comments">The absolute drop tolerance which indicates below what absolute value an entry
+will be dropped from the matrix. A drop tolerance of 0.0 means that no values
+will be dropped. Values should always be positive. </p>
+          <h6><code><span title="System.double">double</span></code> pivotTolerance</h6>
+          <p class="comments">The pivot tolerance which indicates at what level pivoting will take place. A
+value of 0.0 means that no pivoting will take place. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	
+
+	<h3 class="section">Public Methods</h3>
+	
+	<div id="Approximate" class="method">
+		<h4><span title="System.void">void</span> <strong>Approximate</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> rhs, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> lhs)</h4>
+		<div class="content">Approximates the solution to the matrix equation . 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> rhs</h6>
+          <p class="comments">The right hand side vector. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> lhs</h6>
+          <p class="comments">The left hand side vector. Also known as the result vector. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Equals" class="method">
+		<h4><span title="System.bool">bool</span> <strong>Equals</strong>(<span title="System.object">object</span> obj)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="GetHashCode" class="method">
+		<h4><span title="System.int">int</span> <strong>GetHashCode</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="GetType" class="method">
+		<h4><span title="System.Type">Type</span> <strong>GetType</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Initialize" class="method">
+		<h4><span title="System.void">void</span> <strong>Initialize</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> matrix)</h4>
+		<div class="content">Initializes the preconditioner and loads the internal data structures. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> matrix</h6>
+          <p class="comments">The  <a href="../MathNet.Numerics.LinearAlgebra.Complex/Matrix.htm">Matrix</a>  upon which this preconditioner is based. Note that the
+method takes a general matrix type. However internally the data is stored
+as a sparse matrix. Therefore it is not recommended to pass a dense matrix. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	
+  <h3 class="section">Public Properties</h3>
+
+  <div id="DropTolerance" class="method">
+    <h4><span title="System.double">double</span> <strong>DropTolerance</strong> get; set;</h4>
+    <div class="content">Gets or sets the absolute drop tolerance which indicates below what absolute value
+an entry will be dropped from the matrix. The standard value is 0.0001. <blockquote class="remarks">
+  <p>The values should always be positive and can be larger than 1.0. A low value will
+keep more small numbers in the preconditioner matrix. A high value will remove
+more small numbers from the preconditioner matrix. </p> <p>Note that any changes to the   after creating the preconditioner
+will invalidate the created preconditioner and will require a re-initialization of
+the preconditioner. </p> 
+</blockquote>
+      
+    </div>
+  </div>
+  <div id="FillLevel" class="method">
+    <h4><span title="System.double">double</span> <strong>FillLevel</strong> get; set;</h4>
+    <div class="content">Gets or sets the amount of fill that is allowed in the matrix. The
+value is a fraction of the number of non-zero entries in the original
+matrix. The standard value is 200. <blockquote class="remarks">
+  <p>Values should always be positive and can be higher than 1.0. A value lower
+than 1.0 means that the eventual preconditioner matrix will have fewer
+non-zero entries as the original matrix. A value higher than 1.0 means that
+the eventual preconditioner can have more non-zero values than the original
+matrix. </p> <p>Note that any changes to the   after creating the preconditioner
+will invalidate the created preconditioner and will require a re-initialization of
+the preconditioner. </p> 
+</blockquote>
+      
+    </div>
+  </div>
+  <div id="PivotTolerance" class="method">
+    <h4><span title="System.double">double</span> <strong>PivotTolerance</strong> get; set;</h4>
+    <div class="content">Gets or sets the pivot tolerance which indicates at what level pivoting will
+take place. The standard value is 0.0 which means pivoting will never take place. <blockquote class="remarks">
+  <p>The pivot tolerance is used to calculate if pivoting is necessary. Pivoting
+will take place if any of the values in a row is bigger than the
+diagonal value of that row divided by the pivot tolerance, i.e. pivoting
+will take place if   for
+any   that is not equal to. </p> <p>Note that any changes to the   after creating the preconditioner
+will invalidate the created preconditioner and will require a re-initialization of
+the preconditioner. </p> 
+</blockquote>
+      
+    </div>
+  </div>
+  <h3 class="section">Public fields</h3>
+
+  <div id="DefaultFillLevel" class="method">
+    <h4>double <strong>DefaultFillLevel</strong></h4>
+    <div class="content">The default fill level. 
+      <table>
+        <tr>
+          <td>
+            <code>return <span title="System.double">double</span></code>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="DefaultDropTolerance" class="method">
+    <h4>double <strong>DefaultDropTolerance</strong></h4>
+    <div class="content">The default drop tolerance. 
+      <table>
+        <tr>
+          <td>
+            <code>return <span title="System.double">double</span></code>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+	<div id="footer">
+  <p>Based on v4.7.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
+</div>
+  </body>
+</html>

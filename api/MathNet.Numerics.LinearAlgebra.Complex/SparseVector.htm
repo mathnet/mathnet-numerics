@@ -1,0 +1,2609 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>SparseVector - Math.NET Numerics Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="../main.css"/>
+    <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="../js/navigation.js"></script>
+    <script type="text/javascript" src="../js/example.js"></script>
+  </head>
+  <body><div id="namespaces">
+	<h2 class="fixed">Namespaces</h2>
+	<div class="scroll">
+		<ul>
+			<li>
+          <a href="../MathNet.Numerics/index.htm">MathNet.Numerics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Differentiation/index.htm">MathNet.Numerics.Differentiation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Distributions/index.htm">MathNet.Numerics.Distributions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Financial/index.htm">MathNet.Numerics.Financial</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.IntegralTransforms/index.htm">MathNet.Numerics.IntegralTransforms</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Integration/index.htm">MathNet.Numerics.Integration</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Interpolation/index.htm">MathNet.Numerics.Interpolation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra/index.htm">MathNet.Numerics.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex/index.htm" class="current">MathNet.Numerics.LinearAlgebra.Complex</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32/index.htm">MathNet.Numerics.LinearAlgebra.Complex32</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex32.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double/index.htm">MathNet.Numerics.LinearAlgebra.Double</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Double.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Factorization/index.htm">MathNet.Numerics.LinearAlgebra.Factorization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single/index.htm">MathNet.Numerics.LinearAlgebra.Single</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Single.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Storage/index.htm">MathNet.Numerics.LinearAlgebra.Storage</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearRegression/index.htm">MathNet.Numerics.LinearRegression</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.OdeSolvers/index.htm">MathNet.Numerics.OdeSolvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization/index.htm">MathNet.Numerics.Optimization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.LineSearch/index.htm">MathNet.Numerics.Optimization.LineSearch</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.ObjectiveFunctions/index.htm">MathNet.Numerics.Optimization.ObjectiveFunctions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Properties/index.htm">MathNet.Numerics.Properties</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Random/index.htm">MathNet.Numerics.Random</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.RootFinding/index.htm">MathNet.Numerics.RootFinding</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics/index.htm">MathNet.Numerics.Statistics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics.Mcmc/index.htm">MathNet.Numerics.Statistics.Mcmc</a>
+      </li>
+		</ul>
+	</div>
+</div><div id="types">
+  <h2 class="fixed">Types in MathNet.Numerics.LinearAlgebra.Complex</h2>
+	<div class="scroll">
+		<ul>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex/DenseMatrix.htm">DenseMatrix</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex/DenseVector.htm">DenseVector</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex/DiagonalMatrix.htm">DiagonalMatrix</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex/Matrix.htm">Matrix</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm">SparseMatrix</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm" class="current">SparseVector</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.LinearAlgebra.Complex/Vector.htm">Vector</a>
+        </li>
+		</ul>
+	</div>
+</div>
+    <div class="header">
+		<p class="class"><strong>Type</strong> SparseVector</p>
+		<p><strong>Namespace</strong> MathNet.Numerics.LinearAlgebra.Complex</p>
+		<p><strong>Parent</strong> <a href="../MathNet.Numerics.LinearAlgebra.Complex/Vector.htm">Vector</a></p>
+	</div>
+    <div class="sub-header">
+			<div id="summary">A vector with sparse storage, intended for very large vectors where most of the cells are zero. <blockquote class="remarks">
+  The sparse vector is not thread safe. 
+</blockquote>
+			</div>
+		
+			<h3 class="section">Constructors</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#.ctor">SparseVector</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#.ctor">SparseVector</a></li>
+			</ul>
+
+			<h3 class="section">Static Functions</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Create">Create</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Create">Create</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#OfEnumerable">OfEnumerable</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#OfIndexedEnumerable">OfIndexedEnumerable</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#OfVector">OfVector</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Parse">Parse</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#TryParse">TryParse</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#TryParse">TryParse</a></li>
+			</ul>
+			<h3 class="section">Methods</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#AbsoluteMaximum">AbsoluteMaximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#AbsoluteMaximumIndex">AbsoluteMaximumIndex</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#AbsoluteMinimum">AbsoluteMinimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#AbsoluteMinimumIndex">AbsoluteMinimumIndex</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Add">Add</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Add">Add</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Add">Add</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Add">Add</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#AsArray">AsArray</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#At">At</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#At">At</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Clear">Clear</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ClearSubVector">ClearSubVector</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Clone">Clone</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#CoerceZero">CoerceZero</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#CoerceZero">CoerceZero</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Conjugate">Conjugate</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Conjugate">Conjugate</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ConjugateDotProduct">ConjugateDotProduct</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#CopySubVectorTo">CopySubVectorTo</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#CopyTo">CopyTo</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Divide">Divide</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Divide">Divide</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#DivideByThis">DivideByThis</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#DivideByThis">DivideByThis</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#DotProduct">DotProduct</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Enumerate">Enumerate</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Enumerate">Enumerate</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#EnumerateIndexed">EnumerateIndexed</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#EnumerateIndexed">EnumerateIndexed</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Exists">Exists</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Exists2``1">Exists2&lt;TOther&gt;</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Find">Find</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Find2``1">Find2&lt;TOther&gt;</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Fold2``2">Fold2&lt;TOther, TState&gt;</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ForAll">ForAll</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ForAll2``1">ForAll2&lt;TOther&gt;</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#GetHashCode">GetHashCode</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#GetType">GetType</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#InfinityNorm">InfinityNorm</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#L1Norm">L1Norm</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#L2Norm">L2Norm</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Map">Map</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Map``1">Map&lt;TU&gt;</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Map2">Map2</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Map2">Map2</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#MapConvert``1">MapConvert&lt;TU&gt;</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#MapIndexed">MapIndexed</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#MapIndexed``1">MapIndexed&lt;TU&gt;</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#MapIndexedConvert``1">MapIndexedConvert&lt;TU&gt;</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#MapIndexedInplace">MapIndexedInplace</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#MapInplace">MapInplace</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Maximum">Maximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#MaximumIndex">MaximumIndex</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Minimum">Minimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#MinimumIndex">MinimumIndex</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Modulus">Modulus</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Modulus">Modulus</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ModulusByThis">ModulusByThis</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ModulusByThis">ModulusByThis</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Multiply">Multiply</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Multiply">Multiply</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Negate">Negate</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Negate">Negate</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Norm">Norm</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Normalize">Normalize</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#OuterProduct">OuterProduct</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#OuterProduct">OuterProduct</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbs">PointwiseAbs</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbs">PointwiseAbs</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbsoluteMaximum">PointwiseAbsoluteMaximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbsoluteMaximum">PointwiseAbsoluteMaximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbsoluteMaximum">PointwiseAbsoluteMaximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbsoluteMaximum">PointwiseAbsoluteMaximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbsoluteMinimum">PointwiseAbsoluteMinimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbsoluteMinimum">PointwiseAbsoluteMinimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbsoluteMinimum">PointwiseAbsoluteMinimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAbsoluteMinimum">PointwiseAbsoluteMinimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAcos">PointwiseAcos</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAcos">PointwiseAcos</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAsin">PointwiseAsin</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAsin">PointwiseAsin</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAtan">PointwiseAtan</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAtan">PointwiseAtan</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAtan2">PointwiseAtan2</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseAtan2">PointwiseAtan2</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseCeiling">PointwiseCeiling</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseCeiling">PointwiseCeiling</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseCos">PointwiseCos</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseCos">PointwiseCos</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseCosh">PointwiseCosh</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseCosh">PointwiseCosh</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseDivide">PointwiseDivide</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseDivide">PointwiseDivide</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseExp">PointwiseExp</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseExp">PointwiseExp</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseFloor">PointwiseFloor</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseFloor">PointwiseFloor</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseLog">PointwiseLog</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseLog">PointwiseLog</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseLog10">PointwiseLog10</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseLog10">PointwiseLog10</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMaximum">PointwiseMaximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMaximum">PointwiseMaximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMaximum">PointwiseMaximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMaximum">PointwiseMaximum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMinimum">PointwiseMinimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMinimum">PointwiseMinimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMinimum">PointwiseMinimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMinimum">PointwiseMinimum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseModulus">PointwiseModulus</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseModulus">PointwiseModulus</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMultiply">PointwiseMultiply</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseMultiply">PointwiseMultiply</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwisePower">PointwisePower</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwisePower">PointwisePower</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwisePower">PointwisePower</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwisePower">PointwisePower</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseRemainder">PointwiseRemainder</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseRemainder">PointwiseRemainder</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseRound">PointwiseRound</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseRound">PointwiseRound</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseSign">PointwiseSign</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseSign">PointwiseSign</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseSin">PointwiseSin</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseSin">PointwiseSin</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseSinh">PointwiseSinh</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseSinh">PointwiseSinh</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseSqrt">PointwiseSqrt</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseSqrt">PointwiseSqrt</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseTan">PointwiseTan</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseTan">PointwiseTan</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseTanh">PointwiseTanh</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#PointwiseTanh">PointwiseTanh</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Remainder">Remainder</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Remainder">Remainder</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#RemainderByThis">RemainderByThis</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#RemainderByThis">RemainderByThis</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#SetSubVector">SetSubVector</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#SetValues">SetValues</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Subtract">Subtract</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Subtract">Subtract</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Subtract">Subtract</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Subtract">Subtract</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#SubtractFrom">SubtractFrom</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#SubtractFrom">SubtractFrom</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#SubVector">SubVector</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Sum">Sum</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#SumMagnitudes">SumMagnitudes</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToArray">ToArray</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToColumnMatrix">ToColumnMatrix</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToRowMatrix">ToRowMatrix</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToTypeString">ToTypeString</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToVectorString">ToVectorString</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToVectorString">ToVectorString</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToVectorString">ToVectorString</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#ToVectorStringArray">ToVectorStringArray</a></li>
+			</ul>
+		
+
+			<h3 class="section">Properties</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Count">Count</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Item">Item</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#NonZerosCount">NonZerosCount</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm#Storage">Storage</a></li>
+			</ul>
+		
+	</div>
+	
+	
+	<h3 class="section">Public Constructors</h3>
+	
+	<div id=".ctor" class="method">
+		<h4> <strong>SparseVector</strong>(<span title="System.int">int</span> length)</h4>
+		<div class="content">Create a new sparse vector with the given length.
+All cells of the vector will be initialized to zero.
+Zero-length vectors are not supported. 
+
+
+
+      
+    </div>
+	</div>
+	<div id=".ctor" class="method">
+		<h4> <strong>SparseVector</strong>(<a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseVectorStorage`1.htm">SparseVectorStorage&lt;T&gt;</a> storage)</h4>
+		<div class="content">Create a new sparse vector straight from an initialized vector storage instance.
+The storage is used directly without copying.
+Intended for advanced scenarios where you're working directly with
+storage for performance or interop reasons. 
+
+
+
+      
+    </div>
+	</div>
+	
+	<h3 class="section">Public Static Functions</h3>
+	
+	<div id="Create" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm">SparseVector</a> <strong>Create</strong>(<span title="System.int">int</span> length, <span title="System.Numerics.Complex">Complex</span> value)</h4>
+		<div class="content">Create a new sparse vector and initialize each value using the provided value. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Create" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm">SparseVector</a> <strong>Create</strong>(<span title="System.int">int</span> length, <span title="System.Func<int, Complex>">Func&lt;int, Complex&gt;</span> init)</h4>
+		<div class="content">Create a new sparse vector and initialize each value using the provided init function. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="OfEnumerable" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm">SparseVector</a> <strong>OfEnumerable</strong>(<span title="System.Collections.Generic.IEnumerable<Complex>">IEnumerable&lt;Complex&gt;</span> enumerable)</h4>
+		<div class="content">Create a new sparse vector as a copy of the given enumerable.
+This new vector will be independent from the enumerable.
+A new memory block will be allocated for storing the vector. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="OfIndexedEnumerable" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm">SparseVector</a> <strong>OfIndexedEnumerable</strong>(<span title="System.int">int</span> length, <span title="System.Collections.Generic.IEnumerable<Tuple<int, Complex>>">IEnumerable&lt;Tuple&lt;int, Complex&gt;&gt;</span> enumerable)</h4>
+		<div class="content">Create a new sparse vector as a copy of the given indexed enumerable.
+Keys must be provided at most once, zero is assumed if a key is omitted.
+This new vector will be independent from the enumerable.
+A new memory block will be allocated for storing the vector. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="OfVector" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm">SparseVector</a> <strong>OfVector</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> vector)</h4>
+		<div class="content">Create a new sparse vector as a copy of the given other vector.
+This new vector will be independent from the other vector.
+A new memory block will be allocated for storing the vector. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Parse" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm">SparseVector</a> <strong>Parse</strong>(<span title="System.string">string</span> value, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider)</h4>
+		<div class="content">Creates a double sparse vector based on a string. The string can be in the following formats (without the
+quotes): 'n', 'n;n;..', '(n;n;..)', '[n;n;...]', where n is a Complex. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.string">string</span></code> value</h6>
+          <p class="comments">the string to parse. </p>
+          <h6><code><span title="System.IFormatProvider">IFormatProvider</span></code> formatProvider</h6>
+          <p class="comments">An  <a href="../System/IFormatProvider.htm">IFormatProvider</a>  that supplies culture-specific formatting information. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseVector.htm">SparseVector</a></code></h6>
+        <p>A double sparse vector containing the values specified by the given string. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="TryParse" class="method">
+		<h4><span title="System.bool">bool</span> <strong>TryParse</strong>(<span title="System.string">string</span> value, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider, <span title="MathNet.Numerics.LinearAlgebra.Complex.SparseVector&">SparseVector&amp;</span> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="TryParse" class="method">
+		<h4><span title="System.bool">bool</span> <strong>TryParse</strong>(<span title="System.string">string</span> value, <span title="MathNet.Numerics.LinearAlgebra.Complex.SparseVector&">SparseVector&amp;</span> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+
+	<h3 class="section">Public Methods</h3>
+	
+	<div id="AbsoluteMaximum" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>AbsoluteMaximum</strong>()</h4>
+		<div class="content">Returns the value of the absolute maximum element. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The value of the absolute maximum element. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="AbsoluteMaximumIndex" class="method">
+		<h4><span title="System.int">int</span> <strong>AbsoluteMaximumIndex</strong>()</h4>
+		<div class="content">Returns the index of the absolute maximum element. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.int">int</span></code></h6>
+        <p>The index of absolute maximum element. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="AbsoluteMinimum" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>AbsoluteMinimum</strong>()</h4>
+		<div class="content">Returns the value of the absolute minimum element. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The value of the absolute minimum element. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="AbsoluteMinimumIndex" class="method">
+		<h4><span title="System.int">int</span> <strong>AbsoluteMinimumIndex</strong>()</h4>
+		<div class="content">Returns the index of the absolute minimum element. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.int">int</span></code></h6>
+        <p>The index of absolute minimum element. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Add" class="method">
+		<h4><span title="System.void">void</span> <strong>Add</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Adds another vector to this vector and stores the result into the result vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector to add to this one. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result of the addition. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Add" class="method">
+		<h4><span title="System.void">void</span> <strong>Add</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Add" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Add</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Add" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Add</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Adds another vector to this vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector to add to this one. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>A new vector containing the sum of both vectors. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="AsArray" class="method">
+		<h4><span title="System.Numerics.Complex[]">Complex[]</span> <strong>AsArray</strong>()</h4>
+		<div class="content">Returns the internal array of this vector if, and only if, this vector is stored by such an array internally.
+Otherwise returns null. Changes to the returned array and the vector will affect each other.
+Use ToArray instead if you always need an independent array. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="At" class="method">
+		<h4><span title="System.void">void</span> <strong>At</strong>(<span title="System.int">int</span> index, <span title="System.Numerics.Complex">Complex</span> value)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="At" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>At</strong>(<span title="System.int">int</span> index)</h4>
+		<div class="content">Gets the value at the given  <var>index</var>  without range checking.. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> index</h6>
+          <p class="comments">The index of the value to get or set. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The value of the vector at the given  <var>index</var>. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Clear" class="method">
+		<h4><span title="System.void">void</span> <strong>Clear</strong>()</h4>
+		<div class="content">Resets all values to zero. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ClearSubVector" class="method">
+		<h4><span title="System.void">void</span> <strong>ClearSubVector</strong>(<span title="System.int">int</span> index, <span title="System.int">int</span> count)</h4>
+		<div class="content">Sets all values of a subvector to zero. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Clone" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Clone</strong>()</h4>
+		<div class="content">Returns a deep-copy clone of the vector. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>A deep-copy clone of the vector. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="CoerceZero" class="method">
+		<h4><span title="System.void">void</span> <strong>CoerceZero</strong>(<span title="System.Func<Complex, bool>">Func&lt;Complex, bool&gt;</span> zeroPredicate)</h4>
+		<div class="content">Set all values that meet the predicate to zero, in-place. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="CoerceZero" class="method">
+		<h4><span title="System.void">void</span> <strong>CoerceZero</strong>(<span title="System.double">double</span> threshold)</h4>
+		<div class="content">Set all values whose absolute value is smaller than the threshold to zero. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Conjugate" class="method">
+		<h4><span title="System.void">void</span> <strong>Conjugate</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Complex conjugates vector and save result to  <var>result</var> 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">Target vector </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Conjugate" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Conjugate</strong>()</h4>
+		<div class="content">Return vector with complex conjugate values of the source vector 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>Conjugated vector </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="ConjugateDotProduct" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>ConjugateDotProduct</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Computes the dot product between the conjugate of this vector and another vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The other vector. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The sum of conj(a[i])*b[i] for all i. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="CopySubVectorTo" class="method">
+		<h4><span title="System.void">void</span> <strong>CopySubVectorTo</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> destination, <span title="System.int">int</span> sourceIndex, <span title="System.int">int</span> targetIndex, <span title="System.int">int</span> count)</h4>
+		<div class="content">Copies the requested elements from this vector to another. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> destination</h6>
+          <p class="comments">The vector to copy the elements to. </p>
+          <h6><code><span title="System.int">int</span></code> sourceIndex</h6>
+          <p class="comments">The element to start copying from. </p>
+          <h6><code><span title="System.int">int</span></code> targetIndex</h6>
+          <p class="comments">The element to start copying to. </p>
+          <h6><code><span title="System.int">int</span></code> count</h6>
+          <p class="comments">The number of elements to copy. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="CopyTo" class="method">
+		<h4><span title="System.void">void</span> <strong>CopyTo</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> target)</h4>
+		<div class="content">Copies the values of this vector into the target vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> target</h6>
+          <p class="comments">The vector to copy elements into. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Divide" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Divide</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Divide" class="method">
+		<h4><span title="System.void">void</span> <strong>Divide</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="DivideByThis" class="method">
+		<h4><span title="System.void">void</span> <strong>DivideByThis</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="DivideByThis" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>DivideByThis</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="DotProduct" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>DotProduct</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Computes the dot product between this vector and another vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The other vector. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The sum of a[i]*b[i] for all i. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Enumerate" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<Complex>">IEnumerable&lt;Complex&gt;</span> <strong>Enumerate</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Returns an IEnumerable that can be used to iterate through all values of the vector. <blockquote class="remarks">
+  The enumerator will include all values, even if they are zero. 
+</blockquote>
+
+
+
+      
+    </div>
+	</div>
+	<div id="Enumerate" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<Complex>">IEnumerable&lt;Complex&gt;</span> <strong>Enumerate</strong>()</h4>
+		<div class="content">Returns an IEnumerable that can be used to iterate through all values of the vector. <blockquote class="remarks">
+  The enumerator will include all values, even if they are zero. 
+</blockquote>
+
+
+
+      
+    </div>
+	</div>
+	<div id="EnumerateIndexed" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<Tuple<int, Complex>>">IEnumerable&lt;Tuple&lt;int, Complex&gt;&gt;</span> <strong>EnumerateIndexed</strong>()</h4>
+		<div class="content">Returns an IEnumerable that can be used to iterate through all values of the vector and their index. <blockquote class="remarks">
+  The enumerator returns a Tuple with the first value being the element index
+and the second value being the value of the element at that index.
+The enumerator will include all values, even if they are zero. 
+</blockquote>
+
+
+
+      
+    </div>
+	</div>
+	<div id="EnumerateIndexed" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<Tuple<int, Complex>>">IEnumerable&lt;Tuple&lt;int, Complex&gt;&gt;</span> <strong>EnumerateIndexed</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Returns an IEnumerable that can be used to iterate through all values of the vector and their index. <blockquote class="remarks">
+  The enumerator returns a Tuple with the first value being the element index
+and the second value being the value of the element at that index.
+The enumerator will include all values, even if they are zero. 
+</blockquote>
+
+
+
+      
+    </div>
+	</div>
+	<div id="Equals" class="method">
+		<h4><span title="System.bool">bool</span> <strong>Equals</strong>(<span title="System.object">object</span> obj)</h4>
+		<div class="content">Determines whether the specified  <span title="System.Object">Object</span>  is equal to this instance. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.object">object</span></code> obj</h6>
+          <p class="comments">The  <a href="../System/Object.htm">Object</a>  to compare with this instance. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.bool">bool</span></code></h6>
+        <p><code>true</code>  if the specified  <a href="../System/Object.htm">Object</a>  is equal to this instance; otherwise,  <code>false</code>. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Equals" class="method">
+		<h4><span title="System.bool">bool</span> <strong>Equals</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Indicates whether the current object is equal to another object of the same type. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">An object to compare with this object. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.bool">bool</span></code></h6>
+        <p><code>true</code>  if the current object is equal to the  <var>other</var>  parameter; otherwise,  <code>false</code>. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Exists" class="method">
+		<h4><span title="System.bool">bool</span> <strong>Exists</strong>(<span title="System.Func<Complex, bool>">Func&lt;Complex, bool&gt;</span> predicate, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Returns true if at least one element satisfies a predicate.
+Zero elements may be skipped on sparse data structures if allowed (default). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Exists2``1" class="method">
+		<h4><span title="System.bool">bool</span> <strong>Exists2&lt;TOther&gt;</strong>(<span title="System.Func<Complex, TOther, bool>">Func&lt;Complex, TOther, bool&gt;</span> predicate, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Returns true if at least one element pairs of two vectors of the same size satisfies a predicate.
+Zero elements may be skipped on sparse data structures if allowed (default). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Find" class="method">
+		<h4><span title="System.Tuple<int, Complex>">Tuple&lt;int, Complex&gt;</span> <strong>Find</strong>(<span title="System.Func<Complex, bool>">Func&lt;Complex, bool&gt;</span> predicate, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Returns a tuple with the index and value of the first element satisfying a predicate, or null if none is found.
+Zero elements may be skipped on sparse data structures if allowed (default). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Find2``1" class="method">
+		<h4><span title="System.Tuple<int, Complex, TOther>">Tuple&lt;int, Complex, TOther&gt;</span> <strong>Find2&lt;TOther&gt;</strong>(<span title="System.Func<Complex, TOther, bool>">Func&lt;Complex, TOther, bool&gt;</span> predicate, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Returns a tuple with the index and values of the first element pair of two vectors of the same size satisfying a predicate, or null if none is found.
+Zero elements may be skipped on sparse data structures if allowed (default). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Fold2``2" class="method">
+		<h4><span title="MathNet.Numerics.LinearAlgebra.TState">TState</span> <strong>Fold2&lt;TOther, TState&gt;</strong>(<span title="System.Func<TState, Complex, TOther, TState>">Func&lt;TState, Complex, TOther, TState&gt;</span> f, <span title="MathNet.Numerics.LinearAlgebra.TState">TState</span> state, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to update the status with each value pair of two vectors and returns the resulting status. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ForAll" class="method">
+		<h4><span title="System.bool">bool</span> <strong>ForAll</strong>(<span title="System.Func<Complex, bool>">Func&lt;Complex, bool&gt;</span> predicate, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Returns true if all elements satisfy a predicate.
+Zero elements may be skipped on sparse data structures if allowed (default). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ForAll2``1" class="method">
+		<h4><span title="System.bool">bool</span> <strong>ForAll2&lt;TOther&gt;</strong>(<span title="System.Func<Complex, TOther, bool>">Func&lt;Complex, TOther, bool&gt;</span> predicate, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Returns true if all element pairs of two vectors of the same size satisfy a predicate.
+Zero elements may be skipped on sparse data structures if allowed (default). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="GetHashCode" class="method">
+		<h4><span title="System.int">int</span> <strong>GetHashCode</strong>()</h4>
+		<div class="content">Returns a hash code for this instance. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.int">int</span></code></h6>
+        <p>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="GetType" class="method">
+		<h4><span title="System.Type">Type</span> <strong>GetType</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="InfinityNorm" class="method">
+		<h4><span title="System.double">double</span> <strong>InfinityNorm</strong>()</h4>
+		<div class="content">Calculates the infinity norm of the vector. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>The maximum absolute value. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="L1Norm" class="method">
+		<h4><span title="System.double">double</span> <strong>L1Norm</strong>()</h4>
+		<div class="content">Calculates the L1 norm of the vector, also known as Manhattan norm. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>The sum of the absolute values. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="L2Norm" class="method">
+		<h4><span title="System.double">double</span> <strong>L2Norm</strong>()</h4>
+		<div class="content">Calculates the L2 norm of the vector, also known as Euclidean norm. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>The square root of the sum of the squared values. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Map" class="method">
+		<h4><span title="System.void">void</span> <strong>Map</strong>(<span title="System.Func<Complex, Complex>">Func&lt;Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value of this vector and replaces the value in the result vector.
+If forceMapZero is not set to true, zero values may or may not be skipped depending
+on the actual data storage implementation (relevant mostly for sparse vectors). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Map``1" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Map&lt;TU&gt;</strong>(<span title="System.Func<Complex, TU>">Func&lt;Complex, TU&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value of this vector and returns the results as a new vector.
+If forceMapZero is not set to true, zero values may or may not be skipped depending
+on the actual data storage implementation (relevant mostly for sparse vectors). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Map2" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Map2</strong>(<span title="System.Func<Complex, Complex, Complex>">Func&lt;Complex, Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value pair of two vectors and returns the results as a new vector. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Map2" class="method">
+		<h4><span title="System.void">void</span> <strong>Map2</strong>(<span title="System.Func<Complex, Complex, Complex>">Func&lt;Complex, Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value pair of two vectors and replaces the value in the result vector. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="MapConvert``1" class="method">
+		<h4><span title="System.void">void</span> <strong>MapConvert&lt;TU&gt;</strong>(<span title="System.Func<Complex, TU>">Func&lt;Complex, TU&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value of this vector and replaces the value in the result vector.
+If forceMapZero is not set to true, zero values may or may not be skipped depending
+on the actual data storage implementation (relevant mostly for sparse vectors). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="MapIndexed" class="method">
+		<h4><span title="System.void">void</span> <strong>MapIndexed</strong>(<span title="System.Func<int, Complex, Complex>">Func&lt;int, Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value of this vector and replaces the value in the result vector.
+The index of each value (zero-based) is passed as first argument to the function.
+If forceMapZero is not set to true, zero values may or may not be skipped depending
+on the actual data storage implementation (relevant mostly for sparse vectors). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="MapIndexed``1" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>MapIndexed&lt;TU&gt;</strong>(<span title="System.Func<int, Complex, TU>">Func&lt;int, Complex, TU&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value of this vector and returns the results as a new vector.
+The index of each value (zero-based) is passed as first argument to the function.
+If forceMapZero is not set to true, zero values may or may not be skipped depending
+on the actual data storage implementation (relevant mostly for sparse vectors). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="MapIndexedConvert``1" class="method">
+		<h4><span title="System.void">void</span> <strong>MapIndexedConvert&lt;TU&gt;</strong>(<span title="System.Func<int, Complex, TU>">Func&lt;int, Complex, TU&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value of this vector and replaces the value in the result vector.
+The index of each value (zero-based) is passed as first argument to the function.
+If forceMapZero is not set to true, zero values may or may not be skipped depending
+on the actual data storage implementation (relevant mostly for sparse vectors). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="MapIndexedInplace" class="method">
+		<h4><span title="System.void">void</span> <strong>MapIndexedInplace</strong>(<span title="System.Func<int, Complex, Complex>">Func&lt;int, Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value of this vector and replaces the value with its result.
+The index of each value (zero-based) is passed as first argument to the function.
+If forceMapZero is not set to true, zero values may or may not be skipped depending
+on the actual data storage implementation (relevant mostly for sparse vectors). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="MapInplace" class="method">
+		<h4><span title="System.void">void</span> <strong>MapInplace</strong>(<span title="System.Func<Complex, Complex>">Func&lt;Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value of this vector and replaces the value with its result.
+If forceMapZero is not set to true, zero values may or may not be skipped depending
+on the actual data storage implementation (relevant mostly for sparse vectors). 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Maximum" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Maximum</strong>()</h4>
+		<div class="content">Returns the value of maximum element. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The value of maximum element. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="MaximumIndex" class="method">
+		<h4><span title="System.int">int</span> <strong>MaximumIndex</strong>()</h4>
+		<div class="content">Returns the index of the maximum element. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.int">int</span></code></h6>
+        <p>The index of maximum element. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Minimum" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Minimum</strong>()</h4>
+		<div class="content">Returns the value of the minimum element. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The value of the minimum element. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="MinimumIndex" class="method">
+		<h4><span title="System.int">int</span> <strong>MinimumIndex</strong>()</h4>
+		<div class="content">Returns the index of the minimum element. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.int">int</span></code></h6>
+        <p>The index of minimum element. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Modulus" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Modulus</strong>(<span title="System.Numerics.Complex">Complex</span> divisor)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Modulus" class="method">
+		<h4><span title="System.void">void</span> <strong>Modulus</strong>(<span title="System.Numerics.Complex">Complex</span> divisor, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="ModulusByThis" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>ModulusByThis</strong>(<span title="System.Numerics.Complex">Complex</span> dividend)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="ModulusByThis" class="method">
+		<h4><span title="System.void">void</span> <strong>ModulusByThis</strong>(<span title="System.Numerics.Complex">Complex</span> dividend, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Multiply" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Multiply</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Multiply" class="method">
+		<h4><span title="System.void">void</span> <strong>Multiply</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Negate" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Negate</strong>()</h4>
+		<div class="content">Returns a negated vector. <blockquote class="remarks">
+  Added as an alternative to the unary negation operator. 
+</blockquote>
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>The negated vector. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Negate" class="method">
+		<h4><span title="System.void">void</span> <strong>Negate</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Negates vector and save result to  <var>result</var> 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">Target vector </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Norm" class="method">
+		<h4><span title="System.double">double</span> <strong>Norm</strong>(<span title="System.double">double</span> p)</h4>
+		<div class="content">Computes the p-Norm. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">The p value. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Scalar  <code>ret = ( ∑|this[i]|^p )^(1/p)</code> </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Normalize" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Normalize</strong>(<span title="System.double">double</span> p)</h4>
+		<div class="content">Normalizes this vector to a unit vector with respect to the p-norm. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">The p value. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>This vector normalized to a unit vector with respect to the p-norm. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="OuterProduct" class="method">
+		<h4><span title="System.void">void</span> <strong>OuterProduct</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Computes the outer product M[i,j] = u[i]*v[j] of this and another vector and stores the result in the result matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The other vector </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The matrix to store the result of the product. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="OuterProduct" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>OuterProduct</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Computes the outer product M[i,j] = u[i]*v[j] of this and another vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The other vector </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbs" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseAbs</strong>()</h4>
+		<div class="content">Pointwise applies the abs function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbs" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAbs</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the abs function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMaximum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAbsoluteMaximum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the absolute maximum with the values of another vector to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector with the values to compare to. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMaximum" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseAbsoluteMaximum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Pointwise applies the absolute maximum with the values of another vector to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector with the values to compare to. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMaximum" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseAbsoluteMaximum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMaximum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAbsoluteMaximum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMinimum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAbsoluteMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMinimum" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseAbsoluteMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMinimum" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseAbsoluteMinimum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Pointwise applies the absolute minimum with the values of another vector to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector with the values to compare to. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMinimum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAbsoluteMinimum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the absolute minimum with the values of another vector to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector with the values to compare to. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAcos" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAcos</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the acos function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAcos" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseAcos</strong>()</h4>
+		<div class="content">Pointwise applies the acos function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAsin" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseAsin</strong>()</h4>
+		<div class="content">Pointwise applies the asin function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAsin" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAsin</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the asin function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAtan" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseAtan</strong>()</h4>
+		<div class="content">Pointwise applies the atan function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAtan" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAtan</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the atan function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAtan2" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAtan2</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the atan2 function to each value of the current
+vector and a given other vector being the 'x' of atan2 and the
+'this' vector being the 'y' 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAtan2" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseAtan2</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Pointwise applies the atan2 function to each value of the current
+vector and a given other vector being the 'x' of atan2 and the
+'this' vector being the 'y' 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseCeiling" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseCeiling</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the ceiling function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseCeiling" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseCeiling</strong>()</h4>
+		<div class="content">Pointwise applies the ceiling function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseCos" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseCos</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the cos function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseCos" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseCos</strong>()</h4>
+		<div class="content">Pointwise applies the cos function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseCosh" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseCosh</strong>()</h4>
+		<div class="content">Pointwise applies the cosh function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseCosh" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseCosh</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the cosh function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseDivide" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseDivide</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> divisor, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise divide this vector with another vector and stores the result into the result vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> divisor</h6>
+          <p class="comments">The pointwise denominator vector to use. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result of the pointwise division. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseDivide" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseDivide</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> divisor)</h4>
+		<div class="content">Pointwise divide this vector with another vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> divisor</h6>
+          <p class="comments">The pointwise denominator vector to use. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>A new vector which is the pointwise division of the two vectors. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="PointwiseExp" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseExp</strong>()</h4>
+		<div class="content">Pointwise applies the exponent function to each value. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseExp" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseExp</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the exponent function to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseFloor" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseFloor</strong>()</h4>
+		<div class="content">Pointwise applies the floor function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseFloor" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseFloor</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the floor function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseLog" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseLog</strong>()</h4>
+		<div class="content">Pointwise applies the natural logarithm function to each value. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseLog" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseLog</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the natural logarithm function to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseLog10" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseLog10</strong>()</h4>
+		<div class="content">Pointwise applies the log10 function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseLog10" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseLog10</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the log10 function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMaximum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseMaximum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMaximum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseMaximum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the maximum with the values of another vector to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector with the values to compare to. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMaximum" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseMaximum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Pointwise applies the maximum with the values of another vector to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector with the values to compare to. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMaximum" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseMaximum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMinimum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMinimum" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseMinimum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Pointwise applies the minimum with the values of another vector to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector with the values to compare to. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMinimum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseMinimum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the minimum with the values of another vector to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector with the values to compare to. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMinimum" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseModulus" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseModulus</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> divisor, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise canonical modulus, where the result has the sign of the divisor,
+of this vector with another vector and stores the result into the result vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> divisor</h6>
+          <p class="comments">The pointwise denominator vector to use. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result of the pointwise modulus. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseModulus" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseModulus</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> divisor)</h4>
+		<div class="content">Pointwise canonical modulus, where the result has the sign of the divisor,
+of this vector with another vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> divisor</h6>
+          <p class="comments">The pointwise denominator vector to use. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMultiply" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise multiplies this vector with another vector and stores the result into the result vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector to pointwise multiply with this one. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result of the pointwise multiplication. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMultiply" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Pointwise multiplies this vector with another vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector to pointwise multiply with this one. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>A new vector which is the pointwise multiplication of the two vectors. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="PointwisePower" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwisePower</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> exponent, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise raise this vector to an exponent. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> exponent</h6>
+          <p class="comments">The exponent to raise this vector values to. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result into. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwisePower" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwisePower</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> exponent)</h4>
+		<div class="content">Pointwise raise this vector to an exponent and store the result into the result vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> exponent</h6>
+          <p class="comments">The exponent to raise this vector values to. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwisePower" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwisePower</strong>(<span title="System.Numerics.Complex">Complex</span> exponent, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwisePower" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwisePower</strong>(<span title="System.Numerics.Complex">Complex</span> exponent)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseRemainder" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseRemainder</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> divisor, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise remainder (% operator), where the result has the sign of the dividend,
+this vector with another vector and stores the result into the result vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> divisor</h6>
+          <p class="comments">The pointwise denominator vector to use. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result of the pointwise remainder. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseRemainder" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseRemainder</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> divisor)</h4>
+		<div class="content">Pointwise remainder (% operator), where the result has the sign of the dividend,
+of this vector with another vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> divisor</h6>
+          <p class="comments">The pointwise denominator vector to use. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseRound" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseRound</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the round function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseRound" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseRound</strong>()</h4>
+		<div class="content">Pointwise applies the round function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseSign" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseSign</strong>()</h4>
+		<div class="content">Pointwise applies the sign function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseSign" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseSign</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the sign function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseSin" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseSin</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the sin function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseSin" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseSin</strong>()</h4>
+		<div class="content">Pointwise applies the sin function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseSinh" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseSinh</strong>()</h4>
+		<div class="content">Pointwise applies the sinh function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseSinh" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseSinh</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the sinh function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseSqrt" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseSqrt</strong>()</h4>
+		<div class="content">Pointwise applies the sqrt function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseSqrt" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseSqrt</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the sqrt function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseTan" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseTan</strong>()</h4>
+		<div class="content">Pointwise applies the tan function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseTan" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseTan</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the tan function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseTanh" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>PointwiseTanh</strong>()</h4>
+		<div class="content">Pointwise applies the tanh function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseTanh" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseTanh</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the tanh function to each value 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Remainder" class="method">
+		<h4><span title="System.void">void</span> <strong>Remainder</strong>(<span title="System.Numerics.Complex">Complex</span> divisor, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Remainder" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Remainder</strong>(<span title="System.Numerics.Complex">Complex</span> divisor)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="RemainderByThis" class="method">
+		<h4><span title="System.void">void</span> <strong>RemainderByThis</strong>(<span title="System.Numerics.Complex">Complex</span> dividend, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="RemainderByThis" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>RemainderByThis</strong>(<span title="System.Numerics.Complex">Complex</span> dividend)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="SetSubVector" class="method">
+		<h4><span title="System.void">void</span> <strong>SetSubVector</strong>(<span title="System.int">int</span> index, <span title="System.int">int</span> count, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> subVector)</h4>
+		<div class="content">Copies the values of a given vector into a region in this vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> index</h6>
+          <p class="comments">The field to start copying to </p>
+          <h6><code><span title="System.int">int</span></code> count</h6>
+          <p class="comments">The number of fields to copy. Must be positive. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> subVector</h6>
+          <p class="comments">The sub-vector to copy from. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="SetValues" class="method">
+		<h4><span title="System.void">void</span> <strong>SetValues</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> values)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Subtract" class="method">
+		<h4><span title="System.void">void</span> <strong>Subtract</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Subtracts another vector to this vector and stores the result into the result vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector to subtract from this one. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The vector to store the result of the subtraction. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Subtract" class="method">
+		<h4><span title="System.void">void</span> <strong>Subtract</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Subtract" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Subtract</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Subtract" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Subtract</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> other)</h4>
+		<div class="content">Subtracts another vector from this vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The vector to subtract from this one. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>A new vector containing the subtraction of the two vectors. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="SubtractFrom" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>SubtractFrom</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="SubtractFrom" class="method">
+		<h4><span title="System.void">void</span> <strong>SubtractFrom</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="SubVector" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>SubVector</strong>(<span title="System.int">int</span> index, <span title="System.int">int</span> count)</h4>
+		<div class="content">Creates a vector containing specified elements. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> index</h6>
+          <p class="comments">The first element to begin copying from. </p>
+          <h6><code><span title="System.int">int</span></code> count</h6>
+          <p class="comments">The number of elements to copy. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>A vector containing a copy of the specified elements. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Sum" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Sum</strong>()</h4>
+		<div class="content">Computes the sum of the vector's elements. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>The sum of the vector's elements. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="SumMagnitudes" class="method">
+		<h4><span title="System.double">double</span> <strong>SumMagnitudes</strong>()</h4>
+		<div class="content">Computes the sum of the absolute value of the vector's elements. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>The sum of the absolute value of the vector's elements. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="ToArray" class="method">
+		<h4><span title="System.Numerics.Complex[]">Complex[]</span> <strong>ToArray</strong>()</h4>
+		<div class="content">Returns the data contained in the vector as an array.
+The returned array will be independent from this vector.
+A new memory block will be allocated for the array. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code></h6>
+        <p>The vector's data as an array. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="ToColumnMatrix" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>ToColumnMatrix</strong>()</h4>
+		<div class="content">Create a matrix based on this vector in column form (one single column). 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
+        <p>This vector as a column matrix. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="ToRowMatrix" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>ToRowMatrix</strong>()</h4>
+		<div class="content">Create a matrix based on this vector in row form (one single row). 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
+        <p>This vector as a row matrix. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>(<span title="System.int">int</span> maxPerColumn, <span title="System.int">int</span> maxCharactersWidth, <span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> provider)</h4>
+		<div class="content">Returns a string that summarizes this vector, column by column and with a type header. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> maxPerColumn</h6>
+          <p class="comments">Maximum number of entries and thus lines per column. Typical value: 12; Minimum: 3. </p>
+          <h6><code><span title="System.int">int</span></code> maxCharactersWidth</h6>
+          <p class="comments">Maximum number of characters per line over all columns. Typical value: 80; Minimum: 16. </p>
+          <h6><code><span title="System.string">string</span></code> format</h6>
+          <p class="comments">Floating point format string. Can be null. Default value: G6. </p>
+          <h6><code><span title="System.IFormatProvider">IFormatProvider</span></code> provider</h6>
+          <p class="comments">Format provider or culture. Can be null. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>()</h4>
+		<div class="content">Returns a string that summarizes this vector.
+The maximum number of cells can be configured in the  <a href="../MathNet.Numerics/Control.htm">Control</a>  class. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>(<span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider)</h4>
+		<div class="content">Returns a string that summarizes this vector.
+The maximum number of cells can be configured in the  <a href="../MathNet.Numerics/Control.htm">Control</a>  class.
+The format string is ignored. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToTypeString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToTypeString</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToVectorString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToVectorString</strong>(<span title="System.int">int</span> maxPerColumn, <span title="System.int">int</span> maxCharactersWidth, <span title="System.string">string</span> ellipsis, <span title="System.string">string</span> columnSeparator, <span title="System.string">string</span> rowSeparator, <span title="System.Func<Complex, string>">Func&lt;Complex, string&gt;</span> formatValue)</h4>
+		<div class="content">Returns a string that represents the content of this vector, column by column. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> maxPerColumn</h6>
+          <p class="comments">Maximum number of entries and thus lines per column. Typical value: 12; Minimum: 3. </p>
+          <h6><code><span title="System.int">int</span></code> maxCharactersWidth</h6>
+          <p class="comments">Maximum number of characters per line over all columns. Typical value: 80; Minimum: 16. </p>
+          <h6><code><span title="System.string">string</span></code> ellipsis</h6>
+          <p class="comments">Character to use to print if there is not enough space to print all entries. Typical value: "..". </p>
+          <h6><code><span title="System.string">string</span></code> columnSeparator</h6>
+          <p class="comments">Character to use to separate two columns on a line. Typical value: "  " (2 spaces). </p>
+          <h6><code><span title="System.string">string</span></code> rowSeparator</h6>
+          <p class="comments">Character to use to separate two rows/lines. Typical value: Environment.NewLine. </p>
+          <h6><code><span title="System.Func<Complex, string>">Func&lt;Complex, string&gt;</span></code> formatValue</h6>
+          <p class="comments">Function to provide a string for any given entry value. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ToVectorString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToVectorString</strong>(<span title="System.int">int</span> maxPerColumn, <span title="System.int">int</span> maxCharactersWidth, <span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> provider)</h4>
+		<div class="content">Returns a string that represents the content of this vector, column by column. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> maxPerColumn</h6>
+          <p class="comments">Maximum number of entries and thus lines per column. Typical value: 12; Minimum: 3. </p>
+          <h6><code><span title="System.int">int</span></code> maxCharactersWidth</h6>
+          <p class="comments">Maximum number of characters per line over all columns. Typical value: 80; Minimum: 16. </p>
+          <h6><code><span title="System.string">string</span></code> format</h6>
+          <p class="comments">Floating point format string. Can be null. Default value: G6. </p>
+          <h6><code><span title="System.IFormatProvider">IFormatProvider</span></code> provider</h6>
+          <p class="comments">Format provider or culture. Can be null. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ToVectorString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToVectorString</strong>(<span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> provider)</h4>
+		<div class="content">Returns a string that represents the content of this vector, column by column. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.string">string</span></code> format</h6>
+          <p class="comments">Floating point format string. Can be null. Default value: G6. </p>
+          <h6><code><span title="System.IFormatProvider">IFormatProvider</span></code> provider</h6>
+          <p class="comments">Format provider or culture. Can be null. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ToVectorStringArray" class="method">
+		<h4><span title="System.String[,]">String[,]</span> <strong>ToVectorStringArray</strong>(<span title="System.int">int</span> maxPerColumn, <span title="System.int">int</span> maxCharactersWidth, <span title="System.int">int</span> padding, <span title="System.string">string</span> ellipsis, <span title="System.Func<Complex, string>">Func&lt;Complex, string&gt;</span> formatValue)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	
+  <h3 class="section">Public Properties</h3>
+
+  <div id="Count" class="method">
+    <h4><span title="System.int">int</span> <strong>Count</strong> get; </h4>
+    <div class="content">
+      
+    </div>
+  </div>
+  <div id="Item" class="method">
+    <h4><span title="System.Numerics.Complex">Complex</span> <strong>Item</strong> get; set;</h4>
+    <div class="content">
+      
+    </div>
+  </div>
+  <div id="NonZerosCount" class="method">
+    <h4><span title="System.int">int</span> <strong>NonZerosCount</strong> get; </h4>
+    <div class="content">Gets the number of non zero elements in the vector. 
+      <blockquote class="value">
+  <strong>Value: </strong>
+</blockquote>
+    </div>
+  </div>
+  <div id="Storage" class="method">
+    <h4><a href="../MathNet.Numerics.LinearAlgebra.Storage/VectorStorage`1.htm">VectorStorage&lt;T&gt;</a> <strong>Storage</strong> get; </h4>
+    <div class="content">
+      
+    </div>
+  </div>
+	<div id="footer">
+  <p>Based on v4.7.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
+</div>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><browserconfig><msapplication>
+<tile>
+<square70x70logo src="square70x70logo.png"/>
+<square150x150logo src="square150x150logo.png"/>
+<wide310x150logo src="wide310x150logo.png"/>
+<square310x310logo src="square310x310logo.png"/>
+<TileColor>#a8a8a8</TileColor>
+</tile>
+<notification>
+<polling-uri src="http://notifications.buildmypinnedsite.com/?feed=http://christoph.ruegg.name/blog/categories/math-net-numerics/atom.xml&id=1"/>
+<polling-uri2 src="http://notifications.buildmypinnedsite.com/?feed=http://christoph.ruegg.name/blog/categories/math-net-numerics/atom.xml&id=2"/>
+<polling-uri3 src="http://notifications.buildmypinnedsite.com/?feed=http://christoph.ruegg.name/blog/categories/math-net-numerics/atom.xml&id=3"/>
+<polling-uri4 src="http://notifications.buildmypinnedsite.com/?feed=http://christoph.ruegg.name/blog/categories/math-net-numerics/atom.xml&id=4"/>
+<polling-uri5 src="http://notifications.buildmypinnedsite.com/?feed=http://christoph.ruegg.name/blog/categories/math-net-numerics/atom.xml&id=5"/>
+<frequency>720</frequency>
+<cycle>1</cycle>
+</notification>
+</msapplication></browserconfig>

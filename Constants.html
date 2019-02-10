@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Constants
+</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content="Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use. .Net 4, .Net 3.5, SL5, Win8, WP8, PCL 47 and 136, Mono, Xamarin Android/iOS."/>
+        <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael"/>
+
+        <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+        <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+        <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/style.css" />
+        <style>
+          #main table:not(.pre) {
+              border: 1px solid #dddddd;
+              max-width: 100%;
+              border-style: solid;
+              border-width: 1px;
+              border-color: gray;
+              border-collapse: collapse;
+              border-right-width: 1px;
+              border-bottom-width: 1px;
+              margin-top: 15px;
+              margin-bottom: 25px;
+          }
+          #main table:not(.pre) th, #main table:not(.pre) td {
+              border: 1px solid #dddddd;
+              padding: 6px;
+          }
+          #main table:not(.pre) th p, #main table:not(.pre) td p {
+              margin-bottom: 5px;
+          }
+        </style>
+        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/tips.js"></script>
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="masthead">
+                <ul class="nav nav-pills pull-right">
+                    <li><a href="https://www.mathdotnet.com">Math.NET Project</a></li>
+                    <li><a href="https://numerics.mathdotnet.com">Math.NET Numerics</a></li>
+                    <li><a href="https://github.com/mathnet/mathnet-numerics">GitHub</a></li>
+                </ul>
+                <h3 class="muted">Math.NET Numerics</h3>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="span9" id="main">
+                    
+<h1><a name="Constants" class="anchor" href="#Constants">Constants</a></h1>
+<p>Math.NET Numerics contains a set of often used mathematical and scientific
+constants. Mathematical and defined scientific constants are as accurate as
+double precision allows, while measured constants are implemented according
+to 2007 CODATA.</p>
+<p>All constants are defined as static constant fields of the <code>Constants</code> class.</p>
+<h2><a name="SI-Unit-Scaling" class="anchor" href="#SI-Unit-Scaling">SI Unit Scaling</a></h2>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Factor</p></th>
+<th><p>Constant</p></th>
+<th><p>Factor</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>Deca</p></td>
+<td><p><span class="math">\(10^{1}\)</span></p></td>
+<td><p>Deci</p></td>
+<td><p><span class="math">\(10^{-1}\)</span></p></td>
+</tr>
+<tr class="even">
+<td><p>Hecto</p></td>
+<td><p><span class="math">\(10^{2}\)</span></p></td>
+<td><p>Centi</p></td>
+<td><p><span class="math">\(10^{-2}\)</span></p></td>
+</tr>
+<tr class="odd">
+<td><p>Kilo</p></td>
+<td><p><span class="math">\(10^{3}\)</span></p></td>
+<td><p>Milli</p></td>
+<td><p><span class="math">\(10^{-3}\)</span></p></td>
+</tr>
+<tr class="even">
+<td><p>Mega</p></td>
+<td><p><span class="math">\(10^{6}\)</span></p></td>
+<td><p>Micro</p></td>
+<td><p><span class="math">\(10^{-6}\)</span></p></td>
+</tr>
+<tr class="odd">
+<td><p>Giga</p></td>
+<td><p><span class="math">\(10^{9}\)</span></p></td>
+<td><p>Nano</p></td>
+<td><p><span class="math">\(10^{-9}\)</span></p></td>
+</tr>
+<tr class="even">
+<td><p>Tera</p></td>
+<td><p><span class="math">\(10^{12}\)</span></p></td>
+<td><p>Pico</p></td>
+<td><p><span class="math">\(10^{-12}\)</span></p></td>
+</tr>
+<tr class="odd">
+<td><p>Peta</p></td>
+<td><p><span class="math">\(10^{15}\)</span></p></td>
+<td><p>Femto</p></td>
+<td><p><span class="math">\(10^{-15}\)</span></p></td>
+</tr>
+<tr class="even">
+<td><p>Exa</p></td>
+<td><p><span class="math">\(10^{18}\)</span></p></td>
+<td><p>Atto</p></td>
+<td><p><span class="math">\(10^{-18}\)</span></p></td>
+</tr>
+<tr class="odd">
+<td><p>Zetta</p></td>
+<td><p><span class="math">\(10^{21}\)</span></p></td>
+<td><p>Zepto</p></td>
+<td><p><span class="math">\(10^{-21}\)</span></p></td>
+</tr>
+<tr class="even">
+<td><p>Yotta</p></td>
+<td><p><span class="math">\(10^{24}\)</span></p></td>
+<td><p>Yocto</p></td>
+<td><p><span class="math">\(10^{-24}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+
+<h2><a name="Mathematical-Constants" class="anchor" href="#Mathematical-Constants">Mathematical Constants</a></h2>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Definition</p></th>
+<th><p>Value (Rounded)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>E</p></td>
+<td><p><span class="math">\(e\)</span></p></td>
+<td><p>2.7182818284590452354</p></td>
+</tr>
+<tr class="even">
+<td><p>Log2E</p></td>
+<td><p><span class="math">\(\log_2{e}\)</span></p></td>
+<td><p>1.4426950408889634074</p></td>
+</tr>
+<tr class="odd">
+<td><p>Log10E</p></td>
+<td><p><span class="math">\(\log_{10}{e}\)</span></p></td>
+<td><p>0.4342944819032518277</p></td>
+</tr>
+<tr class="even">
+<td><p>Ln2</p></td>
+<td><p><span class="math">\(\log_e{2}\)</span></p></td>
+<td><p>0.6931471805599453094</p></td>
+</tr>
+<tr class="odd">
+<td><p>Ln10</p></td>
+<td><p><span class="math">\(\log_e{10}\)</span></p></td>
+<td><p>2.3025850929940456840</p></td>
+</tr>
+<tr class="even">
+<td><p>LnPi</p></td>
+<td><p><span class="math">\(\log_e{\pi}\)</span></p></td>
+<td><p>1.1447298858494001741</p></td>
+</tr>
+<tr class="odd">
+<td><p>Ln2PiOver2</p></td>
+<td><p><span class="math">\(\frac{1}{2}\log_e{2\pi}\)</span></p></td>
+<td><p>0.9189385332046727418</p></td>
+</tr>
+<tr class="even">
+<td><p>InvE</p></td>
+<td><p><span class="math">\(\frac{1}{e}\)</span></p></td>
+<td><p>0.3678794411714423216</p></td>
+</tr>
+<tr class="odd">
+<td><p>SqrtE</p></td>
+<td><p><span class="math">\(\sqrt{e}\)</span></p></td>
+<td><p>1.6487212707001281468</p></td>
+</tr>
+<tr class="even">
+<td><p>Sqrt2</p></td>
+<td><p><span class="math">\(\sqrt{2}\)</span></p></td>
+<td><p>1.4142135623730950488</p></td>
+</tr>
+<tr class="odd">
+<td><p>Sqrt3</p></td>
+<td><p><span class="math">\(\sqrt{3}\)</span></p></td>
+<td><p>1.7320508075688772935</p></td>
+</tr>
+<tr class="even">
+<td><p>Sqrt1Over2</p></td>
+<td><p><span class="math">\(\sqrt{\frac{1}{2}} = \frac{1}{\sqrt{2}} = \frac{\sqrt{2}}{2}\)</span></p></td>
+<td><p>0.7071067811865475244</p></td>
+</tr>
+<tr class="odd">
+<td><p>HalfSqrt3</p></td>
+<td><p><span class="math">\(\frac{1}{2}\sqrt{3}\)</span></p></td>
+<td><p>0.8660254037844386468</p></td>
+</tr>
+<tr class="even">
+<td><p>Pi</p></td>
+<td><p><span class="math">\(\pi\)</span></p></td>
+<td><p>3.1415926535897932385</p></td>
+</tr>
+<tr class="odd">
+<td><p>Pi2</p></td>
+<td><p><span class="math">\(2\pi\)</span></p></td>
+<td><p>6.2831853071795864769</p></td>
+</tr>
+<tr class="even">
+<td><p>PiOver2</p></td>
+<td><p><span class="math">\(\frac{1}{2}\pi\)</span></p></td>
+<td><p>1.5707963267948966192</p></td>
+</tr>
+<tr class="odd">
+<td><p>Pi3Over2</p></td>
+<td><p><span class="math">\(\frac{3}{2}\pi\)</span></p></td>
+<td><p>4.7123889803846898577</p></td>
+</tr>
+<tr class="even">
+<td><p>PiOver4</p></td>
+<td><p><span class="math">\(\frac{1}{4}\pi\)</span></p></td>
+<td><p>0.7853981633974483096</p></td>
+</tr>
+<tr class="odd">
+<td><p>SqrtPi</p></td>
+<td><p><span class="math">\(\sqrt{\pi}\)</span></p></td>
+<td><p>1.7724538509055160273</p></td>
+</tr>
+<tr class="even">
+<td><p>Sqrt2Pi</p></td>
+<td><p><span class="math">\(\sqrt{2\pi}\)</span></p></td>
+<td><p>2.5066282746310005024</p></td>
+</tr>
+<tr class="odd">
+<td><p>Sqrt2PiE</p></td>
+<td><p><span class="math">\(\sqrt{2\pi e}\)</span></p></td>
+<td><p>4.1327313541224929385</p></td>
+</tr>
+<tr class="even">
+<td><p>LogSqrt2Pi</p></td>
+<td><p><span class="math">\(\log_e{\sqrt{2\pi}} = \frac{1}{2}\log_e{2\pi}\)</span></p></td>
+<td><p>0.9189385332046727418</p></td>
+</tr>
+<tr class="odd">
+<td><p>LogSqrt2PiE</p></td>
+<td><p><span class="math">\(\log_e{\sqrt{2\pi e}}\)</span></p></td>
+<td><p>1.4189385332046727418</p></td>
+</tr>
+<tr class="even">
+<td><p>LogTwoSqrtEOverPi</p></td>
+<td><p><span class="math">\(\log_e{2\sqrt{\frac{e}{\pi}}}\)</span></p></td>
+<td><p>0.6207822376352452223</p></td>
+</tr>
+<tr class="odd">
+<td><p>InvPi</p></td>
+<td><p><span class="math">\(\frac{1}{\pi}\)</span></p></td>
+<td><p>0.3183098861837906715</p></td>
+</tr>
+<tr class="even">
+<td><p>TwoInvPi</p></td>
+<td><p><span class="math">\(\frac{2}{\pi}\)</span></p></td>
+<td><p>0.6366197723675813431</p></td>
+</tr>
+<tr class="odd">
+<td><p>InvSqrtPi</p></td>
+<td><p><span class="math">\(\frac{1}{\sqrt{\pi}}\)</span></p></td>
+<td><p>0.5641895835477562869</p></td>
+</tr>
+<tr class="even">
+<td><p>InvSqrt2Pi</p></td>
+<td><p><span class="math">\(\frac{1}{\sqrt{2\pi}}\)</span></p></td>
+<td><p>0.3989422804014326779</p></td>
+</tr>
+<tr class="odd">
+<td><p>TwoInvSqrtPi</p></td>
+<td><p><span class="math">\(\frac{2}{\sqrt{2\pi}}\)</span></p></td>
+<td><p>1.1283791670955125739</p></td>
+</tr>
+<tr class="even">
+<td><p>TwoSqrtEOverPi</p></td>
+<td><p><span class="math">\(2\sqrt{\frac{e}{\pi}}\)</span></p></td>
+<td><p>1.8603827342052657173</p></td>
+</tr>
+<tr class="odd">
+<td><p>Catalan</p></td>
+<td><p><span class="math">\(\beta(2) = \sum_{k=0}^{\infty}{\frac{(-1)^k}{(2k+1)^2}}\)</span></p></td>
+<td><p>0.9159655941772190151</p></td>
+</tr>
+<tr class="even">
+<td><p>EulerMascheroni</p></td>
+<td><p><span class="math">\(\gamma = \lim_{n\to\infty} {\sum_{k=1}^n{(\frac{1}{k} - \log_e{n})}}\)</span></p></td>
+<td><p>0.5772156649015328606</p></td>
+</tr>
+<tr class="odd">
+<td><p>GoldenRatio</p></td>
+<td><p><span class="math">\(\frac{1+\sqrt{5}}{2}\)</span></p></td>
+<td><p>1.6180339887498948482</p></td>
+</tr>
+<tr class="even">
+<td><p>Glaisher</p></td>
+<td><p><span class="math">\(\exp{(\frac{1}{12} - \zeta{(-1)})}\)</span></p></td>
+<td><p>1.2824271291006226369</p></td>
+</tr>
+<tr class="odd">
+<td><p>Khinchin</p></td>
+<td><p><span class="math">\(K_0 = \prod_{k=1}^{\infty}{(1+\frac{1}{k(k+2)})^{\log_2{k}}}\)</span></p></td>
+<td><p>2.6854520010653064453</p></td>
+</tr>
+</tbody>
+</table>
+
+<h2><a name="Universal-Constants" class="anchor" href="#Universal-Constants">Universal Constants</a></h2>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Symbol</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>SpeedOfLight</p></td>
+<td><p><span class="math">\(c_0\)</span></p></td>
+<td><p><span class="math">\(\frac{m}{s}\)</span></p></td>
+<td><p>2.99792458e+8</p></td>
+</tr>
+<tr class="even">
+<td><p>MagneticPermeability</p></td>
+<td><p><span class="math">\(\mu_0\)</span></p></td>
+<td><p><span class="math">\(\frac{N}{A^2}\)</span> = <span class="math">\(\frac{kg\,m}{A^2s^2}\)</span></p></td>
+<td><p>1.2566370614359172954e-6</p></td>
+</tr>
+<tr class="odd">
+<td><p>ElectricPermittivity</p></td>
+<td><p><span class="math">\(\varepsilon_0\)</span></p></td>
+<td><p><span class="math">\(\frac{F}{m}\)</span> = <span class="math">\(\frac{A^2s^4}{kg\,m^3}\)</span></p></td>
+<td><p>8.8541878171937079245e-12</p></td>
+</tr>
+<tr class="even">
+<td><p>CharacteristicImpedanceVacuum</p></td>
+<td><p><span class="math">\(Z_0\)</span></p></td>
+<td><p><span class="math">\(\Omega = \frac{kg\,m^2}{A^2s^3}\)</span></p></td>
+<td><p>376.7303134617706554682</p></td>
+</tr>
+<tr class="odd">
+<td><p>GravitationalConstant</p></td>
+<td><p><span class="math">\(G\)</span></p></td>
+<td><p><span class="math">\(\frac{m^3}{kg\,s^2}\)</span></p></td>
+<td><p>6.67429e-11</p></td>
+</tr>
+<tr class="even">
+<td><p>PlancksConstant</p></td>
+<td><p><span class="math">\(h\)</span></p></td>
+<td><p><span class="math">\(J\,s = \frac{kg\,m^2}{s}\)</span></p></td>
+<td><p>6.62606896e-34</p></td>
+</tr>
+<tr class="odd">
+<td><p>DiracsConstant</p></td>
+<td><p><span class="math">\(\hbar\)</span></p></td>
+<td><p><span class="math">\(J\,s = \frac{kg\,m^2}{s}\)</span></p></td>
+<td><p>1.054571629e-34</p></td>
+</tr>
+<tr class="even">
+<td><p>PlancksMass</p></td>
+<td><p><span class="math">\(m_p\)</span></p></td>
+<td><p><span class="math">\(kg\)</span></p></td>
+<td><p>2.17644e-8</p></td>
+</tr>
+<tr class="odd">
+<td><p>PlancksTemperature</p></td>
+<td><p><span class="math">\(T_p\)</span></p></td>
+<td><p><span class="math">\(K\)</span></p></td>
+<td><p>1.416786e+32</p></td>
+</tr>
+<tr class="even">
+<td><p>PlancksLength</p></td>
+<td><p><span class="math">\(l_p\)</span></p></td>
+<td><p><span class="math">\(m\)</span></p></td>
+<td><p>1.616253e-35</p></td>
+</tr>
+<tr class="odd">
+<td><p>PlancksTime</p></td>
+<td><p><span class="math">\(t_p\)</span></p></td>
+<td><p><span class="math">\(s\)</span></p></td>
+<td><p>5.39124e-44</p></td>
+</tr>
+</tbody>
+</table>
+
+<h2><a name="Electromagnetic-Constants" class="anchor" href="#Electromagnetic-Constants">Electromagnetic Constants</a></h2>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Symbol</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>ElementaryCharge</p></td>
+<td><p><span class="math">\(e\)</span></p></td>
+<td><p><span class="math">\(C = A\,s\)</span></p></td>
+<td><p>1.602176487e-19</p></td>
+</tr>
+<tr class="even">
+<td><p>MagneticFluxQuantum</p></td>
+<td><p><span class="math">\(\Theta_0\)</span></p></td>
+<td><p><span class="math">\(Wb = \frac{kg\,m^2}{A\,s^2}\)</span></p></td>
+<td><p>2.067833668e-15</p></td>
+</tr>
+<tr class="odd">
+<td><p>ConductanceQuantum</p></td>
+<td><p><span class="math">\(G_0\)</span></p></td>
+<td><p><span class="math">\(S = \frac{A^2s^3}{kg\,m^2}\)</span></p></td>
+<td><p>7.7480917005e-5</p></td>
+</tr>
+<tr class="even">
+<td><p>JosephsonConstant</p></td>
+<td><p><span class="math">\(K_J\)</span></p></td>
+<td><p><span class="math">\(\frac{Hz}{V}\)</span></p></td>
+<td><p>483597.891e+9</p></td>
+</tr>
+<tr class="odd">
+<td><p>VonKlitzingConstant</p></td>
+<td><p><span class="math">\(R_K\)</span></p></td>
+<td><p><span class="math">\(\Omega = \frac{kg\,m^2}{A^2s^3}\)</span></p></td>
+<td><p>25812.807557</p></td>
+</tr>
+<tr class="even">
+<td><p>BohrMagneton</p></td>
+<td><p><span class="math">\(\mu_B\)</span></p></td>
+<td><p><span class="math">\(\frac{J}{T}\)</span></p></td>
+<td><p>927.400915e-26</p></td>
+</tr>
+<tr class="odd">
+<td><p>NuclearMagneton</p></td>
+<td><p><span class="math">\(\mu_N\)</span></p></td>
+<td><p><span class="math">\(\frac{J}{T}\)</span></p></td>
+<td><p>5.05078324e-27</p></td>
+</tr>
+</tbody>
+</table>
+
+<h2><a name="Atomic-and-Nuclear-Constants" class="anchor" href="#Atomic-and-Nuclear-Constants">Atomic and Nuclear Constants</a></h2>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Symbol</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>FineStructureConstant</p></td>
+<td><p><span class="math">\(\alpha\)</span></p></td>
+<td><p><span class="math">\(1\)</span></p></td>
+<td><p>7.2973525376e-3</p></td>
+</tr>
+<tr class="even">
+<td><p>RydbergConstant</p></td>
+<td><p><span class="math">\(T_{\infty}\)</span></p></td>
+<td><p><span class="math">\(\frac{1}{m}\)</span></p></td>
+<td><p>10973731.568528</p></td>
+</tr>
+<tr class="odd">
+<td><p>BohrRadius</p></td>
+<td><p><span class="math">\(a_0\)</span></p></td>
+<td><p><span class="math">\(m\)</span></p></td>
+<td><p>0.52917720859e-10</p></td>
+</tr>
+<tr class="even">
+<td><p>HartreeEnergy</p></td>
+<td><p><span class="math">\(E_h\)</span></p></td>
+<td><p><span class="math">\(J\)</span></p></td>
+<td><p>4.35974394e-18</p></td>
+</tr>
+<tr class="odd">
+<td><p>QuantumOfCirculation</p></td>
+<td></td>
+<td><p><span class="math">\(\frac{m^2}{s}\)</span></p></td>
+<td><p>3.6369475199e-4</p></td>
+</tr>
+<tr class="even">
+<td><p>FermiCouplingConstant</p></td>
+<td></td>
+<td><p><span class="math">\(\frac{1}{GeV^2}\)</span></p></td>
+<td><p>1.16637e-5</p></td>
+</tr>
+<tr class="odd">
+<td><p>WeakMixingAngle</p></td>
+<td></td>
+<td></td>
+<td><p>0.22256</p></td>
+</tr>
+<tr class="even">
+<td><p>Avogadro</p></td>
+<td></td>
+<td><p><span class="math">\(\frac{1}{mol}\)</span></p></td>
+<td><p>6.0221412927e23</p></td>
+</tr>
+</tbody>
+</table>
+
+<h4><a name="Electron" class="anchor" href="#Electron">Electron</a></h4>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>ElectronMass</p></td>
+<td><p><span class="math">\(kg\)</span></p></td>
+<td><p>9.10938215e-31</p></td>
+</tr>
+<tr class="even">
+<td><p>ElectronMassEnergyEquivalent</p></td>
+<td><p><span class="math">\(J\)</span></p></td>
+<td><p>8.18710438e-14</p></td>
+</tr>
+<tr class="odd">
+<td><p>ElectronMolarMass</p></td>
+<td><p><span class="math">\(\frac{kg}{mol}\)</span></p></td>
+<td><p>5.4857990943e-7</p></td>
+</tr>
+<tr class="even">
+<td><p>ComptonWavelength</p></td>
+<td><p><span class="math">\(m\)</span></p></td>
+<td><p>2.4263102175e-12</p></td>
+</tr>
+<tr class="odd">
+<td><p>ClassicalElectronRadius</p></td>
+<td><p><span class="math">\(m\)</span></p></td>
+<td><p>2.8179402894e-15</p></td>
+</tr>
+<tr class="even">
+<td><p>ThomsonCrossSection</p></td>
+<td><p><span class="math">\(m^2\)</span></p></td>
+<td><p>0.6652458558e-28</p></td>
+</tr>
+<tr class="odd">
+<td><p>ElectronMagneticMoment</p></td>
+<td><p><span class="math">\(\frac{J}{T}\)</span></p></td>
+<td><p>-928.476377e-26</p></td>
+</tr>
+<tr class="even">
+<td><p>ElectronGFactor</p></td>
+<td></td>
+<td><p>-2.0023193043622</p></td>
+</tr>
+</tbody>
+</table>
+
+<h4><a name="Muon" class="anchor" href="#Muon">Muon</a></h4>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>MuonMass</p></td>
+<td><p><span class="math">\(kg\)</span></p></td>
+<td><p>1.88353130e-28</p></td>
+</tr>
+<tr class="even">
+<td><p>MuonMassEnegryEquivalent</p></td>
+<td><p><span class="math">\(J\)</span></p></td>
+<td><p>1.692833511e-11</p></td>
+</tr>
+<tr class="odd">
+<td><p>MuonMolarMass</p></td>
+<td><p><span class="math">\(\frac{kg}{mol}\)</span></p></td>
+<td><p>0.1134289256e-3</p></td>
+</tr>
+<tr class="even">
+<td><p>MuonComptonWavelength</p></td>
+<td><p><span class="math">\(m\)</span></p></td>
+<td><p>11.73444104e-15</p></td>
+</tr>
+<tr class="odd">
+<td><p>MuonMagneticMoment</p></td>
+<td><p><span class="math">\(\frac{J}{T}\)</span></p></td>
+<td><p>-4.49044786e-26</p></td>
+</tr>
+<tr class="even">
+<td><p>MuonGFactor</p></td>
+<td></td>
+<td><p>-2.0023318414</p></td>
+</tr>
+</tbody>
+</table>
+
+<h4><a name="Tau" class="anchor" href="#Tau">Tau</a></h4>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>TauMass</p></td>
+<td><p><span class="math">\(kg\)</span></p></td>
+<td><p>3.16777e-27</p></td>
+</tr>
+<tr class="even">
+<td><p>TauMassEnergyEquivalent</p></td>
+<td><p><span class="math">\(J\)</span></p></td>
+<td><p>2.84705e-10</p></td>
+</tr>
+<tr class="odd">
+<td><p>TauMolarMass</p></td>
+<td><p><span class="math">\(\frac{kg}{mol}\)</span></p></td>
+<td><p>1.90768e-3</p></td>
+</tr>
+<tr class="even">
+<td><p>TauComptonWavelength</p></td>
+<td><p><span class="math">\(m\)</span></p></td>
+<td><p>0.69772e-15</p></td>
+</tr>
+</tbody>
+</table>
+
+<h4><a name="Proton" class="anchor" href="#Proton">Proton</a></h4>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>ProtonMass</p></td>
+<td><p><span class="math">\(kg\)</span></p></td>
+<td><p>1.672621637e-27</p></td>
+</tr>
+<tr class="even">
+<td><p>ProtonMassEnergyEquivalent</p></td>
+<td><p><span class="math">\(J\)</span></p></td>
+<td><p>1.503277359e-10</p></td>
+</tr>
+<tr class="odd">
+<td><p>ProtonMolarMass</p></td>
+<td><p><span class="math">\(\frac{kg}{mol}\)</span></p></td>
+<td><p>1.00727646677e-3</p></td>
+</tr>
+<tr class="even">
+<td><p>ProtonComptonWavelength</p></td>
+<td><p><span class="math">\(m\)</span></p></td>
+<td><p>1.3214098446e-15</p></td>
+</tr>
+<tr class="odd">
+<td><p>ProtonMagneticMoment</p></td>
+<td><p><span class="math">\(\frac{J}{T}\)</span></p></td>
+<td><p>1.410606662e-26</p></td>
+</tr>
+<tr class="even">
+<td><p>ShieldedProtonMagneticMoment</p></td>
+<td><p><span class="math">\(\frac{J}{T}\)</span></p></td>
+<td><p>1.410570419e-26</p></td>
+</tr>
+<tr class="odd">
+<td><p>ProtonGFactor</p></td>
+<td></td>
+<td><p>5.585694713</p></td>
+</tr>
+<tr class="even">
+<td><p>ProtonGyromagneticRatio</p></td>
+<td><p><span class="math">\(\frac{1}{T\,s}\)</span></p></td>
+<td><p>2.675222099e8</p></td>
+</tr>
+<tr class="odd">
+<td><p>ShieldedProtonGyromagneticRatio</p></td>
+<td><p><span class="math">\(\frac{1}{T\,s}\)</span></p></td>
+<td><p>2.675153362e8</p></td>
+</tr>
+</tbody>
+</table>
+
+<h4><a name="Neutron" class="anchor" href="#Neutron">Neutron</a></h4>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>NeutronMass</p></td>
+<td><p><span class="math">\(kg\)</span></p></td>
+<td><p>1.674927212e-27</p></td>
+</tr>
+<tr class="even">
+<td><p>NeutronMassEnegryEquivalent</p></td>
+<td><p><span class="math">\(J\)</span></p></td>
+<td><p>1.505349506e-10</p></td>
+</tr>
+<tr class="odd">
+<td><p>NeutronMolarMass</p></td>
+<td><p><span class="math">\(\frac{kg}{mol}\)</span></p></td>
+<td><p>1.00866491597e-3</p></td>
+</tr>
+<tr class="even">
+<td><p>NeutronComptonWavelength</p></td>
+<td><p><span class="math">\(m\)</span></p></td>
+<td><p>1.3195908951e-1</p></td>
+</tr>
+<tr class="odd">
+<td><p>NeutronMagneticMoment</p></td>
+<td><p><span class="math">\(\frac{J}{T}\)</span></p></td>
+<td><p>-0.96623641e-26</p></td>
+</tr>
+<tr class="even">
+<td><p>NeutronGFactor</p></td>
+<td></td>
+<td><p>-3.82608545</p></td>
+</tr>
+<tr class="odd">
+<td><p>NeutronGyromagneticRatio</p></td>
+<td><p><span class="math">\(\frac{1}{T\,s}\)</span></p></td>
+<td><p>1.83247185e8</p></td>
+</tr>
+</tbody>
+</table>
+
+<h4><a name="Deuteron" class="anchor" href="#Deuteron">Deuteron</a></h4>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>DeuteronMass</p></td>
+<td><p><span class="math">\(kg\)</span></p></td>
+<td><p>3.34358320e-27</p></td>
+</tr>
+<tr class="even">
+<td><p>DeuteronMassEnegryEquivalent</p></td>
+<td><p><span class="math">\(J\)</span></p></td>
+<td><p>3.00506272e-10</p></td>
+</tr>
+<tr class="odd">
+<td><p>DeuteronMolarMass</p></td>
+<td><p><span class="math">\(\frac{kg}{mol}\)</span></p></td>
+<td><p>2.013553212725e-3</p></td>
+</tr>
+<tr class="even">
+<td><p>DeuteronMagneticMoment</p></td>
+<td><p><span class="math">\(\frac{J}{T}\)</span></p></td>
+<td><p>0.433073465e-26</p></td>
+</tr>
+</tbody>
+</table>
+
+<h4><a name="Helion" class="anchor" href="#Helion">Helion</a></h4>
+<table>
+<thead>
+<tr class="header">
+<th><p>Constant</p></th>
+<th><p>Unit</p></th>
+<th><p>Value</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>HelionMass</p></td>
+<td><p><span class="math">\(kg\)</span></p></td>
+<td><p>5.00641192e-27</p></td>
+</tr>
+<tr class="even">
+<td><p>HelionMassEnegryEquivalent</p></td>
+<td><p><span class="math">\(J\)</span></p></td>
+<td><p>4.49953864e-10</p></td>
+</tr>
+<tr class="odd">
+<td><p>HelionMolarMass</p></td>
+<td><p><span class="math">\(\frac{kg}{mol}\)</span></p></td>
+<td><p>3.0149322473e-3</p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+                </div>
+                <div class="span3">
+                    <ul class="nav nav-list" id="menu">
+
+                        <li class="nav-header">Math.NET Numerics</li>
+                        <li><a href="https://numerics.mathdotnet.com/Packages.html">NuGet & Binaries</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/ReleaseNotes.html">Release Notes</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/License.html">MIT/X11 License</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Compatibility.html">Platform Support</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/api/">Class Reference</a></li>
+                        <li><a href="https://github.com/mathnet/mathnet-numerics/issues">Issues & Bugs</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Users.html">Who is using Math.NET?</a></li>
+
+                        <li class="nav-header">Contributing</li>
+                        <li><a href="https://numerics.mathdotnet.com/Contributors.html">Contributors</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Contributing.html">Contributing</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Build.html">Build & Tools</a></li>
+                        <li><a href="http://feedback.mathdotnet.com/forums/2060-math-net-numerics">Your Ideas</a></li>
+
+                        <li class="nav-header">Getting Help</li>
+                        <li><a href="https://discuss.mathdotnet.com/c/numerics">Discuss</a></li>
+                        <li><a href="https://stackoverflow.com/questions/tagged/mathdotnet">Stack Overflow</a></li>
+
+                        <li class="nav-header">Getting Started</li>
+                        <li><a href="https://numerics.mathdotnet.com/">Getting started</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Constants.html">Constants</a></li>
+                        <li>Floating-Point Numbers</li>
+                        <li>Arbitrary Precision Numbers</li>
+                        <li>Complex Numbers</li>
+                        <li><a href="https://numerics.mathdotnet.com/Matrix.html">Matrices and Vectors</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Euclid.html">Euclid & Number Theory</a></li>
+                        <li>Combinatorics</li>
+
+                        <li class="nav-header">Evaluation</li>
+                        <li><a href="https://numerics.mathdotnet.com/Functions.html">Special Functions</a></li>
+                        <li>Differentiation</li>
+                        <li><a href="https://numerics.mathdotnet.com/Integration.html">Integration</a></li>
+
+                        <li class="nav-header">Statistics/Probability</li>
+                        <li><a href="https://numerics.mathdotnet.com/DescriptiveStatistics.html">Descriptive Statistics</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Probability.html">Probability Distributions</a></li>
+
+                        <li class="nav-header">Generation</li>
+                        <li><a href="https://numerics.mathdotnet.com/Generate.html">Generating Data</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Random.html">Random Numbers</a></li>
+
+                        <li class="nav-header">Transformation</li>
+                        <li>Fourier Transform (FFT)</li>
+                        <li>Filtering & DSP</li>
+                        <li>Window Functions</li>
+
+                        <li class="nav-header">Solving Equations</li>
+                        <li><a href="https://numerics.mathdotnet.com/LinearEquations.html">Linear Equation Systems</a></li>
+                        <li>Nonlinear Root Finding</li>
+
+                        <li class="nav-header">Optimization</li>
+                        <li>Linear Least Squares</li>
+                        <li>Nonlinear Optimization</li>
+                        <li><a href="https://numerics.mathdotnet.com/Distance.html">Distance Metrics</a></li>
+
+                        <li class="nav-header">Curve Fitting</li>
+                        <li><a href="https://numerics.mathdotnet.com/Regression.html">Regression</a></li>
+                        <li>Interpolation</li>
+                        <li>Fourier Approximation</li>
+
+                        <li class="nav-header">Native Providers</li>
+                        <li><a href="https://numerics.mathdotnet.com/MKL.html">Intel MKL</a></li>
+
+                        <li class="nav-header">Working Together</li>
+                        <li><a href="https://numerics.mathdotnet.com/CSV.html">Delimited Text Files (CSV)</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/MatrixMarket.html">NIST MatrixMarket</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/MatlabFiles.html">MATLAB</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/IFSharpNotebook.html">IF# Notebook</a></li>
+                        <li>FsLab & Deedle</li>
+                        <li>Microsoft Excel</li>
+                        <li>numl.net machine learning</li>
+                        <li>R-project</li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

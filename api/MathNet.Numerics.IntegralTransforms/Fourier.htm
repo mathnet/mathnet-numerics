@@ -1,0 +1,988 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Fourier - Math.NET Numerics Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="../main.css"/>
+    <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="../js/navigation.js"></script>
+    <script type="text/javascript" src="../js/example.js"></script>
+  </head>
+  <body><div id="namespaces">
+	<h2 class="fixed">Namespaces</h2>
+	<div class="scroll">
+		<ul>
+			<li>
+          <a href="../MathNet.Numerics/index.htm">MathNet.Numerics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Differentiation/index.htm">MathNet.Numerics.Differentiation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Distributions/index.htm">MathNet.Numerics.Distributions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Financial/index.htm">MathNet.Numerics.Financial</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.IntegralTransforms/index.htm" class="current">MathNet.Numerics.IntegralTransforms</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Integration/index.htm">MathNet.Numerics.Integration</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Interpolation/index.htm">MathNet.Numerics.Interpolation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra/index.htm">MathNet.Numerics.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex/index.htm">MathNet.Numerics.LinearAlgebra.Complex</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32/index.htm">MathNet.Numerics.LinearAlgebra.Complex32</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex32.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double/index.htm">MathNet.Numerics.LinearAlgebra.Double</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Double.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Factorization/index.htm">MathNet.Numerics.LinearAlgebra.Factorization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single/index.htm">MathNet.Numerics.LinearAlgebra.Single</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Single.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Storage/index.htm">MathNet.Numerics.LinearAlgebra.Storage</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearRegression/index.htm">MathNet.Numerics.LinearRegression</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.OdeSolvers/index.htm">MathNet.Numerics.OdeSolvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization/index.htm">MathNet.Numerics.Optimization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.LineSearch/index.htm">MathNet.Numerics.Optimization.LineSearch</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.ObjectiveFunctions/index.htm">MathNet.Numerics.Optimization.ObjectiveFunctions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Properties/index.htm">MathNet.Numerics.Properties</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Random/index.htm">MathNet.Numerics.Random</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.RootFinding/index.htm">MathNet.Numerics.RootFinding</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics/index.htm">MathNet.Numerics.Statistics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics.Mcmc/index.htm">MathNet.Numerics.Statistics.Mcmc</a>
+      </li>
+		</ul>
+	</div>
+</div><div id="types">
+  <h2 class="fixed">Types in MathNet.Numerics.IntegralTransforms</h2>
+	<div class="scroll">
+		<ul>
+				<li>
+            <a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm" class="current">Fourier</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.IntegralTransforms/Hartley.htm">Hartley</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.IntegralTransforms/HartleyOptions.htm">HartleyOptions</a>
+        </li>
+		</ul>
+	</div>
+</div>
+    <div class="header">
+		<p class="class"><strong>Type</strong> Fourier</p>
+		<p><strong>Namespace</strong> MathNet.Numerics.IntegralTransforms</p>
+	</div>
+    <div class="sub-header">
+			<div id="summary">Complex Fast (FFT) Implementation of the Discrete Fourier Transform (DFT). 
+			</div>
+		
+
+			<h3 class="section">Static Functions</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#BluesteinForward">BluesteinForward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#BluesteinForward">BluesteinForward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#BluesteinInverse">BluesteinInverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#BluesteinInverse">BluesteinInverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Forward">Forward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Forward">Forward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Forward">Forward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Forward">Forward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Forward">Forward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Forward">Forward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Forward2D">Forward2D</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Forward2D">Forward2D</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Forward2D">Forward2D</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#ForwardMultiDim">ForwardMultiDim</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#ForwardMultiDim">ForwardMultiDim</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#ForwardReal">ForwardReal</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#ForwardReal">ForwardReal</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#FrequencyScale">FrequencyScale</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Inverse">Inverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Inverse">Inverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Inverse">Inverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Inverse">Inverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Inverse">Inverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Inverse">Inverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Inverse2D">Inverse2D</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Inverse2D">Inverse2D</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Inverse2D">Inverse2D</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#InverseMultiDim">InverseMultiDim</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#InverseMultiDim">InverseMultiDim</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#InverseReal">InverseReal</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#InverseReal">InverseReal</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#NaiveForward">NaiveForward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#NaiveForward">NaiveForward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#NaiveInverse">NaiveInverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#NaiveInverse">NaiveInverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Radix2Forward">Radix2Forward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Radix2Forward">Radix2Forward</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Radix2Inverse">Radix2Inverse</a></li>
+				<li><a href="../MathNet.Numerics.IntegralTransforms/Fourier.htm#Radix2Inverse">Radix2Inverse</a></li>
+			</ul>
+		
+
+		
+	</div>
+	
+	
+	
+	<h3 class="section">Public Static Functions</h3>
+	
+	<div id="BluesteinForward" class="method">
+		<h4><span title="System.void">void</span> <strong>BluesteinForward</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> samples, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Bluestein forward FFT for arbitrary sized sample vectors. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> samples</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="BluesteinForward" class="method">
+		<h4><span title="System.void">void</span> <strong>BluesteinForward</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> samples, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Bluestein forward FFT for arbitrary sized sample vectors. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> samples</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="BluesteinInverse" class="method">
+		<h4><span title="System.void">void</span> <strong>BluesteinInverse</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> spectrum, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Bluestein inverse FFT for arbitrary sized sample vectors. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> spectrum</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="BluesteinInverse" class="method">
+		<h4><span title="System.void">void</span> <strong>BluesteinInverse</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> spectrum, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Bluestein inverse FFT for arbitrary sized sample vectors. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> spectrum</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Forward" class="method">
+		<h4><span title="System.void">void</span> <strong>Forward</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> samples)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> samples</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Forward" class="method">
+		<h4><span title="System.void">void</span> <strong>Forward</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> samples)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> samples</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Forward" class="method">
+		<h4><span title="System.void">void</span> <strong>Forward</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> samples, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> samples</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Forward" class="method">
+		<h4><span title="System.void">void</span> <strong>Forward</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> samples, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> samples</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Forward" class="method">
+		<h4><span title="System.void">void</span> <strong>Forward</strong>(<span title="System.Single[]">Single[]</span> real, <span title="System.Single[]">Single[]</span> imaginary, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Single[]">Single[]</span></code> real</h6>
+          <p class="comments">Real part of the sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><span title="System.Single[]">Single[]</span></code> imaginary</h6>
+          <p class="comments">Imaginary part of the sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Forward" class="method">
+		<h4><span title="System.void">void</span> <strong>Forward</strong>(<span title="System.Double[]">Double[]</span> real, <span title="System.Double[]">Double[]</span> imaginary, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> real</h6>
+          <p class="comments">Real part of the sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><span title="System.Double[]">Double[]</span></code> imaginary</h6>
+          <p class="comments">Imaginary part of the sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Forward2D" class="method">
+		<h4><span title="System.void">void</span> <strong>Forward2D</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> samplesRowWise, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to two dimensional sample data. <blockquote class="remarks">
+  Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> samplesRowWise</h6>
+          <p class="comments">Sample data, organized row by row, where the FFT is evaluated in place </p>
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Forward2D" class="method">
+		<h4><span title="System.void">void</span> <strong>Forward2D</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> samplesRowWise, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to two dimensional sample data. <blockquote class="remarks">
+  Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> samplesRowWise</h6>
+          <p class="comments">Sample data, organized row by row, where the FFT is evaluated in place </p>
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Forward2D" class="method">
+		<h4><span title="System.void">void</span> <strong>Forward2D</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> samples, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to a two dimensional data in form of a matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> samples</h6>
+          <p class="comments">Sample matrix, where the FFT is evaluated in place </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ForwardMultiDim" class="method">
+		<h4><span title="System.void">void</span> <strong>ForwardMultiDim</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> samples, <span title="System.Int32[]">Int32[]</span> dimensions, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to multiple dimensional sample data. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> samples</h6>
+          <p class="comments">Sample data, where the FFT is evaluated in place. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> dimensions</h6>
+          <p class="comments">The data size per dimension. The first dimension is the major one.
+For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ForwardMultiDim" class="method">
+		<h4><span title="System.void">void</span> <strong>ForwardMultiDim</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> samples, <span title="System.Int32[]">Int32[]</span> dimensions, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the forward Fast Fourier Transform (FFT) to multiple dimensional sample data. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> samples</h6>
+          <p class="comments">Sample data, where the FFT is evaluated in place. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> dimensions</h6>
+          <p class="comments">The data size per dimension. The first dimension is the major one.
+For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ForwardReal" class="method">
+		<h4><span title="System.void">void</span> <strong>ForwardReal</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.int">int</span> n, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Packed Real-Complex forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
+Since for real-valued time samples the complex spectrum is conjugate-even (symmetry),
+the spectrum can be fully reconstructed form the positive frequencies only (first half).
+The data array needs to be N+2 (if N is even) or N+1 (if N is odd) long in order to support such a packed spectrum. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <p class="comments">Data array of length N+2 (if N is even) or N+1 (if N is odd). </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of samples. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ForwardReal" class="method">
+		<h4><span title="System.void">void</span> <strong>ForwardReal</strong>(<span title="System.Single[]">Single[]</span> data, <span title="System.int">int</span> n, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Packed Real-Complex forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
+Since for real-valued time samples the complex spectrum is conjugate-even (symmetry),
+the spectrum can be fully reconstructed from the positive frequencies only (first half).
+The data array needs to be N+2 (if N is even) or N+1 (if N is odd) long in order to support such a packed spectrum. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
+          <p class="comments">Data array of length N+2 (if N is even) or N+1 (if N is odd). </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of samples. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="FrequencyScale" class="method">
+		<h4><span title="System.Double[]">Double[]</span> <strong>FrequencyScale</strong>(<span title="System.int">int</span> length, <span title="System.double">double</span> sampleRate)</h4>
+		<div class="content">Generate the frequencies corresponding to each index in frequency space.
+The frequency space has a resolution of sampleRate/N.
+Index 0 corresponds to the DC part, the following indices correspond to
+the positive frequencies up to the Nyquist frequency (sampleRate/2),
+followed by the negative frequencies wrapped around. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> length</h6>
+          <p class="comments">Number of samples. </p>
+          <h6><code><span title="System.double">double</span></code> sampleRate</h6>
+          <p class="comments">The sampling rate of the time-space data. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Inverse" class="method">
+		<h4><span title="System.void">void</span> <strong>Inverse</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> spectrum)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> spectrum</h6>
+          <p class="comments">Spectrum data, where the iFFT is evaluated in place. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Inverse" class="method">
+		<h4><span title="System.void">void</span> <strong>Inverse</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> spectrum)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> spectrum</h6>
+          <p class="comments">Spectrum data, where the iFFT is evaluated in place. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Inverse" class="method">
+		<h4><span title="System.void">void</span> <strong>Inverse</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> spectrum, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> spectrum</h6>
+          <p class="comments">Spectrum data, where the iFFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Inverse" class="method">
+		<h4><span title="System.void">void</span> <strong>Inverse</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> spectrum, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> spectrum</h6>
+          <p class="comments">Spectrum data, where the iFFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Inverse" class="method">
+		<h4><span title="System.void">void</span> <strong>Inverse</strong>(<span title="System.Single[]">Single[]</span> real, <span title="System.Single[]">Single[]</span> imaginary, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Single[]">Single[]</span></code> real</h6>
+          <p class="comments">Real part of the sample vector, where the iFFT is evaluated in place. </p>
+          <h6><code><span title="System.Single[]">Single[]</span></code> imaginary</h6>
+          <p class="comments">Imaginary part of the sample vector, where the iFFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Inverse" class="method">
+		<h4><span title="System.void">void</span> <strong>Inverse</strong>(<span title="System.Double[]">Double[]</span> real, <span title="System.Double[]">Double[]</span> imaginary, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> real</h6>
+          <p class="comments">Real part of the sample vector, where the iFFT is evaluated in place. </p>
+          <h6><code><span title="System.Double[]">Double[]</span></code> imaginary</h6>
+          <p class="comments">Imaginary part of the sample vector, where the iFFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Inverse2D" class="method">
+		<h4><span title="System.void">void</span> <strong>Inverse2D</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> spectrumRowWise, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to two dimensional sample data. <blockquote class="remarks">
+  Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> spectrumRowWise</h6>
+          <p class="comments">Sample data, organized row by row, where the iFFT is evaluated in place </p>
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Inverse2D" class="method">
+		<h4><span title="System.void">void</span> <strong>Inverse2D</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> spectrumRowWise, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to two dimensional sample data. <blockquote class="remarks">
+  Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> spectrumRowWise</h6>
+          <p class="comments">Sample data, organized row by row, where the iFFT is evaluated in place </p>
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Inverse2D" class="method">
+		<h4><span title="System.void">void</span> <strong>Inverse2D</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> spectrum, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to a two dimensional data in form of a matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> spectrum</h6>
+          <p class="comments">Sample matrix, where the iFFT is evaluated in place </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="InverseMultiDim" class="method">
+		<h4><span title="System.void">void</span> <strong>InverseMultiDim</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> spectrum, <span title="System.Int32[]">Int32[]</span> dimensions, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to multiple dimensional sample data. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> spectrum</h6>
+          <p class="comments">Spectrum data, where the iFFT is evaluated in place. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> dimensions</h6>
+          <p class="comments">The data size per dimension. The first dimension is the major one.
+For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="InverseMultiDim" class="method">
+		<h4><span title="System.void">void</span> <strong>InverseMultiDim</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> spectrum, <span title="System.Int32[]">Int32[]</span> dimensions, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Applies the inverse Fast Fourier Transform (iFFT) to multiple dimensional sample data. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> spectrum</h6>
+          <p class="comments">Spectrum data, where the iFFT is evaluated in place. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> dimensions</h6>
+          <p class="comments">The data size per dimension. The first dimension is the major one.
+For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="InverseReal" class="method">
+		<h4><span title="System.void">void</span> <strong>InverseReal</strong>(<span title="System.Single[]">Single[]</span> data, <span title="System.int">int</span> n, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Packed Real-Complex inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
+Since for real-valued time samples the complex spectrum is conjugate-even (symmetry),
+the spectrum can be fully reconstructed form the positive frequencies only (first half).
+The data array needs to be N+2 (if N is even) or N+1 (if N is odd) long in order to support such a packed spectrum. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
+          <p class="comments">Data array of length N+2 (if N is even) or N+1 (if N is odd). </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of samples. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="InverseReal" class="method">
+		<h4><span title="System.void">void</span> <strong>InverseReal</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.int">int</span> n, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Packed Real-Complex inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
+Since for real-valued time samples the complex spectrum is conjugate-even (symmetry),
+the spectrum can be fully reconstructed form the positive frequencies only (first half).
+The data array needs to be N+2 (if N is even) or N+1 (if N is odd) long in order to support such a packed spectrum. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <p class="comments">Data array of length N+2 (if N is even) or N+1 (if N is odd). </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of samples. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="NaiveForward" class="method">
+		<h4><span title="System.Numerics.Complex[]">Complex[]</span> <strong>NaiveForward</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> samples, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Naive forward DFT, useful e.g. to verify faster algorithms. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> samples</h6>
+          <p class="comments">Time-space sample vector. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code></h6>
+        <p>Corresponding frequency-space vector. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="NaiveForward" class="method">
+		<h4><span title="MathNet.Numerics.Complex32[]">Complex32[]</span> <strong>NaiveForward</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> samples, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Naive forward DFT, useful e.g. to verify faster algorithms. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> samples</h6>
+          <p class="comments">Time-space sample vector. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code></h6>
+        <p>Corresponding frequency-space vector. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="NaiveInverse" class="method">
+		<h4><span title="System.Numerics.Complex[]">Complex[]</span> <strong>NaiveInverse</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> spectrum, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Naive inverse DFT, useful e.g. to verify faster algorithms. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> spectrum</h6>
+          <p class="comments">Frequency-space sample vector. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code></h6>
+        <p>Corresponding time-space vector. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="NaiveInverse" class="method">
+		<h4><span title="MathNet.Numerics.Complex32[]">Complex32[]</span> <strong>NaiveInverse</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> spectrum, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Naive inverse DFT, useful e.g. to verify faster algorithms. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> spectrum</h6>
+          <p class="comments">Frequency-space sample vector. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code></h6>
+        <p>Corresponding time-space vector. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Radix2Forward" class="method">
+		<h4><span title="System.void">void</span> <strong>Radix2Forward</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> samples, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Radix-2 forward FFT for power-of-two sized sample vectors. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> samples</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Radix2Forward" class="method">
+		<h4><span title="System.void">void</span> <strong>Radix2Forward</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> samples, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Radix-2 forward FFT for power-of-two sized sample vectors. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Forward instead. Will be dropped in version 5.0 and behave like Forward until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> samples</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Radix2Inverse" class="method">
+		<h4><span title="System.void">void</span> <strong>Radix2Inverse</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> spectrum, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Radix-2 inverse FFT for power-of-two sized sample vectors. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> spectrum</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Radix2Inverse" class="method">
+		<h4><span title="System.void">void</span> <strong>Radix2Inverse</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> spectrum, <a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a> options)</h4>
+		<div class="content">Radix-2 inverse FFT for power-of-two sized sample vectors. 
+        <div id="warning">
+          <b>Obsolete:</b> Use Inverse instead. Will be dropped in version 5.0 and behave like Inverse until then.
+        </div>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> spectrum</h6>
+          <p class="comments">Sample vector, where the FFT is evaluated in place. </p>
+          <h6><code><a href="../MathNet.Numerics.IntegralTransforms/FourierOptions.htm">FourierOptions</a></code> options</h6>
+          <p class="comments">Fourier Transform Convention Options. </p>
+      </div>
+
+      
+    </div>
+	</div>
+
+	
+	<div id="footer">
+  <p>Based on v4.7.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
+</div>
+  </body>
+</html>

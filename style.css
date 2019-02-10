@@ -1,0 +1,134 @@
+body {
+    margin: 0 auto;
+    width: 780px;
+    font-size: 14px;
+    font-family: "Segoe UI", "Segoe WP", "Helvetica Neue", 'RobotoRegular', "Trebuchet MS", sans-serif;
+}
+
+h1, h2, h3 {
+    font-weight: 100;
+    font-family: "Segoe UI Light", "Helvetica Neue", 'RobotoLight', "Segoe UI", "Segoe WP", "Trebuchet MS", sans-serif;
+    text-transform: lowercase;
+}
+
+h1 {
+    margin: 40px 0 -10px 0;
+    color: #1BA1E2;
+    font-size: 56px;
+}
+
+h2 {
+    margin: 20px 0 -10px 0;
+    font-size: 42px;
+}
+
+h3 {
+    margin: 10px 0 -12px 0;
+    font-size: 28px;
+}
+
+h4 {
+    font-size: 16px;
+}
+
+a, a:visited {
+    color: #1BA1E2;
+    text-decoration: none;
+}
+
+    a:hover {
+        background: #1BA1E2;
+        color: white;
+    }
+
+pre {
+    overflow: auto;
+    padding: 15px;
+    border: 1px solid #AAAAAA;
+    background: none repeat scroll 0 0 #FAFAFA;
+}
+
+ul.bar {
+    margin: 30px 0 30px 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: center;
+}
+
+    ul.bar li {
+        display: inline-block;
+        margin: 0 10px;
+        font-weight: 100;
+        font-size: 28px;
+        font-family: "Segoe UI Light", "Helvetica Neue", 'RobotoLight', "Segoe UI", "Segoe WP", sans-serif;
+    }
+
+ul.sbar {
+    margin: 10px 0 10px 0;
+    padding: 0;
+    list-style-type: none;
+    text-align: left;
+}
+
+    ul.sbar li {
+        display: inline-block;
+        margin: 0;
+        font-weight: 100;
+        font-size: 14px;
+    }
+
+        ul.sbar li:after {
+            margin: 0 8px;
+            content: "|";
+        }
+
+        ul.sbar li:last-child:after {
+            margin: 0;
+            content: "";
+        }
+
+@media screen and (max-width:800px), screen and (max-device-width:800px) {
+    body {
+        margin: 10px;
+        width: auto;
+    }
+
+    h1 {
+        margin-top: 0;
+    }
+
+    ul.bar {
+        margin: 0;
+        padding: 0 0 0 40px;
+        list-style-type: circle;
+        text-align: left;
+    }
+
+        ul.bar li {
+            display: list-item;
+            margin: 5px 0;
+            font-weight: normal;
+            font-size: 14px;
+            font-family: "Segoe UI", "Segoe WP", "Helvetica Neue", 'RobotoRegular', sans-serif;
+        }
+}
+
+@media screen and (max-width:500px), screen and (max-device-width:500px) {
+    h1, h2, h3, h4, h5, h6 {
+        margin-top: 10px;
+        font-family: "Segoe UI", "Segoe WP", "Helvetica Neue", 'RobotoRegular', sans-serif;
+    }
+
+    h1 {
+        font-size: 30px;
+    }
+
+    h2 {
+        text-transform: uppercase;
+        font-size: 20px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+}

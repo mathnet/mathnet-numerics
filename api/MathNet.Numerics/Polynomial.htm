@@ -1,0 +1,931 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>Polynomial - Math.NET Numerics Documentation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link type="text/css" rel="stylesheet" href="../main.css"/>
+    <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.scrollTo-min.js"></script>
+    <script type="text/javascript" src="../js/navigation.js"></script>
+    <script type="text/javascript" src="../js/example.js"></script>
+  </head>
+  <body><div id="namespaces">
+	<h2 class="fixed">Namespaces</h2>
+	<div class="scroll">
+		<ul>
+			<li>
+          <a href="../MathNet.Numerics/index.htm" class="current">MathNet.Numerics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Differentiation/index.htm">MathNet.Numerics.Differentiation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Distributions/index.htm">MathNet.Numerics.Distributions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Financial/index.htm">MathNet.Numerics.Financial</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.IntegralTransforms/index.htm">MathNet.Numerics.IntegralTransforms</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Integration/index.htm">MathNet.Numerics.Integration</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Interpolation/index.htm">MathNet.Numerics.Interpolation</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra/index.htm">MathNet.Numerics.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex/index.htm">MathNet.Numerics.LinearAlgebra.Complex</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32/index.htm">MathNet.Numerics.LinearAlgebra.Complex32</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Complex32.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Complex32.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double/index.htm">MathNet.Numerics.LinearAlgebra.Double</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Double.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Double.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Factorization/index.htm">MathNet.Numerics.LinearAlgebra.Factorization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single/index.htm">MathNet.Numerics.LinearAlgebra.Single</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Single.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Single.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Solvers/index.htm">MathNet.Numerics.LinearAlgebra.Solvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearAlgebra.Storage/index.htm">MathNet.Numerics.LinearAlgebra.Storage</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.LinearRegression/index.htm">MathNet.Numerics.LinearRegression</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.OdeSolvers/index.htm">MathNet.Numerics.OdeSolvers</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization/index.htm">MathNet.Numerics.Optimization</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.LineSearch/index.htm">MathNet.Numerics.Optimization.LineSearch</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Optimization.ObjectiveFunctions/index.htm">MathNet.Numerics.Optimization.ObjectiveFunctions</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Properties/index.htm">MathNet.Numerics.Properties</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Random/index.htm">MathNet.Numerics.Random</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.RootFinding/index.htm">MathNet.Numerics.RootFinding</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics/index.htm">MathNet.Numerics.Statistics</a>
+      </li>
+			<li>
+          <a href="../MathNet.Numerics.Statistics.Mcmc/index.htm">MathNet.Numerics.Statistics.Mcmc</a>
+      </li>
+		</ul>
+	</div>
+</div><div id="types">
+  <h2 class="fixed">Types in MathNet.Numerics</h2>
+	<div class="scroll">
+		<ul>
+				<li>
+            <a href="../MathNet.Numerics/Combinatorics.htm">Combinatorics</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Complex32.htm">Complex32</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/ComplexExtensions.htm">ComplexExtensions</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Constants.htm">Constants</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Control.htm">Control</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Differentiate.htm">Differentiate</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Distance.htm">Distance</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Euclid.htm">Euclid</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Evaluate.htm">Evaluate</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/ExcelFunctions.htm">ExcelFunctions</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/FindMinimum.htm">FindMinimum</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/FindRoots.htm">FindRoots</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Fit.htm">Fit</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Generate.htm">Generate</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/GoodnessOfFit.htm">GoodnessOfFit</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Integrate.htm">Integrate</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Interpolate.htm">Interpolate</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/InvalidParameterException.htm">InvalidParameterException</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/IPrecisionSupport`1.htm">IPrecisionSupport&lt;T&gt;</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/MemoryAllocationException.htm">MemoryAllocationException</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/NativeInterfaceException.htm">NativeInterfaceException</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/NonConvergenceException.htm">NonConvergenceException</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/NumericalBreakdownException.htm">NumericalBreakdownException</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Permutation.htm">Permutation</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Polynomial.htm" class="current">Polynomial</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Precision.htm">Precision</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/SingularUMatrixException.htm">SingularUMatrixException</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Sorting.htm">Sorting</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/SpecialFunctions.htm">SpecialFunctions</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/TestFunctions.htm">TestFunctions</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Trig.htm">Trig</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics/Window.htm">Window</a>
+        </li>
+		</ul>
+	</div>
+</div>
+    <div class="header">
+		<p class="class"><strong>Type</strong> Polynomial</p>
+		<p><strong>Namespace</strong> MathNet.Numerics</p>
+		<p><strong>Interfaces</strong> <span title="System.IFormattable">IFormattable</span>, <span title="System.IEquatable<Polynomial>">IEquatable&lt;Polynomial&gt;</span>, <span title="System.ICloneable">ICloneable</span></p>
+	</div>
+    <div class="sub-header">
+			<div id="summary">A single-variable polynomial with real-valued coefficients and non-negative exponents. 
+			</div>
+		
+			<h3 class="section">Constructors</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#.ctor">Polynomial</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#.ctor">Polynomial</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#.ctor">Polynomial</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#.ctor">Polynomial</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#.ctor">Polynomial</a></li>
+			</ul>
+
+			<h3 class="section">Static Functions</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Add">Add</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Add">Add</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Divide">Divide</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#DivideRemainder">DivideRemainder</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Evaluate">Evaluate</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Evaluate">Evaluate</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Evaluate">Evaluate</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Fit">Fit</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Multiply">Multiply</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Multiply">Multiply</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Negate">Negate</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#PointwiseDivide">PointwiseDivide</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#PointwiseMultiply">PointwiseMultiply</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Subtract">Subtract</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Subtract">Subtract</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Subtract">Subtract</a></li>
+			</ul>
+			<h3 class="section">Methods</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Clone">Clone</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Differentiate">Differentiate</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#DivideRemainder">DivideRemainder</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#EigenvalueMatrix">EigenvalueMatrix</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Evaluate">Evaluate</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Evaluate">Evaluate</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Evaluate">Evaluate</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#GetHashCode">GetHashCode</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#GetType">GetType</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Integrate">Integrate</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Roots">Roots</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#ToStringDescending">ToStringDescending</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#ToStringDescending">ToStringDescending</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#ToStringDescending">ToStringDescending</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#ToStringDescending">ToStringDescending</a></li>
+			</ul>
+		
+
+			<h3 class="section">Properties</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Coefficients">Coefficients</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Degree">Degree</a></li>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#Zero">Zero</a></li>
+			</ul>
+		
+			<h3 class="section">Fields</h3>
+			<ul>
+				<li><a href="../MathNet.Numerics/Polynomial.htm#VariableName">VariableName</a></li>
+			</ul>
+	</div>
+	
+	
+	<h3 class="section">Public Constructors</h3>
+	
+	<div id=".ctor" class="method">
+		<h4> <strong>Polynomial</strong>(<span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> coefficients)</h4>
+		<div class="content">Create a polynomial with the provided coefficients (in ascending order, where the index matches the exponent).
+Example: {5, 0, 2} -> "p : x -> 5 + 0 x^1 + 2 x^2". 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span></code> coefficients</h6>
+          <p class="comments">Polynomial coefficients as enumerable </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id=".ctor" class="method">
+		<h4> <strong>Polynomial</strong>(<span title="System.double">double</span> coefficient)</h4>
+		<div class="content">Create a constant polynomial.
+Example: 3.0 -> "p : x -> 3.0" 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> coefficient</h6>
+          <p class="comments">The coefficient of the "x^0" monomial. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id=".ctor" class="method">
+		<h4> <strong>Polynomial</strong>()</h4>
+		<div class="content">Create a zero-polynomial 
+
+
+
+      
+    </div>
+	</div>
+	<div id=".ctor" class="method">
+		<h4> <strong>Polynomial</strong>(<span title="System.int">int</span> n)</h4>
+		<div class="content">Create a zero-polynomial with a coefficient array of the given length.
+An array of length N can support polynomials of a degree of at most N-1. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">Length of the coefficient array </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id=".ctor" class="method">
+		<h4> <strong>Polynomial</strong>(<span title="System.Double[]">Double[]</span> coefficients)</h4>
+		<div class="content">Create a polynomial with the provided coefficients (in ascending order, where the index matches the exponent).
+Example: {5, 0, 2} -> "p : x -> 5 + 0 x^1 + 2 x^2". 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> coefficients</h6>
+          <p class="comments">Polynomial coefficients as array </p>
+      </div>
+
+      
+    </div>
+	</div>
+	
+	<h3 class="section">Public Static Functions</h3>
+	
+	<div id="Add" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Add</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <span title="System.double">double</span> b)</h4>
+		<div class="content">Addition of a polynomial and a scalar. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Add" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Add</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> b)</h4>
+		<div class="content">Addition of two Polynomials (point-wise). 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> a</h6>
+          <p class="comments">Left Polynomial </p>
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> b</h6>
+          <p class="comments">Right Polynomial </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code></h6>
+        <p>Resulting Polynomial </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Divide" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Divide</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <span title="System.double">double</span> k)</h4>
+		<div class="content">Scales a polynomial by division by a scalar 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> a</h6>
+          <p class="comments">Polynomial </p>
+          <h6><code><span title="System.double">double</span></code> k</h6>
+          <p class="comments">Scalar value </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code></h6>
+        <p>Resulting Polynomial </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="DivideRemainder" class="method">
+		<h4><span title="System.Tuple<Polynomial, Polynomial>">Tuple&lt;Polynomial, Polynomial&gt;</span> <strong>DivideRemainder</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> b)</h4>
+		<div class="content">Euclidean long division of two polynomials, returning the quotient q and remainder r of the two polynomials a and b such that a = q*b + r 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> a</h6>
+          <p class="comments">Left polynomial </p>
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> b</h6>
+          <p class="comments">Right polynomial </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Tuple<Polynomial, Polynomial>">Tuple&lt;Polynomial, Polynomial&gt;</span></code></h6>
+        <p>A tuple holding quotient in first and remainder in second </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Evaluate" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Evaluate</strong>(<span title="System.Numerics.Complex">Complex</span> z, <span title="System.Numerics.Complex[]">Complex[]</span> coefficients)</h4>
+		<div class="content">Evaluate a polynomial at point x.
+Coefficients are ordered ascending by power with power k at index k.
+Example: coefficients [3,-1,2] represent y=2x^2-x+3. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
+          <p class="comments">The location where to evaluate the polynomial at. </p>
+          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> coefficients</h6>
+          <p class="comments">The coefficients of the polynomial, coefficient for power k at index k. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Evaluate" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Evaluate</strong>(<span title="System.Numerics.Complex">Complex</span> z, <span title="System.Double[]">Double[]</span> coefficients)</h4>
+		<div class="content">Evaluate a polynomial at point x.
+Coefficients are ordered ascending by power with power k at index k.
+Example: coefficients [3,-1,2] represent y=2x^2-x+3. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
+          <p class="comments">The location where to evaluate the polynomial at. </p>
+          <h6><code><span title="System.Double[]">Double[]</span></code> coefficients</h6>
+          <p class="comments">The coefficients of the polynomial, coefficient for power k at index k. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Evaluate" class="method">
+		<h4><span title="System.double">double</span> <strong>Evaluate</strong>(<span title="System.double">double</span> z, <span title="System.Double[]">Double[]</span> coefficients)</h4>
+		<div class="content">Evaluate a polynomial at point x.
+Coefficients are ordered ascending by power with power k at index k.
+Example: coefficients [3,-1,2] represent y=2x^2-x+3. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> z</h6>
+          <p class="comments">The location where to evaluate the polynomial at. </p>
+          <h6><code><span title="System.Double[]">Double[]</span></code> coefficients</h6>
+          <p class="comments">The coefficients of the polynomial, coefficient for power k at index k. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Fit" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Fit</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.int">int</span> order, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method)</h4>
+		<div class="content">Least-Squares fitting the points (x,y) to a k-order polynomial y : x -> p0 + p1*x + p2*x^2 +... + pk*x^k 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Multiply" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Multiply</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <span title="System.double">double</span> k)</h4>
+		<div class="content">Scales a polynomial by a scalar 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> a</h6>
+          <p class="comments">Polynomial </p>
+          <h6><code><span title="System.double">double</span></code> k</h6>
+          <p class="comments">Scalar value </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code></h6>
+        <p>Resulting Polynomial </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Multiply" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Multiply</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> b)</h4>
+		<div class="content">Multiplies a polynomial by a polynomial (convolution) 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> a</h6>
+          <p class="comments">Left polynomial </p>
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> b</h6>
+          <p class="comments">Right polynomial </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code></h6>
+        <p>Resulting Polynomial </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Negate" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Negate</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a)</h4>
+		<div class="content">Negation of a polynomial. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseDivide" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>PointwiseDivide</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> b)</h4>
+		<div class="content">Point-wise division of two Polynomials 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> a</h6>
+          <p class="comments">Left Polynomial </p>
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> b</h6>
+          <p class="comments">Right Polynomial </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code></h6>
+        <p>Resulting Polynomial </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="PointwiseMultiply" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>PointwiseMultiply</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> b)</h4>
+		<div class="content">Point-wise multiplication of two Polynomials 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> a</h6>
+          <p class="comments">Left Polynomial </p>
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> b</h6>
+          <p class="comments">Right Polynomial </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code></h6>
+        <p>Resulting Polynomial </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Subtract" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Subtract</strong>(<span title="System.double">double</span> b, <a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a)</h4>
+		<div class="content">Addition of a polynomial from a scalar. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Subtract" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Subtract</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <span title="System.double">double</span> b)</h4>
+		<div class="content">Addition of a scalar from a polynomial. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Subtract" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Subtract</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> a, <a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> b)</h4>
+		<div class="content">Subtraction of two Polynomials (point-wise). 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> a</h6>
+          <p class="comments">Left Polynomial </p>
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> b</h6>
+          <p class="comments">Right Polynomial </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code></h6>
+        <p>Resulting Polynomial </p>
+      </div>
+      
+    </div>
+	</div>
+
+	<h3 class="section">Public Methods</h3>
+	
+	<div id="Clone" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Clone</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Differentiate" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Differentiate</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="DivideRemainder" class="method">
+		<h4><span title="System.Tuple<Polynomial, Polynomial>">Tuple&lt;Polynomial, Polynomial&gt;</span> <strong>DivideRemainder</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> b)</h4>
+		<div class="content">Division of two polynomials returning the quotient-with-remainder of the two polynomials given 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a></code> b</h6>
+          <p class="comments">Right polynomial </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Tuple<Polynomial, Polynomial>">Tuple&lt;Polynomial, Polynomial&gt;</span></code></h6>
+        <p>A tuple holding quotient in first and remainder in second </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="EigenvalueMatrix" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Double/DenseMatrix.htm">DenseMatrix</a> <strong>EigenvalueMatrix</strong>()</h4>
+		<div class="content">Get the eigenvalue matrix A of this polynomial such that eig(A) = roots of this polynomial. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra.Double/DenseMatrix.htm">DenseMatrix</a></code></h6>
+        <p>Eigenvalue matrix A </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Equals" class="method">
+		<h4><span title="System.bool">bool</span> <strong>Equals</strong>(<a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> other)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Equals" class="method">
+		<h4><span title="System.bool">bool</span> <strong>Equals</strong>(<span title="System.object">object</span> obj)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Evaluate" class="method">
+		<h4><span title="System.double">double</span> <strong>Evaluate</strong>(<span title="System.double">double</span> z)</h4>
+		<div class="content">Evaluate a polynomial at point x. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> z</h6>
+          <p class="comments">The location where to evaluate the polynomial at. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Evaluate" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Evaluate</strong>(<span title="System.Numerics.Complex">Complex</span> z)</h4>
+		<div class="content">Evaluate a polynomial at point x. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
+          <p class="comments">The location where to evaluate the polynomial at. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Evaluate" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> <strong>Evaluate</strong>(<span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> z)</h4>
+		<div class="content">Evaluate a polynomial at points z. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span></code> z</h6>
+          <p class="comments">The locations where to evaluate the polynomial at. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="GetHashCode" class="method">
+		<h4><span title="System.int">int</span> <strong>GetHashCode</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="GetType" class="method">
+		<h4><span title="System.Type">Type</span> <strong>GetType</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Integrate" class="method">
+		<h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Integrate</strong>()</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Roots" class="method">
+		<h4><span title="System.Numerics.Complex[]">Complex[]</span> <strong>Roots</strong>()</h4>
+		<div class="content">Calculates the complex roots of the Polynomial by eigenvalue decomposition 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code></h6>
+        <p>a vector of complex numbers with the roots </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>(<span title="System.IFormatProvider">IFormatProvider</span> formatProvider)</h4>
+		<div class="content">Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3". 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>()</h4>
+		<div class="content">Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3". 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>(<span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider)</h4>
+		<div class="content">Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3". 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToString" class="method">
+		<h4><span title="System.string">string</span> <strong>ToString</strong>(<span title="System.string">string</span> format)</h4>
+		<div class="content">Format the polynomial in ascending order, e.g. "4.3 + 2.0x^2 - x^3". 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToStringDescending" class="method">
+		<h4><span title="System.string">string</span> <strong>ToStringDescending</strong>(<span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider)</h4>
+		<div class="content">Format the polynomial in descending order, e.g. "x^3 + 2.0x^2 - 4.3". 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToStringDescending" class="method">
+		<h4><span title="System.string">string</span> <strong>ToStringDescending</strong>(<span title="System.IFormatProvider">IFormatProvider</span> formatProvider)</h4>
+		<div class="content">Format the polynomial in descending order, e.g. "x^3 + 2.0x^2 - 4.3". 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToStringDescending" class="method">
+		<h4><span title="System.string">string</span> <strong>ToStringDescending</strong>(<span title="System.string">string</span> format)</h4>
+		<div class="content">Format the polynomial in descending order, e.g. "x^3 + 2.0x^2 - 4.3". 
+
+
+
+      
+    </div>
+	</div>
+	<div id="ToStringDescending" class="method">
+		<h4><span title="System.string">string</span> <strong>ToStringDescending</strong>()</h4>
+		<div class="content">Format the polynomial in descending order, e.g. "x^3 + 2.0x^2 - 4.3". 
+
+
+
+      
+    </div>
+	</div>
+	
+  <h3 class="section">Public Properties</h3>
+
+  <div id="Coefficients" class="method">
+    <h4><span title="System.Double[]">Double[]</span> <strong>Coefficients</strong> get; set;</h4>
+    <div class="content">The coefficients of the polynomial in a 
+      
+    </div>
+  </div>
+  <div id="Degree" class="method">
+    <h4><span title="System.int">int</span> <strong>Degree</strong> get; </h4>
+    <div class="content">Degree of the polynomial, i.e. the largest monomial exponent. For example, the degree of y=x^2+x^5 is 5, for y=3 it is 0.
+The null-polynomial returns degree -1 because the correct degree, negative infinity, cannot be represented by integers. 
+      
+    </div>
+  </div>
+  <div id="Zero" class="method">
+    <h4><a href="../MathNet.Numerics/Polynomial.htm">Polynomial</a> <strong>Zero</strong> get; </h4>
+    <div class="content">
+      
+    </div>
+  </div>
+  <h3 class="section">Public fields</h3>
+
+  <div id="VariableName" class="method">
+    <h4>string <strong>VariableName</strong></h4>
+    <div class="content">Only needed for the ToString method 
+      <table>
+        <tr>
+          <td>
+            <code>return <span title="System.string">string</span></code>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+	<div id="footer">
+  <p>Based on v4.7.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
+</div>
+  </body>
+</html>

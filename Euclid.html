@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Euclid &amp; Number Theory
+</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="description" content="Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use. .Net 4, .Net 3.5, SL5, Win8, WP8, PCL 47 and 136, Mono, Xamarin Android/iOS."/>
+        <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael"/>
+
+        <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+        <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+
+        <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/style.css" />
+        <style>
+          #main table:not(.pre) {
+              border: 1px solid #dddddd;
+              max-width: 100%;
+              border-style: solid;
+              border-width: 1px;
+              border-color: gray;
+              border-collapse: collapse;
+              border-right-width: 1px;
+              border-bottom-width: 1px;
+              margin-top: 15px;
+              margin-bottom: 25px;
+          }
+          #main table:not(.pre) th, #main table:not(.pre) td {
+              border: 1px solid #dddddd;
+              padding: 6px;
+          }
+          #main table:not(.pre) th p, #main table:not(.pre) td p {
+              margin-bottom: 5px;
+          }
+        </style>
+        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/tips.js"></script>
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="masthead">
+                <ul class="nav nav-pills pull-right">
+                    <li><a href="https://www.mathdotnet.com">Math.NET Project</a></li>
+                    <li><a href="https://numerics.mathdotnet.com">Math.NET Numerics</a></li>
+                    <li><a href="https://github.com/mathnet/mathnet-numerics">GitHub</a></li>
+                </ul>
+                <h3 class="muted">Math.NET Numerics</h3>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="span9" id="main">
+                    
+<h1><a name="Euclid-amp-Number-Theory" class="anchor" href="#Euclid-amp-Number-Theory">Euclid &amp; Number Theory</a></h1>
+<p>The static <code>Euclid</code> class in the <code>MathNet.Numerics</code> namespace provides routines related
+to the domain of integers.</p>
+<h2><a name="Remainder-vs-Canonical-Modulus" class="anchor" href="#Remainder-vs-Canonical-Modulus">Remainder vs. Canonical Modulus</a></h2>
+<p>Remainder and modulus are closely related operations with a long tradition of confusing
+on with the other. The % operator in most computer languages implements one of the two,
+but some even leave which one as an implementation detail (e.g. C-1990).</p>
+<p><em>Warning: In C#, like most languages, % is the remainder operator, not the modulus!</em></p>
+<h4><a name="Remainder" class="anchor" href="#Remainder">Remainder</a></h4>
+<p>The <strong>remainder</strong> is the amount left over after performing the division of a dividend
+by a divisor, <span class="math">\(\frac{dividend}{divisor}\)</span>, which do not divide evenly, that is,
+where the result of the division cannot be expressed as an integer. It is thus natural
+that the <strong>remainder has the sign of the dividend</strong>.</p>
+<p>In C# and F#, the remainder is available as <code>%</code> operator, in VB as <code>Mod</code>.
+Alternatively you can use the Reminder function:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">Euclid.Remainder( <span class="n">5</span>,  <span class="n">3</span>); <span class="c">// =  2, such that 5 = 1*3 + 2</span>
+Euclid.Remainder(<span class="n">-5</span>,  <span class="n">3</span>); <span class="c">// = -2, such that -5 = -1*3 - 2</span>
+Euclid.Remainder( <span class="n">5</span>, <span class="n">-3</span>); <span class="c">// =  2, such that 5 = -1*-3 + 2</span>
+Euclid.Remainder(<span class="n">-5</span>, <span class="n">-3</span>); <span class="c">// = -2, such that -5 = 1*-3 - 2</span>
+</code></pre></td></tr></table>
+<h4><a name="Modulus" class="anchor" href="#Modulus">Modulus</a></h4>
+<p>On the other hand, in modular arithmetic numbers "wrap around" upon reaching a certain
+value n, or when crossing zero. Two real numbers are said to be <em>congruent modulo n</em>
+when their difference is an integer multiple of n. The modulo operator normalizes the dividend
+to the fundamental or smallest values congruent modulo n, where n is the divisor, and thus
+to the interval from 0 to n (including 0 but excluding n, possibly negative). It is thus natural that
+the <strong>modulus always has the sign of the divisor</strong>.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">Euclid.Modulus( <span class="n">5</span>,  <span class="n">3</span>); <span class="c">// =  2, congruent modulo 3 by 5 - 1*3</span>
+Euclid.Modulus(<span class="n">-5</span>,  <span class="n">3</span>); <span class="c">// =  1, congruent modulo 3 by -5 + 2*3</span>
+Euclid.Modulus( <span class="n">5</span>, <span class="n">-3</span>); <span class="c">// = -1, congruent modulo -3 by 5 + 2*-3</span>
+Euclid.Modulus(<span class="n">-5</span>, <span class="n">-3</span>); <span class="c">// = -2, congruent modulo -3 by -5 - 1*-3</span>
+</code></pre></td></tr></table>
+<p>A typical case where the modulus appears in daily life is when grouping students into 3 groups
+by letting them line up and count through as 0 1 2 0 1 2 0 1 2 etc. This way, each student will
+end up in the group of their order within the line modulus 3.</p>
+<h2><a name="Integer-Properties" class="anchor" href="#Integer-Properties">Integer Properties</a></h2>
+<h4><a name="Even-or-Odd" class="anchor" href="#Even-or-Odd">Even or Odd?</a></h4>
+<p>Very simple question yet still somewhat error-prone to implement such that it works correctly
+for both positive and negative integers: is a number even or odd?</p>
+<ul>
+<li><code>IsEven(number)</code></li>
+<li><code>IsOdd(number)</code></li>
+</ul>
+<h4><a name="Powers-of-two-and-Squares" class="anchor" href="#Powers-of-two-and-Squares">Powers of two and Squares</a></h4>
+<p>Powers of two are prevalent in computer engineering. For performance reasons it is often preferable
+to align data in blocks where the size is a power of two, i.e. <span class="math">\(2^k\)</span>. The <code>CeilingToPowerOfTwo</code> function
+helps in such situations by finding the smallest perfect power of two larger than or equal to
+the provided argument. There is also <code>IsPowerOfTwo</code> to determine whether a number is such a power of two,
+and <code>PowerOfTwo</code> to compute it efficiently.</p>
+<p>When switching the operands of <span class="math">\(2^k\)</span> we get the square <span class="math">\(k^2\)</span>. <code>IsPerfectSquare</code> determines whether
+the integer argument is a perfect square, i.e. a square of an integer.</p>
+<h2><a name="Euclid-s-Algorithm" class="anchor" href="#Euclid-s-Algorithm">Euclid's Algorithm</a></h2>
+<h4><a name="Greatest-Common-Divisor" class="anchor" href="#Greatest-Common-Divisor">Greatest Common Divisor</a></h4>
+<p>The <code>GreatestCommonDivisor</code> evaluates the <strong>GCD</strong> of either two integers or a full list or array of them
+using Euclid's algorithm. An extended version also returns how exactly the GCD can be composed from two
+integer arguments.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">Euclid.GreatestCommonDivisor(<span class="n">10</span>, <span class="n">15</span>, <span class="n">45</span>); <span class="c">// 5</span>
+
+<span class="k">long</span> x, y;
+Euclid.ExtendedGreatestCommonDivisor(<span class="n">45</span>, <span class="n">18</span>, <span class="k">out</span> x, <span class="k">out</span> y) <span class="c">// 9</span>
+<span class="c">// -&gt; x=1, y=-2, hence 9 == 1*45 + -2*18</span>
+</code></pre></td></tr></table>
+<h4><a name="Least-Common-Multiple" class="anchor" href="#Least-Common-Multiple">Least Common Multiple</a></h4>
+<p>Closely related to the GCD, <code>LeastCommonMultiple</code> returns the <strong>LCM</strong> of two or more integers.</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">Euclid.LeastCommonMultiple(<span class="n">3</span>, <span class="n">5</span>, <span class="n">6</span>); <span class="c">// 30</span>
+</code></pre></td></tr></table>
+
+
+                </div>
+                <div class="span3">
+                    <ul class="nav nav-list" id="menu">
+
+                        <li class="nav-header">Math.NET Numerics</li>
+                        <li><a href="https://numerics.mathdotnet.com/Packages.html">NuGet & Binaries</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/ReleaseNotes.html">Release Notes</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/License.html">MIT/X11 License</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Compatibility.html">Platform Support</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/api/">Class Reference</a></li>
+                        <li><a href="https://github.com/mathnet/mathnet-numerics/issues">Issues & Bugs</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Users.html">Who is using Math.NET?</a></li>
+
+                        <li class="nav-header">Contributing</li>
+                        <li><a href="https://numerics.mathdotnet.com/Contributors.html">Contributors</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Contributing.html">Contributing</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Build.html">Build & Tools</a></li>
+                        <li><a href="http://feedback.mathdotnet.com/forums/2060-math-net-numerics">Your Ideas</a></li>
+
+                        <li class="nav-header">Getting Help</li>
+                        <li><a href="https://discuss.mathdotnet.com/c/numerics">Discuss</a></li>
+                        <li><a href="https://stackoverflow.com/questions/tagged/mathdotnet">Stack Overflow</a></li>
+
+                        <li class="nav-header">Getting Started</li>
+                        <li><a href="https://numerics.mathdotnet.com/">Getting started</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Constants.html">Constants</a></li>
+                        <li>Floating-Point Numbers</li>
+                        <li>Arbitrary Precision Numbers</li>
+                        <li>Complex Numbers</li>
+                        <li><a href="https://numerics.mathdotnet.com/Matrix.html">Matrices and Vectors</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Euclid.html">Euclid & Number Theory</a></li>
+                        <li>Combinatorics</li>
+
+                        <li class="nav-header">Evaluation</li>
+                        <li><a href="https://numerics.mathdotnet.com/Functions.html">Special Functions</a></li>
+                        <li>Differentiation</li>
+                        <li><a href="https://numerics.mathdotnet.com/Integration.html">Integration</a></li>
+
+                        <li class="nav-header">Statistics/Probability</li>
+                        <li><a href="https://numerics.mathdotnet.com/DescriptiveStatistics.html">Descriptive Statistics</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Probability.html">Probability Distributions</a></li>
+
+                        <li class="nav-header">Generation</li>
+                        <li><a href="https://numerics.mathdotnet.com/Generate.html">Generating Data</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/Random.html">Random Numbers</a></li>
+
+                        <li class="nav-header">Transformation</li>
+                        <li>Fourier Transform (FFT)</li>
+                        <li>Filtering & DSP</li>
+                        <li>Window Functions</li>
+
+                        <li class="nav-header">Solving Equations</li>
+                        <li><a href="https://numerics.mathdotnet.com/LinearEquations.html">Linear Equation Systems</a></li>
+                        <li>Nonlinear Root Finding</li>
+
+                        <li class="nav-header">Optimization</li>
+                        <li>Linear Least Squares</li>
+                        <li>Nonlinear Optimization</li>
+                        <li><a href="https://numerics.mathdotnet.com/Distance.html">Distance Metrics</a></li>
+
+                        <li class="nav-header">Curve Fitting</li>
+                        <li><a href="https://numerics.mathdotnet.com/Regression.html">Regression</a></li>
+                        <li>Interpolation</li>
+                        <li>Fourier Approximation</li>
+
+                        <li class="nav-header">Native Providers</li>
+                        <li><a href="https://numerics.mathdotnet.com/MKL.html">Intel MKL</a></li>
+
+                        <li class="nav-header">Working Together</li>
+                        <li><a href="https://numerics.mathdotnet.com/CSV.html">Delimited Text Files (CSV)</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/MatrixMarket.html">NIST MatrixMarket</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/MatlabFiles.html">MATLAB</a></li>
+                        <li><a href="https://numerics.mathdotnet.com/IFSharpNotebook.html">IF# Notebook</a></li>
+                        <li>FsLab & Deedle</li>
+                        <li>Microsoft Excel</li>
+                        <li>numl.net machine learning</li>
+                        <li>R-project</li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

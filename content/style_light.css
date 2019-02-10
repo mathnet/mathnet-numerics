@@ -1,0 +1,227 @@
+@import url(https://fonts.googleapis.com/css?family=Droid+Sans|Droid+Sans+Mono|Open+Sans:400,600,700);
+
+/*--------------------------------------------------------------------------
+  Formatting for F# code snippets
+/*--------------------------------------------------------------------------*/
+
+/* identifier */
+span.i { color:#000000; }
+/* string */
+span.s { color:#a31515; }
+/* keywords */
+span.k { color:#0000ff; }
+/* comment */
+span.c { color:#008000; }
+/* operators */
+span.o { color:#000000; }
+/* numbers */
+span.n { color:#000000; }
+/* line number */
+span.l { color:#96c2cd; }
+/* type or module */
+span.t { color:#2b91af; }
+/* function */
+span.f { color:#0000a0; }
+/* DU case or active pattern */
+span.p { color:#800080; }
+/* mutable var or ref cell */
+span.v { color:#000000; font-weight: bold; }
+/* printf formatters */
+span.pf { color:#2b91af; }
+/* escaped chars */
+span.e { color:#ff0080; }
+/* mutable var or ref cell */
+
+
+/* inactive code */
+span.inactive { color:#808080; }
+/* preprocessor */
+span.prep { color:#0000ff; }
+/* fsi output */
+span.fsi { color:#808080; }
+
+/* omitted */
+span.omitted {
+	background:#3c4e52;
+  border-radius:5px;
+	color:#808080;
+	padding:0px 0px 1px 0px;
+}
+/* tool tip */
+div.tip {
+	background:#e5e5e5;
+  border-radius:4px;
+  font:9pt 'Droid Sans', arial, sans-serif;
+	padding:6px 8px 6px 8px;
+	display:none;
+  color:#000000;
+  pointer-events:none;
+}
+table.pre pre {
+  padding:0px;
+  margin:0px;
+  border:none;
+}
+table.pre, pre.fssnip, pre {
+  line-height:13pt;
+  border:1px solid #d8d8d8;
+  border-collapse:separate;
+  white-space:pre;
+  font: 10pt consolas,monospace;
+  width:90%;
+  margin:10px 20px 20px 20px;
+  background-color:#fdfdfd;
+  padding:10px;
+  border-radius:5px;
+  color:#000000;
+  max-width: none;
+}
+pre.fssnip code {
+  font: 9pt 'Droid Sans Mono',consolas,monospace;
+}
+table.pre pre {
+  padding:0px;
+  margin:0px;
+  border-radius:0px;
+  width: 100%;
+}
+table.pre td {
+  padding:0px;
+  white-space:normal;
+  margin:0px;
+}
+table.pre td.lines {
+  width:30px;
+}
+
+/*--------------------------------------------------------------------------
+  Formatting for page & standard document content
+/*--------------------------------------------------------------------------*/
+
+body {
+  font-family: 'Open Sans', serif;
+  padding-top: 0px;
+  padding-bottom: 40px;
+}
+
+pre {
+    word-wrap: inherit;
+}
+
+/* Format the heading - nicer spacing etc. */
+.masthead {
+  overflow: hidden;
+}
+.masthead .muted a {
+  text-decoration:none;
+  color:#999999;
+}
+.masthead ul, .masthead li {
+  margin-bottom:0px;
+}
+.masthead .nav li {
+  margin-top: 15px;
+  font-size:110%;
+}
+.masthead h3 {
+  margin-bottom:5px;
+  font-size:170%;
+}
+hr {
+  margin:0px 0px 20px 0px;
+}
+
+/* Make table headings and td.title bold */
+td.title, thead {
+  font-weight:bold;
+}
+
+/* Format the right-side menu */
+#menu {
+  margin-top:50px;
+  font-size:11pt;
+  padding-left:20px;
+}
+
+#menu .nav-header {
+  font-size:12pt;
+  color:#606060;
+  margin-top:20px;
+}
+
+#menu li {
+  line-height:25px;
+}
+
+/* Change font sizes for headings etc. */
+#main h1 { font-size: 26pt; margin:10px 0px 15px 0px; font-weight:400; }
+#main h2 { font-size: 20pt; margin:20px 0px 0px 0px; font-weight:400; }
+#main h3 { font-size: 14pt; margin:15px 0px 0px 0px; font-weight:600; }
+#main p  { font-size: 11pt; margin:5px 0px 15px 0px; }
+#main ul { font-size: 11pt; margin-top:10px; }
+#main li { font-size: 11pt; margin: 5px 0px 5px 0px; }
+#main strong { font-weight:700; }
+
+/*--------------------------------------------------------------------------
+  Formatting for API reference
+/*--------------------------------------------------------------------------*/
+
+.type-list .type-name, .module-list .module-name {
+  width:25%;
+  font-weight:bold;
+}
+.member-list .member-name {
+  width:35%;
+}
+#main .xmldoc h2 {
+  font-size:14pt;
+  margin:10px 0px 0px 0px;
+}
+#main .xmldoc h3 {
+  font-size:12pt;
+  margin:10px 0px 0px 0px;
+}
+.github-link {
+  float:right;
+  text-decoration:none;
+}
+.github-link img {
+  border-style:none;
+  margin-left:10px;
+}
+.github-link .hover { display:none; }
+.github-link:hover .hover { display:block; }
+.github-link .normal { display: block; }
+.github-link:hover .normal { display: none; }
+
+/*--------------------------------------------------------------------------
+  Links
+/*--------------------------------------------------------------------------*/
+
+h1 a, h1 a:hover, h1 a:focus,
+h2 a, h2 a:hover, h2 a:focus,
+h3 a, h3 a:hover, h3 a:focus,
+h4 a, h4 a:hover, h4 a:focus,
+h5 a, h5 a:hover, h5 a:focus,
+h6 a, h6 a:hover, h6 a:focus { color : inherit; text-decoration : inherit; outline:none }
+
+/*--------------------------------------------------------------------------
+  Additional formatting for the homepage
+/*--------------------------------------------------------------------------*/
+
+#nuget {
+  margin-top:20px;
+  font-size: 11pt;
+  padding:20px;
+}
+
+#nuget pre {
+  font-size:11pt;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background: #404040;
+  border-style:none;
+  color: #e0e0e0;
+  margin-top:15px;
+}
