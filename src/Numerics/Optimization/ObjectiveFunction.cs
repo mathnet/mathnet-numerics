@@ -114,5 +114,111 @@ namespace MathNet.Numerics.Optimization
         {
             return new ScalarObjectiveFunction(function, derivative, secondDerivative);
         }
+
+        /// <summary>
+        /// objective model with a user supplied jacobian for non-linear least squares regression.
+        /// </summary>
+        public static IObjectiveModel NonlinearModel(Func<Vector<double>, Vector<double>, Vector<double>> function,
+            Func<Vector<double>, Vector<double>, Matrix<double>> derivatives,
+            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
+        {
+            var objective = new NonlinearObjectiveFunction(function, derivatives);
+            objective.SetObserved(observedX, observedY, weight);
+            return objective;
+        }
+
+        /// <summary>
+        /// Objective model for non-linear least squares regression.
+        /// </summary>
+        public static IObjectiveModel NonlinearModel(Func<Vector<double>, Vector<double>, Vector<double>> function,
+            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
+            int accuracyOrder = 2)
+        {
+            var objective = new NonlinearObjectiveFunction(function, accuracyOrder: accuracyOrder);
+            objective.SetObserved(observedX, observedY, weight);
+            return objective;
+        }
+
+        /// <summary>
+        /// Objective model with a user supplied jacobian for non-linear least squares regression.
+        /// </summary>
+        public static IObjectiveModel NonlinearModel(Func<Vector<double>, double, double> function,
+            Func<Vector<double>, double, Vector<double>> derivatives,
+            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
+        {
+            Vector<double> func(Vector<double> point, Vector<double> x)
+            {
+                var functionValues = CreateVector.Dense<double>(x.Count);
+                for (int i = 0; i < x.Count; i++)
+                {
+                    functionValues[i] = function(point, x[i]);
+                }
+
+                return functionValues;
+            }
+
+            Matrix<double> prime(Vector<double> point, Vector<double> x)
+            {
+                var derivativeValues = CreateMatrix.Dense<double>(x.Count, point.Count);
+                for (int i = 0; i < x.Count; i++)
+                {
+                    derivativeValues.SetRow(i, derivatives(point, x[i]));
+                }
+
+                return derivativeValues;
+            }
+
+            var objective = new NonlinearObjectiveFunction(func, prime);
+            objective.SetObserved(observedX, observedY, weight);
+            return objective;
+        }
+
+        /// <summary>
+        /// Objective model for non-linear least squares regression.
+        /// </summary>
+        public static IObjectiveModel NonlinearModel(Func<Vector<double>, double, double> function,
+            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
+            int accuracyOrder = 2)
+        {
+            Vector<double> func(Vector<double> point, Vector<double> x)
+            {
+                var functionValues = CreateVector.Dense<double>(x.Count);
+                for (int i = 0; i < x.Count; i++)
+                {
+                    functionValues[i] = function(point, x[i]);
+                }
+
+                return functionValues;
+            }
+
+            var objective = new NonlinearObjectiveFunction(func, accuracyOrder: accuracyOrder);
+            objective.SetObserved(observedX, observedY, weight);
+            return objective;
+        }
+
+        /// <summary>
+        /// Objective function with a user supplied jacobian for nonlinear least squares regression.
+        /// </summary>
+        public static IObjectiveFunction NonlinearFunction(Func<Vector<double>, Vector<double>, Vector<double>> function,
+            Func<Vector<double>, Vector<double>, Matrix<double>> derivatives,
+            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
+        {
+            var objective = new NonlinearObjectiveFunction(function, derivatives);
+            objective.SetObserved(observedX, observedY, weight);
+            return objective.ToObjectiveFunction();
+        }
+
+        /// <summary>
+        /// Objective function for nonlinear least squares regression.
+        /// The numerical jacobian with accuracy order is used.
+        /// </summary>
+        public static IObjectiveFunction NonlinearFunction(Func<Vector<double>, Vector<double>, Vector<double>> function,
+            Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
+            int accuracyOrder = 2)
+        {
+            var objective = new NonlinearObjectiveFunction(function, null, accuracyOrder: accuracyOrder);
+            objective.SetObserved(observedX, observedY, weight);
+            return objective.ToObjectiveFunction();
+        }
     }
 }
