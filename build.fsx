@@ -362,9 +362,9 @@ Target "CudaTestNET40" (fun _ -> testCUDA "net40")
 let testData framework = test "src/Data.Tests" "Data.Tests.csproj" framework
 Target "DataTest" DoNothing
 Target "DataTestCore2.1" (fun _ -> testData "netcoreapp2.1")
-Target "DataTestNET45" (fun _ -> testData "net45")
+Target "DataTestNET461" (fun _ -> testData "net461")
 "DataBuild" ==> "DataTestCore2.1" ==> "DataTest"
-"DataBuild" =?> ("DataTestNET45", isWindows) ==> "DataTest"
+"DataBuild" =?> ("DataTestNET461", isWindows) ==> "DataTest"
 
 
 // --------------------------------------------------------------------------------------

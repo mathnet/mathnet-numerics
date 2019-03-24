@@ -3,14 +3,3 @@ NUnit3TestAdapter
 NUnit
 NUnitLite content:none
 System.Runtime.InteropServices.RuntimeInformation
-System.Reflection framework:netcoreapp1.1,netcoreapp2.0
-System.Reflection.Extensions framework:netcoreapp1.1,netcoreapp2.0
-System.Reflection.TypeExtensions framework:netcoreapp1.1,netcoreapp2.0
-System.Threading.Tasks.Parallel framework:netcoreapp1.1,netcoreapp2.0
-System.Xml.XmlSerializer framework:netcoreapp1.1,netcoreapp2.0
-System.Runtime framework:netcoreapp1.1,netcoreapp2.0
-System.Runtime.Numerics framework:netcoreapp1.1,netcoreapp2.0
-System.Runtime.Serialization.Xml framework:netcoreapp1.1,netcoreapp2.0
-System.Runtime.Serialization.Primitives framework:netcoreapp1.1,netcoreapp2.0
-System.Runtime.Serialization.Formatters framework:netcoreapp1.1,netcoreapp2.0
-System.Security.Cryptography.Algorithms framework:netcoreapp1.1,netcoreapp2.0

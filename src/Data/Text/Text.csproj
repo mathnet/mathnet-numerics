@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net40;netstandard1.3;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net40;net461;netstandard1.3;netstandard2.0</TargetFrameworks>
     <AssemblyName>MathNet.Numerics.Data.Text</AssemblyName>
     <RootNamespace>MathNet.Numerics.Data.Text</RootNamespace>
     <IsPackable>true</IsPackable>
@@ -34,7 +34,6 @@ In addition to .Net 4.0 and newer now also targets .Net Standard 1.3 and 2.0.</P
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
-    <Content Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />

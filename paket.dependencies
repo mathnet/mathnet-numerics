@@ -10,6 +10,9 @@ nuget FsUnit 3.0 framework:net461,netcoreapp2.1
 nuget Microsoft.NET.Test.Sdk
 nuget NUnit3TestAdapter
 
+// Data
+nuget MathNet.Numerics 4.0.0
+
 // Benchmarks
 nuget BenchmarkDotNet content:none, strategy:min, framework:net461,netcoreapp2.1
 
@@ -37,11 +40,3 @@ group Build
     nuget NUnit.ConsoleRunner
     nuget FSharp.Formatting !~> 2.4
     nuget NuGet.CommandLine
-
-group Data
-    source https://api.nuget.org/v3/index.json
-    storage: none
-    framework: net40, netstandard1.3, netstandard2.0, net45, netcoreapp1.1, netcoreapp2.0
-    nuget MathNet.Numerics 4.0.0
-    nuget NUnit ~> 3.0
-    nuget NUnitLite ~> 3.0

@@ -1,4 +1,6 @@
-group Data
-    NUnit
-    NUnitLite content:none
-    MathNet.Numerics
+Microsoft.NET.Test.Sdk
+NUnit3TestAdapter
+NUnit
+NUnitLite content:none
+System.Runtime.InteropServices.RuntimeInformation
+MathNet.Numerics
