@@ -33,12 +33,12 @@ using System.Linq;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
-namespace MathNet.Numerics.Combinatorics
+namespace MathNet.Numerics
 {
     /// <summary>
     /// Enumerative Combinatorics and Counting.
     /// </summary>
-    public static class Enumerations
+    public static class Combinatorics
     {
         /// <summary>
         /// Count the number of possible variations without repetition.
