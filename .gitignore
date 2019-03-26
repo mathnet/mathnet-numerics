@@ -76,3 +76,6 @@ docs/content/Contributing.md
 docs/content/Contributors.md
 docs/content/ReleaseNotes.md
 docs/content/ReleaseNotes-*.md
+
+NUnitTests.csproj
+NUnitTests/

@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MathNetSample.Combinatorics {
+namespace MathNet.Numerics.Combinations
+{
     /// <summary>
     /// Variations defines a meta-collection, typically a list of lists, of all possible 
     /// ordered subsets of a particular size from the set of values.  

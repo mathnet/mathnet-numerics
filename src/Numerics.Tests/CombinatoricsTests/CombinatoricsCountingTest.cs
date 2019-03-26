@@ -28,6 +28,7 @@
 // </copyright>
 
 using NUnit.Framework;
+using MathNet.Numerics.Combinatorics;
 
 namespace MathNet.Numerics.UnitTests.CombinatoricsTests
 {

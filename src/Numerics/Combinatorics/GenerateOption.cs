@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MathNetSample.Combinatorics {
+namespace MathNet.Numerics.Combinations
+{
     /// <summary>
     /// Indicates whether a Permutation, Combination or Variation meta-collections
     /// generate repetition sets.  

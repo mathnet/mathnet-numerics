@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MathNetSample.Combinatorics {
+namespace MathNet.Numerics.Combinations
+{
     /// <summary>
     /// Combinations defines a meta-collection, typically a list of lists, of all possible 
     /// subsets of a particular size from the set of values.  This list is enumerable and 
@@ -76,7 +77,7 @@ namespace MathNetSample.Combinatorics {
         /// <summary>
         /// Gets an enumerator for collecting the list of combinations.
         /// </summary>
-        /// <returns>The enumerator.returns>
+        /// <returns>The enumerator.</returns>
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
             return new Enumerator(this);
         }

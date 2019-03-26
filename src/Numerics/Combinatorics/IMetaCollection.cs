@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MathNetSample.Combinatorics {
+namespace MathNet.Numerics.Combinations
+{
     /// <summary>
     /// Interface for Permutations, Combinations and any other classes that present
     /// a collection of collections based on an input collection.  The enumerators that 
