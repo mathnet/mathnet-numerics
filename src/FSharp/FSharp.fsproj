@@ -8,8 +8,7 @@
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp$(PackageIdSuffix)</PackageId>
     <VersionPrefix>4.7.0</VersionPrefix>
-    <VersionSuffix>
-    </VersionSuffix>
+    <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics for F#$(TitleSuffix)</Title>
     <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
     <PackageReleaseNotes>Special Functions: Airy functions Ai, Bi ~Jong Hyun Kim
