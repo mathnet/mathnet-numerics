@@ -18,9 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Readme", "Readme", "{C2F374
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics", "src\Numerics\Numerics.csproj", "{B7CAE5F4-A23F-4438-B5BE-41226618B695}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp", "src\FSharp\FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp", "src\FSharp\FSharp.fsproj", "{37E8E802-A354-4114-BFC1-6E1357DA605B}"
 EndProject
-Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FSharp.Tests", "src\FSharp.Tests\FSharp.Tests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharp.Tests", "src\FSharp.Tests\FSharp.Tests.fsproj", "{F2F8032B-A31D-4E33-A05E-F2CDCBFAA75D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics.Tests", "src\Numerics.Tests\Numerics.Tests.csproj", "{DAF07AA8-C5C9-4963-98F7-2C3285064DAD}"
 EndProject

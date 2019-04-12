@@ -31,7 +31,10 @@ Linear Algebra: optimized range checking in vectors and matrices</PackageRelease
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <NoWarn>1701;1702;1705;1591;1573</NoWarn>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFramework>net40</TargetFramework>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' " />
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="System" />
     <Reference Include="System.Core" />
