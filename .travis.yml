@@ -5,7 +5,7 @@ env:
 
 sudo: required #false
 dist: trusty
-dotnet: 2.1.403
+dotnet: 2.2.106
 mono:
 - latest
 os:

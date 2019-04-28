@@ -1,6 +1,6 @@
 <Project>
     <PropertyGroup>
-        <RuntimeFrameworkVersion>2.1.5</RuntimeFrameworkVersion>
+        <RuntimeFrameworkVersion>2.2.4</RuntimeFrameworkVersion>
         <NetStandardImplicitPackageVersion>2.0.3</NetStandardImplicitPackageVersion>
         <Company>Math.NET Project</Company>
         <Product>Math.NET Numerics</Product>
