@@ -173,6 +173,7 @@ namespace MathNet.Numerics.Optimization
                     throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", maximumIterations));
                 }
             }
+            objectiveFunction.EvaluateAt(vertices[errorProfile.LowestIndex]);
             var regressionResult = new MinimizationResult(objectiveFunction, evaluationCount, exitCondition);
             return regressionResult;
         }
