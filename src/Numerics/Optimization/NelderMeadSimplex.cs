@@ -129,6 +129,7 @@ namespace MathNet.Numerics.Optimization
             ErrorProfile errorProfile;
 
             errorValues = InitializeErrorValues(vertices, objectiveFunction);
+            int numTimesHasConverged = 0;
 
             // iterate until we converge, or complete our permitted number of iterations
             while (true)
@@ -136,7 +137,16 @@ namespace MathNet.Numerics.Optimization
                 errorProfile = EvaluateSimplex(errorValues);
 
                 // see if the range in point heights is small enough to exit
+                // to handle the case when the function is symmetrical and extra iteration is performed
                 if (HasConverged(convergenceTolerance, errorProfile, errorValues))
+                {
+                    numTimesHasConverged++;
+                }
+                else
+                {
+                    numTimesHasConverged = 0;
+                }
+                if (numTimesHasConverged == 2)
                 {
                     exitCondition = ExitCondition.Converged;
                     break;
