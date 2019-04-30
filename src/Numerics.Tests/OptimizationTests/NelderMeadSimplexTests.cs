@@ -42,17 +42,19 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
     [TestFixture]
     public class NelderMeadSimplexTests
     {
+        private const double Tolerance = 1.0e-5;
+
         [Test]
         public void NMS_FindMinimum_Rosenbrock_Easy()
         {
             var obj = ObjectiveFunction.Value(RosenbrockFunction.Value);
-            var solver = new NelderMeadSimplex(1e-5, maximumIterations: 1000);
+            var solver = new NelderMeadSimplex(Tolerance * 0.1, maximumIterations: 1000);
             var initialGuess = new DenseVector(new[] { 1.2, 1.2 });
 
             var result = solver.FindMinimum(obj, initialGuess);
 
-            Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
-            Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(Tolerance));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(Tolerance));
         }
 
 
@@ -60,14 +62,14 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         public void NMS_FindMinimum_Rosenbrock_Hard()
         {
             var obj = ObjectiveFunction.Value(RosenbrockFunction.Value);
-            var solver = new NelderMeadSimplex(1e-5, maximumIterations: 1000);
+            var solver = new NelderMeadSimplex(Tolerance * 0.1, maximumIterations: 1000);
 
             var initialGuess = new DenseVector(new[] { -1.2, 1.0 });
 
             var result = solver.FindMinimum(obj,initialGuess);
 
-            Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
-            Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(Tolerance));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(Tolerance));
         }
 
         private class MghTestCaseEnumerator : IEnumerable<ITestCaseData>
@@ -126,6 +128,28 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             var rel_err = abs_err / abs_min;
             var success = (abs_min <= 1 && abs_err < 1e-3) || (abs_min > 1 && rel_err < 1e-3);
             Assert.That(success, "Minimal function value is not as expected.");
+        }
+
+        [Test]
+        public void SymmetricalOneDimensionalFunction()
+        {
+            var minimizer = new NelderMeadSimplex(Tolerance*0.1, 500);
+
+            var initialVec = Vector.Build.DenseOfEnumerable(new[] { 1.0 });
+            var objFunc = ObjectiveFunction.Value(xSq);
+
+            var min = minimizer.FindMinimum(objFunc, initialVec);
+            var xForMinimum = min.MinimizingPoint.ToArray();
+            var minimum = xSq(min.MinimizingPoint);
+
+            Assert.AreEqual(1.0, minimum, Tolerance, "Minimal function value is not as expected.");
+            Assert.AreEqual(0.0, xForMinimum[0], Tolerance, "x at minimum is not as expected.");
+        }
+
+        private double xSq(IEnumerable<double> parameters)
+        {
+            var beta = parameters.ToArray();
+            return 1.0 + Math.Pow(beta[0], 2);
         }
     }
 }
