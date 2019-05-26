@@ -164,13 +164,25 @@
             <a href="../MathNet.Numerics.Optimization/IObjectiveFunctionEvaluation.htm">IObjectiveFunctionEvaluation</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics.Optimization/IObjectiveModel.htm">IObjectiveModel</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Optimization/IObjectiveModelEvaluation.htm">IObjectiveModelEvaluation</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics.Optimization/IScalarObjectiveFunction.htm">IScalarObjectiveFunction</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics.Optimization/IScalarObjectiveFunctionEvaluation.htm">IScalarObjectiveFunctionEvaluation</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics.Optimization/ITrustRegionSubproblem.htm">ITrustRegionSubproblem</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics.Optimization/IUnconstrainedMinimizer.htm">IUnconstrainedMinimizer</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Optimization/LevenbergMarquardtMinimizer.htm">LevenbergMarquardtMinimizer</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics.Optimization/LimitedMemoryBfgsMinimizer.htm">LimitedMemoryBfgsMinimizer</a>
@@ -194,6 +206,12 @@
             <a href="../MathNet.Numerics.Optimization/NewtonMinimizer.htm">NewtonMinimizer</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics.Optimization/NonlinearMinimizationResult.htm">NonlinearMinimizationResult</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Optimization/NonlinearMinimizerBase.htm">NonlinearMinimizerBase</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics.Optimization/ObjectiveFunction.htm">ObjectiveFunction</a>
         </li>
 				<li>
@@ -204,6 +222,18 @@
         </li>
 				<li>
             <a href="../MathNet.Numerics.Optimization/ScalarMinimizationResult.htm">ScalarMinimizationResult</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Optimization/TrustRegionDogLegMinimizer.htm">TrustRegionDogLegMinimizer</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Optimization/TrustRegionMinimizerBase.htm">TrustRegionMinimizerBase</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Optimization/TrustRegionNewtonCGMinimizer.htm">TrustRegionNewtonCGMinimizer</a>
+        </li>
+				<li>
+            <a href="../MathNet.Numerics.Optimization/TrustRegionSubproblem.htm">TrustRegionSubproblem</a>
         </li>
 		</ul>
 	</div>
@@ -236,6 +266,9 @@
 			<ul>
 				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#value__">value__</a></li>
 				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#None">None</a></li>
+				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#InvalidValues">InvalidValues</a></li>
+				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#ExceedIterations">ExceedIterations</a></li>
+				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#RelativePoints">RelativePoints</a></li>
 				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#RelativeGradient">RelativeGradient</a></li>
 				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#LackOfProgress">LackOfProgress</a></li>
 				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#AbsoluteGradient">AbsoluteGradient</a></li>
@@ -243,6 +276,7 @@
 				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#BoundTolerance">BoundTolerance</a></li>
 				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#StrongWolfeCriteria">StrongWolfeCriteria</a></li>
 				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#Converged">Converged</a></li>
+				<li><a href="../MathNet.Numerics.Optimization/ExitCondition.htm#ManuallyStopped">ManuallyStopped</a></li>
 			</ul>
 	</div>
 	
@@ -374,6 +408,42 @@
       </table>
     </div>
   </div>
+  <div id="InvalidValues" class="method">
+    <h4>ExitCondition <strong>InvalidValues</strong></h4>
+    <div class="content">
+      <table>
+        <tr>
+          <td>
+            <code>return <a href="../MathNet.Numerics.Optimization/ExitCondition.htm">ExitCondition</a></code>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="ExceedIterations" class="method">
+    <h4>ExitCondition <strong>ExceedIterations</strong></h4>
+    <div class="content">
+      <table>
+        <tr>
+          <td>
+            <code>return <a href="../MathNet.Numerics.Optimization/ExitCondition.htm">ExitCondition</a></code>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="RelativePoints" class="method">
+    <h4>ExitCondition <strong>RelativePoints</strong></h4>
+    <div class="content">
+      <table>
+        <tr>
+          <td>
+            <code>return <a href="../MathNet.Numerics.Optimization/ExitCondition.htm">ExitCondition</a></code>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
   <div id="RelativeGradient" class="method">
     <h4>ExitCondition <strong>RelativeGradient</strong></h4>
     <div class="content">
@@ -458,8 +528,20 @@
       </table>
     </div>
   </div>
+  <div id="ManuallyStopped" class="method">
+    <h4>ExitCondition <strong>ManuallyStopped</strong></h4>
+    <div class="content">
+      <table>
+        <tr>
+          <td>
+            <code>return <a href="../MathNet.Numerics.Optimization/ExitCondition.htm">ExitCondition</a></code>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 	<div id="footer">
-  <p>Based on v4.7.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.8.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>
