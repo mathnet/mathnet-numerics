@@ -530,21 +530,21 @@ let publishMirrors () =
     Git.CommandHelper.runSimpleGitCommand repo "push mirrors" |> printfn "%s"
 
 let publishDocs (release:Release) =
-    let repo = "../mathnet-websites"
-    Git.Branches.pull repo "origin" "master"
-    CopyRecursive "out/docs" "../mathnet-websites/numerics" true |> printfn "%A"
+    let repo = "../web-mathnet-numerics"
+    Git.Branches.pull repo "origin" "gh-pages"
+    CopyRecursive "out/docs" "../web-mathnet-numerics" true |> printfn "%A"
     Git.Staging.StageAll repo
     Git.Commit.Commit repo (sprintf "Numerics: %s docs update" release.PackageVersion)
-    Git.Branches.pushBranch repo "origin" "master"
+    Git.Branches.pushBranch repo "origin" "gh-pages"
 
 let publishApi (release:Release) =
-    let repo = "../mathnet-websites"
-    Git.Branches.pull repo "origin" "master"
+    let repo = "../web-mathnet-numerics"
+    Git.Branches.pull repo "origin" "gh-pages"
     CleanDir "../mathnet-websites/numerics/api"
-    CopyRecursive "out/api" "../mathnet-websites/numerics/api" true |> printfn "%A"
+    CopyRecursive "out/api" "../web-mathnet-numerics/api" true |> printfn "%A"
     Git.Staging.StageAll repo
     Git.Commit.Commit repo (sprintf "Numerics: %s api update" release.PackageVersion)
-    Git.Branches.pushBranch repo "origin" "master"
+    Git.Branches.pushBranch repo "origin" "gh-pages"
 
 let publishNuGetToArchive (package:NuGetPackage) archivePath nupkgFile =
     let tempDir = Path.GetTempPath() </> Path.GetRandomFileName()
