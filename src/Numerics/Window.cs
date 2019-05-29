@@ -382,5 +382,43 @@ namespace MathNet.Numerics
             }
             return w;
         }
+
+        /// <summary>
+        /// Tukey tapering window. A rectangular window bounded
+        /// by half a cosine window on each side.
+        /// </summary>
+        /// <param name="width">Width of the window</param>
+        /// <param name="r">Fraction of the window occupied by the cosine parts</param>
+        public static double[] Tukey(int width, double r = 0.5)
+        {
+
+            if (r <= 0)
+            {
+                return Generate.Repeat(width, 1.0);
+            }
+            else if (r >= 1)
+            {
+                return Hann(width);
+            }
+
+            var w = new double[width];
+            var period = (width - 1) * r;
+            var step =  2* Math.PI / period;
+            var b1 = (int)Math.Floor((width - 1) * r * 0.5 + 1);
+            var b2 = width - b1;
+            for (var i = 0; i < b1; i++)
+            {
+                w[i] = (1 - Math.Cos(i * step)) * 0.5;
+            }
+            for (var i = b1; i < b2; i++)
+            {
+                w[i] = 1;
+            }
+            for (var i = b2; i < width; i++)
+            {
+                w[i] = w[width-i-1];
+            }
+            return w;
+        }
     }
 }
