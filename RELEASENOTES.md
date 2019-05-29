@@ -1,3 +1,8 @@
+### 4.8.0-beta01 - 2019-04-28
+* Optimization: Levenberg-Marquardt, Trust-Region Dogleg *~Jong Hyun Kim*
+* BUG: Optimization: Nelder-Mead-Simplex did not return the best evaluated point in some cases *~Eric Scott Salem*
+* Factorial: first 170 values now constant (data segment) instead of precomputed on first use *~Portalez Regis*
+
 ### 4.7.0 - 2018-11-11
 * Special Functions: Airy functions Ai, Bi *~Jong Hyun Kim*
 * Special Functions: Bessel functions of the first and second kind *~Jong Hyun Kim*

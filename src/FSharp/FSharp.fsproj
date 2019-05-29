@@ -7,18 +7,13 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.7.0</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
+    <VersionPrefix>4.8.0</VersionPrefix>
+    <VersionSuffix>beta01</VersionSuffix>
     <Title>Math.NET Numerics for F#$(TitleSuffix)</Title>
     <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>Special Functions: Airy functions Ai, Bi ~Jong Hyun Kim
-Special Functions: Bessel functions of the first and second kind ~Jong Hyun Kim
-Special Functions: Modified Bessel functions of the first and second kind ~Jong Hyun Kim
-Special Functions: Spherical Bessel functions of the first and second kind ~Jong Hyun Kim
-Special Functions: Hankel functions of the first and second kind ~Jong Hyun Kim
-Special Functions: Kelvin functions of the first and second kind, and derivatives ~Jong Hyun Kim
-Linear Algebra: optimized sparse implementation of transpose-multiply ~Richard Reader
-Linear Algebra: optimized range checking in vectors and matrices</PackageReleaseNotes>
+    <PackageReleaseNotes>Optimization: Levenberg-Marquardt, Trust-Region Dogleg ~Jong Hyun Kim
+BUG: Optimization: Nelder-Mead-Simplex did not return the best evaluated point in some cases ~Eric Scott Salem
+Factorial: first 170 values now constant (data segment) instead of precomputed on first use ~Portalez Regis</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <NeutralLanguage>en</NeutralLanguage>
