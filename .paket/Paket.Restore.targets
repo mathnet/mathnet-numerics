@@ -252,7 +252,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <_NuspecFiles Include="$(AdjustedNuspecOutputPath)\*.nuspec"/>
+      <_NuspecFiles Include="$(AdjustedNuspecOutputPath)\*.$(PackageVersion).nuspec"/>
     </ItemGroup>
 
     <Exec Command='$(PaketCommand) fix-nuspecs files "@(_NuspecFiles)" project-file "$(PaketProjectFile)" ' Condition="@(_NuspecFiles) != ''" />

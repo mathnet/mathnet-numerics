@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
   <metadata>
-    <id>MathNet.Numerics</id>
+    <id>MathNet.Numerics.Signed</id>
     <version></version>
-    <title>Math.NET Numerics</title>
+    <title>Math.NET Numerics - Strong Name Edition</title>
     <authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</authors>
     <owners>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <licenseUrl>https://numerics.mathdotnet.com/License.html</licenseUrl>
     <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
     <iconUrl>https://www.mathdotnet.com/images/MathNet128.png</iconUrl>
-    <description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac.</description>
+    <description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac. This package contains strong-named assemblies for legacy use cases (not recommended).</description>
     <releaseNotes></releaseNotes>
     <copyright>Copyright Math.NET Project</copyright>
     <tags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</tags>

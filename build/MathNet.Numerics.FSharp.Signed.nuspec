@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>MathNet.Numerics.FSharp.Signed</id>
+    <version></version>
+    <title>Math.NET Numerics for F# - Strong Name Edition</title>
+    <authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</authors>
+    <owners>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://numerics.mathdotnet.com/License.html</licenseUrl>
+    <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
+    <iconUrl>https://www.mathdotnet.com/images/MathNet128.png</iconUrl>
+    <description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac. This package contains strong-named assemblies for legacy use cases (not recommended).</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright Math.NET Project</copyright>
+    <tags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</tags>
+    <repository type="git" url="https://github.com/mathnet/mathnet-numerics" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.5">
+        <dependency id="MathNet.Numerics.Signed" version="4.7.0" exclude="Build,Analyzers" />
+        <dependency id="FSharp.Core" version="4.3.3" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard1.6">
+        <dependency id="MathNet.Numerics.Signed" version="4.7.0" exclude="Build,Analyzers" />
+        <dependency id="FSharp.Core" version="4.3.3" exclude="Build,Analyzers" />
+        <dependency id="NETStandard.Library" version="2.0.3" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Numerics" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Serialization.Formatters" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Serialization.Primitives" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Serialization.Xml" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="MathNet.Numerics.Signed" version="4.7.0" exclude="Build,Analyzers" />
+        <dependency id="FSharp.Core" version="4.3.3" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Numerics" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Security.Cryptography.Algorithms" version="4.3.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>
