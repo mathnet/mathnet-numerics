@@ -10,5 +10,11 @@ pool:
   vmImage: 'windows-2019'
 
 steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET Core SDK'
+  inputs:
+    packageType: sdk
+    version: 2.2.106
+    installationPath: $(Agent.ToolsDirectory)/dotnet
 - script: build.cmd test
   displayName: 'Build & Test'
