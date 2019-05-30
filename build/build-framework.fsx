@@ -540,7 +540,7 @@ let publishDocs (release:Release) =
 let publishApi (release:Release) =
     let repo = "../web-mathnet-numerics"
     Git.Branches.pull repo "origin" "gh-pages"
-    CleanDir "../mathnet-websites/numerics/api"
+    CleanDir "../web-mathnet-numerics/api"
     CopyRecursive "out/api" "../web-mathnet-numerics/api" true |> printfn "%A"
     Git.Staging.StageAll repo
     Git.Commit.Commit repo (sprintf "Numerics: %s api update" release.PackageVersion)
