@@ -4,8 +4,8 @@ env:
   - HOME=/home/travis APPDATA=/home/travis LocalAppData=/home/travis
 
 sudo: required #false
-dist: xenial
-dotnet: 2.2.106
+dist: bionic
+dotnet: 2.2.105
 mono:
 - latest
 os:
