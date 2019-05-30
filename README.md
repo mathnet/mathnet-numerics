@@ -63,7 +63,7 @@ For full details, dependencies and platform discrepancies see [Platform Compatib
 Building Math.NET Numerics
 --------------------------
 
-Windows (.Net): [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics)  
+Windows (.Net): [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics) [![Build Status](https://dev.azure.com/mathdotnet/Math.NET%20Build/_apis/build/status/Math.NET%20Numerics?branchName=master)](https://dev.azure.com/mathdotnet/Math.NET%20Build/_build/latest?definitionId=1&branchName=master)  
 Linux (Mono): [![Travis Build Status](https://travis-ci.org/mathnet/mathnet-numerics.svg?branch=master)](https://travis-ci.org/mathnet/mathnet-numerics)
 
 You can build Math.NET Numerics with an IDE like VisualStudio or JetBrains Rider, with MsBuild, .Net CLI tools or with FAKE (recommended).
