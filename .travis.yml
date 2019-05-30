@@ -4,21 +4,12 @@ env:
   - HOME=/home/travis APPDATA=/home/travis LocalAppData=/home/travis
 
 sudo: required #false
-dist: trusty
+dist: xenial
 dotnet: 2.2.106
 mono:
 - latest
 os:
 - linux
-
-addons:
-  apt:
-    sources:
-    - sourceline: 'deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-trusty-prod trusty main'
-      key_url: 'https://packages.microsoft.com/keys/microsoft.asc'
-    packages:
-    - dotnet-hostfxr-1.0.1
-    - dotnet-sharedframework-microsoft.netcore.app-1.1.2
 
 branches:
   except:
