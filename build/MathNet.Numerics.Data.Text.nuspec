@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>MathNet.Numerics.Data.Text</id>
+    <version>4.0.0</version>
+    <title>Math.NET Numerics - Text Data I/O Extensions</title>
+    <authors>Christoph Ruegg, Marcus Cuda</authors>
+    <owners>Christoph Ruegg, Marcus Cuda</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://numerics.mathdotnet.com/License.html</licenseUrl>
+    <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
+    <iconUrl>https://www.mathdotnet.com/images/MathNet128.png</iconUrl>
+    <description>Text Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.</description>
+    <releaseNotes>Support for Math.NET Numerics v4
+In addition to .Net 4.0 and newer now also targets .Net Standard 1.3 and 2.0.</releaseNotes>
+    <copyright>Copyright Math.NET Project</copyright>
+    <tags>math numeric data text csv tsv json xml</tags>
+    <repository type="git" url="https://github.com/mathnet/mathnet-numerics" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.0">
+        <dependency id="MathNet.Numerics" version="4.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard1.3">
+        <dependency id="MathNet.Numerics" version="4.0.0" exclude="Build,Analyzers" />
+      </group>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="MathNet.Numerics" version="4.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

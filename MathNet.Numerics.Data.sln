@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matlab", "src\Data\Matlab\Matlab.csproj", "{550FB330-C86F-4C9D-9B4C-6D830CEB7520}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data Tests", "src\Data.Tests\Data.Tests.csproj", "{6B0247F6-B332-41BC-B100-C0E5509EE612}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data.Tests", "src\Data.Tests\Data.Tests.csproj", "{6B0247F6-B332-41BC-B100-C0E5509EE612}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Text", "src\Data\Text\Text.csproj", "{9D3A08E1-6B96-4552-A535-412E589B3264}"
 EndProject
@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{D954831A
 	ProjectSection(SolutionItems) = preProject
 		build\build-framework.fsx = build\build-framework.fsx
 		build.fsx = build.fsx
-		build\MathNet.Numerics.Extension.nuspec = build\MathNet.Numerics.Extension.nuspec
-		build\MathNet.Numerics.nuspec = build\MathNet.Numerics.nuspec
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 	EndProjectSection
