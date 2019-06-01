@@ -33,19 +33,19 @@ open BuildFramework
 
 // VERSION OVERVIEW
 
-let numericsRelease = release "Math.NET Numerics" "RELEASENOTES.md"
-let mklRelease = release "MKL Provider" "RELEASENOTES-MKL.md"
-let cudaRelease = release "CUDA Provider" "RELEASENOTES-CUDA.md"
-let openBlasRelease = release "OpenBLAS Provider" "RELEASENOTES-OpenBLAS.md"
-let dataRelease = release "Data Extensions" "RELEASENOTES-Data.md"
+let numericsRelease = release "numerics" "Math.NET Numerics" "RELEASENOTES.md"
+let mklRelease = release "numerics" "MKL Provider" "RELEASENOTES-MKL.md"
+let cudaRelease = release "numerics" "CUDA Provider" "RELEASENOTES-CUDA.md"
+let openBlasRelease = release "numerics" "OpenBLAS Provider" "RELEASENOTES-OpenBLAS.md"
+let dataRelease = release "numerics" "Data Extensions" "RELEASENOTES-Data.md"
 let releases = [ numericsRelease; mklRelease; openBlasRelease; dataRelease ] // skip cuda
 traceHeader releases
 
 
 // NUMERICS PACKAGES
 
-let numericsZipPackage = zipPackage "MathNet.Numerics" "Math.NET Numerics" numericsRelease true
-let numericsStrongNameZipPackage = zipPackage "MathNet.Numerics.Signed" "Math.NET Numerics" numericsRelease true
+let numericsZipPackage = zipPackage "MathNet.Numerics" "Math.NET Numerics" numericsRelease
+let numericsStrongNameZipPackage = zipPackage "MathNet.Numerics.Signed" "Math.NET Numerics" numericsRelease
 
 let numericsNuGetPackage = nugetPackage "MathNet.Numerics" numericsRelease
 let numericsFSharpNuGetPackage = nugetPackage "MathNet.Numerics.FSharp" numericsRelease
@@ -59,8 +59,8 @@ let numericsSolution = solution "Numerics" "MathNet.Numerics.sln" [numericsProje
 
 // DATA EXTENSION PACKAGES
 
-let dataZipPackage = zipPackage "MathNet.Numerics.Data" "Math.NET Numerics Data Extensions" dataRelease false
-let dataStrongNameZipPackage = zipPackage "MathNet.Numerics.Data.Signed" "Math.NET Numerics Data Extensions" dataRelease false
+let dataZipPackage = zipPackage "MathNet.Numerics.Data" "Math.NET Numerics Data Extensions" dataRelease
+let dataStrongNameZipPackage = zipPackage "MathNet.Numerics.Data.Signed" "Math.NET Numerics Data Extensions" dataRelease
 
 let dataTextNuGetPackage = nugetPackage "MathNet.Numerics.Data.Text" dataRelease
 let dataMatlabNuGetPackage = nugetPackage "MathNet.Numerics.Data.Matlab" dataRelease
@@ -74,8 +74,8 @@ let dataSolution = solution "Data" "MathNet.Numerics.Data.sln" [dataTextProject;
 
 // MKL NATIVE PROVIDER PACKAGES
 
-let mklWinZipPackage = zipPackage "MathNet.Numerics.MKL.Win" "Math.NET Numerics MKL Native Provider for Windows" mklRelease false
-let mklLinuxZipPackage = zipPackage "MathNet.Numerics.MKL.Linux" "Math.NET Numerics MKL Native Provider for Linux" mklRelease false
+let mklWinZipPackage = zipPackage "MathNet.Numerics.MKL.Win" "Math.NET Numerics MKL Native Provider for Windows" mklRelease
+let mklLinuxZipPackage = zipPackage "MathNet.Numerics.MKL.Linux" "Math.NET Numerics MKL Native Provider for Linux" mklRelease
 
 let mklWinNuGetPackage = nugetPackage "MathNet.Numerics.MKL.Win" mklRelease
 let mklWin32NuGetPackage = nugetPackage "MathNet.Numerics.MKL.Win-x86" mklRelease
@@ -121,7 +121,7 @@ let mklLinux64Pack =
 
 // CUDA NATIVE PROVIDER PACKAGES
 
-let cudaWinZipPackage = zipPackage "MathNet.Numerics.CUDA.Win" "Math.NET Numerics CUDA Native Provider for Windows" cudaRelease false
+let cudaWinZipPackage = zipPackage "MathNet.Numerics.CUDA.Win" "Math.NET Numerics CUDA Native Provider for Windows" cudaRelease
 let cudaWinNuGetPackage = nugetPackage "MathNet.Numerics.CUDA.Win" cudaRelease
 
 let cudaWinProject = nativeProject "MathNet.Numerics.CUDA" "src/NativeProviders/Windows/CUDA/CUDAWrapper.vcxproj" [cudaWinNuGetPackage]
@@ -135,7 +135,7 @@ let cudaWinPack =
 
 // OpenBLAS NATIVE PROVIDER PACKAGES
 
-let openBlasWinZipPackage = zipPackage "MathNet.Numerics.OpenBLAS.Win" "Math.NET Numerics OpenBLAS Native Provider for Windows" openBlasRelease false
+let openBlasWinZipPackage = zipPackage "MathNet.Numerics.OpenBLAS.Win" "Math.NET Numerics OpenBLAS Native Provider for Windows" openBlasRelease
 let openBlasWinNuGetPackage = nugetPackage "MathNet.Numerics.OpenBLAS.Win" openBlasRelease
 
 let openBlasWinProject = nativeProject "MathNet.Numerics.OpenBLAS" "src/NativeProviders/Windows/OpenBLAS/OpenBLASWrapper.vcxproj" [openBlasWinNuGetPackage]
@@ -451,7 +451,6 @@ Target "MklPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics MKL Provid
 Target "CudaPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics CUDA Provider" "cuda-" cudaRelease)
 Target "OpenBlasPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics OpenBLAS Provider" "openblas-" openBlasRelease)
 
-Target "PublishMirrors" (fun _ -> publishMirrors ())
 Target "PublishDocs" (fun _ -> publishDocs numericsRelease)
 Target "PublishApi" (fun _ -> publishApi numericsRelease)
 
