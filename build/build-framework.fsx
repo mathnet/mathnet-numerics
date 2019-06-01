@@ -66,7 +66,6 @@ let msbuildSN targets configuration project =
 let dotnet workingDir command =
     let properties =
         [
-            yield "StrongName", "False"
         ]
     let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" """ name value) |> String.concat ""
     DotNetCli.RunCommand
