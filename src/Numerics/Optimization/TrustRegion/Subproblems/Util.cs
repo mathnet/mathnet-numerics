@@ -1,16 +1,16 @@
-﻿using MathNet.Numerics.LinearAlgebra;
-using System;
+﻿using System;
+using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization.Subproblems
+namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
 {
     internal static class Util
     {
         public static Tuple<double, double> FindBeta(double alpha, Vector<double> sd, Vector<double> gn, double delta)
         {
             // Pstep is intersection of the trust region boundary
-            // Pstep = α*Psd + β*(Pgn - α*Psd) 
+            // Pstep = α*Psd + β*(Pgn - α*Psd)
             // find r so that ||Pstep|| = Δ
-            // z = α*Psd, d = (Pgn - z) 
+            // z = α*Psd, d = (Pgn - z)
             // (d^2)β^2 + (2*z*d)β + (z^2 - Δ^2) = 0
             //
             // positive β is used for the quadratic formula

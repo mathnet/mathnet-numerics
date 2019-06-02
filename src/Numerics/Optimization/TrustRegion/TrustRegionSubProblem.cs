@@ -1,6 +1,6 @@
-﻿using MathNet.Numerics.Optimization.Subproblems;
+﻿using MathNet.Numerics.Optimization.TrustRegion.Subproblems;
 
-namespace MathNet.Numerics.Optimization
+namespace MathNet.Numerics.Optimization.TrustRegion
 {
     public static class TrustRegionSubproblem
     {

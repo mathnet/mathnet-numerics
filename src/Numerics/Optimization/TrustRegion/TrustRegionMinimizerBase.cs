@@ -1,14 +1,14 @@
-﻿using MathNet.Numerics.LinearAlgebra;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization
+namespace MathNet.Numerics.Optimization.TrustRegion
 {
     public abstract class TrustRegionMinimizerBase : NonlinearMinimizerBase
     {
         /// <summary>
-        /// The trust region subproblem. 
+        /// The trust region subproblem.
         /// </summary>
         public static ITrustRegionSubproblem Subproblem;
 
@@ -51,7 +51,7 @@ namespace MathNet.Numerics.Optimization
         /// Non-linear least square fitting by the trust-region algorithm.
         /// </summary>
         /// <param name="objective">The objective model, including function, jacobian, observations, and parameter bounds.</param>
-        /// <param name="subproblem">The subproblem</param> 
+        /// <param name="subproblem">The subproblem</param>
         /// <param name="initialGuess">The initial guess values.</param>
         /// <param name="functionTolerance">The stopping threshold for L2 norm of the residuals.</param>
         /// <param name="gradientTolerance">The stopping threshold for infinity norm of the gradient vector.</param>
@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Optimization
 
             // First, calculate function values and setup variables
             var P = ProjectToInternalParameters(initialGuess); // current internal parameters
-            var Pstep = Vector<double>.Build.Dense(P.Count); // the change of parameters    
+            var Pstep = Vector<double>.Build.Dense(P.Count); // the change of parameters
             var RSS = EvaluateFunction(objective, initialGuess); // Residual Sum of Squares
 
             if (maximumIterations < 0)
@@ -127,7 +127,7 @@ namespace MathNet.Numerics.Optimization
                 return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
-            // When only function evaluation is needed, set maximumIterations to zero, 
+            // When only function evaluation is needed, set maximumIterations to zero,
             if (maximumIterations == 0)
             {
                 exitCondition = ExitCondition.ManuallyStopped;
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.Optimization
             // evaluate projected gradient and Hessian
             var jac = EvaluateJacobian(objective, P);
             var Gradient = jac.Item1; // objective.Gradient;
-            var Hessian = jac.Item2; // objective.Hessian;            
+            var Hessian = jac.Item2; // objective.Hessian;
 
             // if ||g||_oo <= gtol, found and stop
             if (Gradient.InfinityNorm() <= gradientTolerance)
@@ -182,7 +182,7 @@ namespace MathNet.Numerics.Optimization
                 var Pnew = P + Pstep; // parameters to test
                 // evaluate function at Pnew
                 var RSSnew = EvaluateFunction(objective, Pnew);
-                
+
                 // if RSS == NaN, stop
                 if (double.IsNaN(RSSnew))
                 {
@@ -204,7 +204,7 @@ namespace MathNet.Numerics.Optimization
                     delta = delta * 0.25;
                     if (delta <= radiusTolerance * (radiusTolerance + P.DotProduct(P)))
                     {
-                        exitCondition = ExitCondition.LackOfProgress; 
+                        exitCondition = ExitCondition.LackOfProgress;
                         break;
                     }
                 }

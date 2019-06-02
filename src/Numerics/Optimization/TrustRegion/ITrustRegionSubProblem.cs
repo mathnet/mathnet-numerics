@@ -1,6 +1,6 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization
+namespace MathNet.Numerics.Optimization.TrustRegion
 {
     public interface ITrustRegionSubproblem
     {
