@@ -12,7 +12,7 @@ open System.Runtime.InteropServices
 
 [<assembly: AssemblyVersion("4.8.0.0")>]
 [<assembly: AssemblyFileVersion("4.8.0.0")>]
-[<assembly: AssemblyInformationalVersion("4.8.0-beta02")>]
+[<assembly: AssemblyInformationalVersion("4.8.0")>]
 
 [<assembly: ComVisible(false)>]
 [<assembly: Guid("C9AA6156-F799-42E4-B50D-2E88AD7D1750")>]
