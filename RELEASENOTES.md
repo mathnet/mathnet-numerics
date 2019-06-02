@@ -1,4 +1,4 @@
-### 4.8.0-beta02 - 2019-05-30
+### 4.8.0 - 2019-06-02
 * Optimization: Levenberg-Marquardt, Trust-Region Dogleg *~Jong Hyun Kim*
 * Optimization: Nelder-Mead-Simplex: Improve convergence for symmetrical functions *~Erik Ovegard*
 * BUG: Optimization: Nelder-Mead-Simplex did not return the best evaluated point in some cases *~Eric Scott Salem*

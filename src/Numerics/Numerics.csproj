@@ -8,7 +8,7 @@
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics$(PackageIdSuffix)</PackageId>
     <VersionPrefix>4.8.0</VersionPrefix>
-    <VersionSuffix>beta02</VersionSuffix>
+    <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics$(TitleSuffix)</Title>
     <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
     <PackageReleaseNotes>Optimization: Levenberg-Marquardt, Trust-Region Dogleg ~Jong Hyun Kim
