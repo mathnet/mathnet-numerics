@@ -1,6 +1,7 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.Optimization;
+using MathNet.Numerics.Optimization.TrustRegion;
 using NUnit.Framework;
 using System;
 
@@ -441,7 +442,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         #region Thurber
 
         // model : Thurber (https://www.itl.nist.gov/div898/strd/nls/data/thurber.shtml)
-        //       f(x; b1 ... b7) = (b1 + b2*x + b3*x^2 + b4*x^3) / (1 + b5*x + b6*x^2 + b7*x^3) 
+        //       f(x; b1 ... b7) = (b1 + b2*x + b3*x^2 + b4*x^3) / (1 + b5*x + b6*x^2 + b7*x^3)
         // derivatives:
         //       df/db1 = 1/(b5*x + b6*x^2 + b7*x^3 + 1)
         //       df/db2 = x/(b5*x + b6*x^2 + b7*x^3 + 1)
@@ -548,7 +549,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
                 AssertHelpers.AlmostEqualRelative(ThurberPstd[i], result.StandardErrors[i], 6);
             }
         }
-        
+
         [Test]
         public void Thurber_TRDL_Dif()
         {

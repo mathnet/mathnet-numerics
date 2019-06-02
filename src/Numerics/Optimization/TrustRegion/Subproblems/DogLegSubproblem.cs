@@ -1,6 +1,6 @@
 ﻿using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization.Subproblems
+namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
 {
     internal class DogLegSubproblem : ITrustRegionSubproblem
     {

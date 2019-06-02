@@ -1,7 +1,7 @@
-﻿using MathNet.Numerics.LinearAlgebra;
-using System;
+﻿using System;
+using MathNet.Numerics.LinearAlgebra;
 
-namespace MathNet.Numerics.Optimization.Subproblems
+namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
 {
     internal class NewtonCGSubproblem : ITrustRegionSubproblem
     {
