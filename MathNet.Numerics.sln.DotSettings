@@ -25,34 +25,34 @@
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_BEFORE_BINARY_OPSIGN/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/CodeStyle/CodeFormatting/CSharpFormat/WRAP_LINES/@EntryValue">False</s:Boolean>
 	<s:String x:Key="/Default/CodeStyle/FileHeader/FileHeaderText/@EntryValue">&lt;copyright file="$FILENAME$" company="Math.NET"&gt;&#xD;
-Math.NET Numerics, part of the Math.NET Project&#xD;
-https://numerics.mathdotnet.com&#xD;
-https://github.com/mathnet/mathnet-numerics&#xD;
-https://mathnetnumerics.codeplex.com&#xD;
-&#xD;
-Copyright (c) 2009-$CURRENT_YEAR$ Math.NET&#xD;
-&#xD;
-Permission is hereby granted, free of charge, to any person&#xD;
-obtaining a copy of this software and associated documentation&#xD;
-files (the "Software"), to deal in the Software without&#xD;
-restriction, including without limitation the rights to use,&#xD;
-copy, modify, merge, publish, distribute, sublicense, and/or sell&#xD;
-copies of the Software, and to permit persons to whom the&#xD;
-Software is furnished to do so, subject to the following&#xD;
-conditions:&#xD;
-&#xD;
-The above copyright notice and this permission notice shall be&#xD;
-included in all copies or substantial portions of the Software.&#xD;
-&#xD;
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,&#xD;
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES&#xD;
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND&#xD;
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT&#xD;
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,&#xD;
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING&#xD;
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR&#xD;
-OTHER DEALINGS IN THE SOFTWARE.&#xD;
-&lt;/copyright&gt;</s:String>
+// Math.NET Numerics, part of the Math.NET Project&#xD;
+// http://numerics.mathdotnet.com&#xD;
+// http://github.com/mathnet/mathnet-numerics&#xD;
+//&#xD;
+// Copyright (c) 2009-$CURRENT_YEAR$ Math.NET&#xD;
+//&#xD;
+// Permission is hereby granted, free of charge, to any person&#xD;
+// obtaining a copy of this software and associated documentation&#xD;
+// files (the "Software"), to deal in the Software without&#xD;
+// restriction, including without limitation the rights to use,&#xD;
+// copy, modify, merge, publish, distribute, sublicense, and/or sell&#xD;
+// copies of the Software, and to permit persons to whom the&#xD;
+// Software is furnished to do so, subject to the following&#xD;
+// conditions:&#xD;
+//&#xD;
+// The above copyright notice and this permission notice shall be&#xD;
+// included in all copies or substantial portions of the Software.&#xD;
+//&#xD;
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,&#xD;
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES&#xD;
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND&#xD;
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT&#xD;
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,&#xD;
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING&#xD;
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR&#xD;
+// OTHER DEALINGS IN THE SOFTWARE.&#xD;
+// &lt;/copyright&gt;&#xD;
+</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=CDF/@EntryIndexedValue">CDF</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=DFT/@EntryIndexedValue">DFT</s:String>
 	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/Abbreviations/=FFT/@EntryIndexedValue">FFT</s:String>
