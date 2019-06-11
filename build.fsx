@@ -177,7 +177,7 @@ Target "ApplyVersion" (fun _ ->
     patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
     patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
 
-Target "Restore" (fun _ -> allSolutions |> List.iter restore)
+Target "Restore" (fun _ -> allSolutions |> List.iter restoreWeak)
 "Start"
   =?> ("Clean", not (hasBuildParam "incremental"))
   ==> "Restore"
@@ -201,24 +201,24 @@ Target "Build" (fun _ ->
     // Strong Name Build (with strong name, without certificate signature)
     if hasBuildParam "strongname" then
         CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-        restoreSN numericsSolution
-        buildSN numericsSolution
+        restoreStrong numericsSolution
+        buildStrong numericsSolution
         if isWindows && hasBuildParam "sign" then sign fingerprint timeserver numericsSolution
         collectBinariesSN numericsSolution
         zip numericsStrongNameZipPackage numericsSolution.OutputZipDir numericsSolution.OutputLibStrongNameDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
         if isWindows then
-            packSN numericsSolution
+            packStrong numericsSolution
             collectNuGetPackages numericsSolution
 
     // Normal Build (without strong name, with certificate signature)
     CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-    restore numericsSolution
-    build numericsSolution
+    restoreWeak numericsSolution
+    buildWeak numericsSolution
     if isWindows && hasBuildParam "sign" then sign fingerprint timeserver numericsSolution
     collectBinaries numericsSolution
     zip numericsZipPackage numericsSolution.OutputZipDir numericsSolution.OutputLibDir (fun f -> f.Contains("MathNet.Numerics.") || f.Contains("System.Threading.") || f.Contains("FSharp.Core."))
     if isWindows then
-        pack numericsSolution
+        packWeak numericsSolution
         collectNuGetPackages numericsSolution
 
     // NuGet Sign (all or nothing)
@@ -232,26 +232,26 @@ Target "DataBuild" (fun _ ->
     // Strong Name Build (with strong name, without certificate signature)
     if hasBuildParam "strongname" then
         CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-        restoreSN dataSolution
-        buildSN dataSolution
+        restoreStrong dataSolution
+        buildStrong dataSolution
         if isWindows && hasBuildParam "sign" then sign fingerprint timeserver dataSolution
         collectBinariesSN dataSolution
         zip dataStrongNameZipPackage dataSolution.OutputZipDir dataSolution.OutputLibStrongNameDir (fun f -> f.Contains("MathNet.Numerics.Data."))
         if isWindows then
-            packProjectSN dataTextProject
-            packProjectSN dataMatlabProject
+            packProjectStrong dataTextProject
+            packProjectStrong dataMatlabProject
             collectNuGetPackages dataSolution
 
     // Normal Build (without strong name, with certificate signature)
     CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-    restore dataSolution
-    build dataSolution
+    restoreWeak dataSolution
+    buildWeak dataSolution
     if isWindows && hasBuildParam "sign" then sign fingerprint timeserver dataSolution
     collectBinaries dataSolution
     zip dataZipPackage dataSolution.OutputZipDir dataSolution.OutputLibDir (fun f -> f.Contains("MathNet.Numerics.Data."))
     if isWindows then
-        packProject dataTextProject
-        packProject dataMatlabProject
+        packProjectWeak dataTextProject
+        packProjectWeak dataMatlabProject
         collectNuGetPackages dataSolution
 
     // NuGet Sign (all or nothing)
@@ -262,7 +262,7 @@ Target "DataBuild" (fun _ ->
 
 Target "MklWinBuild" (fun _ ->
 
-    restore mklSolution
+    restoreWeak mklSolution
     buildConfig32 "Release-MKL" !! "MathNet.Numerics.MKL.sln"
     buildConfig64 "Release-MKL" !! "MathNet.Numerics.MKL.sln"
     CreateDir mklSolution.OutputZipDir
@@ -278,7 +278,7 @@ Target "MklWinBuild" (fun _ ->
 
 Target "CudaWinBuild" (fun _ ->
 
-    restore cudaSolution
+    restoreWeak cudaSolution
     buildConfig64 "Release-CUDA" !! "MathNet.Numerics.CUDA.sln"
     CreateDir cudaSolution.OutputZipDir
     zip cudaWinZipPackage cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
@@ -293,7 +293,7 @@ Target "CudaWinBuild" (fun _ ->
 
 Target "OpenBlasWinBuild" (fun _ ->
 
-    restore openBlasSolution
+    restoreWeak openBlasSolution
     buildConfig32 "Release-OpenBLAS" !! "MathNet.Numerics.OpenBLAS.sln"
     buildConfig64 "Release-OpenBLAS" !! "MathNet.Numerics.OpenBLAS.sln"
     CreateDir openBlasSolution.OutputZipDir

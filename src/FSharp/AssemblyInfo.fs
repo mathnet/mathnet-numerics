@@ -44,9 +44,9 @@ open System.Runtime.InteropServices
 [<assembly: AssemblyCulture("")>]
 [<assembly: NeutralResourcesLanguage("en")>]
 
-[<assembly: AssemblyVersion("4.8.0.0")>]
-[<assembly: AssemblyFileVersion("4.8.0.0")>]
-[<assembly: AssemblyInformationalVersion("4.8.0")>]
+[<assembly: AssemblyVersion("4.8.1.0")>]
+[<assembly: AssemblyFileVersion("4.8.1.0")>]
+[<assembly: AssemblyInformationalVersion("4.8.1")>]
 
 [<assembly: ComVisible(false)>]
 [<assembly: Guid("048BC4EB-CE2B-4040-9967-4784F5405B0F")>]
