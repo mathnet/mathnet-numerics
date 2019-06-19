@@ -1,3 +1,6 @@
+### 4.8.1 - 2019-06-12
+* Packaging fix - signed edition was not properly strong named.
+
 ### 4.8.0 - 2019-06-02
 * Optimization: Levenberg-Marquardt, Trust-Region Dogleg *~Jong Hyun Kim*
 * Optimization: Nelder-Mead-Simplex: Improve convergence for symmetrical functions *~Erik Ovegard*

@@ -35,6 +35,21 @@ let msbuild targets configuration project =
     let properties =
         [
             yield "Configuration", configuration
+        ]
+    MSBuildHelper.build (fun p ->
+        { p with
+            NoLogo = true
+            NodeReuse = false
+            Targets = targets
+            Properties = properties
+            RestorePackagesFlag = false
+            Verbosity = Some MSBuildVerbosity.Minimal
+        }) project
+
+let msbuildWeak targets configuration project =
+    let properties =
+        [
+            yield "Configuration", configuration
             yield "StrongName", "False"
         ]
     MSBuildHelper.build (fun p ->
@@ -47,7 +62,7 @@ let msbuild targets configuration project =
             Verbosity = Some MSBuildVerbosity.Minimal
         }) project
 
-let msbuildSN targets configuration project =
+let msbuildStrong targets configuration project =
     let properties =
         [
             yield "Configuration", configuration
@@ -72,7 +87,17 @@ let dotnet workingDir command =
         (fun c -> { c with WorkingDir = workingDir})
         (command + suffix)
 
-let dotnetSN workingDir command =
+let dotnetWeak workingDir command =
+    let properties =
+        [
+            yield "StrongName", "False"
+        ]
+    let suffix = properties |> List.map (fun (name, value) -> sprintf """ /p:%s="%s" """ name value) |> String.concat ""
+    DotNetCli.RunCommand
+        (fun c -> { c with WorkingDir = workingDir})
+        (command + suffix)
+
+let dotnetStrong workingDir command =
     let properties =
         [
             yield "StrongName", "True"
@@ -283,20 +308,20 @@ let patchVersionInProjectFile (project:Project) =
 
 let clean (solution:Solution) = msbuild [ "Clean" ] "Release" solution.SolutionFile
 
-let restore (solution:Solution) = msbuild [ "Restore" ] "Release" solution.SolutionFile
-let restoreSN (solution:Solution) = msbuildSN [ "Restore" ] "Release" solution.SolutionFile
+let restoreWeak (solution:Solution) = msbuildWeak [ "Restore" ] "Release" solution.SolutionFile
+let restoreStrong (solution:Solution) = msbuildStrong [ "Restore" ] "Release" solution.SolutionFile
 
-let build (solution:Solution) = msbuild [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" solution.SolutionFile
-let buildSN (solution:Solution) = msbuildSN [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" solution.SolutionFile
+let buildWeak (solution:Solution) = msbuildWeak [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" solution.SolutionFile
+let buildStrong (solution:Solution) = msbuildStrong [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" solution.SolutionFile
 
-let pack (solution:Solution) = dotnet rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" solution.SolutionFile)
-let packSN (solution:Solution) = dotnetSN rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" solution.SolutionFile)
+let packWeak (solution:Solution) = dotnetWeak rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" solution.SolutionFile)
+let packStrong (solution:Solution) = dotnetStrong rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" solution.SolutionFile)
 
-let packProject = function
-    | VisualStudio p -> dotnet rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
+let packProjectWeak = function
+    | VisualStudio p -> dotnetWeak rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
     | _ -> failwith "Project type not supported"
-let packProjectSN = function
-    | VisualStudio p -> dotnetSN rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
+let packProjectStrong = function
+    | VisualStudio p -> dotnetStrong rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
     | _ -> failwith "Project type not supported"
 
 //let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
