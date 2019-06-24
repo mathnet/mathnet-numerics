@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2018 Math.NET
+// Copyright (c) 2009-2019 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -37,6 +37,18 @@ using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Statistics
 {
+
+    /// <summary>
+    /// Correlation modes for calculating the cross correlation
+    /// </summary>
+    public enum CorrelationMode
+    {
+        Valid,
+        Same,
+        Full
+    }
+
+
     /// <summary>
     /// A class with correlation measures between two datasets.
     /// </summary>
@@ -155,6 +167,95 @@ namespace MathNet.Numerics.Statistics
             for (int i = 0; i < (kHigh - kLow + 1); i++)
             {
                 result[i] = xFFT2[kLow + i].Real / dc;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Cross correlation of two real-valued one-dimensional inputs.
+        /// </summary>
+        /// <param name="x">First input</param>
+        /// <param name="y">Second input (cannot be longer than x)</param>
+        /// <param name="mode">Padding of the signal</param>
+        /// <returns>An array with the cross-correlation of the two input signals</returns>
+        public static double[] CrossCorrelation(IList<double> x, IList<double> y, CorrelationMode mode = CorrelationMode.Valid)
+        {
+
+            if (y.Count > x.Count)
+            {
+                throw new ArgumentException("y must not be longer than x");
+            }
+
+            var iStart = 0;
+            var iEnd = x.Count - y.Count + 1;
+            
+            if (mode == CorrelationMode.Same)
+            {
+                iStart = -(y.Count / 2);
+                iEnd = iStart + x.Count;
+            }
+            else if (mode == CorrelationMode.Full)
+            {
+                iStart = -(y.Count - 1);
+                iEnd = x.Count;
+            }
+
+            var n = iEnd - iStart;
+            var result = new double[n];
+
+            // decide whether to calculate the cross correlation in time-domain or frequency-domain.
+            // Since FFT is calculated in n * log2(n), we choose log2(x) as the threshold for the
+            // length of y. Some tweaking of this threshold might help with performance.
+            var timedomain = y.Count < Math.Log(x.Count) / Math.Log(2);
+
+            if (timedomain)
+            {
+                // this is a naive implementation in time-domain. This is actually only fast
+                // when y is much shorter than x. Whenever x and y are approximately the same
+                // length an FFT based approach would probably be faster.
+                Threading.CommonParallel.For(0, n, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        for (int k = 0; k < y.Count; k++)
+                        {
+                            var xi = i + k + iStart;
+                            if (xi < 0 || xi >= x.Count) continue;
+                            result[i] += x[xi] * y[k];
+                        }
+                    }
+                });
+            }
+            else
+            {
+                // use an FFT based implementation when x and y are within the same order
+                // of magnitude
+                var padLeft = -iStart;
+                var padRight = iEnd - x.Count + y.Count - 1;
+                var nFFT = Euclid.CeilingToPowerOfTwo(padLeft + x.Count + padRight);
+                var xFFT = new Complex[nFFT];
+                var yFFT = new Complex[nFFT];
+                for (int i = 0; i < x.Count; i++)
+                {
+                    xFFT[i + padLeft] = x[i];
+                }
+                for (int i = 0; i < y.Count; i++)
+                {
+                    yFFT[i] = y[i];
+                }
+                Fourier.Forward(xFFT, FourierOptions.Matlab);
+                Fourier.Forward(yFFT, FourierOptions.Matlab);
+                var zFFT = new Complex[nFFT];
+                for (int i = 0; i < nFFT; i++)
+                {
+                    zFFT[i] = xFFT[i] * yFFT[i].Conjugate();
+                }
+                Fourier.Inverse(zFFT, FourierOptions.Matlab);
+                for (int i = 0; i < n; i++)
+                {
+                    result[i] = zFFT[i].Real;
+                }
             }
 
             return result;
