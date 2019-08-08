@@ -1,0 +1,372 @@
+﻿// <copyright file="StudentT.cs" company="Math.NET">
+// Math.NET Numerics, part of the Math.NET Project
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
+//
+// Copyright (c) 2009-2019 Math.NET
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+// </copyright>
+
+using MathNet.Numerics.Properties;
+using MathNet.Numerics.Random;
+using System;
+using System.Collections.Generic;
+
+namespace MathNet.Numerics.Distributions
+{
+    /// <summary>
+    /// Continuous Univariate Skewed Generalized Error Distribution (SGED).
+    /// Implements the univariate SSkewed Generalized Error Distribution. For details about this
+    /// distribution, see
+    /// <a href="https://en.wikipedia.org/wiki/Generalized_normal_distribution">
+    /// Wikipedia - Generalized Error Distribution</a>.
+    /// It includes Laplace, Normal and Student-t distributions.
+    /// This is the <see cref="SkewedGeneralizedT"/> distribution with q=Inf.
+    /// </summary>
+    /// <remarks><para>This implementation is based on the R package dsgt and corresponding viginette, see
+    /// <a href="">https://cran.r-project.org/web/packages/sgt/vignettes/sgt.pdf</a>. Compared to that
+    /// implementation, the options for mean adjustment and variance adjustment are always true.
+    /// The location (μ) is the mean of the distribution.
+    /// The scale (σ) squared is the variance of the distribution. 
+    /// </para>
+    /// <para>The distribution will use the <see cref="System.Random"/> by
+    /// default.  Users can get/set the random number generator by using the
+    /// <see cref="RandomSource"/> property.</para>
+    /// <para>The statistics classes will check all the incoming parameters
+    /// whether they are in the allowed range.</para></remarks>
+    public class SkewedGeneralizedError : IContinuousDistribution
+    {
+        private System.Random _random;
+
+        /// <summary>
+        /// Initializes a new instance of the SkewedGeneralizedError class. This is a generalized error distribution
+        /// with location=0.0, scale=1.0, skew=0.0 and p=2.0 (a standard normal distribution).
+        /// </summary>
+        public SkewedGeneralizedError()
+        {
+            _random = SystemRandomSource.Default;
+            Location = 0.0;
+            Scale = 1.0;
+            Skew = 0.0;
+            P = 2.0;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the SkewedGeneralizedT class with a particular location, scale, skew
+        /// and kurtosis parameters. Different parameterizations result in different distributions.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="skew">The skew, 1 > λ > -1</param>
+        /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
+        public SkewedGeneralizedError(double location, double scale, double skew, double p)
+        {
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            _random = SystemRandomSource.Default;
+            Location = location;
+            Scale = scale;
+            Skew = skew;
+            P = p;
+        }
+
+        /// <summary>
+        /// Gets or sets the random number generator which is used to draw random samples.
+        /// </summary>
+        public System.Random RandomSource
+        {
+            get { return _random; }
+            set { _random = value ?? SystemRandomSource.Default; }
+        }
+
+        /// <summary>
+        /// A string representation of the distribution.
+        /// </summary>
+        /// <returns>a string representation of the distribution.</returns>
+        public override string ToString()
+        {
+            return $"SkewedGeneralizedError(μ = {Location}, σ = {Scale}, λ = { Skew }, p = {P}";
+        }
+
+        /// <summary>
+        /// Tests whether the provided values are valid parameters for this distribution.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="skew">The skew, 1 > λ > -1</param>
+        /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
+        public static bool IsValidParameterSet(double location, double scale, double skew, double p)
+        {
+            return scale > 0.0 && skew > -1.0 && skew < 1.0 && p > 0.0 && !double.IsNaN(location);
+        }
+
+        /// <summary>
+        /// Gets the location (μ) of the Skewed Generalized t-distribution.
+        /// </summary>
+        public double Location { get; private set; }
+
+        /// <summary>
+        /// Gets the scale (σ) of the Skewed Generalized t-distribution. Range: σ > 0.
+        /// </summary>
+        public double Scale { get; private set; }
+
+        /// <summary>
+        /// Gets the skew (λ) of the Skewed Generalized t-distribution. Range: 1 > λ > -1.
+        /// </summary>
+        public double Skew { get; private set; }
+
+        /// <summary>
+        /// Gets the parameter that controls the kurtosis of the distribution. Range: p > 0.
+        /// </summary>
+        public double P { get; private set; }
+
+        public double Mode => throw new NotImplementedException();
+
+        public double Minimum => double.NegativeInfinity;
+
+        public double Maximum => double.PositiveInfinity;
+
+        public double Mean => Location;
+
+        public double Variance => Scale * Scale;
+
+        public double StdDev => Scale;
+
+        public double Entropy => throw new NotImplementedException();
+
+        public double Skewness => throw new NotImplementedException();
+
+        public double Median => Location;
+
+        private static double AdjustScale(double scale, double skew, double p)
+        {
+            var g1 = SpecialFunctions.Gamma(3.0 / p);
+            var g2 = SpecialFunctions.Gamma(0.5 + 1.0 / p);
+            var g3 = SpecialFunctions.Gamma(1.0 / p);
+            var g4 = SpecialFunctions.Gamma(1.0 / p);
+            var n1 = Constants.Pi * (1.0 + 3.0 * skew * skew) * g1;
+            var n2 = Math.Pow(16.0, 1.0 / p) * skew * skew * Math.Pow(g2, 2) * g3;
+            var d = Constants.Pi * g4;
+            return scale / Math.Sqrt((n1 - n2) / d);
+        }
+
+        private static double AdjustX(double x, double scale, double skew, double p)
+        {
+            return x + AdjustAddend(scale, skew, p);
+        }
+
+        private static double AdjustAddend(double scale, double skew, double p)
+        {
+            return (Math.Pow(2.0, 2.0 / p) * scale * skew * SpecialFunctions.Gamma(1.0 / 2.0 + 1.0 / p)) /
+                Math.Sqrt(Constants.Pi);
+        }
+
+        public static double PDF(double location, double scale, double skew, double p, double x)
+        {
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            scale = AdjustScale(scale, skew, p);
+            x = AdjustX(x, scale, skew, p);
+            
+           // p / (2 * sigma * gamma(1 / p) * exp((abs(x - mu) / (sigma * (1 + lambda * sgn(x - mu)))) ^ p))
+            var d1 = Math.Abs(x - location);
+            var d2 = scale * (1.0 + skew * Math.Sign(x - location));
+            var d3 = 2.0 * scale * SpecialFunctions.Gamma(1.0 / p);
+            return p / (Math.Exp(Math.Pow(d1 / d2, p)) * d3);
+        }
+
+        public static double PDFLn(double location, double scale, double skew, double p, double x)
+        {
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            scale = AdjustScale(scale, skew, p);
+            x = AdjustX(x, scale, skew, p);
+
+            return Math.Log(p) - Math.Log(2.0) - Math.Log(scale) - SpecialFunctions.GammaLn(1.0 / p) -
+                Math.Pow(Math.Abs(x - location) / (scale * (1.0 + skew * Math.Sign(x - location))), p);
+        }
+
+        public static double CDF(double location, double scale, double skew, double p, double x)
+        {
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            scale = AdjustScale(scale, skew, p);
+            x = AdjustX(x, scale, skew, p) - location;
+
+            var flip = x < 0;
+            if (flip)
+            {
+                skew = -skew;
+                x = -x;
+            }
+
+            var res = (1.0 - skew) / 2.0 + (1.0 + skew) / 2.0 * Gamma.CDF(1.0 / p, 1.0, Math.Pow(x / (scale * (1.0 + skew)), p));
+            return flip ? 1.0 - res : res;
+        }
+
+        public static double InvCDF(double location, double scale, double skew, double p, double pr)
+        {
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            scale = AdjustScale(scale, skew, p);
+
+            var flip = pr < (1.0 - skew) / 2.0;
+            var lambda = skew;
+            if (flip)
+            {
+                pr = 1.0 - pr;
+                lambda = -lambda;
+            }
+
+            var res = scale * (1.0 + lambda) * Math.Pow(Gamma.InvCDF(1.0 / p, 1.0, 2 * pr / (1.0 + lambda) + (lambda - 1.0) / (lambda + 1.0)), 1.0 / p);
+
+            if (flip)
+                res = -res;
+            res += location;
+            return res - AdjustAddend(scale, skew, p);
+        }
+
+        public double InverseCumulativeDistribution(double p)
+        {
+            return InvCDF(Location, Scale, Skew, P, p);
+        }
+
+        public double CumulativeDistribution(double x)
+        {
+            return CDF(Location, Scale, Skew, P, x);
+        }
+
+        public double Density(double x)
+        {
+            return PDF(Location, Scale, Skew, P, x);
+        }
+
+        public double DensityLn(double x)
+        {
+            return PDFLn(Location, Scale, Skew, P, x);
+        }
+
+        /// <summary>
+        /// Generates a sample from the Skew Generalized Error distribution.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="skew">The skew, 1 > λ > -1</param>
+        /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
+        /// <returns>a sample from the distribution.</returns>
+        public static double Sample(System.Random rnd, double location, double scale, double skew, double p)
+        {
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(rnd, location, scale, skew, p);
+        }
+
+        /// <summary>
+        /// Generates a sequence of samples from the Skew Generalized Error distribution using inverse transform.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="skew">The skew, 1 > λ > -1</param>
+        /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(System.Random rnd, double location, double scale, double skew, double p)
+        {
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, location, scale, skew, p);
+            }
+        }
+
+        public static IEnumerable<double> Samples(double location, double scale, double skew, double p)
+        {
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            return Samples(SystemRandomSource.Default, location, scale, skew, p);
+        }
+
+        public static double Sample(double location, double scale, double skew, double p)
+        {
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            return SampleUnchecked(SystemRandomSource.Default, location, scale, skew, p);
+        }
+
+        private static double SampleUnchecked(System.Random rnd, double location, double scale, double skew, double p)
+        {
+            var u = ContinuousUniform.Sample(rnd, 0, 1);
+            return InvCDF(location, scale, skew, p, u);
+        }
+
+        public double Sample()
+        {
+            return SampleUnchecked(SystemRandomSource.Default, Location, Scale, Skew, P);
+        }
+
+        public void Samples(double[] values)
+        {
+            if (values == null)
+                return;
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = Sample();
+            }
+        }
+
+        public IEnumerable<double> Samples()
+        {
+            return Samples();
+        }
+    }
+}

@@ -150,6 +150,14 @@ module Sample =
     let studentT location scale freedom (rng:System.Random) = StudentT.Sample(rng, location, scale, freedom)
     let studentTSeq location scale freedom (rng:System.Random) = StudentT.Samples(rng, location, scale, freedom)
 
+    /// Skew Generalized T with location (μ), scale (σ), skew (λ), kurtosis param (p) and kurtosis param (q).
+    let skewGeneralizedT location scale skew p q (rng:System.Random) = SkewedGeneralizedT.Sample(rng, location, scale, skew, p, q)
+    let skewGeneralizedTSeq location scale skew p q (rng:System.Random) = SkewedGeneralizedT.Samples(rng, location, scale, skew, p, q)
+
+    /// Skew Generalized Error with location (μ), scale (σ), skew (λ) and kurtosis param (p).
+    let skewGeneralizedError location scale skew p (rng:System.Random) = SkewedGeneralizedError.Sample(rng, location, scale, skew, p)
+    let skewGeneralizedErrorSeq location scale skew p (rng:System.Random) = SkewedGeneralizedError.Samples(rng, location, scale, skew, p)
+
     /// Weibull with shape (k) and scale (λ).
     let weibull shape scale (rng:System.Random) = Weibull.Sample(rng, shape, scale)
     let weibullSeq shape scale (rng:System.Random) = Weibull.Samples(rng, shape, scale)
