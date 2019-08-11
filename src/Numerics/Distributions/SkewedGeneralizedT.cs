@@ -64,6 +64,8 @@ namespace MathNet.Numerics.Distributions
         // Else this value is null and the full formulation of the generalized distribution is used.
         private IContinuousDistribution _d;
 
+        private readonly double _skewness;
+
         /// <summary>
         /// Initializes a new instance of the SkewedGeneralizedT class. This is a skewed generalized t-distribution
         /// with location=0.0, scale=1.0, skew=0.0, p=2.0 and q=Inf (a standard normal distribution).
@@ -104,6 +106,9 @@ namespace MathNet.Numerics.Distributions
             Q = q;
 
             _d = FindSpecializedDistribution(location, scale, skew, p, q);
+
+            if (_d == null)
+                _skewness = CalculateSkewness();
         }
 
         /// <summary>
@@ -185,23 +190,54 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double Q { get; private set; }
 
-        public double Mode => throw new NotImplementedException();
+        // No skew implies Median=Mode=Mean
+        public double Mode => _d == null ?
+            Skew == 0 ? Mean : Mean - AdjustAddend(AdjustScale(Scale, Skew, P, Q), Skew, P, Q) :
+            _d.Mode;
 
         public double Minimum => _d == null ? double.NegativeInfinity : _d.Minimum;
 
         public double Maximum => _d == null ? double.PositiveInfinity : _d.Maximum;
 
+        // Mean=Location due to our adjustments made
         public double Mean => _d == null ? Location : _d.Mean;
 
+        // Variance=Scale*Scale due to our adjustments made
         public double Variance => _d == null ? Scale * Scale : _d.Variance;
 
         public double StdDev => _d == null ? Scale : _d.StdDev;
 
         public double Entropy => _d == null ? throw new NotImplementedException() : _d.Entropy;
 
-        public double Skewness => _d == null ? throw new NotImplementedException() : _d.Skewness;
+        public double Skewness => _d == null ?
+            _skewness :
+            _d.Skewness;
 
-        public double Median => _d == null ? Location : _d.Median;
+        // No skew implies Median=Mode=Mean
+        // Else find it via the point where CDF gives 0.5
+        public double Median => _d == null ?
+            Skew == 0 ? Mean : InverseCumulativeDistribution(0.5) :
+            _d.Median;
+
+        private double CalculateSkewness()
+        {
+            if (P * Q <= 3 || Skew == 0)
+                return 0.0;
+
+            var scale = AdjustScale(Scale, Skew, P, Q);
+            var b1 = SpecialFunctions.Beta(1.0 / P, Q);
+            var b2 = SpecialFunctions.Beta(2.0 / P, Q - 1.0 / P);
+            var b3 = SpecialFunctions.Beta(3.0 / P, Q - 2.0 / P);
+            var b4 = SpecialFunctions.Beta(4.0 / P, Q - 3.0 / P);
+
+            var t1 = (2.0 * Math.Pow(Q, 3.0 / P) * Skew * Math.Pow(scale, 3.0)) / Math.Pow(b1, 3.0);
+            var t2 = 8.0 * Skew * Skew * Math.Pow(b2, 3.0);
+            var t3 = 3.0 * (1.0 + 3.0 * Skew * Skew) * b1;
+            var t4 = b2 * b3;
+            var t5 = 2.0 * (1.0 + Skew * Skew) * Math.Pow(b1, 2.0) * b4;
+
+            return t1 * (t2 - t3 * t4 + t5);
+        }
 
         private static double AdjustScale(double scale, double skew, double p, double q)
         {

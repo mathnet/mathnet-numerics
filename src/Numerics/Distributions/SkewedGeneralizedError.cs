@@ -58,6 +58,8 @@ namespace MathNet.Numerics.Distributions
     {
         private System.Random _random;
 
+        private readonly double _skewness;
+
         /// <summary>
         /// Initializes a new instance of the SkewedGeneralizedError class. This is a generalized error distribution
         /// with location=0.0, scale=1.0, skew=0.0 and p=2.0 (a standard normal distribution).
@@ -91,6 +93,8 @@ namespace MathNet.Numerics.Distributions
             Scale = scale;
             Skew = skew;
             P = p;
+
+            _skewness = CalculateSkewness();
         }
 
         /// <summary>
@@ -143,23 +147,49 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public double P { get; private set; }
 
-        public double Mode => throw new NotImplementedException();
+        // No skew implies Median=Mode=Mean
+        public double Mode =>
+            Skew == 0 ? Mean : Mean - AdjustAddend(AdjustScale(Scale, Skew, P), Skew, P);
 
         public double Minimum => double.NegativeInfinity;
 
         public double Maximum => double.PositiveInfinity;
 
+        // Mean=Location due to our adjustments made
         public double Mean => Location;
 
+        // Variance=Scale*Scale due to our adjustments made
         public double Variance => Scale * Scale;
 
         public double StdDev => Scale;
 
         public double Entropy => throw new NotImplementedException();
 
-        public double Skewness => throw new NotImplementedException();
+        public double Skewness => _skewness;
 
-        public double Median => Location;
+        // No skew implies Median=Mode=Mean
+        // Else find it via the point where CDF gives 0.5
+        public double Median =>
+            Skew == 0 ? Mean : InverseCumulativeDistribution(0.5);
+
+        private double CalculateSkewness()
+        {
+            if (Skew == 0)
+                return 0.0;
+
+            var piPow = Math.Pow(Constants.Pi, 3.0 / 2.0);
+            var g1 = SpecialFunctions.Gamma(1.0 / P);
+            var g2 = SpecialFunctions.Gamma(0.5 + 1.0 / P);
+            var g3 = SpecialFunctions.Gamma(3.0 / P);
+            var g4 = SpecialFunctions.Gamma(4.0 / P);
+
+            var t1 = Skew * Scale * Scale * Scale / (piPow * g1);
+            var t2 = Math.Pow(2.0, (6.0 + P) / P) * Skew * Skew * Math.Pow(g2, 3.0) * g1;
+            var t3 = 3.0 * Math.Pow(4.0, 1.0 / P) * Constants.Pi * (1.0 + 3.0 * Skew * Skew) * g2 * g3;
+            var t4 = 4.0 * piPow * (1.0 + Skew * Skew) * g4;
+
+            return t1 * (t2 - t3 + t4);
+        }
 
         private static double AdjustScale(double scale, double skew, double p)
         {
