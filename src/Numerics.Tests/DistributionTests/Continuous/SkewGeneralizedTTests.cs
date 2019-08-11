@@ -218,6 +218,68 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
                 Assert.IsTrue(sp < p);
         }
 
+        [TestCase(0, 1, -0.1, 0.5123)]
+        [TestCase(0, 1, 0.1, 0.6123)]
+        public void ValidateModeOfSkewedNormalDistribution(double location, double scale, double skew, double x)
+        {
+            var sn = new SkewedGeneralizedT(location, scale, skew, 2, double.PositiveInfinity);
+            var n = new Normal(location, scale);
+
+            var sm = sn.Mode;
+            var m = n.Mode;
+
+            if (skew < 0)
+                Assert.IsTrue(sm > m);
+            else
+                Assert.IsTrue(sm < m);
+        }
+
+        [TestCase(0, 1, -0.1, 3, 5, 0.5123)]
+        [TestCase(0, 1, 0.1, 3, 5, 0.6123)]
+        public void ValidateModeOfSkewedGeneralizedTDistribution(double location, double scale, double skew, double p, double q, double x)
+        {
+            var sn = new SkewedGeneralizedT(location, scale, skew, 2, double.PositiveInfinity);
+            var n = new Normal(location, scale);
+
+            var sm = sn.Mode;
+            var m = n.Mode;
+
+            if (skew < 0)
+                Assert.IsTrue(sm > m);
+            else
+                Assert.IsTrue(sm < m);
+        }
+
+        [TestCase(-0.5)]
+        [TestCase(0.0)]
+        [TestCase(0.5)]
+        public void ValidateSkewnessOfNormalDistribution(double skew)
+        {
+            var sn = new SkewedGeneralizedT(0.0, 1.0, skew, 2.0, double.PositiveInfinity);
+
+            if (skew > 0)
+                Assert.IsTrue(sn.Skewness > 0.0);
+            else if (skew < 0)
+                Assert.IsTrue(sn.Skewness < 0.0);
+            else
+                Assert.AreEqual(skew, sn.Skewness);
+        }
+
+        [TestCase(-0.5)]
+        [TestCase(0.0)]
+        [TestCase(0.5)]
+        public void ValidateSkewnessOfSkewGeneralizedTDistribution(double skew)
+        {
+            var sn = new SkewedGeneralizedT(0.0, 1.0, skew, 3.0, 4.0);
+
+            if (skew > 0)
+                Assert.IsTrue(sn.Skewness > 0.0);
+            else if (skew < 0)
+                Assert.IsTrue(sn.Skewness < 0.0);
+            else
+                Assert.AreEqual(skew, sn.Skewness);
+        }
+
         /// <summary>
         /// Can sample static.
         /// </summary>
