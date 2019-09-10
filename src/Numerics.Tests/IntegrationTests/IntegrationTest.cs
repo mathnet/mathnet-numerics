@@ -59,7 +59,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         {
             return Math.Exp(-x / 5) * (2 + Math.Sin(2 * y));
         }
-
+                
         /// <summary>
         /// Test Function Start point.
         /// </summary>
@@ -310,6 +310,42 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
             const int order = 19;
             GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
             Assert.AreEqual(gaussLegendre.IntervalEnd, StopA);
+        }
+
+        // integral_(-oo)^(oo) exp(-x^2/2) dx = sqrt(2 ¥ð)
+        [TestCase(double.NegativeInfinity, double.PositiveInfinity, Constants.Sqrt2Pi)]
+        // integral_(-oo)^(0) exp(-x^2/2) dx = sqrt(¥ð/2)
+        [TestCase(double.NegativeInfinity, 0, Constants.SqrtPiOver2)]
+        // integral_(0)^(oo exp(-x^2/2) dx = sqrt(¥ð/2)
+        [TestCase(0, double.PositiveInfinity, Constants.SqrtPiOver2)]
+        // integral_(-1)^(1) exp(-x^2/2) dx = sqrt(2 ¥ð) erf(1/sqrt(2))
+        [TestCase(-1, 1, 1.7112487837842976063)]
+        // integral_(1)^(0) exp(-x^2/2) dx = -sqrt(¥ð/2) erf(1/sqrt(2))
+        [TestCase(1, 0, -0.85562439189214880317)]
+        public void TestGaussianIntegralBySubstitution(double a, double b, double expected)
+        {
+            Assert.AreEqual(
+               expected,
+               Integrate.OnOpenInterval((x) => Math.Exp(-x * x / 2), a, b),
+               1e-10,
+               "Integral e^(-x^2 /2) from {0} to {1}", a, b);
+        }
+
+        // integral_(-oo)^(oo) sin(pi x) / (pi x) dx = 1 / pi integral_(-oo)^(oo) sin(x) / x dx
+        //                                           = 1 / pi integral_(oo)^(oo) 1 / (1 + t^2) dt
+        //                                           = 1
+        //                                        or = 2 / pi integral_(0)^(oo) 1 / (1 + t^2) dt
+        //                                        or = 2 / pi integral_(-oo)^(0) 1 / (1 + t^2) dt
+        [TestCase(double.NegativeInfinity, double.PositiveInfinity, 1, Constants.InvPi)]
+        [TestCase(0, double.PositiveInfinity, 1, Constants.TwoInvPi)]
+        [TestCase(double.NegativeInfinity, 0, 1, Constants.TwoInvPi)]
+        public void TestSincIntegralBySubstitution(double a, double b, double expected, double factor)
+        {
+            Assert.AreEqual(
+               expected,
+               factor * Integrate.OnOpenInterval((x) => 1 / (1 + x * x), a, b),
+               1e-10,
+               "Integral sin(pi*x)/(pi*x) from -oo to oo");
         }
     }
 }
