@@ -72,6 +72,16 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         /// <summary>
+        /// Test Function: f(x,y) = log(x)
+        /// </summary>
+        /// <param name="x">First input value.</param>
+        /// <returns>Function result.</returns>
+        private static double TargetFunctionD(double x)
+        {
+            return Math.Log(x);
+        }
+        
+        /// <summary>
         /// Test Function Start point.
         /// </summary>
         private const double StartA = 0;
@@ -102,6 +112,16 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         private const double StopC = double.PositiveInfinity;
 
         /// <summary>
+        /// Test Function Start point.
+        /// </summary>
+        private const double StartD = 0;
+
+        /// <summary>
+        /// Test Function Stop point.
+        /// </summary>
+        private const double StopD = 1;
+        
+        /// <summary>
         /// Target area square.
         /// </summary>
         private const double TargetAreaA = 9.1082396073229965070;
@@ -116,6 +136,11 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// </summary>
         private const double TargetAreaC = Constants.Pi;
 
+        /// <summary>
+        /// Target area.
+        /// </summary>
+        private const double TargetAreaD = -1;
+        
         /// <summary>
         /// Test Integrate facade for simple use cases.
         /// </summary>
@@ -150,13 +175,52 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 TargetAreaC,
                 Integrate.DoubleExponential(TargetFunctionC, StartC, StopC),
                 1e-5,
-                "Integral by substitution");
+                "DoubleExponential");
 
             Assert.AreEqual(
                 TargetAreaC,
                 Integrate.DoubleExponential(TargetFunctionC, StartC, StopC, 1e-10),
                 1e-10,
-                "Integral by substitution, Target 1e-10");
+                "DoubleExponential, Target 1e-10");
+
+            Assert.AreEqual(
+                TargetAreaD,
+                Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 15),
+                1e-10,
+                "GaussKronrod, Target 1e-10, order 15");
+            Assert.AreEqual(
+                TargetAreaD,
+                Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 21),
+                1e-10,
+                "GaussKronrod, Target 1e-10, order 21");
+            Assert.AreEqual(
+                TargetAreaD,
+                Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 31),
+                1e-10,
+                "GaussKronrod, Target 1e-10, order 31");
+            Assert.AreEqual(
+                TargetAreaD,
+                Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 41),
+                1e-10,
+                "GaussKronrod, Target 1e-10, order 41");
+            Assert.AreEqual(
+                TargetAreaD,
+                Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 51),
+                1e-10,
+                "GaussKronrod, Target 1e-10, order 51");
+            Assert.AreEqual(
+                TargetAreaD,
+                Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 61),
+                1e-10,
+                "GaussKronrod, Target 1e-10, order 61");
+
+            double error, L1;
+            var Q = Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, out error, out L1, 1e-10, order: 15);
+            Assert.AreEqual(
+                Math.Abs(TargetAreaD),
+                Math.Abs(L1),
+                1e-10,
+                "GaussKronrod, L1");
         }
 
         /// <summary>
@@ -351,22 +415,28 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         // integral_(-oo)^(oo) exp(-x^2/2) dx = sqrt(2 ¥ð)
-        [TestCase(double.NegativeInfinity, double.PositiveInfinity, Constants.Sqrt2Pi)]
         // integral_(-oo)^(0) exp(-x^2/2) dx = sqrt(¥ð/2)
-        [TestCase(double.NegativeInfinity, 0, Constants.SqrtPiOver2)]
         // integral_(0)^(oo exp(-x^2/2) dx = sqrt(¥ð/2)
-        [TestCase(0, double.PositiveInfinity, Constants.SqrtPiOver2)]
         // integral_(-1)^(1) exp(-x^2/2) dx = sqrt(2 ¥ð) erf(1/sqrt(2))
-        [TestCase(-1, 1, 1.7112487837842976063)]
         // integral_(1)^(0) exp(-x^2/2) dx = -sqrt(¥ð/2) erf(1/sqrt(2))
+        [TestCase(double.NegativeInfinity, double.PositiveInfinity, Constants.Sqrt2Pi)]        
+        [TestCase(double.NegativeInfinity, 0, Constants.SqrtPiOver2)]        
+        [TestCase(0, double.PositiveInfinity, Constants.SqrtPiOver2)]        
+        [TestCase(-1, 1, 1.7112487837842976063)]        
         [TestCase(1, 0, -0.85562439189214880317)]
-        public void TestGaussianIntegralBySubstitution(double a, double b, double expected)
+        public void TestIntegralOfGaussian(double a, double b, double expected)
         {
             Assert.AreEqual(
-               expected,
-               Integrate.DoubleExponential((x) => Math.Exp(-x * x / 2), a, b),
-               1e-10,
-               "Integral e^(-x^2 /2) from {0} to {1}", a, b);
+                expected,
+                Integrate.DoubleExponential((x) => Math.Exp(-x * x / 2), a, b),
+                1e-10,
+                "DET Integral e^(-x^2 /2) from {0} to {1}", a, b);
+
+            Assert.AreEqual(
+                expected,
+                Integrate.GaussKronrod((x) => Math.Exp(-x * x / 2), a, b),
+                1e-10,
+                "GK Integral e^(-x^2 /2) from {0} to {1}", a, b);
         }
 
         // integral_(-oo)^(oo) sin(pi x) / (pi x) dx = 1 / pi integral_(-oo)^(oo) sin(x) / x dx
@@ -377,37 +447,56 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         [TestCase(double.NegativeInfinity, double.PositiveInfinity, 1, Constants.InvPi)]
         [TestCase(0, double.PositiveInfinity, 1, Constants.TwoInvPi)]
         [TestCase(double.NegativeInfinity, 0, 1, Constants.TwoInvPi)]
-        public void TestSincIntegralBySubstitution(double a, double b, double expected, double factor)
+        public void TestIntegralOfSinc(double a, double b, double expected, double factor)
         {
             Assert.AreEqual(
-               expected,
-               factor * Integrate.DoubleExponential((x) => 1 / (1 + x * x), a, b),
-               1e-10,
-               "Integral sin(pi*x)/(pi*x) from -oo to oo");
+                expected,
+                factor * Integrate.DoubleExponential((x) => 1 / (1 + x * x), a, b),
+                1e-10,
+                "DET Integral sin(pi*x)/(pi*x) from -oo to oo");
+
+            Assert.AreEqual(
+                expected,
+                factor * Integrate.GaussKronrod((x) => 1 / (1 + x * x), a, b),
+                1e-10,
+                "GK Integral sin(pi*x)/(pi*x) from -oo to oo");
         }
 
         // integral_(-oo)^(oo) 1/(1 + j x^2) dx = -(-1)^(3/4) ¥ð
-        [TestCase(double.NegativeInfinity, double.PositiveInfinity, 2.2214414690791831235, -2.2214414690791831235)]
         // integral_(0)^(oo) 1/(1 + j x^2) dx = -1/2 (-1)^(3/4) ¥ð
-        [TestCase(0, double.PositiveInfinity, 1.1107207345395915618, -1.1107207345395915618)]
         // integral_(-oo)^(0) 1/(1 + j x^2) dx = -1/2 (-1)^(3/4) ¥ð
+        [TestCase(double.NegativeInfinity, double.PositiveInfinity, 2.2214414690791831235, -2.2214414690791831235)]        
+        [TestCase(0, double.PositiveInfinity, 1.1107207345395915618, -1.1107207345395915618)]        
         [TestCase(double.NegativeInfinity, 0, 1.1107207345395915618, -1.1107207345395915618)]
-        public void TestContourIntegralBySubstitution(double a, double b, double r, double i)
+        public void TestContourIntegral(double a, double b, double r, double i)
         {
             var expected = new Complex(r, i);            
-            var actual = ContourIntegrate.DoubleExponential((x) => 1 / new Complex(1, x * x), a, b);
+            var actualDET = ContourIntegrate.DoubleExponential((x) => 1 / new Complex(1, x * x), a, b);
+            var actualGK = ContourIntegrate.GaussKronrod((x) => 1 / new Complex(1, x * x), a, b);
 
             Assert.AreEqual(
                expected.Real,
-               actual.Real,
+               actualDET.Real,
                1e-10,
-               "Integral e^(-x^2 /2) / (1 + j e^x) from {0} to {1}", a, b);
+               "DET Integral Re[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
 
             Assert.AreEqual(
                expected.Imaginary,
-               actual.Imaginary,
+               actualDET.Imaginary,
                1e-10,
-               "Integral e^(-x^2 /2) / (1 + j e^x) from {0} to {1}", a, b);
+               "DET Integral Im[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
+
+            Assert.AreEqual(
+               expected.Real,
+               actualGK.Real,
+               1e-10,
+               "GK Integral Re[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
+
+            Assert.AreEqual(
+               expected.Imaginary,
+               actualGK.Imaginary,
+               1e-10,
+               "GK Integral Im[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
         }
     }
 }

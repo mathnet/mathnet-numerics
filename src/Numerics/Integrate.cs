@@ -79,9 +79,9 @@ namespace MathNet.Numerics
         {
             return GaussLegendreRule.Integrate(f, invervalBeginA, invervalEndA, invervalBeginB, invervalEndB, 32);
         }
-        
+
         /// <summary>
-        /// Approximation of the definite integral of an analytic smooth function by substitution. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
+        /// Approximation of the definite integral of an analytic smooth function by double-exponential quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
         /// </summary>
         /// <param name="f">The analytic smooth function to integrate.</param>
         /// <param name="intervalBegin">Where the interval starts.</param>
@@ -155,15 +155,47 @@ namespace MathNet.Numerics
                 return DoubleExponentialTransformation.Integrate(u, -1, 1, targetAbsoluteError);
             }
         }
+
+        /// <summary>
+        /// Approximation of the definite integral of an analytic smooth function by Gauss-Kronrod quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
+        /// </summary>
+        /// <param name="f">The analytic smooth function to integrate.</param>
+        /// <param name="intervalBegin">Where the interval starts.</param>
+        /// <param name="intervalEnd">Where the interval stops.</param>
+        /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
+        /// <param name="maximumDepth">The maximum number of interval splittings permitted before stopping</param>
+        /// <param name="order">The number of Gauss-Kronrod points. Pre-computed for 15, 31, 41, 51 and 61 points</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static double GaussKronrod(Func<double, double> f, double intervalBegin, double intervalEnd, double targetRelativeError = 1E-8, int maximumDepth = 15, int order = 15)
+        {
+            return GaussKronrodRule.Integrate(f, intervalBegin, intervalEnd, out _, out _, targetRelativeError: targetRelativeError, maximumDepth: maximumDepth, order: order);
+        }
+
+        /// <summary>
+        /// Approximation of the definite integral of an analytic smooth function by Gauss-Kronrod quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
+        /// </summary>
+        /// <param name="f">The analytic smooth function to integrate.</param>
+        /// <param name="intervalBegin">Where the interval starts.</param>
+        /// <param name="intervalEnd">Where the interval stops.</param>
+        /// <param name="error">The difference between the (N-1)/2 point Gauss approximation and the N-point Gauss-Kronrod approximation</param>
+        /// <param name="L1Norm">The L1 norm of the result, if there is a significant difference between this and the returned value, then the result is likely to be ill-conditioned.</param>
+        /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
+        /// <param name="maximumDepth">The maximum number of interval splittings permitted before stopping</param>
+        /// <param name="order">The number of Gauss-Kronrod points. Pre-computed for 15, 21, 31, 41, 51 and 61 points</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static double GaussKronrod(Func<double, double> f, double intervalBegin, double intervalEnd, out double error, out double L1Norm, double targetRelativeError = 1E-8, int maximumDepth = 15, int order = 15)
+        {
+            return GaussKronrodRule.Integrate(f, intervalBegin, intervalEnd, out error, out L1Norm, targetRelativeError: targetRelativeError, maximumDepth: maximumDepth, order: order);
+        }
     }
 
     /// <summary>
-    /// Numerical Contour Integration over a real variable, of a complex-valued function.
+    /// Numerical Contour Integration of a complex-valued function over a real variable,.
     /// </summary>
     public static class ContourIntegrate
     {
         /// <summary>
-        /// Approximation of the definite integral of an analytic smooth complex function by substitution. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
+        /// Approximation of the definite integral of an analytic smooth complex function by double-exponential quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
         /// </summary>
         /// <param name="f">The analytic smooth complex function to integrate, defined on the real domain.</param>
         /// <param name="intervalBegin">Where the interval starts.</param>
@@ -236,6 +268,38 @@ namespace MathNet.Numerics
                 };
                 return DoubleExponentialTransformation.ContourIntegrate(u, -1, 1, targetAbsoluteError);
             }
+        }
+
+        /// <summary>
+        /// Approximation of the definite integral of an analytic smooth function by Gauss-Kronrod quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
+        /// </summary>
+        /// <param name="f">The analytic smooth complex function to integrate, defined on the real domain.</param>
+        /// <param name="intervalBegin">Where the interval starts.</param>
+        /// <param name="intervalEnd">Where the interval stops.</param>
+        /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
+        /// <param name="maximumDepth">The maximum number of interval splittings permitted before stopping</param>
+        /// <param name="order">The number of Gauss-Kronrod points. Pre-computed for 15, 21, 31, 41, 51 and 61 points</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static Complex GaussKronrod(Func<double, Complex> f, double intervalBegin, double intervalEnd, double targetRelativeError = 1E-8, int maximumDepth = 15, int order = 15)
+        {
+            return GaussKronrodRule.ContourIntegrate(f, intervalBegin, intervalEnd, out _, out _, targetRelativeError: targetRelativeError, maximumDepth: maximumDepth, order: order);
+        }
+
+        /// <summary>
+        /// Approximation of the definite integral of an analytic smooth function by Gauss-Kronrod quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
+        /// </summary>
+        /// <param name="f">The analytic smooth complex function to integrate, defined on the real domain.</param>
+        /// <param name="intervalBegin">Where the interval starts.</param>
+        /// <param name="intervalEnd">Where the interval stops.</param>
+        /// <param name="error">The difference between the (N-1)/2 point Gauss approximation and the N-point Gauss-Kronrod approximation</param>
+        /// <param name="L1Norm">The L1 norm of the result, if there is a significant difference between this and the returned value, then the result is likely to be ill-conditioned.</param>
+        /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
+        /// <param name="maximumDepth">The maximum number of interval splittings permitted before stopping</param>
+        /// <param name="order">The number of Gauss-Kronrod points. Pre-computed for 15, 21, 31, 41, 51 and 61 points</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static Complex GaussKronrod(Func<double, Complex> f, double intervalBegin, double intervalEnd, out double error, out double L1Norm, double targetRelativeError = 1E-8, int maximumDepth = 15, int order = 15)
+        {
+            return GaussKronrodRule.ContourIntegrate(f, intervalBegin, intervalEnd, out error, out L1Norm, targetRelativeError: targetRelativeError, maximumDepth: maximumDepth, order: order);
         }
     }
 }
