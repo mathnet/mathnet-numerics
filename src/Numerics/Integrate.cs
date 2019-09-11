@@ -157,14 +157,90 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
+        /// Approximation of the definite integral of an analytic smooth function by Gauss-Legendre quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
+        /// </summary>
+        /// <param name="f">The analytic smooth function to integrate.</param>
+        /// <param name="intervalBegin">Where the interval starts.</param>
+        /// <param name="intervalEnd">Where the interval stops.</param>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static double GausLegendre(Func<double, double> f, double intervalBegin, double intervalEnd, int order = 128)
+        {
+            // Reference:
+            // Formula used for variable subsitution from 
+            // 1. Shampine, L. F. (2008). Vectorized adaptive quadrature in MATLAB. Journal of Computational and Applied Mathematics, 211(2), 131-140.
+            // 2. quadgk.m, GNU Octave
+
+            if (intervalBegin > intervalEnd)
+            {
+                return -GaussLegendreRule.Integrate(f, intervalEnd, intervalBegin, order);
+            }
+
+            // (-oo, oo) => [-1, 1]
+            //
+            // integral_{-oo}^{oo} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // g(t) = t / (1 - t^2)
+            // g'(t) = (1 + t^2) / (1 - t^2)^2
+            if (double.IsInfinity(intervalBegin) && double.IsInfinity(intervalEnd))
+            {
+                Func<double, double> u = (t) =>
+                {
+                    return f(t / (1 - t * t)) * (1 + t * t) / ((1 - t * t) * (1 - t * t));
+                };
+                return GaussLegendreRule.Integrate(u, -1, 1, order);
+            }
+            // [a, oo) => [0, 1]
+            //
+            // integral_{a}^{oo} f(x) dx = integral_{0}^{oo} f(a + t^2) 2 t dt
+            //                           = integral_{0}^{1} f(a + g(s)^2) 2 g(s) g'(s) ds
+            // g(s) = s / (1 - s)
+            // g'(s) = 1 / (1 - s)^2
+            else if (double.IsInfinity(intervalEnd))
+            {
+                Func<double, double> u = (s) =>
+                {
+                    return 2 * s * f(intervalBegin + (s / (1 - s)) * (s / (1 - s))) / ((1 - s) * (1 - s) * (1 - s));
+                };
+                return GaussLegendreRule.Integrate(u, 0, 1, order);
+            }
+            // (-oo, b] => [-1, 0]
+            //
+            // integral_{-oo}^{b} f(x) dx = -integral_{-oo}^{0} f(b - t^2) 2 t dt
+            //                            = -integral_{-1}^{0} f(b - g(s)^2) 2 g(s) g'(s) ds
+            // g(s) = s / (1 + s)
+            // g'(s) = 1 / (1 + s)^2
+            else if (double.IsInfinity(intervalBegin))
+            {
+                Func<double, double> u = (s) =>
+                {
+                    return -2 * s * f(intervalEnd - s / (1 + s) * (s / (1 + s))) / ((1 + s) * (1 + s) * (1 + s));
+                };
+                return GaussLegendreRule.Integrate(u, -1, 0, order);
+            }
+            // [a, b] => [-1, 1]
+            //
+            // integral_{a}^{b} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // g(t) = (b - a) * t * (3 - t^2) / 4 + (b + a) / 2
+            // g'(t) = 3 / 4 * (b - a) * (1 - t^2)
+            else
+            {
+                Func<double, double> u = (t) =>
+                {
+                    return f((intervalEnd - intervalBegin) / 4 * t * (3 - t * t) + (intervalEnd + intervalBegin) / 2) * 3 * (intervalEnd - intervalBegin) / 4 * (1 - t * t);
+                };
+                return GaussLegendreRule.Integrate(u, -1, 1, order);
+            }
+        }
+
+        /// <summary>
         /// Approximation of the definite integral of an analytic smooth function by Gauss-Kronrod quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
         /// </summary>
         /// <param name="f">The analytic smooth function to integrate.</param>
         /// <param name="intervalBegin">Where the interval starts.</param>
         /// <param name="intervalEnd">Where the interval stops.</param>
         /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
-        /// <param name="maximumDepth">The maximum number of interval splittings permitted before stopping</param>
-        /// <param name="order">The number of Gauss-Kronrod points. Pre-computed for 15, 31, 41, 51 and 61 points</param>
+        /// <param name="maximumDepth">The maximum number of interval splittings permitted before stopping.</param>
+        /// <param name="order">The number of Gauss-Kronrod points. Pre-computed for 15, 31, 41, 51 and 61 points.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
         public static double GaussKronrod(Func<double, double> f, double intervalBegin, double intervalEnd, double targetRelativeError = 1E-8, int maximumDepth = 15, int order = 15)
         {
@@ -267,6 +343,82 @@ namespace MathNet.Numerics
                     return f((intervalEnd - intervalBegin) / 4 * t * (3 - t * t) + (intervalEnd + intervalBegin) / 2) * 3 * (intervalEnd - intervalBegin) / 4 * (1 - t * t);
                 };
                 return DoubleExponentialTransformation.ContourIntegrate(u, -1, 1, targetAbsoluteError);
+            }
+        }
+
+        /// <summary>
+        /// Approximation of the definite integral of an analytic smooth complex function by double-exponential quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity.
+        /// </summary>
+        /// <param name="f">The analytic smooth complex function to integrate, defined on the real domain.</param>
+        /// <param name="intervalBegin">Where the interval starts.</param>
+        /// <param name="intervalEnd">Where the interval stops.</param>
+        /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static Complex GaussLegendre(Func<double, Complex> f, double intervalBegin, double intervalEnd, int order = 128)
+        {
+            // Reference:
+            // Formula used for variable subsitution from 
+            // 1. Shampine, L. F. (2008). Vectorized adaptive quadrature in MATLAB. Journal of Computational and Applied Mathematics, 211(2), 131-140.
+            // 2. quadgk.m, GNU Octave
+
+            if (intervalBegin > intervalEnd)
+            {
+                return -GaussLegendre(f, intervalEnd, intervalBegin, order);
+            }
+
+            // (-oo, oo) => [-1, 1]
+            //
+            // integral_{-oo}^{oo} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // g(t) = t / (1 - t^2)
+            // g'(t) = (1 + t^2) / (1 - t^2)^2
+            if (double.IsInfinity(intervalBegin) && double.IsInfinity(intervalEnd))
+            {
+                Func<double, Complex> u = (t) =>
+                {
+                    return f(t / (1 - t * t)) * (1 + t * t) / ((1 - t * t) * (1 - t * t));
+                };
+                return GaussLegendreRule.ContourIntegrate(u, -1, 1, order);
+            }
+            // [a, oo) => [0, 1]
+            //
+            // integral_{a}^{oo} f(x) dx = integral_{0}^{oo} f(a + t^2) 2 t dt
+            //                           = integral_{0}^{1} f(a + g(s)^2) 2 g(s) g'(s) ds
+            // g(s) = s / (1 - s)
+            // g'(s) = 1 / (1 - s)^2
+            else if (double.IsInfinity(intervalEnd))
+            {
+                Func<double, Complex> u = (s) =>
+                {
+                    return 2 * s * f(intervalBegin + (s / (1 - s)) * (s / (1 - s))) / ((1 - s) * (1 - s) * (1 - s));
+                };
+                return GaussLegendreRule.ContourIntegrate(u, 0, 1, order);
+            }
+            // (-oo, b] => [-1, 0]
+            //
+            // integral_{-oo}^{b} f(x) dx = -integral_{-oo}^{0} f(b - t^2) 2 t dt
+            //                            = -integral_{-1}^{0} f(b - g(s)^2) 2 g(s) g'(s) ds
+            // g(s) = s / (1 + s)
+            // g'(s) = 1 / (1 + s)^2
+            else if (double.IsInfinity(intervalBegin))
+            {
+                Func<double, Complex> u = (s) =>
+                {
+                    return -2 * s * f(intervalEnd - s / (1 + s) * (s / (1 + s))) / ((1 + s) * (1 + s) * (1 + s));
+                };
+                return GaussLegendreRule.ContourIntegrate(u, -1, 0, order);
+            }
+            // [a, b] => [-1, 1]
+            //
+            // integral_{a}^{b} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // g(t) = (b - a) * t * (3 - t^2) / 4 + (b + a) / 2
+            // g'(t) = 3 / 4 * (b - a) * (1 - t^2)
+            else
+            {
+                Func<double, Complex> u = (t) =>
+                {
+                    return f((intervalEnd - intervalBegin) / 4 * t * (3 - t * t) + (intervalEnd + intervalBegin) / 2) * 3 * (intervalEnd - intervalBegin) / 4 * (1 - t * t);
+                };
+                return GaussLegendreRule.ContourIntegrate(u, -1, 1, order);
             }
         }
 

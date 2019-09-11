@@ -430,13 +430,19 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 expected,
                 Integrate.DoubleExponential((x) => Math.Exp(-x * x / 2), a, b),
                 1e-10,
-                "DET Integral e^(-x^2 /2) from {0} to {1}", a, b);
+                "DET Integral of e^(-x^2 /2) from {0} to {1}", a, b);
 
             Assert.AreEqual(
                 expected,
                 Integrate.GaussKronrod((x) => Math.Exp(-x * x / 2), a, b),
                 1e-10,
-                "GK Integral e^(-x^2 /2) from {0} to {1}", a, b);
+                "GK Integral of e^(-x^2 /2) from {0} to {1}", a, b);
+
+            Assert.AreEqual(
+                expected,
+                Integrate.GausLegendre((x) => Math.Exp(-x * x / 2), a, b, order: 128),
+                1e-10,
+                "GL Integral of e^(-x^2 /2) from {0} to {1}", a, b);
         }
 
         // integral_(-oo)^(oo) sin(pi x) / (pi x) dx = 1 / pi integral_(-oo)^(oo) sin(x) / x dx
@@ -453,13 +459,19 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 expected,
                 factor * Integrate.DoubleExponential((x) => 1 / (1 + x * x), a, b),
                 1e-10,
-                "DET Integral sin(pi*x)/(pi*x) from -oo to oo");
+                "DET Integral of sin(pi*x)/(pi*x) from -oo to oo");
 
             Assert.AreEqual(
                 expected,
                 factor * Integrate.GaussKronrod((x) => 1 / (1 + x * x), a, b),
                 1e-10,
-                "GK Integral sin(pi*x)/(pi*x) from -oo to oo");
+                "GK Integral of sin(pi*x)/(pi*x) from -oo to oo");
+
+            Assert.AreEqual(
+                expected,
+                factor * Integrate.GausLegendre((x) => 1 / (1 + x * x), a, b, order: 128),
+                1e-10,
+                "GL Integral of sin(pi*x)/(pi*x) from -oo to oo");
         }
 
         // integral_(-oo)^(oo) 1/(1 + j x^2) dx = -(-1)^(3/4) ¥ð
@@ -473,30 +485,43 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
             var expected = new Complex(r, i);            
             var actualDET = ContourIntegrate.DoubleExponential((x) => 1 / new Complex(1, x * x), a, b);
             var actualGK = ContourIntegrate.GaussKronrod((x) => 1 / new Complex(1, x * x), a, b);
+            var actualGL = ContourIntegrate.GaussLegendre((x) => 1 / new Complex(1, x * x), a, b, order: 128);
 
             Assert.AreEqual(
                expected.Real,
                actualDET.Real,
                1e-10,
-               "DET Integral Re[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
+               "DET Integral of Re[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
 
             Assert.AreEqual(
                expected.Imaginary,
                actualDET.Imaginary,
                1e-10,
-               "DET Integral Im[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
+               "DET Integral of Im[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
 
             Assert.AreEqual(
                expected.Real,
                actualGK.Real,
                1e-10,
-               "GK Integral Re[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
+               "GK Integral of Re[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
 
             Assert.AreEqual(
                expected.Imaginary,
                actualGK.Imaginary,
                1e-10,
-               "GK Integral Im[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
+               "GK Integral of Im[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
+
+            Assert.AreEqual(
+              expected.Real,
+              actualGL.Real,
+              1e-10,
+              "GL Integral of Re[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
+
+            Assert.AreEqual(
+               expected.Imaginary,
+               actualGL.Imaginary,
+               1e-10,
+               "GL Integral of Im[e^(-x^2 /2) / (1 + j e^x)] from {0} to {1}", a, b);
         }
     }
 }
