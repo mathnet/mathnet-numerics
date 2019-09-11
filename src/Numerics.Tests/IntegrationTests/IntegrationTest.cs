@@ -27,9 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using System;
 using MathNet.Numerics.Integration;
 using NUnit.Framework;
+using System;
+using System.Numerics;
 
 namespace MathNet.Numerics.UnitTests.IntegrationTests
 {
@@ -59,7 +60,17 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         {
             return Math.Exp(-x / 5) * (2 + Math.Sin(2 * y));
         }
-                
+
+        /// <summary>
+        /// Test Function: f(x,y) = 1 / (1 + x^2)
+        /// </summary>
+        /// <param name="x">First input value.</param>
+        /// <returns>Function result.</returns>
+        private static double TargetFunctionC(double x)
+        {
+            return 1 / (1 + x * x);
+        }
+
         /// <summary>
         /// Test Function Start point.
         /// </summary>
@@ -81,6 +92,16 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         private const double StopB = 1;
 
         /// <summary>
+        /// Test Function Start point.
+        /// </summary>
+        private const double StartC = double.NegativeInfinity;
+
+        /// <summary>
+        /// Test Function Stop point.
+        /// </summary>
+        private const double StopC = double.PositiveInfinity;
+
+        /// <summary>
         /// Target area square.
         /// </summary>
         private const double TargetAreaA = 9.1082396073229965070;
@@ -89,6 +110,11 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// Target area.
         /// </summary>
         private const double TargetAreaB = 11.7078776759298776163;
+
+        /// <summary>
+        /// Target area.
+        /// </summary>
+        private const double TargetAreaC = Constants.Pi;
 
         /// <summary>
         /// Test Integrate facade for simple use cases.
@@ -119,6 +145,18 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 TargetAreaB,
                 1e-10,
                 "Rectangle, Gauss-Legendre Order 22");
+
+            Assert.AreEqual(
+                TargetAreaC,
+                Integrate.DoubleExponential(TargetFunctionC, StartC, StopC),
+                1e-5,
+                "Integral by substitution");
+
+            Assert.AreEqual(
+                TargetAreaC,
+                Integrate.DoubleExponential(TargetFunctionC, StartC, StopC, 1e-10),
+                1e-10,
+                "Integral by substitution, Target 1e-10");
         }
 
         /// <summary>
@@ -326,7 +364,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         {
             Assert.AreEqual(
                expected,
-               Integrate.OnOpenInterval((x) => Math.Exp(-x * x / 2), a, b),
+               Integrate.DoubleExponential((x) => Math.Exp(-x * x / 2), a, b),
                1e-10,
                "Integral e^(-x^2 /2) from {0} to {1}", a, b);
         }
@@ -343,9 +381,33 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         {
             Assert.AreEqual(
                expected,
-               factor * Integrate.OnOpenInterval((x) => 1 / (1 + x * x), a, b),
+               factor * Integrate.DoubleExponential((x) => 1 / (1 + x * x), a, b),
                1e-10,
                "Integral sin(pi*x)/(pi*x) from -oo to oo");
+        }
+
+        // integral_(-oo)^(oo) 1/(1 + j x^2) dx = -(-1)^(3/4) ¥ð
+        [TestCase(double.NegativeInfinity, double.PositiveInfinity, 2.2214414690791831235, -2.2214414690791831235)]
+        // integral_(0)^(oo) 1/(1 + j x^2) dx = -1/2 (-1)^(3/4) ¥ð
+        [TestCase(0, double.PositiveInfinity, 1.1107207345395915618, -1.1107207345395915618)]
+        // integral_(-oo)^(0) 1/(1 + j x^2) dx = -1/2 (-1)^(3/4) ¥ð
+        [TestCase(double.NegativeInfinity, 0, 1.1107207345395915618, -1.1107207345395915618)]
+        public void TestContourIntegralBySubstitution(double a, double b, double r, double i)
+        {
+            var expected = new Complex(r, i);            
+            var actual = ContourIntegrate.DoubleExponential((x) => 1 / new Complex(1, x * x), a, b);
+
+            Assert.AreEqual(
+               expected.Real,
+               actual.Real,
+               1e-10,
+               "Integral e^(-x^2 /2) / (1 + j e^x) from {0} to {1}", a, b);
+
+            Assert.AreEqual(
+               expected.Imaginary,
+               actual.Imaginary,
+               1e-10,
+               "Integral e^(-x^2 /2) / (1 + j e^x) from {0} to {1}", a, b);
         }
     }
 }
