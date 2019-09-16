@@ -51,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         /// <summary>
-        /// Test Function: f(x,y) = exp(-x/5) (2 + sin(x * y))
+        /// Test Function: f(x,y) = exp(-x/5) (2 + sin(2 * y))
         /// </summary>
         /// <param name="x">First input value.</param>
         /// <param name="y">Second input value.</param>
@@ -80,7 +80,37 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         {
             return Math.Log(x);
         }
-        
+
+        /// <summary>
+        /// Test Function: f(x) = log^2(x)
+        /// </summary>
+        /// <param name="x">First input value.</param>
+        /// <returns>Function result.</returns>
+        private static double TargetFunctionE(double x)
+        {
+            return Math.Log(x) * Math.Log(x);
+        }
+
+        /// <summary>
+        /// Test Function: f(x) = e^(-x) cos(x)
+        /// </summary>
+        /// <param name="x">First input value.</param>
+        /// <returns>Function result.</returns>
+        private static double TargetFunctionF(double x)
+        {
+            return Math.Exp(-x) * Math.Cos(x);
+        }
+
+        /// <summary>
+        /// Test Function: f(x) = sqrt(x)/sqrt(1-x^2)
+        /// </summary>
+        /// <param name="x">First input value.</param>
+        /// <returns>Function result.</returns>
+        private static double TargetFunctionG(double x)
+        {
+            return Math.Sqrt(x) / Math.Sqrt(1 - x * x);
+        }
+
         /// <summary>
         /// Test Function Start point.
         /// </summary>
@@ -122,6 +152,36 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         private const double StopD = 1;
 
         /// <summary>
+        /// Test Function Start point.
+        /// </summary>
+        private const double StartE = 0;
+
+        /// <summary>
+        /// Test Function Stop point.
+        /// </summary>
+        private const double StopE = 1;
+
+        /// <summary>
+        /// Test Function Start point.
+        /// </summary>
+        private const double StartF = 0;
+
+        /// <summary>
+        /// Test Function Stop point.
+        /// </summary>
+        private const double StopF = double.PositiveInfinity;
+
+        /// <summary>
+        /// Test Function Start point.
+        /// </summary>
+        private const double StartG = 0;
+
+        /// <summary>
+        /// Test Function Stop point.
+        /// </summary>
+        private const double StopG = 1;
+
+        /// <summary>
         /// Target area square.
         /// </summary>
         private const double TargetAreaA = 9.1082396073229965070;
@@ -142,16 +202,34 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         private const double TargetAreaD = -1;
 
         /// <summary>
+        /// Target area.
+        /// </summary>
+        private const double TargetAreaE = 2;
+
+        /// <summary>
+        /// Target area.
+        /// </summary>
+        private const double TargetAreaF = 0.5;
+
+        /// <summary>
+        /// Target area.
+        /// </summary>
+        private const double TargetAreaG = 1.1981402347355922074;
+
+        /// <summary>
         /// Test Integrate facade for simple use cases.
         /// </summary>
         [Test]
         public void TestIntegrateFacade()
         {
+            // TargetFunctionA
+            // integral_(0)^(10) exp(-x/5) (2 + sin(2 x)) dx = 9.1082 
+
             Assert.AreEqual(
                 TargetAreaA,
                 Integrate.OnClosedInterval(TargetFunctionA, StartA, StopA),
                 1e-5,
-                "Interval");
+                "Interval, Target 1e-08");
 
             Assert.AreEqual(
                 TargetAreaA,
@@ -159,72 +237,81 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 1e-10,
                 "Interval, Target 1e-10");
 
+            // TargetFunctionB
+            // integral_(0)^(1) integral_(0)^(10) exp(-x/5) (2 + sin(2 y)) dx dy = 11.7079 
+
             Assert.AreEqual(
                 Integrate.OnRectangle(TargetFunctionB, StartA, StopA, StartB, StopB),
                 TargetAreaB,
                 1e-12,
-                "Rectangle");
+                "Rectangle, order 32");
 
             Assert.AreEqual(
                 Integrate.OnRectangle(TargetFunctionB, StartA, StopA, StartB, StopB, 22),
                 TargetAreaB,
                 1e-10,
-                "Rectangle, Gauss-Legendre Order 22");
+                "Rectangle, Order 22");
+
+            // TargetFunctionC
+            // integral_(-oo)^(oo) 1/(1 + x^2) dx = pi
 
             Assert.AreEqual(
                 TargetAreaC,
                 Integrate.DoubleExponential(TargetFunctionC, StartC, StopC),
                 1e-5,
-                "DoubleExponential");
+                "DoubleExponential, 1/(1 + x^2)");
 
             Assert.AreEqual(
                 TargetAreaC,
                 Integrate.DoubleExponential(TargetFunctionC, StartC, StopC, 1e-10),
                 1e-10,
-                "DoubleExponential");
+                "DoubleExponential, 1/(1 + x^2)");
+
+            // TargetFunctionD
+            // integral_(0)^(1) log(x) dx = -1
 
             Assert.AreEqual(
                 TargetAreaD,
                 Integrate.DoubleExponential(TargetFunctionD, StartD, StopD),
                 1e-10,
-                "DoubleExponential");
-
+                "DoubleExponential, log(x)");
+            
             Assert.AreEqual(
                 TargetAreaD,
                 Integrate.GaussLegendre(TargetFunctionD, StartD, StopD, order: 1024),
                 1e-10,
-                "GaussLegendre, order 128");
+                "GaussLegendre, log(x), order 1024");
 
             Assert.AreEqual(
                 TargetAreaD,
                 Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 15),
                 1e-10,
-                "GaussKronrod, Target 1e-10, order 15");
+                "GaussKronrod, log(x), order 15");
             Assert.AreEqual(
                 TargetAreaD,
                 Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 21),
                 1e-10,
-                "GaussKronrod, Target 1e-10, order 21");
+                "GaussKronrod, log(x), order 21");
             Assert.AreEqual(
                 TargetAreaD,
                 Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 31),
                 1e-10,
-                "GaussKronrod, Target 1e-10, order 31");
+                "GaussKronrod, log(x), order 31");
             Assert.AreEqual(
                 TargetAreaD,
                 Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 41),
                 1e-10,
-                "GaussKronrod, Target 1e-10, order 41");
+                "GaussKronrod, log(x), order 41");
             Assert.AreEqual(
                 TargetAreaD,
                 Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 51),
                 1e-10,
-                "GaussKronrod, Target 1e-10, order 51");
+                "GaussKronrod, log(x), order 51");
             Assert.AreEqual(
                 TargetAreaD,
                 Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, 1e-10, order: 61),
                 1e-10,
-                "GaussKronrod, Target 1e-10, order 61");
+                "GaussKronrod, log(x), order 61");
 
             double error, L1;
             var Q = Integrate.GaussKronrod(TargetFunctionD, StartD, StopD, out error, out L1, 1e-10, order: 15);
@@ -233,6 +320,69 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 Math.Abs(L1),
                 1e-10,
                 "GaussKronrod, L1");
+
+            // TargetFunctionE
+            // integral_(0)^(1) log^2(x) dx = 2
+
+            Assert.AreEqual(
+                TargetAreaE,
+                Integrate.DoubleExponential(TargetFunctionE, StartE, StopE),
+                1e-10,
+                "DoubleExponential, log^2(x)");
+            
+            Assert.AreEqual(
+                TargetAreaE,
+                Integrate.GaussLegendre(TargetFunctionE, StartE, StopE, order: 128),
+                1e-5,
+                "GaussLegendre, log^2(x), order 128");
+
+            Assert.AreEqual(
+                TargetAreaE,
+                Integrate.GaussKronrod(TargetFunctionE, StartE, StopE, 1e-10, order: 15),
+                1e-10,
+                "GaussKronrod, log^2(x), order 15");
+
+            // TargetFunctionF
+            // integral_(0)^(oo) exp(-x) cos(x) dx = 1/2
+
+            Assert.AreEqual(
+               TargetAreaF,
+               Integrate.DoubleExponential(TargetFunctionF, StartF, StopF),
+               1e-10,
+               "DoubleExponential, e^(-x) cos(x)");
+
+            Assert.AreEqual(
+                TargetAreaF,
+                Integrate.GaussLegendre(TargetFunctionF, StartF, StopF, order: 128),
+                1e-10,
+                "GaussLegendre, e^(-x) cos(x), order 128");
+
+            Assert.AreEqual(
+                TargetAreaF,
+                Integrate.GaussKronrod(TargetFunctionF, StartF, StopF, 1e-10, order: 15),
+                1e-10,
+                "GaussKronrod, e^(-x) cos(x), order 15");
+
+            // TargetFunctionG
+            // integral_(0)^(1) sqrt(x)/sqrt(1 - x^2) dx = 1.19814
+
+            Assert.AreEqual(
+               TargetAreaG,
+               Integrate.DoubleExponential(TargetFunctionG, StartG, StopG),
+               1e-5,
+               "DoubleExponential, sqrt(x)/sqrt(1 - x^2)");
+
+            Assert.AreEqual(
+                TargetAreaG,
+                Integrate.GaussLegendre(TargetFunctionG, StartG, StopG, order: 128),
+                1e-10,
+                "GaussLegendre, sqrt(x)/sqrt(1 - x^2), order 128");
+
+            Assert.AreEqual(
+                TargetAreaG,
+                Integrate.GaussKronrod(TargetFunctionG, StartG, StopG, 1e-10, order: 15),
+                1e-10,
+                "GaussKronrod, sqrt(x)/sqrt(1 - x^2), order 15");
         }
 
         /// <summary>

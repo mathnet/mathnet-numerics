@@ -164,7 +164,7 @@ namespace MathNet.Numerics
 
             if (intervalBegin > intervalEnd)
             {
-                return -GaussLegendreRule.Integrate(f, intervalEnd, intervalBegin, order);
+                return -GaussLegendre(f, intervalEnd, intervalBegin, order);
             }
 
             // (-oo, oo) => [-1, 1]

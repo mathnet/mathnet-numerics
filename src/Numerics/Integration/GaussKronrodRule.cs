@@ -231,12 +231,12 @@ namespace MathNet.Numerics.Integration
                 throw new ArgumentNullException(nameof(f));
             }
 
-            Order = order;
-
             if (intervalBegin > intervalEnd)
             {
                 return -Integrate(f, intervalEnd, intervalBegin, out error, out L1Norm, targetRelativeError, maximumDepth, order);
             }
+
+            Order = order;
 
             // (-oo, oo) => [-1, 1]
             //
@@ -317,12 +317,12 @@ namespace MathNet.Numerics.Integration
                 throw new ArgumentNullException(nameof(f));
             }
 
-            Order = order;
-
             if (intervalBegin > intervalEnd)
             {
                 return -ContourIntegrate(f, intervalEnd, intervalBegin, out error, out L1Norm, targetRelativeError, maximumDepth, order);
             }
+
+            Order = order;
 
             // (-oo, oo) => [-1, 1]
             //
