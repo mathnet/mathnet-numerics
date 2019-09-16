@@ -62,7 +62,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         /// <summary>
-        /// Test Function: f(x,y) = 1 / (1 + x^2)
+        /// Test Function: f(x) = 1 / (1 + x^2)
         /// </summary>
         /// <param name="x">First input value.</param>
         /// <returns>Function result.</returns>
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         }
 
         /// <summary>
-        /// Test Function: f(x,y) = log(x)
+        /// Test Function: f(x) = log(x)
         /// </summary>
         /// <param name="x">First input value.</param>
         /// <returns>Function result.</returns>
@@ -120,7 +120,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// Test Function Stop point.
         /// </summary>
         private const double StopD = 1;
-        
+
         /// <summary>
         /// Target area square.
         /// </summary>
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// Target area.
         /// </summary>
         private const double TargetAreaD = -1;
-        
+
         /// <summary>
         /// Test Integrate facade for simple use cases.
         /// </summary>
@@ -182,6 +182,21 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 Integrate.DoubleExponential(TargetFunctionC, StartC, StopC, 1e-10),
                 1e-10,
                 "DoubleExponential, Target 1e-10");
+
+            // integrate_(0)^(1) log(x) dx = -1
+            // Note that DoubleExponential returns -oo.
+
+            Assert.AreEqual(
+                TargetAreaD,
+                Integrate.OnClosedInterval(TargetFunctionD, StartD, StopD),
+                1e-10,
+                "Interval");
+
+            Assert.AreEqual(
+                TargetAreaD,
+                Integrate.GaussLegendre(TargetFunctionD, StartD, StopD, order: 1024),
+                1e-10,
+                "GaussLegendre, order 128");
 
             Assert.AreEqual(
                 TargetAreaD,
@@ -440,7 +455,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
 
             Assert.AreEqual(
                 expected,
-                Integrate.GausLegendre((x) => Math.Exp(-x * x / 2), a, b, order: 128),
+                Integrate.GaussLegendre((x) => Math.Exp(-x * x / 2), a, b, order: 128),
                 1e-10,
                 "GL Integral of e^(-x^2 /2) from {0} to {1}", a, b);
         }
@@ -469,7 +484,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
 
             Assert.AreEqual(
                 expected,
-                factor * Integrate.GausLegendre((x) => 1 / (1 + x * x), a, b, order: 128),
+                factor * Integrate.GaussLegendre((x) => 1 / (1 + x * x), a, b, order: 128),
                 1e-10,
                 "GL Integral of sin(pi*x)/(pi*x) from -oo to oo");
         }

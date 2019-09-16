@@ -164,7 +164,7 @@ namespace MathNet.Numerics
         /// <param name="intervalEnd">Where the interval stops.</param>
         /// <param name="order">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double GausLegendre(Func<double, double> f, double intervalBegin, double intervalEnd, int order = 128)
+        public static double GaussLegendre(Func<double, double> f, double intervalBegin, double intervalEnd, int order = 128)
         {
             // Reference:
             // Formula used for variable subsitution from 
