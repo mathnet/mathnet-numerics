@@ -102,7 +102,7 @@ namespace MathNet.Numerics
 
             // (-oo, oo) => [-1, 1]
             //
-            // integral_{-oo}^{oo} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // integral_(-oo)^(oo) f(x) dx = integral_(-1)^(1) f(g(t)) g'(t) dt
             // g(t) = t / (1 - t^2)
             // g'(t) = (1 + t^2) / (1 - t^2)^2
             if (double.IsInfinity(intervalBegin) && double.IsInfinity(intervalEnd))
@@ -115,8 +115,8 @@ namespace MathNet.Numerics
             }
             // [a, oo) => [0, 1]
             //
-            // integral_{a}^{oo} f(x) dx = integral_{0}^{oo} f(a + t^2) 2 t dt
-            //                           = integral_{0}^{1} f(a + g(s)^2) 2 g(s) g'(s) ds
+            // integral_(a)^(oo) f(x) dx = integral_(0)^(oo) f(a + t^2) 2 t dt
+            //                           = integral_(0)^(1) f(a + g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 - s)
             // g'(s) = 1 / (1 - s)^2
             else if (double.IsInfinity(intervalEnd))
@@ -129,8 +129,8 @@ namespace MathNet.Numerics
             }
             // (-oo, b] => [-1, 0]
             //
-            // integral_{-oo}^{b} f(x) dx = -integral_{-oo}^{0} f(b - t^2) 2 t dt
-            //                            = -integral_{-1}^{0} f(b - g(s)^2) 2 g(s) g'(s) ds
+            // integral_(-oo)^(b) f(x) dx = -integral_(-oo)^(0) f(b - t^2) 2 t dt
+            //                            = -integral_(-1)^(0) f(b - g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 + s)
             // g'(s) = 1 / (1 + s)^2
             else if (double.IsInfinity(intervalBegin))
@@ -141,18 +141,9 @@ namespace MathNet.Numerics
                 };
                 return DoubleExponentialTransformation.Integrate(u, -1, 0, targetAbsoluteError);
             }
-            // [a, b] => [-1, 1]
-            //
-            // integral_{a}^{b} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
-            // g(t) = (b - a) * t * (3 - t^2) / 4 + (b + a) / 2
-            // g'(t) = 3 / 4 * (b - a) * (1 - t^2)
             else
             {
-                Func<double, double> u = (t) =>
-                {
-                    return f((intervalEnd - intervalBegin) / 4 * t * (3 - t * t) + (intervalEnd + intervalBegin) / 2) * 3 * (intervalEnd - intervalBegin) / 4 * (1 - t * t);
-                };
-                return DoubleExponentialTransformation.Integrate(u, -1, 1, targetAbsoluteError);
+                return DoubleExponentialTransformation.Integrate(f, intervalBegin, intervalEnd, targetAbsoluteError);
             }
         }
 
@@ -178,7 +169,7 @@ namespace MathNet.Numerics
 
             // (-oo, oo) => [-1, 1]
             //
-            // integral_{-oo}^{oo} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // integral_(-oo)^(oo) f(x) dx = integral_(-1)^(1) f(g(t)) g'(t) dt
             // g(t) = t / (1 - t^2)
             // g'(t) = (1 + t^2) / (1 - t^2)^2
             if (double.IsInfinity(intervalBegin) && double.IsInfinity(intervalEnd))
@@ -191,8 +182,8 @@ namespace MathNet.Numerics
             }
             // [a, oo) => [0, 1]
             //
-            // integral_{a}^{oo} f(x) dx = integral_{0}^{oo} f(a + t^2) 2 t dt
-            //                           = integral_{0}^{1} f(a + g(s)^2) 2 g(s) g'(s) ds
+            // integral_(a)^(oo) f(x) dx = integral_(0)^(oo) f(a + t^2) 2 t dt
+            //                           = integral_(0)^(1) f(a + g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 - s)
             // g'(s) = 1 / (1 - s)^2
             else if (double.IsInfinity(intervalEnd))
@@ -205,8 +196,8 @@ namespace MathNet.Numerics
             }
             // (-oo, b] => [-1, 0]
             //
-            // integral_{-oo}^{b} f(x) dx = -integral_{-oo}^{0} f(b - t^2) 2 t dt
-            //                            = -integral_{-1}^{0} f(b - g(s)^2) 2 g(s) g'(s) ds
+            // integral_(-oo)^(b) f(x) dx = -integral_(-oo)^(0) f(b - t^2) 2 t dt
+            //                            = -integral_(-1)^(0) f(b - g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 + s)
             // g'(s) = 1 / (1 + s)^2
             else if (double.IsInfinity(intervalBegin))
@@ -219,7 +210,7 @@ namespace MathNet.Numerics
             }
             // [a, b] => [-1, 1]
             //
-            // integral_{a}^{b} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // integral_(a)^(b) f(x) dx = integral_(-1)^(1) f(g(t)) g'(t) dt
             // g(t) = (b - a) * t * (3 - t^2) / 4 + (b + a) / 2
             // g'(t) = 3 / 4 * (b - a) * (1 - t^2)
             else
@@ -292,7 +283,7 @@ namespace MathNet.Numerics
 
             // (-oo, oo) => [-1, 1]
             //
-            // integral_{-oo}^{oo} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // integral_(-oo)^(oo) f(x) dx = integral_(-1)^(1) f(g(t)) g'(t) dt
             // g(t) = t / (1 - t^2)
             // g'(t) = (1 + t^2) / (1 - t^2)^2
             if (double.IsInfinity(intervalBegin) && double.IsInfinity(intervalEnd))
@@ -305,8 +296,8 @@ namespace MathNet.Numerics
             }
             // [a, oo) => [0, 1]
             //
-            // integral_{a}^{oo} f(x) dx = integral_{0}^{oo} f(a + t^2) 2 t dt
-            //                           = integral_{0}^{1} f(a + g(s)^2) 2 g(s) g'(s) ds
+            // integral_(a)^(oo) f(x) dx = integral_(0)^(oo) f(a + t^2) 2 t dt
+            //                           = integral_(0)^(1) f(a + g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 - s)
             // g'(s) = 1 / (1 - s)^2
             else if (double.IsInfinity(intervalEnd))
@@ -319,8 +310,8 @@ namespace MathNet.Numerics
             }
             // (-oo, b] => [-1, 0]
             //
-            // integral_{-oo}^{b} f(x) dx = -integral_{-oo}^{0} f(b - t^2) 2 t dt
-            //                            = -integral_{-1}^{0} f(b - g(s)^2) 2 g(s) g'(s) ds
+            // integral_(-oo)^(b) f(x) dx = -integral_(-oo)^(0) f(b - t^2) 2 t dt
+            //                            = -integral_(-1)^(0) f(b - g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 + s)
             // g'(s) = 1 / (1 + s)^2
             else if (double.IsInfinity(intervalBegin))
@@ -331,18 +322,9 @@ namespace MathNet.Numerics
                 };
                 return DoubleExponentialTransformation.ContourIntegrate(u, -1, 0, targetAbsoluteError);
             }
-            // [a, b] => [-1, 1]
-            //
-            // integral_{a}^{b} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
-            // g(t) = (b - a) * t * (3 - t^2) / 4 + (b + a) / 2
-            // g'(t) = 3 / 4 * (b - a) * (1 - t^2)
             else
             {
-                Func<double, Complex> u = (t) =>
-                {
-                    return f((intervalEnd - intervalBegin) / 4 * t * (3 - t * t) + (intervalEnd + intervalBegin) / 2) * 3 * (intervalEnd - intervalBegin) / 4 * (1 - t * t);
-                };
-                return DoubleExponentialTransformation.ContourIntegrate(u, -1, 1, targetAbsoluteError);
+                return DoubleExponentialTransformation.ContourIntegrate(f, intervalBegin, intervalEnd, targetAbsoluteError);
             }
         }
 
@@ -368,7 +350,7 @@ namespace MathNet.Numerics
 
             // (-oo, oo) => [-1, 1]
             //
-            // integral_{-oo}^{oo} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // integral_(-oo)^(oo) f(x) dx = integral_(-1)^(1) f(g(t)) g'(t) dt
             // g(t) = t / (1 - t^2)
             // g'(t) = (1 + t^2) / (1 - t^2)^2
             if (double.IsInfinity(intervalBegin) && double.IsInfinity(intervalEnd))
@@ -381,8 +363,8 @@ namespace MathNet.Numerics
             }
             // [a, oo) => [0, 1]
             //
-            // integral_{a}^{oo} f(x) dx = integral_{0}^{oo} f(a + t^2) 2 t dt
-            //                           = integral_{0}^{1} f(a + g(s)^2) 2 g(s) g'(s) ds
+            // integral_(a)^(oo) f(x) dx = integral_(0)^(oo) f(a + t^2) 2 t dt
+            //                           = integral_(0)^(1) f(a + g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 - s)
             // g'(s) = 1 / (1 - s)^2
             else if (double.IsInfinity(intervalEnd))
@@ -395,8 +377,8 @@ namespace MathNet.Numerics
             }
             // (-oo, b] => [-1, 0]
             //
-            // integral_{-oo}^{b} f(x) dx = -integral_{-oo}^{0} f(b - t^2) 2 t dt
-            //                            = -integral_{-1}^{0} f(b - g(s)^2) 2 g(s) g'(s) ds
+            // integral_(-oo)^(b) f(x) dx = -integral_(-oo)^(0) f(b - t^2) 2 t dt
+            //                            = -integral_(-1)^(0) f(b - g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 + s)
             // g'(s) = 1 / (1 + s)^2
             else if (double.IsInfinity(intervalBegin))
@@ -409,7 +391,7 @@ namespace MathNet.Numerics
             }
             // [a, b] => [-1, 1]
             //
-            // integral_{a}^{b} f(x) dx = integral_{-1}^{1} f(g(t)) g'(t) dt
+            // integral_(a)^(b) f(x) dx = integral_(-1)^(1) f(g(t)) g'(t) dt
             // g(t) = (b - a) * t * (3 - t^2) / 4 + (b + a) / 2
             // g'(t) = 3 / 4 * (b - a) * (1 - t^2)
             else

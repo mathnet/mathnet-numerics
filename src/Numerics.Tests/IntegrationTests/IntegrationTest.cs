@@ -181,16 +181,13 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 TargetAreaC,
                 Integrate.DoubleExponential(TargetFunctionC, StartC, StopC, 1e-10),
                 1e-10,
-                "DoubleExponential, Target 1e-10");
-
-            // integrate_(0)^(1) log(x) dx = -1
-            // Note that DoubleExponential returns -oo.
+                "DoubleExponential");
 
             Assert.AreEqual(
                 TargetAreaD,
-                Integrate.OnClosedInterval(TargetFunctionD, StartD, StopD),
+                Integrate.DoubleExponential(TargetFunctionD, StartD, StopD),
                 1e-10,
-                "Interval");
+                "DoubleExponential");
 
             Assert.AreEqual(
                 TargetAreaD,
@@ -474,19 +471,19 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
                 expected,
                 factor * Integrate.DoubleExponential((x) => 1 / (1 + x * x), a, b),
                 1e-10,
-                "DET Integral of sin(pi*x)/(pi*x) from -oo to oo");
+                "DET Integral of sin(pi*x)/(pi*x) from {0} to {1}", a, b);
 
             Assert.AreEqual(
                 expected,
                 factor * Integrate.GaussKronrod((x) => 1 / (1 + x * x), a, b),
                 1e-10,
-                "GK Integral of sin(pi*x)/(pi*x) from -oo to oo");
+                "GK Integral of sin(pi*x)/(pi*x) from {0} to {1}", a, b);
 
             Assert.AreEqual(
                 expected,
                 factor * Integrate.GaussLegendre((x) => 1 / (1 + x * x), a, b, order: 128),
                 1e-10,
-                "GL Integral of sin(pi*x)/(pi*x) from -oo to oo");
+                "GL Integral of sin(pi*x)/(pi*x) from {0} to {1}", a, b);
         }
 
         // integral_(-oo)^(oo) 1/(1 + j x^2) dx = -(-1)^(3/4) ¥ð
