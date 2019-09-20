@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MathNet.Numerics.Integration.GaussRule
 {
@@ -11,9 +12,9 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <summary>
         /// Precomputed abscissas/weights for orders 15, 21, 31, 41, 51, 61.
         /// </summary>
-        internal static readonly Dictionary<int, GaussPoints> PreComputed = new Dictionary<int, GaussPoints>
+        internal static readonly Dictionary<int, GaussPointPair> PreComputed = new Dictionary<int, GaussPointPair>
         {
-            { 15, new GaussPoints(15,
+            { 15, new GaussPointPair(15,
                 new[] // 15-point Gauss-Kronrod Abscissa
                 {
                     0.00000000000000000e+00,
@@ -44,7 +45,7 @@ namespace MathNet.Numerics.Integration.GaussRule
                     1.29484966168869693e-01,
                 })
             },
-            { 21, new GaussPoints(21,
+            { 21, new GaussPointPair(21,
                 new[]  // 21-point Gauss-Kronrod Abscissa
                 {
                     0.00000000000000000e+00,
@@ -82,7 +83,7 @@ namespace MathNet.Numerics.Integration.GaussRule
                     6.66713443086881376e-02,
                 })
             },
-            { 31, new GaussPoints(31,
+            { 31, new GaussPointPair(31,
                 new[] // 31-point Gauss-Kronrod Abscissa
                 {
                     0.00000000000000000e+00,
@@ -133,7 +134,7 @@ namespace MathNet.Numerics.Integration.GaussRule
                     3.07532419961172684e-02,
                 })
             },
-            { 41, new GaussPoints(41,
+            { 41, new GaussPointPair(41,
                 new[] // 41-point Gauss-Kronrod Abscissa
                 {
                     0.00000000000000000e+00,
@@ -196,7 +197,7 @@ namespace MathNet.Numerics.Integration.GaussRule
                     1.76140071391521183e-02,
                 })
             },
-            { 51, new GaussPoints(51,
+            { 51, new GaussPointPair(51,
                 new[] // 51-point Gauss-Kronrod Abscissa
                 {
                     0.00000000000000000e+00,
@@ -272,7 +273,7 @@ namespace MathNet.Numerics.Integration.GaussRule
                     1.13937985010262879e-02,
                 })
             },
-            { 61, new GaussPoints(61,
+            { 61, new GaussPointPair(61,
                 new[] // 61-point Gauss-Kronrod Abscissa
                 {
                     0.00000000000000000e+00,
@@ -372,11 +373,191 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// Computes the Gauss-Kronrod abscissas/weights and Gauss weights.
         /// </summary>
         /// <param name="order">Defines an Nth order Gauss-Kronrod rule. The order also defines the number of abscissas and weights for the rule.</param>
-        /// <param name="targetAbsoluteTolerance">Required precision to compute the abscissas/weights.</param>
         /// <returns>Object containing the non-negative abscissas/weights, order.</returns>
-        internal static GaussPoints Generate(int order, double targetAbsoluteTolerance = 1E-10)
+        internal static GaussPointPair Generate(int order)
         {
-            throw new NotSupportedException(string.Format("The order of Gauss Kronrod, {0} is not yet supported", order));
+            int gaussOrder = (order - 1) / 2;
+            int gaussStart = gaussOrder.IsOdd() ? 0 : 1;
+            int kronrodStart = gaussOrder.IsOdd() ? 1 : 0;
+
+            var gaussPoint = GaussLegendrePointFactory.GetGaussPoint(gaussOrder);
+            var gaussAbscissas = gaussPoint.Abscissas;
+            var gaussWeights = gaussPoint.Weights;
+
+            // Build polynomials
+
+            var E = StieltjesPolynomial(gaussOrder + 1); // Stieltjes polynomials
+            var Eprime = E.Differentiate(); // derivative of E
+            var L = LegendrePolynomial(gaussOrder); // Legendre polynomials
+            var Lprime = L.Differentiate(); // derivative of L
+
+            // Calculate Abscissa for Kronrod polynomial, E
+
+            var roots = E.Roots();
+            var kronrodAbscissas = roots
+                .Where(v => v.Imaginary == 0 && v.Real >= 0)
+                .Select(v => v.Real)
+                .Distinct()
+                .ToArray();
+
+            if (Math.Abs(kronrodAbscissas.Length - gaussAbscissas.Length) > 1)
+                throw new NotSupportedException("Fail to calculate Abscissas of Gauss-Kronrod rule.");
+
+            // Concatenate two abscissas
+
+            var abscissas = new double[gaussAbscissas.Length + kronrodAbscissas.Length];
+            gaussAbscissas.CopyTo(abscissas, 0);            
+            kronrodAbscissas.CopyTo(abscissas, gaussAbscissas.Length);
+            abscissas = abscissas.OrderBy(v => v).ToArray();
+
+            // Calculate weights for abscissas
+
+            var weights = new double[gaussAbscissas.Length + kronrodAbscissas.Length];
+            for (int i = gaussStart; i < abscissas.Length; i += 2)
+            {
+                var x = abscissas[i];
+                var p = Lprime.Evaluate(x);
+                var w2 = 2.0 / ((1.0 - x * x) * p * p); // Gauss weight
+                weights[i] = w2 + 2.0 / ((gaussOrder + 1.0) * p * E.Evaluate(x));
+            }
+            for (int i = kronrodStart; i < abscissas.Length; i += 2)
+            {
+                var x = abscissas[i];
+                weights[i] = 2.0 / ((gaussOrder + 1.0) * L.Evaluate(x) * Eprime.Evaluate(x));
+            }
+
+            return new GaussPointPair(order, abscissas, weights, gaussOrder, gaussWeights);
+        }
+
+        /// <summary>
+        /// Returns the Stieltjes Polynomial of order.
+        /// </summary>
+        internal static Polynomial StieltjesPolynomial(int order)
+        {
+            // Reference: 
+            // 1. Patterson, Thomas NL. "The optimum addition of points to quadrature formulae." Mathematics of Computation 22.104 (1968): 847-856.
+            // 2. Piessens, Robert, and Maria Branders. "A note on the optimal addition of abscissas to quadrature formulas of Gauss and Lobatto type." Mathematics of Computation (1974): 135-139.
+            // 3. Legendre-Stieltjes Polynomials, Boost.org
+            //
+            // Here, we are using Patterson algorithm, expanding the Stieltjes polynomial in terms of legendre polynomials.
+            //
+            // Kronrod Polynomial K[n + 1, x] is expanded in terms of Legendre Polynomial P[n, x].
+            //
+            //       K[n + 1, x]= sum_(n=1)^r a[i] P[2 * i - 1 - q, x]
+            //
+            // where P[n, x] is the Legendre polynomial of degree n,
+            //       [x] denotes the integer part of x,
+            //       q = n - 2[n/2]
+            //       r = [(n + 3)/2]
+            //
+            // The added n + 1 Kronrod abscissae is the roots of the Kronrod polynomial.
+
+            if (order == 1)
+                return LegendrePolynomial(1);
+            else if (order == 2)
+                return LegendrePolynomial(2) - 2 / 5 * LegendrePolynomial(0);
+            else if (order == 3)
+                return LegendrePolynomial(3) - 9 / 14 * LegendrePolynomial(1);
+            else if (order == 4)
+                return LegendrePolynomial(4) - 30 / 27 * LegendrePolynomial(2) + 14 / 891 * LegendrePolynomial(0);
+            else if (order == 5)
+                return LegendrePolynomial(5) - 35 / 44 * LegendrePolynomial(3) + 135 / 12584 * LegendrePolynomial(1);
+
+            int n = order - 1;
+            int q = n.IsOdd() ? 1 : 0;
+            int r = n.IsOdd() ? (n - 1) / 2 + 2 : n / 2 + 1;
+
+            double[] a = new double[r + 1];
+
+            // Calculate a[i] for i = 1, ..., r
+            //
+            // a[r] = 1;
+            // a[r - 1] = -a[r] * S[r, 1] / S[r - 1, 1];
+            // a[r - 2] = -a[r] * S[r, 2] / S[r - 2, 2] - a[r - 1] * S[r - 1, 2] / S[r - 2, 2];
+            // ...
+            // a[1] = -a[r] * S[r, r - 1] / S[1, r - 1] - a[r - 1] * S[r - 1, r - 1] / S[1, r - 1] - ... - a[2] * S[2, r - 1] / S[1, r - 1];
+            // 
+            // S[i, k] / S[r - k, k] = S[i - 1, k] / S[r - k, k]
+            //                         * ((n - q + 2 * (i + k - 1)) * (n + q + 2 * (k - i + 1)) * (n - 1 - q + 2 * (i - k)) * (2 * (k + i - 1) - 1 - q - n))
+            //                         / ((n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k)));
+
+            a[r] = 1.0;
+            for (int k = 1; k < r; k++)
+            {
+                double ratio = 1d;
+                a[r - k] = 0d;
+                for (int i = r + 1 - k; i <= r; i++)
+                {
+                    double numerator = (n - q + 2 * (i + k - 1)) * (n + q + 2 * (k - i + 1)) * (n - 1 - q + 2 * (i - k)) * (2 * (k + i - 1) - 1 - q - n);
+                    double denominator = (n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k));
+                    ratio = ratio * numerator / denominator;
+                    a[r - k] -= a[i] * ratio;
+                }
+            }
+
+            // First few Legendre polynomials.
+            Polynomial[] legendrePolynomials = new Polynomial[]
+            {
+                 new Polynomial(new[] { 1.0 }),
+                 new Polynomial(new[] { 0.0, 1.0 }),
+            };
+            var x = legendrePolynomials[1];
+
+            var P2 = n.IsOdd() ? legendrePolynomials[0] : legendrePolynomials[1];
+            var P1 = n.IsOdd() ? legendrePolynomials[0] : legendrePolynomials[1];
+            var P0 = legendrePolynomials[0];
+            int degree = P2.Degree;
+
+            Polynomial E = a[1] * P2;
+            for (int i = 2; i <= r; i++)
+            {
+                // Calculate Legendre Polynomial of degree (2 * i - 1 - q)
+                for (int k = 0; k < 2; k++)
+                {
+                    degree++;
+                    P2 = ((2 * degree - 1) * x * P1 - (degree - 1) * P0) / degree;
+                    P0 = P1;
+                    P1 = P2;
+                }
+                E += a[i] * P2;
+            }
+
+            return E;
+        }
+
+        /// <summary>
+        /// Returns the Legendre polynomial of order.
+        /// </summary>
+        internal static Polynomial LegendrePolynomial(int order)
+        {
+            // Calculate P[n, x] by recursion relations
+            //
+            // (n + 1) * P[n + 1, x] = (2 * n + 1) * x * P[n, x] - n * P[n - 1, x]
+
+            Polynomial[] legendrePolynomials = new Polynomial[]
+            {
+                 new Polynomial(new double[] { 1 }),
+                 new Polynomial(new double[] { 0, 1 }),
+            };
+
+            if (order < legendrePolynomials.Length)
+                return legendrePolynomials[order];
+
+            var x = legendrePolynomials[1];
+
+            var P2 = legendrePolynomials[0];
+            var P1 = legendrePolynomials[0];
+            var P0 = legendrePolynomials[0];
+            for (int i = 1; i <= order; i++)
+            {
+                var n = i - 1;
+                P2 = ((2 * n + 1) * x * P1 - n * P0) / (n + 1);
+                P0 = P1;
+                P1 = P2;
+            }
+            var L = P2;
+
+            return L;
         }
     }
 }

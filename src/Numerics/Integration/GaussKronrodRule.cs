@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Integration
 {
     public class GaussKronrodRule
     {
-        private readonly GaussPoints gaussKronrodPoint;
+        private readonly GaussPointPair gaussKronrodPoint;
 
         /// <summary>
         /// Getter for the order.
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Integration
                 return -Integrate(f, intervalEnd, intervalBegin, out error, out L1Norm, targetRelativeError, maximumDepth, order);
             }
 
-            GaussPoints gaussKronrodPoint = GaussKronrodPointFactory.GetGaussPoint(order);
+            GaussPointPair gaussKronrodPoint = GaussKronrodPointFactory.GetGaussPoint(order);
 
             // (-oo, oo) => [-1, 1]
             //
@@ -207,7 +207,7 @@ namespace MathNet.Numerics.Integration
                 return -ContourIntegrate(f, intervalEnd, intervalBegin, out error, out L1Norm, targetRelativeError, maximumDepth, order);
             }
 
-            GaussPoints gaussKronrodPoint = GaussKronrodPointFactory.GetGaussPoint(order);
+            GaussPointPair gaussKronrodPoint = GaussKronrodPointFactory.GetGaussPoint(order);
 
             // (-oo, oo) => [-1, 1]
             //
@@ -265,7 +265,7 @@ namespace MathNet.Numerics.Integration
             }
         }
 
-        private static double integrate_non_adaptive_m1_1(Func<double, double> f, out double error, out double pL1, GaussPoints gaussKronrodPoint)
+        private static double integrate_non_adaptive_m1_1(Func<double, double> f, out double error, out double pL1, GaussPointPair gaussKronrodPoint)
         {
             int gauss_start = 2;
             int kronrod_start = 1;
@@ -314,7 +314,7 @@ namespace MathNet.Numerics.Integration
             return kronrod_result;
         }
 
-        private static Complex contour_integrate_non_adaptive_m1_1(Func<double, Complex> f, out double error, out double pL1, GaussPoints gaussKronrodPoint)
+        private static Complex contour_integrate_non_adaptive_m1_1(Func<double, Complex> f, out double error, out double pL1, GaussPointPair gaussKronrodPoint)
         {
             int gauss_start = 2;
             int kronrod_start = 1;
@@ -363,7 +363,7 @@ namespace MathNet.Numerics.Integration
             return kronrod_result;
         }
 
-        private static double recursive_adaptive_integrate(Func<double, double> f, double a, double b, int max_levels, double rel_tol, double abs_tol, out double error, out double L1, GaussPoints gaussKronrodPoint)
+        private static double recursive_adaptive_integrate(Func<double, double> f, double a, double b, int max_levels, double rel_tol, double abs_tol, out double error, out double L1, GaussPointPair gaussKronrodPoint)
         {
             double error_local;
             double mean = (b + a) / 2;
@@ -394,7 +394,7 @@ namespace MathNet.Numerics.Integration
             return estimate;
         }
 
-        private static Complex contour_recursive_adaptive_integrate(Func<double, Complex> f, double a, double b, int max_levels, double rel_tol, double abs_tol, out double error, out double L1, GaussPoints gaussKronrodPoint)
+        private static Complex contour_recursive_adaptive_integrate(Func<double, Complex> f, double a, double b, int max_levels, double rel_tol, double abs_tol, out double error, out double L1, GaussPointPair gaussKronrodPoint)
         {
             double error_local;
             double mean = (b + a) / 2;

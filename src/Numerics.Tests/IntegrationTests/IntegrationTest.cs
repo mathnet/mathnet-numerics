@@ -549,7 +549,7 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
 
             for (int i = 0; i < gaussLegendre.Order; i++)
             {
-                Assert.AreEqual(gaussLegendre.GetAbscissa(i),abscissa[i]);
+                Assert.AreEqual(gaussLegendre.GetAbscissa(i), abscissa[i]);
                 Assert.AreEqual(gaussLegendre.GetWeight(i), weight[i]);
             }
         }
@@ -574,6 +574,21 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
             const int order = 19;
             GaussLegendreRule gaussLegendre = new GaussLegendreRule(StartA, StopA, order);
             Assert.AreEqual(gaussLegendre.IntervalEnd, StopA);
+        }
+
+        /// <summary>
+        /// Gauss-Kronrod rule supports integration.
+        /// </summary>
+        /// <param name="order">Defines an Nth order Gauss-Kronrod rule. The order also defines the number of abscissas and weights for the rule.</param>
+        [TestCase(7)]
+        [TestCase(8)]
+        [TestCase(9)]
+        [TestCase(10)]
+        public void TestGaussKronrodRuleIntegration(int order)
+        {
+            double appoximateArea = GaussKronrodRule.Integrate(TargetFunctionA, StartA, StopA, out _, out _, order: order);
+            double relativeError = Math.Abs(TargetAreaA - appoximateArea) / TargetAreaA;
+            Assert.Less(relativeError, 5e-16);
         }
 
         // integral_(-oo)^(oo) exp(-x^2/2) dx = sqrt(2 ¥ð)
