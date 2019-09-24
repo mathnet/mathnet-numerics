@@ -24,7 +24,7 @@ namespace MathNet.Numerics.Integration.GaussRule
                 // Try to find the GaussKronrodPoint in the precomputed dictionary. 
                 if (!GaussKronrodPoint.PreComputed.TryGetValue(order, out gaussKronrodPoint))
                 {
-                    gaussKronrodPoint = GaussKronrodPoint.Generate(order);
+                    gaussKronrodPoint = GaussKronrodPoint.Generate(order, 1E-10);
                 }
             }
 

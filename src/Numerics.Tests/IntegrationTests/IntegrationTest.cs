@@ -580,10 +580,12 @@ namespace MathNet.Numerics.UnitTests.IntegrationTests
         /// Gauss-Kronrod rule supports integration.
         /// </summary>
         /// <param name="order">Defines an Nth order Gauss-Kronrod rule. The order also defines the number of abscissas and weights for the rule.</param>
-        [TestCase(7)]
-        [TestCase(8)]
-        [TestCase(9)]
-        [TestCase(10)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [TestCase(101)]
+        [TestCase(201)]
         public void TestGaussKronrodRuleIntegration(int order)
         {
             double appoximateArea = GaussKronrodRule.Integrate(TargetFunctionA, StartA, StopA, out _, out _, order: order);

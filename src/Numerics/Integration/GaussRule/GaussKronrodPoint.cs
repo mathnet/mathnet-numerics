@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace MathNet.Numerics.Integration.GaussRule
 {
@@ -373,8 +374,9 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// Computes the Gauss-Kronrod abscissas/weights and Gauss weights.
         /// </summary>
         /// <param name="order">Defines an Nth order Gauss-Kronrod rule. The order also defines the number of abscissas and weights for the rule.</param>
+        /// <param name="eps">Required precision to compute the abscissas/weights.</param>
         /// <returns>Object containing the non-negative abscissas/weights, order.</returns>
-        internal static GaussPointPair Generate(int order)
+        internal static GaussPointPair Generate(int order, double eps)
         {
             int gaussOrder = (order - 1) / 2;
             int gaussStart = gaussOrder.IsOdd() ? 0 : 1;
@@ -384,24 +386,34 @@ namespace MathNet.Numerics.Integration.GaussRule
             var gaussAbscissas = gaussPoint.Abscissas;
             var gaussWeights = gaussPoint.Weights;
 
-            // Build polynomials
+            // Calculate Kronrod polynomial in terms of Legendre polynomials
+            // K(x) = c0*P(0, x) + c1*P(1, x) + ...
 
-            var E = StieltjesPolynomial(gaussOrder + 1); // Stieltjes polynomials
-            var Eprime = E.Differentiate(); // derivative of E
-            var L = LegendrePolynomial(gaussOrder); // Legendre polynomials
-            var Lprime = L.Differentiate(); // derivative of L
+            var c = StieltjesP(gaussOrder + 1); 
 
-            // Calculate Abscissa for Kronrod polynomial, E
+            // Calculate Abscissas for Kronrod polynomial
 
-            var roots = E.Roots();
-            var kronrodAbscissas = roots
-                .Where(v => v.Imaginary == 0 && v.Real >= 0)
-                .Select(v => v.Real)
-                .Distinct()
-                .ToArray();
+            int r = gaussOrder.IsOdd() ? (gaussOrder - 1) / 2 + 1 : gaussOrder / 2 + 1;
+            var kronrodAbscissas = new double[r];
 
-            if (Math.Abs(kronrodAbscissas.Length - gaussAbscissas.Length) > 1)
-                throw new NotSupportedException("Fail to calculate Abscissas of Gauss-Kronrod rule.");
+            for (int k = 1; k <= gaussOrder + 1; k = k + 2)
+            {
+                var x0 = (1.0 - (1.0 - 1.0 / gaussOrder) / (8 * gaussOrder * gaussOrder)) * Math.Cos((k - 0.5) * Math.PI / (2.0 * gaussOrder + 1.0));
+                var dx = 0d;
+                var j = 1; // iterations
+
+                // Newton iterations
+                do
+                {
+                    var E = LegendreSeries(c, x0);
+                    dx = E.Item1 / E.Item2;
+                    x0 = x0 - dx;
+                    j++;
+                }
+                while (Math.Abs(dx) > eps && j < 100);
+
+                kronrodAbscissas[(k - 1) / 2] = x0;
+            }
 
             // Concatenate two abscissas
 
@@ -416,34 +428,42 @@ namespace MathNet.Numerics.Integration.GaussRule
             for (int i = gaussStart; i < abscissas.Length; i += 2)
             {
                 var x = abscissas[i];
-                var p = Lprime.Evaluate(x);
+
+                var E = LegendreSeries(c, x);
+                var L = LegendreP(gaussOrder, x);
+
+                var p = L.Item2;
                 var w2 = 2.0 / ((1.0 - x * x) * p * p); // Gauss weight
-                weights[i] = w2 + 2.0 / ((gaussOrder + 1.0) * p * E.Evaluate(x));
+                weights[i] = w2 + 2.0 / ((gaussOrder + 1.0) * p * E.Item1);
             }
             for (int i = kronrodStart; i < abscissas.Length; i += 2)
             {
                 var x = abscissas[i];
-                weights[i] = 2.0 / ((gaussOrder + 1.0) * L.Evaluate(x) * Eprime.Evaluate(x));
+
+                var E = LegendreSeries(c, x);
+                var L = LegendreP(gaussOrder, x);
+
+                weights[i] = 2.0 / ((gaussOrder + 1.0) * L.Item1 * E.Item2);
             }
 
             return new GaussPointPair(order, abscissas, weights, gaussOrder, gaussWeights);
         }
 
         /// <summary>
-        /// Returns the Stieltjes Polynomial of order.
+        /// Returns coefficients of a Stieltjes polynomial in terms of Legendre polynomials.
         /// </summary>
-        internal static Polynomial StieltjesPolynomial(int order)
+        internal static double[] StieltjesP(int order)
         {
             // Reference: 
             // 1. Patterson, Thomas NL. "The optimum addition of points to quadrature formulae." Mathematics of Computation 22.104 (1968): 847-856.
             // 2. Piessens, Robert, and Maria Branders. "A note on the optimal addition of abscissas to quadrature formulas of Gauss and Lobatto type." Mathematics of Computation (1974): 135-139.
-            // 3. Legendre-Stieltjes Polynomials, Boost.org
+            // 3. Legendre-Stieltjes Polynomials, Boost.Math
             //
-            // Here, we are using Patterson algorithm, expanding the Stieltjes polynomial in terms of legendre polynomials.
+            // Here, we are using Patterson algorithm, expanding the Stieltjes polynomial in terms of Legendre polynomials.
             //
             // Kronrod Polynomial K[n + 1, x] is expanded in terms of Legendre Polynomial P[n, x].
             //
-            //       K[n + 1, x]= sum_(n=1)^r a[i] P[2 * i - 1 - q, x]
+            //       K[n + 1, x] = sum_(n=1)^r a[i] P[2 * i - 1 - q, x]
             //
             // where P[n, x] is the Legendre polynomial of degree n,
             //       [x] denotes the integer part of x,
@@ -452,16 +472,16 @@ namespace MathNet.Numerics.Integration.GaussRule
             //
             // The added n + 1 Kronrod abscissae is the roots of the Kronrod polynomial.
 
-            if (order == 1)
-                return LegendrePolynomial(1);
-            else if (order == 2)
-                return LegendrePolynomial(2) - 2 / 5 * LegendrePolynomial(0);
-            else if (order == 3)
-                return LegendrePolynomial(3) - 9 / 14 * LegendrePolynomial(1);
-            else if (order == 4)
-                return LegendrePolynomial(4) - 30 / 27 * LegendrePolynomial(2) + 14 / 891 * LegendrePolynomial(0);
-            else if (order == 5)
-                return LegendrePolynomial(5) - 35 / 44 * LegendrePolynomial(3) + 135 / 12584 * LegendrePolynomial(1);
+            if (order == 1)         // P(1, x)
+                return new double[] { 0, 1 }; 
+            else if (order == 2)    // -2/5 * P(0, x) +  P(2, x) 
+                return new double[] { -0.4, 0, 1 }; 
+            else if (order == 3)    // -9/14 * P(1, x) + P(3, x)
+                return new double[] { 0, -0.642857142857142857142857142857, 0, 1 }; 
+            else if (order == 4)    // 14/891 * P(0, x) - 30/27 * P(2, x) + P(4, x)
+                return new double[] { 0.0157126823793490460157126823793, 0, -1.11111111111111111111111111111, 0, 1 }; 
+            else if (order == 5)    // 135/12584 * P(1, x) - 35/44 * P(3, x) + P(5, x) 
+                return new double[] { 0, 0.0107279084551811824539097266370, 0, -0.795454545454545454545454545455, 0, 1 }; 
 
             int n = order - 1;
             int q = n.IsOdd() ? 1 : 0;
@@ -485,79 +505,124 @@ namespace MathNet.Numerics.Integration.GaussRule
             for (int k = 1; k < r; k++)
             {
                 double ratio = 1d;
+                BigInteger num = 1;
+                BigInteger den = 1;
+                double rat = 1d;
                 a[r - k] = 0d;
                 for (int i = r + 1 - k; i <= r; i++)
                 {
+                    num = num * (n - q + 2 * (i + k - 1)) * (n + q + 2 * (k - i + 1)) * (n - 1 - q + 2 * (i - k)) * (2 * (k + i - 1) - 1 - q - n);
+                    den = den * (n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k));
+
+                    var gcd = Euclid.GreatestCommonDivisor(num, den);
+                    num = num / gcd;
+                    den = den / gcd;
+
+                    rat = (double)num / (double)den;
                     double numerator = (n - q + 2 * (i + k - 1)) * (n + q + 2 * (k - i + 1)) * (n - 1 - q + 2 * (i - k)) * (2 * (k + i - 1) - 1 - q - n);
                     double denominator = (n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k));
                     ratio = ratio * numerator / denominator;
-                    a[r - k] -= a[i] * ratio;
+
+                    a[r - k] -= a[i] * rat; // ratio;
                 }
             }
 
-            // First few Legendre polynomials.
-            Polynomial[] legendrePolynomials = new Polynomial[]
-            {
-                 new Polynomial(new[] { 1.0 }),
-                 new Polynomial(new[] { 0.0, 1.0 }),
-            };
-            var x = legendrePolynomials[1];
+            // K = sum c[k] P[k, x] 
 
-            var P2 = n.IsOdd() ? legendrePolynomials[0] : legendrePolynomials[1];
-            var P1 = n.IsOdd() ? legendrePolynomials[0] : legendrePolynomials[1];
-            var P0 = legendrePolynomials[0];
-            int degree = P2.Degree;
-
-            Polynomial E = a[1] * P2;
-            for (int i = 2; i <= r; i++)
+            double[] c = new double[2 * r - q];
+            for (int i = 1; i < a.Length; i++)
             {
-                // Calculate Legendre Polynomial of degree (2 * i - 1 - q)
-                for (int k = 0; k < 2; k++)
-                {
-                    degree++;
-                    P2 = ((2 * degree - 1) * x * P1 - (degree - 1) * P0) / degree;
-                    P0 = P1;
-                    P1 = P2;
-                }
-                E += a[i] * P2;
+                c[2 * i - 1 - q] = a[i];
             }
 
-            return E;
+            return c;
         }
 
         /// <summary>
-        /// Returns the Legendre polynomial of order.
+        /// Return value and derivative of a Legendre series at given points.
         /// </summary>
-        internal static Polynomial LegendrePolynomial(int order)
+        internal static Tuple<double, double> LegendreSeries(double[] a, double x)
         {
-            // Calculate P[n, x] by recursion relations
+            // S = a[0]*P[0, x] + ... + a[k]*P[k, x] + ... + a[n]*P[n, x]
+            // where P[k, x] is the Legendre polynomial of order k
             //
-            // (n + 1) * P[n + 1, x] = (2 * n + 1) * x * P[n, x] - n * P[n - 1, x]
+            // According to the Clenshaw algorithm, S can be written by
+            // S = a[0] + x*b[1, x] - 1/2 * b[2,x]
+            // 
+            // b[n + 1, x] = 0
+            // b[n + 2, x] = 0
+            // b[k, x] = a[k] + (2k + 1)/(k + 1)*x*b[k + 1, x] - (k + 1)/(k + 2)*b[k + 2, x]
+            //
+            // Derivative of S is given by
+            // S' = b[1, x] + x*b'[1, x] - 1/2 * b'[2,x] 
+            //
+            // b'[k, x] = (2k + 1)/(k + 1)*b[k + 1, x] + (2k + 1)/(k + 1)*x*b'[k + 1, x] - (k + 1)/(k + 2)*b'[k + 2, x] 
 
-            Polynomial[] legendrePolynomials = new Polynomial[]
+            if (a.Length == 1)
+                return new Tuple<double, double>(a[0], 0);
+            if (a.Length == 2)
+                return new Tuple<double, double>(a[0] + a[1] * x, a[1]);
+
+            double b0 = 0.0, b1 = 0.0, b2 = 0.0;
+            double p0 = 0.0, p1 = 0.0, p2 = 0.0;
+
+            for (int k = a.Length - 1; k >= 1; k--)
             {
-                 new Polynomial(new double[] { 1 }),
-                 new Polynomial(new double[] { 0, 1 }),
-            };
+                b0 = a[k] + (2.0 * k + 1.0) / (k + 1.0) * x * b1 - (k + 1.0) / (k + 2.0) * b2;
+                p0 = (2.0 * k + 1.0) / (k + 1.0) * (b1 + x * p1) - (k + 1.0) / (k + 2.0) * p2;
 
-            if (order < legendrePolynomials.Length)
-                return legendrePolynomials[order];
-
-            var x = legendrePolynomials[1];
-
-            var P2 = legendrePolynomials[0];
-            var P1 = legendrePolynomials[0];
-            var P0 = legendrePolynomials[0];
-            for (int i = 1; i <= order; i++)
-            {
-                var n = i - 1;
-                P2 = ((2 * n + 1) * x * P1 - n * P0) / (n + 1);
-                P0 = P1;
-                P1 = P2;
+                b2 = b1;
+                b1 = b0;
+                p2 = p1;
+                p1 = p0;
             }
-            var L = P2;
 
-            return L;
+            var value = a[0] + b1 * x - 0.5 * b2;
+            var derivative = b1 + p1 * x - 0.5 * p2;
+
+            return new Tuple<double, double>( value, derivative );
+        }
+
+        /// <summary>
+        /// Return value and derivative of a Legendre polynomial of order at given points.
+        /// </summary>
+        internal static Tuple<double, double> LegendreP(int order, double x)
+        {
+            // The Legendre polynomial, P[n, x], is defined by the recurrence relation:
+            //
+            // P[0, x] = 1
+            // P[1, x] = x
+            // (n + 1) * P[n + 1, x] = (2 * n + 1) * x * P[n, x] - n * P[n - 1, x]
+            //
+            // The derivative of the Legendre polynomial, P'[n, x] is given by
+            // P'[0, x] = 0
+            // P'[1, x] = 1
+            // (n + 1) * P'[n + 1, x] = (2 * n + 1) * P[n, x] + (2 * n + 1) * x * P'[n, x] - n * P'[n - 1, x]
+            //                        = (2 * n + 1) * (P[n, x] + x * P'[n, x]) - n * P'[n - 1, x]
+
+            if (order == 0)
+                return new Tuple<double, double>(1.0, 0.0);
+            if (order == 1)
+                return new Tuple<double, double>(x, 1.0);
+
+            double b0 = 0.0, b1 = 1.0, b2 = 0.0;
+            double p0 = 0.0, p1 = 0.0, p2 = 0.0;
+
+            for (int k = 1; k <= order; k++)
+            {
+                b0 = (2.0 * k - 1.0) / k * x * b1 - (k - 1.0) / k * b2; // L(k, x)
+                p0 = (2.0 * k - 1.0) / k * (b1 + x * p1) - (k - 1.0) / k * p2; // L'(k, x)
+                
+                b2 = b1;
+                b1 = b0;
+                p2 = p1;
+                p1 = p0;
+            }
+
+            var value = b0;
+            var derivative = p0;
+
+            return new Tuple<double, double>(value, derivative);
         }
     }
 }
