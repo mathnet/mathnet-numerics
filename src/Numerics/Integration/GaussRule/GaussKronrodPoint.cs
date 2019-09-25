@@ -414,7 +414,7 @@ namespace MathNet.Numerics.Integration.GaussRule
 
                 kronrodAbscissas[(k - 1) / 2] = x0;
             }
-
+            
             // Concatenate two abscissas
 
             var abscissas = new double[gaussAbscissas.Length + kronrodAbscissas.Length];
@@ -504,26 +504,14 @@ namespace MathNet.Numerics.Integration.GaussRule
             a[r] = 1.0;
             for (int k = 1; k < r; k++)
             {
-                double ratio = 1d;
-                BigInteger num = 1;
-                BigInteger den = 1;
-                double rat = 1d;
-                a[r - k] = 0d;
+                double ratio = 1.0;
+                a[r - k] = 0.0;
                 for (int i = r + 1 - k; i <= r; i++)
                 {
-                    num = num * (n - q + 2 * (i + k - 1)) * (n + q + 2 * (k - i + 1)) * (n - 1 - q + 2 * (i - k)) * (2 * (k + i - 1) - 1 - q - n);
-                    den = den * (n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k));
-
-                    var gcd = Euclid.GreatestCommonDivisor(num, den);
-                    num = num / gcd;
-                    den = den / gcd;
-
-                    rat = (double)num / (double)den;
                     double numerator = (n - q + 2 * (i + k - 1)) * (n + q + 2 * (k - i + 1)) * (n - 1 - q + 2 * (i - k)) * (2 * (k + i - 1) - 1 - q - n);
                     double denominator = (n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k));
                     ratio = ratio * numerator / denominator;
-
-                    a[r - k] -= a[i] * rat; // ratio;
+                    a[r - k] -= a[i] * ratio; 
                 }
             }
 
