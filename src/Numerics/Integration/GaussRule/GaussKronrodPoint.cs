@@ -412,9 +412,11 @@ namespace MathNet.Numerics.Integration.GaussRule
                 }
                 while (Math.Abs(dx) > eps && j < 100);
 
+                if (Math.Abs(x0) < Precision.MachineEpsilon) x0 = 0.0;
+
                 kronrodAbscissas[(k - 1) / 2] = x0;
             }
-            
+
             // Concatenate two abscissas
 
             var abscissas = new double[gaussAbscissas.Length + kronrodAbscissas.Length];
@@ -475,13 +477,13 @@ namespace MathNet.Numerics.Integration.GaussRule
             if (order == 1)         // P(1, x)
                 return new double[] { 0, 1 }; 
             else if (order == 2)    // -2/5 * P(0, x) +  P(2, x) 
-                return new double[] { -0.4, 0, 1 }; 
+                return new double[] { -0.4, 0, 1 };
             else if (order == 3)    // -9/14 * P(1, x) + P(3, x)
-                return new double[] { 0, -0.642857142857142857142857142857, 0, 1 }; 
-            else if (order == 4)    // 14/891 * P(0, x) - 30/27 * P(2, x) + P(4, x)
-                return new double[] { 0.0157126823793490460157126823793, 0, -1.11111111111111111111111111111, 0, 1 }; 
+                return new double[] { 0, -0.642857142857142857142857142857, 0, 1 };
+            else if (order == 4)    // 14/891 * P(0, x) - 20/27 * P(2, x) + P(4, x)
+                return new double[] { 0.0157126823793490460157126823793, 0, -0.740740740740740740740740740741, 0, 1 };
             else if (order == 5)    // 135/12584 * P(1, x) - 35/44 * P(3, x) + P(5, x) 
-                return new double[] { 0, 0.0107279084551811824539097266370, 0, -0.795454545454545454545454545455, 0, 1 }; 
+                return new double[] { 0, 0.0107279084551811824539097266370, 0, -0.795454545454545454545454545455, 0, 1 };
 
             int n = order - 1;
             int q = n.IsOdd() ? 1 : 0;
