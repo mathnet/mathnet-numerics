@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Optimization
             ValidateGradientAndObjective(objective);
 
             // Check that we're not already done
-            ExitCondition currentExitCondition = ExitCriteriaSatisfied(objective, null, 0);
+            var currentExitCondition = ExitCriteriaSatisfied(objective, null, 0);
             if (currentExitCondition != ExitCondition.None)
                 return new MinimizationResult(objective, 0, currentExitCondition);
 
@@ -140,6 +140,12 @@ namespace MathNet.Numerics.Optimization
 
             var previousPoint = objective.Fork();
             var candidatePoint = lineSearchResult.FunctionInfoAtMinimum;
+
+            // Check that we're not done
+            currentExitCondition = ExitCriteriaSatisfied(candidatePoint, previousPoint, 0);
+            if (currentExitCondition != ExitCondition.None)
+                return new MinimizationResult(candidatePoint, 0, currentExitCondition);
+
             var gradient = candidatePoint.Gradient;
             var step = candidatePoint.Point - initialGuess;
 
