@@ -140,6 +140,7 @@ namespace MathNet.Numerics.Optimization
 
             var previousPoint = objective.Fork();
             var candidatePoint = lineSearchResult.FunctionInfoAtMinimum;
+            ValidateGradientAndObjective(candidatePoint);
 
             // Check that we're not done
             currentExitCondition = ExitCriteriaSatisfied(candidatePoint, previousPoint, 0);
