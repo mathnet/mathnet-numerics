@@ -854,6 +854,17 @@ namespace MathNet.Numerics.Properties
         }
 
         /// <summary>
+        ///   Looks up a localized string similar to: Numerical estimation of the statistic has failed.
+        /// </summary>
+        public static string NumericalEstimationFailed
+        {
+            get
+            {
+                return ResourceManager.GetString("NumericalEstimationFailed", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to The two arguments can&apos;t be compared (maybe they are part of a partial ordering?).
         /// </summary>
         public static string PartialOrderException {

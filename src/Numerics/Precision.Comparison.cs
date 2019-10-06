@@ -674,5 +674,14 @@ namespace MathNet.Numerics
 
             return CompareToNumbersBetween(a, b, maxNumbersBetween) < 0;
         }
+
+        /// <summary>
+        /// Checks if a given double values is finite, i.e. neither NaN nor inifnity
+        /// </summary>
+        /// <param name="value">The value to be checked fo finitenes.</param>
+        public static bool IsFinite(this double value)
+        {
+            return !double.IsNaN(value) && !double.IsInfinity(value);
+        }
     }
 }
