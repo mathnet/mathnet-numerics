@@ -46,9 +46,21 @@ namespace MathNet.Numerics
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="targetAbsoluteError">The expected relative accuracy of the approximation.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
-        public static double OnClosedInterval(Func<double, double> f, double intervalBegin, double intervalEnd, double targetAbsoluteError = 1E-8)
+        public static double OnClosedInterval(Func<double, double> f, double intervalBegin, double intervalEnd, double targetAbsoluteError)
         {
             return DoubleExponentialTransformation.Integrate(f, intervalBegin, intervalEnd, targetAbsoluteError);
+        }
+
+        /// <summary>
+        /// Approximation of the definite integral of an analytic smooth function on a closed interval.
+        /// </summary>
+        /// <param name="f">The analytic smooth function to integrate.</param>
+        /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
+        /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static double OnClosedInterval(Func<double, double> f, double intervalBegin, double intervalEnd)
+        {
+            return DoubleExponentialTransformation.Integrate(f, intervalBegin, intervalEnd, 1e-8);
         }
 
         /// <summary>
@@ -91,7 +103,7 @@ namespace MathNet.Numerics
         public static double DoubleExponential(Func<double, double> f, double intervalBegin, double intervalEnd, double targetAbsoluteError = 1E-8)
         {
             // Reference:
-            // Formula used for variable subsitution from 
+            // Formula used for variable subsitution from
             // 1. Shampine, L. F. (2008). Vectorized adaptive quadrature in MATLAB. Journal of Computational and Applied Mathematics, 211(2), 131-140.
             // 2. quadgk.m, GNU Octave
 
@@ -158,7 +170,7 @@ namespace MathNet.Numerics
         public static double GaussLegendre(Func<double, double> f, double intervalBegin, double intervalEnd, int order = 128)
         {
             // Reference:
-            // Formula used for variable subsitution from 
+            // Formula used for variable subsitution from
             // 1. Shampine, L. F. (2008). Vectorized adaptive quadrature in MATLAB. Journal of Computational and Applied Mathematics, 211(2), 131-140.
             // 2. quadgk.m, GNU Octave
 
@@ -272,7 +284,7 @@ namespace MathNet.Numerics
         public static Complex DoubleExponential(Func<double, Complex> f, double intervalBegin, double intervalEnd, double targetAbsoluteError = 1E-8)
         {
             // Reference:
-            // Formula used for variable subsitution from 
+            // Formula used for variable subsitution from
             // 1. Shampine, L. F. (2008). Vectorized adaptive quadrature in MATLAB. Journal of Computational and Applied Mathematics, 211(2), 131-140.
             // 2. quadgk.m, GNU Octave
 
@@ -339,7 +351,7 @@ namespace MathNet.Numerics
         public static Complex GaussLegendre(Func<double, Complex> f, double intervalBegin, double intervalEnd, int order = 128)
         {
             // Reference:
-            // Formula used for variable subsitution from 
+            // Formula used for variable subsitution from
             // 1. Shampine, L. F. (2008). Vectorized adaptive quadrature in MATLAB. Journal of Computational and Applied Mathematics, 211(2), 131-140.
             // 2. quadgk.m, GNU Octave
 
