@@ -122,6 +122,42 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         }
 
         [Test]
+        public void FindMinimum_Quadratic()
+        {
+            var obj = ObjectiveFunction.Gradient(
+                x => x[0] * x[0] + x[1] * x[1],
+                x => new DenseVector(new[] {2 * x[0], 2 * x[1]})
+            );
+            var solver = new BfgsBMinimizer(1e-5, 1e-5, 1e-5, maximumIterations: 1000);
+            var lowerBound = new DenseVector(new[] {-1.0, -1.0});
+            var upperBound = new DenseVector(new[] {2.0, 2.0});
+            var initialGuess = new DenseVector(new[] {1.5, 1.5});
+
+            var result = solver.FindMinimum(obj, lowerBound, upperBound, initialGuess);
+
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - 0.0), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - 0.0), Is.LessThan(1e-3));
+        }
+
+        [Test]
+        public void FindMinimum_Quadratic_TwoBoundaries()
+        {
+            var obj = ObjectiveFunction.Gradient(
+                x => x[0] * x[0] + x[1] * x[1],
+                x => new DenseVector(new[] {2 * x[0], 2 * x[1]})
+            );
+            var solver = new BfgsBMinimizer(1e-5, 1e-5, 1e-5, maximumIterations: 1000);
+            var lowerBound = new DenseVector(new[] {1.0, 1.0});
+            var upperBound = new DenseVector(new[] {2.0, 2.0});
+            var initialGuess = new DenseVector(new[] {1.5, 1.5});
+
+            var result = solver.FindMinimum(obj, lowerBound, upperBound, initialGuess);
+
+            Assert.That(Math.Abs(result.MinimizingPoint[0] - 1.0), Is.LessThan(1e-3));
+            Assert.That(Math.Abs(result.MinimizingPoint[1] - 1.0), Is.LessThan(1e-3));
+        }
+
+        [Test]
         public void FindMinimum_Rosenbrock_MinimumGreateerOrEqualToLowerBoundary()
         {
             var obj = ObjectiveFunction.Gradient(RosenbrockFunction.Value, RosenbrockFunction.Gradient);
