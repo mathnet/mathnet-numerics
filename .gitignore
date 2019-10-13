@@ -12,6 +12,7 @@ out/
 .vs
 .vscode
 .idea
+.ionide
 
 # Test & Analysis Results
 [Tt]est[Rr]esult*/
