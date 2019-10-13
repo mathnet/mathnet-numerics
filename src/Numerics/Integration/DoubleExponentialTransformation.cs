@@ -29,6 +29,7 @@
 
 using System;
 using System.Linq;
+using System.Numerics;
 
 namespace MathNet.Numerics.Integration
 {
@@ -55,6 +56,25 @@ namespace MathNet.Numerics.Integration
         public static double Integrate(Func<double, double> f, double intervalBegin, double intervalEnd, double targetRelativeError)
         {
             return NewtonCotesTrapeziumRule.IntegrateAdaptiveTransformedOdd(
+                f,
+                intervalBegin, intervalEnd,
+                Enumerable.Range(0, NumberOfMaximumLevels).Select(EvaluateAbcissas),
+                Enumerable.Range(0, NumberOfMaximumLevels).Select(EvaluateWeights),
+                1.0,
+                targetRelativeError);
+        }
+
+        /// <summary>
+        /// Approximate the integral by the double exponential transformation
+        /// </summary>
+        /// <param name="f">The analytic smooth complex function to integrate, defined on the real domain.</param>
+        /// <param name="intervalBegin">Where the interval starts, inclusive and finite.</param>
+        /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
+        /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
+        /// <returns>Approximation of the finite integral in the given interval.</returns>
+        public static Complex ContourIntegrate(Func<double, Complex> f, double intervalBegin, double intervalEnd, double targetRelativeError)
+        {
+            return NewtonCotesTrapeziumRule.ContourIntegrateAdaptiveTransformedOdd(
                 f,
                 intervalBegin, intervalEnd,
                 Enumerable.Range(0, NumberOfMaximumLevels).Select(EvaluateAbcissas),
