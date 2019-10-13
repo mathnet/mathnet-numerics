@@ -67,6 +67,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
             {
                 new Beta(1.0, 1.0),
                 new BetaScaled(1.0, 1.5, 0.5, 2.0),
+                new Burr(2.0, 3.0, 1.0),
                 new Cauchy(1.0, 1.0),
                 new Chi(3.0),
                 new ChiSquared(3.0),
@@ -76,6 +77,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 new FisherSnedecor(0.3, 0.4),
                 new Gamma(1.0, 1.0),
                 new InverseGamma(1.0, 1.0),
+                new InverseGaussian(1.0, 3.0),
                 new Laplace(1.0, 0.5),
                 new LogNormal(1.0, 1.0),
                 new Normal(0.0, 1.0),
@@ -84,6 +86,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 new Stable(0.5, 1.0, 0.5, 1.0),
                 new StudentT(0.0, 1.0, 5.0),
                 new Triangular(0, 1, 0.7),
+                new TruncatedPareto(1.0, 3.0, 1000),
                 new Weibull(1.0, 1.0),
             };
 
