@@ -281,25 +281,6 @@ Returns NaN if data has less than two entries or if any entry is NaN.
     </div>
 	</div>
 	<div id="Covariance" class="method">
-		<h4><span title="System.double">double</span> <strong>Covariance</strong>(<span title="System.Double[]">Double[]</span> samples1, <span title="System.Double[]">Double[]</span> samples2)</h4>
-		<div class="content">Estimates the unbiased population covariance from the provided two sample arrays.
-On a dataset of size N will use an N-1 normalizer (Bessel's correction).
-Returns NaN if data has less than two entries or if any entry is NaN. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Double[]">Double[]</span></code> samples1</h6>
-          <p class="comments">First sample array. </p>
-          <h6><code><span title="System.Double[]">Double[]</span></code> samples2</h6>
-          <p class="comments">Second sample array. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="Covariance" class="method">
 		<h4><span title="System.double">double</span> <strong>Covariance</strong>(<span title="System.Int32[]">Int32[]</span> samples1, <span title="System.Int32[]">Int32[]</span> samples2)</h4>
 		<div class="content">Estimates the unbiased population covariance from the provided two sample arrays.
 On a dataset of size N will use an N-1 normalizer (Bessel's correction).
@@ -318,18 +299,20 @@ Returns NaN if data has less than two entries or if any entry is NaN.
       
     </div>
 	</div>
-	<div id="FiveNumberSummaryInplace" class="method">
-		<h4><span title="System.Double[]">Double[]</span> <strong>FiveNumberSummaryInplace</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
-		<div class="content">Estimates {min, lower-quantile, median, upper-quantile, max} from the unsorted data array.
-Approximately median-unbiased regardless of the sample distribution (R8).
-WARNING: Works inplace and can thus causes the data array to be reordered. 
+	<div id="Covariance" class="method">
+		<h4><span title="System.double">double</span> <strong>Covariance</strong>(<span title="System.Double[]">Double[]</span> samples1, <span title="System.Double[]">Double[]</span> samples2)</h4>
+		<div class="content">Estimates the unbiased population covariance from the provided two sample arrays.
+On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+Returns NaN if data has less than two entries or if any entry is NaN. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
-          <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
+          <h6><code><span title="System.Double[]">Double[]</span></code> samples1</h6>
+          <p class="comments">First sample array. </p>
+          <h6><code><span title="System.Double[]">Double[]</span></code> samples2</h6>
+          <p class="comments">Second sample array. </p>
       </div>
 
       
@@ -352,17 +335,18 @@ WARNING: Works inplace and can thus causes the data array to be reordered.
       
     </div>
 	</div>
-	<div id="GeometricMean" class="method">
-		<h4><span title="System.double">double</span> <strong>GeometricMean</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
-		<div class="content">Evaluates the geometric mean of the unsorted data array.
-Returns NaN if data is empty or any entry is NaN. 
+	<div id="FiveNumberSummaryInplace" class="method">
+		<h4><span title="System.Double[]">Double[]</span> <strong>FiveNumberSummaryInplace</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
+		<div class="content">Estimates {min, lower-quantile, median, upper-quantile, max} from the unsorted data array.
+Approximately median-unbiased regardless of the sample distribution (R8).
+WARNING: Works inplace and can thus causes the data array to be reordered. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
-          <p class="comments">Sample array, no sorting is assumed. </p>
+          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
       </div>
 
       
@@ -378,6 +362,22 @@ Returns NaN if data is empty or any entry is NaN.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Int32[]">Int32[]</span></code> data</h6>
+          <p class="comments">Sample array, no sorting is assumed. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="GeometricMean" class="method">
+		<h4><span title="System.double">double</span> <strong>GeometricMean</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
+		<div class="content">Evaluates the geometric mean of the unsorted data array.
+Returns NaN if data is empty or any entry is NaN. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. </p>
       </div>
 
@@ -401,22 +401,6 @@ Returns NaN if data is empty or any entry is NaN.
     </div>
 	</div>
 	<div id="HarmonicMean" class="method">
-		<h4><span title="System.double">double</span> <strong>HarmonicMean</strong>(<span title="System.Int32[]">Int32[]</span> data)</h4>
-		<div class="content">Evaluates the harmonic mean of the unsorted data array.
-Returns NaN if data is empty or any entry is NaN. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Int32[]">Int32[]</span></code> data</h6>
-          <p class="comments">Sample array, no sorting is assumed. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="HarmonicMean" class="method">
 		<h4><span title="System.double">double</span> <strong>HarmonicMean</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
 		<div class="content">Evaluates the harmonic mean of the unsorted data array.
 Returns NaN if data is empty or any entry is NaN. 
@@ -426,6 +410,22 @@ Returns NaN if data is empty or any entry is NaN.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
+          <p class="comments">Sample array, no sorting is assumed. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="HarmonicMean" class="method">
+		<h4><span title="System.double">double</span> <strong>HarmonicMean</strong>(<span title="System.Int32[]">Int32[]</span> data)</h4>
+		<div class="content">Evaluates the harmonic mean of the unsorted data array.
+Returns NaN if data is empty or any entry is NaN. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. </p>
       </div>
 
@@ -449,23 +449,6 @@ Returns NaN if data is empty or any entry is NaN.
     </div>
 	</div>
 	<div id="InterquartileRangeInplace" class="method">
-		<h4><span title="System.float">float</span> <strong>InterquartileRangeInplace</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
-		<div class="content">Estimates the inter-quartile range from the unsorted data array.
-Approximately median-unbiased regardless of the sample distribution (R8).
-WARNING: Works inplace and can thus causes the data array to be reordered. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
-          <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="InterquartileRangeInplace" class="method">
 		<h4><span title="System.double">double</span> <strong>InterquartileRangeInplace</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
 		<div class="content">Estimates the inter-quartile range from the unsorted data array.
 Approximately median-unbiased regardless of the sample distribution (R8).
@@ -482,9 +465,9 @@ WARNING: Works inplace and can thus causes the data array to be reordered.
       
     </div>
 	</div>
-	<div id="LowerQuartileInplace" class="method">
-		<h4><span title="System.double">double</span> <strong>LowerQuartileInplace</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
-		<div class="content">Estimates the first quartile value from the unsorted data array.
+	<div id="InterquartileRangeInplace" class="method">
+		<h4><span title="System.float">float</span> <strong>InterquartileRangeInplace</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
+		<div class="content">Estimates the inter-quartile range from the unsorted data array.
 Approximately median-unbiased regardless of the sample distribution (R8).
 WARNING: Works inplace and can thus causes the data array to be reordered. 
 
@@ -492,7 +475,7 @@ WARNING: Works inplace and can thus causes the data array to be reordered.
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
       </div>
 
@@ -510,6 +493,23 @@ WARNING: Works inplace and can thus causes the data array to be reordered.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
+          <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="LowerQuartileInplace" class="method">
+		<h4><span title="System.double">double</span> <strong>LowerQuartileInplace</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
+		<div class="content">Estimates the first quartile value from the unsorted data array.
+Approximately median-unbiased regardless of the sample distribution (R8).
+WARNING: Works inplace and can thus causes the data array to be reordered. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
       </div>
 
@@ -581,22 +581,6 @@ Returns NaN if data is empty or any entry is NaN.
     </div>
 	</div>
 	<div id="MaximumMagnitudePhase" class="method">
-		<h4><a href="../MathNet.Numerics/Complex32.htm">Complex32</a> <strong>MaximumMagnitudePhase</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> data)</h4>
-		<div class="content">Returns the largest absolute value from the unsorted data array.
-Returns NaN if data is empty or any entry is NaN. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> data</h6>
-          <p class="comments">Sample array, no sorting is assumed. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="MaximumMagnitudePhase" class="method">
 		<h4><span title="System.Numerics.Complex">Complex</span> <strong>MaximumMagnitudePhase</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> data)</h4>
 		<div class="content">Returns the largest absolute value from the unsorted data array.
 Returns NaN if data is empty or any entry is NaN. 
@@ -612,16 +596,16 @@ Returns NaN if data is empty or any entry is NaN.
       
     </div>
 	</div>
-	<div id="Mean" class="method">
-		<h4><span title="System.double">double</span> <strong>Mean</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
-		<div class="content">Estimates the arithmetic sample mean from the unsorted data array.
+	<div id="MaximumMagnitudePhase" class="method">
+		<h4><a href="../MathNet.Numerics/Complex32.htm">Complex32</a> <strong>MaximumMagnitudePhase</strong>(<span title="MathNet.Numerics.Complex32[]">Complex32[]</span> data)</h4>
+		<div class="content">Returns the largest absolute value from the unsorted data array.
 Returns NaN if data is empty or any entry is NaN. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <h6><code><span title="MathNet.Numerics.Complex32[]">Complex32[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. </p>
       </div>
 
@@ -638,6 +622,22 @@ Returns NaN if data is empty or any entry is NaN.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Int32[]">Int32[]</span></code> data</h6>
+          <p class="comments">Sample array, no sorting is assumed. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Mean" class="method">
+		<h4><span title="System.double">double</span> <strong>Mean</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
+		<div class="content">Estimates the arithmetic sample mean from the unsorted data array.
+Returns NaN if data is empty or any entry is NaN. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. </p>
       </div>
 
@@ -763,22 +763,6 @@ Returns NaN for mean if data is empty or any entry is NaN and NaN for variance i
     </div>
 	</div>
 	<div id="MedianInplace" class="method">
-		<h4><span title="System.float">float</span> <strong>MedianInplace</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
-		<div class="content">Estimates the median value from the unsorted data array.
-WARNING: Works inplace and can thus causes the data array to be reordered. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
-          <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="MedianInplace" class="method">
 		<h4><span title="System.double">double</span> <strong>MedianInplace</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
 		<div class="content">Estimates the median value from the unsorted data array.
 WARNING: Works inplace and can thus causes the data array to be reordered. 
@@ -788,6 +772,22 @@ WARNING: Works inplace and can thus causes the data array to be reordered.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="MedianInplace" class="method">
+		<h4><span title="System.float">float</span> <strong>MedianInplace</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
+		<div class="content">Estimates the median value from the unsorted data array.
+WARNING: Works inplace and can thus causes the data array to be reordered. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
       </div>
 
@@ -827,22 +827,6 @@ Returns NaN if data is empty or any entry is NaN.
     </div>
 	</div>
 	<div id="MinimumAbsolute" class="method">
-		<h4><span title="System.float">float</span> <strong>MinimumAbsolute</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
-		<div class="content">Returns the smallest absolute value from the unsorted data array.
-Returns NaN if data is empty or any entry is NaN. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
-          <p class="comments">Sample array, no sorting is assumed. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="MinimumAbsolute" class="method">
 		<h4><span title="System.double">double</span> <strong>MinimumAbsolute</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
 		<div class="content">Returns the smallest absolute value from the unsorted data array.
 Returns NaN if data is empty or any entry is NaN. 
@@ -852,6 +836,22 @@ Returns NaN if data is empty or any entry is NaN.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <p class="comments">Sample array, no sorting is assumed. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="MinimumAbsolute" class="method">
+		<h4><span title="System.float">float</span> <strong>MinimumAbsolute</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
+		<div class="content">Returns the smallest absolute value from the unsorted data array.
+Returns NaN if data is empty or any entry is NaN. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. </p>
       </div>
 
@@ -967,25 +967,6 @@ WARNING: Works inplace and can thus causes the data array to be reordered.
     </div>
 	</div>
 	<div id="PopulationCovariance" class="method">
-		<h4><span title="System.double">double</span> <strong>PopulationCovariance</strong>(<span title="System.Double[]">Double[]</span> population1, <span title="System.Double[]">Double[]</span> population2)</h4>
-		<div class="content">Evaluates the population covariance from the full population provided as two arrays.
-On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
-Returns NaN if data is empty or if any entry is NaN. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Double[]">Double[]</span></code> population1</h6>
-          <p class="comments">First population array. </p>
-          <h6><code><span title="System.Double[]">Double[]</span></code> population2</h6>
-          <p class="comments">Second population array. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="PopulationCovariance" class="method">
 		<h4><span title="System.double">double</span> <strong>PopulationCovariance</strong>(<span title="System.Int32[]">Int32[]</span> population1, <span title="System.Int32[]">Int32[]</span> population2)</h4>
 		<div class="content">Evaluates the population covariance from the full population provided as two arrays.
 On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
@@ -998,6 +979,25 @@ Returns NaN if data is empty or if any entry is NaN.
           <h6><code><span title="System.Int32[]">Int32[]</span></code> population1</h6>
           <p class="comments">First population array. </p>
           <h6><code><span title="System.Int32[]">Int32[]</span></code> population2</h6>
+          <p class="comments">Second population array. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PopulationCovariance" class="method">
+		<h4><span title="System.double">double</span> <strong>PopulationCovariance</strong>(<span title="System.Double[]">Double[]</span> population1, <span title="System.Double[]">Double[]</span> population2)</h4>
+		<div class="content">Evaluates the population covariance from the full population provided as two arrays.
+On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+Returns NaN if data is empty or if any entry is NaN. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> population1</h6>
+          <p class="comments">First population array. </p>
+          <h6><code><span title="System.Double[]">Double[]</span></code> population2</h6>
           <p class="comments">Second population array. </p>
       </div>
 
@@ -1041,6 +1041,23 @@ Returns NaN if data is empty or if any entry is NaN.
     </div>
 	</div>
 	<div id="PopulationStandardDeviation" class="method">
+		<h4><span title="System.double">double</span> <strong>PopulationStandardDeviation</strong>(<span title="System.Single[]">Single[]</span> population)</h4>
+		<div class="content">Evaluates the population standard deviation from the full population provided as unsorted array.
+On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
+Returns NaN if data is empty or if any entry is NaN. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Single[]">Single[]</span></code> population</h6>
+          <p class="comments">Sample array, no sorting is assumed. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PopulationStandardDeviation" class="method">
 		<h4><span title="System.double">double</span> <strong>PopulationStandardDeviation</strong>(<span title="System.Int32[]">Int32[]</span> population)</h4>
 		<div class="content">Evaluates the population standard deviation from the full population provided as unsorted array.
 On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
@@ -1057,9 +1074,9 @@ Returns NaN if data is empty or if any entry is NaN.
       
     </div>
 	</div>
-	<div id="PopulationStandardDeviation" class="method">
-		<h4><span title="System.double">double</span> <strong>PopulationStandardDeviation</strong>(<span title="System.Single[]">Single[]</span> population)</h4>
-		<div class="content">Evaluates the population standard deviation from the full population provided as unsorted array.
+	<div id="PopulationVariance" class="method">
+		<h4><span title="System.double">double</span> <strong>PopulationVariance</strong>(<span title="System.Single[]">Single[]</span> population)</h4>
+		<div class="content">Evaluates the population variance from the full population provided as unsorted array.
 On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
 Returns NaN if data is empty or if any entry is NaN. 
 
@@ -1102,23 +1119,6 @@ Returns NaN if data is empty or if any entry is NaN.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Int32[]">Int32[]</span></code> population</h6>
-          <p class="comments">Sample array, no sorting is assumed. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="PopulationVariance" class="method">
-		<h4><span title="System.double">double</span> <strong>PopulationVariance</strong>(<span title="System.Single[]">Single[]</span> population)</h4>
-		<div class="content">Evaluates the population variance from the full population provided as unsorted array.
-On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
-Returns NaN if data is empty or if any entry is NaN. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Single[]">Single[]</span></code> population</h6>
           <p class="comments">Sample array, no sorting is assumed. </p>
       </div>
 
@@ -1230,31 +1230,6 @@ WARNING: Works inplace and can thus causes the data array to be reordered.
     </div>
 	</div>
 	<div id="QuantileInplace" class="method">
-		<h4><span title="System.double">double</span> <strong>QuantileInplace</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.double">double</span> tau)</h4>
-		<div class="content">Estimates the tau-th quantile from the unsorted data array.
-The tau-th quantile is the data value where the cumulative distribution
-function crosses tau.
-Approximately median-unbiased regardless of the sample distribution (R8).
-WARNING: Works inplace and can thus causes the data array to be reordered. <blockquote class="remarks">
-  R-8, SciPy-(1/3,1/3):
-Linear interpolation of the approximate medians for order statistics.
-When tau < (2/3) / (N + 1/3), use x1. When tau >= (N - 1/3) / (N + 1/3), use xN. 
-</blockquote>
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
-          <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
-          <h6><code><span title="System.double">double</span></code> tau</h6>
-          <p class="comments">Quantile selector, between 0.0 and 1.0 (inclusive). </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="QuantileInplace" class="method">
 		<h4><span title="System.float">float</span> <strong>QuantileInplace</strong>(<span title="System.Single[]">Single[]</span> data, <span title="System.double">double</span> tau)</h4>
 		<div class="content">Estimates the tau-th quantile from the unsorted data array.
 The tau-th quantile is the data value where the cumulative distribution
@@ -1271,6 +1246,31 @@ When tau < (2/3) / (N + 1/3), use x1. When tau >= (N - 1/3) / (N + 1/3), use xN.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
+          <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
+          <h6><code><span title="System.double">double</span></code> tau</h6>
+          <p class="comments">Quantile selector, between 0.0 and 1.0 (inclusive). </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="QuantileInplace" class="method">
+		<h4><span title="System.double">double</span> <strong>QuantileInplace</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.double">double</span> tau)</h4>
+		<div class="content">Estimates the tau-th quantile from the unsorted data array.
+The tau-th quantile is the data value where the cumulative distribution
+function crosses tau.
+Approximately median-unbiased regardless of the sample distribution (R8).
+WARNING: Works inplace and can thus causes the data array to be reordered. <blockquote class="remarks">
+  R-8, SciPy-(1/3,1/3):
+Linear interpolation of the approximate medians for order statistics.
+When tau < (2/3) / (N + 1/3), use x1. When tau >= (N - 1/3) / (N + 1/3), use xN. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. Will be reordered. </p>
           <h6><code><span title="System.double">double</span></code> tau</h6>
           <p class="comments">Quantile selector, between 0.0 and 1.0 (inclusive). </p>
@@ -1304,22 +1304,6 @@ WARNING: Works inplace and can thus causes the data array to be reordered.
     </div>
 	</div>
 	<div id="RootMeanSquare" class="method">
-		<h4><span title="System.double">double</span> <strong>RootMeanSquare</strong>(<span title="System.Int32[]">Int32[]</span> data)</h4>
-		<div class="content">Estimates the root mean square (RMS) also known as quadratic mean from the unsorted data array.
-Returns NaN if data is empty or any entry is NaN. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Int32[]">Int32[]</span></code> data</h6>
-          <p class="comments">Sample array, no sorting is assumed. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="RootMeanSquare" class="method">
 		<h4><span title="System.double">double</span> <strong>RootMeanSquare</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
 		<div class="content">Estimates the root mean square (RMS) also known as quadratic mean from the unsorted data array.
 Returns NaN if data is empty or any entry is NaN. 
@@ -1345,6 +1329,22 @@ Returns NaN if data is empty or any entry is NaN.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
+          <p class="comments">Sample array, no sorting is assumed. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="RootMeanSquare" class="method">
+		<h4><span title="System.double">double</span> <strong>RootMeanSquare</strong>(<span title="System.Int32[]">Int32[]</span> data)</h4>
+		<div class="content">Estimates the root mean square (RMS) also known as quadratic mean from the unsorted data array.
+Returns NaN if data is empty or any entry is NaN. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> data</h6>
           <p class="comments">Sample array, no sorting is assumed. </p>
       </div>
 
@@ -1437,23 +1437,6 @@ WARNING: Works inplace and can thus causes the data array to be reordered.
     </div>
 	</div>
 	<div id="Variance" class="method">
-		<h4><span title="System.double">double</span> <strong>Variance</strong>(<span title="System.Int32[]">Int32[]</span> samples)</h4>
-		<div class="content">Estimates the unbiased population variance from the provided samples as unsorted array.
-On a dataset of size N will use an N-1 normalizer (Bessel's correction).
-Returns NaN if data has less than two entries or if any entry is NaN. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Int32[]">Int32[]</span></code> samples</h6>
-          <p class="comments">Sample array, no sorting is assumed. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="Variance" class="method">
 		<h4><span title="System.double">double</span> <strong>Variance</strong>(<span title="System.Single[]">Single[]</span> samples)</h4>
 		<div class="content">Estimates the unbiased population variance from the provided samples as unsorted array.
 On a dataset of size N will use an N-1 normalizer (Bessel's correction).
@@ -1464,6 +1447,23 @@ Returns NaN if data has less than two entries or if any entry is NaN.
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Single[]">Single[]</span></code> samples</h6>
+          <p class="comments">Sample array, no sorting is assumed. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Variance" class="method">
+		<h4><span title="System.double">double</span> <strong>Variance</strong>(<span title="System.Int32[]">Int32[]</span> samples)</h4>
+		<div class="content">Estimates the unbiased population variance from the provided samples as unsorted array.
+On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+Returns NaN if data has less than two entries or if any entry is NaN. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> samples</h6>
           <p class="comments">Sample array, no sorting is assumed. </p>
       </div>
 
@@ -1490,7 +1490,7 @@ Returns NaN if data has less than two entries or if any entry is NaN.
 
 	
 	<div id="footer">
-  <p>Based on v4.8.1.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.9.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

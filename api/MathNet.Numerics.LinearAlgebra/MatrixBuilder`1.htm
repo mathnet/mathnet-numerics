@@ -337,6 +337,15 @@ storage for performance or interop reasons.
     </div>
 	</div>
 	<div id="DenseDiagonal" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseDiagonal</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="MathNet.Numerics.LinearAlgebra.T">T</span> value)</h4>
+		<div class="content">Create a new diagonal dense matrix and initialize each diagonal value to the same provided value. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="DenseDiagonal" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseDiagonal</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.Func<int, T>">Func&lt;int, T&gt;</span> init)</h4>
 		<div class="content">Create a new diagonal dense matrix and initialize each diagonal value using the provided init function. 
 
@@ -347,15 +356,6 @@ storage for performance or interop reasons.
 	</div>
 	<div id="DenseDiagonal" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseDiagonal</strong>(<span title="System.int">int</span> order, <span title="MathNet.Numerics.LinearAlgebra.T">T</span> value)</h4>
-		<div class="content">Create a new diagonal dense matrix and initialize each diagonal value to the same provided value. 
-
-
-
-      
-    </div>
-	</div>
-	<div id="DenseDiagonal" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseDiagonal</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="MathNet.Numerics.LinearAlgebra.T">T</span> value)</h4>
 		<div class="content">Create a new diagonal dense matrix and initialize each diagonal value to the same provided value. 
 
 
@@ -391,10 +391,8 @@ storage for performance or interop reasons.
     </div>
 	</div>
 	<div id="DenseOfColumnArrays" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfColumnArrays</strong>(<span title="System.Collections.Generic.IEnumerable<T[]>">IEnumerable&lt;T[]&gt;</span> columns)</h4>
-		<div class="content">Create a new dense matrix of T as a copy of the given column arrays.
-This new matrix will be independent from the arrays.
-A new memory block will be allocated for storing the matrix. 
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfColumnArrays</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[][]">T[][]</span> columns)</h4>
+		<div class="content">
 
 
 
@@ -402,8 +400,10 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="DenseOfColumnArrays" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfColumnArrays</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[][]">T[][]</span> columns)</h4>
-		<div class="content">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfColumnArrays</strong>(<span title="System.Collections.Generic.IEnumerable<T[]>">IEnumerable&lt;T[]&gt;</span> columns)</h4>
+		<div class="content">Create a new dense matrix of T as a copy of the given column arrays.
+This new matrix will be independent from the arrays.
+A new memory block will be allocated for storing the matrix. 
 
 
 
@@ -447,6 +447,17 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="DenseOfColumnVectors" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfColumnVectors</strong>(<span title="System.Collections.Generic.IEnumerable<Vector<T>>">IEnumerable&lt;Vector&lt;T&gt;&gt;</span> columns)</h4>
+		<div class="content">Create a new dense matrix as a copy of the given column vectors.
+This new matrix will be independent from the vectors.
+A new memory block will be allocated for storing the matrix. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="DenseOfColumnVectors" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfColumnVectors</strong>(<span title="MathNet.Numerics.LinearAlgebra.Vector`1[]">Vector`1[]</span> columns)</h4>
 		<div class="content">
 
@@ -455,10 +466,10 @@ A new memory block will be allocated for storing the matrix.
       
     </div>
 	</div>
-	<div id="DenseOfColumnVectors" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfColumnVectors</strong>(<span title="System.Collections.Generic.IEnumerable<Vector<T>>">IEnumerable&lt;Vector&lt;T&gt;&gt;</span> columns)</h4>
-		<div class="content">Create a new dense matrix as a copy of the given column vectors.
-This new matrix will be independent from the vectors.
+	<div id="DenseOfDiagonalArray" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfDiagonalArray</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> diagonal)</h4>
+		<div class="content">Create a new dense matrix with the diagonal as a copy of the given array.
+This new matrix will be independent from the array.
 A new memory block will be allocated for storing the matrix. 
 
 
@@ -477,19 +488,8 @@ A new memory block will be allocated for storing the matrix.
       
     </div>
 	</div>
-	<div id="DenseOfDiagonalArray" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfDiagonalArray</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> diagonal)</h4>
-		<div class="content">Create a new dense matrix with the diagonal as a copy of the given array.
-This new matrix will be independent from the array.
-A new memory block will be allocated for storing the matrix. 
-
-
-
-      
-    </div>
-	</div>
 	<div id="DenseOfDiagonalVector" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfDiagonalVector</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> diagonal)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfDiagonalVector</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> diagonal)</h4>
 		<div class="content">Create a new dense matrix with the diagonal as a copy of the given vector.
 This new matrix will be independent from the vector.
 A new memory block will be allocated for storing the matrix. 
@@ -500,7 +500,7 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="DenseOfDiagonalVector" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfDiagonalVector</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> diagonal)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfDiagonalVector</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> diagonal)</h4>
 		<div class="content">Create a new dense matrix with the diagonal as a copy of the given vector.
 This new matrix will be independent from the vector.
 A new memory block will be allocated for storing the matrix. 
@@ -543,8 +543,10 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="DenseOfRowArrays" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfRowArrays</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[][]">T[][]</span> rows)</h4>
-		<div class="content">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfRowArrays</strong>(<span title="System.Collections.Generic.IEnumerable<T[]>">IEnumerable&lt;T[]&gt;</span> rows)</h4>
+		<div class="content">Create a new dense matrix of T as a copy of the given row arrays.
+This new matrix will be independent from the arrays.
+A new memory block will be allocated for storing the matrix. 
 
 
 
@@ -552,10 +554,8 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="DenseOfRowArrays" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfRowArrays</strong>(<span title="System.Collections.Generic.IEnumerable<T[]>">IEnumerable&lt;T[]&gt;</span> rows)</h4>
-		<div class="content">Create a new dense matrix of T as a copy of the given row arrays.
-This new matrix will be independent from the arrays.
-A new memory block will be allocated for storing the matrix. 
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfRowArrays</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[][]">T[][]</span> rows)</h4>
+		<div class="content">
 
 
 
@@ -599,6 +599,15 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="DenseOfRowVectors" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfRowVectors</strong>(<span title="MathNet.Numerics.LinearAlgebra.Vector`1[]">Vector`1[]</span> rows)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="DenseOfRowVectors" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfRowVectors</strong>(<span title="System.Collections.Generic.IEnumerable<Vector<T>>">IEnumerable&lt;Vector&lt;T&gt;&gt;</span> rows)</h4>
 		<div class="content">Create a new dense matrix as a copy of the given row vectors.
 This new matrix will be independent from the vectors.
@@ -609,18 +618,9 @@ A new memory block will be allocated for storing the matrix.
       
     </div>
 	</div>
-	<div id="DenseOfRowVectors" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DenseOfRowVectors</strong>(<span title="MathNet.Numerics.LinearAlgebra.Vector`1[]">Vector`1[]</span> rows)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
 	<div id="Diagonal" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Diagonal</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> storage)</h4>
-		<div class="content">Create a new diagonal matrix with the given number of rows and columns directly binding to a raw array.
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Diagonal</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> storage)</h4>
+		<div class="content">Create a new square diagonal matrix directly binding to a raw array.
 The array is assumed to represent the diagonal values and is used directly without copying.
 Very efficient, but changes to the array and the matrix will affect each other. 
 
@@ -630,20 +630,8 @@ Very efficient, but changes to the array and the matrix will affect each other.
     </div>
 	</div>
 	<div id="Diagonal" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Diagonal</strong>(<a href="../MathNet.Numerics.LinearAlgebra.Storage/DiagonalMatrixStorage`1.htm">DiagonalMatrixStorage&lt;T&gt;</a> storage)</h4>
-		<div class="content">Create a new diagonal matrix straight from an initialized matrix storage instance.
-The storage is used directly without copying.
-Intended for advanced scenarios where you're working directly with
-storage for performance or interop reasons. 
-
-
-
-      
-    </div>
-	</div>
-	<div id="Diagonal" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Diagonal</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> storage)</h4>
-		<div class="content">Create a new square diagonal matrix directly binding to a raw array.
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Diagonal</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> storage)</h4>
+		<div class="content">Create a new diagonal matrix with the given number of rows and columns directly binding to a raw array.
 The array is assumed to represent the diagonal values and is used directly without copying.
 Very efficient, but changes to the array and the matrix will affect each other. 
 
@@ -664,6 +652,18 @@ Very efficient, but changes to the array and the matrix will affect each other.
 	<div id="Diagonal" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Diagonal</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.Func<int, T>">Func&lt;int, T&gt;</span> init)</h4>
 		<div class="content">Create a new diagonal matrix and initialize each diagonal value using the provided init function. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Diagonal" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Diagonal</strong>(<a href="../MathNet.Numerics.LinearAlgebra.Storage/DiagonalMatrixStorage`1.htm">DiagonalMatrixStorage&lt;T&gt;</a> storage)</h4>
+		<div class="content">Create a new diagonal matrix straight from an initialized matrix storage instance.
+The storage is used directly without copying.
+Intended for advanced scenarios where you're working directly with
+storage for performance or interop reasons. 
 
 
 
@@ -700,7 +700,7 @@ Zero-length matrices are not supported.
     </div>
 	</div>
 	<div id="DiagonalOfDiagonalArray" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DiagonalOfDiagonalArray</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> diagonal)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DiagonalOfDiagonalArray</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> diagonal)</h4>
 		<div class="content">Create a new diagonal matrix with the diagonal as a copy of the given array.
 This new matrix will be independent from the array.
 A new memory block will be allocated for storing the matrix. 
@@ -711,7 +711,7 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="DiagonalOfDiagonalArray" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DiagonalOfDiagonalArray</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> diagonal)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>DiagonalOfDiagonalArray</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> diagonal)</h4>
 		<div class="content">Create a new diagonal matrix with the diagonal as a copy of the given array.
 This new matrix will be independent from the array.
 A new memory block will be allocated for storing the matrix. 
@@ -847,8 +847,8 @@ of two samples from the provided random distribution.
     </div>
 	</div>
 	<div id="SameAs" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SameAs</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> example, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns)</h4>
-		<div class="content">Create a new matrix with the same kind of the provided example. 
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SameAs</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> example, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> otherExample, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.bool">bool</span> fullyMutable)</h4>
+		<div class="content">Create a new matrix with a type that can represent and is closest to both provided samples. 
 
 
 
@@ -856,8 +856,8 @@ of two samples from the provided random distribution.
     </div>
 	</div>
 	<div id="SameAs" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SameAs</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> example, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> otherExample, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.bool">bool</span> fullyMutable)</h4>
-		<div class="content">Create a new matrix with a type that can represent and is closest to both provided samples. 
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SameAs</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> example, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns)</h4>
+		<div class="content">Create a new matrix with the same kind of the provided example. 
 
 
 
@@ -874,8 +874,8 @@ of two samples from the provided random distribution.
     </div>
 	</div>
 	<div id="SameAs``1" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SameAs&lt;TU&gt;</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> example, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.bool">bool</span> fullyMutable)</h4>
-		<div class="content">Create a new matrix with the same kind of the provided example. 
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SameAs&lt;TU&gt;</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> example)</h4>
+		<div class="content">Create a new matrix with the same kind and dimensions of the provided example. 
 
 
 
@@ -883,8 +883,8 @@ of two samples from the provided random distribution.
     </div>
 	</div>
 	<div id="SameAs``1" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SameAs&lt;TU&gt;</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> example)</h4>
-		<div class="content">Create a new matrix with the same kind and dimensions of the provided example. 
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SameAs&lt;TU&gt;</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> example, <span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.bool">bool</span> fullyMutable)</h4>
+		<div class="content">Create a new matrix with the same kind of the provided example. 
 
 
 
@@ -993,8 +993,10 @@ storage for performance or interop reasons.
     </div>
 	</div>
 	<div id="SparseOfColumnArrays" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfColumnArrays</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[][]">T[][]</span> columns)</h4>
-		<div class="content">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfColumnArrays</strong>(<span title="System.Collections.Generic.IEnumerable<T[]>">IEnumerable&lt;T[]&gt;</span> columns)</h4>
+		<div class="content">Create a new sparse matrix as a copy of the given column arrays.
+This new matrix will be independent from the arrays.
+A new memory block will be allocated for storing the matrix. 
 
 
 
@@ -1002,10 +1004,8 @@ storage for performance or interop reasons.
     </div>
 	</div>
 	<div id="SparseOfColumnArrays" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfColumnArrays</strong>(<span title="System.Collections.Generic.IEnumerable<T[]>">IEnumerable&lt;T[]&gt;</span> columns)</h4>
-		<div class="content">Create a new sparse matrix as a copy of the given column arrays.
-This new matrix will be independent from the arrays.
-A new memory block will be allocated for storing the matrix. 
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfColumnArrays</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[][]">T[][]</span> columns)</h4>
+		<div class="content">
 
 
 
@@ -1025,18 +1025,6 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="SparseOfColumns" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfColumns</strong>(<span title="System.Collections.Generic.IEnumerable<IEnumerable<T>>">IEnumerable&lt;IEnumerable&lt;T&gt;&gt;</span> data)</h4>
-		<div class="content">Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
-Each enumerable in the master enumerable specifies a column.
-This new matrix will be independent from the enumerables.
-A new memory block will be allocated for storing the matrix. 
-
-
-
-      
-    </div>
-	</div>
-	<div id="SparseOfColumns" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfColumns</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.Collections.Generic.IEnumerable<IEnumerable<T>>">IEnumerable&lt;IEnumerable&lt;T&gt;&gt;</span> data)</h4>
 		<div class="content">Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
 Each enumerable in the master enumerable specifies a column.
@@ -1048,10 +1036,11 @@ A new memory block will be allocated for storing the matrix.
       
     </div>
 	</div>
-	<div id="SparseOfColumnVectors" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfColumnVectors</strong>(<span title="System.Collections.Generic.IEnumerable<Vector<T>>">IEnumerable&lt;Vector&lt;T&gt;&gt;</span> columns)</h4>
-		<div class="content">Create a new sparse matrix as a copy of the given column vectors.
-This new matrix will be independent from the vectors.
+	<div id="SparseOfColumns" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfColumns</strong>(<span title="System.Collections.Generic.IEnumerable<IEnumerable<T>>">IEnumerable&lt;IEnumerable&lt;T&gt;&gt;</span> data)</h4>
+		<div class="content">Create a new sparse matrix as a copy of the given enumerable of enumerable columns.
+Each enumerable in the master enumerable specifies a column.
+This new matrix will be independent from the enumerables.
 A new memory block will be allocated for storing the matrix. 
 
 
@@ -1068,10 +1057,10 @@ A new memory block will be allocated for storing the matrix.
       
     </div>
 	</div>
-	<div id="SparseOfDiagonalArray" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfDiagonalArray</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> diagonal)</h4>
-		<div class="content">Create a new sparse matrix with the diagonal as a copy of the given array.
-This new matrix will be independent from the array.
+	<div id="SparseOfColumnVectors" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfColumnVectors</strong>(<span title="System.Collections.Generic.IEnumerable<Vector<T>>">IEnumerable&lt;Vector&lt;T&gt;&gt;</span> columns)</h4>
+		<div class="content">Create a new sparse matrix as a copy of the given column vectors.
+This new matrix will be independent from the vectors.
 A new memory block will be allocated for storing the matrix. 
 
 
@@ -1090,8 +1079,19 @@ A new memory block will be allocated for storing the matrix.
       
     </div>
 	</div>
+	<div id="SparseOfDiagonalArray" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfDiagonalArray</strong>(<span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> diagonal)</h4>
+		<div class="content">Create a new sparse matrix with the diagonal as a copy of the given array.
+This new matrix will be independent from the array.
+A new memory block will be allocated for storing the matrix. 
+
+
+
+      
+    </div>
+	</div>
 	<div id="SparseOfDiagonalVector" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfDiagonalVector</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> diagonal)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfDiagonalVector</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> diagonal)</h4>
 		<div class="content">Create a new sparse matrix with the diagonal as a copy of the given vector.
 This new matrix will be independent from the vector.
 A new memory block will be allocated for storing the matrix. 
@@ -1102,7 +1102,7 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="SparseOfDiagonalVector" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfDiagonalVector</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> diagonal)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfDiagonalVector</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> diagonal)</h4>
 		<div class="content">Create a new sparse matrix with the diagonal as a copy of the given vector.
 This new matrix will be independent from the vector.
 A new memory block will be allocated for storing the matrix. 
@@ -1177,18 +1177,6 @@ A new memory block will be allocated for storing the vector.
     </div>
 	</div>
 	<div id="SparseOfRows" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfRows</strong>(<span title="System.Collections.Generic.IEnumerable<IEnumerable<T>>">IEnumerable&lt;IEnumerable&lt;T&gt;&gt;</span> data)</h4>
-		<div class="content">Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
-Each enumerable in the master enumerable specifies a row.
-This new matrix will be independent from the enumerables.
-A new memory block will be allocated for storing the matrix. 
-
-
-
-      
-    </div>
-	</div>
-	<div id="SparseOfRows" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfRows</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.Collections.Generic.IEnumerable<IEnumerable<T>>">IEnumerable&lt;IEnumerable&lt;T&gt;&gt;</span> data)</h4>
 		<div class="content">Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
 Each enumerable in the master enumerable specifies a row.
@@ -1200,10 +1188,11 @@ A new memory block will be allocated for storing the matrix.
       
     </div>
 	</div>
-	<div id="SparseOfRowVectors" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfRowVectors</strong>(<span title="System.Collections.Generic.IEnumerable<Vector<T>>">IEnumerable&lt;Vector&lt;T&gt;&gt;</span> rows)</h4>
-		<div class="content">Create a new sparse matrix as a copy of the given row vectors.
-This new matrix will be independent from the vectors.
+	<div id="SparseOfRows" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfRows</strong>(<span title="System.Collections.Generic.IEnumerable<IEnumerable<T>>">IEnumerable&lt;IEnumerable&lt;T&gt;&gt;</span> data)</h4>
+		<div class="content">Create a new sparse matrix as a copy of the given enumerable of enumerable rows.
+Each enumerable in the master enumerable specifies a row.
+This new matrix will be independent from the enumerables.
 A new memory block will be allocated for storing the matrix. 
 
 
@@ -1214,6 +1203,17 @@ A new memory block will be allocated for storing the matrix.
 	<div id="SparseOfRowVectors" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfRowVectors</strong>(<span title="MathNet.Numerics.LinearAlgebra.Vector`1[]">Vector`1[]</span> rows)</h4>
 		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="SparseOfRowVectors" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseOfRowVectors</strong>(<span title="System.Collections.Generic.IEnumerable<Vector<T>>">IEnumerable&lt;Vector&lt;T&gt;&gt;</span> rows)</h4>
+		<div class="content">Create a new sparse matrix as a copy of the given row vectors.
+This new matrix will be independent from the vectors.
+A new memory block will be allocated for storing the matrix. 
 
 
 
@@ -1245,7 +1245,7 @@ A new memory block will be allocated for storing the matrix.
     </div>
   </div>
 	<div id="footer">
-  <p>Based on v4.8.1.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.9.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

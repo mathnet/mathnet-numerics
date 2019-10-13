@@ -140,6 +140,9 @@
             <a href="../MathNet.Numerics/Constants.htm">Constants</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics/ContourIntegrate.htm">ContourIntegrate</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics/Control.htm">Control</a>
         </li>
 				<li>
@@ -237,6 +240,10 @@
 
 			<h3 class="section">Static Functions</h3>
 			<ul>
+				<li><a href="../MathNet.Numerics/Integrate.htm#DoubleExponential">DoubleExponential</a></li>
+				<li><a href="../MathNet.Numerics/Integrate.htm#GaussKronrod">GaussKronrod</a></li>
+				<li><a href="../MathNet.Numerics/Integrate.htm#GaussKronrod">GaussKronrod</a></li>
+				<li><a href="../MathNet.Numerics/Integrate.htm#GaussLegendre">GaussLegendre</a></li>
 				<li><a href="../MathNet.Numerics/Integrate.htm#OnClosedInterval">OnClosedInterval</a></li>
 				<li><a href="../MathNet.Numerics/Integrate.htm#OnClosedInterval">OnClosedInterval</a></li>
 				<li><a href="../MathNet.Numerics/Integrate.htm#OnRectangle">OnRectangle</a></li>
@@ -251,6 +258,97 @@
 	
 	<h3 class="section">Public Static Functions</h3>
 	
+	<div id="DoubleExponential" class="method">
+		<h4><span title="System.double">double</span> <strong>DoubleExponential</strong>(<span title="System.Func<double, double>">Func&lt;double, double&gt;</span> f, <span title="System.double">double</span> intervalBegin, <span title="System.double">double</span> intervalEnd, <span title="System.double">double</span> targetAbsoluteError)</h4>
+		<div class="content">Approximation of the definite integral of an analytic smooth function by double-exponential quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Func<double, double>">Func&lt;double, double&gt;</span></code> f</h6>
+          <p class="comments">The analytic smooth function to integrate. </p>
+          <h6><code><span title="System.double">double</span></code> intervalBegin</h6>
+          <p class="comments">Where the interval starts. </p>
+          <h6><code><span title="System.double">double</span></code> intervalEnd</h6>
+          <p class="comments">Where the interval stops. </p>
+          <h6><code><span title="System.double">double</span></code> targetAbsoluteError</h6>
+          <p class="comments">The expected relative accuracy of the approximation. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Approximation of the finite integral in the given interval. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="GaussKronrod" class="method">
+		<h4><span title="System.double">double</span> <strong>GaussKronrod</strong>(<span title="System.Func<double, double>">Func&lt;double, double&gt;</span> f, <span title="System.double">double</span> intervalBegin, <span title="System.double">double</span> intervalEnd, <span title="System.double">double</span> targetRelativeError, <span title="System.int">int</span> maximumDepth, <span title="System.int">int</span> order)</h4>
+		<div class="content">Approximation of the definite integral of an analytic smooth function by Gauss-Kronrod quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Func<double, double>">Func&lt;double, double&gt;</span></code> f</h6>
+          <p class="comments">The analytic smooth function to integrate. </p>
+          <h6><code><span title="System.double">double</span></code> intervalBegin</h6>
+          <p class="comments">Where the interval starts. </p>
+          <h6><code><span title="System.double">double</span></code> intervalEnd</h6>
+          <p class="comments">Where the interval stops. </p>
+          <h6><code><span title="System.double">double</span></code> targetRelativeError</h6>
+          <p class="comments">The expected relative accuracy of the approximation. </p>
+          <h6><code><span title="System.int">int</span></code> maximumDepth</h6>
+          <p class="comments">The maximum number of interval splittings permitted before stopping. </p>
+          <h6><code><span title="System.int">int</span></code> order</h6>
+          <p class="comments">The number of Gauss-Kronrod points. Pre-computed for 15, 31, 41, 51 and 61 points. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Approximation of the finite integral in the given interval. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="GaussKronrod" class="method">
+		<h4><span title="System.double">double</span> <strong>GaussKronrod</strong>(<span title="System.Func<double, double>">Func&lt;double, double&gt;</span> f, <span title="System.double">double</span> intervalBegin, <span title="System.double">double</span> intervalEnd, <span title="System.Double&">Double&amp;</span> error, <span title="System.Double&">Double&amp;</span> L1Norm, <span title="System.double">double</span> targetRelativeError, <span title="System.int">int</span> maximumDepth, <span title="System.int">int</span> order)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="GaussLegendre" class="method">
+		<h4><span title="System.double">double</span> <strong>GaussLegendre</strong>(<span title="System.Func<double, double>">Func&lt;double, double&gt;</span> f, <span title="System.double">double</span> intervalBegin, <span title="System.double">double</span> intervalEnd, <span title="System.int">int</span> order)</h4>
+		<div class="content">Approximation of the definite integral of an analytic smooth function by Gauss-Legendre quadrature. When either or both limits are infinite, the integrand is assumed rapidly decayed to zero as x -> infinity. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Func<double, double>">Func&lt;double, double&gt;</span></code> f</h6>
+          <p class="comments">The analytic smooth function to integrate. </p>
+          <h6><code><span title="System.double">double</span></code> intervalBegin</h6>
+          <p class="comments">Where the interval starts. </p>
+          <h6><code><span title="System.double">double</span></code> intervalEnd</h6>
+          <p class="comments">Where the interval stops. </p>
+          <h6><code><span title="System.int">int</span></code> order</h6>
+          <p class="comments">Defines an Nth order Gauss-Legendre rule. The order also defines the number of abscissas and weights for the rule. Precomputed Gauss-Legendre abscissas/weights for orders 2-20, 32, 64, 96, 100, 128, 256, 512, 1024 are used, otherwise they're calculated on the fly. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Approximation of the finite integral in the given interval. </p>
+      </div>
+      
+    </div>
+	</div>
 	<div id="OnClosedInterval" class="method">
 		<h4><span title="System.double">double</span> <strong>OnClosedInterval</strong>(<span title="System.Func<double, double>">Func&lt;double, double&gt;</span> f, <span title="System.double">double</span> intervalBegin, <span title="System.double">double</span> intervalEnd, <span title="System.double">double</span> targetAbsoluteError)</h4>
 		<div class="content">Approximation of the definite integral of an analytic smooth function on a closed interval. 
@@ -362,7 +460,7 @@
 
 	
 	<div id="footer">
-  <p>Based on v4.8.1.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.9.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

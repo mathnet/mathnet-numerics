@@ -358,8 +358,8 @@ When used directly it use the System.Random as random number source.
     </div>
 	</div>
 	<div id="NextInt32s" class="method">
-		<h4><span title="System.Int32[]">Int32[]</span> <strong>NextInt32s</strong>(<span title="System.int">int</span> count)</h4>
-		<div class="content">Returns an array with random 32-bit signed integers greater than or equal to zero and less than  <span title="MaxValue">MaxValue</span>. 
+		<h4><span title="System.Int32[]">Int32[]</span> <strong>NextInt32s</strong>(<span title="System.int">int</span> count, <span title="System.int">int</span> maxExclusive)</h4>
+		<div class="content">Returns an array with random 32-bit signed integers within the specified range. 
 
 
       <div class="parameters">
@@ -367,6 +367,8 @@ When used directly it use the System.Random as random number source.
 
           <h6><code><span title="System.int">int</span></code> count</h6>
           <p class="comments">The size of the array to fill. </p>
+          <h6><code><span title="System.int">int</span></code> maxExclusive</h6>
+          <p class="comments">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1. </p>
       </div>
 
       
@@ -392,8 +394,25 @@ When used directly it use the System.Random as random number source.
     </div>
 	</div>
 	<div id="NextInt32s" class="method">
-		<h4><span title="System.Int32[]">Int32[]</span> <strong>NextInt32s</strong>(<span title="System.int">int</span> count, <span title="System.int">int</span> minInclusive, <span title="System.int">int</span> maxExclusive)</h4>
-		<div class="content">Returns an array with random 32-bit signed integers within the specified range. 
+		<h4><span title="System.void">void</span> <strong>NextInt32s</strong>(<span title="System.Int32[]">Int32[]</span> values, <span title="System.int">int</span> maxExclusive)</h4>
+		<div class="content">Fills an array with random numbers within a specified range. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> values</h6>
+          <p class="comments">The array to fill with random values. </p>
+          <h6><code><span title="System.int">int</span></code> maxExclusive</h6>
+          <p class="comments">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="NextInt32s" class="method">
+		<h4><span title="System.Int32[]">Int32[]</span> <strong>NextInt32s</strong>(<span title="System.int">int</span> count)</h4>
+		<div class="content">Returns an array with random 32-bit signed integers greater than or equal to zero and less than  <span title="MaxValue">MaxValue</span>. 
 
 
       <div class="parameters">
@@ -401,10 +420,6 @@ When used directly it use the System.Random as random number source.
 
           <h6><code><span title="System.int">int</span></code> count</h6>
           <p class="comments">The size of the array to fill. </p>
-          <h6><code><span title="System.int">int</span></code> minInclusive</h6>
-          <p class="comments">The inclusive lower bound of the random number returned. </p>
-          <h6><code><span title="System.int">int</span></code> maxExclusive</h6>
-          <p class="comments">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive. </p>
       </div>
 
       
@@ -426,24 +441,7 @@ When used directly it use the System.Random as random number source.
     </div>
 	</div>
 	<div id="NextInt32s" class="method">
-		<h4><span title="System.void">void</span> <strong>NextInt32s</strong>(<span title="System.Int32[]">Int32[]</span> values, <span title="System.int">int</span> maxExclusive)</h4>
-		<div class="content">Fills an array with random numbers within a specified range. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Int32[]">Int32[]</span></code> values</h6>
-          <p class="comments">The array to fill with random values. </p>
-          <h6><code><span title="System.int">int</span></code> maxExclusive</h6>
-          <p class="comments">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="NextInt32s" class="method">
-		<h4><span title="System.Int32[]">Int32[]</span> <strong>NextInt32s</strong>(<span title="System.int">int</span> count, <span title="System.int">int</span> maxExclusive)</h4>
+		<h4><span title="System.Int32[]">Int32[]</span> <strong>NextInt32s</strong>(<span title="System.int">int</span> count, <span title="System.int">int</span> minInclusive, <span title="System.int">int</span> maxExclusive)</h4>
 		<div class="content">Returns an array with random 32-bit signed integers within the specified range. 
 
 
@@ -452,8 +450,10 @@ When used directly it use the System.Random as random number source.
 
           <h6><code><span title="System.int">int</span></code> count</h6>
           <p class="comments">The size of the array to fill. </p>
+          <h6><code><span title="System.int">int</span></code> minInclusive</h6>
+          <p class="comments">The inclusive lower bound of the random number returned. </p>
           <h6><code><span title="System.int">int</span></code> maxExclusive</h6>
-          <p class="comments">The exclusive upper bound of the random number returned. Range: maxExclusive ≥ 1. </p>
+          <p class="comments">The exclusive upper bound of the random number returned. Range: maxExclusive > minExclusive. </p>
       </div>
 
       
@@ -496,7 +496,7 @@ When used directly it use the System.Random as random number source.
 	</div>
 	
 	<div id="footer">
-  <p>Based on v4.8.1.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.9.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

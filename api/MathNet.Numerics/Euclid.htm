@@ -140,6 +140,9 @@
             <a href="../MathNet.Numerics/Constants.htm">Constants</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics/ContourIntegrate.htm">ContourIntegrate</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics/Control.htm">Control</a>
         </li>
 				<li>
@@ -283,27 +286,6 @@
 	<h3 class="section">Public Static Functions</h3>
 	
 	<div id="CeilingToPowerOfTwo" class="method">
-		<h4><span title="System.long">long</span> <strong>CeilingToPowerOfTwo</strong>(this <span title="System.long">long</span> number)</h4>
-		<div class="content">Find the closest perfect power of two that is larger or equal to the provided
-64 bit integer. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.long">long</span></code> number</h6>
-          <p class="comments">The number of which to find the closest upper power of two. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.long">long</span></code></h6>
-        <p>A power of two. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="CeilingToPowerOfTwo" class="method">
 		<h4><span title="System.int">int</span> <strong>CeilingToPowerOfTwo</strong>(this <span title="System.int">int</span> number)</h4>
 		<div class="content">Find the closest perfect power of two that is larger or equal to the provided
 32 bit integer. 
@@ -324,12 +306,24 @@
       
     </div>
 	</div>
-	<div id="ExtendedGreatestCommonDivisor" class="method">
-		<h4><span title="System.Numerics.BigInteger">BigInteger</span> <strong>ExtendedGreatestCommonDivisor</strong>(<span title="System.Numerics.BigInteger">BigInteger</span> a, <span title="System.Numerics.BigInteger">BigInteger</span> b, <span title="System.Numerics.BigInteger&">BigInteger&amp;</span> x, <span title="System.Numerics.BigInteger&">BigInteger&amp;</span> y)</h4>
-		<div class="content">
+	<div id="CeilingToPowerOfTwo" class="method">
+		<h4><span title="System.long">long</span> <strong>CeilingToPowerOfTwo</strong>(this <span title="System.long">long</span> number)</h4>
+		<div class="content">Find the closest perfect power of two that is larger or equal to the provided
+64 bit integer. 
 
 
+      <div class="parameters">
+        <h5>Parameters</h5>
 
+          <h6><code><span title="System.long">long</span></code> number</h6>
+          <p class="comments">The number of which to find the closest upper power of two. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.long">long</span></code></h6>
+        <p>A power of two. </p>
+      </div>
       
     </div>
 	</div>
@@ -339,6 +333,57 @@
 
 
 
+      
+    </div>
+	</div>
+	<div id="ExtendedGreatestCommonDivisor" class="method">
+		<h4><span title="System.Numerics.BigInteger">BigInteger</span> <strong>ExtendedGreatestCommonDivisor</strong>(<span title="System.Numerics.BigInteger">BigInteger</span> a, <span title="System.Numerics.BigInteger">BigInteger</span> b, <span title="System.Numerics.BigInteger&">BigInteger&amp;</span> x, <span title="System.Numerics.BigInteger&">BigInteger&amp;</span> y)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="GreatestCommonDivisor" class="method">
+		<h4><span title="System.Numerics.BigInteger">BigInteger</span> <strong>GreatestCommonDivisor</strong>(<span title="System.Numerics.BigInteger[]">BigInteger[]</span> integers)</h4>
+		<div class="content">Returns the greatest common divisor ( <code>gcd</code> ) of a set of big integers. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.BigInteger[]">BigInteger[]</span></code> integers</h6>
+          <p class="comments">List of Integers. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code></h6>
+        <p>Greatest common divisor  <code>gcd</code> (list of integers) </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="GreatestCommonDivisor" class="method">
+		<h4><span title="System.Numerics.BigInteger">BigInteger</span> <strong>GreatestCommonDivisor</strong>(<span title="System.Numerics.BigInteger">BigInteger</span> a, <span title="System.Numerics.BigInteger">BigInteger</span> b)</h4>
+		<div class="content">Returns the greatest common divisor ( <code>gcd</code> ) of two big integers. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code> a</h6>
+          <p class="comments">First Integer: a. </p>
+          <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code> b</h6>
+          <p class="comments">Second Integer: b. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code></h6>
+        <p>Greatest common divisor  <code>gcd</code> (a,b) </p>
+      </div>
       
     </div>
 	</div>
@@ -405,48 +450,6 @@ algorithm.
       
     </div>
 	</div>
-	<div id="GreatestCommonDivisor" class="method">
-		<h4><span title="System.Numerics.BigInteger">BigInteger</span> <strong>GreatestCommonDivisor</strong>(<span title="System.Numerics.BigInteger">BigInteger</span> a, <span title="System.Numerics.BigInteger">BigInteger</span> b)</h4>
-		<div class="content">Returns the greatest common divisor ( <code>gcd</code> ) of two big integers. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code> a</h6>
-          <p class="comments">First Integer: a. </p>
-          <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code> b</h6>
-          <p class="comments">Second Integer: b. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code></h6>
-        <p>Greatest common divisor  <code>gcd</code> (a,b) </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="GreatestCommonDivisor" class="method">
-		<h4><span title="System.Numerics.BigInteger">BigInteger</span> <strong>GreatestCommonDivisor</strong>(<span title="System.Numerics.BigInteger[]">BigInteger[]</span> integers)</h4>
-		<div class="content">Returns the greatest common divisor ( <code>gcd</code> ) of a set of big integers. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Numerics.BigInteger[]">BigInteger[]</span></code> integers</h6>
-          <p class="comments">List of Integers. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code></h6>
-        <p>Greatest common divisor  <code>gcd</code> (list of integers) </p>
-      </div>
-      
-    </div>
-	</div>
 	<div id="IsEven" class="method">
 		<h4><span title="System.bool">bool</span> <strong>IsEven</strong>(this <span title="System.int">int</span> number)</h4>
 		<div class="content">Find out whether the provided 32 bit integer is an even number. 
@@ -488,14 +491,14 @@ algorithm.
     </div>
 	</div>
 	<div id="IsOdd" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsOdd</strong>(this <span title="System.long">long</span> number)</h4>
-		<div class="content">Find out whether the provided 64 bit integer is an odd number. 
+		<h4><span title="System.bool">bool</span> <strong>IsOdd</strong>(this <span title="System.int">int</span> number)</h4>
+		<div class="content">Find out whether the provided 32 bit integer is an odd number. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.long">long</span></code> number</h6>
+          <h6><code><span title="System.int">int</span></code> number</h6>
           <p class="comments">The number to very whether it's odd. </p>
       </div>
 
@@ -508,14 +511,14 @@ algorithm.
     </div>
 	</div>
 	<div id="IsOdd" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsOdd</strong>(this <span title="System.int">int</span> number)</h4>
-		<div class="content">Find out whether the provided 32 bit integer is an odd number. 
+		<h4><span title="System.bool">bool</span> <strong>IsOdd</strong>(this <span title="System.long">long</span> number)</h4>
+		<div class="content">Find out whether the provided 64 bit integer is an odd number. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.int">int</span></code> number</h6>
+          <h6><code><span title="System.long">long</span></code> number</h6>
           <p class="comments">The number to very whether it's odd. </p>
       </div>
 
@@ -568,26 +571,6 @@ algorithm.
     </div>
 	</div>
 	<div id="IsPowerOfTwo" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsPowerOfTwo</strong>(this <span title="System.int">int</span> number)</h4>
-		<div class="content">Find out whether the provided 32 bit integer is a perfect power of two. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.int">int</span></code> number</h6>
-          <p class="comments">The number to very whether it's a power of two. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.bool">bool</span></code></h6>
-        <p>True if and only if it is a power of two. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="IsPowerOfTwo" class="method">
 		<h4><span title="System.bool">bool</span> <strong>IsPowerOfTwo</strong>(this <span title="System.long">long</span> number)</h4>
 		<div class="content">Find out whether the provided 64 bit integer is a perfect power of two. 
 
@@ -607,42 +590,22 @@ algorithm.
       
     </div>
 	</div>
-	<div id="LeastCommonMultiple" class="method">
-		<h4><span title="System.long">long</span> <strong>LeastCommonMultiple</strong>(<span title="System.Collections.Generic.IList<long>">IList&lt;long&gt;</span> integers)</h4>
-		<div class="content">Returns the least common multiple ( <code>lcm</code> ) of a set of integers using Euclid's algorithm. 
+	<div id="IsPowerOfTwo" class="method">
+		<h4><span title="System.bool">bool</span> <strong>IsPowerOfTwo</strong>(this <span title="System.int">int</span> number)</h4>
+		<div class="content">Find out whether the provided 32 bit integer is a perfect power of two. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Collections.Generic.IList<long>">IList&lt;long&gt;</span></code> integers</h6>
-          <p class="comments">List of Integers. </p>
+          <h6><code><span title="System.int">int</span></code> number</h6>
+          <p class="comments">The number to very whether it's a power of two. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
-        <h6><code><span title="System.long">long</span></code></h6>
-        <p>Least common multiple  <code>lcm</code> (list of integers) </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="LeastCommonMultiple" class="method">
-		<h4><span title="System.long">long</span> <strong>LeastCommonMultiple</strong>(<span title="System.Int64[]">Int64[]</span> integers)</h4>
-		<div class="content">Returns the least common multiple ( <code>lcm</code> ) of a set of integers using Euclid's algorithm. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Int64[]">Int64[]</span></code> integers</h6>
-          <p class="comments">List of Integers. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.long">long</span></code></h6>
-        <p>Least common multiple  <code>lcm</code> (list of integers) </p>
+        <h6><code><span title="System.bool">bool</span></code></h6>
+        <p>True if and only if it is a power of two. </p>
       </div>
       
     </div>
@@ -711,20 +674,51 @@ algorithm.
       
     </div>
 	</div>
+	<div id="LeastCommonMultiple" class="method">
+		<h4><span title="System.long">long</span> <strong>LeastCommonMultiple</strong>(<span title="System.Collections.Generic.IList<long>">IList&lt;long&gt;</span> integers)</h4>
+		<div class="content">Returns the least common multiple ( <code>lcm</code> ) of a set of integers using Euclid's algorithm. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Collections.Generic.IList<long>">IList&lt;long&gt;</span></code> integers</h6>
+          <p class="comments">List of Integers. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.long">long</span></code></h6>
+        <p>Least common multiple  <code>lcm</code> (list of integers) </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="LeastCommonMultiple" class="method">
+		<h4><span title="System.long">long</span> <strong>LeastCommonMultiple</strong>(<span title="System.Int64[]">Int64[]</span> integers)</h4>
+		<div class="content">Returns the least common multiple ( <code>lcm</code> ) of a set of integers using Euclid's algorithm. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Int64[]">Int64[]</span></code> integers</h6>
+          <p class="comments">List of Integers. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.long">long</span></code></h6>
+        <p>Least common multiple  <code>lcm</code> (list of integers) </p>
+      </div>
+      
+    </div>
+	</div>
 	<div id="Log2" class="method">
 		<h4><span title="System.int">int</span> <strong>Log2</strong>(this <span title="System.int">int</span> number)</h4>
 		<div class="content">Evaluate the binary logarithm of an integer number. <blockquote class="remarks">
   Two-step method using a De Bruijn-like sequence table lookup. 
 </blockquote>
-
-
-
-      
-    </div>
-	</div>
-	<div id="Modulus" class="method">
-		<h4><span title="System.double">double</span> <strong>Modulus</strong>(<span title="System.double">double</span> dividend, <span title="System.double">double</span> divisor)</h4>
-		<div class="content">Canonical Modulus. The result has the sign of the divisor. 
 
 
 
@@ -767,23 +761,12 @@ algorithm.
       
     </div>
 	</div>
-	<div id="PowerOfTwo" class="method">
-		<h4><span title="System.int">int</span> <strong>PowerOfTwo</strong>(this <span title="System.int">int</span> exponent)</h4>
-		<div class="content">Raises 2 to the provided integer exponent (0 <= exponent < 31). 
+	<div id="Modulus" class="method">
+		<h4><span title="System.double">double</span> <strong>Modulus</strong>(<span title="System.double">double</span> dividend, <span title="System.double">double</span> divisor)</h4>
+		<div class="content">Canonical Modulus. The result has the sign of the divisor. 
 
 
-      <div class="parameters">
-        <h5>Parameters</h5>
 
-          <h6><code><span title="System.int">int</span></code> exponent</h6>
-          <p class="comments">The exponent to raise 2 up to. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.int">int</span></code></h6>
-        <p>2 ^ exponent. </p>
-      </div>
       
     </div>
 	</div>
@@ -802,6 +785,26 @@ algorithm.
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.long">long</span></code></h6>
+        <p>2 ^ exponent. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="PowerOfTwo" class="method">
+		<h4><span title="System.int">int</span> <strong>PowerOfTwo</strong>(this <span title="System.int">int</span> exponent)</h4>
+		<div class="content">Raises 2 to the provided integer exponent (0 <= exponent < 31). 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> exponent</h6>
+          <p class="comments">The exponent to raise 2 up to. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.int">int</span></code></h6>
         <p>2 ^ exponent. </p>
       </div>
       
@@ -855,7 +858,7 @@ algorithm.
 
 	
 	<div id="footer">
-  <p>Based on v4.8.1.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.9.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

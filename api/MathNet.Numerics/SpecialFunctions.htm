@@ -140,6 +140,9 @@
             <a href="../MathNet.Numerics/Constants.htm">Constants</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics/ContourIntegrate.htm">ContourIntegrate</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics/Control.htm">Control</a>
         </li>
 				<li>
@@ -1913,26 +1916,6 @@ Q(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a > 0, x > 0.
     </div>
 	</div>
 	<div id="KelvinBei" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinBei</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the Kelvin function bei. <p>KelvinBei(x) is given by the imaginary part of BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinBei(x) is equivalent to KelvinBei(0, x). </p> 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The value to compute the Kelvin function of. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>The Kelvin function bei. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="KelvinBei" class="method">
 		<h4><span title="System.double">double</span> <strong>KelvinBei</strong>(<span title="System.double">double</span> nu, <span title="System.double">double</span> x)</h4>
 		<div class="content">Returns the Kelvin function bei. <p>KelvinBei(nu, x) is given by the imaginary part of BesselJ(nu, j * sqrt(j) * x) where j = sqrt(-1). </p> 
 
@@ -1954,22 +1937,22 @@ Q(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a > 0, x > 0.
       
     </div>
 	</div>
-	<div id="KelvinBeiPrime" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinBeiPrime</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the derivative of the Kelvin function bei. 
+	<div id="KelvinBei" class="method">
+		<h4><span title="System.double">double</span> <strong>KelvinBei</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the Kelvin function bei. <p>KelvinBei(x) is given by the imaginary part of BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinBei(x) is equivalent to KelvinBei(0, x). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
           <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The value to compute the derivative of the Kelvin function of. </p>
+          <p class="comments">The value to compute the Kelvin function of. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
-        <p>The derivative of the Kelvin function bei. </p>
+        <p>The Kelvin function bei. </p>
       </div>
       
     </div>
@@ -1996,22 +1979,22 @@ Q(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a > 0, x > 0.
       
     </div>
 	</div>
-	<div id="KelvinBer" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinBer</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the Kelvin function ber. <p>KelvinBer(x) is given by the real part of BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinBer(x) is equivalent to KelvinBer(0, x). </p> 
+	<div id="KelvinBeiPrime" class="method">
+		<h4><span title="System.double">double</span> <strong>KelvinBeiPrime</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the derivative of the Kelvin function bei. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
           <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The value to compute the Kelvin function of. </p>
+          <p class="comments">The value to compute the derivative of the Kelvin function of. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
-        <p>The Kelvin function ber. </p>
+        <p>The derivative of the Kelvin function bei. </p>
       </div>
       
     </div>
@@ -2038,22 +2021,22 @@ Q(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a > 0, x > 0.
       
     </div>
 	</div>
-	<div id="KelvinBerPrime" class="method">
-		<h4><span title="System.double">double</span> <strong>KelvinBerPrime</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Returns the derivative of the Kelvin function ber. 
+	<div id="KelvinBer" class="method">
+		<h4><span title="System.double">double</span> <strong>KelvinBer</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the Kelvin function ber. <p>KelvinBer(x) is given by the real part of BesselJ(0, j * sqrt(j) * x) where j = sqrt(-1). </p> <p>KelvinBer(x) is equivalent to KelvinBer(0, x). </p> 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
           <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The value to compute the derivative of the Kelvin function of. </p>
+          <p class="comments">The value to compute the Kelvin function of. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
-        <p>The derivative of the Kelvin function ber. </p>
+        <p>The Kelvin function ber. </p>
       </div>
       
     </div>
@@ -2076,6 +2059,26 @@ Q(a,x) = 1/Gamma(a) * int(exp(-t)t^(a-1),t=0..x) for real a > 0, x > 0.
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
         <p>the derivative of the Kelvin function ber </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="KelvinBerPrime" class="method">
+		<h4><span title="System.double">double</span> <strong>KelvinBerPrime</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">Returns the derivative of the Kelvin function ber. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> x</h6>
+          <p class="comments">The value to compute the derivative of the Kelvin function of. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>The derivative of the Kelvin function ber. </p>
       </div>
       
     </div>
@@ -2449,7 +2452,7 @@ between 0 and 1. </p>
 
 	
 	<div id="footer">
-  <p>Based on v4.8.1.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.9.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

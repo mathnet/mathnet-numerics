@@ -318,15 +318,6 @@ A new memory block will be allocated for storing the vector.
     </div>
 	</div>
 	<div id="Random``1" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Random&lt;T&gt;</strong>(<span title="System.int">int</span> length, <a href="../MathNet.Numerics.Distributions/IContinuousDistribution.htm">IContinuousDistribution</a> distribution)</h4>
-		<div class="content">Create a new dense vector with values sampled from the provided random distribution. 
-
-
-
-      
-    </div>
-	</div>
-	<div id="Random``1" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Random&lt;T&gt;</strong>(<span title="System.int">int</span> length, <span title="System.int">int</span> seed)</h4>
 		<div class="content">Create a new dense vector with values sampled from the standard distribution with a system random source. 
 
@@ -335,9 +326,9 @@ A new memory block will be allocated for storing the vector.
       
     </div>
 	</div>
-	<div id="SameAs``1" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>SameAs&lt;T&gt;</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> matrix, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> vector, <span title="System.int">int</span> length)</h4>
-		<div class="content">Create a new vector with a type that can represent and is closest to both provided samples. 
+	<div id="Random``1" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Random&lt;T&gt;</strong>(<span title="System.int">int</span> length, <a href="../MathNet.Numerics.Distributions/IContinuousDistribution.htm">IContinuousDistribution</a> distribution)</h4>
+		<div class="content">Create a new dense vector with values sampled from the provided random distribution. 
 
 
 
@@ -347,6 +338,15 @@ A new memory block will be allocated for storing the vector.
 	<div id="SameAs``1" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>SameAs&lt;T&gt;</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> example, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> otherExample)</h4>
 		<div class="content">Create a new vector with a type that can represent and is closest to both provided samples and the dimensions of example. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="SameAs``1" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>SameAs&lt;T&gt;</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> matrix, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> vector, <span title="System.int">int</span> length)</h4>
+		<div class="content">Create a new vector with a type that can represent and is closest to both provided samples. 
 
 
 
@@ -390,24 +390,6 @@ A new memory block will be allocated for storing the vector.
     </div>
 	</div>
 	<div id="Sparse``1" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Sparse&lt;T&gt;</strong>(<span title="System.int">int</span> length, <span title="System.Func<int, T>">Func&lt;int, T&gt;</span> init)</h4>
-		<div class="content">Create a new sparse vector and initialize each value using the provided init function. 
-
-
-
-      
-    </div>
-	</div>
-	<div id="Sparse``1" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Sparse&lt;T&gt;</strong>(<span title="System.int">int</span> length, <span title="MathNet.Numerics.LinearAlgebra.T">T</span> value)</h4>
-		<div class="content">Create a new sparse vector and initialize each value using the provided value. 
-
-
-
-      
-    </div>
-	</div>
-	<div id="Sparse``1" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Sparse&lt;T&gt;</strong>(<a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseVectorStorage`1.htm">SparseVectorStorage&lt;T&gt;</a> storage)</h4>
 		<div class="content">Create a new sparse vector straight from an initialized vector storage instance.
 The storage is used directly without copying.
@@ -430,6 +412,24 @@ storage for performance or interop reasons.
           <h6><code><span title="System.int">int</span></code> size</h6>
           <p class="comments">The size of the vector. </p>
       </div>
+
+      
+    </div>
+	</div>
+	<div id="Sparse``1" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Sparse&lt;T&gt;</strong>(<span title="System.int">int</span> length, <span title="MathNet.Numerics.LinearAlgebra.T">T</span> value)</h4>
+		<div class="content">Create a new sparse vector and initialize each value using the provided value. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Sparse``1" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Sparse&lt;T&gt;</strong>(<span title="System.int">int</span> length, <span title="System.Func<int, T>">Func&lt;int, T&gt;</span> init)</h4>
+		<div class="content">Create a new sparse vector and initialize each value using the provided init function. 
+
+
 
       
     </div>
@@ -492,7 +492,7 @@ If you have an instance of a discrete storage type instead, use their direct met
 
 	
 	<div id="footer">
-  <p>Based on v4.8.1.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.9.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

@@ -140,6 +140,9 @@
             <a href="../MathNet.Numerics/Constants.htm">Constants</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics/ContourIntegrate.htm">ContourIntegrate</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics/Control.htm">Control</a>
         </li>
 				<li>
@@ -588,7 +591,7 @@ close this value is to zero.
     </div>
 	</div>
 	<div id="NormOfDifference" class="method">
-		<h4><span title="System.double">double</span> <strong>NormOfDifference</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> complex, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> otherValue)</h4>
+		<h4><span title="System.double">double</span> <strong>NormOfDifference</strong>(this <span title="System.Numerics.Complex">Complex</span> complex, <span title="System.Numerics.Complex">Complex</span> otherValue)</h4>
 		<div class="content">Returns a Norm of the difference of two values of this type, which is
 appropriate for measuring how close together these two values are. 
 
@@ -598,7 +601,7 @@ appropriate for measuring how close together these two values are.
     </div>
 	</div>
 	<div id="NormOfDifference" class="method">
-		<h4><span title="System.double">double</span> <strong>NormOfDifference</strong>(this <span title="System.Numerics.Complex">Complex</span> complex, <span title="System.Numerics.Complex">Complex</span> otherValue)</h4>
+		<h4><span title="System.double">double</span> <strong>NormOfDifference</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> complex, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> otherValue)</h4>
 		<div class="content">Returns a Norm of the difference of two values of this type, which is
 appropriate for measuring how close together these two values are. 
 
@@ -724,28 +727,6 @@ appropriate for measuring how close together these two values are.
     </div>
 	</div>
 	<div id="ToComplex" class="method">
-		<h4><span title="System.Numerics.Complex">Complex</span> <strong>ToComplex</strong>(this <span title="System.string">string</span> value)</h4>
-		<div class="content">Creates a complex number based on a string. The string can be in the
-following formats (without the quotes): 'n', 'ni', 'n +/- ni',
-'ni +/- n', 'n,n', 'n,ni,' '(n,n)', or '(n,ni)', where n is a double. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.string">string</span></code> value</h6>
-          <p class="comments">The string to parse. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
-        <p>A complex number containing the value specified by the given string. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="ToComplex" class="method">
 		<h4><span title="System.Numerics.Complex">Complex</span> <strong>ToComplex</strong>(this <span title="System.string">string</span> value, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider)</h4>
 		<div class="content">Creates a complex number based on a string. The string can be in the
 following formats (without the quotes): 'n', 'ni', 'n +/- ni',
@@ -760,6 +741,28 @@ following formats (without the quotes): 'n', 'ni', 'n +/- ni',
           <h6><code><span title="System.IFormatProvider">IFormatProvider</span></code> formatProvider</h6>
           <p class="comments">An  <a href="../System/IFormatProvider.htm">IFormatProvider</a>  that supplies culture-specific
 formatting information. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.Complex">Complex</span></code></h6>
+        <p>A complex number containing the value specified by the given string. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="ToComplex" class="method">
+		<h4><span title="System.Numerics.Complex">Complex</span> <strong>ToComplex</strong>(this <span title="System.string">string</span> value)</h4>
+		<div class="content">Creates a complex number based on a string. The string can be in the
+following formats (without the quotes): 'n', 'ni', 'n +/- ni',
+'ni +/- n', 'n,n', 'n,ni,' '(n,n)', or '(n,ni)', where n is a double. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.string">string</span></code> value</h6>
+          <p class="comments">The string to parse. </p>
       </div>
 
       <div class="return">
@@ -818,7 +821,7 @@ formatting information. </p>
     </div>
 	</div>
 	<div id="TryToComplex" class="method">
-		<h4><span title="System.bool">bool</span> <strong>TryToComplex</strong>(this <span title="System.string">string</span> value, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider, <span title="System.Numerics.Complex&">Complex&amp;</span> result)</h4>
+		<h4><span title="System.bool">bool</span> <strong>TryToComplex</strong>(this <span title="System.string">string</span> value, <span title="System.Numerics.Complex&">Complex&amp;</span> result)</h4>
 		<div class="content">
 
 
@@ -827,7 +830,7 @@ formatting information. </p>
     </div>
 	</div>
 	<div id="TryToComplex" class="method">
-		<h4><span title="System.bool">bool</span> <strong>TryToComplex</strong>(this <span title="System.string">string</span> value, <span title="System.Numerics.Complex&">Complex&amp;</span> result)</h4>
+		<h4><span title="System.bool">bool</span> <strong>TryToComplex</strong>(this <span title="System.string">string</span> value, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider, <span title="System.Numerics.Complex&">Complex&amp;</span> result)</h4>
 		<div class="content">
 
 
@@ -856,7 +859,7 @@ formatting information. </p>
 
 	
 	<div id="footer">
-  <p>Based on v4.8.1.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.9.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

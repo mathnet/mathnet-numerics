@@ -255,22 +255,6 @@
     </div>
 	</div>
 	<div id="FiveNumberSummary" class="method">
-		<h4><span title="System.Single[]">Single[]</span> <strong>FiveNumberSummary</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
-		<div class="content">Estimates {min, lower-quantile, median, upper-quantile, max} from the sorted data array (ascending).
-Approximately median-unbiased regardless of the sample distribution (R8). 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
-          <p class="comments">Sample array, must be sorted ascendingly. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="FiveNumberSummary" class="method">
 		<h4><span title="System.Double[]">Double[]</span> <strong>FiveNumberSummary</strong>(<span title="System.Double[]">Double[]</span> data)</h4>
 		<div class="content">Estimates {min, lower-quantile, median, upper-quantile, max} from the sorted data array (ascending).
 Approximately median-unbiased regardless of the sample distribution (R8). 
@@ -286,9 +270,9 @@ Approximately median-unbiased regardless of the sample distribution (R8).
       
     </div>
 	</div>
-	<div id="InterquartileRange" class="method">
-		<h4><span title="System.float">float</span> <strong>InterquartileRange</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
-		<div class="content">Estimates the inter-quartile range from the sorted data array (ascending).
+	<div id="FiveNumberSummary" class="method">
+		<h4><span title="System.Single[]">Single[]</span> <strong>FiveNumberSummary</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
+		<div class="content">Estimates {min, lower-quantile, median, upper-quantile, max} from the sorted data array (ascending).
 Approximately median-unbiased regardless of the sample distribution (R8). 
 
 
@@ -312,6 +296,22 @@ Approximately median-unbiased regardless of the sample distribution (R8).
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <p class="comments">Sample array, must be sorted ascendingly. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="InterquartileRange" class="method">
+		<h4><span title="System.float">float</span> <strong>InterquartileRange</strong>(<span title="System.Single[]">Single[]</span> data)</h4>
+		<div class="content">Estimates the inter-quartile range from the sorted data array (ascending).
+Approximately median-unbiased regardless of the sample distribution (R8). 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
           <p class="comments">Sample array, must be sorted ascendingly. </p>
       </div>
 
@@ -443,23 +443,6 @@ Approximately median-unbiased regardless of the sample distribution (R8).
     </div>
 	</div>
 	<div id="OrderStatistic" class="method">
-		<h4><span title="System.double">double</span> <strong>OrderStatistic</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.int">int</span> order)</h4>
-		<div class="content">Returns the order statistic (order 1..N) from the sorted data array (ascending). 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
-          <p class="comments">Sample array, must be sorted ascendingly. </p>
-          <h6><code><span title="System.int">int</span></code> order</h6>
-          <p class="comments">One-based order of the statistic, must be between 1 and N (inclusive). </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="OrderStatistic" class="method">
 		<h4><span title="System.float">float</span> <strong>OrderStatistic</strong>(<span title="System.Single[]">Single[]</span> data, <span title="System.int">int</span> order)</h4>
 		<div class="content">Returns the order statistic (order 1..N) from the sorted data array (ascending). 
 
@@ -476,11 +459,9 @@ Approximately median-unbiased regardless of the sample distribution (R8).
       
     </div>
 	</div>
-	<div id="Percentile" class="method">
-		<h4><span title="System.double">double</span> <strong>Percentile</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.int">int</span> p)</h4>
-		<div class="content">Estimates the p-Percentile value from the sorted data array (ascending).
-If a non-integer Percentile is needed, use Quantile instead.
-Approximately median-unbiased regardless of the sample distribution (R8). 
+	<div id="OrderStatistic" class="method">
+		<h4><span title="System.double">double</span> <strong>OrderStatistic</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.int">int</span> order)</h4>
+		<div class="content">Returns the order statistic (order 1..N) from the sorted data array (ascending). 
 
 
       <div class="parameters">
@@ -488,8 +469,8 @@ Approximately median-unbiased regardless of the sample distribution (R8).
 
           <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
           <p class="comments">Sample array, must be sorted ascendingly. </p>
-          <h6><code><span title="System.int">int</span></code> p</h6>
-          <p class="comments">Percentile selector, between 0 and 100 (inclusive). </p>
+          <h6><code><span title="System.int">int</span></code> order</h6>
+          <p class="comments">One-based order of the statistic, must be between 1 and N (inclusive). </p>
       </div>
 
       
@@ -514,16 +495,11 @@ Approximately median-unbiased regardless of the sample distribution (R8).
       
     </div>
 	</div>
-	<div id="Quantile" class="method">
-		<h4><span title="System.double">double</span> <strong>Quantile</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.double">double</span> tau)</h4>
-		<div class="content">Estimates the tau-th quantile from the sorted data array (ascending).
-The tau-th quantile is the data value where the cumulative distribution
-function crosses tau.
-Approximately median-unbiased regardless of the sample distribution (R8). <blockquote class="remarks">
-  R-8, SciPy-(1/3,1/3):
-Linear interpolation of the approximate medians for order statistics.
-When tau < (2/3) / (N + 1/3), use x1. When tau >= (N - 1/3) / (N + 1/3), use xN. 
-</blockquote>
+	<div id="Percentile" class="method">
+		<h4><span title="System.double">double</span> <strong>Percentile</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.int">int</span> p)</h4>
+		<div class="content">Estimates the p-Percentile value from the sorted data array (ascending).
+If a non-integer Percentile is needed, use Quantile instead.
+Approximately median-unbiased regardless of the sample distribution (R8). 
 
 
       <div class="parameters">
@@ -531,8 +507,8 @@ When tau < (2/3) / (N + 1/3), use x1. When tau >= (N - 1/3) / (N + 1/3), use xN.
 
           <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
           <p class="comments">Sample array, must be sorted ascendingly. </p>
-          <h6><code><span title="System.double">double</span></code> tau</h6>
-          <p class="comments">Quantile selector, between 0.0 and 1.0 (inclusive). </p>
+          <h6><code><span title="System.int">int</span></code> p</h6>
+          <p class="comments">Percentile selector, between 0 and 100 (inclusive). </p>
       </div>
 
       
@@ -562,6 +538,30 @@ When tau < (2/3) / (N + 1/3), use x1. When tau >= (N - 1/3) / (N + 1/3), use xN.
       
     </div>
 	</div>
+	<div id="Quantile" class="method">
+		<h4><span title="System.double">double</span> <strong>Quantile</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.double">double</span> tau)</h4>
+		<div class="content">Estimates the tau-th quantile from the sorted data array (ascending).
+The tau-th quantile is the data value where the cumulative distribution
+function crosses tau.
+Approximately median-unbiased regardless of the sample distribution (R8). <blockquote class="remarks">
+  R-8, SciPy-(1/3,1/3):
+Linear interpolation of the approximate medians for order statistics.
+When tau < (2/3) / (N + 1/3), use x1. When tau >= (N - 1/3) / (N + 1/3), use xN. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <p class="comments">Sample array, must be sorted ascendingly. </p>
+          <h6><code><span title="System.double">double</span></code> tau</h6>
+          <p class="comments">Quantile selector, between 0.0 and 1.0 (inclusive). </p>
+      </div>
+
+      
+    </div>
+	</div>
 	<div id="QuantileCustom" class="method">
 		<h4><span title="System.double">double</span> <strong>QuantileCustom</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.double">double</span> tau, <a href="../MathNet.Numerics.Statistics/QuantileDefinition.htm">QuantileDefinition</a> definition)</h4>
 		<div class="content">Estimates the tau-th quantile from the sorted data array (ascending).
@@ -579,6 +579,34 @@ with an existing system.
           <p class="comments">Quantile selector, between 0.0 and 1.0 (inclusive). </p>
           <h6><code><a href="../MathNet.Numerics.Statistics/QuantileDefinition.htm">QuantileDefinition</a></code> definition</h6>
           <p class="comments">Quantile definition, to choose what product/definition it should be consistent with </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="QuantileCustom" class="method">
+		<h4><span title="System.double">double</span> <strong>QuantileCustom</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.double">double</span> tau, <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.double">double</span> c, <span title="System.double">double</span> d)</h4>
+		<div class="content">Estimates the tau-th quantile from the sorted data array (ascending).
+The tau-th quantile is the data value where the cumulative distribution
+function crosses tau. The quantile definition can be specified
+by 4 parameters a, b, c and d, consistent with Mathematica. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
+          <p class="comments">Sample array, must be sorted ascendingly. </p>
+          <h6><code><span title="System.double">double</span></code> tau</h6>
+          <p class="comments">Quantile selector, between 0.0 and 1.0 (inclusive). </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">a-parameter </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">b-parameter </p>
+          <h6><code><span title="System.double">double</span></code> c</h6>
+          <p class="comments">c-parameter </p>
+          <h6><code><span title="System.double">double</span></code> d</h6>
+          <p class="comments">d-parameter </p>
       </div>
 
       
@@ -634,29 +662,23 @@ with an existing system.
       
     </div>
 	</div>
-	<div id="QuantileCustom" class="method">
-		<h4><span title="System.double">double</span> <strong>QuantileCustom</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.double">double</span> tau, <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.double">double</span> c, <span title="System.double">double</span> d)</h4>
-		<div class="content">Estimates the tau-th quantile from the sorted data array (ascending).
+	<div id="QuantileRank" class="method">
+		<h4><span title="System.double">double</span> <strong>QuantileRank</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.double">double</span> x, <a href="../MathNet.Numerics.Statistics/RankDefinition.htm">RankDefinition</a> definition)</h4>
+		<div class="content">Estimates the quantile tau from the sorted data array (ascending).
 The tau-th quantile is the data value where the cumulative distribution
-function crosses tau. The quantile definition can be specified
-by 4 parameters a, b, c and d, consistent with Mathematica. 
+function crosses tau. The quantile definition can be specified to be compatible
+with an existing system. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
-          <p class="comments">Sample array, must be sorted ascendingly. </p>
-          <h6><code><span title="System.double">double</span></code> tau</h6>
-          <p class="comments">Quantile selector, between 0.0 and 1.0 (inclusive). </p>
-          <h6><code><span title="System.double">double</span></code> a</h6>
-          <p class="comments">a-parameter </p>
-          <h6><code><span title="System.double">double</span></code> b</h6>
-          <p class="comments">b-parameter </p>
-          <h6><code><span title="System.double">double</span></code> c</h6>
-          <p class="comments">c-parameter </p>
-          <h6><code><span title="System.double">double</span></code> d</h6>
-          <p class="comments">d-parameter </p>
+          <p class="comments">The data sample sequence. </p>
+          <h6><code><span title="System.double">double</span></code> x</h6>
+          <p class="comments">Quantile value. </p>
+          <h6><code><a href="../MathNet.Numerics.Statistics/RankDefinition.htm">RankDefinition</a></code> definition</h6>
+          <p class="comments">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with </p>
       </div>
 
       
@@ -676,28 +698,6 @@ with an existing system.
           <h6><code><span title="System.Single[]">Single[]</span></code> data</h6>
           <p class="comments">The data sample sequence. </p>
           <h6><code><span title="System.float">float</span></code> x</h6>
-          <p class="comments">Quantile value. </p>
-          <h6><code><a href="../MathNet.Numerics.Statistics/RankDefinition.htm">RankDefinition</a></code> definition</h6>
-          <p class="comments">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="QuantileRank" class="method">
-		<h4><span title="System.double">double</span> <strong>QuantileRank</strong>(<span title="System.Double[]">Double[]</span> data, <span title="System.double">double</span> x, <a href="../MathNet.Numerics.Statistics/RankDefinition.htm">RankDefinition</a> definition)</h4>
-		<div class="content">Estimates the quantile tau from the sorted data array (ascending).
-The tau-th quantile is the data value where the cumulative distribution
-function crosses tau. The quantile definition can be specified to be compatible
-with an existing system. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Double[]">Double[]</span></code> data</h6>
-          <p class="comments">The data sample sequence. </p>
-          <h6><code><span title="System.double">double</span></code> x</h6>
           <p class="comments">Quantile value. </p>
           <h6><code><a href="../MathNet.Numerics.Statistics/RankDefinition.htm">RankDefinition</a></code> definition</h6>
           <p class="comments">Rank definition, to choose how ties should be handled and what product/definition it should be consistent with </p>
@@ -763,7 +763,7 @@ Approximately median-unbiased regardless of the sample distribution (R8).
 
 	
 	<div id="footer">
-  <p>Based on v4.8.1.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.9.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>
