@@ -17,10 +17,10 @@ namespace Benchmark.LinearAlgebra
         {
             public Config()
             {
-                Add(Job.Clr.With(Platform.X64).With(Jit.RyuJit));
-                Add(Job.Clr.With(Platform.X86).With(Jit.LegacyJit));
+                AddJob(Job.Default.WithRuntime(ClrRuntime.Net461).WithPlatform(Platform.X64).WithJit(Jit.RyuJit));
+                AddJob(Job.Default.WithRuntime(ClrRuntime.Net461).WithPlatform(Platform.X86).WithJit(Jit.LegacyJit));
 #if !NET461
-                Add(Job.Core.With(Platform.X64).With(Jit.RyuJit));
+                AddJob(Job.Default.WithRuntime(CoreRuntime.Core31).With(Platform.X64).WithJit(Jit.RyuJit));
 #endif
             }
         }

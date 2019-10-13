@@ -19,11 +19,6 @@ Distributions: Inverse Gaussian ~Philip Gruber
 Distributions: Truncated Pareto ~Philip Gruber
 Optimization: Detect early completion in BFGS-B minimizer ~Tom McTiernan</PackageReleaseNotes>
     <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
-    <IsTool>false</IsTool>
-    <NeutralLanguage>en</NeutralLanguage>
-    <NoPackageAnalysis>false</NoPackageAnalysis>
-    <IncludeBuildOutput>true</IncludeBuildOutput>
-    <IncludeContentInPack>false</IncludeContentInPack>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

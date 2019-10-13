@@ -314,8 +314,8 @@ let restoreStrong (solution:Solution) = msbuildStrong [ "Restore" ] "Release" so
 let buildWeak (solution:Solution) = msbuildWeak [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" solution.SolutionFile
 let buildStrong (solution:Solution) = msbuildStrong [ (if hasBuildParam "incremental" then "Build" else "Rebuild") ] "Release" solution.SolutionFile
 
-let packWeak (solution:Solution) = dotnetWeak rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" solution.SolutionFile)
-let packStrong (solution:Solution) = dotnetStrong rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" solution.SolutionFile)
+let packWeak (solution:Solution) = dotnetWeak rootDir (sprintf "pack %s --configuration Release --no-restore" solution.SolutionFile)
+let packStrong (solution:Solution) = dotnetStrong rootDir (sprintf "pack %s --configuration Release --no-restore" solution.SolutionFile)
 
 let packProjectWeak = function
     | VisualStudio p -> dotnetWeak rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)

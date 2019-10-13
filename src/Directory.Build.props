@@ -1,15 +1,14 @@
 <Project>
     <PropertyGroup>
-        <RuntimeFrameworkVersion>2.2.4</RuntimeFrameworkVersion>
         <NetStandardImplicitPackageVersion>2.0.3</NetStandardImplicitPackageVersion>
         <Company>Math.NET Project</Company>
         <Product>Math.NET Numerics</Product>
         <Authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</Authors>
         <Copyright>Copyright Math.NET Project</Copyright>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <PackageLicenseUrl>https://numerics.mathdotnet.com/License.html</PackageLicenseUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://numerics.mathdotnet.com/</PackageProjectUrl>
-        <PackageIconUrl>https://www.mathdotnet.com/images/MathNet128.png</PackageIconUrl>
+        <PackageIcon>icon.png</PackageIcon>
         <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <NeutralLanguage>en</NeutralLanguage>
@@ -28,4 +27,7 @@
     <PropertyGroup Condition="'$(TargetFramework)'!='netstandard1.3'">
         <DefineConstants>NATIVE;$(CommonConstants)</DefineConstants>
     </PropertyGroup>
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)icon.png" Pack="true" Visible="false" PackagePath="\" />
+    </ItemGroup>
 </Project>

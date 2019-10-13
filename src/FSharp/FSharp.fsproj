@@ -19,11 +19,6 @@ Distributions: Inverse Gaussian ~Philip Gruber
 Distributions: Truncated Pareto ~Philip Gruber
 Optimization: Detect early completion in BFGS-B minimizer ~Tom McTiernan</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
-    <IsTool>false</IsTool>
-    <NeutralLanguage>en</NeutralLanguage>
-    <NoPackageAnalysis>false</NoPackageAnalysis>
-    <IncludeBuildOutput>true</IncludeBuildOutput>
-    <IncludeContentInPack>false</IncludeContentInPack>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -51,8 +46,6 @@ Optimization: Detect early completion in BFGS-B minimizer ~Tom McTiernan</Packag
     <Compile Include="FindRoots.fs" />
     <Compile Include="RandomVariable.fs" />
     <Compile Include="Quaternion.fs" />
-    <None Include="MathNet.Numerics.fsx" />
-    <None Include="MathNet.Numerics.IfSharp.fsx" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
