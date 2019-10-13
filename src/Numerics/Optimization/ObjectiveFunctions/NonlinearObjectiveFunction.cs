@@ -5,12 +5,63 @@ using System.Linq;
 
 namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 {
-    internal class NonlinearObjectiveFunction : IObjectiveModel
+    internal class NonlinearObjectiveFunction : NonlinearObjectiveFunction<Vector<double>>
+    {
+        public NonlinearObjectiveFunction(
+            Func<Vector<double>, Vector<double>, Vector<double>> function,
+            Func<Vector<double>, Vector<double>, Matrix<double>> derivative = null,
+            int accuracyOrder = 2)
+            : base(function, derivative, accuracyOrder)
+        {}
+
+        public override void SetObserved(Vector<double> observedX, Vector<double> observedY, Vector<double> weights = null)
+        {
+            if (observedX == null || observedY == null)
+            {
+                throw new ArgumentNullException("The data set can't be null.");
+            }
+            if (observedX.Count != observedY.Count)
+            {
+                throw new ArgumentException("The observed x data can't have different count from observed y data.");
+            }
+
+            base.SetObserved(observedX, observedY, weights);
+        }
+    }
+
+    internal class MultivariateNonlinearObjectiveFunction : NonlinearObjectiveFunction<Vector<double>[]>
+    {
+        public MultivariateNonlinearObjectiveFunction(
+            Func<Vector<double>, Vector<double>[], Vector<double>> function,
+            Func<Vector<double>, Vector<double>[], Matrix<double>> derivative = null,
+            int accuracyOrder = 2)
+            : base(function, derivative, accuracyOrder)
+        {}
+
+        public override void SetObserved(Vector<double>[] observedX, Vector<double> observedY, Vector<double> weights = null)
+        {
+            if (observedX == null || observedY == null)
+            {
+                throw new ArgumentNullException("The data set can't be null.");
+            }
+            foreach(var x in observedX)
+            {
+                if (x.Count != observedY.Count)
+                {
+                    throw new ArgumentException("The observed x data can't have different count from observed y data.");
+                }
+            }
+
+            base.SetObserved(observedX, observedY, weights);
+        }
+    }
+
+    internal class NonlinearObjectiveFunction<T> : IObjectiveModel
     {
         #region Private Variables
 
-        readonly Func<Vector<double>, Vector<double>, Vector<double>> userFunction; // (p, x) => f(x; p)
-        readonly Func<Vector<double>, Vector<double>, Matrix<double>> userDerivative; // (p, x) => df(x; p)/dp
+        readonly Func<Vector<double>, T, Vector<double>> userFunction; // (p, x) => f(x; p)
+        readonly Func<Vector<double>, T, Matrix<double>> userDerivative; // (p, x) => df(x; p)/dp
         readonly int accuracyOrder; // the desired accuracy order to evaluate the jacobian by numerical approximaiton.
 
         Vector<double> coefficients;
@@ -31,7 +82,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         /// <summary>
         /// Set or get the values of the independent variable.
         /// </summary>
-        public Vector<double> ObservedX { get; private set; }
+        public T ObservedX { get; private set; }
 
         /// <summary>
         /// Set or get the values of the observations.
@@ -87,8 +138,10 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         #endregion Public Variables
 
-        public NonlinearObjectiveFunction(Func<Vector<double>, Vector<double>, Vector<double>> function,
-            Func<Vector<double>, Vector<double>, Matrix<double>> derivative = null, int accuracyOrder = 2)
+        public NonlinearObjectiveFunction(
+            Func<Vector<double>, T, Vector<double>> function,
+            Func<Vector<double>, T, Matrix<double>> derivative = null,
+            int accuracyOrder = 2)
         {
             this.userFunction = function;
             this.userDerivative = derivative;
@@ -97,7 +150,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         public IObjectiveModel Fork()
         {
-            return new NonlinearObjectiveFunction(userFunction, userDerivative, accuracyOrder)
+            return new NonlinearObjectiveFunction<T>(userFunction, userDerivative, accuracyOrder)
             {
                 ObservedX = ObservedX,
                 ObservedY = ObservedY,
@@ -117,7 +170,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         public IObjectiveModel CreateNew()
         {
-            return new NonlinearObjectiveFunction(userFunction, userDerivative, accuracyOrder);
+            return new NonlinearObjectiveFunction<T>(userFunction, userDerivative, accuracyOrder);
         }
 
         /// <summary>
@@ -184,16 +237,8 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         /// <summary>
         /// Set observed data to fit.
         /// </summary>
-        public void SetObserved(Vector<double> observedX, Vector<double> observedY, Vector<double> weights = null)
+        public virtual void SetObserved(T observedX, Vector<double> observedY, Vector<double> weights = null)
         {
-            if (observedX == null || observedY == null)
-            {
-                throw new ArgumentNullException("The data set can't be null.");
-            }
-            if (observedX.Count != observedY.Count)
-            {
-                throw new ArgumentException("The observed x data can't have different from observed y data.");
-            }
             ObservedX = observedX;
             ObservedY = observedY;
 

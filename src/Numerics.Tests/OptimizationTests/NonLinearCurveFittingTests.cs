@@ -618,5 +618,140 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         }
 
         #endregion Thurber
+
+        #region Circle 2D
+
+        // model: Circle 2D
+        //       f(x1, x2; a, b, r) = (x1 - a)^2 + (x2 - b)^2 - r^2
+        // derivatives:
+        //       df/da = (a - x1) / ((a - x1)^2 + (b - x2)^2)^0.5
+        //       df/db = (b - x1) / ((a - x1)^2 + (b - x2)^2)^0.5
+        //       df/dr = -1
+        // best fitted parameters:
+        //       a = 0
+        //       b = 0
+        //       r = 1
+
+        private Vector<double> Circle2DModel(Vector<double> p, Vector<double>[] x)
+        {
+            var a = p[0];
+            var b = p[1];
+            var r = p[2];
+
+            var x1 = x[0];
+            var x2 = x[1];
+
+            var x1sq = (x1 - a).PointwisePower(2);
+            var x2sq = (x2 - b).PointwisePower(2);
+            return (x1sq + x2sq).PointwiseSqrt() - r; 
+        }
+
+        private Matrix<double> Circle2DPrime(Vector<double> p, Vector<double>[] x)
+        {
+            var a = p[0];
+            var b = p[1];
+
+            var x1 = x[0];
+            var x2 = x[1];
+
+            var dx1 = (a - x1);
+            var dx2 = (b - x2);
+            var r = (dx1.PointwisePower(2) + dx2.PointwisePower(2)).PointwiseSqrt();
+
+            return Matrix<double>.Build.DenseOfColumnVectors(new[]
+            {
+                dx1 / r,
+                dx2 / r,
+                Vector<double>.Build.Dense(x[0].Count, -1),
+            });
+        }
+        private Vector<double> Circle2DX1 = new DenseVector(new [] { 1.0, 0.0, -1.0, 0.0 });
+        private Vector<double> Circle2DX2 = new DenseVector(new [] { 0.0, 1.0, 0.0, -1.0 });
+        private Vector<double> Circle2DY = new DenseVector(4);
+        private Vector<double> Circle2DPbest = new DenseVector(new [] { 0.0, 0.0, 1.0 });
+        private Vector<double> Circle2DStart1 = new DenseVector(new [] { 0.1, 0.1, 2.0 });
+
+
+        [Test]
+        public void Circle2D_LM_Der()
+        {
+            // unconstrained
+            var obj = ObjectiveFunction.MultivariateNonlinearModel(Circle2DModel, Circle2DPrime, new[] { Circle2DX1, Circle2DX2 }, Circle2DY);
+            var solver = new LevenbergMarquardtMinimizer(maximumIterations: 10);
+            var result = solver.FindMinimum(obj, Circle2DStart1);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(Circle2DPbest[i], result.MinimizingPoint[i], 2);
+            }
+        }
+
+        [Test]
+        public void Circle2D_LM_Dif()
+        {
+            // unconstrained
+            var obj = ObjectiveFunction.MultivariateNonlinearModel(Circle2DModel, new[] { Circle2DX1, Circle2DX2 }, Circle2DY);
+            var solver = new LevenbergMarquardtMinimizer(maximumIterations: 10);
+            var result = solver.FindMinimum(obj, Circle2DStart1);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(Circle2DPbest[i], result.MinimizingPoint[i], 2);
+            }
+        }
+
+        [Test]
+        public void Circle2D_TRDL_Dif()
+        {
+            var obj = ObjectiveFunction.MultivariateNonlinearModel(Circle2DModel, new[] { Circle2DX1, Circle2DX2 }, Circle2DY, accuracyOrder: 6);
+            var solver = new TrustRegionDogLegMinimizer();
+            var result = solver.FindMinimum(obj, Circle2DStart1);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(Circle2DPbest[i], result.MinimizingPoint[i], 2);
+            }
+        }
+
+        [Test]
+        public void Circle2D_TRDL_Der()
+        {
+            var obj = ObjectiveFunction.MultivariateNonlinearModel(Circle2DModel, Circle2DPrime, new[] { Circle2DX1, Circle2DX2 }, Circle2DY);
+            var solver = new TrustRegionDogLegMinimizer();
+            var result = solver.FindMinimum(obj, Circle2DStart1);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(Circle2DPbest[i], result.MinimizingPoint[i], 2);
+            }
+        }
+
+        [Test]
+        public void Circle2D_Bfgs_Dif()
+        {
+            var obj = ObjectiveFunction.MultivariateNonlinearFunction(Circle2DModel, new[] { Circle2DX1, Circle2DX2 }, Circle2DY, accuracyOrder: 6);
+            var solver = new BfgsMinimizer(1e-10, 1e-10, 1e-10, 1000);
+            var result = solver.FindMinimum(obj, Circle2DStart1);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(Circle2DPbest[i], result.MinimizingPoint[i], 2);
+            }
+        }
+
+        [Test]
+        public void Circle2D_LBfgs_Dif()
+        {
+            var obj = ObjectiveFunction.MultivariateNonlinearFunction(Circle2DModel, new[] { Circle2DX1, Circle2DX2 }, Circle2DY, accuracyOrder: 6);
+            var solver = new LimitedMemoryBfgsMinimizer(1e-10, 1e-10, 1e-10, 1000);
+            var result = solver.FindMinimum(obj, Circle2DStart1);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(Circle2DPbest[i], result.MinimizingPoint[i], 2);
+            }
+        }
+
+        #endregion
     }
 }
