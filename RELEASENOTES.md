@@ -1,6 +1,6 @@
 ### 4.9.0 - 2019-10-13
 * Integration: Substitution for open intervals *~Jong Hyun Kim*
-* Integration: Gaus-Kronrod Quadrature *~Jong Hyun Kim*
+* Integration: Gauss-Kronrod Quadrature *~Jong Hyun Kim*
 * Integration: Complex contour *~Jong Hyun Kim*
 * Distributions: Three parameter Burr (Type XII) *~Philip Gruber*
 * Distributions: Inverse Gaussian *~Philip Gruber*
