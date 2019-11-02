@@ -408,6 +408,18 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
+            // If parameters represent a specialized distribution, then we use that distribution to avoid
+            // problems with infinite p or q parameters.
+            var d = FindSpecializedDistribution(location, scale, skew, p, q);
+            // InverseCumulativeDistribution is not a part of the interface, so resort to type-checking.
+            if (d != null)
+            {
+                if (d is SkewedGeneralizedError sge)
+                    return sge.InverseCumulativeDistribution(pr);
+                if (d is ContinuousUniform u)
+                    return u.InverseCumulativeDistribution(pr);
+            }
+
             // Note: Adapted from the R package,
             // solving for the inverse of the CDF that uses the inverse of the incomplete beta function or
             // incomplete gamma function
