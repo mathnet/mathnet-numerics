@@ -7,11 +7,17 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.8.1</VersionPrefix>
+    <VersionPrefix>4.9.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics$(TitleSuffix)</Title>
     <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>Packaging fix - signed edition was not properly strong named.</PackageReleaseNotes>
+    <PackageReleaseNotes>Integration: Substitution for open intervals ~Jong Hyun Kim
+Integration: Gaus-Kronrod Quadrature ~Jong Hyun Kim
+Integration: Complex contour ~Jong Hyun Kim
+Distributions: Three parameter Burr (Type XII) ~Philip Gruber
+Distributions: Inverse Gaussian ~Philip Gruber
+Distributions: Truncated Pareto ~Philip Gruber
+Optimization: Detect early completion in BFGS-B minimizer ~Tom McTiernan</PackageReleaseNotes>
     <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <IsTool>false</IsTool>
     <NeutralLanguage>en</NeutralLanguage>
