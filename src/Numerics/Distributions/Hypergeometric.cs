@@ -315,7 +315,7 @@ namespace MathNet.Numerics.Distributions
                 sum += Math.Exp(SpecialFunctions.BinomialLn(success, i) + SpecialFunctions.BinomialLn(population - success, draws - i) - denominatorLn);
             }
 
-            return sum;
+            return Math.Min(sum, 1.0);
         }
 
         /// <summary>
