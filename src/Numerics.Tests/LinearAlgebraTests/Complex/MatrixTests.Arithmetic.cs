@@ -820,6 +820,20 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         }
 
         /// <summary>
+        /// Can compute Moore-Penrose Pseudo-Inverse.
+        /// </summary>
+        [TestCase("Square3x3")]
+        [TestCase("Wide2x3")]
+        [TestCase("Tall3x2")]
+        public virtual void CanComputePseudoInverse(string name)
+        {
+            var matrix = TestMatrices[name];
+            var inverse = matrix.PseudoInverse();
+            // Testing for Moore–Penrose conditions 1: A*A^+*A = A
+            AssertHelpers.AlmostEqual(matrix, matrix * inverse * matrix, 12);
+        }
+
+        /// <summary>
         /// Can calculate Kronecker product.
         /// </summary>
         [Test]
