@@ -539,7 +539,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             }
 
             w.SetDiagonal(s);
-            return (svd.U * w * svd.VT).Transpose();
+            return (svd.U * w * svd.VT).ConjugateTranspose();
         }
 
         /// <summary>
