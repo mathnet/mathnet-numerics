@@ -75,6 +75,52 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             }
         }
 
+
+        [Test]
+        public void CanFactorizeSpecialMatrix()
+        {
+            int row = 7;
+            int column = 7;
+            Complex32[,] data =
+            {
+                {new Complex32(0.999967f, -0.00816902f), new Complex32(0.999999f, 0.00142905f), new Complex32(0.999994f, -0.00341607f), new Complex32(1f, 0f), new Complex32(0.999994f, 0.00341607f), new Complex32(0.999999f, -0.00142905f), new Complex32(0.999967f, 0.00816902f)},
+                {new Complex32(0.617082f, -0.786899f), new Complex32(-0.221127f, -0.975245f), new Complex32(-0.902446f, -0.430804f), new Complex32(1f, 0f), new Complex32(-0.902446f, 0.430804f), new Complex32(-0.221127f, 0.975245f), new Complex32(0.617082f, 0.786899f)},
+                {new Complex32(-0.230478f, -0.973078f), new Complex32(-0.901588f, 0.432596f), new Complex32(0.626157f, 0.779697f), new Complex32(1f, 0f), new Complex32(0.626157f, -0.779697f), new Complex32(-0.901588f, -0.432596f), new Complex32(-0.230478f, 0.973078f)},
+                {new Complex32(-0.904483f, -0.426509f), new Complex32(0.622372f, 0.782722f), new Complex32(-0.22585f, -0.974162f), new Complex32(1f, 0f), new Complex32(-0.22585f, 0.974162f), new Complex32(0.622372f, -0.782722f), new Complex32(-0.904483f, 0.426509f)},
+                {new Complex32(-0.897394f, 0.441229f), new Complex32(0.624607f, -0.780939f), new Complex32(-0.21919f, 0.975682f), new Complex32(1f, 0f), new Complex32(-0.21919f, -0.975682f), new Complex32(0.624607f, 0.780939f), new Complex32(-0.897394f, -0.441229f)},
+                {new Complex32(-0.214549f, 0.976713f), new Complex32(-0.900348f, -0.435171f), new Complex32(0.620816f, -0.783957f), new Complex32(1f, 0f), new Complex32(0.620816f, 0.783957f), new Complex32(-0.900348f, 0.435171f), new Complex32(-0.214549f, -0.976713f)},
+                {new Complex32(0.629856f, 0.776712f), new Complex32(-0.223914f, 0.974609f), new Complex32(-0.899482f, 0.436958f), new Complex32(1f, 0f), new Complex32(-0.899482f, -0.436958f), new Complex32(-0.223914f, -0.974609f), new Complex32(0.629856f, -0.776712f)}
+            };
+            var matrixA = DenseMatrix.Create(7, 7, (r, c) => data[c, r]);
+            var factorSvd = matrixA.Svd();
+            var u = factorSvd.U;
+            var vt = factorSvd.VT;
+            var w = factorSvd.W;
+
+            // Make sure the U has the right dimensions.
+            Assert.AreEqual(row, u.RowCount);
+            Assert.AreEqual(row, u.ColumnCount);
+
+            // Make sure the VT has the right dimensions.
+            Assert.AreEqual(column, vt.RowCount);
+            Assert.AreEqual(column, vt.ColumnCount);
+
+            // Make sure the W has the right dimensions.
+            Assert.AreEqual(row, w.RowCount);
+            Assert.AreEqual(column, w.ColumnCount);
+
+            // Make sure the U*W*VT is the original matrix.
+            var matrix = u*w*vt;
+            for (var i = 0; i < matrix.RowCount; i++)
+            {
+                for (var j = 0; j < matrix.ColumnCount; j++)
+                {
+                    Assert.AreEqual(matrixA[i, j].Real, matrix[i, j].Real, 1e-3f);
+                    Assert.AreEqual(matrixA[i, j].Imaginary, matrix[i, j].Imaginary, 1e-3f);
+                }
+            }
+        }
+
         /// <summary>
         /// Can factorize a random matrix.
         /// </summary>
