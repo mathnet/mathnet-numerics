@@ -194,6 +194,7 @@
     <ClCompile Include="..\..\Common\lapack.cpp" />
     <ClCompile Include="..\..\Common\WindowsDLL.cpp" />
     <ClCompile Include="..\..\MKL\capabilities.cpp" />
+    <ClCompile Include="..\..\MKL\dss.c" />
     <ClCompile Include="..\..\MKL\memory.c" />
     <ClCompile Include="..\..\MKL\vector_functions.c" />
     <ClCompile Include="..\..\MKL\fft.cpp" />
@@ -204,6 +205,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\Common\lapack_common.h" />
     <ClInclude Include="..\..\MKL\blas.h" />
+    <ClInclude Include="..\..\MKL\dss.h" />
     <ClInclude Include="..\..\MKL\lapack.h" />
     <ClInclude Include="..\..\MKL\resource.h" />
   </ItemGroup>

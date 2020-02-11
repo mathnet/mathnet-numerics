@@ -84,6 +84,10 @@ extern "C" {
 		case 384: return 1; // basic FFT (major - breaking)
 		case 385: return 0; // basic FFT (minor - non-breaking)
 
+        // SPARSE SOLVER
+        case 512: return 1;
+        case 513: return 0;
+
 		default: return 0; // unknown or not supported
 
 		}
