@@ -134,7 +134,7 @@ $$$
 * `BetaLn(a,b)`
 
 $$$
-\ln\mathrm{B}(a,b) = \Gamma(a) + \Gamma(b) - \Gamma(a+b)
+\ln\mathrm{B}(a,b) = \ln\Gamma(a) + \ln\Gamma(b) - \ln\Gamma(a+b)
 
 
 #### Incomplete Beta
