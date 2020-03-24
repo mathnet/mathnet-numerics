@@ -333,7 +333,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                     {
                         jacobianValue[i, j] = (Weights == null)
                             ? jacobianValue[i, j]
-                            : jacobianValue[i, j] * L[j];
+                            : jacobianValue[i, j] * L[i];
                     }
                 }
             }
