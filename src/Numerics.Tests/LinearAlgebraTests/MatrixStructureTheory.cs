@@ -30,6 +30,7 @@
 using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Storage;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
@@ -572,6 +573,131 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 Vector<T>.Build.Random(4, 3)
             };
             var matrix = Matrix<T>.Build.SparseOfRows(3, 4, rows);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(3));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+            for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 3; i++)
+                    Assert.That(matrix[i, j], Is.EqualTo(rows[i][j]));
+        }
+
+        [Test]
+        public void CanCreateSparseFromCoordinateFormat()
+        {
+            var rows = new[]
+            {
+                Vector<T>.Build.Random(4, 0),
+                Vector<T>.Build.Random(4, 1),
+                Vector<T>.Build.Random(4, 3)
+            };
+
+            var rowCount = rows.Length;
+            var columnCount = 4;
+            var valueCount = rowCount * columnCount;
+
+            var cooRowIndices = new int[valueCount];
+            var cooColumnIndices = new int[valueCount];
+            var cooValues = new T[valueCount];
+
+            int loc = 0;
+            for (int i = 0; i < rowCount; i++)
+            {
+                for (int j = 0; j < columnCount; j++)
+                {
+                    cooRowIndices[loc] = i;
+                    cooColumnIndices[loc] = j;
+                    cooValues[loc] = rows[i].At(j);
+                    loc++;
+                }
+            }
+
+            var matrix = Matrix<T>.Build.SparseFromCoordinateFormat(rowCount, columnCount, valueCount, cooRowIndices, cooColumnIndices, cooValues);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(3));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+            for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 3; i++)
+                    Assert.That(matrix[i, j], Is.EqualTo(rows[i][j]));
+        }
+
+        [Test]
+        public void CanCreateSparseFromCompressedSparseRowFormat()
+        {
+            var rows = new[]
+            {
+                Vector<T>.Build.Random(4, 0),
+                Vector<T>.Build.Random(4, 1),
+                Vector<T>.Build.Random(4, 3)
+            };
+
+            var rowCount = rows.Length;
+            var columnCount = 4;
+            var valueCount = rowCount * columnCount;
+
+            var csrRowPointers = new int[rowCount + 1];
+            var csrColumnIndices = new int[valueCount];
+            var csrValues = new T[valueCount];
+
+            int loc = 0;
+            for (int i = 0; i < rowCount; i++)
+            {
+                for (int j = 0; j < columnCount; j++)
+                {
+                    csrRowPointers[i + 1]++;
+                    csrColumnIndices[loc] = j;
+                    csrValues[loc] = rows[i].At(j);
+                    loc++;
+                }
+            }
+            for (int i = 1; i < rowCount + 1; i++)
+            {
+                csrRowPointers[i] += csrRowPointers[i - 1];
+            }
+
+            var matrix = Matrix<T>.Build.SparseFromCompressedSparseRowFormat(rowCount, columnCount, valueCount, csrRowPointers, csrColumnIndices, csrValues);
+            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(matrix.RowCount, Is.EqualTo(3));
+            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+            for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 3; i++)
+                    Assert.That(matrix[i, j], Is.EqualTo(rows[i][j]));
+        }
+
+        [Test]
+        public void CanCreateSparseFromCompressedSparseColumnFormat()
+        {
+            var rows = new[]
+            {
+                Vector<T>.Build.Random(4, 0),
+                Vector<T>.Build.Random(4, 1),
+                Vector<T>.Build.Random(4, 3)
+            };
+
+            var rowCount = rows.Length;
+            var columnCount = 4;
+            var valueCount = rowCount * columnCount;
+
+            var cscRowIndices = new int[valueCount];
+            var cscColumnPointers = new int[columnCount + 1];
+            var cscValues = new T[valueCount];
+
+            int loc = 0;
+            for (int j = 0; j < columnCount; j++)
+            {
+                for (int i = 0; i < rowCount; i++)
+                {
+                    cscColumnPointers[j + 1]++;
+                    cscRowIndices[loc] = i;
+                    cscValues[loc] = rows[i].At(j);
+                    loc++;
+                }
+            }
+            for (int i = 1; i < columnCount + 1; i++)
+            {
+                cscColumnPointers[i] += cscColumnPointers[i - 1];
+            }
+
+            var matrix = Matrix<T>.Build.SparseFromCompressedSparseColumnFormat(rowCount, columnCount, valueCount, cscRowIndices, cscColumnPointers, cscValues);
             Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
             Assert.That(matrix.RowCount, Is.EqualTo(3));
             Assert.That(matrix.ColumnCount, Is.EqualTo(4));

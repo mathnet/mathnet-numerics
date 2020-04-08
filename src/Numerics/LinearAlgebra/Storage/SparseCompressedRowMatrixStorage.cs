@@ -82,6 +82,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Values = new T[0];
         }
 
+        internal SparseCompressedRowMatrixStorage(int rows, int columns, int[] rowPointers, int[] columnIndices, T[] values)
+            : base(rows, columns)
+        {   
+            RowPointers = rowPointers;
+            ColumnIndices = columnIndices;
+            Values = values;
+        }
+
         /// <summary>
         /// True if the matrix storage format is dense.
         /// </summary>
