@@ -329,11 +329,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                         // if j-th parameter is fixed, set J[i, j] = 0
                         jacobianValue[i, j] = 0.0;
                     }
-                    else
+                    else if (Weights != null)
                     {
-                        jacobianValue[i, j] = (Weights == null)
-                            ? jacobianValue[i, j]
-                            : jacobianValue[i, j] * L[j];
+                        jacobianValue[i, j] = jacobianValue[i, j] * L[i];
                     }
                 }
             }

@@ -618,5 +618,40 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         }
 
         #endregion Thurber
+
+        #region Weighted Nonlinear Regression
+
+        // Data from https://www.mathworks.com/help/stats/examples/weighted-nonlinear-regression.html
+
+        private Vector<double> PollutionModel(Vector<double> p, Vector<double> x)
+        {
+            var y = CreateVector.Dense<double>(x.Count);
+            for (int i = 0; i < x.Count; i++)
+            {
+                y[i] = p[0] * (1.0 - Math.Exp(-p[1] * x[i]));
+            }
+            return y;
+        }
+
+        private Vector<double> PollutionX = new DenseVector(new double[] { 1, 2, 3, 5, 7, 10 });
+        private Vector<double> PollutionY = new DenseVector(new double[] { 109, 149, 149, 191, 213, 224 });
+        private Vector<double> PollutionW = new DenseVector(new double[] { 1, 1, 5, 5, 5, 5 });
+        private Vector<double> PollutionStart = new DenseVector(new double[] { 240, 0.5 });        
+        private Vector<double> PollutionBest = new DenseVector(new double[] { 225.17, 0.40078 });
+                
+        [Test]
+        public void PollutionWithWeights()
+        {
+            var obj = ObjectiveFunction.NonlinearModel(PollutionModel, PollutionX, PollutionY, PollutionW, accuracyOrder: 6);
+            var solver = new LevenbergMarquardtMinimizer();
+            var result = solver.FindMinimum(obj, PollutionStart);
+
+            for (int i = 0; i < result.MinimizingPoint.Count; i++)
+            {
+                AssertHelpers.AlmostEqualRelative(PollutionBest[i], result.MinimizingPoint[i], 4);
+            }
+        }
+
+        #endregion Weighted Nonlinear Regression
     }
 }
