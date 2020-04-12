@@ -158,7 +158,7 @@ module Matrix =
     let inline reduceCols f (m: #Matrix<_>) = m |> toColSeq |> Seq.reduce f
 
     /// Reduce all rows of a matrix.
-    let inline reduceRows f (m: #Matrix<_>) = m |> toColSeq |> Seq.reduce f
+    let inline reduceRows f (m: #Matrix<_>) = m |> toRowSeq |> Seq.reduce f
 
 
     /// Checks whether there is an entry in the matrix that satisfies a predicate.
