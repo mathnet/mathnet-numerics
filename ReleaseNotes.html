@@ -59,6 +59,14 @@
                     
 <h1><a name="Math-NET-Numerics-Release-Notes" class="anchor" href="#Math-NET-Numerics-Release-Notes">Math.NET Numerics Release Notes</a></h1>
 <p><a href="ReleaseNotes.html">Math.NET Numerics</a> | <a href="ReleaseNotes-MKL.html">MKL Provider</a> | <a href="ReleaseNotes-OpenBLAS.html">OpenBLAS Provider</a> | <a href="ReleaseNotes-Data.html">Data Extensions</a></p>
+<h3><a name="4-9-1-2020-04-12" class="anchor" href="#4-9-1-2020-04-12">4.9.1 - 2020-04-12</a></h3>
+<ul>
+<li>BUG: Optimization: weights were applied wrongly when evaluating the Jacobian <em>~Jong Hyun Kim, zhaochenxi</em></li>
+<li>BUG: Linear Algebra: F# Matrix.reduceRows was reducing columns instead of rows <em>~kayanme</em></li>
+<li>BUG: Distributions: Hypergeometric.CDF no longer returns values &gt; 1.0 <em>~Manor Askenazi</em></li>
+<li>Documentation: fix missing logarithms, drop old links "~Michel de Ruiter, Guney Ozsan*</li>
+<li>Build: no longer code-sign the assemblies with a code-signing certificate, since it is too painful.</li>
+</ul>
 <h3><a name="4-9-0-2019-10-13" class="anchor" href="#4-9-0-2019-10-13">4.9.0 - 2019-10-13</a></h3>
 <ul>
 <li>Integration: Substitution for open intervals <em>~Jong Hyun Kim</em></li>
