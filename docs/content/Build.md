@@ -174,7 +174,6 @@ Official Release Process (Maintainers only)
 *   Create new GitHub release, attach Zip files (to be automated)
 *   Copy artifacts to [release archive](https://1drv.ms/1lMtdNi) (to be automated)
 *   Consider a tweet via [@MathDotNet](https://twitter.com/MathDotNet)
-*   Consider a post to the [Google+ site](https://plus.google.com/112484567926928665204)
 *   Update Wikipedia release version and date for the
     [Math.NET Numerics](https://en.wikipedia.org/wiki/Math.NET_Numerics) and
     [Comparison of numerical analysis software](https://en.wikipedia.org/wiki/Comparison_of_numerical_analysis_software) articles.
