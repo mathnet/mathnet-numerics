@@ -163,8 +163,7 @@ Target "Clean" (fun _ ->
     DeleteDirs (!! "src/**/obj/" ++ "src/**/bin/" )
     CleanDirs [ "out/api"; "out/docs" ]
     CleanDirs [ "out/MKL"; "out/ATLAS"; "out/CUDA"; "out/OpenBLAS" ] // Native Providers
-    allSolutions |> List.iter (fun solution -> CleanDirs [ solution.OutputZipDir; solution.OutputNuGetDir; solution.OutputLibDir; solution.OutputLibStrongNameDir ])
-    allSolutions |> List.iter clean)
+    allSolutions |> List.iter (fun solution -> CleanDirs [ solution.OutputZipDir; solution.OutputNuGetDir; solution.OutputLibDir; solution.OutputLibStrongNameDir ]))
 
 Target "ApplyVersion" (fun _ ->
     allProjects |> List.iter patchVersionInProjectFile

@@ -20,7 +20,7 @@ namespace Benchmark.LinearAlgebra
                 AddJob(Job.Default.WithRuntime(ClrRuntime.Net461).WithPlatform(Platform.X64).WithJit(Jit.RyuJit));
                 AddJob(Job.Default.WithRuntime(ClrRuntime.Net461).WithPlatform(Platform.X86).WithJit(Jit.LegacyJit));
 #if !NET461
-                AddJob(Job.Default.WithRuntime(CoreRuntime.Core31).With(Platform.X64).WithJit(Jit.RyuJit));
+                AddJob(Job.Default.WithRuntime(CoreRuntime.Core31).WithPlatform(Platform.X64).WithJit(Jit.RyuJit));
 #endif
             }
         }
