@@ -1,3 +1,10 @@
+### 4.9.1 - 2020-04-12
+* BUG: Optimization: weights were applied wrongly when evaluating the Jacobian *~Jong Hyun Kim, zhaochenxi*
+* BUG: Linear Algebra: F# Matrix.reduceRows was reducing columns instead of rows *~kayanme*
+* BUG: Distributions: Hypergeometric.CDF no longer returns values > 1.0 *~Manor Askenazi*
+* Documentation: fix missing logarithms, drop old links "~Michel de Ruiter, Guney Ozsan*
+* Build: no longer code-sign the assemblies with a code-signing certificate, since it is too painful.
+
 ### 4.9.0 - 2019-10-13
 * Integration: Substitution for open intervals *~Jong Hyun Kim*
 * Integration: Gaus-Kronrod Quadrature *~Jong Hyun Kim*
