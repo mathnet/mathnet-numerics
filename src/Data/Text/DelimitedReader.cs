@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Data.Text
             var regex = delimiter == @"\s" ?
                 RegexCache.GetOrAdd(delimiter, d => new Regex(WhiteSpaceRegexTemplate, RegexOptions.Compiled)) :
                 RegexCache.GetOrAdd(delimiter, d => new Regex(string.Format(RegexTemplate, d), RegexOptions.Compiled));
-            
+
             var parse = CreateParser<T>(formatProvider);
             var data = new List<T[]>();
 
@@ -305,7 +305,7 @@ namespace MathNet.Numerics.Data.Text
                     return delimiter;
             }
         }
-        
+
         /// <summary>
         /// strip off quotes (TODO: can we replace this with trimming?)
         /// </summary>
