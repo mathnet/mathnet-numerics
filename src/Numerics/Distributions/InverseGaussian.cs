@@ -92,99 +92,60 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the Inverse Gaussian distribution.
         /// </summary>
-        public double Mean
-        {
-            get
-            {
-                return Mu;
-            }
-        }
+        public double Mean => Mu;
 
         /// <summary>
         /// Gets the variance of the Inverse Gaussian distribution.
         /// </summary>
-        public double Variance
-        {
-            get
-            {
-                return Math.Pow(Mu, 3) / Lambda;
-            }
-        }
+        public double Variance => Math.Pow(Mu, 3) / Lambda;
 
         /// <summary>
         /// Gets the standard deviation of the Inverse Gaussian distribution.
         /// </summary>
-        public double StdDev
-        {
-            get
-            {
-                return Math.Sqrt(Variance);
-            }
-        }
+        public double StdDev => Math.Sqrt(Variance);
 
         /// <summary>
         /// Gets the median of the Inverse Gaussian distribution.
         /// No closed form analytical expression exists, so this value is approximated numerically and can throw an exception.
         /// </summary>
-        public double Median
-        {
-            get { return InvCDF(0.5); }
-        }
+        public double Median => InvCDF(0.5);
 
         /// <summary>
         /// Gets the minimum of the Inverse Gaussian distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return 0.0; }
-        }
+        public double Minimum => 0.0;
 
         /// <summary>
         /// Gets the maximum of the Inverse Gaussian distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Gets the skewness of the Inverse Gaussian distribution.
         /// </summary>
-        public double Skewness
-        {
-            get { return 3 * Math.Sqrt(Mu / Lambda); }
-        }
+        public double Skewness => 3 * Math.Sqrt(Mu / Lambda);
 
         /// <summary>
         /// Gets the kurtosis of the Inverse Gaussian distribution.
         /// </summary>
-        public double Kurtosis
-        {
-            get { return 15 * Mu / Lambda; }
-        }
+        public double Kurtosis => 15 * Mu / Lambda;
 
         /// <summary>
         /// Gets the mode of the Inverse Gaussian distribution.
         /// </summary>
-        public double Mode
-        {
-            get { return Mu * (Math.Sqrt(1 + (9 * Mu * Mu) / (4 * Lambda * Lambda)) - (3 * Mu) / (2 * Lambda)); }
-        }
+        public double Mode => Mu * (Math.Sqrt(1 + (9 * Mu * Mu) / (4 * Lambda * Lambda)) - (3 * Mu) / (2 * Lambda));
 
         /// <summary>
         /// Gets the entropy of the Inverse Gaussian distribution (currently not supported).
         /// </summary>
-        public double Entropy
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Entropy => throw new NotSupportedException();
 
         /// <summary>
         /// Generates a sample from the inverse Gaussian distribution.

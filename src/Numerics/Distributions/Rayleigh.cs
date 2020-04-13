@@ -104,91 +104,61 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the scale (σ) of the distribution. Range: σ > 0.
         /// </summary>
-        public double Scale
-        {
-            get { return _scale; }
-        }
+        public double Scale => _scale;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return _scale*Math.Sqrt(Constants.PiOver2); }
-        }
+        public double Mean => _scale*Math.Sqrt(Constants.PiOver2);
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get { return (2.0 - Constants.PiOver2)*_scale*_scale; }
-        }
+        public double Variance => (2.0 - Constants.PiOver2)*_scale*_scale;
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt(2.0 - Constants.PiOver2)*_scale; }
-        }
+        public double StdDev => Math.Sqrt(2.0 - Constants.PiOver2)*_scale;
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { return 1.0 + Math.Log(_scale/Constants.Sqrt2) + (Constants.EulerMascheroni/2.0); }
-        }
+        public double Entropy => 1.0 + Math.Log(_scale/Constants.Sqrt2) + (Constants.EulerMascheroni/2.0);
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness
-        {
-            get { return (2.0*Math.Sqrt(Constants.Pi)*(Constants.Pi - 3.0))/Math.Pow(4.0 - Constants.Pi, 1.5); }
-        }
+        public double Skewness => (2.0*Math.Sqrt(Constants.Pi)*(Constants.Pi - 3.0))/Math.Pow(4.0 - Constants.Pi, 1.5);
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
-        public double Mode
-        {
-            get { return _scale; }
-        }
+        public double Mode => _scale;
 
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { return _scale*Math.Sqrt(Math.Log(4.0)); }
-        }
+        public double Median => _scale*Math.Sqrt(Math.Log(4.0));
 
         /// <summary>
         /// Gets the minimum of the distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return 0.0; }
-        }
+        public double Minimum => 0.0;
 
         /// <summary>
         /// Gets the maximum of the distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

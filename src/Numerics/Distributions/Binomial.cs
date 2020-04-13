@@ -111,51 +111,36 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the success probability in each trial. Range: 0 ≤ p ≤ 1.
         /// </summary>
-        public double P
-        {
-            get { return _p; }
-        }
+        public double P => _p;
 
         /// <summary>
         /// Gets the number of trials. Range: n ≥ 0.
         /// </summary>
-        public int N
-        {
-            get { return _trials; }
-        }
+        public int N => _trials;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return _p*_trials; }
-        }
+        public double Mean => _p*_trials;
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt(_p*(1.0 - _p)*_trials); }
-        }
+        public double StdDev => Math.Sqrt(_p*(1.0 - _p)*_trials);
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get { return _p*(1.0 - _p)*_trials; }
-        }
+        public double Variance => _p*(1.0 - _p)*_trials;
 
         /// <summary>
         /// Gets the entropy of the distribution.
@@ -183,26 +168,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness
-        {
-            get { return (1.0 - (2.0*_p))/Math.Sqrt(_trials*_p*(1.0 - _p)); }
-        }
+        public double Skewness => (1.0 - (2.0*_p))/Math.Sqrt(_trials*_p*(1.0 - _p));
 
         /// <summary>
         /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Minimum
-        {
-            get { return 0; }
-        }
+        public int Minimum => 0;
 
         /// <summary>
         /// Gets the largest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Maximum
-        {
-            get { return _trials; }
-        }
+        public int Maximum => _trials;
 
         /// <summary>
         /// Gets the mode of the distribution.
@@ -251,10 +227,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { return Math.Floor(_p*_trials); }
-        }
+        public double Median => Math.Floor(_p*_trials);
 
         /// <summary>
         /// Computes the probability mass (PMF) at k, i.e. P(X = k).

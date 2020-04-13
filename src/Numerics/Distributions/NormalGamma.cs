@@ -41,43 +41,25 @@ namespace MathNet.Numerics.Distributions
     public struct MeanPrecisionPair
     {
         /// <summary>
-        /// The mean value.
-        /// </summary>
-        double _mean;
-
-        /// <summary>
-        /// The precision value.
-        /// </summary>
-        double _precision;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MeanPrecisionPair"/> struct.
         /// </summary>
         /// <param name="m">The mean of the pair.</param>
         /// <param name="p">The precision of the pair.</param>
         public MeanPrecisionPair(double m, double p)
         {
-            _mean = m;
-            _precision = p;
+            Mean = m;
+            Precision = p;
         }
 
         /// <summary>
         /// Gets or sets the mean of the pair.
         /// </summary>
-        public double Mean
-        {
-            get { return _mean; }
-            set { _mean = value; }
-        }
+        public double Mean { get; set; }
 
         /// <summary>
         /// Gets or sets the precision of the pair.
         /// </summary>
-        public double Precision
-        {
-            get { return _precision; }
-            set { _precision = value; }
-        }
+        public double Precision { get; set; }
     }
 
     /// <summary>
@@ -170,42 +152,30 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the location of the mean.
         /// </summary>
-        public double MeanLocation
-        {
-            get { return _meanLocation; }
-        }
+        public double MeanLocation => _meanLocation;
 
         /// <summary>
         /// Gets the scale of the mean.
         /// </summary>
-        public double MeanScale
-        {
-            get { return _meanScale; }
-        }
+        public double MeanScale => _meanScale;
 
         /// <summary>
         /// Gets the shape of the precision.
         /// </summary>
-        public double PrecisionShape
-        {
-            get { return _precisionShape; }
-        }
+        public double PrecisionShape => _precisionShape;
 
         /// <summary>
         /// Gets the inverse scale of the precision.
         /// </summary>
-        public double PrecisionInverseScale
-        {
-            get { return _precisionInvScale; }
-        }
+        public double PrecisionInverseScale => _precisionInvScale;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -235,19 +205,13 @@ namespace MathNet.Numerics.Distributions
         /// Gets the mean of the distribution.
         /// </summary>
         /// <value>The mean of the distribution.</value>
-        public MeanPrecisionPair Mean
-        {
-            get { return double.IsPositiveInfinity(_precisionInvScale) ? new MeanPrecisionPair(_meanLocation, _precisionShape) : new MeanPrecisionPair(_meanLocation, _precisionShape/_precisionInvScale); }
-        }
+        public MeanPrecisionPair Mean => double.IsPositiveInfinity(_precisionInvScale) ? new MeanPrecisionPair(_meanLocation, _precisionShape) : new MeanPrecisionPair(_meanLocation, _precisionShape/_precisionInvScale);
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
         /// <value>The mean of the distribution.</value>
-        public MeanPrecisionPair Variance
-        {
-            get { return new MeanPrecisionPair(_precisionInvScale/(_meanScale*(_precisionShape - 1)), _precisionShape/Math.Sqrt(_precisionInvScale)); }
-        }
+        public MeanPrecisionPair Variance => new MeanPrecisionPair(_precisionInvScale/(_meanScale*(_precisionShape - 1)), _precisionShape/Math.Sqrt(_precisionInvScale));
 
         /// <summary>
         /// Evaluates the probability density function for a NormalGamma distribution.

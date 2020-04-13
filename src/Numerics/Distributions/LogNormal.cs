@@ -148,35 +148,26 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the log-scale (μ) (mean of the logarithm) of the distribution.
         /// </summary>
-        public double Mu
-        {
-            get { return _mu; }
-        }
+        public double Mu => _mu;
 
         /// <summary>
         /// Gets the shape (σ) (standard deviation of the logarithm) of the distribution. Range: σ ≥ 0.
         /// </summary>
-        public double Sigma
-        {
-            get { return _sigma; }
-        }
+        public double Sigma => _sigma;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mu of the log-normal distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return Math.Exp(_mu + (_sigma*_sigma/2.0)); }
-        }
+        public double Mean => Math.Exp(_mu + (_sigma*_sigma/2.0));
 
         /// <summary>
         /// Gets the variance of the log-normal distribution.
@@ -205,10 +196,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the entropy of the log-normal distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { return 0.5 + Math.Log(_sigma) + _mu + Constants.LogSqrt2Pi; }
-        }
+        public double Entropy => 0.5 + Math.Log(_sigma) + _mu + Constants.LogSqrt2Pi;
 
         /// <summary>
         /// Gets the skewness of the log-normal distribution.
@@ -225,34 +213,22 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mode of the log-normal distribution.
         /// </summary>
-        public double Mode
-        {
-            get { return Math.Exp(_mu - (_sigma*_sigma)); }
-        }
+        public double Mode => Math.Exp(_mu - (_sigma*_sigma));
 
         /// <summary>
         /// Gets the median of the log-normal distribution.
         /// </summary>
-        public double Median
-        {
-            get { return Math.Exp(_mu); }
-        }
+        public double Median => Math.Exp(_mu);
 
         /// <summary>
         /// Gets the minimum of the log-normal distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return 0.0; }
-        }
+        public double Minimum => 0.0;
 
         /// <summary>
         /// Gets the maximum of the log-normal distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

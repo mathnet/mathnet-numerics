@@ -113,102 +113,69 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the lower bound of the distribution.
         /// </summary>
-        public double LowerBound
-        {
-            get { return _lower; }
-        }
+        public double LowerBound => _lower;
 
         /// <summary>
         /// Gets the upper bound of the distribution.
         /// </summary>
-        public double UpperBound
-        {
-            get { return _upper; }
-        }
+        public double UpperBound => _upper;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return (_lower + _upper)/2.0; }
-        }
+        public double Mean => (_lower + _upper)/2.0;
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get { return (_upper - _lower)*(_upper - _lower)/12.0; }
-        }
+        public double Variance => (_upper - _lower)*(_upper - _lower)/12.0;
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return (_upper - _lower)/Math.Sqrt(12.0); }
-        }
+        public double StdDev => (_upper - _lower)/Math.Sqrt(12.0);
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
         /// <value></value>
-        public double Entropy
-        {
-            get { return Math.Log(_upper - _lower); }
-        }
+        public double Entropy => Math.Log(_upper - _lower);
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness
-        {
-            get { return 0.0; }
-        }
+        public double Skewness => 0.0;
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
         /// <value></value>
-        public double Mode
-        {
-            get { return (_lower + _upper)/2.0; }
-        }
+        public double Mode => (_lower + _upper)/2.0;
 
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
         /// <value></value>
-        public double Median
-        {
-            get { return (_lower + _upper)/2.0; }
-        }
+        public double Median => (_lower + _upper)/2.0;
 
         /// <summary>
         /// Gets the minimum of the distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return _lower; }
-        }
+        public double Minimum => _lower;
 
         /// <summary>
         /// Gets the maximum of the distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return _upper; }
-        }
+        public double Maximum => _upper;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

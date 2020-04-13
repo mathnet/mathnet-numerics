@@ -125,46 +125,34 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the degree of freedom (ν) for the inverse Wishart distribution.
         /// </summary>
-        public double DegreesOfFreedom
-        {
-            get { return _freedom; }
-        }
+        public double DegreesOfFreedom => _freedom;
 
         /// <summary>
         /// Gets or sets the scale matrix (Ψ) for the inverse Wishart distribution.
         /// </summary>
-        public Matrix<double> Scale
-        {
-            get { return _scale; }
-        }
+        public Matrix<double> Scale => _scale;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean.
         /// </summary>
         /// <value>The mean of the distribution.</value>
-        public Matrix<double> Mean
-        {
-            get { return _scale*(1.0/(_freedom - _scale.RowCount - 1.0)); }
-        }
+        public Matrix<double> Mean => _scale*(1.0/(_freedom - _scale.RowCount - 1.0));
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
         /// <value>The mode of the distribution.</value>
         /// <remarks>A. O'Hagan, and J. J. Forster (2004). Kendall's Advanced Theory of Statistics: Bayesian Inference. 2B (2 ed.). Arnold. ISBN 0-340-80752-0.</remarks>
-        public Matrix<double> Mode
-        {
-            get { return _scale*(1.0/(_freedom + _scale.RowCount + 1.0)); }
-        }
+        public Matrix<double> Mode => _scale*(1.0/(_freedom + _scale.RowCount + 1.0));
 
         /// <summary>
         /// Gets the variance of the distribution.

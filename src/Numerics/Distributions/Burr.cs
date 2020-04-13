@@ -98,78 +98,46 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the Burr distribution.
         /// </summary>
-        public double Mean
-        {
-            get
-            {
-                return (1 / SpecialFunctions.Gamma(k)) * a * SpecialFunctions.Gamma(1 + 1 / c) * SpecialFunctions.Gamma(k - 1 / c);
-            }
-        }
+        public double Mean => (1 / SpecialFunctions.Gamma(k)) * a * SpecialFunctions.Gamma(1 + 1 / c) * SpecialFunctions.Gamma(k - 1 / c);
 
         /// <summary>
         /// Gets the variance of the Burr distribution.
         /// </summary>
-        public double Variance
-        {
-            get
-            {
-                return (1 / SpecialFunctions.Gamma(k)) * Math.Pow(a, 2) * SpecialFunctions.Gamma(1 + 2 / c) * SpecialFunctions.Gamma(k - 2 / c)
-                            - Math.Pow((1 / SpecialFunctions.Gamma(k)) * a * SpecialFunctions.Gamma(1 + 1 / c) * SpecialFunctions.Gamma(k - 1 / c), 2);
-            }
-        }
+        public double Variance =>
+            (1 / SpecialFunctions.Gamma(k)) * Math.Pow(a, 2) * SpecialFunctions.Gamma(1 + 2 / c) * SpecialFunctions.Gamma(k - 2 / c)
+            - Math.Pow((1 / SpecialFunctions.Gamma(k)) * a * SpecialFunctions.Gamma(1 + 1 / c) * SpecialFunctions.Gamma(k - 1 / c), 2);
 
         /// <summary>
         /// Gets the standard deviation of the Burr distribution.
         /// </summary>
-        public double StdDev
-        {
-            get
-            {
-                return Math.Sqrt(Variance);
-            }
-        }
+        public double StdDev => Math.Sqrt(Variance);
 
         /// <summary>
         /// Gets the mode of the Burr distribution.
         /// </summary>
-        public double Mode
-        {
-            get
-            {
-                return a * Math.Pow((c - 1) / (c * k + 1), 1 / c);
-            }
-        }
+        public double Mode => a * Math.Pow((c - 1) / (c * k + 1), 1 / c);
 
         /// <summary>
         /// Gets the minimum of the Burr distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return 0.0; }
-        }
+        public double Minimum => 0.0;
 
         /// <summary>
         /// Gets the maximum of the Burr distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Gets the entropy of the Burr distribution (currently not supported).
         /// </summary>
-        public double Entropy
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Entropy => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the skewness of the Burr distribution.
@@ -188,13 +156,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the Burr distribution.
         /// </summary>
-        public double Median
-        {
-            get
-            {
-                return a * Math.Pow(Math.Pow(2, 1 / k) - 1, 1 / c);
-            }
-        }
+        public double Median => a * Math.Pow(Math.Pow(2, 1 / k) - 1, 1 / c);
 
         /// <summary>
         /// Generates a sample from the Burr distribution.

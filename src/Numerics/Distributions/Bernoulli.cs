@@ -102,83 +102,56 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the probability of generating a one. Range: 0 ≤ p ≤ 1.
         /// </summary>
-        public double P
-        {
-            get { return _p; }
-        }
+        public double P => _p;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return _p; }
-        }
+        public double Mean => _p;
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt(_p*(1.0 - _p)); }
-        }
+        public double StdDev => Math.Sqrt(_p*(1.0 - _p));
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get { return _p*(1.0 - _p); }
-        }
+        public double Variance => _p*(1.0 - _p);
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { return -(_p*Math.Log(_p)) - ((1.0 - _p)*Math.Log(1.0 - _p)); }
-        }
+        public double Entropy => -(_p*Math.Log(_p)) - ((1.0 - _p)*Math.Log(1.0 - _p));
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness
-        {
-            get { return (1.0 - (2.0*_p))/Math.Sqrt(_p*(1.0 - _p)); }
-        }
+        public double Skewness => (1.0 - (2.0*_p))/Math.Sqrt(_p*(1.0 - _p));
 
         /// <summary>
         /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Minimum
-        {
-            get { return 0; }
-        }
+        public int Minimum => 0;
 
         /// <summary>
         /// Gets the largest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Maximum
-        {
-            get { return 1; }
-        }
+        public int Maximum => 1;
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
-        public int Mode
-        {
-            get { return _p > 0.5 ? 1 : 0; }
-        }
+        public int Mode => _p > 0.5 ? 1 : 0;
 
         /// <summary>
         /// Gets all modes of the distribution.
@@ -191,10 +164,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { return _p < 0.5 ? 0.0 : _p > 0.5 ? 1.0 : 0.5; }
-        }
+        public double Median => _p < 0.5 ? 0.0 : _p > 0.5 ? 1.0 : 0.5;
 
         /// <summary>
         /// Computes the probability mass (PMF) at k, i.e. P(X = k).

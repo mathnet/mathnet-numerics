@@ -154,42 +154,30 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the α shape parameter of the BetaScaled distribution. Range: α > 0.
         /// </summary>
-        public double A
-        {
-            get { return _shapeA; }
-        }
+        public double A => _shapeA;
 
         /// <summary>
         /// Gets the β shape parameter of the BetaScaled distribution. Range: β > 0.
         /// </summary>
-        public double B
-        {
-            get { return _shapeB; }
-        }
+        public double B => _shapeB;
 
         /// <summary>
         /// Gets the location (μ) of the BetaScaled distribution.
         /// </summary>
-        public double Location
-        {
-            get { return _location; }
-        }
+        public double Location => _location;
 
         /// <summary>
         /// Gets the scale (σ) of the BetaScaled distribution. Range: σ > 0.
         /// </summary>
-        public double Scale
-        {
-            get { return _scale; }
-        }
+        public double Scale => _scale;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -233,18 +221,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the standard deviation of the BetaScaled distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt(Variance); }
-        }
+        public double StdDev => Math.Sqrt(Variance);
 
         /// <summary>
         /// Gets the entropy of the BetaScaled distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Entropy => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the skewness of the BetaScaled distribution.
@@ -308,26 +290,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the BetaScaled distribution.
         /// </summary>
-        public double Median
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Median => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the minimum of the BetaScaled distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return _location; }
-        }
+        public double Minimum => _location;
 
         /// <summary>
         /// Gets the maximum of the BetaScaled distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return _location + _scale; }
-        }
+        public double Maximum => _location + _scale;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

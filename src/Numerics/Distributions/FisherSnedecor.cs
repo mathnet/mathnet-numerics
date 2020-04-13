@@ -105,26 +105,20 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the first degree of freedom (d1) of the distribution. Range: d1 > 0.
         /// </summary>
-        public double DegreesOfFreedom1
-        {
-            get { return _freedom1; }
-        }
+        public double DegreesOfFreedom1 => _freedom1;
 
         /// <summary>
         /// Gets the second degree of freedom (d2) of the distribution. Range: d2 > 0.
         /// </summary>
-        public double DegreesOfFreedom2
-        {
-            get { return _freedom2; }
-        }
+        public double DegreesOfFreedom2 => _freedom2;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -162,18 +156,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt(Variance); }
-        }
+        public double StdDev => Math.Sqrt(Variance);
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Entropy => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the skewness of the distribution.
@@ -210,26 +198,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Median => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the minimum of the distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return 0.0; }
-        }
+        public double Minimum => 0.0;
 
         /// <summary>
         /// Gets the maximum of the distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

@@ -130,18 +130,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the degrees of freedom (n) for the Wishart distribution.
         /// </summary>
-        public double DegreesOfFreedom
-        {
-            get { return _degreesOfFreedom; }
-        }
+        public double DegreesOfFreedom => _degreesOfFreedom;
 
         /// <summary>
         /// Gets or sets the scale matrix (V) for the Wishart distribution.
         /// </summary>
-        public Matrix<double> Scale
-        {
-            get { return _scale; }
-        }
+        public Matrix<double> Scale => _scale;
 
         /// <summary>
         /// A string representation of the distribution.
@@ -157,27 +151,21 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
         /// <value>The mean of the distribution.</value>
-        public Matrix<double> Mean
-        {
-            get { return _degreesOfFreedom*_scale; }
-        }
+        public Matrix<double> Mean => _degreesOfFreedom*_scale;
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
         /// <value>The mode of the distribution.</value>
-        public Matrix<double> Mode
-        {
-            get { return (_degreesOfFreedom - _scale.RowCount - 1.0)*_scale; }
-        }
+        public Matrix<double> Mode => (_degreesOfFreedom - _scale.RowCount - 1.0)*_scale;
 
         /// <summary>
         /// Gets the variance of the distribution.

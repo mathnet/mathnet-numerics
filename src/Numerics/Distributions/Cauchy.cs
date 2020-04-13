@@ -111,99 +111,66 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the location  (x0) of the distribution.
         /// </summary>
-        public double Location
-        {
-            get { return _location; }
-        }
+        public double Location => _location;
 
         /// <summary>
         /// Gets the scale (γ) of the distribution. Range: γ > 0.
         /// </summary>
-        public double Scale
-        {
-            get { return _scale; }
-        }
+        public double Scale => _scale;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Mean => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Variance => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double StdDev => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { return Math.Log(4.0*Constants.Pi*_scale); }
-        }
+        public double Entropy => Math.Log(4.0*Constants.Pi*_scale);
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Skewness => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
-        public double Mode
-        {
-            get { return _location; }
-        }
+        public double Mode => _location;
 
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { return _location; }
-        }
+        public double Median => _location;
 
         /// <summary>
         /// Gets the minimum of the distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return double.NegativeInfinity; }
-        }
+        public double Minimum => double.NegativeInfinity;
 
         /// <summary>
         /// Gets the maximum of the distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

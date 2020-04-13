@@ -100,92 +100,62 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the probability of generating a one. Range: 0 ≤ p ≤ 1.
         /// </summary>
-        public double P
-        {
-            get { return _p; }
-        }
+        public double P => _p;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return 1.0/_p; }
-        }
+        public double Mean => 1.0/_p;
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get { return (1.0 - _p)/(_p*_p); }
-        }
+        public double Variance => (1.0 - _p)/(_p*_p);
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt(1.0 - _p)/_p; }
-        }
+        public double StdDev => Math.Sqrt(1.0 - _p)/_p;
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { return ((-_p*Math.Log(_p, 2.0)) - ((1.0 - _p)*Math.Log(1.0 - _p, 2.0)))/_p; }
-        }
+        public double Entropy => ((-_p*Math.Log(_p, 2.0)) - ((1.0 - _p)*Math.Log(1.0 - _p, 2.0)))/_p;
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
         /// <remarks>Throws a not supported exception.</remarks>
-        public double Skewness
-        {
-            get { return (2.0 - _p)/Math.Sqrt(1.0 - _p); }
-        }
+        public double Skewness => (2.0 - _p)/Math.Sqrt(1.0 - _p);
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
-        public int Mode
-        {
-            get { return 1; }
-        }
+        public int Mode => 1;
 
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { return _p == 0.0 ? double.PositiveInfinity : _p == 1.0 ? 1.0 : Math.Ceiling(-Constants.Ln2/Math.Log(1 - _p)); }
-        }
+        public double Median => _p == 0.0 ? double.PositiveInfinity : _p == 1.0 ? 1.0 : Math.Ceiling(-Constants.Ln2/Math.Log(1 - _p));
 
         /// <summary>
         /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Minimum
-        {
-            get { return 1; }
-        }
+        public int Minimum => 1;
 
         /// <summary>
         /// Gets the largest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Maximum
-        {
-            get { return int.MaxValue; }
-        }
+        public int Maximum => int.MaxValue;
 
         /// <summary>
         /// Computes the probability mass (PMF) at k, i.e. P(X = k).

@@ -176,91 +176,61 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean (μ) of the normal distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return _mean; }
-        }
+        public double Mean => _mean;
 
         /// <summary>
         /// Gets the standard deviation (σ) of the normal distribution. Range: σ ≥ 0.
         /// </summary>
-        public double StdDev
-        {
-            get { return _stdDev; }
-        }
+        public double StdDev => _stdDev;
 
         /// <summary>
         /// Gets the variance of the normal distribution.
         /// </summary>
-        public double Variance
-        {
-            get { return _stdDev*_stdDev; }
-        }
+        public double Variance => _stdDev*_stdDev;
 
         /// <summary>
         /// Gets the precision of the normal distribution.
         /// </summary>
-        public double Precision
-        {
-            get { return 1.0/(_stdDev*_stdDev); }
-        }
+        public double Precision => 1.0/(_stdDev*_stdDev);
 
         /// <summary>
         /// Gets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the entropy of the normal distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { return Math.Log(_stdDev) + Constants.LogSqrt2PiE; }
-        }
+        public double Entropy => Math.Log(_stdDev) + Constants.LogSqrt2PiE;
 
         /// <summary>
         /// Gets the skewness of the normal distribution.
         /// </summary>
-        public double Skewness
-        {
-            get { return 0.0; }
-        }
+        public double Skewness => 0.0;
 
         /// <summary>
         /// Gets the mode of the normal distribution.
         /// </summary>
-        public double Mode
-        {
-            get { return _mean; }
-        }
+        public double Mode => _mean;
 
         /// <summary>
         /// Gets the median of the normal distribution.
         /// </summary>
-        public double Median
-        {
-            get { return _mean; }
-        }
+        public double Median => _mean;
 
         /// <summary>
         /// Gets the minimum of the normal distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return double.NegativeInfinity; }
-        }
+        public double Minimum => double.NegativeInfinity;
 
         /// <summary>
         /// Gets the maximum of the normal distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

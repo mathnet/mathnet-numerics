@@ -128,34 +128,25 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the shape (k) of the Erlang distribution. Range: k ≥ 0.
         /// </summary>
-        public int Shape
-        {
-            get { return _shape; }
-        }
+        public int Shape => _shape;
 
         /// <summary>
         /// Gets the rate or inverse scale (λ) of the Erlang distribution. Range: λ ≥ 0.
         /// </summary>
-        public double Rate
-        {
-            get { return _rate; }
-        }
+        public double Rate => _rate;
 
         /// <summary>
         /// Gets the scale of the Erlang distribution.
         /// </summary>
-        public double Scale
-        {
-            get { return 1.0/_rate; }
-        }
+        public double Scale => 1.0/_rate;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -292,26 +283,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Median => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the minimum value.
         /// </summary>
-        public double Minimum
-        {
-            get { return 0.0; }
-        }
+        public double Minimum => 0.0;
 
         /// <summary>
         /// Gets the Maximum value.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

@@ -164,35 +164,26 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the parameters of the Dirichlet distribution.
         /// </summary>
-        public double[] Alpha
-        {
-            get { return _alpha; }
-        }
+        public double[] Alpha => _alpha;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the dimension of the Dirichlet distribution.
         /// </summary>
-        public int Dimension
-        {
-            get { return _alpha.Length; }
-        }
+        public int Dimension => _alpha.Length;
 
         /// <summary>
         /// Gets the sum of the Dirichlet parameters.
         /// </summary>
-        double AlphaSum
-        {
-            get { return _alpha.Sum(); }
-        }
+        double AlphaSum => _alpha.Sum();
 
         /// <summary>
         /// Gets the mean of the Dirichlet distribution.

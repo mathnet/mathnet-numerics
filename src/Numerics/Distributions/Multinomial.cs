@@ -177,35 +177,26 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the proportion of ratios.
         /// </summary>
-        public double[] P
-        {
-            get { return (double[])_p.Clone(); }
-        }
+        public double[] P => (double[])_p.Clone();
 
         /// <summary>
         /// Gets the number of trials.
         /// </summary>
-        public int N
-        {
-            get { return _trials; }
-        }
+        public int N => _trials;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public Vector<double> Mean
-        {
-            get { return _trials*(DenseVector)P; }
-        }
+        public Vector<double> Mean => _trials*(DenseVector)P;
 
         /// <summary>
         /// Gets the variance of the distribution.

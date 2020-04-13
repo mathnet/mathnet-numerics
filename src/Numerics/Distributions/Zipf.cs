@@ -113,35 +113,26 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the s parameter of the distribution.
         /// </summary>
-        public double S
-        {
-            get { return _s; }
-        }
+        public double S => _s;
 
         /// <summary>
         /// Gets or sets the n parameter of the distribution.
         /// </summary>
-        public int N
-        {
-            get { return _n; }
-        }
+        public int N => _n;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return SpecialFunctions.GeneralHarmonic(_n, _s - 1.0)/SpecialFunctions.GeneralHarmonic(_n, _s); }
-        }
+        public double Mean => SpecialFunctions.GeneralHarmonic(_n, _s - 1.0)/SpecialFunctions.GeneralHarmonic(_n, _s);
 
         /// <summary>
         /// Gets the variance of the distribution.
@@ -164,10 +155,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt(Variance); }
-        }
+        public double StdDev => Math.Sqrt(Variance);
 
         /// <summary>
         /// Gets the entropy of the distribution.
@@ -205,34 +193,22 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
-        public int Mode
-        {
-            get { return 1; }
-        }
+        public int Mode => 1;
 
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Median => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Minimum
-        {
-            get { return 1; }
-        }
+        public int Minimum => 1;
 
         /// <summary>
         /// Gets the largest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Maximum
-        {
-            get { return _n; }
-        }
+        public int Maximum => _n;
 
         /// <summary>
         /// Computes the probability mass (PMF) at k, i.e. P(X = k).

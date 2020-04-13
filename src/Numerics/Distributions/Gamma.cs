@@ -137,34 +137,25 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the shape (k, α) of the Gamma distribution. Range: α ≥ 0.
         /// </summary>
-        public double Shape
-        {
-            get { return _shape; }
-        }
+        public double Shape => _shape;
 
         /// <summary>
         /// Gets or sets the rate or inverse scale (β) of the Gamma distribution. Range: β ≥ 0.
         /// </summary>
-        public double Rate
-        {
-            get { return _rate; }
-        }
+        public double Rate => _rate;
 
         /// <summary>
         /// Gets or sets the scale (θ) of the Gamma distribution.
         /// </summary>
-        public double Scale
-        {
-            get { return 1.0/_rate; }
-        }
+        public double Scale => 1.0/_rate;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -296,26 +287,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the Gamma distribution.
         /// </summary>
-        public double Median
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Median => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the minimum of the Gamma distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return 0.0; }
-        }
+        public double Minimum => 0.0;
 
         /// <summary>
         /// Gets the maximum of the Gamma distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

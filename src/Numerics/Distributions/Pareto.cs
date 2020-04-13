@@ -109,26 +109,20 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the scale (xm) of the distribution. Range: xm > 0.
         /// </summary>
-        public double Scale
-        {
-            get { return _scale; }
-        }
+        public double Scale => _scale;
 
         /// <summary>
         /// Gets the shape (α) of the distribution. Range: α > 0.
         /// </summary>
-        public double Shape
-        {
-            get { return _shape; }
-        }
+        public double Shape => _shape;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -166,58 +160,37 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return (_scale*Math.Sqrt(_shape))/(Math.Abs(_shape - 1.0)*Math.Sqrt(_shape - 2.0)); }
-        }
+        public double StdDev => (_scale*Math.Sqrt(_shape))/(Math.Abs(_shape - 1.0)*Math.Sqrt(_shape - 2.0));
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { return Math.Log(_shape/_scale) - (1.0/_shape) - 1.0; }
-        }
+        public double Entropy => Math.Log(_shape/_scale) - (1.0/_shape) - 1.0;
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness
-        {
-            get { return (2.0*(_shape + 1.0)/(_shape - 3.0))*Math.Sqrt((_shape - 2.0)/_shape); }
-        }
+        public double Skewness => (2.0*(_shape + 1.0)/(_shape - 3.0))*Math.Sqrt((_shape - 2.0)/_shape);
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
-        public double Mode
-        {
-            get { return _scale; }
-        }
+        public double Mode => _scale;
 
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { return _scale*Math.Pow(2.0, 1.0/_shape); }
-        }
+        public double Median => _scale*Math.Pow(2.0, 1.0/_shape);
 
         /// <summary>
         /// Gets the minimum of the distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return _scale; }
-        }
+        public double Minimum => _scale;
 
         /// <summary>
         /// Gets the maximum of the distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

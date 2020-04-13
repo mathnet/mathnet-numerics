@@ -116,35 +116,26 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the lower bound of the distribution.
         /// </summary>
-        public double LowerBound
-        {
-            get { return _lower; }
-        }
+        public double LowerBound => _lower;
 
         /// <summary>
         /// Gets the upper bound of the distribution.
         /// </summary>
-        public double UpperBound
-        {
-            get { return _upper; }
-        }
+        public double UpperBound => _upper;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return (_lower + _upper + _mode)/3.0; }
-        }
+        public double Mean => (_lower + _upper + _mode)/3.0;
 
         /// <summary>
         /// Gets the variance of the distribution.
@@ -163,19 +154,13 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt(Variance); }
-        }
+        public double StdDev => Math.Sqrt(Variance);
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
         /// <value></value>
-        public double Entropy
-        {
-            get { return 0.5 + Math.Log((_upper - _lower)/2); }
-        }
+        public double Entropy => 0.5 + Math.Log((_upper - _lower)/2);
 
         /// <summary>
         /// Gets the skewness of the distribution.
@@ -196,10 +181,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets or sets the mode of the distribution.
         /// </summary>
-        public double Mode
-        {
-            get { return _mode; }
-        }
+        public double Mode => _mode;
 
         /// <summary>
         /// Gets the median of the distribution.
@@ -221,18 +203,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the minimum of the distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return _lower; }
-        }
+        public double Minimum => _lower;
 
         /// <summary>
         /// Gets the maximum of the distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return _upper; }
-        }
+        public double Maximum => _upper;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

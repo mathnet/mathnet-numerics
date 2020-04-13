@@ -84,8 +84,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -126,67 +126,37 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the truncated Pareto distribution.
         /// </summary>
-        public double Mean
-        {
-            get
-            {
-                return GetMoment(1);
-            }
-        }
+        public double Mean => GetMoment(1);
 
         /// <summary>
         /// Gets the variance of the truncated Pareto distribution.
         /// </summary>
-        public double Variance
-        {
-            get
-            {
-                return GetMoment(2) - Math.Pow(GetMoment(1), 2);
-            }
-        }
+        public double Variance => GetMoment(2) - Math.Pow(GetMoment(1), 2);
 
         /// <summary>
         /// Gets the standard deviation of the truncated Pareto distribution.
         /// </summary>
-        public double StdDev
-        {
-            get
-            {
-                return Math.Sqrt(Variance);
-            }
-        }
+        public double StdDev => Math.Sqrt(Variance);
 
         /// <summary>
         /// Gets the mode of the truncated Pareto distribution (not supported).
         /// </summary>
-        public double Mode
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Mode => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the minimum of the truncated Pareto distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return Scale; }
-        }
+        public double Minimum => Scale;
 
         /// <summary>
         /// Gets the maximum of the truncated Pareto distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return Truncation; }
-        }
+        public double Maximum => Truncation;
 
         /// <summary>
         /// Gets the entropy of the truncated Pareto distribution (not supported).
         /// </summary>
-        public double Entropy
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Entropy => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the skewness of the truncated Pareto distribution.
@@ -205,13 +175,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the truncated Pareto distribution.
         /// </summary>
-        public double Median
-        {
-            get
-            {
-                return Scale * Math.Pow(1.0 - (1.0 / 2.0) * (1.0 - Math.Pow(Scale / Truncation, Shape)), -(1.0 / Shape));
-            }
-        }
+        public double Median => Scale * Math.Pow(1.0 - (1.0 / 2.0) * (1.0 - Math.Pow(Scale / Truncation, Shape)), -(1.0 / Shape));
 
         /// <summary>
         /// Generates a sample from the truncated Pareto distribution.

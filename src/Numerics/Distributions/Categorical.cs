@@ -205,18 +205,15 @@ namespace MathNet.Numerics.Distributions
         /// Gets the probability mass vector (non-negative ratios) of the multinomial.
         /// </summary>
         /// <remarks>Sometimes the normalized probability vector cannot be represented exactly in a floating point representation.</remarks>
-        public double[] P
-        {
-            get { return (double[])_pmfNormalized.Clone(); }
-        }
+        public double[] P => (double[])_pmfNormalized.Clone();
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -241,10 +238,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt(Variance); }
-        }
+        public double StdDev => Math.Sqrt(Variance);
 
         /// <summary>
         /// Gets the variance of the distribution.
@@ -278,43 +272,28 @@ namespace MathNet.Numerics.Distributions
         /// Gets the skewness of the distribution.
         /// </summary>
         /// <remarks>Throws a <see cref="NotSupportedException"/>.</remarks>
-        public double Skewness
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Skewness => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the smallest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Minimum
-        {
-            get { return 0; }
-        }
+        public int Minimum => 0;
 
         /// <summary>
         /// Gets the largest element in the domain of the distributions which can be represented by an integer.
         /// </summary>
-        public int Maximum
-        {
-            get { return _pmfNormalized.Length - 1; }
-        }
+        public int Maximum => _pmfNormalized.Length - 1;
 
         /// <summary>
         /// Gets he mode of the distribution.
         /// </summary>
         /// <remarks>Throws a <see cref="NotSupportedException"/>.</remarks>
-        public int Mode
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public int Mode => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { return InverseCumulativeDistribution(0.5); }
-        }
+        public double Median => InverseCumulativeDistribution(0.5);
 
         /// <summary>
         /// Computes the probability mass (PMF) at k, i.e. P(X = k).

@@ -113,26 +113,20 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the α shape parameter of the Beta distribution. Range: α ≥ 0.
         /// </summary>
-        public double A
-        {
-            get { return _shapeA; }
-        }
+        public double A => _shapeA;
 
         /// <summary>
         /// Gets the β shape parameter of the Beta distribution. Range: β ≥ 0.
         /// </summary>
-        public double B
-        {
-            get { return _shapeB; }
-        }
+        public double B => _shapeB;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -179,18 +173,12 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the variance of the Beta distribution.
         /// </summary>
-        public double Variance
-        {
-            get { return (_shapeA*_shapeB)/((_shapeA + _shapeB)*(_shapeA + _shapeB)*(_shapeA + _shapeB + 1.0)); }
-        }
+        public double Variance => (_shapeA*_shapeB)/((_shapeA + _shapeB)*(_shapeA + _shapeB)*(_shapeA + _shapeB + 1.0));
 
         /// <summary>
         /// Gets the standard deviation of the Beta distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Math.Sqrt((_shapeA*_shapeB)/((_shapeA + _shapeB)*(_shapeA + _shapeB)*(_shapeA + _shapeB + 1.0))); }
-        }
+        public double StdDev => Math.Sqrt((_shapeA*_shapeB)/((_shapeA + _shapeB)*(_shapeA + _shapeB)*(_shapeA + _shapeB + 1.0)));
 
         /// <summary>
         /// Gets the entropy of the Beta distribution.
@@ -312,26 +300,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the Beta distribution.
         /// </summary>
-        public double Median
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public double Median => throw new NotSupportedException();
 
         /// <summary>
         /// Gets the minimum of the Beta distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return 0.0; }
-        }
+        public double Minimum => 0.0;
 
         /// <summary>
         /// Gets the maximum of the Beta distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return 1.0; }
-        }
+        public double Maximum => 1.0;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.

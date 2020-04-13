@@ -155,36 +155,27 @@ namespace MathNet.Numerics.Distributions
         /// Gets the mean. (M)
         /// </summary>
         /// <value>The mean of the distribution.</value>
-        public Matrix<double> Mean
-        {
-            get { return _m; }
-        }
+        public Matrix<double> Mean => _m;
 
         /// <summary>
         /// Gets the row covariance. (V)
         /// </summary>
         /// <value>The row covariance.</value>
-        public Matrix<double> RowCovariance
-        {
-            get { return _v; }
-        }
+        public Matrix<double> RowCovariance => _v;
 
         /// <summary>
         /// Gets the column covariance. (K)
         /// </summary>
         /// <value>The column covariance.</value>
-        public Matrix<double> ColumnCovariance
-        {
-            get { return _k; }
-        }
+        public Matrix<double> ColumnCovariance => _k;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>

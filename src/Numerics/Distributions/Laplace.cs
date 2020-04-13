@@ -116,99 +116,66 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the location (μ) of the Laplace distribution.
         /// </summary>
-        public double Location
-        {
-            get { return _location; }
-        }
+        public double Location => _location;
 
         /// <summary>
         /// Gets the scale (b) of the Laplace distribution. Range: b > 0.
         /// </summary>
-        public double Scale
-        {
-            get { return _scale; }
-        }
+        public double Scale => _scale;
 
         /// <summary>
         /// Gets or sets the random number generator which is used to draw random samples.
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        public double Mean
-        {
-            get { return _location; }
-        }
+        public double Mean => _location;
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        public double Variance
-        {
-            get { return 2.0*_scale*_scale; }
-        }
+        public double Variance => 2.0*_scale*_scale;
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        public double StdDev
-        {
-            get { return Constants.Sqrt2*_scale; }
-        }
+        public double StdDev => Constants.Sqrt2*_scale;
 
         /// <summary>
         /// Gets the entropy of the distribution.
         /// </summary>
-        public double Entropy
-        {
-            get { return Math.Log(2.0*Constants.E*_scale); }
-        }
+        public double Entropy => Math.Log(2.0*Constants.E*_scale);
 
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        public double Skewness
-        {
-            get { return 0.0; }
-        }
+        public double Skewness => 0.0;
 
         /// <summary>
         /// Gets the mode of the distribution.
         /// </summary>
-        public double Mode
-        {
-            get { return _location; }
-        }
+        public double Mode => _location;
 
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
-        public double Median
-        {
-            get { return _location; }
-        }
+        public double Median => _location;
 
         /// <summary>
         /// Gets the minimum of the distribution.
         /// </summary>
-        public double Minimum
-        {
-            get { return double.NegativeInfinity; }
-        }
+        public double Minimum => double.NegativeInfinity;
 
         /// <summary>
         /// Gets the maximum of the distribution.
         /// </summary>
-        public double Maximum
-        {
-            get { return double.PositiveInfinity; }
-        }
+        public double Maximum => double.PositiveInfinity;
 
         /// <summary>
         /// Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x.
