@@ -99,43 +99,43 @@
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
-    <IncludePath>$(ICPP_COMPILER19)\mkl\include\;$(ICPP_COMPILER19)\mkl\include\fftw\;$(ICPP_COMPILER19)\compiler\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ICPP_COMPILER19)mkl\lib;$(ICPP_COMPILER19)mkl\lib\ia32_win;$(ICPP_COMPILER19)compiler\lib;$(ICPP_COMPILER19)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ICPP_COMPILER20)\mkl\include\;$(ICPP_COMPILER20)\mkl\include\fftw\;$(ICPP_COMPILER20)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER20)mkl\lib;$(ICPP_COMPILER20)mkl\lib\ia32_win;$(ICPP_COMPILER20)compiler\lib;$(ICPP_COMPILER20)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|Win32'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
-    <IncludePath>$(ICPP_COMPILER19)\mkl\include\;$(ICPP_COMPILER19)\mkl\include\fftw\;$(ICPP_COMPILER19)\compiler\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ICPP_COMPILER19)mkl\lib;$(ICPP_COMPILER19)mkl\lib\ia32_win;$(ICPP_COMPILER19)compiler\lib;$(ICPP_COMPILER19)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ICPP_COMPILER20)\mkl\include\;$(ICPP_COMPILER20)\mkl\include\fftw\;$(ICPP_COMPILER20)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER20)mkl\lib;$(ICPP_COMPILER20)mkl\lib\ia32_win;$(ICPP_COMPILER20)compiler\lib;$(ICPP_COMPILER20)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x64\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
-    <LibraryPath>$(ICPP_COMPILER19)mkl\lib;$(ICPP_COMPILER19)mkl\lib\intel64_win;$(ICPP_COMPILER19)compiler\lib;$(ICPP_COMPILER19)compiler\lib\intel64_win;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ICPP_COMPILER19)\mkl\include\;$(ICPP_COMPILER19)\mkl\include\fftw\;$(ICPP_COMPILER19)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER20)mkl\lib;$(ICPP_COMPILER20)mkl\lib\intel64_win;$(ICPP_COMPILER20)compiler\lib;$(ICPP_COMPILER20)compiler\lib\intel64_win;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ICPP_COMPILER20)\mkl\include\;$(ICPP_COMPILER20)\mkl\include\fftw\;$(ICPP_COMPILER20)\compiler\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Intel_SSA|x64'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x64\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
-    <IncludePath>$(ICPP_COMPILER19)\mkl\include\;$(ICPP_COMPILER19)\mkl\include\fftw\;$(ICPP_COMPILER19)\compiler\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ICPP_COMPILER19)mkl\lib;$(ICPP_COMPILER19)mkl\lib\intel64_win;$(ICPP_COMPILER19)compiler\lib;$(ICPP_COMPILER19)compiler\lib\intel64_win;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ICPP_COMPILER20)\mkl\include\;$(ICPP_COMPILER20)\mkl\include\fftw\;$(ICPP_COMPILER20)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER20)mkl\lib;$(ICPP_COMPILER20)mkl\lib\intel64_win;$(ICPP_COMPILER20)compiler\lib;$(ICPP_COMPILER20)compiler\lib\intel64_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
-    <IncludePath>$(ICPP_COMPILER19)\mkl\include\;$(ICPP_COMPILER19)\mkl\include\fftw\;$(ICPP_COMPILER19)\compiler\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ICPP_COMPILER19)mkl\lib;$(ICPP_COMPILER19)mkl\lib\ia32_win;$(ICPP_COMPILER19)compiler\lib;$(ICPP_COMPILER19)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ICPP_COMPILER20)\mkl\include\;$(ICPP_COMPILER20)\mkl\include\fftw\;$(ICPP_COMPILER20)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER20)mkl\lib;$(ICPP_COMPILER20)mkl\lib\ia32_win;$(ICPP_COMPILER20)compiler\lib;$(ICPP_COMPILER20)compiler\lib\ia32_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x64\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
     <TargetName>MathNet.Numerics.MKL</TargetName>
-    <IncludePath>$(ICPP_COMPILER19)\mkl\include\;$(ICPP_COMPILER19)\mkl\include\fftw\;$(ICPP_COMPILER19)\compiler\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ICPP_COMPILER19)mkl\lib;$(ICPP_COMPILER19)mkl\lib\intel64_win;$(ICPP_COMPILER19)compiler\lib;$(ICPP_COMPILER19)compiler\lib\intel64_win;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ICPP_COMPILER20)\mkl\include\;$(ICPP_COMPILER20)\mkl\include\fftw\;$(ICPP_COMPILER20)\compiler\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ICPP_COMPILER20)mkl\lib;$(ICPP_COMPILER20)mkl\lib\intel64_win;$(ICPP_COMPILER20)compiler\lib;$(ICPP_COMPILER20)compiler\lib\intel64_win;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
