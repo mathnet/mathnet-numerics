@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28922.388
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1082
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
@@ -40,6 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{97C9717A
 	ProjectSection(SolutionItems) = preProject
 		build\build-framework.fsx = build\build-framework.fsx
 		build.fsx = build.fsx
+		src\Directory.Build.props = src\Directory.Build.props
 		build\MathNet.Numerics.MKL.Linux-x64.nuspec = build\MathNet.Numerics.MKL.Linux-x64.nuspec
 		build\MathNet.Numerics.MKL.Linux-x86.nuspec = build\MathNet.Numerics.MKL.Linux-x86.nuspec
 		build\MathNet.Numerics.MKL.Linux.nuspec = build\MathNet.Numerics.MKL.Linux.nuspec

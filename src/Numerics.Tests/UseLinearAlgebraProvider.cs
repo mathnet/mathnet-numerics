@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -41,7 +40,9 @@ namespace MathNet.Numerics.UnitTests
         {
 
 #if NATIVE
+            string outDir = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"../../../../../out/");
 #if MKL
+            Control.NativeProviderPath = System.IO.Path.Combine(outDir, @"MKL/Windows/");
             Control.UseNativeMKL();
 #elif CUDA
             Control.UseNativeCUDA();
