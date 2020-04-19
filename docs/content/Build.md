@@ -171,8 +171,6 @@ Official Release Process (Maintainers only)
     In theory there is also a `Publish` target to do this in one step, unfortunately
     publishing to the NuGet gallery is quite unreliable.
 
-*   Create new GitHub release, attach Zip files (to be automated)
-*   Copy artifacts to [release archive](https://1drv.ms/1lMtdNi) (to be automated)
 *   Consider a tweet via [@MathDotNet](https://twitter.com/MathDotNet)
 *   Update Wikipedia release version and date for the
     [Math.NET Numerics](https://en.wikipedia.org/wiki/Math.NET_Numerics) and

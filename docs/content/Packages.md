@@ -4,7 +4,7 @@ NuGet Packages & Binaries
 The recommended way to get Math.NET Numerics is NuGet. The following packages are
 provided and maintained in the public [NuGet Gallery](https://nuget.org/profiles/mathnet/).
 The complete set of Zip and NuGet packages including symbol packages is also available in the
-[release archive](https://1drv.ms/1NlUeDT).
+[release archive](https://archive.mathdotnet.com/Math.NET%20Numerics/).
 
 
 Math.NET Numerics
@@ -36,7 +36,7 @@ more need to any manual file handling. But it is only supported by Math.NET Nume
 v3.6.0 and higher.
 
 If you intend to [maintain the native binaries manually](MKL.html#Native-Binaries)
-it may be easier to download the Zip file in the release archive.
+it may be easier to download the Zip file in the [release archive](https://archive.mathdotnet.com/Math.NET%20Numerics/Zip/).
 
 [Intel MKL Native Provider Release Notes](ReleaseNotes-MKL.html)
 
