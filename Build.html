@@ -87,7 +87,7 @@ may fail to compile or provide correct IntelliSense.</p>
 </table>
 <h2><a name="FAKE" class="anchor" href="#FAKE">FAKE</a></h2>
 <p>The fully automated build including unit tests, documentation and api
-reference, NuGet and Zip packages is using <a href="http://fsharp.github.io/FAKE/">FAKE</a>.</p>
+reference, NuGet and Zip packages is using <a href="https://fsharp.github.io/FAKE/">FAKE</a>.</p>
 <p>FAKE itself is not included in the repository but it will download and bootstrap
 itself automatically when build.cmd is run the first time. Note that this step
 is <em>not</em> required when using Visual Studio or <code>msbuild</code> directly.</p>
@@ -142,10 +142,10 @@ is <em>not</em> required when using Visual Studio or <code>msbuild</code> direct
 </tr>
 </table>
 <p>If the build or tests fail claiming that FSharp.Core was not be found, see
-<a href="http://fsharp.org/use/windows/">fsharp.org</a> or install the
+<a href="https://fsharp.org/use/windows/">fsharp.org</a> or install the
 <a href="https://go.microsoft.com/fwlink/?LinkId=261286">Visual F# 3.0 Tools</a> directly.</p>
 <h2><a name="Dependencies" class="anchor" href="#Dependencies">Dependencies</a></h2>
-<p>We manage NuGet and other dependencies with <a href="http://fsprojects.github.io/Paket/">Paket</a>.
+<p>We manage NuGet and other dependencies with <a href="https://fsprojects.github.io/Paket/">Paket</a>.
 You do not normally have to do anything with Paket as it is integrated into our
 FAKE build tools, unless you want to actively manage the dependencies.</p>
 <p>You can bootstrap or update Paket by calling <code>tools/paket/paket.bootstrapper.exe</code>.
@@ -158,8 +158,8 @@ will update all packages within the defined constraints. Have a look at the Pake
 website for more commands and details.</p>
 <h2><a name="Documentation" class="anchor" href="#Documentation">Documentation</a></h2>
 <p>This website and documentation is automatically generated from of a set of
-<a href="http://commonmark.org/">CommonMark</a> structured files in <code>doc/content/</code> using
-<a href="http://tpetricek.github.io/FSharp.Formatting/">FSharp.Formatting</a>.
+<a href="https://commonmark.org/">CommonMark</a> structured files in <code>doc/content/</code> using
+<a href="https://tpetricek.github.io/FSharp.Formatting/">FSharp.Formatting</a>.
 The final documentation can be built by calling <code>build.sh Docs</code>.</p>
 <p>However, for editing and previewing the docs on your local machine it is more
 convenient to run <code>build.sh DocsWatch</code> in a separate console instead, which

@@ -131,11 +131,11 @@ see <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms682586.a
 libraries into the same folder as the executable is not enough. The safe way is to edit <code>/etc/ld.so.conf</code>
 and use <code>ldconfig</code> to tell where to look for the libraries. Alternatively you could add the path
 to <code>LD_LIBRARY_PATH</code> or even just copy them to <code>/usr/lib</code>.</p>
-<p>For details see Mono's <a href="http://www.mono-project.com/docs/advanced/pinvoke/#linux-shared-library-search-path">Interop with Native Libraries</a>.</p>
+<p>For details see Mono's <a href="https://www.mono-project.com/docs/advanced/pinvoke/#linux-shared-library-search-path">Interop with Native Libraries</a>.</p>
 <h2><a name="Default-Behavior-on-Mac-OS-X" class="anchor" href="#Default-Behavior-on-Mac-OS-X">Default Behavior on Mac OS X</a></h2>
 <p>You can configure the search path on one of the environment variables like <code>DYLD_LIBRARY_PATH</code>
 or just copy them e.g. to <code>/usr/lib</code>.</p>
-<p>For details see Mono's <a href="http://www.mono-project.com/docs/advanced/pinvoke/#mac-os-x-framework-and-dylib-search-path">Interop with Native Libraries</a>.</p>
+<p>For details see Mono's <a href="https://www.mono-project.com/docs/advanced/pinvoke/#mac-os-x-framework-and-dylib-search-path">Interop with Native Libraries</a>.</p>
 <p>To build the MKL native provider for OSX:</p>
 <ol>
 <li>
@@ -200,7 +200,7 @@ MKL provider automatically.</p>
 <p>This script assumes that the MKL binaries have been copied to the project directory,
 which is also where the NuGet packages place them by default. If you place them somewhere
 else, adapt the path accordingly.</p>
-<p>See also <a href="http://christoph.ruegg.name/blog/loading-native-dlls-in-fsharp-interactive.html">Loading Native DLLs in F# Interactive</a>
+<p>See also <a href="https://christoph.ruegg.name/blog/loading-native-dlls-in-fsharp-interactive.html">Loading Native DLLs in F# Interactive</a>
 for more alternatives.</p>
 <h2><a name="LINQPad-and-assembly-shadowing" class="anchor" href="#LINQPad-and-assembly-shadowing">LINQPad and assembly shadowing</a></h2>
 <p>The automatic strategy may still work if assembly shadowing is involved,

@@ -90,7 +90,7 @@ We prefer a couple small pull requests over a single large one that targets mult
 <p><strong>Code Reformatting and Refactoring:</strong><br />
 Please avoid starting with a major refactoring or any code reformatting without talking to us first.</p>
 <p><strong>Breaking Compatibility:</strong><br />
-We try to follow <a href="http://semver.org/">semantic versioning</a>, meaning that we cannot break compatibility until the next major version. Since Numerics intentionally permits straight access to raw algorithms, a lot of member declarations are public and thus cannot be modified. Instead of breaking compatibility, it is often possible to create a new better version side by side though and mark the original implementation as obsolete and scheduled for removal on the next major version.</p>
+We try to follow <a href="https://semver.org/">semantic versioning</a>, meaning that we cannot break compatibility until the next major version. Since Numerics intentionally permits straight access to raw algorithms, a lot of member declarations are public and thus cannot be modified. Instead of breaking compatibility, it is often possible to create a new better version side by side though and mark the original implementation as obsolete and scheduled for removal on the next major version.</p>
 <p><strong>Merges:</strong><br />
 Please avoid merging mainline back into your pull request branch. If you need to leverage some changes recently added to mainline, consider to rebase instead. In other words, please make sure your commits sit directly on top of a recent mainline master.</p>
 
