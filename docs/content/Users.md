@@ -85,7 +85,16 @@ Books
 Papers and Thesis
 -----------------
 
+* Dalchau, Neil; Grant, Paul K.; Vaidyanathan, Prashant; Spaccasassi, Carlo; Gravill, Colin; Phillips, Andrew (2019). *Scalable dynamic characterization of synthetic gene circuits.* Microsoft Research. DOI 10.1101/635672.
+* Gao, Peichao; Cushman, Samuel A.; Liu, Gang; Ye, Sijing; Shen, Shi; Cheng, Changxiu (2019). *FracL: A Tool for Characterizing the Fractality of Landscape Gradients from a New Perspective.* MDPI Iternationa Journal of Geo-Information. DOI 10.3390/ijgi8100466.
+* Vlasenko, Alexander; Vlasenko, Nataliia; Vynokurova, Olena; Bodyanskiy, Yevgeniy; Peleshko, Dmytro (2019). *A Novel Ensemble Neuro-Fuzzy Model for Financial Time Series Forecasting.* MDPI data. DOI 10.3390/data4030126.
+* Falke, Martin; Höglund, Lucas (2019). *Implementing gaze tracking with a simple web camera.* KTH School of Electrical Engineering and Computer Science, Stockholm.
+* Rottschäfer, Marcus Philip (2019). *Simultaneous Visual Analysis of Multidimensional Data and Attributes.* Institute for Visualization and Interactive Systems, University of Stuttgart.
+* Azimov, R., Grigorev, S. (2019). *Path Querying with Conjunctive Grammars by Matrix Multiplication.* Program Comput Soft 45, 357–364. DOI 10.1134/S0361768819070041
+* Honfi, D., Micskei, Z. (2019). *Classifying generated white-box tests: an exploratory study.* Software Qual J 27, 1339–1380. DOI 10.1007/s11219-019-09446-5.
+* Sowa, Marcin (2018). *A Harmonic Balance Methodology for Circuits with Fractional and Nonlinear Elements.* Circuits Syst Signal Process 37:4695–4727. DOI 10.1007/s00034-018-0794-8.
 * Schaffranek, Richard (2015). *Parallel planning - An experimental study in spectral graph matching.* Vienna University of Technology. Proceedings of the 10th International Space Syntax Symposium.
+* De Feber, Max (2017). *Real-time numerical modeling of subsea cable dynamics - Visualized in Augmented Reality.* Offshore & Dredging Engineering, Delft University of Technology.
 * Nkurikiyeyezu, K.; Ahishakiye, F.; Nsengimana, C.; Ntagwirumugara, E. (2015). *Toolkits for Real Time Digital Audio Signal Processing Teaching Laboratory.* University of Rwanda. Journal of Signal and Information Processing. DOI 10.4236/jsip.2015.62009
 * Czarnowska, Lucyna; Litwin, Wojciech; Stanek, Wojciech (2015). *Selection of Numerical Methods and their Application to the Thermo-Ecological Life Cycle Cost of Heat Exchanger Components*. Silesian University of Technology.
 * Schmollinger, Stefan; Mülhaus, Timo; et al (2014). *Nitrogen-Sparing Mechanisms in Chlamydomonas Affect the Transcriptome, the Proteome, and Photosynthetic Metabolism.* The Plant Cell. DOI 10.1105/tpc.113.122523
