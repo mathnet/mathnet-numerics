@@ -11,7 +11,7 @@ Generating Data
 ===============
 
 Numerics is all about analyzing and manipulating numeric data. But unless you can read in data from an external
-file, source or e.g. with the excellent [F# Type Providers](http://fsharp.github.io/FSharp.Data/),
+file, source or e.g. with the excellent [F# Type Providers](https://fsharp.github.io/FSharp.Data/),
 you may need to generate synthetic or random data locally, or transform existing data into a new form.
 The `Generate` class can help you in all these scenarios with a set of static functions generating either
 an array or an IEnumerable sequence.

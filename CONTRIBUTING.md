@@ -53,7 +53,7 @@ Should you stumble on weird English grammar or wording please do fix it - most o
 Please avoid starting with a major refactoring or any code reformatting without talking to us first.
 
 **Breaking Compatibility:**  
-We try to follow [semantic versioning](http://semver.org/), meaning that we cannot break compatibility until the next major version. Since Numerics intentionally permits straight access to raw algorithms, a lot of member declarations are public and thus cannot be modified. Instead of breaking compatibility, it is often possible to create a new better version side by side though and mark the original implementation as obsolete and scheduled for removal on the next major version.
+We try to follow [semantic versioning](https://semver.org/), meaning that we cannot break compatibility until the next major version. Since Numerics intentionally permits straight access to raw algorithms, a lot of member declarations are public and thus cannot be modified. Instead of breaking compatibility, it is often possible to create a new better version side by side though and mark the original implementation as obsolete and scheduled for removal on the next major version.
 
 **Merges:**  
 Please avoid merging mainline back into your pull request branch. If you need to leverage some changes recently added to mainline, consider to rebase instead. In other words, please make sure your commits sit directly on top of a recent mainline master.

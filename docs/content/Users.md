@@ -7,18 +7,18 @@ Feel free to [add, edit or remove your own work](https://github.com/mathnet/math
 Open Source
 -----------
 
-* [MyMediaLite Recommender System Library](http://www.ismll.uni-hildesheim.de/mymedialite/)
+* [MyMediaLite Recommender System Library](https://www.ismll.uni-hildesheim.de/mymedialite/)
 * [FermiSim, studying potential solutions to the Fermi paradox via computational simulation of models for space colonisation](https://launchpad.net/fermisim)
 * [Three-Dimensional Model Shape Description and Retrieval Based on LightField Descriptors](https://code.google.com/p/lightfieldretrieval/)
 * [Virtual Photonics Technology Initiative](https://virtualphotonics.codeplex.com/)
 * [SharpFE: a lightweight, expandable finite element solver for .net](https://github.com/iainsproat/SharpFE)
-* [FsLab: Machine Learning and Data Science with F#](http://fslab.org/)
-* [Simple FM Matrix](http://cs.mcgill.ca/~ryang6/simplefmmatrix/)
-* [mathlib.net](http://mathlibproject.codeplex.com/)
+* [FsLab: Machine Learning and Data Science with F#](https://fslab.org/)
+* [Simple FM Matrix](https://cs.mcgill.ca/~ryang6/simplefmmatrix/)
+* [mathlib.net](https://mathlibproject.codeplex.com/)
 * [PhysicsPad](https://github.com/Amichai/PhysicsPad)
 * [DRFCSharp: Discriminative Random Fields implementation for C#](https://github.com/exitmouse/drfcsharp)
 * [SharpBench: Benchmarking system for Mono/.Net](https://github.com/ranma42/SharpBench)
-* [Behavioral Rating of Dancing Human Crowds based on Motion Patterns](http://emotiondetection.codeplex.com/)
+* [Behavioral Rating of Dancing Human Crowds based on Motion Patterns](https://emotiondetection.codeplex.com/)
 * [NPSS Framework for numerical computations of Laguerre series](https://www.openhub.net/p/npss)
 * [FIRST Robotics Scout App](https://frcscout.codeplex.com/)
 * [Improvisation: Automatic Music Composition and Melody Generation](https://github.com/ArmenAg/Improvisation)
@@ -32,45 +32,45 @@ Open Source
 * [Reinforcement Simulator](https://github.com/lg-octaviano/Reinforcement_Simulator)
 * [Maintenance Game](https://github.com/KaptenJon/MaintenanceGame)
 * [Monica](https://github.com/zhuazhua/Monica)
-* [Math.Net PowerShell](http://mathnetpowershell.codeplex.com/) (unaffiliated)
+* [Math.Net PowerShell](https://mathnetpowershell.codeplex.com/) (unaffiliated)
 * [Math.NET Symbolics](https://symbolics.mathdotnet.com) and other [Math.NET](https://www.mathdotnet.com) projects.
 
 Closed Source
 -------------
 
-* [C# Pad](http://www.csharppad.com)
-* [Colectica](http://www.colectica.com) Data Documentation
-* [Instarange Simulation](http://instarange.com) by Instarange (Pty) Ltd
-* [SpectraFox](http://www.spectrafox.com/) STM / AFM spectroscopy analysis
-* [Colymp](http://colymp.com/) Color Management Software
-* [ILNumerics](http://ilnumerics.net/)
-* [GazeSpeaker](http://www.gazespeaker.org) Free software to help people with disabilities
-* [ModVal.org](http://www.modval.org) Quant model repository for regulatory and internal model validation.
+* [C# Pad](https://www.csharppad.com)
+* [Colectica](https://www.colectica.com) Data Documentation
+* [Instarange Simulation](https://instarange.com) by Instarange (Pty) Ltd
+* [SpectraFox](https://www.spectrafox.com/) STM / AFM spectroscopy analysis
+* [Colymp](https://colymp.com/) Color Management Software
+* [ILNumerics](https://ilnumerics.net/)
+* [GazeSpeaker](https://www.gazespeaker.org) Free software to help people with disabilities
+* [ModVal.org](https://www.modval.org) Quant model repository for regulatory and internal model validation.
 * [Passivefilter](https://sites.google.com/site/passivefilter/home) Filter synthesis
-* [Qunatellia](http://www.quantellia.com) World Modeler
-* [Umberto NXT](http://www.umberto.de) Carbon footprint, resource efficiency, life-cycle assessment, eco-efficiency.
-* Agilent Waveform Creator: [Easily create custom Waveform plug-ins with Waveform Creator application software](http://cp.literature.agilent.com/litweb/pdf/5991-3203EN.pdf) (PDF)
+* [Qunatellia](https://www.quantellia.com) World Modeler
+* [Umberto NXT](https://www.umberto.de) Carbon footprint, resource efficiency, life-cycle assessment, eco-efficiency.
+* Agilent Waveform Creator: [Easily create custom Waveform plug-ins with Waveform Creator application software](https://cp.literature.agilent.com/litweb/pdf/5991-3203EN.pdf) (PDF)
 * Multiple medical hearing care companies
 
 Blogs, Tutorials & Examples
 ---------------------------
 
-* [Yin Zhu: Tutorial: Using Math.NET Numerics in F#](http://msdn.microsoft.com/en-us/library/hh304363.aspx)
-* [Don Syme: Getting Started with Math.NET and F# Programming](http://blogs.msdn.com/b/dsyme/archive/2012/07/06/getting-started-with-math-net-and-f-programming.aspx)
-* [Libor Tinka: Linear and Nonlinear Least-Squares with Math.NET](http://www.imagingshop.com/articles/least-squares)
-* [Carl Nolan: Co-occurrence Approach to an Item Based Recommender](http://code.msdn.microsoft.com/Co-occurrence-Approach-to-57027db7)
-* [Gustavo Guerra: F# as a Octave/Matlab Replacement for Machine Learning](http://functionalflow.co.uk/blog/2011/10/27/f-as-a-octavematlab-replacement-for-machine-learning/)
-* [Mathias Brandewinder: Simplify data with SVD and Math.NET in F#](http://clear-lines.com/blog/post/Simplify-data-with-SVD-and-MathNET-in-FSharp.aspx)
-* [Mathias Brandewinder: Recommendation Engine using Math.NET, SVD and F#](http://clear-lines.com/blog/post/Recommendation-Engine-with-SVD-and-MathNET-in-FSharp.aspx)
-* [Thomas Jungblut: Stochastic Logistic Regression in F#](http://codingwiththomas.blogspot.ch/2014/05/stochastic-logistic-regression-in-f.html)
-* [Calvin Bottoms: Set-Based Operations: They’re Not Just For Databases](http://calvinbottoms.blogspot.ch/2012/01/set-based-operations-theyre-not-just.html)
-* [Chao-Jen Chen: F#: Simulate entire GBM path](http://programmingcradle.blogspot.ch/2012/09/f-simulate-entire-gbm-path.html)
-* [Chao-Jen Chen: F#: K-S test on final prices of GBM paths ](http://programmingcradle.blogspot.ch/2012/09/f-k-s-test-on-final-prices-of-gbm-paths.html)
-* [Dawid Kowalski: F#, Deedle and Computational Investing](http://dkowalski.com/blog/archive/2014/01/11/f-deedle-and-computational-investing.aspx)
-* [Jason Fossen: PowerShell for Math.NET Numerics](http://cyber-defense.sans.org/blog/2015/06/27/powershell-for-math-net-numerics)
+* [Yin Zhu: Tutorial: Using Math.NET Numerics in F#](https://msdn.microsoft.com/en-us/library/hh304363.aspx)
+* [Don Syme: Getting Started with Math.NET and F# Programming](https://blogs.msdn.com/b/dsyme/archive/2012/07/06/getting-started-with-math-net-and-f-programming.aspx)
+* [Libor Tinka: Linear and Nonlinear Least-Squares with Math.NET](https://www.imagingshop.com/articles/least-squares)
+* [Carl Nolan: Co-occurrence Approach to an Item Based Recommender](https://code.msdn.microsoft.com/Co-occurrence-Approach-to-57027db7)
+* [Gustavo Guerra: F# as a Octave/Matlab Replacement for Machine Learning](https://functionalflow.co.uk/blog/2011/10/27/f-as-a-octavematlab-replacement-for-machine-learning/)
+* [Mathias Brandewinder: Simplify data with SVD and Math.NET in F#](https://clear-lines.com/blog/post/Simplify-data-with-SVD-and-MathNET-in-FSharp.aspx)
+* [Mathias Brandewinder: Recommendation Engine using Math.NET, SVD and F#](https://clear-lines.com/blog/post/Recommendation-Engine-with-SVD-and-MathNET-in-FSharp.aspx)
+* [Thomas Jungblut: Stochastic Logistic Regression in F#](https://codingwiththomas.blogspot.ch/2014/05/stochastic-logistic-regression-in-f.html)
+* [Calvin Bottoms: Set-Based Operations: They’re Not Just For Databases](https://calvinbottoms.blogspot.ch/2012/01/set-based-operations-theyre-not-just.html)
+* [Chao-Jen Chen: F#: Simulate entire GBM path](https://programmingcradle.blogspot.ch/2012/09/f-simulate-entire-gbm-path.html)
+* [Chao-Jen Chen: F#: K-S test on final prices of GBM paths ](https://programmingcradle.blogspot.ch/2012/09/f-k-s-test-on-final-prices-of-gbm-paths.html)
+* [Dawid Kowalski: F#, Deedle and Computational Investing](https://dkowalski.com/blog/archive/2014/01/11/f-deedle-and-computational-investing.aspx)
+* [Jason Fossen: PowerShell for Math.NET Numerics](https://cyber-defense.sans.org/blog/2015/06/27/powershell-for-math-net-numerics)
 * [Jason Fossen: TrueRNG Random Numbers with PowerShell and Math.NET Numerics](https://cyber-defense.sans.org/blog/2015/07/24/truerng-usb-random-numbers-powershell-mathnet-numerics)
-* [Thomasz Jaskula: Data Science tools in F# through univariante linear regression](http://jaskula.fr/blog/2015/12-02-data-science-tools-in-f-through-univariante-linear-regression/)
-* [Christoph Rüegg: Linear Regression With Math.NET Numerics](http://christoph.ruegg.name/blog/linear-regression-mathnet-numerics.html)
+* [Thomasz Jaskula: Data Science tools in F# through univariante linear regression](https://jaskula.fr/blog/2015/12-02-data-science-tools-in-f-through-univariante-linear-regression/)
+* [Christoph Rüegg: Linear Regression With Math.NET Numerics](https://christoph.ruegg.name/blog/linear-regression-mathnet-numerics.html)
 
 Books
 -----

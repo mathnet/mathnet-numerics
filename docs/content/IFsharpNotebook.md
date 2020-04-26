@@ -19,7 +19,7 @@ for iPython with IntelliSense and embedded FSharp.Charting. Thanks to its NuGet 
 Installing IF# Notebook
 -----------------------
 
-Follow the instructions at [IfSharp/Installation](http://bayardrock.github.io/IfSharp/installation.html).
+Follow the instructions at [IfSharp/Installation](https://bayardrock.github.io/IfSharp/installation.html).
 
 Essentially:
 

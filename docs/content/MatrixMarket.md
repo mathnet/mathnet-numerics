@@ -1,8 +1,8 @@
 NIST MatrixMarket Text Files
 ============================
 
-MatrixMarket is both a [vast repository of test data](http://math.nist.gov/MatrixMarket/)
-and a text-based [exchange file format](http://math.nist.gov/MatrixMarket/formats.html) provided by NIST.
+MatrixMarket is both a [vast repository of test data](https://math.nist.gov/MatrixMarket/)
+and a text-based [exchange file format](https://math.nist.gov/MatrixMarket/formats.html) provided by NIST.
 Being text-based makes it convenient to deal with and program against, and also works well with versioning
 tools like [Git](https://www.git-scm.com/). But other than [CSV](CSV.html) it can also store sparse matrices in a compact way.
 

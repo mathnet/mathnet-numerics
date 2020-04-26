@@ -32,7 +32,7 @@ FAKE
 ----
 
 The fully automated build including unit tests, documentation and api
-reference, NuGet and Zip packages is using [FAKE](http://fsharp.github.io/FAKE/).
+reference, NuGet and Zip packages is using [FAKE](https://fsharp.github.io/FAKE/).
 
 FAKE itself is not included in the repository but it will download and bootstrap
 itself automatically when build.cmd is run the first time. Note that this step
@@ -63,13 +63,13 @@ is *not* required when using Visual Studio or `msbuild` directly.
     build.cmd All           # build, test, docs, api reference (.Net 4.0)
 
 If the build or tests fail claiming that FSharp.Core was not be found, see
-[fsharp.org](http://fsharp.org/use/windows/) or install the
+[fsharp.org](https://fsharp.org/use/windows/) or install the
 [Visual F# 3.0 Tools](https://go.microsoft.com/fwlink/?LinkId=261286) directly.
 
 Dependencies
 ------------
 
-We manage NuGet and other dependencies with [Paket](http://fsprojects.github.io/Paket/).
+We manage NuGet and other dependencies with [Paket](https://fsprojects.github.io/Paket/).
 You do not normally have to do anything with Paket as it is integrated into our
 FAKE build tools, unless you want to actively manage the dependencies.
 
@@ -86,8 +86,8 @@ Documentation
 -------------
 
 This website and documentation is automatically generated from of a set of
-[CommonMark](http://commonmark.org/) structured files in `doc/content/` using
-[FSharp.Formatting](http://tpetricek.github.io/FSharp.Formatting/).
+[CommonMark](https://commonmark.org/) structured files in `doc/content/` using
+[FSharp.Formatting](https://tpetricek.github.io/FSharp.Formatting/).
 The final documentation can be built by calling `build.sh Docs`.
 
 However, for editing and previewing the docs on your local machine it is more

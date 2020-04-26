@@ -7,15 +7,15 @@ The Math.NET project is a community effort. We accept contributions and pull req
 
 ### Maintainers
 
-- [Christoph Rüegg](http://christoph.ruegg.name/) (@cdrnet) ([keybase.io/cdrnet](https://keybase.io/cdrnet))
+- [Christoph Rüegg](https://christoph.ruegg.name/) (@cdrnet) ([keybase.io/cdrnet](https://keybase.io/cdrnet))
 
 ### Code Contributors
 
 *Essentially the output of `git shortlog -sn` in original order.  
 Feel free to add a link to your personal site/blog and/or twitter handle.*
 
-- [Christoph Rüegg](http://christoph.ruegg.name/) (@cdrnet)
-- [Marcus Cuda](http://marcuscuda.com/) (@marcuscuda)
+- [Christoph Rüegg](https://christoph.ruegg.name/) (@cdrnet)
+- [Marcus Cuda](https://marcuscuda.com/) (@marcuscuda)
 - Jurgen Van Gael (@jvangael)
 - Scott Stephens
 - Ignas Anikevicius
@@ -124,11 +124,11 @@ This section is incomplete - let us know if we forgot something.*
 
 *Math.NET Numerics started by merging the dnAnalytics and Math.NET Iridium projects and their code base.*
 
-- [Marcus Cuda](http://marcuscuda.com/)
+- [Marcus Cuda](https://marcuscuda.com/)
 - Jurgen Van Gael
 - Patrick van der Velde
-- [Christoph Rüegg](http://christoph.ruegg.name/)
-- [Joannès Vermorel](http://www.vermorel.com/)
+- [Christoph Rüegg](https://christoph.ruegg.name/)
+- [Joannès Vermorel](https://www.vermorel.com/)
 - Matthew Kitchin
 - Rana Ian
 - Andrew Kurochka
@@ -138,12 +138,12 @@ This section is incomplete - let us know if we forgot something.*
 
 *As inspiration, reference or more - depending on the licensing terms*
 
-- [ALGLIB](http://www.alglib.net/): Sergey Bochkanov
-- [Boost](http://www.boost.org/): John Maddock
-- [Netlib/Cephes Math Library](http://www.netlib.org/cephes/): Stephen L. Moshier
-- [Stand-alone code for numerical computing](http://www.johndcook.com/stand_alone_code.html): John D. Cook
-- [Miscellaneous Utility Library](http://www.yoda.arachsys.com/csharp/miscutil/): Marc Gravell, Jon Skeet
-- [NIST Digital Library of Mathematical Functions](http://www.johndcook.com/stand_alone_code.html)
+- [ALGLIB](https://www.alglib.net/): Sergey Bochkanov
+- [Boost](https://www.boost.org/): John Maddock
+- [Netlib/Cephes Math Library](https://www.netlib.org/cephes/): Stephen L. Moshier
+- [Stand-alone code for numerical computing](https://www.johndcook.com/stand_alone_code.html): John D. Cook
+- [Miscellaneous Utility Library](https://www.yoda.arachsys.com/csharp/miscutil/): Marc Gravell, Jon Skeet
+- [NIST Digital Library of Mathematical Functions](https://www.johndcook.com/stand_alone_code.html)
 
 ### Special Thanks
 

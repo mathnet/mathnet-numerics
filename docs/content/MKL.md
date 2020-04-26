@@ -92,7 +92,7 @@ libraries into the same folder as the executable is not enough. The safe way is 
 and use `ldconfig` to tell where to look for the libraries. Alternatively you could add the path
 to `LD_LIBRARY_PATH` or even just copy them to `/usr/lib`.
 
-For details see Mono's [Interop with Native Libraries](http://www.mono-project.com/docs/advanced/pinvoke/#linux-shared-library-search-path).
+For details see Mono's [Interop with Native Libraries](https://www.mono-project.com/docs/advanced/pinvoke/#linux-shared-library-search-path).
 
 
 Default Behavior on Mac OS X
@@ -101,7 +101,7 @@ Default Behavior on Mac OS X
 You can configure the search path on one of the environment variables like `DYLD_LIBRARY_PATH`
 or just copy them e.g. to `/usr/lib`.
 
-For details see Mono's [Interop with Native Libraries](http://www.mono-project.com/docs/advanced/pinvoke/#mac-os-x-framework-and-dylib-search-path).
+For details see Mono's [Interop with Native Libraries](https://www.mono-project.com/docs/advanced/pinvoke/#mac-os-x-framework-and-dylib-search-path).
 
 To build the MKL native provider for OSX:
 
@@ -158,7 +158,7 @@ This script assumes that the MKL binaries have been copied to the project direct
 which is also where the NuGet packages place them by default. If you place them somewhere
 else, adapt the path accordingly.
 
-See also [Loading Native DLLs in F# Interactive](http://christoph.ruegg.name/blog/loading-native-dlls-in-fsharp-interactive.html)
+See also [Loading Native DLLs in F# Interactive](https://christoph.ruegg.name/blog/loading-native-dlls-in-fsharp-interactive.html)
 for more alternatives.
 
 LINQPad and assembly shadowing

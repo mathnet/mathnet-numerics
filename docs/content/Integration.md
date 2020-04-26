@@ -69,7 +69,7 @@ The basic idea of Gauss-Legendre integration is to approximate the integral of a
 $$$
 \int_a^b f(x) \, dx \approx \sum_{i = 0}^{N - 1} w_i f(x_i)
 
-This algorithm calculates the abscissas and weights for a given order and integration interval. For efficiency, pre-computed abscissas and weights for the orders $ N = 2 - 20, \, 32, \, 64, \, 96, 100, \, 128, \, 256, \, 512, \, 1024$ are used. Otherwise, they are calculated on the fly using Newton's method. For more information on the algorithm see [[Holoborodko, Pavel] ](http://www.holoborodko.com/pavel/numerical-methods/numerical-integration/).
+This algorithm calculates the abscissas and weights for a given order and integration interval. For efficiency, pre-computed abscissas and weights for the orders $ N = 2 - 20, \, 32, \, 64, \, 96, 100, \, 128, \, 256, \, 512, \, 1024$ are used. Otherwise, they are calculated on the fly using Newton's method. For more information on the algorithm see [[Holoborodko, Pavel] ](https://www.holoborodko.com/pavel/numerical-methods/numerical-integration/).
 
 ### Abscissas and Weights
 
