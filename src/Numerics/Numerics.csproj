@@ -13,7 +13,7 @@
     <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.0 or higher and .Net Standard 1.3 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
     <PackageReleaseNotes>BUG: Optimization: weights were applied wrongly when evaluating the Jacobian ~Jong Hyun Kim, zhaochenxi
 BUG: Linear Algebra: F# Matrix.reduceRows was reducing columns instead of rows ~kayanme
-BUG: Distributions: Hypergeometric.CDF no longer returns values > 1.0 ~Manor Askenazi
+BUG: Distributions: Hypergeometric.CDF no longer returns values &gt; 1.0 ~Manor Askenazi
 Documentation: fix missing logarithms, drop old links ~Michel de Ruiter, Guney Ozsan
 Build: no longer code-sign the assemblies with a code-signing certificate, since it is too painful.</PackageReleaseNotes>
     <PackageTags>math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>

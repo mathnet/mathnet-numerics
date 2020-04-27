@@ -67,15 +67,7 @@ ProjectSection(SolutionItems) = preProject
 	docs\content\Random.md = docs\content\Random.md
 	docs\content\Regression.md = docs\content\Regression.md
 	docs\content\Users.md = docs\content\Users.md
-	CONTRIBUTING.md = CONTRIBUTING.md
-	CONTRIBUTORS.md = CONTRIBUTORS.md
 	README.md = README.md
-	RELEASENOTES.md = RELEASENOTES.md
-	RELEASENOTES-CUDA.md = RELEASENOTES-CUDA.md
-	RELEASENOTES-Data.md = RELEASENOTES-Data.md
-	RELEASENOTES-MKL.md = RELEASENOTES-MKL.md
-	RELEASENOTES-OpenBLAS.md = RELEASENOTES-OpenBLAS.md
-	LICENSE.md = LICENSE.md
 EndProjectSection
 EndProject
 Global
