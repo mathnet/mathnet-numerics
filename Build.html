@@ -67,21 +67,19 @@ run <code>restore.cmd</code> or <code>restore.sh</code> once after every git che
 the dependencies exactly as defined. Otherwise Visual Studio and other IDEs
 may fail to compile or provide correct IntelliSense.</p>
 <p>Tests can be run with the usual integrated NUnit test runners or ReSharper.</p>
-<h2><a name="MSBuild-or-XBuild" class="anchor" href="#MSBuild-or-XBuild">MSBuild or XBuild</a></h2>
+<h2><a name="Command-Line-Tools" class="anchor" href="#Command-Line-Tools">Command Line Tools</a></h2>
 <p>Instead of a compatible IDE you can also build the solutions directly with
-<code>msbuild</code>, or on Mono with <code>xbuild</code>. You may need to run <code>restore.cmd</code> or
+the .NET Core SDK, with MsBuild or on Mono with XBuild. You may need to run <code>restore.cmd</code> or
 <code>restore.sh</code> before, once after every git checkout in order to restore the dependencies.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 <span class="l">3: </span>
 <span class="l">4: </span>
-<span class="l">5: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">restore</span><span class="o">.</span><span class="i">cmd</span> (<span class="k">or</span> <span class="i">restore</span><span class="o">.</span><span class="i">sh</span>)             # <span class="i">restore</span> <span class="i">dependencies</span> (<span class="i">once</span>)
-<span class="i">msbuild</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">sln</span>            # <span class="i">only</span> <span class="i">build</span> <span class="k">for</span> <span class="o">.</span><span class="i">Net</span> <span class="n">4</span> (<span class="i">main</span> <span class="i">solution</span>)
-<span class="i">msbuild</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">Net35Only</span><span class="o">.</span><span class="i">sln</span>  # <span class="i">only</span> <span class="i">build</span> <span class="k">for</span> <span class="o">.</span><span class="i">Net</span> <span class="n">3.5</span>
-<span class="i">msbuild</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">All</span><span class="o">.</span><span class="i">sln</span>        # <span class="i">full</span> <span class="i">build</span> <span class="k">with</span> <span class="o">.</span><span class="i">Net</span> <span class="n">4</span>, <span class="n">3.5</span> <span class="k">and</span> <span class="i">PCL</span> <span class="i">profiles</span>
-<span class="i">xbuild</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">sln</span>             # <span class="i">build</span> <span class="k">with</span> <span class="i">Mono</span>, <span class="i">e</span><span class="o">.</span><span class="i">g</span><span class="o">.</span> <span class="i">on</span> <span class="i">Linux</span> <span class="k">or</span> <span class="i">Mac</span>
+<span class="i">dotnet</span> <span class="i">build</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">sln</span>       # <span class="k">with</span> <span class="o">.</span><span class="i">NET</span> <span class="i">Core</span> <span class="i">SDK</span>
+<span class="i">msbuild</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">sln</span>            # <span class="k">with</span> <span class="i">MsBuild</span>
+<span class="i">xbuild</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">sln</span>             # <span class="k">with</span> <span class="i">Mono</span>
 </code></pre></td>
 </tr>
 </table>
@@ -105,39 +103,21 @@ is <em>not</em> required when using Visual Studio or <code>msbuild</code> direct
 <span class="l">12: </span>
 <span class="l">13: </span>
 <span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-<span class="l">21: </span>
-<span class="l">22: </span>
-<span class="l">23: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">build</span><span class="o">.</span><span class="i">cmd</span>    # <span class="i">normal</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>), <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span> (<span class="o">.</span><span class="i">Net</span> <span class="i">on</span> <span class="i">Windows</span>)
-<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span>   # <span class="i">normal</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>), <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span> (<span class="i">Mono</span> <span class="i">on</span> <span class="i">Linux</span><span class="o">/</span><span class="i">Mac</span>, <span class="o">.</span><span class="i">Net</span> <span class="i">on</span> <span class="i">Windows</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span>   # <span class="i">normal</span> <span class="i">build</span> <span class="k">and</span> <span class="i">unit</span> <span class="i">tests</span>, <span class="k">when</span> <span class="i">using</span> <span class="i">bash</span> <span class="i">shell</span> <span class="i">on</span> <span class="i">Windows</span> <span class="k">or</span> <span class="i">Linux</span><span class="o">.</span>
+<span class="i">build</span><span class="o">.</span><span class="i">cmd</span>    # <span class="i">normal</span> <span class="i">build</span> <span class="k">and</span> <span class="i">unit</span> <span class="i">tests</span>, <span class="k">when</span> <span class="i">using</span> <span class="i">Windows</span> <span class="i">CMD</span> <span class="i">shell</span><span class="o">.</span>
 
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Build</span>              # <span class="i">normal</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>)
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Build</span> <span class="i">incremental</span>  # <span class="i">normal</span> <span class="i">build</span>, <span class="i">incremental</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>)
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Build</span> <span class="i">all</span>          # <span class="i">full</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>, <span class="n">3.5</span>, <span class="i">PCL</span>)
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Build</span> <span class="i">net35</span>        # <span class="i">compatibility</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">3.5</span>
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Build</span> <span class="i">signed</span>       # <span class="i">normal</span> <span class="i">build</span>, <span class="i">signed</span><span class="o">/</span><span class="i">strong</span> <span class="i">named</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>)
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">build</span>              # <span class="i">normal</span> <span class="i">build</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">build</span> <span class="i">strongname</span>   # <span class="i">normal</span> <span class="i">build</span> <span class="k">and</span> <span class="i">also</span> <span class="i">build</span> <span class="i">strong</span> <span class="i">named</span> <span class="i">variant</span>
 
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Test</span>          # <span class="i">normal</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>), <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span>
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Test</span> <span class="i">quick</span>    # <span class="i">normal</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>), <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span> <span class="i">except</span> <span class="i">long</span> <span class="i">running</span> <span class="i">ones</span>
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Test</span> <span class="i">all</span>      # <span class="i">full</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>, <span class="n">3.5</span>, <span class="i">PCL</span>), <span class="i">run</span> <span class="i">all</span> <span class="i">unit</span> <span class="i">tests</span>
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Test</span> <span class="i">net35</span>    # <span class="i">compatibility</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">3.5</span>), <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">test</span>          # <span class="i">normal</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>), <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">test</span> <span class="i">quick</span>    # <span class="i">normal</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>), <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span> <span class="i">except</span> <span class="i">long</span> <span class="i">running</span> <span class="i">ones</span>
 
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Clean</span>         # <span class="i">cleanup</span> <span class="i">build</span> <span class="i">artifacts</span>
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Docs</span>          # <span class="i">generate</span> <span class="i">documentation</span>
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Api</span>           # <span class="i">generate</span> <span class="i">api</span> <span class="i">reference</span>
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">Zip</span>           # <span class="i">generate</span> <span class="i">zip</span> <span class="i">packages</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>)
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">NuGet</span>         # <span class="i">generate</span> <span class="i">NuGet</span> <span class="i">packages</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>)
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">NuGet</span> <span class="i">all</span>     # <span class="i">generate</span> <span class="i">normal</span> <span class="i">NuGet</span> <span class="i">packages</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>, <span class="n">3.5</span>, <span class="i">PCL</span>)
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">NuGet</span> <span class="i">signed</span>  # <span class="i">generate</span> <span class="i">signed</span><span class="o">/</span><span class="i">strong</span> <span class="i">named</span> <span class="i">NuGet</span> <span class="i">packages</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>)
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">clean</span>         # <span class="i">cleanup</span> <span class="i">build</span> <span class="i">artifacts</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">docs</span>          # <span class="i">generate</span> <span class="i">documentation</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">api</span>           # <span class="i">generate</span> <span class="i">api</span> <span class="i">reference</span>
 
-<span class="i">build</span><span class="o">.</span><span class="i">cmd</span> <span class="i">All</span>           # <span class="i">build</span>, <span class="i">test</span>, <span class="i">docs</span>, <span class="i">api</span> <span class="i">reference</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>)
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">all</span>           # <span class="i">build</span>, <span class="i">test</span>, <span class="i">docs</span>, <span class="i">api</span> <span class="i">reference</span>
 </code></pre></td>
 </tr>
 </table>
@@ -148,19 +128,18 @@ is <em>not</em> required when using Visual Studio or <code>msbuild</code> direct
 <p>We manage NuGet and other dependencies with <a href="https://fsprojects.github.io/Paket/">Paket</a>.
 You do not normally have to do anything with Paket as it is integrated into our
 FAKE build tools, unless you want to actively manage the dependencies.</p>
-<p>You can bootstrap or update Paket by calling <code>tools/paket/paket.bootstrapper.exe</code>.
-After bootstrapping, <code>tools/paket/paket.exe restore</code> will restore the packages
+<p><code>.paket/paket.exe restore</code> will restore the packages
 to the exact version specified in the <code>paket.lock</code> file,
-<code>tools/paket/paket.exe install</code> will install or migrate packages after you have
-made changes to the <code>paket.dependencies</code> file, <code>tools/paket/paket.exe outdated</code>
-will show whether any packages are out of date and <code>tools/paket/paket.exe update</code>
+<code>.paket/paket.exe install</code> will install or migrate packages after you have
+made changes to the <code>paket.dependencies</code> file, <code>.paket/paket.exe outdated</code>
+will show whether any packages are out of date and <code>.paket/paket.exe update</code>
 will update all packages within the defined constraints. Have a look at the Paket
 website for more commands and details.</p>
 <h2><a name="Documentation" class="anchor" href="#Documentation">Documentation</a></h2>
 <p>This website and documentation is automatically generated from of a set of
 <a href="https://commonmark.org/">CommonMark</a> structured files in <code>doc/content/</code> using
 <a href="https://tpetricek.github.io/FSharp.Formatting/">FSharp.Formatting</a>.
-The final documentation can be built by calling <code>build.sh Docs</code>.</p>
+The final documentation can be built by calling <code>build.sh docs</code>.</p>
 <p>However, for editing and previewing the docs on your local machine it is more
 convenient to run <code>build.sh DocsWatch</code> in a separate console instead, which
 monitors the content files and incrementally regenerates the HTML output
@@ -178,12 +157,8 @@ document in the root directory. The fake builds pick this up and propagate it
 to the assembly info files automatically.</p>
 <p>The build can then be launched by calling:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">All</span> <span class="i">release</span>    # <span class="i">full</span> <span class="i">release</span> <span class="i">build</span>
-<span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">NuGet</span> <span class="i">release</span>  # <span class="k">if</span> <span class="i">you</span> <span class="i">only</span> <span class="i">need</span> <span class="i">NuGet</span> <span class="i">packages</span>
-<span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">Zip</span> <span class="i">release</span>    # <span class="k">if</span> <span class="i">you</span> <span class="i">only</span> <span class="i">need</span> <span class="i">Zip</span> <span class="i">packages</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">all</span>
 </code></pre></td>
 </tr>
 </table>
@@ -223,13 +198,31 @@ Example:</p>
 <p>The artifacts are then ready in the <code>out/packages</code> directory.</p>
 <h2><a name="Extra-Packages" class="anchor" href="#Extra-Packages">Extra Packages</a></h2>
 <p>In addition to the core package this repository also include extra packages
-like the MKL provider and the data extensions. Most build targets are available for
+like the data extensions. Most build targets are available for
 these packages as well, with the following prefixes:</p>
 <ul>
-<li><code>Mkl</code> for the MKL provider (<code>MklWin</code> or <code>MklLinux</code> if platform dependent)</li>
 <li><code>Data</code> for the Data Extensions</li>
 </ul>
-<p>Example: <code>build.sh MklWinNuget release</code></p>
+<p>Example: <code>build.sh DataBuild</code></p>
+<h2><a name="Intel-MKL-on-Windows" class="anchor" href="#Intel-MKL-on-Windows">Intel MKL on Windows</a></h2>
+<p>The build expects that either Intel Parallel Studio 2020 (with the Intel Compiler)
+or Intel Math Kernel Library 2020 is installed. If you run into an error with <code>mkl_link_tool.exe</code>
+you may need to patch a targets file, see <a href="https://software.intel.com/en-us/forums/intel-math-kernel-library/topic/851578">MKL 2020.1, VS2019 linking bug </a>.</p>
+<p>The build can then be triggered by calling:</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">MklWinBuild</span>  <span class="c">// build both 32 and 64 bit variants</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">MklTest</span>      <span class="c">// run all tests with the MKL provider enforced</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">MklWinAll</span>    <span class="c">// build and run tests</span>
+</code></pre></td>
+</tr>
+</table>
+<p>The build puts the binaries to <code>out/MKL/Windows/x64</code> (and <code>x86</code>), the NuGet package
+to <code>out/MKL/NuGet</code> and a Zip archive to <code>out/MKL/Zip</code>. You can directly use the provider from
+there by setting <code>Control.NativeProviderPath</code> to the full path pointing to <code>out/MKL/Windows/</code>;
+this is also what the unit tests do when you run the <code>MklTest</code> build target.</p>
 <h2><a name="Official-Release-Process-Maintainers-only" class="anchor" href="#Official-Release-Process-Maintainers-only">Official Release Process (Maintainers only)</a></h2>
 <ul>
 <li><p>Update <code>RELEASENOTES.md</code> file with relevant changes, attributed by contributor (if external). Set date.</p></li>
@@ -238,7 +231,7 @@ these packages as well, with the following prefixes:</p>
 <p>Build Release:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">All</span> <span class="i">release</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">all</span> <span class="i">strongname</span>
 </code></pre></td>
 </tr>
 </table>
@@ -255,13 +248,11 @@ these packages as well, with the following prefixes:</p>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">PublishDocs</span>
 <span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">PublishApi</span>
 <span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">PublishTag</span>
-<span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">PublishMirrors</span>
+<span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">PublishArchive</span>
 <span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">PublishNuGet</span>
 </code></pre></td>
 </tr>
 </table>
-<p>In theory there is also a <code>Publish</code> target to do this in one step, unfortunately
-publishing to the NuGet gallery is quite unreliable.</p>
 </li>
 <li><p>Consider a tweet via <a href="https://twitter.com/MathDotNet">@MathDotNet</a></p></li>
 <li>
