@@ -5,6 +5,11 @@ If you do not want to use the official binaries, or if you like to modify,
 debug or contribute, you can compile locally either using Visual Studio or
 manually with the build scripts.
 
+System Requirements
+-------------------
+
+* .NET Core SDK 3.1.1 ([download](https://dotnet.microsoft.com/download/dotnet-core/3.1))
+
 VisualStudio or Xamarin Studio
 ------------------------------
 
