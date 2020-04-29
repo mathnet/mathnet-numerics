@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -43,7 +43,7 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="df">The first derivative of the function to find roots from.</param>
         /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
         /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
-        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Default 1e-8.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Default 1e-8. Must be greater than 0.</param>
         /// <param name="maxIterations">Maximum number of iterations. Default 100.</param>
         /// <param name="subdivision">How many parts an interval should be split into for zero crossing scanning in case of lacking bracketing. Default 20.</param>
         /// <returns>Returns the root with the specified accuracy.</returns>
@@ -64,13 +64,18 @@ namespace MathNet.Numerics.RootFinding
         /// <param name="df">The first derivative of the function to find roots from.</param>
         /// <param name="lowerBound">The low value of the range where the root is supposed to be.</param>
         /// <param name="upperBound">The high value of the range where the root is supposed to be.</param>
-        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Example: 1e-14.</param>
+        /// <param name="accuracy">Desired accuracy. The root will be refined until the accuracy or the maximum number of iterations is reached. Example: 1e-14. Must be greater than 0.</param>
         /// <param name="maxIterations">Maximum number of iterations. Example: 100.</param>
         /// <param name="subdivision">How many parts an interval should be split into for zero crossing scanning in case of lacking bracketing. Example: 20.</param>
         /// <param name="root">The root that was found, if any. Undefined if the function returns false.</param>
         /// <returns>True if a root with the specified accuracy was found, else false.</returns>
         public static bool TryFindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision, out double root)
         {
+            if (accuracy <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(accuracy), "Must be greater than zero.");
+            }
+
             double fmin = f(lowerBound);
             double fmax = f(upperBound);
 
