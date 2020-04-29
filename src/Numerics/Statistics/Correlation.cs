@@ -129,7 +129,6 @@ namespace MathNet.Numerics.Statistics
             Complex[] xFFT2 = new Complex[nFFT];
 
             double xDash = ArrayStatistics.Mean(x);
-            double xArrNow = 0.0d;
 
             // copy values in range and substract mean - all the remaining parts are padded with zero.
             for (int i = 0; i < x.Length; i++)

@@ -7,6 +7,8 @@ open FsUnitTyped
 open System
 open MathNet.Numerics
 
+#nowarn "25"
+
 module FitTests =
 
     [<Test>]
