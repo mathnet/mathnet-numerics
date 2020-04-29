@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -64,11 +64,6 @@ namespace MathNet.Numerics.RootFinding
         /// <exception cref="NonConvergenceException"></exception>
         public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
         {
-            if (accuracy <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(accuracy), "Must be greater than zero.");
-            }
-
             double root;
             if (TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
             {

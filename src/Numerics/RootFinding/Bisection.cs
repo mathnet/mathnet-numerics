@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -49,11 +49,6 @@ namespace MathNet.Numerics.RootFinding
         /// <exception cref="NonConvergenceException"></exception>
         public static double FindRootExpand(Func<double, double> f, double guessLowerBound, double guessUpperBound, double accuracy = 1e-8, int maxIterations = 100, double expandFactor = 1.6, int maxExpandIteratons = 100)
         {
-            if (accuracy <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(accuracy), "Must be greater than zero.");
-            }
-
             ZeroCrossingBracketing.ExpandReduce(f, ref guessLowerBound, ref guessUpperBound, expandFactor, maxExpandIteratons, maxExpandIteratons*10);
             return FindRoot(f, guessLowerBound, guessUpperBound, accuracy, maxIterations);
         }
@@ -68,11 +63,6 @@ namespace MathNet.Numerics.RootFinding
         /// <exception cref="NonConvergenceException"></exception>
         public static double FindRoot(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-14, int maxIterations = 100)
         {
-            if (accuracy <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(accuracy), "Must be greater than zero.");
-            }
-
             double root;
             if (TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
             {
