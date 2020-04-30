@@ -231,7 +231,7 @@ namespace MathNet.Numerics.Distributions
             }
 
             var r = Wishart.Sample(rnd, degreesOfFreedom, scale.Inverse());
-            return r.Inverse();
+            return r.PseudoInverse();
         }
     }
 }
