@@ -1278,7 +1278,7 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.AreEqual(0, fa1(r)[2], 1e-14);
         }
 
-        [Test]
+        [Test, Ignore("Algorithm moves out of supported domain in some MKL environments")]
         public void Threeq6()
         {
             // Test case from http://www.polymath-software.com/library/nle/Threeq6.htm

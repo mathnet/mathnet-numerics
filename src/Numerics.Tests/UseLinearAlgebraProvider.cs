@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using MathNet.Numerics.Providers.Common.Mkl;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -43,7 +44,7 @@ namespace MathNet.Numerics.UnitTests
             string outDir = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"../../../../../out/");
 #if MKL
             Control.NativeProviderPath = System.IO.Path.Combine(outDir, @"MKL/Windows/");
-            Control.UseNativeMKL();
+            Control.UseNativeMKL(MklConsistency.AVX, MklPrecision.Double, MklAccuracy.High);
 #elif CUDA
             Control.UseNativeCUDA();
 #elif OPENBLAS

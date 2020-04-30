@@ -220,7 +220,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj1 = new MghObjectiveFunction(test_case.Function, true, true);
             var obj = new ForwardDifferenceGradientObjectiveFunction(obj1, test_case.LowerBound, test_case.UpperBound, 1e-10, 1e-10);
-            var solver = new BfgsBMinimizer(1e-8, 1e-8, 1e-8, 1000);
+            var solver = new BfgsBMinimizer(1e-8, 1e-8, 1e-8, 10000);
 
             var result = solver.FindMinimum(obj, test_case.LowerBound, test_case.UpperBound, test_case.InitialGuess);
 

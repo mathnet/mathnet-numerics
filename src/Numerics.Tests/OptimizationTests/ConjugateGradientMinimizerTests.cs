@@ -110,7 +110,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
         {
             var obj = new MghObjectiveFunction(test_case.Function, true, true);
 
-            var result = ConjugateGradientMinimizer.Minimum(obj, test_case.InitialGuess, 1e-8, 1000);
+            var result = ConjugateGradientMinimizer.Minimum(obj, test_case.InitialGuess, 1e-8, 10000);
 
             if (test_case.MinimizingPoint != null)
             {
