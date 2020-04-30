@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -97,17 +97,22 @@ namespace MathNet.Numerics.UnitTests.RootFindingTests
             Assert.That(roots.Item3.Imaginary, Is.EqualTo(0).Within(1e-14));
         }
 
-        [TestCase(6.0, -5.0, -2.0, 1.0, 3.0, -2.0, 1.0)]
+        [TestCase(6.0, -5.0, -2.0, 1.0, -2.0, 3.0, 1.0)]
         public void ComplexRoots_TripleReal_AsPolynomial(double d, double c, double b, double a, double x1, double x2, double x3)
         {
-            var roots = FindRoots.Polynomial(new[] { d, c, b, a });
-            Assert.That(roots.Length, Is.EqualTo(3));
-            Assert.That(roots[0].Real, Is.EqualTo(x1).Within(1e-14));
-            Assert.That(roots[0].Imaginary, Is.EqualTo(0).Within(1e-14));
-            Assert.That(roots[1].Real, Is.EqualTo(x2).Within(1e-14));
-            Assert.That(roots[1].Imaginary, Is.EqualTo(0).Within(1e-14));
-            Assert.That(roots[2].Real, Is.EqualTo(x3).Within(1e-14));
-            Assert.That(roots[2].Imaginary, Is.EqualTo(0).Within(1e-14));
+            var expectedReal = new[] { x1, x2, x3 };
+            var actual = FindRoots.Polynomial(new[] { d, c, b, a });
+            var actualReal = Generate.Map(actual, x => x.Real);
+            var actualImag = Generate.Map(actual, x => x.Imaginary);
+            Sorting.Sort(expectedReal);
+            Sorting.Sort(actualReal, actualImag);
+            Assert.That(actual.Length, Is.EqualTo(3));
+            Assert.That(actualReal[0], Is.EqualTo(expectedReal[0]).Within(1e-14));
+            Assert.That(actualImag[0], Is.EqualTo(0d).Within(1e-14));
+            Assert.That(actualReal[1], Is.EqualTo(expectedReal[1]).Within(1e-14));
+            Assert.That(actualImag[1], Is.EqualTo(0d).Within(1e-14));
+            Assert.That(actualReal[2], Is.EqualTo(expectedReal[2]).Within(1e-14));
+            Assert.That(actualImag[2], Is.EqualTo(0d).Within(1e-14));
         }
 
         [TestCase(-350.0, 162.0, -30.0, 2.0)]
