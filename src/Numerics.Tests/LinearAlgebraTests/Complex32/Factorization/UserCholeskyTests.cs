@@ -148,7 +148,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32.Factorization
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    Assert.AreEqual(cholC.Factor[i, j], chol.Factor[i, j]);
+                    Assert.AreEqual(cholC.Factor[i, j].Real, chol.Factor[i, j].Real, 1e-3f);
+                    Assert.AreEqual(cholC.Factor[i, j].Imaginary, chol.Factor[i, j].Imaginary, 1e-3f);
                 }
             }
 

@@ -147,7 +147,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Factorization
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    Assert.AreEqual(cholC.Factor[i, j], chol.Factor[i, j]);
+                    AssertHelpers.AlmostEqualRelative(cholC.Factor[i, j], chol.Factor[i, j], 8);
                 }
             }
 

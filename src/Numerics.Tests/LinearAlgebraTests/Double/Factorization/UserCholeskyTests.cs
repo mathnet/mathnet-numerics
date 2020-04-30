@@ -145,7 +145,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Double.Factorization
             {
                 for (var j = 0; j < matrixC.ColumnCount; j++)
                 {
-                    Assert.AreEqual(cholC.Factor[i, j], chol.Factor[i, j]);
+                    Assert.AreEqual(cholC.Factor[i, j], chol.Factor[i, j], 1.0e-11);
                 }
             }
 
