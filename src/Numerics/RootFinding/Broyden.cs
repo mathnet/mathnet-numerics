@@ -82,42 +82,50 @@ namespace MathNet.Numerics.RootFinding
 
             Matrix<double> B = CalculateApproximateJacobian(f, initialGuess, y0, jacobianStepSize);
 
-            for (int i = 0; i <= maxIterations; i++)
+            try
             {
-                var dx = (DenseVector) (-B.LU().Solve(y));
-                var xnew = x + dx;
-                var ynew = new DenseVector(f(xnew.Values));
-                double gnew = ynew.L2Norm();
-
-                if (gnew > g)
+                for (int i = 0; i <= maxIterations; i++)
                 {
-                    double g2 = g*g;
-                    double scale = g2/(g2 + gnew*gnew);
-                    if (scale == 0.0)
+                    var dx = (DenseVector) (-B.LU().Solve(y));
+                    var xnew = x + dx;
+                    var ynew = new DenseVector(f(xnew.Values));
+                    double gnew = ynew.L2Norm();
+
+                    if (gnew > g)
                     {
-                        scale = 1.0e-4;
+                        double g2 = g*g;
+                        double scale = g2/(g2 + gnew*gnew);
+                        if (scale == 0.0)
+                        {
+                            scale = 1.0e-4;
+                        }
+
+                        dx = scale*dx;
+                        xnew = x + dx;
+                        ynew = new DenseVector(f(xnew.Values));
+                        gnew = ynew.L2Norm();
                     }
 
-                    dx = scale*dx;
-                    xnew = x + dx;
-                    ynew = new DenseVector(f(xnew.Values));
-                    gnew = ynew.L2Norm();
+                    if (gnew < accuracy)
+                    {
+                        root = xnew.Values;
+                        return true;
+                    }
+
+                    // update Jacobian B
+                    DenseVector dF = ynew - y;
+                    Matrix<double> dB = (dF - B.Multiply(dx)).ToColumnMatrix() * dx.Multiply(1.0 / Math.Pow(dx.L2Norm(), 2)).ToRowMatrix();
+                    B = B + dB;
+
+                    x = xnew;
+                    y = ynew;
+                    g = gnew;
                 }
-
-                if (gnew < accuracy)
-                {
-                    root = xnew.Values;
-                    return true;
-                }
-
-                // update Jacobian B
-                DenseVector dF = ynew - y;
-                Matrix<double> dB = (dF - B.Multiply(dx)).ToColumnMatrix() * dx.Multiply(1.0 / Math.Pow(dx.L2Norm(), 2)).ToRowMatrix();
-                B = B + dB;
-
-                x = xnew;
-                y = ynew;
-                g = gnew;
+            }
+            catch (InvalidParameterException)
+            {
+                root = null;
+                return false;
             }
 
             root = null;
