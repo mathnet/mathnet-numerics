@@ -146,6 +146,10 @@ The build expects that either Intel Parallel Studio 2020 (with the Intel Compile
 or Intel Math Kernel Library 2020 is installed. If you run into an error with `mkl_link_tool.exe`
 you may need to patch a targets file, see [MKL 2020.1, VS2019 linking bug ](https://software.intel.com/en-us/forums/intel-math-kernel-library/topic/851578).
 
+The build is targeting `Windows 10 SDK (10.0.17763.0)` and the `v141` platform toolset,
+both of which can be installed as individual components in the Visual Studio Installer,
+together with the `Desktop development with C++` workload.
+
 The build can then be triggered by calling:
 
     ./build.sh MklWinBuild  // build both 32 and 64 bit variants
