@@ -44,6 +44,7 @@ Build: no longer code-sign the assemblies with a code-signing certificate, since
     <Compile Include="FindRoots.fs" />
     <Compile Include="RandomVariable.fs" />
     <Compile Include="Quaternion.fs" />
+    <None Include="paket.references" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

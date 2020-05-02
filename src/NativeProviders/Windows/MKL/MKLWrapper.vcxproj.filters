@@ -56,4 +56,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)icon.png">
+      <Filter>Source Files\Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

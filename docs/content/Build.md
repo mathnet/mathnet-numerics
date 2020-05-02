@@ -27,8 +27,8 @@ Instead of a compatible IDE you can also build the solutions directly with
 the .NET Core SDK, with MsBuild or on Mono with XBuild. You may need to run `restore.cmd` or
 `restore.sh` before, once after every git checkout in order to restore the dependencies.
 
-	restore.cmd (or restore.sh)             # restore dependencies (once)
-	dotnet build MathNet.Numerics.sln       # with .NET Core SDK
+    restore.cmd (or restore.sh)             # restore dependencies (once)
+    dotnet build MathNet.Numerics.sln       # with .NET Core SDK
     msbuild MathNet.Numerics.sln            # with MsBuild
     xbuild MathNet.Numerics.sln             # with Mono
 
@@ -146,7 +146,7 @@ The build expects that either Intel Parallel Studio 2020 (with the Intel Compile
 or Intel Math Kernel Library 2020 is installed. If you run into an error with `mkl_link_tool.exe`
 you may need to patch a targets file, see [MKL 2020.1, VS2019 linking bug ](https://software.intel.com/en-us/forums/intel-math-kernel-library/topic/851578).
 
-The build is targeting `Windows 10 SDK (10.0.17763.0)` and the `v141` platform toolset,
+The build is targeting `Windows 10 SDK (10.0.17763.0)` and the `v142` platform toolset,
 both of which can be installed as individual components in the Visual Studio Installer,
 together with the `Desktop development with C++` workload.
 
