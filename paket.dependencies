@@ -28,6 +28,7 @@ nuget Microsoft.NETCore.Jit 2.0.8 lowest_matching, strategy:min, framework:netst
 nuget Microsoft.NETCore.Targets 2.0 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
 nuget Microsoft.NETCore.Runtime.CoreCLR 2.0.8 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
 nuget Microsoft.DotNet.PlatformAbstractions 3.1.1 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
+nuget Microsoft.NETCore.UniversalWindowsPlatform lowest_matching, strategy:min, framework:uap10.0.18362
 
 group Build
     source https://api.nuget.org/v3/index.json

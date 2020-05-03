@@ -24,8 +24,12 @@
         <DescriptionSuffix> This package contains strong-named assemblies for legacy use cases (not recommended).</DescriptionSuffix>
         <DefineConstants>$(CommonConstants)</DefineConstants>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(TargetFramework)'!='netstandard1.3'">
+    <PropertyGroup Condition="'$(TargetFramework)' != 'netstandard1.3' AND '$(TargetFramework)' != 'uap10.0.18362'">
         <DefineConstants>NATIVE;$(CommonConstants)</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(TargetFramework)' == 'uap10.0.18362' ">
+        <TargetFrameworkIdentifier>UAP</TargetFrameworkIdentifier>
+        <TargetFrameworkVersion>v10.0.18362.0</TargetFrameworkVersion>
     </PropertyGroup>
     <ItemGroup>
         <None Include="$(MSBuildThisFileDirectory)icon.png" Pack="true" Visible="false" PackagePath="\" />
