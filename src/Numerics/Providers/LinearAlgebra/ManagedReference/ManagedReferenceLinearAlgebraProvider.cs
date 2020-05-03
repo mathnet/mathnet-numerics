@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -26,8 +26,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
-
-using System;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.ManagedReference
 {
@@ -63,42 +61,6 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.ManagedReference
         public override string ToString()
         {
             return "Managed";
-        }
-
-        /// <summary>
-        /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
-        /// </summary>
-        protected static void GetRow<T>(Transpose transpose, int rowindx, int numRows, int numCols, T[] matrix, T[] row)
-        {
-            if (transpose == Transpose.DontTranspose)
-            {
-                for (int i = 0; i < numCols; i++)
-                {
-                    row[i] = matrix[(i * numRows) + rowindx];
-                }
-            }
-            else
-            {
-                Array.Copy(matrix, rowindx * numCols, row, 0, numCols);
-            }
-        }
-
-        /// <summary>
-        /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
-        /// </summary>
-        protected static void GetColumn<T>(Transpose transpose, int colindx, int numRows, int numCols, T[] matrix, T[] column)
-        {
-            if (transpose == Transpose.DontTranspose)
-            {
-                Array.Copy(matrix, colindx * numRows, column, 0, numRows);
-            }
-            else
-            {
-                for (int i = 0; i < numRows; i++)
-                {
-                    column[i] = matrix[(i * numCols) + colindx];
-                }
-            }
         }
     }
 }

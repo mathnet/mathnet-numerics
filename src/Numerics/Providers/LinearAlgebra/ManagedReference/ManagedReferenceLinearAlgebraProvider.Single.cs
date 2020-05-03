@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,10 +28,10 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 using Complex = System.Numerics.Complex;
+using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.ManagedReference
 {
@@ -2698,15 +2698,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.ManagedReference
                     d[i] = matrixEv[i*order + om1];
                 }
 
-                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.SymmetricTridiagonalize(matrixEv, d, e, order);
-                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.SymmetricDiagonalize(matrixEv, d, e, order);
+                Managed.ManagedLinearAlgebraProvider.SymmetricTridiagonalize(matrixEv, d, e, order);
+                Managed.ManagedLinearAlgebraProvider.SymmetricDiagonalize(matrixEv, d, e, order);
             }
             else
             {
                 var matrixH = new float[matrix.Length];
                 Buffer.BlockCopy(matrix, 0, matrixH, 0, matrix.Length*Constants.SizeOfFloat);
-                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.NonsymmetricReduceToHessenberg(matrixEv, matrixH, order);
-                Numerics.LinearAlgebra.Single.Factorization.DenseEvd.NonsymmetricReduceHessenberToRealSchur(matrixEv, matrixH, d, e, order);
+                Managed.ManagedLinearAlgebraProvider.NonsymmetricReduceToHessenberg(matrixEv, matrixH, order);
+                Managed.ManagedLinearAlgebraProvider.NonsymmetricReduceHessenberToRealSchur(matrixEv, matrixH, d, e, order);
             }
 
             for (var i = 0; i < order; i++)

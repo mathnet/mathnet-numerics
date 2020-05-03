@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2015 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -28,12 +28,10 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.LinearAlgebra.Complex32;
-using MathNet.Numerics.LinearAlgebra.Complex32.Factorization;
-using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 using Complex = System.Numerics.Complex;
+using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.ManagedReference
 {
@@ -2743,9 +2741,9 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.ManagedReference
                 var d = new float[order];
                 var e = new float[order];
 
-                DenseEvd.SymmetricTridiagonalize(matrixCopy, d, e, tau, order);
-                DenseEvd.SymmetricDiagonalize(matrixEv, d, e, order);
-                DenseEvd.SymmetricUntridiagonalize(matrixEv, matrixCopy, tau, order);
+                Managed.ManagedLinearAlgebraProvider.SymmetricTridiagonalize(matrixCopy, d, e, tau, order);
+                Managed.ManagedLinearAlgebraProvider.SymmetricDiagonalize(matrixEv, d, e, order);
+                Managed.ManagedLinearAlgebraProvider.SymmetricUntridiagonalize(matrixEv, matrixCopy, tau, order);
 
                 for (var i = 0; i < order; i++)
                 {
@@ -2755,10 +2753,11 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.ManagedReference
             }
             else
             {
-                var v = new DenseVector(order);
+                var v = new Complex32[order];
 
-                DenseEvd.NonsymmetricReduceToHessenberg(matrixEv, matrixCopy, order);
-                DenseEvd.NonsymmetricReduceHessenberToRealSchur(v.Values, matrixEv, matrixCopy, order);
+                Managed.ManagedLinearAlgebraProvider.NonsymmetricReduceToHessenberg(matrixEv, matrixCopy, order);
+                Managed.ManagedLinearAlgebraProvider.NonsymmetricReduceHessenberToRealSchur(v, matrixEv, matrixCopy, order);
+
                 for (var i = 0; i < order; i++)
                 {
                     vectorEv[i] = new Complex(v[i].Real, v[i].Imaginary);

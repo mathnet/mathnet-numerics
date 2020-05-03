@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2013 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -68,7 +68,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
         /// <summary>
         /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
         /// </summary>
-        protected static void GetRow<T>(Transpose transpose, int rowindx, int numRows, int numCols, T[] matrix, T[] row)
+        static void GetRow<T>(Transpose transpose, int rowindx, int numRows, int numCols, T[] matrix, T[] row)
         {
             if (transpose == Transpose.DontTranspose)
             {
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
         /// <summary>
         /// Assumes that <paramref name="numRows"/> and <paramref name="numCols"/> have already been transposed.
         /// </summary>
-        protected static void GetColumn<T>(Transpose transpose, int colindx, int numRows, int numCols, T[] matrix, T[] column)
+        static void GetColumn<T>(Transpose transpose, int colindx, int numRows, int numCols, T[] matrix, T[] column)
         {
             if (transpose == Transpose.DontTranspose)
             {
