@@ -65,25 +65,21 @@ manually with the build scripts.</p>
 <ul>
 <li>.NET Core SDK 3.1.1 (<a href="https://dotnet.microsoft.com/download/dotnet-core/3.1">download</a>)</li>
 </ul>
-<h2><a name="VisualStudio-or-Xamarin-Studio" class="anchor" href="#VisualStudio-or-Xamarin-Studio">VisualStudio or Xamarin Studio</a></h2>
-<p>We clearly separate dependency management from the IDE, you should therefore
+<h2><a name="VisualStudio-and-other-IDEs" class="anchor" href="#VisualStudio-and-other-IDEs">VisualStudio and other IDEs</a></h2>
+<p>We clearly separate dependency management from the IDE and therefore recommend to
 run <code>restore.cmd</code> or <code>restore.sh</code> once after every git checkout in order to restore
 the dependencies exactly as defined. Otherwise Visual Studio and other IDEs
 may fail to compile or provide correct IntelliSense.</p>
 <p>Tests can be run with the usual integrated NUnit test runners or ReSharper.</p>
 <h2><a name="Command-Line-Tools" class="anchor" href="#Command-Line-Tools">Command Line Tools</a></h2>
 <p>Instead of a compatible IDE you can also build the solutions directly with
-the .NET Core SDK, with MsBuild or on Mono with XBuild. You may need to run <code>restore.cmd</code> or
-<code>restore.sh</code> before, once after every git checkout in order to restore the dependencies.</p>
+the .NET Core SDK build tools. You may need to run <code>restore.cmd</code> or <code>restore.sh</code>
+before, once after every git checkout in order to restore the dependencies.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">restore</span><span class="o">.</span><span class="i">cmd</span> (<span class="k">or</span> <span class="i">restore</span><span class="o">.</span><span class="i">sh</span>)             # <span class="i">restore</span> <span class="i">dependencies</span> (<span class="i">once</span>)
-<span class="i">dotnet</span> <span class="i">build</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">sln</span>       # <span class="k">with</span> <span class="o">.</span><span class="i">NET</span> <span class="i">Core</span> <span class="i">SDK</span>
-<span class="i">msbuild</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">sln</span>            # <span class="k">with</span> <span class="i">MsBuild</span>
-<span class="i">xbuild</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">sln</span>             # <span class="k">with</span> <span class="i">Mono</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">restore</span><span class="o">.</span><span class="i">cmd</span> (<span class="k">or</span> <span class="o">.</span><span class="o">/</span><span class="i">restore</span><span class="o">.</span><span class="i">sh</span>)
+<span class="i">dotnet</span> <span class="i">build</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">sln</span>
 </code></pre></td>
 </tr>
 </table>
@@ -92,7 +88,7 @@ the .NET Core SDK, with MsBuild or on Mono with XBuild. You may need to run <cod
 reference, NuGet and Zip packages is using <a href="https://fsharp.github.io/FAKE/">FAKE</a>.</p>
 <p>FAKE itself is not included in the repository but it will download and bootstrap
 itself automatically when build.cmd is run the first time. Note that this step
-is <em>not</em> required when using Visual Studio or <code>msbuild</code> directly.</p>
+is <em>not</em> required when using Visual Studio or the .NET Core SDK directly.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -112,10 +108,10 @@ is <em>not</em> required when using Visual Studio or <code>msbuild</code> direct
 <span class="i">build</span><span class="o">.</span><span class="i">cmd</span>    # <span class="i">normal</span> <span class="i">build</span> <span class="k">and</span> <span class="i">unit</span> <span class="i">tests</span>, <span class="k">when</span> <span class="i">using</span> <span class="i">Windows</span> <span class="i">CMD</span> <span class="i">shell</span><span class="o">.</span>
 
 <span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">build</span>              # <span class="i">normal</span> <span class="i">build</span>
-<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">build</span> <span class="i">strongname</span>   # <span class="i">normal</span> <span class="i">build</span> <span class="k">and</span> <span class="i">also</span> <span class="i">build</span> <span class="i">strong</span> <span class="i">named</span> <span class="i">variant</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">build</span> <span class="i">strongname</span>   # <span class="i">normal</span> <span class="i">build</span> <span class="k">and</span> <span class="i">also</span> <span class="i">build</span> <span class="i">strong</span><span class="o">-</span><span class="i">named</span> <span class="i">variant</span>
 
-<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">test</span>          # <span class="i">normal</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>), <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span>
-<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">test</span> <span class="i">quick</span>    # <span class="i">normal</span> <span class="i">build</span> (<span class="o">.</span><span class="i">Net</span> <span class="n">4.0</span>), <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span> <span class="i">except</span> <span class="i">long</span> <span class="i">running</span> <span class="i">ones</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">test</span>          # <span class="i">normal</span> <span class="i">build</span>, <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span>
+<span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">test</span> <span class="i">quick</span>    # <span class="i">normal</span> <span class="i">build</span>, <span class="i">run</span> <span class="i">unit</span> <span class="i">tests</span> <span class="i">except</span> <span class="i">long</span> <span class="i">running</span> <span class="i">ones</span>
 
 <span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">clean</span>         # <span class="i">cleanup</span> <span class="i">build</span> <span class="i">artifacts</span>
 <span class="o">.</span><span class="o">/</span><span class="i">build</span><span class="o">.</span><span class="i">sh</span> <span class="i">docs</span>          # <span class="i">generate</span> <span class="i">documentation</span>
@@ -209,12 +205,18 @@ these packages as well, with the following prefixes:</p>
 </ul>
 <p>Example: <code>build.sh DataBuild</code></p>
 <h2><a name="Intel-MKL-on-Windows" class="anchor" href="#Intel-MKL-on-Windows">Intel MKL on Windows</a></h2>
-<p>The build expects that either Intel Parallel Studio 2020 (with the Intel Compiler)
-or Intel Math Kernel Library 2020 is installed. If you run into an error with <code>mkl_link_tool.exe</code>
-you may need to patch a targets file, see <a href="https://software.intel.com/en-us/forums/intel-math-kernel-library/topic/851578">MKL 2020.1, VS2019 linking bug </a>.</p>
-<p>The build is targeting <code>Windows 10 SDK (10.0.17763.0)</code> and the <code>v142</code> platform toolset,
-both of which can be installed as individual components in the Visual Studio Installer,
-together with the <code>Desktop development with C++</code> workload.</p>
+<p>Building the Intel MKL native provider for Windows requires additionally:</p>
+<ul>
+<li>Either Intel Parallel Studio 2020 or Intel Math Kernel Library 2020 is installed</li>
+<li>
+Visual Studio 2019, with the following options
+<ul>
+<li>Desktop development with C++ workload</li>
+<li>Windows 10 SDK (10.0.17763.0)</li>
+<li>MSVC v142 - VS 2019 C++ x64/x86 build tools</li>
+</ul>
+</li>
+</ul>
 <p>The build can then be triggered by calling:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -226,6 +228,8 @@ together with the <code>Desktop development with C++</code> workload.</p>
 </code></pre></td>
 </tr>
 </table>
+<p>If you run into an error with <code>mkl_link_tool.exe</code> you may need to patch a targets file,
+see <a href="https://software.intel.com/en-us/forums/intel-math-kernel-library/topic/851578">MKL 2020.1, VS2019 linking bug </a>.</p>
 <p>The build puts the binaries to <code>out/MKL/Windows/x64</code> (and <code>x86</code>), the NuGet package
 to <code>out/MKL/NuGet</code> and a Zip archive to <code>out/MKL/Zip</code>. You can directly use the provider from
 there by setting <code>Control.NativeProviderPath</code> to the full path pointing to <code>out/MKL/Windows/</code>;
