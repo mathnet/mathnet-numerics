@@ -2,37 +2,52 @@
 
 namespace MathNet.Numerics.Providers.SparseSolver
 {
+    /// <summary>
+    /// Structure option.
+    /// </summary>
     public enum DssMatrixStructure : int
     {
-        SymmetricStructure = 0,
-        Symmetric = 1,
-        Nonsymmetric = 2
+        Symmetric = 536870976,
+        SymmetricStructure = 536871040,
+        Nonsymmetric = 536871104,
+        SymmetricComplex = 536871168,
+        SymmetricStructureComplex = 536871232,
+        NonsymmetricComplex = 536871296,
     }
 
+    /// <summary>
+    /// Factorization option.
+    /// </summary>
     public enum DssMatrixType : int
     {
-        PositiveDefinite = 0,
-        Indefinite = 1,
-        HermitianPositiveDefinite = 2,
-        HermitianIndefinite = 3
+        PositiveDefinite = 134217792,
+        Indefinite = 134217856,
+        HermitianPositiveDefinite = 134217920,
+        HermitianIndefinite = 134217984
     }
 
+    /// <summary>
+    /// Solver step's substitution.
+    /// </summary>
     public enum DssSystemType : int
     {
         /// <summary>
         /// Solve a system, Ax = b.
         /// </summary>
-        NonTransposed = 0,
-        /// <summary>
-        /// Solve a conjugate transposed system, A†x = b
-        /// </summary>
-        ConjugateTransposed = 1,
+        DontTranspose = 0,
         /// <summary>
         /// Solve a transposed system, A'x = b
         /// </summary>
-        Transposed = 2
+        Transpose = 262144,
+        /// <summary>
+        /// Solve a conjugate transposed system, A†x = b
+        /// </summary>
+        ConjugateTranspose = 524288,
     }
 
+    /// <summary>
+    /// Status values
+    /// </summary>
     public enum DssStatus : int
     {
         /// <summary>

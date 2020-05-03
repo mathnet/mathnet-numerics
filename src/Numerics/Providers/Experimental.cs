@@ -84,7 +84,7 @@ namespace MathNet.Numerics
             var rhs = input.ToArray();
             var solution = new float[rowCount];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 1, rhs, solution);
 
@@ -132,7 +132,7 @@ namespace MathNet.Numerics
             var rhs = input.ToArray();
             var solution = new double[rowCount];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 1, rhs, solution);
 
@@ -180,7 +180,7 @@ namespace MathNet.Numerics
             var rhs = input.ToArray();
             var solution = new Complex32[rowCount];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 1, rhs, solution);
 
@@ -228,7 +228,7 @@ namespace MathNet.Numerics
             var rhs = input.ToArray();
             var solution = new Complex[rowCount];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 1, rhs, solution);
 
@@ -279,7 +279,7 @@ namespace MathNet.Numerics
 
             var solution = new float[rowCount * nRhs];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 nRhs, rhs, solution);
 
@@ -328,7 +328,7 @@ namespace MathNet.Numerics
 
             var solution = new double[rowCount * nRhs];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 nRhs, rhs, solution);
 
@@ -377,7 +377,7 @@ namespace MathNet.Numerics
 
             var solution = new Complex32[rowCount * nRhs];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 nRhs, rhs, solution);
 
@@ -426,7 +426,7 @@ namespace MathNet.Numerics
 
             var solution = new Complex[rowCount * nRhs];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 nRhs, rhs, solution);
 

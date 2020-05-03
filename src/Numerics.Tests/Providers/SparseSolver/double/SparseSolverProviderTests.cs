@@ -15,7 +15,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
     /// <summary>
     /// Base class for sparse solver provider tests.
     /// </summary>
-    [TestFixture, Category("LAProvider")]
+    [TestFixture, Category("SparseSolverProvider")]
     public class SparseSolverProviderTests
     {
         readonly double[] _b4 = { 1.0, 2.0, 3.0, 4.0};
@@ -51,7 +51,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
 
             var xactual = new double[rowCount];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Symmetric, DssMatrixType.PositiveDefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Symmetric, DssMatrixType.PositiveDefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 1, _b5, xactual);
 
@@ -83,7 +83,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
 
             var xactual = new double[rowCount];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 1, _b5, xactual);
 
@@ -115,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
 
             var xactual = new double[rowCount];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Nonsymmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 1, _b4, xactual);
 
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
             var b = Identity.ToColumnMajorArray();
             var Xactual = new double[rowCount * columnCount];
 
-            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Symmetric, DssMatrixType.PositiveDefinite, DssSystemType.NonTransposed,
+            var error = SparseSolverControl.Provider.Solve(DssMatrixStructure.Symmetric, DssMatrixType.PositiveDefinite, DssSystemType.DontTranspose,
                 rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                 Identity.ColumnCount, b, Xactual);
 
@@ -520,7 +520,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
                 var rhs = Rhs.ToArray();
                 var solution = new double[rowCount];
 
-                SparseSolverControl.Provider.Solve(DssMatrixStructure.Symmetric, DssMatrixType.Indefinite, DssSystemType.NonTransposed,
+                SparseSolverControl.Provider.Solve(DssMatrixStructure.Symmetric, DssMatrixType.Indefinite, DssSystemType.DontTranspose,
                     rowCount, columnCount, valueCount, rowPointers, columnIndices, values,
                     1, rhs, solution);
 
