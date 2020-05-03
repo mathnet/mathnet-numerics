@@ -10,10 +10,10 @@ System Requirements
 
 * .NET Core SDK 3.1.1 ([download](https://dotnet.microsoft.com/download/dotnet-core/3.1))
 
-VisualStudio or Xamarin Studio
-------------------------------
+VisualStudio and other IDEs
+---------------------------
 
-We clearly separate dependency management from the IDE, you should therefore
+We clearly separate dependency management from the IDE and therefore recommend to
 run `restore.cmd` or `restore.sh` once after every git checkout in order to restore
 the dependencies exactly as defined. Otherwise Visual Studio and other IDEs
 may fail to compile or provide correct IntelliSense.
@@ -24,13 +24,11 @@ Command Line Tools
 ------------------
 
 Instead of a compatible IDE you can also build the solutions directly with
-the .NET Core SDK, with MsBuild or on Mono with XBuild. You may need to run `restore.cmd` or
-`restore.sh` before, once after every git checkout in order to restore the dependencies.
+the .NET Core SDK build tools. You may need to run `restore.cmd` or `restore.sh`
+before, once after every git checkout in order to restore the dependencies.
 
-    restore.cmd (or restore.sh)             # restore dependencies (once)
-    dotnet build MathNet.Numerics.sln       # with .NET Core SDK
-    msbuild MathNet.Numerics.sln            # with MsBuild
-    xbuild MathNet.Numerics.sln             # with Mono
+    restore.cmd (or ./restore.sh)
+    dotnet build MathNet.Numerics.sln
 
 FAKE
 ----
@@ -40,21 +38,21 @@ reference, NuGet and Zip packages is using [FAKE](https://fsharp.github.io/FAKE/
 
 FAKE itself is not included in the repository but it will download and bootstrap
 itself automatically when build.cmd is run the first time. Note that this step
-is *not* required when using Visual Studio or `msbuild` directly.
+is *not* required when using Visual Studio or the .NET Core SDK directly.
 
     ./build.sh   # normal build and unit tests, when using bash shell on Windows or Linux.
     build.cmd    # normal build and unit tests, when using Windows CMD shell.
 
     ./build.sh build              # normal build
-    ./build.sh build strongname   # normal build and also build strong named variant
+    ./build.sh build strongname   # normal build and also build strong-named variant
 
-    ./build.sh test          # normal build (.Net 4.0), run unit tests
-    ./build.sh test quick    # normal build (.Net 4.0), run unit tests except long running ones
+    ./build.sh test          # normal build, run unit tests
+    ./build.sh test quick    # normal build, run unit tests except long running ones
 
     ./build.sh clean         # cleanup build artifacts
     ./build.sh docs          # generate documentation
     ./build.sh api           # generate api reference
-    
+
     ./build.sh all           # build, test, docs, api reference
 
 If the build or tests fail claiming that FSharp.Core was not be found, see
@@ -142,20 +140,23 @@ Example: `build.sh DataBuild`
 Intel MKL on Windows
 --------------------
 
-The build expects that either Intel Parallel Studio 2020 (with the Intel Compiler)
-or Intel Math Kernel Library 2020 is installed. If you run into an error with `mkl_link_tool.exe`
-you may need to patch a targets file, see [MKL 2020.1, VS2019 linking bug ](https://software.intel.com/en-us/forums/intel-math-kernel-library/topic/851578).
+Building the Intel MKL native provider for Windows requires additionally:
 
-The build is targeting `Windows 10 SDK (10.0.17763.0)` and the `v142` platform toolset,
-both of which can be installed as individual components in the Visual Studio Installer,
-together with the `Desktop development with C++` workload.
+* Either Intel Parallel Studio 2020 or Intel Math Kernel Library 2020 is installed
+* Visual Studio 2019, with the following options
+    * Desktop development with C++ workload
+    * Windows 10 SDK (10.0.17763.0)
+    * MSVC v142 - VS 2019 C++ x64/x86 build tools
 
 The build can then be triggered by calling:
 
     ./build.sh MklWinBuild  // build both 32 and 64 bit variants
     ./build.sh MklTest      // run all tests with the MKL provider enforced
     ./build.sh MklWinAll    // build and run tests
-    
+
+If you run into an error with `mkl_link_tool.exe` you may need to patch a targets file,
+see [MKL 2020.1, VS2019 linking bug ](https://software.intel.com/en-us/forums/intel-math-kernel-library/topic/851578).
+
 The build puts the binaries to `out/MKL/Windows/x64` (and `x86`), the NuGet package
 to `out/MKL/NuGet` and a Zip archive to `out/MKL/Zip`. You can directly use the provider from
 there by setting `Control.NativeProviderPath` to the full path pointing to `out/MKL/Windows/`;
