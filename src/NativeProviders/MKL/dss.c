@@ -94,7 +94,7 @@ extern "C" {
     }
 
     DLLEXPORT dss_int c_dss_solve(const dss_int matrixStructure, const dss_int matrixType, const dss_int systemType,
-        const dss_int nRows, const int nCols, const int nnz, const dss_int const rowIdx[], const dss_int colPtr[], const dss_complex_float values[],
+        const dss_int nRows, const dss_int nCols, const dss_int nnz, const dss_int rowIdx[], const dss_int colPtr[], const dss_complex_float values[],
         const dss_int nRhs, const dss_complex_float rhsValues[], dss_complex_float solValues[])
     {
         _MKL_DSS_HANDLE_t handle;
