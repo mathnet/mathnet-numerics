@@ -60,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
             var xtrue = new double[] { -979.0 / 3.0, 983.0, 1961.0 / 12.0, 398.0, 123.0 / 2.0 };
 
             for (int i = 0; i < xtrue.Length; i++)
-                AssertHelpers.AlmostEqualRelative(xtrue[i], xactual[i], 13);
+                AssertHelpers.AlmostEqualRelative(xtrue[i], xactual[i], 12);
         }
 
         /// <summary>
