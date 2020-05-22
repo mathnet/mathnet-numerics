@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1082
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{5A0892FF-82CE-40FC-BCE1-73810C615F52}"
 	ProjectSection(SolutionItems) = preProject
@@ -138,7 +138,9 @@ Global
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|Win32.Build.0 = Debug|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Debug|x64.Build.0 = Debug|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3515A344-AB5F-41C7-A14C-04A79B3FFAB1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
@@ -166,7 +168,9 @@ Global
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Debug|Win32.Build.0 = Debug|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Debug|x64.Build.0 = Debug|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU

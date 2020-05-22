@@ -1,3 +1,6 @@
+### 2.4.0 - 2020-05-22
+* r13 with Intel MKL 2020.0 Update 1
+
 ### 2.3.0 - 2018-02-14
 * r12 with Intel MKL 2018.0 Update 1
 

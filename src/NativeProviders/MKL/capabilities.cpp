@@ -66,7 +66,7 @@ extern "C" {
 			}
 
 		// COMMON/SHARED
-		case 64: return 12; // revision
+		case 64: return 13; // revision
 		case 65: return 1; // numerical consistency, precision and accuracy modes
 		case 66: return 1; // threading control
 		case 67: return 1; // memory management
