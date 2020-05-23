@@ -243,7 +243,7 @@ namespace MathNet.Numerics
         /// <param name="intervalEnd">Where the interval stops.</param>
         /// <param name="targetRelativeError">The expected relative accuracy of the approximation.</param>
         /// <param name="maximumDepth">The maximum number of interval splittings permitted before stopping.</param>
-        /// <param name="order">The number of Gauss-Kronrod points. Pre-computed for 15, 31, 41, 51 and 61 points.</param>
+        /// <param name="order">The number of Gauss-Kronrod points. Pre-computed for 15, 21, 31, 41, 51 and 61 points.</param>
         /// <returns>Approximation of the finite integral in the given interval.</returns>
         public static double GaussKronrod(Func<double, double> f, double intervalBegin, double intervalEnd, double targetRelativeError = 1E-8, int maximumDepth = 15, int order = 15)
         {
