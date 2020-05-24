@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>StudentT - Math.NET Numerics Documentation</title>
+    <title>SkewedGeneralizedT - Math.NET Numerics Documentation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="../main.css"/>
     <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
@@ -242,13 +242,13 @@
             <a href="../MathNet.Numerics.Distributions/SkewedGeneralizedError.htm">SkewedGeneralizedError</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm">SkewedGeneralizedT</a>
+            <a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm" class="current">SkewedGeneralizedT</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics.Distributions/Stable.htm">Stable</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics.Distributions/StudentT.htm" class="current">StudentT</a>
+            <a href="../MathNet.Numerics.Distributions/StudentT.htm">StudentT</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics.Distributions/Triangular.htm">Triangular</a>
@@ -269,79 +269,79 @@
 	</div>
 </div>
     <div class="header">
-		<p class="class"><strong>Type</strong> StudentT</p>
+		<p class="class"><strong>Type</strong> SkewedGeneralizedT</p>
 		<p><strong>Namespace</strong> MathNet.Numerics.Distributions</p>
 		<p><strong>Interfaces</strong> <a href="../MathNet.Numerics.Distributions/IContinuousDistribution.htm">IContinuousDistribution</a></p>
 	</div>
     <div class="sub-header">
-			<div id="summary">Continuous Univariate Student's T-distribution.
-Implements the univariate Student t-distribution. For details about this
-distribution, see. <blockquote class="remarks">
-  <p>We use a slightly generalized version (compared to
-Wikipedia) of the Student t-distribution. Namely, one which also
-parameterizes the location and scale. See the book "Bayesian Data
-Analysis" by Gelman et al. for more details. </p> <p>The density of the Student t-distribution  p(x|mu,scale,dof) =
-Gamma((dof+1)/2) (1 + (x - mu)^2 / (scale * scale * dof))^(-(dof+1)/2) /
-(Gamma(dof/2)*Sqrt(dof*pi*scale)). </p> <p>The distribution will use the  <a href="../System/Random.htm">Random</a>  by
-default.  Users can get/set the random number generator by using the <a href="../MathNet.Numerics.Distributions/StudentT.htm#RandomSource">RandomSource</a>  property. </p> <p>The statistics classes will check all the incoming parameters
-whether they are in the allowed range. This might involve heavy
-computation. Optionally, by setting Control.CheckDistributionParameters
-to  <code>false</code> , all parameter checks can be turned off. </p> 
+			<div id="summary">Continuous Univariate Skewed Generalized T-distribution.
+Implements the univariate Skewed Generalized t-distribution. For details about this
+distribution, see.
+The skewed generalized t-distribution contains many different distributions within it
+as special cases based on the parameterization chosen. <blockquote class="remarks">
+  <p>This implementation is based on the R package dsgt and corresponding viginette, see. Compared to that
+implementation, the options for mean adjustment and variance adjustment are always true.
+The location (μ) is the mean of the distribution.
+The scale (σ) squared is the variance of the distribution. </p> <p>The distribution will use the  <a href="../System/Random.htm">Random</a>  by
+default.  Users can get/set the random number generator by using the <a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#RandomSource">RandomSource</a>  property. </p> <p>The statistics classes will check all the incoming parameters
+whether they are in the allowed range. </p> 
 </blockquote>
 			</div>
 		
 			<h3 class="section">Constructors</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#.ctor">StudentT</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#.ctor">StudentT</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#.ctor">StudentT</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#.ctor">SkewedGeneralizedT</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#.ctor">SkewedGeneralizedT</a></li>
 			</ul>
 
 			<h3 class="section">Static Functions</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#CDF">CDF</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#InvCDF">InvCDF</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#IsValidParameterSet">IsValidParameterSet</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#PDF">PDF</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#PDFLn">PDFLn</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Sample">Sample</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Sample">Sample</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#CDF">CDF</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#FindSpecializedDistribution">FindSpecializedDistribution</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#InvCDF">InvCDF</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#IsValidParameterSet">IsValidParameterSet</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#PDF">PDF</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#PDFLn">PDFLn</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Sample">Sample</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Sample">Sample</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Samples">Samples</a></li>
 			</ul>
 			<h3 class="section">Methods</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#CumulativeDistribution">CumulativeDistribution</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Density">Density</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#DensityLn">DensityLn</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Equals">Equals</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#GetHashCode">GetHashCode</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#GetType">GetType</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#InverseCumulativeDistribution">InverseCumulativeDistribution</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Sample">Sample</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#CumulativeDistribution">CumulativeDistribution</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Density">Density</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#DensityLn">DensityLn</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#GetHashCode">GetHashCode</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#GetType">GetType</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#InverseCumulativeDistribution">InverseCumulativeDistribution</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Sample">Sample</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#ToString">ToString</a></li>
 			</ul>
 		
 
 			<h3 class="section">Properties</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#DegreesOfFreedom">DegreesOfFreedom</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Entropy">Entropy</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Location">Location</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Maximum">Maximum</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Mean">Mean</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Median">Median</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Minimum">Minimum</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Mode">Mode</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#RandomSource">RandomSource</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Scale">Scale</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Skewness">Skewness</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#StdDev">StdDev</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/StudentT.htm#Variance">Variance</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Entropy">Entropy</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Location">Location</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Maximum">Maximum</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Mean">Mean</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Median">Median</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Minimum">Minimum</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Mode">Mode</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#P">P</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Q">Q</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#RandomSource">RandomSource</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Scale">Scale</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Skew">Skew</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Skewness">Skewness</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#StdDev">StdDev</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/SkewedGeneralizedT.htm#Variance">Variance</a></li>
 			</ul>
 		
 	</div>
@@ -350,9 +350,9 @@ to  <code>false</code> , all parameter checks can be turned off. </p>
 	<h3 class="section">Public Constructors</h3>
 	
 	<div id=".ctor" class="method">
-		<h4> <strong>StudentT</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom, <span title="System.Random">Random</span> randomSource)</h4>
-		<div class="content">Initializes a new instance of the StudentT class with a particular location, scale and degrees of
-freedom. 
+		<h4> <strong>SkewedGeneralizedT</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q)</h4>
+		<div class="content">Initializes a new instance of the SkewedGeneralizedT class with a particular location, scale, skew
+and kurtosis parameters. Different parameterizations result in different distributions. 
 
 
       <div class="parameters">
@@ -362,41 +362,23 @@ freedom.
           <p class="comments">The location (μ) of the distribution. </p>
           <h6><code><span title="System.double">double</span></code> scale</h6>
           <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
-          <h6><code><span title="System.Random">Random</span></code> randomSource</h6>
-          <p class="comments">The random number generator which is used to draw random samples. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
       </div>
 
       
     </div>
 	</div>
 	<div id=".ctor" class="method">
-		<h4> <strong>StudentT</strong>()</h4>
-		<div class="content">Initializes a new instance of the StudentT class. This is a Student t-distribution with location 0.0
-scale 1.0 and degrees of freedom 1. 
+		<h4> <strong>SkewedGeneralizedT</strong>()</h4>
+		<div class="content">Initializes a new instance of the SkewedGeneralizedT class. This is a skewed generalized t-distribution
+with location=0.0, scale=1.0, skew=0.0, p=2.0 and q=Inf (a standard normal distribution). 
 
 
-
-      
-    </div>
-	</div>
-	<div id=".ctor" class="method">
-		<h4> <strong>StudentT</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom)</h4>
-		<div class="content">Initializes a new instance of the StudentT class with a particular location, scale and degrees of
-freedom. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> location</h6>
-          <p class="comments">The location (μ) of the distribution. </p>
-          <h6><code><span title="System.double">double</span></code> scale</h6>
-          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
-      </div>
 
       
     </div>
@@ -405,7 +387,7 @@ freedom.
 	<h3 class="section">Public Static Functions</h3>
 	
 	<div id="CDF" class="method">
-		<h4><span title="System.double">double</span> <strong>CDF</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom, <span title="System.double">double</span> x)</h4>
+		<h4><span title="System.double">double</span> <strong>CDF</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q, <span title="System.double">double</span> x)</h4>
 		<div class="content">Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x). 
 
 
@@ -416,8 +398,12 @@ freedom.
           <p class="comments">The location (μ) of the distribution. </p>
           <h6><code><span title="System.double">double</span></code> scale</h6>
           <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
           <h6><code><span title="System.double">double</span></code> x</h6>
           <p class="comments">The location at which to compute the cumulative distribution function. </p>
       </div>
@@ -430,12 +416,9 @@ freedom.
       
     </div>
 	</div>
-	<div id="InvCDF" class="method">
-		<h4><span title="System.double">double</span> <strong>InvCDF</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom, <span title="System.double">double</span> p)</h4>
-		<div class="content">Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
-at the given probability. This is also known as the quantile or percent point function. <blockquote class="remarks">
-  WARNING: currently not an explicit implementation, hence slow and unreliable. 
-</blockquote>
+	<div id="FindSpecializedDistribution" class="method">
+		<h4><a href="../MathNet.Numerics.Distributions/IContinuousDistribution.htm">IContinuousDistribution</a> <strong>FindSpecializedDistribution</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q)</h4>
+		<div class="content">Given a parameter set, returns the distribution that matches this parameterization. 
 
 
       <div class="parameters">
@@ -445,9 +428,42 @@ at the given probability. This is also known as the quantile or percent point fu
           <p class="comments">The location (μ) of the distribution. </p>
           <h6><code><span title="System.double">double</span></code> scale</h6>
           <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
           <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.Distributions/IContinuousDistribution.htm">IContinuousDistribution</a></code></h6>
+        <p>Null if no known distribution matches the parameterization, else the distribution. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="InvCDF" class="method">
+		<h4><span title="System.double">double</span> <strong>InvCDF</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q, <span title="System.double">double</span> pr)</h4>
+		<div class="content">Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
+at the given probability. This is also known as the quantile or percent point function. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> location</h6>
+          <p class="comments">The location (μ) of the distribution. </p>
+          <h6><code><span title="System.double">double</span></code> scale</h6>
+          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
+          <h6><code><span title="System.double">double</span></code> pr</h6>
           <p class="comments">The location at which to compute the inverse cumulative density. </p>
       </div>
 
@@ -460,7 +476,7 @@ at the given probability. This is also known as the quantile or percent point fu
     </div>
 	</div>
 	<div id="IsValidParameterSet" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsValidParameterSet</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom)</h4>
+		<h4><span title="System.bool">bool</span> <strong>IsValidParameterSet</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q)</h4>
 		<div class="content">Tests whether the provided values are valid parameters for this distribution. 
 
 
@@ -471,15 +487,19 @@ at the given probability. This is also known as the quantile or percent point fu
           <p class="comments">The location (μ) of the distribution. </p>
           <h6><code><span title="System.double">double</span></code> scale</h6>
           <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
       </div>
 
       
     </div>
 	</div>
 	<div id="PDF" class="method">
-		<h4><span title="System.double">double</span> <strong>PDF</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom, <span title="System.double">double</span> x)</h4>
+		<h4><span title="System.double">double</span> <strong>PDF</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q, <span title="System.double">double</span> x)</h4>
 		<div class="content">Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x. 
 
 
@@ -490,8 +510,12 @@ at the given probability. This is also known as the quantile or percent point fu
           <p class="comments">The location (μ) of the distribution. </p>
           <h6><code><span title="System.double">double</span></code> scale</h6>
           <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
           <h6><code><span title="System.double">double</span></code> x</h6>
           <p class="comments">The location at which to compute the density. </p>
       </div>
@@ -505,7 +529,7 @@ at the given probability. This is also known as the quantile or percent point fu
     </div>
 	</div>
 	<div id="PDFLn" class="method">
-		<h4><span title="System.double">double</span> <strong>PDFLn</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom, <span title="System.double">double</span> x)</h4>
+		<h4><span title="System.double">double</span> <strong>PDFLn</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q, <span title="System.double">double</span> x)</h4>
 		<div class="content">Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x). 
 
 
@@ -516,205 +540,12 @@ at the given probability. This is also known as the quantile or percent point fu
           <p class="comments">The location (μ) of the distribution. </p>
           <h6><code><span title="System.double">double</span></code> scale</h6>
           <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
-          <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The location at which to compute the density. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>the log density at  <var>x</var>. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="Sample" class="method">
-		<h4><span title="System.double">double</span> <strong>Sample</strong>(<span title="System.Random">Random</span> rnd, <span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom)</h4>
-		<div class="content">Generates a sample from the Student t-distribution. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
-          <p class="comments">The random number generator to use. </p>
-          <h6><code><span title="System.double">double</span></code> location</h6>
-          <p class="comments">The location (μ) of the distribution. </p>
-          <h6><code><span title="System.double">double</span></code> scale</h6>
-          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>a sample from the distribution. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="Sample" class="method">
-		<h4><span title="System.double">double</span> <strong>Sample</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom)</h4>
-		<div class="content">Generates a sample from the Student t-distribution. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> location</h6>
-          <p class="comments">The location (μ) of the distribution. </p>
-          <h6><code><span title="System.double">double</span></code> scale</h6>
-          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>a sample from the distribution. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="Samples" class="method">
-		<h4><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> <strong>Samples</strong>(<span title="System.Random">Random</span> rnd, <span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom)</h4>
-		<div class="content">Generates a sequence of samples from the Student t-distribution using the   algorithm. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
-          <p class="comments">The random number generator to use. </p>
-          <h6><code><span title="System.double">double</span></code> location</h6>
-          <p class="comments">The location (μ) of the distribution. </p>
-          <h6><code><span title="System.double">double</span></code> scale</h6>
-          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span></code></h6>
-        <p>a sequence of samples from the distribution. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="Samples" class="method">
-		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Random">Random</span> rnd, <span title="System.Double[]">Double[]</span> values, <span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom)</h4>
-		<div class="content">Fills an array with samples generated from the distribution. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
-          <p class="comments">The random number generator to use. </p>
-          <h6><code><span title="System.Double[]">Double[]</span></code> values</h6>
-          <p class="comments">The array to fill with the samples. </p>
-          <h6><code><span title="System.double">double</span></code> location</h6>
-          <p class="comments">The location (μ) of the distribution. </p>
-          <h6><code><span title="System.double">double</span></code> scale</h6>
-          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.void">void</span></code></h6>
-        <p>a sequence of samples from the distribution. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="Samples" class="method">
-		<h4><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> <strong>Samples</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom)</h4>
-		<div class="content">Generates a sequence of samples from the Student t-distribution using the   algorithm. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> location</h6>
-          <p class="comments">The location (μ) of the distribution. </p>
-          <h6><code><span title="System.double">double</span></code> scale</h6>
-          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span></code></h6>
-        <p>a sequence of samples from the distribution. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="Samples" class="method">
-		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Double[]">Double[]</span> values, <span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> freedom)</h4>
-		<div class="content">Fills an array with samples generated from the distribution. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Double[]">Double[]</span></code> values</h6>
-          <p class="comments">The array to fill with the samples. </p>
-          <h6><code><span title="System.double">double</span></code> location</h6>
-          <p class="comments">The location (μ) of the distribution. </p>
-          <h6><code><span title="System.double">double</span></code> scale</h6>
-          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
-          <h6><code><span title="System.double">double</span></code> freedom</h6>
-          <p class="comments">The degrees of freedom (ν) for the distribution. Range: ν > 0. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.void">void</span></code></h6>
-        <p>a sequence of samples from the distribution. </p>
-      </div>
-      
-    </div>
-	</div>
-
-	<h3 class="section">Public Methods</h3>
-	
-	<div id="CumulativeDistribution" class="method">
-		<h4><span title="System.double">double</span> <strong>CumulativeDistribution</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x). 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The location at which to compute the cumulative distribution function. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>the cumulative distribution at location  <var>x</var>. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="Density" class="method">
-		<h4><span title="System.double">double</span> <strong>Density</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Computes the probability density of the distribution (PDF) at x, i.e. ∂P(X ≤ x)/∂x. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
           <h6><code><span title="System.double">double</span></code> x</h6>
           <p class="comments">The location at which to compute the density. </p>
       </div>
@@ -727,23 +558,211 @@ at the given probability. This is also known as the quantile or percent point fu
       
     </div>
 	</div>
-	<div id="DensityLn" class="method">
-		<h4><span title="System.double">double</span> <strong>DensityLn</strong>(<span title="System.double">double</span> x)</h4>
-		<div class="content">Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x). 
+	<div id="Sample" class="method">
+		<h4><span title="System.double">double</span> <strong>Sample</strong>(<span title="System.Random">Random</span> rnd, <span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q)</h4>
+		<div class="content">Generates a sample from the Skew Generalized t-distribution. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> x</h6>
-          <p class="comments">The location at which to compute the log density. </p>
+          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
+          <p class="comments">The random number generator to use. </p>
+          <h6><code><span title="System.double">double</span></code> location</h6>
+          <p class="comments">The location (μ) of the distribution. </p>
+          <h6><code><span title="System.double">double</span></code> scale</h6>
+          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
-        <p>the log density at  <var>x</var>. </p>
+        <p>a sample from the distribution. </p>
       </div>
+      
+    </div>
+	</div>
+	<div id="Sample" class="method">
+		<h4><span title="System.double">double</span> <strong>Sample</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q)</h4>
+		<div class="content">Generates a sample from the Skew Generalized t-distribution. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> location</h6>
+          <p class="comments">The location (μ) of the distribution. </p>
+          <h6><code><span title="System.double">double</span></code> scale</h6>
+          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>a sample from the distribution. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Samples" class="method">
+		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Double[]">Double[]</span> values, <span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q)</h4>
+		<div class="content">Fills an array with samples from the Skew Generalized t-distribution using inverse transform. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Double[]">Double[]</span></code> values</h6>
+          <p class="comments">The array to fill with the samples. </p>
+          <h6><code><span title="System.double">double</span></code> location</h6>
+          <p class="comments">The location (μ) of the distribution. </p>
+          <h6><code><span title="System.double">double</span></code> scale</h6>
+          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.void">void</span></code></h6>
+        <p>a sequence of samples from the distribution. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Samples" class="method">
+		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Random">Random</span> rnd, <span title="System.Double[]">Double[]</span> values, <span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q)</h4>
+		<div class="content">Fills an array with samples from the Skew Generalized t-distribution using inverse transform. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
+          <p class="comments">The random number generator to use. </p>
+          <h6><code><span title="System.Double[]">Double[]</span></code> values</h6>
+          <p class="comments">The array to fill with the samples. </p>
+          <h6><code><span title="System.double">double</span></code> location</h6>
+          <p class="comments">The location (μ) of the distribution. </p>
+          <h6><code><span title="System.double">double</span></code> scale</h6>
+          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.void">void</span></code></h6>
+        <p>a sequence of samples from the distribution. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Samples" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> <strong>Samples</strong>(<span title="System.Random">Random</span> rnd, <span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q)</h4>
+		<div class="content">Generates a sequence of samples from the Skew Generalized t-distribution using inverse transform. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
+          <p class="comments">The random number generator to use. </p>
+          <h6><code><span title="System.double">double</span></code> location</h6>
+          <p class="comments">The location (μ) of the distribution. </p>
+          <h6><code><span title="System.double">double</span></code> scale</h6>
+          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span></code></h6>
+        <p>a sequence of samples from the distribution. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Samples" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> <strong>Samples</strong>(<span title="System.double">double</span> location, <span title="System.double">double</span> scale, <span title="System.double">double</span> skew, <span title="System.double">double</span> p, <span title="System.double">double</span> q)</h4>
+		<div class="content">Generates a sequence of samples from the Skew Generalized t-distribution using inverse transform. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> location</h6>
+          <p class="comments">The location (μ) of the distribution. </p>
+          <h6><code><span title="System.double">double</span></code> scale</h6>
+          <p class="comments">The scale (σ) of the distribution. Range: σ > 0. </p>
+          <h6><code><span title="System.double">double</span></code> skew</h6>
+          <p class="comments">The skew, 1 > λ > -1 </p>
+          <h6><code><span title="System.double">double</span></code> p</h6>
+          <p class="comments">First parameter that controls kurtosis. Range: p > 0 </p>
+          <h6><code><span title="System.double">double</span></code> q</h6>
+          <p class="comments">Second parameter that controls kurtosis. Range: q > 0 </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span></code></h6>
+        <p>a sequence of samples from the distribution. </p>
+      </div>
+      
+    </div>
+	</div>
+
+	<h3 class="section">Public Methods</h3>
+	
+	<div id="CumulativeDistribution" class="method">
+		<h4><span title="System.double">double</span> <strong>CumulativeDistribution</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Density" class="method">
+		<h4><span title="System.double">double</span> <strong>Density</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="DensityLn" class="method">
+		<h4><span title="System.double">double</span> <strong>DensityLn</strong>(<span title="System.double">double</span> x)</h4>
+		<div class="content">
+
+
+
       
     </div>
 	</div>
@@ -777,9 +796,7 @@ at the given probability. This is also known as the quantile or percent point fu
 	<div id="InverseCumulativeDistribution" class="method">
 		<h4><span title="System.double">double</span> <strong>InverseCumulativeDistribution</strong>(<span title="System.double">double</span> p)</h4>
 		<div class="content">Computes the inverse of the cumulative distribution function (InvCDF) for the distribution
-at the given probability. This is also known as the quantile or percent point function. <blockquote class="remarks">
-  WARNING: currently not an explicit implementation, hence slow and unreliable. 
-</blockquote>
+at the given probability. This is also known as the quantile or percent point function. 
 
 
       <div class="parameters">
@@ -799,35 +816,25 @@ at the given probability. This is also known as the quantile or percent point fu
 	</div>
 	<div id="Sample" class="method">
 		<h4><span title="System.double">double</span> <strong>Sample</strong>()</h4>
-		<div class="content">Generates a sample from the Student t-distribution. 
+		<div class="content">
 
 
 
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.double">double</span></code></h6>
-        <p>a sample from the distribution. </p>
-      </div>
       
     </div>
 	</div>
 	<div id="Samples" class="method">
 		<h4><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> <strong>Samples</strong>()</h4>
-		<div class="content">Generates a sequence of samples from the Student t-distribution. 
+		<div class="content">
 
 
 
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span></code></h6>
-        <p>a sequence of samples from the distribution. </p>
-      </div>
       
     </div>
 	</div>
 	<div id="Samples" class="method">
 		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Double[]">Double[]</span> values)</h4>
-		<div class="content">Fills an array with samples generated from the distribution. 
+		<div class="content">
 
 
 
@@ -851,51 +858,57 @@ at the given probability. This is also known as the quantile or percent point fu
 	
   <h3 class="section">Public Properties</h3>
 
-  <div id="DegreesOfFreedom" class="method">
-    <h4><span title="System.double">double</span> <strong>DegreesOfFreedom</strong> get; </h4>
-    <div class="content">Gets the degrees of freedom (ν) of the Student t-distribution. Range: ν > 0. 
-      
-    </div>
-  </div>
   <div id="Entropy" class="method">
     <h4><span title="System.double">double</span> <strong>Entropy</strong> get; </h4>
-    <div class="content">Gets the entropy of the Student t-distribution. 
+    <div class="content">
       
     </div>
   </div>
   <div id="Location" class="method">
     <h4><span title="System.double">double</span> <strong>Location</strong> get; </h4>
-    <div class="content">Gets the location (μ) of the Student t-distribution. 
+    <div class="content">Gets the location (μ) of the Skewed Generalized t-distribution. 
       
     </div>
   </div>
   <div id="Maximum" class="method">
     <h4><span title="System.double">double</span> <strong>Maximum</strong> get; </h4>
-    <div class="content">Gets the maximum of the Student t-distribution. 
+    <div class="content">
       
     </div>
   </div>
   <div id="Mean" class="method">
     <h4><span title="System.double">double</span> <strong>Mean</strong> get; </h4>
-    <div class="content">Gets the mean of the Student t-distribution. 
+    <div class="content">
       
     </div>
   </div>
   <div id="Median" class="method">
     <h4><span title="System.double">double</span> <strong>Median</strong> get; </h4>
-    <div class="content">Gets the median of the Student t-distribution. 
+    <div class="content">
       
     </div>
   </div>
   <div id="Minimum" class="method">
     <h4><span title="System.double">double</span> <strong>Minimum</strong> get; </h4>
-    <div class="content">Gets the minimum of the Student t-distribution. 
+    <div class="content">
       
     </div>
   </div>
   <div id="Mode" class="method">
     <h4><span title="System.double">double</span> <strong>Mode</strong> get; </h4>
-    <div class="content">Gets the mode of the Student t-distribution. 
+    <div class="content">
+      
+    </div>
+  </div>
+  <div id="P" class="method">
+    <h4><span title="System.double">double</span> <strong>P</strong> get; </h4>
+    <div class="content">Gets the first parameter that controls the kurtosis of the distribution. Range: p > 0. 
+      
+    </div>
+  </div>
+  <div id="Q" class="method">
+    <h4><span title="System.double">double</span> <strong>Q</strong> get; </h4>
+    <div class="content">Gets the second parameter that controls the kurtosis of the distribution. Range: q > 0. 
       
     </div>
   </div>
@@ -907,25 +920,31 @@ at the given probability. This is also known as the quantile or percent point fu
   </div>
   <div id="Scale" class="method">
     <h4><span title="System.double">double</span> <strong>Scale</strong> get; </h4>
-    <div class="content">Gets the scale (σ) of the Student t-distribution. Range: σ > 0. 
+    <div class="content">Gets the scale (σ) of the Skewed Generalized t-distribution. Range: σ > 0. 
+      
+    </div>
+  </div>
+  <div id="Skew" class="method">
+    <h4><span title="System.double">double</span> <strong>Skew</strong> get; </h4>
+    <div class="content">Gets the skew (λ) of the Skewed Generalized t-distribution. Range: 1 > λ > -1. 
       
     </div>
   </div>
   <div id="Skewness" class="method">
     <h4><span title="System.double">double</span> <strong>Skewness</strong> get; </h4>
-    <div class="content">Gets the skewness of the Student t-distribution. 
+    <div class="content">
       
     </div>
   </div>
   <div id="StdDev" class="method">
     <h4><span title="System.double">double</span> <strong>StdDev</strong> get; </h4>
-    <div class="content">Gets the standard deviation of the Student t-distribution. 
+    <div class="content">
       
     </div>
   </div>
   <div id="Variance" class="method">
     <h4><span title="System.double">double</span> <strong>Variance</strong> get; </h4>
-    <div class="content">Gets the variance of the Student t-distribution. 
+    <div class="content">
       
     </div>
   </div>
