@@ -1,3 +1,8 @@
+### 4.11.0 - 2020-05-24
+* Distributions: Skewed Generalized T and Error distributions *~Mikael Ohman*
+* BUG: Linear Algebra: fix Moore-Penrose Pseudo-Inverse for complex matrices *~Alex Hildebrand*
+* BUG: Linear Algebra: fix range in non-square diagonal sparse mixed products
+
 ### 4.10.0 - 2020-05-24
 * Fractional Calculus: Riemann-Liouville fractional derivative *~Jong Hyun Kim*
 * Root Finding: accuracy range validation *~Ryan Grange*

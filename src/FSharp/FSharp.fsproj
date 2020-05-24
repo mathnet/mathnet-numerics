@@ -7,13 +7,13 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.10.0</VersionPrefix>
+    <VersionPrefix>4.11.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics for F#$(TitleSuffix)</Title>
     <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>Fractional Calculus: Riemann-Liouville fractional derivative ~Jong Hyun Kim
-Root Finding: accuracy range validation ~Ryan Grange
-Root Finding: behavior more consistent between native and managed provider</PackageReleaseNotes>
+    <PackageReleaseNotes>Distributions: Skewed Generalized T and Error distributions ~Mikael Ohman
+BUG: Linear Algebra: fix Moore-Penrose Pseudo-Inverse for complex matrices ~Alex Hildebrand
+BUG: Linear Algebra: fix range in non-square diagonal sparse mixed products</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
