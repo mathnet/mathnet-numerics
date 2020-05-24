@@ -84,7 +84,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Exponential(λ = " + _rate + ")";
+            return $"Exponential(λ = {_rate})";
         }
 
         /// <summary>

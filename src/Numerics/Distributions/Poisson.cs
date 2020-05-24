@@ -89,7 +89,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public override string ToString()
         {
-            return "Poisson(λ = " + _lambda + ")";
+            return $"Poisson(λ = {_lambda})";
         }
 
         /// <summary>

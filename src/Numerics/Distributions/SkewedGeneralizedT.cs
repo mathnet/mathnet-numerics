@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Distributions
     /// <a href="">https://cran.r-project.org/web/packages/sgt/vignettes/sgt.pdf</a>. Compared to that
     /// implementation, the options for mean adjustment and variance adjustment are always true.
     /// The location (μ) is the mean of the distribution.
-    /// The scale (σ) squared is the variance of the distribution. 
+    /// The scale (σ) squared is the variance of the distribution.
     /// </para>
     /// <para>The distribution will use the <see cref="System.Random"/> by
     /// default.  Users can get/set the random number generator by using the
@@ -57,14 +57,14 @@ namespace MathNet.Numerics.Distributions
     /// whether they are in the allowed range.</para></remarks>
     public class SkewedGeneralizedT : IContinuousDistribution
     {
-        private System.Random _random;
+        System.Random _random;
 
         // If the given parameterization is one of the recognized special cases, then
         // this variable is non-null and the special case is used for all functions.
         // Else this value is null and the full formulation of the generalized distribution is used.
-        private IContinuousDistribution _d;
+        IContinuousDistribution _d;
 
-        private readonly double _skewness;
+        readonly double _skewness;
 
         /// <summary>
         /// Initializes a new instance of the SkewedGeneralizedT class. This is a skewed generalized t-distribution
@@ -108,7 +108,9 @@ namespace MathNet.Numerics.Distributions
             _d = FindSpecializedDistribution(location, scale, skew, p, q);
 
             if (_d == null)
+            {
                 _skewness = CalculateSkewness();
+            }
         }
 
         /// <summary>
@@ -139,8 +141,8 @@ namespace MathNet.Numerics.Distributions
         /// </summary>
         public System.Random RandomSource
         {
-            get { return _random; }
-            set { _random = value ?? SystemRandomSource.Default; }
+            get => _random;
+            set => _random = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -149,7 +151,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return $"SkewedGeneralizedT(μ = {Location}, σ = {Scale}, λ = { Skew }, p = {P}, q = {Q})";
+            return $"SkewedGeneralizedT(μ = {Location}, σ = {Scale}, λ = {Skew}, p = {P}, q = {Q})";
         }
 
         /// <summary>
@@ -168,61 +170,57 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the location (μ) of the Skewed Generalized t-distribution.
         /// </summary>
-        public double Location { get; private set; }
+        public double Location { get; }
 
         /// <summary>
         /// Gets the scale (σ) of the Skewed Generalized t-distribution. Range: σ > 0.
         /// </summary>
-        public double Scale { get; private set; }
+        public double Scale { get; }
 
         /// <summary>
         /// Gets the skew (λ) of the Skewed Generalized t-distribution. Range: 1 > λ > -1.
         /// </summary>
-        public double Skew { get; private set; }
+        public double Skew { get; }
 
         /// <summary>
         /// Gets the first parameter that controls the kurtosis of the distribution. Range: p > 0.
         /// </summary>
-        public double P { get; private set; }
+        public double P { get; }
 
         /// <summary>
         /// Gets the second parameter that controls the kurtosis of the distribution. Range: q > 0.
         /// </summary>
-        public double Q { get; private set; }
+        public double Q { get; }
 
         // No skew implies Median=Mode=Mean
-        public double Mode => _d == null ?
-            Skew == 0 ? Mean : Mean - AdjustAddend(AdjustScale(Scale, Skew, P, Q), Skew, P, Q) :
-            _d.Mode;
+        public double Mode => _d?.Mode ?? (Skew == 0 ? Mean : Mean - AdjustAddend(AdjustScale(Scale, Skew, P, Q), Skew, P, Q));
 
-        public double Minimum => _d == null ? double.NegativeInfinity : _d.Minimum;
+        public double Minimum => _d?.Minimum ?? double.NegativeInfinity;
 
-        public double Maximum => _d == null ? double.PositiveInfinity : _d.Maximum;
+        public double Maximum => _d?.Maximum ?? double.PositiveInfinity;
 
         // Mean=Location due to our adjustments made
-        public double Mean => _d == null ? Location : _d.Mean;
+        public double Mean => _d?.Mean ?? Location;
 
         // Variance=Scale*Scale due to our adjustments made
-        public double Variance => _d == null ? Scale * Scale : _d.Variance;
+        public double Variance => _d?.Variance ?? Scale * Scale;
 
-        public double StdDev => _d == null ? Scale : _d.StdDev;
+        public double StdDev => _d?.StdDev ?? Scale;
 
-        public double Entropy => _d == null ? throw new NotImplementedException() : _d.Entropy;
+        public double Entropy => _d?.Entropy ?? throw new NotImplementedException();
 
-        public double Skewness => _d == null ?
-            _skewness :
-            _d.Skewness;
+        public double Skewness => _d?.Skewness ?? _skewness;
 
         // No skew implies Median=Mode=Mean
         // Else find it via the point where CDF gives 0.5
-        public double Median => _d == null ?
-            Skew == 0 ? Mean : InverseCumulativeDistribution(0.5) :
-            _d.Median;
+        public double Median => _d?.Median ?? (Skew == 0 ? Mean : InverseCumulativeDistribution(0.5));
 
-        private double CalculateSkewness()
+        double CalculateSkewness()
         {
             if (P * Q <= 3 || Skew == 0)
+            {
                 return 0.0;
+            }
 
             var scale = AdjustScale(Scale, Skew, P, Q);
             var b1 = SpecialFunctions.Beta(1.0 / P, Q);
@@ -239,7 +237,7 @@ namespace MathNet.Numerics.Distributions
             return t1 * (t2 - t3 * t4 + t5);
         }
 
-        private static double AdjustScale(double scale, double skew, double p, double q)
+        static double AdjustScale(double scale, double skew, double p, double q)
         {
             var b1 = SpecialFunctions.Beta(3.0 / p, q - 2.0 / p);
             var b2 = SpecialFunctions.Beta(1.0 / p, q);
@@ -250,13 +248,13 @@ namespace MathNet.Numerics.Distributions
         }
 
         // Note: Scale is assumed to be adjusted already when calling this function.
-        private static double AdjustX(double x, double scale, double skew, double p, double q)
+        static double AdjustX(double x, double scale, double skew, double p, double q)
         {
             return x + AdjustAddend(scale, skew, p, q);
         }
 
         // Note: Scale is assumed to be adjusted already when calling this function.
-        private static double AdjustAddend(double scale, double skew, double p, double q)
+        static double AdjustAddend(double scale, double skew, double p, double q)
         {
             var b1 = SpecialFunctions.Beta(2.0 / p, q - 1.0 / p);
             var b2 = SpecialFunctions.Beta(1.0 / p, q);
@@ -308,7 +306,7 @@ namespace MathNet.Numerics.Distributions
             return fn(x);
         }
 
-        private static double PDFull(double location, double scale, double skew, double p, double q, double x)
+        static double PDFull(double location, double scale, double skew, double p, double q, double x)
         {
             scale = AdjustScale(scale, skew, p, q);
             x = AdjustX(x, scale, skew, p, q);
@@ -322,7 +320,7 @@ namespace MathNet.Numerics.Distributions
             return p / denominator;
         }
 
-        private static double PDFullLn(double location, double scale, double skew, double p, double q, double x)
+        static double PDFullLn(double location, double scale, double skew, double p, double q, double x)
         {
             scale = AdjustScale(scale, skew, p, q);
             x = AdjustX(x, scale, skew, p, q);
@@ -337,7 +335,7 @@ namespace MathNet.Numerics.Distributions
         // by Hansen, McDonald and Newey (2010).
         // Note that, for all cases where skew is required to be 0, if skew is non-zero, this
         // simply gives the corresponding skewed version of the distribution.
-        private static Func<double, double> PDFunc(double location, double scale, double skew, double p, double q, bool ln)
+        static Func<double, double> PDFunc(double location, double scale, double skew, double p, double q, bool ln)
         {
             if (p == double.PositiveInfinity)
             {
@@ -414,10 +412,13 @@ namespace MathNet.Numerics.Distributions
             // InverseCumulativeDistribution is not a part of the interface, so resort to type-checking.
             if (d != null)
             {
-                if (d is SkewedGeneralizedError sge)
-                    return sge.InverseCumulativeDistribution(pr);
-                if (d is ContinuousUniform u)
-                    return u.InverseCumulativeDistribution(pr);
+                switch (d)
+                {
+                    case SkewedGeneralizedError sge:
+                        return sge.InverseCumulativeDistribution(pr);
+                    case ContinuousUniform u:
+                        return u.InverseCumulativeDistribution(pr);
+                }
             }
 
             // Note: Adapted from the R package,
@@ -444,7 +445,7 @@ namespace MathNet.Numerics.Distributions
 
         public double CumulativeDistribution(double x)
         {
-            return _d == null ? CDF(Location, Scale, Skew, P, Q, x) : _d.CumulativeDistribution(x);
+            return _d?.CumulativeDistribution(x) ?? CDF(Location, Scale, Skew, P, Q, x);
         }
 
         /// <summary>
@@ -459,10 +460,13 @@ namespace MathNet.Numerics.Distributions
             // InverseCumulativeDistribution is not a part of the interface, so resort to type-checking.
             if (_d != null)
             {
-                if (_d is SkewedGeneralizedError sge)
-                    return sge.InverseCumulativeDistribution(p);
-                if (_d is ContinuousUniform u)
-                    return u.InverseCumulativeDistribution(p);
+                switch (_d)
+                {
+                    case SkewedGeneralizedError sge:
+                        return sge.InverseCumulativeDistribution(p);
+                    case ContinuousUniform u:
+                        return u.InverseCumulativeDistribution(p);
+                }
             }
 
             return InvCDF(Location, Scale, Skew, P, Q, p);
@@ -470,12 +474,12 @@ namespace MathNet.Numerics.Distributions
 
         public double Density(double x)
         {
-            return _d == null ? PDF(Location, Scale, Skew, P, Q, x) : _d.Density(x);
+            return _d?.Density(x) ?? PDF(Location, Scale, Skew, P, Q, x);
         }
 
         public double DensityLn(double x)
         {
-            return _d == null ? PDFLn(Location, Scale, Skew, P, Q, x) : _d.DensityLn(x);
+            return _d?.DensityLn(x) ?? PDFLn(Location, Scale, Skew, P, Q, x);
         }
 
         /// <summary>
@@ -541,7 +545,7 @@ namespace MathNet.Numerics.Distributions
             return SampleUnchecked(SystemRandomSource.Default, location, scale, skew, p, q);
         }
 
-        private static double SampleUnchecked(System.Random rnd, double location, double scale, double skew, double p, double q)
+        static double SampleUnchecked(System.Random rnd, double location, double scale, double skew, double p, double q)
         {
             var u = ContinuousUniform.Sample(rnd, 0, 1);
             return InvCDF(location, scale, skew, p, q, u);

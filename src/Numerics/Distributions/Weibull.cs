@@ -103,7 +103,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Weibull(k = " + _shape + ", λ = " + _scale + ")";
+            return $"Weibull(k = {_shape}, λ = {_scale})";
         }
 
         /// <summary>

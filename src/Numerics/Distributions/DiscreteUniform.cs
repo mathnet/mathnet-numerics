@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public override string ToString()
         {
-            return "DiscreteUniform(Lower = " + _lower + ", Upper = " + _upper + ")";
+            return $"DiscreteUniform(Lower = {_lower}, Upper = {_upper})";
         }
 
         /// <summary>

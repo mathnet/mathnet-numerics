@@ -99,7 +99,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Triangular(Lower = " + _lower + ", Upper = " + _upper + ", Mode = " + _mode + ")";
+            return $"Triangular(Lower = {_lower}, Upper = {_upper}, Mode = {_mode})";
         }
 
         /// <summary>

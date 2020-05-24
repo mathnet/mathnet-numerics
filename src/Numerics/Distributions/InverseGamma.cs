@@ -90,7 +90,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "InverseGamma(α = " + _shape + ", β = " + _scale + ")";
+            return $"InverseGamma(α = {_shape}, β = {_scale})";
         }
 
         /// <summary>

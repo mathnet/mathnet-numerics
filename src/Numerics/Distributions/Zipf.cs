@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Zipf(S = " + _s + ", N = " + _n + ")";
+            return $"Zipf(S = {_s}, N = {_n})";
         }
 
         /// <summary>

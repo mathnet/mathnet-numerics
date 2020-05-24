@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Cauchy(x0 = " + _location + ", γ = " + _scale + ")";
+            return $"Cauchy(x0 = {_location}, γ = {_scale})";
         }
 
         /// <summary>

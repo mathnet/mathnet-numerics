@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Distributions
 {
     public class Burr : IContinuousDistribution
     {
-        private System.Random _random;
+        System.Random _random;
 
         /// <summary>
         /// Gets the scale (a) of the distribution. Range: a > 0.
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Burr(a = " + a + ", c = " + c + ", k = " + k + ")";
+            return $"Burr(a = {a}, c = {c}, k = {k})";
         }
 
         /// <summary>

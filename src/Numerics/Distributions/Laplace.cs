@@ -100,7 +100,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Laplace(μ = " + _location + ", b = " + _scale + ")";
+            return $"Laplace(μ = {_location}, b = {_scale})";
         }
 
         /// <summary>

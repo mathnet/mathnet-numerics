@@ -91,7 +91,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public override string ToString()
         {
-            return "NegativeBinomial(R = " + _r + ", P = " + _p + ")";
+            return $"NegativeBinomial(R = {_r}, P = {_p})";
         }
 
         /// <summary>

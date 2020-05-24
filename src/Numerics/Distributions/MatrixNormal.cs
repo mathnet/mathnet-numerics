@@ -109,7 +109,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public override string ToString()
         {
-            return "MatrixNormal(Rows = " + _m.RowCount + ", Columns = " + _m.ColumnCount + ")";
+            return $"MatrixNormal(Rows = {_m.RowCount}, Columns = {_m.ColumnCount})";
         }
 
         /// <summary>

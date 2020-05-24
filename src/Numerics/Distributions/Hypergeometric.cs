@@ -96,7 +96,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public override string ToString()
         {
-            return "Hypergeometric(N = " + _population + ", M = " + _success + ", n = " + _draws + ")";
+            return $"Hypergeometric(N = {_population}, M = {_success}, n = {_draws})";
         }
 
         /// <summary>

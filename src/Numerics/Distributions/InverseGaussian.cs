@@ -38,7 +38,7 @@ namespace MathNet.Numerics.Distributions
 {
     public class InverseGaussian : IContinuousDistribution
     {
-        private System.Random _random;
+        System.Random _random;
 
         /// <summary>
         /// Gets the mean (μ) of the distribution. Range: μ > 0.
@@ -73,7 +73,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "InverseGaussian(μ = " + Mu + ", λ = " + Lambda + ")";
+            return $"InverseGaussian(μ = {Mu}, λ = {Lambda})";
         }
 
         /// <summary>

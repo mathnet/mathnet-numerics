@@ -133,8 +133,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "NormalGamma(Mean Location = " + _meanLocation + ", Mean Scale = " + _meanScale +
-                   ", Precision Shape = " + _precisionShape + ", Precision Inverse Scale = " + _precisionInvScale + ")";
+            return $"NormalGamma(Mean Location = {_meanLocation}, Mean Scale = {_meanScale}, Precision Shape = {_precisionShape}, Precision Inverse Scale = {_precisionInvScale})";
         }
 
         /// <summary>

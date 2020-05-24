@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Erlang(k = " + _shape + ", λ = " + _rate + ")";
+            return $"Erlang(k = {_shape}, λ = {_rate})";
         }
 
         /// <summary>

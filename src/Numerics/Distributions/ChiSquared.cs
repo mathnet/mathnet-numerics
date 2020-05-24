@@ -83,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "ChiSquared(k = " + _freedom + ")";
+            return $"ChiSquared(k = {_freedom})";
         }
 
         /// <summary>

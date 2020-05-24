@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Gamma(α = " + _shape + ", β = " + _rate + ")";
+            return $"Gamma(α = {_shape}, β = {_rate})";
         }
 
         /// <summary>

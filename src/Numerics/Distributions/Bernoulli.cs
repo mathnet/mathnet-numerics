@@ -87,7 +87,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Bernoulli(p = " + _p + ")";
+            return $"Bernoulli(p = {_p})";
         }
 
         /// <summary>

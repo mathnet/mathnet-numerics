@@ -132,7 +132,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "LogNormal(μ = " + _mu + ", σ = " + _sigma + ")";
+            return $"LogNormal(μ = {_mu}, σ = {_sigma})";
         }
 
         /// <summary>

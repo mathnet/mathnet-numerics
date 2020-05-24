@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Chi(k = " + _freedom + ")";
+            return $"Chi(k = {_freedom})";
         }
 
         /// <summary>

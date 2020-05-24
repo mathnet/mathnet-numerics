@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "ContinuousUniform(Lower = " + _lower + ", Upper = " + _upper + ")";
+            return $"ContinuousUniform(Lower = {_lower}, Upper = {_upper})";
         }
 
         /// <summary>

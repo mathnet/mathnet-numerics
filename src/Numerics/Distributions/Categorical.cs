@@ -154,7 +154,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Categorical(Dimension = " + _pmfNormalized.Length + ")";
+            return $"Categorical(Dimension = {_pmfNormalized.Length})";
         }
 
         /// <summary>

@@ -89,7 +89,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Rayleigh(σ = " + _scale + ")";
+            return $"Rayleigh(σ = {_scale})";
         }
 
         /// <summary>

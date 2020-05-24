@@ -97,7 +97,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A string representation of the Beta distribution.</returns>
         public override string ToString()
         {
-            return "Beta(α = " + _shapeA + ", β = " + _shapeB + ")";
+            return $"Beta(α = {_shapeA}, β = {_shapeB})";
         }
 
         /// <summary>

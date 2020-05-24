@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "StudentT(μ = " + _location + ", σ = " + _scale + ", ν = " + _freedom + ")";
+            return $"StudentT(μ = {_location}, σ = {_scale}, ν = {_freedom})";
         }
 
         /// <summary>

@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Distributions
     /// <a href="">https://cran.r-project.org/web/packages/sgt/vignettes/sgt.pdf</a>. Compared to that
     /// implementation, the options for mean adjustment and variance adjustment are always true.
     /// The location (μ) is the mean of the distribution.
-    /// The scale (σ) squared is the variance of the distribution. 
+    /// The scale (σ) squared is the variance of the distribution.
     /// </para>
     /// <para>The distribution will use the <see cref="System.Random"/> by
     /// default.  Users can get/set the random number generator by using the
@@ -56,9 +56,9 @@ namespace MathNet.Numerics.Distributions
     /// whether they are in the allowed range.</para></remarks>
     public class SkewedGeneralizedError : IContinuousDistribution
     {
-        private System.Random _random;
+        System.Random _random;
 
-        private readonly double _skewness;
+        readonly double _skewness;
 
         /// <summary>
         /// Initializes a new instance of the SkewedGeneralizedError class. This is a generalized error distribution
@@ -172,10 +172,12 @@ namespace MathNet.Numerics.Distributions
         public double Median =>
             Skew == 0 ? Mean : InverseCumulativeDistribution(0.5);
 
-        private double CalculateSkewness()
+        double CalculateSkewness()
         {
             if (Skew == 0)
+            {
                 return 0.0;
+            }
 
             var piPow = Math.Pow(Constants.Pi, 3.0 / 2.0);
             var g1 = SpecialFunctions.Gamma(1.0 / P);
@@ -191,7 +193,7 @@ namespace MathNet.Numerics.Distributions
             return t1 * (t2 - t3 + t4);
         }
 
-        private static double AdjustScale(double scale, double skew, double p)
+        static double AdjustScale(double scale, double skew, double p)
         {
             var g1 = SpecialFunctions.Gamma(3.0 / p);
             var g2 = SpecialFunctions.Gamma(0.5 + 1.0 / p);
@@ -203,12 +205,12 @@ namespace MathNet.Numerics.Distributions
             return scale / Math.Sqrt((n1 - n2) / d);
         }
 
-        private static double AdjustX(double x, double scale, double skew, double p)
+        static double AdjustX(double x, double scale, double skew, double p)
         {
             return x + AdjustAddend(scale, skew, p);
         }
 
-        private static double AdjustAddend(double scale, double skew, double p)
+        static double AdjustAddend(double scale, double skew, double p)
         {
             return (Math.Pow(2.0, 2.0 / p) * scale * skew * SpecialFunctions.Gamma(1.0 / 2.0 + 1.0 / p)) /
                 Math.Sqrt(Constants.Pi);
@@ -223,7 +225,7 @@ namespace MathNet.Numerics.Distributions
 
             scale = AdjustScale(scale, skew, p);
             x = AdjustX(x, scale, skew, p);
-            
+
            // p / (2 * sigma * gamma(1 / p) * exp((abs(x - mu) / (sigma * (1 + lambda * sgn(x - mu)))) ^ p))
             var d1 = Math.Abs(x - location);
             var d2 = scale * (1.0 + skew * Math.Sign(x - location));
@@ -372,7 +374,7 @@ namespace MathNet.Numerics.Distributions
             return SampleUnchecked(SystemRandomSource.Default, location, scale, skew, p);
         }
 
-        private static double SampleUnchecked(System.Random rnd, double location, double scale, double skew, double p)
+        static double SampleUnchecked(System.Random rnd, double location, double scale, double skew, double p)
         {
             var u = ContinuousUniform.Sample(rnd, 0, 1);
             return InvCDF(location, scale, skew, p, u);

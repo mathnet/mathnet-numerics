@@ -143,7 +143,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Wishart(DegreesOfFreedom = " + _degreesOfFreedom + ", Rows = " + _scale.RowCount + ", Columns = " + _scale.ColumnCount + ")";
+            return $"Wishart(DegreesOfFreedom = {_degreesOfFreedom}, Rows = {_scale.RowCount}, Columns = {_scale.ColumnCount})";
         }
 
         /// <summary>

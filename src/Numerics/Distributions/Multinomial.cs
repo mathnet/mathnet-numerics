@@ -142,7 +142,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Multinomial(Dimension = " + _p.Length + ", Number of Trails = " + _trials + ")";
+            return $"Multinomial(Dimension = {_p.Length}, Number of Trails = {_trials})";
         }
 
         /// <summary>

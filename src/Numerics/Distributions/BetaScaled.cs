@@ -136,7 +136,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A string representation of the BetaScaled distribution.</returns>
         public override string ToString()
         {
-            return "BetaScaled(α = " + _shapeA + ", β = " + _shapeB + ", μ = " + _location + ", σ = " + _scale + ")";
+            return $"BetaScaled(α = {_shapeA}, β = {_shapeB}, μ = {_location}, σ = {_scale})";
         }
 
         /// <summary>

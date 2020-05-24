@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
         public override string ToString()
         {
-            return "Geometric(p = " + _p + ")";
+            return $"Geometric(p = {_p})";
         }
 
         /// <summary>

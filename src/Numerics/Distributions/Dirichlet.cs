@@ -132,7 +132,7 @@ namespace MathNet.Numerics.Distributions
         /// </returns>
         public override string ToString()
         {
-            return "Dirichlet(Dimension = " + Dimension + ")";
+            return $"Dirichlet(Dimension = {Dimension})";
         }
 
         /// <summary>

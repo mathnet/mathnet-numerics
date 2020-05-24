@@ -89,7 +89,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "FisherSnedecor(d1 = " + _freedom1 + ", d2 = " + _freedom2 + ")";
+            return $"FisherSnedecor(d1 = {_freedom1}, d2 = {_freedom2})";
         }
 
         /// <summary>

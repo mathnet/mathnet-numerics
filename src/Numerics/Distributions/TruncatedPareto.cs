@@ -36,7 +36,7 @@ namespace MathNet.Numerics.Distributions
 {
     public class TruncatedPareto : IContinuousDistribution
     {
-        private System.Random _random;
+        System.Random _random;
 
         /// <summary>
         /// Initializes a new instance of the TruncatedPareto class.
@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Truncated Pareto(Scale = " + Scale + ", Shape = " + Shape + ", Truncation = " + Truncation + ")";
+            return $"Truncated Pareto(Scale = {Scale}, Shape = {Shape}, Truncation = {Truncation})";
         }
 
         /// <summary>

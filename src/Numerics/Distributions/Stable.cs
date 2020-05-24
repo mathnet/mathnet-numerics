@@ -100,7 +100,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Stable(α = " + _alpha + ", β = " + _beta + ", c = " + _scale + ", μ = " + _location + ")";
+            return $"Stable(α = {_alpha}, β = {_beta}, c = {_scale}, μ = {_location})";
         }
 
         /// <summary>

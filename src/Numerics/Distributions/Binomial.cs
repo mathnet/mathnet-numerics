@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Binomial(p = " + _p + ", n = " + _trials + ")";
+            return $"Binomial(p = {_p}, n = {_trials})";
         }
 
         /// <summary>

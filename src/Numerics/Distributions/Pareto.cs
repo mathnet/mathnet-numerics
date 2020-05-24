@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return "Pareto(xm = " + _scale + ", α = " + _shape + ")";
+            return $"Pareto(xm = {_scale}, α = {_shape})";
         }
 
         /// <summary>

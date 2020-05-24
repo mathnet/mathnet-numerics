@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>A <see cref="System.String"/> that represents this instance.</returns>
         public override string ToString()
         {
-            return "ConwayMaxwellPoisson(λ = " + _lambda + ", ν = " + _nu + ")";
+            return $"ConwayMaxwellPoisson(λ = {_lambda}, ν = {_nu})";
         }
 
         /// <summary>
