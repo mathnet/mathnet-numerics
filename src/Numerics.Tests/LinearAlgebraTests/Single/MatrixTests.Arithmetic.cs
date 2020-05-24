@@ -819,7 +819,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             var matrix = TestMatrices[name];
             var inverse = matrix.PseudoInverse();
             // Testing for Moore–Penrose conditions 1: A*A^+*A = A
-            AssertHelpers.AlmostEqual(matrix, matrix * inverse * matrix, 5);
+            AssertHelpers.AlmostEqual(matrix, matrix * (inverse * matrix), 5);
         }
 
         /// <summary>

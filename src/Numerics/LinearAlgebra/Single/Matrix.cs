@@ -510,7 +510,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             }
 
             w.SetDiagonal(s);
-            return (svd.U * w * svd.VT).Transpose();
+            return (svd.U * (w * svd.VT)).Transpose();
         }
 
         /// <summary>
