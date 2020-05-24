@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>Evaluate - Math.NET Numerics Documentation</title>
+    <title>DifferIntegrate - Math.NET Numerics Documentation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="../main.css"/>
     <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
@@ -149,7 +149,7 @@
             <a href="../MathNet.Numerics/Differentiate.htm">Differentiate</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics/DifferIntegrate.htm">DifferIntegrate</a>
+            <a href="../MathNet.Numerics/DifferIntegrate.htm" class="current">DifferIntegrate</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics/Distance.htm">Distance</a>
@@ -158,7 +158,7 @@
             <a href="../MathNet.Numerics/Euclid.htm">Euclid</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics/Evaluate.htm" class="current">Evaluate</a>
+            <a href="../MathNet.Numerics/Evaluate.htm">Evaluate</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics/ExcelFunctions.htm">ExcelFunctions</a>
@@ -233,19 +233,17 @@
 	</div>
 </div>
     <div class="header">
-		<p class="class"><strong>Type</strong> Evaluate</p>
+		<p class="class"><strong>Type</strong> DifferIntegrate</p>
 		<p><strong>Namespace</strong> MathNet.Numerics</p>
 	</div>
     <div class="sub-header">
-			<div id="summary">Evaluation functions, useful for function approximation. 
-			</div>
 		
 
 			<h3 class="section">Static Functions</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics/Evaluate.htm#Polynomial">Polynomial</a></li>
-				<li><a href="../MathNet.Numerics/Evaluate.htm#Polynomial">Polynomial</a></li>
-				<li><a href="../MathNet.Numerics/Evaluate.htm#Polynomial">Polynomial</a></li>
+				<li><a href="../MathNet.Numerics/DifferIntegrate.htm#DoubleExponential">DoubleExponential</a></li>
+				<li><a href="../MathNet.Numerics/DifferIntegrate.htm#GaussKronrod">GaussKronrod</a></li>
+				<li><a href="../MathNet.Numerics/DifferIntegrate.htm#GaussLegendre">GaussLegendre</a></li>
 			</ul>
 		
 
@@ -256,69 +254,95 @@
 	
 	<h3 class="section">Public Static Functions</h3>
 	
-	<div id="Polynomial" class="method">
-		<h4><span title="System.double">double</span> <strong>Polynomial</strong>(<span title="System.double">double</span> z, <span title="System.Double[]">Double[]</span> coefficients)</h4>
-		<div class="content">Evaluate a polynomial at point x.
-Coefficients are ordered by power with power k at index k.
-Example: coefficients [3,-1,2] represent y=2x^2-x+3. 
-        <div id="warning">
-          <b>Obsolete:</b> Use Polynomial.Evaluate instead. Will be removed in the next major version.
-        </div>
+	<div id="DoubleExponential" class="method">
+		<h4><span title="System.double">double</span> <strong>DoubleExponential</strong>(<span title="System.Func<double, double>">Func&lt;double, double&gt;</span> f, <span title="System.double">double</span> x, <span title="System.double">double</span> order, <span title="System.double">double</span> x0, <span title="System.double">double</span> targetAbsoluteError)</h4>
+		<div class="content">Evaluates the Riemann-Liouville fractional derivative that uses the double exponential integration. <blockquote class="remarks">
+  <p>order = 1.0 : normal derivative </p> <p>order = 0.5 : semi-derivative </p> <p>order = -0.5 : semi-integral </p> <p>order = -1.0 : normal integral </p> 
+</blockquote>
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> z</h6>
-          <p class="comments">The location where to evaluate the polynomial at. </p>
-          <h6><code><span title="System.Double[]">Double[]</span></code> coefficients</h6>
-          <p class="comments">The coefficients of the polynomial, coefficient for power k at index k. </p>
+          <h6><code><span title="System.Func<double, double>">Func&lt;double, double&gt;</span></code> f</h6>
+          <p class="comments">The analytic smooth function to differintegrate. </p>
+          <h6><code><span title="System.double">double</span></code> x</h6>
+          <p class="comments">The evaluation point. </p>
+          <h6><code><span title="System.double">double</span></code> order</h6>
+          <p class="comments">The order of fractional derivative. </p>
+          <h6><code><span title="System.double">double</span></code> x0</h6>
+          <p class="comments">The reference point of integration. </p>
+          <h6><code><span title="System.double">double</span></code> targetAbsoluteError</h6>
+          <p class="comments">The expected relative accuracy of the Double-Exponential integration. </p>
       </div>
 
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Approximation of the differintegral of order n at x. </p>
+      </div>
       
     </div>
 	</div>
-	<div id="Polynomial" class="method">
-		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Polynomial</strong>(<span title="System.Numerics.Complex">Complex</span> z, <span title="System.Double[]">Double[]</span> coefficients)</h4>
-		<div class="content">Evaluate a polynomial at point x.
-Coefficients are ordered by power with power k at index k.
-Example: coefficients [3,-1,2] represent y=2x^2-x+3. 
-        <div id="warning">
-          <b>Obsolete:</b> Use Polynomial.Evaluate instead. Will be removed in the next major version.
-        </div>
+	<div id="GaussKronrod" class="method">
+		<h4><span title="System.double">double</span> <strong>GaussKronrod</strong>(<span title="System.Func<double, double>">Func&lt;double, double&gt;</span> f, <span title="System.double">double</span> x, <span title="System.double">double</span> order, <span title="System.double">double</span> x0, <span title="System.double">double</span> targetRelativeError, <span title="System.int">int</span> gaussKronrodPoints)</h4>
+		<div class="content">Evaluates the Riemann-Liouville fractional derivative that uses the Gauss-Kronrod integration. <blockquote class="remarks">
+  <p>order = 1.0 : normal derivative </p> <p>order = 0.5 : semi-derivative </p> <p>order = -0.5 : semi-integral </p> <p>order = -1.0 : normal integral </p> 
+</blockquote>
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
-          <p class="comments">The location where to evaluate the polynomial at. </p>
-          <h6><code><span title="System.Double[]">Double[]</span></code> coefficients</h6>
-          <p class="comments">The coefficients of the polynomial, coefficient for power k at index k. </p>
+          <h6><code><span title="System.Func<double, double>">Func&lt;double, double&gt;</span></code> f</h6>
+          <p class="comments">The analytic smooth function to differintegrate. </p>
+          <h6><code><span title="System.double">double</span></code> x</h6>
+          <p class="comments">The evaluation point. </p>
+          <h6><code><span title="System.double">double</span></code> order</h6>
+          <p class="comments">The order of fractional derivative. </p>
+          <h6><code><span title="System.double">double</span></code> x0</h6>
+          <p class="comments">The reference point of integration. </p>
+          <h6><code><span title="System.double">double</span></code> targetRelativeError</h6>
+          <p class="comments">The expected relative accuracy of the Gauss-Kronrod integration. </p>
+          <h6><code><span title="System.int">int</span></code> gaussKronrodPoints</h6>
+          <p class="comments">The number of Gauss-Kronrod points. Pre-computed for 15, 21, 31, 41, 51 and 61 points. </p>
       </div>
 
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Approximation of the differintegral of order n at x. </p>
+      </div>
       
     </div>
 	</div>
-	<div id="Polynomial" class="method">
-		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Polynomial</strong>(<span title="System.Numerics.Complex">Complex</span> z, <span title="System.Numerics.Complex[]">Complex[]</span> coefficients)</h4>
-		<div class="content">Evaluate a polynomial at point x.
-Coefficients are ordered by power with power k at index k.
-Example: coefficients [3,-1,2] represent y=2x^2-x+3. 
-        <div id="warning">
-          <b>Obsolete:</b> Use Polynomial.Evaluate instead. Will be removed in the next major version.
-        </div>
+	<div id="GaussLegendre" class="method">
+		<h4><span title="System.double">double</span> <strong>GaussLegendre</strong>(<span title="System.Func<double, double>">Func&lt;double, double&gt;</span> f, <span title="System.double">double</span> x, <span title="System.double">double</span> order, <span title="System.double">double</span> x0, <span title="System.int">int</span> gaussLegendrePoints)</h4>
+		<div class="content">Evaluates the Riemann-Liouville fractional derivative that uses the Gauss-Legendre integration. <blockquote class="remarks">
+  <p>order = 1.0 : normal derivative </p> <p>order = 0.5 : semi-derivative </p> <p>order = -0.5 : semi-integral </p> <p>order = -1.0 : normal integral </p> 
+</blockquote>
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
-          <p class="comments">The location where to evaluate the polynomial at. </p>
-          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> coefficients</h6>
-          <p class="comments">The coefficients of the polynomial, coefficient for power k at index k. </p>
+          <h6><code><span title="System.Func<double, double>">Func&lt;double, double&gt;</span></code> f</h6>
+          <p class="comments">The analytic smooth function to differintegrate. </p>
+          <h6><code><span title="System.double">double</span></code> x</h6>
+          <p class="comments">The evaluation point. </p>
+          <h6><code><span title="System.double">double</span></code> order</h6>
+          <p class="comments">The order of fractional derivative. </p>
+          <h6><code><span title="System.double">double</span></code> x0</h6>
+          <p class="comments">The reference point of integration. </p>
+          <h6><code><span title="System.int">int</span></code> gaussLegendrePoints</h6>
+          <p class="comments">The number of Gauss-Legendre points. </p>
       </div>
 
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Approximation of the differintegral of order n at x. </p>
+      </div>
       
     </div>
 	</div>
