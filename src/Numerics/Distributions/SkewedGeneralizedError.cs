@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2019 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -313,6 +313,43 @@ namespace MathNet.Numerics.Distributions
             return PDFLn(Location, Scale, Skew, P, x);
         }
 
+        public double Sample()
+        {
+            return SampleUnchecked(_random, Location, Scale, Skew, P);
+        }
+
+        public void Samples(double[] values)
+        {
+            SamplesUnchecked(_random, values, Location, Scale, Skew, P);
+        }
+
+        public IEnumerable<double> Samples()
+        {
+            return SamplesUnchecked(_random, Location, Scale, Skew, P);
+        }
+
+        static double SampleUnchecked(System.Random rnd, double location, double scale, double skew, double p)
+        {
+            var u = ContinuousUniform.Sample(rnd, 0, 1);
+            return InvCDF(location, scale, skew, p, u);
+        }
+
+        static void SamplesUnchecked(System.Random rnd, double[] values, double location, double scale, double skew, double p)
+        {
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = SampleUnchecked(rnd, location, scale, skew, p);
+            }
+        }
+
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double location, double scale, double skew, double p)
+        {
+            while (true)
+            {
+                yield return SampleUnchecked(rnd, location, scale, skew, p);
+            }
+        }
+
         /// <summary>
         /// Generates a sample from the Skew Generalized Error distribution.
         /// </summary>
@@ -348,22 +385,37 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            while (true)
-            {
-                yield return SampleUnchecked(rnd, location, scale, skew, p);
-            }
+            return SamplesUnchecked(rnd, location, scale, skew, p);
         }
 
-        public static IEnumerable<double> Samples(double location, double scale, double skew, double p)
+        /// <summary>
+        /// Fills an array with samples from the Skew Generalized Error distribution using inverse transform.
+        /// </summary>
+        /// <param name="rnd">The random number generator to use.</param>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="skew">The skew, 1 > λ > -1</param>
+        /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(System.Random rnd, double[] values, double location, double scale, double skew, double p)
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
                 throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
 
-            return Samples(SystemRandomSource.Default, location, scale, skew, p);
+            SamplesUnchecked(rnd, values, location, scale, skew, p);
         }
 
+        /// <summary>
+        /// Generates a sample from the Skew Generalized Error distribution.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="skew">The skew, 1 > λ > -1</param>
+        /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
+        /// <returns>a sample from the distribution.</returns>
         public static double Sample(double location, double scale, double skew, double p)
         {
             if (!IsValidParameterSet(location, scale, skew, p))
@@ -374,31 +426,41 @@ namespace MathNet.Numerics.Distributions
             return SampleUnchecked(SystemRandomSource.Default, location, scale, skew, p);
         }
 
-        static double SampleUnchecked(System.Random rnd, double location, double scale, double skew, double p)
+        /// <summary>
+        /// Generates a sequence of samples from the Skew Generalized Error distribution using inverse transform.
+        /// </summary>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="skew">The skew, 1 > λ > -1</param>
+        /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static IEnumerable<double> Samples(double location, double scale, double skew, double p)
         {
-            var u = ContinuousUniform.Sample(rnd, 0, 1);
-            return InvCDF(location, scale, skew, p, u);
-        }
-
-        public double Sample()
-        {
-            return SampleUnchecked(SystemRandomSource.Default, Location, Scale, Skew, P);
-        }
-
-        public void Samples(double[] values)
-        {
-            if (values == null)
-                return;
-
-            for (int i = 0; i < values.Length; i++)
+            if (!IsValidParameterSet(location, scale, skew, p))
             {
-                values[i] = Sample();
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
             }
+
+            return SamplesUnchecked(SystemRandomSource.Default, location, scale, skew, p);
         }
 
-        public IEnumerable<double> Samples()
+        /// <summary>
+        /// Fills an array with samples from the Skew Generalized Error distribution using inverse transform.
+        /// </summary>
+        /// <param name="values">The array to fill with the samples.</param>
+        /// <param name="location">The location (μ) of the distribution.</param>
+        /// <param name="scale">The scale (σ) of the distribution. Range: σ > 0.</param>
+        /// <param name="skew">The skew, 1 > λ > -1</param>
+        /// <param name="p">Parameter that controls kurtosis. Range: p > 0</param>
+        /// <returns>a sequence of samples from the distribution.</returns>
+        public static void Samples(double[] values, double location, double scale, double skew, double p)
         {
-            return Samples();
+            if (!IsValidParameterSet(location, scale, skew, p))
+            {
+                throw new ArgumentException(Resources.InvalidDistributionParameters);
+            }
+
+            SamplesUnchecked(SystemRandomSource.Default, values, location, scale, skew, p);
         }
     }
 }
