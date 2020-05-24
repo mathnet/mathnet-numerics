@@ -1,3 +1,8 @@
+### 4.10.0 - 2020-05-24
+* Fractional Calculus: Riemann-Liouville fractional derivative *~Jong Hyun Kim*
+* Root Finding: accuracy range validation *~Ryan Grange*
+* Root Finding: behavior more consistent between native and managed provider
+
 ### 4.9.1 - 2020-04-12
 * BUG: Optimization: weights were applied wrongly when evaluating the Jacobian *~Jong Hyun Kim, zhaochenxi*
 * BUG: Linear Algebra: F# Matrix.reduceRows was reducing columns instead of rows *~kayanme*

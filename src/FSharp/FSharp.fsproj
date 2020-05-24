@@ -7,15 +7,13 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.9.1</VersionPrefix>
+    <VersionPrefix>4.10.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics for F#$(TitleSuffix)</Title>
     <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>BUG: Optimization: weights were applied wrongly when evaluating the Jacobian ~Jong Hyun Kim, zhaochenxi
-BUG: Linear Algebra: F# Matrix.reduceRows was reducing columns instead of rows ~kayanme
-BUG: Distributions: Hypergeometric.CDF no longer returns values &gt; 1.0 ~Manor Askenazi
-Documentation: fix missing logarithms, drop old links ~Michel de Ruiter, Guney Ozsan
-Build: no longer code-sign the assemblies with a code-signing certificate, since it is too painful.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fractional Calculus: Riemann-Liouville fractional derivative ~Jong Hyun Kim
+Root Finding: accuracy range validation ~Ryan Grange
+Root Finding: behavior more consistent between native and managed provider</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
