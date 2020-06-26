@@ -16,6 +16,11 @@ We use the [Fork & Pull Model](https://help.github.com/articles/using-pull-reque
 **C# Solutions, Projects and Files**  
 We have two kind of C# projects: primary (*Numerics.csproj, UnitTests.csproj*) and secondary (*Numerics-xy.csproj, UnitTests-xy.csproj*). The primary ones are the common VisualStudio project files you usually work with. The secondary projects on the other hand are not intended to be modified and include all files automatically. Whenever you need to add, remove or move a file, please do so in the primary projects only. In most cases we recommend to work with the `MathNet.Numerics.sln` solution which only includes primary projects anyway - except when working on and testing portability/compatibility.
 
+If you are not familiar with F#/paket, follow these steps in order to avoid F#-related errors:
+
+- Find `paket.bootstrapper.exe` in your local repository and run it.
+- In the same folder where `paket.bootstrapper.exe` is, find and run `paket.exe install`.
+
 **F# Projects**  
 F# does not support the wildcard approach of the C# projects by design, so whenever you add, remove or move an F# file please manually update all F# projects accordingly, including the secondary platform specific ones in the `MathNet.Numerics.All.sln` solution. This is a bit tedious but we have not found a better solution yet.
 
