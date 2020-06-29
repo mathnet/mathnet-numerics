@@ -60,7 +60,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
             Assert.AreEqual(vector.Count, clone.Count);
             CollectionAssert.AreEqual(vector, clone);
         }
-        
+
         /// <summary>
         /// Can clone a vector using <c>IClonable</c> interface method.
         /// </summary>
@@ -195,7 +195,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Single
         public void SizeIsNotPositiveThrowsArgumentOutOfRangeException()
         {
             Assert.That(() => CreateVector(-1), Throws.TypeOf<ArgumentOutOfRangeException>());
-            Assert.That(() => CreateVector(0), Throws.TypeOf<ArgumentOutOfRangeException>());
         }
 
         /// <summary>

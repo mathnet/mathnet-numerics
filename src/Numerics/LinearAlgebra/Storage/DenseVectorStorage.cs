@@ -115,9 +115,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static DenseVectorStorage<T> OfValue(int length, T value)
         {
-            if (length < 1)
+            if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), string.Format(Resources.ArgumentLessThanOne, length));
+                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
             }
 
             var data = new T[length];
@@ -133,9 +133,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static DenseVectorStorage<T> OfInit(int length, Func<int, T> init)
         {
-            if (length < 1)
+            if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), string.Format(Resources.ArgumentLessThanOne, length));
+                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
             }
 
             var data = new T[length];

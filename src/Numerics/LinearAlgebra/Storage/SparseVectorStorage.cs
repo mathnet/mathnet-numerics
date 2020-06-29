@@ -315,9 +315,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return new SparseVectorStorage<T>(length);
             }
 
-            if (length < 1)
+            if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), string.Format(Resources.ArgumentLessThanOne, length));
+                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
             }
 
             var indices = new int[length];
@@ -338,9 +338,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static SparseVectorStorage<T> OfInit(int length, Func<int, T> init)
         {
-            if (length < 1)
+            if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), string.Format(Resources.ArgumentLessThanOne, length));
+                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
             }
 
             var indices = new List<int>();
