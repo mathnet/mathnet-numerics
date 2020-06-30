@@ -175,28 +175,21 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         /// <param name="x">Input X value.</param>
         /// <param name="pln">Expected value.</param>
         [TestCase(0.0, -1, Double.NegativeInfinity)]
-        [TestCase(0.0, 0, 0.0)]
+        [TestCase(0.0, 0, Double.NegativeInfinity)]
         [TestCase(0.0, 1, Double.NegativeInfinity)]
         [TestCase(0.0, 2, Double.NegativeInfinity)]
         [TestCase(0.3, -1, Double.NegativeInfinity)]
-        [TestCase(0.3, 0, -0.35667494393873244235395440410727451457180907089949815)]
+        [TestCase(0.3, 0, Double.NegativeInfinity)]
         [TestCase(0.3, 1, -1.2039728043259360296301803719337238685164245381839102)]
-        [TestCase(0.3, 2, Double.NegativeInfinity)]
+        [TestCase(0.3, 2, -1.5606477482646686)]
         [TestCase(1.0, -1, Double.NegativeInfinity)]
         [TestCase(1.0, 0, Double.NegativeInfinity)]
-        [TestCase(1.0, 1, 0.0)]
+        [TestCase(1.0, 1, Double.NaN)]
         [TestCase(1.0, 2, Double.NegativeInfinity)]
         public void ValidateProbabilityLn(double p, int x, double pln)
         {
             var d = new Geometric(p);
-            if (x > 0)
-            {
-                Assert.AreEqual(((x - 1) * Math.Log(1.0 - p)) + Math.Log(p), d.ProbabilityLn(x));
-            }
-            else
-            {
-                Assert.AreEqual(Double.NegativeInfinity, d.ProbabilityLn(x));
-            }
+            Assert.AreEqual(pln, d.ProbabilityLn(x));
         }
 
         /// <summary>
