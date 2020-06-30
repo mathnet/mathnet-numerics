@@ -111,6 +111,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new TruncatedPareto(1d, 2d, 100d);
             Assert.AreEqual("Truncated Pareto(Scale = 1, Shape = 2, Truncation = 100)", n.ToString());
         }

@@ -73,6 +73,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new Zipf(1.0, 5);
             Assert.AreEqual("Zipf(S = 1, N = 5)", d.ToString());
         }

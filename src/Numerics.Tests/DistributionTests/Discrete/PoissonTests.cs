@@ -71,6 +71,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new Poisson(0.3);
             Assert.AreEqual(String.Format("Poisson(λ = {0})", 0.3), d.ToString());
         }

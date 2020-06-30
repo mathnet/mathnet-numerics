@@ -136,6 +136,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var b = new Multinomial(_smallP, 4);
             Assert.AreEqual("Multinomial(Dimension = 3, Number of Trails = 4)", b.ToString());
         }

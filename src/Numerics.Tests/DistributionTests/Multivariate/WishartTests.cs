@@ -131,6 +131,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new Wishart(1.0, Matrix<double>.Build.RandomPositiveDefinite(2, 1));
             Assert.AreEqual("Wishart(DegreesOfFreedom = 1, Rows = 2, Columns = 2)", d.ToString());
         }

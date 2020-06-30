@@ -71,6 +71,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var b = new Bernoulli(0.3);
             Assert.AreEqual("Bernoulli(p = 0.3)", b.ToString());
         }

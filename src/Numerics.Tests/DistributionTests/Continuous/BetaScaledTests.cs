@@ -85,6 +85,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new BetaScaled(1d, 2d, 0.0, 1.0);
             Assert.AreEqual("BetaScaled(α = 1, β = 2, μ = 0, σ = 1)", n.ToString());
         }

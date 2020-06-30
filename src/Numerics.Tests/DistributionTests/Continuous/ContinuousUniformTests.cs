@@ -92,6 +92,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new ContinuousUniform(1.0, 2.0);
             Assert.AreEqual("ContinuousUniform(Lower = 1, Upper = 2)", n.ToString());
         }

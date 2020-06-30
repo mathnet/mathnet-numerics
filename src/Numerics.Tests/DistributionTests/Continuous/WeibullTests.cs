@@ -83,6 +83,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new Weibull(1d, 2d);
             Assert.AreEqual("Weibull(k = 1, λ = 2)", n.ToString());
         }

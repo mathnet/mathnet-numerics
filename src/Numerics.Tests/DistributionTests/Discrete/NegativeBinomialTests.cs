@@ -79,6 +79,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new NegativeBinomial(1.0, 0.3);
             Assert.AreEqual(String.Format("NegativeBinomial(R = {0}, P = {1})", d.R, d.P), d.ToString());
         }
