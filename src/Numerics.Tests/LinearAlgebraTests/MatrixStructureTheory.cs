@@ -141,7 +141,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(clone.RowCount, Is.EqualTo(matrix.RowCount));
             Assert.That(clone.ColumnCount, Is.EqualTo(matrix.ColumnCount));
         }
-        
+
         [Theory]
         public void CanCloneUsingICloneable(TestMatrix testMatrix)
         {
@@ -415,8 +415,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(empty, Is.EqualTo(Matrix<T>.Build.Dense(5, 6)));
             Assert.That(empty.Storage.IsDense, Is.EqualTo(matrix.Storage.IsDense));
 
-            Assert.That(() => Matrix<T>.Build.SameAs(matrix, 0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => Matrix<T>.Build.SameAs(matrix, 2, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Matrix<T>.Build.SameAs(matrix, -1, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => Matrix<T>.Build.SameAs(matrix, 2, -1), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => Matrix<T>.Build.SameAs(matrix, -1, -1), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 

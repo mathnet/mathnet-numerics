@@ -126,7 +126,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => matrix.Row(-1, 0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.Row(matrix.RowCount, 0, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.Row(0, -1, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.Row(0, 1, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.Row(0, 0, matrix.ColumnCount + 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
@@ -226,7 +225,6 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => matrix.Column(-1, 0, 2), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.Column(matrix.ColumnCount, 0, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.Column(0, -1, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.Column(0, 1, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.Column(0, 0, matrix.RowCount + 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
@@ -667,10 +665,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             // Invalid
             Assert.That(() => matrix.SubMatrix(-1, 1, 0, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.SubMatrix(matrix.RowCount, 1, 0, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.SubMatrix(0, 0, 0, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.SubMatrix(0, 1, -1, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => matrix.SubMatrix(0, 1, matrix.ColumnCount, 1), Throws.InstanceOf<ArgumentOutOfRangeException>());
-            Assert.That(() => matrix.SubMatrix(0, 1, 0, 0), Throws.InstanceOf<ArgumentOutOfRangeException>());
         }
 
         [Theory]
