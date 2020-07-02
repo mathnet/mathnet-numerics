@@ -15,6 +15,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Test]
         public void MinimumLimits()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
             Assert.That(v1.ToVectorString(3, 16, "G6"), Is.EqualTo("3.14159" + NL));
             Assert.That(v2.ToVectorString(3, 16, "G6"), Is.EqualTo("3.14159" + NL + "6.28319" + NL));
             Assert.That(v100.ToVectorString(3, 16, "G6"), Is.EqualTo("3.14159" + NL + "     .." + NL + "314.159" + NL));
@@ -23,6 +25,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         [Test]
         public void GitHubIssue387()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
             Vector<double> v = Vector<double>.Build.DenseOfArray(new[]
                 {
                     0.607142857142857,
