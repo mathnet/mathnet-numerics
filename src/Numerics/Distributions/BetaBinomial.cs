@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2014 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -141,17 +141,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the distribution.
         /// </summary>
-        double IUnivariateDistribution.Mean => (_n * _a) / (_a + _b);
+        public double Mean => (_n * _a) / (_a + _b);
 
         /// <summary>
         /// Gets the variance of the distribution.
         /// </summary>
-        double IUnivariateDistribution.Variance => (_n*_a*_b*(_a+_b+_n))/(Math.Pow((_a+_b),2) * (_a+_b+1));
+        public double Variance => (_n*_a*_b*(_a+_b+_n))/(Math.Pow((_a+_b),2) * (_a+_b+1));
 
         /// <summary>
         /// Gets the standard deviation of the distribution.
         /// </summary>
-        double IUnivariateDistribution.StdDev => Math.Sqrt((_n * _a * _b * (_a + _b + _n)) / (Math.Pow((_a + _b), 2) * (_a + _b + 1)));
+        public double StdDev => Math.Sqrt((_n * _a * _b * (_a + _b + _n)) / (Math.Pow((_a + _b), 2) * (_a + _b + 1)));
 
         /// <summary>
         /// Gets the entropy of the distribution.
@@ -161,14 +161,14 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the skewness of the distribution.
         /// </summary>
-        double IUnivariateDistribution.Skewness =>
+        public double Skewness =>
             (_a + _b + 2 * _n) * (_b - _a) / (_a + _b + 2) * Math.Sqrt((1 + _a + _b) / (_n * _a * _b * (_n + _a + _b)));
 
         /// <summary>
         /// Gets the mode of the distribution
         /// </summary>
         int IDiscreteDistribution.Mode => throw new NotSupportedException();
- 
+
         /// <summary>
         /// Gets the median of the distribution.
         /// </summary>
@@ -235,7 +235,7 @@ namespace MathNet.Numerics.Distributions
             }
             else
             {
-            return Math.Exp(PMFLn(n, a, b, k));
+                return Math.Exp(PMFLn(n, a, b, k));
             }
         }
 
@@ -330,7 +330,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Fills an array with samples generated from the distribution.
         /// </summary>
-       public void Samples(int[] values)
+        public void Samples(int[] values)
         {
             SamplesUnchecked(_random, values, _n, _a, _b);
         }

@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2010 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -38,16 +38,13 @@ namespace MathNet.Numerics
 {
     public static partial class SpecialFunctions
     {
-
         //Rising and falling factorials - reference here:
         //https://en.wikipedia.org/wiki/Falling_and_rising_factorials
-
 
         /// <summary>
         /// Computes the Rising Factorial (Pochhammer function)  x -> (x)n, n>= 0. see: https://en.wikipedia.org/wiki/Falling_and_rising_factorials
         /// </summary>
         /// <returns>The real value of the Rising Factorial for x and n</returns>
-
         public static double RisingFactorial(double x, int n)
         {
                 double accumulator = 1.0;
@@ -73,7 +70,6 @@ namespace MathNet.Numerics
                 }
                 return accumulator;
         }
-        //
 
         /// <summary>
         /// A generalized hypergeometric series is a power series in which the ratio of successive coefficients indexed by n is a rational function of n.
@@ -137,7 +133,7 @@ namespace MathNet.Numerics
             }
             else
             {
-            return incrementAs / incrementBs * Math.Pow(z, currentN) / Factorial(currentN);
+                return incrementAs / incrementBs * Math.Pow(z, currentN) / Factorial(currentN);
             }
         }
 
