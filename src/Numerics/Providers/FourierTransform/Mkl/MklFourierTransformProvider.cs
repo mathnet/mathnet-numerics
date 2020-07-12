@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             int revision = MklProvider.Load(hintPath: _hintPath);
             if (revision < MinimumCompatibleRevision)
             {
-                throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported.");
+                throw new NotSupportedException(FormattableString.Invariant($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported."));
             }
 
             // we only support exactly one major version, since major version changes imply a breaking change.
@@ -82,7 +82,7 @@ namespace MathNet.Numerics.Providers.FourierTransform.Mkl
             int fftMinor = SafeNativeMethods.query_capability((int) ProviderCapability.FourierTransformMinor);
             if (!(fftMajor == 1 && fftMinor >= 0))
             {
-                throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting Fourier transform v1 but provider implements v{0}.", fftMajor));
+                throw new NotSupportedException(FormattableString.Invariant($"MKL Native Provider not compatible. Expecting Fourier transform v1 but provider implements v{fftMajor}."));
             }
         }
 

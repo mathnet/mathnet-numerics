@@ -47,8 +47,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The minimum value in the sample data.</returns>
         public static double Minimum(this IEnumerable<double> data)
         {
-            var array = data as double[];
-            return array != null
+            return data is double[] array
                 ? ArrayStatistics.Minimum(array)
                 : StreamingStatistics.Minimum(data);
         }
@@ -61,8 +60,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The minimum value in the sample data.</returns>
         public static float Minimum(this IEnumerable<float> data)
         {
-            var array = data as float[];
-            return array != null
+            return data is float[] array
                 ? ArrayStatistics.Minimum(array)
                 : StreamingStatistics.Minimum(data);
         }
@@ -88,8 +86,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The maximum value in the sample data.</returns>
         public static double Maximum(this IEnumerable<double> data)
         {
-            var array = data as double[];
-            return array != null
+            return data is double[] array
                 ? ArrayStatistics.Maximum(array)
                 : StreamingStatistics.Maximum(data);
         }
@@ -102,8 +99,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The maximum value in the sample data.</returns>
         public static float Maximum(this IEnumerable<float> data)
         {
-            var array = data as float[];
-            return array != null
+            return data is float[] array
                 ? ArrayStatistics.Maximum(array)
                 : StreamingStatistics.Maximum(data);
         }
@@ -128,8 +124,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The minimum value in the sample data.</returns>
         public static double MinimumAbsolute(this IEnumerable<double> data)
         {
-            var array = data as double[];
-            return array != null
+            return data is double[] array
                 ? ArrayStatistics.MinimumAbsolute(array)
                 : StreamingStatistics.MinimumAbsolute(data);
         }
@@ -142,8 +137,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The minimum value in the sample data.</returns>
         public static float MinimumAbsolute(this IEnumerable<float> data)
         {
-            var array = data as float[];
-            return array != null
+            return data is float[] array
                 ? ArrayStatistics.MinimumAbsolute(array)
                 : StreamingStatistics.MinimumAbsolute(data);
         }
@@ -156,8 +150,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The maximum value in the sample data.</returns>
         public static double MaximumAbsolute(this IEnumerable<double> data)
         {
-            var array = data as double[];
-            return array != null
+            return data is double[] array
                 ? ArrayStatistics.MaximumAbsolute(array)
                 : StreamingStatistics.MaximumAbsolute(data);
         }
@@ -170,8 +163,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The maximum value in the sample data.</returns>
         public static float MaximumAbsolute(this IEnumerable<float> data)
         {
-            var array = data as float[];
-            return array != null
+            return data is float[] array
                 ? ArrayStatistics.MaximumAbsolute(array)
                 : StreamingStatistics.MaximumAbsolute(data);
         }
@@ -184,8 +176,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The minimum value in the sample data.</returns>
         public static Complex MinimumMagnitudePhase(this IEnumerable<Complex> data)
         {
-            var array = data as Complex[];
-            return array != null
+            return data is Complex[] array
                 ? ArrayStatistics.MinimumMagnitudePhase(array)
                 : StreamingStatistics.MinimumMagnitudePhase(data);
         }
@@ -198,8 +189,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The minimum value in the sample data.</returns>
         public static Complex32 MinimumMagnitudePhase(this IEnumerable<Complex32> data)
         {
-            var array = data as Complex32[];
-            return array != null
+            return data is Complex32[] array
                 ? ArrayStatistics.MinimumMagnitudePhase(array)
                 : StreamingStatistics.MinimumMagnitudePhase(data);
         }
@@ -212,8 +202,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The minimum value in the sample data.</returns>
         public static Complex MaximumMagnitudePhase(this IEnumerable<Complex> data)
         {
-            var array = data as Complex[];
-            return array != null
+            return data is Complex[] array
                 ? ArrayStatistics.MaximumMagnitudePhase(array)
                 : StreamingStatistics.MaximumMagnitudePhase(data);
         }
@@ -226,8 +215,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The minimum value in the sample data.</returns>
         public static Complex32 MaximumMagnitudePhase(this IEnumerable<Complex32> data)
         {
-            var array = data as Complex32[];
-            return array != null
+            return data is Complex32[] array
                 ? ArrayStatistics.MaximumMagnitudePhase(array)
                 : StreamingStatistics.MaximumMagnitudePhase(data);
         }
@@ -240,8 +228,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The mean of the sample.</returns>
         public static double Mean(this IEnumerable<double> data)
         {
-            var array = data as double[];
-            return array != null
+            return data is double[] array
                 ? ArrayStatistics.Mean(array)
                 : StreamingStatistics.Mean(data);
         }
@@ -254,8 +241,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The mean of the sample.</returns>
         public static double Mean(this IEnumerable<float> data)
         {
-            var array = data as float[];
-            return array != null
+            return data is float[] array
                 ? ArrayStatistics.Mean(array)
                 : StreamingStatistics.Mean(data);
         }
@@ -280,8 +266,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The geometric mean of the sample.</returns>
         public static double GeometricMean(this IEnumerable<double> data)
         {
-            var array = data as double[];
-            return array != null
+            return data is double[] array
                 ? ArrayStatistics.GeometricMean(array)
                 : StreamingStatistics.GeometricMean(data);
         }
@@ -294,8 +279,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The geometric mean of the sample.</returns>
         public static double GeometricMean(this IEnumerable<float> data)
         {
-            var array = data as float[];
-            return array != null
+            return data is float[] array
                 ? ArrayStatistics.GeometricMean(array)
                 : StreamingStatistics.GeometricMean(data);
         }
@@ -308,8 +292,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The harmonic mean of the sample.</returns>
         public static double HarmonicMean(this IEnumerable<double> data)
         {
-            var array = data as double[];
-            return array != null
+            return data is double[] array
                 ? ArrayStatistics.HarmonicMean(array)
                 : StreamingStatistics.HarmonicMean(data);
         }
@@ -322,8 +305,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The harmonic mean of the sample.</returns>
         public static double HarmonicMean(this IEnumerable<float> data)
         {
-            var array = data as float[];
-            return array != null
+            return data is float[] array
                 ? ArrayStatistics.HarmonicMean(array)
                 : StreamingStatistics.HarmonicMean(data);
         }
@@ -336,8 +318,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
         public static double Variance(this IEnumerable<double> samples)
         {
-            var array = samples as double[];
-            return array != null
+            return samples is double[] array
                 ? ArrayStatistics.Variance(array)
                 : StreamingStatistics.Variance(samples);
         }
@@ -350,8 +331,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
         public static double Variance(this IEnumerable<float> samples)
         {
-            var array = samples as float[];
-            return array != null
+            return samples is float[] array
                 ? ArrayStatistics.Variance(array)
                 : StreamingStatistics.Variance(samples);
         }
@@ -376,8 +356,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population">The full population data.</param>
         public static double PopulationVariance(this IEnumerable<double> population)
         {
-            var array = population as double[];
-            return array != null
+            return population is double[] array
                 ? ArrayStatistics.PopulationVariance(array)
                 : StreamingStatistics.PopulationVariance(population);
         }
@@ -390,8 +369,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population">The full population data.</param>
         public static double PopulationVariance(this IEnumerable<float> population)
         {
-            var array = population as float[];
-            return array != null
+            return population is float[] array
                 ? ArrayStatistics.PopulationVariance(array)
                 : StreamingStatistics.PopulationVariance(population);
         }
@@ -416,8 +394,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
         public static double StandardDeviation(this IEnumerable<double> samples)
         {
-            var array = samples as double[];
-            return array != null
+            return samples is double[] array
                 ? ArrayStatistics.StandardDeviation(array)
                 : StreamingStatistics.StandardDeviation(samples);
         }
@@ -430,8 +407,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
         public static double StandardDeviation(this IEnumerable<float> samples)
         {
-            var array = samples as float[];
-            return array != null
+            return samples is float[] array
                 ? ArrayStatistics.StandardDeviation(array)
                 : StreamingStatistics.StandardDeviation(samples);
         }
@@ -456,8 +432,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population">The full population data.</param>
         public static double PopulationStandardDeviation(this IEnumerable<double> population)
         {
-            var array = population as double[];
-            return array != null
+            return population is double[] array
                 ? ArrayStatistics.PopulationStandardDeviation(array)
                 : StreamingStatistics.PopulationStandardDeviation(population);
         }
@@ -470,8 +445,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population">The full population data.</param>
         public static double PopulationStandardDeviation(this IEnumerable<float> population)
         {
-            var array = population as float[];
-            return array != null
+            return population is float[] array
                 ? ArrayStatistics.PopulationStandardDeviation(array)
                 : StreamingStatistics.PopulationStandardDeviation(population);
         }
@@ -589,8 +563,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The mean of the sample.</returns>
         public static Tuple<double, double> MeanVariance(this IEnumerable<double> samples)
         {
-            var array = samples as double[];
-            return array != null
+            return samples is double[] array
                 ? ArrayStatistics.MeanVariance(array)
                 : StreamingStatistics.MeanVariance(samples);
         }
@@ -604,8 +577,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The mean of the sample.</returns>
         public static Tuple<double, double> MeanVariance(this IEnumerable<float> samples)
         {
-            var array = samples as float[];
-            return array != null
+            return samples is float[] array
                 ? ArrayStatistics.MeanVariance(array)
                 : StreamingStatistics.MeanVariance(samples);
         }
@@ -619,8 +591,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The mean of the sample.</returns>
         public static Tuple<double, double> MeanStandardDeviation(this IEnumerable<double> samples)
         {
-            var array = samples as double[];
-            return array != null
+            return samples is double[] array
                 ? ArrayStatistics.MeanStandardDeviation(array)
                 : StreamingStatistics.MeanStandardDeviation(samples);
         }
@@ -634,8 +605,7 @@ namespace MathNet.Numerics.Statistics
         /// <returns>The mean of the sample.</returns>
         public static Tuple<double, double> MeanStandardDeviation(this IEnumerable<float> samples)
         {
-            var array = samples as float[];
-            return array != null
+            return samples is float[] array
                 ? ArrayStatistics.MeanStandardDeviation(array)
                 : StreamingStatistics.MeanStandardDeviation(samples);
         }
@@ -671,9 +641,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples2">A subset of samples, sampled from the full population.</param>
         public static double Covariance(this IEnumerable<double> samples1, IEnumerable<double> samples2)
         {
-            var array1 = samples1 as double[];
-            var array2 = samples2 as double[];
-            return array1 != null && array2 != null
+            return samples1 is double[] array1 && samples2 is double[] array2
                 ? ArrayStatistics.Covariance(array1, array2)
                 : StreamingStatistics.Covariance(samples1, samples2);
         }
@@ -687,9 +655,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="samples2">A subset of samples, sampled from the full population.</param>
         public static double Covariance(this IEnumerable<float> samples1, IEnumerable<float> samples2)
         {
-            var array1 = samples1 as float[];
-            var array2 = samples2 as float[];
-            return array1 != null && array2 != null
+            return samples1 is float[] array1 && samples2 is float[] array2
                 ? ArrayStatistics.Covariance(array1, array2)
                 : StreamingStatistics.Covariance(samples1, samples2);
         }
@@ -716,9 +682,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population2">The full population data.</param>
         public static double PopulationCovariance(this IEnumerable<double> population1, IEnumerable<double> population2)
         {
-            var array1 = population1 as double[];
-            var array2 = population2 as double[];
-            return array1 != null && array2 != null
+            return population1 is double[] array1 && population2 is double[] array2
                 ? ArrayStatistics.PopulationCovariance(array1, array2)
                 : StreamingStatistics.PopulationCovariance(population1, population2);
         }
@@ -732,9 +696,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="population2">The full population data.</param>
         public static double PopulationCovariance(this IEnumerable<float> population1, IEnumerable<float> population2)
         {
-            var array1 = population1 as float[];
-            var array2 = population2 as float[];
-            return array1 != null && array2 != null
+            return population1 is float[] array1 && population2 is float[] array2
                 ? ArrayStatistics.PopulationCovariance(array1, array2)
                 : StreamingStatistics.PopulationCovariance(population1, population2);
         }
@@ -759,8 +721,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data to calculate the RMS of.</param>
         public static double RootMeanSquare(this IEnumerable<double> data)
         {
-            var array = data as double[];
-            return array != null
+            return data is double[] array
                 ? ArrayStatistics.RootMeanSquare(array)
                 : StreamingStatistics.RootMeanSquare(data);
         }
@@ -772,8 +733,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="data">The data to calculate the RMS of.</param>
         public static double RootMeanSquare(this IEnumerable<float> data)
         {
-            var array = data as float[];
-            return array != null
+            return data is float[] array
                 ? ArrayStatistics.RootMeanSquare(array)
                 : StreamingStatistics.RootMeanSquare(data);
         }

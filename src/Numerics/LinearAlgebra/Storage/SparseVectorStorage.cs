@@ -73,10 +73,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <summary>
         /// True if the vector storage format is dense.
         /// </summary>
-        public override bool IsDense
-        {
-            get { return false; }
-        }
+        public override bool IsDense => false;
 
         /// <summary>
         /// Retrieves the requested element without range checking.
@@ -425,8 +422,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void CopyToUnchecked(VectorStorage<T> target, ExistingData existingData)
         {
-            var sparseTarget = target as SparseVectorStorage<T>;
-            if (sparseTarget != null)
+            if (target is SparseVectorStorage<T> sparseTarget)
             {
                 CopyToUnchecked(sparseTarget);
                 return;
@@ -517,8 +513,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void CopySubVectorToUnchecked(VectorStorage<T> target,
             int sourceIndex, int targetIndex, int count, ExistingData existingData)
         {
-            var sparseTarget = target as SparseVectorStorage<T>;
-            if (sparseTarget != null)
+            if (target is SparseVectorStorage<T> sparseTarget)
             {
                 CopySubVectorToUnchecked(sparseTarget, sourceIndex, targetIndex, count, existingData);
                 return;
@@ -689,8 +684,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override Tuple<int, T, TOther> Find2Unchecked<TOther>(VectorStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
         {
-            var denseOther = other as DenseVectorStorage<TOther>;
-            if (denseOther != null)
+            if (other is DenseVectorStorage<TOther> denseOther)
             {
                 TOther[] otherData = denseOther.Data;
                 int k = 0;
@@ -715,8 +709,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return null;
             }
 
-            var sparseOther = other as SparseVectorStorage<TOther>;
-            if (sparseOther != null)
+            if (other is SparseVectorStorage<TOther> sparseOther)
             {
                 int[] otherIndices = sparseOther.Indices;
                 TOther[] otherValues = sparseOther.Values;
@@ -846,8 +839,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void MapToUnchecked<TU>(VectorStorage<TU> target, Func<T, TU> f, Zeros zeros, ExistingData existingData)
         {
-            var sparseTarget = target as SparseVectorStorage<TU>;
-            if (sparseTarget != null)
+            if (target is SparseVectorStorage<TU> sparseTarget)
             {
                 var indices = new List<int>();
                 var values = new List<TU>();
@@ -882,8 +874,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            var denseTarget = target as DenseVectorStorage<TU>;
-            if (denseTarget != null)
+            if (target is DenseVectorStorage<TU> denseTarget)
             {
                 if (existingData == ExistingData.Clear)
                 {
@@ -920,8 +911,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void MapIndexedToUnchecked<TU>(VectorStorage<TU> target, Func<int, T, TU> f, Zeros zeros, ExistingData existingData)
         {
-            var sparseTarget = target as SparseVectorStorage<TU>;
-            if (sparseTarget != null)
+            if (target is SparseVectorStorage<TU> sparseTarget)
             {
                 var indices = new List<int>();
                 var values = new List<TU>();
@@ -956,8 +946,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            var denseTarget = target as DenseVectorStorage<TU>;
-            if (denseTarget != null)
+            if (target is DenseVectorStorage<TU> denseTarget)
             {
                 if (existingData == ExistingData.Clear)
                 {
@@ -1083,8 +1072,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            var sparseTarget = target as SparseVectorStorage<T>;
-            if (sparseOther != null && sparseTarget != null)
+            if (sparseOther != null && target is SparseVectorStorage<T> sparseTarget)
             {
                 var indices = new List<int>();
                 var values = new List<T>();
@@ -1146,8 +1134,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override TState Fold2Unchecked<TOther, TState>(VectorStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
         {
-            var sparseOther = other as SparseVectorStorage<TOther>;
-            if (sparseOther != null)
+            if (other is SparseVectorStorage<TOther> sparseOther)
             {
                 int[] otherIndices = sparseOther.Indices;
                 TOther[] otherValues = sparseOther.Values;
@@ -1192,8 +1179,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return state;
             }
 
-            var denseOther = other as DenseVectorStorage<TOther>;
-            if (denseOther != null)
+            if (other is DenseVectorStorage<TOther> denseOther)
             {
                 TOther[] otherData = denseOther.Data;
 

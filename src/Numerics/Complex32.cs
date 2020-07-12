@@ -145,7 +145,7 @@ namespace MathNet.Numerics
         public float Real
         {
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-            get { return _real; }
+            get => _real;
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace MathNet.Numerics
         public float Imaginary
         {
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-            get { return _imag; }
+            get => _imag;
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace MathNet.Numerics
         {
             // NOTE: the special case for negative real numbers fixes negative-zero value behavior. Do not remove.
             [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-            get { return _imag == 0f && _real < 0f ? (float)Constants.Pi : (float)Math.Atan2(_imag, _real); }
+            get => _imag == 0f && _real < 0f ? (float)Constants.Pi : (float)Math.Atan2(_imag, _real);
         }
 
         /// <summary>
@@ -212,10 +212,7 @@ namespace MathNet.Numerics
         /// Gets the squared magnitude (or squared absolute value) of a complex number.
         /// </summary>
         /// <returns>The squared magnitude of the current instance.</returns>
-        public float MagnitudeSquared
-        {
-            get { return (_real * _real) + (_imag * _imag); }
-        }
+        public float MagnitudeSquared => _real * _real + _imag * _imag;
 
         /// <summary>
         /// Gets the unity of this complex (same argument, but on the unit circle; exp(I*arg))

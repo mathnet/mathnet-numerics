@@ -95,7 +95,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             int revision = MklProvider.Load(_hintPath, _consistency, _precision, _accuracy);
             if (revision < MinimumCompatibleRevision)
             {
-                throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported.");
+                throw new NotSupportedException(FormattableString.Invariant($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported."));
             }
 
             _linearAlgebraMajor = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
@@ -106,7 +106,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
             // we only support exactly one major version, since major version changes imply a breaking change.
             if (_linearAlgebraMajor != 2)
             {
-                throw new NotSupportedException(string.Format("MKL Native Provider not compatible. Expecting linear algebra v2 but provider implements v{0}.", _linearAlgebraMajor));
+                throw new NotSupportedException(FormattableString.Invariant($"MKL Native Provider not compatible. Expecting linear algebra v2 but provider implements v{_linearAlgebraMajor}."));
             }
         }
 

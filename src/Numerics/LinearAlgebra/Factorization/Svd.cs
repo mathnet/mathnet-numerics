@@ -88,26 +88,23 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets the singular values (Σ) of matrix in ascending value.
         /// </summary>
-        public Vector<T> S { get; private set; }
+        public Vector<T> S { get; }
 
         /// <summary>
         /// Gets the left singular vectors (U - m-by-m unitary matrix)
         /// </summary>
-        public Matrix<T> U { get; private set; }
+        public Matrix<T> U { get; }
 
         /// <summary>
         /// Gets the transpose right singular vectors (transpose of V, an n-by-n unitary matrix)
         /// </summary>
-        public Matrix<T> VT { get; private set; }
+        public Matrix<T> VT { get; }
 
         /// <summary>
         /// Returns the singular values as a diagonal <see cref="Matrix{T}"/>.
         /// </summary>
         /// <returns>The singular values as a diagonal <see cref="Matrix{T}"/>.</returns>
-        public Matrix<T> W
-        {
-            get { return _lazyW.Value; }
-        }
+        public Matrix<T> W => _lazyW.Value;
 
         /// <summary>
         /// Gets the effective numerical matrix rank.

@@ -85,10 +85,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         /// <summary>
         /// Gets the current calculation status.
         /// </summary>
-        public IterationStatus Status
-        {
-            get { return _status; }
-        }
+        public IterationStatus Status => _status;
 
         /// <summary>
         /// Determines the status of the iterative calculation based on the stop criteria stored

@@ -80,15 +80,12 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets orthogonal Q matrix
         /// </summary>
-        public Matrix<T> Q { get; private set; }
+        public Matrix<T> Q { get; }
 
         /// <summary>
         /// Gets the upper triangular factor R.
         /// </summary>
-        public Matrix<T> R
-        {
-            get { return _lazyR.Value; }
-        }
+        public Matrix<T> R => _lazyR.Value;
 
         /// <summary>
         /// Gets the absolute determinant value of the matrix for which the QR matrix was computed.

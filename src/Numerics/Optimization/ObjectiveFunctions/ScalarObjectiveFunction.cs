@@ -63,17 +63,17 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             return _secondDerivative.Value;
         }
 
-        public double Point { get { return _point; } }
-        public double Value { get { return _value ?? SetValue(); } }
-        public double Derivative { get { return _derivative ?? SetDerivative(); } }
-        public double SecondDerivative { get { return _secondDerivative ?? SetSecondDerivative(); } }
+        public double Point => _point;
+        public double Value => _value ?? SetValue();
+        public double Derivative => _derivative ?? SetDerivative();
+        public double SecondDerivative => _secondDerivative ?? SetSecondDerivative();
     }
 
     internal class ScalarObjectiveFunction : IScalarObjectiveFunction
     {
-        public Func<double, double> Objective { get; private set; }
-        public Func<double, double> Derivative { get; private set; }
-        public Func<double, double> SecondDerivative { get; private set; }
+        public Func<double, double> Objective { get; }
+        public Func<double, double> Derivative { get; }
+        public Func<double, double> SecondDerivative { get; }
 
         public ScalarObjectiveFunction(Func<double, double> objective)
         {
@@ -96,15 +96,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             SecondDerivative = secondDerivative;
         }
 
-        public bool IsDerivativeSupported
-        {
-            get { return Derivative != null; }
-        }
+        public bool IsDerivativeSupported => Derivative != null;
 
-        public bool IsSecondDerivativeSupported
-        {
-            get { return SecondDerivative != null; }
-        }
+        public bool IsSecondDerivativeSupported => SecondDerivative != null;
 
         public IScalarObjectiveFunctionEvaluation Evaluate(double point)
         {

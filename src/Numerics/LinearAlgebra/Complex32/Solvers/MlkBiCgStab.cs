@@ -87,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         public int NumberOfStartingVectors
         {
             [DebuggerStepThrough]
-            get { return _numberOfStartingVectors; }
+            get => _numberOfStartingVectors;
 
             [DebuggerStepThrough]
             set
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         public IList<Vector<Numerics.Complex32>> StartingVectors
         {
             [DebuggerStepThrough]
-            get { return _startingVectors; }
+            get => _startingVectors;
 
             [DebuggerStepThrough]
             set

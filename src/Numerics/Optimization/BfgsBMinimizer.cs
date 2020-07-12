@@ -157,7 +157,7 @@ namespace MathNet.Numerics.Optimization
             int iterations = DoBfgsUpdate(ref currentExitCondition, lineSearcher, ref pseudoHessian, ref lineSearchDirection, ref previousPoint, ref lineSearchResult, ref candidatePoint, ref step, ref totalLineSearchSteps, ref iterationsWithNontrivialLineSearch);
 
             if (iterations == MaximumIterations && currentExitCondition == ExitCondition.None)
-                throw new MaximumIterationsException(string.Format("Maximum iterations ({0}) reached.", MaximumIterations));
+                throw new MaximumIterationsException(FormattableString.Invariant($"Maximum iterations ({MaximumIterations}) reached."));
 
             return new MinimizationWithLineSearchResult(candidatePoint, iterations, currentExitCondition, totalLineSearchSteps, iterationsWithNontrivialLineSearch);
         }

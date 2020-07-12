@@ -39,15 +39,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 {
     internal class MatrixBuilder : MatrixBuilder<double>
     {
-        public override double Zero
-        {
-            get { return 0d; }
-        }
+        public override double Zero => 0d;
 
-        public override double One
-        {
-            get { return 1d; }
-        }
+        public override double One => 1d;
 
         public override Matrix<double> Dense(DenseColumnMajorMatrixStorage<double> storage)
         {
@@ -83,15 +77,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
     internal class VectorBuilder : VectorBuilder<double>
     {
-        public override double Zero
-        {
-            get { return 0d; }
-        }
+        public override double Zero => 0d;
 
-        public override double One
-        {
-            get { return 1d; }
-        }
+        public override double One => 1d;
 
         public override Vector<double> Dense(DenseVectorStorage<double> storage)
         {
@@ -114,15 +102,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 {
     internal class MatrixBuilder : MatrixBuilder<float>
     {
-        public override float Zero
-        {
-            get { return 0f; }
-        }
+        public override float Zero => 0f;
 
-        public override float One
-        {
-            get { return 1f; }
-        }
+        public override float One => 1f;
 
         public override Matrix<float> Dense(DenseColumnMajorMatrixStorage<float> storage)
         {
@@ -158,15 +140,9 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
     internal class VectorBuilder : VectorBuilder<float>
     {
-        public override float Zero
-        {
-            get { return 0f; }
-        }
+        public override float Zero => 0f;
 
-        public override float One
-        {
-            get { return 1f; }
-        }
+        public override float One => 1f;
 
         public override Vector<float> Dense(DenseVectorStorage<float> storage)
         {
@@ -191,15 +167,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
     internal class MatrixBuilder : MatrixBuilder<Complex>
     {
-        public override Complex Zero
-        {
-            get { return Complex.Zero; }
-        }
+        public override Complex Zero => Complex.Zero;
 
-        public override Complex One
-        {
-            get { return Complex.One; }
-        }
+        public override Complex One => Complex.One;
 
         public override Matrix<Complex> Dense(DenseColumnMajorMatrixStorage<Complex> storage)
         {
@@ -235,15 +205,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
     internal class VectorBuilder : VectorBuilder<Complex>
     {
-        public override Complex Zero
-        {
-            get { return Complex.Zero; }
-        }
+        public override Complex Zero => Complex.Zero;
 
-        public override Complex One
-        {
-            get { return Complex.One; }
-        }
+        public override Complex One => Complex.One;
 
         public override Vector<Complex> Dense(DenseVectorStorage<Complex> storage)
         {
@@ -266,15 +230,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 {
     internal class MatrixBuilder : MatrixBuilder<Numerics.Complex32>
     {
-        public override Numerics.Complex32 Zero
-        {
-            get { return Numerics.Complex32.Zero; }
-        }
+        public override Numerics.Complex32 Zero => Numerics.Complex32.Zero;
 
-        public override Numerics.Complex32 One
-        {
-            get { return Numerics.Complex32.One; }
-        }
+        public override Numerics.Complex32 One => Numerics.Complex32.One;
 
         public override Matrix<Numerics.Complex32> Dense(DenseColumnMajorMatrixStorage<Numerics.Complex32> storage)
         {
@@ -310,15 +268,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
     internal class VectorBuilder : VectorBuilder<Numerics.Complex32>
     {
-        public override Numerics.Complex32 Zero
-        {
-            get { return Numerics.Complex32.Zero; }
-        }
+        public override Numerics.Complex32 Zero => Numerics.Complex32.Zero;
 
-        public override Numerics.Complex32 One
-        {
-            get { return Numerics.Complex32.One; }
-        }
+        public override Numerics.Complex32 One => Numerics.Complex32.One;
 
         public override Vector<Numerics.Complex32> Dense(DenseVectorStorage<Numerics.Complex32> storage)
         {
@@ -364,16 +316,11 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (storage == null) throw new ArgumentNullException(nameof(storage));
 
-            var dense = storage as DenseColumnMajorMatrixStorage<T>;
-            if (dense != null) return Dense(dense);
+            if (storage is DenseColumnMajorMatrixStorage<T> dense) return Dense(dense);
+            if (storage is SparseCompressedRowMatrixStorage<T> sparse) return Sparse(sparse);
+            if (storage is DiagonalMatrixStorage<T> diagonal) return Diagonal(diagonal);
 
-            var sparse = storage as SparseCompressedRowMatrixStorage<T>;
-            if (sparse != null) return Sparse(sparse);
-
-            var diagonal = storage as DiagonalMatrixStorage<T>;
-            if (diagonal != null) return Diagonal(diagonal);
-
-            throw new NotSupportedException(string.Format("Matrix storage type '{0}' is not supported. Only DenseColumnMajorMatrixStorage, SparseCompressedRowMatrixStorage and DiagonalMatrixStorage are supported as this point.", storage.GetType().Name));
+            throw new NotSupportedException(FormattableString.Invariant($"Matrix storage type '{storage.GetType().Name}' is not supported. Only DenseColumnMajorMatrixStorage, SparseCompressedRowMatrixStorage and DiagonalMatrixStorage are supported as this point."));
         }
 
         /// <summary>
@@ -1329,13 +1276,10 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (storage == null) throw new ArgumentNullException(nameof(storage));
 
-            var dense = storage as DenseVectorStorage<T>;
-            if (dense != null) return Dense(dense);
+            if (storage is DenseVectorStorage<T> dense) return Dense(dense);
+            if (storage is SparseVectorStorage<T> sparse) return Sparse(sparse);
 
-            var sparse = storage as SparseVectorStorage<T>;
-            if (sparse != null) return Sparse(sparse);
-
-            throw new NotSupportedException(string.Format("Vector storage type '{0}' is not supported. Only DenseVectorStorage and SparseVectorStorage are supported as this point.", storage.GetType().Name));
+            throw new NotSupportedException(FormattableString.Invariant($"Vector storage type '{storage.GetType().Name}' is not supported. Only DenseVectorStorage and SparseVectorStorage are supported as this point."));
         }
 
         /// <summary>
@@ -1603,7 +1547,7 @@ namespace MathNet.Numerics.LinearAlgebra
                     (VectorBuilder<T>)(object)new Single.VectorBuilder());
             }
 
-            throw new NotSupportedException(string.Format("Matrices and vectors of type '{0}' are not supported. Only Double, Single, Complex or Complex32 are supported at this point.", typeof(T).Name));
+            throw new NotSupportedException(FormattableString.Invariant($"Matrices and vectors of type '{typeof(T).Name}' are not supported. Only Double, Single, Complex or Complex32 are supported at this point."));
         }
 
         public static void Register(MatrixBuilder<T> matrixBuilder, VectorBuilder<T> vectorBuilder)
@@ -1611,14 +1555,8 @@ namespace MathNet.Numerics.LinearAlgebra
             _singleton = new Lazy<Tuple<MatrixBuilder<T>, VectorBuilder<T>>>(() => new Tuple<MatrixBuilder<T>, VectorBuilder<T>>(matrixBuilder, vectorBuilder));
         }
 
-        public static MatrixBuilder<T> Matrix
-        {
-            get { return _singleton.Value.Item1; }
-        }
+        public static MatrixBuilder<T> Matrix => _singleton.Value.Item1;
 
-        public static VectorBuilder<T> Vector
-        {
-            get { return _singleton.Value.Item2; }
-        }
+        public static VectorBuilder<T> Vector => _singleton.Value.Item2;
     }
 }

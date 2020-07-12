@@ -49,7 +49,7 @@ namespace MathNet.Numerics.Differentiation
         /// </summary>
         public int Points
         {
-            get { return _points; }
+            get => _points;
             set
             {
                 CalculateCoefficients(value);

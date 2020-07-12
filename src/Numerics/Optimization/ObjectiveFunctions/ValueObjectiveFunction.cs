@@ -56,15 +56,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             };
         }
 
-        public bool IsGradientSupported
-        {
-            get { return false; }
-        }
+        public bool IsGradientSupported => false;
 
-        public bool IsHessianSupported
-        {
-            get { return false; }
-        }
+        public bool IsHessianSupported => false;
 
         public void EvaluateAt(Vector<double> point)
         {
@@ -75,14 +69,8 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public Vector<double> Point { get; private set; }
         public double Value { get; private set; }
 
-        public Matrix<double> Hessian
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public Matrix<double> Hessian => throw new NotSupportedException();
 
-        public Vector<double> Gradient
-        {
-            get { throw new NotSupportedException(); }
-        }
+        public Vector<double> Gradient => throw new NotSupportedException();
     }
 }

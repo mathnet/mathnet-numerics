@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
             int revision = OpenBlasProvider.Load(hintPath: _hintPath);
             if (revision < MinimumCompatibleRevision)
             {
-                throw new NotSupportedException($"OpenBLAS Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported.");
+                throw new NotSupportedException(FormattableString.Invariant($"OpenBLAS Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported."));
             }
 
             int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.OpenBlas
             // we only support exactly one major version, since major version changes imply a breaking change.
             if (linearAlgebra != 1)
             {
-                throw new NotSupportedException(string.Format("OpenBLAS Native Provider not compatible. Expecting linear algebra v1 but provider implements v{0}.", linearAlgebra));
+                throw new NotSupportedException(FormattableString.Invariant($"OpenBLAS Native Provider not compatible. Expecting linear algebra v1 but provider implements v{linearAlgebra}."));
             }
         }
 

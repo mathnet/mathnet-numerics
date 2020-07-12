@@ -32,6 +32,7 @@ using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 using Complex = System.Numerics.Complex;
 using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
+using static System.FormattableString;
 
 namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
 {
@@ -463,22 +464,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
 
             if (columnsX != rowsY)
             {
-                throw new ArgumentOutOfRangeException(string.Format("columnsA ({0}) != rowsB ({1})", columnsX, rowsY));
+                throw new ArgumentOutOfRangeException(Invariant($"columnsA ({columnsX}) != rowsB ({rowsY})"));
             }
 
             if (rowsX * columnsX != x.Length)
             {
-                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsA ({1}) != a.Length ({2})", rowsX, columnsX, x.Length));
+                throw new ArgumentOutOfRangeException(Invariant($"rowsA ({rowsX}) * columnsA ({columnsX}) != a.Length ({x.Length})"));
             }
 
             if (rowsY * columnsY != y.Length)
             {
-                throw new ArgumentOutOfRangeException(string.Format("rowsB ({0}) * columnsB ({1}) != b.Length ({2})", rowsY, columnsY, y.Length));
+                throw new ArgumentOutOfRangeException(Invariant($"rowsB ({rowsY}) * columnsB ({columnsY}) != b.Length ({y.Length})"));
             }
 
             if (rowsX * columnsY != result.Length)
             {
-                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsB ({1}) != c.Length ({2})", rowsX, columnsY, result.Length));
+                throw new ArgumentOutOfRangeException(Invariant($"rowsA ({rowsX}) * columnsB ({columnsY}) != c.Length ({result.Length})"));
             }
 
             // handle degenerate cases
@@ -584,22 +585,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
 
             if (columnsA != rowsB)
             {
-                throw new ArgumentOutOfRangeException(string.Format("columnsA ({0}) != rowsB ({1})", columnsA, rowsB));
+                throw new ArgumentOutOfRangeException(Invariant($"columnsA ({columnsA}) != rowsB ({rowsB})"));
             }
 
             if (rowsA * columnsA != a.Length)
             {
-                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsA ({1}) != a.Length ({2})", rowsA, columnsA, a.Length));
+                throw new ArgumentOutOfRangeException(Invariant($"rowsA ({rowsA}) * columnsA ({columnsA}) != a.Length ({a.Length})"));
             }
 
             if (rowsB * columnsB != b.Length)
             {
-                throw new ArgumentOutOfRangeException(string.Format("rowsB ({0}) * columnsB ({1}) != b.Length ({2})", rowsB, columnsB, b.Length));
+                throw new ArgumentOutOfRangeException(Invariant($"rowsB ({rowsB}) * columnsB ({columnsB}) != b.Length ({b.Length})"));
             }
 
             if (rowsA * columnsB != c.Length)
             {
-                throw new ArgumentOutOfRangeException(string.Format("rowsA ({0}) * columnsB ({1}) != c.Length ({2})", rowsA, columnsB, c.Length));
+                throw new ArgumentOutOfRangeException(Invariant($"rowsA ({rowsA}) * columnsB ({columnsB}) != c.Length ({c.Length})"));
             }
 
             // handle degenerate cases

@@ -97,15 +97,9 @@ namespace MathNet.Numerics.Interpolation
             return InterpolateInplace(x.ToArray(), y.ToArray());
         }
 
-        bool IInterpolation.SupportsDifferentiation
-        {
-            get { return true; }
-        }
+        bool IInterpolation.SupportsDifferentiation => true;
 
-        bool IInterpolation.SupportsIntegration
-        {
-            get { return true; }
-        }
+        bool IInterpolation.SupportsIntegration => true;
 
         /// <summary>
         /// Interpolate at point t.

@@ -80,10 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </summary>
         public int NumberOfBiCgStabSteps
         {
-            get
-            {
-                return _numberOfBiCgStabSteps;
-            }
+            get => _numberOfBiCgStabSteps;
 
             set
             {
@@ -102,10 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         /// </summary>
         public int NumberOfGpBiCgSteps
         {
-            get
-            {
-                return _numberOfGpbiCgSteps;
-            }
+            get => _numberOfGpbiCgSteps;
 
             set
             {

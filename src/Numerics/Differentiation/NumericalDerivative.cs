@@ -72,7 +72,6 @@ namespace MathNet.Numerics.Differentiation
         double _stepSize = Math.Pow(2, -10);
         double _epsilon = Precision.PositiveMachineEpsilon;
         double _baseStepSize = Math.Pow(2, -26);
-        StepType _stepType = StepType.Relative;
         readonly FiniteDifferenceCoefficients _coefficients;
 
         /// <summary>
@@ -110,7 +109,7 @@ namespace MathNet.Numerics.Differentiation
         /// </remarks>
         public double StepSize
         {
-            get { return _stepSize; }
+            get => _stepSize;
             set
             {
                 //Base 2 yields more accurate results...
@@ -125,7 +124,7 @@ namespace MathNet.Numerics.Differentiation
         /// </summary>
         public double BaseStepSize
         {
-            get { return _baseStepSize; }
+            get => _baseStepSize;
             set
             {
                 //Base 2 yields more accurate results...
@@ -140,7 +139,7 @@ namespace MathNet.Numerics.Differentiation
         /// </summary>
         public double Epsilon
         {
-            get { return _epsilon; }
+            get => _epsilon;
             set
             {
                 //Base 2 yields more accurate results...
@@ -154,7 +153,7 @@ namespace MathNet.Numerics.Differentiation
         /// </summary>
         public int Center
         {
-            get { return _center; }
+            get => _center;
             set
             {
                 if (value >= _points || value < 0)
@@ -173,11 +172,7 @@ namespace MathNet.Numerics.Differentiation
         /// If set to relative, dx = (1+abs(x))*h^(2/(order+1)). This provides accurate results when
         /// h is approximately equal to the square-root of machine accuracy, epsilon.
         /// </summary>
-        public StepType StepType
-        {
-            get { return _stepType; }
-            set { _stepType = value; }
-        }
+        public StepType StepType { get; set; } = StepType.Relative;
 
         /// <summary>
         /// Evaluates the derivative of equidistant points using the finite difference method.

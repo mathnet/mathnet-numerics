@@ -62,8 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </returns>
         public override bool Equals(object obj)
         {
-            var other = obj as Matrix<T>;
-            return other != null && Storage.Equals(other.Storage);
+            return obj is Matrix<T> other && Storage.Equals(other.Storage);
         }
 
         /// <summary>
@@ -97,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public virtual string ToTypeString()
         {
-            return string.Format("{0} {1}x{2}-{3}", GetType().Name, RowCount, ColumnCount, typeof (T).Name);
+            return FormattableString.Invariant($"{GetType().Name} {RowCount}x{ColumnCount}-{typeof(T).Name}");
         }
 
         /// <summary>

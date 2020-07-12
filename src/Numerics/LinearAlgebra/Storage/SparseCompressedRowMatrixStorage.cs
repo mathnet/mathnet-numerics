@@ -69,10 +69,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// Gets the number of non zero elements in the matrix.
         /// </summary>
         /// <value>The number of non zero elements.</value>
-        public int ValueCount
-        {
-            get { return RowPointers[RowCount]; }
-        }
+        public int ValueCount => RowPointers[RowCount];
 
         internal SparseCompressedRowMatrixStorage(int rows, int columns)
             : base(rows, columns)
@@ -85,19 +82,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <summary>
         /// True if the matrix storage format is dense.
         /// </summary>
-        public override bool IsDense
-        {
-            get { return false; }
-        }
+        public override bool IsDense => false;
 
         /// <summary>
         /// True if all fields of this matrix can be set to any value.
         /// False if some fields are fixed, like on a diagonal matrix.
         /// </summary>
-        public override bool IsFullyMutable
-        {
-            get { return true; }
-        }
+        public override bool IsFullyMutable => true;
 
         /// <summary>
         /// True if the specified field can be set to any value.
@@ -842,15 +833,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, ExistingData existingData)
         {
-            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
-            if (sparseTarget != null)
+            if (target is SparseCompressedRowMatrixStorage<T> sparseTarget)
             {
                 CopyToUnchecked(sparseTarget);
                 return;
             }
 
-            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
-            if (denseTarget != null)
+            if (target is DenseColumnMajorMatrixStorage<T> denseTarget)
             {
                 CopyToUnchecked(denseTarget, existingData);
                 return;
@@ -923,8 +912,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 throw new ArgumentNullException(nameof(target));
             }
 
-            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
-            if (sparseTarget != null)
+            if (target is SparseCompressedRowMatrixStorage<T> sparseTarget)
             {
                 CopySubMatrixToUnchecked(sparseTarget,
                     sourceRowIndex, targetRowIndex, rowCount,
@@ -1046,8 +1034,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return;
             }
 
-            var targetSparse = target as SparseVectorStorage<T>;
-            if (targetSparse != null)
+            if (target is SparseVectorStorage<T> targetSparse)
             {
                 if ((sourceColumnIndex == 0) && (targetColumnIndex == 0) && (columnCount == ColumnCount) && (ColumnCount == targetSparse.Length))
                 {
@@ -1132,15 +1119,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void TransposeToUnchecked(MatrixStorage<T> target, ExistingData existingData)
         {
-            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
-            if (sparseTarget != null)
+            if (target is SparseCompressedRowMatrixStorage<T> sparseTarget)
             {
                 TransposeToUnchecked(sparseTarget);
                 return;
             }
 
-            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
-            if (denseTarget != null)
+            if (target is DenseColumnMajorMatrixStorage<T> denseTarget)
             {
                 TransposeToUnchecked(denseTarget, existingData);
                 return;
@@ -1459,8 +1444,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override Tuple<int, int, T, TOther> Find2Unchecked<TOther>(MatrixStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
         {
-            var denseOther = other as DenseColumnMajorMatrixStorage<TOther>;
-            if (denseOther != null)
+            if (other is DenseColumnMajorMatrixStorage<TOther> denseOther)
             {
                 TOther[] otherData = denseOther.Data;
                 int k = 0;
@@ -1478,8 +1462,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return null;
             }
 
-            var diagonalOther = other as DiagonalMatrixStorage<TOther>;
-            if (diagonalOther != null)
+            if (other is DiagonalMatrixStorage<TOther> diagonalOther)
             {
                 TOther[] otherData = diagonalOther.Data;
                 TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
@@ -1537,8 +1520,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return null;
             }
 
-            var sparseOther = other as SparseCompressedRowMatrixStorage<TOther>;
-            if (sparseOther != null)
+            if (other is SparseCompressedRowMatrixStorage<TOther> sparseOther)
             {
                 int[] otherRowPointers = sparseOther.RowPointers;
                 int[] otherColumnIndices = sparseOther.ColumnIndices;
@@ -1714,8 +1696,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             var processZeros = zeros == Zeros.Include || !Zero.Equals(f(Zero));
 
-            var sparseTarget = target as SparseCompressedRowMatrixStorage<TU>;
-            if (sparseTarget != null)
+            if (target is SparseCompressedRowMatrixStorage<TU> sparseTarget)
             {
                 var newRowPointers = sparseTarget.RowPointers;
                 var newColumnIndices = new List<int>(ColumnIndices.Length);
@@ -1808,8 +1789,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             var processZeros = zeros == Zeros.Include || !Zero.Equals(f(0, 1, Zero));
 
-            var sparseTarget = target as SparseCompressedRowMatrixStorage<TU>;
-            if (sparseTarget != null)
+            if (target is SparseCompressedRowMatrixStorage<TU> sparseTarget)
             {
                 var newRowPointers = sparseTarget.RowPointers;
                 var newColumnIndices = new List<int>(ColumnIndices.Length);
@@ -1903,8 +1883,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             Zeros zeros, ExistingData existingData)
         {
-            var sparseTarget = target as SparseCompressedRowMatrixStorage<TU>;
-            if (sparseTarget != null)
+            if (target is SparseCompressedRowMatrixStorage<TU> sparseTarget)
             {
                 MapSubMatrixIndexedToUnchecked(sparseTarget, f, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount, zeros, existingData);
                 return;
@@ -2203,8 +2182,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override TState Fold2Unchecked<TOther, TState>(MatrixStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
         {
-            var denseOther = other as DenseColumnMajorMatrixStorage<TOther>;
-            if (denseOther != null)
+            if (other is DenseColumnMajorMatrixStorage<TOther> denseOther)
             {
                 TOther[] otherData = denseOther.Data;
                 int k = 0;
@@ -2219,8 +2197,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return state;
             }
 
-            var diagonalOther = other as DiagonalMatrixStorage<TOther>;
-            if (diagonalOther != null)
+            if (other is DiagonalMatrixStorage<TOther> diagonalOther)
             {
                 TOther[] otherData = diagonalOther.Data;
                 TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
@@ -2266,8 +2243,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return state;
             }
 
-            var sparseOther = other as SparseCompressedRowMatrixStorage<TOther>;
-            if (sparseOther != null)
+            if (other is SparseCompressedRowMatrixStorage<TOther> sparseOther)
             {
                 int[] otherRowPointers = sparseOther.RowPointers;
                 int[] otherColumnIndices = sparseOther.ColumnIndices;

@@ -52,10 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Gets the number of non zero elements in the vector.
         /// </summary>
         /// <value>The number of non zero elements.</value>
-        public int NonZerosCount
-        {
-            get { return _storage.ValueCount; }
-        }
+        public int NonZerosCount => _storage.ValueCount;
 
         /// <summary>
         /// Create a new sparse vector straight from an initialized vector storage instance.
@@ -404,8 +401,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">Target vector</param>
         protected override void DoConjugate(Vector<Complex32> result)
         {
-            var sparseResult = result as SparseVector;
-            if (sparseResult != null)
+            if (result is SparseVector sparseResult)
             {
                 if (!ReferenceEquals(this, result))
                 {
@@ -931,7 +927,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override string ToTypeString()
         {
-            return string.Format("SparseVector {0}-Complex32 {1:P2} Filled", Count, NonZerosCount / (double)Count);
+            return FormattableString.Invariant($"SparseVector {Count}-Complex32 {NonZerosCount / (double) Count:P2} Filled");
         }
     }
 }

@@ -190,8 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the negation.</param>
         protected override void DoNegate(Matrix<double> result)
         {
-            var diagResult = result as DiagonalMatrix;
-            if (diagResult != null)
+            if (result is DiagonalMatrix diagResult)
             {
                 LinearAlgebraControl.Provider.ScaleArray(-1, _data, diagResult._data);
                 return;
@@ -213,9 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected override void DoAdd(Matrix<double> other, Matrix<double> result)
         {
             // diagonal + diagonal = diagonal
-            var diagOther = other as DiagonalMatrix;
-            var diagResult = result as DiagonalMatrix;
-            if (diagOther != null && diagResult != null)
+            if (other is DiagonalMatrix diagOther && result is DiagonalMatrix diagResult)
             {
                 LinearAlgebraControl.Provider.AddArrays(_data, diagOther._data, diagResult._data);
                 return;
@@ -237,9 +234,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected override void DoSubtract(Matrix<double> other, Matrix<double> result)
         {
             // diagonal - diagonal = diagonal
-            var diagOther = other as DiagonalMatrix;
-            var diagResult = result as DiagonalMatrix;
-            if (diagOther != null && diagResult != null)
+            if (other is DiagonalMatrix diagOther && result is DiagonalMatrix diagResult)
             {
                 LinearAlgebraControl.Provider.SubtractArrays(_data, diagOther._data, diagResult._data);
                 return;
@@ -298,9 +293,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (d == ColumnCount)
             {
-                var denseOther = rightSide.Storage as DenseVectorStorage<double>;
-                var denseResult = result.Storage as DenseVectorStorage<double>;
-                if (denseOther != null && denseResult != null)
+                if (rightSide.Storage is DenseVectorStorage<double> denseOther && result.Storage is DenseVectorStorage<double> denseResult)
                 {
                     LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
                     return;
@@ -320,9 +313,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<double> other, Matrix<double> result)
         {
-            var diagonalOther = other as DiagonalMatrix;
-            var diagonalResult = result as DiagonalMatrix;
-            if (diagonalOther != null && diagonalResult != null)
+            if (other is DiagonalMatrix diagonalOther && result is DiagonalMatrix diagonalResult)
             {
                 var thisDataCopy = new double[diagonalResult._data.Length];
                 var otherDataCopy = new double[diagonalResult._data.Length];
@@ -332,8 +323,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
-            if (denseOther != null)
+            if (other.Storage is DenseColumnMajorMatrixStorage<double> denseOther)
             {
                 var dense = denseOther.Data;
                 var diagonal = _data;
@@ -373,9 +363,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
-            var diagonalOther = other as DiagonalMatrix;
-            var diagonalResult = result as DiagonalMatrix;
-            if (diagonalOther != null && diagonalResult != null)
+            if (other is DiagonalMatrix diagonalOther && result is DiagonalMatrix diagonalResult)
             {
                 var thisDataCopy = new double[diagonalResult._data.Length];
                 var otherDataCopy = new double[diagonalResult._data.Length];
@@ -385,8 +373,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
-            if (denseOther != null)
+            if (other.Storage is DenseColumnMajorMatrixStorage<double> denseOther)
             {
                 var dense = denseOther.Data;
                 var diagonal = _data;
@@ -417,9 +404,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeThisAndMultiply(Matrix<double> other, Matrix<double> result)
         {
-            var diagonalOther = other as DiagonalMatrix;
-            var diagonalResult = result as DiagonalMatrix;
-            if (diagonalOther != null && diagonalResult != null)
+            if (other is DiagonalMatrix diagonalOther && result is DiagonalMatrix diagonalResult)
             {
                 var thisDataCopy = new double[diagonalResult._data.Length];
                 var otherDataCopy = new double[diagonalResult._data.Length];
@@ -429,8 +414,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
-            if (denseOther != null)
+            if (other.Storage is DenseColumnMajorMatrixStorage<double> denseOther)
             {
                 var dense = denseOther.Data;
                 var diagonal = _data;
@@ -478,9 +462,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (d == RowCount)
             {
-                var denseOther = rightSide.Storage as DenseVectorStorage<double>;
-                var denseResult = result.Storage as DenseVectorStorage<double>;
-                if (denseOther != null && denseResult != null)
+                if (rightSide.Storage is DenseVectorStorage<double> denseOther && result.Storage is DenseVectorStorage<double> denseResult)
                 {
                     LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_data, denseOther.Data, denseResult.Data);
                     return;
@@ -506,8 +488,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var diagResult = result as DiagonalMatrix;
-            if (diagResult != null)
+            if (result is DiagonalMatrix diagResult)
             {
                 LinearAlgebraControl.Provider.ScaleArray(1.0/divisor, _data, diagResult._data);
                 return;
@@ -527,8 +508,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The matrix to store the result of the division.</param>
         protected override void DoDivideByThis(double dividend, Matrix<double> result)
         {
-            var diagResult = result as DiagonalMatrix;
-            if (diagResult != null)
+            if (result is DiagonalMatrix diagResult)
             {
                 var resultData = diagResult._data;
                 CommonParallel.For(0, _data.Length, 4096, (a, b) =>

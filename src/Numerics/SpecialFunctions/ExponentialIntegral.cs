@@ -63,7 +63,7 @@ namespace MathNet.Numerics
             //parameter validation
             if (n < 0 || x < 0.0)
             {
-                throw new ArgumentOutOfRangeException(string.Format("x and n must be positive: x={0}, n={1}", x, n));
+                throw new ArgumentOutOfRangeException(FormattableString.Invariant($"x and n must be positive: x={x}, n={n}"));
             }
 
             const double epsilon = 0.00000000000000001;
@@ -107,7 +107,7 @@ namespace MathNet.Numerics
                         return h*Math.Exp(-x);
                     }
                 }
-                throw new ArithmeticException(string.Format("continued fraction failed to converge for x={0}, n={1})", x, n));
+                throw new ArithmeticException(FormattableString.Invariant($"Continued fraction failed to converge for x={x}, n={n})"));
             }
             //series computation for small x
             else
@@ -135,7 +135,7 @@ namespace MathNet.Numerics
                         return result;
                     }
                 }
-                throw new ArithmeticException(string.Format("series failed to converge for x={0}, n={1})", x, n));
+                throw new ArithmeticException(FormattableString.Invariant($"Series failed to converge for x={x}, n={n})"));
             }
         }
     }

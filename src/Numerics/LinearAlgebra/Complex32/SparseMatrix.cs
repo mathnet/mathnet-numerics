@@ -53,10 +53,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// Gets the number of non zero elements in the matrix.
         /// </summary>
         /// <value>The number of non zero elements.</value>
-        public int NonZerosCount
-        {
-            get { return _storage.ValueCount; }
-        }
+        public int NonZerosCount => _storage.ValueCount;
 
         /// <summary>
         /// Create a new sparse matrix straight from an initialized matrix storage instance.
@@ -889,8 +886,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 return;
             }
 
-            var diagonalOther = other.Storage as DiagonalMatrixStorage<Complex32>;
-            if (diagonalOther != null && sparseResult != null)
+            if (other.Storage is DiagonalMatrixStorage<Complex32> diagonalOther && sparseResult != null)
             {
                 var diagonal = diagonalOther.Data;
                 if (other.ColumnCount == other.RowCount)
@@ -911,8 +907,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
-            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<Complex32>;
-            if (denseOther != null)
+            if (other.Storage is DenseColumnMajorMatrixStorage<Complex32> denseOther)
             {
                 // in this case we can directly address the underlying data-array
                 for (var row = 0; row < RowCount; row++)

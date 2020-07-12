@@ -49,8 +49,7 @@ namespace MathNet.Numerics.Random
         /// </remarks>
         public static void NextDoubles(this System.Random rnd, double[] values)
         {
-            var rs = rnd as RandomSource;
-            if (rs != null)
+            if (rnd is RandomSource rs)
             {
                 rs.NextDoubles(values);
                 return;
@@ -87,8 +86,7 @@ namespace MathNet.Numerics.Random
         /// </remarks>
         public static IEnumerable<double> NextDoubleSequence(this System.Random rnd)
         {
-            var rs = rnd as RandomSource;
-            if (rs != null)
+            if (rnd is RandomSource rs)
             {
                 return rs.NextDoubleSequence();
             }
@@ -131,8 +129,7 @@ namespace MathNet.Numerics.Random
         /// </remarks>
         public static void NextInt32s(this System.Random rnd, int[] values)
         {
-            var rs = rnd as RandomSource;
-            if (rs != null)
+            if (rnd is RandomSource rs)
             {
                 rs.NextInt32s(values);
                 return;
@@ -157,8 +154,7 @@ namespace MathNet.Numerics.Random
         /// </remarks>
         public static void NextInt32s(this System.Random rnd, int[] values, int minInclusive, int maxExclusive)
         {
-            var rs = rnd as RandomSource;
-            if (rs != null)
+            if (rnd is RandomSource rs)
             {
                 rs.NextInt32s(values, minInclusive, maxExclusive);
                 return;
@@ -179,8 +175,7 @@ namespace MathNet.Numerics.Random
         /// </remarks>
         public static IEnumerable<int> NextInt32Sequence(this System.Random rnd, int minInclusive, int maxExclusive)
         {
-            var rs = rnd as RandomSource;
-            if (rs != null)
+            if (rnd is RandomSource rs)
             {
                 return rs.NextInt32Sequence(minInclusive, maxExclusive);
             }

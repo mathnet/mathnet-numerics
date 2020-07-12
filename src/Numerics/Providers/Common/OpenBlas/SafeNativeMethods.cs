@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Providers.Common.OpenBlas
         /// Name of the native DLL.
         /// </summary>
         const string _DllName = "MathNET.Numerics.OpenBLAS.dll";
-        internal static string DllName { get { return _DllName; } }
+        internal static string DllName => _DllName;
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int query_capability(int capability);

@@ -92,7 +92,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public double MaximumRelativeIncrease
         {
             [DebuggerStepThrough]
-            get { return _maximumRelativeIncrease; }
+            get => _maximumRelativeIncrease;
 
             [DebuggerStepThrough]
             set
@@ -114,7 +114,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public int MinimumNumberOfIterations
         {
             [DebuggerStepThrough]
-            get { return _minimumNumberOfIterations; }
+            get => _minimumNumberOfIterations;
 
             [DebuggerStepThrough]
             set
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         int RequiredHistoryLength
         {
             [DebuggerStepThrough]
-            get { return _minimumNumberOfIterations + 1; }
+            get => _minimumNumberOfIterations + 1;
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public IterationStatus Status
         {
             [DebuggerStepThrough]
-            get { return _status; }
+            get => _status;
         }
 
         /// <summary>

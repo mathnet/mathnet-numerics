@@ -162,10 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Gets the vector's data.
         /// </summary>
         /// <value>The vector's data.</value>
-        public float[] Values
-        {
-            get { return _values; }
-        }
+        public float[] Values => _values;
 
         /// <summary>
         /// Returns a reference to the internal data structure.

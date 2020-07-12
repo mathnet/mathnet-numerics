@@ -104,32 +104,14 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                     EvaluateGradient();
                 return _gradient;
             }
-            protected set { _gradient = value; }
+            protected set => _gradient = value;
         }
 
-        public Matrix<double> Hessian
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public Matrix<double> Hessian => throw new NotImplementedException();
 
-        public bool IsGradientSupported
-        {
-            get
-            {
-                return true;
-            }
-        }
+        public bool IsGradientSupported => true;
 
-        public bool IsHessianSupported
-        {
-            get
-            {
-                return false;
-            }
-        }
+        public bool IsHessianSupported => false;
 
         public Vector<double> Point { get; protected set; }
 
@@ -145,7 +127,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         public IObjectiveFunction CreateNew()
         {
-            var tmp = new ForwardDifferenceGradientObjectiveFunction(this.InnerObjectiveFunction.CreateNew(), LowerBound, UpperBound, this.RelativeIncrement, this.MinimumIncrement);
+            var tmp = new ForwardDifferenceGradientObjectiveFunction(InnerObjectiveFunction.CreateNew(), LowerBound, UpperBound, this.RelativeIncrement, this.MinimumIncrement);
             return tmp;
         }
 
@@ -159,7 +141,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         public IObjectiveFunction Fork()
         {
-            return new ForwardDifferenceGradientObjectiveFunction(this.InnerObjectiveFunction.Fork(), LowerBound, UpperBound, this.RelativeIncrement, this.MinimumIncrement)
+            return new ForwardDifferenceGradientObjectiveFunction(InnerObjectiveFunction.Fork(), LowerBound, UpperBound, this.RelativeIncrement, this.MinimumIncrement)
             {
                 Point = Point?.Clone(),
                 GradientEvaluated = GradientEvaluated,

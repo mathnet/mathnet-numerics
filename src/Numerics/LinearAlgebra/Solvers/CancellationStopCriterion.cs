@@ -83,7 +83,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public IterationStatus Status
         {
             [DebuggerStepThrough]
-            get { return _currentTcs.Token.IsCancellationRequested ? IterationStatus.Cancelled : IterationStatus.Continue; }
+            get => _currentTcs.Token.IsCancellationRequested ? IterationStatus.Cancelled : IterationStatus.Continue;
         }
 
         public void Cancel()

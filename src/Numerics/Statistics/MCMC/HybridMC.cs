@@ -62,7 +62,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When the length of pSdv is not the same as Length.</exception>
         public double[] MomentumStdDev
         {
-            get { return (double[])_mpSdv.Clone(); }
+            get => (double[])_mpSdv.Clone();
             set
             {
                 CheckVariance(value);

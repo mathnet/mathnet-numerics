@@ -52,10 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Gets the number of non zero elements in the vector.
         /// </summary>
         /// <value>The number of non zero elements.</value>
-        public int NonZerosCount
-        {
-            get { return _storage.ValueCount; }
-        }
+        public int NonZerosCount => _storage.ValueCount;
 
         /// <summary>
         /// Create a new sparse vector straight from an initialized vector storage instance.
@@ -953,7 +950,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         public override string ToTypeString()
         {
-            return string.Format("SparseVector {0}-Single {1:P2} Filled", Count, NonZerosCount / (double)Count);
+            return FormattableString.Invariant($"SparseVector {Count}-Single {NonZerosCount / (double) Count:P2} Filled");
         }
     }
 }

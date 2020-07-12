@@ -84,7 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public int MaximumNumberOfIterations
         {
             [DebuggerStepThrough]
-            get { return _maximumNumberOfIterations; }
+            get => _maximumNumberOfIterations;
 
             [DebuggerStepThrough]
             set
@@ -137,7 +137,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public IterationStatus Status
         {
             [DebuggerStepThrough]
-            get { return _status; }
+            get => _status;
         }
 
         /// <summary>

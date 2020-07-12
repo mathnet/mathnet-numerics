@@ -56,7 +56,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When standard deviation is negative.</exception>
         public double MomentumStdDev
         {
-            get { return _sdv; }
+            get => _sdv;
             set
             {
                 if (_sdv != value)

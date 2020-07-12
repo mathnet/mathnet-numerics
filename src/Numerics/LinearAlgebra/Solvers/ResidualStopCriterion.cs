@@ -99,7 +99,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public double Maximum
         {
             [DebuggerStepThrough]
-            get { return _maximum; }
+            get => _maximum;
 
             [DebuggerStepThrough]
             set
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public int MinimumIterationsBelowMaximum
         {
             [DebuggerStepThrough]
-            get { return _minimumIterationsBelowMaximum; }
+            get => _minimumIterationsBelowMaximum;
 
             [DebuggerStepThrough]
             set
@@ -220,7 +220,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public IterationStatus Status
         {
             [DebuggerStepThrough]
-            get { return _status; }
+            get => _status;
         }
 
         /// <summary>

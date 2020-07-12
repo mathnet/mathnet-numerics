@@ -19,8 +19,8 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// The stopping threshold for infinity norm of the gradient.
         /// </summary>
-        public static double GradientTolerance { get; set; }        
-        
+        public static double GradientTolerance { get; set; }
+
         /// <summary>
         /// The maximum number of iterations.
         /// </summary>
@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         public static Vector<double> Scales { get; private set; }
 
-        private static bool IsBounded { get { return LowerBound != null || UpperBound != null || Scales != null; } }
+        private static bool IsBounded => LowerBound != null || UpperBound != null || Scales != null;
 
         protected NonlinearMinimizerBase(double gradientTolerance = 1E-18, double stepTolerance = 1E-18, double functionTolerance = 1E-18, int maximumIterations = -1)
         {

@@ -393,10 +393,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Gets the matrix's data.
         /// </summary>
         /// <value>The matrix's data.</value>
-        public double[] Values
-        {
-            get { return _values; }
-        }
+        public double[] Values => _values;
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
         /// <returns>The maximum absolute column sum of the matrix.</returns>
@@ -425,8 +422,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the negation.</param>
         protected override void DoNegate(Matrix<double> result)
         {
-            var denseResult = result as DenseMatrix;
-            if (denseResult != null)
+            if (result is DenseMatrix denseResult)
             {
                 LinearAlgebraControl.Provider.ScaleArray(-1, _values, denseResult._values);
                 return;
@@ -469,17 +465,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected override void DoAdd(Matrix<double> other, Matrix<double> result)
         {
             // dense + dense = dense
-            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
-            var denseResult = result.Storage as DenseColumnMajorMatrixStorage<double>;
-            if (denseOther != null && denseResult != null)
+            if (other.Storage is DenseColumnMajorMatrixStorage<double> denseOther && result.Storage is DenseColumnMajorMatrixStorage<double> denseResult)
             {
                 LinearAlgebraControl.Provider.AddArrays(_values, denseOther.Data, denseResult.Data);
                 return;
             }
 
             // dense + diagonal = any
-            var diagonalOther = other.Storage as DiagonalMatrixStorage<double>;
-            if (diagonalOther != null)
+            if (other.Storage is DiagonalMatrixStorage<double> diagonalOther)
             {
                 Storage.CopyToUnchecked(result.Storage, ExistingData.Clear);
                 var diagonal = diagonalOther.Data;
@@ -525,17 +518,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         protected override void DoSubtract(Matrix<double> other, Matrix<double> result)
         {
             // dense + dense = dense
-            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
-            var denseResult = result.Storage as DenseColumnMajorMatrixStorage<double>;
-            if (denseOther != null && denseResult != null)
+            if (other.Storage is DenseColumnMajorMatrixStorage<double> denseOther && result.Storage is DenseColumnMajorMatrixStorage<double> denseResult)
             {
                 LinearAlgebraControl.Provider.SubtractArrays(_values, denseOther.Data, denseResult.Data);
                 return;
             }
 
             // dense + diagonal = matrix
-            var diagonalOther = other.Storage as DiagonalMatrixStorage<double>;
-            if (diagonalOther != null)
+            if (other.Storage is DiagonalMatrixStorage<double> diagonalOther)
             {
                 CopyTo(result);
                 var diagonal = diagonalOther.Data;
@@ -601,9 +591,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Matrix<double> other, Matrix<double> result)
         {
-            var denseOther = other as DenseMatrix;
-            var denseResult = result as DenseMatrix;
-            if (denseOther != null && denseResult != null)
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
             {
                 LinearAlgebraControl.Provider.MatrixMultiply(
                     _values,
@@ -616,8 +604,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var diagonalOther = other.Storage as DiagonalMatrixStorage<double>;
-            if (diagonalOther != null)
+            if (other.Storage is DiagonalMatrixStorage<double> diagonalOther)
             {
                 var diagonal = diagonalOther.Data;
                 var d = Math.Min(ColumnCount, other.ColumnCount);
@@ -647,9 +634,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
-            var denseOther = other as DenseMatrix;
-            var denseResult = result as DenseMatrix;
-            if (denseOther != null && denseResult != null)
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
             {
                 LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(
                     Providers.LinearAlgebra.Transpose.DontTranspose,
@@ -666,8 +651,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var diagonalOther = other.Storage as DiagonalMatrixStorage<double>;
-            if (diagonalOther != null)
+            if (other.Storage is DiagonalMatrixStorage<double> diagonalOther)
             {
                 var diagonal = diagonalOther.Data;
                 var d = Math.Min(ColumnCount, other.RowCount);
@@ -728,9 +712,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeThisAndMultiply(Matrix<double> other, Matrix<double> result)
         {
-            var denseOther = other as DenseMatrix;
-            var denseResult = result as DenseMatrix;
-            if (denseOther != null && denseResult != null)
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
             {
                 LinearAlgebraControl.Provider.MatrixMultiplyWithUpdate(
                     Providers.LinearAlgebra.Transpose.Transpose,
@@ -747,8 +729,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var diagonalOther = other.Storage as DiagonalMatrixStorage<double>;
-            if (diagonalOther != null)
+            if (other.Storage is DiagonalMatrixStorage<double> diagonalOther)
             {
                 var diagonal = diagonalOther.Data;
                 var d = Math.Min(RowCount, other.ColumnCount);

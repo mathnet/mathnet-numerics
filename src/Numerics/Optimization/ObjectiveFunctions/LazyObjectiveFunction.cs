@@ -94,10 +94,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             _hessianValue = null;
         }
 
-        public Vector<double> Point
-        {
-            get { return _point; }
-        }
+        public Vector<double> Point => _point;
 
         public double Value
         {

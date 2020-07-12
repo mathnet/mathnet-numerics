@@ -96,7 +96,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         public IterationStatus Status
         {
             [DebuggerStepThrough]
-            get { return _status; }
+            get => _status;
         }
 
         /// <summary>

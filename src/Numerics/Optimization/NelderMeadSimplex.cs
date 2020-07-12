@@ -180,7 +180,7 @@ namespace MathNet.Numerics.Optimization
                 // check to see if we have exceeded our alloted number of evaluations
                 if (evaluationCount >= maximumIterations)
                 {
-                    throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", maximumIterations));
+                    throw new MaximumIterationsException(FormattableString.Invariant($"Maximum iterations ({maximumIterations}) reached."));
                 }
             }
             objectiveFunction.EvaluateAt(vertices[errorProfile.LowestIndex]);

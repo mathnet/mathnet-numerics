@@ -62,8 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </returns>
         public sealed override bool Equals(object obj)
         {
-            var other = obj as Vector<T>;
-            return other != null && Storage.Equals(other.Storage);
+            return obj is Vector<T> other && Storage.Equals(other.Storage);
         }
 
         /// <summary>
@@ -112,10 +111,7 @@ namespace MathNet.Numerics.LinearAlgebra
             throw new NotSupportedException();
         }
 
-        bool ICollection<T>.IsReadOnly
-        {
-            get { return false; }
-        }
+        bool ICollection<T>.IsReadOnly => false;
 
         void ICollection<T>.Add(T item)
         {
@@ -148,20 +144,14 @@ namespace MathNet.Numerics.LinearAlgebra
             Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, array), 0, arrayIndex, Count);
         }
 
-        bool IList.IsReadOnly
-        {
-            get { return false; }
-        }
+        bool IList.IsReadOnly => false;
 
-        bool IList.IsFixedSize
-        {
-            get { return true; }
-        }
+        bool IList.IsFixedSize => true;
 
         object IList.this[int index]
         {
-            get { return Storage[index]; }
-            set { Storage[index] = (T) value; }
+            get => Storage[index];
+            set => Storage[index] = (T) value;
         }
 
         int IList.IndexOf(object value)
@@ -204,15 +194,9 @@ namespace MathNet.Numerics.LinearAlgebra
             throw new NotSupportedException();
         }
 
-        bool ICollection.IsSynchronized
-        {
-            get { return false; }
-        }
+        bool ICollection.IsSynchronized => false;
 
-        object ICollection.SyncRoot
-        {
-            get { return Storage; }
-        }
+        object ICollection.SyncRoot => Storage;
 
         void ICollection.CopyTo(Array array, int index)
         {
@@ -255,7 +239,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// </summary>
         public virtual string ToTypeString()
         {
-            return string.Format("{0} {1}-{2}", GetType().Name, Count, typeof (T).Name);
+            return FormattableString.Invariant($"{GetType().Name} {Count}-{typeof(T).Name}");
         }
 
         public string[,] ToVectorStringArray(int maxPerColumn, int maxCharactersWidth, int padding, string ellipsis, Func<T, string> formatValue)

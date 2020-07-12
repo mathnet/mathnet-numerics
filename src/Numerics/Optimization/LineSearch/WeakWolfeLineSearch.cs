@@ -53,10 +53,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
             // Validation in base class
         }
 
-        protected override ExitCondition WolfeExitCondition
-        {
-            get { return ExitCondition.WeakWolfeCriteria; }
-        }
+        protected override ExitCondition WolfeExitCondition => ExitCondition.WeakWolfeCriteria;
 
         protected override bool WolfeCondition(double stepDd, double initialDd)
         {
@@ -67,7 +64,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
         {
             if (!IsFinite(eval.Value))
             {
-                throw new EvaluationException(String.Format("Non-finite value returned by objective function: {0}", eval.Value), eval);
+                throw new EvaluationException(FormattableString.Invariant($"Non-finite value returned by objective function: {eval.Value}"), eval);
             }
         }
 
@@ -83,7 +80,7 @@ namespace MathNet.Numerics.Optimization.LineSearch
             {
                 if (!IsFinite(x))
                 {
-                    throw new EvaluationException(string.Format("Non-finite value returned by gradient: {0}", x), eval);
+                    throw new EvaluationException(FormattableString.Invariant($"Non-finite value returned by gradient: {x}"), eval);
                 }
             }
         }

@@ -69,18 +69,12 @@ namespace MathNet.Numerics.Statistics
             PushRange(values);
         }
 
-        public int WindowSize
-        {
-            get { return _windowSize; }
-        }
+        public int WindowSize => _windowSize;
 
         /// <summary>
         /// Gets the total number of samples.
         /// </summary>
-        public long Count
-        {
-            get { return _totalCountOffset + _count; }
-        }
+        public long Count => _totalCountOffset + _count;
 
         /// <summary>
         /// Returns the minimum value in the sample data.

@@ -82,117 +82,81 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Gets the total number of samples.
         /// </summary>
-        public long Count
-        {
-            get { return _n; }
-        }
+        public long Count => _n;
 
         /// <summary>
         /// Returns the minimum value in the sample data.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double Minimum
-        {
-            get { return _n > 0 ? _min : double.NaN; }
-        }
+        public double Minimum => _n > 0 ? _min : double.NaN;
 
         /// <summary>
         /// Returns the maximum value in the sample data.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double Maximum
-        {
-            get { return _n > 0 ? _max : double.NaN; }
-        }
+        public double Maximum => _n > 0 ? _max : double.NaN;
 
         /// <summary>
         /// Evaluates the sample mean, an estimate of the population mean.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double Mean
-        {
-            get { return _n > 0 ? _m1 : double.NaN; }
-        }
+        public double Mean => _n > 0 ? _m1 : double.NaN;
 
         /// <summary>
         /// Estimates the unbiased population variance from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        public double Variance
-        {
-            get { return _n < 2 ? double.NaN : _m2/(_n - 1); }
-        }
+        public double Variance => _n < 2 ? double.NaN : _m2/(_n - 1);
 
         /// <summary>
         /// Evaluates the variance from the provided full population.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double PopulationVariance
-        {
-            get { return _n < 2 ? double.NaN : _m2/_n; }
-        }
+        public double PopulationVariance => _n < 2 ? double.NaN : _m2/_n;
 
         /// <summary>
         /// Estimates the unbiased population standard deviation from the provided samples.
         /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        public double StandardDeviation
-        {
-            get { return _n < 2 ? double.NaN : Math.Sqrt(_m2/(_n - 1)); }
-        }
+        public double StandardDeviation => _n < 2 ? double.NaN : Math.Sqrt(_m2/(_n - 1));
 
         /// <summary>
         /// Evaluates the standard deviation from the provided full population.
         /// On a dataset of size N will use an N normalizer and would thus be biased if applied to a subset.
         /// Returns NaN if data is empty or if any entry is NaN.
         /// </summary>
-        public double PopulationStandardDeviation
-        {
-            get { return _n < 2 ? double.NaN : Math.Sqrt(_m2/_n); }
-        }
+        public double PopulationStandardDeviation => _n < 2 ? double.NaN : Math.Sqrt(_m2/_n);
 
         /// <summary>
         /// Estimates the unbiased population skewness from the provided samples.
         /// Uses a normalizer (Bessel's correction; type 2).
         /// Returns NaN if data has less than three entries or if any entry is NaN.
         /// </summary>
-        public double Skewness
-        {
-            get { return _n < 3 ? double.NaN : (_n*_m3*Math.Sqrt(_m2/(_n - 1))/(_m2*_m2*(_n - 2)))*(_n - 1); }
-        }
+        public double Skewness => _n < 3 ? double.NaN : (_n*_m3*Math.Sqrt(_m2/(_n - 1))/(_m2*_m2*(_n - 2)))*(_n - 1);
 
         /// <summary>
         /// Evaluates the population skewness from the full population.
         /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
-        public double PopulationSkewness
-        {
-            get { return _n < 2 ? double.NaN : Math.Sqrt(_n)*_m3/Math.Pow(_m2, 1.5); }
-        }
+        public double PopulationSkewness => _n < 2 ? double.NaN : Math.Sqrt(_n)*_m3/Math.Pow(_m2, 1.5);
 
         /// <summary>
         /// Estimates the unbiased population kurtosis from the provided samples.
         /// Uses a normalizer (Bessel's correction; type 2).
         /// Returns NaN if data has less than four entries or if any entry is NaN.
         /// </summary>
-        public double Kurtosis
-        {
-            get { return _n < 4 ? double.NaN : ((double)_n*_n - 1)/((_n - 2)*(_n - 3))*(_n*_m4/(_m2*_m2) - 3 + 6.0/(_n + 1)); }
-        }
+        public double Kurtosis => _n < 4 ? double.NaN : ((double)_n*_n - 1)/((_n - 2)*(_n - 3))*(_n*_m4/(_m2*_m2) - 3 + 6.0/(_n + 1));
 
         /// <summary>
         /// Evaluates the population kurtosis from the full population.
         /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
         /// Returns NaN if data has less than three entries or if any entry is NaN.
         /// </summary>
-        public double PopulationKurtosis
-        {
-            get { return _n < 3 ? double.NaN : _n*_m4/(_m2*_m2) - 3.0; }
-        }
+        public double PopulationKurtosis => _n < 3 ? double.NaN : _n*_m4/(_m2*_m2) - 3.0;
 
         /// <summary>
         /// Update the running statistics by adding another observed sample (in-place).

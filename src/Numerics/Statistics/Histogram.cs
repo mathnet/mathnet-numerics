@@ -138,27 +138,18 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Width of the Bucket.
         /// </summary>
-        public double Width
-        {
-            get { return UpperBound - LowerBound; }
-        }
+        public double Width => UpperBound - LowerBound;
 
         /// <summary>
         /// True if this is a single point argument for <see cref="IComparer{Bucket}"/>
         /// when performing a Binary search.
         /// </summary>
-        private bool IsSinglePoint
-        {
-            get { return double.IsNaN(Count); }
-        }
+        private bool IsSinglePoint => double.IsNaN(Count);
 
         /// <summary>
         /// Default comparer.
         /// </summary>
-        public static IComparer<Bucket> DefaultPointComparer
-        {
-            get { return Comparer; }
-        }
+        public static IComparer<Bucket> DefaultPointComparer => Comparer;
 
         /// <summary>
         /// This method check whether a point is contained within this bucket.
@@ -479,10 +470,7 @@ namespace MathNet.Numerics.Statistics
         /// <summary>
         /// Gets the number of buckets.
         /// </summary>
-        public int BucketCount
-        {
-            get { return _buckets.Count; }
-        }
+        public int BucketCount => _buckets.Count;
 
         /// <summary>
         /// Gets the total number of datapoints in the histogram.

@@ -115,15 +115,8 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentNullException">When the random number generator is null.</exception>
         public System.Random RandomSource
         {
-            get { return _randomNumberGenerator; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException(nameof(value));
-                }
-                _randomNumberGenerator = value;
-            }
+            get => _randomNumberGenerator;
+            set => _randomNumberGenerator = value ?? SystemRandomSource.Default;
         }
 
         /// <summary>
@@ -149,9 +142,6 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Gets the acceptance rate of the sampler.
         /// </summary>
-        public double AcceptanceRate
-        {
-            get { return Accepts / (double)Samples; }
-        }
+        public double AcceptanceRate => Accepts / (double)Samples;
     }
 }

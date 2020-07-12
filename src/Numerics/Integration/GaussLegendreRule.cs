@@ -64,13 +64,7 @@ namespace MathNet.Numerics.Integration
         /// <summary>
         /// Getter that returns a clone of the array containing the abscissas.
         /// </summary>
-        public double[] Abscissas
-        {
-            get
-            {
-                return _gaussLegendrePoint.Abscissas.Clone() as double[];
-            }
-        }
+        public double[] Abscissas => _gaussLegendrePoint.Abscissas.Clone() as double[];
 
         /// <summary>
         /// Getter for the ith weight.
@@ -85,46 +79,22 @@ namespace MathNet.Numerics.Integration
         /// <summary>
         /// Getter that returns a clone of the array containing the weights.
         /// </summary>
-        public double[] Weights
-        {
-            get
-            {
-                return _gaussLegendrePoint.Weights.Clone() as double[];
-            }
-        }
+        public double[] Weights => _gaussLegendrePoint.Weights.Clone() as double[];
 
         /// <summary>
         /// Getter for the order.
         /// </summary>
-        public int Order
-        {
-            get
-            {
-                return _gaussLegendrePoint.Order;
-            }
-        }
+        public int Order => _gaussLegendrePoint.Order;
 
         /// <summary>
         /// Getter for the InvervalBegin.
         /// </summary>
-        public double IntervalBegin
-        {
-            get
-            {
-                return _gaussLegendrePoint.IntervalBegin;
-            }
-        }
+        public double IntervalBegin => _gaussLegendrePoint.IntervalBegin;
 
         /// <summary>
         /// Getter for the InvervalEnd.
         /// </summary>
-        public double IntervalEnd
-        {
-            get
-            {
-                return _gaussLegendrePoint.IntervalEnd;
-            }
-        }
+        public double IntervalEnd => _gaussLegendrePoint.IntervalEnd;
 
         /// <summary>
         /// Approximates a definite integral using an Nth order Gauss-Legendre rule.

@@ -71,19 +71,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// <summary>
         /// True if the matrix storage format is dense.
         /// </summary>
-        public override bool IsDense
-        {
-            get { return true; }
-        }
+        public override bool IsDense => true;
 
         /// <summary>
         /// True if all fields of this matrix can be set to any value.
         /// False if some fields are fixed, like on a diagonal matrix.
         /// </summary>
-        public override bool IsFullyMutable
-        {
-            get { return true; }
-        }
+        public override bool IsFullyMutable => true;
 
         /// <summary>
         /// True if the specified field can be set to any value.
@@ -300,8 +294,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             for (int j = 0; j < data.Length; j++)
             {
                 var column = data[j];
-                var denseColumn = column as DenseVectorStorage<T>;
-                if (denseColumn != null)
+                if (column is DenseVectorStorage<T> denseColumn)
                 {
                     Array.Copy(denseColumn.Data, 0, array, j*rows, rows);
                 }
@@ -351,8 +344,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         public static DenseColumnMajorMatrixStorage<T> OfColumnMajorEnumerable(int rows, int columns, IEnumerable<T> data)
         {
-            var arrayData = data as T[];
-            if (arrayData != null)
+            if (data is T[] arrayData)
             {
                 return OfColumnMajorArray(rows, columns, arrayData);
             }
@@ -373,8 +365,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 for (int column = 0; column < columns; column++)
                 {
                     if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
-                    var arrayColumn = columnIterator.Current as T[];
-                    if (arrayColumn != null)
+                    if (columnIterator.Current is T[] arrayColumn)
                     {
                         Array.Copy(arrayColumn, 0, array, column*rows, rows);
                     }
@@ -424,8 +415,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void CopyToUnchecked(MatrixStorage<T> target, ExistingData existingData)
         {
-            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
-            if (denseTarget != null)
+            if (target is DenseColumnMajorMatrixStorage<T> denseTarget)
             {
                 CopyToUnchecked(denseTarget);
                 return;
@@ -453,8 +443,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             ExistingData existingData)
         {
-            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
-            if (denseTarget != null)
+            if (target is DenseColumnMajorMatrixStorage<T> denseTarget)
             {
                 CopySubMatrixToUnchecked(denseTarget, sourceRowIndex, targetRowIndex, rowCount, sourceColumnIndex, targetColumnIndex, columnCount);
                 return;
@@ -490,8 +479,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void CopySubRowToUnchecked(VectorStorage<T> target, int rowIndex, int sourceColumnIndex, int targetColumnIndex, int columnCount,
             ExistingData existingData)
         {
-            var targetDense = target as DenseVectorStorage<T>;
-            if (targetDense != null)
+            if (target is DenseVectorStorage<T> targetDense)
             {
                 for (int j = 0; j < columnCount; j++)
                 {
@@ -513,8 +501,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void CopySubColumnToUnchecked(VectorStorage<T> target, int columnIndex, int sourceRowIndex, int targetRowIndex, int rowCount,
             ExistingData existingData)
         {
-            var targetDense = target as DenseVectorStorage<T>;
-            if (targetDense != null)
+            if (target is DenseVectorStorage<T> targetDense)
             {
                 Array.Copy(Data, columnIndex*RowCount + sourceRowIndex, targetDense.Data, targetRowIndex, rowCount);
                 return;
@@ -533,15 +520,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override void TransposeToUnchecked(MatrixStorage<T> target, ExistingData existingData)
         {
-            var denseTarget = target as DenseColumnMajorMatrixStorage<T>;
-            if (denseTarget != null)
+            if (target is DenseColumnMajorMatrixStorage<T> denseTarget)
             {
                 TransposeToUnchecked(denseTarget);
                 return;
             }
 
-            var sparseTarget = target as SparseCompressedRowMatrixStorage<T>;
-            if (sparseTarget != null)
+            if (target is SparseCompressedRowMatrixStorage<T> sparseTarget)
             {
                 TransposeToUnchecked(sparseTarget);
                 return;
@@ -743,8 +728,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override Tuple<int, int, T, TOther> Find2Unchecked<TOther>(MatrixStorage<TOther> other, Func<T, TOther, bool> predicate, Zeros zeros)
         {
-            var denseOther = other as DenseColumnMajorMatrixStorage<TOther>;
-            if (denseOther != null)
+            if (other is DenseColumnMajorMatrixStorage<TOther> denseOther)
             {
                 TOther[] otherData = denseOther.Data;
                 for (int i = 0; i < Data.Length; i++)
@@ -760,8 +744,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return null;
             }
 
-            var diagonalOther = other as DiagonalMatrixStorage<TOther>;
-            if (diagonalOther != null)
+            if (other is DiagonalMatrixStorage<TOther> diagonalOther)
             {
                 TOther[] otherData = diagonalOther.Data;
                 TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
@@ -780,8 +763,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return null;
             }
 
-            var sparseOther = other as SparseCompressedRowMatrixStorage<TOther>;
-            if (sparseOther != null)
+            if (other is SparseCompressedRowMatrixStorage<TOther> sparseOther)
             {
                 int[] otherRowPointers = sparseOther.RowPointers;
                 int[] otherColumnIndices = sparseOther.ColumnIndices;
@@ -849,8 +831,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void MapToUnchecked<TU>(MatrixStorage<TU> target, Func<T, TU> f,
             Zeros zeros, ExistingData existingData)
         {
-            var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
-            if (denseTarget != null)
+            if (target is DenseColumnMajorMatrixStorage<TU> denseTarget)
             {
                 CommonParallel.For(0, Data.Length, 4096, (a, b) =>
                 {
@@ -877,8 +858,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         internal override void MapIndexedToUnchecked<TU>(MatrixStorage<TU> target, Func<int, int, T, TU> f,
             Zeros zeros, ExistingData existingData)
         {
-            var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
-            if (denseTarget != null)
+            if (target is DenseColumnMajorMatrixStorage<TU> denseTarget)
             {
                 CommonParallel.For(0, ColumnCount, Math.Max(4096/RowCount, 32), (a, b) =>
                 {
@@ -912,8 +892,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             int sourceColumnIndex, int targetColumnIndex, int columnCount,
             Zeros zeros, ExistingData existingData)
         {
-            var denseTarget = target as DenseColumnMajorMatrixStorage<TU>;
-            if (denseTarget != null)
+            if (target is DenseColumnMajorMatrixStorage<TU> denseTarget)
             {
                 CommonParallel.For(0, columnCount, Math.Max(4096/rowCount, 32), (a, b) =>
                 {
@@ -975,8 +954,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal override TState Fold2Unchecked<TOther, TState>(MatrixStorage<TOther> other, Func<TState, T, TOther, TState> f, TState state, Zeros zeros)
         {
-            var denseOther = other as DenseColumnMajorMatrixStorage<TOther>;
-            if (denseOther != null)
+            if (other is DenseColumnMajorMatrixStorage<TOther> denseOther)
             {
                 TOther[] otherData = denseOther.Data;
                 for (int i = 0; i < Data.Length; i++)
@@ -986,8 +964,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return state;
             }
 
-            var diagonalOther = other as DiagonalMatrixStorage<TOther>;
-            if (diagonalOther != null)
+            if (other is DiagonalMatrixStorage<TOther> diagonalOther)
             {
                 TOther[] otherData = diagonalOther.Data;
                 TOther otherZero = BuilderInstance<TOther>.Matrix.Zero;
@@ -1003,8 +980,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return state;
             }
 
-            var sparseOther = other as SparseCompressedRowMatrixStorage<TOther>;
-            if (sparseOther != null)
+            if (other is SparseCompressedRowMatrixStorage<TOther> sparseOther)
             {
                 int[] otherRowPointers = sparseOther.RowPointers;
                 int[] otherColumnIndices = sparseOther.ColumnIndices;

@@ -77,26 +77,17 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets the lower triangular factor.
         /// </summary>
-        public Matrix<T> L
-        {
-            get { return _lazyL.Value; }
-        }
+        public Matrix<T> L => _lazyL.Value;
 
         /// <summary>
         /// Gets the upper triangular factor.
         /// </summary>
-        public Matrix<T> U
-        {
-            get { return _lazyU.Value; }
-        }
+        public Matrix<T> U => _lazyU.Value;
 
         /// <summary>
         /// Gets the permutation applied to LU factorization.
         /// </summary>
-        public Permutation P
-        {
-            get { return _lazyP.Value; }
-        }
+        public Permutation P => _lazyP.Value;
 
         /// <summary>
         /// Gets the determinant of the matrix for which the LU factorization was computed.

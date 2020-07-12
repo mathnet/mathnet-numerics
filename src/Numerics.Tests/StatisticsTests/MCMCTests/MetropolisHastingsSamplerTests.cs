@@ -93,17 +93,5 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests.McmcTests
 
             ms.Sample(5);
         }
-
-        /// <summary>
-        /// Set <c>null</c> RNG throws <c>ArgumentNullException</c>.
-        /// </summary>
-        [Test]
-        public void NullRandomNumberGenerator()
-        {
-            var random = MersenneTwister.Default;
-            var normal = new Normal(0.0, 1.0, random);
-            var ms = new MetropolisHastingsSampler<double>(0.2, normal.Density, (x, y) => Normal.PDF(x, 0.1, y), x => Normal.Sample(random, x, 0.1), 10);
-            Assert.That(() => ms.RandomSource = null, Throws.TypeOf<ArgumentNullException>());
-        }
     }
 }

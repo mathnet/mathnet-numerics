@@ -29,6 +29,7 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra;
+using static System.FormattableString;
 
 namespace MathNet.Numerics.Optimization.LineSearch
 {
@@ -42,11 +43,11 @@ namespace MathNet.Numerics.Optimization.LineSearch
         public WolfeLineSearch(double c1, double c2, double parameterTolerance, int maxIterations = 10)
         {
             if (c1 <= 0)
-                throw new ArgumentException(string.Format("c1 {0} should be greater than 0", c1));
+                throw new ArgumentException(Invariant($"c1 {c1} should be greater than 0"));
             if (c2 <= c1)
-                throw new ArgumentException(string.Format("c1 {0} should be less than c2 {1}", c1, c2));
+                throw new ArgumentException(Invariant($"c1 {c1} should be less than c2 {c2}"));
             if (c2 >= 1)
-                throw new ArgumentException(string.Format("c2 {0} should be less than 1", c2));
+                throw new ArgumentException(Invariant($"c2 {c2} should be less than 1"));
 
             C1 = c1;
             C2 = c2;
@@ -125,12 +126,12 @@ namespace MathNet.Numerics.Optimization.LineSearch
 
             if (ii == MaximumIterations && Double.IsPositiveInfinity(upperBound))
             {
-                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached. Function appears to be unbounded in search direction.", MaximumIterations));
+                throw new MaximumIterationsException(Invariant($"Maximum iterations ({MaximumIterations}) reached. Function appears to be unbounded in search direction."));
             }
 
             if (ii == MaximumIterations)
             {
-                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", MaximumIterations));
+                throw new MaximumIterationsException(Invariant($"Maximum iterations ({MaximumIterations}) reached."));
             }
 
             return new LineSearchResult(objective, ii, step, reasonForExit);

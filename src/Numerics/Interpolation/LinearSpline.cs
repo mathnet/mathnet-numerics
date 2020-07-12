@@ -117,18 +117,12 @@ namespace MathNet.Numerics.Interpolation
         /// <summary>
         /// Gets a value indicating whether the algorithm supports differentiation (interpolated derivative).
         /// </summary>
-        bool IInterpolation.SupportsDifferentiation
-        {
-            get { return true; }
-        }
+        bool IInterpolation.SupportsDifferentiation => true;
 
         /// <summary>
         /// Gets a value indicating whether the algorithm supports integration (interpolated quadrature).
         /// </summary>
-        bool IInterpolation.SupportsIntegration
-        {
-            get { return true; }
-        }
+        bool IInterpolation.SupportsIntegration => true;
 
         /// <summary>
         /// Interpolate at point t.

@@ -119,7 +119,7 @@ namespace MathNet.Numerics.Optimization
 
             if (iterations == maxIterations)
             {
-                throw new MaximumIterationsException(String.Format("Maximum iterations ({0}) reached.", maxIterations));
+                throw new MaximumIterationsException(FormattableString.Invariant($"Maximum iterations ({maxIterations}) reached."));
             }
 
             return new MinimizationWithLineSearchResult(objective, iterations, ExitCondition.AbsoluteGradient, totalLineSearchSteps, iterationsWithNontrivialLineSearch);

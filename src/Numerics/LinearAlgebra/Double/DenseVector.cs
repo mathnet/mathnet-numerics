@@ -162,10 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Gets the vector's data.
         /// </summary>
         /// <value>The vector's data.</value>
-        public double[] Values
-        {
-            get { return _values; }
-        }
+        public double[] Values => _values;
 
         /// <summary>
         /// Returns a reference to the internal data structure.

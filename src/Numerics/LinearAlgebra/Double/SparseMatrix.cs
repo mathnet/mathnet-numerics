@@ -51,10 +51,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// Gets the number of non zero elements in the matrix.
         /// </summary>
         /// <value>The number of non zero elements.</value>
-        public int NonZerosCount
-        {
-            get { return _storage.ValueCount; }
-        }
+        public int NonZerosCount => _storage.ValueCount;
 
         /// <summary>
         /// Create a new sparse matrix straight from an initialized matrix storage instance.
@@ -890,8 +887,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var diagonalOther = other.Storage as DiagonalMatrixStorage<double>;
-            if (diagonalOther != null && sparseResult != null)
+            if (other.Storage is DiagonalMatrixStorage<double> diagonalOther && sparseResult != null)
             {
                 var diagonal = diagonalOther.Data;
                 if (other.ColumnCount == other.RowCount)
@@ -911,8 +907,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             var columnIndices = _storage.ColumnIndices;
             var values = _storage.Values;
 
-            var denseOther = other.Storage as DenseColumnMajorMatrixStorage<double>;
-            if (denseOther != null)
+            if (other.Storage is DenseColumnMajorMatrixStorage<double> denseOther)
             {
                 // in this case we can directly address the underlying data-array
                 for (var row = 0; row < RowCount; row++)
@@ -1561,7 +1556,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
         public override string ToTypeString()
         {
-            return string.Format("SparseMatrix {0}x{1}-Double {2:P2} Filled", RowCount, ColumnCount, NonZerosCount / (RowCount * (double)ColumnCount));
+            return FormattableString.Invariant($"SparseMatrix {RowCount}x{ColumnCount}-Double {NonZerosCount / (RowCount * (double) ColumnCount):P2} Filled");
         }
     }
 }

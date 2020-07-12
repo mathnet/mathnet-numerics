@@ -162,10 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Gets the vector's data.
         /// </summary>
         /// <value>The vector's data.</value>
-        public Complex[] Values
-        {
-            get { return _values; }
-        }
+        public Complex[] Values => _values;
 
         /// <summary>
         /// Returns a reference to the internal data structure.

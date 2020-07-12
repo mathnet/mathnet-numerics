@@ -48,46 +48,22 @@ namespace MathNet.Numerics.Integration
         /// <summary>
         /// Getter for the order.
         /// </summary>
-        public int Order
-        {
-            get
-            {
-                return gaussKronrodPoint.Order;
-            }
-        }
+        public int Order => gaussKronrodPoint.Order;
 
         /// <summary>
         /// Getter that returns a clone of the array containing the Kronrod abscissas.
         /// </summary>
-        public double[] KronrodAbscissas
-        {
-            get
-            {
-                return gaussKronrodPoint.Abscissas.Clone() as double[];
-            }
-        }
+        public double[] KronrodAbscissas => gaussKronrodPoint.Abscissas.Clone() as double[];
 
         /// <summary>
         /// Getter that returns a clone of the array containing the Kronrod weights.
         /// </summary>
-        public double[] KronrodWeights
-        {
-            get
-            {
-                return gaussKronrodPoint.Weights.Clone() as double[];
-            }
-        }
+        public double[] KronrodWeights => gaussKronrodPoint.Weights.Clone() as double[];
 
         /// <summary>
         /// Getter that returns a clone of the array containing the Gauss weights.
         /// </summary>
-        public double[] GaussWeights
-        {
-            get
-            {
-                return gaussKronrodPoint.SecondWeights.Clone() as double[];
-            }
-        }
+        public double[] GaussWeights => gaussKronrodPoint.SecondWeights.Clone() as double[];
 
         public GaussKronrodRule(int order)
         {
@@ -107,7 +83,7 @@ namespace MathNet.Numerics.Integration
         /// <param name="order">The number of Gauss-Kronrod points. Pre-computed for 15, 21, 31, 41, 51 and 61 points</param>
         public static double Integrate(Func<double, double> f, double intervalBegin, double intervalEnd, out double error, out double L1Norm, double targetRelativeError = 1E-10, int maximumDepth = 15, int order = 15)
         {
-            // Formula used for variable subsitution from 
+            // Formula used for variable subsitution from
             // 1. Shampine, L. F. (2008). Vectorized adaptive quadrature in MATLAB. Journal of Computational and Applied Mathematics, 211(2), 131-140.
             // 2. quadgk.m, GNU Octave
 
@@ -193,7 +169,7 @@ namespace MathNet.Numerics.Integration
         /// <returns></returns>
         public static Complex ContourIntegrate(Func<double, Complex> f, double intervalBegin, double intervalEnd, out double error, out double L1Norm, double targetRelativeError = 1E-10, int maximumDepth = 15, int order = 15)
         {
-            // Formula used for variable subsitution from 
+            // Formula used for variable subsitution from
             // 1. Shampine, L. F. (2008). Vectorized adaptive quadrature in MATLAB. Journal of Computational and Applied Mathematics, 211(2), 131-140.
             // 2. quadgk.m, GNU Octave
 

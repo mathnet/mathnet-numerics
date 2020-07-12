@@ -83,16 +83,14 @@ namespace MathNet.Numerics
             }
 
             // array case
-            var keysArray = keys as T[];
-            if (null != keysArray)
+            if (keys is T[] keysArray)
             {
                 Array.Sort(keysArray, comparer);
                 return;
             }
 
             // generic list case
-            var keysList = keys as List<T>;
-            if (null != keysList)
+            if (keys is List<T> keysList)
             {
                 keysList.Sort(comparer);
                 return;
@@ -154,9 +152,7 @@ namespace MathNet.Numerics
             }
 
             // array case
-            var keysArray = keys as TKey[];
-            var itemsArray = items as TItem[];
-            if ((null != keysArray) && (null != itemsArray))
+            if (keys is TKey[] keysArray && items is TItem[] itemsArray)
             {
                 Array.Sort(keysArray, itemsArray, comparer);
                 return;
@@ -285,16 +281,14 @@ namespace MathNet.Numerics
             }
 
             // array case
-            var keysArray = keys as T[];
-            if (null != keysArray)
+            if (keys is T[] keysArray)
             {
                 Array.Sort(keysArray, index, count, comparer);
                 return;
             }
 
             // generic list case
-            var keysList = keys as List<T>;
-            if (null != keysList)
+            if (keys is List<T> keysList)
             {
                 keysList.Sort(index, count, comparer);
                 return;
@@ -368,9 +362,7 @@ namespace MathNet.Numerics
             }
 
             // array case
-            var keysArray = keys as TKey[];
-            var itemsArray = items as TItem[];
-            if ((null != keysArray) && (null != itemsArray))
+            if (keys is TKey[] keysArray && items is TItem[] itemsArray)
             {
                 Array.Sort(keysArray, itemsArray, index, count, comparer);
                 return;

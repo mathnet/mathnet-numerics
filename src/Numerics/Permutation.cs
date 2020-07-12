@@ -69,23 +69,14 @@ namespace MathNet.Numerics
         /// <summary>
         /// Gets the number of elements this permutation is over.
         /// </summary>
-        public int Dimension
-        {
-            get { return _indices.Length; }
-        }
+        public int Dimension => _indices.Length;
 
         /// <summary>
         /// Computes where <paramref name="idx"/> permutes too.
         /// </summary>
         /// <param name="idx">The index to permute from.</param>
         /// <returns>The index which is permuted to.</returns>
-        public int this[int idx]
-        {
-            get
-            {
-                return _indices[idx];
-            }
-        }
+        public int this[int idx] => _indices[idx];
 
         /// <summary>
         /// Computes the inverse of the permutation.

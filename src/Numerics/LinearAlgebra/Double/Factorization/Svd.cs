@@ -72,13 +72,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
         /// Gets the two norm of the <see cref="Matrix{T}"/>.
         /// </summary>
         /// <returns>The 2-norm of the <see cref="Matrix{T}"/>.</returns>
-        public override double L2Norm
-        {
-            get
-            {
-                return Math.Abs(S[0]);
-            }
-        }
+        public override double L2Norm => Math.Abs(S[0]);
 
         /// <summary>
         /// Gets the condition number <b>max(S) / min(S)</b>

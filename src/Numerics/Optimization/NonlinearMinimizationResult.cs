@@ -4,22 +4,22 @@ namespace MathNet.Numerics.Optimization
 {
     public class NonlinearMinimizationResult
     {
-        public IObjectiveModel ModelInfoAtMinimum { get; private set; }
+        public IObjectiveModel ModelInfoAtMinimum { get; }
 
         /// <summary>
         /// Returns the best fit parameters.
         /// </summary>
-        public Vector<double> MinimizingPoint { get { return ModelInfoAtMinimum.Point; } }
+        public Vector<double> MinimizingPoint => ModelInfoAtMinimum.Point;
 
         /// <summary>
-        /// Returns the standard errors of the corresponding parameters 
+        /// Returns the standard errors of the corresponding parameters
         /// </summary>
         public Vector<double> StandardErrors { get; private set; }
 
         /// <summary>
         /// Returns the y-values of the fitted model that correspond to the independent values.
         /// </summary>
-        public Vector<double> MinimizedValues { get { return ModelInfoAtMinimum.ModelValues; } }
+        public Vector<double> MinimizedValues => ModelInfoAtMinimum.ModelValues;
 
         /// <summary>
         /// Returns the covariance matrix at minimizing point.
@@ -31,9 +31,9 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         public Matrix<double> Correlation { get; private set; }
 
-        public int Iterations { get; private set; }
+        public int Iterations { get; }
 
-        public ExitCondition ReasonForExit { get; private set; }
+        public ExitCondition ReasonForExit { get; }
 
         public NonlinearMinimizationResult(IObjectiveModel modelInfo, int iterations, ExitCondition reasonForExit)
         {
@@ -72,7 +72,7 @@ namespace MathNet.Numerics.Optimization
             {
                 StandardErrors = null;
                 Correlation = null;
-            }            
+            }
         }
     }
 }

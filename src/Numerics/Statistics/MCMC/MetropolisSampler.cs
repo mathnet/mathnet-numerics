@@ -94,7 +94,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When burn interval is negative.</exception>
         public int BurnInterval
         {
-            get { return _burnInterval; }
+            get => _burnInterval;
             set
             {
                 if (value < 0)

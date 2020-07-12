@@ -69,7 +69,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
             int revision = CudaProvider.Load(hintPath: _hintPath);
             if (revision < MinimumCompatibleRevision)
             {
-                throw new NotSupportedException($"Cuda Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported.");
+                throw new NotSupportedException(FormattableString.Invariant($"Cuda Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported."));
             }
 
             int linearAlgebra = SafeNativeMethods.query_capability((int)ProviderCapability.LinearAlgebraMajor);
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
             // we only support exactly one major version, since major version changes imply a breaking change.
             if (linearAlgebra != 1)
             {
-                throw new NotSupportedException(string.Format("Cuda Native Provider not compatible. Expecting linear algebra v1 but provider implements v{0}.", linearAlgebra));
+                throw new NotSupportedException(FormattableString.Invariant($"Cuda Native Provider not compatible. Expecting linear algebra v1 but provider implements v{linearAlgebra}."));
             }
 
             BLAS(SafeNativeMethods.createBLASHandle(ref _blasHandle));

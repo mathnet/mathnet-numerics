@@ -49,7 +49,7 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         /// Name of the native DLL.
         /// </summary>
         const string _DllName = "MathNet.Numerics.MKL.dll";
-        internal static string DllName { get { return _DllName; } }
+        internal static string DllName => _DllName;
 
         [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int query_capability(int capability);

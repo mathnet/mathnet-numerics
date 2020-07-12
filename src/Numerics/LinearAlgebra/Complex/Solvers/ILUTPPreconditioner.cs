@@ -162,7 +162,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <exception cref="ArgumentOutOfRangeException">Thrown if a negative value is provided.</exception>
         public double FillLevel
         {
-            get { return _fillLevel; }
+            get => _fillLevel;
             set
             {
                 if (value < 0)
@@ -193,7 +193,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <exception cref="ArgumentOutOfRangeException">Thrown if a negative value is provided.</exception>
         public double DropTolerance
         {
-            get { return _dropTolerance; }
+            get => _dropTolerance;
             set
             {
                 if (value < 0)
@@ -226,7 +226,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         /// <exception cref="ArgumentOutOfRangeException">Thrown if a negative value is provided.</exception>
         public double PivotTolerance
         {
-            get { return _pivotTolerance; }
+            get => _pivotTolerance;
             set
             {
                 if (value < 0)
