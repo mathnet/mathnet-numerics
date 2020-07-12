@@ -359,7 +359,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The success probability (p) in each trial. Range: 0 ≤ p ≤ 1.</param>
         /// <param name="n">The number of trials (n). Range: n ≥ 0.</param>
         /// <returns>The number of successful trials.</returns>
-        static int SampleUnchecked(System.Random rnd, double p, int n)
+        internal static int SampleUnchecked(System.Random rnd, double p, int n)
         {
             var k = 0;
             for (var i = 0; i < n; i++)
