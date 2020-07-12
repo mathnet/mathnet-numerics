@@ -93,6 +93,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new StudentT(1.0, 2.0, 1.0);
             Assert.AreEqual("StudentT(μ = 1, σ = 2, ν = 1)", n.ToString());
         }

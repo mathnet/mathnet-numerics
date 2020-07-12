@@ -72,6 +72,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new ConwayMaxwellPoisson(1d, 2d);
             Assert.AreEqual("ConwayMaxwellPoisson(λ = 1, ν = 2)", d.ToString());
         }

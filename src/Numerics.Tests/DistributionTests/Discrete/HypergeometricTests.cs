@@ -82,6 +82,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new Hypergeometric(10, 1, 1);
             Assert.AreEqual("Hypergeometric(N = 10, M = 1, n = 1)", d.ToString());
         }

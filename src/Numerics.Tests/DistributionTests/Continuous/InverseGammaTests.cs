@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Globalization;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using NUnit.Framework;
@@ -81,6 +82,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             var n = new InverseGamma(1.1d, 2.1d);
             Assert.AreEqual("InverseGamma(α = 1.1, β = 2.1)", n.ToString());
         }

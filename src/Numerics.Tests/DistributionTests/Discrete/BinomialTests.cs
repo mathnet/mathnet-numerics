@@ -75,6 +75,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var b = new Binomial(0.3, 2);
             Assert.AreEqual("Binomial(p = 0.3, n = 2)", b.ToString());
         }

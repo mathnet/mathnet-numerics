@@ -137,6 +137,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new InverseWishart(1d, Matrix<double>.Build.RandomPositiveDefinite(2, 1));
             Assert.AreEqual("InverseWishart(ν = 1, Rows = 2, Columns = 2)", d.ToString());
         }

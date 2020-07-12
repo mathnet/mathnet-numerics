@@ -148,6 +148,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             const int N = 2;
             const int P = 5;
             var d = new MatrixNormal(Matrix<double>.Build.Random(N, P, 1), Matrix<double>.Build.RandomPositiveDefinite(N, 1), Matrix<double>.Build.RandomPositiveDefinite(P, 1));

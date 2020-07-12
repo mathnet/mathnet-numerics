@@ -97,6 +97,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new Stable(1.2d, 0.3d, 1d, 2d);
             Assert.AreEqual("Stable(α = 1.2, β = 0.3, c = 1, μ = 2)", n.ToString());
         }

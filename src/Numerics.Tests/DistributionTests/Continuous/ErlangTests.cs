@@ -115,6 +115,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new Erlang(1, 2d);
             Assert.AreEqual("Erlang(k = 1, λ = 2)", n.ToString());
         }

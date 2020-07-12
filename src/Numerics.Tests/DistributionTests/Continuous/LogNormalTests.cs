@@ -80,6 +80,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new LogNormal(1d, 2d);
             Assert.AreEqual("LogNormal(μ = 1, σ = 2)", n.ToString());
         }

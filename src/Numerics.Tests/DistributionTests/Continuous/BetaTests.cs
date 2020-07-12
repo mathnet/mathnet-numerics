@@ -84,6 +84,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new Beta(1d, 2d);
             Assert.AreEqual("Beta(α = 1, β = 2)", n.ToString());
         }

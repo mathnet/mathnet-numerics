@@ -117,6 +117,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new Gamma(1d, 2d);
             Assert.AreEqual("Gamma(α = 1, β = 2)", n.ToString());
         }

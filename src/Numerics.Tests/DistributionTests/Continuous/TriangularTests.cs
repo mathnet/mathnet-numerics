@@ -88,6 +88,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new Triangular(0d, 2d, 1d);
             Assert.AreEqual("Triangular(Lower = 0, Upper = 2, Mode = 1)", n.ToString());
         }

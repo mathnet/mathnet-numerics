@@ -102,6 +102,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new InverseGaussian(1d, 2d);
             Assert.AreEqual("InverseGaussian(μ = 1, λ = 2)", n.ToString());
         }

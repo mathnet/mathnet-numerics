@@ -113,6 +113,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new Burr(1d, 2d, 3d);
             Assert.AreEqual("Burr(a = 1, c = 2, k = 3)", n.ToString());
         }

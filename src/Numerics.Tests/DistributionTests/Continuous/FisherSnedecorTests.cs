@@ -96,6 +96,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var n = new FisherSnedecor(2d, 1d);
             Assert.AreEqual("FisherSnedecor(d1 = 2, d2 = 1)", n.ToString());
         }

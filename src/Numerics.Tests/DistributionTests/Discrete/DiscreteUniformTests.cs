@@ -75,6 +75,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var b = new DiscreteUniform(0, 10);
             Assert.AreEqual("DiscreteUniform(Lower = 0, Upper = 10)", b.ToString());
         }

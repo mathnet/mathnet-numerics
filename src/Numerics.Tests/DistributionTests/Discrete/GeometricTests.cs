@@ -72,6 +72,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         [Test]
         public void ValidateToString()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
             var d = new Geometric(0.3);
             Assert.AreEqual("Geometric(p = 0.3)", d.ToString());
         }
