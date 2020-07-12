@@ -201,7 +201,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         [TestCase(Double.PositiveInfinity)]
         public void ValidateMaximum(double scale)
         {
-            var n = new Rayleigh(1.0);
+            var n = new Rayleigh(scale);
             Assert.AreEqual(Double.PositiveInfinity, n.Maximum);
         }
 
