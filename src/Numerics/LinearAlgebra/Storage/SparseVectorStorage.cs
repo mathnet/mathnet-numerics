@@ -198,43 +198,44 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 return true;
             }
 
-            var otherSparse = other as SparseVectorStorage<T>;
-            if (otherSparse == null)
+            if (other is SparseVectorStorage<T> otherSparse)
             {
-                return base.Equals(other);
-            }
-
-            int i = 0, j = 0;
-            while (i < ValueCount || j < otherSparse.ValueCount)
-            {
-                if (j >= otherSparse.ValueCount || i < ValueCount && Indices[i] < otherSparse.Indices[j])
+                int i = 0, j = 0;
+                while (i < ValueCount || j < otherSparse.ValueCount)
                 {
-                    if (!Zero.Equals(Values[i++]))
+                    if (j >= otherSparse.ValueCount || i < ValueCount && Indices[i] < otherSparse.Indices[j])
+                    {
+                        if (!Zero.Equals(Values[i++]))
+                        {
+                            return false;
+                        }
+
+                        continue;
+                    }
+
+                    if (i >= ValueCount || j < otherSparse.ValueCount && otherSparse.Indices[j] < Indices[i])
+                    {
+                        if (!Zero.Equals(otherSparse.Values[j++]))
+                        {
+                            return false;
+                        }
+
+                        continue;
+                    }
+
+                    if (!Values[i].Equals(otherSparse.Values[j]))
                     {
                         return false;
                     }
-                    continue;
+
+                    i++;
+                    j++;
                 }
 
-                if (i >= ValueCount || j < otherSparse.ValueCount && otherSparse.Indices[j] < Indices[i])
-                {
-                    if (!Zero.Equals(otherSparse.Values[j++]))
-                    {
-                        return false;
-                    }
-                    continue;
-                }
-
-                if (!Values[i].Equals(otherSparse.Values[j]))
-                {
-                    return false;
-                }
-
-                i++;
-                j++;
+                return true;
             }
 
-            return true;
+            return base.Equals(other);
         }
 
         /// <summary>

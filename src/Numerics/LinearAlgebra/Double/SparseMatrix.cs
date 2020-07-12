@@ -703,51 +703,50 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoAdd(Matrix<double> other, Matrix<double> result)
         {
-            var sparseOther = other as SparseMatrix;
-            var sparseResult = result as SparseMatrix;
-            if (sparseOther == null || sparseResult == null)
+            if (other is SparseMatrix sparseOther && result is SparseMatrix sparseResult)
             {
-                base.DoAdd(other, result);
-                return;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                if (!ReferenceEquals(this, result))
+                if (ReferenceEquals(this, other))
                 {
-                    CopyTo(result);
+                    if (!ReferenceEquals(this, result))
+                    {
+                        CopyTo(result);
+                    }
+
+                    LinearAlgebraControl.Provider.ScaleArray(2.0, sparseResult._storage.Values, sparseResult._storage.Values);
+                    return;
                 }
 
-                LinearAlgebraControl.Provider.ScaleArray(2.0, sparseResult._storage.Values, sparseResult._storage.Values);
-                return;
-            }
+                SparseMatrix left;
 
-            SparseMatrix left;
+                if (ReferenceEquals(sparseOther, sparseResult))
+                {
+                    left = this;
+                }
+                else if (ReferenceEquals(this, sparseResult))
+                {
+                    left = sparseOther;
+                }
+                else
+                {
+                    CopyTo(sparseResult);
+                    left = sparseOther;
+                }
 
-            if (ReferenceEquals(sparseOther, sparseResult))
-            {
-                left = this;
-            }
-            else if (ReferenceEquals(this, sparseResult))
-            {
-                left = sparseOther;
+                var leftStorage = left._storage;
+                for (var i = 0; i < leftStorage.RowCount; i++)
+                {
+                    var endIndex = leftStorage.RowPointers[i + 1];
+                    for (var j = leftStorage.RowPointers[i]; j < endIndex; j++)
+                    {
+                        var columnIndex = leftStorage.ColumnIndices[j];
+                        var resVal = leftStorage.Values[j] + result.At(i, columnIndex);
+                        result.At(i, columnIndex, resVal);
+                    }
+                }
             }
             else
             {
-                CopyTo(sparseResult);
-                left = sparseOther;
-            }
-
-            var leftStorage = left._storage;
-            for (var i = 0; i < leftStorage.RowCount; i++)
-            {
-                var endIndex = leftStorage.RowPointers[i + 1];
-                for (var j = leftStorage.RowPointers[i]; j < endIndex; j++)
-                {
-                    var columnIndex = leftStorage.ColumnIndices[j];
-                    var resVal = leftStorage.Values[j] + result.At(i, columnIndex);
-                    result.At(i, columnIndex, resVal);
-                }
+                base.DoAdd(other, result);
             }
         }
 
@@ -760,59 +759,57 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <exception cref="ArgumentOutOfRangeException">If the two matrices don't have the same dimensions.</exception>
         protected override void DoSubtract(Matrix<double> other, Matrix<double> result)
         {
-            var sparseOther = other as SparseMatrix;
-            var sparseResult = result as SparseMatrix;
-
-            if (sparseOther == null || sparseResult == null)
+            if (other is SparseMatrix sparseOther && result is SparseMatrix sparseResult)
             {
-                base.DoSubtract(other, result);
-                return;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                result.Clear();
-                return;
-            }
-
-            var otherStorage = sparseOther._storage;
-
-            if (ReferenceEquals(this, sparseResult))
-            {
-                for (var i = 0; i < otherStorage.RowCount; i++)
+                if (ReferenceEquals(this, other))
                 {
-                    var endIndex = otherStorage.RowPointers[i + 1];
-                    for (var j = otherStorage.RowPointers[i]; j < endIndex; j++)
+                    result.Clear();
+                    return;
+                }
+
+                var otherStorage = sparseOther._storage;
+
+                if (ReferenceEquals(this, sparseResult))
+                {
+                    for (var i = 0; i < otherStorage.RowCount; i++)
                     {
-                        var columnIndex = otherStorage.ColumnIndices[j];
-                        var resVal = sparseResult.At(i, columnIndex) - otherStorage.Values[j];
-                        result.At(i, columnIndex, resVal);
+                        var endIndex = otherStorage.RowPointers[i + 1];
+                        for (var j = otherStorage.RowPointers[i]; j < endIndex; j++)
+                        {
+                            var columnIndex = otherStorage.ColumnIndices[j];
+                            var resVal = sparseResult.At(i, columnIndex) - otherStorage.Values[j];
+                            result.At(i, columnIndex, resVal);
+                        }
+                    }
+                }
+                else
+                {
+                    if (!ReferenceEquals(sparseOther, sparseResult))
+                    {
+                        sparseOther.CopyTo(sparseResult);
+                    }
+
+                    sparseResult.Negate(sparseResult);
+
+                    var rowPointers = _storage.RowPointers;
+                    var columnIndices = _storage.ColumnIndices;
+                    var values = _storage.Values;
+
+                    for (var i = 0; i < RowCount; i++)
+                    {
+                        var endIndex = rowPointers[i + 1];
+                        for (var j = rowPointers[i]; j < endIndex; j++)
+                        {
+                            var columnIndex = columnIndices[j];
+                            var resVal = sparseResult.At(i, columnIndex) + values[j];
+                            result.At(i, columnIndex, resVal);
+                        }
                     }
                 }
             }
             else
             {
-                if (!ReferenceEquals(sparseOther, sparseResult))
-                {
-                    sparseOther.CopyTo(sparseResult);
-                }
-
-                sparseResult.Negate(sparseResult);
-
-                var rowPointers = _storage.RowPointers;
-                var columnIndices = _storage.ColumnIndices;
-                var values = _storage.Values;
-
-                for (var i = 0; i < RowCount; i++)
-                {
-                    var endIndex = rowPointers[i + 1];
-                    for (var j = rowPointers[i]; j < endIndex; j++)
-                    {
-                        var columnIndex = columnIndices[j];
-                        var resVal = sparseResult.At(i, columnIndex) + values[j];
-                        result.At(i, columnIndex, resVal);
-                    }
-                }
+                base.DoSubtract(other, result);
             }
         }
 
@@ -835,8 +832,16 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var sparseResult = result as SparseMatrix;
-            if (sparseResult == null)
+            if (result is SparseMatrix sparseResult)
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(sparseResult);
+                }
+
+                LinearAlgebraControl.Provider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
+            }
+            else
             {
                 result.Clear();
 
@@ -860,15 +865,6 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         result.At(row, column, values[index] * scalar);
                     }
                 }
-            }
-            else
-            {
-                if (!ReferenceEquals(this, result))
-                {
-                    CopyTo(sparseResult);
-                }
-
-                LinearAlgebraControl.Provider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
             }
         }
 
@@ -1086,54 +1082,52 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoTransposeAndMultiply(Matrix<double> other, Matrix<double> result)
         {
-            var otherSparse = other as SparseMatrix;
-            var resultSparse = result as SparseMatrix;
-
-            if (otherSparse == null || resultSparse == null)
+            if (other is SparseMatrix otherSparse && result is SparseMatrix resultSparse)
             {
-                base.DoTransposeAndMultiply(other, result);
-                return;
-            }
+                resultSparse.Clear();
 
-            resultSparse.Clear();
+                var rowPointers = _storage.RowPointers;
+                var values = _storage.Values;
 
-            var rowPointers = _storage.RowPointers;
-            var values = _storage.Values;
+                var otherStorage = otherSparse._storage;
 
-            var otherStorage = otherSparse._storage;
-
-            for (var j = 0; j < RowCount; j++)
-            {
-                var startIndexOther = otherStorage.RowPointers[j];
-                var endIndexOther = otherStorage.RowPointers[j + 1];
-
-                if (startIndexOther == endIndexOther)
+                for (var j = 0; j < RowCount; j++)
                 {
-                    continue;
-                }
+                    var startIndexOther = otherStorage.RowPointers[j];
+                    var endIndexOther = otherStorage.RowPointers[j + 1];
 
-                for (var i = 0; i < RowCount; i++)
-                {
-                    var startIndexThis = rowPointers[i];
-                    var endIndexThis = rowPointers[i + 1];
-
-                    if (startIndexThis == endIndexThis)
+                    if (startIndexOther == endIndexOther)
                     {
                         continue;
                     }
 
-                    var sum = 0d;
-                    for (var index = startIndexOther; index < endIndexOther; index++)
+                    for (var i = 0; i < RowCount; i++)
                     {
-                        var ind = _storage.FindItem(i, otherStorage.ColumnIndices[index]);
-                        if (ind >= 0)
-                        {
-                            sum += otherStorage.Values[index]*values[ind];
-                        }
-                    }
+                        var startIndexThis = rowPointers[i];
+                        var endIndexThis = rowPointers[i + 1];
 
-                    resultSparse._storage.At(i, j, sum + result.At(i, j));
+                        if (startIndexThis == endIndexThis)
+                        {
+                            continue;
+                        }
+
+                        var sum = 0d;
+                        for (var index = startIndexOther; index < endIndexOther; index++)
+                        {
+                            var ind = _storage.FindItem(i, otherStorage.ColumnIndices[index]);
+                            if (ind >= 0)
+                            {
+                                sum += otherStorage.Values[index] * values[ind];
+                            }
+                        }
+
+                        resultSparse._storage.At(i, j, sum + result.At(i, j));
+                    }
                 }
+            }
+            else
+            {
+                base.DoTransposeAndMultiply(other, result);
             }
         }
 
@@ -1261,22 +1255,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Matrix to store the results in.</param>
         protected override void DoModulus(double divisor, Matrix<double> result)
         {
-            var sparseResult = result as SparseMatrix;
-            if (sparseResult == null)
+            if (result is SparseMatrix sparseResult)
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(result);
+                }
+
+                var resultStorage = sparseResult._storage;
+                for (var index = 0; index < resultStorage.Values.Length; index++)
+                {
+                    resultStorage.Values[index] = Euclid.Modulus(resultStorage.Values[index], divisor);
+                }
+            }
+            else
             {
                 base.DoModulus(divisor, result);
-                return;
-            }
-
-            if (!ReferenceEquals(this, result))
-            {
-                CopyTo(result);
-            }
-
-            var resultStorage = sparseResult._storage;
-            for (var index = 0; index < resultStorage.Values.Length; index++)
-            {
-                resultStorage.Values[index] = Euclid.Modulus(resultStorage.Values[index], divisor);
             }
         }
 
@@ -1288,22 +1282,22 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Matrix to store the results in.</param>
         protected override void DoRemainder(double divisor, Matrix<double> result)
         {
-            var sparseResult = result as SparseMatrix;
-            if (sparseResult == null)
+            if (result is SparseMatrix sparseResult)
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    CopyTo(result);
+                }
+
+                var resultStorage = sparseResult._storage;
+                for (var index = 0; index < resultStorage.Values.Length; index++)
+                {
+                    resultStorage.Values[index] %= divisor;
+                }
+            }
+            else
             {
                 base.DoRemainder(divisor, result);
-                return;
-            }
-
-            if (!ReferenceEquals(this, result))
-            {
-                CopyTo(result);
-            }
-
-            var resultStorage = sparseResult._storage;
-            for (var index = 0; index < resultStorage.Values.Length; index++)
-            {
-                resultStorage.Values[index] %= divisor;
             }
         }
 

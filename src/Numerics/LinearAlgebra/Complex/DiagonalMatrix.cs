@@ -288,14 +288,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 return;
             }
 
-            var diagResult = result as DiagonalMatrix;
-            if (diagResult == null)
+            if (result is DiagonalMatrix diagResult)
             {
-                base.DoMultiply(scalar, result);
+                LinearAlgebraControl.Provider.ScaleArray(scalar, _data, diagResult._data);
             }
             else
             {
-                LinearAlgebraControl.Provider.ScaleArray(scalar, _data, diagResult._data);
+                base.DoMultiply(scalar, result);
             }
         }
 
@@ -726,19 +725,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// this[i,i].</remarks>
         public override void SetDiagonal(Vector<Complex> source)
         {
-            var denseSource = source as DenseVector;
-            if (denseSource == null)
+            if (source is DenseVector denseSource)
+            {
+                if (_data.Length != denseSource.Values.Length)
+                {
+                    throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(source));
+                }
+
+                Array.Copy(denseSource.Values, 0, _data, 0, denseSource.Values.Length);
+            }
+            else
             {
                 base.SetDiagonal(source);
-                return;
             }
-
-            if (_data.Length != denseSource.Values.Length)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(source));
-            }
-
-            Array.Copy(denseSource.Values, 0, _data, 0, denseSource.Values.Length);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>

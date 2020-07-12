@@ -105,19 +105,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
             }
 
-            var dinput = input as DenseMatrix;
-            if (dinput == null)
+            if (input is DenseMatrix dinput && result is DenseMatrix dresult)
+            {
+                LinearAlgebraControl.Provider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector) S).Values, ((DenseMatrix) U).Values, ((DenseMatrix) VT).Values, dinput.Values, input.ColumnCount, dresult.Values);
+            }
+            else
             {
                 throw new NotSupportedException("Can only do SVD factorization for dense matrices at the moment.");
             }
-
-            var dresult = result as DenseMatrix;
-            if (dresult == null)
-            {
-                throw new NotSupportedException("Can only do SVD factorization for dense matrices at the moment.");
-            }
-
-            LinearAlgebraControl.Provider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector) S).Values, ((DenseMatrix) U).Values, ((DenseMatrix) VT).Values, dinput.Values, input.ColumnCount, dresult.Values);
         }
 
         /// <summary>
@@ -145,19 +140,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(VT, result);
             }
 
-            var dinput = input as DenseVector;
-            if (dinput == null)
+            if (input is DenseVector dinput && result is DenseVector dresult)
+            {
+                LinearAlgebraControl.Provider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector) S).Values, ((DenseMatrix) U).Values, ((DenseMatrix) VT).Values, dinput.Values, 1, dresult.Values);
+            }
+            else
             {
                 throw new NotSupportedException("Can only do SVD factorization for dense vectors at the moment.");
             }
-
-            var dresult = result as DenseVector;
-            if (dresult == null)
-            {
-                throw new NotSupportedException("Can only do SVD factorization for dense vectors at the moment.");
-            }
-
-            LinearAlgebraControl.Provider.SvdSolveFactored(U.RowCount, VT.ColumnCount, ((DenseVector) S).Values, ((DenseMatrix) U).Values, ((DenseMatrix) VT).Values, dinput.Values, 1, dresult.Values);
         }
     }
 }

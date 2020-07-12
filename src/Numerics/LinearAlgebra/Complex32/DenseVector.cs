@@ -206,20 +206,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The vector to store the result of the addition.</param>
         protected override void DoAdd(Complex32 scalar, Vector<Complex32> result)
         {
-            var dense = result as DenseVector;
-            if (dense == null)
+            if (result is DenseVector dense)
             {
-                base.DoAdd(scalar, result);
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        dense._values[i] = _values[i] + scalar;
+                    }
+                });
             }
             else
             {
-                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-                    {
-                        for (int i = a; i < b; i++)
-                        {
-                            dense._values[i] = _values[i] + scalar;
-                        }
-                    });
+                base.DoAdd(scalar, result);
             }
         }
 
@@ -230,16 +229,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The vector to store the result of the addition.</param>
         protected override void DoAdd(Vector<Complex32> other, Vector<Complex32> result)
         {
-            var otherDense = other as DenseVector;
-            var resultDense = result as DenseVector;
-
-            if (otherDense == null || resultDense == null)
+            if (other is DenseVector otherDense && result is DenseVector resultDense)
             {
-                base.DoAdd(other, result);
+                LinearAlgebraControl.Provider.AddArrays(_values, otherDense._values, resultDense._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.AddArrays(_values, otherDense._values, resultDense._values);
+                base.DoAdd(other, result);
             }
         }
 
@@ -268,20 +264,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The vector to store the result of the subtraction.</param>
         protected override void DoSubtract(Complex32 scalar, Vector<Complex32> result)
         {
-            var dense = result as DenseVector;
-            if (dense == null)
+            if (result is DenseVector dense)
             {
-                base.DoSubtract(scalar, result);
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        dense._values[i] = _values[i] - scalar;
+                    }
+                });
             }
             else
             {
-                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-                    {
-                        for (int i = a; i < b; i++)
-                        {
-                            dense._values[i] = _values[i] - scalar;
-                        }
-                    });
+                base.DoSubtract(scalar, result);
             }
         }
 
@@ -292,16 +287,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The vector to store the result of the subtraction.</param>
         protected override void DoSubtract(Vector<Complex32> other, Vector<Complex32> result)
         {
-            var otherDense = other as DenseVector;
-            var resultDense = result as DenseVector;
-
-            if (otherDense == null || resultDense == null)
+            if (other is DenseVector otherDense && result is DenseVector resultDense)
             {
-                base.DoSubtract(other, result);
+                LinearAlgebraControl.Provider.SubtractArrays(_values, otherDense._values, resultDense._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.SubtractArrays(_values, otherDense._values, resultDense._values);
+                base.DoSubtract(other, result);
             }
         }
 
@@ -345,14 +337,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">Target vector</param>
         protected override void DoNegate(Vector<Complex32> result)
         {
-            var denseResult = result as DenseVector;
-            if (denseResult == null)
+            if (result is DenseVector denseResult)
+            {
+                LinearAlgebraControl.Provider.ScaleArray(-Complex32.One, _values, denseResult.Values);
+            }
+            else
             {
                 base.DoNegate(result);
-                return;
             }
-
-            LinearAlgebraControl.Provider.ScaleArray(-Complex32.One, _values, denseResult.Values);
         }
 
         /// <summary>
@@ -361,14 +353,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">Target vector</param>
         protected override void DoConjugate(Vector<Complex32> result)
         {
-            var resultDense = result as DenseVector;
-            if (resultDense == null)
+            if (result is DenseVector resultDense)
+            {
+                LinearAlgebraControl.Provider.ConjugateArray(_values, resultDense._values);
+            }
+            else
             {
                 base.DoConjugate(result);
-                return;
             }
-
-            LinearAlgebraControl.Provider.ConjugateArray(_values, resultDense._values);
         }
 
         /// <summary>
@@ -379,14 +371,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <remarks></remarks>
         protected override void DoMultiply(Complex32 scalar, Vector<Complex32> result)
         {
-            var denseResult = result as DenseVector;
-            if (denseResult == null)
+            if (result is DenseVector denseResult)
+            {
+                LinearAlgebraControl.Provider.ScaleArray(scalar, _values, denseResult.Values);
+            }
+            else
             {
                 base.DoMultiply(scalar, result);
-                return;
             }
-
-            LinearAlgebraControl.Provider.ScaleArray(scalar, _values, denseResult.Values);
         }
 
         /// <summary>
@@ -396,10 +388,9 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The sum of a[i]*b[i] for all i.</returns>
         protected override Complex32 DoDotProduct(Vector<Complex32> other)
         {
-            var denseVector = other as DenseVector;
-            return denseVector == null
-                ? base.DoDotProduct(other)
-                : LinearAlgebraControl.Provider.DotProduct(_values, denseVector.Values);
+            return other is DenseVector denseVector
+                ? LinearAlgebraControl.Provider.DotProduct(_values, denseVector.Values)
+                : base.DoDotProduct(other);
         }
 
         /// <summary>
@@ -409,16 +400,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <returns>The sum of conj(a[i])*b[i] for all i.</returns>
         protected override Complex32 DoConjugateDotProduct(Vector<Complex32> other)
         {
-            var denseVector = other as DenseVector;
-            if (denseVector == null) return base.DoConjugateDotProduct(other);
+            if (other is DenseVector denseVector)
+            {
+                var dot = Complex32.Zero;
+                for (var i = 0; i < _values.Length; i++)
+                {
+                    dot += _values[i].Conjugate() * denseVector._values[i];
+                }
+
+                return dot;
+            }
 
             // TODO: provide native cdotc routine
-            var dot = Complex32.Zero;
-            for (var i = 0; i < _values.Length; i++)
-            {
-                dot += _values[i].Conjugate() * denseVector._values[i];
-            }
-            return dot;
+            return base.DoConjugateDotProduct(other);
         }
 
         /// <summary>
@@ -607,16 +601,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The vector to store the result of the pointwise division.</param>
         protected override void DoPointwiseMultiply(Vector<Complex32> other, Vector<Complex32> result)
         {
-            var denseOther = other as DenseVector;
-            var denseResult = result as DenseVector;
-
-            if (denseOther == null || denseResult == null)
+            if (other is DenseVector denseOther && result is DenseVector denseResult)
             {
-                base.DoPointwiseMultiply(other, result);
+                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
+                base.DoPointwiseMultiply(other, result);
             }
         }
 
@@ -628,16 +619,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <remarks></remarks>
         protected override void DoPointwiseDivide(Vector<Complex32> divisor, Vector<Complex32> result)
         {
-            var denseOther = divisor as DenseVector;
-            var denseResult = result as DenseVector;
-
-            if (denseOther == null || denseResult == null)
+            if (divisor is DenseVector denseOther && result is DenseVector denseResult)
             {
-                base.DoPointwiseDivide(divisor, result);
+                LinearAlgebraControl.Provider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
+                base.DoPointwiseDivide(divisor, result);
             }
         }
 
@@ -648,16 +636,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <param name="result">The vector to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(Vector<Complex32> exponent, Vector<Complex32> result)
         {
-            var denseExponent = exponent as DenseVector;
-            var denseResult = result as DenseVector;
-
-            if (denseExponent == null || denseResult == null)
+            if (exponent is DenseVector denseExponent && result is DenseVector denseResult)
             {
-                base.DoPointwisePower(exponent, result);
+                LinearAlgebraControl.Provider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
+                base.DoPointwisePower(exponent, result);
             }
         }
 

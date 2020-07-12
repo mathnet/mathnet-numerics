@@ -455,21 +455,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result of the addition.</param>
         protected override void DoAdd(Complex scalar, Matrix<Complex> result)
         {
-            var denseResult = result as DenseMatrix;
-            if (denseResult == null)
+            if (result is DenseMatrix denseResult)
+            {
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                {
+                    var v = denseResult._values;
+                    for (int i = a; i < b; i++)
+                    {
+                        v[i] = _values[i] + scalar;
+                    }
+                });
+            }
+            else
             {
                 base.DoAdd(scalar, result);
-                return;
             }
-
-            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-            {
-                var v = denseResult._values;
-                for (int i = a; i < b; i++)
-                {
-                    v[i] = _values[i] + scalar;
-                }
-            });
         }
 
         /// <summary>
@@ -510,21 +510,21 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result of the subtraction.</param>
         protected override void DoSubtract(Complex scalar, Matrix<Complex> result)
         {
-            var denseResult = result as DenseMatrix;
-            if (denseResult == null)
+            if (result is DenseMatrix denseResult)
+            {
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                {
+                    var v = denseResult._values;
+                    for (int i = a; i < b; i++)
+                    {
+                        v[i] = _values[i] - scalar;
+                    }
+                });
+            }
+            else
             {
                 base.DoSubtract(scalar, result);
-                return;
             }
-
-            CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-            {
-                var v = denseResult._values;
-                for (int i = a; i < b; i++)
-                {
-                    v[i] = _values[i] - scalar;
-                }
-            });
         }
 
         /// <summary>
@@ -563,14 +563,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result of the multiplication.</param>
         protected override void DoMultiply(Complex scalar, Matrix<Complex> result)
         {
-            var denseResult = result as DenseMatrix;
-            if (denseResult == null)
+            if (result is DenseMatrix denseResult)
             {
-                base.DoMultiply(scalar, result);
+                LinearAlgebraControl.Provider.ScaleArray(scalar, _values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.ScaleArray(scalar, _values, denseResult._values);
+                base.DoMultiply(scalar, result);
             }
         }
 
@@ -581,14 +580,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The result of the multiplication.</param>
         protected override void DoMultiply(Vector<Complex> rightSide, Vector<Complex> result)
         {
-            var denseRight = rightSide as DenseVector;
-            var denseResult = result as DenseVector;
-
-            if (denseRight == null || denseResult == null)
-            {
-                base.DoMultiply(rightSide, result);
-            }
-            else
+            if (rightSide is DenseVector denseRight && result is DenseVector denseResult)
             {
                 LinearAlgebraControl.Provider.MatrixMultiply(
                     _values,
@@ -598,6 +590,10 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                     denseRight.Count,
                     1,
                     denseResult.Values);
+            }
+            else
+            {
+                base.DoMultiply(rightSide, result);
             }
         }
 
@@ -901,14 +897,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result of the division.</param>
         protected override void DoDivide(Complex divisor, Matrix<Complex> result)
         {
-            var denseResult = result as DenseMatrix;
-            if (denseResult == null)
+            if (result is DenseMatrix denseResult)
             {
-                base.DoDivide(divisor, result);
+                LinearAlgebraControl.Provider.ScaleArray(1.0 / divisor, _values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.ScaleArray(1.0/divisor, _values, denseResult._values);
+                base.DoDivide(divisor, result);
             }
         }
 
@@ -919,16 +914,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result of the pointwise multiplication.</param>
         protected override void DoPointwiseMultiply(Matrix<Complex> other, Matrix<Complex> result)
         {
-            var denseOther = other as DenseMatrix;
-            var denseResult = result as DenseMatrix;
-
-            if (denseOther == null || denseResult == null)
+            if (other is DenseMatrix denseOther && result is DenseMatrix denseResult)
             {
-                base.DoPointwiseMultiply(other, result);
+                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
+                base.DoPointwiseMultiply(other, result);
             }
         }
 
@@ -939,16 +931,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The matrix to store the result of the pointwise division.</param>
         protected override void DoPointwiseDivide(Matrix<Complex> divisor, Matrix<Complex> result)
         {
-            var denseDivisor = divisor as DenseMatrix;
-            var denseResult = result as DenseMatrix;
-
-            if (denseDivisor == null || denseResult == null)
+            if (divisor is DenseMatrix denseDivisor && result is DenseMatrix denseResult)
             {
-                base.DoPointwiseDivide(divisor, result);
+                LinearAlgebraControl.Provider.PointWiseDivideArrays(_values, denseDivisor._values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.PointWiseDivideArrays(_values, denseDivisor._values, denseResult._values);
+                base.DoPointwiseDivide(divisor, result);
             }
         }
 
@@ -959,16 +948,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <param name="result">The vector to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(Matrix<Complex> exponent, Matrix<Complex> result)
         {
-            var denseExponent = exponent as DenseMatrix;
-            var denseResult = result as DenseMatrix;
-
-            if (denseExponent == null || denseResult == null)
+            if (exponent is DenseMatrix denseExponent && result is DenseMatrix denseResult)
             {
-                base.DoPointwisePower(exponent, result);
+                LinearAlgebraControl.Provider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
+                base.DoPointwisePower(exponent, result);
             }
         }
 

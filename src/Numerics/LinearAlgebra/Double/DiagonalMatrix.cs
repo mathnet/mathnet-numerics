@@ -267,14 +267,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var diagResult = result as DiagonalMatrix;
-            if (diagResult == null)
+            if (result is DiagonalMatrix diagResult)
             {
-                base.DoMultiply(scalar, result);
+                LinearAlgebraControl.Provider.ScaleArray(scalar, _data, diagResult._data);
             }
             else
             {
-                LinearAlgebraControl.Provider.ScaleArray(scalar, _data, diagResult._data);
+                base.DoMultiply(scalar, result);
             }
         }
 
@@ -583,19 +582,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// this[i,i].</remarks>
         public override void SetDiagonal(Vector<double> source)
         {
-            var denseSource = source as DenseVector;
-            if (denseSource == null)
+            if (source is DenseVector denseSource)
+            {
+                if (_data.Length != denseSource.Values.Length)
+                {
+                    throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(source));
+                }
+
+                Buffer.BlockCopy(denseSource.Values, 0, _data, 0, denseSource.Values.Length * Constants.SizeOfDouble);
+            }
+            else
             {
                 base.SetDiagonal(source);
-                return;
             }
-
-            if (_data.Length != denseSource.Values.Length)
-            {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(source));
-            }
-
-            Buffer.BlockCopy(denseSource.Values, 0, _data, 0, denseSource.Values.Length * Constants.SizeOfDouble);
         }
 
         /// <summary>Calculates the induced L1 norm of this matrix.</summary>
@@ -843,21 +842,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Matrix to store the results in.</param>
         protected override void DoModulus(double divisor, Matrix<double> result)
         {
-            var diagonalResult = result as DiagonalMatrix;
-            if (diagonalResult == null)
+            if (result is DiagonalMatrix diagonalResult)
+            {
+                CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+                {
+                    var r = diagonalResult._data;
+                    for (var i = a; i < b; i++)
+                    {
+                        r[i] = Euclid.Modulus(_data[i], divisor);
+                    }
+                });
+            }
+            else
             {
                 base.DoModulus(divisor, result);
-                return;
             }
-
-            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
-            {
-                var r = diagonalResult._data;
-                for (var i = a; i < b; i++)
-                {
-                    r[i] = Euclid.Modulus(_data[i], divisor);
-                }
-            });
         }
 
         /// <summary>
@@ -868,21 +867,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulusByThis(double dividend, Matrix<double> result)
         {
-            var diagonalResult = result as DiagonalMatrix;
-            if (diagonalResult == null)
+            if (result is DiagonalMatrix diagonalResult)
+            {
+                CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+                {
+                    var r = diagonalResult._data;
+                    for (var i = a; i < b; i++)
+                    {
+                        r[i] = Euclid.Modulus(dividend, _data[i]);
+                    }
+                });
+            }
+            else
             {
                 base.DoModulusByThis(dividend, result);
-                return;
             }
-
-            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
-            {
-                var r = diagonalResult._data;
-                for (var i = a; i < b; i++)
-                {
-                    r[i] = Euclid.Modulus(dividend, _data[i]);
-                }
-            });
         }
 
         /// <summary>
@@ -893,21 +892,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Matrix to store the results in.</param>
         protected override void DoRemainder(double divisor, Matrix<double> result)
         {
-            var diagonalResult = result as DiagonalMatrix;
-            if (diagonalResult == null)
+            if (result is DiagonalMatrix diagonalResult)
+            {
+                CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+                {
+                    var r = diagonalResult._data;
+                    for (var i = a; i < b; i++)
+                    {
+                        r[i] = _data[i] % divisor;
+                    }
+                });
+            }
+            else
             {
                 base.DoRemainder(divisor, result);
-                return;
             }
-
-            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
-            {
-                var r = diagonalResult._data;
-                for (var i = a; i < b; i++)
-                {
-                    r[i] = _data[i]%divisor;
-                }
-            });
         }
 
         /// <summary>
@@ -918,21 +917,21 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoRemainderByThis(double dividend, Matrix<double> result)
         {
-            var diagonalResult = result as DiagonalMatrix;
-            if (diagonalResult == null)
+            if (result is DiagonalMatrix diagonalResult)
+            {
+                CommonParallel.For(0, _data.Length, 4096, (a, b) =>
+                {
+                    var r = diagonalResult._data;
+                    for (var i = a; i < b; i++)
+                    {
+                        r[i] = dividend % _data[i];
+                    }
+                });
+            }
+            else
             {
                 base.DoRemainderByThis(dividend, result);
-                return;
             }
-
-            CommonParallel.For(0, _data.Length, 4096, (a, b) =>
-            {
-                var r = diagonalResult._data;
-                for (var i = a; i < b; i++)
-                {
-                    r[i] = dividend%_data[i];
-                }
-            });
         }
     }
 }

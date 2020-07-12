@@ -191,75 +191,70 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         protected override void DoAdd(Vector<double> other, Vector<double> result)
         {
-            var otherSparse = other as SparseVector;
-            if (otherSparse == null)
+            if (other is SparseVector otherSparse && result is SparseVector resultSparse)
             {
-                base.DoAdd(other, result);
-                return;
-            }
-
-            var resultSparse = result as SparseVector;
-            if (resultSparse == null)
-            {
-                base.DoAdd(other, result);
-                return;
-            }
-
-            // TODO (ruegg, 2011-10-11): Options to optimize?
-
-            var otherStorage = otherSparse._storage;
-            if (ReferenceEquals(this, resultSparse))
-            {
-                int i = 0, j = 0;
-                while (j < otherStorage.ValueCount)
+                // TODO (ruegg, 2011-10-11): Options to optimize?
+                var otherStorage = otherSparse._storage;
+                if (ReferenceEquals(this, resultSparse))
                 {
-                    if (i >= _storage.ValueCount || _storage.Indices[i] > otherStorage.Indices[j])
+                    int i = 0, j = 0;
+                    while (j < otherStorage.ValueCount)
                     {
-                        var otherValue = otherStorage.Values[j];
-                        if (otherValue != 0.0)
+                        if (i >= _storage.ValueCount || _storage.Indices[i] > otherStorage.Indices[j])
                         {
-                            _storage.InsertAtIndexUnchecked(i++, otherStorage.Indices[j], otherValue);
+                            var otherValue = otherStorage.Values[j];
+                            if (otherValue != 0.0)
+                            {
+                                _storage.InsertAtIndexUnchecked(i++, otherStorage.Indices[j], otherValue);
+                            }
+
+                            j++;
                         }
-                        j++;
+                        else if (_storage.Indices[i] == otherStorage.Indices[j])
+                        {
+                            // TODO: result can be zero, remove?
+                            _storage.Values[i++] += otherStorage.Values[j++];
+                        }
+                        else
+                        {
+                            i++;
+                        }
                     }
-                    else if (_storage.Indices[i] == otherStorage.Indices[j])
+                }
+                else
+                {
+                    result.Clear();
+                    int i = 0, j = 0, last = -1;
+                    while (i < _storage.ValueCount || j < otherStorage.ValueCount)
                     {
-                        // TODO: result can be zero, remove?
-                        _storage.Values[i++] += otherStorage.Values[j++];
-                    }
-                    else
-                    {
-                        i++;
+                        if (j >= otherStorage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherStorage.Indices[j])
+                        {
+                            var next = _storage.Indices[i];
+                            if (next != last)
+                            {
+                                last = next;
+                                result.At(next, _storage.Values[i] + otherSparse.At(next));
+                            }
+
+                            i++;
+                        }
+                        else
+                        {
+                            var next = otherStorage.Indices[j];
+                            if (next != last)
+                            {
+                                last = next;
+                                result.At(next, At(next) + otherStorage.Values[j]);
+                            }
+
+                            j++;
+                        }
                     }
                 }
             }
             else
             {
-                result.Clear();
-                int i = 0, j = 0, last = -1;
-                while (i < _storage.ValueCount || j < otherStorage.ValueCount)
-                {
-                    if (j >= otherStorage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherStorage.Indices[j])
-                    {
-                        var next = _storage.Indices[i];
-                        if (next != last)
-                        {
-                            last = next;
-                            result.At(next, _storage.Values[i] + otherSparse.At(next));
-                        }
-                        i++;
-                    }
-                    else
-                    {
-                        var next = otherStorage.Indices[j];
-                        if (next != last)
-                        {
-                            last = next;
-                            result.At(next, At(next) + otherStorage.Values[j]);
-                        }
-                        j++;
-                    }
-                }
+                base.DoAdd(other, result);
             }
         }
 
@@ -294,75 +289,70 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 return;
             }
 
-            var otherSparse = other as SparseVector;
-            if (otherSparse == null)
+            if (other is SparseVector otherSparse && result is SparseVector resultSparse)
             {
-                base.DoSubtract(other, result);
-                return;
-            }
-
-            var resultSparse = result as SparseVector;
-            if (resultSparse == null)
-            {
-                base.DoSubtract(other, result);
-                return;
-            }
-
-            // TODO (ruegg, 2011-10-11): Options to optimize?
-
-            var otherStorage = otherSparse._storage;
-            if (ReferenceEquals(this, resultSparse))
-            {
-                int i = 0, j = 0;
-                while (j < otherStorage.ValueCount)
+                // TODO (ruegg, 2011-10-11): Options to optimize?
+                var otherStorage = otherSparse._storage;
+                if (ReferenceEquals(this, resultSparse))
                 {
-                    if (i >= _storage.ValueCount || _storage.Indices[i] > otherStorage.Indices[j])
+                    int i = 0, j = 0;
+                    while (j < otherStorage.ValueCount)
                     {
-                        var otherValue = otherStorage.Values[j];
-                        if (otherValue != 0.0)
+                        if (i >= _storage.ValueCount || _storage.Indices[i] > otherStorage.Indices[j])
                         {
-                            _storage.InsertAtIndexUnchecked(i++, otherStorage.Indices[j], -otherValue);
+                            var otherValue = otherStorage.Values[j];
+                            if (otherValue != 0.0)
+                            {
+                                _storage.InsertAtIndexUnchecked(i++, otherStorage.Indices[j], -otherValue);
+                            }
+
+                            j++;
                         }
-                        j++;
+                        else if (_storage.Indices[i] == otherStorage.Indices[j])
+                        {
+                            // TODO: result can be zero, remove?
+                            _storage.Values[i++] -= otherStorage.Values[j++];
+                        }
+                        else
+                        {
+                            i++;
+                        }
                     }
-                    else if (_storage.Indices[i] == otherStorage.Indices[j])
+                }
+                else
+                {
+                    result.Clear();
+                    int i = 0, j = 0, last = -1;
+                    while (i < _storage.ValueCount || j < otherStorage.ValueCount)
                     {
-                        // TODO: result can be zero, remove?
-                        _storage.Values[i++] -= otherStorage.Values[j++];
-                    }
-                    else
-                    {
-                        i++;
+                        if (j >= otherStorage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherStorage.Indices[j])
+                        {
+                            var next = _storage.Indices[i];
+                            if (next != last)
+                            {
+                                last = next;
+                                result.At(next, _storage.Values[i] - otherSparse.At(next));
+                            }
+
+                            i++;
+                        }
+                        else
+                        {
+                            var next = otherStorage.Indices[j];
+                            if (next != last)
+                            {
+                                last = next;
+                                result.At(next, At(next) - otherStorage.Values[j]);
+                            }
+
+                            j++;
+                        }
                     }
                 }
             }
             else
             {
-                result.Clear();
-                int i = 0, j = 0, last = -1;
-                while (i < _storage.ValueCount || j < otherStorage.ValueCount)
-                {
-                    if (j >= otherStorage.ValueCount || i < _storage.ValueCount && _storage.Indices[i] <= otherStorage.Indices[j])
-                    {
-                        var next = _storage.Indices[i];
-                        if (next != last)
-                        {
-                            last = next;
-                            result.At(next, _storage.Values[i] - otherSparse.At(next));
-                        }
-                        i++;
-                    }
-                    else
-                    {
-                        var next = otherStorage.Indices[j];
-                        if (next != last)
-                        {
-                            last = next;
-                            result.At(next, At(next) - otherStorage.Values[j]);
-                        }
-                        j++;
-                    }
-                }
+                base.DoSubtract(other, result);
             }
         }
 
@@ -372,27 +362,27 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Target vector</param>
         protected override void DoNegate(Vector<double> result)
         {
-            var sparseResult = result as SparseVector;
-            if (sparseResult == null)
+            if (result is SparseVector sparseResult)
+            {
+                if (!ReferenceEquals(this, result))
+                {
+                    sparseResult._storage.ValueCount = _storage.ValueCount;
+                    sparseResult._storage.Indices = new int[_storage.ValueCount];
+                    Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
+                    sparseResult._storage.Values = new double[_storage.ValueCount];
+                    Array.Copy(_storage.Values, 0, sparseResult._storage.Values, 0, _storage.ValueCount);
+                }
+
+                LinearAlgebraControl.Provider.ScaleArray(-1.0d, sparseResult._storage.Values, sparseResult._storage.Values);
+            }
+            else
             {
                 result.Clear();
                 for (var index = 0; index < _storage.ValueCount; index++)
                 {
                     result.At(_storage.Indices[index], -_storage.Values[index]);
                 }
-                return;
             }
-
-            if (!ReferenceEquals(this, result))
-            {
-                sparseResult._storage.ValueCount = _storage.ValueCount;
-                sparseResult._storage.Indices = new int[_storage.ValueCount];
-                Buffer.BlockCopy(_storage.Indices, 0, sparseResult._storage.Indices, 0, _storage.ValueCount * Constants.SizeOfInt);
-                sparseResult._storage.Values = new double[_storage.ValueCount];
-                Array.Copy(_storage.Values, 0, sparseResult._storage.Values, 0, _storage.ValueCount);
-            }
-
-            LinearAlgebraControl.Provider.ScaleArray(-1.0d, sparseResult._storage.Values, sparseResult._storage.Values);
         }
 
         /// <summary>
@@ -406,16 +396,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// </param>
         protected override void DoMultiply(double scalar, Vector<double> result)
         {
-            var sparseResult = result as SparseVector;
-            if (sparseResult == null)
-            {
-                result.Clear();
-                for (var index = 0; index < _storage.ValueCount; index++)
-                {
-                    result.At(_storage.Indices[index], scalar * _storage.Values[index]);
-                }
-            }
-            else
+            if (result is SparseVector sparseResult)
             {
                 if (!ReferenceEquals(this, result))
                 {
@@ -427,6 +408,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 }
 
                 LinearAlgebraControl.Provider.ScaleArray(scalar, sparseResult._storage.Values, sparseResult._storage.Values);
+            }
+            else
+            {
+                result.Clear();
+                for (var index = 0; index < _storage.ValueCount; index++)
+                {
+                    result.At(_storage.Indices[index], scalar * _storage.Values[index]);
+                }
             }
         }
 

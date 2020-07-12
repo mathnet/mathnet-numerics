@@ -92,24 +92,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
-            var dinput = input as DenseMatrix;
-            if (dinput == null)
+            if (input is DenseMatrix dinput && result is DenseMatrix dresult)
+            {
+                // Copy the contents of input to result.
+                Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Constants.SizeOfDouble);
+
+                // Cholesky solve by overwriting result.
+                var dfactor = (DenseMatrix) Factor;
+                LinearAlgebraControl.Provider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, dresult.ColumnCount);
+            }
+            else
             {
                 throw new NotSupportedException("Can only do Cholesky factorization for dense matrices at the moment.");
             }
-
-            var dresult = result as DenseMatrix;
-            if (dresult == null)
-            {
-                throw new NotSupportedException("Can only do Cholesky factorization for dense matrices at the moment.");
-            }
-
-            // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length*Constants.SizeOfDouble);
-
-            // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix) Factor;
-            LinearAlgebraControl.Provider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, dresult.ColumnCount);
         }
 
         /// <summary>
@@ -129,24 +124,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(input, Factor);
             }
 
-            var dinput = input as DenseVector;
-            if (dinput == null)
+            if (input is DenseVector dinput && result is DenseVector dresult)
+            {
+                // Copy the contents of input to result.
+                Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length * Constants.SizeOfDouble);
+
+                // Cholesky solve by overwriting result.
+                var dfactor = (DenseMatrix) Factor;
+                LinearAlgebraControl.Provider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, 1);
+            }
+            else
             {
                 throw new NotSupportedException("Can only do Cholesky factorization for dense vectors at the moment.");
             }
-
-            var dresult = result as DenseVector;
-            if (dresult == null)
-            {
-                throw new NotSupportedException("Can only do Cholesky factorization for dense vectors at the moment.");
-            }
-
-            // Copy the contents of input to result.
-            Buffer.BlockCopy(dinput.Values, 0, dresult.Values, 0, dinput.Values.Length*Constants.SizeOfDouble);
-
-            // Cholesky solve by overwriting result.
-            var dfactor = (DenseMatrix) Factor;
-            LinearAlgebraControl.Provider.CholeskySolveFactored(dfactor.Values, dfactor.RowCount, dresult.Values, 1);
         }
 
         /// <summary>
@@ -169,19 +159,20 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
                 throw Matrix.DimensionsDontMatch<ArgumentException>(matrix, Factor);
             }
 
-            var dmatrix = matrix as DenseMatrix;
-            if (dmatrix == null)
+            if (matrix is DenseMatrix dmatrix)
+            {
+                var dfactor = (DenseMatrix) Factor;
+
+                // Overwrite the existing Factor matrix with the input.
+                Buffer.BlockCopy(dmatrix.Values, 0, dfactor.Values, 0, dmatrix.Values.Length * Constants.SizeOfDouble);
+
+                // Perform factorization (while overwriting).
+                LinearAlgebraControl.Provider.CholeskyFactor(dfactor.Values, dfactor.RowCount);
+            }
+            else
             {
                 throw new NotSupportedException("Can only do Cholesky factorization for dense matrices at the moment.");
             }
-
-            var dfactor = (DenseMatrix)Factor;
-
-            // Overwrite the existing Factor matrix with the input.
-            Buffer.BlockCopy(dmatrix.Values, 0, dfactor.Values, 0, dmatrix.Values.Length * Constants.SizeOfDouble);
-
-            // Perform factorization (while overwriting).
-            LinearAlgebraControl.Provider.CholeskyFactor(dfactor.Values, dfactor.RowCount);
         }
     }
 }

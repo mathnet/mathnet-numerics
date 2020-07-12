@@ -206,20 +206,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The vector to store the result of the addition.</param>
         protected override void DoAdd(double scalar, Vector<double> result)
         {
-            var dense = result as DenseVector;
-            if (dense == null)
+            if (result is DenseVector dense)
             {
-                base.DoAdd(scalar, result);
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        dense._values[i] = _values[i] + scalar;
+                    }
+                });
             }
             else
             {
-                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-                    {
-                        for (int i = a; i < b; i++)
-                        {
-                            dense._values[i] = _values[i] + scalar;
-                        }
-                    });
+                base.DoAdd(scalar, result);
             }
         }
 
@@ -230,16 +229,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The vector to store the result of the addition.</param>
         protected override void DoAdd(Vector<double> other, Vector<double> result)
         {
-            var otherDense = other as DenseVector;
-            var resultDense = result as DenseVector;
-
-            if (otherDense == null || resultDense == null)
+            if (other is DenseVector otherDense && result is DenseVector resultDense)
             {
-                base.DoAdd(other, result);
+                LinearAlgebraControl.Provider.AddArrays(_values, otherDense._values, resultDense._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.AddArrays(_values, otherDense._values, resultDense._values);
+                base.DoAdd(other, result);
             }
         }
 
@@ -278,20 +274,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The vector to store the result of the subtraction.</param>
         protected override void DoSubtract(double scalar, Vector<double> result)
         {
-            var dense = result as DenseVector;
-            if (dense == null)
+            if (result is DenseVector dense)
             {
-                base.DoSubtract(scalar, result);
+                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
+                {
+                    for (int i = a; i < b; i++)
+                    {
+                        dense._values[i] = _values[i] - scalar;
+                    }
+                });
             }
             else
             {
-                CommonParallel.For(0, _values.Length, 4096, (a, b) =>
-                    {
-                        for (int i = a; i < b; i++)
-                        {
-                            dense._values[i] = _values[i] - scalar;
-                        }
-                    });
+                base.DoSubtract(scalar, result);
             }
         }
 
@@ -302,16 +297,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The vector to store the result of the subtraction.</param>
         protected override void DoSubtract(Vector<double> other, Vector<double> result)
         {
-            var otherDense = other as DenseVector;
-            var resultDense = result as DenseVector;
-
-            if (otherDense == null || resultDense == null)
+            if (other is DenseVector otherDense && result is DenseVector resultDense)
             {
-                base.DoSubtract(other, result);
+                LinearAlgebraControl.Provider.SubtractArrays(_values, otherDense._values, resultDense._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.SubtractArrays(_values, otherDense._values, resultDense._values);
+                base.DoSubtract(other, result);
             }
         }
 
@@ -355,14 +347,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">Target vector</param>
         protected override void DoNegate(Vector<double> result)
         {
-            var denseResult = result as DenseVector;
-            if (denseResult == null)
+            if (result is DenseVector denseResult)
+            {
+                LinearAlgebraControl.Provider.ScaleArray(-1.0d, _values, denseResult.Values);
+            }
+            else
             {
                 base.DoNegate(result);
-                return;
             }
-
-            LinearAlgebraControl.Provider.ScaleArray(-1.0d, _values, denseResult.Values);
         }
 
         /// <summary>
@@ -373,14 +365,14 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks></remarks>
         protected override void DoMultiply(double scalar, Vector<double> result)
         {
-            var denseResult = result as DenseVector;
-            if (denseResult == null)
+            if (result is DenseVector denseResult)
+            {
+                LinearAlgebraControl.Provider.ScaleArray(scalar, _values, denseResult.Values);
+            }
+            else
             {
                 base.DoMultiply(scalar, result);
-                return;
             }
-
-            LinearAlgebraControl.Provider.ScaleArray(scalar, _values, denseResult.Values);
         }
 
         /// <summary>
@@ -390,10 +382,9 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <returns>The sum of a[i]*b[i] for all i.</returns>
         protected override double DoDotProduct(Vector<double> other)
         {
-            var denseVector = other as DenseVector;
-            return denseVector == null
-                ? base.DoDotProduct(other)
-                : LinearAlgebraControl.Provider.DotProduct(_values, denseVector.Values);
+            return other is DenseVector denseVector
+                ? LinearAlgebraControl.Provider.DotProduct(_values, denseVector.Values)
+                : base.DoDotProduct(other);
         }
 
         /// <summary>
@@ -473,12 +464,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoModulus(double divisor, Vector<double> result)
         {
-            var dense = result as DenseVector;
-            if (dense == null)
-            {
-                base.DoModulus(divisor, result);
-            }
-            else
+            if (result is DenseVector dense)
             {
                 CommonParallel.For(0, _length, 4096, (a, b) =>
                 {
@@ -487,6 +473,10 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                         dense._values[i] = Euclid.Modulus(_values[i], divisor);
                     }
                 });
+            }
+            else
+            {
+                base.DoModulus(divisor, result);
             }
         }
 
@@ -498,20 +488,19 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">A vector to store the results in.</param>
         protected override void DoRemainder(double divisor, Vector<double> result)
         {
-            var dense = result as DenseVector;
-            if (dense == null)
-            {
-                base.DoRemainder(divisor, result);
-            }
-            else
+            if (result is DenseVector dense)
             {
                 CommonParallel.For(0, _length, 4096, (a, b) =>
                 {
                     for (int i = a; i < b; i++)
                     {
-                        dense._values[i] = _values[i]%divisor;
+                        dense._values[i] = _values[i] % divisor;
                     }
                 });
+            }
+            else
+            {
+                base.DoRemainder(divisor, result);
             }
         }
 
@@ -689,16 +678,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The vector to store the result of the pointwise division.</param>
         protected override void DoPointwiseMultiply(Vector<double> other, Vector<double> result)
         {
-            var denseOther = other as DenseVector;
-            var denseResult = result as DenseVector;
-
-            if (denseOther == null || denseResult == null)
+            if (other is DenseVector denseOther && result is DenseVector denseResult)
             {
-                base.DoPointwiseMultiply(other, result);
+                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.PointWiseMultiplyArrays(_values, denseOther._values, denseResult._values);
+                base.DoPointwiseMultiply(other, result);
             }
         }
 
@@ -710,16 +696,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <remarks></remarks>
         protected override void DoPointwiseDivide(Vector<double> divisor, Vector<double> result)
         {
-            var denseOther = divisor as DenseVector;
-            var denseResult = result as DenseVector;
-
-            if (denseOther == null || denseResult == null)
+            if (divisor is DenseVector denseOther && result is DenseVector denseResult)
             {
-                base.DoPointwiseDivide(divisor, result);
+                LinearAlgebraControl.Provider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.PointWiseDivideArrays(_values, denseOther._values, denseResult._values);
+                base.DoPointwiseDivide(divisor, result);
             }
         }
 
@@ -730,16 +713,13 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         /// <param name="result">The vector to store the result of the pointwise power.</param>
         protected override void DoPointwisePower(Vector<double> exponent, Vector<double> result)
         {
-            var denseExponent = exponent as DenseVector;
-            var denseResult = result as DenseVector;
-
-            if (denseExponent == null || denseResult == null)
+            if (exponent is DenseVector denseExponent && result is DenseVector denseResult)
             {
-                base.DoPointwisePower(exponent, result);
+                LinearAlgebraControl.Provider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
             }
             else
             {
-                LinearAlgebraControl.Provider.PointWisePowerArrays(_values, denseExponent._values, denseResult._values);
+                base.DoPointwisePower(exponent, result);
             }
         }
 
