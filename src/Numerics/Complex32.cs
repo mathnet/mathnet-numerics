@@ -70,7 +70,7 @@ namespace MathNet.Numerics
     [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     [DataContract(Namespace = "urn:MathNet/Numerics")]
-    public struct Complex32 : IFormattable, IEquatable<Complex32>
+    public readonly struct Complex32 : IFormattable, IEquatable<Complex32>
     {
         /// <summary>
         /// The real component of the complex number.

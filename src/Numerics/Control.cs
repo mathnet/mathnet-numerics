@@ -241,7 +241,7 @@ namespace MathNet.Numerics
         /// </summary>
         public static string NativeProviderPath
         {
-            get { return _nativeProviderHintPath; }
+            get => _nativeProviderHintPath;
             set
             {
                 _nativeProviderHintPath = value;
@@ -257,7 +257,7 @@ namespace MathNet.Numerics
         /// <remarks>Default to the number of processor cores, must be between 1 and 1024 (inclusive).</remarks>
         public static int MaxDegreeOfParallelism
         {
-            get { return _maxDegreeOfParallelism; }
+            get => _maxDegreeOfParallelism;
             set
             {
                 _maxDegreeOfParallelism = Math.Max(1, Math.Min(1024, value));
@@ -280,8 +280,8 @@ namespace MathNet.Numerics
         /// <value>The order. Default 64, must be at least 3.</value>
         internal static int ParallelizeOrder
         {
-            get { return _parallelizeOrder; }
-            set { _parallelizeOrder = Math.Max(3, value); }
+            get => _parallelizeOrder;
+            set => _parallelizeOrder = Math.Max(3, value);
         }
 
         /// <summary>
@@ -291,8 +291,8 @@ namespace MathNet.Numerics
         /// <value>Number of elements. Default 300, must be at least 3.</value>
         internal static int ParallelizeElements
         {
-            get { return _parallelizeElements; }
-            set { _parallelizeElements = Math.Max(3, value); }
+            get => _parallelizeElements;
+            set => _parallelizeElements = Math.Max(3, value);
         }
 
         public static string Describe()

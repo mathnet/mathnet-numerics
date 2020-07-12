@@ -112,7 +112,7 @@ namespace MathNet.Numerics.Optimization
             }
         }
 
-        public struct GradientProjectionResult
+        public readonly struct GradientProjectionResult
         {
             public GradientProjectionResult(Vector<double> cauchyPoint, int fixedCount, List<bool> isFixed)
             {
