@@ -30,7 +30,6 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.FourierTransform;
 using Complex = System.Numerics.Complex;
 
@@ -121,7 +120,7 @@ namespace MathNet.Numerics.IntegralTransforms
         {
             if (real.Length != imaginary.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             // TODO: consider to support this natively by the provider, without the need for copying
@@ -152,7 +151,7 @@ namespace MathNet.Numerics.IntegralTransforms
         {
             if (real.Length != imaginary.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             // TODO: consider to support this natively by the provider, without the need for copying
@@ -187,7 +186,7 @@ namespace MathNet.Numerics.IntegralTransforms
             int length = n.IsEven() ? n + 2 : n + 1;
             if (data.Length < length)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, length));
+                throw new ArgumentException($"The given array is too small. It must be at least {length} long.");
             }
 
             if ((options & FourierOptions.InverseExponent) == FourierOptions.InverseExponent)
@@ -221,7 +220,7 @@ namespace MathNet.Numerics.IntegralTransforms
             int length = n.IsEven() ? n + 2 : n + 1;
             if (data.Length < length)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, length));
+                throw new ArgumentException($"The given array is too small. It must be at least {length} long.");
             }
 
             if ((options & FourierOptions.InverseExponent) == FourierOptions.InverseExponent)
@@ -471,7 +470,7 @@ namespace MathNet.Numerics.IntegralTransforms
         {
             if (real.Length != imaginary.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             // TODO: consider to support this natively by the provider, without the need for copying
@@ -502,7 +501,7 @@ namespace MathNet.Numerics.IntegralTransforms
         {
             if (real.Length != imaginary.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             // TODO: consider to support this natively by the provider, without the need for copying
@@ -537,7 +536,7 @@ namespace MathNet.Numerics.IntegralTransforms
             int length = n.IsEven() ? n + 2 : n + 1;
             if (data.Length < length)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, length));
+                throw new ArgumentException($"The given array is too small. It must be at least {length} long.");
             }
 
             if ((options & FourierOptions.InverseExponent) == FourierOptions.InverseExponent)
@@ -573,7 +572,7 @@ namespace MathNet.Numerics.IntegralTransforms
             int length = n.IsEven() ? n + 2 : n + 1;
             if (data.Length < length)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, length));
+                throw new ArgumentException($"The given array is too small. It must be at least {length} long.");
             }
 
             if ((options & FourierOptions.InverseExponent) == FourierOptions.InverseExponent)

@@ -31,7 +31,6 @@
 
 using System;
 using System.Security;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.Common.Cuda;
 using Complex = System.Numerics.Complex;
 
@@ -64,7 +63,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             return SafeNativeMethods.z_dot_product(_blasHandle, x.Length, x, y);
@@ -93,7 +92,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (y.Length != x.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (!ReferenceEquals(y, result))
@@ -193,12 +192,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (c.Length != m*n)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException("Matrix dimensions must agree.");
             }
 
             if (k != l)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException("Matrix dimensions must agree.");
             }
 
             SafeNativeMethods.z_matrix_multiply(_blasHandle, transposeA.ToCUDA(), transposeB.ToCUDA(), m, n, k, alpha, a, b, beta, c);
@@ -228,12 +227,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (data.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(data));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(data));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
             }
 
             Solver(SafeNativeMethods.z_lu_factor(_solverHandle, order, data, ipiv));
@@ -255,7 +254,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             Solver(SafeNativeMethods.z_lu_inverse(_solverHandle, _blasHandle, order, a));
@@ -283,12 +282,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
             }
 
             BLAS(SafeNativeMethods.z_lu_inverse_factored(_blasHandle, order, a, ipiv));
@@ -312,17 +311,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             if (b.Length != columnsOfB*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+                throw new ArgumentException("Arguments must be different objects.");
             }
 
             Solver(SafeNativeMethods.z_lu_solve(_solverHandle, order, columnsOfB, a, b));
@@ -352,22 +351,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
             }
 
             if (b.Length != columnsOfB*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+                throw new ArgumentException("Arguments must be different objects.");
             }
 
             Solver(SafeNativeMethods.z_lu_solve_factored(_solverHandle, order, columnsOfB, a, ipiv, b));
@@ -390,12 +389,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (order < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(order));
+                throw new ArgumentException("Value must be positive.", nameof(order));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             Solver(SafeNativeMethods.z_cholesky_factor(_solverHandle, order, a));
@@ -425,12 +424,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (b.Length != orderA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+                throw new ArgumentException("Arguments must be different objects.");
             }
 
             Solver(SafeNativeMethods.z_cholesky_solve(_solverHandle, orderA, columnsB, a, b));
@@ -459,12 +458,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (b.Length != orderA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+                throw new ArgumentException("Arguments must be different objects.");
             }
 
             Solver(SafeNativeMethods.z_cholesky_solve_factored(_solverHandle, orderA, columnsB, a, b));
@@ -498,12 +497,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (b.Length != rowsA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (x.Length != columnsA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             var s = new Complex[Math.Min(rowsA, columnsA)];
@@ -554,17 +553,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Cuda
 
             if (u.Length != rowsA*rowsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(u));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(u));
             }
 
             if (vt.Length != columnsA*columnsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(vt));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(vt));
             }
 
             if (s.Length != Math.Min(rowsA, columnsA))
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(s));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(s));
             }
 
             if (columnsA > rowsA || !computeVectors) // see remarks http://docs.nvidia.com/cuda/cusolver/index.html#cuds-lt-t-gt-gesvd

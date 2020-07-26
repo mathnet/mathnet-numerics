@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Interpolation
 {
@@ -52,12 +51,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if ((x.Length != c0.Length + 1 && x.Length != c0.Length) || x.Length != c1.Length + 1)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 2 long.", nameof(x));
             }
 
             _x = x;
@@ -73,12 +72,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 2 long.", nameof(x));
             }
 
             var c1 = new double[x.Length - 1];
@@ -98,7 +97,7 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Sorting.Sort(x, y);

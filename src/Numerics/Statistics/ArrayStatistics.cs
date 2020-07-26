@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Statistics
 {
@@ -309,7 +308,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (samples1.Length != samples2.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (samples1.Length <= 1)
@@ -339,7 +338,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (population1.Length != population2.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (population1.Length == 0)

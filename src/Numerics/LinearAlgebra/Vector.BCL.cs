@@ -34,7 +34,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra
 {
@@ -206,7 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra
             }
             if (array.Rank != 1)
             {
-                throw new ArgumentException(Resources.ArgumentSingleDimensionArray, nameof(array));
+                throw new ArgumentException("Array must have exactly one dimension (and not be null).", nameof(array));
             }
 
             Storage.CopySubVectorTo(new DenseVectorStorage<T>(array.Length, (T[]) array), 0, index, Count);

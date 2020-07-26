@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Threading;
 
@@ -84,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(lambda, nu))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -102,7 +101,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(lambda, nu))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -354,7 +353,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var z = Normalization(lambda, nu);
@@ -372,7 +371,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var z = Normalization(lambda, nu);
@@ -391,7 +390,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var z = Normalization(lambda, nu);
@@ -558,7 +557,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var z = Normalization(lambda, nu);
@@ -575,7 +574,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var z = Normalization(lambda, nu);
@@ -593,7 +592,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var z = Normalization(lambda, nu);
@@ -609,7 +608,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var z = Normalization(lambda, nu);
@@ -625,7 +624,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var z = Normalization(lambda, nu);
@@ -642,7 +641,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(lambda > 0.0 && nu >= 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var z = Normalization(lambda, nu);

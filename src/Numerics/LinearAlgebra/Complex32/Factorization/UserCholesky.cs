@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
@@ -57,7 +56,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             if (factor.RowCount != factor.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException("Matrix must be square.");
             }
 
             // Create a new matrix for the Cholesky factor, then perform factorization (while overwriting).
@@ -88,7 +87,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
                 }
                 else
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+                    throw new ArgumentException("Matrix must be positive definite.");
                 }
 
                 for (var i = ij + 1; i < factor.RowCount; i++)
@@ -182,12 +181,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             if (result.RowCount != input.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+                throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
             if (result.ColumnCount != input.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+                throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             if (input.RowCount != Factor.RowCount)
@@ -236,7 +235,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             if (input.Count != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (input.Count != Factor.RowCount)

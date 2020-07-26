@@ -32,7 +32,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -315,7 +314,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(length), "Value must not be negative (zero is ok).");
             }
 
             var indices = new int[length];
@@ -338,7 +337,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(length), "Value must not be negative (zero is ok).");
             }
 
             var indices = new List<int>();
@@ -454,7 +453,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != target.Length)
             {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, Length, target.Length);
+                var message = $"Matrix dimensions must agree: op1 is {Length}, op2 is {target.Length}.";
                 throw new ArgumentException(message, nameof(target));
             }
 

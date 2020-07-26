@@ -30,7 +30,6 @@
 using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
 {
@@ -86,14 +85,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
             var csr = matrix.Storage as SparseCompressedRowMatrixStorage<Complex>;
             if (csr == null)
             {
-                throw new ArgumentException(Resources.MatrixMustBeSparse, nameof(matrix));
+                throw new ArgumentException("Matrix must be in sparse storage format", nameof(matrix));
             }
 
             // Dimension of matrix
             int n = csr.RowCount;
             if (n != csr.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare, nameof(matrix));
+                throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
             // Original matrix compressed sparse row storage.
@@ -123,12 +122,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Solvers
         {
             if (_alu == null)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDoesNotExist);
+                throw new ArgumentException("The requested matrix does not exist.");
             }
 
             if ((result.Count != input.Count) || (result.Count != _diag.Length))
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             int n = _diag.Length;

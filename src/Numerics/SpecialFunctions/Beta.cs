@@ -33,7 +33,6 @@
 // </contribution>
 
 using System;
-using MathNet.Numerics.Properties;
 
 // ReSharper disable CheckNamespace
 namespace MathNet.Numerics
@@ -53,12 +52,12 @@ namespace MathNet.Numerics
         {
             if (z <= 0.0)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(z));
+                throw new ArgumentException("Value must be positive.", nameof(z));
             }
 
             if (w <= 0.0)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(w));
+                throw new ArgumentException("Value must be positive.", nameof(w));
             }
 
             return GammaLn(z) + GammaLn(w) - GammaLn(z + w);
@@ -101,17 +100,17 @@ namespace MathNet.Numerics
         {
             if (a < 0.0)
             {
-                throw new ArgumentOutOfRangeException(nameof(a), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(a), "Value must not be negative (zero is ok).");
             }
 
             if (b < 0.0)
             {
-                throw new ArgumentOutOfRangeException(nameof(b), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(b), "Value must not be negative (zero is ok).");
             }
 
             if (x < 0.0 || x > 1.0)
             {
-                throw new ArgumentOutOfRangeException(nameof(x), Resources.ArgumentInIntervalXYInclusive);
+                throw new ArgumentOutOfRangeException(nameof(x), $"Value is expected to be between 0.0 and 1.0 (including 0.0 and 1.0).");
             }
 
             var bt = (x == 0.0 || x == 1.0)

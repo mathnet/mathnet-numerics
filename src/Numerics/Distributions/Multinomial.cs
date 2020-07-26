@@ -32,7 +32,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
 
@@ -73,7 +72,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -94,7 +93,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -128,7 +127,7 @@ namespace MathNet.Numerics.Distributions
 
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _p = (double[])p.Clone();
@@ -250,7 +249,7 @@ namespace MathNet.Numerics.Distributions
 
             if (x.Length != _p.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(x));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(x));
             }
 
             if (x.Sum() == _trials)
@@ -284,7 +283,7 @@ namespace MathNet.Numerics.Distributions
 
             if (x.Length != _p.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(x));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(x));
             }
 
             if (x.Sum() == _trials)
@@ -330,7 +329,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             // The cumulative density of p.
@@ -359,7 +358,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(p, n))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             // The cumulative density of p.

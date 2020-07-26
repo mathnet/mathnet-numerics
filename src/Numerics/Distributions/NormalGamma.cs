@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
@@ -95,7 +94,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precisionShape, precisionInverseScale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -117,7 +116,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precisionShape, precisionInverseScale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -330,7 +329,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precisionShape, precisionInverseScale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var mp = new MeanPrecisionPair();
@@ -357,7 +356,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(meanLocation, meanScale, precisionShape, precisionInvScale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             while (true)

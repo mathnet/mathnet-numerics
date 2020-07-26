@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Threading;
 
@@ -63,7 +62,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(lower, upper, mode))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -84,7 +83,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(lower, upper, mode))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -327,7 +326,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var a = lower;
@@ -374,7 +373,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var a = lower;
@@ -413,7 +412,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var a = lower;
@@ -451,7 +450,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, lower, upper, mode);
@@ -469,7 +468,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, lower, upper, mode);
@@ -488,7 +487,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, lower, upper, mode);
@@ -505,7 +504,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, lower, upper, mode);
@@ -522,7 +521,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, lower, upper, mode);
@@ -540,7 +539,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(upper >= mode && mode >= lower))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, lower, upper, mode);

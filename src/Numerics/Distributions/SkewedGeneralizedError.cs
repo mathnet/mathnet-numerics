@@ -27,7 +27,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
@@ -85,7 +84,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -220,7 +219,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             scale = AdjustScale(scale, skew, p);
@@ -237,7 +236,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             scale = AdjustScale(scale, skew, p);
@@ -251,7 +250,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             scale = AdjustScale(scale, skew, p);
@@ -272,7 +271,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             scale = AdjustScale(scale, skew, p);
@@ -363,7 +362,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, location, scale, skew, p);
@@ -382,7 +381,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, location, scale, skew, p);
@@ -402,7 +401,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, location, scale, skew, p);
@@ -420,7 +419,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, location, scale, skew, p);
@@ -438,7 +437,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, location, scale, skew, p);
@@ -457,7 +456,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, skew, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, location, scale, skew, p);

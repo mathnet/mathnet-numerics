@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics
@@ -134,7 +133,7 @@ namespace MathNet.Numerics
         /// <param name="randomSource">The random number generator to use. Optional; the default random source will be used if null.</param>
         public static int[] GeneratePermutation(int n, System.Random randomSource = null)
         {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), Resources.ArgumentNotNegative);
+            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
 
             int[] indices = new int[n];
             for (int i = 0; i < indices.Length; i++)
@@ -194,7 +193,7 @@ namespace MathNet.Numerics
         /// <returns>Boolean mask array of length <c>N</c>, for each item true if it is selected.</returns>
         public static bool[] GenerateCombination(int n, System.Random randomSource = null)
         {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), Resources.ArgumentNotNegative);
+            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
@@ -216,9 +215,9 @@ namespace MathNet.Numerics
         /// <returns>Boolean mask array of length <c>N</c>, for each item true if it is selected.</returns>
         public static bool[] GenerateCombination(int n, int k, System.Random randomSource = null)
         {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), Resources.ArgumentNotNegative);
-            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), Resources.ArgumentNotNegative);
-            if (k > n) throw new ArgumentOutOfRangeException(nameof(k), string.Format(Resources.ArgumentOutOfRangeSmallerEqual, "k", "n"));
+            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
+            if (k > n) throw new ArgumentOutOfRangeException(nameof(k), $"{"k"} must be smaller than or equal to {"n"}.");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
@@ -261,8 +260,8 @@ namespace MathNet.Numerics
         {
             T[] array = data as T[] ?? data.ToArray();
 
-            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), Resources.ArgumentNotNegative);
-            if (elementsToChoose > array.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), string.Format(Resources.ArgumentOutOfRangeSmallerEqual, "elementsToChoose", "data.Count"));
+            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
+            if (elementsToChoose > array.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), $"elementsToChoose must be smaller than or equal to data.Count.");
 
             bool[] mask = GenerateCombination(array.Length, elementsToChoose, randomSource);
 
@@ -284,8 +283,8 @@ namespace MathNet.Numerics
         /// <returns>Integer mask array of length <c>N</c>, for each item the number of times it was selected.</returns>
         public static int[] GenerateCombinationWithRepetition(int n, int k, System.Random randomSource = null)
         {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), Resources.ArgumentNotNegative);
-            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), Resources.ArgumentNotNegative);
+            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
@@ -307,7 +306,7 @@ namespace MathNet.Numerics
         /// <returns>The chosen combination with repetition, in the original order.</returns>
         public static IEnumerable<T> SelectCombinationWithRepetition<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null)
         {
-            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), Resources.ArgumentNotNegative);
+            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
 
             T[] array = data as T[] ?? data.ToArray();
             int[] mask = GenerateCombinationWithRepetition(array.Length, elementsToChoose, randomSource);
@@ -331,9 +330,9 @@ namespace MathNet.Numerics
         /// <returns>An array of length <c>K</c> that contains the indices of the selections as integers of the interval <c>[0, N)</c>.</returns>
         public static int[] GenerateVariation(int n, int k, System.Random randomSource = null)
         {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), Resources.ArgumentNotNegative);
-            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), Resources.ArgumentNotNegative);
-            if (k > n) throw new ArgumentOutOfRangeException(nameof(k), string.Format(Resources.ArgumentOutOfRangeSmallerEqual, "k", "n"));
+            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
+            if (k > n) throw new ArgumentOutOfRangeException(nameof(k), $"k must be smaller than or equal to n.");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
@@ -368,8 +367,8 @@ namespace MathNet.Numerics
             var random = randomSource ?? SystemRandomSource.Default;
             T[] array = data.ToArray();
 
-            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), Resources.ArgumentNotNegative);
-            if (elementsToChoose > array.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), string.Format(Resources.ArgumentOutOfRangeSmallerEqual, "elementsToChoose", "data.Count"));
+            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
+            if (elementsToChoose > array.Length) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "elementsToChoose must be smaller than or equal to data.Count.");
 
             // Partial Fisher-Yates Shuffling
             for (int i = array.Length - 1; i >= array.Length - elementsToChoose; i--)
@@ -389,8 +388,8 @@ namespace MathNet.Numerics
         /// <returns>An array of length <c>K</c> that contains the indices of the selections as integers of the interval <c>[0, N)</c>.</returns>
         public static int[] GenerateVariationWithRepetition(int n, int k, System.Random randomSource = null)
         {
-            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), Resources.ArgumentNotNegative);
-            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), Resources.ArgumentNotNegative);
+            if (n < 0) throw new ArgumentOutOfRangeException(nameof(n), "Value must not be negative (zero is ok).");
+            if (k < 0) throw new ArgumentOutOfRangeException(nameof(k), "Value must not be negative (zero is ok).");
 
             var random = randomSource ?? SystemRandomSource.Default;
 
@@ -408,7 +407,7 @@ namespace MathNet.Numerics
         /// <returns>The chosen variation with repetition, in random order.</returns>
         public static IEnumerable<T> SelectVariationWithRepetition<T>(this IEnumerable<T> data, int elementsToChoose, System.Random randomSource = null)
         {
-            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), Resources.ArgumentNotNegative);
+            if (elementsToChoose < 0) throw new ArgumentOutOfRangeException(nameof(elementsToChoose), "Value must not be negative (zero is ok).");
 
             T[] array = data as T[] ?? data.ToArray();
             int[] indices = GenerateVariationWithRepetition(array.Length, elementsToChoose, randomSource);

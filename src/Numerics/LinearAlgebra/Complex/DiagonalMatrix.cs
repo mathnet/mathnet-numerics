@@ -33,7 +33,6 @@ using System.Diagnostics;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.LinearAlgebra;
 using MathNet.Numerics.Threading;
 
@@ -678,7 +677,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             if (RowCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException("Matrix must be square.");
             }
 
             return _data.Aggregate(Complex.One, (current, t) => current * t);
@@ -708,7 +707,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             if (source.Length != _data.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(source));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(source));
             }
 
             Array.Copy(source, 0, _data, 0, source.Length);
@@ -729,7 +728,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             {
                 if (_data.Length != denseSource.Values.Length)
                 {
-                    throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(source));
+                    throw new ArgumentException("All vectors must have the same dimensionality.", nameof(source));
                 }
 
                 Array.Copy(denseSource.Values, 0, _data, 0, denseSource.Values.Length);
@@ -791,7 +790,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             if (RowCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException("Matrix must be square.");
             }
 
             var inverse = (DiagonalMatrix)Clone();
@@ -803,7 +802,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 }
                 else
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixNotSingular);
+                    throw new ArgumentException("Matrix must not be singular.");
                 }
             }
 

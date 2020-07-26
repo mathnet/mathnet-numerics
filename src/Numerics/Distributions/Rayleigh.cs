@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Threading;
 
@@ -59,7 +58,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -76,7 +75,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -264,7 +263,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return (x/(scale*scale))*Math.Exp(-x*x/(2.0*scale*scale));
@@ -281,7 +280,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return Math.Log(x/(scale*scale)) - (x*x/(2.0*scale*scale));
@@ -298,7 +297,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return 1.0 - Math.Exp(-x*x/(2.0*scale*scale));
@@ -316,7 +315,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return scale*Math.Sqrt(-2*Math.Log(1 - p));
@@ -332,7 +331,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, scale);
@@ -348,7 +347,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, scale);
@@ -365,7 +364,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, scale);
@@ -380,7 +379,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, scale);
@@ -395,7 +394,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, scale);
@@ -411,7 +410,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, scale);

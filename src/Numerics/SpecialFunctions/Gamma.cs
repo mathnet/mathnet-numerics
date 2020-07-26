@@ -262,12 +262,12 @@ namespace MathNet.Numerics
 
             if (a < 0d)
             {
-                throw new ArgumentOutOfRangeException(nameof(a), Properties.Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(a), "Value must not be negative (zero is ok).");
             }
 
             if (x < 0d)
             {
-                throw new ArgumentOutOfRangeException(nameof(x), Properties.Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(x), "Value must not be negative (zero is ok).");
             }
 
             if (a.AlmostEqual(0.0))

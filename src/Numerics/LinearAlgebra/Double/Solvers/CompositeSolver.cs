@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
@@ -44,7 +43,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
     /// Solver based on:<br />
     /// Faster PDE-based simulations using robust composite linear solvers<br />
     /// S. Bhowmicka, P. Raghavan a,*, L. McInnes b, B. Norris<br />
-    /// Future Generation Computer Systems, Vol 20, 2004, pp 373–387<br />
+    /// Future Generation Computer Systems, Vol 20, 2004, pp 373ï¿½387<br />
     /// </para>
     /// <para>
     /// Note that if an iterator is passed to this solver it will be used for all the sub-solvers.
@@ -75,12 +74,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare, nameof(matrix));
+                throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
             if (result.Count != input.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (iterator == null)

@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.Distributions;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Threading;
 using BigInteger = System.Numerics.BigInteger;
@@ -69,7 +68,7 @@ namespace MathNet.Numerics
         {
             if (pointsA.Length != pointsB.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(pointsB));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(pointsB));
             }
 
             var res = new T[pointsA.Length];

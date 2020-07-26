@@ -30,7 +30,6 @@
 using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
@@ -98,7 +97,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             {
                 if (U.RowCount != VT.ColumnCount)
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                    throw new ArgumentException("Matrix must be square.");
                 }
 
                 var det = Complex32.One;

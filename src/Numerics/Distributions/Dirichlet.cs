@@ -29,7 +29,6 @@
 
 using System;
 using System.Linq;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
@@ -53,7 +52,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -70,7 +69,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -94,7 +93,7 @@ namespace MathNet.Numerics.Distributions
             _random = SystemRandomSource.Default;
             if (Control.CheckDistributionParameters && !IsValidParameterSet(parm))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _alpha = (double[])parm.Clone();
@@ -118,7 +117,7 @@ namespace MathNet.Numerics.Distributions
             _random = randomSource ?? SystemRandomSource.Default;
             if (Control.CheckDistributionParameters && !IsValidParameterSet(parm))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _alpha = (double[])parm.Clone();
@@ -317,7 +316,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(alpha))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var n = alpha.Length;

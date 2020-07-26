@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -62,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (data.Length != length)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, length));
+                throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {length}.");
             }
 
             Data = data;
@@ -114,7 +113,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(length), "Value must not be negative (zero is ok).");
             }
 
             var data = new T[length];
@@ -132,7 +131,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(length), "Value must not be negative (zero is ok).");
             }
 
             var data = new T[length];

@@ -30,7 +30,6 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
@@ -77,7 +76,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             Assert.That(() => DenseVectorStorage<double>.OfInit(-1, index => 42),
                 Throws.TypeOf<ArgumentOutOfRangeException>()
-                .With.Message.Contains(Resources.ArgumentNotNegative));
+                .With.Message.Contains("Value must not be negative (zero is ok)."));
         }
 
         [Test]
@@ -85,7 +84,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             Assert.That(() => DenseVectorStorage<double>.OfValue(-1, 42),
                 Throws.TypeOf<ArgumentOutOfRangeException>()
-                .With.Message.Contains(Resources.ArgumentNotNegative));
+                .With.Message.Contains("Value must not be negative (zero is ok)."));
         }
 
         [Test]
@@ -93,7 +92,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             Assert.That(() => SparseVectorStorage<double>.OfInit(-1, index => 42),
                 Throws.TypeOf<ArgumentOutOfRangeException>()
-                .With.Message.Contains(Resources.ArgumentNotNegative));
+                .With.Message.Contains("Value must not be negative (zero is ok)."));
         }
 
         [Test]
@@ -101,7 +100,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
         {
             Assert.That(() => SparseVectorStorage<double>.OfValue(-1, 42),
                 Throws.TypeOf<ArgumentOutOfRangeException>()
-                .With.Message.Contains(Resources.ArgumentNotNegative));
+                .With.Message.Contains("Value must not be negative (zero is ok)."));
         }
     }
 }

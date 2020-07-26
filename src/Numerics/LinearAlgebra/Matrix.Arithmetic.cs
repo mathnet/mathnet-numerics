@@ -29,7 +29,6 @@
 
 using System;
 using System.Linq;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra
 {
@@ -508,12 +507,12 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result.RowCount != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(result));
+                throw new ArgumentException("Matrix row dimensions must agree.", nameof(result));
             }
 
             if (result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(result));
+                throw new ArgumentException("Matrix column dimensions must agree.", nameof(result));
             }
 
             if (scalar.Equals(One))
@@ -563,12 +562,12 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result.RowCount != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(result));
+                throw new ArgumentException("Matrix row dimensions must agree.", nameof(result));
             }
 
             if (result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(result));
+                throw new ArgumentException("Matrix column dimensions must agree.", nameof(result));
             }
 
             if (scalar.Equals(One))
@@ -607,12 +606,12 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (result.RowCount != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(result));
+                throw new ArgumentException("Matrix row dimensions must agree.", nameof(result));
             }
 
             if (result.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(result));
+                throw new ArgumentException("Matrix column dimensions must agree.", nameof(result));
             }
 
             DoDivideByThis(scalar, result);
@@ -1118,7 +1117,7 @@ namespace MathNet.Numerics.LinearAlgebra
             }
             if (exponent < 0)
             {
-                throw new ArgumentException(Resources.ArgumentNotNegative);
+                throw new ArgumentException("Value must not be negative (zero is ok).");
             }
             if (exponent == 0)
             {
@@ -1149,8 +1148,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="exponent">The positive integer exponent to raise the matrix to.</param>
         public Matrix<T> Power(int exponent)
         {
-            if (RowCount != ColumnCount) throw new ArgumentException(Resources.ArgumentMatrixSquare);
-            if (exponent < 0) throw new ArgumentException(Resources.ArgumentNotNegative);
+            if (RowCount != ColumnCount) throw new ArgumentException("Matrix must be square.");
+            if (exponent < 0) throw new ArgumentException("Value must not be negative (zero is ok).");
 
             if (exponent == 0) return Build.DiagonalIdentity(RowCount, ColumnCount);
             if (exponent == 1) return this;
@@ -1972,7 +1971,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (RowCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException("Matrix must be square.");
             }
 
             return LU().Determinant;
@@ -2004,7 +2003,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (RowCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException("Matrix must be square.");
             }
 
             return LU().Inverse();
@@ -2337,21 +2336,21 @@ namespace MathNet.Numerics.LinearAlgebra
         internal static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, Matrix<T> result, string paramName = null)
             where TException : Exception
         {
-            var message = string.Format(Resources.ArgumentMatrixDimensions3, left.RowCount + "x" + left.ColumnCount, right.RowCount + "x" + right.ColumnCount, result.RowCount + "x" + result.ColumnCount);
+            var message = $"Matrix dimensions must agree: op1 is {left.RowCount}x{left.ColumnCount}, op2 is {right.RowCount}x{right.ColumnCount}, op3 is {result.RowCount}x{result.ColumnCount}.";
             return CreateException<TException>(message, paramName);
         }
 
         internal static Exception DimensionsDontMatch<TException>(Matrix<T> left, Matrix<T> right, string paramName = null)
             where TException : Exception
         {
-            var message = string.Format(Resources.ArgumentMatrixDimensions2, left.RowCount + "x" + left.ColumnCount, right.RowCount + "x" + right.ColumnCount);
+            var message = $"Matrix dimensions must agree: op1 is {left.RowCount}x{left.ColumnCount}, op2 is {right.RowCount}x{right.ColumnCount}.";
             return CreateException<TException>(message, paramName);
         }
 
         internal static Exception DimensionsDontMatch<TException>(Matrix<T> matrix)
             where TException : Exception
         {
-            var message = string.Format(Resources.ArgumentMatrixDimensions1, matrix.RowCount + "x" + matrix.ColumnCount);
+            var message = $"Matrix dimensions must agree: {matrix.RowCount}x{matrix.ColumnCount}.";
             return CreateException<TException>(message);
         }
 

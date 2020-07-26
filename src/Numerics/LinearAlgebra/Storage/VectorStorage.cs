@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
@@ -50,7 +49,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(length), "Value must not be negative (zero is ok).");
             }
 
             Length = length;
@@ -206,7 +205,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
             CopyToUnchecked(target, existingData);
@@ -231,7 +230,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != target.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
             ValidateRowRange(target, rowIndex);
@@ -257,7 +256,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != target.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
             ValidateColumnRange(target, columnIndex);
@@ -458,7 +457,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != other.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(other));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
             return Find2Unchecked(other, predicate, zeros);
@@ -507,7 +506,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
             MapToUnchecked(target, f, zeros, existingData);
@@ -532,7 +531,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
             MapIndexedToUnchecked(target, f, zeros, existingData);
@@ -561,12 +560,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
             if (Length != other.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(other));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
             Map2ToUnchecked(target, other, f, zeros, existingData);
@@ -592,7 +591,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (Length != other.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(other));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(other));
             }
 
             return Fold2Unchecked(other, f, state, zeros);

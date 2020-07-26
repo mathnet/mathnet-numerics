@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Interpolation
 {
@@ -56,12 +55,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != c0.Length + 1 || x.Length != c1.Length + 1 || x.Length != c2.Length + 1 || x.Length != c3.Length + 1)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 2 long.", nameof(x));
             }
 
             _x = x;
@@ -79,12 +78,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length || x.Length != firstDerivatives.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 2 long.", nameof(x));
             }
 
             var c0 = new double[x.Length - 1];
@@ -112,12 +111,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length || x.Length != firstDerivatives.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 2 long.", nameof(x));
             }
 
             Sorting.Sort(x, y, firstDerivatives);
@@ -141,12 +140,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 5)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 5), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 5 long.", nameof(x));
             }
 
             /* Prepare divided differences (diff) and weights (w) */
@@ -194,7 +193,7 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Sorting.Sort(x, y);
@@ -221,12 +220,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 2)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 2), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 2 long.", nameof(x));
             }
 
             int n = x.Length;
@@ -281,7 +280,7 @@ namespace MathNet.Numerics.Interpolation
                     b[0] = (3*((y[1] - y[0])/(x[1] - x[0]))) - (0.5*leftBoundary*(x[1] - x[0]));
                     break;
                 default:
-                    throw new NotSupportedException(Resources.InvalidLeftBoundaryCondition);
+                    throw new NotSupportedException("Invalid Left Boundary Condition.");
             }
 
             // Central Conditions
@@ -315,7 +314,7 @@ namespace MathNet.Numerics.Interpolation
                     b[n - 1] = (3*(y[n - 1] - y[n - 2])/(x[n - 1] - x[n - 2])) + (0.5*rightBoundary*(x[n - 1] - x[n - 2]));
                     break;
                 default:
-                    throw new NotSupportedException(Resources.InvalidRightBoundaryCondition);
+                    throw new NotSupportedException("Invalid Right Boundary Condition.");
             }
 
             // Build Spline
@@ -333,7 +332,7 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Sorting.Sort(x, y);

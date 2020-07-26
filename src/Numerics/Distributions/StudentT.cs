@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.RootFinding;
 
@@ -87,7 +86,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, freedom))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -108,7 +107,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(location, scale, freedom))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -376,7 +375,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             // TODO JVG we can probably do a better job for Cauchy special case
@@ -405,7 +404,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             // TODO JVG we can probably do a better job for Cauchy special case
@@ -434,7 +433,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             // TODO JVG we can probably do a better job for Cauchy special case
@@ -464,7 +463,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             // TODO JVG we can probably do a better job for Cauchy special case
@@ -500,7 +499,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, location, scale, freedom);
@@ -518,7 +517,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, location, scale, freedom);
@@ -537,7 +536,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, location, scale, freedom);
@@ -554,7 +553,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, location, scale, freedom);
@@ -571,7 +570,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, location, scale, freedom);
@@ -589,7 +588,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (scale <= 0.0 || freedom <= 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, location, scale, freedom);

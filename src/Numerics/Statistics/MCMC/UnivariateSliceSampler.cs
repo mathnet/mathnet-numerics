@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics.Statistics.Mcmc
 {
-    using System;
-    using Properties;
-
     /// <summary>
     /// Slice sampling produces samples from distribution P by uniformly sampling from under the pdf of P using
     /// a technique described in "Slice Sampling", R. Neal, 2003. All densities are required to be in log space.
@@ -111,7 +110,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException(Resources.ArgumentNotNegative);
+                    throw new ArgumentException("Value must not be negative (zero is ok).");
                 }
                 _burnInterval = value;
             }
@@ -127,7 +126,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             {
                 if (value <= 0.0)
                 {
-                    throw new ArgumentException(Resources.ArgumentPositive);
+                    throw new ArgumentException("Value must be positive (and not zero).");
                 }
                 _scale = value;
             }

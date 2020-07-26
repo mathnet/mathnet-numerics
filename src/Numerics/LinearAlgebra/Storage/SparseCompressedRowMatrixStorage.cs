@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
@@ -161,7 +160,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     var size = Math.Min(Values.Length + GrowthSize(), (long)RowCount*ColumnCount);
                     if (size > int.MaxValue)
                     {
-                        throw new NotSupportedException(Resources.TooManyElements);
+                        throw new NotSupportedException("We only support sparse matrix with less than int.MaxValue elements.");
                     }
 
                     Array.Resize(ref Values, (int)size);
@@ -513,7 +512,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), "Matrices can not be empty and must have at least one row and column.");
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(data.Length, data[0].Length);
@@ -545,7 +544,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), "Matrices can not be empty and must have at least one row and column.");
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(data[0].Length, data.Length);
@@ -577,7 +576,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), "Matrices can not be empty and must have at least one row and column.");
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(data.Length, data[0].Length);
@@ -611,7 +610,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), "Matrices can not be empty and must have at least one row and column.");
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(data[0].Length, data.Length);
@@ -691,23 +690,23 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int row = 0; row < rows; row++)
                 {
-                    if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
+                    if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {rows}.");
                     rowPointers[row] = values.Count;
                     using (var columnIterator = rowIterator.Current.GetEnumerator())
                     {
                         for (int col = 0; col < columns; col++)
                         {
-                            if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
+                            if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {columns}.");
                             if (!Zero.Equals(columnIterator.Current))
                             {
                                 values.Add(columnIterator.Current);
                                 columnIndices.Add(col);
                             }
                         }
-                        if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
+                        if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {columns}.");
                     }
                 }
-                if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
+                if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {rows}.");
             }
 
             rowPointers[rows] = values.Count;
@@ -723,12 +722,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int column = 0; column < columns; column++)
                 {
-                    if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
+                    if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {columns}.");
                     using (var rowIterator = columnIterator.Current.GetEnumerator())
                     {
                         for (int row = 0; row < rows; row++)
                         {
-                            if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
+                            if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {rows}.");
                             if (!Zero.Equals(rowIterator.Current))
                             {
                                 var trow = trows[row] ?? (trows[row] = new List<Tuple<int, T>>());
@@ -801,7 +800,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (rows*columns != data.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException("Matrix dimensions must agree.");
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);

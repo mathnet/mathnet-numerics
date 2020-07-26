@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Statistics
 {
@@ -101,12 +100,12 @@ namespace MathNet.Numerics.Statistics
         {
             if (lowerBound > upperBound)
             {
-                throw new ArgumentException(Resources.ArgumentUpperBoundMustBeLargerThanOrEqualToLowerBound);
+                throw new ArgumentException("The upper bound must be at least as large as the lower bound.");
             }
 
             if (count < 0.0)
             {
-                throw new ArgumentOutOfRangeException(nameof(count), Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(count), "Value must be positive.");
             }
 
             LowerBound = lowerBound;
@@ -186,7 +185,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (UpperBound > bucket.LowerBound && LowerBound < bucket.LowerBound)
             {
-                throw new ArgumentException(Resources.PartialOrderException);
+                throw new ArgumentException("The two arguments can\'t be compared (maybe they are part of a partial ordering?)");
             }
 
             if (UpperBound.Equals(bucket.UpperBound)
@@ -423,7 +422,7 @@ namespace MathNet.Numerics.Statistics
 
             if (index < 0)
             {
-                throw new ArgumentException(Resources.ArgumentHistogramContainsNot);
+                throw new ArgumentException("The histogram does not contain the value.");
             }
 
             return index;

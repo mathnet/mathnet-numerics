@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Interpolation
 {
@@ -58,19 +57,19 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 1 long.", nameof(x));
             }
 
             for (var i = 1; i < x.Length; ++i)
             {
                 if (x[i] == x[i - 1])
                 {
-                    throw new ArgumentException(Resources.Interpolation_Initialize_SamplePointsNotUnique, nameof(x));
+                    throw new ArgumentException("All sample points should be unique.", nameof(x));
                 }
             }
 
@@ -94,7 +93,7 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Sorting.Sort(x, y);

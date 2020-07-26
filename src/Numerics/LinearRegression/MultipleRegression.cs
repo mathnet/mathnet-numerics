@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearRegression
 {
@@ -137,12 +136,12 @@ namespace MathNet.Numerics.LinearRegression
         {
             if (x.RowCount != y.Count)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.Count));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {x.RowCount} and {y.Count} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (x.ColumnCount > y.Count)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.Count));
+                throw new ArgumentException($"A regression of the requested order requires at least {x.ColumnCount} samples. Only {y.Count} samples have been provided.");
             }
 
             return x.TransposeThisAndMultiply(x).Cholesky().Solve(x.TransposeThisAndMultiply(y));
@@ -159,12 +158,12 @@ namespace MathNet.Numerics.LinearRegression
         {
             if (x.RowCount != y.RowCount)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.RowCount));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {x.RowCount} and {y.RowCount} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (x.ColumnCount > y.RowCount)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.RowCount));
+                throw new ArgumentException($"A regression of the requested order requires at least {x.ColumnCount} samples. Only {y.RowCount} samples have been provided.");
             }
 
             return x.TransposeThisAndMultiply(x).Cholesky().Solve(x.TransposeThisAndMultiply(y));
@@ -188,12 +187,12 @@ namespace MathNet.Numerics.LinearRegression
 
             if (predictor.RowCount != y.Length)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, predictor.RowCount, y.Length));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {predictor.RowCount} and {y.Length} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (predictor.ColumnCount > y.Length)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, predictor.ColumnCount, y.Length));
+                throw new ArgumentException($"A regression of the requested order requires at least {predictor.ColumnCount} samples. Only {y.Length} samples have been provided.");
             }
 
             var response = Vector<T>.Build.Dense(y);
@@ -224,12 +223,12 @@ namespace MathNet.Numerics.LinearRegression
         {
             if (x.RowCount != y.Count)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.Count));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {x.RowCount} and {y.Count} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (x.ColumnCount > y.Count)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.Count));
+                throw new ArgumentException($"A regression of the requested order requires at least {x.ColumnCount} samples. Only {y.Count} samples have been provided.");
             }
 
             return x.QR().Solve(y);
@@ -246,12 +245,12 @@ namespace MathNet.Numerics.LinearRegression
         {
             if (x.RowCount != y.RowCount)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.RowCount));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {x.RowCount} and {y.RowCount} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (x.ColumnCount > y.RowCount)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.RowCount));
+                throw new ArgumentException($"A regression of the requested order requires at least {x.ColumnCount} samples. Only {y.RowCount} samples have been provided.");
             }
 
             return x.QR().Solve(y);
@@ -275,12 +274,12 @@ namespace MathNet.Numerics.LinearRegression
 
             if (predictor.RowCount != y.Length)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, predictor.RowCount, y.Length));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {predictor.RowCount} and {y.Length} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (predictor.ColumnCount > y.Length)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, predictor.ColumnCount, y.Length));
+                throw new ArgumentException($"A regression of the requested order requires at least {predictor.ColumnCount} samples. Only {y.Length} samples have been provided.");
             }
 
             return predictor.QR().Solve(Vector<T>.Build.Dense(y)).ToArray();
@@ -310,12 +309,12 @@ namespace MathNet.Numerics.LinearRegression
         {
             if (x.RowCount != y.Count)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.Count));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {x.RowCount} and {y.Count} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (x.ColumnCount > y.Count)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.Count));
+                throw new ArgumentException($"A regression of the requested order requires at least {x.ColumnCount} samples. Only {y.Count} samples have been provided.");
             }
 
             return x.Svd().Solve(y);
@@ -332,12 +331,12 @@ namespace MathNet.Numerics.LinearRegression
         {
             if (x.RowCount != y.RowCount)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.RowCount, y.RowCount));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {x.RowCount} and {y.RowCount} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (x.ColumnCount > y.RowCount)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, x.ColumnCount, y.RowCount));
+                throw new ArgumentException($"A regression of the requested order requires at least {x.ColumnCount} samples. Only {y.RowCount} samples have been provided.");
             }
 
             return x.Svd().Solve(y);
@@ -361,12 +360,12 @@ namespace MathNet.Numerics.LinearRegression
 
             if (predictor.RowCount != y.Length)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, predictor.RowCount, y.Length));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {predictor.RowCount} and {y.Length} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (predictor.ColumnCount > y.Length)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, predictor.ColumnCount, y.Length));
+                throw new ArgumentException($"A regression of the requested order requires at least {predictor.ColumnCount} samples. Only {y.Length} samples have been provided.");
             }
 
             return predictor.Svd().Solve(Vector<T>.Build.Dense(y)).ToArray();

@@ -34,7 +34,6 @@ using System.Globalization;
 using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.LinearAlgebra;
 using MathNet.Numerics.Threading;
 
@@ -261,7 +260,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
 
             if (leftSide.Count != rightSide.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(rightSide));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(rightSide));
             }
 
             return (DenseVector)leftSide.Add(rightSide);

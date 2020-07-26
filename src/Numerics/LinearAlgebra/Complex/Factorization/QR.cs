@@ -29,7 +29,6 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
 {
@@ -63,7 +62,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex.Factorization
             {
                 if (FullR.RowCount != FullR.ColumnCount)
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                    throw new ArgumentException("Matrix must be square.");
                 }
 
                 var det = Complex.One;

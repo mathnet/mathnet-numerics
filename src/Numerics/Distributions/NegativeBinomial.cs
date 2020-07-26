@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
@@ -57,7 +56,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(r, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -75,7 +74,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(r, p))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -221,7 +220,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SpecialFunctions.GammaLn(r + k)
@@ -243,7 +242,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return 1 - SpecialFunctions.BetaRegularized(x + 1, r, 1 - p);
@@ -323,7 +322,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, r, p);
@@ -339,7 +338,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, r, p);
@@ -356,7 +355,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, r, p);
@@ -371,7 +370,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, r, p);
@@ -386,7 +385,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, r, p);
@@ -402,7 +401,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(r >= 0.0 && p >= 0.0 && p <= 1.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, r, p);

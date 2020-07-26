@@ -27,7 +27,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
@@ -50,7 +49,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale, shape, truncation))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             _random = randomSource ?? SystemRandomSource.Default;
             Scale = scale;
@@ -216,7 +215,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale, shape, truncation))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SampleUnchecked(rnd, scale, shape, truncation);
         }
@@ -233,7 +232,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale, shape, truncation))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             SamplesUnchecked(rnd, values, scale, shape, truncation);
         }
@@ -250,7 +249,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale, shape, truncation))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SamplesUnchecked(rnd, scale, shape, truncation);
         }
@@ -338,7 +337,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale, shape, truncation))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return InvCDFUncheckedImpl(scale, shape, truncation, p);
         }
@@ -356,7 +355,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale, shape, truncation))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityImpl(scale, shape, truncation, x);
         }
@@ -374,7 +373,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale, shape, truncation))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityLnImpl(scale, shape, truncation, x);
         }
@@ -392,7 +391,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(scale, shape, truncation))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return CumulativeDistributionImpl(scale, shape, truncation, x);
         }

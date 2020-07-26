@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
@@ -65,7 +64,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(s, n))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -83,7 +82,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(s, n))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -256,7 +255,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return (1.0/Math.Pow(k, s))/SpecialFunctions.GeneralHarmonic(n, s);
@@ -273,7 +272,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return Math.Log(PMF(s, n, k));
@@ -291,7 +290,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             if (x < 1)
@@ -384,7 +383,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, s, n);
@@ -400,7 +399,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, s, n);
@@ -417,7 +416,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, s, n);
@@ -432,7 +431,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, s, n);
@@ -447,7 +446,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, s, n);
@@ -463,7 +462,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(n > 0 && s > 0.0))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, s, n);

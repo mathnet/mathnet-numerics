@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Statistics
@@ -661,7 +660,7 @@ namespace MathNet.Numerics.Statistics
                 {
                     if (!s2.MoveNext())
                     {
-                        throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                        throw new ArgumentException("All vectors must have the same dimensionality.");
                     }
 
                     var mean2Prev = mean2;
@@ -673,7 +672,7 @@ namespace MathNet.Numerics.Statistics
 
                 if (s2.MoveNext())
                 {
-                    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                    throw new ArgumentException("All vectors must have the same dimensionality.");
                 }
             }
 
@@ -714,7 +713,7 @@ namespace MathNet.Numerics.Statistics
                 {
                     if (!p2.MoveNext())
                     {
-                        throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                        throw new ArgumentException("All vectors must have the same dimensionality.");
                     }
 
                     var mean2Prev = mean2;
@@ -726,7 +725,7 @@ namespace MathNet.Numerics.Statistics
 
                 if (p2.MoveNext())
                 {
-                    throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                    throw new ArgumentException("All vectors must have the same dimensionality.");
                 }
             }
 

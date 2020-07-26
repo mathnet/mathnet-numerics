@@ -30,7 +30,6 @@
 using System;
 using System.Linq;
 using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
 {
@@ -96,7 +95,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Factorization
             {
                 if (U.RowCount != VT.ColumnCount)
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                    throw new ArgumentException("Matrix must be square.");
                 }
 
                 var det = 1.0;

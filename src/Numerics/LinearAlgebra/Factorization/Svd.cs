@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Factorization
 {
@@ -138,7 +137,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         {
             if (!VectorsComputed)
             {
-                throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
+                throw new InvalidOperationException("The singular vectors were not computed.");
             }
 
             var x = Matrix<T>.Build.SameAs(U, VT.ColumnCount, input.ColumnCount, fullyMutable: true);
@@ -162,7 +161,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         {
             if (!VectorsComputed)
             {
-                throw new InvalidOperationException(Resources.SingularVectorsNotComputed);
+                throw new InvalidOperationException("The singular vectors were not computed.");
             }
 
             var x = Vector<T>.Build.SameAs(U, VT.ColumnCount);

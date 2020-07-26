@@ -29,7 +29,6 @@
 
 using System;
 using System.Diagnostics;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
@@ -157,12 +156,12 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             if (solutionVector.Count != sourceVector.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(sourceVector));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(sourceVector));
             }
 
             if (solutionVector.Count != residualVector.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(residualVector));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(residualVector));
             }
 
 

@@ -31,7 +31,6 @@ using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Single.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Single
 {
@@ -522,7 +521,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (RowCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException("Matrix must be square.");
             }
 
             var sum = 0.0f;
@@ -632,7 +631,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (norm <= 0.0)
             {
-                throw new ArgumentOutOfRangeException(nameof(norm), Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(norm), "Value must be positive.");
             }
 
             var ret = new double[RowCount];
@@ -664,7 +663,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         {
             if (norm <= 0.0)
             {
-                throw new ArgumentOutOfRangeException(nameof(norm), Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(norm), "Value must be positive.");
             }
 
             var ret = new double[ColumnCount];

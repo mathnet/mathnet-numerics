@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.RootFinding
 {
@@ -70,7 +69,7 @@ namespace MathNet.Numerics.RootFinding
                 return root;
             }
 
-            throw new NonConvergenceException(Resources.RootFindingFailed);
+            throw new NonConvergenceException("The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds.");
         }
 
         /// <summary>Find a solution of the equation f(x)=0.</summary>

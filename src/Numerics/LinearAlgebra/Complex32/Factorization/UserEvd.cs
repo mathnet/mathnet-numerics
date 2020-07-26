@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
 {
@@ -64,7 +63,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException("Matrix must be square.");
             }
 
             var order = matrix.RowCount;
@@ -824,19 +823,19 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             // The solution X should have the same number of columns as B
             if (input.ColumnCount != result.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+                throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
             if (EigenValues.Count != input.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+                throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
             // The solution X row dimension is equal to the column dimension of A
             if (EigenValues.Count != result.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+                throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             if (IsSymmetric)
@@ -876,7 +875,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             }
             else
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSymmetric);
+                throw new ArgumentException("Matrix must be symmetric.");
             }
         }
 
@@ -891,13 +890,13 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             // Check that b is a column vector with m entries
             if (EigenValues.Count != input.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             // Check that x is a column vector with n entries
             if (EigenValues.Count != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException("Matrix dimensions must agree.");
             }
 
             if (IsSymmetric)
@@ -936,7 +935,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
             }
             else
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSymmetric);
+                throw new ArgumentException("Matrix must be symmetric.");
             }
         }
     }

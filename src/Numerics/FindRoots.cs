@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.RootFinding;
 using Complex = System.Numerics.Complex;
 
@@ -44,14 +43,12 @@ namespace MathNet.Numerics
         /// <param name="maxIterations">Maximum number of iterations. Example: 100.</param>
         public static double OfFunction(Func<double, double> f, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100)
         {
-            double root;
-
             if (!ZeroCrossingBracketing.ExpandReduce(f, ref lowerBound, ref upperBound, 1.6, maxIterations, maxIterations*10))
             {
-                throw new NonConvergenceException(Resources.RootFindingFailed);
+                throw new NonConvergenceException("The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds.");
             }
 
-            if (Brent.TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out root))
+            if (Brent.TryFindRoot(f, lowerBound, upperBound, accuracy, maxIterations, out var root))
             {
                 return root;
             }
@@ -61,7 +58,7 @@ namespace MathNet.Numerics
                 return root;
             }
 
-            throw new NonConvergenceException(Resources.RootFindingFailed);
+            throw new NonConvergenceException("The algorithm has failed, exceeded the number of iterations allowed or there is no root within the provided bounds.");
         }
 
         /// <summary>Find a solution of the equation f(x)=0.</summary>

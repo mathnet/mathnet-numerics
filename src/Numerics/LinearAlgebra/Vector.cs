@@ -33,7 +33,6 @@ using System.Collections.Generic;
 using System.Runtime;
 using System.Runtime.CompilerServices;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra
 {
@@ -129,7 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (count < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(count), Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(count), "Value must be positive.");
             }
 
             if (index + count > Count || index < 0)

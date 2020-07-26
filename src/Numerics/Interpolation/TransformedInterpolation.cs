@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.Interpolation
@@ -61,7 +60,7 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             var yhat = new double[y.Length];
@@ -88,7 +87,7 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Sorting.Sort(x, y);

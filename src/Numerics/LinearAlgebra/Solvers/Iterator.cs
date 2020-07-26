@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
@@ -104,7 +103,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
         {
             if (_stopCriteria.Count == 0)
             {
-                throw new ArgumentException(Resources.StopCriterionMissing);
+                throw new ArgumentException("There is no stop criterion in the collection.");
             }
 
             if (iterationNumber < 0)

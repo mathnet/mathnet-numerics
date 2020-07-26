@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
@@ -59,7 +58,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(population, success, draws))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -79,7 +78,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(population, success, draws))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -221,7 +220,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SpecialFunctions.Binomial(success, k)*SpecialFunctions.Binomial(population - success, draws - k)/SpecialFunctions.Binomial(population, draws);
@@ -239,7 +238,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SpecialFunctions.BinomialLn(success, k) + SpecialFunctions.BinomialLn(population - success, draws - k) - SpecialFunctions.BinomialLn(population, draws);
@@ -258,7 +257,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             if (x < Math.Max(0, draws + success - population))
@@ -365,7 +364,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, population, success, draws);
@@ -382,7 +381,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, population, success, draws);
@@ -400,7 +399,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, population, success, draws);
@@ -416,7 +415,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, population, success, draws);
@@ -432,7 +431,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, population, success, draws);
@@ -449,7 +448,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(population >= 0 && success >= 0 && draws >= 0 && success <= population && draws <= population))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, population, success, draws);

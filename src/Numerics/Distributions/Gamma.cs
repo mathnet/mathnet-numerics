@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
@@ -65,7 +64,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(shape, rate))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -83,7 +82,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(shape, rate))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -452,7 +451,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             if (double.IsPositiveInfinity(rate))
@@ -490,7 +489,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             if (double.IsPositiveInfinity(rate))
@@ -523,7 +522,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             if (double.IsPositiveInfinity(rate))
@@ -552,7 +551,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SpecialFunctions.GammaLowerRegularizedInv(shape, p)/rate;
@@ -569,7 +568,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, shape, rate);
@@ -586,7 +585,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, shape, rate);
@@ -604,7 +603,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, shape, rate);
@@ -620,7 +619,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, shape, rate);
@@ -636,7 +635,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, shape, rate);
@@ -653,7 +652,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (shape < 0.0 || rate < 0.0)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, shape, rate);

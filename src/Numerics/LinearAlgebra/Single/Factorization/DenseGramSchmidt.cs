@@ -29,7 +29,6 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
@@ -90,7 +89,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
                 norm = (float)Math.Sqrt(norm);
                 if (norm == 0.0)
                 {
-                    throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient);
+                    throw new ArgumentException("Matrix must not be rank deficient.");
                 }
 
                 r[(k * columnsQ) + k] = norm;
@@ -130,19 +129,19 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             // The solution X should have the same number of columns as B
             if (input.ColumnCount != result.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+                throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             // The dimension compatibility conditions for X = A\B require the two matrices A and B to have the same number of rows
             if (Q.RowCount != input.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+                throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
             // The solution X row dimension is equal to the column dimension of A
             if (Q.ColumnCount != result.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+                throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             if (input is DenseMatrix dinput && result is DenseMatrix dresult)
@@ -166,7 +165,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             // Check that b is a column vector with m entries
             if (Q.RowCount != input.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             // Check that x is a column vector with n entries

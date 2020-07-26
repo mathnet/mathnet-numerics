@@ -104,7 +104,7 @@ namespace MathNet.Numerics
                 var action = actions[i];
                 if (action == null)
                 {
-                    throw new ArgumentException(String.Format(Properties.Resources.ArgumentItemNull, nameof(actions)), nameof(actions));
+                    throw new ArgumentException($"At least one item of {nameof(actions)} is a null reference (Nothing in Visual Basic).", nameof(actions));
                 }
 
                 tasks[i] = Task.Factory.StartNew(action, parallelOptions.CancellationToken, TaskCreationOptions.None, parallelOptions.TaskScheduler);

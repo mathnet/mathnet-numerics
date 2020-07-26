@@ -30,7 +30,6 @@
 using System;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
@@ -62,7 +61,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -81,7 +80,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -184,7 +183,7 @@ namespace MathNet.Numerics.Distributions
 
             if (x.RowCount != p || x.ColumnCount != p)
             {
-                throw new ArgumentOutOfRangeException(nameof(x), Resources.ArgumentMatrixDimensions);
+                throw new ArgumentOutOfRangeException(nameof(x), "Matrix dimensions must agree.");
             }
 
             var chol = x.Cholesky();
@@ -227,7 +226,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (Control.CheckDistributionParameters && !IsValidParameterSet(degreesOfFreedom, scale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             var r = Wishart.Sample(rnd, degreesOfFreedom, scale.Inverse());

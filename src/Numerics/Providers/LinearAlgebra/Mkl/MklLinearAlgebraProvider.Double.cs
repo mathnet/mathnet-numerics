@@ -32,7 +32,6 @@
 using System;
 using System.Security;
 using MathNet.Numerics.LinearAlgebra.Factorization;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.Common.Mkl;
 using Complex = System.Numerics.Complex;
 
@@ -63,17 +62,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (rows <= 0)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(rows));
+                throw new ArgumentException("Value must be positive.", nameof(rows));
             }
 
             if (columns <= 0)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(columns));
+                throw new ArgumentException("Value must be positive.", nameof(columns));
             }
 
             if (matrix.Length < rows * columns)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, rows * columns), nameof(matrix));
+                throw new ArgumentException($"The given array is too small. It must be at least {rows * columns} long.", nameof(matrix));
             }
 
             return SafeNativeMethods.d_matrix_norm((byte)norm, rows, columns, matrix);
@@ -101,7 +100,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             return SafeNativeMethods.d_dot_product(x.Length, x, y);
@@ -130,7 +129,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (y.Length != x.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (!ReferenceEquals(y, result))
@@ -230,12 +229,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (c.Length != m*n)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException("Matrix dimensions must agree.");
             }
 
             if (k != l)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixDimensions);
+                throw new ArgumentException("Matrix dimensions must agree.");
             }
 
             SafeNativeMethods.d_matrix_multiply(transposeA, transposeB, m, n, k, alpha, a, b, beta, c);
@@ -265,12 +264,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (data.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(data));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(data));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
             }
 
             var info = SafeNativeMethods.d_lu_factor(order, data, ipiv);
@@ -297,7 +296,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             var info = SafeNativeMethods.d_lu_inverse(order, a);
@@ -340,12 +339,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
             }
 
             var info = SafeNativeMethods.d_lu_inverse_factored(order, a, ipiv);
@@ -379,17 +378,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             if (b.Length != columnsOfB*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+                throw new ArgumentException("Arguments must be different objects.");
             }
 
             var info = SafeNativeMethods.d_lu_solve(order, columnsOfB, a, b);
@@ -429,22 +428,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             if (ipiv.Length != order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(ipiv));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(ipiv));
             }
 
             if (b.Length != columnsOfB*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+                throw new ArgumentException("Arguments must be different objects.");
             }
 
             var info = SafeNativeMethods.d_lu_solve_factored(order, columnsOfB, a, ipiv, b);
@@ -472,12 +471,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (order < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(order));
+                throw new ArgumentException("Value must be positive.", nameof(order));
             }
 
             if (a.Length != order*order)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             var info = SafeNativeMethods.d_cholesky_factor(order, a);
@@ -494,7 +493,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (info > 0)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixPositiveDefinite);
+                throw new ArgumentException("Matrix must be positive definite.");
             }
         }
 
@@ -522,12 +521,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (b.Length != orderA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+                throw new ArgumentException("Arguments must be different objects.");
             }
 
             var info = SafeNativeMethods.d_cholesky_solve(orderA, columnsB, a, b);
@@ -566,12 +565,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (b.Length != orderA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (ReferenceEquals(a, b))
             {
-                throw new ArgumentException(Resources.ArgumentReferenceDifferent);
+                throw new ArgumentException("Arguments must be different objects.");
             }
 
             var info = SafeNativeMethods.d_cholesky_solve_factored(orderA, columnsB, a, b);
@@ -609,17 +608,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (r.Length != rowsR*columnsR)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), nameof(r));
+                throw new ArgumentException("The given array has the wrong length. Should be rowsR * columnsR.", nameof(r));
             }
 
             if (tau.Length < Math.Min(rowsR, columnsR))
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), nameof(tau));
+                throw new ArgumentException("The given array is too small. It must be at least min(m,n) long.", nameof(tau));
             }
 
             if (q.Length != rowsR*rowsR)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * rowsR"), nameof(q));
+                throw new ArgumentException("The given array has the wrong length. Should be rowsR * rowsR.", nameof(q));
             }
 
             var info = SafeNativeMethods.d_qr_factor(rowsR, columnsR, r, tau, q);
@@ -657,17 +656,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (q.Length != rowsA*columnsA)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "rowsR * columnsR"), nameof(q));
+                throw new ArgumentException("The given array has the wrong length. Should be rowsR * columnsR.", nameof(q));
             }
 
             if (tau.Length < Math.Min(rowsA, columnsA))
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, "min(m,n)"), nameof(tau));
+                throw new ArgumentException("The given array is too small. It must be at least min(m,n) long.", nameof(tau));
             }
 
             if (r.Length != columnsA*columnsA)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, "columnsA * columnsA"), nameof(r));
+                throw new ArgumentException("The given array has the wrong length. Should be columnsA * columnsA.", nameof(r));
             }
 
             var info = SafeNativeMethods.d_qr_thin_factor(rowsA, columnsA, q, tau, r);
@@ -709,22 +708,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (a.Length != rows * columns)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(a));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(a));
             }
 
             if (b.Length != rows * columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (x.Length != columns * columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(x));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(x));
             }
 
             if (rows < columns)
             {
-                throw new ArgumentException(Resources.RowsLessThanColumns);
+                throw new ArgumentException("The number of rows must greater than or equal to the number of columns.");
             }
 
             var info = SafeNativeMethods.d_qr_solve(rows, columns, columnsB, a, b, x);
@@ -741,7 +740,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (info > 0)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixNotRankDeficient, nameof(a));
+                throw new ArgumentException("Matrix must not be rank deficient.", nameof(a));
             }
         }
 
@@ -796,22 +795,22 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (r.Length != rowsR * columnsR)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsR * columnsR), nameof(r));
+                throw new ArgumentException($"The given array has the wrong length. Should be {rowsR * columnsR}.", nameof(r));
             }
 
             if (q.Length != rowsQ * columnsQ)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsQ * columnsQ), nameof(q));
+                throw new ArgumentException($"The given array has the wrong length. Should be {rowsQ * columnsQ}.", nameof(q));
             }
 
             if (b.Length != rowsA * columnsB)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, rowsA * columnsB), nameof(b));
+                throw new ArgumentException($"The given array has the wrong length. Should be {rowsA * columnsB}.", nameof(b));
             }
 
             if (x.Length != columnsA * columnsB)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentArrayWrongLength, columnsA * columnsB), nameof(x));
+                throw new ArgumentException($"The given array has the wrong length. Should be {columnsA * columnsB}.", nameof(x));
             }
 
             if (method == QRMethod.Full)
@@ -864,12 +863,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (b.Length != rowsA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             if (x.Length != columnsA*columnsB)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(b));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(b));
             }
 
             var s = new double[Math.Min(rowsA, columnsA)];
@@ -920,17 +919,17 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (u.Length != rowsA * rowsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(u));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(u));
             }
 
             if (vt.Length != columnsA * columnsA)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(vt));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(vt));
             }
 
             if (s.Length != Math.Min(rowsA, columnsA))
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(s));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(s));
             }
 
             var info = SafeNativeMethods.d_svd_factor(computeVectors, rowsA, columnsA, a, s, u, vt);
@@ -975,12 +974,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             if (x.Length != result.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             SafeNativeMethods.d_vector_add(x.Length, x, y, result);
@@ -1010,12 +1009,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             if (x.Length != result.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             SafeNativeMethods.d_vector_subtract(x.Length, x, y, result);
@@ -1045,12 +1044,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             if (x.Length != result.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             SafeNativeMethods.d_vector_multiply(x.Length, x, y, result);
@@ -1080,12 +1079,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             if (x.Length != result.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             SafeNativeMethods.d_vector_divide(x.Length, x, y, result);
@@ -1120,12 +1119,12 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             if (x.Length != result.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             SafeNativeMethods.d_vector_power(x.Length, x, y, result);
@@ -1149,7 +1148,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (matrix.Length != order*order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), nameof(matrix));
+                throw new ArgumentException($"The given array has the wrong length. Should be {order * order}.", nameof(matrix));
             }
 
             if (matrixEv == null)
@@ -1159,7 +1158,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (matrixEv.Length != order*order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), nameof(matrixEv));
+                throw new ArgumentException($"The given array has the wrong length. Should be {order * order}.", nameof(matrixEv));
             }
 
             if (vectorEv == null)
@@ -1169,7 +1168,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (vectorEv.Length != order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order), nameof(vectorEv));
+                throw new ArgumentException($"The given array has the wrong length. Should be {order}.", nameof(vectorEv));
             }
 
             if (matrixD == null)
@@ -1179,7 +1178,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Mkl
 
             if (matrixD.Length != order*order)
             {
-                throw new ArgumentException(String.Format(Resources.ArgumentArrayWrongLength, order*order), nameof(matrixD));
+                throw new ArgumentException($"The given array has the wrong length. Should be {order * order}.", nameof(matrixD));
             }
 
             var info = SafeNativeMethods.d_eigen(isSymmetric, order, matrix, matrixEv, vectorEv, matrixD);

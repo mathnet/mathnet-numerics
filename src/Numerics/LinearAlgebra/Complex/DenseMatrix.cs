@@ -35,7 +35,6 @@ using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Complex.Factorization;
 using MathNet.Numerics.LinearAlgebra.Factorization;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.LinearAlgebra;
 using MathNet.Numerics.Threading;
 
@@ -967,7 +966,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         {
             if (_rowCount != _columnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException("Matrix must be square.");
             }
 
             var sum = Complex.Zero;

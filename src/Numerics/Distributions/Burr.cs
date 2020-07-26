@@ -27,7 +27,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using System;
 using System.Collections.Generic;
@@ -64,7 +63,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(a, c, k))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             _random = randomSource ?? SystemRandomSource.Default;
             this.a = a;
@@ -197,7 +196,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(a, c, k))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SampleUnchecked(rnd, a, c, k);
         }
@@ -214,7 +213,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(a, c, k))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             SamplesUnchecked(rnd, values, a, c, k);
         }
@@ -231,7 +230,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(a, c, k))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SamplesUnchecked(rnd, a, c, k);
         }
@@ -277,7 +276,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (n > k * c)
             {
-                throw new ArgumentException(Resources.ArgumentParameterSetInvalid);
+                throw new ArgumentException("The chosen parameter set is invalid (probably some value is out of range).");
             }
             var lambda_n = (n / c) * SpecialFunctions.Gamma(n / c) * SpecialFunctions.Gamma(k - n / c);
             return Math.Pow(a, n) * lambda_n / SpecialFunctions.Gamma(k);
@@ -329,7 +328,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(a, c, k))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityImpl(a, c, k, x);
         }
@@ -347,7 +346,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(a, c, k))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityLnImpl(a, c, k, x);
         }
@@ -365,7 +364,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(a, c, k))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return CumulativeDistributionImpl(a, c, k, x);
         }

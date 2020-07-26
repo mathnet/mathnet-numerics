@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Integration
 {
@@ -93,7 +92,7 @@ namespace MathNet.Numerics.Integration
 
             if (numberOfPartitions <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(numberOfPartitions), Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException(nameof(numberOfPartitions), "Value must be positive (and not zero).");
             }
 
             double step = (intervalEnd - intervalBegin)/numberOfPartitions;
@@ -127,7 +126,7 @@ namespace MathNet.Numerics.Integration
 
             if (numberOfPartitions <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(numberOfPartitions), Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException(nameof(numberOfPartitions), "Value must be positive (and not zero).");
             }
 
             double step = (intervalEnd - intervalBegin) / numberOfPartitions;
@@ -143,7 +142,7 @@ namespace MathNet.Numerics.Integration
 
             return step * sum;
         }
-        
+
         /// <summary>
         /// Adaptive approximation of the definite integral in the provided interval by the trapezium rule.
         /// </summary>

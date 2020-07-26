@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Threading;
 
@@ -64,7 +63,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(lower, upper))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -83,7 +82,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(lower, upper))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -287,7 +286,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return x < lower || x > upper ? 0.0 : 1.0/(upper - lower);
@@ -305,7 +304,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return x < lower || x > upper ? double.NegativeInfinity : -Math.Log(upper - lower);
@@ -323,7 +322,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return x <= lower ? 0.0 : x >= upper ? 1.0 : (x - lower)/(upper - lower);
@@ -342,7 +341,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return p <= 0.0 ? lower : p >= 1.0 ? upper : lower*(1.0 - p) + upper*p;
@@ -359,7 +358,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, lower, upper);
@@ -376,7 +375,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, lower, upper);
@@ -394,7 +393,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, lower, upper);
@@ -410,7 +409,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, lower, upper);
@@ -426,7 +425,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, lower, upper);
@@ -443,7 +442,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (upper < lower)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, lower, upper);

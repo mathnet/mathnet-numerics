@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
@@ -56,12 +55,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (rowCount < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(rowCount), Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(rowCount), "Value must be positive.");
             }
 
             if (columnCount < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(columnCount), Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(columnCount), "Value must be positive.");
             }
 
             // Verify Source
@@ -125,7 +124,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (ColumnCount != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(target));
+                throw new ArgumentException("Matrix row dimensions must agree.", nameof(target));
             }
         }
 
@@ -139,7 +138,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (RowCount != target.Length)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(target));
+                throw new ArgumentException("Matrix column dimensions must agree.", nameof(target));
             }
         }
 
@@ -149,7 +148,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (columnCount < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(columnCount), Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(columnCount), "Value must be positive.");
             }
 
             // Verify Source
@@ -188,7 +187,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (rowCount < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(rowCount), Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(rowCount), "Value must be positive.");
             }
 
             // Verify Source

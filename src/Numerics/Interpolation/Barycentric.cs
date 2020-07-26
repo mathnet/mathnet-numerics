@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Interpolation
 {
@@ -51,12 +50,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length || x.Length != w.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 1 long.", nameof(x));
             }
 
             _x = x;
@@ -71,12 +70,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 1 long.", nameof(x));
             }
 
             var weights = new double[x.Length];
@@ -97,7 +96,7 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Sorting.Sort(x, y);
@@ -137,12 +136,12 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (x.Length < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArrayTooSmall, 1), nameof(x));
+                throw new ArgumentException("The given array is too small. It must be at least 1 long.", nameof(x));
             }
 
             if (0 > order || x.Length <= order)
@@ -194,7 +193,7 @@ namespace MathNet.Numerics.Interpolation
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             Sorting.Sort(x, y);

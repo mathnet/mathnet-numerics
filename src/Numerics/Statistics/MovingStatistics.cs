@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Statistics
 {
@@ -57,7 +56,7 @@ namespace MathNet.Numerics.Statistics
         {
             if (windowSize < 1)
             {
-                throw new ArgumentException(string.Format(Resources.ArgumentMustBePositive), nameof(windowSize));
+                throw new ArgumentException(string.Format("Value must be positive."), nameof(windowSize));
             }
             _windowSize = windowSize;
             _oldValues = new double[_windowSize];

@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Threading;
 
@@ -55,7 +54,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(a, b, location, scale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -77,7 +76,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(a, b, location, scale))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -100,7 +99,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (min > max || likely > max || likely < min)
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             // specified to make the formulas match the literature;
@@ -413,7 +412,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return Beta.PDF(a, b, (x - location)/scale)/Math.Abs(scale);
@@ -433,7 +432,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return Beta.PDFLn(a, b, (x - location)/scale) - Math.Log(Math.Abs(scale));
@@ -453,7 +452,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return Beta.CDF(a, b, (x - location) / scale);
@@ -475,7 +474,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return Beta.InvCDF(a, b, p)*scale + location;
@@ -494,7 +493,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(rnd, a, b, location, scale);
@@ -513,7 +512,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(rnd, a, b, location, scale);
@@ -533,7 +532,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, a, b, location, scale);
@@ -551,7 +550,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SampleUnchecked(SystemRandomSource.Default, a, b, location, scale);
@@ -569,7 +568,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SamplesUnchecked(SystemRandomSource.Default, a, b, location, scale);
@@ -588,7 +587,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!(a > 0.0 && b > 0.0 && scale > 0.0) || double.IsNaN(location))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(SystemRandomSource.Default, values, a, b, location, scale);

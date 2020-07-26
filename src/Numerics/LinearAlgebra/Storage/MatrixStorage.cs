@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
 {
@@ -53,12 +52,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (rowCount < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(rowCount), Resources.MatrixRowsMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(rowCount), "The number of rows of a matrix must be positive.");
             }
 
             if (columnCount < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(columnCount), Resources.MatrixColumnsMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(columnCount), "The number of columns of a matrix must be positive.");
             }
 
             RowCount = rowCount;
@@ -323,7 +322,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                var message = $"Matrix dimensions must agree: op1 is {RowCount}x{ColumnCount}, op2 is {target.RowCount}x{target.ColumnCount}.";
                 throw new ArgumentException(message, nameof(target));
             }
 
@@ -474,7 +473,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (RowCount != target.ColumnCount || ColumnCount != target.RowCount)
             {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                var message = $"Matrix dimensions must agree: op1 is {RowCount}x{ColumnCount}, op2 is {target.RowCount}x{target.ColumnCount}.";
                 throw new ArgumentException(message, nameof(target));
             }
 
@@ -691,7 +690,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (RowCount != other.RowCount || ColumnCount != other.ColumnCount)
             {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, other.RowCount + "x" + other.ColumnCount);
+                var message = $"Matrix dimensions must agree: op1 is {RowCount}x{ColumnCount}, op2 is {other.RowCount}x{other.ColumnCount}.";
                 throw new ArgumentException(message, nameof(other));
             }
 
@@ -750,7 +749,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                var message = $"Matrix dimensions must agree: op1 is {RowCount}x{ColumnCount}, op2 is {target.RowCount}x{target.ColumnCount}.";
                 throw new ArgumentException(message, nameof(target));
             }
 
@@ -779,7 +778,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                var message = $"Matrix dimensions must agree: op1 is {RowCount}x{ColumnCount}, op2 is {target.RowCount}x{target.ColumnCount}.";
                 throw new ArgumentException(message, nameof(target));
             }
 
@@ -855,13 +854,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (RowCount != target.RowCount || ColumnCount != target.ColumnCount)
             {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, target.RowCount + "x" + target.ColumnCount);
+                var message = $"Matrix dimensions must agree: op1 is {RowCount}x{ColumnCount}, op2 is {target.RowCount}x{target.ColumnCount}.";
                 throw new ArgumentException(message, nameof(target));
             }
 
             if (RowCount != other.RowCount || ColumnCount != other.ColumnCount)
             {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, other.RowCount + "x" + other.ColumnCount);
+                var message = $"Matrix dimensions must agree: op1 is {RowCount}x{ColumnCount}, op2 is {other.RowCount}x{other.ColumnCount}.";
                 throw new ArgumentException(message, nameof(other));
             }
 
@@ -890,7 +889,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
             if (target.Length != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
             if (state == null)
@@ -899,7 +898,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
             if (state.Length != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(state));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(state));
             }
 
             FoldByRowUnchecked(target, f, finalize, state, zeros);
@@ -928,7 +927,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
             if (target.Length != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(target));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(target));
             }
 
             if (state == null)
@@ -937,7 +936,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
             if (state.Length != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(state));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(state));
             }
 
             FoldByColumnUnchecked(target, f, finalize, state, zeros);
@@ -967,7 +966,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (RowCount != other.RowCount || ColumnCount != other.ColumnCount)
             {
-                var message = string.Format(Resources.ArgumentMatrixDimensions2, RowCount + "x" + ColumnCount, other.RowCount + "x" + other.ColumnCount);
+                var message = $"Matrix dimensions must agree: op1 is {RowCount}x{ColumnCount}, op2 is {other.RowCount}x{other.ColumnCount}.";
                 throw new ArgumentException(message, nameof(other));
             }
 

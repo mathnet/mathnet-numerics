@@ -34,7 +34,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.Distributions
@@ -65,7 +64,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(n, a, b))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = SystemRandomSource.Default;
@@ -85,7 +84,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(n,a,b))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             _random = randomSource ?? SystemRandomSource.Default;
@@ -226,7 +225,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(n, a, b, k))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             if (k > n)
@@ -251,7 +250,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(n, a, b, k))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             return SpecialFunctions.BinomialLn((n), k)
@@ -272,7 +271,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(n,a,b,x))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             double accumulator = 0;
@@ -357,7 +356,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(n,a,b))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SampleUnchecked(rnd, n, a, b);
         }
@@ -374,7 +373,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(n, a, b))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(rnd, values, n, a, b);
@@ -391,7 +390,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(n, a, b))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SamplesUnchecked(_random, n, a, b);
         }
@@ -407,7 +406,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(n, a, b))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
             SamplesUnchecked(_random, values, n, a, b);

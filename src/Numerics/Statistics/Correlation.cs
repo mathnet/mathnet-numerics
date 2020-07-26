@@ -32,7 +32,6 @@ using System.Collections.Generic;
 using System.Linq;
 using MathNet.Numerics.IntegralTransforms;
 using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.Properties;
 using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Statistics
@@ -185,7 +184,7 @@ namespace MathNet.Numerics.Statistics
                 {
                     if (!ieB.MoveNext())
                     {
-                        throw new ArgumentOutOfRangeException(nameof(dataB), Resources.ArgumentArraysSameLength);
+                        throw new ArgumentOutOfRangeException(nameof(dataB), "The array arguments must have the same length.");
                     }
 
                     double currentA = ieA.Current;
@@ -207,7 +206,7 @@ namespace MathNet.Numerics.Statistics
 
                 if (ieB.MoveNext())
                 {
-                    throw new ArgumentOutOfRangeException(nameof(dataA), Resources.ArgumentArraysSameLength);
+                    throw new ArgumentOutOfRangeException(nameof(dataA), "The array arguments must have the same length.");
                 }
             }
 
@@ -241,11 +240,11 @@ namespace MathNet.Numerics.Statistics
                 {
                     if (!ieB.MoveNext())
                     {
-                        throw new ArgumentOutOfRangeException(nameof(dataB), Resources.ArgumentArraysSameLength);
+                        throw new ArgumentOutOfRangeException(nameof(dataB), "The array arguments must have the same length.");
                     }
                     if (!ieW.MoveNext())
                     {
-                        throw new ArgumentOutOfRangeException(nameof(weights), Resources.ArgumentArraysSameLength);
+                        throw new ArgumentOutOfRangeException(nameof(weights), "The array arguments must have the same length.");
                     }
                     ++n;
 
@@ -270,11 +269,11 @@ namespace MathNet.Numerics.Statistics
                 }
                 if (ieB.MoveNext())
                 {
-                    throw new ArgumentOutOfRangeException(nameof(dataB), Resources.ArgumentArraysSameLength);
+                    throw new ArgumentOutOfRangeException(nameof(dataB), "The array arguments must have the same length.");
                 }
                 if (ieW.MoveNext())
                 {
-                    throw new ArgumentOutOfRangeException(nameof(weights), Resources.ArgumentArraysSameLength);
+                    throw new ArgumentOutOfRangeException(nameof(weights), "The array arguments must have the same length.");
                 }
             }
             return covariance/Math.Sqrt(varA*varB);

@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-using MathNet.Numerics.Properties;
 
 #if !NETSTANDARD1_3
 using System.Runtime;
@@ -117,12 +116,12 @@ namespace MathNet.Numerics.Random
         {
             if (shortLag < 1)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(shortLag));
+                throw new ArgumentException("Value must be positive.", nameof(shortLag));
             }
 
             if (longLag <= shortLag)
             {
-                throw new ArgumentException(Resources.ArgumentUpperBoundMustBeLargerThanLowerBound, nameof(longLag));
+                throw new ArgumentException("The upper bound must be strictly larger than the lower bound.", nameof(longLag));
             }
 
             if (seed == 0)

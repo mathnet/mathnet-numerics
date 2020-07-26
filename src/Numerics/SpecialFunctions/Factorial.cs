@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
 using BigInteger = System.Numerics.BigInteger;
 
 // ReSharper disable CheckNamespace
@@ -59,7 +58,7 @@ namespace MathNet.Numerics
         {
             if (x < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(x), Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException(nameof(x), "Value must be positive (and not zero).");
             }
 
             if (x < _factorialCache.Length)
@@ -77,7 +76,7 @@ namespace MathNet.Numerics
         {
             if (x < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(x), Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException(nameof(x), "Value must be positive (and not zero).");
             }
 
             if (x == 0)
@@ -102,7 +101,7 @@ namespace MathNet.Numerics
         {
             if (x < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(x), Resources.ArgumentPositive);
+                throw new ArgumentOutOfRangeException(nameof(x), "Value must be positive (and not zero).");
             }
 
             if (x <= 1)
@@ -163,7 +162,7 @@ namespace MathNet.Numerics
         {
             if (n < 0)
             {
-                throw new ArgumentException(Resources.ArgumentMustBePositive, nameof(n));
+                throw new ArgumentException("Value must be positive.", nameof(n));
             }
 
             if (ni == null)
@@ -177,7 +176,7 @@ namespace MathNet.Numerics
             {
                 if (ni[i] < 0)
                 {
-                    throw new ArgumentException(Resources.ArgumentMustBePositive, "ni[" + i + "]");
+                    throw new ArgumentException("Value must be positive.", "ni[" + i + "]");
                 }
 
                 ret -= FactorialLn(ni[i]);
@@ -187,7 +186,7 @@ namespace MathNet.Numerics
             // Before returning, check that the sum of all elements was equal to n.
             if (sum != n)
             {
-                throw new ArgumentException(Resources.ArgumentParameterSetInvalid, nameof(ni));
+                throw new ArgumentException("The chosen parameter set is invalid (probably some value is out of range).", nameof(ni));
             }
 
             return Math.Floor(0.5 + Math.Exp(ret));

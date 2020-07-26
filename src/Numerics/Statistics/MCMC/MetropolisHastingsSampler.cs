@@ -31,7 +31,6 @@ namespace MathNet.Numerics.Statistics.Mcmc
 {
     using System;
     using Distributions;
-    using Properties;
 
     /// <summary>
     /// Metropolis-Hastings sampling produces samples from distribution P by sampling from a proposal distribution Q
@@ -108,7 +107,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException(Resources.ArgumentNotNegative);
+                    throw new ArgumentException("Value must not be negative (zero is ok).");
                 }
                 _burnInterval = value;
             }

@@ -27,7 +27,6 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 using MathNet.Numerics.Statistics;
 using System;
@@ -60,7 +59,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(mu, lambda))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             _random = randomSource ?? SystemRandomSource.Default;
             Mu = mu;
@@ -185,7 +184,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(mu, lambda))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SampleUnchecked(rnd, mu, lambda);
         }
@@ -201,7 +200,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(mu, lambda))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             SamplesUnchecked(rnd, values, mu, lambda);
         }
@@ -217,7 +216,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(mu, lambda))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return SamplesUnchecked(rnd, mu, lambda);
         }
@@ -306,7 +305,7 @@ namespace MathNet.Numerics.Distributions
             if (RootFinding.NewtonRaphson.TryFindRoot(equationToSolve, Density, Mode, 0, double.PositiveInfinity, 1e-8, 100, out double quantile))
                 return quantile;
             else
-                throw new NonConvergenceException(Resources.NumericalEstimationFailed);
+                throw new NonConvergenceException("Numerical estimation of the statistic has failed. The used solver did not succeed in finding a root.");
         }
 
         /// <summary>
@@ -321,7 +320,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(mu, lambda))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityImpl(mu, lambda, x);
         }
@@ -338,7 +337,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(mu, lambda))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return DensityLnImpl(mu, lambda, x);
         }
@@ -355,7 +354,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(mu, lambda))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             return CumulativeDistributionImpl(mu, lambda, x);
         }
@@ -372,7 +371,7 @@ namespace MathNet.Numerics.Distributions
         {
             if (!IsValidParameterSet(mu, lambda))
             {
-                throw new ArgumentException(Resources.InvalidDistributionParameters);
+                throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             var igDist = new InverseGaussian(mu, lambda);
             return igDist.InvCDF(p);

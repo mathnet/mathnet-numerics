@@ -33,7 +33,6 @@ using System.Linq;
 using System.Runtime;
 using System.Runtime.CompilerServices;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra
@@ -669,7 +668,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (column.Count != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(column));
+                throw new ArgumentException("Matrix row dimensions must agree.", nameof(column));
             }
 
             var result = Build.SameAs(this, RowCount, ColumnCount + 1, fullyMutable: true);
@@ -785,7 +784,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (row.Count != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension, nameof(row));
+                throw new ArgumentException("Matrix row dimensions must agree.", nameof(row));
             }
 
             var result = Build.SameAs(this, RowCount + 1, ColumnCount, fullyMutable: true);
@@ -961,7 +960,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (source.Count != min)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength, nameof(source));
+                throw new ArgumentException("All vectors must have the same dimensionality.", nameof(source));
             }
 
             for (var i = 0; i < min; i++)
@@ -991,7 +990,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (source.Length != min)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(source));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(source));
             }
 
             for (var i = 0; i < min; i++)
@@ -1038,7 +1037,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (p.Dimension != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(p));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(p));
             }
 
             // Get a sequence of inversions from the permutation.
@@ -1067,7 +1066,7 @@ namespace MathNet.Numerics.LinearAlgebra
         {
             if (p.Dimension != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(p));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(p));
             }
 
             // Get a sequence of inversions from the permutation.
@@ -1104,7 +1103,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (right.RowCount != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+                throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
             var result = Build.SameAs(this, right, RowCount, ColumnCount + right.ColumnCount, fullyMutable: true);
@@ -1129,7 +1128,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (right.RowCount != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+                throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
             if (result == null)
@@ -1139,7 +1138,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (result.ColumnCount != (ColumnCount + right.ColumnCount) || result.RowCount != RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+                throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             Storage.CopySubMatrixToUnchecked(result.Storage, 0, 0, RowCount, 0, 0, ColumnCount, ExistingData.Clear);
@@ -1164,7 +1163,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (lower.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(lower));
+                throw new ArgumentException("Matrix column dimensions must agree.", nameof(lower));
             }
 
             var result = Build.SameAs(this, lower, RowCount + lower.RowCount, ColumnCount, fullyMutable: true);
@@ -1191,7 +1190,7 @@ namespace MathNet.Numerics.LinearAlgebra
 
             if (lower.ColumnCount != ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension, nameof(lower));
+                throw new ArgumentException("Matrix column dimensions must agree.", nameof(lower));
             }
 
             if (result == null)

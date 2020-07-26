@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearRegression
 {
@@ -46,12 +45,12 @@ namespace MathNet.Numerics.LinearRegression
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.Length, y.Length));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {x.Length} and {y.Length} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (x.Length <= 1)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, 2, x.Length));
+                throw new ArgumentException($"A regression of the requested order requires at least {2} samples. Only {x.Length} samples have been provided.");
             }
 
             // First Pass: Mean (Less robust but faster than ArrayStatistics.Mean)
@@ -103,12 +102,12 @@ namespace MathNet.Numerics.LinearRegression
         {
             if (x.Length != y.Length)
             {
-                throw new ArgumentException(string.Format(Resources.SampleVectorsSameLength, x.Length, y.Length));
+                throw new ArgumentException($"All sample vectors must have the same length. However, vectors with disagreeing length {x.Length} and {y.Length} have been provided. A sample with index i is given by the value at index i of each provided vector.");
             }
 
             if (x.Length <= 1)
             {
-                throw new ArgumentException(string.Format(Resources.RegressionNotEnoughSamples, 2, x.Length));
+                throw new ArgumentException($"A regression of the requested order requires at least {2} samples. Only {x.Length} samples have been provided.");
             }
 
             double mxy = 0.0;

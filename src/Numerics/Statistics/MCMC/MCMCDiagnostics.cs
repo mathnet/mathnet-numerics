@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Statistics.Mcmc
 {
@@ -53,13 +52,13 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (lag < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(lag), Resources.LagMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(lag), "Lag must be positive");
             }
 
             int length = series.Count();
             if (lag >= length)
             {
-                throw new ArgumentOutOfRangeException(nameof(lag), Resources.LagMustBeSmallerThanTheSampleSize);
+                throw new ArgumentOutOfRangeException(nameof(lag), "Lag must be smaller than the sample size");
             }
 
             var transformedSeries = series.Select(f);

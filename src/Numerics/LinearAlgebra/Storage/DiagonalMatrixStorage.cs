@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -62,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (data.Length != Math.Min(rows, columns))
             {
-                throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, Math.Min(rows, columns)));
+                throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {Math.Min(rows, columns)}.");
             }
 
             Data = data;

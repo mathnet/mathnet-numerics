@@ -28,7 +28,6 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 {
@@ -58,7 +57,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
 
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare);
+                throw new ArgumentException("Matrix must be square.");
             }
 
             // Create an array for the pivot indices.
@@ -156,12 +155,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             // Check for proper dimensions.
             if (result.RowCount != input.RowCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameRowDimension);
+                throw new ArgumentException("Matrix row dimensions must agree.");
             }
 
             if (result.ColumnCount != input.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSameColumnDimension);
+                throw new ArgumentException("Matrix column dimensions must agree.");
             }
 
             if (input.RowCount != Factors.RowCount)
@@ -242,7 +241,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
             // Check for proper dimensions.
             if (input.Count != result.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (input.Count != Factors.RowCount)

@@ -29,7 +29,6 @@
 
 using System;
 using System.Diagnostics;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Solvers
 {
@@ -70,7 +69,7 @@ namespace MathNet.Numerics.LinearAlgebra.Solvers
 
             if (solutionVector.Count != residualVector.Count)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength);
+                throw new ArgumentException("The array arguments must have the same length.");
             }
 
             if (_lastIteration >= iterationNumber)

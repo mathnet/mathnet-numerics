@@ -31,7 +31,6 @@ namespace MathNet.Numerics.Statistics.Mcmc
 {
     using System;
     using Distributions;
-    using Properties;
 
     /// <summary>
     /// The Hybrid (also called Hamiltonian) Monte Carlo produces samples from distribution P using a set
@@ -273,7 +272,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(value), "Value must not be negative (zero is ok).");
             }
             return value;
         }
@@ -288,7 +287,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(value), "Value must not be negative (zero is ok).");
             }
             return value;
         }
@@ -303,7 +302,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         {
             if (value <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), Resources.ArgumentNotNegative);
+                throw new ArgumentOutOfRangeException(nameof(value), "Value must not be negative (zero is ok).");
             }
             return value;
         }

@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+
 namespace MathNet.Numerics
 {
-    using System;
-    using Properties;
-
     /// <summary>
     /// Class to represent a permutation for a subset of the natural numbers.
     /// </summary>
@@ -58,7 +57,7 @@ namespace MathNet.Numerics
         {
             if (!CheckForProperPermutation(indices))
             {
-                throw new ArgumentException(Resources.PermutationAsIntArrayInvalid, nameof(indices));
+                throw new ArgumentException("The integer array does not represent a valid permutation.", nameof(indices));
             }
 
             _indices = (int[])indices.Clone();

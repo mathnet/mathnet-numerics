@@ -29,7 +29,6 @@
 
 using System;
 using System.Collections.Generic;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics
@@ -94,7 +93,7 @@ namespace MathNet.Numerics
                 {
                     if (!ieO.MoveNext())
                     {
-                        throw new ArgumentOutOfRangeException(nameof(modelledValues), Resources.ArgumentArraysSameLength);
+                        throw new ArgumentOutOfRangeException(nameof(modelledValues), "The array arguments must have the same length.");
                     }
                     double currentM = ieM.Current;
                     double currentO = ieO.Current;
@@ -105,7 +104,7 @@ namespace MathNet.Numerics
 
                 if (degreesOfFreedom >= n)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(degreesOfFreedom), Resources.DegreesOfFreedomMustBeLessThanSampleSize);
+                    throw new ArgumentOutOfRangeException(nameof(degreesOfFreedom), "The sample size must be larger than the given degrees of freedom.");
                 }
                 return Math.Sqrt(accumulator / (n - degreesOfFreedom));
             }
@@ -135,7 +134,7 @@ namespace MathNet.Numerics
                 {
                     if (!ieF.MoveNext())
                     {
-                        throw new ArgumentOutOfRangeException(nameof(modelledValues), Resources.ArgumentArraysSameLength);
+                        throw new ArgumentOutOfRangeException(nameof(modelledValues), "The array arguments must have the same length.");
                     }
 
                     double currentY = ieY.Current;
@@ -165,7 +164,7 @@ namespace MathNet.Numerics
 
                 if (ieF.MoveNext())
                 {
-                    throw new ArgumentOutOfRangeException(nameof(observedValues), Resources.ArgumentArraysSameLength);
+                    throw new ArgumentOutOfRangeException(nameof(observedValues), "The array arguments must have the same length.");
                 }
             }
             return 1 - ssRes/ssTot;

@@ -31,7 +31,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Threading;
 
 namespace MathNet.Numerics.LinearAlgebra.Storage
@@ -62,7 +61,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (data.Length != rows*columns)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows*columns));
+                throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {rows * columns}.");
             }
 
             Data = data;
@@ -226,7 +225,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), "Matrices can not be empty and must have at least one row and column.");
             }
 
             int columns = data.Length;
@@ -243,7 +242,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), "Matrices can not be empty and must have at least one row and column.");
             }
 
             int rows = data.Length;
@@ -285,7 +284,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), "Matrices can not be empty and must have at least one row and column.");
             }
 
             int columns = data.Length;
@@ -315,7 +314,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (data.Length <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(data), Resources.MatrixCanNotBeEmpty);
+                throw new ArgumentOutOfRangeException(nameof(data), "Matrices can not be empty and must have at least one row and column.");
             }
 
             int rows = data.Length;
@@ -364,7 +363,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int column = 0; column < columns; column++)
                 {
-                    if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
+                    if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {columns}.");
                     if (columnIterator.Current is T[] arrayColumn)
                     {
                         Array.Copy(arrayColumn, 0, array, column*rows, rows);
@@ -376,14 +375,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                             var end = (column + 1)*rows;
                             for (int index = column*rows; index < end; index++)
                             {
-                                if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
+                                if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {rows}.");
                                 array[index] = rowIterator.Current;
                             }
-                            if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
+                            if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {rows}.");
                         }
                     }
                 }
-                if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
+                if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {columns}.");
             }
             return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }
@@ -395,18 +394,18 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (int row = 0; row < rows; row++)
                 {
-                    if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
+                    if (!rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {rows}.");
                     using (var columnIterator = rowIterator.Current.GetEnumerator())
                     {
                         for (int index = row; index < array.Length; index += rows)
                         {
-                            if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
+                            if (!columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {columns}.");
                             array[index] = columnIterator.Current;
                         }
-                        if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, columns));
+                        if (columnIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {columns}.");
                     }
                 }
-                if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), string.Format(Resources.ArgumentArrayWrongLength, rows));
+                if (rowIterator.MoveNext()) throw new ArgumentOutOfRangeException(nameof(data), $"The given array has the wrong length. Should be {rows}.");
             }
             return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }

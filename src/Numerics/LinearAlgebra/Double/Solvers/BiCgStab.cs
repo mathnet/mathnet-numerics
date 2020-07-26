@@ -29,7 +29,6 @@
 
 using System;
 using MathNet.Numerics.LinearAlgebra.Solvers;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
 {
@@ -96,12 +95,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double.Solvers
         {
             if (matrix.RowCount != matrix.ColumnCount)
             {
-                throw new ArgumentException(Resources.ArgumentMatrixSquare, nameof(matrix));
+                throw new ArgumentException("Matrix must be square.", nameof(matrix));
             }
 
             if (result.Count != input.Count)
             {
-                throw new ArgumentException(Resources.ArgumentVectorsSameLength);
+                throw new ArgumentException("All vectors must have the same dimensionality.");
             }
 
             if (input.Count != matrix.RowCount)

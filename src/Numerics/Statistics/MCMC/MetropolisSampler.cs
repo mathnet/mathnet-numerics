@@ -27,12 +27,11 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
+using MathNet.Numerics.Distributions;
+
 namespace MathNet.Numerics.Statistics.Mcmc
 {
-    using System;
-    using Distributions;
-    using Properties;
-
     /// <summary>
     /// Metropolis sampling produces samples from distribution P by sampling from a proposal distribution Q
     /// and accepting/rejecting based on the density of P. Metropolis sampling requires that the proposal
@@ -99,7 +98,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
             {
                 if (value < 0)
                 {
-                    throw new ArgumentException(Resources.ArgumentNotNegative);
+                    throw new ArgumentException("Value must not be negative (zero is ok).");
                 }
                 _burnInterval = value;
             }
