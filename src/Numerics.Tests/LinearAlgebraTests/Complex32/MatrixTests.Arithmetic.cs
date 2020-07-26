@@ -1044,7 +1044,7 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex32
         /// Create random matrix with non-positive number of rows throw <c>ArgumentException</c>.
         /// </summary>
         /// <param name="numberOfRows">Number of rows.</param>
-        [TestCase(0)]
+        [TestCase(-1)]
         [TestCase(-2)]
         public void RandomWithNonPositiveNumberOfRowsThrowsArgumentException(int numberOfRows)
         {

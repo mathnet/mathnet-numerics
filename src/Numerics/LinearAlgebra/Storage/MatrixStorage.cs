@@ -51,12 +51,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         protected MatrixStorage(int rowCount, int columnCount)
         {
-            if (rowCount <= 0)
+            if (rowCount < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(rowCount), Resources.MatrixRowsMustBePositive);
             }
 
-            if (columnCount <= 0)
+            if (columnCount < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(columnCount), Resources.MatrixColumnsMustBePositive);
             }

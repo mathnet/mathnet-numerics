@@ -48,9 +48,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         protected VectorStorage(int length)
         {
-            if (length <= 0)
+            if (length < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentMustBePositive);
+                throw new ArgumentOutOfRangeException(nameof(length), Resources.ArgumentNotNegative);
             }
 
             Length = length;

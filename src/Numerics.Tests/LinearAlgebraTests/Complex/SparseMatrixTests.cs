@@ -151,8 +151,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex
         /// Identity with wrong order throws <c>ArgumentOutOfRangeException</c>.
         /// </summary>
         /// <param name="order">The size of the square matrix</param>
-        [TestCase(0)]
         [TestCase(-1)]
+        [TestCase(-2)]
         public void IdentityWithWrongOrderThrowsArgumentOutOfRangeException(int order)
         {
             Assert.That(() => SparseMatrix.CreateIdentity(order), Throws.TypeOf<ArgumentOutOfRangeException>());
