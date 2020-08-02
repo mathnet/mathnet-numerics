@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>NegativeBinomial - Math.NET Numerics Documentation</title>
+    <title>BetaBinomial - Math.NET Numerics Documentation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="../main.css"/>
     <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
@@ -131,7 +131,7 @@
             <a href="../MathNet.Numerics.Distributions/Beta.htm">Beta</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics.Distributions/BetaBinomial.htm">BetaBinomial</a>
+            <a href="../MathNet.Numerics.Distributions/BetaBinomial.htm" class="current">BetaBinomial</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics.Distributions/BetaScaled.htm">BetaScaled</a>
@@ -221,7 +221,7 @@
             <a href="../MathNet.Numerics.Distributions/Multinomial.htm">Multinomial</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm" class="current">NegativeBinomial</a>
+            <a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm">NegativeBinomial</a>
         </li>
 				<li>
             <a href="../MathNet.Numerics.Distributions/Normal.htm">Normal</a>
@@ -269,65 +269,63 @@
 	</div>
 </div>
     <div class="header">
-		<p class="class"><strong>Type</strong> NegativeBinomial</p>
+		<p class="class"><strong>Type</strong> BetaBinomial</p>
 		<p><strong>Namespace</strong> MathNet.Numerics.Distributions</p>
 		<p><strong>Interfaces</strong> <a href="../MathNet.Numerics.Distributions/IDiscreteDistribution.htm">IDiscreteDistribution</a></p>
 	</div>
     <div class="sub-header">
-			<div id="summary">Discrete Univariate Negative Binomial distribution.
-The negative binomial is a distribution over the natural numbers with two parameters r, p. For the special
-case that r is an integer one can interpret the distribution as the number of failures before the r'th success
-when the probability of success is p.. 
+			<div id="summary">Discrete Univariate Beta-Binomial distribution.
+The beta-binomial distribution is a family of discrete probability distributions on a finite support of non-negative integers arising
+when the probability of success in each of a fixed or known number of Bernoulli trials is either unknown or random.
+The beta-binomial distribution is the binomial distribution in which the probability of success at each of n trials is not fixed but randomly drawn from a beta distribution.
+It is frequently used in Bayesian statistics, empirical Bayes methods and classical statistics to capture overdispersion in binomial type distributed data.. 
 			</div>
 		
 			<h3 class="section">Constructors</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#.ctor">NegativeBinomial</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#.ctor">NegativeBinomial</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#.ctor">BetaBinomial</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#.ctor">BetaBinomial</a></li>
 			</ul>
 
 			<h3 class="section">Static Functions</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#CDF">CDF</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#IsValidParameterSet">IsValidParameterSet</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#PMF">PMF</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#PMFLn">PMFLn</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Sample">Sample</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Sample">Sample</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#CDF">CDF</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#IsValidParameterSet">IsValidParameterSet</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#IsValidParameterSet">IsValidParameterSet</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#PMF">PMF</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#PMFLn">PMFLn</a></li>
 			</ul>
 			<h3 class="section">Methods</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#CumulativeDistribution">CumulativeDistribution</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Equals">Equals</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#GetHashCode">GetHashCode</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#GetType">GetType</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Probability">Probability</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#ProbabilityLn">ProbabilityLn</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Sample">Sample</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Samples">Samples</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#ToString">ToString</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#CumulativeDistribution">CumulativeDistribution</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Equals">Equals</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#GetHashCode">GetHashCode</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#GetType">GetType</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Probability">Probability</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#ProbabilityLn">ProbabilityLn</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Sample">Sample</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Sample">Sample</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Samples">Samples</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#ToString">ToString</a></li>
 			</ul>
 		
 
 			<h3 class="section">Properties</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Entropy">Entropy</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Maximum">Maximum</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Mean">Mean</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Median">Median</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Minimum">Minimum</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Mode">Mode</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#P">P</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#R">R</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#RandomSource">RandomSource</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Skewness">Skewness</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#StdDev">StdDev</a></li>
-				<li><a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm#Variance">Variance</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#A">A</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#B">B</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Maximum">Maximum</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Mean">Mean</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Minimum">Minimum</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#N">N</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#RandomSource">RandomSource</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Skewness">Skewness</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#StdDev">StdDev</a></li>
+				<li><a href="../MathNet.Numerics.Distributions/BetaBinomial.htm#Variance">Variance</a></li>
 			</ul>
 		
 	</div>
@@ -336,17 +334,19 @@ when the probability of success is p..
 	<h3 class="section">Public Constructors</h3>
 	
 	<div id=".ctor" class="method">
-		<h4> <strong>NegativeBinomial</strong>(<span title="System.double">double</span> r, <span title="System.double">double</span> p, <span title="System.Random">Random</span> randomSource)</h4>
-		<div class="content">Initializes a new instance of the  <a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm">NegativeBinomial</a>  class. 
+		<h4> <strong>BetaBinomial</strong>(<span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.Random">Random</span> randomSource)</h4>
+		<div class="content">Initializes a new instance of the  <a href="../MathNet.Numerics.Distributions/BetaBinomial.htm">BetaBinomial</a>  class. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of Bernoulli trials n - n is a positive integer </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">Shape parameter alpha of the Beta distribution. Range: a > 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">Shape parameter beta of the Beta distribution. Range: b > 0. </p>
           <h6><code><span title="System.Random">Random</span></code> randomSource</h6>
           <p class="comments">The random number generator which is used to draw random samples. </p>
       </div>
@@ -355,17 +355,19 @@ when the probability of success is p..
     </div>
 	</div>
 	<div id=".ctor" class="method">
-		<h4> <strong>NegativeBinomial</strong>(<span title="System.double">double</span> r, <span title="System.double">double</span> p)</h4>
-		<div class="content">Initializes a new instance of the  <a href="../MathNet.Numerics.Distributions/NegativeBinomial.htm">NegativeBinomial</a>  class. 
+		<h4> <strong>BetaBinomial</strong>(<span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b)</h4>
+		<div class="content">Initializes a new instance of the  <a href="../MathNet.Numerics.Distributions/BetaBinomial.htm">BetaBinomial</a>  class. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of Bernoulli trials n - n is a positive integer </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">Shape parameter alpha of the Beta distribution. Range: a > 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">Shape parameter beta of the Beta distribution. Range: b > 0. </p>
       </div>
 
       
@@ -375,18 +377,20 @@ when the probability of success is p..
 	<h3 class="section">Public Static Functions</h3>
 	
 	<div id="CDF" class="method">
-		<h4><span title="System.double">double</span> <strong>CDF</strong>(<span title="System.double">double</span> r, <span title="System.double">double</span> p, <span title="System.double">double</span> x)</h4>
+		<h4><span title="System.double">double</span> <strong>CDF</strong>(<span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> x)</h4>
 		<div class="content">Computes the cumulative distribution (CDF) of the distribution at x, i.e. P(X ≤ x). 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
-          <h6><code><span title="System.double">double</span></code> x</h6>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of Bernoulli trials n - n is a positive integer </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">Shape parameter alpha of the Beta distribution. Range: a > 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">Shape parameter beta of the Beta distribution. Range: b > 0. </p>
+          <h6><code><span title="System.int">int</span></code> x</h6>
           <p class="comments">The location at which to compute the cumulative distribution function. </p>
       </div>
 
@@ -399,34 +403,59 @@ when the probability of success is p..
     </div>
 	</div>
 	<div id="IsValidParameterSet" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsValidParameterSet</strong>(<span title="System.double">double</span> r, <span title="System.double">double</span> p)</h4>
+		<h4><span title="System.bool">bool</span> <strong>IsValidParameterSet</strong>(<span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b)</h4>
 		<div class="content">Tests whether the provided values are valid parameters for this distribution. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of Bernoulli trials n - n is a positive integer </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">Shape parameter alpha of the Beta distribution. Range: a > 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">Shape parameter beta of the Beta distribution. Range: b > 0. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="IsValidParameterSet" class="method">
+		<h4><span title="System.bool">bool</span> <strong>IsValidParameterSet</strong>(<span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> k)</h4>
+		<div class="content">Tests whether the provided values are valid parameters for this distribution. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of Bernoulli trials n - n is a positive integer </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">Shape parameter alpha of the Beta distribution. Range: a > 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">Shape parameter beta of the Beta distribution. Range: b > 0. </p>
+          <h6><code><span title="System.int">int</span></code> k</h6>
+          <p class="comments">The location in the domain where we want to evaluate the probability mass function. </p>
       </div>
 
       
     </div>
 	</div>
 	<div id="PMF" class="method">
-		<h4><span title="System.double">double</span> <strong>PMF</strong>(<span title="System.double">double</span> r, <span title="System.double">double</span> p, <span title="System.int">int</span> k)</h4>
+		<h4><span title="System.double">double</span> <strong>PMF</strong>(<span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> k)</h4>
 		<div class="content">Computes the probability mass (PMF) at k, i.e. P(X = k). 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of Bernoulli trials n - n is a positive integer </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">Shape parameter alpha of the Beta distribution. Range: a > 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">Shape parameter beta of the Beta distribution. Range: b > 0. </p>
           <h6><code><span title="System.int">int</span></code> k</h6>
           <p class="comments">The location in the domain where we want to evaluate the probability mass function. </p>
       </div>
@@ -440,19 +469,21 @@ when the probability of success is p..
     </div>
 	</div>
 	<div id="PMFLn" class="method">
-		<h4><span title="System.double">double</span> <strong>PMFLn</strong>(<span title="System.double">double</span> r, <span title="System.double">double</span> p, <span title="System.int">int</span> k)</h4>
+		<h4><span title="System.double">double</span> <strong>PMFLn</strong>(<span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> k)</h4>
 		<div class="content">Computes the log probability mass (lnPMF) at k, i.e. ln(P(X = k)). 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of Bernoulli trials n - n is a positive integer </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">Shape parameter alpha of the Beta distribution. Range: a > 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">Shape parameter beta of the Beta distribution. Range: b > 0. </p>
           <h6><code><span title="System.int">int</span></code> k</h6>
-          <p class="comments">The location in the domain where we want to evaluate the log probability mass function. </p>
+          <p class="comments">The location in the domain where we want to evaluate the probability mass function. </p>
       </div>
 
       <div class="return">
@@ -460,118 +491,6 @@ when the probability of success is p..
         <h6><code><span title="System.double">double</span></code></h6>
         <p>the log probability mass at location  <var>k</var>. </p>
       </div>
-      
-    </div>
-	</div>
-	<div id="Sample" class="method">
-		<h4><span title="System.int">int</span> <strong>Sample</strong>(<span title="System.Random">Random</span> rnd, <span title="System.double">double</span> r, <span title="System.double">double</span> p)</h4>
-		<div class="content">Samples a random variable. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
-          <p class="comments">The random number generator to use. </p>
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="Sample" class="method">
-		<h4><span title="System.int">int</span> <strong>Sample</strong>(<span title="System.double">double</span> r, <span title="System.double">double</span> p)</h4>
-		<div class="content">Samples a random variable. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="Samples" class="method">
-		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Int32[]">Int32[]</span> values, <span title="System.double">double</span> r, <span title="System.double">double</span> p)</h4>
-		<div class="content">Fills an array with samples generated from the distribution. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Int32[]">Int32[]</span></code> values</h6>
-          <p class="comments">The array to fill with the samples. </p>
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="Samples" class="method">
-		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Random">Random</span> rnd, <span title="System.Int32[]">Int32[]</span> values, <span title="System.double">double</span> r, <span title="System.double">double</span> p)</h4>
-		<div class="content">Fills an array with samples generated from the distribution. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
-          <p class="comments">The random number generator to use. </p>
-          <h6><code><span title="System.Int32[]">Int32[]</span></code> values</h6>
-          <p class="comments">The array to fill with the samples. </p>
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="Samples" class="method">
-		<h4><span title="System.Collections.Generic.IEnumerable<int>">IEnumerable&lt;int&gt;</span> <strong>Samples</strong>(<span title="System.Random">Random</span> rnd, <span title="System.double">double</span> r, <span title="System.double">double</span> p)</h4>
-		<div class="content">Samples a sequence of this random variable. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
-          <p class="comments">The random number generator to use. </p>
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="Samples" class="method">
-		<h4><span title="System.Collections.Generic.IEnumerable<int>">IEnumerable&lt;int&gt;</span> <strong>Samples</strong>(<span title="System.double">double</span> r, <span title="System.double">double</span> p)</h4>
-		<div class="content">Samples a sequence of this random variable. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> r</h6>
-          <p class="comments">The number of successes (r) required to stop the experiment. Range: r ≥ 0. </p>
-          <h6><code><span title="System.double">double</span></code> p</h6>
-          <p class="comments">The probability (p) of a trial resulting in success. Range: 0 ≤ p ≤ 1. </p>
-      </div>
-
       
     </div>
 	</div>
@@ -593,7 +512,7 @@ when the probability of success is p..
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
-        <p>the cumulative distribution at location  <var>x</var>. </p>
+        <p>the cumulative distribution at location  <var>x</var> </p>
       </div>
       
     </div>
@@ -667,7 +586,7 @@ when the probability of success is p..
 	</div>
 	<div id="Sample" class="method">
 		<h4><span title="System.int">int</span> <strong>Sample</strong>()</h4>
-		<div class="content">Samples a  <code>NegativeBinomial</code>  distributed random variable. 
+		<div class="content">Samples a  <code>BetaBinomial</code>  distributed random variable. 
 
 
 
@@ -679,9 +598,91 @@ when the probability of success is p..
       
     </div>
 	</div>
+	<div id="Sample" class="method">
+		<h4><span title="System.int">int</span> <strong>Sample</strong>(<span title="System.Random">Random</span> rnd, <span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b)</h4>
+		<div class="content">Samples a  <code>BetaBinomial</code>  distributed random variable. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
+          <p class="comments">The random number generator to use. </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of trials (n). Range: n ≥ 0. </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">The α shape parameter of the Beta distribution. Range: α ≥ 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">The β shape parameter of the Beta distribution. Range: β ≥ 0. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.int">int</span></code></h6>
+        <p>a sample from the distribution. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Samples" class="method">
+		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Int32[]">Int32[]</span> values)</h4>
+		<div class="content">Fills an array with samples generated from the distribution. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Samples" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<int>">IEnumerable&lt;int&gt;</span> <strong>Samples</strong>(<span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b)</h4>
+		<div class="content">Samples an array of  <code>BetaBinomial</code>  distributed random variables. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of trials (n). Range: n ≥ 0. </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">The α shape parameter of the Beta distribution. Range: α ≥ 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">The β shape parameter of the Beta distribution. Range: β ≥ 0. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Collections.Generic.IEnumerable<int>">IEnumerable&lt;int&gt;</span></code></h6>
+        <p>a sequence of samples from the distribution. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Samples" class="method">
+		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Random">Random</span> rnd, <span title="System.Int32[]">Int32[]</span> values, <span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b)</h4>
+		<div class="content">Fills an array with samples generated from the distribution. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Random">Random</span></code> rnd</h6>
+          <p class="comments">The random number generator to use. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> values</h6>
+          <p class="comments">The array to fill with the samples. </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of trials (n). Range: n ≥ 0. </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">The α shape parameter of the Beta distribution. Range: α ≥ 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">The β shape parameter of the Beta distribution. Range: β ≥ 0. </p>
+      </div>
+
+      
+    </div>
+	</div>
 	<div id="Samples" class="method">
 		<h4><span title="System.Collections.Generic.IEnumerable<int>">IEnumerable&lt;int&gt;</span> <strong>Samples</strong>()</h4>
-		<div class="content">Samples an array of  <code>NegativeBinomial</code>  distributed random variables. 
+		<div class="content">Samples an array of  <code>BetaBinomial</code>  distributed random variables. 
 
 
 
@@ -694,10 +695,22 @@ when the probability of success is p..
     </div>
 	</div>
 	<div id="Samples" class="method">
-		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Int32[]">Int32[]</span> values)</h4>
+		<h4><span title="System.void">void</span> <strong>Samples</strong>(<span title="System.Int32[]">Int32[]</span> values, <span title="System.int">int</span> n, <span title="System.double">double</span> a, <span title="System.double">double</span> b)</h4>
 		<div class="content">Fills an array with samples generated from the distribution. 
 
 
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> values</h6>
+          <p class="comments">The array to fill with the samples. </p>
+          <h6><code><span title="System.int">int</span></code> n</h6>
+          <p class="comments">The number of trials (n). Range: n ≥ 0. </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">The α shape parameter of the Beta distribution. Range: α ≥ 0. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">The β shape parameter of the Beta distribution. Range: β ≥ 0. </p>
+      </div>
 
       
     </div>
@@ -719,9 +732,15 @@ when the probability of success is p..
 	
   <h3 class="section">Public Properties</h3>
 
-  <div id="Entropy" class="method">
-    <h4><span title="System.double">double</span> <strong>Entropy</strong> get; </h4>
-    <div class="content">Gets the entropy of the distribution. 
+  <div id="A" class="method">
+    <h4><span title="System.double">double</span> <strong>A</strong> get; </h4>
+    <div class="content">
+      
+    </div>
+  </div>
+  <div id="B" class="method">
+    <h4><span title="System.double">double</span> <strong>B</strong> get; </h4>
+    <div class="content">
       
     </div>
   </div>
@@ -737,39 +756,21 @@ when the probability of success is p..
       
     </div>
   </div>
-  <div id="Median" class="method">
-    <h4><span title="System.double">double</span> <strong>Median</strong> get; </h4>
-    <div class="content">Gets the median of the distribution. 
-      
-    </div>
-  </div>
   <div id="Minimum" class="method">
     <h4><span title="System.int">int</span> <strong>Minimum</strong> get; </h4>
     <div class="content">Gets the smallest element in the domain of the distributions which can be represented by an integer. 
       
     </div>
   </div>
-  <div id="Mode" class="method">
-    <h4><span title="System.int">int</span> <strong>Mode</strong> get; </h4>
-    <div class="content">Gets the mode of the distribution 
-      
-    </div>
-  </div>
-  <div id="P" class="method">
-    <h4><span title="System.double">double</span> <strong>P</strong> get; </h4>
-    <div class="content">Gets the probability of success. Range: 0 ≤ p ≤ 1. 
-      
-    </div>
-  </div>
-  <div id="R" class="method">
-    <h4><span title="System.double">double</span> <strong>R</strong> get; </h4>
-    <div class="content">Gets the number of successes. Range: r ≥ 0. 
+  <div id="N" class="method">
+    <h4><span title="System.int">int</span> <strong>N</strong> get; </h4>
+    <div class="content">
       
     </div>
   </div>
   <div id="RandomSource" class="method">
     <h4><span title="System.Random">Random</span> <strong>RandomSource</strong> get; set;</h4>
-    <div class="content">Gets or sets the random number generator which is used to draw random samples. 
+    <div class="content">
       
     </div>
   </div>
