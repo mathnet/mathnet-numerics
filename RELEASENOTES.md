@@ -1,3 +1,11 @@
+### 4.12.0 - 2020-08-92
+* Linear Algebra: allow zero-length vectors and matrices *~Evangelink*
+* Distributions: Beta-Binomial Distribution *~Andrew Willshire*
+* Special Functions: Generalized Hypergeometric, Rising and Falling Factorials *~Andrew Willshire*
+* Tests now work in more cultures *~Amaury Leve*
+* No more string resources
+* A couple immutable structs marked as readonly
+
 ### 4.11.0 - 2020-05-24
 * Distributions: Skewed Generalized T and Error distributions *~Mikael Ohman*
 * BUG: Linear Algebra: fix Moore-Penrose Pseudo-Inverse for complex matrices *~Alex Hildebrand*
