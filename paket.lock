@@ -149,6 +149,13 @@ NUGET
     Microsoft.NETCore.Runtime.CoreCLR (2.0.8) - restriction: || (== netcoreapp3.1) (== netstandard1.3) (== netstandard1.6) (== netstandard2.0)
       Microsoft.NETCore.Jit (>= 2.0.8)
     Microsoft.NETCore.Targets (2.0) - restriction: || (== netcoreapp3.1) (== netstandard1.3) (== netstandard1.6) (== netstandard2.0)
+    Microsoft.NETFramework.ReferenceAssemblies (1.0) - copy_local: true, restriction: || (== net40) (== net45) (== net461)
+      Microsoft.NETFramework.ReferenceAssemblies.net40 (>= 1.0) - restriction: && (>= net40) (< net45)
+      Microsoft.NETFramework.ReferenceAssemblies.net45 (>= 1.0) - restriction: && (>= net45) (< net451)
+      Microsoft.NETFramework.ReferenceAssemblies.net461 (>= 1.0) - restriction: && (>= net461) (< net462)
+    Microsoft.NETFramework.ReferenceAssemblies.net40 (1.0) - copy_local: true, restriction: || (== net40) (&& (== net461) (< net45))
+    Microsoft.NETFramework.ReferenceAssemblies.net45 (1.0) - copy_local: true, restriction: || (&& (== net40) (>= net45)) (== net45) (&& (== net461) (< net451))
+    Microsoft.NETFramework.ReferenceAssemblies.net461 (1.0) - copy_local: true, restriction: || (&& (== net40) (>= net461)) (&& (== net45) (>= net461)) (== net461)
     Microsoft.TestPlatform.ObjectModel (16.4) - restriction: >= netcoreapp2.1
       NuGet.Frameworks (>= 5.0) - restriction: || (>= net451) (>= netstandard2.0)
     Microsoft.TestPlatform.TestHost (16.4) - restriction: >= netcoreapp2.1

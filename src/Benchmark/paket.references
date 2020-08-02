@@ -1,5 +1,6 @@
 BenchmarkDotNet
 
+Microsoft.NETFramework.ReferenceAssemblies
 System.Reflection framework:netcoreapp3.1
 System.Reflection.Extensions framework:netcoreapp3.1
 System.Reflection.TypeExtensions framework:netcoreapp3.1

@@ -1,4 +1,5 @@
 FSharp.Core
+Microsoft.NETFramework.ReferenceAssemblies
 System.Runtime framework:netstandard1.6
 System.Runtime.Numerics framework:netstandard1.6
 System.Runtime.Serialization.Xml framework:netstandard1.6

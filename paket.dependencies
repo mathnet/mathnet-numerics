@@ -17,6 +17,7 @@ nuget BenchmarkDotNet lowest_matching, strategy:min, framework:net461,netcoreapp
 // Data
 nuget MathNet.Numerics 4.0.0
 
+nuget Microsoft.NETFramework.ReferenceAssemblies copy_local:true, framework:net461,net45,net40
 nuget NETStandard.Library 2.0.3 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
 nuget Microsoft.NETCore.Platforms 3.1.0 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
 nuget Microsoft.NETCore.App 2.2.8 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1

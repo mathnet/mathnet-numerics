@@ -1,4 +1,5 @@
 Microsoft.NET.Test.Sdk
+Microsoft.NETFramework.ReferenceAssemblies
 FSharp.Core
 NUnit3TestAdapter
 NUnit
