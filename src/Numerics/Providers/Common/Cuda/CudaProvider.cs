@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2018 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -52,6 +52,11 @@ namespace MathNet.Numerics.Providers.Common.Cuda
                 return true;
             }
 
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableCudaNativeProvider)
+            {
+                return false;
+            }
+
             try
             {
                 if (!NativeProviderLoader.TryLoad(SafeNativeMethods.DllName, hintPath))
@@ -76,6 +81,11 @@ namespace MathNet.Numerics.Providers.Common.Cuda
             if (_loaded)
             {
                 return _nativeRevision;
+            }
+
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableCudaNativeProvider)
+            {
+                throw new NotSupportedException("CUDA Native Provider support is actively disabled by AppSwitches.");
             }
 
             int a, b;

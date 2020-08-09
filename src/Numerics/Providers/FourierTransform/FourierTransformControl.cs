@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2018 Math.NET
+// Copyright (c) 2009-2020 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -107,6 +107,11 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         public static bool TryUseNative()
         {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
+            {
+                return false;
+            }
+
             return TryUseNativeMKL();
         }
 #endif
@@ -135,6 +140,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         public static void UseBest()
         {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
+            {
+                UseManaged();
+                return;
+            }
+
 #if NATIVE
             if (!TryUseNative())
             {
@@ -152,6 +163,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         public static void UseDefault()
         {
+            if (AppSwitches.DisableNativeProviders)
+            {
+                UseManaged();
+                return;
+            }
+
 #if NATIVE
             var value = Environment.GetEnvironmentVariable(EnvVarFFTProvider);
             switch (value != null ? value.ToUpperInvariant() : string.Empty)

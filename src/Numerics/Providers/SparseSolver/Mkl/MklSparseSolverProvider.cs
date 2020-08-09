@@ -10,7 +10,7 @@ namespace MathNet.Numerics.Providers.SparseSolver.Mkl
     /// </summary>
     internal partial class MklSparseSolverProvider : Managed.ManagedSparseSolverProvider, IDisposable
     {
-        const int MinimumCompatibleRevision = 12;
+        const int MinimumCompatibleRevision = 14;
 
         readonly string _hintPath;
 
@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Providers.SparseSolver.Mkl
             {
                 throw new NotSupportedException($"MKL Native Provider revision r{revision} is too old. Consider upgrading to a newer version. Revision r{MinimumCompatibleRevision} and newer are supported.");
             }
-                        
+
             sparseSolverMajor = SafeNativeMethods.query_capability((int)ProviderCapability.SparseSolverMajor);
             sparseSolverMinor = SafeNativeMethods.query_capability((int)ProviderCapability.SparseSolverMinor);
             if (!(sparseSolverMajor == 1 && sparseSolverMinor >= 0))

@@ -87,6 +87,12 @@ namespace MathNet.Numerics
         /// </summary>
         public static void UseDefaultProviders()
         {
+            if (AppSwitches.DisableNativeProviders)
+            {
+                UseManaged();
+                return;
+            }
+
             LinearAlgebraControl.UseDefault();
             FourierTransformControl.UseDefault();
             SparseSolverControl.UseDefault();
@@ -97,6 +103,12 @@ namespace MathNet.Numerics
         /// </summary>
         public static void UseBestProviders()
         {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
+            {
+                UseManaged();
+                return;
+            }
+
             LinearAlgebraControl.UseBest();
             FourierTransformControl.UseBest();
             SparseSolverControl.UseBest();
@@ -198,9 +210,15 @@ namespace MathNet.Numerics
         /// </returns>
         public static bool TryUseNative()
         {
+            if (AppSwitches.DisableNativeProviders || AppSwitches.DisableNativeProviderProbing)
+            {
+                return false;
+            }
+
             bool linearAlgebra = LinearAlgebraControl.TryUseNative();
             bool fourierTransform = FourierTransformControl.TryUseNative();
-            return linearAlgebra || fourierTransform;
+            bool directSparseSolver = SparseSolverControl.TryUseNative();
+            return linearAlgebra || fourierTransform || directSparseSolver;
         }
 #endif
 
