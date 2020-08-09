@@ -430,6 +430,30 @@ namespace MathNet.Numerics.Providers.Common.Mkl
 
         #endregion FFT
 
+        #region Direct Sparse Solver
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int s_dss_solve(int matrixStructure, int matrixType, int systemType,
+            int rowCount, int columnCount, int nonZerosCount, int[] rowPointers, int[] columnIndices, float[] values,
+            int nRhs, [In, Out] float[] rhs, [In, Out] float[] solution);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int d_dss_solve(int matrixStructure, int matrixType, int systemType,
+            int rowCount, int columnCount, int nonZerosCount, int[] rowPointers, int[] columnIndices, double[] values,
+            int nRhs, [In, Out] double[] rhs, [In, Out] double[] solution);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int c_dss_solve(int matrixStructure, int matrixType, int systemType,
+            int rowCount, int columnCount, int nonZerosCount, int[] rowPointers, int[] columnIndices, Complex32[] values,
+            int nRhs, [In, Out] Complex32[] rhs, [In, Out] Complex32[] solution);
+
+        [DllImport(_DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern int z_dss_solve(int matrixStructure, int matrixType, int systemType,
+            int rowCount, int columnCount, int nonZerosCount, int[] rowPointers, int[] columnIndices, Complex[] values,
+            int nRhs, [In, Out] Complex[] rhs, [In, Out] Complex[] solution);
+
+        #endregion Direct Sparse Solver
+
         // ReSharper restore InconsistentNaming
     }
 }

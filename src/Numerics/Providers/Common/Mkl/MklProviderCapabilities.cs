@@ -56,7 +56,9 @@ namespace MathNet.Numerics.Providers.Common.Mkl
         VectorFunctionsMajor = 130,
         VectorFunctionsMinor = 131,
         FourierTransformMajor = 384,
-        FourierTransformMinor = 385
+        FourierTransformMinor = 385,
+        SparseSolverMajor = 512,
+        SparseSolverMinor = 513,
     }
 }
 

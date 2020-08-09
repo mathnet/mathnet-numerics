@@ -33,6 +33,7 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Storage;
+using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
@@ -1126,6 +1127,174 @@ namespace MathNet.Numerics.LinearAlgebra
                 rowoffset += rowspans[i];
             }
             return m;
+        }
+
+
+        // Representation of Sparse Matrix
+        //
+        // Matrix A = [ 0 b 0 h 0 0 ]
+        //            [ a c e i 0 0 ]
+        //            [ 0 0 f j l n ]
+        //            [ 0 d g k m 0 ]
+        //
+        // Rows = 4, Columns = 6, NonZeroCount = 14
+        //
+        // (1) COO, Coordinate Format: 
+        //     cooRowIndices     = { 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 }
+        //     cooColumnIndices  = { 1, 3, 0, 1, 2, 3, 2, 3, 4, 5, 1, 2, 3, 4 }
+        //     cooValues         = { b, h, a, c, e, i, f, j, l, n, d, g, k, m }
+        //
+        // (2) CSR, Compressed Sparse Row representation: 
+        //     csrRowPointers    = { 0, 2, 6, 10, 14 }
+        //     csrColumnIndices  = { 1, 3, 0, 1, 2, 3, 2, 3, 4, 5, 1, 2, 3, 4 }
+        //     csrValues         = { b, h, a, c, e, i, f, j, l, n, d, g, k, m }
+        //
+        // (3) CSC, Compressed Sparse Column representation: 
+        //     csrColumnPointers = { 0, 1, 4, 7, 11, 13, 14 }
+        //     csrRowIndices     = { 1, 0, 1, 3, 1, 2, 3, 0, 1, 2, 3, 2, 3, 2 }
+        //     csrValues         = { a, b, c, d, e, f, g, h, i, j, k, l, m, n }
+
+
+        /// <summary>
+        /// Create a new sparse matrix from a coordinate format.
+        /// This new matrix will be independent from the given arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> SparseFromCoordinateFormat(int rows, int columns, int nonZeroCount, int[] cooRowIndices, int[] cooColumnIndices, T[] cooValues)
+        {
+            if (cooValues == null)
+                throw new NullReferenceException(nameof(cooValues));
+            if (cooRowIndices == null)
+                throw new NullReferenceException(nameof(cooRowIndices));
+            if (cooColumnIndices == null)
+                throw new NullReferenceException(nameof(cooColumnIndices));
+            
+            if (cooRowIndices.Length < nonZeroCount || cooColumnIndices.Length < nonZeroCount || cooValues.Length < nonZeroCount)
+            {
+                var message = string.Format(Resources.ArgumentArrayWrongLength, nonZeroCount);
+                throw new Exception(message);
+            }
+
+            // convert from COO to CSR
+
+            var csrValues = new T[nonZeroCount];        
+            var csrColumnIndices = new int[nonZeroCount];
+            var csrRowPointers = new int[rows + 1];
+
+            for (int i = 0; i < nonZeroCount; i++)
+            {
+                csrRowPointers[cooRowIndices[i] + 1]++;
+            }
+            for (int i = 1; i < rows + 1; i++)
+            {
+                csrRowPointers[i] += csrRowPointers[i - 1];
+            }
+            var curr = new int[rows];
+            for (int i = 0; i < nonZeroCount; i++)
+            {
+                int row = cooRowIndices[i];
+                var loc = csrRowPointers[row] + curr[row];
+                curr[row]++;
+
+                csrColumnIndices[loc] = cooColumnIndices[i];
+                csrValues[loc] = cooValues[i];
+            }
+
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns, csrRowPointers, csrColumnIndices, csrValues);
+            return Sparse(storage);
+        }
+
+
+        /// <summary>
+        /// Create a new sparse matrix from a compressed sparse row format.
+        /// This new matrix will be independent from the given arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> SparseFromCompressedSparseRowFormat(int rows, int columns, int nonZeroCount, int[] csrRowPointers, int[] csrColumnIndices, T[] csrValues)
+        {
+            if (csrValues == null)
+                throw new NullReferenceException(nameof(csrValues));
+            if (csrColumnIndices == null)
+                throw new NullReferenceException(nameof(csrColumnIndices));
+            if (csrRowPointers == null)
+                throw new NullReferenceException(nameof(csrRowPointers));
+            if (csrRowPointers.Length < rows)
+            {
+                var message = string.Format(Resources.ArgumentArrayWrongLength, rows + 1);
+                throw new Exception(message);
+            }
+            if (nonZeroCount != csrRowPointers[rows])
+            {
+                var message = string.Format("{0} should be same to {1}", nameof(nonZeroCount), csrRowPointers[rows]);
+                throw new Exception(message);
+            }
+
+            var values = new T[nonZeroCount];
+            Array.Copy(csrValues, values, nonZeroCount);
+            var columnIndices = new int[nonZeroCount];
+            Array.Copy(csrColumnIndices, columnIndices, nonZeroCount);
+            var rowPointers = new int[rows + 1];
+            Array.Copy(csrRowPointers, rowPointers, rows + 1);
+
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns, rowPointers, columnIndices, values);
+            return Sparse(storage);
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix from a compressed sparse column format.
+        /// This new matrix will be independent from the given arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> SparseFromCompressedSparseColumnFormat(int rows, int columns, int nonZeroCount, int[] cscRowIndices, int[] cscColumnPointers, T[] cscValues)
+        {
+            if (cscValues == null)
+                throw new NullReferenceException(nameof(cscValues));
+            if (cscRowIndices == null)
+                throw new NullReferenceException(nameof(cscRowIndices));
+            if (cscColumnPointers == null)
+                throw new NullReferenceException(nameof(cscColumnPointers));            
+            if (cscColumnPointers.Length < columns)
+            {
+                var message = string.Format(Resources.ArgumentArrayWrongLength, columns + 1);
+                throw new Exception(message);
+            }
+            if (nonZeroCount != cscColumnPointers[columns])
+            {
+                var message = string.Format("{0} should be same to {1}", nameof(nonZeroCount), cscColumnPointers[columns]);
+                throw new Exception(message);
+            }
+
+            // convert from CSC to CSR
+
+            var csrValues = new T[nonZeroCount];            
+            var csrRowPointers = new int[rows + 1];
+            var csrColumnIndices = new int[nonZeroCount];
+
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = cscColumnPointers[i]; j < cscColumnPointers[i + 1]; j++)
+                {
+                    csrRowPointers[cscRowIndices[j] + 1]++;
+                }
+            }
+            for (int i = 1; i < rows + 1; i++)
+            {
+                csrRowPointers[i] += csrRowPointers[i - 1];
+            }
+            var curr = new int[rows];
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = cscColumnPointers[i]; j < cscColumnPointers[i + 1]; j++)
+                {
+                    var loc = csrRowPointers[cscRowIndices[j]] + curr[cscRowIndices[j]];
+                    curr[cscRowIndices[j]]++;
+                    csrColumnIndices[loc] = i;
+                    csrValues[loc] = cscValues[j];
+                }
+            }
+
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns, csrRowPointers, csrColumnIndices, csrValues);
+            return Sparse(storage);
         }
 
         /// <summary>

@@ -78,6 +78,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             Values = new T[0];
         }
 
+        internal SparseCompressedRowMatrixStorage(int rows, int columns, int[] rowPointers, int[] columnIndices, T[] values)
+            : base(rows, columns)
+        {   
+            RowPointers = rowPointers;
+            ColumnIndices = columnIndices;
+            Values = values;
+        }
+
         /// <summary>
         /// True if the matrix storage format is dense.
         /// </summary>
@@ -279,6 +287,75 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public void NormalizeZeros()
         {
             MapInplace(x => x, Zeros.AllowSkip);
+        }
+
+        /// <summary>
+        /// Fill zeros explicitly on the diagonal entries as required by the Intel MKL direct sparse solver. 
+        /// </summary>
+        public void PopulateExplicitZerosOnDiagonal()
+        {
+            var delta = 0; // number of missing diagonal entries
+
+            for (int row = 0; row < RowCount; row++)
+            {
+                var found = false;
+                for (int j = RowPointers[row]; j < RowPointers[row + 1]; j++)
+                {
+                    if (ColumnIndices[j] == row)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) delta++;
+            }
+
+            if (delta > 0)
+            {
+                var size = Values.Length + delta;
+                if (size > int.MaxValue)
+                {
+                    throw new NotSupportedException(Resources.TooManyElements);
+                }
+
+                var newRowPointers = new int[RowCount + 1];
+                var newColumnIndices = new int[size];
+                var newValues = new T[size];
+
+                delta = 0;
+                for (int row = 0; row < RowCount; row++)
+                {
+                    var found = false;
+                    for (int j = RowPointers[row]; j < RowPointers[row + 1]; j++)
+                    {
+                        newColumnIndices[j + delta] = ColumnIndices[j];
+                        newValues[j + delta] = Values[j];
+                        if (ColumnIndices[j] == row)
+                        {
+                            found = true;
+                        }
+                    }
+                    if (!found)
+                    {
+                        var start = RowPointers[row] + delta;
+                        var end = RowPointers[row + 1] + delta;
+                        var count = end - start + 1;
+
+                        newColumnIndices[end] = row;
+                        newValues[end] = Zero;
+
+                        // Ordering may be not necessary
+                        Sorting.Sort(newColumnIndices, newValues, start, count);
+
+                        delta++;
+                    }
+                    newRowPointers[row + 1] = RowPointers[row + 1] + delta;
+                }
+
+                Array.Copy(newRowPointers, RowPointers, RowCount + 1);
+                ColumnIndices = newColumnIndices;
+                Values = newValues;
+            }
         }
 
         /// <summary>

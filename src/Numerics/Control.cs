@@ -33,6 +33,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics.Providers.SparseSolver;
 using MathNet.Numerics.Providers.FourierTransform;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
@@ -70,12 +71,14 @@ namespace MathNet.Numerics
         {
             LinearAlgebraControl.UseManaged();
             FourierTransformControl.UseManaged();
+            SparseSolverControl.UseManaged();
         }
 
         public static void UseManagedReference()
         {
             LinearAlgebraControl.UseManagedReference();
             FourierTransformControl.UseManaged();
+            SparseSolverControl.UseManaged();
         }
 
         /// <summary>
@@ -86,6 +89,7 @@ namespace MathNet.Numerics
         {
             LinearAlgebraControl.UseDefault();
             FourierTransformControl.UseDefault();
+            SparseSolverControl.UseDefault();
         }
 
         /// <summary>
@@ -95,6 +99,7 @@ namespace MathNet.Numerics
         {
             LinearAlgebraControl.UseBest();
             FourierTransformControl.UseBest();
+            SparseSolverControl.UseBest();
         }
 
 #if NATIVE
@@ -107,6 +112,7 @@ namespace MathNet.Numerics
         {
             LinearAlgebraControl.UseNativeMKL();
             FourierTransformControl.UseNativeMKL();
+            SparseSolverControl.UseNativeMKL();
         }
 
         /// <summary>
@@ -121,6 +127,7 @@ namespace MathNet.Numerics
         {
             LinearAlgebraControl.UseNativeMKL(consistency, precision, accuracy);
             FourierTransformControl.UseNativeMKL();
+            SparseSolverControl.UseNativeMKL();
         }
 
         /// <summary>
@@ -134,7 +141,8 @@ namespace MathNet.Numerics
         {
             bool linearAlgebra = LinearAlgebraControl.TryUseNativeMKL();
             bool fourierTransform = FourierTransformControl.TryUseNativeMKL();
-            return linearAlgebra || fourierTransform;
+            bool directSparseSolver = SparseSolverControl.TryUseNativeMKL();
+            return linearAlgebra || fourierTransform || directSparseSolver;
         }
 
         /// <summary>
@@ -200,6 +208,7 @@ namespace MathNet.Numerics
         {
             LinearAlgebraControl.FreeResources();
             FourierTransformControl.FreeResources();
+            SparseSolverControl.FreeResources();
         }
 
         public static void UseSingleThread()
@@ -209,6 +218,7 @@ namespace MathNet.Numerics
 
             LinearAlgebraControl.Provider.InitializeVerify();
             FourierTransformControl.Provider.InitializeVerify();
+            SparseSolverControl.Provider.InitializeVerify();
         }
 
         public static void UseMultiThreading()
@@ -218,6 +228,7 @@ namespace MathNet.Numerics
 
             LinearAlgebraControl.Provider.InitializeVerify();
             FourierTransformControl.Provider.InitializeVerify();
+            SparseSolverControl.Provider.InitializeVerify();
         }
 
         /// <summary>
@@ -247,6 +258,7 @@ namespace MathNet.Numerics
                 _nativeProviderHintPath = value;
                 LinearAlgebraControl.HintPath = value;
                 FourierTransformControl.HintPath = value;
+                SparseSolverControl.HintPath = value;
             }
         }
 
@@ -265,6 +277,7 @@ namespace MathNet.Numerics
                 // Reinitialize providers:
                 LinearAlgebraControl.Provider.InitializeVerify();
                 FourierTransformControl.Provider.InitializeVerify();
+                SparseSolverControl.Provider.InitializeVerify();
             }
         }
 
@@ -323,6 +336,7 @@ namespace MathNet.Numerics
 #endif
             sb.AppendLine($"Linear Algebra Provider: {LinearAlgebraControl.Provider}");
             sb.AppendLine($"Fourier Transform Provider: {FourierTransformControl.Provider}");
+            sb.AppendLine($"Sparse Solver Provider: {SparseSolverControl.Provider}");
             sb.AppendLine($"Max Degree of Parallelism: {MaxDegreeOfParallelism}");
             sb.AppendLine($"Parallelize Elements: {ParallelizeElements}");
             sb.AppendLine($"Parallelize Order: {ParallelizeOrder}");
