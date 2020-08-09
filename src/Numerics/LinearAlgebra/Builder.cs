@@ -33,7 +33,6 @@ using System.Linq;
 using MathNet.Numerics.Distributions;
 using MathNet.Numerics.LinearAlgebra.Solvers;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Random;
 
 namespace MathNet.Numerics.LinearAlgebra.Double
@@ -1139,17 +1138,17 @@ namespace MathNet.Numerics.LinearAlgebra
         //
         // Rows = 4, Columns = 6, NonZeroCount = 14
         //
-        // (1) COO, Coordinate Format: 
+        // (1) COO, Coordinate Format:
         //     cooRowIndices     = { 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3 }
         //     cooColumnIndices  = { 1, 3, 0, 1, 2, 3, 2, 3, 4, 5, 1, 2, 3, 4 }
         //     cooValues         = { b, h, a, c, e, i, f, j, l, n, d, g, k, m }
         //
-        // (2) CSR, Compressed Sparse Row representation: 
+        // (2) CSR, Compressed Sparse Row representation:
         //     csrRowPointers    = { 0, 2, 6, 10, 14 }
         //     csrColumnIndices  = { 1, 3, 0, 1, 2, 3, 2, 3, 4, 5, 1, 2, 3, 4 }
         //     csrValues         = { b, h, a, c, e, i, f, j, l, n, d, g, k, m }
         //
-        // (3) CSC, Compressed Sparse Column representation: 
+        // (3) CSC, Compressed Sparse Column representation:
         //     csrColumnPointers = { 0, 1, 4, 7, 11, 13, 14 }
         //     csrRowIndices     = { 1, 0, 1, 3, 1, 2, 3, 0, 1, 2, 3, 2, 3, 2 }
         //     csrValues         = { a, b, c, d, e, f, g, h, i, j, k, l, m, n }
@@ -1168,16 +1167,15 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new NullReferenceException(nameof(cooRowIndices));
             if (cooColumnIndices == null)
                 throw new NullReferenceException(nameof(cooColumnIndices));
-            
+
             if (cooRowIndices.Length < nonZeroCount || cooColumnIndices.Length < nonZeroCount || cooValues.Length < nonZeroCount)
             {
-                var message = string.Format(Resources.ArgumentArrayWrongLength, nonZeroCount);
-                throw new Exception(message);
+                throw new Exception($"The given array has the wrong length. Should be {nonZeroCount}.");
             }
 
             // convert from COO to CSR
 
-            var csrValues = new T[nonZeroCount];        
+            var csrValues = new T[nonZeroCount];
             var csrColumnIndices = new int[nonZeroCount];
             var csrRowPointers = new int[rows + 1];
 
@@ -1220,13 +1218,11 @@ namespace MathNet.Numerics.LinearAlgebra
                 throw new NullReferenceException(nameof(csrRowPointers));
             if (csrRowPointers.Length < rows)
             {
-                var message = string.Format(Resources.ArgumentArrayWrongLength, rows + 1);
-                throw new Exception(message);
+                throw new Exception($"The given array has the wrong length. Should be {rows + 1}.");
             }
             if (nonZeroCount != csrRowPointers[rows])
             {
-                var message = string.Format("{0} should be same to {1}", nameof(nonZeroCount), csrRowPointers[rows]);
-                throw new Exception(message);
+                throw new Exception($"{nameof(nonZeroCount)} should be same to {csrRowPointers[rows]}");
             }
 
             var values = new T[nonZeroCount];
@@ -1252,21 +1248,19 @@ namespace MathNet.Numerics.LinearAlgebra
             if (cscRowIndices == null)
                 throw new NullReferenceException(nameof(cscRowIndices));
             if (cscColumnPointers == null)
-                throw new NullReferenceException(nameof(cscColumnPointers));            
+                throw new NullReferenceException(nameof(cscColumnPointers));
             if (cscColumnPointers.Length < columns)
             {
-                var message = string.Format(Resources.ArgumentArrayWrongLength, columns + 1);
-                throw new Exception(message);
+                throw new Exception($"The given array has the wrong length. Should be {columns + 1}.");
             }
             if (nonZeroCount != cscColumnPointers[columns])
             {
-                var message = string.Format("{0} should be same to {1}", nameof(nonZeroCount), cscColumnPointers[columns]);
-                throw new Exception(message);
+                throw new Exception($"{nameof(nonZeroCount)} should be same to {cscColumnPointers[columns]}");
             }
 
             // convert from CSC to CSR
 
-            var csrValues = new T[nonZeroCount];            
+            var csrValues = new T[nonZeroCount];
             var csrRowPointers = new int[rows + 1];
             var csrColumnIndices = new int[nonZeroCount];
 

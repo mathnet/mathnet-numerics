@@ -80,7 +80,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
         internal SparseCompressedRowMatrixStorage(int rows, int columns, int[] rowPointers, int[] columnIndices, T[] values)
             : base(rows, columns)
-        {   
+        {
             RowPointers = rowPointers;
             ColumnIndices = columnIndices;
             Values = values;
@@ -290,7 +290,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         }
 
         /// <summary>
-        /// Fill zeros explicitly on the diagonal entries as required by the Intel MKL direct sparse solver. 
+        /// Fill zeros explicitly on the diagonal entries as required by the Intel MKL direct sparse solver.
         /// </summary>
         public void PopulateExplicitZerosOnDiagonal()
         {
@@ -315,7 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 var size = Values.Length + delta;
                 if (size > int.MaxValue)
                 {
-                    throw new NotSupportedException(Resources.TooManyElements);
+                    throw new NotSupportedException("We only support sparse matrix with less than int.MaxValue elements.");
                 }
 
                 var newRowPointers = new int[RowCount + 1];

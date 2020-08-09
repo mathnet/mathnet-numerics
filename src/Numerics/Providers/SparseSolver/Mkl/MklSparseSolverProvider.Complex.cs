@@ -1,6 +1,5 @@
 ﻿#if NATIVE
 
-using MathNet.Numerics.Properties;
 using MathNet.Numerics.Providers.Common.Mkl;
 using System;
 using System.Security;
@@ -36,7 +35,7 @@ namespace MathNet.Numerics.Providers.SparseSolver.Mkl
         {
             if (rowCount != columnCount)
             {
-                throw new ArgumentNullException(Resources.ArgumentMatrixSymmetric);
+                throw new ArgumentException("Matrix must be symmetric.");
             }
 
             if (rowPointers == null)
@@ -66,12 +65,12 @@ namespace MathNet.Numerics.Providers.SparseSolver.Mkl
 
             if (rowCount * nRhs != rhs.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(rhs));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(rhs));
             }
 
             if (columnCount * nRhs != solution.Length)
             {
-                throw new ArgumentException(Resources.ArgumentArraysSameLength, nameof(solution));
+                throw new ArgumentException("The array arguments must have the same length.", nameof(solution));
             }
 
             var error = SafeNativeMethods.z_dss_solve((int)matrixStructure, (int)matrixType, (int)systemType,
