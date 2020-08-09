@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-    // Notes: zero-based indexing is used for rowIdx[] and colPtr[]. 
+    // Notes: zero-based indexing is used for rowIdx[] and colPtr[].
 
     DLLEXPORT dss_int s_dss_solve(const dss_int matrixStructure, const dss_int matrixType, const dss_int systemType,
         const dss_int nRows, const dss_int nCols, const dss_int nnz, const dss_int rowIdx[], const dss_int colPtr[], const float values[],
@@ -16,7 +16,7 @@ extern "C" {
 
         dss_int opt = MKL_DSS_MSG_LVL_WARNING + MKL_DSS_TERM_LVL_ERROR + MKL_DSS_ZERO_BASED_INDEXING + MKL_DSS_AUTO_ORDER;
         opt += systemType;
-        
+
         // Initialize the solver
         error = dss_create(handle, opt);
         if (error != MKL_DSS_SUCCESS) return error;
@@ -40,7 +40,7 @@ extern "C" {
         // Deallocate solver storage
         error = dss_delete(handle, opt);
         return error;
-    }    
+    }
 
     DLLEXPORT dss_int d_dss_solve(const dss_int matrixStructure, const dss_int matrixType, const dss_int systemType,
         const dss_int nRows, const dss_int nCols, const dss_int nnz, const dss_int rowIdx[], const dss_int colPtr[], const double values[],
@@ -145,7 +145,7 @@ extern "C" {
         // Deallocate solver storage
         error = dss_delete(handle, opt);
         return error;
-    }  
+    }
 
 #if __cplusplus
 }

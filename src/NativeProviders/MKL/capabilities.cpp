@@ -66,7 +66,7 @@ extern "C" {
 			}
 
 		// COMMON/SHARED
-		case 64: return 13; // revision
+		case 64: return 14; // revision
 		case 65: return 1; // numerical consistency, precision and accuracy modes
 		case 66: return 1; // threading control
 		case 67: return 1; // memory management
@@ -85,8 +85,8 @@ extern "C" {
 		case 385: return 0; // basic FFT (minor - non-breaking)
 
         // SPARSE SOLVER
-        case 512: return 1;
-        case 513: return 0;
+        case 512: return 1; // direct sparse solver (major - breaking)
+        case 513: return 0; // direct sparse solver (minor - non-breaking)
 
 		default: return 0; // unknown or not supported
 
