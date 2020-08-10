@@ -84,6 +84,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             RowPointers = rowPointers;
             ColumnIndices = columnIndices;
             Values = values;
+
+            // columnIndices may be not ordered.
+            Normalize();
         }
 
         /// <summary>
@@ -288,7 +291,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             MapInplace(x => x, Zeros.AllowSkip);
         }
-
+ 
         /// <summary>
         /// Fill zeros explicitly on the diagonal entries as required by the Intel MKL direct sparse solver.
         /// </summary>

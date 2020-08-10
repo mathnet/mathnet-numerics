@@ -27,11 +27,10 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using MathNet.Numerics.LinearAlgebra;
+using NUnit.Framework;
 using System;
 using System.Linq;
-using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Storage;
-using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
@@ -611,13 +610,49 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 }
             }
 
-            var matrix = Matrix<T>.Build.SparseFromCoordinateFormat(rowCount, columnCount, valueCount, cooRowIndices, cooColumnIndices, cooValues);
-            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
-            Assert.That(matrix.RowCount, Is.EqualTo(3));
-            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+            var A = Matrix<T>.Build.SparseFromCoordinateFormat(rowCount, columnCount, valueCount, cooRowIndices, cooColumnIndices, cooValues);
+            Assert.That(A.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(A.RowCount, Is.EqualTo(3));
+            Assert.That(A.ColumnCount, Is.EqualTo(4));
+
+            cooRowIndices.Reverse();
+            cooColumnIndices.Reverse();
+            cooValues.Reverse();
+            var B = Matrix<T>.Build.SparseFromCoordinateFormat(rowCount, columnCount, valueCount, cooRowIndices, cooColumnIndices, cooValues);
+
             for (int j = 0; j < 4; j++)
+            {
                 for (int i = 0; i < 3; i++)
-                    Assert.That(matrix[i, j], Is.EqualTo(rows[i][j]));
+                {
+                    Assert.That(A[i, j], Is.EqualTo(rows[i][j]));
+                    Assert.That(B[i, j], Is.EqualTo(rows[i][j]));
+                }
+            }
+        }
+
+        [Test]
+        public void CanCreateSparseFromNonOrderedDuplicatedCoordinateFormat()
+        {
+            int rowCount = 2, columnCount = 2, valueCount = 5;
+            var cooRowIndices = new int[5] { 1, 0, 1, 0, 1 };
+            var cooColumnIndices = new int[5] { 1, 0, 0, 1, 1 };
+            var cooValues = Vector<T>.Build.Random(5, 0).ToArray();
+
+            var A = Matrix<T>.Build.SparseFromCoordinateFormat(rowCount, columnCount, valueCount, cooRowIndices, cooColumnIndices, cooValues);
+
+            cooRowIndices.Reverse();
+            cooColumnIndices.Reverse();
+            cooValues.Reverse();
+
+            var B = Matrix<T>.Build.SparseFromCoordinateFormat(rowCount, columnCount, valueCount, cooRowIndices, cooColumnIndices, cooValues);
+
+            for (int j = 0; j < columnCount; j++)
+            {
+                for (int i = 0; i < rowCount; i++)
+                {
+                    Assert.That(A[i, j], Is.EqualTo(B[i, j]));
+                }
+            }
         }
 
         [Test]
@@ -654,13 +689,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 csrRowPointers[i] += csrRowPointers[i - 1];
             }
 
-            var matrix = Matrix<T>.Build.SparseFromCompressedSparseRowFormat(rowCount, columnCount, valueCount, csrRowPointers, csrColumnIndices, csrValues);
-            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
-            Assert.That(matrix.RowCount, Is.EqualTo(3));
-            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+            var A = Matrix<T>.Build.SparseFromCompressedSparseRowFormat(rowCount, columnCount, valueCount, csrRowPointers, csrColumnIndices, csrValues);
+            Assert.That(A.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(A.RowCount, Is.EqualTo(3));
+            Assert.That(A.ColumnCount, Is.EqualTo(4));
+
+            csrRowPointers.Reverse();
+            csrColumnIndices.Reverse();
+            csrValues.Reverse();
+            var B = Matrix<T>.Build.SparseFromCompressedSparseRowFormat(rowCount, columnCount, valueCount, csrRowPointers, csrColumnIndices, csrValues);
+
             for (int j = 0; j < 4; j++)
+            {
                 for (int i = 0; i < 3; i++)
-                    Assert.That(matrix[i, j], Is.EqualTo(rows[i][j]));
+                {
+                    Assert.That(A[i, j], Is.EqualTo(rows[i][j]));
+                    Assert.That(B[i, j], Is.EqualTo(rows[i][j]));
+                }
+            }
         }
 
         [Test]
@@ -697,13 +743,24 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                 cscColumnPointers[i] += cscColumnPointers[i - 1];
             }
 
-            var matrix = Matrix<T>.Build.SparseFromCompressedSparseColumnFormat(rowCount, columnCount, valueCount, cscRowIndices, cscColumnPointers, cscValues);
-            Assert.That(matrix.GetType().Name, Is.EqualTo("SparseMatrix"));
-            Assert.That(matrix.RowCount, Is.EqualTo(3));
-            Assert.That(matrix.ColumnCount, Is.EqualTo(4));
+            var A = Matrix<T>.Build.SparseFromCompressedSparseColumnFormat(rowCount, columnCount, valueCount, cscRowIndices, cscColumnPointers, cscValues);
+            Assert.That(A.GetType().Name, Is.EqualTo("SparseMatrix"));
+            Assert.That(A.RowCount, Is.EqualTo(3));
+            Assert.That(A.ColumnCount, Is.EqualTo(4));
+
+            cscRowIndices.Reverse();
+            cscColumnPointers.Reverse();
+            cscValues.Reverse();
+            var B = Matrix<T>.Build.SparseFromCompressedSparseColumnFormat(rowCount, columnCount, valueCount, cscRowIndices, cscColumnPointers, cscValues);
+
             for (int j = 0; j < 4; j++)
+            {
                 for (int i = 0; i < 3; i++)
-                    Assert.That(matrix[i, j], Is.EqualTo(rows[i][j]));
+                {
+                    Assert.That(A[i, j], Is.EqualTo(rows[i][j]));
+                    Assert.That(B[i, j], Is.EqualTo(rows[i][j]));
+                }
+            }
         }
 
         [Test]

@@ -48,8 +48,12 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             return new DenseMatrix(storage);
         }
 
-        public override Matrix<double> Sparse(SparseCompressedRowMatrixStorage<double> storage)
+        public override Matrix<double> Sparse(SparseCompressedRowMatrixStorage<double> storage, bool cleanup = false)
         {
+            if (cleanup)
+            {
+                SumDuplicates(storage);
+            }
             return new SparseMatrix(storage);
         }
 
@@ -72,6 +76,11 @@ namespace MathNet.Numerics.LinearAlgebra.Double
                 new IterationCountStopCriterion<double>(maxIterations),
                 new ResidualStopCriterion<double>(1e-12)
             };
+        }
+
+        internal override double AddEntries(double x, double y)
+        {
+            return x + y;
         }
     }
 
@@ -111,8 +120,12 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             return new DenseMatrix(storage);
         }
 
-        public override Matrix<float> Sparse(SparseCompressedRowMatrixStorage<float> storage)
+        public override Matrix<float> Sparse(SparseCompressedRowMatrixStorage<float> storage, bool cleanup = false)
         {
+            if (cleanup)
+            {
+                SumDuplicates(storage);
+            }
             return new SparseMatrix(storage);
         }
 
@@ -135,6 +148,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
                 new IterationCountStopCriterion<float>(maxIterations),
                 new ResidualStopCriterion<float>(1e-6)
             };
+        }
+
+        internal override float AddEntries(float x, float y)
+        {
+            return x + y;
         }
     }
 
@@ -176,8 +194,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             return new DenseMatrix(storage);
         }
 
-        public override Matrix<Complex> Sparse(SparseCompressedRowMatrixStorage<Complex> storage)
+        public override Matrix<Complex> Sparse(SparseCompressedRowMatrixStorage<Complex> storage, bool cleanup = false)
         {
+            if (cleanup)
+            {
+                SumDuplicates(storage);
+            }
             return new SparseMatrix(storage);
         }
 
@@ -200,6 +222,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
                 new IterationCountStopCriterion<Complex>(maxIterations),
                 new ResidualStopCriterion<Complex>(1e-12)
             };
+        }
+
+        internal override Complex AddEntries(Complex x, Complex y)
+        {
+            return x + y;
         }
     }
 
@@ -239,8 +266,12 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             return new DenseMatrix(storage);
         }
 
-        public override Matrix<Numerics.Complex32> Sparse(SparseCompressedRowMatrixStorage<Numerics.Complex32> storage)
+        public override Matrix<Numerics.Complex32> Sparse(SparseCompressedRowMatrixStorage<Numerics.Complex32> storage, bool cleanup = false)
         {
+            if (cleanup)
+            {
+                SumDuplicates(storage);
+            }
             return new SparseMatrix(storage);
         }
 
@@ -263,6 +294,11 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
                 new IterationCountStopCriterion<Numerics.Complex32>(maxIterations),
                 new ResidualStopCriterion<Numerics.Complex32>(1e-6)
             };
+        }
+
+        internal override Numerics.Complex32 AddEntries(Numerics.Complex32 x, Numerics.Complex32 y)
+        {
+            return x + y;
         }
     }
 
@@ -787,7 +823,9 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Intended for advanced scenarios where you're working directly with
         /// storage for performance or interop reasons.
         /// </summary>
-        public abstract Matrix<T> Sparse(SparseCompressedRowMatrixStorage<T> storage);
+        /// <param name="storage">The SparseCompressedRowMatrixStorage</param>
+        /// <param name="cleanup">Remove and sum duplicate entries.</param>
+        public abstract Matrix<T> Sparse(SparseCompressedRowMatrixStorage<T> storage, bool cleanup = false);
 
         /// <summary>
         /// Create a sparse matrix of T with the given number of rows and columns.
@@ -1128,7 +1166,6 @@ namespace MathNet.Numerics.LinearAlgebra
             return m;
         }
 
-
         // Representation of Sparse Matrix
         //
         // Matrix A = [ 0 b 0 h 0 0 ]
@@ -1181,27 +1218,36 @@ namespace MathNet.Numerics.LinearAlgebra
 
             for (int i = 0; i < nonZeroCount; i++)
             {
-                csrRowPointers[cooRowIndices[i] + 1]++;
+                csrRowPointers[cooRowIndices[i]]++;
             }
-            for (int i = 1; i < rows + 1; i++)
+            for (int i = 0, cumsum = 0; i < rows; i++)
             {
-                csrRowPointers[i] += csrRowPointers[i - 1];
+                var temp = csrRowPointers[i];
+                csrRowPointers[i] = cumsum;
+                cumsum += temp;
             }
-            var curr = new int[rows];
+            csrRowPointers[rows] = nonZeroCount;
+
             for (int i = 0; i < nonZeroCount; i++)
             {
-                int row = cooRowIndices[i];
-                var loc = csrRowPointers[row] + curr[row];
-                curr[row]++;
+                var row = cooRowIndices[i];
+                var loc = csrRowPointers[row];
 
                 csrColumnIndices[loc] = cooColumnIndices[i];
                 csrValues[loc] = cooValues[i];
+
+                csrRowPointers[row]++;
+            }
+            for (int i = 0, last = 0; i <= rows; i++)
+            {
+                var temp = csrRowPointers[i];
+                csrRowPointers[i] = last;
+                last = temp;
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns, csrRowPointers, csrColumnIndices, csrValues);
-            return Sparse(storage);
+            return Sparse(storage, true);
         }
-
 
         /// <summary>
         /// Create a new sparse matrix from a compressed sparse row format.
@@ -1233,7 +1279,7 @@ namespace MathNet.Numerics.LinearAlgebra
             Array.Copy(csrRowPointers, rowPointers, rows + 1);
 
             var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns, rowPointers, columnIndices, values);
-            return Sparse(storage);
+            return Sparse(storage, true);
         }
 
         /// <summary>
@@ -1288,8 +1334,46 @@ namespace MathNet.Numerics.LinearAlgebra
             }
 
             var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns, csrRowPointers, csrColumnIndices, csrValues);
-            return Sparse(storage);
+            return Sparse(storage, true);
         }
+
+        internal void SumDuplicates(SparseCompressedRowMatrixStorage<T> storage)
+        {
+            int nnz = 0;
+            for (int i = 0; i < storage.RowCount; i++)
+            {
+                int index = storage.RowPointers[i];
+                int last = storage.RowPointers[i + 1];
+                while (index < last)
+                {
+                    var col = storage.ColumnIndices[index];
+                    var val = storage.Values[index];
+                    index++;
+                    while (index < last)
+                    {
+                        if (storage.ColumnIndices[index] == col)
+                        {
+                            val = AddEntries(val, storage.Values[index]);
+                            index++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    storage.ColumnIndices[nnz] = col;
+                    storage.Values[nnz] = val;
+                    nnz++;
+                }
+                storage.RowPointers[i + 1] = nnz;
+            }
+
+            // Remove extra space from arrays.
+            Array.Resize(ref storage.Values, nnz);
+            Array.Resize(ref storage.ColumnIndices, nnz);
+        }
+
+        internal abstract T AddEntries(T x, T y);
 
         /// <summary>
         /// Create a new diagonal matrix straight from an initialized matrix storage instance.
