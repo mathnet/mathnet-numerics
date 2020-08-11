@@ -85,8 +85,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             ColumnIndices = columnIndices;
             Values = values;
 
-            // columnIndices may be not ordered.
-            Normalize();
+            // Explicit zeros are not intentionally removed.
+            // Sort ColumnIndices.
+            NormalizeOrdering();
         }
 
         /// <summary>
