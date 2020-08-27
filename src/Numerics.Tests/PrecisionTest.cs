@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using NUnit.Framework;
 
 namespace MathNet.Numerics.UnitTests
@@ -1155,6 +1156,101 @@ namespace MathNet.Numerics.UnitTests
             Assert.AreEqual(-1, 1.0.CompareTo(double.PositiveInfinity, Precision.DoubleDecimalPlaces));
             Assert.AreEqual(-1, double.NegativeInfinity.CompareTo(1.0, Precision.DoubleDecimalPlaces));
             Assert.AreEqual(1, 1.0.CompareTo(double.NegativeInfinity, Precision.DoubleDecimalPlaces));
+        }
+
+        [Test]
+        [TestCase(100.3123, 3, 0)]
+        [TestCase(1100.6123, 3, 1000)]
+        [TestCase(1500.8123, 3, 2000)]
+        [TestCase(110003245.3123, 3, 110003000)]
+        [TestCase(110003245.3123, 1, 110003250)]
+        [TestCase(110003245.3123, -2, 110003245.31)]
+        [TestCase(110003245.3123, 0, 110003245)]
+        public void RoundAboveDecimal(decimal number, int digit, decimal expectedResult)
+        {
+            Assert.AreEqual(expectedResult, number.RoundAboveZero(digit));
+        }
+
+        [Test]
+        [TestCase(100.3123, 3, 0)]
+        [TestCase(1100.6123, 3, 1000)]
+        [TestCase(1500.8123, 3, 2000)]
+        [TestCase(110003245.3123, 3, 110003000)]
+        [TestCase(110003245.3123, 1, 110003250)]
+        [TestCase(110003245.3123, -2, 110003245.31)]
+        [TestCase(110003245.3123, 0, 110003245)]
+        public void RoundAboveDouble(double number, int digit, double expectedResult)
+        {
+            Assert.AreEqual(expectedResult,number.RoundAboveZero(digit));
+        }
+
+        [Test]
+        [TestCase(100.3123f, 3, 0f)]
+        [TestCase(1100.6123f, 3, 1000f)]
+        [TestCase(1500.8123f, 3, 2000f)]
+        [TestCase(11245.3123f, 3, 11000f)]
+        [TestCase(13245.3123f, 1, 13250f)]
+        [TestCase(13245.3123f, -2, 13245.31f)]
+        [TestCase(13245.3123f, 0, 13245f)]
+        public void RoundAboveFloat(float number, int digit, float expectedResult)
+        {
+            Assert.AreEqual(expectedResult,number.RoundAboveZero(digit));
+        }
+
+        [Test]
+        [TestCase(100, 3, 0)]
+        [TestCase(1100, 3, 1000)]
+        [TestCase(1500, 3, 2000)]
+        [TestCase(110003245, 3, 110003000)]
+        [TestCase(110003245, 1, 110003250)]
+        [TestCase(110003245, -2, 110003245)]
+        public void RoundAboveInt(int number, int digit, int expectedResult)
+        {
+            Assert.AreEqual(expectedResult,number.RoundAboveZero(digit));
+        }
+
+        [Test]
+        public void RoundAboveUint()
+        {
+            Assert.AreEqual(110003250,((uint)110003245).RoundAboveZero(1));
+        }
+
+        
+        [Test]
+        public void RoundAboveUlong()
+        {
+            Assert.AreEqual(3250, ((ulong)3245).RoundAboveZero(1));
+        }
+
+        [Test]
+        [TestCase(110003245, 1, 110003250)]
+        public void RoundAboveLong(long number, int digit, int expectedResult)
+        {
+            Assert.AreEqual(expectedResult, number.RoundAboveZero(digit));
+        }
+
+        [Test]
+        public void RoundAboveShort()
+        {
+            Assert.AreEqual(3250, ((short)3245).RoundAboveZero(1));
+        }
+
+        [Test]
+        public void RoundAboveUshort()
+        {
+            Assert.AreEqual(3250,((ushort)3245).RoundAboveZero(1));
+        }
+
+        [Test]
+        public void RoundAboveBigInteger()
+        {
+            Assert.AreEqual(BigInteger.Zero,new BigInteger(100).RoundAboveZero(3));
+            Assert.AreEqual(new BigInteger(1000),new BigInteger(1100).RoundAboveZero(3));
+            Assert.AreEqual(new BigInteger(2000),new BigInteger(1500).RoundAboveZero(3));
+            Assert.AreEqual(new BigInteger(110003000), new BigInteger(110003245).RoundAboveZero(3));
+            Assert.AreEqual(new BigInteger(110003250), new BigInteger(110003245).RoundAboveZero(1));
+            Assert.AreEqual(new BigInteger(110003245), new BigInteger(110003245).RoundAboveZero(-2));
+            Assert.AreEqual(new BigInteger(110003245), new BigInteger(110003245).RoundAboveZero(0));
         }
     }
 }
