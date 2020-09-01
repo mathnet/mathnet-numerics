@@ -52,7 +52,7 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             var algorithm = new BrentMinimizer(1e-5, 1000);
             var f1 = new Func<double, double>(x => (x - 3) * (x - 3));
             var obj = ObjectiveFunction.ScalarValue(f1);
-            var r1 = algorithm.FindMinimum(obj, -5, 5);
+            var r1 = algorithm.FindMinimum(obj, -2, 2);
 
             Assert.That(Math.Abs(r1.MinimizingPoint - 3.0), Is.LessThan(1e-4));
         }
