@@ -44,6 +44,7 @@ namespace MathNet.Numerics.UnitTests
     [TestFixture, Category("Calculus")]
     public class PolynomialTests
     {
+
         [TestCase(new double[] { 5, 4, 3, 0, 2 }, "5 + 4x + 3x^2 + 2x^4")]
         [TestCase(new double[0], "0")]
         [TestCase(new double[] { 0, 4, 3, 0, 0 }, "4x + 3x^2")]
@@ -199,6 +200,33 @@ namespace MathNet.Numerics.UnitTests
             }
         }
 
+        // 2020-10-07 jbialogrodzki #730 This test focuses particularly on the issue at hand,
+        // i.e. multiplication of zero polynomials, but also attempts to provide more thorough UT
+        // for multiplication in general.
+        [TestCase(new double[] { }, new double[] { }, new double[] { })]
+        [TestCase(new double[] { 0 }, new double[] { }, new double[] { })]
+        [TestCase(new double[] { 1 }, new double[] { }, new double[] { })]
+        [TestCase(new double[] { 1, 2, 3 }, new double[] { }, new double[] { })]
+        [TestCase(new double[] { 0 }, new double[] { 0 }, new double[] { })]
+        [TestCase(new double[] { 1 }, new double[] { 0 }, new double[] { })]
+        [TestCase(new double[] { 1, 2, 3 }, new double[] { 0 }, new double[] { })]
+        [TestCase(new double[] { 2 }, new double[] { 3 }, new double[] { 6 })]
+        [TestCase(new double[] { 2, 3 }, new double[] { 4 }, new double[] { 8, 12 })]
+        [TestCase(new double[] { 2, 3 }, new double[] { 4, 5 }, new double[] { 8, 22, 15 })]
+        public void MultiplyTest2(double[] cLeft, double[] cRight, double[] cExpected)
+        {
+
+            var left = new Polynomial(cLeft);
+            var right = new Polynomial(cRight);
+            var expected = new Polynomial(cExpected);
+
+            var actualLR = left * right;
+            PolynomialTests.TestEqual(actualLR, expected);
+
+            var actualRL = right * left;
+            PolynomialTests.TestEqual(actualRL, expected);
+
+        }
 
         [TestCase(new double[] { 5, 4, 0 }, "5 + 4x")]
         [TestCase(new double[] { 0, 0, 0 }, "0")]
@@ -382,5 +410,65 @@ namespace MathNet.Numerics.UnitTests
                 Assert.AreEqual(p_tar.Coefficients[k], p_res.Coefficients[k], msg);
             }
         }
+
+        // 2020-10-07 jbialogrodzki #730 This test focuses particularly on the issue at hand,
+        // i.e. evaluating zero polynomials, but also attempts to provide some UT for evaluation
+        // in general (as there has been none). Note the Complex API is tested with real values only.
+        [TestCase(new double[] { }, 0, 0)]
+        [TestCase(new double[] { }, 123, 0)]
+        [TestCase(new double[] { 0 }, 0, 0)]
+        [TestCase(new double[] { 0 }, 123, 0)]
+        [TestCase(new double[] { 1 }, 0, 1)]
+        [TestCase(new double[] { 1 }, 123, 1)]
+        [TestCase(new double[] { 2 }, 0, 2)]
+        [TestCase(new double[] { 2 }, 123, 2)]
+        [TestCase(new double[] { 1, 2 }, 0, 1)]
+        [TestCase(new double[] { 1, 2 }, 3, 7)]
+        [TestCase(new double[] { 1, 2, 3 }, 0, 1)]
+        [TestCase(new double[] { 1, 2, 3 }, 4, 57)]
+        public void EvaluateTest(double[] c, double z, double expected)
+        {
+
+            Complex DoubleToComplex(double value) => new Complex(value, 0);
+
+            var cComplex = c.Select(DoubleToComplex).ToArray();
+            var zComplex = DoubleToComplex(z);
+            var expectedComplex = DoubleToComplex(expected);
+
+            var p = new Polynomial(c);
+
+            // static double Evaluate(double, double[])
+            {
+                var actual = Polynomial.Evaluate(z, c);
+                Assert.AreEqual(expected, actual);
+            }
+
+            // static Complex Evaluate(Complex, double[])
+            {                
+                var actual = Polynomial.Evaluate(zComplex, c);
+                Assert.AreEqual(expectedComplex, actual);
+            }
+
+            // static Complex Evaluate(Complex, Complex[])
+            {
+                var actual = Polynomial.Evaluate(zComplex, cComplex);
+                Assert.AreEqual(expectedComplex, actual);
+            }
+
+            // double Evaluate(double)
+            {
+                var actual = p.Evaluate(z);
+                Assert.AreEqual(expected, actual);
+            }
+
+            // Complex Evaluate(Complex)
+            {
+                var actual = p.Evaluate(zComplex);
+                Assert.AreEqual(expectedComplex, actual);
+            }
+                        
+        }
+
     }
+
 }
