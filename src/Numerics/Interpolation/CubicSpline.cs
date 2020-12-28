@@ -211,6 +211,85 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
+        /// Create a piecewise cubic Hermite interpolating polynomial from an unsorted set of (x,y) value pairs.
+        /// </summary>
+        public static CubicSpline InterpolatePchipSorted(double[] x, double[] y)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException("All vectors must have the same dimensionality.");
+            }
+            // TODO: minsize?
+            if (x.Length < 5)
+            {
+                throw new ArgumentException("The given array is too small. It must be at least 5 long.", nameof(x));
+            }
+
+            var h = new double[x.Length - 1];
+            // The slopes between each x. 
+            var m = new double[x.Length - 1];
+            // The slope of the interpolant at each x.
+            var d = new double[x.Length];
+            
+            for (var k = 0; k < x.Length - 1; ++k)
+            {
+                h[k] = x[k + 1] - x[k];
+                m[k] = (y[k + 1] - y[k]) / h[k];
+                if (k == 0)
+                    continue;
+                if (m[k].AlmostEqual(0.0) || m[k - 1].AlmostEqual(0.0) || Math.Sign(m[k]) != Math.Sign(m[k-1]))
+                    d[k] = 0;
+                else
+                {
+                    // Weighted harmonic mean of each slope.
+                    var w1 = 2 * h[k] + h[k - 1];
+                    var w2 = h[k] + 2 * h[k - 1];
+                    d[k] = (w1 + w2) / (w1 / m[k - 1] + w2 / m[k]);
+                }
+            }
+            
+            // Special case end-points.
+            d[0] = PchipEndPoints(h[0], h[1], m[0], m[1]);
+            d[d.Length - 1] = PchipEndPoints(h[h.Length - 1], h[h.Length - 2], m[m.Length - 1], m[m.Length - 2]);
+
+            return InterpolateHermiteSorted(x, y, d);
+        }
+
+        private static double PchipEndPoints(double h0, double h1, double m0, double m1)
+        {
+            var d = ((2 * h0 + h1) * m0 - h0 * m1) / (h0 + h1);
+            if (Math.Sign(d) != Math.Sign(m0))
+                return 0.0;
+            if (Math.Sign(m0) != Math.Sign(m1) && (Math.Abs(d) > 3 * Math.Abs(m0)))
+                return 3 * m0;
+            return d;
+        }
+
+        /// <summary>
+        /// Create a piecewise cubic Hermite interpolating polynomial from an unsorted set of (x,y) value pairs.
+        /// WARNING: Works in-place and can thus causes the data array to be reordered.
+        /// </summary>
+        public static CubicSpline InterpolatePchipInplace(double[] x, double[] y)
+        {
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException("All vectors must have the same dimensionality.");
+            }
+
+            Sorting.Sort(x, y);
+            return InterpolatePchipSorted(x, y);
+        }
+
+        /// <summary>
+        /// Create a piecewise cubic Hermite interpolating polynomial from an unsorted set of (x,y) value pairs.
+        /// </summary>
+        public static CubicSpline InterpolatePchip(IEnumerable<double> x, IEnumerable<double> y)
+        {
+            // note: we must make a copy, even if the input was arrays already
+            return InterpolatePchipInplace(x.ToArray(), y.ToArray());
+        }
+
+        /// <summary>
         /// Create a cubic spline interpolation from a set of (x,y) value pairs, sorted ascendingly by x,
         /// and custom boundary/termination conditions.
         /// </summary>
