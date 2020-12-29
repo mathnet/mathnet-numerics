@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -38,8 +38,8 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0 };
         readonly double[] _y = { 1.0, 2.0, -1.0, 0.0, 1.0 };
 
-        readonly double[] _tNag = new double[] { 7.99, 8.09, 8.19, 8.70, 9.20, 10.00, 12.00, 15.00, 20.00 };
-        readonly double[] _yNag = new double[] { 0.00000E+0, 0.27643E-4, 0.43750E-1, 0.16918E+0, 0.46943E+0, 0.94374E+0, 0.99864E+0, 0.99992E+0, 0.99999E+0 };
+        readonly double[] _tNag = { 7.99, 8.09, 8.19, 8.70, 9.20, 10.00, 12.00, 15.00, 20.00 };
+        readonly double[] _yNag = { 0.00000E+0, 0.27643E-4, 0.43750E-1, 0.16918E+0, 0.46943E+0, 0.94374E+0, 0.99864E+0, 0.99992E+0, 0.99999E+0 };
 
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
@@ -94,7 +94,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         [TestCase(17.5980, 1.0000, 5e-5)]
         [TestCase(18.7990, 1.0000, 5e-5)]
         [TestCase(20.0000, 1.0000, 5e-5)]
-        public void FitsAtExamplePoints(double t, double x, double maxAbsoluteError)
+        public void FitsAtNagExamplePoints(double t, double x, double maxAbsoluteError)
         {
             IInterpolation it = CubicSpline.InterpolatePchip(_tNag, _yNag);
 
@@ -124,7 +124,7 @@ namespace MathNet.Numerics.UnitTests.InterpolationTests
         {
             Assert.That(() => CubicSpline.InterpolatePchip(new double[0], new double[0]), Throws.ArgumentException);
             Assert.That(() => CubicSpline.InterpolatePchip(new double[2], new double[2]), Throws.ArgumentException);
-            Assert.That(CubicSpline.InterpolatePchip(new[] { 1.0, 2.0, 3.0, 4.0, 5.0 }, new[] { 2.0, 2.0, 2.0, 2.0, 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
+            Assert.That(CubicSpline.InterpolatePchip(new[] { 1.0, 2.0, 3.0 }, new[] { 2.0, 2.0, 2.0 }).Interpolate(1.0), Is.EqualTo(2.0));
         }
     }
 }

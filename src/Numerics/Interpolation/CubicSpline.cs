@@ -259,7 +259,8 @@ namespace MathNet.Numerics.Interpolation
             
             // Special case end-points.
             dd[0] = PchipEndPoints(x[1] - x[0], x[2] - x[1], m[0], m[1]);
-            dd[dd.Length - 1] = PchipEndPoints(x[x.Length - 1] - x[x.Length - 2], x[x.Length - 2] - x[x.Length - 3],
+            dd[dd.Length - 1] = PchipEndPoints(
+                x[x.Length - 1] - x[x.Length - 2], x[x.Length - 2] - x[x.Length - 3],
                 m[m.Length - 1], m[m.Length - 2]);
 
             return InterpolateHermiteSorted(x, y, dd);
@@ -267,7 +268,7 @@ namespace MathNet.Numerics.Interpolation
 
         static double PchipEndPoints(double h0, double h1, double m0, double m1)
         {
-            // One-sided three-point estimate for the derivative.
+            // One-sided, shape-preserving, three-point estimate for the derivative.
             var d = ((2 * h0 + h1) * m0 - h0 * m1) / (h0 + h1);
 
             if (Math.Sign(d) != Math.Sign(m0))
@@ -278,7 +279,6 @@ namespace MathNet.Numerics.Interpolation
 
             return d;
         }
-
 
         /// <summary>
         /// Create a piecewise cubic Hermite interpolating polynomial from an unsorted set of (x,y) value pairs.
