@@ -36,7 +36,6 @@ using System.Numerics;
 using System.Text;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Data.Matlab
 {
@@ -77,7 +76,7 @@ namespace MathNet.Numerics.Data.Matlab
                 // endian indicator (2 bytes)
                 if (reader.ReadByte() != LittleEndianIndicator)
                 {
-                    throw new NotSupportedException(Resources.BigEndianNotSupported);
+                    throw new NotSupportedException("Big endian files are not supported.");
                 }
 
                 // set position to first data element, right after full file header (128 bytes)
@@ -162,7 +161,7 @@ namespace MathNet.Numerics.Data.Matlab
                 var numDimensions = reader.ReadInt32()/8;
                 if (numDimensions > 2)
                 {
-                    throw new NotSupportedException(Resources.MoreThan2D);
+                    throw new NotSupportedException("Only 1 and 2 dimensional arrays are supported.");
                 }
 
                 // Dimensions Array data: row and column count (8 bytes)

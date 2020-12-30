@@ -36,7 +36,6 @@ using System.Numerics;
 using System.Text;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Storage;
-using MathNet.Numerics.Properties;
 
 namespace MathNet.Numerics.Data.Matlab
 {
@@ -73,7 +72,7 @@ namespace MathNet.Numerics.Data.Matlab
 #endif
             {
                 // write header and subsystem data offset (116+8 bytes)
-                var header = Encoding.ASCII.GetBytes(HeaderText + DateTime.Now.ToString(Resources.MatlabDateHeaderFormat));
+                var header = Encoding.ASCII.GetBytes(HeaderText + DateTime.Now.ToString("ddd MMM dd HH: mm:ss yyyy"));
                 writer.Write(header);
                 Pad(writer, 116 - header.Length + 8, 32);
 
@@ -117,12 +116,12 @@ namespace MathNet.Numerics.Data.Matlab
 
             if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentException(Resources.StringNullOrEmpty, "name");
+                throw new ArgumentException("String parameter cannot be empty or null.", "name");
             }
 
             if (name.IndexOf(' ') > -1)
             {
-                throw new ArgumentException(string.Format(Resources.NameCannotContainASpace, name), "name");
+                throw new ArgumentException(string.Format("Name cannot contain a space.name:  {0}", name), "name");
             }
 
             var dataType = typeof(T);
