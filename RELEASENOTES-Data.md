@@ -1,3 +1,7 @@
+### 4.1.0 - 2020-12-30
+* Support for Math.NET Numerics v4.12
+* Resources inlined *~Philipp Huber*
+
 ### 4.0.0 - 2018-02-14
 * Support for Math.NET Numerics v4
 * In addition to .Net 4.0 and newer now also targets .Net Standard 1.3 and 2.0.

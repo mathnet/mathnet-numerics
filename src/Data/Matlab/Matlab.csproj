@@ -7,13 +7,12 @@
     <RootNamespace>MathNet.Numerics.Data.Matlab</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.Data.Matlab$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.0.0</VersionPrefix>
-    <VersionSuffix>
-    </VersionSuffix>
+    <VersionPrefix>4.1.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics - MATLAB Data I/O Extensions$(TitleSuffix)</Title>
     <Description>MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>Support for Math.NET Numerics v4
-In addition to .Net 4.0 and newer now also targets .Net Standard 1.3 and 2.0.</PackageReleaseNotes>
+    <PackageReleaseNotes>Support for Math.NET Numerics v4.12
+Resources inlined ~Philipp Huber</PackageReleaseNotes>
     <PackageTags>math numeric data matlab</PackageTags>
     <IsTool>false</IsTool>
     <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
