@@ -98,6 +98,11 @@ namespace MathNet.Numerics.Optimization
             int iterations = 0;
             while (Math.Abs(upper.Point - lower.Point) > xTolerance && iterations < maxIterations)
             {
+                // Recompute middle point on each iteration to avoid loss of precision
+                middlePointX = lower.Point + (upper.Point - lower.Point)/(1 + Constants.GoldenRatio);
+                middle = objective.Evaluate(middlePointX);
+                ValueChecker(middle.Value, middlePointX);
+
                 double testX = lower.Point + (upper.Point - middle.Point);
                 var test = objective.Evaluate(testX);
                 ValueChecker(test.Value, testX);
@@ -111,7 +116,6 @@ namespace MathNet.Numerics.Optimization
                     else
                     {
                         upper = middle;
-                        middle = test;
                     }
                 }
                 else
@@ -123,7 +127,6 @@ namespace MathNet.Numerics.Optimization
                     else
                     {
                         lower = middle;
-                        middle = test;
                     }
                 }
 
