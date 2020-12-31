@@ -216,6 +216,8 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         public static CubicSpline InterpolatePchipSorted(double[] x, double[] y)
         {
+            // Implementation based on "Numerical Computing with Matlab" (Moler, 2004).
+
             if (x.Length != y.Length)
             {
                 throw new ArgumentException("All vectors must have the same dimensionality.");
