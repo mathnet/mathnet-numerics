@@ -7,9 +7,9 @@ sudo: required #false
 dist: bionic
 dotnet: 3.1.101
 mono:
-- latest
+  - 6.10.0
 os:
-- linux
+  - linux
 
 branches:
   except:
