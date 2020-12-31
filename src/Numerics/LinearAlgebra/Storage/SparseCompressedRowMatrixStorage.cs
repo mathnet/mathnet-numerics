@@ -88,6 +88,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             // Explicit zeros are not intentionally removed.
             // Sort ColumnIndices.
             NormalizeOrdering();
+            NormalizeDuplicates();
         }
 
         /// <summary>
@@ -292,7 +293,48 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             MapInplace(x => x, Zeros.AllowSkip);
         }
- 
+
+        /// <summary>
+        /// Eliminate duplicate entries by adding them together.
+        /// </summary>
+        public void NormalizeDuplicates()
+        {
+            var builder = BuilderInstance<T>.Matrix;
+
+            int valueCount = 0;
+            for (int i = 0; i < RowCount; i++)
+            {
+                int index = RowPointers[i];
+                int last = RowPointers[i + 1];
+                while (index < last)
+                {
+                    var col = ColumnIndices[index];
+                    var val = Values[index];
+                    index++;
+                    while (index < last)
+                    {
+                        if (ColumnIndices[index] == col)
+                        {
+                            val = builder.AddEntries(val, Values[index]);
+                            index++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    ColumnIndices[valueCount] = col;
+                    Values[valueCount] = val;
+                    valueCount++;
+                }
+                RowPointers[i + 1] = valueCount;
+            }
+
+            // Remove extra space from arrays.
+            Array.Resize(ref Values, valueCount);
+            Array.Resize(ref ColumnIndices, valueCount);
+        }
+
         /// <summary>
         /// Fill zeros explicitly on the diagonal entries as required by the Intel MKL direct sparse solver.
         /// </summary>
@@ -906,6 +948,170 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             rowPointers[rows] = values.Count;
             storage.ColumnIndices = columnIndices.ToArray();
             storage.Values = values.ToArray();
+            return storage;
+        }
+
+        /// <summary>
+        /// Create a new sparse storage from a compressed sparse row (CSR) format.
+        /// This new storage will be independent from the given arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="valueCount">The number of stored values including explicit zeros.</param>
+        /// <param name="rowPointers">The row pointer array of the compressed sparse row format.</param>
+        /// <param name="columnIndices">The column index array of the compressed sparse row format.</param>
+        /// <param name="values">The data array of the compressed sparse row format.</param>
+        /// <returns>The sparse storage from the compressed sparse row format.</returns>
+        /// <remarks>Duplicate entries will be summed together and explicit zeros will be not intentionally removed.</remarks>
+        public static SparseCompressedRowMatrixStorage<T> OfCompressedSparseRowFormat(int rows, int columns, int valueCount, int[] rowPointers, int[] columnIndices, T[] values)
+        {
+            if (values == null) throw new NullReferenceException(nameof(values));
+            if (columnIndices == null) throw new NullReferenceException(nameof(columnIndices));
+            if (rowPointers == null) throw new NullReferenceException(nameof(rowPointers));
+            if (rowPointers.Length < rows) throw new Exception($"The given array has the wrong length. Should be {rows + 1}.");
+            if (valueCount != rowPointers[rows]) throw new Exception($"{nameof(valueCount)} should be same to {rowPointers[rows]}");
+
+            // copy arrays to new memory block.
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var csrValues = new T[valueCount];
+            Array.Copy(values, csrValues, valueCount);
+            var csrColumnIndices = new int[valueCount];
+            Array.Copy(columnIndices, csrColumnIndices, valueCount);
+            Array.Copy(rowPointers, storage.RowPointers, rows + 1);
+
+            storage.ColumnIndices = csrColumnIndices;
+            storage.Values = csrValues;
+            storage.NormalizeOrdering();
+            storage.NormalizeDuplicates();
+            return storage;
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix storage from a compressed sparse column (CSC) format.
+        /// This new storage will be independent from the given arrays.
+        /// A new memory block will be allocated.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="valueCount">The number of stored values including explicit zeros.</param>
+        /// <param name="rowIndices">The row index array of the compressed sparse column format.</param>
+        /// <param name="columnPointers">The column pointer array of the compressed sparse column format.</param>
+        /// <param name="values">The data array of the compressed sparse column format.</param>
+        /// <returns>The sparse storage from the compressed sparse column format.</returns>
+        /// <remarks>Duplicate entries will be summed together and explicit zeros will be not intentionally removed.</remarks>
+        public static SparseCompressedRowMatrixStorage<T> OfCompressedSparseColumnFormat(int rows, int columns, int valueCount, int[] rowIndices, int[] columnPointers, T[] values)
+        {
+            if (values == null) throw new NullReferenceException(nameof(values));
+            if (rowIndices == null) throw new NullReferenceException(nameof(rowIndices));
+            if (columnPointers == null) throw new NullReferenceException(nameof(columnPointers));
+            if (columnPointers.Length < columns) throw new Exception($"The given array has the wrong length. Should be {columns + 1}.");
+            if (valueCount != columnPointers[columns]) throw new Exception($"{nameof(valueCount)} should be same to {columnPointers[columns]}");
+
+            // convert from CSC to CSR
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var csrValues = new T[valueCount];
+            var csrRowPointers = storage.RowPointers;
+            var csrColumnIndices = new int[valueCount];
+
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = columnPointers[i]; j < columnPointers[i + 1]; j++)
+                {
+                    csrRowPointers[rowIndices[j] + 1]++;
+                }
+            }
+
+            for (int i = 1; i < rows + 1; i++)
+            {
+                csrRowPointers[i] += csrRowPointers[i - 1];
+            }
+
+            var curr = new int[rows];
+            for (int i = 0; i < columns; i++)
+            {
+                for (int j = columnPointers[i]; j < columnPointers[i + 1]; j++)
+                {
+                    var loc = csrRowPointers[rowIndices[j]] + curr[rowIndices[j]];
+                    curr[rowIndices[j]]++;
+                    csrColumnIndices[loc] = i;
+                    csrValues[loc] = values[j];
+                }
+            }
+
+            storage.ColumnIndices = csrColumnIndices;
+            storage.Values = csrValues;
+            storage.NormalizeOrdering();
+            storage.NormalizeDuplicates();
+            return storage;
+        }
+
+        /// <summary>
+        /// Create a new sparse storage from a coordinate (COO) format.
+        /// This new storage will be independent from the given arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="valueCount">The number of stored values including explicit zeros.</param>
+        /// <param name="rowIndices">The row index array of the coordinate format.</param>
+        /// <param name="columnIndices">The column index array of the coordinate format.</param>
+        /// <param name="values">The data array of the coordinate format.</param>
+        /// <returns>The sparse storage from the coordinate format.</returns>
+        /// <remarks>Duplicate entries will be summed together and
+        /// explicit zeros will be not intentionally removed.</remarks>
+        public static SparseCompressedRowMatrixStorage<T> OfCoordinateFormat(int rows, int columns, int valueCount, int[] rowIndices, int[] columnIndices, T[] values)
+        {
+            if (values == null) throw new NullReferenceException(nameof(values));
+            if (rowIndices == null) throw new NullReferenceException(nameof(rowIndices));
+            if (columnIndices == null) throw new NullReferenceException(nameof(columnIndices));
+            if (rowIndices.Length < valueCount || columnIndices.Length < valueCount || values.Length < valueCount)
+            {
+                throw new Exception($"The given array has the wrong length. Should be {valueCount}.");
+            }
+
+            // convert from COO to CSR
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var csrRowPointers = storage.RowPointers;
+            var csrColumnIndices = new int[valueCount];
+            var csrValues = new T[valueCount];
+
+            for (int i = 0; i < valueCount; i++)
+            {
+                csrRowPointers[rowIndices[i]]++;
+            }
+
+            for (int i = 0, cumsum = 0; i < rows; i++)
+            {
+                var temp = csrRowPointers[i];
+                csrRowPointers[i] = cumsum;
+                cumsum += temp;
+            }
+
+            csrRowPointers[rows] = valueCount;
+
+            for (int i = 0; i < valueCount; i++)
+            {
+                var row = rowIndices[i];
+                var loc = csrRowPointers[row];
+
+                csrColumnIndices[loc] = columnIndices[i];
+                csrValues[loc] = values[i];
+
+                csrRowPointers[row]++;
+            }
+
+            for (int i = 0, last = 0; i <= rows; i++)
+            {
+                var temp = csrRowPointers[i];
+                csrRowPointers[i] = last;
+                last = temp;
+            }
+
+            storage.ColumnIndices = csrColumnIndices;
+            storage.Values = csrValues;
+            storage.NormalizeOrdering();
+            storage.NormalizeDuplicates();
             return storage;
         }
 
