@@ -201,7 +201,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Create an piecewise cubic Akima spline interpolation based on arbitrary points.
+        /// Create a piecewise cubic Akima spline interpolation based on arbitrary points.
         /// Akima splines are robust to outliers.
         /// </summary>
         /// <param name="points">The sample points t.</param>
@@ -219,6 +219,27 @@ namespace MathNet.Numerics
         public static IInterpolation CubicSplineRobust(IEnumerable<double> points, IEnumerable<double> values)
         {
             return Interpolation.CubicSpline.InterpolateAkima(points, values);
+        }
+
+        /// <summary>
+        /// Create a piecewise cubic monotone spline interpolation based on arbitrary points.
+        /// This is a shape-preserving spline with continuous first derivative.
+        /// </summary>
+        /// <param name="points">The sample points t.</param>
+        /// <param name="values">The sample point values x(t).</param>
+        /// <returns>
+        /// An interpolation scheme optimized for the given sample points and values,
+        /// which can then be used to compute interpolations and extrapolations
+        /// on arbitrary points.
+        /// </returns>
+        /// <remarks>
+        /// if your data is already sorted in arrays, consider to use
+        /// MathNet.Numerics.Interpolation.CubicSpline.InterpolatePchipSorted
+        /// instead, which is more efficient.
+        /// </remarks>
+        public static IInterpolation CubicSplineMonotone(IEnumerable<double> points, IEnumerable<double> values)
+        {
+            return Interpolation.CubicSpline.InterpolatePchip(points, values);
         }
 
         /// <summary>

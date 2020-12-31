@@ -244,7 +244,9 @@ namespace MathNet.Numerics.Interpolation
                 var mIs0 = m[i].AlmostEqual(0.0);
 
                 if (mIs0 || mPrevIs0 || Math.Sign(m[i]) != Math.Sign(m[i - 1]))
+                {
                     dd[i] = 0;
+                }
                 else
                 {
                     // Weighted harmonic mean of each slope.
@@ -272,10 +274,14 @@ namespace MathNet.Numerics.Interpolation
             var d = ((2 * h0 + h1) * m0 - h0 * m1) / (h0 + h1);
 
             if (Math.Sign(d) != Math.Sign(m0))
+            {
                 return 0.0;
+            }
 
             if (Math.Sign(m0) != Math.Sign(m1) && (Math.Abs(d) > 3 * Math.Abs(m0)))
+            {
                 return 3 * m0;
+            }
 
             return d;
         }
