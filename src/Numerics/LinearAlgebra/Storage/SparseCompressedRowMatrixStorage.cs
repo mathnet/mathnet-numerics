@@ -84,6 +84,10 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             RowPointers = rowPointers;
             ColumnIndices = columnIndices;
             Values = values;
+
+            // Explicit zeros are not intentionally removed.
+            // Sort ColumnIndices.
+            NormalizeOrdering();
         }
 
         /// <summary>
@@ -288,7 +292,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             MapInplace(x => x, Zeros.AllowSkip);
         }
-
+ 
         /// <summary>
         /// Fill zeros explicitly on the diagonal entries as required by the Intel MKL direct sparse solver.
         /// </summary>
