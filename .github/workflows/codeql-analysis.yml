@@ -39,6 +39,7 @@ jobs:
         
     - name: Build
       run: ./build.sh build
+      shell: bash
 
     # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
     # If this step fails, then you should remove it and run the build manually (see below)
@@ -57,4 +58,5 @@ jobs:
     #   make release
 
     - name: Perform CodeQL Analysis
+      if: success()
       uses: github/codeql-action/analyze@v1
