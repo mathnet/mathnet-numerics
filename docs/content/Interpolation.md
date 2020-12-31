@@ -37,12 +37,13 @@ Interpolation on arbitrary sample points
 ----------------------------------------
 
 * *Rational pole-free*: Barycentric Floater-Hormann Algorithm
-* **Rational with poles**: Bulirsch & Stoer Algorithm
+* *Rational with poles*: Bulirsch & Stoer Algorithm
 * *Neville Polynomial*: Neville Algorithm. Note that the Neville algorithm performs very badly on equidistant points. If you need to interpolate a polynomial on equidistant points, we recommend to use the barycentric algorithm instead.
 * *Linear Spline*
 * *Cubic Spline* with boundary conditions
 * *Natural Cubic Spline*
 * *Akima Cubic Spline*
+* *Monotone Cubic Spline*: Monotone-preserving piecewise cubic Hermite interpolating polynomial (PCHIP), based on Fritsch & Carlson (1980).
 
 
 Interpolation with additional data
