@@ -166,6 +166,9 @@
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#OfColumnEnumerables">OfColumnEnumerables</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#OfColumnMajorList">OfColumnMajorList</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#OfColumnVectors">OfColumnVectors</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#OfCompressedSparseColumnFormat">OfCompressedSparseColumnFormat</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#OfCompressedSparseRowFormat">OfCompressedSparseRowFormat</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#OfCoordinateFormat">OfCoordinateFormat</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#OfDiagonalInit">OfDiagonalInit</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#OfIndexedEnumerable">OfIndexedEnumerable</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#OfInit">OfInit</a></li>
@@ -217,6 +220,7 @@
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#MapSubMatrixIndexedTo``1">MapSubMatrixIndexedTo&lt;TU&gt;</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#MapTo``1">MapTo&lt;TU&gt;</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#Normalize">Normalize</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#NormalizeDuplicates">NormalizeDuplicates</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#NormalizeOrdering">NormalizeOrdering</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#NormalizeZeros">NormalizeZeros</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm#PopulateExplicitZerosOnDiagonal">PopulateExplicitZerosOnDiagonal</a></li>
@@ -294,6 +298,109 @@
 
 
 
+      
+    </div>
+	</div>
+	<div id="OfCompressedSparseColumnFormat" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm">SparseCompressedRowMatrixStorage&lt;T&gt;</a> <strong>OfCompressedSparseColumnFormat</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.int">int</span> valueCount, <span title="System.Int32[]">Int32[]</span> rowIndices, <span title="System.Int32[]">Int32[]</span> columnPointers, <span title="MathNet.Numerics.LinearAlgebra.Storage.T[]">T[]</span> values)</h4>
+		<div class="content">Create a new sparse matrix storage from a compressed sparse column (CSC) format.
+This new storage will be independent from the given arrays.
+A new memory block will be allocated. <blockquote class="remarks">
+  Duplicate entries will be summed together and explicit zeros will be not intentionally removed. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><span title="System.int">int</span></code> valueCount</h6>
+          <p class="comments">The number of stored values including explicit zeros. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> rowIndices</h6>
+          <p class="comments">The row index array of the compressed sparse column format. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> columnPointers</h6>
+          <p class="comments">The column pointer array of the compressed sparse column format. </p>
+          <h6><code><span title="MathNet.Numerics.LinearAlgebra.Storage.T[]">T[]</span></code> values</h6>
+          <p class="comments">The data array of the compressed sparse column format. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm">SparseCompressedRowMatrixStorage&lt;T&gt;</a></code></h6>
+        <p>The sparse storage from the compressed sparse column format. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="OfCompressedSparseRowFormat" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm">SparseCompressedRowMatrixStorage&lt;T&gt;</a> <strong>OfCompressedSparseRowFormat</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.int">int</span> valueCount, <span title="System.Int32[]">Int32[]</span> rowPointers, <span title="System.Int32[]">Int32[]</span> columnIndices, <span title="MathNet.Numerics.LinearAlgebra.Storage.T[]">T[]</span> values)</h4>
+		<div class="content">Create a new sparse storage from a compressed sparse row (CSR) format.
+This new storage will be independent from the given arrays.
+A new memory block will be allocated for storing the matrix. <blockquote class="remarks">
+  Duplicate entries will be summed together and explicit zeros will be not intentionally removed. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><span title="System.int">int</span></code> valueCount</h6>
+          <p class="comments">The number of stored values including explicit zeros. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> rowPointers</h6>
+          <p class="comments">The row pointer array of the compressed sparse row format. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> columnIndices</h6>
+          <p class="comments">The column index array of the compressed sparse row format. </p>
+          <h6><code><span title="MathNet.Numerics.LinearAlgebra.Storage.T[]">T[]</span></code> values</h6>
+          <p class="comments">The data array of the compressed sparse row format. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm">SparseCompressedRowMatrixStorage&lt;T&gt;</a></code></h6>
+        <p>The sparse storage from the compressed sparse row format. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="OfCoordinateFormat" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm">SparseCompressedRowMatrixStorage&lt;T&gt;</a> <strong>OfCoordinateFormat</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.int">int</span> valueCount, <span title="System.Int32[]">Int32[]</span> rowIndices, <span title="System.Int32[]">Int32[]</span> columnIndices, <span title="MathNet.Numerics.LinearAlgebra.Storage.T[]">T[]</span> values)</h4>
+		<div class="content">Create a new sparse storage from a coordinate (COO) format.
+This new storage will be independent from the given arrays.
+A new memory block will be allocated for storing the matrix. <blockquote class="remarks">
+  Duplicate entries will be summed together and
+explicit zeros will be not intentionally removed. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><span title="System.int">int</span></code> valueCount</h6>
+          <p class="comments">The number of stored values including explicit zeros. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> rowIndices</h6>
+          <p class="comments">The row index array of the coordinate format. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> columnIndices</h6>
+          <p class="comments">The column index array of the coordinate format. </p>
+          <h6><code><span title="MathNet.Numerics.LinearAlgebra.Storage.T[]">T[]</span></code> values</h6>
+          <p class="comments">The data array of the coordinate format. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm">SparseCompressedRowMatrixStorage&lt;T&gt;</a></code></h6>
+        <p>The sparse storage from the coordinate format. </p>
+      </div>
       
     </div>
 	</div>
@@ -806,6 +913,15 @@ False if the field is fixed, like an off-diagonal field on a diagonal matrix.
       
     </div>
 	</div>
+	<div id="NormalizeDuplicates" class="method">
+		<h4><span title="System.void">void</span> <strong>NormalizeDuplicates</strong>()</h4>
+		<div class="content">Eliminate duplicate entries by adding them together. 
+
+
+
+      
+    </div>
+	</div>
 	<div id="NormalizeOrdering" class="method">
 		<h4><span title="System.void">void</span> <strong>NormalizeOrdering</strong>()</h4>
 		<div class="content">
@@ -994,7 +1110,7 @@ array using the row-major storage mapping described in a compressed sparse row (
     </div>
   </div>
 	<div id="footer">
-  <p>Based on v4.13.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.14.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

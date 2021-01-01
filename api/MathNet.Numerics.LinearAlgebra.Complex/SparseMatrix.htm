@@ -402,6 +402,7 @@ The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format..
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm#RemainderByThis">RemainderByThis</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm#RemoveColumn">RemoveColumn</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm#RemoveRow">RemoveRow</a></li>
+				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm#Resize">Resize</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm#Row">Row</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm#Row">Row</a></li>
 				<li><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm#Row">Row</a></li>
@@ -496,8 +497,7 @@ The underlying storage scheme is 3-array compressed-sparse-row (CSR) Format..
 	<div id=".ctor" class="method">
 		<h4> <strong>SparseMatrix</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns)</h4>
 		<div class="content">Create a new sparse matrix with the given number of rows and columns.
-All cells of the matrix will be initialized to zero.
-Zero-length matrices are not supported. 
+All cells of the matrix will be initialized to zero. 
 
 
 
@@ -519,8 +519,7 @@ storage for performance or interop reasons.
 	<div id=".ctor" class="method">
 		<h4> <strong>SparseMatrix</strong>(<span title="System.int">int</span> order)</h4>
 		<div class="content">Create a new square sparse matrix with the given number of rows and columns.
-All cells of the matrix will be initialized to zero.
-Zero-length matrices are not supported. 
+All cells of the matrix will be initialized to zero. 
 
 
 
@@ -661,7 +660,7 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="OfDiagonalArray" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm">SparseMatrix</a> <strong>OfDiagonalArray</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> diagonal)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm">SparseMatrix</a> <strong>OfDiagonalArray</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.Numerics.Complex[]">Complex[]</span> diagonal)</h4>
 		<div class="content">Create a new sparse matrix with the diagonal as a copy of the given array.
 This new matrix will be independent from the array.
 A new memory block will be allocated for storing the matrix. 
@@ -672,7 +671,7 @@ A new memory block will be allocated for storing the matrix.
     </div>
 	</div>
 	<div id="OfDiagonalArray" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm">SparseMatrix</a> <strong>OfDiagonalArray</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.Numerics.Complex[]">Complex[]</span> diagonal)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Complex/SparseMatrix.htm">SparseMatrix</a> <strong>OfDiagonalArray</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> diagonal)</h4>
 		<div class="content">Create a new sparse matrix with the diagonal as a copy of the given array.
 This new matrix will be independent from the array.
 A new memory block will be allocated for storing the matrix. 
@@ -1634,18 +1633,6 @@ The enumerator will include all values, even if they are zero.
     </div>
 	</div>
 	<div id="EnumerateRowsIndexed" class="method">
-		<h4><span title="System.Collections.Generic.IEnumerable<Tuple<int, Vector<Complex>>>">IEnumerable&lt;Tuple&lt;int, Vector&lt;Complex&gt;&gt;&gt;</span> <strong>EnumerateRowsIndexed</strong>()</h4>
-		<div class="content">Returns an IEnumerable that can be used to iterate through all rows of the matrix and their index. <blockquote class="remarks">
-  The enumerator returns a Tuple with the first value being the row index
-and the second value being the value of the row at that index. 
-</blockquote>
-
-
-
-      
-    </div>
-	</div>
-	<div id="EnumerateRowsIndexed" class="method">
 		<h4><span title="System.Collections.Generic.IEnumerable<Tuple<int, Vector<Complex>>>">IEnumerable&lt;Tuple&lt;int, Vector&lt;Complex&gt;&gt;&gt;</span> <strong>EnumerateRowsIndexed</strong>(<span title="System.int">int</span> index, <span title="System.int">int</span> length)</h4>
 		<div class="content">Returns an IEnumerable that can be used to iterate through a subset of all rows of the matrix and their index. <blockquote class="remarks">
   The enumerator returns a Tuple with the first value being the row index
@@ -1661,6 +1648,18 @@ and the second value being the value of the row at that index.
           <h6><code><span title="System.int">int</span></code> length</h6>
           <p class="comments">The number of rows to enumerating over. </p>
       </div>
+
+      
+    </div>
+	</div>
+	<div id="EnumerateRowsIndexed" class="method">
+		<h4><span title="System.Collections.Generic.IEnumerable<Tuple<int, Vector<Complex>>>">IEnumerable&lt;Tuple&lt;int, Vector&lt;Complex&gt;&gt;&gt;</span> <strong>EnumerateRowsIndexed</strong>()</h4>
+		<div class="content">Returns an IEnumerable that can be used to iterate through all rows of the matrix and their index. <blockquote class="remarks">
+  The enumerator returns a Tuple with the first value being the row index
+and the second value being the value of the row at that index. 
+</blockquote>
+
+
 
       
     </div>
@@ -2031,6 +2030,23 @@ In a later release, it will be replaced with a sparse implementation.
     </div>
 	</div>
 	<div id="LeftMultiply" class="method">
+		<h4><span title="System.void">void</span> <strong>LeftMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> leftSide, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> leftSide</h6>
+          <p class="comments">The vector to multiply with. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The result of the multiplication. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="LeftMultiply" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>LeftMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> leftSide)</h4>
 		<div class="content">Left multiply a matrix with a vector ( = vector * matrix ). 
 
@@ -2047,23 +2063,6 @@ In a later release, it will be replaced with a sparse implementation.
         <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
         <p>The result of the multiplication. </p>
       </div>
-      
-    </div>
-	</div>
-	<div id="LeftMultiply" class="method">
-		<h4><span title="System.void">void</span> <strong>LeftMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> leftSide, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
-		<div class="content">Left multiply a matrix with a vector ( = vector * matrix ) and place the result in the result vector. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> leftSide</h6>
-          <p class="comments">The vector to multiply with. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The result of the multiplication. </p>
-      </div>
-
       
     </div>
 	</div>
@@ -2128,8 +2127,8 @@ on the actual data storage implementation (relevant mostly for sparse matrices).
     </div>
 	</div>
 	<div id="Map2" class="method">
-		<h4><span title="System.void">void</span> <strong>Map2</strong>(<span title="System.Func<Complex, Complex, Complex>">Func&lt;Complex, Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
-		<div class="content">Applies a function to each value pair of two matrices and replaces the value in the result vector. 
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Map2</strong>(<span title="System.Func<Complex, Complex, Complex>">Func&lt;Complex, Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value pair of two matrices and returns the results as a new vector. 
 
 
 
@@ -2137,8 +2136,8 @@ on the actual data storage implementation (relevant mostly for sparse matrices).
     </div>
 	</div>
 	<div id="Map2" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Map2</strong>(<span title="System.Func<Complex, Complex, Complex>">Func&lt;Complex, Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
-		<div class="content">Applies a function to each value pair of two matrices and returns the results as a new vector. 
+		<h4><span title="System.void">void</span> <strong>Map2</strong>(<span title="System.Func<Complex, Complex, Complex>">Func&lt;Complex, Complex, Complex&gt;</span> f, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra/Zeros.htm">Zeros</a> zeros)</h4>
+		<div class="content">Applies a function to each value pair of two matrices and replaces the value in the result vector. 
 
 
 
@@ -2272,16 +2271,16 @@ on the actual data storage implementation (relevant mostly for sparse matrices).
     </div>
 	</div>
 	<div id="Multiply" class="method">
-		<h4><span title="System.void">void</span> <strong>Multiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> rightSide, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
-		<div class="content">Multiplies this matrix with a vector and places the results into the result vector. 
+		<h4><span title="System.void">void</span> <strong>Multiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Multiplies this matrix with another matrix and places the results into the result matrix. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> rightSide</h6>
-          <p class="comments">The vector to multiply with. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The matrix to multiply with. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
           <p class="comments">The result of the multiplication. </p>
       </div>
 
@@ -2318,16 +2317,16 @@ on the actual data storage implementation (relevant mostly for sparse matrices).
     </div>
 	</div>
 	<div id="Multiply" class="method">
-		<h4><span title="System.void">void</span> <strong>Multiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">Multiplies this matrix with another matrix and places the results into the result matrix. 
+		<h4><span title="System.void">void</span> <strong>Multiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> rightSide, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Multiplies this matrix with a vector and places the results into the result vector. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
-          <p class="comments">The matrix to multiply with. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> rightSide</h6>
+          <p class="comments">The vector to multiply with. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
           <p class="comments">The result of the multiplication. </p>
       </div>
 
@@ -2344,6 +2343,20 @@ on the actual data storage implementation (relevant mostly for sparse matrices).
     </div>
 	</div>
 	<div id="Negate" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Negate</strong>()</h4>
+		<div class="content">Negate each element of this matrix. 
+
+
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
+        <p>A matrix containing the negated values. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="Negate" class="method">
 		<h4><span title="System.void">void</span> <strong>Negate</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">Negate each element of this matrix and place the results into the result matrix. 
 
@@ -2355,20 +2368,6 @@ on the actual data storage implementation (relevant mostly for sparse matrices).
           <p class="comments">The result of the negation. </p>
       </div>
 
-      
-    </div>
-	</div>
-	<div id="Negate" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Negate</strong>()</h4>
-		<div class="content">Negate each element of this matrix. 
-
-
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
-        <p>A matrix containing the negated values. </p>
-      </div>
       
     </div>
 	</div>
@@ -2461,10 +2460,16 @@ Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and 
     </div>
 	</div>
 	<div id="PointwiseAbsoluteMaximum" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAbsoluteMaximum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
-		<div class="content">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAbsoluteMaximum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other)</h4>
+		<div class="content">Pointwise applies the absolute maximum with the values of another matrix to each value. 
 
 
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The matrix with the values to compare to. </p>
+      </div>
 
       
     </div>
@@ -2496,48 +2501,7 @@ Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and 
     </div>
 	</div>
 	<div id="PointwiseAbsoluteMaximum" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAbsoluteMaximum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other)</h4>
-		<div class="content">Pointwise applies the absolute maximum with the values of another matrix to each value. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
-          <p class="comments">The matrix with the values to compare to. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="PointwiseAbsoluteMinimum" class="method">
-		<h4><span title="System.void">void</span> <strong>PointwiseAbsoluteMinimum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">Pointwise applies the absolute minimum with the values of another matrix to each value. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
-          <p class="comments">The matrix with the values to compare to. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The matrix to store the result. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="PointwiseAbsoluteMinimum" class="method">
-		<h4><span title="System.void">void</span> <strong>PointwiseAbsoluteMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
-	<div id="PointwiseAbsoluteMinimum" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAbsoluteMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAbsoluteMaximum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
 		<div class="content">
 
 
@@ -2560,6 +2524,50 @@ Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and 
       
     </div>
 	</div>
+	<div id="PointwiseAbsoluteMinimum" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAbsoluteMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMinimum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAbsoluteMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAbsoluteMinimum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseAbsoluteMinimum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise applies the absolute minimum with the values of another matrix to each value. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The matrix with the values to compare to. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The matrix to store the result. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAcos" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAcos</strong>()</h4>
+		<div class="content">Pointwise applies the acos function to each value 
+
+
+
+      
+    </div>
+	</div>
 	<div id="PointwiseAcos" class="method">
 		<h4><span title="System.void">void</span> <strong>PointwiseAcos</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">Pointwise applies the acos function to each value 
@@ -2575,24 +2583,6 @@ Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and 
       
     </div>
 	</div>
-	<div id="PointwiseAcos" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAcos</strong>()</h4>
-		<div class="content">Pointwise applies the acos function to each value 
-
-
-
-      
-    </div>
-	</div>
-	<div id="PointwiseAsin" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAsin</strong>()</h4>
-		<div class="content">Pointwise applies the asin function to each value 
-
-
-
-      
-    </div>
-	</div>
 	<div id="PointwiseAsin" class="method">
 		<h4><span title="System.void">void</span> <strong>PointwiseAsin</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">Pointwise applies the asin function to each value 
@@ -2604,6 +2594,15 @@ Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and 
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
           <p class="comments">The vector to store the result </p>
       </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseAsin" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseAsin</strong>()</h4>
+		<div class="content">Pointwise applies the asin function to each value 
+
+
 
       
     </div>
@@ -2711,6 +2710,15 @@ matrix and a given other matrix being the 'x' of atan2 and the
     </div>
 	</div>
 	<div id="PointwiseCosh" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseCosh</strong>()</h4>
+		<div class="content">Pointwise applies the cosh function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseCosh" class="method">
 		<h4><span title="System.void">void</span> <strong>PointwiseCosh</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">Pointwise applies the cosh function to each value 
 
@@ -2720,32 +2728,6 @@ matrix and a given other matrix being the 'x' of atan2 and the
 
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
           <p class="comments">The vector to store the result </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="PointwiseCosh" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseCosh</strong>()</h4>
-		<div class="content">Pointwise applies the cosh function to each value 
-
-
-
-      
-    </div>
-	</div>
-	<div id="PointwiseDivide" class="method">
-		<h4><span title="System.void">void</span> <strong>PointwiseDivide</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> divisor, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">Pointwise divide this matrix by another matrix and stores the result into the result matrix. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> divisor</h6>
-          <p class="comments">The pointwise denominator matrix to use. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The matrix to store the result of the pointwise division. </p>
       </div>
 
       
@@ -2768,6 +2750,23 @@ matrix and a given other matrix being the 'x' of atan2 and the
         <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
         <p>A new matrix that is the pointwise division of this matrix and  <var>divisor</var>. </p>
       </div>
+      
+    </div>
+	</div>
+	<div id="PointwiseDivide" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseDivide</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> divisor, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Pointwise divide this matrix by another matrix and stores the result into the result matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> divisor</h6>
+          <p class="comments">The pointwise denominator matrix to use. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The matrix to store the result of the pointwise division. </p>
+      </div>
+
       
     </div>
 	</div>
@@ -2796,6 +2795,15 @@ matrix and a given other matrix being the 'x' of atan2 and the
     </div>
 	</div>
 	<div id="PointwiseFloor" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseFloor</strong>()</h4>
+		<div class="content">Pointwise applies the floor function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseFloor" class="method">
 		<h4><span title="System.void">void</span> <strong>PointwiseFloor</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">Pointwise applies the floor function to each value 
 
@@ -2806,15 +2814,6 @@ matrix and a given other matrix being the 'x' of atan2 and the
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
           <p class="comments">The vector to store the result </p>
       </div>
-
-      
-    </div>
-	</div>
-	<div id="PointwiseFloor" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseFloor</strong>()</h4>
-		<div class="content">Pointwise applies the floor function to each value 
-
-
 
       
     </div>
@@ -2844,6 +2843,15 @@ matrix and a given other matrix being the 'x' of atan2 and the
     </div>
 	</div>
 	<div id="PointwiseLog10" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseLog10</strong>()</h4>
+		<div class="content">Pointwise applies the log10 function to each value 
+
+
+
+      
+    </div>
+	</div>
+	<div id="PointwiseLog10" class="method">
 		<h4><span title="System.void">void</span> <strong>PointwiseLog10</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">Pointwise applies the log10 function to each value 
 
@@ -2854,15 +2862,6 @@ matrix and a given other matrix being the 'x' of atan2 and the
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
           <p class="comments">The vector to store the result </p>
       </div>
-
-      
-    </div>
-	</div>
-	<div id="PointwiseLog10" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseLog10</strong>()</h4>
-		<div class="content">Pointwise applies the log10 function to each value 
-
-
 
       
     </div>
@@ -2883,15 +2882,6 @@ matrix and a given other matrix being the 'x' of atan2 and the
     </div>
 	</div>
 	<div id="PointwiseMaximum" class="method">
-		<h4><span title="System.void">void</span> <strong>PointwiseMaximum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
-	<div id="PointwiseMaximum" class="method">
 		<h4><span title="System.void">void</span> <strong>PointwiseMaximum</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">Pointwise applies the maximum with the values of another matrix to each value. 
 
@@ -2904,6 +2894,15 @@ matrix and a given other matrix being the 'x' of atan2 and the
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
           <p class="comments">The matrix to store the result. </p>
       </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwiseMaximum" class="method">
+		<h4><span title="System.void">void</span> <strong>PointwiseMaximum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
 
       
     </div>
@@ -2950,7 +2949,7 @@ matrix and a given other matrix being the 'x' of atan2 and the
     </div>
 	</div>
 	<div id="PointwiseMinimum" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<h4><span title="System.void">void</span> <strong>PointwiseMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">
 
 
@@ -2959,7 +2958,7 @@ matrix and a given other matrix being the 'x' of atan2 and the
     </div>
 	</div>
 	<div id="PointwiseMinimum" class="method">
-		<h4><span title="System.void">void</span> <strong>PointwiseMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwiseMinimum</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
 		<div class="content">
 
 
@@ -3039,7 +3038,7 @@ of this matrix by another matrix and stores the result into the result matrix.
     </div>
 	</div>
 	<div id="PointwisePower" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwisePower</strong>(<span title="System.Numerics.Complex">Complex</span> exponent)</h4>
+		<h4><span title="System.void">void</span> <strong>PointwisePower</strong>(<span title="System.Numerics.Complex">Complex</span> exponent, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">
 
 
@@ -3048,22 +3047,7 @@ of this matrix by another matrix and stores the result into the result matrix.
     </div>
 	</div>
 	<div id="PointwisePower" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwisePower</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> exponent)</h4>
-		<div class="content">Pointwise raise this matrix to an exponent and store the result into the result matrix. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> exponent</h6>
-          <p class="comments">The exponent to raise this matrix values to. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="PointwisePower" class="method">
-		<h4><span title="System.void">void</span> <strong>PointwisePower</strong>(<span title="System.Numerics.Complex">Complex</span> exponent, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwisePower</strong>(<span title="System.Numerics.Complex">Complex</span> exponent)</h4>
 		<div class="content">
 
 
@@ -3083,6 +3067,21 @@ of this matrix by another matrix and stores the result into the result matrix.
           <p class="comments">The exponent to raise this matrix values to. </p>
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
           <p class="comments">The matrix to store the result into. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="PointwisePower" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>PointwisePower</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> exponent)</h4>
+		<div class="content">Pointwise raise this matrix to an exponent and store the result into the result matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> exponent</h6>
+          <p class="comments">The exponent to raise this matrix values to. </p>
       </div>
 
       
@@ -3458,6 +3457,29 @@ also known as the range or image of the corresponding matrix transformation.
       
     </div>
 	</div>
+	<div id="Resize" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Resize</strong>(<span title="System.int">int</span> rowCount, <span title="System.int">int</span> columnCount)</h4>
+		<div class="content">Creates a new matrix with the desired size and copies this matrix to it.
+Values which no longer exist in the new matrix are ignored, new values are set to zero. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> rowCount</h6>
+          <p class="comments">The number of rows of the new matrix. </p>
+          <h6><code><span title="System.int">int</span></code> columnCount</h6>
+          <p class="comments">The number of columns of the new matrix. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
+        <p>A new matrix with the desired rows and columns. </p>
+      </div>
+      
+    </div>
+	</div>
 	<div id="Row" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Row</strong>(<span title="System.int">int</span> index)</h4>
 		<div class="content">Copies a row into an Vector. 
@@ -3569,23 +3591,6 @@ Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and 
     </div>
 	</div>
 	<div id="SetColumn" class="method">
-		<h4><span title="System.void">void</span> <strong>SetColumn</strong>(<span title="System.int">int</span> columnIndex, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> column)</h4>
-		<div class="content">Copies the values of the given Vector to the specified column. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.int">int</span></code> columnIndex</h6>
-          <p class="comments">The column to copy the values to. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> column</h6>
-          <p class="comments">The vector to copy the values from. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="SetColumn" class="method">
 		<h4><span title="System.void">void</span> <strong>SetColumn</strong>(<span title="System.int">int</span> columnIndex, <span title="System.Numerics.Complex[]">Complex[]</span> column)</h4>
 		<div class="content">
 
@@ -3615,6 +3620,23 @@ Typical values for p are 1.0 (L1, Manhattan norm), 2.0 (L2, Euclidean norm) and 
       
     </div>
 	</div>
+	<div id="SetColumn" class="method">
+		<h4><span title="System.void">void</span> <strong>SetColumn</strong>(<span title="System.int">int</span> columnIndex, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> column)</h4>
+		<div class="content">Copies the values of the given Vector to the specified column. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> columnIndex</h6>
+          <p class="comments">The column to copy the values to. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> column</h6>
+          <p class="comments">The vector to copy the values from. </p>
+      </div>
+
+      
+    </div>
+	</div>
 	<div id="SetDiagonal" class="method">
 		<h4><span title="System.void">void</span> <strong>SetDiagonal</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> source)</h4>
 		<div class="content">Copies the values of the given Vector to the diagonal. <blockquote class="remarks">
@@ -3636,6 +3658,15 @@ Min(Rows, Columns). </p>
 	</div>
 	<div id="SetDiagonal" class="method">
 		<h4><span title="System.void">void</span> <strong>SetDiagonal</strong>(<span title="System.Numerics.Complex[]">Complex[]</span> source)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="SetRow" class="method">
+		<h4><span title="System.void">void</span> <strong>SetRow</strong>(<span title="System.int">int</span> rowIndex, <span title="System.Numerics.Complex[]">Complex[]</span> row)</h4>
 		<div class="content">
 
 
@@ -3681,17 +3712,8 @@ Min(Rows, Columns). </p>
       
     </div>
 	</div>
-	<div id="SetRow" class="method">
-		<h4><span title="System.void">void</span> <strong>SetRow</strong>(<span title="System.int">int</span> rowIndex, <span title="System.Numerics.Complex[]">Complex[]</span> row)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
 	<div id="SetSubMatrix" class="method">
-		<h4><span title="System.void">void</span> <strong>SetSubMatrix</strong>(<span title="System.int">int</span> rowIndex, <span title="System.int">int</span> columnIndex, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> subMatrix)</h4>
+		<h4><span title="System.void">void</span> <strong>SetSubMatrix</strong>(<span title="System.int">int</span> rowIndex, <span title="System.int">int</span> sorceRowIndex, <span title="System.int">int</span> rowCount, <span title="System.int">int</span> columnIndex, <span title="System.int">int</span> sourceColumnIndex, <span title="System.int">int</span> columnCount, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> subMatrix)</h4>
 		<div class="content">Copies the values of a given matrix into a region in this matrix. 
 
 
@@ -3700,8 +3722,16 @@ Min(Rows, Columns). </p>
 
           <h6><code><span title="System.int">int</span></code> rowIndex</h6>
           <p class="comments">The row to start copying to. </p>
+          <h6><code><span title="System.int">int</span></code> sorceRowIndex</h6>
+          <p class="comments">The row of the sub-matrix to start copying from. </p>
+          <h6><code><span title="System.int">int</span></code> rowCount</h6>
+          <p class="comments">The number of rows to copy. Must be positive. </p>
           <h6><code><span title="System.int">int</span></code> columnIndex</h6>
           <p class="comments">The column to start copying to. </p>
+          <h6><code><span title="System.int">int</span></code> sourceColumnIndex</h6>
+          <p class="comments">The column of the sub-matrix to start copying from. </p>
+          <h6><code><span title="System.int">int</span></code> columnCount</h6>
+          <p class="comments">The number of columns to copy. Must be positive. </p>
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> subMatrix</h6>
           <p class="comments">The sub-matrix to copy from. </p>
       </div>
@@ -3733,7 +3763,7 @@ Min(Rows, Columns). </p>
     </div>
 	</div>
 	<div id="SetSubMatrix" class="method">
-		<h4><span title="System.void">void</span> <strong>SetSubMatrix</strong>(<span title="System.int">int</span> rowIndex, <span title="System.int">int</span> sorceRowIndex, <span title="System.int">int</span> rowCount, <span title="System.int">int</span> columnIndex, <span title="System.int">int</span> sourceColumnIndex, <span title="System.int">int</span> columnCount, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> subMatrix)</h4>
+		<h4><span title="System.void">void</span> <strong>SetSubMatrix</strong>(<span title="System.int">int</span> rowIndex, <span title="System.int">int</span> columnIndex, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> subMatrix)</h4>
 		<div class="content">Copies the values of a given matrix into a region in this matrix. 
 
 
@@ -3742,16 +3772,8 @@ Min(Rows, Columns). </p>
 
           <h6><code><span title="System.int">int</span></code> rowIndex</h6>
           <p class="comments">The row to start copying to. </p>
-          <h6><code><span title="System.int">int</span></code> sorceRowIndex</h6>
-          <p class="comments">The row of the sub-matrix to start copying from. </p>
-          <h6><code><span title="System.int">int</span></code> rowCount</h6>
-          <p class="comments">The number of rows to copy. Must be positive. </p>
           <h6><code><span title="System.int">int</span></code> columnIndex</h6>
           <p class="comments">The column to start copying to. </p>
-          <h6><code><span title="System.int">int</span></code> sourceColumnIndex</h6>
-          <p class="comments">The column of the sub-matrix to start copying from. </p>
-          <h6><code><span title="System.int">int</span></code> columnCount</h6>
-          <p class="comments">The number of columns to copy. Must be positive. </p>
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> subMatrix</h6>
           <p class="comments">The sub-matrix to copy from. </p>
       </div>
@@ -3760,24 +3782,7 @@ Min(Rows, Columns). </p>
     </div>
 	</div>
 	<div id="Solve" class="method">
-		<h4><span title="System.void">void</span> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">Solves a system of linear equations,  , with A QR factorized. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> input</h6>
-          <p class="comments">The right hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="Solve" class="method">
-		<h4><span title="System.void">void</span> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> input)</h4>
 		<div class="content">Solves a system of linear equations,  , with A QR factorized. 
 
 
@@ -3786,10 +3791,13 @@ Min(Rows, Columns). </p>
 
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> input</h6>
           <p class="comments">The right hand side vector, . </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
       </div>
 
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
+        <p>The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector`1</a> , . </p>
+      </div>
       
     </div>
 	</div>
@@ -3814,7 +3822,7 @@ Min(Rows, Columns). </p>
     </div>
 	</div>
 	<div id="Solve" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> input)</h4>
+		<h4><span title="System.void">void</span> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
 		<div class="content">Solves a system of linear equations,  , with A QR factorized. 
 
 
@@ -3823,13 +3831,27 @@ Min(Rows, Columns). </p>
 
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> input</h6>
           <p class="comments">The right hand side vector, . </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
       </div>
 
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code></h6>
-        <p>The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector`1</a> , . </p>
+      
+    </div>
+	</div>
+	<div id="Solve" class="method">
+		<h4><span title="System.void">void</span> <strong>Solve</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Solves a system of linear equations,  , with A QR factorized. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> input</h6>
+          <p class="comments">The right hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The left hand side  <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix`1</a> , . </p>
       </div>
+
       
     </div>
 	</div>
@@ -3904,15 +3926,6 @@ Min(Rows, Columns). </p>
     </div>
 	</div>
 	<div id="SolveIterative" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SolveIterative</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IIterativeSolver`1.htm">IIterativeSolver&lt;T&gt;</a> solver, <span title="MathNet.Numerics.LinearAlgebra.Solvers.IIterationStopCriterion`1[]">IIterationStopCriterion`1[]</span> stopCriteria)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
-	<div id="SolveIterative" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>SolveIterative</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IIterativeSolver`1.htm">IIterativeSolver&lt;T&gt;</a> solver, <span title="MathNet.Numerics.LinearAlgebra.Solvers.IIterationStopCriterion`1[]">IIterationStopCriterion`1[]</span> stopCriteria)</h4>
 		<div class="content">
 
@@ -3921,19 +3934,11 @@ Min(Rows, Columns). </p>
       
     </div>
 	</div>
-	<div id="Stack" class="method">
-		<h4><span title="System.void">void</span> <strong>Stack</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> lower, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">Stacks this matrix on top of the given matrix and places the result into the result matrix. 
+	<div id="SolveIterative" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SolveIterative</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IIterativeSolver`1.htm">IIterativeSolver&lt;T&gt;</a> solver, <span title="MathNet.Numerics.LinearAlgebra.Solvers.IIterationStopCriterion`1[]">IIterationStopCriterion`1[]</span> stopCriteria)</h4>
+		<div class="content">
 
 
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> lower</h6>
-          <p class="comments">The matrix to stack this matrix upon. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The combined matrix. </p>
-      </div>
 
       
     </div>
@@ -3955,6 +3960,23 @@ Min(Rows, Columns). </p>
         <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
         <p>The combined matrix. </p>
       </div>
+      
+    </div>
+	</div>
+	<div id="Stack" class="method">
+		<h4><span title="System.void">void</span> <strong>Stack</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> lower, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Stacks this matrix on top of the given matrix and places the result into the result matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> lower</h6>
+          <p class="comments">The matrix to stack this matrix upon. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The combined matrix. </p>
+      </div>
+
       
     </div>
 	</div>
@@ -4045,6 +4067,32 @@ does not contain the diagonal elements of this matrix.
     </div>
 	</div>
 	<div id="Subtract" class="method">
+		<h4><span title="System.void">void</span> <strong>Subtract</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Subtracts another matrix from this matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The matrix to subtract. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The matrix to store the result of the subtraction. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="Subtract" class="method">
+		<h4><span title="System.void">void</span> <strong>Subtract</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="Subtract" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Subtract</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other)</h4>
 		<div class="content">Subtracts another matrix from this matrix. 
 
@@ -4065,42 +4113,7 @@ does not contain the diagonal elements of this matrix.
     </div>
 	</div>
 	<div id="Subtract" class="method">
-		<h4><span title="System.void">void</span> <strong>Subtract</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
-	<div id="Subtract" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Subtract</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
-	<div id="Subtract" class="method">
-		<h4><span title="System.void">void</span> <strong>Subtract</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">Subtracts another matrix from this matrix. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
-          <p class="comments">The matrix to subtract. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The matrix to store the result of the subtraction. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="SubtractFrom" class="method">
-		<h4><span title="System.void">void</span> <strong>SubtractFrom</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">
 
 
@@ -4110,6 +4123,15 @@ does not contain the diagonal elements of this matrix.
 	</div>
 	<div id="SubtractFrom" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SubtractFrom</strong>(<span title="System.Numerics.Complex">Complex</span> scalar)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="SubtractFrom" class="method">
+		<h4><span title="System.void">void</span> <strong>SubtractFrom</strong>(<span title="System.Numerics.Complex">Complex</span> scalar, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
 		<div class="content">
 
 
@@ -4188,7 +4210,7 @@ A new memory block will be allocated for the array.
     </div>
 	</div>
 	<div id="ToMatrixString" class="method">
-		<h4><span title="System.string">string</span> <strong>ToMatrixString</strong>(<span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> provider)</h4>
+		<h4><span title="System.string">string</span> <strong>ToMatrixString</strong>(<span title="System.int">int</span> maxRows, <span title="System.int">int</span> maxColumns, <span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> provider)</h4>
 		<div class="content">Returns a string that summarizes the content of this matrix. 
 
 
@@ -4197,7 +4219,7 @@ A new memory block will be allocated for the array.
     </div>
 	</div>
 	<div id="ToMatrixString" class="method">
-		<h4><span title="System.string">string</span> <strong>ToMatrixString</strong>(<span title="System.int">int</span> maxRows, <span title="System.int">int</span> maxColumns, <span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> provider)</h4>
+		<h4><span title="System.string">string</span> <strong>ToMatrixString</strong>(<span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> provider)</h4>
 		<div class="content">Returns a string that summarizes the content of this matrix. 
 
 
@@ -4260,9 +4282,10 @@ A new memory block will be allocated for the array.
     </div>
 	</div>
 	<div id="ToString" class="method">
-		<h4><span title="System.string">string</span> <strong>ToString</strong>()</h4>
+		<h4><span title="System.string">string</span> <strong>ToString</strong>(<span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider)</h4>
 		<div class="content">Returns a string that summarizes this matrix.
-The maximum number of cells can be configured in the  <a href="../MathNet.Numerics/Control.htm">Control</a>  class. 
+The maximum number of cells can be configured in the  <a href="../MathNet.Numerics/Control.htm">Control</a>  class.
+The format string is ignored. 
 
 
 
@@ -4270,10 +4293,9 @@ The maximum number of cells can be configured in the  <a href="../MathNet.Numeri
     </div>
 	</div>
 	<div id="ToString" class="method">
-		<h4><span title="System.string">string</span> <strong>ToString</strong>(<span title="System.string">string</span> format, <span title="System.IFormatProvider">IFormatProvider</span> formatProvider)</h4>
+		<h4><span title="System.string">string</span> <strong>ToString</strong>()</h4>
 		<div class="content">Returns a string that summarizes this matrix.
-The maximum number of cells can be configured in the  <a href="../MathNet.Numerics/Control.htm">Control</a>  class.
-The format string is ignored. 
+The maximum number of cells can be configured in the  <a href="../MathNet.Numerics/Control.htm">Control</a>  class. 
 
 
 
@@ -4304,6 +4326,15 @@ The format string is ignored.
     </div>
 	</div>
 	<div id="Transpose" class="method">
+		<h4><span title="System.void">void</span> <strong>Transpose</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Puts the transpose of this matrix into the result matrix. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Transpose" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Transpose</strong>()</h4>
 		<div class="content">Returns the transpose of this matrix. 
 
@@ -4314,32 +4345,6 @@ The format string is ignored.
         <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
         <p>The transpose of this matrix. </p>
       </div>
-      
-    </div>
-	</div>
-	<div id="Transpose" class="method">
-		<h4><span title="System.void">void</span> <strong>Transpose</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">Puts the transpose of this matrix into the result matrix. 
-
-
-
-      
-    </div>
-	</div>
-	<div id="TransposeAndMultiply" class="method">
-		<h4><span title="System.void">void</span> <strong>TransposeAndMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">Multiplies this matrix with transpose of another matrix and places the results into the result matrix. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
-          <p class="comments">The matrix to multiply with. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The result of the multiplication. </p>
-      </div>
-
       
     </div>
 	</div>
@@ -4360,6 +4365,57 @@ The format string is ignored.
         <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
         <p>The result of the multiplication. </p>
       </div>
+      
+    </div>
+	</div>
+	<div id="TransposeAndMultiply" class="method">
+		<h4><span title="System.void">void</span> <strong>TransposeAndMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Multiplies this matrix with transpose of another matrix and places the results into the result matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The matrix to multiply with. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The result of the multiplication. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="TransposeThisAndMultiply" class="method">
+		<h4><span title="System.void">void</span> <strong>TransposeThisAndMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
+		<div class="content">Multiplies the transpose of this matrix with another matrix and places the results into the result matrix. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
+          <p class="comments">The matrix to multiply with. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The result of the multiplication. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="TransposeThisAndMultiply" class="method">
+		<h4><span title="System.void">void</span> <strong>TransposeThisAndMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> rightSide, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
+		<div class="content">Multiplies the transpose of this matrix with a vector and places the results into the result vector. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> rightSide</h6>
+          <p class="comments">The vector to multiply with. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
+          <p class="comments">The result of the multiplication. </p>
+      </div>
+
       
     </div>
 	</div>
@@ -4400,40 +4456,6 @@ The format string is ignored.
         <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
         <p>The result of the multiplication. </p>
       </div>
-      
-    </div>
-	</div>
-	<div id="TransposeThisAndMultiply" class="method">
-		<h4><span title="System.void">void</span> <strong>TransposeThisAndMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> rightSide, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result)</h4>
-		<div class="content">Multiplies the transpose of this matrix with a vector and places the results into the result vector. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> rightSide</h6>
-          <p class="comments">The vector to multiply with. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The result of the multiplication. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="TransposeThisAndMultiply" class="method">
-		<h4><span title="System.void">void</span> <strong>TransposeThisAndMultiply</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> other, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result)</h4>
-		<div class="content">Multiplies the transpose of this matrix with another matrix and places the results into the result matrix. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> other</h6>
-          <p class="comments">The matrix to multiply with. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> result</h6>
-          <p class="comments">The result of the multiplication. </p>
-      </div>
-
       
     </div>
 	</div>
@@ -4484,6 +4506,15 @@ The format string is ignored.
     </div>
 	</div>
 	<div id="TrySolveIterative" class="method">
+		<h4><a href="../MathNet.Numerics.LinearAlgebra.Solvers/IterationStatus.htm">IterationStatus</a> <strong>TrySolveIterative</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IIterativeSolver`1.htm">IIterativeSolver&lt;T&gt;</a> solver, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IPreconditioner`1.htm">IPreconditioner&lt;T&gt;</a> preconditioner, <span title="MathNet.Numerics.LinearAlgebra.Solvers.IIterationStopCriterion`1[]">IIterationStopCriterion`1[]</span> stopCriteria)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="TrySolveIterative" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra.Solvers/IterationStatus.htm">IterationStatus</a> <strong>TrySolveIterative</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IIterativeSolver`1.htm">IIterativeSolver&lt;T&gt;</a> solver, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IPreconditioner`1.htm">IPreconditioner&lt;T&gt;</a> preconditioner, <span title="MathNet.Numerics.LinearAlgebra.Solvers.IIterationStopCriterion`1[]">IIterationStopCriterion`1[]</span> stopCriteria)</h4>
 		<div class="content">
 
@@ -4503,15 +4534,6 @@ The format string is ignored.
 	</div>
 	<div id="TrySolveIterative" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra.Solvers/IterationStatus.htm">IterationStatus</a> <strong>TrySolveIterative</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IIterativeSolver`1.htm">IIterativeSolver&lt;T&gt;</a> solver, <span title="MathNet.Numerics.LinearAlgebra.Solvers.IIterationStopCriterion`1[]">IIterationStopCriterion`1[]</span> stopCriteria)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
-	<div id="TrySolveIterative" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra.Solvers/IterationStatus.htm">IterationStatus</a> <strong>TrySolveIterative</strong>(<a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> input, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> result, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IIterativeSolver`1.htm">IIterativeSolver&lt;T&gt;</a> solver, <a href="../MathNet.Numerics.LinearAlgebra.Solvers/IPreconditioner`1.htm">IPreconditioner&lt;T&gt;</a> preconditioner, <span title="MathNet.Numerics.LinearAlgebra.Solvers.IIterationStopCriterion`1[]">IIterationStopCriterion`1[]</span> stopCriteria)</h4>
 		<div class="content">
 
 
@@ -4584,7 +4606,7 @@ The format string is ignored.
     </div>
   </div>
 	<div id="footer">
-  <p>Based on v4.13.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.14.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

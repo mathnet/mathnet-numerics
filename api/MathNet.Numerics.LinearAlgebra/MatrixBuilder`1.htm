@@ -319,8 +319,7 @@ Very efficient, but changes to the array and the matrix will affect each other.
 	<div id="Dense" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Dense</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns)</h4>
 		<div class="content">Create a new dense matrix with the given number of rows and columns.
-All cells of the matrix will be initialized to zero.
-Zero-length matrices are not supported. 
+All cells of the matrix will be initialized to zero. 
 
 
 
@@ -676,8 +675,7 @@ storage for performance or interop reasons.
 	<div id="Diagonal" class="method">
 		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>Diagonal</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns)</h4>
 		<div class="content">Create a new diagonal matrix with the given number of rows and columns.
-All cells of the matrix will be initialized to zero.
-Zero-length matrices are not supported. 
+All cells of the matrix will be initialized to zero. 
 
 
 
@@ -911,6 +909,12 @@ Intended for advanced scenarios where you're working directly with
 storage for performance or interop reasons. 
 
 
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra.Storage/SparseCompressedRowMatrixStorage`1.htm">SparseCompressedRowMatrixStorage&lt;T&gt;</a></code> storage</h6>
+          <p class="comments">The SparseCompressedRowMatrixStorage </p>
+      </div>
 
       
     </div>
@@ -969,35 +973,104 @@ storage for performance or interop reasons.
     </div>
 	</div>
 	<div id="SparseFromCompressedSparseColumnFormat" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseFromCompressedSparseColumnFormat</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.int">int</span> nonZeroCount, <span title="System.Int32[]">Int32[]</span> cscRowIndices, <span title="System.Int32[]">Int32[]</span> cscColumnPointers, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> cscValues)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseFromCompressedSparseColumnFormat</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.int">int</span> valueCount, <span title="System.Int32[]">Int32[]</span> rowIndices, <span title="System.Int32[]">Int32[]</span> columnPointers, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> values)</h4>
 		<div class="content">Create a new sparse matrix from a compressed sparse column format.
 This new matrix will be independent from the given arrays.
-A new memory block will be allocated for storing the matrix. 
+A new memory block will be allocated for storing the matrix. <blockquote class="remarks">
+  Duplicate entries will be summed together and explicit zeros will be not intentionally removed. 
+</blockquote>
 
 
+      <div class="parameters">
+        <h5>Parameters</h5>
 
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><span title="System.int">int</span></code> valueCount</h6>
+          <p class="comments">The number of stored values including explicit zeros. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> rowIndices</h6>
+          <p class="comments">The row index array of the compressed sparse column format. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> columnPointers</h6>
+          <p class="comments">The column pointer array of the compressed sparse column format. </p>
+          <h6><code><span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span></code> values</h6>
+          <p class="comments">The data array of the compressed sparse column format. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
+        <p>The sparse matrix from the compressed sparse column format. </p>
+      </div>
       
     </div>
 	</div>
 	<div id="SparseFromCompressedSparseRowFormat" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseFromCompressedSparseRowFormat</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.int">int</span> nonZeroCount, <span title="System.Int32[]">Int32[]</span> csrRowPointers, <span title="System.Int32[]">Int32[]</span> csrColumnIndices, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> csrValues)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseFromCompressedSparseRowFormat</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.int">int</span> valueCount, <span title="System.Int32[]">Int32[]</span> rowPointers, <span title="System.Int32[]">Int32[]</span> columnIndices, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> values)</h4>
 		<div class="content">Create a new sparse matrix from a compressed sparse row format.
 This new matrix will be independent from the given arrays.
-A new memory block will be allocated for storing the matrix. 
+A new memory block will be allocated for storing the matrix. <blockquote class="remarks">
+  Duplicate entries will be summed together and explicit zeros will be not intentionally removed. 
+</blockquote>
 
 
+      <div class="parameters">
+        <h5>Parameters</h5>
 
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><span title="System.int">int</span></code> valueCount</h6>
+          <p class="comments">The number of stored values including explicit zeros. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> rowPointers</h6>
+          <p class="comments">The row pointer array of the compressed sparse row format. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> columnIndices</h6>
+          <p class="comments">The column index array of the compressed sparse row format. </p>
+          <h6><code><span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span></code> values</h6>
+          <p class="comments">The data array of the compressed sparse row format. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
+        <p>The sparse matrix from the compressed sparse row format. </p>
+      </div>
       
     </div>
 	</div>
 	<div id="SparseFromCoordinateFormat" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseFromCoordinateFormat</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.int">int</span> nonZeroCount, <span title="System.Int32[]">Int32[]</span> cooRowIndices, <span title="System.Int32[]">Int32[]</span> cooColumnIndices, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> cooValues)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> <strong>SparseFromCoordinateFormat</strong>(<span title="System.int">int</span> rows, <span title="System.int">int</span> columns, <span title="System.int">int</span> valueCount, <span title="System.Int32[]">Int32[]</span> rowIndices, <span title="System.Int32[]">Int32[]</span> columnIndices, <span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span> values)</h4>
 		<div class="content">Create a new sparse matrix from a coordinate format.
 This new matrix will be independent from the given arrays.
-A new memory block will be allocated for storing the matrix. 
+A new memory block will be allocated for storing the matrix. <blockquote class="remarks">
+  Duplicate entries will be summed together and explicit zeros will be not intentionally removed. 
+</blockquote>
 
 
+      <div class="parameters">
+        <h5>Parameters</h5>
 
+          <h6><code><span title="System.int">int</span></code> rows</h6>
+          <p class="comments">The number of rows. </p>
+          <h6><code><span title="System.int">int</span></code> columns</h6>
+          <p class="comments">The number of columns. </p>
+          <h6><code><span title="System.int">int</span></code> valueCount</h6>
+          <p class="comments">The number of stored values including explicit zeros. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> rowIndices</h6>
+          <p class="comments">The row index array of the coordinate format. </p>
+          <h6><code><span title="System.Int32[]">Int32[]</span></code> columnIndices</h6>
+          <p class="comments">The column index array of the coordinate format. </p>
+          <h6><code><span title="MathNet.Numerics.LinearAlgebra.T[]">T[]</span></code> values</h6>
+          <p class="comments">The data array of the coordinate format. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code></h6>
+        <p>The sparse matrix from the coordinate format. </p>
+      </div>
       
     </div>
 	</div>
@@ -1281,7 +1354,7 @@ A new memory block will be allocated for storing the matrix.
     </div>
   </div>
 	<div id="footer">
-  <p>Based on v4.13.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.14.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>
