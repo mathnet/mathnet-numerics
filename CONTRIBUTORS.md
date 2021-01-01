@@ -19,9 +19,10 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - Jurgen Van Gael (@jvangael)
 - Scott Stephens
 - Ignas Anikevicius
+- Jong Hyun Kim
 - Alexander Karatarakis
 - Tobias Glaubach
-- Eirik Ovegard
+- Erik Ovegård
 - Thomas Ibel
 - Yoonku Hwang
 - Gustavo Guerra
@@ -32,10 +33,11 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - MaLiN2223
 - Matthew Johnson
 - manyue
-- diluculo
 - David Prince
+- Evangelink
 - Frank A. Krueger
 - Andriy Bratiychuk
+- Febin
 - Jack Pappas
 - Jon Smit
 - Phil Cleveland
@@ -54,44 +56,60 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - John C Barstow
 - Justin Needham
 - Ksero
-- Patrick van der Velde
+- P. van der Velde
 - Robin Neatherway
+- Tom McTiernan
+- mikael
+- Alex Hildebrand
 - Andrew Kazyrevich
 - Arthur
 - Ethar Alali
 - Feodor Fitsner
 - Iain McDonald
+- Jakub Bialogrodzki
 - Jon Larborn
 - Juri
 - Kyle Parrigan
+- Regis Portalez
 - Ryan Blackwell
 - bdodson
 - borfudin
 - Aixile
 - Albert Pang
-- Alex Hild
-- Ben Hewins
+- AlexHild
+- Amaury Levé
+- Andrew Willshire
+- BenHewins
 - Colin Green
 - Dan
+- Daniel Fox
 - David Falkner
 - Elias Abou Jaoude
+- Eric Salem
 - Florian Wechsung
 - Gregor959
+- Guney Ozsan
 - Iain Sproat
-- Igor K
+- IgorK
 - Jakub Arnold
 - Jeff Mastry
 - Joel Sleppy
 - Konstantin Tretyakov
 - Kosei ABE
 - Lucas Godshalk
+- Manor Askenazi
+- MarcoRoss84
 - Martin Posch
 - Matt Heffron
 - Max Malook
 - Michael Holroyd
+- Michel de Ruiter
 - Mirth Hickford
 - Paul Varkey
-- Richard Reader
+- Philip Gruber
+- Philipp Huber
+- RR
+- Ryan Grange
 - Sergey Kosukhin
 - Sunny Ahuwanya
 - Till Hoffmann
@@ -100,18 +118,19 @@ Feel free to add a link to your personal site/blog and/or twitter handle.*
 - VicPara
 - Volker Breuer
 - arthurvb
-- Baltazar Bieniek
+- bbieniek
 - bstrausser
-- Christoph Albert
+- Christoph Alber
 - grovesNL
 - jb
+- kayan
 - liuzh
 - logophobia
 - Matthew Peacock
 - nyuriks
 - seahearman
 - teramonagi
-- vvarychuck
+- vvavrychuk
 
 ### Indirect Code Contributors
 
