@@ -377,5 +377,41 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
             Assert.That(() => left.DiagonalStack(right, Matrix<T>.Build.Dense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount + 1)), Throws.ArgumentException);
             Assert.That(() => left.DiagonalStack(right, Matrix<T>.Build.Dense(left.RowCount + right.RowCount, left.ColumnCount + right.ColumnCount - 1)), Throws.ArgumentException);
         }
+
+        [Theory]
+        public void CanResize(TestMatrix testMatrix)
+        {
+            Matrix<T> matrix = Get(testMatrix);
+
+            var moreRows = matrix.Resize(matrix.RowCount + 2, matrix.ColumnCount);
+            Assert.That(moreRows.RowCount, Is.EqualTo(matrix.RowCount + 2));
+            Assert.That(moreRows.ColumnCount, Is.EqualTo(matrix.ColumnCount));
+            Assert.That(moreRows.SubMatrix(0, matrix.RowCount, 0, matrix.ColumnCount), Is.EqualTo(matrix));
+
+            var moreCols = matrix.Resize(matrix.RowCount, matrix.ColumnCount + 2);
+            Assert.That(moreCols.RowCount, Is.EqualTo(matrix.RowCount));
+            Assert.That(moreCols.ColumnCount, Is.EqualTo(matrix.ColumnCount + 2));
+            Assert.That(moreCols.SubMatrix(0, matrix.RowCount, 0, matrix.ColumnCount), Is.EqualTo(matrix));
+
+            if (matrix.RowCount >= 1)
+            {
+                var lessRows = matrix.Resize(matrix.RowCount - 1, matrix.ColumnCount);
+                Assert.That(lessRows.RowCount, Is.EqualTo(matrix.RowCount - 1));
+                Assert.That(lessRows.ColumnCount, Is.EqualTo(matrix.ColumnCount));
+                Assert.That(lessRows, Is.EqualTo(matrix.SubMatrix(0, matrix.RowCount - 1, 0, matrix.ColumnCount)));
+            }
+
+            if (matrix.ColumnCount >= 1)
+            {
+                var lessCols = matrix.Resize(matrix.RowCount, matrix.ColumnCount - 1);
+                Assert.That(lessCols.RowCount, Is.EqualTo(matrix.RowCount));
+                Assert.That(lessCols.ColumnCount, Is.EqualTo(matrix.ColumnCount - 1));
+                Assert.That(lessCols, Is.EqualTo(matrix.SubMatrix(0, matrix.RowCount, 0, matrix.ColumnCount - 1)));
+            }
+
+            var empty = matrix.Resize(0, 0);
+            Assert.That(empty.RowCount, Is.EqualTo(0));
+            Assert.That(empty.ColumnCount, Is.EqualTo(0));
+        }
     }
 }

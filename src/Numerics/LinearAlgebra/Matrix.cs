@@ -1000,6 +1000,20 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Creates a new matrix with the desired size and copies this matrix to it.
+        /// Values which no longer exist in the new matrix are ignored, new values are set to zero.
+        /// </summary>
+        /// <param name="rowCount">The number of rows of the new matrix.</param>
+        /// <param name="columnCount">The number of columns of the new matrix.</param>
+        /// <returns>A new matrix with the desired rows and columns.</returns>
+        public Matrix<T> Resize(int rowCount, int columnCount)
+        {
+            var result = Build.SameAs(this, rowCount, columnCount, fullyMutable: true);
+            Storage.CopySubMatrixTo(result.Storage, 0, 0, Math.Min(RowCount, rowCount), 0, 0, Math.Min(ColumnCount, columnCount), ExistingData.AssumeZeros);
+            return result;
+        }
+
+        /// <summary>
         /// Returns the transpose of this matrix.
         /// </summary>
         /// <returns>The transpose of this matrix.</returns>

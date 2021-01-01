@@ -52,12 +52,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         {
             if (rowCount < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(rowCount), "The number of rows of a matrix must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(rowCount), "The number of rows of a matrix must be non-negative.");
             }
 
             if (columnCount < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(columnCount), "The number of columns of a matrix must be positive.");
+                throw new ArgumentOutOfRangeException(nameof(columnCount), "The number of columns of a matrix must be non-negative.");
             }
 
             RowCount = rowCount;
@@ -352,6 +352,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             if (rowCount == 0 || columnCount == 0)
             {
+                return;
+            }
+
+            if (sourceRowIndex == 0 && targetRowIndex == 0 && rowCount == RowCount && rowCount == target.RowCount
+                && sourceColumnIndex == 0 && targetColumnIndex == 0 && columnCount == ColumnCount && columnCount == target.ColumnCount)
+            {
+                CopyTo(target);
                 return;
             }
 
