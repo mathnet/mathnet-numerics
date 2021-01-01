@@ -1,3 +1,7 @@
+### 2.5.0 - 2021-01-01
+* r14 with Intel MKL 2020 Update 4
+* MKL Direct Sparse Solver provider *~Jong Hyun Kim*
+
 ### 2.4.0 - 2020-05-22
 * r13 with Intel MKL 2020.0 Update 1
 
