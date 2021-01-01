@@ -7,13 +7,14 @@
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
     <PackageId>MathNet.Numerics.FSharp$(PackageIdSuffix)</PackageId>
-    <VersionPrefix>4.13.0</VersionPrefix>
+    <VersionPrefix>4.14.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics for F#$(TitleSuffix)</Title>
     <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net Framework 4.5 or higher and .Net Standard 1.6 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
-    <PackageReleaseNotes>Linear Algebra: sparse solver native provider ~Jong Hyun Kim
-Polynomial: fix handling of zero polynomials ~Jakub Bialogrodzki
-AppSwitches support to disable native providers or their probing</PackageReleaseNotes>
+    <PackageReleaseNotes>Optimization: Avoid losing precision in golden section minimizer ~Daniel Fox
+Interpolation: Monotone-preserving Piecewise Cubic Hermite Polynomial (PCHIP) ~Febin
+Linear Algebra: Sparse COO format fix handling if not sorted or with duplicates ~Jong Hyun Kim
+Linear Algebra: Matrix.Resize</PackageReleaseNotes>
     <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
