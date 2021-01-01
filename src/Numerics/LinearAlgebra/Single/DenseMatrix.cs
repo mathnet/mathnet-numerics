@@ -84,7 +84,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Create a new square dense matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to zero.
-        /// Zero-length matrices are not supported.
         /// </summary>
         /// <exception cref="ArgumentException">If the order is less than one.</exception>
         public DenseMatrix(int order)
@@ -95,7 +94,6 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// <summary>
         /// Create a new dense matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to zero.
-        /// Zero-length matrices are not supported.
         /// </summary>
         /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
         public DenseMatrix(int rows, int columns)

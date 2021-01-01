@@ -70,7 +70,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Create a new square sparse matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to zero.
-        /// Zero-length matrices are not supported.
         /// </summary>
         /// <exception cref="ArgumentException">If the order is less than one.</exception>
         public SparseMatrix(int order)
@@ -81,7 +80,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// <summary>
         /// Create a new sparse matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to zero.
-        /// Zero-length matrices are not supported.
         /// </summary>
         /// <exception cref="ArgumentException">If the row or column count is less than one.</exception>
         public SparseMatrix(int rows, int columns)

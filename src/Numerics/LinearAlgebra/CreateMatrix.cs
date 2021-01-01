@@ -165,7 +165,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new dense matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to zero.
-        /// Zero-length matrices are not supported.
         /// </summary>
         public static Matrix<T> Dense<T>(int rows, int columns)
             where T : struct, IEquatable<T>, IFormattable
@@ -825,6 +824,63 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new sparse matrix from a coordinate format.
+        /// This new matrix will be independent from the given arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="valueCount">The number of stored values including explicit zeros.</param>
+        /// <param name="rowIndices">The row index array of the coordinate format.</param>
+        /// <param name="columnIndices">The column index array of the coordinate format.</param>
+        /// <param name="values">The data array of the coordinate format.</param>
+        /// <returns>The sparse matrix from the coordinate format.</returns>
+        /// <remarks>Duplicate entries will be summed together and explicit zeros will be not intentionally removed.</remarks>
+        public static Matrix<T> SparseFromCoordinateFormat<T>(int rows, int columns, int valueCount, int[] rowIndices, int[] columnIndices, T[] values)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return Matrix<T>.Build.SparseFromCoordinateFormat(rows, columns, valueCount, rowIndices, columnIndices, values);
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix from a compressed sparse row format.
+        /// This new matrix will be independent from the given arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="valueCount">The number of stored values including explicit zeros.</param>
+        /// <param name="rowPointers">The row pointer array of the compressed sparse row format.</param>
+        /// <param name="columnIndices">The column index array of the compressed sparse row format.</param>
+        /// <param name="values">The data array of the compressed sparse row format.</param>
+        /// <returns>The sparse matrix from the compressed sparse row format.</returns>
+        /// <remarks>Duplicate entries will be summed together and explicit zeros will be not intentionally removed.</remarks>
+        public static Matrix<T> SparseFromCompressedSparseRowFormat<T>(int rows, int columns, int valueCount, int[] rowPointers, int[] columnIndices, T[] values)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return Matrix<T>.Build.SparseFromCompressedSparseRowFormat(rows, columns, valueCount, rowPointers, columnIndices, values);
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix from a compressed sparse column format.
+        /// This new matrix will be independent from the given arrays.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        /// <param name="rows">The number of rows.</param>
+        /// <param name="columns">The number of columns.</param>
+        /// <param name="valueCount">The number of stored values including explicit zeros.</param>
+        /// <param name="rowIndices">The row index array of the compressed sparse column format.</param>
+        /// <param name="columnPointers">The column pointer array of the compressed sparse column format.</param>
+        /// <param name="values">The data array of the compressed sparse column format.</param>
+        /// <returns>The sparse matrix from the compressed sparse column format.</returns>
+        /// <remarks>Duplicate entries will be summed together and explicit zeros will be not intentionally removed.</remarks>
+        public static Matrix<T> SparseFromCompressedSparseColumnFormat<T>(int rows, int columns, int valueCount, int[] rowIndices, int[] columnPointers, T[] values)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return Matrix<T>.Build.SparseFromCompressedSparseColumnFormat(rows, columns, valueCount, rowIndices, columnPointers, values);
+        }
+
+        /// <summary>
         /// Create a new diagonal matrix straight from an initialized matrix storage instance.
         /// The storage is used directly without copying.
         /// Intended for advanced scenarios where you're working directly with
@@ -839,7 +895,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new diagonal matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to zero.
-        /// Zero-length matrices are not supported.
         /// </summary>
         public static Matrix<T> Diagonal<T>(int rows, int columns)
             where T : struct, IEquatable<T>, IFormattable

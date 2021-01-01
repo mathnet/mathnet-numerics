@@ -69,7 +69,6 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// <summary>
         /// Create a new sparse vector with the given length.
         /// All cells of the vector will be initialized to zero.
-        /// Zero-length vectors are not supported.
         /// </summary>
         /// <exception cref="ArgumentException">If length is less than one.</exception>
         public SparseVector(int length)

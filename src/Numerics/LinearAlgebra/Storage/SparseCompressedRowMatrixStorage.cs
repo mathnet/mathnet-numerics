@@ -315,7 +315,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     {
                         if (ColumnIndices[index] == col)
                         {
-                            val = builder.AddEntries(val, Values[index]);
+                            val = builder.Add(val, Values[index]);
                             index++;
                         }
                         else

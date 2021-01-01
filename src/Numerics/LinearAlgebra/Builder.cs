@@ -74,7 +74,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
             };
         }
 
-        internal override double AddEntries(double x, double y)
+        internal override double Add(double x, double y)
         {
             return x + y;
         }
@@ -142,7 +142,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
             };
         }
 
-        internal override float AddEntries(float x, float y)
+        internal override float Add(float x, float y)
         {
             return x + y;
         }
@@ -212,7 +212,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
             };
         }
 
-        internal override Complex AddEntries(Complex x, Complex y)
+        internal override Complex Add(Complex x, Complex y)
         {
             return x + y;
         }
@@ -280,7 +280,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
             };
         }
 
-        internal override Numerics.Complex32 AddEntries(Numerics.Complex32 x, Numerics.Complex32 y)
+        internal override Numerics.Complex32 Add(Numerics.Complex32 x, Numerics.Complex32 y)
         {
             return x + y;
         }
@@ -327,6 +327,8 @@ namespace MathNet.Numerics.LinearAlgebra
         /// Gets the value of <c>1.0</c> for type T.
         /// </summary>
         public abstract T One { get; }
+
+        internal abstract T Add(T x, T y);
 
         /// <summary>
         /// Create a new matrix straight from an initialized matrix storage instance.
@@ -456,7 +458,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new dense matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to zero.
-        /// Zero-length matrices are not supported.
         /// </summary>
         public Matrix<T> Dense(int rows, int columns)
         {
@@ -1186,8 +1187,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="columnIndices">The column index array of the coordinate format.</param>
         /// <param name="values">The data array of the coordinate format.</param>
         /// <returns>The sparse matrix from the coordinate format.</returns>
-        /// <remarks>Duplicate entries will be summed together and
-        /// explicit zeros will be not intentionally removed.</remarks>
+        /// <remarks>Duplicate entries will be summed together and explicit zeros will be not intentionally removed.</remarks>
         public Matrix<T> SparseFromCoordinateFormat(int rows, int columns, int valueCount, int[] rowIndices, int[] columnIndices, T[] values)
         {
             return Sparse(SparseCompressedRowMatrixStorage<T>.OfCoordinateFormat(rows, columns, valueCount, rowIndices, columnIndices, values));
@@ -1205,8 +1205,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="columnIndices">The column index array of the compressed sparse row format.</param>
         /// <param name="values">The data array of the compressed sparse row format.</param>
         /// <returns>The sparse matrix from the compressed sparse row format.</returns>
-        /// <remarks>Duplicate entries will be summed together and
-        /// explicit zeros will be not intentionally removed.</remarks>
+        /// <remarks>Duplicate entries will be summed together and explicit zeros will be not intentionally removed.</remarks>
         public Matrix<T> SparseFromCompressedSparseRowFormat(int rows, int columns, int valueCount, int[] rowPointers, int[] columnIndices, T[] values)
         {
             return Sparse(SparseCompressedRowMatrixStorage<T>.OfCompressedSparseRowFormat(rows, columns, valueCount, rowPointers, columnIndices, values));
@@ -1224,14 +1223,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="columnPointers">The column pointer array of the compressed sparse column format.</param>
         /// <param name="values">The data array of the compressed sparse column format.</param>
         /// <returns>The sparse matrix from the compressed sparse column format.</returns>
-        /// <remarks>Duplicate entries will be summed together and
-        /// explicit zeros will be not intentionally removed.</remarks>
+        /// <remarks>Duplicate entries will be summed together and explicit zeros will be not intentionally removed.</remarks>
         public Matrix<T> SparseFromCompressedSparseColumnFormat(int rows, int columns, int valueCount, int[] rowIndices, int[] columnPointers, T[] values)
         {
             return Sparse(SparseCompressedRowMatrixStorage<T>.OfCompressedSparseColumnFormat(rows, columns, valueCount, rowIndices, columnPointers, values));
         }
-
-        internal abstract T AddEntries(T x, T y);
 
         /// <summary>
         /// Create a new diagonal matrix straight from an initialized matrix storage instance.
@@ -1244,7 +1240,6 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>
         /// Create a new diagonal matrix with the given number of rows and columns.
         /// All cells of the matrix will be initialized to zero.
-        /// Zero-length matrices are not supported.
         /// </summary>
         public Matrix<T> Diagonal(int rows, int columns)
         {
