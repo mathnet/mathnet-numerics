@@ -276,6 +276,20 @@ type BigRational =
     static member FromBigIntFraction (numerator: BigInteger, denominator: BigInteger) =
         Q (BigRationalLarge.Create (numerator, denominator))
 
+    // See https://docs.microsoft.com/en-us/dotnet/api/system.decimal.getbits
+    static member FromDecimal(n : decimal) =
+        let parts = Decimal.GetBits(n)
+        assert(parts.Length = 4)
+        let toBigInt = uint32 >> bigint
+        let lo =  (toBigInt parts.[0]) <<<  0
+        let mid = (toBigInt parts.[1]) <<< 32
+        let hi =  (toBigInt parts.[2]) <<< 64
+        let sign = if (parts.[3] &&& 0x80000000) = 0 then 1I else -1I
+        let scale = (parts.[3] >>> 16) &&& 0x7F
+        BigRational.FromBigIntFraction(
+            sign * (lo + mid + hi),
+            BigInteger.Pow(10I, scale))
+
     /// Get zero as a rational number
     static member Zero =
         BigRational.FromInt 0

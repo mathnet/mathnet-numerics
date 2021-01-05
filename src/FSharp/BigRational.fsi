@@ -62,6 +62,8 @@ type BigRational =
     static member FromIntFraction : int * int -> BigRational
     static member FromBigIntFraction : BigInteger * BigInteger -> BigRational
 
+    static member FromDecimal : decimal -> BigRational
+
     static member ToDouble: BigRational -> float
     static member ToBigInt: BigRational -> BigInteger
     static member ToInt32 : BigRational -> int
