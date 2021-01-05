@@ -746,147 +746,177 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-		/// Round to the number closest to 10^powerDigits. 
-		/// </summary>
-		/// <param name="number">Number to be rounded</param>
-		/// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
-		/// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
-		/// <returns>Rounded number</returns>
-		public static decimal RoundAboveZero(this decimal number, int powerDigits = 3)
-		{
-			if (powerDigits <= 0)
-				return Math.Round(number, powerDigits*-1,MidpointRounding.AwayFromZero);
-			return Math.Round(number / (decimal) Math.Pow(10, powerDigits),MidpointRounding.AwayFromZero) * (decimal) Math.Pow(10, powerDigits);
-		}
-
-		/// <summary>
-		/// Round to the number closest to 10^powerDigits. 
-		/// </summary>
-		/// <param name="number">Number to be rounded</param>
-		/// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
-		/// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
-		/// <returns>Rounded number</returns>
-		public static double RoundAboveZero(this double number, int powerDigits = 3)
-		{
-			if (powerDigits <= 0)
-				return Math.Round(number, powerDigits*-1,MidpointRounding.AwayFromZero);
-			return Math.Round(number / Math.Pow(10, powerDigits),MidpointRounding.AwayFromZero) * Math.Pow(10, powerDigits);
-		}
-
-		/// <summary>
-		/// Round to the number closest to 10^powerDigits. 
-		/// </summary>
-		/// <param name="number">Number to be rounded</param>
-		/// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
-		/// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
-		/// <returns>Rounded number</returns>
-		public static int RoundAboveZero(this int number, int powerDigits = 3)
-		{
-			if (powerDigits <= 0)
-				return number;
-            return (int) RoundAboveZero((decimal) number, powerDigits);
-		}
-
-        /// <summary>
-        /// Round to the number closest to 10^powerDigits. 
+        /// Round to the number closest to 10^powerDigits.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
         /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
         /// <returns>Rounded number</returns>
-        public static uint RoundAboveZero(this uint number, int powerDigits = 3)
+        public static double RoundAboveZero(this double number, int powerDigits)
         {
             if (powerDigits <= 0)
-                return number;
-            return (uint) RoundAboveZero((decimal) number, powerDigits);
+            {
+                return Math.Round(number, -powerDigits, MidpointRounding.AwayFromZero);
+            }
+
+            return Math.Round(number / Math.Pow(10, powerDigits), MidpointRounding.AwayFromZero) * Math.Pow(10, powerDigits);
         }
 
         /// <summary>
-        /// Round to the number closest to 10^powerDigits. 
+        /// Round to the number closest to 10^powerDigits.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
         /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
         /// <returns>Rounded number</returns>
-        public static ulong RoundAboveZero(this ulong number, int powerDigits = 3)
-        {
-            if (powerDigits <= 0)
-                return number;
-            return (ulong) RoundAboveZero((decimal) number, powerDigits);
-        }
-
-        /// <summary>
-        /// Round to the number closest to 10^powerDigits. 
-        /// </summary>
-        /// <param name="number">Number to be rounded</param>
-        /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
-        /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
-        /// <returns>Rounded number</returns>
-        public static long RoundAboveZero(this long number, int powerDigits = 3)
-        {
-            if (powerDigits <= 0)
-                return number;
-            return (long) RoundAboveZero((decimal) number, powerDigits);
-        }
-
-        /// <summary>
-        /// Round to the number closest to 10^powerDigits. 
-        /// </summary>
-        /// <param name="number">Number to be rounded</param>
-        /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
-        /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
-        /// <returns>Rounded number</returns>
-        public static short RoundAboveZero(this short number, int powerDigits = 3)
-        {
-            if (powerDigits <= 0)
-                return number;
-            return (short) RoundAboveZero((decimal) number, powerDigits);
-        }
-
-        /// <summary>
-        /// Round to the number closest to 10^powerDigits. 
-        /// </summary>
-        /// <param name="number">Number to be rounded</param>
-        /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
-        /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
-        /// <returns>Rounded number</returns>
-        public static ushort RoundAboveZero(this ushort number, int powerDigits = 3)
-        {
-            if (powerDigits <= 0)
-                return number;
-            return (ushort) RoundAboveZero((decimal) number, powerDigits);
-        }
-
-
-        /// <summary>
-        /// Round to the number closest to 10^powerDigits. 
-        /// </summary>
-        /// <param name="number">Number to be rounded</param>
-        /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
-        /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
-        /// <returns>Rounded number</returns>
-        public static float RoundAboveZero(this float number, int powerDigits = 3)
+        public static float RoundAboveZero(this float number, int powerDigits)
         {
             return (float) RoundAboveZero((decimal) number, powerDigits);
         }
 
         /// <summary>
-        /// Round to the number closest to 10^powerDigits. 
+		/// Round to the number closest to 10^powerDigits.
+		/// </summary>
+		/// <param name="number">Number to be rounded</param>
+		/// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
+		/// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
+		/// <returns>Rounded number</returns>
+		public static decimal RoundAboveZero(this decimal number, int powerDigits)
+		{
+            if (powerDigits <= 0)
+            {
+                return Math.Round(number, -powerDigits, MidpointRounding.AwayFromZero);
+            }
+
+            return Math.Round(number / (decimal) Math.Pow(10, powerDigits), MidpointRounding.AwayFromZero) * (decimal) Math.Pow(10, powerDigits);
+        }
+
+		/// <summary>
+		/// Round to the number closest to 10^powerDigits.
+		/// </summary>
+		/// <param name="number">Number to be rounded</param>
+		/// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
+		/// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
+		/// <returns>Rounded number</returns>
+		public static int RoundAboveZero(this int number, int powerDigits)
+		{
+            if (powerDigits <= 0)
+            {
+                return number;
+            }
+
+            return (int) RoundAboveZero((decimal) number, powerDigits);
+		}
+
+        /// <summary>
+        /// Round to the number closest to 10^powerDigits.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
         /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
         /// <returns>Rounded number</returns>
-        public static BigInteger RoundAboveZero(this BigInteger number, int powerDigits = 3)
+        [CLSCompliant(false)]
+        public static uint RoundAboveZero(this uint number, int powerDigits)
         {
             if (powerDigits <= 0)
+            {
                 return number;
+            }
+
+            return (uint) RoundAboveZero((decimal) number, powerDigits);
+        }
+
+        /// <summary>
+        /// Round to the number closest to 10^powerDigits.
+        /// </summary>
+        /// <param name="number">Number to be rounded</param>
+        /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
+        /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
+        /// <returns>Rounded number</returns>
+        public static long RoundAboveZero(this long number, int powerDigits)
+        {
+            if (powerDigits <= 0)
+            {
+                return number;
+            }
+
+            return (long) RoundAboveZero((decimal) number, powerDigits);
+        }
+
+        /// <summary>
+        /// Round to the number closest to 10^powerDigits.
+        /// </summary>
+        /// <param name="number">Number to be rounded</param>
+        /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
+        /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
+        /// <returns>Rounded number</returns>
+        [CLSCompliant(false)]
+        public static ulong RoundAboveZero(this ulong number, int powerDigits)
+        {
+            if (powerDigits <= 0)
+            {
+                return number;
+            }
+
+            return (ulong) RoundAboveZero((decimal) number, powerDigits);
+        }
+        /// <summary>
+        /// Round to the number closest to 10^powerDigits.
+        /// </summary>
+        /// <param name="number">Number to be rounded</param>
+        /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
+        /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
+        /// <returns>Rounded number</returns>
+        public static short RoundAboveZero(this short number, int powerDigits)
+        {
+            if (powerDigits <= 0)
+            {
+                return number;
+            }
+
+            return (short) RoundAboveZero((decimal) number, powerDigits);
+        }
+
+        /// <summary>
+        /// Round to the number closest to 10^powerDigits.
+        /// </summary>
+        /// <param name="number">Number to be rounded</param>
+        /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
+        /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
+        /// <returns>Rounded number</returns>
+        [CLSCompliant(false)]
+        public static ushort RoundAboveZero(this ushort number, int powerDigits)
+        {
+            if (powerDigits <= 0)
+            {
+                return number;
+            }
+
+            return (ushort) RoundAboveZero((decimal) number, powerDigits);
+        }
+
+        /// <summary>
+        /// Round to the number closest to 10^powerDigits.
+        /// </summary>
+        /// <param name="number">Number to be rounded</param>
+        /// <param name="powerDigits">For closest 1000 enter 3, 10^powerDigits. If lower then zero you will get decimal digits.</param>
+        /// <example>To round 123456789 to hundreds RoundAboveZero(123456789, 2) = 123456800 </example>
+        /// <returns>Rounded number</returns>
+        public static BigInteger RoundAboveZero(this BigInteger number, int powerDigits)
+        {
+            if (powerDigits <= 0)
+            {
+                return number;
+            }
 
             var onelarger = number / BigInteger.Pow(10, powerDigits-1);
             var divided = onelarger / 10;
             var lastDigit = onelarger - divided * 10;
             if (lastDigit >= 5)
+            {
                 divided += 1;
+            }
+
             return divided * BigInteger.Pow(10, powerDigits);
         }
 
