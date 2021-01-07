@@ -1,3 +1,8 @@
+### 4.15.0 - 2021-01-07
+* Precision: Round (with integer part rounding) *~Jon Larborn*
+* Precision: RoundToMultiple, RoundToPower
+* F#: BigRational.FromDecimal *~Brian Berns*
+
 ### 4.14.0 - 2021-01-01
 * Optimization: Avoid losing precision in golden section minimizer *~Daniel Fox*
 * Interpolation: Monotone-preserving Piecewise Cubic Hermite Polynomial (PCHIP) *~Febin*
