@@ -1159,98 +1159,98 @@ namespace MathNet.Numerics.UnitTests
         }
 
         [Test]
-        [TestCase(100.3123, 3, 0)]
-        [TestCase(1100.6123, 3, 1000)]
-        [TestCase(1500.8123, 3, 2000)]
-        [TestCase(110003245.3123, 3, 110003000)]
-        [TestCase(110003245.3123, 1, 110003250)]
-        [TestCase(110003245.3123, -2, 110003245.31)]
+        [TestCase(100.3123, -3, 0)]
+        [TestCase(1100.6123, -3, 1000)]
+        [TestCase(1500.8123, -3, 2000)]
+        [TestCase(110003245.3123, -3, 110003000)]
+        [TestCase(110003245.3123, -1, 110003250)]
+        [TestCase(110003245.3123, 2, 110003245.31)]
         [TestCase(110003245.3123, 0, 110003245)]
-        public void RoundAboveDecimal(decimal number, int digit, decimal expectedResult)
+        public void RoundDecimal(decimal number, int digit, decimal expectedResult)
         {
-            Assert.AreEqual(expectedResult, number.RoundAboveZero(digit));
+            Assert.AreEqual(expectedResult, number.Round(digit));
         }
 
         [Test]
-        [TestCase(100.3123, 3, 0)]
-        [TestCase(1100.6123, 3, 1000)]
-        [TestCase(1500.8123, 3, 2000)]
-        [TestCase(110003245.3123, 3, 110003000)]
-        [TestCase(110003245.3123, 1, 110003250)]
-        [TestCase(110003245.3123, -2, 110003245.31)]
+        [TestCase(100.3123, -3, 0)]
+        [TestCase(1100.6123, -3, 1000)]
+        [TestCase(1500.8123, -3, 2000)]
+        [TestCase(110003245.3123, -3, 110003000)]
+        [TestCase(110003245.3123, -1, 110003250)]
+        [TestCase(110003245.3123, 2, 110003245.31)]
         [TestCase(110003245.3123, 0, 110003245)]
-        public void RoundAboveDouble(double number, int digit, double expectedResult)
+        public void RoundDouble(double number, int digit, double expectedResult)
         {
-            Assert.AreEqual(expectedResult,number.RoundAboveZero(digit));
+            Assert.AreEqual(expectedResult,number.Round(digit));
         }
 
         [Test]
-        [TestCase(100.3123f, 3, 0f)]
-        [TestCase(1100.6123f, 3, 1000f)]
-        [TestCase(1500.8123f, 3, 2000f)]
-        [TestCase(11245.3123f, 3, 11000f)]
-        [TestCase(13245.3123f, 1, 13250f)]
-        [TestCase(13245.3123f, -2, 13245.31f)]
+        [TestCase(100.3123f, -3, 0f)]
+        [TestCase(1100.6123f, -3, 1000f)]
+        [TestCase(1500.8123f, -3, 2000f)]
+        [TestCase(11245.3123f, -3, 11000f)]
+        [TestCase(13245.3123f, -1, 13250f)]
+        [TestCase(13245.3123f, 2, 13245.31f)]
         [TestCase(13245.3123f, 0, 13245f)]
-        public void RoundAboveFloat(float number, int digit, float expectedResult)
+        public void RoundSingle(float number, int digit, float expectedResult)
         {
-            Assert.AreEqual(expectedResult,number.RoundAboveZero(digit));
+            Assert.AreEqual(expectedResult,number.Round(digit));
         }
 
         [Test]
-        [TestCase(100, 3, 0)]
-        [TestCase(1100, 3, 1000)]
-        [TestCase(1500, 3, 2000)]
-        [TestCase(110003245, 3, 110003000)]
-        [TestCase(110003245, 1, 110003250)]
-        [TestCase(110003245, -2, 110003245)]
-        public void RoundAboveInt(int number, int digit, int expectedResult)
+        [TestCase(100, -3, 0)]
+        [TestCase(1100, -3, 1000)]
+        [TestCase(1500, -3, 2000)]
+        [TestCase(110003245, -3, 110003000)]
+        [TestCase(110003245, -1, 110003250)]
+        [TestCase(110003245, 2, 110003245)]
+        public void RoundInt32(int number, int digit, int expectedResult)
         {
-            Assert.AreEqual(expectedResult,number.RoundAboveZero(digit));
+            Assert.AreEqual(expectedResult,number.Round(digit));
         }
 
         [Test]
-        public void RoundAboveUint()
+        public void RoundUint32()
         {
-            Assert.AreEqual(110003250,((uint)110003245).RoundAboveZero(1));
+            Assert.AreEqual(110003250,((uint)110003245).Round(-1));
         }
 
-        
-        [Test]
-        public void RoundAboveUlong()
-        {
-            Assert.AreEqual(3250, ((ulong)3245).RoundAboveZero(1));
-        }
 
         [Test]
-        [TestCase(110003245, 1, 110003250)]
-        public void RoundAboveLong(long number, int digit, int expectedResult)
+        public void RoundUInt64()
         {
-            Assert.AreEqual(expectedResult, number.RoundAboveZero(digit));
+            Assert.AreEqual(3250, ((ulong)3245).Round(-1));
         }
 
         [Test]
-        public void RoundAboveShort()
+        [TestCase(110003245, -1, 110003250)]
+        public void RoundInt64(long number, int digit, int expectedResult)
         {
-            Assert.AreEqual(3250, ((short)3245).RoundAboveZero(1));
+            Assert.AreEqual(expectedResult, number.Round(digit));
         }
 
         [Test]
-        public void RoundAboveUshort()
+        public void RoundInt16()
         {
-            Assert.AreEqual(3250,((ushort)3245).RoundAboveZero(1));
+            Assert.AreEqual(3250, ((short)3245).Round(-1));
         }
 
         [Test]
-        public void RoundAboveBigInteger()
+        public void RoundUInt16()
         {
-            Assert.AreEqual(BigInteger.Zero,new BigInteger(100).RoundAboveZero(3));
-            Assert.AreEqual(new BigInteger(1000),new BigInteger(1100).RoundAboveZero(3));
-            Assert.AreEqual(new BigInteger(2000),new BigInteger(1500).RoundAboveZero(3));
-            Assert.AreEqual(new BigInteger(110003000), new BigInteger(110003245).RoundAboveZero(3));
-            Assert.AreEqual(new BigInteger(110003250), new BigInteger(110003245).RoundAboveZero(1));
-            Assert.AreEqual(new BigInteger(110003245), new BigInteger(110003245).RoundAboveZero(-2));
-            Assert.AreEqual(new BigInteger(110003245), new BigInteger(110003245).RoundAboveZero(0));
+            Assert.AreEqual(3250,((ushort)3245).Round(-1));
+        }
+
+        [Test]
+        public void RoundBigInteger()
+        {
+            Assert.AreEqual(BigInteger.Zero,new BigInteger(100).Round(-3));
+            Assert.AreEqual(new BigInteger(1000),new BigInteger(1100).Round(-3));
+            Assert.AreEqual(new BigInteger(2000),new BigInteger(1500).Round(-3));
+            Assert.AreEqual(new BigInteger(110003000), new BigInteger(110003245).Round(-3));
+            Assert.AreEqual(new BigInteger(110003250), new BigInteger(110003245).Round(-1));
+            Assert.AreEqual(new BigInteger(110003245), new BigInteger(110003245).Round(2));
+            Assert.AreEqual(new BigInteger(110003245), new BigInteger(110003245).Round(0));
         }
     }
 }
