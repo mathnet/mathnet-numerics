@@ -339,6 +339,21 @@
 				<li><a href="../MathNet.Numerics/Precision.htm#PositiveEpsilonOf">PositiveEpsilonOf</a></li>
 				<li><a href="../MathNet.Numerics/Precision.htm#RangeOfMatchingFloatingPointNumbers">RangeOfMatchingFloatingPointNumbers</a></li>
 				<li><a href="../MathNet.Numerics/Precision.htm#RangeOfMatchingNumbers">RangeOfMatchingNumbers</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#Round">Round</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#RoundToMultiple">RoundToMultiple</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#RoundToMultiple">RoundToMultiple</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#RoundToMultiple">RoundToMultiple</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#RoundToPower">RoundToPower</a></li>
+				<li><a href="../MathNet.Numerics/Precision.htm#RoundToPower">RoundToPower</a></li>
 				<li><a href="../MathNet.Numerics/Precision.htm#ScaleUnitMagnitude">ScaleUnitMagnitude</a></li>
 			</ul>
 		
@@ -384,7 +399,49 @@
     </div>
 	</div>
 	<div id="AlmostEqual" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b)</h4>
+		<div class="content">Checks whether two Complex numbers are almost equal. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> a</h6>
+          <p class="comments">The first number </p>
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> b</h6>
+          <p class="comments">The second number </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.bool">bool</span></code></h6>
+        <p>true if the two values differ by no more than 10 * 2^(-52); false otherwise. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="AlmostEqual" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
+		<div class="content">Compares two doubles and determines if they are equal within
+the specified maximum error. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
+          <p class="comments">The accuracy required for being almost equal. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="AlmostEqual" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
 		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
 number of decimal places as an absolute measure. 
 
@@ -392,9 +449,9 @@ number of decimal places as an absolute measure.
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> a</h6>
+          <h6><code><span title="System.double">double</span></code> a</h6>
           <p class="comments">The first value. </p>
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> b</h6>
+          <h6><code><span title="System.double">double</span></code> b</h6>
           <p class="comments">The second value. </p>
           <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
           <p class="comments">The number of decimal places. </p>
@@ -404,9 +461,69 @@ number of decimal places as an absolute measure.
     </div>
 	</div>
 	<div id="AlmostEqual" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
+		<div class="content">Compares two complex and determines if they are equal within
+the specified maximum error. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.float">float</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="System.float">float</span></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
+          <p class="comments">The accuracy required for being almost equal. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="AlmostEqual" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
 		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
 number of decimal places as an absolute measure. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.float">float</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="System.float">float</span></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="AlmostEqual" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
+		<div class="content">Compares two complex and determines if they are equal within
+the specified maximum error. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
+          <p class="comments">The accuracy required for being almost equal. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="AlmostEqual" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
+		<div class="content">Compares two complex and determines if they are equal within
+the specified maximum error. 
 
 
       <div class="parameters">
@@ -416,8 +533,8 @@ number of decimal places as an absolute measure.
           <p class="comments">The first value. </p>
           <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
+          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
+          <p class="comments">The accuracy required for being almost equal. </p>
       </div>
 
       
@@ -434,28 +551,6 @@ number of decimal places as an absolute measure.
           <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> a</h6>
           <p class="comments">The first number </p>
           <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> b</h6>
-          <p class="comments">The second number </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.bool">bool</span></code></h6>
-        <p>true if the two values differ by no more than 10 * 2^(-52); false otherwise. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="AlmostEqual" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b)</h4>
-		<div class="content">Checks whether two Complex numbers are almost equal. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> a</h6>
-          <p class="comments">The first number </p>
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> b</h6>
           <p class="comments">The second number </p>
       </div>
 
@@ -490,109 +585,9 @@ number of decimal places as an absolute measure.
     </div>
 	</div>
 	<div id="AlmostEqual" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b, <span title="System.int">int</span> decimalPlaces)</h4>
 		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
 number of decimal places as an absolute measure. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.float">float</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="System.float">float</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="AlmostEqual" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
-		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
-number of decimal places as an absolute measure. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="System.double">double</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="AlmostEqual" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
-		<div class="content">Compares two complex and determines if they are equal within
-the specified maximum error. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
-          <p class="comments">The accuracy required for being almost equal. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="AlmostEqual" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
-		<div class="content">Compares two complex and determines if they are equal within
-the specified maximum error. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.float">float</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="System.float">float</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
-          <p class="comments">The accuracy required for being almost equal. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="AlmostEqual" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
-		<div class="content">Compares two doubles and determines if they are equal within
-the specified maximum error. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="System.double">double</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
-          <p class="comments">The accuracy required for being almost equal. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="AlmostEqual" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
-		<div class="content">Compares two complex and determines if they are equal within
-the specified maximum error. 
 
 
       <div class="parameters">
@@ -602,8 +597,28 @@ the specified maximum error.
           <p class="comments">The first value. </p>
           <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
-          <p class="comments">The accuracy required for being almost equal. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="AlmostEqual" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
+number of decimal places as an absolute measure. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
       </div>
 
       
@@ -620,6 +635,25 @@ the specified maximum error.
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> a</h6>
           <p class="comments">The first value. </p>
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
+          <p class="comments">The accuracy required for being almost equal. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="AlmostEqual``1" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqual&lt;T&gt;</strong>(this <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> a, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
+		<div class="content">Compares two matrices and determines if they are equal within the specified maximum error. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> b</h6>
           <p class="comments">The second value. </p>
           <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
           <p class="comments">The accuracy required for being almost equal. </p>
@@ -649,25 +683,6 @@ of decimal places or not, using the number of decimal places as an absolute meas
     </div>
 	</div>
 	<div id="AlmostEqual``1" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqual&lt;T&gt;</strong>(this <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> a, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
-		<div class="content">Compares two matrices and determines if they are equal within the specified maximum error. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
-          <p class="comments">The accuracy required for being almost equal. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="AlmostEqual``1" class="method">
 		<h4><span title="System.bool">bool</span> <strong>AlmostEqual&lt;T&gt;</strong>(this <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> a, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> b, <span title="System.int">int</span> decimalPlaces)</h4>
 		<div class="content">Compares two matrices and determines if they are equal to within the specified number
 of decimal places or not, using the number of decimal places as an absolute measure. 
@@ -680,6 +695,32 @@ of decimal places or not, using the number of decimal places as an absolute meas
           <p class="comments">The first value. </p>
           <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> b</h6>
           <p class="comments">The second value. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="AlmostEqualNorm" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNorm</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.double">double</span> diff, <span title="System.int">int</span> decimalPlaces)</h4>
+		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
+number of decimal places as an absolute measure. <blockquote class="remarks">
+  <p>The values are equal if the difference between the two numbers is smaller than 0.5e-decimalPlaces. We divide by
+two so that we have half the range on each side of the numbers, e.g. if  <var>decimalPlaces</var>  == 2, then 0.01 will equal between
+0.005 and 0.015, but not 0.02 and not 0.00 </p> 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">The norm of the first value (can be negative). </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">The norm of the second value (can be negative). </p>
+          <h6><code><span title="System.double">double</span></code> diff</h6>
+          <p class="comments">The norm of the difference of the two values (can be negative). </p>
           <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
           <p class="comments">The number of decimal places. </p>
       </div>
@@ -714,29 +755,28 @@ within the specified maximum absolute error.
       
     </div>
 	</div>
-	<div id="AlmostEqualNorm" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNorm</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.double">double</span> diff, <span title="System.int">int</span> decimalPlaces)</h4>
-		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not, using the
-number of decimal places as an absolute measure. <blockquote class="remarks">
-  <p>The values are equal if the difference between the two numbers is smaller than 0.5e-decimalPlaces. We divide by
-two so that we have half the range on each side of the numbers, e.g. if  <var>decimalPlaces</var>  == 2, then 0.01 will equal between
-0.005 and 0.015, but not 0.02 and not 0.00 </p> 
-</blockquote>
+	<div id="AlmostEqualNorm``1" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNorm&lt;T&gt;</strong>(this <span title="MathNet.Numerics.T">T</span> a, <span title="MathNet.Numerics.T">T</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
+		<div class="content">Compares two doubles and determines if they are equal
+within the specified maximum absolute error. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> a</h6>
-          <p class="comments">The norm of the first value (can be negative). </p>
-          <h6><code><span title="System.double">double</span></code> b</h6>
-          <p class="comments">The norm of the second value (can be negative). </p>
-          <h6><code><span title="System.double">double</span></code> diff</h6>
-          <p class="comments">The norm of the difference of the two values (can be negative). </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
+          <h6><code><span title="MathNet.Numerics.T">T</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="MathNet.Numerics.T">T</span></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
+          <p class="comments">The absolute accuracy required for being almost equal. </p>
       </div>
 
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.bool">bool</span></code></h6>
+        <p>True if both doubles are almost equal up to the specified maximum absolute error, false otherwise. </p>
+      </div>
       
     </div>
 	</div>
@@ -764,27 +804,29 @@ two so that we have half the range on each side of the numbers, e.g. if  <var>de
       
     </div>
 	</div>
-	<div id="AlmostEqualNorm``1" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNorm&lt;T&gt;</strong>(this <span title="MathNet.Numerics.T">T</span> a, <span title="MathNet.Numerics.T">T</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
+	<div id="AlmostEqualNormRelative" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNormRelative</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.double">double</span> diff, <span title="System.double">double</span> maximumError)</h4>
 		<div class="content">Compares two doubles and determines if they are equal
-within the specified maximum absolute error. 
+within the specified maximum error. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="MathNet.Numerics.T">T</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="MathNet.Numerics.T">T</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
-          <p class="comments">The absolute accuracy required for being almost equal. </p>
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">The norm of the first value (can be negative). </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">The norm of the second value (can be negative). </p>
+          <h6><code><span title="System.double">double</span></code> diff</h6>
+          <p class="comments">The norm of the difference of the two values (can be negative). </p>
+          <h6><code><span title="System.double">double</span></code> maximumError</h6>
+          <p class="comments">The accuracy required for being almost equal. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.bool">bool</span></code></h6>
-        <p>True if both doubles are almost equal up to the specified maximum absolute error, false otherwise. </p>
+        <p>True if both doubles are almost equal up to the specified maximum error, false otherwise. </p>
       </div>
       
     </div>
@@ -815,8 +857,8 @@ two so that we have half the range on each side of the numbers, e.g. if  <var>de
       
     </div>
 	</div>
-	<div id="AlmostEqualNormRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNormRelative</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.double">double</span> diff, <span title="System.double">double</span> maximumError)</h4>
+	<div id="AlmostEqualNormRelative``1" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNormRelative&lt;T&gt;</strong>(this <span title="MathNet.Numerics.T">T</span> a, <span title="MathNet.Numerics.T">T</span> b, <span title="System.double">double</span> maximumError)</h4>
 		<div class="content">Compares two doubles and determines if they are equal
 within the specified maximum error. 
 
@@ -824,12 +866,10 @@ within the specified maximum error.
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> a</h6>
-          <p class="comments">The norm of the first value (can be negative). </p>
-          <h6><code><span title="System.double">double</span></code> b</h6>
-          <p class="comments">The norm of the second value (can be negative). </p>
-          <h6><code><span title="System.double">double</span></code> diff</h6>
-          <p class="comments">The norm of the difference of the two values (can be negative). </p>
+          <h6><code><span title="MathNet.Numerics.T">T</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="MathNet.Numerics.T">T</span></code> b</h6>
+          <p class="comments">The second value. </p>
           <h6><code><span title="System.double">double</span></code> maximumError</h6>
           <p class="comments">The accuracy required for being almost equal. </p>
       </div>
@@ -866,28 +906,22 @@ two so that we have half the range on each side of the numbers, e.g. if  <var>de
       
     </div>
 	</div>
-	<div id="AlmostEqualNormRelative``1" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNormRelative&lt;T&gt;</strong>(this <span title="MathNet.Numerics.T">T</span> a, <span title="MathNet.Numerics.T">T</span> b, <span title="System.double">double</span> maximumError)</h4>
-		<div class="content">Compares two doubles and determines if they are equal
-within the specified maximum error. 
+	<div id="AlmostEqualNumbersBetween" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNumbersBetween</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> maxNumbersBetween)</h4>
+		<div class="content">Compares two floats and determines if they are equal to within the tolerance or not. Equality comparison is based on the binary representation. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="MathNet.Numerics.T">T</span></code> a</h6>
+          <h6><code><span title="System.float">float</span></code> a</h6>
           <p class="comments">The first value. </p>
-          <h6><code><span title="MathNet.Numerics.T">T</span></code> b</h6>
+          <h6><code><span title="System.float">float</span></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumError</h6>
-          <p class="comments">The accuracy required for being almost equal. </p>
+          <h6><code><span title="System.int">int</span></code> maxNumbersBetween</h6>
+          <p class="comments">The maximum number of floating point values between the two values. Must be 1 or larger. </p>
       </div>
 
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.bool">bool</span></code></h6>
-        <p>True if both doubles are almost equal up to the specified maximum error, false otherwise. </p>
-      </div>
       
     </div>
 	</div>
@@ -917,44 +951,43 @@ at http://www.extremeoptimization.com/resources/Articles/FPDotNetConceptsAndForm
       
     </div>
 	</div>
-	<div id="AlmostEqualNumbersBetween" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualNumbersBetween</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> maxNumbersBetween)</h4>
-		<div class="content">Compares two floats and determines if they are equal to within the tolerance or not. Equality comparison is based on the binary representation. 
+	<div id="AlmostEqualRelative" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not. If the numbers
+are very close to zero an absolute difference is compared, otherwise the relative difference is compared. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.float">float</span></code> a</h6>
+          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> a</h6>
           <p class="comments">The first value. </p>
-          <h6><code><span title="System.float">float</span></code> b</h6>
+          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> maxNumbersBetween</h6>
-          <p class="comments">The maximum number of floating point values between the two values. Must be 1 or larger. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
       </div>
 
       
     </div>
 	</div>
 	<div id="AlmostEqualRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b)</h4>
-		<div class="content">Checks whether two Complex numbers are almost equal. 
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not. If the numbers
+are very close to zero an absolute difference is compared, otherwise the relative difference is compared. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
           <h6><code><span title="System.Numerics.Complex">Complex</span></code> a</h6>
-          <p class="comments">The first number </p>
+          <p class="comments">The first value. </p>
           <h6><code><span title="System.Numerics.Complex">Complex</span></code> b</h6>
-          <p class="comments">The second number </p>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
       </div>
 
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.bool">bool</span></code></h6>
-        <p>true if the two values differ by no more than 10 * 2^(-52); false otherwise. </p>
-      </div>
       
     </div>
 	</div>
@@ -970,26 +1003,6 @@ the specified maximum error.
           <h6><code><span title="System.double">double</span></code> a</h6>
           <p class="comments">The first value. </p>
           <h6><code><span title="System.double">double</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumError</h6>
-          <p class="comments">The accuracy required for being almost equal. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="AlmostEqualRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.double">double</span> maximumError)</h4>
-		<div class="content">Compares two complex and determines if they are equal within
-the specified maximum error. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.float">float</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="System.float">float</span></code> b</h6>
           <p class="comments">The second value. </p>
           <h6><code><span title="System.double">double</span></code> maximumError</h6>
           <p class="comments">The accuracy required for being almost equal. </p>
@@ -1039,28 +1052,6 @@ the specified maximum error.
     </div>
 	</div>
 	<div id="AlmostEqualRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b)</h4>
-		<div class="content">Checks whether two Complex numbers are almost equal. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> a</h6>
-          <p class="comments">The first number </p>
-          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> b</h6>
-          <p class="comments">The second number </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.bool">bool</span></code></h6>
-        <p>true if the two values differ by no more than 10 * 2^(-52); false otherwise. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="AlmostEqualRelative" class="method">
 		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
 		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not. If the numbers
 are very close to zero an absolute difference is compared, otherwise the relative difference is compared. 
@@ -1092,46 +1083,6 @@ are very close to zero an absolute difference is compared, otherwise the relativ
           <h6><code><span title="System.double">double</span></code> a</h6>
           <p class="comments">The first value. </p>
           <h6><code><span title="System.double">double</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="AlmostEqualRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b, <span title="System.int">int</span> decimalPlaces)</h4>
-		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not. If the numbers
-are very close to zero an absolute difference is compared, otherwise the relative difference is compared. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="AlmostEqualRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
-		<div class="content">Compares two doubles and determines if they are equal to within the specified number of decimal places or not. If the numbers
-are very close to zero an absolute difference is compared, otherwise the relative difference is compared. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> b</h6>
           <p class="comments">The second value. </p>
           <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
           <p class="comments">The number of decimal places. </p>
@@ -1184,6 +1135,89 @@ are very close to zero an absolute difference is compared, otherwise the relativ
       
     </div>
 	</div>
+	<div id="AlmostEqualRelative" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <span title="System.Numerics.Complex">Complex</span> a, <span title="System.Numerics.Complex">Complex</span> b)</h4>
+		<div class="content">Checks whether two Complex numbers are almost equal. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> a</h6>
+          <p class="comments">The first number </p>
+          <h6><code><span title="System.Numerics.Complex">Complex</span></code> b</h6>
+          <p class="comments">The second number </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.bool">bool</span></code></h6>
+        <p>true if the two values differ by no more than 10 * 2^(-52); false otherwise. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="AlmostEqualRelative" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.double">double</span> maximumError)</h4>
+		<div class="content">Compares two complex and determines if they are equal within
+the specified maximum error. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.float">float</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="System.float">float</span></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.double">double</span></code> maximumError</h6>
+          <p class="comments">The accuracy required for being almost equal. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="AlmostEqualRelative" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative</strong>(this <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> a, <a href="../MathNet.Numerics/Complex32.htm">Complex32</a> b)</h4>
+		<div class="content">Checks whether two Complex numbers are almost equal. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> a</h6>
+          <p class="comments">The first number </p>
+          <h6><code><a href="../MathNet.Numerics/Complex32.htm">Complex32</a></code> b</h6>
+          <p class="comments">The second number </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.bool">bool</span></code></h6>
+        <p>true if the two values differ by no more than 10 * 2^(-52); false otherwise. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="AlmostEqualRelative``1" class="method">
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative&lt;T&gt;</strong>(this <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> a, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> b, <span title="System.double">double</span> maximumError)</h4>
+		<div class="content">Compares two vectors and determines if they are equal within the specified maximum error. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.double">double</span></code> maximumError</h6>
+          <p class="comments">The accuracy required for being almost equal. </p>
+      </div>
+
+      
+    </div>
+	</div>
 	<div id="AlmostEqualRelative``1" class="method">
 		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative&lt;T&gt;</strong>(this <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> a, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> b, <span title="System.int">int</span> decimalPlaces)</h4>
 		<div class="content">Compares two matrices and determines if they are equal to within the specified number of decimal places or not.
@@ -1205,16 +1239,16 @@ If the numbers are very close to zero an absolute difference is compared, otherw
     </div>
 	</div>
 	<div id="AlmostEqualRelative``1" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative&lt;T&gt;</strong>(this <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> a, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> b, <span title="System.double">double</span> maximumError)</h4>
-		<div class="content">Compares two vectors and determines if they are equal within the specified maximum error. 
+		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative&lt;T&gt;</strong>(this <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> a, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> b, <span title="System.double">double</span> maximumError)</h4>
+		<div class="content">Compares two matrices and determines if they are equal within the specified maximum error. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> a</h6>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> a</h6>
           <p class="comments">The first value. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a></code> b</h6>
+          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> b</h6>
           <p class="comments">The second value. </p>
           <h6><code><span title="System.double">double</span></code> maximumError</h6>
           <p class="comments">The accuracy required for being almost equal. </p>
@@ -1243,28 +1277,9 @@ If the numbers are very close to zero an absolute difference is compared, otherw
       
     </div>
 	</div>
-	<div id="AlmostEqualRelative``1" class="method">
-		<h4><span title="System.bool">bool</span> <strong>AlmostEqualRelative&lt;T&gt;</strong>(this <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> a, <a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a> b, <span title="System.double">double</span> maximumError)</h4>
-		<div class="content">Compares two matrices and determines if they are equal within the specified maximum error. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><a href="../MathNet.Numerics.LinearAlgebra/Matrix`1.htm">Matrix&lt;T&gt;</a></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumError</h6>
-          <p class="comments">The accuracy required for being almost equal. </p>
-      </div>
-
-      
-    </div>
-	</div>
 	<div id="CoerceZero" class="method">
-		<h4><span title="System.double">double</span> <strong>CoerceZero</strong>(this <span title="System.double">double</span> a)</h4>
-		<div class="content">Forces small numbers near zero to zero. 
+		<h4><span title="System.double">double</span> <strong>CoerceZero</strong>(this <span title="System.double">double</span> a, <span title="System.long">long</span> maxNumbersBetween)</h4>
+		<div class="content">Forces small numbers near zero to zero, according to the specified absolute accuracy. 
 
 
       <div class="parameters">
@@ -1272,12 +1287,14 @@ If the numbers are very close to zero an absolute difference is compared, otherw
 
           <h6><code><span title="System.double">double</span></code> a</h6>
           <p class="comments">The real number to coerce to zero, if it is almost zero. </p>
+          <h6><code><span title="System.long">long</span></code> maxNumbersBetween</h6>
+          <p class="comments">The maximum count of numbers between the zero and the number  <var>a</var>. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
-        <p>Zero if | <var>a</var> | is smaller than 2^(-53) = 1.11e-16,  <var>a</var>  otherwise. </p>
+        <p>Zero if | <var>a</var> | is fewer than  <var>maxNumbersBetween</var>  numbers from zero,  <var>a</var>  otherwise. </p>
       </div>
       
     </div>
@@ -1327,8 +1344,8 @@ If the numbers are very close to zero an absolute difference is compared, otherw
     </div>
 	</div>
 	<div id="CoerceZero" class="method">
-		<h4><span title="System.double">double</span> <strong>CoerceZero</strong>(this <span title="System.double">double</span> a, <span title="System.long">long</span> maxNumbersBetween)</h4>
-		<div class="content">Forces small numbers near zero to zero, according to the specified absolute accuracy. 
+		<h4><span title="System.double">double</span> <strong>CoerceZero</strong>(this <span title="System.double">double</span> a)</h4>
+		<div class="content">Forces small numbers near zero to zero. 
 
 
       <div class="parameters">
@@ -1336,14 +1353,12 @@ If the numbers are very close to zero an absolute difference is compared, otherw
 
           <h6><code><span title="System.double">double</span></code> a</h6>
           <p class="comments">The real number to coerce to zero, if it is almost zero. </p>
-          <h6><code><span title="System.long">long</span></code> maxNumbersBetween</h6>
-          <p class="comments">The maximum count of numbers between the zero and the number  <var>a</var>. </p>
       </div>
 
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
-        <p>Zero if | <var>a</var> | is fewer than  <var>maxNumbersBetween</var>  numbers from zero,  <var>a</var>  otherwise. </p>
+        <p>Zero if | <var>a</var> | is smaller than 2^(-53) = 1.11e-16,  <var>a</var>  otherwise. </p>
       </div>
       
     </div>
@@ -1474,28 +1489,6 @@ Decrement(double.MinValue) will return negative infinity.
     </div>
 	</div>
 	<div id="EpsilonOf" class="method">
-		<h4><span title="System.float">float</span> <strong>EpsilonOf</strong>(this <span title="System.float">float</span> value)</h4>
-		<div class="content">Evaluates the minimum distance to the next distinguishable number near the argument value. <blockquote class="remarks">
-  Evaluates the   epsilon. The more common positive epsilon is equal to two times this negative epsilon. 
-</blockquote>
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.float">float</span></code> value</h6>
-          <p class="comments">The value used to determine the minimum distance. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.float">float</span></code></h6>
-        <p>Relative Epsilon (positive float or NaN). </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="EpsilonOf" class="method">
 		<h4><span title="System.double">double</span> <strong>EpsilonOf</strong>(this <span title="System.double">double</span> value)</h4>
 		<div class="content">Evaluates the minimum distance to the next distinguishable number near the argument value. <blockquote class="remarks">
   Evaluates the   epsilon. The more common positive epsilon is equal to two times this negative epsilon. 
@@ -1513,6 +1506,28 @@ Decrement(double.MinValue) will return negative infinity.
         <h5>Return</h5>
         <h6><code><span title="System.double">double</span></code></h6>
         <p>Relative Epsilon (positive double or NaN). </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="EpsilonOf" class="method">
+		<h4><span title="System.float">float</span> <strong>EpsilonOf</strong>(this <span title="System.float">float</span> value)</h4>
+		<div class="content">Evaluates the minimum distance to the next distinguishable number near the argument value. <blockquote class="remarks">
+  Evaluates the   epsilon. The more common positive epsilon is equal to two times this negative epsilon. 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.float">float</span></code> value</h6>
+          <p class="comments">The value used to determine the minimum distance. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.float">float</span></code></h6>
+        <p>Relative Epsilon (positive float or NaN). </p>
       </div>
       
     </div>
@@ -1582,34 +1597,6 @@ Increment(double.MaxValue) will return positive infinity.
     </div>
 	</div>
 	<div id="IsLarger" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsLarger</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
-		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is larger than the  <code>second</code> value to within the specified number of decimal places or not. <blockquote class="remarks">
-  <p>The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
-two so that we have half the range on each side of the numbers, e.g. if  <var>decimalPlaces</var>  == 2, then 0.01 will equal between
-0.005 and 0.015, but not 0.02 and not 0.00 </p> 
-</blockquote>
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.double">double</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="System.double">double</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.bool">bool</span></code></h6>
-        <p><code>true</code>  if the first value is larger than the second value; otherwise  <code>false</code>. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="IsLarger" class="method">
 		<h4><span title="System.bool">bool</span> <strong>IsLarger</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
 		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is larger than the  <code>second</code> value to within the specified number of decimal places or not. <blockquote class="remarks">
   <p>The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
@@ -1624,6 +1611,34 @@ two so that we have half the range on each side of the numbers, e.g. if  <var>de
           <h6><code><span title="System.float">float</span></code> a</h6>
           <p class="comments">The first value. </p>
           <h6><code><span title="System.float">float</span></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.bool">bool</span></code></h6>
+        <p><code>true</code>  if the first value is larger than the second value; otherwise  <code>false</code>. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="IsLarger" class="method">
+		<h4><span title="System.bool">bool</span> <strong>IsLarger</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is larger than the  <code>second</code> value to within the specified number of decimal places or not. <blockquote class="remarks">
+  <p>The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+two so that we have half the range on each side of the numbers, e.g. if  <var>decimalPlaces</var>  == 2, then 0.01 will equal between
+0.005 and 0.015, but not 0.02 and not 0.00 </p> 
+</blockquote>
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
           <p class="comments">The second value. </p>
           <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
           <p class="comments">The number of decimal places. </p>
@@ -1662,30 +1677,6 @@ two so that we have half the range on each side of the numbers, e.g. if  <var>de
     </div>
 	</div>
 	<div id="IsLargerNumbersBetween" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsLargerNumbersBetween</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.long">long</span> maxNumbersBetween)</h4>
-		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is larger than the  <code>second</code> value to within the tolerance or not. Equality comparison is based on the binary representation. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.float">float</span></code> a</h6>
-          <p class="comments">The first value. </p>
-          <h6><code><span title="System.float">float</span></code> b</h6>
-          <p class="comments">The second value. </p>
-          <h6><code><span title="System.long">long</span></code> maxNumbersBetween</h6>
-          <p class="comments">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger. </p>
-      </div>
-
-      <div class="return">
-        <h5>Return</h5>
-        <h6><code><span title="System.bool">bool</span></code></h6>
-        <p><code>true</code>  if the first value is larger than the second value; otherwise  <code>false</code>. </p>
-      </div>
-      
-    </div>
-	</div>
-	<div id="IsLargerNumbersBetween" class="method">
 		<h4><span title="System.bool">bool</span> <strong>IsLargerNumbersBetween</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.long">long</span> maxNumbersBetween)</h4>
 		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is larger than the  <code>second</code> value to within the tolerance or not. Equality comparison is based on the binary representation. 
 
@@ -1709,24 +1700,20 @@ two so that we have half the range on each side of the numbers, e.g. if  <var>de
       
     </div>
 	</div>
-	<div id="IsLargerRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsLargerRelative</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
-		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is larger than the  <code>second</code> value to within the specified number of decimal places or not. <blockquote class="remarks">
-  <p>The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
-two so that we have half the range on each side of the numbers, e.g. if  <var>decimalPlaces</var>  == 2, then 0.01 will equal between
-0.005 and 0.015, but not 0.02 and not 0.00 </p> 
-</blockquote>
+	<div id="IsLargerNumbersBetween" class="method">
+		<h4><span title="System.bool">bool</span> <strong>IsLargerNumbersBetween</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.long">long</span> maxNumbersBetween)</h4>
+		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is larger than the  <code>second</code> value to within the tolerance or not. Equality comparison is based on the binary representation. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> a</h6>
+          <h6><code><span title="System.float">float</span></code> a</h6>
           <p class="comments">The first value. </p>
-          <h6><code><span title="System.double">double</span></code> b</h6>
+          <h6><code><span title="System.float">float</span></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
+          <h6><code><span title="System.long">long</span></code> maxNumbersBetween</h6>
+          <p class="comments">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger. </p>
       </div>
 
       <div class="return">
@@ -1813,11 +1800,11 @@ two so that we have half the range on each side of the numbers, e.g. if  <var>de
       
     </div>
 	</div>
-	<div id="IsSmaller" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsSmaller</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
-		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the specified number of decimal places or not. <blockquote class="remarks">
+	<div id="IsLargerRelative" class="method">
+		<h4><span title="System.bool">bool</span> <strong>IsLargerRelative</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is larger than the  <code>second</code> value to within the specified number of decimal places or not. <blockquote class="remarks">
   <p>The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
-two so that we have half the range on each side of th <var>decimalPlaces</var> g. if  <var>decimalPlaces</var>  == 2, then 0.01 will equal between
+two so that we have half the range on each side of the numbers, e.g. if  <var>decimalPlaces</var>  == 2, then 0.01 will equal between
 0.005 and 0.015, but not 0.02 and not 0.00 </p> 
 </blockquote>
 
@@ -1825,9 +1812,9 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.float">float</span></code> a</h6>
+          <h6><code><span title="System.double">double</span></code> a</h6>
           <p class="comments">The first value. </p>
-          <h6><code><span title="System.float">float</span></code> b</h6>
+          <h6><code><span title="System.double">double</span></code> b</h6>
           <p class="comments">The second value. </p>
           <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
           <p class="comments">The number of decimal places. </p>
@@ -1836,7 +1823,7 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
       <div class="return">
         <h5>Return</h5>
         <h6><code><span title="System.bool">bool</span></code></h6>
-        <p><code>true</code>  if the first value is smaller than the second value; otherwise  <code>false</code>. </p>
+        <p><code>true</code>  if the first value is larger than the second value; otherwise  <code>false</code>. </p>
       </div>
       
     </div>
@@ -1870,8 +1857,12 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
     </div>
 	</div>
 	<div id="IsSmaller" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsSmaller</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
-		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the specified number of decimal places or not. 
+		<h4><span title="System.bool">bool</span> <strong>IsSmaller</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the specified number of decimal places or not. <blockquote class="remarks">
+  <p>The values are equal if the difference between the two numbers is smaller than 10^(-numberOfDecimalPlaces). We divide by
+two so that we have half the range on each side of th <var>decimalPlaces</var> g. if  <var>decimalPlaces</var>  == 2, then 0.01 will equal between
+0.005 and 0.015, but not 0.02 and not 0.00 </p> 
+</blockquote>
 
 
       <div class="parameters">
@@ -1881,8 +1872,8 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
           <p class="comments">The first value. </p>
           <h6><code><span title="System.float">float</span></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
-          <p class="comments">The absolute accuracy required for being almost equal. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
       </div>
 
       <div class="return">
@@ -1917,20 +1908,20 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
       
     </div>
 	</div>
-	<div id="IsSmallerNumbersBetween" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsSmallerNumbersBetween</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.long">long</span> maxNumbersBetween)</h4>
-		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the tolerance or not. Equality comparison is based on the binary representation. 
+	<div id="IsSmaller" class="method">
+		<h4><span title="System.bool">bool</span> <strong>IsSmaller</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.double">double</span> maximumAbsoluteError)</h4>
+		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the specified number of decimal places or not. 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> a</h6>
+          <h6><code><span title="System.float">float</span></code> a</h6>
           <p class="comments">The first value. </p>
-          <h6><code><span title="System.double">double</span></code> b</h6>
+          <h6><code><span title="System.float">float</span></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.long">long</span></code> maxNumbersBetween</h6>
-          <p class="comments">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger. </p>
+          <h6><code><span title="System.double">double</span></code> maximumAbsoluteError</h6>
+          <p class="comments">The absolute accuracy required for being almost equal. </p>
       </div>
 
       <div class="return">
@@ -1965,9 +1956,9 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
       
     </div>
 	</div>
-	<div id="IsSmallerRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsSmallerRelative</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
-		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the specified number of decimal places or not. 
+	<div id="IsSmallerNumbersBetween" class="method">
+		<h4><span title="System.bool">bool</span> <strong>IsSmallerNumbersBetween</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.long">long</span> maxNumbersBetween)</h4>
+		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the tolerance or not. Equality comparison is based on the binary representation. 
 
 
       <div class="parameters">
@@ -1977,8 +1968,8 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
           <p class="comments">The first value. </p>
           <h6><code><span title="System.double">double</span></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
+          <h6><code><span title="System.long">long</span></code> maxNumbersBetween</h6>
+          <p class="comments">The maximum number of floating point values for which the two values are considered equal. Must be 1 or larger. </p>
       </div>
 
       <div class="return">
@@ -1990,7 +1981,7 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
     </div>
 	</div>
 	<div id="IsSmallerRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsSmallerRelative</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<h4><span title="System.bool">bool</span> <strong>IsSmallerRelative</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.double">double</span> maximumError)</h4>
 		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the specified number of decimal places or not. 
 
 
@@ -2001,8 +1992,8 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
           <p class="comments">The first value. </p>
           <h6><code><span title="System.float">float</span></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
-          <p class="comments">The number of decimal places. </p>
+          <h6><code><span title="System.double">double</span></code> maximumError</h6>
+          <p class="comments">The relative accuracy required for being almost equal. </p>
       </div>
 
       <div class="return">
@@ -2038,7 +2029,7 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
     </div>
 	</div>
 	<div id="IsSmallerRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>IsSmallerRelative</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.double">double</span> maximumError)</h4>
+		<h4><span title="System.bool">bool</span> <strong>IsSmallerRelative</strong>(this <span title="System.float">float</span> a, <span title="System.float">float</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
 		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the specified number of decimal places or not. 
 
 
@@ -2049,8 +2040,32 @@ two so that we have half the range on each side of th <var>decimalPlaces</var> g
           <p class="comments">The first value. </p>
           <h6><code><span title="System.float">float</span></code> b</h6>
           <p class="comments">The second value. </p>
-          <h6><code><span title="System.double">double</span></code> maximumError</h6>
-          <p class="comments">The relative accuracy required for being almost equal. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.bool">bool</span></code></h6>
+        <p><code>true</code>  if the first value is smaller than the second value; otherwise  <code>false</code>. </p>
+      </div>
+      
+    </div>
+	</div>
+	<div id="IsSmallerRelative" class="method">
+		<h4><span title="System.bool">bool</span> <strong>IsSmallerRelative</strong>(this <span title="System.double">double</span> a, <span title="System.double">double</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
+		<div class="content">Compares two doubles and determines if the  <code>first</code>  value is smaller than the  <code>second</code> value to within the specified number of decimal places or not. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> a</h6>
+          <p class="comments">The first value. </p>
+          <h6><code><span title="System.double">double</span></code> b</h6>
+          <p class="comments">The second value. </p>
+          <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
+          <p class="comments">The number of decimal places. </p>
       </div>
 
       <div class="return">
@@ -2142,26 +2157,6 @@ specified maximum error.
     </div>
 	</div>
 	<div id="ListAlmostEqualRelative" class="method">
-		<h4><span title="System.bool">bool</span> <strong>ListAlmostEqualRelative</strong>(this <span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span> a, <span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span> b, <span title="System.double">double</span> maximumError)</h4>
-		<div class="content">Compares two lists of doubles and determines if they are equal within the
-specified maximum error. 
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span></code> a</h6>
-          <p class="comments">The first value list. </p>
-          <h6><code><span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span></code> b</h6>
-          <p class="comments">The second value list. </p>
-          <h6><code><span title="System.double">double</span></code> maximumError</h6>
-          <p class="comments">The accuracy required for being almost equal. </p>
-      </div>
-
-      
-    </div>
-	</div>
-	<div id="ListAlmostEqualRelative" class="method">
 		<h4><span title="System.bool">bool</span> <strong>ListAlmostEqualRelative</strong>(this <span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span> a, <span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span> b, <span title="System.int">int</span> decimalPlaces)</h4>
 		<div class="content">Compares two lists of doubles and determines if they are equal within the
 specified maximum error. 
@@ -2176,6 +2171,26 @@ specified maximum error.
           <p class="comments">The second value list. </p>
           <h6><code><span title="System.int">int</span></code> decimalPlaces</h6>
           <p class="comments">The number of decimal places. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="ListAlmostEqualRelative" class="method">
+		<h4><span title="System.bool">bool</span> <strong>ListAlmostEqualRelative</strong>(this <span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span> a, <span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span> b, <span title="System.double">double</span> maximumError)</h4>
+		<div class="content">Compares two lists of doubles and determines if they are equal within the
+specified maximum error. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span></code> a</h6>
+          <p class="comments">The first value list. </p>
+          <h6><code><span title="System.Collections.Generic.IList<double>">IList&lt;double&gt;</span></code> b</h6>
+          <p class="comments">The second value list. </p>
+          <h6><code><span title="System.double">double</span></code> maximumError</h6>
+          <p class="comments">The accuracy required for being almost equal. </p>
       </div>
 
       
@@ -2380,6 +2395,341 @@ and the number of ULPS between the  <code>value</code>  and the  <code>value + r
       
     </div>
 	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.Numerics.BigInteger">BigInteger</span> <strong>Round</strong>(this <span title="System.Numerics.BigInteger">BigInteger</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.Numerics.BigInteger">BigInteger</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.ulong">ulong</span> <strong>Round</strong>(this <span title="System.ulong">ulong</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.ulong">ulong</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.ulong">ulong</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.ushort">ushort</span> <strong>Round</strong>(this <span title="System.ushort">ushort</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.ushort">ushort</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.ushort">ushort</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.double">double</span> <strong>Round</strong>(this <span title="System.double">double</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.float">float</span> <strong>Round</strong>(this <span title="System.float">float</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.float">float</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.float">float</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.decimal">decimal</span> <strong>Round</strong>(this <span title="System.decimal">decimal</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.decimal">decimal</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.decimal">decimal</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.int">int</span> <strong>Round</strong>(this <span title="System.int">int</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.int">int</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.int">int</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.uint">uint</span> <strong>Round</strong>(this <span title="System.uint">uint</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.uint">uint</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.uint">uint</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.long">long</span> <strong>Round</strong>(this <span title="System.long">long</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.long">long</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.long">long</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="Round" class="method">
+		<h4><span title="System.short">short</span> <strong>Round</strong>(this <span title="System.short">short</span> number, <span title="System.int">int</span> digits)</h4>
+		<div class="content">Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.short">short</span></code> number</h6>
+          <p class="comments">Number to be rounded </p>
+          <h6><code><span title="System.int">int</span></code> digits</h6>
+          <p class="comments">If positive the number of decimals to round to. If negative the number of digits within the integer part to round, e.g. -3 will wound to the closes 1000. </p>
+      </div>
+
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.short">short</span></code></h6>
+        <p>Rounded number </p>
+      </div>
+      <div class="example">
+  <a href="javascript:void(0)">Show Example</a>
+  <pre>To round 123456789 to hundreds Round(123456789, -2) = 123456800  </pre>
+</div>
+    </div>
+	</div>
+	<div id="RoundToMultiple" class="method">
+		<h4><span title="System.double">double</span> <strong>RoundToMultiple</strong>(this <span title="System.double">double</span> number, <span title="System.double">double</span> basis)</h4>
+		<div class="content">Round to a multiple of the provided positive basis. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> number</h6>
+          <p class="comments">Number to be rounded. </p>
+          <h6><code><span title="System.double">double</span></code> basis</h6>
+          <p class="comments">The basis to whose multiples to round to. Must be positive. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="RoundToMultiple" class="method">
+		<h4><span title="System.float">float</span> <strong>RoundToMultiple</strong>(this <span title="System.float">float</span> number, <span title="System.float">float</span> basis)</h4>
+		<div class="content">Round to a multiple of the provided positive basis. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.float">float</span></code> number</h6>
+          <p class="comments">Number to be rounded. </p>
+          <h6><code><span title="System.float">float</span></code> basis</h6>
+          <p class="comments">The basis to whose multiples to round to. Must be positive. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="RoundToMultiple" class="method">
+		<h4><span title="System.decimal">decimal</span> <strong>RoundToMultiple</strong>(this <span title="System.decimal">decimal</span> number, <span title="System.decimal">decimal</span> basis)</h4>
+		<div class="content">Round to a multiple of the provided positive basis. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.decimal">decimal</span></code> number</h6>
+          <p class="comments">Number to be rounded. </p>
+          <h6><code><span title="System.decimal">decimal</span></code> basis</h6>
+          <p class="comments">The basis to whose multiples to round to. Must be positive. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="RoundToPower" class="method">
+		<h4><span title="System.float">float</span> <strong>RoundToPower</strong>(this <span title="System.float">float</span> number, <span title="System.float">float</span> basis)</h4>
+		<div class="content">Round to a multiple of the provided positive basis. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.float">float</span></code> number</h6>
+          <p class="comments">Number to be rounded. </p>
+          <h6><code><span title="System.float">float</span></code> basis</h6>
+          <p class="comments">The basis to whose powers to round to. Must be positive. </p>
+      </div>
+
+      
+    </div>
+	</div>
+	<div id="RoundToPower" class="method">
+		<h4><span title="System.double">double</span> <strong>RoundToPower</strong>(this <span title="System.double">double</span> number, <span title="System.double">double</span> basis)</h4>
+		<div class="content">Round to a multiple of the provided positive basis. 
+
+
+      <div class="parameters">
+        <h5>Parameters</h5>
+
+          <h6><code><span title="System.double">double</span></code> number</h6>
+          <p class="comments">Number to be rounded. </p>
+          <h6><code><span title="System.double">double</span></code> basis</h6>
+          <p class="comments">The basis to whose powers to round to. Must be positive. </p>
+      </div>
+
+      
+    </div>
+	</div>
 	<div id="ScaleUnitMagnitude" class="method">
 		<h4><span title="System.double">double</span> <strong>ScaleUnitMagnitude</strong>(this <span title="System.double">double</span> value)</h4>
 		<div class="content">Returns the number divided by it's magnitude, effectively returning a number between -10 and 10. 
@@ -2509,7 +2859,7 @@ On a standard machine this is equivalent to `PositiveDoublePrecision`.
     </div>
   </div>
 	<div id="footer">
-  <p>Based on v4.14.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v4.15.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>
