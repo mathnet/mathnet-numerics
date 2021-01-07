@@ -746,7 +746,74 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+        /// Calculates the actual positive double precision machine epsilon - the smallest number that can be added to 1, yielding a results different than 1.
+        /// This is also known as unit roundoff error. According to the definition of Prof. Higham.
+        /// </summary>
+        /// <returns>Machine epsilon</returns>
+        static double MeasurePositiveMachineEpsilon()
+        {
+            double eps = 1.0d;
+
+            while ((1.0d + (eps / 2.0d)) > 1.0d)
+                eps /= 2.0d;
+
+            return eps;
+        }
+
+        /// <summary>
+        /// Round to a multiple of the provided positive basis.
+        /// </summary>
+        /// <param name="number">Number to be rounded.</param>
+        /// <param name="basis">The basis to whose multiples to round to. Must be positive.</param>
+        public static double RoundToMultiple(this double number, double basis)
+        {
+            return Math.Round(number / basis, MidpointRounding.AwayFromZero) * basis;
+        }
+
+        /// <summary>
+        /// Round to a multiple of the provided positive basis.
+        /// </summary>
+        /// <param name="number">Number to be rounded.</param>
+        /// <param name="basis">The basis to whose multiples to round to. Must be positive.</param>
+        public static float RoundToMultiple(this float number, float basis)
+        {
+            return (float) RoundToMultiple((double) number, basis);
+        }
+
+        /// <summary>
+        /// Round to a multiple of the provided positive basis.
+        /// </summary>
+        /// <param name="number">Number to be rounded.</param>
+        /// <param name="basis">The basis to whose multiples to round to. Must be positive.</param>
+        public static decimal RoundToMultiple(this decimal number, decimal basis)
+        {
+            return Math.Round(number / basis, MidpointRounding.AwayFromZero) * basis;
+        }
+
+        /// <summary>
+        /// Round to a multiple of the provided positive basis.
+        /// </summary>
+        /// <param name="number">Number to be rounded.</param>
+        /// <param name="basis">The basis to whose powers to round to. Must be positive.</param>
+        public static double RoundToPower(this double number, double basis)
+        {
+            return number < 0.0
+                ? -Math.Pow(basis, Math.Round(Math.Log(-number, basis), MidpointRounding.AwayFromZero))
+                : Math.Pow(basis, Math.Round(Math.Log(number, basis), MidpointRounding.AwayFromZero));
+        }
+
+        /// <summary>
+        /// Round to a multiple of the provided positive basis.
+        /// </summary>
+        /// <param name="number">Number to be rounded.</param>
+        /// <param name="basis">The basis to whose powers to round to. Must be positive.</param>
+        public static float RoundToPower(this float number, float basis)
+        {
+            return (float) RoundToPower((double) number, basis);
+        }
+
+        /// <summary>
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
@@ -754,16 +821,13 @@ namespace MathNet.Numerics
         /// <returns>Rounded number</returns>
         public static double Round(this double number, int decimals)
         {
-            if (decimals >= 0)
-            {
-                return Math.Round(number, decimals, MidpointRounding.AwayFromZero);
-            }
-
-            return Math.Round(number / Math.Pow(10, -decimals), MidpointRounding.AwayFromZero) * Math.Pow(10, -decimals);
+            return decimals >= 0
+                ? Math.Round(number, decimals, MidpointRounding.AwayFromZero)
+                : RoundToMultiple(number, Math.Pow(10.0, -decimals));
         }
 
         /// <summary>
-        /// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
@@ -771,46 +835,39 @@ namespace MathNet.Numerics
         /// <returns>Rounded number</returns>
         public static float Round(this float number, int decimals)
         {
-            return (float) Round((decimal) number, decimals);
+            return (float) Round((double) number, decimals);
         }
 
         /// <summary>
-		/// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+		/// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
 		/// </summary>
 		/// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
 		/// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
 		/// <returns>Rounded number</returns>
 		public static decimal Round(this decimal number, int decimals)
-		{
-            if (decimals >= 0)
-            {
-                return Math.Round(number, decimals, MidpointRounding.AwayFromZero);
-            }
-
-            decimal roundTo = (decimal) Math.Pow(10, -decimals);
-            return Math.Round(number / roundTo, MidpointRounding.AwayFromZero) * roundTo;
+        {
+            return decimals >= 0
+                ? Math.Round(number, decimals, MidpointRounding.AwayFromZero)
+                : RoundToMultiple(number, (decimal) Math.Pow(10.0, -decimals));
         }
 
 		/// <summary>
-		/// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+		/// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
 		/// </summary>
 		/// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
 		/// <example>To round 123456789 to hundreds Round(123456789, -2) = 123456800 </example>
 		/// <returns>Rounded number</returns>
 		public static int Round(this int number, int decimals)
-		{
-            if (decimals >= 0)
-            {
-                return number;
-            }
-
-            return (int) Round((decimal) number, decimals);
-		}
+        {
+            return decimals >= 0
+                ? number
+                : (int) Round((decimal) number, decimals);
+        }
 
         /// <summary>
-        /// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
@@ -819,16 +876,13 @@ namespace MathNet.Numerics
         [CLSCompliant(false)]
         public static uint Round(this uint number, int decimals)
         {
-            if (decimals >= 0)
-            {
-                return number;
-            }
-
-            return (uint) Round((decimal) number, decimals);
+            return decimals >= 0
+                ? number
+                : (uint) Round((decimal) number, decimals);
         }
 
         /// <summary>
-        /// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
@@ -836,16 +890,13 @@ namespace MathNet.Numerics
         /// <returns>Rounded number</returns>
         public static long Round(this long number, int decimals)
         {
-            if (decimals >= 0)
-            {
-                return number;
-            }
-
-            return (long) Round((decimal) number, decimals);
+            return decimals >= 0
+                ? number
+                : (long) Round((decimal) number, decimals);
         }
 
         /// <summary>
-        /// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
@@ -854,15 +905,13 @@ namespace MathNet.Numerics
         [CLSCompliant(false)]
         public static ulong Round(this ulong number, int decimals)
         {
-            if (decimals >= 0)
-            {
-                return number;
-            }
-
-            return (ulong) Round((decimal) number, decimals);
+            return decimals >= 0
+                ? number
+                : (ulong) Round((decimal) number, decimals);
         }
+
         /// <summary>
-        /// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
@@ -870,16 +919,13 @@ namespace MathNet.Numerics
         /// <returns>Rounded number</returns>
         public static short Round(this short number, int decimals)
         {
-            if (decimals >= 0)
-            {
-                return number;
-            }
-
-            return (short) Round((decimal) number, decimals);
+            return decimals >= 0
+                ? number
+                : (short) Round((decimal) number, decimals);
         }
 
         /// <summary>
-        /// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
@@ -888,16 +934,13 @@ namespace MathNet.Numerics
         [CLSCompliant(false)]
         public static ushort Round(this ushort number, int decimals)
         {
-            if (decimals >= 0)
-            {
-                return number;
-            }
-
-            return (ushort) Round((decimal) number, decimals);
+            return decimals >= 0
+                ? number
+                : (ushort) Round((decimal) number, decimals);
         }
 
         /// <summary>
-        /// Round to the number closest to 10^(-decimals). Supports negative decimals to round within the integer part.
+        /// Round to the number closest to 10^(-decimals). Negative decimals to round within the integer part.
         /// </summary>
         /// <param name="number">Number to be rounded</param>
         /// <param name="decimals">Number of decimals to round to. Negative to round within the integer part, e.g. -3 will wound to the closes 1000.</param>
@@ -919,21 +962,6 @@ namespace MathNet.Numerics
             }
 
             return divided * BigInteger.Pow(10, -decimals);
-        }
-
-        /// <summary>
-        /// Calculates the actual positive double precision machine epsilon - the smallest number that can be added to 1, yielding a results different than 1.
-        /// This is also known as unit roundoff error. According to the definition of Prof. Higham.
-        /// </summary>
-        /// <returns>Machine epsilon</returns>
-        static double MeasurePositiveMachineEpsilon()
-        {
-            double eps = 1.0d;
-
-            while ((1.0d + (eps / 2.0d)) > 1.0d)
-                eps /= 2.0d;
-
-            return eps;
         }
 
         [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
