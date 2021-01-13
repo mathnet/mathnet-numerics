@@ -474,16 +474,16 @@ namespace MathNet.Numerics
         /// <param name="recursions">Tracks the number of recursions entered.</param>
         static void IntroSort<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, IComparer<TKey> comparer, int left, int right, int recursions = 0)
         {
+            const double ln2 = 0.69314718056; // Natural Logarithm of 2
             if (left >= right)
             {
                 return;
             }
 
             Random.CryptoRandomSource rand = new MathNet.Numerics.Random.CryptoRandomSource();
-            double ln2 = Math.Log(2);
             double max_recursion_depth = 2 * Math.Log(keys.Count) / ln2; // This is the cap on recursion depth used by the GNU STL
 
-            if (right - left < 16) // Insertion Sort is faster on very small sequences
+            if (right - left < 16) // Insertion Sort is faster on very small sequences, 16 is the number that Array.Sort uses
             {
                 for (int i = left + 1; i <= right; i++)
                 {
