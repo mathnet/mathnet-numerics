@@ -133,7 +133,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a range of a list of keys, in place using the introsort algorithm.
+        /// Sort a range of a list of keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="T">The type of element in the list.</typeparam>
         /// <param name="keys">List to sort.</param>
@@ -152,9 +152,41 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
+            if (count <= 1)
+            {
+                return;
+            }
+
             if (null == comparer)
             {
                 comparer = Comparer<T>.Default;
+            }
+
+            if (count == 2)
+            {
+                if (comparer.Compare(keys[index], keys[index + 1]) > 0)
+                {
+                    Swap(keys, index, index + 1);
+                }
+                return;
+            }
+
+            // insertion sort
+            if (count <= 10)
+            {
+                int to = index + count;
+                for (int i = index + 1; i < to; i++)
+                {
+                    var key = keys[i];
+                    int j = i - 1;
+                    while (j >= index && comparer.Compare(keys[j], key) > 0)
+                    {
+                        keys[j + 1] = keys[j];
+                        j--;
+                    }
+                    keys[j + 1] = key;
+                }
+                return;
             }
 
             // array case
@@ -172,11 +204,11 @@ namespace MathNet.Numerics
             }
 
             // fall back: local sort implementation
-            IntroSort(keys, comparer, index, index + count, (int a, int b) => Swap(keys, a, b));
+            QuickSort(keys, comparer, index, count - 1);
         }
 
         /// <summary>
-        /// Sort a list of keys and items with respect to the keys, in place using the introsort algorithm.
+        /// Sort a list of keys and items with respect to the keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
         /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
@@ -197,22 +229,60 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
+            if (count <= 1)
+            {
+                return;
+            }
+
             if (null == comparer)
             {
                 comparer = Comparer<TKey>.Default;
             }
 
-            // fall back: local sort implementation
-            Action<int, int> swap = (int a, int b) =>
+            if (count == 2)
             {
-                Swap<TKey>(keys, a, b);
-                Swap<TItem>(items, a, b);
-            };
-            IntroSort(keys, comparer, index, index + count, swap);
+                if (comparer.Compare(keys[index], keys[index + 1]) > 0)
+                {
+                    Swap(keys, index, index + 1);
+                    Swap(items, index, index + 1);
+                }
+                return;
+            }
+
+            // insertion sort
+            if (count <= 10)
+            {
+                int to = index + count;
+                for (int i = index + 1; i < to; i++)
+                {
+                    var key = keys[i];
+                    var item = items[i];
+                    int j = i - 1;
+                    while (j >= index && comparer.Compare(keys[j], key) > 0)
+                    {
+                        keys[j + 1] = keys[j];
+                        items[j + 1] = items[j];
+                        j--;
+                    }
+                    keys[j + 1] = key;
+                    items[j + 1] = item;
+                }
+                return;
+            }
+
+            // array case
+            if (keys is TKey[] keysArray && items is TItem[] itemsArray)
+            {
+                Array.Sort(keysArray, itemsArray, index, count, comparer);
+                return;
+            }
+
+            // fall back: local sort implementation
+            QuickSort(keys, items, comparer, index, count - 1);
         }
 
         /// <summary>
-        /// Sort a list of keys, items1 and items2 with respect to the keys, in place using the introsort algorithm.
+        /// Sort a list of keys, items1 and items2 with respect to the keys, in place using the quick sort algorithm.
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
         /// <typeparam name="TItem1">The type of elements in the first item list.</typeparam>
@@ -235,19 +305,53 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
+            if (count <= 1)
+            {
+                return;
+            }
+
             if (null == comparer)
             {
                 comparer = Comparer<TKey>.Default;
             }
 
-            // fall back: local sort implementation
-            Action<int, int> swap = (int a, int b) =>
+            if (count == 2)
             {
-                Swap<TKey>(keys, a, b);
-                Swap<TItem1>(items1, a, b);
-                Swap<TItem2>(items2, a, b);
-            };
-            IntroSort(keys, comparer, index, index + count, swap);
+                if (comparer.Compare(keys[index], keys[index + 1]) > 0)
+                {
+                    Swap(keys, index, index + 1);
+                    Swap(items1, index, index + 1);
+                    Swap(items2, index, index + 1);
+                }
+                return;
+            }
+
+            // insertion sort
+            if (count <= 10)
+            {
+                int to = index + count;
+                for (int i = index + 1; i < to; i++)
+                {
+                    var key = keys[i];
+                    var item1 = items1[i];
+                    var item2 = items2[i];
+                    int j = i - 1;
+                    while (j >= index && comparer.Compare(keys[j], key) > 0)
+                    {
+                        keys[j + 1] = keys[j];
+                        items1[j + 1] = items1[j];
+                        items2[j + 1] = items2[j];
+                        j--;
+                    }
+                    keys[j + 1] = key;
+                    items1[j + 1] = item1;
+                    items2[j + 1] = item2;
+                }
+                return;
+            }
+
+            // fall back: local sort implementation
+            QuickSort(keys, items1, items2, comparer, index, count - 1);
         }
 
         /// <summary>
