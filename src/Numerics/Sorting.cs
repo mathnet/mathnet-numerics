@@ -67,7 +67,7 @@ namespace MathNet.Numerics
             }
 
             // local sort implementation
-            IntroSort<T, int>(keys, null, comparer, 0, count - 1);
+            IntroSort<T>(keys, comparer, 0, count - 1, (int a, int b) => Swap(keys, a, b));
         }
 
         /// <summary>
@@ -95,7 +95,12 @@ namespace MathNet.Numerics
             }
 
             // local sort implementation
-            IntroSort(keys, items, comparer, 0, count - 1);
+            Action<int, int> swap = (int a, int b) =>
+            {
+                Swap<TKey>(keys, a, b);
+                Swap<TItem>(items, a, b);
+            };
+            IntroSort(keys, comparer, 0, count - 1, swap);
         }
 
         /// <summary>
@@ -111,52 +116,20 @@ namespace MathNet.Numerics
         public static void Sort<TKey, TItem1, TItem2>(IList<TKey> keys, IList<TItem1> items1, IList<TItem2> items2, IComparer<TKey> comparer = null)
         {
             int count = keys.Count;
-            if (count <= 1)
-            {
-                return;
-            }
 
             if (null == comparer)
             {
                 comparer = Comparer<TKey>.Default;
             }
 
-            if (count == 2)
-            {
-                if (comparer.Compare(keys[0], keys[1]) > 0)
-                {
-                    Swap(keys, 0, 1);
-                    Swap(items1, 0, 1);
-                    Swap(items2, 0, 1);
-                }
-                return;
-            }
-
-            // insertion sort
-            if (count <= 10)
-            {
-                for (int i = 1; i < count; i++)
-                {
-                    var key = keys[i];
-                    var item1 = items1[i];
-                    var item2 = items2[i];
-                    int j = i - 1;
-                    while (j >= 0 && comparer.Compare(keys[j], key) > 0)
-                    {
-                        keys[j + 1] = keys[j];
-                        items1[j + 1] = items1[j];
-                        items2[j + 1] = items2[j];
-                        j--;
-                    }
-                    keys[j + 1] = key;
-                    items1[j + 1] = item1;
-                    items2[j + 1] = item2;
-                }
-                return;
-            }
-
             // local sort implementation
-            QuickSort(keys, items1, items2, comparer, 0, count - 1);
+            Action<int, int> swap = (int a, int b) =>
+            {
+                Swap<TKey>(keys, a, b);
+                Swap<TItem1>(items1, a, b);
+                Swap<TItem2>(items2, a, b);
+            };
+            IntroSort(keys, comparer, 0, count - 1, swap);
         }
 
         /// <summary>
@@ -179,41 +152,9 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
-            if (count <= 1)
-            {
-                return;
-            }
-
             if (null == comparer)
             {
                 comparer = Comparer<T>.Default;
-            }
-
-            if (count == 2)
-            {
-                if (comparer.Compare(keys[index], keys[index + 1]) > 0)
-                {
-                    Swap(keys, index, index + 1);
-                }
-                return;
-            }
-
-            // insertion sort
-            if (count <= 10)
-            {
-                int to = index + count;
-                for (int i = index + 1; i < to; i++)
-                {
-                    var key = keys[i];
-                    int j = i - 1;
-                    while (j >= index && comparer.Compare(keys[j], key) > 0)
-                    {
-                        keys[j + 1] = keys[j];
-                        j--;
-                    }
-                    keys[j + 1] = key;
-                }
-                return;
             }
 
             // array case
@@ -231,7 +172,7 @@ namespace MathNet.Numerics
             }
 
             // fall back: local sort implementation
-            QuickSort(keys, comparer, index, count - 1);
+            IntroSort(keys, comparer, index, index + count, (int a, int b) => Swap(keys, a, b));
         }
 
         /// <summary>
@@ -256,56 +197,18 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
-            if (count <= 1)
-            {
-                return;
-            }
-
             if (null == comparer)
             {
                 comparer = Comparer<TKey>.Default;
             }
 
-            if (count == 2)
-            {
-                if (comparer.Compare(keys[index], keys[index + 1]) > 0)
-                {
-                    Swap(keys, index, index + 1);
-                    Swap(items, index, index + 1);
-                }
-                return;
-            }
-
-            // insertion sort
-            if (count <= 10)
-            {
-                int to = index + count;
-                for (int i = index + 1; i < to; i++)
-                {
-                    var key = keys[i];
-                    var item = items[i];
-                    int j = i - 1;
-                    while (j >= index && comparer.Compare(keys[j], key) > 0)
-                    {
-                        keys[j + 1] = keys[j];
-                        items[j + 1] = items[j];
-                        j--;
-                    }
-                    keys[j + 1] = key;
-                    items[j + 1] = item;
-                }
-                return;
-            }
-
-            // array case
-            if (keys is TKey[] keysArray && items is TItem[] itemsArray)
-            {
-                Array.Sort(keysArray, itemsArray, index, count, comparer);
-                return;
-            }
-
             // fall back: local sort implementation
-            QuickSort(keys, items, comparer, index, count - 1);
+            Action<int, int> swap = (int a, int b) =>
+            {
+                Swap<TKey>(keys, a, b);
+                Swap<TItem>(items, a, b);
+            };
+            IntroSort(keys, comparer, index, index + count, swap);
         }
 
         /// <summary>
@@ -332,53 +235,19 @@ namespace MathNet.Numerics
                 throw new ArgumentOutOfRangeException(nameof(count));
             }
 
-            if (count <= 1)
-            {
-                return;
-            }
-
             if (null == comparer)
             {
                 comparer = Comparer<TKey>.Default;
             }
 
-            if (count == 2)
-            {
-                if (comparer.Compare(keys[index], keys[index + 1]) > 0)
-                {
-                    Swap(keys, index, index + 1);
-                    Swap(items1, index, index + 1);
-                    Swap(items2, index, index + 1);
-                }
-                return;
-            }
-
-            // insertion sort
-            if (count <= 10)
-            {
-                int to = index + count;
-                for (int i = index + 1; i < to; i++)
-                {
-                    var key = keys[i];
-                    var item1 = items1[i];
-                    var item2 = items2[i];
-                    int j = i - 1;
-                    while (j >= index && comparer.Compare(keys[j], key) > 0)
-                    {
-                        keys[j + 1] = keys[j];
-                        items1[j + 1] = items1[j];
-                        items2[j + 1] = items2[j];
-                        j--;
-                    }
-                    keys[j + 1] = key;
-                    items1[j + 1] = item1;
-                    items2[j + 1] = item2;
-                }
-                return;
-            }
-
             // fall back: local sort implementation
-            QuickSort(keys, items1, items2, comparer, index, count - 1);
+            Action<int, int> swap = (int a, int b) =>
+            {
+                Swap<TKey>(keys, a, b);
+                Swap<TItem1>(items1, a, b);
+                Swap<TItem2>(items2, a, b);
+            };
+            IntroSort(keys, comparer, index, index + count, swap);
         }
 
         /// <summary>
@@ -410,14 +279,13 @@ namespace MathNet.Numerics
         /// Recursively reorders the given list to satisfy the max heap property.
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
-        /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
         /// <param name="keys">The list which is turned into a heap.</param>
-        /// <param name="satelliteData">List of sattelliteData to "drag along" with the keys. Set to null to indicate no such data.</param>
         /// <param name="comparer">The method with which to compare two elements of the heap.</param>
         /// <param name="i">The index of the heap to heapify.</param>
         /// <param name="left">The left boundary of the heapify.</param>
         /// <param name="right">The right boundary of the heapify.</param>
-        static void MaxHeapify<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, IComparer<TKey> comparer, int i, int left, int right)
+        /// <param name="swapper">An Action which takes the given indexes and swaps the key and satellite data.</param>
+        static void MaxHeapify<TKey>(IList<TKey> keys, IComparer<TKey> comparer, int i, int left, int right, Action<int, int> swapper)
         {
             i -= left;
             int leftChild = 2 * i + 1;
@@ -437,8 +305,8 @@ namespace MathNet.Numerics
 
             if (largest != i)
             {
-                Swap(keys, satelliteData, largest + left, i + left);
-                MaxHeapify(keys, satelliteData, comparer, largest + left, left, right);
+                swapper(largest + left, i + left);
+                MaxHeapify(keys, comparer, largest + left, left, right, swapper);
             }
         }
 
@@ -446,18 +314,17 @@ namespace MathNet.Numerics
         /// 
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
-        /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
         /// <param name="keys">The list which is turned into a heap.</param>
-        /// <param name="satelliteData">List of sattelliteData to "drag along" with the keys. Set to null to indicate no such data.</param>
         /// <param name="comparer">The method with which to compare two elements of the heap.</param>
         /// <param name="left">The left boundary of the heap.</param>
         /// <param name="right">The right boundary of the heap.</param>
+        /// <param name="swapper">An Action which takes the given indexes and swaps the key and satellite data.</param>
 
-        static void BuildMaxHeap<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, IComparer<TKey> comparer, int left, int right)
+        static void BuildMaxHeap<TKey>(IList<TKey> keys, IComparer<TKey> comparer, int left, int right, Action<int, int> swapper)
         {
             for (int i = (right - left) / 2; i >= 0; i--)
             {
-                MaxHeapify(keys, satelliteData, comparer, i + left, left, right);
+                MaxHeapify(keys, comparer, i + left, left, right, swapper);
             }
         }
 
@@ -465,14 +332,13 @@ namespace MathNet.Numerics
         /// Recursive implementation for an in place introspective sort on a list.
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
-        /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
         /// <param name="keys">The list which is sorted using intro sort.</param>
-        /// <param name="satelliteData">List of sattelliteData to "drag along" with the keys. Set to null to indicate no such data.</param>
         /// <param name="comparer">The method with which to compare two elements of the intro sort.</param>
         /// <param name="left">The left boundary of the intro sort.</param>
         /// <param name="right">The right boundary of the intro sort.</param>
+        /// <param name="swapper">An Action which takes the given indexes and swaps the key and satellite data.</param>
         /// <param name="recursions">Tracks the number of recursions entered.</param>
-        static void IntroSort<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, IComparer<TKey> comparer, int left, int right, int recursions = 0)
+        static void IntroSort<TKey>(IList<TKey> keys, IComparer<TKey> comparer, int left, int right, Action<int, int> swapper, int recursions = 0)
         {
             const double ln2 = 0.69314718056; // Natural Logarithm of 2
             if (left >= right)
@@ -490,27 +356,27 @@ namespace MathNet.Numerics
                     int j = i;
                     while (j > 0 && comparer.Compare(keys[j - 1], keys[j]) > 0)
                     {
-                        Swap(keys, satelliteData, j, j - 1);
+                        swapper(j, j - 1);
                         j--;
                     }
                 }
             }
             else if (recursions > max_recursion_depth) // Heapsort is guaranteed O(n log n) 
             {
-                BuildMaxHeap(keys, satelliteData, comparer, left, right);
+                BuildMaxHeap(keys, comparer, left, right, swapper);
 
                 int heapBoundary = right;
 
                 for (int i = right - left; i > 0; i--)
                 {
-                    Swap(keys, satelliteData, left, left + i);
-                    MaxHeapify(keys, satelliteData, comparer, left, left, --heapBoundary);
+                    swapper(left, left + i);
+                    MaxHeapify(keys, comparer, left, left, --heapBoundary, swapper);
                 }
             }
             else // Quicksort
             {
                 int pivot_index = (rand.Next() % (right - left)) + left; // Don't need to worry about negatives because rand.Next() returns a non-negative number
-                Swap(keys, satelliteData, pivot_index, right);
+                swapper(pivot_index, right);
 
                 TKey pivot = keys[right];
 
@@ -520,16 +386,16 @@ namespace MathNet.Numerics
                     if (comparer.Compare(keys[j], pivot) <= 0)
                     {
                         i++;
-                        Swap(keys, satelliteData, i, j);
+                        swapper(i, j);
                     }
                 }
 
                 i++;
-                Swap(keys, satelliteData, i, right);
+                swapper(i, right);
 
                 recursions++;
-                IntroSort(keys, satelliteData, comparer, left, i - 1, recursions);
-                IntroSort(keys, satelliteData, comparer, i + 1, right, recursions);
+                IntroSort(keys, comparer, left, i - 1, swapper, recursions);
+                IntroSort(keys, comparer, i + 1, right, swapper, recursions);
             }
 
         }
@@ -924,34 +790,6 @@ namespace MathNet.Numerics
             T local = keys[a];
             keys[a] = keys[b];
             keys[b] = local;
-        }
-
-        /// <summary>
-        /// Performs an in place swap of two elements in a list.
-        /// </summary>
-        /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
-        /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
-        /// <param name="keys">The list in which the elements are stored.</param>
-        /// <param name="satelliteData">List of sattelliteData to "drag along" with the keys. Set to null to indicate no such data.</param>
-        /// <param name="a">The index of the first element of the swap.</param>
-        /// <param name="b">The index of the second element of the swap.</param>
-        static void Swap<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, int a, int b)
-        {
-            if (a == b)
-            {
-                return;
-            }
-
-            TKey local = keys[a];
-            keys[a] = keys[b];
-            keys[b] = local;
-
-            if (satelliteData != null)
-            {
-                TItem tmp = satelliteData[a];
-                satelliteData[a] = satelliteData[b];
-                satelliteData[b] = tmp;
-            }
         }
     }
 }
