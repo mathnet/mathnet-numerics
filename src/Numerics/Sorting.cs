@@ -496,6 +496,9 @@ namespace MathNet.Numerics
             }
             else if (recursions > max_recursion_depth) // Heapsort is guaranteed O(n log n) 
             {
+                // NOTE, there is something wrong with this heapsort implementation. I don't know what, but this fails when the max recursion depth is set too low.
+
+
                 BuildMaxHeap(keys, satelliteData, comparer, left, right);
 
                 int heapBoundary = right;
