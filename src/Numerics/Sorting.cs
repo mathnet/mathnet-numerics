@@ -38,7 +38,7 @@ namespace MathNet.Numerics
     public static class Sorting
     {
         /// <summary>
-        /// Sort a list of keys, in place using the quick sort algorithm using the introsort algorithm.
+        /// Sort a list of keys, in place using the introsort algorithm.
         /// </summary>
         /// <typeparam name="T">The type of elements in the key list.</typeparam>
         /// <param name="keys">List to sort.</param>
@@ -104,7 +104,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a list of keys, items1 and items2 with respect to the keys, in place using the quick sort algorithm.
+        /// Sort a list of keys, items1 and items2 with respect to the keys, in place using the introsort algorithm.
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
         /// <typeparam name="TItem1">The type of elements in the first item list.</typeparam>
@@ -133,7 +133,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a range of a list of keys, in place using the quick sort algorithm.
+        /// Sort a range of a list of keys, in place using the introsort algorithm.
         /// </summary>
         /// <typeparam name="T">The type of element in the list.</typeparam>
         /// <param name="keys">List to sort.</param>
@@ -176,7 +176,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a list of keys and items with respect to the keys, in place using the quick sort algorithm.
+        /// Sort a list of keys and items with respect to the keys, in place using the introsort algorithm.
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
         /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
@@ -212,7 +212,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Sort a list of keys, items1 and items2 with respect to the keys, in place using the quick sort algorithm.
+        /// Sort a list of keys, items1 and items2 with respect to the keys, in place using the introsort algorithm.
         /// </summary>
         /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
         /// <typeparam name="TItem1">The type of elements in the first item list.</typeparam>
