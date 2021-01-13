@@ -419,25 +419,26 @@ namespace MathNet.Numerics
         /// <param name="right">The right boundary of the heapify.</param>
         static void MaxHeapify<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, IComparer<TKey> comparer, int i, int left, int right)
         {
+            i -= left;
             int leftChild = 2 * i + 1;
             int rightChild = 2 * i + 2;
 
             int largest = i;
 
-            if (leftChild >= left && leftChild <= right && comparer.Compare(keys[leftChild], keys[largest]) > 0)
+            if (leftChild + left >= left && leftChild + left <= right && comparer.Compare(keys[leftChild + left], keys[largest + left]) > 0)
             {
                 largest = leftChild;
             }
 
-            if (rightChild >= left && rightChild <= right && comparer.Compare(keys[rightChild], keys[largest]) > 0)
+            if (rightChild + left >= left && rightChild + left <= right && comparer.Compare(keys[rightChild + left], keys[largest + left]) > 0)
             {
                 largest = rightChild;
             }
 
             if (largest != i)
             {
-                Swap(keys, satelliteData, largest, i);
-                MaxHeapify(keys, satelliteData, comparer, largest, left, right);
+                Swap(keys, satelliteData, largest + left, i + left);
+                MaxHeapify(keys, satelliteData, comparer, largest + left, left, right);
             }
         }
 
@@ -456,7 +457,7 @@ namespace MathNet.Numerics
         {
             for (int i = (right - left) / 2; i >= 0; i--)
             {
-                MaxHeapify(keys, satelliteData, comparer, left + i, left, right);
+                MaxHeapify(keys, satelliteData, comparer, i + left, left, right);
             }
         }
 
@@ -496,9 +497,6 @@ namespace MathNet.Numerics
             }
             else if (recursions > max_recursion_depth) // Heapsort is guaranteed O(n log n) 
             {
-                // NOTE, there is something wrong with this heapsort implementation. I don't know what, but this fails when the max recursion depth is set too low.
-
-
                 BuildMaxHeap(keys, satelliteData, comparer, left, right);
 
                 int heapBoundary = right;
