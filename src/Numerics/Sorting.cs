@@ -38,7 +38,7 @@ namespace MathNet.Numerics
     public static class Sorting
     {
         /// <summary>
-        /// Sort a list of keys, in place using the quick sort algorithm using the quick sort algorithm.
+        /// Sort a list of keys, in place using the quick sort algorithm using the introsort algorithm.
         /// </summary>
         /// <typeparam name="T">The type of elements in the key list.</typeparam>
         /// <param name="keys">List to sort.</param>
@@ -46,40 +46,10 @@ namespace MathNet.Numerics
         public static void Sort<T>(IList<T> keys, IComparer<T> comparer = null)
         {
             int count = keys.Count;
-            if (count <= 1)
-            {
-                return;
-            }
 
             if (null == comparer)
             {
                 comparer = Comparer<T>.Default;
-            }
-
-            if (count == 2)
-            {
-                if (comparer.Compare(keys[0], keys[1]) > 0)
-                {
-                    Swap(keys, 0, 1);
-                }
-                return;
-            }
-
-            // insertion sort
-            if (count <= 10)
-            {
-                for (int i = 1; i < count; i++)
-                {
-                    var key = keys[i];
-                    int j = i - 1;
-                    while (j >= 0 && comparer.Compare(keys[j], key) > 0)
-                    {
-                        keys[j + 1] = keys[j];
-                        j--;
-                    }
-                    keys[j + 1] = key;
-                }
-                return;
             }
 
             // array case
@@ -97,7 +67,7 @@ namespace MathNet.Numerics
             }
 
             // local sort implementation
-            QuickSort(keys, comparer, 0, count - 1);
+            IntroSort<T, int>(keys, null, comparer, 0, count - 1);
         }
 
         /// <summary>
@@ -111,44 +81,10 @@ namespace MathNet.Numerics
         public static void Sort<TKey, TItem>(IList<TKey> keys, IList<TItem> items, IComparer<TKey> comparer = null)
         {
             int count = keys.Count;
-            if (count <= 1)
-            {
-                return;
-            }
 
             if (null == comparer)
             {
                 comparer = Comparer<TKey>.Default;
-            }
-
-            if (count == 2)
-            {
-                if (comparer.Compare(keys[0], keys[1]) > 0)
-                {
-                    Swap(keys, 0, 1);
-                    Swap(items, 0, 1);
-                }
-                return;
-            }
-
-            // insertion sort
-            if (count <= 10)
-            {
-                for (int i = 1; i < count; i++)
-                {
-                    var key = keys[i];
-                    var item = items[i];
-                    int j = i - 1;
-                    while (j >= 0 && comparer.Compare(keys[j], key) > 0)
-                    {
-                        keys[j + 1] = keys[j];
-                        items[j + 1] = items[j];
-                        j--;
-                    }
-                    keys[j + 1] = key;
-                    items[j + 1] = item;
-                }
-                return;
             }
 
             // array case
@@ -159,7 +95,7 @@ namespace MathNet.Numerics
             }
 
             // local sort implementation
-            QuickSort(keys, items, comparer, 0, count - 1);
+            IntroSort(keys, items, comparer, 0, count - 1);
         }
 
         /// <summary>
@@ -470,6 +406,132 @@ namespace MathNet.Numerics
             QuickSortAll(primary, secondary, primaryComparer, secondaryComparer, 0, primary.Count - 1);
         }
 
+        /// <summary>
+        /// Recursively reorders the given list to satisfy the max heap property.
+        /// </summary>
+        /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
+        /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
+        /// <param name="keys">The list which is turned into a heap.</param>
+        /// <param name="satelliteData">List of sattelliteData to "drag along" with the keys. Set to null to indicate no such data.</param>
+        /// <param name="comparer">The method with which to compare two elements of the heap.</param>
+        /// <param name="i">The index of the heap to heapify.</param>
+        /// <param name="left">The left boundary of the heapify.</param>
+        /// <param name="right">The right boundary of the heapify.</param>
+        static void MaxHeapify<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, IComparer<TKey> comparer, int i, int left, int right)
+        {
+            int leftChild = 2 * i + 1;
+            int rightChild = 2 * i + 2;
+
+            int largest = i;
+
+            if (leftChild >= left && leftChild <= right && comparer.Compare(keys[leftChild], keys[largest]) > 0)
+            {
+                largest = leftChild;
+            }
+
+            if (rightChild >= left && rightChild <= right && comparer.Compare(keys[rightChild], keys[largest]) > 0)
+            {
+                largest = rightChild;
+            }
+
+            if (largest != i)
+            {
+                Swap(keys, satelliteData, largest, i);
+                MaxHeapify(keys, satelliteData, comparer, largest, left, right);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
+        /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
+        /// <param name="keys">The list which is turned into a heap.</param>
+        /// <param name="satelliteData">List of sattelliteData to "drag along" with the keys. Set to null to indicate no such data.</param>
+        /// <param name="comparer">The method with which to compare two elements of the heap.</param>
+        /// <param name="left">The left boundary of the heap.</param>
+        /// <param name="right">The right boundary of the heap.</param>
+
+        static void BuildMaxHeap<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, IComparer<TKey> comparer, int left, int right)
+        {
+            for (int i = (right - left) / 2; i >= 0; i--)
+            {
+                MaxHeapify(keys, satelliteData, comparer, left + i, left, right);
+            }
+        }
+
+        /// <summary>
+        /// Recursive implementation for an in place introspective sort on a list.
+        /// </summary>
+        /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
+        /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
+        /// <param name="keys">The list which is sorted using intro sort.</param>
+        /// <param name="satelliteData">List of sattelliteData to "drag along" with the keys. Set to null to indicate no such data.</param>
+        /// <param name="comparer">The method with which to compare two elements of the intro sort.</param>
+        /// <param name="left">The left boundary of the intro sort.</param>
+        /// <param name="right">The right boundary of the intro sort.</param>
+        /// <param name="recursions">Tracks the number of recursions entered.</param>
+        static void IntroSort<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, IComparer<TKey> comparer, int left, int right, int recursions = 0)
+        {
+            if (left >= right)
+            {
+                return;
+            }
+
+            Random.CryptoRandomSource rand = new MathNet.Numerics.Random.CryptoRandomSource();
+            double ln2 = Math.Log(2);
+            double max_recursion_depth = 2 * Math.Log(keys.Count) / ln2; // This is the cap on recursion depth used by the GNU STL
+
+            if (right - left < 16) // Insertion Sort is faster on very small sequences
+            {
+                for (int i = left + 1; i <= right; i++)
+                {
+                    int j = i;
+                    while (j > 0 && comparer.Compare(keys[j - 1], keys[j]) > 0)
+                    {
+                        Swap(keys, satelliteData, j, j - 1);
+                        j--;
+                    }
+                }
+            }
+            else if (recursions > max_recursion_depth) // Heapsort is guaranteed O(n log n) 
+            {
+                BuildMaxHeap(keys, satelliteData, comparer, left, right);
+
+                int heapBoundary = right;
+
+                for (int i = right - left; i > 0; i--)
+                {
+                    Swap(keys, satelliteData, left, left + i);
+                    MaxHeapify(keys, satelliteData, comparer, left, left, --heapBoundary);
+                }
+            }
+            else // Quicksort
+            {
+                int pivot_index = (rand.Next() % (right - left)) + left; // Don't need to worry about negatives because rand.Next() returns a non-negative number
+                Swap(keys, satelliteData, pivot_index, right);
+
+                TKey pivot = keys[right];
+
+                int i = left - 1;
+                for (int j = left; j < right; j++)
+                {
+                    if (comparer.Compare(keys[j], pivot) <= 0)
+                    {
+                        i++;
+                        Swap(keys, satelliteData, i, j);
+                    }
+                }
+
+                i++;
+                Swap(keys, satelliteData, i, right);
+
+                recursions++;
+                IntroSort(keys, satelliteData, comparer, left, i - 1, recursions);
+                IntroSort(keys, satelliteData, comparer, i + 1, right, recursions);
+            }
+
+        }
 
         /// <summary>
         /// Recursive implementation for an in place quick sort on a list.
@@ -861,6 +923,34 @@ namespace MathNet.Numerics
             T local = keys[a];
             keys[a] = keys[b];
             keys[b] = local;
+        }
+
+        /// <summary>
+        /// Performs an in place swap of two elements in a list.
+        /// </summary>
+        /// <typeparam name="TKey">The type of elements in the key list.</typeparam>
+        /// <typeparam name="TItem">The type of elements in the item list.</typeparam>
+        /// <param name="keys">The list in which the elements are stored.</param>
+        /// <param name="satelliteData">List of sattelliteData to "drag along" with the keys. Set to null to indicate no such data.</param>
+        /// <param name="a">The index of the first element of the swap.</param>
+        /// <param name="b">The index of the second element of the swap.</param>
+        static void Swap<TKey, TItem>(IList<TKey> keys, IList<TItem> satelliteData, int a, int b)
+        {
+            if (a == b)
+            {
+                return;
+            }
+
+            TKey local = keys[a];
+            keys[a] = keys[b];
+            keys[b] = local;
+
+            if (satelliteData != null)
+            {
+                TItem tmp = satelliteData[a];
+                satelliteData[a] = satelliteData[b];
+                satelliteData[b] = tmp;
+            }
         }
     }
 }
