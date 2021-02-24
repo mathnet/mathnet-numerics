@@ -79,6 +79,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests
                 new InverseGamma(1.0, 1.0),
                 new InverseGaussian(1.0, 3.0),
                 new Laplace(1.0, 0.5),
+                new Logistic(0.0, 1.0),
                 new LogNormal(1.0, 1.0),
                 new Normal(0.0, 1.0),
                 new Pareto(1.0, 0.5),
