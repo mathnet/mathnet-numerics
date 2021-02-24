@@ -326,8 +326,7 @@ namespace MathNet.Numerics.Distributions
             {
                 return;
             }
-            var uniform = rnd.NextDoubles(values.Length);
-
+            
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = SampleUnchecked(rnd, mean, scale);
