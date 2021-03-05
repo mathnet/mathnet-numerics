@@ -179,7 +179,8 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="PDF"/>
         public double Density(double x)
         {
-            return 1.0/(Constants.Pi*_scale*(1.0 + (((x - _location)/_scale)*((x - _location)/_scale))));
+            var z = (x - _location)/_scale;
+            return 1.0/(Constants.Pi*_scale*(1.0 + z * z));
         }
 
         /// <summary>
@@ -190,7 +191,8 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
-            return -Math.Log(Constants.Pi*_scale*(1.0 + (((x - _location)/_scale)*((x - _location)/_scale))));
+            var z = (x - _location)/_scale;
+            return -Math.Log(Constants.Pi*_scale*(1.0 +  z * z));
         }
 
         /// <summary>
@@ -283,9 +285,9 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return 1.0/(Constants.Pi*scale*(1.0 + (((x - location)/scale)*((x - location)/scale))));
+            var z = (x - location)/scale;
+            return 1.0/(Constants.Pi*scale*(1.0 + z * z));
         }
-
         /// <summary>
         /// Computes the log probability density of the distribution (lnPDF) at x, i.e. ln(∂P(X ≤ x)/∂x).
         /// </summary>
@@ -301,7 +303,8 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            return -Math.Log(Constants.Pi*scale*(1.0 + (((x - location)/scale)*((x - location)/scale))));
+            var z = (x - location)/scale;
+            return -Math.Log(Constants.Pi*scale*(1.0 + z * z ));
         }
 
         /// <summary>
