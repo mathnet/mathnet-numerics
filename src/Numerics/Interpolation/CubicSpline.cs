@@ -237,7 +237,6 @@ namespace MathNet.Numerics.Interpolation
 
             var dd = new double[x.Length];
             var hPrev = x[1] - x[0];
-            // This check is quite costly as it usually involves a Math.Pow().
             var mPrevIs0 = m[0].AlmostEqual(0.0);
 
             for (var i = 1; i < x.Length - 1; ++i)
