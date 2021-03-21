@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <TargetFrameworks>net40;netstandard1.1</TargetFrameworks>
@@ -28,6 +28,12 @@
 		<EmbeddedResource Include="..\..\data\numpy\CorrNumpyData_rnd.csv">
 		  <Link>Data\numpy\CorrNumpyData_rnd.csv</Link>
 		</EmbeddedResource>
+        <EmbeddedResource Include="..\..\data\numpy\XCorrNumpyData.json">
+            <Link>Data\numpy\XCorrNumpyData.json</Link>
+        </EmbeddedResource>
+        <EmbeddedResource Include="..\..\data\numpy\XCorrNumpyDataShortY.json">
+            <Link>Data\numpy\XCorrNumpyDataShortY.json</Link>
+        </EmbeddedResource>
         <EmbeddedResource Include="..\..\data\Codeplex-5667.csv">
             <Link>Data\Codeplex-5667.csv</Link>
         </EmbeddedResource>

@@ -34,6 +34,8 @@ using NUnit.Framework;
 using MathNet.Numerics.Statistics;
 using MathNet.Numerics.TestData;
 using System.Globalization;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace MathNet.Numerics.UnitTests.StatisticsTests
 {
@@ -84,6 +86,64 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             {
                 Assert.AreEqual(resNumpy[i], resMathNet[i], tol);
             }
+        }
+
+        [TestCase("numpy.XCorrNumpyData.json", CorrelationMode.Valid, "result_valid")]
+        [TestCase("numpy.XCorrNumpyData.json", CorrelationMode.Same, "result_same")]
+        [TestCase("numpy.XCorrNumpyData.json", CorrelationMode.Full, "result_full")]
+        [TestCase("numpy.XCorrNumpyDataShortY.json", CorrelationMode.Valid, "result_valid")]
+        [TestCase("numpy.XCorrNumpyDataShortY.json", CorrelationMode.Same, "result_same")]
+        [TestCase("numpy.XCorrNumpyDataShortY.json", CorrelationMode.Full, "result_full")]
+        public void CrossCorrelationTest(string filename, CorrelationMode mode, string resultMemberName)
+        {
+            // read the test data
+            var serializer = new DataContractJsonSerializer(typeof(XCorrTestdata));
+            XCorrTestdata testdata;
+            using (var stream = Data.ReadStream(filename))
+            {
+                testdata = serializer.ReadObject(stream) as XCorrTestdata;
+            }
+            Assume.That(testdata, Is.Not.Null);
+
+            // select the test data for this test case
+            var x = testdata.x;
+            var y = testdata.y;
+            var expectedResult = typeof(XCorrTestdata).GetField(resultMemberName).GetValue(testdata) as double[];
+            Assume.That(expectedResult, Is.Not.Null);
+
+            var actualResult = Correlation.CrossCorrelation(x, y, mode);
+            Assert.That(actualResult, Is.EqualTo(expectedResult).Within(1e-10));
+        }
+
+        [TestCase(CorrelationMode.Valid)]
+        [TestCase(CorrelationMode.Same)]
+        [TestCase(CorrelationMode.Full)]
+        public void CrossCorrelationInvalid(CorrelationMode mode)
+        {
+            // The first sequence must be equally long or longer than the second sequence
+            Assert.Throws<ArgumentException>(() =>
+            {
+                Correlation.CrossCorrelation(new double[5], new double[6], mode);
+            });
+            Assert.DoesNotThrow(() =>
+            {
+                Correlation.CrossCorrelation(new double[5], new double[5], mode);
+            });
+        }
+
+        [DataContract]
+        public class XCorrTestdata
+        {
+            [DataMember]
+            public double[] x;
+            [DataMember]
+            public double[] y;
+            [DataMember]
+            public double[] result_valid;
+            [DataMember]
+            public double[] result_same;
+            [DataMember]
+            public double[] result_full;
         }
 
         [TestCase()]
