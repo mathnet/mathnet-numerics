@@ -108,12 +108,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         /// </summary>
         void RowColumnAtIndex(int index, out int row, out int column)
         {
-#if NETSTANDARD1_3
-            row = index % RowCount;
-            column = index / RowCount;
-#else
             column = Math.DivRem(index, RowCount, out row);
-#endif
         }
 
         // CLEARING

@@ -30,10 +30,7 @@
 using System;
 using System.Collections.Generic;
 using Complex = System.Numerics.Complex;
-
-#if !NETSTANDARD1_3
 using System.Runtime;
-#endif
 
 namespace MathNet.Numerics
 {
@@ -604,11 +601,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if NETSTANDARD1_3
-            var value = GlobalizationHelper.ParseDouble(ref token);
-#else
             var value = GlobalizationHelper.ParseDouble(ref token, format.GetCultureInfo());
-#endif
 
             // handle suffix imaginary symbol
             if (token != null && (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0

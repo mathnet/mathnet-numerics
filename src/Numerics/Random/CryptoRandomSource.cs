@@ -30,10 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-
-#if !NETSTANDARD1_3
 using System.Runtime;
-#endif
 
 namespace MathNet.Numerics.Random
 {

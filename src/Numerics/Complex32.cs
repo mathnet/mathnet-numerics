@@ -34,10 +34,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using Complex = System.Numerics.Complex;
 using BigInteger = System.Numerics.BigInteger;
-
-#if !NETSTANDARD1_3
 using System.Runtime;
-#endif
 
 namespace MathNet.Numerics
 {
@@ -1025,11 +1022,7 @@ namespace MathNet.Numerics
                 }
             }
 
-#if NETSTANDARD1_3
-            var value = GlobalizationHelper.ParseSingle(ref token);
-#else
             var value = GlobalizationHelper.ParseSingle(ref token, format.GetCultureInfo());
-#endif
 
             // handle suffix imaginary symbol
             if (token != null && (String.Compare(token.Value, "i", StringComparison.OrdinalIgnoreCase) == 0

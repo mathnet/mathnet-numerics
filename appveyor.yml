@@ -2,8 +2,8 @@ image: Visual Studio 2017
 init:
    - git config --global core.autocrlf true
 install:
-   # Download .NET Core SDK 3.1.101 and add to PATH
-   - ps: $urlCurrent = "https://dotnetcli.azureedge.net/dotnet/Sdk/3.1.101/dotnet-sdk-3.1.101-win-x64.zip"
+   # Download .NET Core SDK 5.0.100 and add to PATH
+   - ps: $urlCurrent = "https://dotnetcli.azureedge.net/dotnet/Sdk/5.0.100/dotnet-sdk-5.0.100-win-x64.zip"
    - ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetsdk"
    - ps: mkdir $env:DOTNET_INSTALL_DIR -Force | Out-Null
    - ps: $tempFileCurrent = [System.IO.Path]::GetTempFileName()

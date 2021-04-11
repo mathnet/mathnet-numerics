@@ -46,10 +46,7 @@ namespace MathNet.Numerics.Statistics
     /// </remarks>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics")]
-    public class Bucket : IComparable<Bucket>
-#if !NETSTANDARD1_3
-        , ICloneable
-#endif
+    public class Bucket : IComparable<Bucket>, ICloneable
     {
         /// <summary>
         /// This <c>IComparer</c> performs comparisons between a point and a bucket.

@@ -1,6 +1,5 @@
 <Project>
     <PropertyGroup>
-        <NetStandardImplicitPackageVersion>2.0.3</NetStandardImplicitPackageVersion>
         <Company>Math.NET Project</Company>
         <Product>Math.NET Numerics</Product>
         <Authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</Authors>
@@ -13,6 +12,9 @@
         <RepositoryType>git</RepositoryType>
         <NeutralLanguage>en</NeutralLanguage>
         <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+        <StrongName Condition="'$(StrongName)' == ''">False</StrongName>
+        <PackageIdSuffix Condition="'$(PackageIdSuffix)' == ''"></PackageIdSuffix>
+        <TitleSuffix Condition="'$(TitleSuffix)' == ''"></TitleSuffix>
     </PropertyGroup>
     <PropertyGroup Condition="'$(StrongName)'=='True'">
         <SignAssembly>true</SignAssembly>

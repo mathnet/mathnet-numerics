@@ -41,11 +41,7 @@ namespace MathNet.Numerics.LinearAlgebra
     /// </summary>
     /// <typeparam name="T">Supported data types are double, single, <see cref="Complex"/>, and <see cref="Complex32"/>.</typeparam>
     [Serializable]
-    public abstract partial class Vector<T> :
-        IFormattable, IEquatable<Vector<T>>, IList, IList<T>
-#if !NETSTANDARD1_3
-        , ICloneable
-#endif
+    public abstract partial class Vector<T> : IFormattable, IEquatable<Vector<T>>, IList, IList<T>, ICloneable
         where T : struct, IEquatable<T>, IFormattable
     {
         /// <summary>

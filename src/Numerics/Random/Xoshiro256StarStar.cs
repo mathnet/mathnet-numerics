@@ -40,11 +40,8 @@
 
 using System.Collections.Generic;
 using System.Runtime.Serialization;
-
-#if !NETSTANDARD1_3
 using System;
 using System.Runtime;
-#endif
 
 namespace MathNet.Numerics.Random
 {

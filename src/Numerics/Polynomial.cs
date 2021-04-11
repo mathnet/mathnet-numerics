@@ -9,10 +9,7 @@ using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearRegression;
 using MathNet.Numerics.LinearAlgebra.Factorization;
-
-#if !NETSTANDARD1_3
 using System.Runtime;
-#endif
 
 namespace MathNet.Numerics
 {
@@ -21,10 +18,7 @@ namespace MathNet.Numerics
     /// </summary>
     [Serializable]
     [DataContract(Namespace = "urn:MathNet/Numerics")]
-    public class Polynomial : IFormattable, IEquatable<Polynomial>
-#if !NETSTANDARD1_3
-        , ICloneable
-#endif
+    public class Polynomial : IFormattable, IEquatable<Polynomial>, ICloneable
     {
         /// <summary>
         /// The coefficients of the polynomial in a
@@ -1134,7 +1128,6 @@ namespace MathNet.Numerics
             return new Polynomial(coefficients);
         }
 
-#if !NETSTANDARD1_3
         /// <summary>
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
@@ -1145,7 +1138,6 @@ namespace MathNet.Numerics
         {
             return Clone();
         }
-#endif
 
         #endregion
     }

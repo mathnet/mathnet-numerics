@@ -1,14 +1,1 @@
 BenchmarkDotNet
-
-Microsoft.NETFramework.ReferenceAssemblies
-System.Reflection framework:netcoreapp3.1
-System.Reflection.Extensions framework:netcoreapp3.1
-System.Reflection.TypeExtensions framework:netcoreapp3.1
-System.Threading.Tasks.Parallel framework:netcoreapp3.1
-System.Xml.XmlSerializer framework:netcoreapp3.1
-System.Runtime framework:netcoreapp3.1
-System.Runtime.Numerics framework:netcoreapp3.1
-System.Runtime.Serialization.Xml framework:netcoreapp3.1
-System.Runtime.Serialization.Primitives framework:netcoreapp3.1
-System.Runtime.Serialization.Formatters framework:netcoreapp3.1
-System.Security.Cryptography.Algorithms framework:netcoreapp3.1

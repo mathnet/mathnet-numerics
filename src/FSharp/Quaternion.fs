@@ -125,12 +125,8 @@ module Quaternion =
         let p = {w=0.0; x=x; y=y; z=z}
         q * p * inverse q
 
-    /// <summary>
     /// Concatenates two Quaternions; the result represents the value1 rotation followed by the value2 rotation.
-    /// </summary>
-    /// <param name="value1">The first Quaternion rotation in the series.</param>
-    /// <param name="value2">The second Quaternion rotation in the series.</param>
-    /// <returns>A new Quaternion representing the concatenation of the value1 rotation followed by the value2 rotation.</returns>
+    /// Returns a new Quaternion representing the concatenation of the value1 rotation followed by the value2 rotation.
     [<System.Obsolete("Semantic Version Opt-Out: this routine has not been finalized yet and may change in breaking ways within minor versions.")>]
     let concat (q:Quaternion) (q':Quaternion) =
          //concat rotation is q' * q instead of q * q'.

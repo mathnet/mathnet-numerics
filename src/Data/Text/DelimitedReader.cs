@@ -159,9 +159,7 @@ namespace MathNet.Numerics.Data.Text
                 }
             }
 
-#if !NETSTANDARD1_3
             reader.Close();
-#endif
             reader.Dispose();
 
             return matrix;

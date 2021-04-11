@@ -472,12 +472,7 @@ namespace MathNet.Numerics
             while (b != 0)
             {
                 long rem;
-#if NETSTANDARD1_3
-                rem = a % b;
-                var quot = a / b;
-#else
                 long quot = Math.DivRem(a, b, out rem);
-#endif
                 a = b;
                 b = rem;
 

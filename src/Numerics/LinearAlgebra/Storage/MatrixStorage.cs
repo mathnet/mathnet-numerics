@@ -189,13 +189,8 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 for (var i = 0; i < hashNum; i++)
                 {
-#if NETSTANDARD1_3
-                    int col = i%ColumnCount;
-                    int row = i/ColumnCount;
-#else
                     int col;
                     int row = Math.DivRem(i, ColumnCount, out col);
-#endif
                     hash = hash*31 + At(row, col).GetHashCode();
                 }
             }

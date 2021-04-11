@@ -1,34 +1,26 @@
 source https://api.nuget.org/v3/index.json
 storage: packages
 
-nuget FSharp.Core 4.3.3
+framework: net5.0,net48,net461,net45,net40,netstandard2.0
+
+nuget FSharp.Core 4.7.2
 nuget Microsoft.CSharp
 
 // Testing
-nuget NUnit ~> 3.0 framework:net461,netcoreapp3.1
-nuget NUnitLite ~> 3.0 framework:net461,netcoreapp3.1
-nuget FsUnit ~> 3.0 framework:net461,netcoreapp3.1
-nuget Microsoft.NET.Test.Sdk ~> 16.4.0 lowest_matching, strategy:min
-nuget NUnit3TestAdapter
+nuget NUnit framework:net48,net5.0
+nuget NUnitLite framework:net48,net5.0
+nuget FsUnit framework:net48,net5.0
+nuget Microsoft.NET.Test.Sdk framework:net48,net5.0
+nuget NUnit3TestAdapter framework:net48,net5.0
 
 // Benchmarks
-nuget BenchmarkDotNet lowest_matching, strategy:min, framework:net461,netcoreapp3.1
+nuget BenchmarkDotNet lowest_matching, strategy:min, framework:net5.0,net48
 
 // Data
 nuget MathNet.Numerics 4.12.0
 
-nuget Microsoft.NETFramework.ReferenceAssemblies copy_local:true, framework:net461,net45,net40
-nuget NETStandard.Library 2.0.3 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.NETCore.Platforms 3.1.0 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.NETCore.App 2.2.8 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.NETCore.DotNetHost 3.1.1 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.NETCore.DotNetAppHost 3.1.1 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.NETCore.DotNetHostPolicy 3.1.1 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.NETCore.DotNetHostResolver 3.1.1 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.NETCore.Jit 2.0.8 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.NETCore.Targets 2.0 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.NETCore.Runtime.CoreCLR 2.0.8 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
-nuget Microsoft.DotNet.PlatformAbstractions 3.1.1 lowest_matching, strategy:min, framework:netstandard1.3,netstandard1.6,netstandard2.0,netcoreapp3.1
+nuget Microsoft.NETFramework.ReferenceAssemblies copy_local:true, framework:net48,net461,net45,net40
+nuget NETStandard.Library lowest_matching, strategy:min, framework:netstandard2.0,net5.0
 
 group Build
     source https://api.nuget.org/v3/index.json

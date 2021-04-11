@@ -340,14 +340,14 @@ namespace MathNet.Numerics
             var sb = new StringBuilder();
             sb.AppendLine("Math.NET Numerics Configuration:");
             sb.AppendLine($"Version {versionAttribute?.InformationalVersion}");
-#if NETSTANDARD1_3
-            sb.AppendLine("Built for .Net Standard 1.3");
+#if NET5_0_OR_GREATER
+            sb.AppendLine("Built for .Net 5.0");
 #elif NETSTANDARD2_0
             sb.AppendLine("Built for .Net Standard 2.0");
-#elif NET40
-            sb.AppendLine("Built for .Net Framework 4.0");
 #elif NET461
             sb.AppendLine("Built for .Net Framework 4.6.1");
+#elif NET40
+            sb.AppendLine("Built for .Net Framework 4.0");
 #endif
 #if !NATIVE
             sb.AppendLine("No Native Provider Support");
@@ -360,15 +360,15 @@ namespace MathNet.Numerics
             sb.AppendLine($"Parallelize Order: {ParallelizeOrder}");
             sb.AppendLine($"Check Distribution Parameters: {CheckDistributionParameters}");
             sb.AppendLine($"Thread-Safe RNGs: {ThreadSafeRandomNumberGenerators}");
-#if NETSTANDARD1_3 || NETSTANDARD2_0
+#if NET40 || NET461
+            sb.AppendLine($"Operating System: {Environment.OSVersion}");
+            sb.AppendLine($"Framework: {Environment.Version}");
+#else
             // This would also work in .Net 4.0, but we don't want the dependency just for that.
             sb.AppendLine($"Operating System: {RuntimeInformation.OSDescription}");
             sb.AppendLine($"Operating System Architecture: {RuntimeInformation.OSArchitecture}");
             sb.AppendLine($"Framework: {RuntimeInformation.FrameworkDescription}");
             sb.AppendLine($"Process Architecture: {RuntimeInformation.ProcessArchitecture}");
-#else
-            sb.AppendLine($"Operating System: {Environment.OSVersion}");
-            sb.AppendLine($"Framework: {Environment.Version}");
 #endif
             return sb.ToString();
         }

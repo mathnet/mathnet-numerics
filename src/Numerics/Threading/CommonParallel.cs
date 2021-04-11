@@ -29,11 +29,8 @@
 
 using System;
 using System.Collections.Generic;
-
-#if !NETSTANDARD1_3
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
-#endif
 
 namespace MathNet.Numerics.Threading
 {
