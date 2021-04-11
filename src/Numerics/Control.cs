@@ -340,8 +340,10 @@ namespace MathNet.Numerics
             var sb = new StringBuilder();
             sb.AppendLine("Math.NET Numerics Configuration:");
             sb.AppendLine($"Version {versionAttribute?.InformationalVersion}");
-#if NET5_0_OR_GREATER
+#if NET5_0
             sb.AppendLine("Built for .Net 5.0");
+#elif NET5_0_OR_GREATER
+            sb.AppendLine("Built for .Net 5.0+");
 #elif NETSTANDARD2_0
             sb.AppendLine("Built for .Net Standard 2.0");
 #elif NET461
