@@ -10,7 +10,7 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// The scale factor for initial mu
         /// </summary>
-        public static double InitialMu { get; set; }
+        public double InitialMu { get; set; } = 1E-3;
 
         public LevenbergMarquardtMinimizer(double initialMu = 1E-3, double gradientTolerance = 1E-15, double stepTolerance = 1E-15, double functionTolerance = 1E-15, int maximumIterations = -1)
             : base(gradientTolerance, stepTolerance, functionTolerance, maximumIterations)
@@ -51,7 +51,7 @@ namespace MathNet.Numerics.Optimization
         /// <param name="functionTolerance">The stopping threshold for L2 norm of the residuals.</param>
         /// <param name="maximumIterations">The max iterations.</param>
         /// <returns>The result of the Levenberg-Marquardt minimization</returns>
-        public static NonlinearMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess,
+        public NonlinearMinimizationResult Minimum(IObjectiveModel objective, Vector<double> initialGuess,
             Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null,
             double initialMu = 1E-3, double gradientTolerance = 1E-15, double stepTolerance = 1E-15, double functionTolerance = 1E-15, int maximumIterations = -1)
         {
