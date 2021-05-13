@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net40;net461;netstandard1.3;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net40;net461;netstandard2.0</TargetFrameworks>
     <AssemblyName>MathNet.Numerics.Data.Text</AssemblyName>
     <RootNamespace>MathNet.Numerics.Data.Text</RootNamespace>
     <IsPackable>true</IsPackable>

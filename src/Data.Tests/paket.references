@@ -1,6 +1,6 @@
 Microsoft.NET.Test.Sdk
+Microsoft.NETFramework.ReferenceAssemblies
 NUnit3TestAdapter
 NUnit
 NUnitLite content:none
-System.Runtime.InteropServices.RuntimeInformation
 MathNet.Numerics
