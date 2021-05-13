@@ -56,45 +56,6 @@ namespace MathNet.Numerics
     public static class Evaluate
     {
         /// <summary>
-        /// Evaluate a polynomial at point x.
-        /// Coefficients are ordered by power with power k at index k.
-        /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
-        /// </summary>
-        /// <param name="z">The location where to evaluate the polynomial at.</param>
-        /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
-        [Obsolete("Use Polynomial.Evaluate instead. Will be removed in the next major version.")]
-        public static double Polynomial(double z, params double[] coefficients)
-        {
-            return Numerics.Polynomial.Evaluate(z, coefficients);
-        }
-
-        /// <summary>
-        /// Evaluate a polynomial at point x.
-        /// Coefficients are ordered by power with power k at index k.
-        /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
-        /// </summary>
-        /// <param name="z">The location where to evaluate the polynomial at.</param>
-        /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
-        [Obsolete("Use Polynomial.Evaluate instead. Will be removed in the next major version.")]
-        public static Complex Polynomial(Complex z, params double[] coefficients)
-        {
-            return Numerics.Polynomial.Evaluate(z, coefficients);
-        }
-
-        /// <summary>
-        /// Evaluate a polynomial at point x.
-        /// Coefficients are ordered by power with power k at index k.
-        /// Example: coefficients [3,-1,2] represent y=2x^2-x+3.
-        /// </summary>
-        /// <param name="z">The location where to evaluate the polynomial at.</param>
-        /// <param name="coefficients">The coefficients of the polynomial, coefficient for power k at index k.</param>
-        [Obsolete("Use Polynomial.Evaluate instead. Will be removed in the next major version.")]
-        public static Complex Polynomial(Complex z, params Complex[] coefficients)
-        {
-            return Numerics.Polynomial.Evaluate(z, coefficients);
-        }
-
-        /// <summary>
         /// Numerically stable series summation
         /// </summary>
         /// <param name="nextSummand">provides the summands sequentially</param>

@@ -441,7 +441,6 @@ type BigRational =
         | Q q ->
             Q (BigRationalLarge.Pow (q, i))
 
-    [<Obsolete("Use Pow instead, which is compatible with the ** operator. Will be removed in a future release.")>]
     static member PowN (n, i : int) = BigRational.Pow(n, i)
 
 
