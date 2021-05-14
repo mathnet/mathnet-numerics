@@ -10,12 +10,12 @@ namespace MathNet.Numerics.Optimization.TrustRegion
         /// <summary>
         /// The trust region subproblem.
         /// </summary>
-        public static ITrustRegionSubproblem Subproblem;
+        public ITrustRegionSubproblem Subproblem;
 
         /// <summary>
         /// The stopping threshold for the trust region radius.
         /// </summary>
-        public static double RadiusTolerance { get; set; }
+        public double RadiusTolerance { get; set; }
 
         public TrustRegionMinimizerBase(ITrustRegionSubproblem subproblem,
             double gradientTolerance = 1E-8, double stepTolerance = 1E-8, double functionTolerance = 1E-8, double radiusTolerance = 1E-8, int maximumIterations = -1)
@@ -59,7 +59,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
         /// <param name="radiusTolerance">The stopping threshold for trust region radius</param>
         /// <param name="maximumIterations">The max iterations.</param>
         /// <returns></returns>
-        public static NonlinearMinimizationResult Minimum(ITrustRegionSubproblem subproblem, IObjectiveModel objective, Vector<double> initialGuess,
+        public NonlinearMinimizationResult Minimum(ITrustRegionSubproblem subproblem, IObjectiveModel objective, Vector<double> initialGuess,
             Vector<double> lowerBound = null, Vector<double> upperBound = null, Vector<double> scales = null, List<bool> isFixed = null,
             double gradientTolerance = 1E-8, double stepTolerance = 1E-8, double functionTolerance = 1E-8, double radiusTolerance = 1E-18, int maximumIterations = -1)
         {
