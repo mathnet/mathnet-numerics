@@ -27,14 +27,13 @@ namespace Benchmark.LinearAlgebra
         public enum ProviderId
         {
             Managed,
-            ManagedReference,
             NativeMKL,
         }
 
         [Params(4, 32, 128, 4096, 16384, 524288)]
         public int N { get; set; }
 
-        [Params(ProviderId.Managed, ProviderId.ManagedReference)] //, ProviderId.NativeMKL)]
+        [Params(ProviderId.Managed)] //, ProviderId.NativeMKL)]
         public ProviderId Provider { get; set; }
 
         double[] _a;
@@ -51,9 +50,6 @@ namespace Benchmark.LinearAlgebra
             {
                 case ProviderId.Managed:
                     Control.UseManaged();
-                    break;
-                case ProviderId.ManagedReference:
-                    Control.UseManagedReference();
                     break;
                 case ProviderId.NativeMKL:
                     MklControl.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);

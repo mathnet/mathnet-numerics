@@ -74,13 +74,6 @@ namespace MathNet.Numerics
             SparseSolverControl.UseManaged();
         }
 
-        public static void UseManagedReference()
-        {
-            LinearAlgebraControl.UseManagedReference();
-            FourierTransformControl.UseManaged();
-            SparseSolverControl.UseManaged();
-        }
-
         /// <summary>
         /// Use a specific provider if configured, e.g. using
         /// environment variables, or fall back to the best providers.
