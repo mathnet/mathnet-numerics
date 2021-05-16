@@ -9,7 +9,6 @@ using System.Collections.Generic;
 namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
 {
 
-#if NATIVE
 #if MKL
 
     /// <summary>
@@ -20,7 +19,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
     {
         readonly double[] _b4 = { 1.0, 2.0, 3.0, 4.0};
         readonly double[] _b5 = { 1.0, 2.0, 3.0, 4.0, 5.0 };
-        
+
         /// <summary>
         /// Test matrix to use.
         /// </summary>
@@ -245,11 +244,11 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
                 // for Node1, u = -1 gives -a + b = x1
                 // for Node2, u = +1 gives a + b = x2
                 //
-                // So, 
+                // So,
                 //    x = (x2 - x1)/2*u + (x2 + x1)/2
                 //    u = 2*(x - x1)/(x2 - x1) - 1
                 //
-                // This gives 
+                // This gives
                 //    dx = l/2*du where l = x2 - x1 = x21 is length of the line
                 //
                 // Interpolation function, Ni(u) = ai + bi*u for i = 1, 2
@@ -257,11 +256,11 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
                 //    N1(+1) = a1 + b1 = 0 -> a1 = 1/2, b1 = -1/2
                 //    N2(-1) = a2 - b2 = 0
                 //    N2(+1) = a2 + b2 = 1 -> a2 = 1/2, b2 = 1/2
-                // so, 
+                // so,
                 //    N1 = (1 - u) / 2
                 //    N2 = (1 + u) / 2
                 //
-                // Using the chain rule of differentiation, 
+                // Using the chain rule of differentiation,
                 //    ∂Ni(x)/∂u = ∂Ni/∂x ∂x/∂u
                 //
                 // Here,
@@ -273,7 +272,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
                 //    ∂N1/∂x = 2/l ∂N1/∂u = - 1/l
                 //    ∂N2/∂x = 2/l ∂N2/∂u = 1/l
                 //-----------------------------------------------------------------------------
-                // By using V(u) = Σ Vi*Ni(u) and ω = Ni for i = 1, 2 
+                // By using V(u) = Σ Vi*Ni(u) and ω = Ni for i = 1, 2
                 // the weak form of the master equation is given as
                 //
                 //    ∫ ω [d/dx(α dV/dx) + γ] dx = 0
@@ -328,7 +327,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
             {
                 // V(u) can be described with interpolation functions
                 //    V(u) = V1*N1(u) + V2*N2(u)
-                // where 
+                // where
                 //    N1 = (1 - u) / 2
                 //    N2 = (1 + u) / 2
                 // The transformation from x to u,
@@ -345,7 +344,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
 
                 var Vx = V1 * (1 - u) * 0.5 + V2 * (1 + u) * 0.5;
 
-                // Electric field, 
+                // Electric field,
                 //    E = -∇V
                 // where
                 //    ∇V = [ (∂/∂x) ∑ViNi ]
@@ -385,7 +384,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
             public Node[] Nodes;
             public Element[] Elements;
 
-            public Matrix<double> Kmatrix; 
+            public Matrix<double> Kmatrix;
             public Vector<double> Rhs;
 
             public Domain(int elementCount = 4, double length = 0.08, double relativePermittivity = 1, double chargeDensity = 1E-8)
@@ -395,7 +394,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
                 Permittivity = Constants.ElectricPermittivity * relativePermittivity;
                 ChargeDensity = chargeDensity;
 
-                // Create nodes and elements 
+                // Create nodes and elements
                 Nodes = new Node[elementCount + 1];
                 Elements = new Element[elementCount];
 
@@ -466,7 +465,7 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
 
                 // Imposition of Dirichlet boundary conditions
                 //
-                // If xn is given, i.e. x2 = b0, then the linear equations, 
+                // If xn is given, i.e. x2 = b0, then the linear equations,
                 //    [ K11 K12 K13 K14 ][ x1 ] = [ b1 ]
                 //    [ K21 K22 K23 K24 ][ x2 ]   [ b2 ]
                 //    [ K31 K32 K33 K34 ][ x3 ]   [ b3 ]
@@ -578,7 +577,6 @@ namespace MathNet.Numerics.UnitTests.Providers.SparseSolver.Double
         #endregion
     }
 
-#endif
 #endif
 
 }

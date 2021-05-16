@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2018 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -114,8 +114,6 @@ namespace MathNet.Numerics
             SparseSolverControl.UseBest();
         }
 
-#if NATIVE
-
         /// <summary>
         /// Use the Intel MKL native provider for linear algebra.
         /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
@@ -127,20 +125,6 @@ namespace MathNet.Numerics
             SparseSolverControl.UseNativeMKL();
         }
 
-        /// <summary>
-        /// Use the Intel MKL native provider for linear algebra, with the specified configuration parameters.
-        /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
-        /// </summary>
-        [CLSCompliant(false)]
-        public static void UseNativeMKL(
-            Providers.Common.Mkl.MklConsistency consistency = Providers.Common.Mkl.MklConsistency.Auto,
-            Providers.Common.Mkl.MklPrecision precision = Providers.Common.Mkl.MklPrecision.Double,
-            Providers.Common.Mkl.MklAccuracy accuracy = Providers.Common.Mkl.MklAccuracy.High)
-        {
-            LinearAlgebraControl.UseNativeMKL(consistency, precision, accuracy);
-            FourierTransformControl.UseNativeMKL();
-            SparseSolverControl.UseNativeMKL();
-        }
 
         /// <summary>
         /// Try to use the Intel MKL native provider for linear algebra.
@@ -220,7 +204,6 @@ namespace MathNet.Numerics
             bool directSparseSolver = SparseSolverControl.TryUseNative();
             return linearAlgebra || fourierTransform || directSparseSolver;
         }
-#endif
 
         public static void FreeResources()
         {
@@ -351,9 +334,7 @@ namespace MathNet.Numerics
 #elif NET40
             sb.AppendLine("Built for .Net Framework 4.0");
 #endif
-#if !NATIVE
-            sb.AppendLine("No Native Provider Support");
-#endif
+
             sb.AppendLine($"Linear Algebra Provider: {LinearAlgebraControl.Provider}");
             sb.AppendLine($"Fourier Transform Provider: {FourierTransformControl.Provider}");
             sb.AppendLine($"Sparse Solver Provider: {SparseSolverControl.Provider}");

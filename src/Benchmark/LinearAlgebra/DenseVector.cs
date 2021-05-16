@@ -3,9 +3,8 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using MathNet.Numerics;
-using MathNet.Numerics.Providers.Common.Mkl;
 using MathNet.Numerics.Providers.LinearAlgebra;
-
+using MathNet.Numerics.Providers.MKL;
 using Complex = System.Numerics.Complex;
 
 namespace Benchmark.LinearAlgebra
@@ -57,7 +56,7 @@ namespace Benchmark.LinearAlgebra
                     Control.UseManagedReference();
                     break;
                 case ProviderId.NativeMKL:
-                    Control.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
+                    MklControl.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
                     break;
             }
 

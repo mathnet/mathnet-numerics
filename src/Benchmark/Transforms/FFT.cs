@@ -4,7 +4,7 @@ using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using MathNet.Numerics;
 using MathNet.Numerics.IntegralTransforms;
-using MathNet.Numerics.Providers.Common.Mkl;
+using MathNet.Numerics.Providers.MKL;
 using Complex = System.Numerics.Complex;
 
 namespace Benchmark.Transforms
@@ -47,7 +47,7 @@ namespace Benchmark.Transforms
                     Control.UseManaged();
                     break;
                 case ProviderId.NativeMKL:
-                    Control.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
+                    MklControl.UseNativeMKL(MklConsistency.Auto, MklPrecision.Double, MklAccuracy.High);
                     break;
             }
 

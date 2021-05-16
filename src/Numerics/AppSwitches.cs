@@ -1,8 +1,7 @@
 // <copyright file="AppSwitches.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
-// https://numerics.mathdotnet.com
-// https://github.com/mathnet/mathnet-numerics
-// https://mathnetnumerics.codeplex.com
+// http://numerics.mathdotnet.com
+// http://github.com/mathnet/mathnet-numerics
 //
 // Copyright (c) 2009-2020 Math.NET
 //
@@ -44,7 +43,6 @@ namespace MathNet.Numerics
         const string AppSwitchDisableNativeProviderProbing = "Switch.MathNet.Numerics.Providers.DisableNativeProviderProbing";
         const string AppSwitchDisableNativeProviders = "Switch.MathNet.Numerics.Providers.DisableNativeProviders";
         const string AppSwitchDisableMklNativeProvider = "Switch.MathNet.Numerics.Providers.DisableMklNativeProvider";
-        const string AppSwitchDisableAcmlNativeProvider = "Switch.MathNet.Numerics.Providers.DisableAcmlNativeProvider";
         const string AppSwitchDisableCudaNativeProvider = "Switch.MathNet.Numerics.Providers.DisableCudaNativeProvider";
         const string AppSwitchDisableOpenBlasNativeProvider = "Switch.MathNet.Numerics.Providers.DisableOpenBlasNativeProvider";
 
@@ -86,12 +84,6 @@ namespace MathNet.Numerics
         {
             get => IsEnabled(AppSwitchDisableMklNativeProvider);
             set => SetSwitch(AppSwitchDisableMklNativeProvider, value);
-        }
-
-        public static bool DisableAcmlNativeProvider
-        {
-            get => IsEnabled(AppSwitchDisableAcmlNativeProvider);
-            set => SetSwitch(AppSwitchDisableAcmlNativeProvider, value);
         }
 
         public static bool DisableCudaNativeProvider

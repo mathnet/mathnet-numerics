@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net5.0;net461;net40;netstandard2.0</TargetFrameworks>
+    <AssemblyName>MathNet.Numerics.Providers.CUDA</AssemblyName>
+    <RootNamespace>MathNet.Numerics.Providers.CUDA</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackageId>MathNet.Numerics.Providers.CUDA$(PackageIdSuffix)</PackageId>
+    <VersionPrefix>4.15.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <Title>Math.NET Numerics CUDA Provider$(TitleSuffix)</Title>
+    <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net 5.0 or higher, .NET Standard 2.0 and .NET Framework 4.0 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
+    <PackageReleaseNotes>Precision: Round (with integer part rounding) ~Jon Larborn
+Precision: RoundToMultiple, RoundToPower
+F#: BigRational.FromDecimal ~Brian Berns</PackageReleaseNotes>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+    <NoWarn>1701;1702;1705;1591;1573</NoWarn>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.Serialization" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Numerics\Numerics.csproj" />
+  </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

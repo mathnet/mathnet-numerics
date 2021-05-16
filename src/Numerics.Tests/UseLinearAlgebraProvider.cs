@@ -28,9 +28,16 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Providers.Common.Mkl;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+
+#if MKL
+using MathNet.Numerics.Providers.MKL;
+#elif CUDA
+using MathNet.Numerics.Providers.CUDA;
+#elif OPENBLAS
+using MathNet.Numerics.Providers.OpenBLAS;
+#endif
 
 namespace MathNet.Numerics.UnitTests
 {
@@ -39,19 +46,14 @@ namespace MathNet.Numerics.UnitTests
     {
         public void BeforeTest(ITest testDetails)
         {
-
-#if NATIVE
             string outDir = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"../../../../../out/");
 #if MKL
             Control.NativeProviderPath = System.IO.Path.Combine(outDir, @"MKL/Windows/");
-            Control.UseNativeMKL(MklConsistency.AVX, MklPrecision.Double, MklAccuracy.High);
+            MklControl.UseNativeMKL(MklConsistency.AVX, MklPrecision.Double, MklAccuracy.High);
 #elif CUDA
-            Control.UseNativeCUDA();
+            CudaControl.UseNativeCUDA();
 #elif OPENBLAS
-            Control.UseNativeOpenBLAS();
-#else
-            Control.UseManaged();
-#endif
+            OpenBlasControl.UseNativeOpenBLAS();
 #else
             Control.UseManaged();
 #endif

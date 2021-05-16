@@ -6,7 +6,7 @@ namespace MathNet.Numerics.Providers.SparseSolver.Managed
     /// <summary>
     /// The managed sparse solver provider
     /// </summary>
-    internal partial class ManagedSparseSolverProvider : ISparseSolverProvider
+    public partial class ManagedSparseSolverProvider : ISparseSolverProvider
     {
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.

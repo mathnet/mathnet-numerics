@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2020 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -34,10 +34,19 @@ namespace MathNet.Numerics.Providers.SparseSolver
     public static class SparseSolverControl
     {
         const string EnvVarSSProvider = "MathNetNumericsSSProvider";
-        const string EnvVarSSProviderPath = "MathNetNumericsSSProviderPath";
 
         static ISparseSolverProvider _sparseSolverProvider;
         static readonly object StaticLock = new object();
+
+        const string MklTypeName = "MathNet.Numerics.Providers.MKL.SparseSolver.MklSparseSolverControl, MathNet.Numerics.Providers.MKL";
+        static readonly ProviderProbe<ISparseSolverProvider> MklProbe = new ProviderProbe<ISparseSolverProvider>(MklTypeName, AppSwitches.DisableMklNativeProvider);
+
+        /// <summary>
+        /// Optional path to try to load native provider binaries from.
+        /// If not set, Numerics will fall back to the environment variable
+        /// `MathNetNumericsSSProviderPath` or the default probing paths.
+        /// </summary>
+        public static string HintPath { get; set; }
 
         /// <summary>
         /// Gets or sets the sparse solver provider. Consider to use UseNativeMKL or UseManaged instead.
@@ -69,38 +78,11 @@ namespace MathNet.Numerics.Providers.SparseSolver
             }
         }
 
-        /// <summary>
-        /// Optional path to try to load native provider binaries from.
-        /// If not set, Numerics will fall back to the environment variable
-        /// `MathNetNumericsSSProviderPath` or the default probing paths.
-        /// </summary>
-        public static string HintPath { get; set; }
+        public static ISparseSolverProvider CreateManaged() => new Managed.ManagedSparseSolverProvider();
+        public static void UseManaged() => Provider = CreateManaged();
 
-        public static ISparseSolverProvider CreateManaged()
-        {
-            return new Managed.ManagedSparseSolverProvider();
-        }
-
-        public static void UseManaged()
-        {
-            Provider = CreateManaged();
-        }
-
-#if NATIVE
-        public static ISparseSolverProvider CreateNativeMKL()
-        {
-            return new Mkl.MklSparseSolverProvider(GetCombinedHintPath());
-        }
-
-        public static void UseNativeMKL()
-        {
-            Provider = CreateNativeMKL();
-        }
-
-        public static bool TryUseNativeMKL()
-        {
-            return TryUse(CreateNativeMKL());
-        }
+        public static void UseNativeMKL() => Provider = MklProbe.Create();
+        public static bool TryUseNativeMKL() => TryUse(MklProbe.TryCreate());
 
         /// <summary>
         /// Try to use a native provider, if available.
@@ -114,19 +96,31 @@ namespace MathNet.Numerics.Providers.SparseSolver
 
             return TryUseNativeMKL();
         }
-#endif
 
-        static bool TryUse(ISparseSolverProvider provider)
+        public static bool TryUse(ISparseSolverProvider provider)
         {
             try
             {
-                if (!provider.IsAvailable())
+                if (provider == null || !provider.IsAvailable())
                 {
                     return false;
                 }
 
                 Provider = provider;
                 return true;
+            }
+            catch
+            {
+                // intentionally swallow exceptions here - use the explicit variants if you're interested in why
+                return false;
+            }
+        }
+
+        public static bool TryUse(Lazy<IProviderCreator<ISparseSolverProvider>> providerCreator)
+        {
+            try
+            {
+                return TryUse(providerCreator.Value?.CreateProvider());
             }
             catch
             {
@@ -146,14 +140,10 @@ namespace MathNet.Numerics.Providers.SparseSolver
                 return;
             }
 
-#if NATIVE
             if (!TryUseNative())
             {
                 UseManaged();
             }
-#else
-            UseManaged();
-#endif
         }
 
         /// <summary>
@@ -169,7 +159,6 @@ namespace MathNet.Numerics.Providers.SparseSolver
                 return;
             }
 
-#if NATIVE
             var value = Environment.GetEnvironmentVariable(EnvVarSSProvider);
             switch (value != null ? value.ToUpperInvariant() : string.Empty)
             {
@@ -182,30 +171,8 @@ namespace MathNet.Numerics.Providers.SparseSolver
                     UseBest();
                     break;
             }
-#else
-            UseBest();
-#endif
         }
 
-        public static void FreeResources()
-        {
-            Provider.FreeResources();
-        }
-
-        static string GetCombinedHintPath()
-        {
-            if (!String.IsNullOrEmpty(HintPath))
-            {
-                return HintPath;
-            }
-
-            var value = Environment.GetEnvironmentVariable(EnvVarSSProviderPath);
-            if (!String.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-
-            return null;
-        }
+        public static void FreeResources() => Provider.FreeResources();
     }
 }

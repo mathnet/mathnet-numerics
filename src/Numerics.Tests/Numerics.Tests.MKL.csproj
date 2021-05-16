@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <GenerateProgramFile>false</GenerateProgramFile>
-    <TargetFrameworks>net461;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net5.0;net48</TargetFrameworks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>MathNet.Numerics.Tests.MKL</AssemblyName>
     <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
@@ -23,6 +23,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
+    <ProjectReference Include="..\Providers.MKL\Providers.MKL.csproj" />
     <ProjectReference Include="..\TestData\TestData.csproj" />
   </ItemGroup>
   <ItemGroup>

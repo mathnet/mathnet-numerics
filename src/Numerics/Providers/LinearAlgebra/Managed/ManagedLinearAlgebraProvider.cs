@@ -34,7 +34,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
-    internal partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
+    public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
