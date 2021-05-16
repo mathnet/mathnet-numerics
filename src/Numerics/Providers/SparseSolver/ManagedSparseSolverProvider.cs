@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
-namespace MathNet.Numerics.Providers.SparseSolver.Managed
+namespace MathNet.Numerics.Providers.SparseSolver
 {
     /// <summary>
     /// The managed sparse solver provider

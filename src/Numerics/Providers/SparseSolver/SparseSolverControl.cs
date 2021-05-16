@@ -79,7 +79,7 @@ namespace MathNet.Numerics.Providers.SparseSolver
             }
         }
 
-        public static ISparseSolverProvider CreateManaged() => new Managed.ManagedSparseSolverProvider();
+        public static ISparseSolverProvider CreateManaged() => new ManagedSparseSolverProvider();
         public static void UseManaged() => Provider = CreateManaged();
 
         public static void UseNativeMKL() => Provider = MklProbe.Create();

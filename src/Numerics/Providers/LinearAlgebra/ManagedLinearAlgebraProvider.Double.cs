@@ -33,7 +33,7 @@ using Complex = System.Numerics.Complex;
 using QRMethod = MathNet.Numerics.LinearAlgebra.Factorization.QRMethod;
 using static System.FormattableString;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
+namespace MathNet.Numerics.Providers.LinearAlgebra
 {
     /// <summary>
     /// The managed linear algebra provider.

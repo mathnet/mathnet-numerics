@@ -29,7 +29,7 @@
 
 using System;
 using System.Security;
-using MathNet.Numerics.Providers.LinearAlgebra.Managed;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
 {

@@ -31,7 +31,7 @@ using System.Runtime.CompilerServices;
 using MathNet.Numerics.Threading;
 using Complex = System.Numerics.Complex;
 
-namespace MathNet.Numerics.Providers.FourierTransform.Managed
+namespace MathNet.Numerics.Providers.FourierTransform
 {
     internal partial class ManagedFourierTransformProvider
     {

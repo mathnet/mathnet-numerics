@@ -28,7 +28,7 @@
 // </copyright>
 
 using System;
-using MathNet.Numerics.Providers.LinearAlgebra.Managed;
+using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
 {

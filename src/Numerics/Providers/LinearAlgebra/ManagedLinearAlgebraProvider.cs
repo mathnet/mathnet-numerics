@@ -29,7 +29,7 @@
 
 using System;
 
-namespace MathNet.Numerics.Providers.LinearAlgebra.Managed
+namespace MathNet.Numerics.Providers.LinearAlgebra
 {
     /// <summary>
     /// The managed linear algebra provider.
