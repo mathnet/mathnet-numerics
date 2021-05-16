@@ -27,6 +27,7 @@
 // </copyright>
 
 using System;
+using System.Security;
 using System.Threading;
 using MathNet.Numerics.Providers.FourierTransform;
 using Complex = System.Numerics.Complex;
@@ -67,6 +68,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
         /// <summary>
         /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
         /// </summary>
+        [SecuritySafeCritical]
         public void InitializeVerify()
         {
             int revision = MklProvider.Load(hintPath: _hintPath);
@@ -88,6 +90,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
         /// Frees memory buffers, caches and handles allocated in or to the provider.
         /// Does not unload the provider itself, it is still usable afterwards.
         /// </summary>
+        [SecuritySafeCritical]
         public virtual void FreeResources()
         {
             Kernel kernel = Interlocked.Exchange(ref _kernel, null);
@@ -104,6 +107,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             return MklProvider.Describe();
         }
 
+        [SecuritySafeCritical]
         Kernel Configure(int length, FourierTransformScaling scaling, bool real, bool single)
         {
             Kernel kernel = Interlocked.Exchange(ref _kernel, null);
@@ -157,6 +161,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             return kernel;
         }
 
+        [SecuritySafeCritical]
         Kernel Configure(int[] dimensions, FourierTransformScaling scaling, bool single)
         {
             if (dimensions.Length == 1)
@@ -236,6 +241,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             return kernel;
         }
 
+        [SecuritySafeCritical]
         void Release(Kernel kernel)
         {
             Kernel existing = Interlocked.Exchange(ref _kernel, kernel);
@@ -245,6 +251,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             }
         }
 
+        [SecuritySafeCritical]
         public void Forward(Complex32[] samples, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(samples.Length, scaling, false, true);
@@ -252,6 +259,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             Release(kernel);
         }
 
+        [SecuritySafeCritical]
         public void Forward(Complex[] samples, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(samples.Length, scaling, false, false);
@@ -259,6 +267,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             Release(kernel);
         }
 
+        [SecuritySafeCritical]
         public void Backward(Complex32[] spectrum, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(spectrum.Length, scaling, false, true);
@@ -266,6 +275,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             Release(kernel);
         }
 
+        [SecuritySafeCritical]
         public void Backward(Complex[] spectrum, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(spectrum.Length, scaling, false, false);
@@ -273,6 +283,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             Release(kernel);
         }
 
+        [SecuritySafeCritical]
         public void ForwardReal(float[] samples, int n, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(n, scaling, true, true);
@@ -280,6 +291,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             Release(kernel);
         }
 
+        [SecuritySafeCritical]
         public void ForwardReal(double[] samples, int n, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(n, scaling, true, false);
@@ -287,6 +299,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             Release(kernel);
         }
 
+        [SecuritySafeCritical]
         public void BackwardReal(float[] spectrum, int n, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(n, scaling, true, true);
@@ -296,6 +309,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             spectrum[n] = 0f;
         }
 
+        [SecuritySafeCritical]
         public void BackwardReal(double[] spectrum, int n, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(n, scaling, true, false);
@@ -305,6 +319,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             spectrum[n] = 0d;
         }
 
+        [SecuritySafeCritical]
         public void ForwardMultidim(Complex32[] samples, int[] dimensions, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(dimensions, scaling, true);
@@ -312,6 +327,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             Release(kernel);
         }
 
+        [SecuritySafeCritical]
         public void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(dimensions, scaling, false);
@@ -319,6 +335,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             Release(kernel);
         }
 
+        [SecuritySafeCritical]
         public void BackwardMultidim(Complex32[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(dimensions, scaling, true);
@@ -326,6 +343,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
             Release(kernel);
         }
 
+        [SecuritySafeCritical]
         public void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
             Kernel kernel = Configure(dimensions, scaling, false);

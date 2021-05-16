@@ -27,7 +27,7 @@ namespace MathNet.Numerics.Providers.MKL.SparseSolver
         /// <param name="solution">The left hand side matrix</param>
         /// <returns>The status of the solver.</returns>
         [SecuritySafeCritical]
-        public override DssStatus Solve(DssMatrixStructure matrixStructure, DssMatrixType matrixType, DssSystemType systemType,
+        public DssStatus Solve(DssMatrixStructure matrixStructure, DssMatrixType matrixType, DssSystemType systemType,
             int rowCount, int columnCount, int nonZerosCount, int[] rowPointers, int[] columnIndices, Complex[] values,
             int nRhs, Complex[] rhs, Complex[] solution)
         {

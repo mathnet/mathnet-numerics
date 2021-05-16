@@ -1,12 +1,12 @@
 ﻿using System;
-using MathNet.Numerics.Providers.SparseSolver.Managed;
+using MathNet.Numerics.Providers.SparseSolver;
 
 namespace MathNet.Numerics.Providers.MKL.SparseSolver
 {
     /// <summary>
     /// Intel's Math Kernel Library (MKL) sparse solver provider.
     /// </summary>
-    internal partial class MklSparseSolverProvider : ManagedSparseSolverProvider, IDisposable
+    internal partial class MklSparseSolverProvider : ISparseSolverProvider, IDisposable
     {
         const int MinimumCompatibleRevision = 14;
 
@@ -25,7 +25,7 @@ namespace MathNet.Numerics.Providers.MKL.SparseSolver
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
         /// </summary>
-        public override bool IsAvailable()
+        public bool IsAvailable()
         {
             return MklProvider.IsAvailable(hintPath: _hintPath);
         }
@@ -34,7 +34,7 @@ namespace MathNet.Numerics.Providers.MKL.SparseSolver
         /// Initialize and verify that the provided is indeed available.
         /// If calling this method fails, consider to fall back to alternatives like the managed provider.
         /// </summary>
-        public override void InitializeVerify()
+        public void InitializeVerify()
         {
             int revision = MklProvider.Load(_hintPath);
             if (revision < MinimumCompatibleRevision)
@@ -54,7 +54,7 @@ namespace MathNet.Numerics.Providers.MKL.SparseSolver
         /// Frees memory buffers, caches and handles allocated in or to the provider.
         /// Does not unload the provider itself, it is still usable afterwards.
         /// </summary>
-        public override void FreeResources()
+        public void FreeResources()
         {
             MklProvider.FreeResources();
         }

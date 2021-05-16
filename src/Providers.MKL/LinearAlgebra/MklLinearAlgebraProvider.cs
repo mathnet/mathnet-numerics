@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Security;
 using MathNet.Numerics.Providers.LinearAlgebra.Managed;
 
 namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
@@ -88,6 +89,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// Initialize and verify that the provided is indeed available.
         /// If calling this method fails, consider to fall back to alternatives like the managed provider.
         /// </summary>
+        [SecuritySafeCritical]
         public override void InitializeVerify()
         {
             int revision = MklProvider.Load(_hintPath, _consistency, _precision, _accuracy);
