@@ -34,15 +34,6 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
 {
     public class MklLinearAlgebraControl : IProviderCreator<ILinearAlgebraProvider>
     {
-        const string EnvVarLAProviderPath = "MathNetNumericsLAProviderPath";
-
-        /// <summary>
-        /// Optional path to try to load native provider binaries from.
-        /// If not set, Numerics will fall back to the environment variable
-        /// `MathNetNumericsMKLProviderPath` or the default probing paths.
-        /// </summary>
-        public static string HintPath { get; set; }
-
         public static ILinearAlgebraProvider CreateNativeMKL(
             MklConsistency consistency = MklConsistency.Auto,
             MklPrecision precision = MklPrecision.Double,
@@ -69,9 +60,9 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
 
         static string GetCombinedHintPath()
         {
-            if (!String.IsNullOrEmpty(HintPath))
+            if (!String.IsNullOrEmpty(MklControl.HintPath))
             {
-                return HintPath;
+                return MklControl.HintPath;
             }
 
             if (!String.IsNullOrEmpty(LinearAlgebraControl.HintPath))
@@ -85,18 +76,9 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
                 return value;
             }
 
-            value = Environment.GetEnvironmentVariable(EnvVarLAProviderPath);
-            if (!String.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-
             return null;
         }
 
-        public ILinearAlgebraProvider CreateProvider()
-        {
-            return CreateNativeMKL();
-        }
+        public ILinearAlgebraProvider CreateProvider() => CreateNativeMKL();
     }
 }

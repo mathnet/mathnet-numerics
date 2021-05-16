@@ -36,13 +36,17 @@ namespace MathNet.Numerics.Providers.OpenBLAS
         internal const string EnvVarOpenBLASProviderPath = "MathNetNumericsOpenBLASProviderPath";
 
         /// <summary>
+        /// Optional path to try to load native provider binaries from.
+        /// If not set, Numerics will fall back to the environment variable
+        /// `MathNetNumericsOpenBLASProviderPath` or the default probing paths.
+        /// </summary>
+        public static string HintPath { get; set; }
+
+        /// <summary>
         /// Use the OpenBLAS native provider for linear algebra.
         /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
         /// </summary>
-        public static void UseNativeOpenBLAS()
-        {
-            OpenBlasLinearAlgebraControl.UseNativeOpenBLAS();
-        }
+        public static void UseNativeOpenBLAS() => OpenBlasLinearAlgebraControl.UseNativeOpenBLAS();
 
         /// <summary>
         /// Try to use the OpenBLAS native provider for linear algebra.
@@ -51,10 +55,6 @@ namespace MathNet.Numerics.Providers.OpenBLAS
         /// True if the provider was found and initialized successfully.
         /// False if it failed and the previous provider is still active.
         /// </returns>
-        public static bool TryUseNativeOpenBLAS()
-        {
-            bool linearAlgebra = OpenBlasLinearAlgebraControl.TryUseNativeOpenBLAS();
-            return linearAlgebra;
-        }
+        public static bool TryUseNativeOpenBLAS() => OpenBlasLinearAlgebraControl.TryUseNativeOpenBLAS();
     }
 }

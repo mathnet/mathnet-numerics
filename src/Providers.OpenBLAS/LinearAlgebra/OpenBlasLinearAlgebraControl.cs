@@ -34,35 +34,15 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
 {
     public class OpenBlasLinearAlgebraControl : IProviderCreator<ILinearAlgebraProvider>
     {
-        const string EnvVarLAProviderPath = "MathNetNumericsLAProviderPath";
-
-        /// <summary>
-        /// Optional path to try to load native provider binaries from.
-        /// If not set, Numerics will fall back to the environment variable
-        /// `MathNetNumericsMKLProviderPath` or the default probing paths.
-        /// </summary>
-        public static string HintPath { get; set; }
-
-        public static ILinearAlgebraProvider CreateNativeOpenBLAS()
-        {
-            return new OpenBlasLinearAlgebraProvider(GetCombinedHintPath());
-        }
-
-        public static void UseNativeOpenBLAS()
-        {
-            LinearAlgebraControl.Provider = CreateNativeOpenBLAS();
-        }
-
-        public static bool TryUseNativeOpenBLAS()
-        {
-            return LinearAlgebraControl.TryUse(CreateNativeOpenBLAS());
-        }
+        public static ILinearAlgebraProvider CreateNativeOpenBLAS() => new OpenBlasLinearAlgebraProvider(GetCombinedHintPath());
+        public static void UseNativeOpenBLAS() => LinearAlgebraControl.Provider = CreateNativeOpenBLAS();
+        public static bool TryUseNativeOpenBLAS() => LinearAlgebraControl.TryUse(CreateNativeOpenBLAS());
 
         static string GetCombinedHintPath()
         {
-            if (!String.IsNullOrEmpty(HintPath))
+            if (!String.IsNullOrEmpty(OpenBlasControl.HintPath))
             {
-                return HintPath;
+                return OpenBlasControl.HintPath;
             }
 
             if (!String.IsNullOrEmpty(LinearAlgebraControl.HintPath))
@@ -76,18 +56,9 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
                 return value;
             }
 
-            value = Environment.GetEnvironmentVariable(EnvVarLAProviderPath);
-            if (!String.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-
             return null;
         }
 
-        public ILinearAlgebraProvider CreateProvider()
-        {
-            return CreateNativeOpenBLAS();
-        }
+        public ILinearAlgebraProvider CreateProvider() => CreateNativeOpenBLAS();
     }
 }

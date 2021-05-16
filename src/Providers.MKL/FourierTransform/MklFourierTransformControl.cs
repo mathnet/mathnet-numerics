@@ -34,35 +34,15 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
 {
     public class MklFourierTransformControl : IProviderCreator<IFourierTransformProvider>
     {
-        const string EnvVarFFTProviderPath = "MathNetNumericsFFTProviderPath";
-
-        /// <summary>
-        /// Optional path to try to load native provider binaries from.
-        /// If not set, Numerics will fall back to the environment variable
-        /// `MathNetNumericsMKLProviderPath` or the default probing paths.
-        /// </summary>
-        public static string HintPath { get; set; }
-
-        public static IFourierTransformProvider CreateNativeMKL()
-        {
-            return new MklFourierTransformProvider(GetCombinedHintPath());
-        }
-
-        public static void UseNativeMKL()
-        {
-            FourierTransformControl.Provider = CreateNativeMKL();
-        }
-
-        public static bool TryUseNativeMKL()
-        {
-            return FourierTransformControl.TryUse(CreateNativeMKL());
-        }
+        public static IFourierTransformProvider CreateNativeMKL() => new MklFourierTransformProvider(GetCombinedHintPath());
+        public static void UseNativeMKL() => FourierTransformControl.Provider = CreateNativeMKL();
+        public static bool TryUseNativeMKL() => FourierTransformControl.TryUse(CreateNativeMKL());
 
         static string GetCombinedHintPath()
         {
-            if (!String.IsNullOrEmpty(HintPath))
+            if (!String.IsNullOrEmpty(MklControl.HintPath))
             {
-                return HintPath;
+                return MklControl.HintPath;
             }
 
             if (!String.IsNullOrEmpty(FourierTransformControl.HintPath))
@@ -76,18 +56,9 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
                 return value;
             }
 
-            value = Environment.GetEnvironmentVariable(EnvVarFFTProviderPath);
-            if (!String.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-
             return null;
         }
 
-        public IFourierTransformProvider CreateProvider()
-        {
-            return CreateNativeMKL();
-        }
+        public IFourierTransformProvider CreateProvider() => CreateNativeMKL();
     }
 }

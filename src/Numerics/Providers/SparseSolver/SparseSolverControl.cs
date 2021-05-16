@@ -42,9 +42,10 @@ namespace MathNet.Numerics.Providers.SparseSolver
         static readonly ProviderProbe<ISparseSolverProvider> MklProbe = new ProviderProbe<ISparseSolverProvider>(MklTypeName, AppSwitches.DisableMklNativeProvider);
 
         /// <summary>
-        /// Optional path to try to load native provider binaries from.
-        /// If not set, Numerics will fall back to the environment variable
-        /// `MathNetNumericsSSProviderPath` or the default probing paths.
+        /// Optional path to try to load native provider binaries from,
+        /// if the provider specific hint path is not set.
+        /// If neither is set, Numerics falls back to the provider specific
+        /// environment variables, or the default probing paths.
         /// </summary>
         public static string HintPath { get; set; }
 

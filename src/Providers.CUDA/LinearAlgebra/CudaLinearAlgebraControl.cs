@@ -34,35 +34,15 @@ namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
 {
     public class CudaLinearAlgebraControl : IProviderCreator<ILinearAlgebraProvider>
     {
-        const string EnvVarLAProviderPath = "MathNetNumericsLAProviderPath";
-
-        /// <summary>
-        /// Optional path to try to load native provider binaries from.
-        /// If not set, Numerics will fall back to the environment variable
-        /// `MathNetNumericsMKLProviderPath` or the default probing paths.
-        /// </summary>
-        public static string HintPath { get; set; }
-
-        public static ILinearAlgebraProvider CreateNativeCUDA()
-        {
-            return new CudaLinearAlgebraProvider(GetCombinedHintPath());
-        }
-
-        public static void UseNativeCUDA()
-        {
-            LinearAlgebraControl.Provider = CreateNativeCUDA();
-        }
-
-        public static bool TryUseNativeCUDA()
-        {
-            return LinearAlgebraControl.TryUse(CreateNativeCUDA());
-        }
+        public static ILinearAlgebraProvider CreateNativeCUDA() => new CudaLinearAlgebraProvider(GetCombinedHintPath());
+        public static void UseNativeCUDA() => LinearAlgebraControl.Provider = CreateNativeCUDA();
+        public static bool TryUseNativeCUDA() => LinearAlgebraControl.TryUse(CreateNativeCUDA());
 
         static string GetCombinedHintPath()
         {
-            if (!String.IsNullOrEmpty(HintPath))
+            if (!String.IsNullOrEmpty(CudaControl.HintPath))
             {
-                return HintPath;
+                return CudaControl.HintPath;
             }
 
             if (!String.IsNullOrEmpty(LinearAlgebraControl.HintPath))
@@ -76,18 +56,9 @@ namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
                 return value;
             }
 
-            value = Environment.GetEnvironmentVariable(EnvVarLAProviderPath);
-            if (!String.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-
             return null;
         }
 
-        public ILinearAlgebraProvider CreateProvider()
-        {
-            return CreateNativeCUDA();
-        }
+        public ILinearAlgebraProvider CreateProvider() => CreateNativeCUDA();
     }
 }

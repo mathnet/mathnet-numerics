@@ -36,13 +36,17 @@ namespace MathNet.Numerics.Providers.CUDA
         internal const string EnvVarCUDAProviderPath = "MathNetNumericsCUDAProviderPath";
 
         /// <summary>
+        /// Optional path to try to load native provider binaries from.
+        /// If not set, Numerics will fall back to the environment variable
+        /// `MathNetNumericsCUDAProviderPath` or the default probing paths.
+        /// </summary>
+        public static string HintPath { get; set; }
+
+        /// <summary>
         /// Use the OpenBLAS native provider for linear algebra.
         /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
         /// </summary>
-        public static void UseNativeCUDA()
-        {
-            CudaLinearAlgebraControl.UseNativeCUDA();
-        }
+        public static void UseNativeCUDA() => CudaLinearAlgebraControl.UseNativeCUDA();
 
         /// <summary>
         /// Try to use the OpenBLAS native provider for linear algebra.
@@ -51,10 +55,6 @@ namespace MathNet.Numerics.Providers.CUDA
         /// True if the provider was found and initialized successfully.
         /// False if it failed and the previous provider is still active.
         /// </returns>
-        public static bool TryUseNativeCUDA()
-        {
-            bool linearAlgebra = CudaLinearAlgebraControl.TryUseNativeCUDA();
-            return linearAlgebra;
-        }
+        public static bool TryUseNativeCUDA() => CudaLinearAlgebraControl.TryUseNativeCUDA();
     }
 }

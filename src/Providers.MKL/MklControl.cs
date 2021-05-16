@@ -38,6 +38,13 @@ namespace MathNet.Numerics.Providers.MKL
         internal const string EnvVarMKLProviderPath = "MathNetNumericsMKLProviderPath";
 
         /// <summary>
+        /// Optional path to try to load native provider binaries from.
+        /// If not set, Numerics will fall back to the environment variable
+        /// `MathNetNumericsMKLProviderPath` or the default probing paths.
+        /// </summary>
+        public static string HintPath { get; set; }
+
+        /// <summary>
         /// Use the Intel MKL native provider for linear algebra.
         /// Throws if it is not available or failed to initialize, in which case the previous provider is still active.
         /// </summary>

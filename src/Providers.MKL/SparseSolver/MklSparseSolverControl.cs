@@ -34,35 +34,15 @@ namespace MathNet.Numerics.Providers.MKL.SparseSolver
 {
     public class MklSparseSolverControl : IProviderCreator<ISparseSolverProvider>
     {
-        const string EnvVarSSProviderPath = "MathNetNumericsSSProviderPath";
-
-        /// <summary>
-        /// Optional path to try to load native provider binaries from.
-        /// If not set, Numerics will fall back to the environment variable
-        /// `MathNetNumericsMKLProviderPath` or the default probing paths.
-        /// </summary>
-        public static string HintPath { get; set; }
-
-        public static ISparseSolverProvider CreateNativeMKL()
-        {
-            return new MklSparseSolverProvider(GetCombinedHintPath());
-        }
-
-        public static void UseNativeMKL()
-        {
-            SparseSolverControl.Provider = CreateNativeMKL();
-        }
-
-        public static bool TryUseNativeMKL()
-        {
-            return SparseSolverControl.TryUse(CreateNativeMKL());
-        }
+        public static ISparseSolverProvider CreateNativeMKL() => new MklSparseSolverProvider(GetCombinedHintPath());
+        public static void UseNativeMKL() => SparseSolverControl.Provider = CreateNativeMKL();
+        public static bool TryUseNativeMKL() => SparseSolverControl.TryUse(CreateNativeMKL());
 
         static string GetCombinedHintPath()
         {
-            if (!String.IsNullOrEmpty(HintPath))
+            if (!String.IsNullOrEmpty(MklControl.HintPath))
             {
-                return HintPath;
+                return MklControl.HintPath;
             }
 
             if (!String.IsNullOrEmpty(SparseSolverControl.HintPath))
@@ -76,18 +56,9 @@ namespace MathNet.Numerics.Providers.MKL.SparseSolver
                 return value;
             }
 
-            value = Environment.GetEnvironmentVariable(EnvVarSSProviderPath);
-            if (!String.IsNullOrEmpty(value))
-            {
-                return value;
-            }
-
             return null;
         }
 
-        public ISparseSolverProvider CreateProvider()
-        {
-            return CreateNativeMKL();
-        }
+        public ISparseSolverProvider CreateProvider() => CreateNativeMKL();
     }
 }
