@@ -53,7 +53,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
     /// <summary>
     /// OpenBLAS linear algebra provider.
     /// </summary>
-    internal partial class OpenBlasLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
+    internal sealed partial class OpenBlasLinearAlgebraProvider : ILinearAlgebraProvider, IDisposable
     {
         const int MinimumCompatibleRevision = 1;
 
@@ -69,7 +69,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
         /// </summary>
-        public override bool IsAvailable()
+        public bool IsAvailable()
         {
             return OpenBlasProvider.IsAvailable(hintPath: _hintPath);
         }
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// Initialize and verify that the provided is indeed available.
         /// If not, fall back to alternatives like the managed provider
         /// </summary>
-        public override void InitializeVerify()
+        public void InitializeVerify()
         {
             int revision = OpenBlasProvider.Load(hintPath: _hintPath);
             if (revision < MinimumCompatibleRevision)
@@ -99,7 +99,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// Frees memory buffers, caches and handles allocated in or to the provider.
         /// Does not unload the provider itself, it is still usable afterwards.
         /// </summary>
-        public override void FreeResources()
+        public void FreeResources()
         {
             OpenBlasProvider.FreeResources();
         }

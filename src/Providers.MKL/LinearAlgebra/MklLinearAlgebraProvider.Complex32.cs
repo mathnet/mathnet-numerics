@@ -51,7 +51,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         [SecuritySafeCritical]
-        public override double MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix)
+        public double MatrixNorm(Norm norm, int rows, int columns, Complex32[] matrix)
         {
             if (matrix == null)
             {
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <returns>The dot product of x and y.</returns>
         /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override Complex32 DotProduct(Complex32[] x, Complex32[] y)
+        public Complex32 DotProduct(Complex32[] x, Complex32[] y)
         {
             if (y == null)
             {
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="result">The result of the addition.</param>
         /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void AddVectorToScaledVector(Complex32[] y, Complex32 alpha, Complex32[] x, Complex32[] result)
+        public void AddVectorToScaledVector(Complex32[] y, Complex32 alpha, Complex32[] x, Complex32[] result)
         {
             if (y == null)
             {
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void ScaleArray(Complex32 alpha, Complex32[] x, Complex32[] result)
+        public void ScaleArray(Complex32 alpha, Complex32[] x, Complex32[] result)
         {
             if (x == null)
             {
@@ -172,6 +172,24 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         }
 
         /// <summary>
+        /// Conjugates an array. Can be used to conjugate a vector and a matrix.
+        /// </summary>
+        /// <param name="x">The values to conjugate.</param>
+        /// <param name="result">This result of the conjugation.</param>
+        public void ConjugateArray(Complex32[] x, Complex32[] result)
+        {
+            if (x == null)
+            {
+                throw new ArgumentNullException(nameof(x));
+            }
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = x[i].Conjugate();
+            }
+        }
+
+        /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>
         /// </summary>
         /// <param name="x">The x matrix.</param>
@@ -183,7 +201,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
         /// set to Complex32.One and beta set to Complex32.Zero, and x and y are not transposed.</remarks>
-        public override void MatrixMultiply(Complex32[] x, int rowsX, int columnsX, Complex32[] y, int rowsY, int columnsY, Complex32[] result)
+        public void MatrixMultiply(Complex32[] x, int rowsX, int columnsX, Complex32[] y, int rowsY, int columnsY, Complex32[] result)
         {
             MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, Complex32.One, x, rowsX, columnsX, y, rowsY, columnsY, Complex32.Zero, result);
         }
@@ -203,7 +221,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         [SecuritySafeCritical]
-        public override void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, int rowsA, int columnsA, Complex32[] b, int rowsB, int columnsB, Complex32 beta, Complex32[] c)
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, Complex32 alpha, Complex32[] a, int rowsA, int columnsA, Complex32[] b, int rowsB, int columnsB, Complex32 beta, Complex32[] c)
         {
             if (a == null)
             {
@@ -248,7 +266,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUFactor(Complex32[] data, int order, int[] ipiv)
+        public void LUFactor(Complex32[] data, int order, int[] ipiv)
         {
             if (data == null)
             {
@@ -285,7 +303,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverse(Complex32[] a, int order)
+        public void LUInverse(Complex32[] a, int order)
         {
             if (a == null)
             {
@@ -323,7 +341,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverseFactored(Complex32[] a, int order, int[] ipiv)
+        public void LUInverseFactored(Complex32[] a, int order, int[] ipiv)
         {
             if (a == null)
             {
@@ -367,7 +385,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolve(int columnsOfB, Complex32[] a, int order, Complex32[] b)
+        public void LUSolve(int columnsOfB, Complex32[] a, int order, Complex32[] b)
         {
             if (a == null)
             {
@@ -412,7 +430,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolveFactored(int columnsOfB, Complex32[] a, int order, int[] ipiv, Complex32[] b)
+        public void LUSolveFactored(int columnsOfB, Complex32[] a, int order, int[] ipiv, Complex32[] b)
         {
             if (a == null)
             {
@@ -460,7 +478,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskyFactor(Complex32[] a, int order)
+        public void CholeskyFactor(Complex32[] a, int order)
         {
             if (a == null)
             {
@@ -500,7 +518,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.
         /// </remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolve(Complex32[] a, int orderA, Complex32[] b, int columnsB)
+        public void CholeskySolve(Complex32[] a, int orderA, Complex32[] b, int columnsB)
         {
             if (a == null)
             {
@@ -544,7 +562,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolveFactored(Complex32[] a, int orderA, Complex32[] b, int columnsB)
+        public void CholeskySolveFactored(Complex32[] a, int orderA, Complex32[] b, int columnsB)
         {
             if (a == null)
             {
@@ -587,7 +605,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(Complex32[] r, int rowsR, int columnsR, Complex32[] q, Complex32[] tau)
+        public void QRFactor(Complex32[] r, int rowsR, int columnsR, Complex32[] q, Complex32[] tau)
         {
             if (r == null)
             {
@@ -635,7 +653,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void ThinQRFactor(Complex32[] q, int rowsA, int columnsA, Complex32[] r, Complex32[] tau)
+        public void ThinQRFactor(Complex32[] q, int rowsA, int columnsA, Complex32[] r, Complex32[] tau)
         {
             if (r == null)
             {
@@ -682,7 +700,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolve(Complex32[] a, int rows, int columns, Complex32[] b, int columnsB, Complex32[] x, QRMethod method = QRMethod.Full)
+        public void QRSolve(Complex32[] a, int rows, int columns, Complex32[] b, int columnsB, Complex32[] x, QRMethod method = QRMethod.Full)
         {
             if (a == null)
             {
@@ -752,7 +770,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolveFactored(Complex32[] q, Complex32[] r, int rowsA, int columnsA, Complex32[] tau, Complex32[] b, int columnsB, Complex32[] x, QRMethod method = QRMethod.Full)
+        public void QRSolveFactored(Complex32[] q, Complex32[] r, int rowsA, int columnsA, Complex32[] tau, Complex32[] b, int columnsB, Complex32[] x, QRMethod method = QRMethod.Full)
         {
             if (r == null)
             {
@@ -824,7 +842,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
             {
                 // we don't have access to the raw Q matrix any more(it is stored in R in the full QR), need to think about this.
                 // let just call the managed version in the meantime. The heavy lifting has already been done. -marcus
-                base.QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, QRMethod.Thin);
+                ManagedLinearAlgebraProvider.Instance.QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, QRMethod.Thin);
             }
         }
 
@@ -837,7 +855,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public override void SvdSolve(Complex32[] a, int rowsA, int columnsA, Complex32[] b, int columnsB, Complex32[] x)
+        public void SvdSolve(Complex32[] a, int rowsA, int columnsA, Complex32[] b, int columnsB, Complex32[] x)
         {
             if (a == null)
             {
@@ -875,6 +893,22 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         }
 
         /// <summary>
+        /// Solves A*X=B for X using a previously SVD decomposed matrix.
+        /// </summary>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,Complex32[],int,int,Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,Complex32[],int,int,Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,Complex32[],int,int,Complex32[],Complex32[],Complex32[])"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolveFactored(int rowsA, int columnsA, Complex32[] s, Complex32[] u, Complex32[] vt, Complex32[] b, int columnsB, Complex32[] x)
+        {
+            ManagedLinearAlgebraProvider.Instance.SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
+        }
+
+        /// <summary>
         /// Computes the singular value decomposition of A.
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
@@ -888,7 +922,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, Complex32[] a, int rowsA, int columnsA, Complex32[] s, Complex32[] u, Complex32[] vt)
+        public void SingularValueDecomposition(bool computeVectors, Complex32[] a, int rowsA, int columnsA, Complex32[] s, Complex32[] u, Complex32[] vt)
         {
             if (a == null)
             {
@@ -953,7 +987,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void AddArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        public void AddArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
             if (y == null)
             {
@@ -988,7 +1022,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void SubtractArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        public void SubtractArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
             if (y == null)
             {
@@ -1023,7 +1057,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void PointWiseMultiplyArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        public void PointWiseMultiplyArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
             if (y == null)
             {
@@ -1058,7 +1092,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void PointWiseDivideArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        public void PointWiseDivideArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
             if (y == null)
             {
@@ -1093,13 +1127,8 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void PointWisePowerArrays(Complex32[] x, Complex32[] y, Complex32[] result)
+        public void PointWisePowerArrays(Complex32[] x, Complex32[] y, Complex32[] result)
         {
-            if (_vectorFunctionsMajor != 0 || _vectorFunctionsMinor < 1)
-            {
-                base.PointWisePowerArrays(x, y, result);
-            }
-
             if (y == null)
             {
                 throw new ArgumentNullException(nameof(y));
@@ -1120,6 +1149,16 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
                 throw new ArgumentException("The array arguments must have the same length.");
             }
 
+            if (_vectorFunctionsMajor != 0 || _vectorFunctionsMinor < 1)
+            {
+                for (int i = 0; i < y.Length; i++)
+                {
+                    result[i] = Complex32.Pow(x[i], y[i]);
+                }
+
+                return;
+            }
+
             SafeNativeMethods.c_vector_power(x.Length, x, y, result);
         }
 
@@ -1132,7 +1171,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The length of the array must be order * order.</param>
         /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the array must <paramref name="order"/>.</param>
         /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The length of the array must be order * order.</param>
-        public override void EigenDecomp(bool isSymmetric, int order, Complex32[] matrix, Complex32[] matrixEv, Complex[] vectorEv, Complex32[] matrixD)
+        public void EigenDecomp(bool isSymmetric, int order, Complex32[] matrix, Complex32[] matrixEv, Complex[] vectorEv, Complex32[] matrixD)
         {
             if (matrix == null)
             {

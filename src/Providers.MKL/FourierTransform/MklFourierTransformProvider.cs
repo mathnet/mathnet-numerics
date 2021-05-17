@@ -34,7 +34,7 @@ using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.MKL.FourierTransform
 {
-    internal class MklFourierTransformProvider : IFourierTransformProvider, IDisposable
+    internal sealed class MklFourierTransformProvider : IFourierTransformProvider, IDisposable
     {
         const int MinimumCompatibleRevision = 11;
 
@@ -91,7 +91,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
         /// Does not unload the provider itself, it is still usable afterwards.
         /// </summary>
         [SecuritySafeCritical]
-        public virtual void FreeResources()
+        public void FreeResources()
         {
             Kernel kernel = Interlocked.Exchange(ref _kernel, null);
             if (kernel != null)

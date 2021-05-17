@@ -51,7 +51,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         [SecuritySafeCritical]
-        public override double MatrixNorm(Norm norm, int rows, int columns, float[] matrix)
+        public double MatrixNorm(Norm norm, int rows, int columns, float[] matrix)
         {
             if (matrix == null)
             {
@@ -84,7 +84,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <returns>The dot product of x and y.</returns>
         /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override float DotProduct(float[] x, float[] y)
+        public float DotProduct(float[] x, float[] y)
         {
             if (y == null)
             {
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="result">The result of the addition.</param>
         /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void AddVectorToScaledVector(float[] y, float alpha, float[] x, float[] result)
+        public void AddVectorToScaledVector(float[] y, float alpha, float[] x, float[] result)
         {
             if (y == null)
             {
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void ScaleArray(float alpha, float[] x, float[] result)
+        public void ScaleArray(float alpha, float[] x, float[] result)
         {
             if (x == null)
             {
@@ -172,6 +172,24 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         }
 
         /// <summary>
+        /// Conjugates an array. Can be used to conjugate a vector and a matrix.
+        /// </summary>
+        /// <param name="x">The values to conjugate.</param>
+        /// <param name="result">This result of the conjugation.</param>
+        public void ConjugateArray(float[] x, float[] result)
+        {
+            if (x == null)
+            {
+                throw new ArgumentNullException(nameof(x));
+            }
+
+            if (!ReferenceEquals(x, result))
+            {
+                x.CopyTo(result, 0);
+            }
+        }
+
+        /// <summary>
         /// Multiples two matrices. <c>result = x * y</c>
         /// </summary>
         /// <param name="x">The x matrix.</param>
@@ -183,7 +201,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
         /// set to 1.0f and beta set to 0.0f, and x and y are not transposed.</remarks>
-        public override void MatrixMultiply(float[] x, int rowsX, int columnsX, float[] y, int rowsY, int columnsY, float[] result)
+        public void MatrixMultiply(float[] x, int rowsX, int columnsX, float[] y, int rowsY, int columnsY, float[] result)
         {
             MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0f, x, rowsX, columnsX, y, rowsY, columnsY, 0.0f, result);
         }
@@ -203,7 +221,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         [SecuritySafeCritical]
-        public override void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, float alpha, float[] a, int rowsA, int columnsA, float[] b, int rowsB, int columnsB, float beta, float[] c)
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, float alpha, float[] a, int rowsA, int columnsA, float[] b, int rowsB, int columnsB, float beta, float[] c)
         {
             if (a == null)
             {
@@ -248,7 +266,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUFactor(float[] data, int order, int[] ipiv)
+        public void LUFactor(float[] data, int order, int[] ipiv)
         {
             if (data == null)
             {
@@ -285,7 +303,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverse(float[] a, int order)
+        public void LUInverse(float[] a, int order)
         {
             if (a == null)
             {
@@ -323,7 +341,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverseFactored(float[] a, int order, int[] ipiv)
+        public void LUInverseFactored(float[] a, int order, int[] ipiv)
         {
             if (a == null)
             {
@@ -367,7 +385,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolve(int columnsOfB, float[] a, int order, float[] b)
+        public void LUSolve(int columnsOfB, float[] a, int order, float[] b)
         {
             if (a == null)
             {
@@ -412,7 +430,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolveFactored(int columnsOfB, float[] a, int order, int[] ipiv, float[] b)
+        public void LUSolveFactored(int columnsOfB, float[] a, int order, int[] ipiv, float[] b)
         {
             if (a == null)
             {
@@ -460,7 +478,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskyFactor(float[] a, int order)
+        public void CholeskyFactor(float[] a, int order)
         {
             if (a == null)
             {
@@ -500,7 +518,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.
         /// </remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolve(float[] a, int orderA, float[] b, int columnsB)
+        public void CholeskySolve(float[] a, int orderA, float[] b, int columnsB)
         {
             if (a == null)
             {
@@ -544,7 +562,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolveFactored(float[] a, int orderA, float[] b, int columnsB)
+        public void CholeskySolveFactored(float[] a, int orderA, float[] b, int columnsB)
         {
             if (a == null)
             {
@@ -587,7 +605,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(float[] r, int rowsR, int columnsR, float[] q, float[] tau)
+        public void QRFactor(float[] r, int rowsR, int columnsR, float[] q, float[] tau)
         {
             if (r == null)
             {
@@ -635,7 +653,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void ThinQRFactor(float[] q, int rowsA, int columnsA, float[] r, float[] tau)
+        public void ThinQRFactor(float[] q, int rowsA, int columnsA, float[] r, float[] tau)
         {
             if (r == null)
             {
@@ -682,7 +700,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolve(float[] a, int rows, int columns, float[] b, int columnsB, float[] x, QRMethod method = QRMethod.Full)
+        public void QRSolve(float[] a, int rows, int columns, float[] b, int columnsB, float[] x, QRMethod method = QRMethod.Full)
         {
             if (a == null)
             {
@@ -752,7 +770,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolveFactored(float[] q, float[] r, int rowsA, int columnsA, float[] tau, float[] b, int columnsB, float[] x, QRMethod method = QRMethod.Full)
+        public void QRSolveFactored(float[] q, float[] r, int rowsA, int columnsA, float[] tau, float[] b, int columnsB, float[] x, QRMethod method = QRMethod.Full)
         {
             if (r == null)
             {
@@ -824,7 +842,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
             {
                 // we don't have access to the raw Q matrix any more(it is stored in R in the full QR), need to think about this.
                 // let just call the managed version in the meantime. The heavy lifting has already been done. -marcus
-                base.QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, QRMethod.Thin);
+                ManagedLinearAlgebraProvider.Instance.QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, QRMethod.Thin);
             }
         }
 
@@ -837,7 +855,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public override void SvdSolve(float[] a, int rowsA, int columnsA, float[] b, int columnsB, float[] x)
+        public void SvdSolve(float[] a, int rowsA, int columnsA, float[] b, int columnsB, float[] x)
         {
             if (a == null)
             {
@@ -875,6 +893,22 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         }
 
         /// <summary>
+        /// Solves A*X=B for X using a previously SVD decomposed matrix.
+        /// </summary>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,float[],int,int,float[],float[],float[])"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolveFactored(int rowsA, int columnsA, float[] s, float[] u, float[] vt, float[] b, int columnsB, float[] x)
+        {
+            ManagedLinearAlgebraProvider.Instance.SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
+        }
+
+        /// <summary>
         /// Computes the singular value decomposition of A.
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
@@ -888,7 +922,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, float[] a, int rowsA, int columnsA, float[] s, float[] u, float[] vt)
+        public void SingularValueDecomposition(bool computeVectors, float[] a, int rowsA, int columnsA, float[] s, float[] u, float[] vt)
         {
             if (a == null)
             {
@@ -953,7 +987,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void AddArrays(float[] x, float[] y, float[] result)
+        public void AddArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
             {
@@ -988,7 +1022,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void SubtractArrays(float[] x, float[] y, float[] result)
+        public void SubtractArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
             {
@@ -1023,7 +1057,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void PointWiseMultiplyArrays(float[] x, float[] y, float[] result)
+        public void PointWiseMultiplyArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
             {
@@ -1058,7 +1092,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void PointWiseDivideArrays(float[] x, float[] y, float[] result)
+        public void PointWiseDivideArrays(float[] x, float[] y, float[] result)
         {
             if (y == null)
             {
@@ -1093,13 +1127,8 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public override void PointWisePowerArrays(float[] x, float[] y, float[] result)
+        public void PointWisePowerArrays(float[] x, float[] y, float[] result)
         {
-            if (_vectorFunctionsMajor != 0 || _vectorFunctionsMinor < 1)
-            {
-                base.PointWisePowerArrays(x, y, result);
-            }
-
             if (y == null)
             {
                 throw new ArgumentNullException(nameof(y));
@@ -1120,6 +1149,16 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
                 throw new ArgumentException("The array arguments must have the same length.");
             }
 
+            if (_vectorFunctionsMajor != 0 || _vectorFunctionsMinor < 1)
+            {
+                for (int i = 0; i < y.Length; i++)
+                {
+                    result[i] = (float)Math.Pow(x[i], y[i]);
+                }
+
+                return;
+            }
+
             SafeNativeMethods.s_vector_power(x.Length, x, y, result);
         }
 
@@ -1132,7 +1171,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The length of the array must be order * order.</param>
         /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the array must <paramref name="order"/>.</param>
         /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The length of the array must be order * order.</param>
-        public override void EigenDecomp(bool isSymmetric, int order, float[] matrix, float[] matrixEv, Complex[] vectorEv, float[] matrixD)
+        public void EigenDecomp(bool isSymmetric, int order, float[] matrix, float[] matrixEv, Complex[] vectorEv, float[] matrixD)
         {
             if (matrix == null)
             {

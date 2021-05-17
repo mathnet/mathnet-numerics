@@ -6,7 +6,7 @@ namespace MathNet.Numerics.Providers.MKL.SparseSolver
     /// <summary>
     /// Intel's Math Kernel Library (MKL) sparse solver provider.
     /// </summary>
-    internal partial class MklSparseSolverProvider : ISparseSolverProvider, IDisposable
+    internal sealed partial class MklSparseSolverProvider : ISparseSolverProvider, IDisposable
     {
         const int MinimumCompatibleRevision = 14;
 

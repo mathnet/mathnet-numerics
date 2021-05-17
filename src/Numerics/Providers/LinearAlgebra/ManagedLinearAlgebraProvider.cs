@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2020 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -34,13 +34,15 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
     /// <summary>
     /// The managed linear algebra provider.
     /// </summary>
-    public partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
+    public sealed partial class ManagedLinearAlgebraProvider : ILinearAlgebraProvider
     {
+        public static ManagedLinearAlgebraProvider Instance { get; } = new ManagedLinearAlgebraProvider();
+
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
         /// </summary>
-        public virtual bool IsAvailable()
+        public bool IsAvailable()
         {
             return true;
         }
@@ -48,7 +50,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <summary>
         /// Initialize and verify that the provided is indeed available. If not, fall back to alternatives like the managed provider
         /// </summary>
-        public virtual void InitializeVerify()
+        public void InitializeVerify()
         {
         }
 
@@ -56,7 +58,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// Frees memory buffers, caches and handles allocated in or to the provider.
         /// Does not unload the provider itself, it is still usable afterwards.
         /// </summary>
-        public virtual void FreeResources()
+        public void FreeResources()
         {
         }
 

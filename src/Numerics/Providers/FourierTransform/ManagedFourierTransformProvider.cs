@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // https://numerics.mathdotnet.com
 //
-// Copyright (c) 2009-2018 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -31,8 +31,10 @@ using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.FourierTransform
 {
-    internal partial class ManagedFourierTransformProvider : IFourierTransformProvider
+    public sealed partial class ManagedFourierTransformProvider : IFourierTransformProvider
     {
+        public static ManagedFourierTransformProvider Instance { get; } = new ManagedFourierTransformProvider();
+
         /// <summary>
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
@@ -53,7 +55,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Frees memory buffers, caches and handles allocated in or to the provider.
         /// Does not unload the provider itself, it is still usable afterwards.
         /// </summary>
-        public virtual void FreeResources()
+        public void FreeResources()
         {
         }
 
@@ -334,58 +336,6 @@ namespace MathNet.Numerics.Providers.FourierTransform
         public void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling)
         {
             throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Fully rescale the FFT result.
-        /// </summary>
-        /// <param name="samples">Sample Vector.</param>
-        private static void FullRescale(Complex32[] samples)
-        {
-            var scalingFactor = (float)1.0 / samples.Length;
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] *= scalingFactor;
-            }
-        }
-
-        /// <summary>
-        /// Fully rescale the FFT result.
-        /// </summary>
-        /// <param name="samples">Sample Vector.</param>
-        private static void FullRescale(Complex[] samples)
-        {
-            var scalingFactor = 1.0 / samples.Length;
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] *= scalingFactor;
-            }
-        }
-
-        /// <summary>
-        /// Half rescale the FFT result (e.g. for symmetric transforms).
-        /// </summary>
-        /// <param name="samples">Sample Vector.</param>
-        private static void HalfRescale(Complex32[] samples)
-        {
-            var scalingFactor = (float)Math.Sqrt(1.0 / samples.Length);
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] *= scalingFactor;
-            }
-        }
-
-        /// <summary>
-        /// Fully rescale the FFT result (e.g. for symmetric transforms).
-        /// </summary>
-        /// <param name="samples">Sample Vector.</param>
-        private static void HalfRescale(Complex[] samples)
-        {
-            var scalingFactor = Math.Sqrt(1.0 / samples.Length);
-            for (int i = 0; i < samples.Length; i++)
-            {
-                samples[i] *= scalingFactor;
-            }
         }
     }
 }

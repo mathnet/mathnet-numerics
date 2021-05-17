@@ -51,7 +51,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
         [SecuritySafeCritical]
-        public override double MatrixNorm(Norm norm, int rows, int columns, double[] matrix)
+        public double MatrixNorm(Norm norm, int rows, int columns, double[] matrix)
         {
             if (matrix == null)
             {
@@ -77,6 +77,24 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         }
 
         /// <summary>
+        /// Conjugates an array. Can be used to conjugate a vector and a matrix.
+        /// </summary>
+        /// <param name="x">The values to conjugate.</param>
+        /// <param name="result">This result of the conjugation.</param>
+        public void ConjugateArray(double[] x, double[] result)
+        {
+            if (x == null)
+            {
+                throw new ArgumentNullException(nameof(x));
+            }
+
+            if (!ReferenceEquals(x, result))
+            {
+                x.CopyTo(result, 0);
+            }
+        }
+
+        /// <summary>
         /// Computes the dot product of x and y.
         /// </summary>
         /// <param name="x">The vector x.</param>
@@ -84,7 +102,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <returns>The dot product of x and y.</returns>
         /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override double DotProduct(double[] x, double[] y)
+        public double DotProduct(double[] x, double[] y)
         {
             if (y == null)
             {
@@ -105,6 +123,196 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         }
 
         /// <summary>
+        /// Does a point wise add of two arrays <c>z = x + y</c>. This can be used
+        /// to add vectors or matrices.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the addition.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public void AddArrays(double[] x, double[] y, double[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException(nameof(y));
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException(nameof(x));
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException("All vectors must have the same dimensionality.");
+            }
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = x[i] + y[i];
+            }
+        }
+
+        /// <summary>
+        /// Does a point wise subtraction of two arrays <c>z = x - y</c>. This can be used
+        /// to subtract vectors or matrices.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the subtraction.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public void SubtractArrays(double[] x, double[] y, double[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException(nameof(y));
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException(nameof(x));
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException("All vectors must have the same dimensionality.");
+            }
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = x[i] - y[i];
+            }
+        }
+
+        /// <summary>
+        /// Does a point wise multiplication of two arrays <c>z = x * y</c>. This can be used
+        /// to multiple elements of vectors or matrices.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise multiplication.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public void PointWiseMultiplyArrays(double[] x, double[] y, double[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException(nameof(y));
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException(nameof(x));
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException("All vectors must have the same dimensionality.");
+            }
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = x[i] * y[i];
+            }
+        }
+
+        /// <summary>
+        /// Does a point wise division of two arrays <c>z = x / y</c>. This can be used
+        /// to divide elements of vectors or matrices.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise division.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public void PointWiseDivideArrays(double[] x, double[] y, double[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException(nameof(y));
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException(nameof(x));
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException("All vectors must have the same dimensionality.");
+            }
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = x[i] / y[i];
+            }
+        }
+
+        /// <summary>
+        /// Does a point wise power of two arrays <c>z = x ^ y</c>. This can be used
+        /// to raise elements of vectors or matrices to the powers of another vector or matrix.
+        /// </summary>
+        /// <param name="x">The array x.</param>
+        /// <param name="y">The array y.</param>
+        /// <param name="result">The result of the point wise power.</param>
+        /// <remarks>There is no equivalent BLAS routine, but many libraries
+        /// provide optimized (parallel and/or vectorized) versions of this
+        /// routine.</remarks>
+        public void PointWisePowerArrays(double[] x, double[] y, double[] result)
+        {
+            if (y == null)
+            {
+                throw new ArgumentNullException(nameof(y));
+            }
+
+            if (x == null)
+            {
+                throw new ArgumentNullException(nameof(x));
+            }
+
+            if (result == null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            if (y.Length != x.Length || y.Length != result.Length)
+            {
+                throw new ArgumentException("All vectors must have the same dimensionality.");
+            }
+
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = Math.Pow(x[i], y[i]);
+            }
+        }
+
+        /// <summary>
         /// Adds a scaled vector to another: <c>result = y + alpha*x</c>.
         /// </summary>
         /// <param name="y">The vector to update.</param>
@@ -113,7 +321,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="result">The result of the addition.</param>
         /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void AddVectorToScaledVector(double[] y, double alpha, double[] x, double[] result)
+        public void AddVectorToScaledVector(double[] y, double alpha, double[] x, double[] result)
         {
             if (y == null)
             {
@@ -151,7 +359,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
         [SecuritySafeCritical]
-        public override void ScaleArray(double alpha, double[] x, double[] result)
+        public void ScaleArray(double alpha, double[] x, double[] result)
         {
             if (x == null)
             {
@@ -183,7 +391,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
-        public override void MatrixMultiply(double[] x, int rowsX, int columnsX, double[] y, int rowsY, int columnsY, double[] result)
+        public void MatrixMultiply(double[] x, int rowsX, int columnsX, double[] y, int rowsY, int columnsY, double[] result)
         {
             MatrixMultiplyWithUpdate(Transpose.DontTranspose, Transpose.DontTranspose, 1.0, x, rowsX, columnsX, y, rowsY, columnsY, 0.0, result);
         }
@@ -203,7 +411,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
         [SecuritySafeCritical]
-        public override void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, int rowsA, int columnsA, double[] b, int rowsB, int columnsB, double beta, double[] c)
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, int rowsA, int columnsA, double[] b, int rowsB, int columnsB, double beta, double[] c)
         {
             if (a == null)
             {
@@ -248,7 +456,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUFactor(double[] data, int order, int[] ipiv)
+        public void LUFactor(double[] data, int order, int[] ipiv)
         {
             if (data == null)
             {
@@ -285,7 +493,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverse(double[] a, int order)
+        public void LUInverse(double[] a, int order)
         {
             if (a == null)
             {
@@ -323,7 +531,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUInverseFactored(double[] a, int order, int[] ipiv)
+        public void LUInverseFactored(double[] a, int order, int[] ipiv)
         {
             if (a == null)
             {
@@ -367,7 +575,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolve(int columnsOfB, double[] a, int order, double[] b)
+        public void LUSolve(int columnsOfB, double[] a, int order, double[] b)
         {
             if (a == null)
             {
@@ -412,7 +620,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void LUSolveFactored(int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
+        public void LUSolveFactored(int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
         {
             if (a == null)
             {
@@ -460,7 +668,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskyFactor(double[] a, int order)
+        public void CholeskyFactor(double[] a, int order)
         {
             if (a == null)
             {
@@ -505,7 +713,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.
         /// </remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolve(double[] a, int orderA, double[] b, int columnsB)
+        public void CholeskySolve(double[] a, int orderA, double[] b, int columnsB)
         {
             if (a == null)
             {
@@ -549,7 +757,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void CholeskySolveFactored(double[] a, int orderA, double[] b, int columnsB)
+        public void CholeskySolveFactored(double[] a, int orderA, double[] b, int columnsB)
         {
             if (a == null)
             {
@@ -592,7 +800,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau)
+        public void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau)
         {
             if (r == null)
             {
@@ -640,7 +848,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
         [SecuritySafeCritical]
-        public override void ThinQRFactor(double[] q, int rowsA, int columnsA, double[] r, double[] tau)
+        public void ThinQRFactor(double[] q, int rowsA, int columnsA, double[] r, double[] tau)
         {
             if (r == null)
             {
@@ -687,7 +895,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
+        public void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
         {
             if (a == null)
             {
@@ -757,7 +965,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
         [SecuritySafeCritical]
-        public override void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
+        public void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
         {
             if (r == null)
             {
@@ -829,7 +1037,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
             {
                 // we don't have access to the raw Q matrix any more(it is stored in R in the full QR), need to think about this.
                 // let just call the managed version in the meantime. The heavy lifting has already been done. -marcus
-                base.QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, QRMethod.Thin);
+                ManagedLinearAlgebraProvider.Instance.QRSolveFactored(q, r, rowsA, columnsA, tau, b, columnsB, x, QRMethod.Thin);
             }
         }
 
@@ -842,7 +1050,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public override void SvdSolve(double[] a, int rowsA, int columnsA, double[] b, int columnsB, double[] x)
+        public void SvdSolve(double[] a, int rowsA, int columnsA, double[] b, int columnsB, double[] x)
         {
             if (a == null)
             {
@@ -880,6 +1088,22 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         }
 
         /// <summary>
+        /// Solves A*X=B for X using a previously SVD decomposed matrix.
+        /// </summary>
+        /// <param name="rowsA">The number of rows in the A matrix.</param>
+        /// <param name="columnsA">The number of columns in the A matrix.</param>
+        /// <param name="s">The s values returned by <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
+        /// <param name="u">The left singular vectors returned by  <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
+        /// <param name="vt">The right singular  vectors returned by  <see cref="SingularValueDecomposition(bool,double[],int,int,double[],double[],double[])"/>.</param>
+        /// <param name="b">The B matrix.</param>
+        /// <param name="columnsB">The number of columns of B.</param>
+        /// <param name="x">On exit, the solution matrix.</param>
+        public void SvdSolveFactored(int rowsA, int columnsA, double[] s, double[] u, double[] vt, double[] b, int columnsB, double[] x)
+        {
+            ManagedLinearAlgebraProvider.Instance.SvdSolveFactored(rowsA, columnsA, s, u, vt, b, columnsB, x);
+        }
+
+        /// <summary>
         /// Computes the singular value decomposition of A.
         /// </summary>
         /// <param name="computeVectors">Compute the singular U and VT vectors or not.</param>
@@ -893,7 +1117,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
         [SecuritySafeCritical]
-        public override void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
+        public void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
         {
             if (a == null)
             {
@@ -957,7 +1181,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The length of the array must be order * order.</param>
         /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the array must <paramref name="order"/>.</param>
         /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The length of the array must be order * order.</param>
-        public override void EigenDecomp(bool isSymmetric, int order, double[] matrix, double[] matrixEv, Complex[] vectorEv, double[] matrixD)
+        public void EigenDecomp(bool isSymmetric, int order, double[] matrix, double[] matrixEv, Complex[] vectorEv, double[] matrixD)
         {
             if (matrix == null)
             {

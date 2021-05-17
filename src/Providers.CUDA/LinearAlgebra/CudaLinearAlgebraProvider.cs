@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
     /// <summary>
     /// NVidia's CUDA Toolkit linear algebra provider.
     /// </summary>
-    internal partial class CudaLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
+    internal sealed partial class CudaLinearAlgebraProvider : ILinearAlgebraProvider, IDisposable
     {
         const int MinimumCompatibleRevision = 1;
 
@@ -53,7 +53,7 @@ namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
         /// </summary>
-        public override bool IsAvailable()
+        public bool IsAvailable()
         {
             return CudaProvider.IsAvailable(hintPath: _hintPath);
         }
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
         /// Initialize and verify that the provided is indeed available.
         /// If calling this method fails, consider to fall back to alternatives like the managed provider.
         /// </summary>
-        public override void InitializeVerify()
+        public void InitializeVerify()
         {
             int revision = CudaProvider.Load(hintPath: _hintPath);
             if (revision < MinimumCompatibleRevision)
@@ -86,7 +86,7 @@ namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
         /// Frees memory buffers, caches and handles allocated in or to the provider.
         /// Does not unload the provider itself, it is still usable afterwards.
         /// </summary>
-        public override void FreeResources()
+        public void FreeResources()
         {
             CudaProvider.FreeResources();
         }

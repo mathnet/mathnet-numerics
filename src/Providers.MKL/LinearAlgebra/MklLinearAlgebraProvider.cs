@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.Numerics;
 using System.Security;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
@@ -47,7 +48,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
     /// <summary>
     /// Intel's Math Kernel Library (MKL) linear algebra provider.
     /// </summary>
-    internal partial class MklLinearAlgebraProvider : ManagedLinearAlgebraProvider, IDisposable
+    internal sealed partial class MklLinearAlgebraProvider : ILinearAlgebraProvider, IDisposable
     {
         const int MinimumCompatibleRevision = 4;
 
@@ -80,7 +81,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// Try to find out whether the provider is available, at least in principle.
         /// Verification may still fail if available, but it will certainly fail if unavailable.
         /// </summary>
-        public override bool IsAvailable()
+        public bool IsAvailable()
         {
             return MklProvider.IsAvailable(hintPath: _hintPath);
         }
@@ -90,7 +91,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// If calling this method fails, consider to fall back to alternatives like the managed provider.
         /// </summary>
         [SecuritySafeCritical]
-        public override void InitializeVerify()
+        public void InitializeVerify()
         {
             int revision = MklProvider.Load(_hintPath, _consistency, _precision, _accuracy);
             if (revision < MinimumCompatibleRevision)
@@ -114,7 +115,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// Frees memory buffers, caches and handles allocated in or to the provider.
         /// Does not unload the provider itself, it is still usable afterwards.
         /// </summary>
-        public override void FreeResources()
+        public void FreeResources()
         {
             MklProvider.FreeResources();
         }

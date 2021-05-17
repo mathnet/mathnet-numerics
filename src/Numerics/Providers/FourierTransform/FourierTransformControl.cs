@@ -79,8 +79,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
             }
         }
 
-        public static IFourierTransformProvider CreateManaged() => new ManagedFourierTransformProvider();
-        public static void UseManaged() => Provider = CreateManaged();
+        public static void UseManaged() => Provider = ManagedFourierTransformProvider.Instance;
 
         public static void UseNativeMKL() => Provider = MklProbe.Create();
         public static bool TryUseNativeMKL() => TryUse(MklProbe.TryCreate());

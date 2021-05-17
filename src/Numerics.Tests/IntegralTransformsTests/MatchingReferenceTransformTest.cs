@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2018 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -321,7 +321,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             // 65536 = 2^16
             var samples = Generate.RandomComplex32(65536, GetUniform(1));
-            Verify(samples, 5, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
+            Verify(samples, 5, FourierTransformScaling.NoScaling, ManagedFourierTransformProvider.Instance.Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
@@ -329,7 +329,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             // 65536 = 2^16
             var samples = Generate.RandomComplex(65536, GetUniform(1));
-            Verify(samples, 10, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
+            Verify(samples, 10, FourierTransformScaling.NoScaling, ManagedFourierTransformProvider.Instance.Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
@@ -337,7 +337,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             // 30870 = 2*3*3*5*7*7*7
             var samples = Generate.RandomComplex32(30870, GetUniform(1));
-            Verify(samples, 5, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
+            Verify(samples, 5, FourierTransformScaling.NoScaling, ManagedFourierTransformProvider.Instance.Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
@@ -345,21 +345,21 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             // 30870 = 2*3*3*5*7*7*7
             var samples = Generate.RandomComplex(30870, GetUniform(1));
-            Verify(samples, 10, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
+            Verify(samples, 10, FourierTransformScaling.NoScaling, ManagedFourierTransformProvider.Instance.Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
         public void ProviderMatchesManagedProviderArbitraryLarge32_GH286()
         {
             var samples = Generate.RandomComplex32(46500, GetUniform(1));
-            Verify(samples, 5, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
+            Verify(samples, 5, FourierTransformScaling.NoScaling, ManagedFourierTransformProvider.Instance.Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test]
         public void ProviderMatchesManagedProviderArbitraryLarge64_GH286()
         {
             var samples = Generate.RandomComplex(46500, GetUniform(1));
-            Verify(samples, 10, FourierTransformScaling.NoScaling, FourierTransformControl.CreateManaged().Forward, FourierTransformControl.Provider.Forward);
+            Verify(samples, 10, FourierTransformScaling.NoScaling, ManagedFourierTransformProvider.Instance.Forward, FourierTransformControl.Provider.Forward);
         }
 
         [Test, Explicit("Long-Running")]

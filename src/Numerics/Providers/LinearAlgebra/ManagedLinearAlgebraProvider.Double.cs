@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2020 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="x">The vector to add to <paramref name="y"/>.</param>
         /// <param name="result">The result of the addition.</param>
         /// <remarks>This is similar to the AXPY BLAS routine.</remarks>
-        public virtual void AddVectorToScaledVector(double[] y, double alpha, double[] x, double[] result)
+        public void AddVectorToScaledVector(double[] y, double alpha, double[] x, double[] result)
         {
             if (y == null)
             {
@@ -92,7 +92,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="x">The values to scale.</param>
         /// <param name="result">This result of the scaling.</param>
         /// <remarks>This is similar to the SCAL BLAS routine.</remarks>
-        public virtual void ScaleArray(double alpha, double[] x, double[] result)
+        public void ScaleArray(double alpha, double[] x, double[] result)
         {
             if (x == null)
             {
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// </summary>
         /// <param name="x">The values to conjugate.</param>
         /// <param name="result">This result of the conjugation.</param>
-        public virtual void ConjugateArray(double[] x, double[] result)
+        public void ConjugateArray(double[] x, double[] result)
         {
             if (x == null)
             {
@@ -141,7 +141,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="y">The vector y.</param>
         /// <returns>The dot product of x and y.</returns>
         /// <remarks>This is equivalent to the DOT BLAS routine.</remarks>
-        public virtual double DotProduct(double[] x, double[] y)
+        public double DotProduct(double[] x, double[] y)
         {
             if (y == null)
             {
@@ -177,7 +177,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public virtual void AddArrays(double[] x, double[] y, double[] result)
+        public void AddArrays(double[] x, double[] y, double[] result)
         {
             if (y == null)
             {
@@ -215,7 +215,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public virtual void SubtractArrays(double[] x, double[] y, double[] result)
+        public void SubtractArrays(double[] x, double[] y, double[] result)
         {
             if (y == null)
             {
@@ -253,7 +253,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public virtual void PointWiseMultiplyArrays(double[] x, double[] y, double[] result)
+        public void PointWiseMultiplyArrays(double[] x, double[] y, double[] result)
         {
             if (y == null)
             {
@@ -291,7 +291,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public virtual void PointWiseDivideArrays(double[] x, double[] y, double[] result)
+        public void PointWiseDivideArrays(double[] x, double[] y, double[] result)
         {
             if (y == null)
             {
@@ -332,7 +332,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <remarks>There is no equivalent BLAS routine, but many libraries
         /// provide optimized (parallel and/or vectorized) versions of this
         /// routine.</remarks>
-        public virtual void PointWisePowerArrays(double[] x, double[] y, double[] result)
+        public void PointWisePowerArrays(double[] x, double[] y, double[] result)
         {
             if (y == null)
             {
@@ -373,7 +373,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <returns>
         /// The requested <see cref="Norm"/> of the matrix.
         /// </returns>
-        public virtual double MatrixNorm(Norm norm, int rows, int columns, double[] matrix)
+        public double MatrixNorm(Norm norm, int rows, int columns, double[] matrix)
         {
             switch (norm)
             {
@@ -444,7 +444,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="result">Where to store the result of the multiplication.</param>
         /// <remarks>This is a simplified version of the BLAS GEMM routine with alpha
         /// set to 1.0 and beta set to 0.0, and x and y are not transposed.</remarks>
-        public virtual void MatrixMultiply(double[] x, int rowsX, int columnsX, double[] y, int rowsY, int columnsY, double[] result)
+        public void MatrixMultiply(double[] x, int rowsX, int columnsX, double[] y, int rowsY, int columnsY, double[] result)
         {
             if (x == null)
             {
@@ -551,7 +551,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="columnsB">The number of columns in the <paramref name="b"/> matrix.</param>
         /// <param name="beta">The value to scale the <paramref name="c"/> matrix.</param>
         /// <param name="c">The c matrix.</param>
-        public virtual void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, int rowsA, int columnsA, double[] b, int rowsB, int columnsB, double beta, double[] c)
+        public void MatrixMultiplyWithUpdate(Transpose transposeA, Transpose transposeB, double alpha, double[] a, int rowsA, int columnsA, double[] b, int rowsB, int columnsB, double beta, double[] c)
         {
             if (a == null)
             {
@@ -679,7 +679,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="data"/>.</param>
         /// <param name="ipiv">On exit, it contains the pivot indices. The size of the array must be <paramref name="order"/>.</param>
         /// <remarks>This is equivalent to the GETRF LAPACK routine.</remarks>
-        public virtual void LUFactor(double[] data, int order, int[] ipiv)
+        public void LUFactor(double[] data, int order, int[] ipiv)
         {
             if (data == null)
             {
@@ -777,7 +777,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="a">The N by N matrix to invert. Contains the inverse On exit.</param>
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRF and GETRI LAPACK routines.</remarks>
-        public virtual void LUInverse(double[] a, int order)
+        public void LUInverse(double[] a, int order)
         {
             if (a == null)
             {
@@ -801,7 +801,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <remarks>This is equivalent to the GETRI LAPACK routine.</remarks>
-        public virtual void LUInverseFactored(double[] a, int order, int[] ipiv)
+        public void LUInverseFactored(double[] a, int order, int[] ipiv)
         {
             if (a == null)
             {
@@ -841,7 +841,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="order">The order of the square matrix <paramref name="a"/>.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRF and GETRS LAPACK routines.</remarks>
-        public virtual void LUSolve(int columnsOfB, double[] a, int order, double[] b)
+        public void LUSolve(int columnsOfB, double[] a, int order, double[] b)
         {
             if (a == null)
             {
@@ -884,7 +884,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="ipiv">The pivot indices of <paramref name="a"/>.</param>
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <remarks>This is equivalent to the GETRS LAPACK routine.</remarks>
-        public virtual void LUSolveFactored(int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
+        public void LUSolveFactored(int columnsOfB, double[] a, int order, int[] ipiv, double[] b)
         {
             if (a == null)
             {
@@ -983,7 +983,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// the Cholesky factorization.</param>
         /// <param name="order">The number of rows or columns in the matrix.</param>
         /// <remarks>This is equivalent to the POTRF LAPACK routine.</remarks>
-        public virtual void CholeskyFactor(double[] a, int order)
+        public void CholeskyFactor(double[] a, int order)
         {
             if (a == null)
             {
@@ -1070,7 +1070,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRF add POTRS LAPACK routines.</remarks>
-        public virtual void CholeskySolve(double[] a, int orderA, double[] b, int columnsB)
+        public void CholeskySolve(double[] a, int orderA, double[] b, int columnsB)
         {
             if (a == null)
             {
@@ -1106,7 +1106,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="b">On entry the B matrix; on exit the X matrix.</param>
         /// <param name="columnsB">The number of columns in the B matrix.</param>
         /// <remarks>This is equivalent to the POTRS LAPACK routine.</remarks>
-        public virtual void CholeskySolveFactored(double[] a, int orderA, double[] b, int columnsB)
+        public void CholeskySolveFactored(double[] a, int orderA, double[] b, int columnsB)
         {
             if (a == null)
             {
@@ -1187,7 +1187,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public virtual void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau)
+        public void QRFactor(double[] r, int rowsR, int columnsR, double[] q, double[] tau)
         {
             if (r == null)
             {
@@ -1248,7 +1248,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="tau">A min(m,n) vector. On exit, contains additional information
         /// to be used by the QR solve routine.</param>
         /// <remarks>This is similar to the GEQRF and ORGQR LAPACK routines.</remarks>
-        public virtual void ThinQRFactor(double[] a, int rowsA, int columnsA, double[] r, double[] tau)
+        public void ThinQRFactor(double[] a, int rowsA, int columnsA, double[] r, double[] tau)
         {
             if (r == null)
             {
@@ -1434,7 +1434,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
+        public void QRSolve(double[] a, int rows, int columns, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
         {
             if (a == null)
             {
@@ -1504,7 +1504,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="x">On exit, the solution matrix.</param>
         /// <param name="method">The type of QR factorization to perform. <seealso cref="QRMethod"/></param>
         /// <remarks>Rows must be greater or equal to columns.</remarks>
-        public virtual void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
+        public void QRSolveFactored(double[] q, double[] r, int rowsA, int columnsA, double[] tau, double[] b, int columnsB, double[] x, QRMethod method = QRMethod.Full)
         {
             if (r == null)
             {
@@ -1630,7 +1630,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="vt">If <paramref name="computeVectors"/> is <c>true</c>, on exit VT contains the transposed
         /// right singular vectors.</param>
         /// <remarks>This is equivalent to the GESVD LAPACK routine.</remarks>
-        public virtual void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
+        public void SingularValueDecomposition(bool computeVectors, double[] a, int rowsA, int columnsA, double[] s, double[] u, double[] vt)
         {
             if (a == null)
             {
@@ -2352,7 +2352,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public virtual void SvdSolve(double[] a, int rowsA, int columnsA, double[] b, int columnsB, double[] x)
+        public void SvdSolve(double[] a, int rowsA, int columnsA, double[] b, int columnsB, double[] x)
         {
             if (a == null)
             {
@@ -2399,7 +2399,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="b">The B matrix.</param>
         /// <param name="columnsB">The number of columns of B.</param>
         /// <param name="x">On exit, the solution matrix.</param>
-        public virtual void SvdSolveFactored(int rowsA, int columnsA, double[] s, double[] u, double[] vt, double[] b, int columnsB, double[] x)
+        public void SvdSolveFactored(int rowsA, int columnsA, double[] s, double[] u, double[] vt, double[] b, int columnsB, double[] x)
         {
             if (s == null)
             {
@@ -2494,7 +2494,7 @@ namespace MathNet.Numerics.Providers.LinearAlgebra
         /// <param name="matrixEv">On output, the matrix contains the eigen vectors. The length of the array must be order * order.</param>
         /// <param name="vectorEv">On output, the eigen values (λ) of matrix in ascending value. The length of the array must <paramref name="order"/>.</param>
         /// <param name="matrixD">On output, the block diagonal eigenvalue matrix. The length of the array must be order * order.</param>
-        public virtual void EigenDecomp(bool isSymmetric, int order, double[] matrix, double[] matrixEv, Complex[] vectorEv, double[] matrixD)
+        public void EigenDecomp(bool isSymmetric, int order, double[] matrix, double[] matrixEv, Complex[] vectorEv, double[] matrixD)
         {
             if (matrix == null)
             {

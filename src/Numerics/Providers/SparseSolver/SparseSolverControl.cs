@@ -79,8 +79,7 @@ namespace MathNet.Numerics.Providers.SparseSolver
             }
         }
 
-        public static ISparseSolverProvider CreateManaged() => new ManagedSparseSolverProvider();
-        public static void UseManaged() => Provider = CreateManaged();
+        public static void UseManaged() => Provider = ManagedSparseSolverProvider.Instance;
 
         public static void UseNativeMKL() => Provider = MklProbe.Create();
         public static bool TryUseNativeMKL() => TryUse(MklProbe.TryCreate());
@@ -109,19 +108,6 @@ namespace MathNet.Numerics.Providers.SparseSolver
 
                 Provider = provider;
                 return true;
-            }
-            catch
-            {
-                // intentionally swallow exceptions here - use the explicit variants if you're interested in why
-                return false;
-            }
-        }
-
-        public static bool TryUse(Lazy<IProviderCreator<ISparseSolverProvider>> providerCreator)
-        {
-            try
-            {
-                return TryUse(providerCreator.Value?.CreateProvider());
             }
             catch
             {

@@ -2,7 +2,7 @@
 // Math.NET Numerics, part of the Math.NET Project
 // https://numerics.mathdotnet.com
 //
-// Copyright (c) 2009-2018 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -32,7 +32,7 @@ using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.FourierTransform
 {
-    internal partial class ManagedFourierTransformProvider
+    public partial class ManagedFourierTransformProvider
     {
         /// <summary>
         /// Sequences with length greater than Math.Sqrt(Int32.MaxValue) + 1
@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         /// <param name="n">Number of samples.</param>
         /// <returns>Bluestein sequence exp(I*Pi*k^2/N)</returns>
-        private static Complex32[] BluesteinSequence32(int n)
+        static Complex32[] BluesteinSequence32(int n)
         {
             double s = Constants.Pi / n;
             var sequence = new Complex32[n];
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         /// <param name="n">Number of samples.</param>
         /// <returns>Bluestein sequence exp(I*Pi*k^2/N)</returns>
-        private static Complex[] BluesteinSequence(int n)
+        static Complex[] BluesteinSequence(int n)
         {
             double s = Constants.Pi / n;
             var sequence = new Complex[n];
@@ -108,7 +108,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Convolution with the bluestein sequence (Parallel Version).
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        private static void BluesteinConvolutionParallel(Complex32[] samples)
+        static void BluesteinConvolutionParallel(Complex32[] samples)
         {
             int n = samples.Length;
             Complex32[] sequence = BluesteinSequence32(n);
@@ -163,7 +163,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Convolution with the bluestein sequence (Parallel Version).
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        private static void BluesteinConvolutionParallel(Complex[] samples)
+        static void BluesteinConvolutionParallel(Complex[] samples)
         {
             int n = samples.Length;
             Complex[] sequence = BluesteinSequence(n);
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Swap the real and imaginary parts of each sample.
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        private static void SwapRealImaginary(Complex32[] samples)
+        static void SwapRealImaginary(Complex32[] samples)
         {
             for (int i = 0; i < samples.Length; i++)
             {
@@ -230,7 +230,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Swap the real and imaginary parts of each sample.
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        private static void SwapRealImaginary(Complex[] samples)
+        static void SwapRealImaginary(Complex[] samples)
         {
             for (int i = 0; i < samples.Length; i++)
             {
@@ -241,7 +241,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        private static void BluesteinForward(Complex[] samples)
+        static void BluesteinForward(Complex[] samples)
         {
             BluesteinConvolutionParallel(samples);
         }
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        private static void BluesteinInverse(Complex[] spectrum)
+        static void BluesteinInverse(Complex[] spectrum)
         {
             SwapRealImaginary(spectrum);
             BluesteinConvolutionParallel(spectrum);
@@ -259,7 +259,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        private static void BluesteinForward(Complex32[] samples)
+        static void BluesteinForward(Complex32[] samples)
         {
             BluesteinConvolutionParallel(samples);
         }
@@ -267,7 +267,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        private static void BluesteinInverse(Complex32[] spectrum)
+        static void BluesteinInverse(Complex32[] spectrum)
         {
             SwapRealImaginary(spectrum);
             BluesteinConvolutionParallel(spectrum);
