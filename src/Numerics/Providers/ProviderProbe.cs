@@ -43,7 +43,7 @@ namespace MathNet.Numerics.Providers
             _creator = new Lazy<IProviderCreator<T>>(() =>
             {
                 var type = Type.GetType(typeName);
-                return Activator.CreateInstance(type) as IProviderCreator<T>;
+                return type is null ? null : Activator.CreateInstance(type) as IProviderCreator<T>;
             }, LazyThreadSafetyMode.ExecutionAndPublication);
         }
 
@@ -64,7 +64,13 @@ namespace MathNet.Numerics.Providers
                 throw new NotSupportedException("Native Provider Probing is disabled by an application switch");
             }
 
-            return _creator.Value.CreateProvider();
+            var creator = _creator.Value;
+            if (creator is null)
+            {
+                throw new NotSupportedException("Native Provider Probing failed to resolve creator");
+            }
+
+            return creator.CreateProvider();
         }
 
         public T TryCreate()
@@ -76,7 +82,7 @@ namespace MathNet.Numerics.Providers
 
             try
             {
-                return _creator.Value.CreateProvider();
+                return _creator.Value?.CreateProvider();
             }
             catch
             {
