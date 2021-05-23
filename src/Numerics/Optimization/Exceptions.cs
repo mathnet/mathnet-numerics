@@ -48,7 +48,7 @@ namespace MathNet.Numerics.Optimization
 
     public class EvaluationException : OptimizationException
     {
-        public IObjectiveFunctionEvaluation ObjectiveFunction { get; private set; }
+        public IObjectiveFunctionEvaluation ObjectiveFunction { get; }
 
         public EvaluationException(string message, IObjectiveFunctionEvaluation eval)
             : base(message)
@@ -69,8 +69,8 @@ namespace MathNet.Numerics.Optimization
         public InnerOptimizationException(string message)
             : base(message) { }
 
-        public InnerOptimizationException(string message, Exception inner_exception)
-            : base(message, inner_exception) { }
+        public InnerOptimizationException(string message, Exception innerException)
+            : base(message, innerException) { }
     }
 
     public class IncompatibleObjectiveException : OptimizationException

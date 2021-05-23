@@ -30,9 +30,8 @@
 using System;
 using System.Linq;
 
-// ReSharper disable CheckNamespace
+// ReSharper disable once CheckNamespace
 namespace MathNet.Numerics
-// ReSharper restore CheckNamespace
 {
     public static class TestFunctions
     {

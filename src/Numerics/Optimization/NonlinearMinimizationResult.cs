@@ -44,7 +44,7 @@ namespace MathNet.Numerics.Optimization
             EvaluateCovariance(modelInfo);
         }
 
-        private void EvaluateCovariance(IObjectiveModel objective)
+        void EvaluateCovariance(IObjectiveModel objective)
         {
             objective.EvaluateAt(objective.Point); // Hessian may be not yet updated.
 

@@ -96,7 +96,6 @@ namespace MathNet.Numerics.Optimization
             var candidate = lineSearchResult.FunctionInfoAtMinimum;
             ValidateGradientAndObjective(candidate);
 
-            var gradient = candidate.Gradient;
             var step = candidate.Point - initialGuess;
 
             // Subsequent steps

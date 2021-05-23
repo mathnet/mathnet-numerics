@@ -66,8 +66,8 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
             return fork;
         }
 
-        public bool IsGradientSupported { get; private set; }
-        public bool IsHessianSupported { get; private set; }
+        public bool IsGradientSupported { get; }
+        public bool IsHessianSupported { get; }
 
         public void EvaluateAt(Vector<double> point)
         {

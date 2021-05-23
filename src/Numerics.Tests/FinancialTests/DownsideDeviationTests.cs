@@ -108,9 +108,8 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             const double minimumAcceptableReturn = 0.05;
             List<double> inputData = null;
             //act
-// ReSharper disable ExpressionIsAlwaysNull
+// ReSharper disable once ExpressionIsAlwaysNull
             Assert.Throws<ArgumentNullException>(() => AbsoluteRiskMeasures.DownsideDeviation(inputData, minimumAcceptableReturn));
-// ReSharper restore ExpressionIsAlwaysNull
         }
 
     }

@@ -43,27 +43,27 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Evaluates the log density function of the target distribution.
         /// </summary>
-        private readonly DensityLn<double> _pdfLnP;
+        readonly DensityLn<double> _pdfLnP;
 
         /// <summary>
         /// The current location of the sampler.
         /// </summary>
-        private double _current;
+        double _current;
 
         /// <summary>
         /// The log density at the current location.
         /// </summary>
-        private double _currentDensityLn;
+        double _currentDensityLn;
 
         /// <summary>
         /// The number of burn iterations between two samples.
         /// </summary>
-        private int _burnInterval;
+        int _burnInterval;
 
         /// <summary>
         /// The scale of the slice sampler.
         /// </summary>
-        private double _scale;
+        double _scale;
 
         /// <summary>
         /// Constructs a new Slice sampler using the default <see cref="System.Random"/> random
@@ -135,7 +135,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// This method runs the sampler for a number of iterations without returning a sample
         /// </summary>
-        private void Burn(int n)
+        void Burn(int n)
         {
             for (int i = 0; i < n; i++)
             {

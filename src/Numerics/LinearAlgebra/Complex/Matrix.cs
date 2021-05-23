@@ -455,7 +455,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         protected override void DoPointwiseAbs(Matrix<Complex> result)
         {
-            Map(x => (Complex)Complex.Abs(x), result, Zeros.AllowSkip);
+            Map(x => Complex.Abs(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAcos(Matrix<Complex> result)
         {

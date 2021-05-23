@@ -57,8 +57,8 @@ namespace MathNet.Numerics.Differentiation
             }
         }
 
-        private double[][,] _coefficients;
-        private int _points;
+        double[][,] _coefficients;
+        int _points;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FiniteDifferenceCoefficients"/> class.
@@ -104,7 +104,7 @@ namespace MathNet.Numerics.Differentiation
             return _coefficients[center];
         }
 
-        private void CalculateCoefficients(int points)
+        void CalculateCoefficients(int points)
         {
             var c = new double[points][,];
 

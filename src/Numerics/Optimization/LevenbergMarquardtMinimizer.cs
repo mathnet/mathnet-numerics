@@ -28,16 +28,16 @@ namespace MathNet.Numerics.Optimization
             double[] lowerBound = null, double[] upperBound = null, double[] scales = null, bool[] isFixed = null)
         {
             if (objective == null)
-                throw new ArgumentNullException("objective");
+                throw new ArgumentNullException(nameof(objective));
             if (initialGuess == null)
-                throw new ArgumentNullException("initialGuess");
+                throw new ArgumentNullException(nameof(initialGuess));
 
-            var lb = (lowerBound == null) ? null : CreateVector.Dense<double>(lowerBound);
-            var ub = (upperBound == null) ? null : CreateVector.Dense<double>(upperBound);
-            var sc = (scales == null) ? null : CreateVector.Dense<double>(scales);
-            var fx = (isFixed == null) ? null : isFixed.ToList();
+            var lb = (lowerBound == null) ? null : CreateVector.Dense(lowerBound);
+            var ub = (upperBound == null) ? null : CreateVector.Dense(upperBound);
+            var sc = (scales == null) ? null : CreateVector.Dense(scales);
+            var fx = isFixed?.ToList();
 
-            return Minimum(objective, CreateVector.DenseOfArray<double>(initialGuess), lb, ub, sc, fx, InitialMu, GradientTolerance, StepTolerance, FunctionTolerance, MaximumIterations);
+            return Minimum(objective, CreateVector.DenseOfArray(initialGuess), lb, ub, sc, fx, InitialMu, GradientTolerance, StepTolerance, FunctionTolerance, MaximumIterations);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         /// <param name="objective">The objective function, including model, observations, and parameter bounds.</param>
         /// <param name="initialGuess">The initial guess values.</param>
-        /// <param name="initialMu">The initial damping parameter of mu.</param>        
+        /// <param name="initialMu">The initial damping parameter of mu.</param>
         /// <param name="gradientTolerance">The stopping threshold for infinity norm of the gradient vector.</param>
         /// <param name="stepTolerance">The stopping threshold for L2 norm of the change of parameters.</param>
         /// <param name="functionTolerance">The stopping threshold for L2 norm of the residuals.</param>
@@ -70,12 +70,12 @@ namespace MathNet.Numerics.Optimization
             //    Residuals, R = L(y - f(x; p))
             //    Residual sum of squares, RSS = ||R||^2 = R.DotProduct(R)
             //    Jacobian J = df(x; p)/dp
-            //    Gradient g = -J'W(y − f(x; p)) = -J'LR 
+            //    Gradient g = -J'W(y − f(x; p)) = -J'LR
             //    Approximated Hessian H = J'WJ
             //
             // The Levenberg-Marquardt algorithm is summarized as follows:
             //    initially let μ = τ * max(diag(H)).
-            //    repeat 
+            //    repeat
             //       solve linear equations: (H + μI)ΔP = -g
             //       let ρ = (||R||^2 - ||Rnew||^2) / (Δp'(μΔp - g)).
             //       if ρ > ε, P = P + ΔP; μ = μ * max(1/3, 1 - (2ρ - 1)^3); ν = 2;
@@ -91,17 +91,17 @@ namespace MathNet.Numerics.Optimization
             //    Availble Online from: http://people.duke.edu/~hpgavin/ce281/lm.pdf
 
             if (objective == null)
-                throw new ArgumentNullException("objective");
-            
+                throw new ArgumentNullException(nameof(objective));
+
             ValidateBounds(initialGuess, lowerBound, upperBound, scales);
-            
+
             objective.SetParameters(initialGuess, isFixed);
 
             ExitCondition exitCondition = ExitCondition.None;
 
             // First, calculate function values and setup variables
             var P = ProjectToInternalParameters(initialGuess); // current internal parameters
-            var Pstep = Vector<double>.Build.Dense(P.Count); // the change of parameters    
+            var Pstep = Vector<double>.Build.Dense(P.Count); // the change of parameters
             var RSS = EvaluateFunction(objective, P);  // Residual Sum of Squares = R'R
 
             if (maximumIterations < 0)
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.Optimization
                 return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
-            // When only function evaluation is needed, set maximumIterations to zero, 
+            // When only function evaluation is needed, set maximumIterations to zero,
             if (maximumIterations == 0)
             {
                 exitCondition = ExitCondition.ManuallyStopped;
@@ -145,7 +145,7 @@ namespace MathNet.Numerics.Optimization
                 return new NonlinearMinimizationResult(objective, -1, exitCondition);
             }
 
-            double mu = initialMu * diagonalOfHessian.Max(); // μ 
+            double mu = initialMu * diagonalOfHessian.Max(); // μ
             double nu = 2; //  ν
             int iterations = 0;
             while (iterations < maximumIterations && exitCondition == ExitCondition.None)
@@ -155,7 +155,7 @@ namespace MathNet.Numerics.Optimization
                 while (true)
                 {
                     Hessian.SetDiagonal(Hessian.Diagonal() + mu); // hessian[i, i] = hessian[i, i] + mu;
-                    
+
                     // solve normal equations
                     Pstep = Hessian.Solve(-Gradient);
 
@@ -193,7 +193,7 @@ namespace MathNet.Numerics.Optimization
                         jac = EvaluateJacobian(objective, P);
                         Gradient = jac.Item1; // objective.Gradient;
                         Hessian = jac.Item2; // objective.Hessian;
-                        diagonalOfHessian = Hessian.Diagonal();                        
+                        diagonalOfHessian = Hessian.Diagonal();
 
                         // if ||g||_oo <= gtol, found and stop
                         if (Gradient.InfinityNorm() <= gradientTolerance)

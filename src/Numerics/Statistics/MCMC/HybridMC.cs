@@ -42,18 +42,18 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// Number of parameters in the density function.
         /// </summary>
-        private readonly int _length;
+        readonly int _length;
 
         /// <summary>
         /// Distribution to sample momentum from.
         /// </summary>
-        private Normal _pDistribution;
+        Normal _pDistribution;
 
         /// <summary>
         /// Standard deviations used in the sampling of different components of the
         /// momentum.
         /// </summary>
-        private double[] _mpSdv;
+        double[] _mpSdv;
 
         /// <summary>
         /// Gets or sets the standard deviations used in the sampling of different components of the
@@ -165,7 +165,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// Initialize parameters.
         /// </summary>
         /// <param name="x0">The current location of the sampler.</param>
-        private void Initialize(double[] x0)
+        void Initialize(double[] x0)
         {
             Current = (double[])x0.Clone();
             _pDistribution = new Normal(0.0, 1.0, RandomSource);
@@ -178,7 +178,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <exception cref="ArgumentOutOfRangeException">When the length of pSdv is not the same as Length or if any
         /// component is negative.</exception>
         /// <exception cref="ArgumentNullException">When pSdv is null.</exception>
-        private void CheckVariance(double[] pSdv)
+        void CheckVariance(double[] pSdv)
         {
             if (pSdv == null)
             {

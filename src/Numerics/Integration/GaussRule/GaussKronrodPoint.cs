@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 
 namespace MathNet.Numerics.Integration.GaussRule
 {
@@ -389,7 +388,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             // Calculate Kronrod polynomial in terms of Legendre polynomials
             // K(x) = c0*P(0, x) + c1*P(1, x) + ...
 
-            var c = StieltjesP(gaussOrder + 1); 
+            var c = StieltjesP(gaussOrder + 1);
 
             // Calculate Abscissas for Kronrod polynomial
 
@@ -420,7 +419,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             // Concatenate two abscissas
 
             var abscissas = new double[gaussAbscissas.Length + kronrodAbscissas.Length];
-            gaussAbscissas.CopyTo(abscissas, 0);            
+            gaussAbscissas.CopyTo(abscissas, 0);
             kronrodAbscissas.CopyTo(abscissas, gaussAbscissas.Length);
             abscissas = abscissas.OrderBy(v => v).ToArray();
 
@@ -454,9 +453,9 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <summary>
         /// Returns coefficients of a Stieltjes polynomial in terms of Legendre polynomials.
         /// </summary>
-        internal static double[] StieltjesP(int order)
+        static double[] StieltjesP(int order)
         {
-            // Reference: 
+            // Reference:
             // 1. Patterson, Thomas NL. "The optimum addition of points to quadrature formulae." Mathematics of Computation 22.104 (1968): 847-856.
             // 2. Piessens, Robert, and Maria Branders. "A note on the optimal addition of abscissas to quadrature formulas of Gauss and Lobatto type." Mathematics of Computation (1974): 135-139.
             // 3. Legendre-Stieltjes Polynomials, Boost.Math
@@ -475,14 +474,14 @@ namespace MathNet.Numerics.Integration.GaussRule
             // The added n + 1 Kronrod abscissae is the roots of the Kronrod polynomial.
 
             if (order == 1)         // P(1, x)
-                return new double[] { 0, 1 }; 
-            else if (order == 2)    // -2/5 * P(0, x) +  P(2, x) 
+                return new double[] { 0, 1 };
+            if (order == 2)    // -2/5 * P(0, x) +  P(2, x)
                 return new double[] { -0.4, 0, 1 };
-            else if (order == 3)    // -9/14 * P(1, x) + P(3, x)
+            if (order == 3)    // -9/14 * P(1, x) + P(3, x)
                 return new double[] { 0, -0.642857142857142857142857142857, 0, 1 };
-            else if (order == 4)    // 14/891 * P(0, x) - 20/27 * P(2, x) + P(4, x)
+            if (order == 4)    // 14/891 * P(0, x) - 20/27 * P(2, x) + P(4, x)
                 return new double[] { 0.0157126823793490460157126823793, 0, -0.740740740740740740740740740741, 0, 1 };
-            else if (order == 5)    // 135/12584 * P(1, x) - 35/44 * P(3, x) + P(5, x) 
+            if (order == 5)    // 135/12584 * P(1, x) - 35/44 * P(3, x) + P(5, x)
                 return new double[] { 0, 0.0107279084551811824539097266370, 0, -0.795454545454545454545454545455, 0, 1 };
 
             int n = order - 1;
@@ -498,7 +497,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             // a[r - 2] = -a[r] * S[r, 2] / S[r - 2, 2] - a[r - 1] * S[r - 1, 2] / S[r - 2, 2];
             // ...
             // a[1] = -a[r] * S[r, r - 1] / S[1, r - 1] - a[r - 1] * S[r - 1, r - 1] / S[1, r - 1] - ... - a[2] * S[2, r - 1] / S[1, r - 1];
-            // 
+            //
             // S[i, k] / S[r - k, k] = S[i - 1, k] / S[r - k, k]
             //                         * ((n - q + 2 * (i + k - 1)) * (n + q + 2 * (k - i + 1)) * (n - 1 - q + 2 * (i - k)) * (2 * (k + i - 1) - 1 - q - n))
             //                         / ((n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k)));
@@ -513,11 +512,11 @@ namespace MathNet.Numerics.Integration.GaussRule
                     double numerator = (n - q + 2 * (i + k - 1)) * (n + q + 2 * (k - i + 1)) * (n - 1 - q + 2 * (i - k)) * (2 * (k + i - 1) - 1 - q - n);
                     double denominator = (n - q + 2 * (i - k)) * (2 * (k + i - 1) - q - n) * (n + 1 + q + 2 * (k - i)) * (n - 1 - q + 2 * (i + k));
                     ratio = ratio * numerator / denominator;
-                    a[r - k] -= a[i] * ratio; 
+                    a[r - k] -= a[i] * ratio;
                 }
             }
 
-            // K = sum c[k] P[k, x] 
+            // K = sum c[k] P[k, x]
 
             double[] c = new double[2 * r - q];
             for (int i = 1; i < a.Length; i++)
@@ -531,22 +530,22 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <summary>
         /// Return value and derivative of a Legendre series at given points.
         /// </summary>
-        internal static Tuple<double, double> LegendreSeries(double[] a, double x)
+        static Tuple<double, double> LegendreSeries(double[] a, double x)
         {
             // S = a[0]*P[0, x] + ... + a[k]*P[k, x] + ... + a[n]*P[n, x]
             // where P[k, x] is the Legendre polynomial of order k
             //
             // According to the Clenshaw algorithm, S can be written by
             // S = a[0] + x*b[1, x] - 1/2 * b[2,x]
-            // 
+            //
             // b[n + 1, x] = 0
             // b[n + 2, x] = 0
             // b[k, x] = a[k] + (2k + 1)/(k + 1)*x*b[k + 1, x] - (k + 1)/(k + 2)*b[k + 2, x]
             //
             // Derivative of S is given by
-            // S' = b[1, x] + x*b'[1, x] - 1/2 * b'[2,x] 
+            // S' = b[1, x] + x*b'[1, x] - 1/2 * b'[2,x]
             //
-            // b'[k, x] = (2k + 1)/(k + 1)*b[k + 1, x] + (2k + 1)/(k + 1)*x*b'[k + 1, x] - (k + 1)/(k + 2)*b'[k + 2, x] 
+            // b'[k, x] = (2k + 1)/(k + 1)*b[k + 1, x] + (2k + 1)/(k + 1)*x*b'[k + 1, x] - (k + 1)/(k + 2)*b'[k + 2, x]
 
             if (a.Length == 1)
                 return new Tuple<double, double>(a[0], 0);
@@ -576,7 +575,7 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <summary>
         /// Return value and derivative of a Legendre polynomial of order at given points.
         /// </summary>
-        internal static Tuple<double, double> LegendreP(int order, double x)
+        static Tuple<double, double> LegendreP(int order, double x)
         {
             // The Legendre polynomial, P[n, x], is defined by the recurrence relation:
             //
@@ -602,7 +601,7 @@ namespace MathNet.Numerics.Integration.GaussRule
             {
                 b0 = (2.0 * k - 1.0) / k * x * b1 - (k - 1.0) / k * b2; // L(k, x)
                 p0 = (2.0 * k - 1.0) / k * (b1 + x * p1) - (k - 1.0) / k * p2; // L'(k, x)
-                
+
                 b2 = b1;
                 b1 = b0;
                 p2 = p1;

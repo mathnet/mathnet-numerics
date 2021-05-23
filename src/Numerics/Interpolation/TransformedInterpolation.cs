@@ -130,48 +130,33 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated value x(t).</returns>
-        public double Interpolate(double t)
-        {
-            return _transform(_interpolation.Interpolate(t));
-        }
+        public double Interpolate(double t) => _transform(_interpolation.Interpolate(t));
 
         /// <summary>
         /// Differentiate at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated first derivative at point t.</returns>
-        double IInterpolation.Differentiate(double t)
-        {
-            throw new NotSupportedException();
-        }
+        double IInterpolation.Differentiate(double t) => throw new NotSupportedException();
 
         /// <summary>
         /// Differentiate twice at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated second derivative at point t.</returns>
-        double IInterpolation.Differentiate2(double t)
-        {
-            throw new NotSupportedException();
-        }
+        double IInterpolation.Differentiate2(double t) => throw new NotSupportedException();
 
         /// <summary>
         /// Indefinite integral at point t. NOT SUPPORTED.
         /// </summary>
         /// <param name="t">Point t to integrate at.</param>
-        double IInterpolation.Integrate(double t)
-        {
-            throw new NotSupportedException();
-        }
+        double IInterpolation.Integrate(double t) => throw new NotSupportedException();
 
         /// <summary>
         /// Definite integral between points a and b. NOT SUPPORTED.
         /// </summary>
         /// <param name="a">Left bound of the integration interval [a,b].</param>
         /// <param name="b">Right bound of the integration interval [a,b].</param>
-        double IInterpolation.Integrate(double a, double b)
-        {
-            throw new NotSupportedException();
-        }
+        double IInterpolation.Integrate(double a, double b) => throw new NotSupportedException();
     }
 }

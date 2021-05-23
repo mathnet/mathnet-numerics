@@ -136,10 +136,8 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests.Complex.Solvers.StopCrit
             var clonedCriterion = clone as IterationCountStopCriterion<Complex>;
             Assert.IsNotNull(clonedCriterion);
 
-            // ReSharper disable PossibleNullReferenceException
+            // ReSharper disable once PossibleNullReferenceException
             Assert.AreEqual(criterion.MaximumNumberOfIterations, clonedCriterion.MaximumNumberOfIterations, "Clone failed");
-
-            // ReSharper restore PossibleNullReferenceException
         }
     }
 }

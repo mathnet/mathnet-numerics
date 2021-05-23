@@ -57,9 +57,9 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void CanCreateBurr(double a, double c, double k)
         {
             var n = new Burr(a, c, k);
-            Assert.AreEqual(a, n.a);
-            Assert.AreEqual(c, n.c);
-            Assert.AreEqual(k, n.k);
+            Assert.AreEqual(a, n.A);
+            Assert.AreEqual(c, n.C);
+            Assert.AreEqual(k, n.K);
         }
 
         /// <summary>

@@ -43,9 +43,8 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             //arrange
             List<double> inputData = null;
             //act
-// ReSharper disable ExpressionIsAlwaysNull
+// ReSharper disable once ExpressionIsAlwaysNull
             Assert.Throws<ArgumentNullException>(() => AbsoluteReturnMeasures.CompoundReturn(inputData));
-// ReSharper restore ExpressionIsAlwaysNull
         }
 
         [Test]

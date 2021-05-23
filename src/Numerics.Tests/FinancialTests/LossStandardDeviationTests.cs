@@ -113,9 +113,8 @@ namespace MathNet.Numerics.UnitTests.FinancialTests
             //arrange
             List<double> inputData = null;
             //act
-// ReSharper disable ExpressionIsAlwaysNull
+// ReSharper disable once ExpressionIsAlwaysNull
             Assert.Throws<ArgumentNullException>(() => AbsoluteRiskMeasures.LossStandardDeviation(inputData));
-// ReSharper restore ExpressionIsAlwaysNull
         }
     }
 }

@@ -156,7 +156,7 @@ namespace MathNet.Numerics
         /// </remarks>
         public static IInterpolation Linear(IEnumerable<double> points, IEnumerable<double> values)
         {
-            return Interpolation.LinearSpline.Interpolate(points, values);
+            return LinearSpline.Interpolate(points, values);
         }
 
         /// <summary>

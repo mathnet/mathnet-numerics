@@ -306,8 +306,8 @@ namespace MathNet.Numerics.Distributions
 
         internal static double SampleUnchecked(System.Random rnd, double mean, double stddev)
         {
-            double x, y;
-            while (!PolarTransform(rnd.NextDouble(), rnd.NextDouble(), out x, out y))
+            double x;
+            while (!PolarTransform(rnd.NextDouble(), rnd.NextDouble(), out x, out _))
             {
             }
 
@@ -318,8 +318,7 @@ namespace MathNet.Numerics.Distributions
         {
             while (true)
             {
-                double x, y;
-                if (!PolarTransform(rnd.NextDouble(), rnd.NextDouble(), out x, out y))
+                if (!PolarTransform(rnd.NextDouble(), rnd.NextDouble(), out var x, out var y))
                 {
                     continue;
                 }

@@ -147,7 +147,6 @@ namespace MathNet.Numerics.Optimization
             if (currentExitCondition != ExitCondition.None)
                 return new MinimizationResult(candidatePoint, 0, currentExitCondition);
 
-            var gradient = candidatePoint.Gradient;
             var step = candidatePoint.Point - initialGuess;
 
             // Subsequent steps
@@ -175,8 +174,6 @@ namespace MathNet.Numerics.Optimization
             double sy = step * y;
             if (sy > 0.0) // only do update if it will create a positive definite matrix
             {
-                double sts = step * step;
-
                 var Hs = pseudoHessian * step;
                 var sHs = step * pseudoHessian * step;
                 pseudoHessian = pseudoHessian + y.OuterProduct(y) * (1.0 / sy) - Hs.OuterProduct(Hs) * (1.0 / sHs);

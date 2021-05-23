@@ -411,7 +411,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Puts the lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void LowerTriangleImpl(Matrix<float> result)
+        void LowerTriangleImpl(Matrix<float> result)
         {
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
@@ -476,7 +476,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Puts the upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void UpperTriangleImpl(Matrix<float> result)
+        void UpperTriangleImpl(Matrix<float> result)
         {
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
@@ -542,7 +542,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Puts the strictly lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void StrictlyLowerTriangleImpl(Matrix<float> result)
+        void StrictlyLowerTriangleImpl(Matrix<float> result)
         {
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
@@ -608,7 +608,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         /// Puts the strictly upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void StrictlyUpperTriangleImpl(Matrix<float> result)
+        void StrictlyUpperTriangleImpl(Matrix<float> result)
         {
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;

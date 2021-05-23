@@ -229,7 +229,7 @@ namespace MathNet.Numerics.Interpolation
             }
 
             var m = new double[x.Length - 1];
-            
+
             for (int i = 0; i < m.Length; i++)
             {
                 m[i] = (y[i + 1] - y[i])/(x[i + 1] - x[i]);
@@ -259,7 +259,7 @@ namespace MathNet.Numerics.Interpolation
                 hPrev = h;
                 mPrevIs0 = mIs0;
             }
-            
+
             // Special case end-points.
             dd[0] = PchipEndPoints(x[1] - x[0], x[2] - x[1], m[0], m[1]);
             dd[dd.Length - 1] = PchipEndPoints(
@@ -595,10 +595,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="a">Left bound of the integration interval [a,b].</param>
         /// <param name="b">Right bound of the integration interval [a,b].</param>
-        public double Integrate(double a, double b)
-        {
-            return Integrate(b) - Integrate(a);
-        }
+        public double Integrate(double a, double b) => Integrate(b) - Integrate(a);
 
         double[] ComputeIndefiniteIntegral()
         {

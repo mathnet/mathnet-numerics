@@ -105,9 +105,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Discrete
         public void CategoricalCreateFailsWithNullHistogram()
         {
             Histogram h = null;
-// ReSharper disable ExpressionIsAlwaysNull
+// ReSharper disable once ExpressionIsAlwaysNull
             Assert.That(() => new Categorical(h), Throws.TypeOf<ArgumentNullException>());
-// ReSharper restore ExpressionIsAlwaysNull
         }
 
         /// <summary>

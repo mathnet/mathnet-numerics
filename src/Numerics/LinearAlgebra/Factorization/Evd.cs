@@ -64,7 +64,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets a value indicating whether matrix is symmetric or not
         /// </summary>
-        public bool IsSymmetric { get; private set; }
+        public bool IsSymmetric { get; }
 
         /// <summary>
         /// Gets the absolute value of determinant of the square matrix for which the EVD was computed.
@@ -86,17 +86,17 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets or sets the eigen values (λ) of matrix in ascending value.
         /// </summary>
-        public Vector<Complex> EigenValues { get; private set; }
+        public Vector<Complex> EigenValues { get; }
 
         /// <summary>
         /// Gets or sets eigenvectors.
         /// </summary>
-        public Matrix<T> EigenVectors { get; private set; }
+        public Matrix<T> EigenVectors { get; }
 
         /// <summary>
         /// Gets or sets the block diagonal eigenvalue matrix.
         /// </summary>
-        public Matrix<T> D { get; private set; }
+        public Matrix<T> D { get; }
 
         /// <summary>
         /// Solves a system of linear equations, <b>AX = B</b>, with A EVD factorized.

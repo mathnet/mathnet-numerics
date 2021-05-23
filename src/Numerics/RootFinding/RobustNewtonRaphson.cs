@@ -49,8 +49,7 @@ namespace MathNet.Numerics.RootFinding
         /// <exception cref="NonConvergenceException"></exception>
         public static double FindRoot(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy = 1e-8, int maxIterations = 100, int subdivision = 20)
         {
-            double root;
-            if (TryFindRoot(f, df, lowerBound, upperBound, accuracy, maxIterations, subdivision, out root))
+            if (TryFindRoot(f, df, lowerBound, upperBound, accuracy, maxIterations, subdivision, out var root))
             {
                 return root;
             }

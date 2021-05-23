@@ -107,9 +107,8 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Multivariate
         public void MultinomialCreateFailsWithNullHistogram()
         {
             Histogram h = null;
-// ReSharper disable ExpressionIsAlwaysNull
+// ReSharper disable once ExpressionIsAlwaysNull
             Assert.That(() => new Categorical(h), Throws.TypeOf<ArgumentNullException>());
-// ReSharper restore ExpressionIsAlwaysNull
         }
 
         /// <summary>

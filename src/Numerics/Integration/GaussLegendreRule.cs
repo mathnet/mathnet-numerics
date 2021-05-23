@@ -38,7 +38,7 @@ namespace MathNet.Numerics.Integration
     /// </summary>
     public class GaussLegendreRule
     {
-        private readonly GaussPoint _gaussLegendrePoint;
+        readonly GaussPoint _gaussLegendrePoint;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GaussLegendreRule"/> class.

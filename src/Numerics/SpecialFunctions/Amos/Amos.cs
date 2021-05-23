@@ -1,13 +1,14 @@
 ﻿using System;
 using Complex = System.Numerics.Complex;
 
+// ReSharper disable once CheckNamespace
 namespace MathNet.Numerics
 {
     // References:
     // [1] https://github.com/scipy/scipy/blob/master/scipy/special/amos_wrappers.c
     public static partial class SpecialFunctions
     {
-        private static class Amos
+        static class Amos
         {
             #region AiryAi
 
@@ -765,7 +766,7 @@ namespace MathNet.Numerics
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
-                    return new Complex(double.NaN, double.NaN); ;
+                    return new Complex(double.NaN, double.NaN);
                 }
 
                 int n = 1;
@@ -805,7 +806,7 @@ namespace MathNet.Numerics
             {
                 if (double.IsNaN(v) || double.IsNaN(z.Real) || double.IsNaN(z.Imaginary))
                 {
-                    return new Complex(double.NaN, double.NaN); ;
+                    return new Complex(double.NaN, double.NaN);
                 }
 
                 int n = 1;
@@ -936,7 +937,7 @@ namespace MathNet.Numerics
 
             #region utilities
 
-            private static double SinPi(double x)
+            static double SinPi(double x)
             {
                 if (Math.Floor(x) == x && Math.Abs(x) < 1.0e14)
                 {
@@ -948,7 +949,7 @@ namespace MathNet.Numerics
                 return Math.Sin(Math.PI * x);
             }
 
-            private static double CosPi(double x)
+            static double CosPi(double x)
             {
                 if (Math.Floor(x + 0.5) == x + 0.5 && Math.Abs(x) < 1.0E14)
                 {
@@ -960,21 +961,21 @@ namespace MathNet.Numerics
                 return Math.Cos(Math.PI * x);
             }
 
-            private static Complex Rotate(Complex z, double v)
+            static Complex Rotate(Complex z, double v)
             {
                 double c = CosPi(v);
                 double s = SinPi(v);
                 return new Complex(z.Real * c - z.Imaginary * s, z.Real * s + z.Imaginary * c);
             }
 
-            private static Complex RotateJY(Complex j, Complex y, double v)
+            static Complex RotateJY(Complex j, Complex y, double v)
             {
                 double c = CosPi(v);
                 double s = SinPi(v);
                 return new Complex(j.Real * c - y.Real * s, j.Imaginary * c - y.Imaginary * s);
             }
 
-            private static bool ReflectJY(ref Complex jy, double v)
+            static bool ReflectJY(ref Complex jy, double v)
             {
                 //NB: Y_v may be huge near negative integers -- so handle exact
                 //     integers carefully
@@ -993,7 +994,7 @@ namespace MathNet.Numerics
                 return true;
             }
 
-            private static bool ReflectI(Complex ik, double v)
+            static bool ReflectI(Complex ik, double v)
             {
                 if (v != Math.Floor(v))
                 {
@@ -1003,7 +1004,7 @@ namespace MathNet.Numerics
                 return true; //I is symmetric for integer v
             }
 
-            private static Complex RotateI(Complex i, Complex k, double v)
+            static Complex RotateI(Complex i, Complex k, double v)
             {
                 double s = Math.Sin(v * Math.PI) * (2.0 / Math.PI);
                 return new Complex(i.Real + s * k.Real, i.Imaginary + s * k.Imaginary);

@@ -333,7 +333,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="p">The location at which to compute the inverse cumulative distribution function.</param>
         ///  <returns>the inverse cumulative distribution at location <paramref name="p"/>.</returns>
         /// <seealso cref="CumulativeDistribution"/>
-        public static double ICDF(double scale, double shape, double truncation, double p)
+        public static double InvCDF(double scale, double shape, double truncation, double p)
         {
             if (!IsValidParameterSet(scale, shape, truncation))
             {
@@ -396,7 +396,7 @@ namespace MathNet.Numerics.Distributions
             return CumulativeDistributionImpl(scale, shape, truncation, x);
         }
 
-        internal static double DensityImpl(double scale, double shape, double truncation, double x)
+        static double DensityImpl(double scale, double shape, double truncation, double x)
         {
             if (x < scale || x > truncation)
                 return 0;
@@ -404,12 +404,12 @@ namespace MathNet.Numerics.Distributions
                 return (shape * Math.Pow(scale, shape) * Math.Pow(x, -shape - 1)) / (1 - Math.Pow(scale / truncation, shape));
         }
 
-        internal static double DensityLnImpl(double scale, double shape, double truncation, double x)
+        static double DensityLnImpl(double scale, double shape, double truncation, double x)
         {
             return Math.Log(DensityImpl(scale, shape, truncation, x));
         }
 
-        internal static double CumulativeDistributionImpl(double scale, double shape, double truncation, double x)
+        static double CumulativeDistributionImpl(double scale, double shape, double truncation, double x)
         {
             if (x <= scale)
                 return 0;
@@ -419,7 +419,7 @@ namespace MathNet.Numerics.Distributions
                 return (1 - Math.Pow(scale, shape) * Math.Pow(x, -shape)) / (1 - Math.Pow(scale / truncation, shape));
         }
 
-        internal static double InvCDFUncheckedImpl(double scale, double shape, double truncation, double p)
+        static double InvCDFUncheckedImpl(double scale, double shape, double truncation, double p)
         {
             var numerator = p * Math.Pow(truncation, shape) - p * Math.Pow(scale, shape) - Math.Pow(truncation, shape);
             var denominator = Math.Pow(truncation, shape) * Math.Pow(scale, shape);

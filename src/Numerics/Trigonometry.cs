@@ -40,7 +40,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Constant to convert a degree to grad.
         /// </summary>
-        private const double DegreeToGradConstant = 10.0 / 9.0;
+        const double DegreeToGradConstant = 10.0 / 9.0;
 
         /// <summary>
         /// Converts a degree (360-periodic) angle to a grad (400-periodic) angle.

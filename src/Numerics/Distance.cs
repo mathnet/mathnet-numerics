@@ -517,7 +517,7 @@ namespace MathNet.Numerics
                 }
             }
 
-            return 1.0 - ((double)intersection / (double)union);
+            return 1.0 - ((double)intersection / union);
         }
 
         /// <summary>
@@ -563,7 +563,7 @@ namespace MathNet.Numerics
                 }
             }
 
-            return 1.0 - ((float)intersection / (float)union);
+            return 1.0 - ((float)intersection / union);
         }
     }
 }

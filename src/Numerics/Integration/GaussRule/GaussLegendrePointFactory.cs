@@ -37,7 +37,7 @@ namespace MathNet.Numerics.Integration.GaussRule
     internal static class GaussLegendrePointFactory
     {
         [ThreadStatic]
-        private static GaussPoint _gaussLegendrePoint;
+        static GaussPoint _gaussLegendrePoint;
 
         /// <summary>
         /// Getter for the GaussPoint.
@@ -79,7 +79,7 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <param name="intervalEnd">Where the interval stops, inclusive and finite.</param>
         /// <param name="gaussPoint">Object containing the non-negative abscissas/weights, order, and intervalBegin/intervalEnd. The non-negative abscissas/weights are generated over the interval [-1,1] for the given order.</param>
         /// <returns>Object containing the abscissas/weights, order, and intervalBegin/intervalEnd.</returns>
-        private static GaussPoint Map(double intervalBegin, double intervalEnd, GaussPoint gaussPoint)
+        static GaussPoint Map(double intervalBegin, double intervalEnd, GaussPoint gaussPoint)
         {
             double[] abscissas = new double[gaussPoint.Order];
             double[] weights = new double[gaussPoint.Order];

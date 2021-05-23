@@ -146,7 +146,7 @@ namespace MathNet.Numerics.Optimization
             Func<Vector<double>, double, Vector<double>> derivatives,
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null)
         {
-            Vector<double> func(Vector<double> point, Vector<double> x)
+            Vector<double> Func(Vector<double> point, Vector<double> x)
             {
                 var functionValues = CreateVector.Dense<double>(x.Count);
                 for (int i = 0; i < x.Count; i++)
@@ -157,7 +157,7 @@ namespace MathNet.Numerics.Optimization
                 return functionValues;
             }
 
-            Matrix<double> prime(Vector<double> point, Vector<double> x)
+            Matrix<double> Prime(Vector<double> point, Vector<double> x)
             {
                 var derivativeValues = CreateMatrix.Dense<double>(x.Count, point.Count);
                 for (int i = 0; i < x.Count; i++)
@@ -168,7 +168,7 @@ namespace MathNet.Numerics.Optimization
                 return derivativeValues;
             }
 
-            var objective = new NonlinearObjectiveFunction(func, prime);
+            var objective = new NonlinearObjectiveFunction(Func, Prime);
             objective.SetObserved(observedX, observedY, weight);
             return objective;
         }
@@ -180,7 +180,7 @@ namespace MathNet.Numerics.Optimization
             Vector<double> observedX, Vector<double> observedY, Vector<double> weight = null,
             int accuracyOrder = 2)
         {
-            Vector<double> func(Vector<double> point, Vector<double> x)
+            Vector<double> Func(Vector<double> point, Vector<double> x)
             {
                 var functionValues = CreateVector.Dense<double>(x.Count);
                 for (int i = 0; i < x.Count; i++)
@@ -191,7 +191,7 @@ namespace MathNet.Numerics.Optimization
                 return functionValues;
             }
 
-            var objective = new NonlinearObjectiveFunction(func, accuracyOrder: accuracyOrder);
+            var objective = new NonlinearObjectiveFunction(Func, accuracyOrder: accuracyOrder);
             objective.SetObserved(observedX, observedY, weight);
             return objective;
         }

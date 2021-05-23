@@ -33,9 +33,8 @@
 
 using System;
 
-// ReSharper disable CheckNamespace
+// ReSharper disable once CheckNamespace
 namespace MathNet.Numerics
-// ReSharper restore CheckNamespace
 {
     public static partial class SpecialFunctions
     {
@@ -69,7 +68,7 @@ namespace MathNet.Numerics
             const double epsilon = 0.00000000000000001;
             int maxIterations = 100;
             int i, ii;
-            double ndbl = (double)n;
+            double ndbl = n;
             double result;
             double nearDoubleMin = 1e-100; //needs a very small value that is not quite as small as the lowest value double can take
             double factorial = 1.0d;
@@ -90,13 +89,13 @@ namespace MathNet.Numerics
             //continued fraction for large x
             if (x > 1.0d)
             {
-                b = x + ((double)n);
+                b = x + n;
                 c = 1.0d/nearDoubleMin;
                 d = 1.0d/b;
                 h = d;
                 for (i = 1; i <= maxIterations; i++)
                 {
-                    a = -1.0d*((double)i)*((ndbl - 1.0d) + (double)i);
+                    a = -1.0d*i*((ndbl - 1.0d) + i);
                     b += 2.0d;
                     d = 1.0d/(a*d + b);
                     c = b + a/c;
@@ -115,7 +114,7 @@ namespace MathNet.Numerics
                 result = ((ndbl - 1.0d) != 0 ? 1.0/(ndbl - 1.0d) : (-1.0d*Math.Log(x) - Constants.EulerMascheroni)); //Set first term.
                 for (i = 1; i <= maxIterations; i++)
                 {
-                    factorial *= (-1.0d*x/((double)i));
+                    factorial *= (-1.0d*x/i);
                     if (i != (ndbl - 1.0d))
                     {
                         del = -factorial/(i - (ndbl - 1.0d));
@@ -125,7 +124,7 @@ namespace MathNet.Numerics
                         psi = -1.0d*Constants.EulerMascheroni;
                         for (ii = 1; ii <= (ndbl - 1.0d); ii++)
                         {
-                            psi += (1.0d/((double)ii));
+                            psi += (1.0d/ii);
                         }
                         del = factorial*(-1.0d*Math.Log(x) + psi);
                     }

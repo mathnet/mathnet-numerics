@@ -49,8 +49,7 @@ namespace MathNet.Numerics.RootFinding
         /// <exception cref="NonConvergenceException"></exception>
         public static double[] FindRoot(Func<double[], double[]> f, double[] initialGuess, double accuracy = 1e-8, int maxIterations = 100, double jacobianStepSize = 1.0e-4)
         {
-            double[] root;
-            if (TryFindRootWithJacobianStep(f, initialGuess, accuracy, maxIterations, jacobianStepSize, out root))
+            if (TryFindRootWithJacobianStep(f, initialGuess, accuracy, maxIterations, jacobianStepSize, out var root))
             {
                 return root;
             }

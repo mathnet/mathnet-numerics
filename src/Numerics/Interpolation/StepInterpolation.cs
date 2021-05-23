@@ -137,10 +137,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="t">Point t to interpolate at.</param>
         /// <returns>Interpolated second derivative at point t.</returns>
-        public double Differentiate2(double t)
-        {
-            return Differentiate(t);
-        }
+        public double Differentiate2(double t) => Differentiate(t);
 
         /// <summary>
         /// Indefinite integral at point t.
@@ -163,10 +160,7 @@ namespace MathNet.Numerics.Interpolation
         /// </summary>
         /// <param name="a">Left bound of the integration interval [a,b].</param>
         /// <param name="b">Right bound of the integration interval [a,b].</param>
-        public double Integrate(double a, double b)
-        {
-            return Integrate(b) - Integrate(a);
-        }
+        public double Integrate(double a, double b) => Integrate(b) - Integrate(a);
 
         double[] ComputeIndefiniteIntegral()
         {

@@ -9,20 +9,20 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
     {
         #region Private Variables
 
-        readonly Func<Vector<double>, Vector<double>, Vector<double>> userFunction; // (p, x) => f(x; p)
-        readonly Func<Vector<double>, Vector<double>, Matrix<double>> userDerivative; // (p, x) => df(x; p)/dp
-        readonly int accuracyOrder; // the desired accuracy order to evaluate the jacobian by numerical approximaiton.
+        readonly Func<Vector<double>, Vector<double>, Vector<double>> _userFunction; // (p, x) => f(x; p)
+        readonly Func<Vector<double>, Vector<double>, Matrix<double>> _userDerivative; // (p, x) => df(x; p)/dp
+        readonly int _accuracyOrder; // the desired accuracy order to evaluate the jacobian by numerical approximaiton.
 
-        Vector<double> coefficients;
+        Vector<double> _coefficients;
 
-        bool hasFunctionValue;
-        double functionValue; // the residual sum of squares, residuals * residuals.
-        Vector<double> residuals; // the weighted error values
+        bool _hasFunctionValue;
+        double _functionValue; // the residual sum of squares, residuals * residuals.
+        Vector<double> _residuals; // the weighted error values
 
-        bool hasJacobianValue;
-        Matrix<double> jacobianValue; // the Jacobian matrix.
-        Vector<double> gradientValue; // the Gradient vector.
-        Matrix<double> hessianValue; // the Hessian matrix.
+        bool _hasJacobianValue;
+        Matrix<double> _jacobianValue; // the Jacobian matrix.
+        Vector<double> _gradientValue; // the Gradient vector.
+        Matrix<double> _hessianValue; // the Hessian matrix.
 
         #endregion Private Variables
 
@@ -42,7 +42,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         /// Set or get the values of the weights for the observations.
         /// </summary>
         public Matrix<double> Weights { get; private set; }
-        private Vector<double> L; // Weights = LL'
+        Vector<double> L; // Weights = LL'
 
         /// <summary>
         /// Get whether parameters are fixed or free.
@@ -69,7 +69,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 var df = NumberOfObservations - NumberOfParameters;
                 if (IsFixed != null)
                 {
-                    df = df + IsFixed.Count(p => p == true);
+                    df = df + IsFixed.Count(p => p);
                 }
                 return df;
             }
@@ -90,40 +90,40 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public NonlinearObjectiveFunction(Func<Vector<double>, Vector<double>, Vector<double>> function,
             Func<Vector<double>, Vector<double>, Matrix<double>> derivative = null, int accuracyOrder = 2)
         {
-            this.userFunction = function;
-            this.userDerivative = derivative;
-            this.accuracyOrder = Math.Min(6, Math.Max(1, accuracyOrder));
+            _userFunction = function;
+            _userDerivative = derivative;
+            _accuracyOrder = Math.Min(6, Math.Max(1, accuracyOrder));
         }
 
         public IObjectiveModel Fork()
         {
-            return new NonlinearObjectiveFunction(userFunction, userDerivative, accuracyOrder)
+            return new NonlinearObjectiveFunction(_userFunction, _userDerivative, _accuracyOrder)
             {
                 ObservedX = ObservedX,
                 ObservedY = ObservedY,
                 Weights = Weights,
 
-                coefficients = coefficients,
+                _coefficients = _coefficients,
 
-                hasFunctionValue = hasFunctionValue,
-                functionValue = functionValue,
+                _hasFunctionValue = _hasFunctionValue,
+                _functionValue = _functionValue,
 
-                hasJacobianValue = hasJacobianValue,
-                jacobianValue = jacobianValue,
-                gradientValue = gradientValue,
-                hessianValue = hessianValue
+                _hasJacobianValue = _hasJacobianValue,
+                _jacobianValue = _jacobianValue,
+                _gradientValue = _gradientValue,
+                _hessianValue = _hessianValue
             };
         }
 
         public IObjectiveModel CreateNew()
         {
-            return new NonlinearObjectiveFunction(userFunction, userDerivative, accuracyOrder);
+            return new NonlinearObjectiveFunction(_userFunction, _userDerivative, _accuracyOrder);
         }
 
         /// <summary>
         /// Set or get the values of the parameters.
         /// </summary>
-        public Vector<double> Point => coefficients;
+        public Vector<double> Point => _coefficients;
 
         /// <summary>
         /// Get the y-values of the fitted model that correspond to the independent values.
@@ -137,12 +137,12 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         {
             get
             {
-                if (!hasFunctionValue)
+                if (!_hasFunctionValue)
                 {
                     EvaluateFunction();
-                    hasFunctionValue = true;
+                    _hasFunctionValue = true;
                 }
-                return functionValue;
+                return _functionValue;
             }
         }
 
@@ -153,12 +153,12 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         {
             get
             {
-                if (!hasJacobianValue)
+                if (!_hasJacobianValue)
                 {
                     EvaluateJacobian();
-                    hasJacobianValue = true;
+                    _hasJacobianValue = true;
                 }
-                return gradientValue;
+                return _gradientValue;
             }
         }
 
@@ -169,12 +169,12 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         {
             get
             {
-                if (!hasJacobianValue)
+                if (!_hasJacobianValue)
                 {
                     EvaluateJacobian();
-                    hasJacobianValue = true;
+                    _hasJacobianValue = true;
                 }
-                return hessianValue;
+                return _hessianValue;
             }
         }
 
@@ -230,17 +230,13 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         /// <param name="isFixed">The list to the parameters fix or free.</param>
         public void SetParameters(Vector<double> initialGuess, List<bool> isFixed = null)
         {
-            if (initialGuess == null)
-            {
-                throw new ArgumentNullException("initialGuess");
-            }
-            coefficients = initialGuess;
+            _coefficients = initialGuess ?? throw new ArgumentNullException(nameof(initialGuess));
 
             if (isFixed != null && isFixed.Count != initialGuess.Count)
             {
                 throw new ArgumentException("The isFixed can't have different size from the initial guess.");
             }
-            if (isFixed != null && isFixed.Count(p => p == true) == isFixed.Count)
+            if (isFixed != null && isFixed.Count(p => p) == isFixed.Count)
             {
                 throw new ArgumentException("All the parameters can't be fixed.");
             }
@@ -251,72 +247,70 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
             if (parameters.Count(p => double.IsNaN(p) || double.IsInfinity(p)) > 0)
             {
                 throw new ArgumentException("The parameters must be finite.");
             }
 
-            coefficients = parameters;
-            hasFunctionValue = false;
-            hasJacobianValue = false;
+            _coefficients = parameters;
+            _hasFunctionValue = false;
+            _hasJacobianValue = false;
 
-            jacobianValue = null;
-            gradientValue = null;
-            hessianValue = null;
+            _jacobianValue = null;
+            _gradientValue = null;
+            _hessianValue = null;
         }
 
         public IObjectiveFunction ToObjectiveFunction()
         {
-            Tuple<double, Vector<double>, Matrix<double>> function(Vector<double> point)
+            Tuple<double, Vector<double>, Matrix<double>> Function(Vector<double> point)
             {
                 EvaluateAt(point);
 
                 return new Tuple<double, Vector<double>, Matrix<double>>(Value, Gradient, Hessian);
             }
 
-            var objective = new GradientHessianObjectiveFunction(function);
+            var objective = new GradientHessianObjectiveFunction(Function);
             return objective;
         }
 
         #region Private Methods
 
-        private void EvaluateFunction()
+        void EvaluateFunction()
         {
             // Calculates the residuals, (y[i] - f(x[i]; p)) * L[i]
             if (ModelValues == null)
             {
                 ModelValues = Vector<double>.Build.Dense(NumberOfObservations);
             }
-            ModelValues = userFunction(Point, ObservedX);
+            ModelValues = _userFunction(Point, ObservedX);
             FunctionEvaluations++;
 
             // calculate the weighted residuals
-            residuals = (Weights == null)
+            _residuals = (Weights == null)
                 ? ObservedY - ModelValues
                 : (ObservedY - ModelValues).PointwiseMultiply(L);
 
             // Calculate the residual sum of squares
-            functionValue = residuals.DotProduct(residuals);
-
-            return;
+            _functionValue = _residuals.DotProduct(_residuals);
         }
 
-        private void EvaluateJacobian()
+        void EvaluateJacobian()
         {
             // Calculates the jacobian of x and p.
-            if (userDerivative != null)
+            if (_userDerivative != null)
             {
                 // analytical jacobian
-                jacobianValue = userDerivative(Point, ObservedX);
+                _jacobianValue = _userDerivative(Point, ObservedX);
                 JacobianEvaluations++;
             }
             else
             {
                 // numerical jacobian
-                jacobianValue = NumericalJacobian(Point, ModelValues, accuracyOrder);
-                FunctionEvaluations += accuracyOrder;
+                _jacobianValue = NumericalJacobian(Point, ModelValues, _accuracyOrder);
+                FunctionEvaluations += _accuracyOrder;
             }
 
             // weighted jacobian
@@ -327,23 +321,23 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                     if (IsFixed != null && IsFixed[j])
                     {
                         // if j-th parameter is fixed, set J[i, j] = 0
-                        jacobianValue[i, j] = 0.0;
+                        _jacobianValue[i, j] = 0.0;
                     }
                     else if (Weights != null)
                     {
-                        jacobianValue[i, j] = jacobianValue[i, j] * L[i];
+                        _jacobianValue[i, j] = _jacobianValue[i, j] * L[i];
                     }
                 }
             }
 
             // Gradient, g = -J'W(y − f(x; p)) = -J'L(L'E) = -J'LR
-            gradientValue = -jacobianValue.Transpose() * residuals;
+            _gradientValue = -_jacobianValue.Transpose() * _residuals;
 
             // approximated Hessian, H = J'WJ + ∑LRiHi ~ J'WJ near the minimum
-            hessianValue = jacobianValue.Transpose() * jacobianValue;
+            _hessianValue = _jacobianValue.Transpose() * _jacobianValue;
         }
 
-        private Matrix<double> NumericalJacobian(Vector<double> parameters, Vector<double> currentValues, int accuracyOrder = 2)
+        Matrix<double> NumericalJacobian(Vector<double> parameters, Vector<double> currentValues, int accuracyOrder = 2)
         {
             const double sqrtEpsilon = 1.4901161193847656250E-8; // sqrt(machineEpsilon)
 
@@ -359,12 +353,12 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 if (accuracyOrder >= 6)
                 {
                     // f'(x) = {- f(x - 3h) + 9f(x - 2h) - 45f(x - h) + 45f(x + h) - 9f(x + 2h) + f(x + 3h)} / 60h + O(h^6)
-                    var f1 = userFunction(parameters - 3 * h, ObservedX);
-                    var f2 = userFunction(parameters - 2 * h, ObservedX);
-                    var f3 = userFunction(parameters - h, ObservedX);
-                    var f4 = userFunction(parameters + h, ObservedX);
-                    var f5 = userFunction(parameters + 2 * h, ObservedX);
-                    var f6 = userFunction(parameters + 3 * h, ObservedX);
+                    var f1 = _userFunction(parameters - 3 * h, ObservedX);
+                    var f2 = _userFunction(parameters - 2 * h, ObservedX);
+                    var f3 = _userFunction(parameters - h, ObservedX);
+                    var f4 = _userFunction(parameters + h, ObservedX);
+                    var f5 = _userFunction(parameters + 2 * h, ObservedX);
+                    var f6 = _userFunction(parameters + 3 * h, ObservedX);
 
                     var prime = (-f1 + 9 * f2 - 45 * f3 + 45 * f4 - 9 * f5 + f6) / (60 * h[j]);
                     derivertives.SetColumn(j, prime);
@@ -373,11 +367,11 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 {
                     // f'(x) = {-137f(x) + 300f(x + h) - 300f(x + 2h) + 200f(x + 3h) - 75f(x + 4h) + 12f(x + 5h)} / 60h + O(h^5)
                     var f1 = currentValues;
-                    var f2 = userFunction(parameters + h, ObservedX);
-                    var f3 = userFunction(parameters + 2 * h, ObservedX);
-                    var f4 = userFunction(parameters + 3 * h, ObservedX);
-                    var f5 = userFunction(parameters + 4 * h, ObservedX);
-                    var f6 = userFunction(parameters + 5 * h, ObservedX);
+                    var f2 = _userFunction(parameters + h, ObservedX);
+                    var f3 = _userFunction(parameters + 2 * h, ObservedX);
+                    var f4 = _userFunction(parameters + 3 * h, ObservedX);
+                    var f5 = _userFunction(parameters + 4 * h, ObservedX);
+                    var f6 = _userFunction(parameters + 5 * h, ObservedX);
 
                     var prime = (-137 * f1 + 300 * f2 - 300 * f3 + 200 * f4 - 75 * f5 + 12 * f6) / (60 * h[j]);
                     derivertives.SetColumn(j, prime);
@@ -385,10 +379,10 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 else if (accuracyOrder == 4)
                 {
                     // f'(x) = {f(x - 2h) - 8f(x - h) + 8f(x + h) - f(x + 2h)} / 12h + O(h^4)
-                    var f1 = userFunction(parameters - 2 * h, ObservedX);
-                    var f2 = userFunction(parameters - h, ObservedX);
-                    var f3 = userFunction(parameters + h, ObservedX);
-                    var f4 = userFunction(parameters + 2 * h, ObservedX);
+                    var f1 = _userFunction(parameters - 2 * h, ObservedX);
+                    var f2 = _userFunction(parameters - h, ObservedX);
+                    var f3 = _userFunction(parameters + h, ObservedX);
+                    var f4 = _userFunction(parameters + 2 * h, ObservedX);
 
                     var prime = (f1 - 8 * f2 + 8 * f3 - f4) / (12 * h[j]);
                     derivertives.SetColumn(j, prime);
@@ -397,9 +391,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 {
                     // f'(x) = {-11f(x) + 18f(x + h) - 9f(x + 2h) + 2f(x + 3h)} / 6h + O(h^3)
                     var f1 = currentValues;
-                    var f2 = userFunction(parameters + h, ObservedX);
-                    var f3 = userFunction(parameters + 2 * h, ObservedX);
-                    var f4 = userFunction(parameters + 3 * h, ObservedX);
+                    var f2 = _userFunction(parameters + h, ObservedX);
+                    var f3 = _userFunction(parameters + 2 * h, ObservedX);
+                    var f4 = _userFunction(parameters + 3 * h, ObservedX);
 
                     var prime = (-11 * f1 + 18 * f2 - 9 * f3 + 2 * f4) / (6 * h[j]);
                     derivertives.SetColumn(j, prime);
@@ -407,8 +401,8 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 else if (accuracyOrder == 2)
                 {
                     // f'(x) = {f(x + h) - f(x - h)} / 2h + O(h^2)
-                    var f1 = userFunction(parameters + h, ObservedX);
-                    var f2 = userFunction(parameters - h, ObservedX);
+                    var f1 = _userFunction(parameters + h, ObservedX);
+                    var f2 = _userFunction(parameters - h, ObservedX);
 
                     var prime = (f1 - f2) / (2 * h[j]);
                     derivertives.SetColumn(j, prime);
@@ -417,7 +411,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
                 {
                     // f'(x) = {- f(x) + f(x + h)} / h + O(h)
                     var f1 = currentValues;
-                    var f2 = userFunction(parameters + h, ObservedX);
+                    var f2 = _userFunction(parameters + h, ObservedX);
 
                     var prime = (-f1 + f2) / h[j];
                     derivertives.SetColumn(j, prime);

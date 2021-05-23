@@ -41,7 +41,7 @@ namespace MathNet.Numerics.Optimization
         /// </summary>
         public Vector<double> Scales { get; private set; }
 
-        private bool IsBounded => LowerBound != null || UpperBound != null || Scales != null;
+        bool IsBounded => LowerBound != null || UpperBound != null || Scales != null;
 
         protected NonlinearMinimizerBase(double gradientTolerance = 1E-18, double stepTolerance = 1E-18, double functionTolerance = 1E-18, int maximumIterations = -1)
         {
@@ -55,7 +55,7 @@ namespace MathNet.Numerics.Optimization
         {
             if (parameters == null)
             {
-                throw new ArgumentNullException("parameters");
+                throw new ArgumentNullException(nameof(parameters));
             }
 
             if (lowerBound != null && lowerBound.Count(x => double.IsInfinity(x) || double.IsNaN(x)) > 0)
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Optimization
             }
             if (upperBound != null && upperBound.Count != parameters.Count)
             {
-                throw new ArgumentException("The upper bounds can't have different size from the parameetrs.");
+                throw new ArgumentException("The upper bounds can't have different size from the parameters.");
             }
             UpperBound = upperBound;
 
@@ -174,7 +174,8 @@ namespace MathNet.Numerics.Optimization
 
                 return Pint;
             }
-            else if (LowerBound != null && UpperBound == null)
+
+            if (LowerBound != null && UpperBound == null)
             {
                 for (int i = 0; i < Pext.Count; i++)
                 {
@@ -185,7 +186,8 @@ namespace MathNet.Numerics.Optimization
 
                 return Pint;
             }
-            else if (LowerBound == null && UpperBound != null)
+
+            if (LowerBound == null && UpperBound != null)
             {
                 for (int i = 0; i < Pext.Count; i++)
                 {
@@ -196,7 +198,8 @@ namespace MathNet.Numerics.Optimization
 
                 return Pint;
             }
-            else if (Scales != null)
+
+            if (Scales != null)
             {
                 for (int i = 0; i < Pext.Count; i++)
                 {
@@ -222,7 +225,8 @@ namespace MathNet.Numerics.Optimization
 
                 return Pext;
             }
-            else if (LowerBound != null && UpperBound == null)
+
+            if (LowerBound != null && UpperBound == null)
             {
                 for (int i = 0; i < Pint.Count; i++)
                 {
@@ -233,7 +237,8 @@ namespace MathNet.Numerics.Optimization
 
                 return Pext;
             }
-            else if (LowerBound == null && UpperBound != null)
+
+            if (LowerBound == null && UpperBound != null)
             {
                 for (int i = 0; i < Pint.Count; i++)
                 {
@@ -244,7 +249,8 @@ namespace MathNet.Numerics.Optimization
 
                 return Pext;
             }
-            else if (Scales != null)
+
+            if (Scales != null)
             {
                 for (int i = 0; i < Pint.Count; i++)
                 {
@@ -269,7 +275,8 @@ namespace MathNet.Numerics.Optimization
                 }
                 return scale;
             }
-            else if (LowerBound != null && UpperBound == null)
+
+            if (LowerBound != null && UpperBound == null)
             {
                 for (int i = 0; i < Pint.Count; i++)
                 {
@@ -279,7 +286,8 @@ namespace MathNet.Numerics.Optimization
                 }
                 return scale;
             }
-            else if (LowerBound == null && UpperBound != null)
+
+            if (LowerBound == null && UpperBound != null)
             {
                 for (int i = 0; i < Pint.Count; i++)
                 {
@@ -289,7 +297,8 @@ namespace MathNet.Numerics.Optimization
                 }
                 return scale;
             }
-            else if (Scales != null)
+
+            if (Scales != null)
             {
                 return Scales;
             }

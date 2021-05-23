@@ -1045,7 +1045,7 @@ namespace MathNet.Numerics.LinearAlgebra
             return result;
         }
 
-        private static Matrix<T> IntPower(int exponent, Matrix<T> x, Matrix<T> y, Matrix<T> work)
+        static Matrix<T> IntPower(int exponent, Matrix<T> x, Matrix<T> y, Matrix<T> work)
         {
             // We try to be smart about not allocating more matrices than needed
             // and to minimize the number of multiplications (not optimal on either though)

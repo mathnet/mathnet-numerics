@@ -8,7 +8,7 @@ namespace MathNet.Numerics.Integration.GaussRule
     internal static class GaussKronrodPointFactory
     {
         [ThreadStatic]
-        private static GaussPointPair gaussKronrodPoint;
+        static GaussPointPair _gaussKronrodPoint;
 
         /// <summary>
         /// Getter for the GaussKronrodPoint.
@@ -18,17 +18,17 @@ namespace MathNet.Numerics.Integration.GaussRule
         public static GaussPointPair GetGaussPoint(int order)
         {
             // Try to get the GaussKronrodPoint from the cached static field.
-            bool gaussKronrodPointIsCached = gaussKronrodPoint != null && gaussKronrodPoint.Order == order;
+            bool gaussKronrodPointIsCached = _gaussKronrodPoint != null && _gaussKronrodPoint.Order == order;
             if (!gaussKronrodPointIsCached)
             {
-                // Try to find the GaussKronrodPoint in the precomputed dictionary. 
-                if (!GaussKronrodPoint.PreComputed.TryGetValue(order, out gaussKronrodPoint))
+                // Try to find the GaussKronrodPoint in the precomputed dictionary.
+                if (!GaussKronrodPoint.PreComputed.TryGetValue(order, out _gaussKronrodPoint))
                 {
-                    gaussKronrodPoint = GaussKronrodPoint.Generate(order, 1E-10);
+                    _gaussKronrodPoint = GaussKronrodPoint.Generate(order, 1E-10);
                 }
             }
 
-            return gaussKronrodPoint;
+            return _gaussKronrodPoint;
         }
     }
 }

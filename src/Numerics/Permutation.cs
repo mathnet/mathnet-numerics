@@ -42,7 +42,7 @@ namespace MathNet.Numerics
         /// <summary>
         /// Entry _indices[i] represents the location to which i is permuted to.
         /// </summary>
-        private readonly int[] _indices;
+        readonly int[] _indices;
 
         #endregion fields
 

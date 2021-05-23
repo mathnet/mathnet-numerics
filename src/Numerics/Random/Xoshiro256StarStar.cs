@@ -231,7 +231,7 @@ namespace MathNet.Numerics.Random
             return (long)(NextInnerULong() >> (64 - bitCount));
         }
 
-        private void Initialise(int seed)
+        void Initialise(int seed)
         {
             // Notes.
             // xoroshiro256** requires that at least one of the state variable be non-zero, use of splitmix64
@@ -248,7 +248,7 @@ namespace MathNet.Numerics.Random
             _s3 = Splitmix64(ref longSeed);
         }
 
-        private ulong NextInnerULong()
+        ulong NextInnerULong()
         {
             ulong s0 = _s0;
             ulong s1 = _s1;
@@ -355,7 +355,7 @@ namespace MathNet.Numerics.Random
         /// Splitmix64 produces equidistributed outputs, thus if a zero is generated then the
         /// next zero will be after a further 2^64 outputs.
         /// </remarks>
-        private static ulong Splitmix64(ref ulong x)
+        static ulong Splitmix64(ref ulong x)
         {
             ulong z = (x += 0x9E3779B97F4A7C15UL);
             z = (z ^ (z >> 30)) * 0xBF58476D1CE4E5B9UL;
@@ -363,7 +363,7 @@ namespace MathNet.Numerics.Random
             return z ^ (z >> 31);
         }
 
-        private static ulong RotateLeft(ulong x, int k)
+        static ulong RotateLeft(ulong x, int k)
         {
             // Note. RyuJIT will compile this to a single rotate CPU instruction (as of about .NET 4.6.1 and dotnet core 2.0).
             return (x << k) | (x >> (64 - k));

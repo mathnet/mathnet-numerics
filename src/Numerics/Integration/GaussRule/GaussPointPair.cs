@@ -5,21 +5,21 @@
     /// </summary>
     internal class GaussPointPair
     {
-        internal int Order { get; private set; }
+        internal int Order { get; }
 
-        internal double[] Abscissas { get; private set; }
+        internal double[] Abscissas { get; }
 
-        internal double[] Weights { get; private set; }
-        
-        internal int SecondOrder { get; private set; }
+        internal double[] Weights { get; }
 
-        internal double[] SecondAbscissas { get; private set; }
+        internal int SecondOrder { get; }
 
-        internal double[] SecondWeights { get; private set; }
+        internal double[] SecondAbscissas { get; }
 
-        internal double IntervalBegin { get; private set; }
+        internal double[] SecondWeights { get; }
 
-        internal double IntervalEnd { get; private set; }
+        internal double IntervalBegin { get; }
+
+        internal double IntervalEnd { get; }
 
         internal GaussPointPair(double intervalBegin, double intervalEnd, int order, double[] abscissas, double[] weights, int secondOrder, double[] secondAbscissas, double[] secondWeights)
         {
@@ -30,7 +30,7 @@
             Weights = weights;
             SecondOrder = secondOrder;
             SecondAbscissas = secondAbscissas;
-            SecondWeights = secondWeights;            
+            SecondWeights = secondWeights;
         }
 
         internal GaussPointPair(int order, double[] abscissas, double[] weights, int secondOrder, double[] secondWeights)

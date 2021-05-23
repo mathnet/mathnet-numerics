@@ -350,7 +350,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         {
             var n = new TruncatedPareto(scale, shape, truncation);
             AssertHelpers.AlmostEqualRelative(expected, n.InvCDF(p), lowPrecision);
-            AssertHelpers.AlmostEqualRelative(expected, TruncatedPareto.ICDF(scale, shape, truncation, p), lowPrecision);
+            AssertHelpers.AlmostEqualRelative(expected, TruncatedPareto.InvCDF(scale, shape, truncation, p), lowPrecision);
         }
 
         /// <summary>

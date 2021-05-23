@@ -43,31 +43,31 @@ namespace MathNet.Numerics.Integration
 {
     public class GaussKronrodRule
     {
-        private readonly GaussPointPair gaussKronrodPoint;
+        readonly GaussPointPair _gaussKronrodPoint;
 
         /// <summary>
         /// Getter for the order.
         /// </summary>
-        public int Order => gaussKronrodPoint.Order;
+        public int Order => _gaussKronrodPoint.Order;
 
         /// <summary>
         /// Getter that returns a clone of the array containing the Kronrod abscissas.
         /// </summary>
-        public double[] KronrodAbscissas => gaussKronrodPoint.Abscissas.Clone() as double[];
+        public double[] KronrodAbscissas => _gaussKronrodPoint.Abscissas.Clone() as double[];
 
         /// <summary>
         /// Getter that returns a clone of the array containing the Kronrod weights.
         /// </summary>
-        public double[] KronrodWeights => gaussKronrodPoint.Weights.Clone() as double[];
+        public double[] KronrodWeights => _gaussKronrodPoint.Weights.Clone() as double[];
 
         /// <summary>
         /// Getter that returns a clone of the array containing the Gauss weights.
         /// </summary>
-        public double[] GaussWeights => gaussKronrodPoint.SecondWeights.Clone() as double[];
+        public double[] GaussWeights => _gaussKronrodPoint.SecondWeights.Clone() as double[];
 
         public GaussKronrodRule(int order)
         {
-            gaussKronrodPoint = GaussKronrodPointFactory.GetGaussPoint(order);
+            _gaussKronrodPoint = GaussKronrodPointFactory.GetGaussPoint(order);
         }
 
         /// <summary>
@@ -106,10 +106,7 @@ namespace MathNet.Numerics.Integration
             // g'(t) = (1 + t^2) / (1 - t^2)^2
             if ((intervalBegin < double.MinValue) && (intervalEnd > double.MaxValue))
             {
-                Func<double, double> u = (t) =>
-                {
-                    return f(t / (1 - t * t)) * (1 + t * t) / ((1 - t * t) * (1 - t * t));
-                };
+                Func<double, double> u = (t) => f(t / (1 - t * t)) * (1 + t * t) / ((1 - t * t) * (1 - t * t));
                 return recursive_adaptive_integrate(u, -1, 1, maximumDepth, targetRelativeError, 0, out error, out L1Norm, gaussKronrodPoint);
             }
             // [a, oo) => [0, 1]
@@ -120,10 +117,7 @@ namespace MathNet.Numerics.Integration
             // g'(s) = 1 / (1 - s)^2
             else if (intervalEnd > double.MaxValue)
             {
-                Func<double, double> u = (s) =>
-                {
-                    return 2 * s * f(intervalBegin + (s / (1 - s)) * (s / (1 - s))) / ((1 - s) * (1 - s) * (1 - s));
-                };
+                Func<double, double> u = (s) => 2 * s * f(intervalBegin + (s / (1 - s)) * (s / (1 - s))) / ((1 - s) * (1 - s) * (1 - s));
                 return recursive_adaptive_integrate(u, 0, 1, maximumDepth, targetRelativeError, 0, out error, out L1Norm, gaussKronrodPoint);
             }
             // (-oo, b] => [-1, 0]
@@ -134,10 +128,7 @@ namespace MathNet.Numerics.Integration
             // g'(s) = 1 / (1 + s)^2
             else if (intervalBegin < double.MinValue)
             {
-                Func<double, double> u = (s) =>
-                {
-                    return -2 * s * f(intervalEnd - s / (1 + s) * (s / (1 + s))) / ((1 + s) * (1 + s) * (1 + s));
-                };
+                Func<double, double> u = (s) => -2 * s * f(intervalEnd - s / (1 + s) * (s / (1 + s))) / ((1 + s) * (1 + s) * (1 + s));
                 return recursive_adaptive_integrate(u, -1, 0, maximumDepth, targetRelativeError, 0, out error, out L1Norm, gaussKronrodPoint);
             }
             // [a, b] => [-1, 1]
@@ -147,10 +138,7 @@ namespace MathNet.Numerics.Integration
             // g'(t) = 3 / 4 * (b - a) * (1 - t^2)
             else
             {
-                Func<double, double> u = (t) =>
-                {
-                    return f((intervalEnd - intervalBegin) / 4 * t * (3 - t * t) + (intervalEnd + intervalBegin) / 2) * 3 * (intervalEnd - intervalBegin) / 4 * (1 - t * t);
-                };
+                Func<double, double> u = (t) => f((intervalEnd - intervalBegin) / 4 * t * (3 - t * t) + (intervalEnd + intervalBegin) / 2) * 3 * (intervalEnd - intervalBegin) / 4 * (1 - t * t);
                 return recursive_adaptive_integrate(u, -1, 1, maximumDepth, targetRelativeError, 0d, out error, out L1Norm, gaussKronrodPoint);
             }
         }
@@ -192,185 +180,174 @@ namespace MathNet.Numerics.Integration
             // g'(t) = (1 + t^2) / (1 - t^2)^2
             if ((intervalBegin < double.MinValue) && (intervalEnd > double.MaxValue))
             {
-                Func<double, Complex> u = (t) =>
-                {
-                    return f(t / (1 - t * t)) * (1 + t * t) / ((1 - t * t) * (1 - t * t));
-                };
+                Func<double, Complex> u = (t) => f(t / (1 - t * t)) * (1 + t * t) / ((1 - t * t) * (1 - t * t));
                 return contour_recursive_adaptive_integrate(u, -1, 1, maximumDepth, targetRelativeError, 0, out error, out L1Norm, gaussKronrodPoint);
             }
+
             // [a, oo) => [0, 1]
             //
             // integral_(a)^(oo) f(x) dx = integral_(0)^(oo) f(a + t^2) 2 t dt
             //                           = integral_(0)^(1) f(a + g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 - s)
             // g'(s) = 1 / (1 - s)^2
-            else if (intervalEnd > double.MaxValue)
+            if (intervalEnd > double.MaxValue)
             {
-                Func<double, Complex> u = (s) =>
-                {
-                    return 2 * s * f(intervalBegin + (s / (1 - s)) * (s / (1 - s))) / ((1 - s) * (1 - s) * (1 - s));
-                };
+                Func<double, Complex> u = (s) => 2 * s * f(intervalBegin + (s / (1 - s)) * (s / (1 - s))) / ((1 - s) * (1 - s) * (1 - s));
                 return contour_recursive_adaptive_integrate(u, 0, 1, maximumDepth, targetRelativeError, 0, out error, out L1Norm, gaussKronrodPoint);
             }
+
             // (-oo, b] => [-1, 0]
             //
             // integral_(-oo)^(b) f(x) dx = -integral_(-oo)^(0) f(b - t^2) 2 t dt
             //                            = -integral_(-1)^(0) f(b - g(s)^2) 2 g(s) g'(s) ds
             // g(s) = s / (1 + s)
             // g'(s) = 1 / (1 + s)^2
-            else if (intervalBegin < double.MinValue)
+            if (intervalBegin < double.MinValue)
             {
-                Func<double, Complex> u = (s) =>
-                {
-                    return -2 * s * f(intervalEnd - s / (1 + s) * (s / (1 + s))) / ((1 + s) * (1 + s) * (1 + s));
-                };
+                Func<double, Complex> u = (s) => -2 * s * f(intervalEnd - s / (1 + s) * (s / (1 + s))) / ((1 + s) * (1 + s) * (1 + s));
                 return contour_recursive_adaptive_integrate(u, -1, 0, maximumDepth, targetRelativeError, 0, out error, out L1Norm, gaussKronrodPoint);
             }
+
             // [a, b] => [-1, 1]
             //
             // integral_(a)^(b) f(x) dx = integral_(-1)^(1) f(g(t)) g'(t) dt
             // g(t) = (b - a) * t * (3 - t^2) / 4 + (b + a) / 2
             // g'(t) = 3 / 4 * (b - a) * (1 - t^2)
-            else
             {
-                Func<double, Complex> u = (t) =>
-                {
-                    return f((intervalEnd - intervalBegin) / 4 * t * (3 - t * t) + (intervalEnd + intervalBegin) / 2) * 3 * (intervalEnd - intervalBegin) / 4 * (1 - t * t);
-                };
+                Func<double, Complex> u = (t) => f((intervalEnd - intervalBegin) / 4 * t * (3 - t * t) + (intervalEnd + intervalBegin) / 2) * 3 * (intervalEnd - intervalBegin) / 4 * (1 - t * t);
                 return contour_recursive_adaptive_integrate(u, -1, 1, maximumDepth, targetRelativeError, 0d, out error, out L1Norm, gaussKronrodPoint);
             }
         }
 
-        private static double integrate_non_adaptive_m1_1(Func<double, double> f, out double error, out double pL1, GaussPointPair gaussKronrodPoint)
+        static double integrate_non_adaptive_m1_1(Func<double, double> f, out double error, out double pL1, GaussPointPair gaussKronrodPoint)
         {
-            int gauss_start = 2;
-            int kronrod_start = 1;
-            int gauss_order = (gaussKronrodPoint.Order - 1) / 2;
+            int gaussStart = 2;
+            int kronrodStart = 1;
+            int gaussOrder = (gaussKronrodPoint.Order - 1) / 2;
 
-            double kronrod_result = 0d;
-            double gauss_result = 0d;
+            double kronrodResult = 0d;
+            double gaussResult = 0d;
             double fp, fm;
 
             var KAbscissa = gaussKronrodPoint.Abscissas;
             var KWeights = gaussKronrodPoint.Weights;
             var GWeights = gaussKronrodPoint.SecondWeights;
 
-            if ((gauss_order & 1) == 1)
+            if ((gaussOrder & 1) == 1)
             {
                 fp = f(0);
-                kronrod_result = fp * KWeights[0];
-                gauss_result += fp * GWeights[0];
+                kronrodResult = fp * KWeights[0];
+                gaussResult += fp * GWeights[0];
             }
             else
             {
                 fp = f(0);
-                kronrod_result = fp * KWeights[0];
-                gauss_start = 1;
-                kronrod_start = 2;
+                kronrodResult = fp * KWeights[0];
+                gaussStart = 1;
+                kronrodStart = 2;
             }
-            double L1 = Math.Abs(kronrod_result);
+            double L1 = Math.Abs(kronrodResult);
 
-            for (int i = gauss_start; i < KAbscissa.Length; i += 2)
+            for (int i = gaussStart; i < KAbscissa.Length; i += 2)
             {
                 fp = f(KAbscissa[i]);
                 fm = f(-KAbscissa[i]);
-                kronrod_result += (fp + fm) * KWeights[i];
+                kronrodResult += (fp + fm) * KWeights[i];
                 L1 += (Math.Abs(fp) + Math.Abs(fm)) * KWeights[i];
-                gauss_result += (fp + fm) * GWeights[i / 2];
+                gaussResult += (fp + fm) * GWeights[i / 2];
             }
-            for (int i = kronrod_start; i < KAbscissa.Length; i += 2)
+            for (int i = kronrodStart; i < KAbscissa.Length; i += 2)
             {
                 fp = f(KAbscissa[i]);
                 fm = f(-KAbscissa[i]);
-                kronrod_result += (fp + fm) * KWeights[i];
+                kronrodResult += (fp + fm) * KWeights[i];
                 L1 += (Math.Abs(fp) + Math.Abs(fm)) * KWeights[i];
             }
             pL1 = L1;
-            error = Math.Max(Math.Abs(kronrod_result - gauss_result), Math.Abs(kronrod_result * Precision.MachineEpsilon * 2d));
-            return kronrod_result;
+            error = Math.Max(Math.Abs(kronrodResult - gaussResult), Math.Abs(kronrodResult * Precision.MachineEpsilon * 2d));
+            return kronrodResult;
         }
 
-        private static Complex contour_integrate_non_adaptive_m1_1(Func<double, Complex> f, out double error, out double pL1, GaussPointPair gaussKronrodPoint)
+        static Complex contour_integrate_non_adaptive_m1_1(Func<double, Complex> f, out double error, out double pL1, GaussPointPair gaussKronrodPoint)
         {
-            int gauss_start = 2;
-            int kronrod_start = 1;
-            int gauss_order = (gaussKronrodPoint.Order - 1) / 2;
+            int gaussStart = 2;
+            int kronrodStart = 1;
+            int gaussOrder = (gaussKronrodPoint.Order - 1) / 2;
 
-            Complex kronrod_result = new Complex();
-            Complex gauss_result = new Complex();
+            Complex kronrodResult;
+            Complex gaussResult = new Complex();
             Complex fp, fm;
 
             var KAbscissa = gaussKronrodPoint.Abscissas;
             var KWeights = gaussKronrodPoint.Weights;
             var GWeights = gaussKronrodPoint.SecondWeights;
 
-            if (gauss_order.IsOdd())
+            if (gaussOrder.IsOdd())
             {
                 fp = f(0);
-                kronrod_result = fp * KWeights[0];
-                gauss_result += fp * GWeights[0];
+                kronrodResult = fp * KWeights[0];
+                gaussResult += fp * GWeights[0];
             }
             else
             {
                 fp = f(0);
-                kronrod_result = fp * KWeights[0];
-                gauss_start = 1;
-                kronrod_start = 2;
+                kronrodResult = fp * KWeights[0];
+                gaussStart = 1;
+                kronrodStart = 2;
             }
-            double L1 = Complex.Abs(kronrod_result);
+            double L1 = Complex.Abs(kronrodResult);
 
-            for (int i = gauss_start; i < KAbscissa.Length; i += 2)
+            for (int i = gaussStart; i < KAbscissa.Length; i += 2)
             {
                 fp = f(KAbscissa[i]);
                 fm = f(-KAbscissa[i]);
-                kronrod_result += (fp + fm) * KWeights[i];
+                kronrodResult += (fp + fm) * KWeights[i];
                 L1 += (Complex.Abs(fp) + Complex.Abs(fm)) * KWeights[i];
-                gauss_result += (fp + fm) * GWeights[i / 2];
+                gaussResult += (fp + fm) * GWeights[i / 2];
             }
-            for (int i = kronrod_start; i < KAbscissa.Length; i += 2)
+            for (int i = kronrodStart; i < KAbscissa.Length; i += 2)
             {
                 fp = f(KAbscissa[i]);
                 fm = f(-KAbscissa[i]);
-                kronrod_result += (fp + fm) * KWeights[i];
+                kronrodResult += (fp + fm) * KWeights[i];
                 L1 += (Complex.Abs(fp) + Complex.Abs(fm)) * KWeights[i];
             }
             pL1 = L1;
-            error = Math.Max(Complex.Abs(kronrod_result - gauss_result), Complex.Abs(kronrod_result * Precision.MachineEpsilon * 2d));
-            return kronrod_result;
+            error = Math.Max(Complex.Abs(kronrodResult - gaussResult), Complex.Abs(kronrodResult * Precision.MachineEpsilon * 2d));
+            return kronrodResult;
         }
 
-        private static double recursive_adaptive_integrate(Func<double, double> f, double a, double b, int max_levels, double rel_tol, double abs_tol, out double error, out double L1, GaussPointPair gaussKronrodPoint)
+        static double recursive_adaptive_integrate(Func<double, double> f, double a, double b, int maxLevels, double relTol, double absTol, out double error, out double L1, GaussPointPair gaussKronrodPoint)
         {
-            double error_local;
             double mean = (b + a) / 2;
             double scale = (b - a) / 2;
 
-            var r1 = integrate_non_adaptive_m1_1((x) => f(scale * x + mean), out error_local, out L1, gaussKronrodPoint);
+            var r1 = integrate_non_adaptive_m1_1((x) => f(scale * x + mean), out double errorLocal, out L1, gaussKronrodPoint);
             var estimate = scale * r1;
 
-            var tmp = estimate * rel_tol;
-            var abs_tol1 = Math.Abs(tmp);
-            if (abs_tol == 0)
+            var tmp = estimate * relTol;
+            var absTol1 = Math.Abs(tmp);
+            if (absTol == 0)
             {
-                abs_tol = abs_tol1;
+                absTol = absTol1;
             }
 
-            if (max_levels > 0 && (abs_tol1 < error_local) && (abs_tol < error_local))
+            if (maxLevels > 0 && (absTol1 < errorLocal) && (absTol < errorLocal))
             {
                 double mid = (a + b) / 2d;
                 double L1_local;
-                estimate = recursive_adaptive_integrate(f, a, mid, max_levels - 1, rel_tol, abs_tol / 2, out error, out L1, gaussKronrodPoint);
-                estimate += recursive_adaptive_integrate(f, mid, b, max_levels - 1, rel_tol, abs_tol / 2, out error_local, out L1_local, gaussKronrodPoint);
-                error += error_local;
+                estimate = recursive_adaptive_integrate(f, a, mid, maxLevels - 1, relTol, absTol / 2, out error, out L1, gaussKronrodPoint);
+                estimate += recursive_adaptive_integrate(f, mid, b, maxLevels - 1, relTol, absTol / 2, out errorLocal, out L1_local, gaussKronrodPoint);
+                error += errorLocal;
                 L1 += L1_local;
                 return estimate;
             }
             L1 *= scale;
-            error = error_local;
+            error = errorLocal;
             return estimate;
         }
 
-        private static Complex contour_recursive_adaptive_integrate(Func<double, Complex> f, double a, double b, int max_levels, double rel_tol, double abs_tol, out double error, out double L1, GaussPointPair gaussKronrodPoint)
+        static Complex contour_recursive_adaptive_integrate(Func<double, Complex> f, double a, double b, int maxLevels, double relTol, double absTol, out double error, out double L1, GaussPointPair gaussKronrodPoint)
         {
             double error_local;
             double mean = (b + a) / 2;
@@ -379,19 +356,19 @@ namespace MathNet.Numerics.Integration
             var r1 = contour_integrate_non_adaptive_m1_1((x) => f(scale * x + mean), out error_local, out L1, gaussKronrodPoint);
             var estimate = scale * r1;
 
-            var tmp = estimate * rel_tol;
-            var abs_tol1 = Complex.Abs(tmp);
-            if (abs_tol == 0)
+            var tmp = estimate * relTol;
+            var absTol1 = Complex.Abs(tmp);
+            if (absTol == 0)
             {
-                abs_tol = abs_tol1;
+                absTol = absTol1;
             }
 
-            if (max_levels > 0 && (abs_tol1 < error_local) && (abs_tol < error_local))
+            if (maxLevels > 0 && (absTol1 < error_local) && (absTol < error_local))
             {
                 double mid = (a + b) / 2d;
                 double L1_local;
-                estimate = contour_recursive_adaptive_integrate(f, a, mid, max_levels - 1, rel_tol, abs_tol / 2, out error, out L1, gaussKronrodPoint);
-                estimate += contour_recursive_adaptive_integrate(f, mid, b, max_levels - 1, rel_tol, abs_tol / 2, out error_local, out L1_local, gaussKronrodPoint);
+                estimate = contour_recursive_adaptive_integrate(f, a, mid, maxLevels - 1, relTol, absTol / 2, out error, out L1, gaussKronrodPoint);
+                estimate += contour_recursive_adaptive_integrate(f, mid, b, maxLevels - 1, relTol, absTol / 2, out error_local, out L1_local, gaussKronrodPoint);
                 error += error_local;
                 L1 += L1_local;
                 return estimate;

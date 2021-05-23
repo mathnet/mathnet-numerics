@@ -30,9 +30,8 @@
 using System;
 using Complex = System.Numerics.Complex;
 
-// ReSharper disable CheckNamespace
+// ReSharper disable once CheckNamespace
 namespace MathNet.Numerics
-// ReSharper restore CheckNamespace
 {
     public partial class SpecialFunctions
     {

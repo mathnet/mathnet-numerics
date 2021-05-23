@@ -433,16 +433,7 @@ namespace MathNet.Numerics.Differentiation
             Evaluations = 0;
         }
 
-        private double[] CalculateStepSize(int points, double[] x, double order)
-        {
-            var h = new double[x.Length];
-            for (int i = 1; i < h.Length; i++)
-                h[i] = CalculateStepSize(points, x[i], order);
-
-            return h;
-        }
-
-        private double CalculateStepSize(int points, double x, double order)
+        double CalculateStepSize(int points, double x, double order)
         {
             // Step size relative to function input parameter
             if (StepType == StepType.RelativeX)

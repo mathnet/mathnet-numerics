@@ -40,17 +40,17 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the scale (a) of the distribution. Range: a > 0.
         /// </summary>
-        public double a { get; }
+        public double A { get; }
 
         /// <summary>
         /// Gets the first shape parameter (c) of the distribution. Range: c > 0.
         /// </summary>
-        public double c { get; }
+        public double C { get; }
 
         /// <summary>
         /// Gets the second shape parameter (k) of the distribution. Range: k > 0.
         /// </summary>
-        public double k { get; }
+        public double K { get; }
 
         /// <summary>
         /// Initializes a new instance of the Burr Type XII class.
@@ -66,9 +66,9 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
             _random = randomSource ?? SystemRandomSource.Default;
-            this.a = a;
-            this.c = c;
-            this.k = k;
+            A = a;
+            C = c;
+            K = k;
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a string representation of the distribution.</returns>
         public override string ToString()
         {
-            return $"Burr(a = {a}, c = {c}, k = {k})";
+            return $"Burr(a = {A}, c = {C}, k = {K})";
         }
 
         /// <summary>
@@ -104,14 +104,14 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mean of the Burr distribution.
         /// </summary>
-        public double Mean => (1 / SpecialFunctions.Gamma(k)) * a * SpecialFunctions.Gamma(1 + 1 / c) * SpecialFunctions.Gamma(k - 1 / c);
+        public double Mean => (1 / SpecialFunctions.Gamma(K)) * A * SpecialFunctions.Gamma(1 + 1 / C) * SpecialFunctions.Gamma(K - 1 / C);
 
         /// <summary>
         /// Gets the variance of the Burr distribution.
         /// </summary>
         public double Variance =>
-            (1 / SpecialFunctions.Gamma(k)) * Math.Pow(a, 2) * SpecialFunctions.Gamma(1 + 2 / c) * SpecialFunctions.Gamma(k - 2 / c)
-            - Math.Pow((1 / SpecialFunctions.Gamma(k)) * a * SpecialFunctions.Gamma(1 + 1 / c) * SpecialFunctions.Gamma(k - 1 / c), 2);
+            (1 / SpecialFunctions.Gamma(K)) * Math.Pow(A, 2) * SpecialFunctions.Gamma(1 + 2 / C) * SpecialFunctions.Gamma(K - 2 / C)
+            - Math.Pow((1 / SpecialFunctions.Gamma(K)) * A * SpecialFunctions.Gamma(1 + 1 / C) * SpecialFunctions.Gamma(K - 1 / C), 2);
 
         /// <summary>
         /// Gets the standard deviation of the Burr distribution.
@@ -121,7 +121,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the mode of the Burr distribution.
         /// </summary>
-        public double Mode => a * Math.Pow((c - 1) / (c * k + 1), 1 / c);
+        public double Mode => A * Math.Pow((C - 1) / (C * K + 1), 1 / C);
 
         /// <summary>
         /// Gets the minimum of the Burr distribution.
@@ -155,7 +155,7 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the median of the Burr distribution.
         /// </summary>
-        public double Median => a * Math.Pow(Math.Pow(2, 1 / k) - 1, 1 / c);
+        public double Median => A * Math.Pow(Math.Pow(2, 1 / K) - 1, 1 / C);
 
         /// <summary>
         /// Generates a sample from the Burr distribution.
@@ -163,7 +163,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sample from the distribution.</returns>
         public double Sample()
         {
-            return SampleUnchecked(_random, a, c, k);
+            return SampleUnchecked(_random, A, C, K);
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace MathNet.Numerics.Distributions
         /// <param name="values">The array to fill with the samples.</param>
         public void Samples(double[] values)
         {
-            SamplesUnchecked(_random, values, a, c, k);
+            SamplesUnchecked(_random, values, A, C, K);
         }
 
         /// <summary>
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a sequence of samples from the distribution.</returns>
         public IEnumerable<double> Samples()
         {
-            return SamplesUnchecked(_random, a, c, k);
+            return SamplesUnchecked(_random, A, C, K);
         }
 
         /// <summary>
@@ -235,31 +235,31 @@ namespace MathNet.Numerics.Distributions
             return SamplesUnchecked(rnd, a, c, k);
         }
 
-        internal static double SampleUnchecked(System.Random rnd, double a, double c, double k)
+        static double SampleUnchecked(System.Random rnd, double a, double c, double k)
         {
-            var k_inv = 1 / k;
-            var c_inv = 1 / c;
+            var kInv = 1 / k;
+            var cInv = 1 / c;
             double u = rnd.NextDouble();
-            return a * Math.Pow(Math.Pow(1 - u, -k_inv) - 1, c_inv);
+            return a * Math.Pow(Math.Pow(1 - u, -kInv) - 1, cInv);
         }
 
-        internal static void SamplesUnchecked(System.Random rnd, double[] values, double a, double c, double k)
+        static void SamplesUnchecked(System.Random rnd, double[] values, double a, double c, double k)
         {
             if (values.Length == 0)
             {
                 return;
             }
-            var k_inv = 1 / k;
-            var c_inv = 1 / c;
+            var kInv = 1 / k;
+            var cInv = 1 / c;
             double[] u = rnd.NextDoubles(values.Length);
 
             for (var j = 0; j < values.Length; ++j)
             {
-                values[j] = a * Math.Pow(Math.Pow(1 - u[j], -k_inv) - 1, c_inv);
+                values[j] = a * Math.Pow(Math.Pow(1 - u[j], -kInv) - 1, cInv);
             }
         }
 
-        internal static IEnumerable<double> SamplesUnchecked(System.Random rnd, double a, double c, double k)
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double a, double c, double k)
         {
             while (true)
             {
@@ -274,12 +274,12 @@ namespace MathNet.Numerics.Distributions
         /// <returns>the n-th moment of the distribution.</returns>
         public double GetMoment(double n)
         {
-            if (n > k * c)
+            if (n > K * C)
             {
                 throw new ArgumentException("The chosen parameter set is invalid (probably some value is out of range).");
             }
-            var lambda_n = (n / c) * SpecialFunctions.Gamma(n / c) * SpecialFunctions.Gamma(k - n / c);
-            return Math.Pow(a, n) * lambda_n / SpecialFunctions.Gamma(k);
+            var lambdaN = (n / C) * SpecialFunctions.Gamma(n / C) * SpecialFunctions.Gamma(K - n / C);
+            return Math.Pow(A, n) * lambdaN / SpecialFunctions.Gamma(K);
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="PDF"/>
         public double Density(double x)
         {
-            return DensityImpl(a, c, k, x);
+            return DensityImpl(A, C, K, x);
         }
 
         /// <summary>
@@ -301,7 +301,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="PDFLn"/>
         public double DensityLn(double x)
         {
-            return DensityLnImpl(a, c, k, x);
+            return DensityLnImpl(A, C, K, x);
         }
 
         /// <summary>
@@ -312,7 +312,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
-            return CumulativeDistributionImpl(a, c, k, x);
+            return CumulativeDistributionImpl(A, C, K, x);
         }
 
         /// <summary>
@@ -369,19 +369,19 @@ namespace MathNet.Numerics.Distributions
             return CumulativeDistributionImpl(a, c, k, x);
         }
 
-        internal static double DensityImpl(double a, double c, double k, double x)
+        static double DensityImpl(double a, double c, double k, double x)
         {
             var numerator = (k * c / a) * Math.Pow(x / a, c - 1);
             var denominator = Math.Pow(1 + Math.Pow(x / a, c), k + 1);
             return numerator / denominator;
         }
 
-        internal static double DensityLnImpl(double a, double c, double k, double x)
+        static double DensityLnImpl(double a, double c, double k, double x)
         {
             return Math.Log(DensityImpl(a, c, k, x));
         }
 
-        internal static double CumulativeDistributionImpl(double a, double c, double k, double x)
+        static double CumulativeDistributionImpl(double a, double c, double k, double x)
         {
             var denominator = Math.Pow(1 + Math.Pow(x / a, c), k);
             return 1 - 1 / denominator;

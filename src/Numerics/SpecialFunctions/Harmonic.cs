@@ -34,9 +34,8 @@
 
 using System;
 
-// ReSharper disable CheckNamespace
+// ReSharper disable once CheckNamespace
 namespace MathNet.Numerics
-// ReSharper restore CheckNamespace
 {
     /// <summary>
     /// This partial implementation of the SpecialFunctions class contains all methods related to the harmonic function.

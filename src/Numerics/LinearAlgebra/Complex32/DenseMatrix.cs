@@ -54,14 +54,14 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         /// <remarks>Using this instead of the RowCount property to speed up calculating
         /// a matrix index in the data array.</remarks>
-        private readonly int _rowCount;
+        readonly int _rowCount;
 
         /// <summary>
         /// Number of columns.
         /// </summary>
         /// <remarks>Using this instead of the ColumnCount property to speed up calculating
         /// a matrix index in the data array.</remarks>
-        private readonly int _columnCount;
+        readonly int _columnCount;
 
         /// <summary>
         /// Gets the matrix's data.

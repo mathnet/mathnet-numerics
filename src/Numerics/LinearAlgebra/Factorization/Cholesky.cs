@@ -52,7 +52,7 @@ namespace MathNet.Numerics.LinearAlgebra.Factorization
         /// <summary>
         /// Gets the lower triangular form of the Cholesky matrix.
         /// </summary>
-        public Matrix<T> Factor { get; private set; }
+        public Matrix<T> Factor { get; }
 
         /// <summary>
         /// Gets the determinant of the matrix for which the Cholesky matrix was computed.

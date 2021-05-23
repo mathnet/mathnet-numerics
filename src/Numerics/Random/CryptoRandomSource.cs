@@ -93,7 +93,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random double-precision floating point number greater than or equal to 0.0, and less than 1.0.
         /// </summary>
-        protected sealed override double DoSample()
+        protected  override double DoSample()
         {
             var bytes = new byte[4];
             _crypto.GetBytes(bytes);
@@ -103,7 +103,7 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Returns a random 32-bit signed integer greater than or equal to zero and less than <see cref="F:System.Int32.MaxValue"/>
         /// </summary>
-        protected sealed override int DoSampleInteger()
+        protected override int DoSampleInteger()
         {
             var bytes = new byte[4];
             _crypto.GetBytes(bytes);

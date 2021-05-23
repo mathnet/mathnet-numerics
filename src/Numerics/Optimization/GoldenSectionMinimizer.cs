@@ -69,8 +69,8 @@ namespace MathNet.Numerics.Optimization
             ValueChecker(middle.Value, middlePointX);
             ValueChecker(upper.Value, upperBound);
 
-            int expansion_steps = 0;
-            while ((expansion_steps < maxExpansionSteps) && (upper.Value < middle.Value || lower.Value < middle.Value))
+            int expansionSteps = 0;
+            while ((expansionSteps < maxExpansionSteps) && (upper.Value < middle.Value || lower.Value < middle.Value))
             {
                 if (lower.Value < middle.Value)
                 {
@@ -87,7 +87,7 @@ namespace MathNet.Numerics.Optimization
                 middlePointX = lowerBound + (upperBound - lowerBound)/(1 + Constants.GoldenRatio);
                 middle = objective.Evaluate(middlePointX);
 
-                expansion_steps += 1;
+                expansionSteps += 1;
             }
 
             if (upper.Value < middle.Value || lower.Value < middle.Value)

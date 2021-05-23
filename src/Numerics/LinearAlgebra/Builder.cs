@@ -1622,8 +1622,8 @@ namespace MathNet.Numerics.LinearAlgebra
             if (typeof (T) == typeof (System.Numerics.Complex))
             {
                 return new Tuple<MatrixBuilder<T>, VectorBuilder<T>>(
-                    (MatrixBuilder<T>)(object)new LinearAlgebra.Complex.MatrixBuilder(),
-                    (VectorBuilder<T>)(object)new LinearAlgebra.Complex.VectorBuilder());
+                    (MatrixBuilder<T>)(object)new Complex.MatrixBuilder(),
+                    (VectorBuilder<T>)(object)new Complex.VectorBuilder());
             }
 
             if (typeof (T) == typeof (Numerics.Complex32))

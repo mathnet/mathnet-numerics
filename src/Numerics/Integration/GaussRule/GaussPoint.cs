@@ -34,15 +34,15 @@ namespace MathNet.Numerics.Integration.GaussRule
     /// </summary>
     internal class GaussPoint
     {
-        internal double[] Abscissas { get; private set; }
+        internal double[] Abscissas { get; }
 
-        internal double[] Weights { get; private set; }
+        internal double[] Weights { get; }
 
-        internal double IntervalBegin { get; private set; }
+        internal double IntervalBegin { get; }
 
-        internal double IntervalEnd { get; private set; }
+        internal double IntervalEnd { get; }
 
-        internal int Order { get; private set; }
+        internal int Order { get; }
 
         internal GaussPoint(double intervalBegin, double intervalEnd, int order, double[] abscissas, double[] weights)
         {

@@ -34,6 +34,7 @@
 using System;
 using System.Linq;
 
+// ReSharper disable once CheckNamespace
 namespace MathNet.Numerics
 {
     public static partial class SpecialFunctions
@@ -100,7 +101,7 @@ namespace MathNet.Numerics
         }
 
         //Calculate each iteration of the function
-        private static double HGIncrement(double[] a, double[] b, int z, int currentN)
+        static double HGIncrement(double[] a, double[] b, int z, int currentN)
         {
             double incrementAs = 1.0;
             double incrementBs = 1.0;
@@ -127,14 +128,13 @@ namespace MathNet.Numerics
             {
                 return 0.0;
             }
-            else if (numPoles > 0 && numPoles > numZeros)
+
+            if (numPoles > 0 && numPoles > numZeros)
             {
                 return double.PositiveInfinity;
             }
-            else
-            {
-                return incrementAs / incrementBs * Math.Pow(z, currentN) / Factorial(currentN);
-            }
+
+            return incrementAs / incrementBs * Math.Pow(z, currentN) / Factorial(currentN);
         }
 
     }

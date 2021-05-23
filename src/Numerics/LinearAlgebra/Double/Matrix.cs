@@ -469,7 +469,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
         protected override void DoPointwiseSign(Matrix<double> result)
         {
-            Map(x => (double)Math.Sign(x), result, Zeros.AllowSkip);
+            Map(x => Math.Sign(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSin(Matrix<double> result)
         {

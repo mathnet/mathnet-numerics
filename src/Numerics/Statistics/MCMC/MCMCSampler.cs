@@ -85,7 +85,7 @@ namespace MathNet.Numerics.Statistics.Mcmc
         /// <summary>
         /// The random number generator for this class.
         /// </summary>
-        private System.Random _randomNumberGenerator;
+        System.Random _randomNumberGenerator;
 
         /// <summary>
         /// Keeps track of the number of accepted samples.

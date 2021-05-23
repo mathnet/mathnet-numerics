@@ -319,15 +319,15 @@ namespace MathNet.Numerics.Statistics
                     decimal xi = (decimal)x.Value;
                     decimal delta = xi - mean;
                     decimal scaleDelta = delta/++n;
-                    decimal scaleDeltaSQR = scaleDelta*scaleDelta;
+                    decimal scaleDeltaSquared = scaleDelta*scaleDelta;
                     decimal tmpDelta = delta*(n - 1);
 
                     mean += scaleDelta;
 
-                    kurtosis += tmpDelta*scaleDelta*scaleDeltaSQR*(n*n - 3*n + 3)
-                                + 6*scaleDeltaSQR*variance - 4*scaleDelta*skewness;
+                    kurtosis += tmpDelta*scaleDelta*scaleDeltaSquared*(n*n - 3*n + 3)
+                                + 6*scaleDeltaSquared*variance - 4*scaleDelta*skewness;
 
-                    skewness += tmpDelta*scaleDeltaSQR*(n - 2) - 3*scaleDelta*variance;
+                    skewness += tmpDelta*scaleDeltaSquared*(n - 2) - 3*scaleDelta*variance;
                     variance += tmpDelta*scaleDelta;
 
                     if (minimum > xi)

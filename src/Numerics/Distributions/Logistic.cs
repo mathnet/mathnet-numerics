@@ -30,7 +30,6 @@
 using System;
 using System.Collections.Generic;
 using MathNet.Numerics.Random;
-using MathNet.Numerics.Statistics;
 
 namespace MathNet.Numerics.Distributions
 {
@@ -48,7 +47,7 @@ namespace MathNet.Numerics.Distributions
 
         /// <summary>
         /// Initializes a new instance of the Logistic class. This is a logistic distribution with mean 0.0
-        /// and scale 1.0. The distribution will be initialized with the default <seealso cref="System.Random"/> 
+        /// and scale 1.0. The distribution will be initialized with the default <seealso cref="System.Random"/>
         /// random number generator.
         /// </summary>
         public Logistic()
@@ -58,7 +57,7 @@ namespace MathNet.Numerics.Distributions
 
         /// <summary>
         /// Initializes a new instance of the Logistic class. This is a logistic distribution with mean 0.0
-        /// and scale 1.0. The distribution will be initialized with the default <seealso cref="System.Random"/> 
+        /// and scale 1.0. The distribution will be initialized with the default <seealso cref="System.Random"/>
         /// random number generator.
         /// </summary>
         /// <param name="randomSource">The random number generator which is used to draw random samples.</param>
@@ -68,7 +67,7 @@ namespace MathNet.Numerics.Distributions
         }
 
         /// <summary>
-        /// Initializes a new instance of the Logistic class with a particular mean and scale parameter. The 
+        /// Initializes a new instance of the Logistic class with a particular mean and scale parameter. The
         /// distribution will be initialized with the default <seealso cref="System.Random"/> random number generator.
         /// </summary>
         /// <param name="mean">The mean (μ) of the logistic distribution.</param>
@@ -307,12 +306,12 @@ namespace MathNet.Numerics.Distributions
             return SamplesUnchecked(_random, _mean, _scale);
         }
 
-        internal static double SampleUnchecked(System.Random rnd, double mean, double scale)
+        static double SampleUnchecked(System.Random rnd, double mean, double scale)
         {
             return InvCDF(mean, scale, rnd.NextDouble());
         }
 
-        internal static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mean, double scale)
+        static IEnumerable<double> SamplesUnchecked(System.Random rnd, double mean, double scale)
         {
             while (true)
             {
@@ -320,13 +319,13 @@ namespace MathNet.Numerics.Distributions
             }
         }
 
-        internal static void SamplesUnchecked(System.Random rnd, double[] values, double mean, double scale)
+        static void SamplesUnchecked(System.Random rnd, double[] values, double mean, double scale)
         {
             if (values.Length == 0)
             {
                 return;
             }
-            
+
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = SampleUnchecked(rnd, mean, scale);
@@ -348,7 +347,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-            var z = (x - mean)/scale;           
+            var z = (x - mean)/scale;
             return Math.Exp(-z) / (scale * Math.Pow(1.0 + Math.Exp(-z), 2));
         }
 
@@ -367,7 +366,7 @@ namespace MathNet.Numerics.Distributions
                 throw new ArgumentException("Invalid parametrization for the distribution.");
             }
 
-             var z = (x - mean)/scale;
+            var z = (x - mean)/scale;
             return -z - Math.Log(scale) - (2 * Math.Log(1+Math.Exp(-z)));
         }
 

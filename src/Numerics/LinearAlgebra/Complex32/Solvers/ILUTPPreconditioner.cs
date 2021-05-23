@@ -720,7 +720,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="upperBound">The stopping index.</param>
         /// <param name="sortedIndices">An array that will contain the sorted indices once the algorithm finishes.</param>
         /// <param name="values">The <see cref="Vector"/> that contains the values that need to be sorted.</param>
-        private static void HeapSortDoublesIndices(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex32> values)
+        static void HeapSortDoublesIndices(int lowerBound, int upperBound, int[] sortedIndices, Vector<Complex32> values)
         {
             var start = ((upperBound - lowerBound + 1) / 2) - 1 + lowerBound;
             var end = (upperBound - lowerBound + 1) - 1 + lowerBound;
@@ -742,7 +742,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="count">Length of <paramref name="values"/></param>
         /// <param name="sortedIndices">Indices of <paramref name="values"/></param>
         /// <param name="values">Target <see cref="Vector"/></param>
-        private static void BuildDoubleIndexHeap(int start, int count, int[] sortedIndices, Vector<Complex32> values)
+        static void BuildDoubleIndexHeap(int start, int count, int[] sortedIndices, Vector<Complex32> values)
         {
             while (start >= 0)
             {
@@ -758,7 +758,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="values">Target <see cref="Vector"/></param>
         /// <param name="begin">Root position</param>
         /// <param name="count">Length of <paramref name="values"/></param>
-        private static void SiftDoubleIndices(int[] sortedIndices, Vector<Complex32> values, int begin, int count)
+        static void SiftDoubleIndices(int[] sortedIndices, Vector<Complex32> values, int begin, int count)
         {
             var root = begin;
 
@@ -794,7 +794,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// </summary>
         /// <param name="values">Array of values to sort</param>
         /// <param name="count">Length of <paramref name="values"/></param>
-        private static void HeapSortIntegers(int[] values, int count)
+        static void HeapSortIntegers(int[] values, int count)
         {
             var start = (count / 2) - 1;
             var end = count - 1;
@@ -815,7 +815,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="values">Target values array</param>
         /// <param name="start">Root position</param>
         /// <param name="count">Length of <paramref name="values"/></param>
-        private static void BuildHeap(int[] values, int start, int count)
+        static void BuildHeap(int[] values, int start, int count)
         {
             while (start >= 0)
             {
@@ -830,7 +830,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="values">Target value array</param>
         /// <param name="start">Root position</param>
         /// <param name="count">Length of <paramref name="values"/></param>
-        private static void Sift(int[] values, int start, int count)
+        static void Sift(int[] values, int start, int count)
         {
             var root = start;
 
@@ -860,7 +860,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Solvers
         /// <param name="values">Target values array</param>
         /// <param name="first">First value to exchange</param>
         /// <param name="second">Second value to exchange</param>
-        private static void Exchange(int[] values, int first, int second)
+        static void Exchange(int[] values, int first, int second)
         {
             var t = values[first];
             values[first] = values[second];

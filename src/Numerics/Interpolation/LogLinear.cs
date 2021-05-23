@@ -156,19 +156,13 @@ namespace MathNet.Numerics.Interpolation
         /// Indefinite integral at point t.
         /// </summary>
         /// <param name="t">Point t to integrate at.</param>
-        double IInterpolation.Integrate(double t)
-        {
-            throw new NotSupportedException();
-        }
+        double IInterpolation.Integrate(double t) => throw new NotSupportedException();
 
         /// <summary>
         /// Definite integral between points a and b.
         /// </summary>
         /// <param name="a">Left bound of the integration interval [a,b].</param>
         /// <param name="b">Right bound of the integration interval [a,b].</param>
-        double IInterpolation.Integrate(double a, double b)
-        {
-            throw new NotSupportedException();
-        }
+        double IInterpolation.Integrate(double a, double b) => throw new NotSupportedException();
     }
 }

@@ -48,9 +48,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         protected Vector<double> LowerBound { get; set; }
         protected Vector<double> UpperBound { get; set; }
 
-        protected bool ValueEvaluated { get; set; } = false;
-        protected bool GradientEvaluated { get; set; } = false;
-        private Vector<double> _gradient;
+        protected bool ValueEvaluated { get; set; }
+        protected bool GradientEvaluated { get; set; }
+        Vector<double> _gradient;
 
         public double MinimumIncrement { get; set; }
         public double RelativeIncrement { get; set; }

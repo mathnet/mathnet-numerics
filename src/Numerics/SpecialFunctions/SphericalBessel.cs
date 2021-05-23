@@ -1,6 +1,7 @@
 ﻿using System;
 using Complex = System.Numerics.Complex;
 
+// ReSharper disable once CheckNamespace
 namespace MathNet.Numerics
 {
     /// <summary>
@@ -21,7 +22,7 @@ namespace MathNet.Numerics
             {
                 return new Complex(double.NaN, double.NaN);
             }
-            
+
             if (double.IsInfinity(z.Real))
             {
                 return (z.Imaginary == 0) ? Complex.Zero : new Complex(double.PositiveInfinity, double.PositiveInfinity);

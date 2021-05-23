@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Distributions
 {
     /// <summary>
     /// Continuous Univariate Skewed Generalized Error Distribution (SGED).
-    /// Implements the univariate SSkewed Generalized Error Distribution. For details about this
+    /// Implements the univariate Skewed Generalized Error Distribution. For details about this
     /// distribution, see
     /// <a href="https://en.wikipedia.org/wiki/Generalized_normal_distribution">
     /// Wikipedia - Generalized Error Distribution</a>.
@@ -129,22 +129,22 @@ namespace MathNet.Numerics.Distributions
         /// <summary>
         /// Gets the location (μ) of the Skewed Generalized t-distribution.
         /// </summary>
-        public double Location { get; private set; }
+        public double Location { get; }
 
         /// <summary>
         /// Gets the scale (σ) of the Skewed Generalized t-distribution. Range: σ > 0.
         /// </summary>
-        public double Scale { get; private set; }
+        public double Scale { get; }
 
         /// <summary>
         /// Gets the skew (λ) of the Skewed Generalized t-distribution. Range: 1 > λ > -1.
         /// </summary>
-        public double Skew { get; private set; }
+        public double Skew { get; }
 
         /// <summary>
         /// Gets the parameter that controls the kurtosis of the distribution. Range: p > 0.
         /// </summary>
-        public double P { get; private set; }
+        public double P { get; }
 
         // No skew implies Median=Mode=Mean
         public double Mode =>

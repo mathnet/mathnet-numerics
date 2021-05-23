@@ -49,9 +49,7 @@ namespace MathNet.Numerics.Optimization
             int iterations;
             for (iterations = 1; iterations < MaximumIterations; ++iterations)
             {
-                double startingStepSize;
-                double maxLineSearchStep;
-                lineSearchDirection = CalculateSearchDirection(ref inversePseudoHessian, out maxLineSearchStep, out startingStepSize, previousPoint, candidate, step);
+                lineSearchDirection = CalculateSearchDirection(ref inversePseudoHessian, out var maxLineSearchStep, out var startingStepSize, previousPoint, candidate, step);
 
                 try
                 {

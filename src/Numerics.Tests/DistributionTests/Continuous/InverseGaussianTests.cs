@@ -305,7 +305,7 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
         public void ValidateInverseCumulativeDistribution(double mu, double lambda, double probability, double f)
         {
             var n = new InverseGaussian(mu, lambda);
-            AssertHelpers.AlmostEqualRelative(f, InverseGaussian.ICDF(mu, lambda, probability), precision);
+            AssertHelpers.AlmostEqualRelative(f, InverseGaussian.InvCDF(mu, lambda, probability), precision);
             AssertHelpers.AlmostEqualRelative(f, n.InvCDF(probability), precision);
         }
 

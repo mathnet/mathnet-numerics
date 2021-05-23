@@ -78,7 +78,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32.Factorization
         /// <param name="rowsQ">Number of rows in <see cref="Matrix{T}"/> Q.</param>
         /// <param name="columnsQ">Number of columns in <see cref="Matrix{T}"/> Q.</param>
         /// <param name="r">On exit is filled by <see cref="Matrix{T}"/> R.</param>
-        private static void Factorize(Complex32[] q, int rowsQ, int columnsQ, Complex32[] r)
+        static void Factorize(Complex32[] q, int rowsQ, int columnsQ, Complex32[] r)
         {
             for (var k = 0; k < columnsQ; k++)
             {

@@ -412,7 +412,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Puts the lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void LowerTriangleImpl(Matrix<Complex> result)
+        void LowerTriangleImpl(Matrix<Complex> result)
         {
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
@@ -477,7 +477,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Puts the upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void UpperTriangleImpl(Matrix<Complex> result)
+        void UpperTriangleImpl(Matrix<Complex> result)
         {
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
@@ -543,7 +543,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Puts the strictly lower triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void StrictlyLowerTriangleImpl(Matrix<Complex> result)
+        void StrictlyLowerTriangleImpl(Matrix<Complex> result)
         {
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;
@@ -609,7 +609,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// Puts the strictly upper triangle of this matrix into the result matrix.
         /// </summary>
         /// <param name="result">Where to store the lower triangle.</param>
-        private void StrictlyUpperTriangleImpl(Matrix<Complex> result)
+        void StrictlyUpperTriangleImpl(Matrix<Complex> result)
         {
             var rowPointers = _storage.RowPointers;
             var columnIndices = _storage.ColumnIndices;

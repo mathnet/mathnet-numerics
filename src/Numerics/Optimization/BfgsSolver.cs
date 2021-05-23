@@ -41,8 +41,8 @@ namespace MathNet.Numerics.Optimization
     /// </summary>
     public static class BfgsSolver
     {
-        private const double GradientTolerance = 1e-5;
-        private const int MaxIterations = 100000;
+        const double GradientTolerance = 1e-5;
+        const int MaxIterations = 100000;
 
         /// <summary>
         /// Finds a minimum of a function by the BFGS quasi-Newton method

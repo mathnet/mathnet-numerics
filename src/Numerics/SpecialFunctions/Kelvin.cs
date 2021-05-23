@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 
+// ReSharper disable once CheckNamespace
 namespace MathNet.Numerics
 {
     /// <summary>

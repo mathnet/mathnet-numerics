@@ -302,7 +302,7 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
         protected override void DoPointwiseSign(Vector<double> result)
         {
-            Map(x => (double)Math.Sign(x), result, Zeros.AllowSkip);
+            Map(x => Math.Sign(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSin(Vector<double> result)
         {

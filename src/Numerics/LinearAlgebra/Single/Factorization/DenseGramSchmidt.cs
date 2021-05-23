@@ -76,7 +76,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single.Factorization
         /// <param name="rowsQ">Number of rows in <see cref="Matrix{T}"/> Q.</param>
         /// <param name="columnsQ">Number of columns in <see cref="Matrix{T}"/> Q.</param>
         /// <param name="r">On exit is filled by <see cref="Matrix{T}"/> R.</param>
-        private static void Factorize(float[] q, int rowsQ, int columnsQ, float[] r)
+        static void Factorize(float[] q, int rowsQ, int columnsQ, float[] r)
         {
             for (var k = 0; k < columnsQ; k++)
             {

@@ -1,6 +1,6 @@
-﻿using System.Globalization;
+﻿#if NET40
+using System.Globalization;
 
-#if NET40
 namespace System.Runtime.CompilerServices
 {
     internal class FormattableStringFactory
@@ -16,13 +16,13 @@ namespace System
 {
     internal class FormattableString
     {
-        private readonly string format;
-        private readonly object[] args;
+        readonly string _format;
+        readonly object[] _args;
 
         public FormattableString(string format, object[] args)
         {
-            this.format = format;
-            this.args = args;
+            _format = format;
+            _args = args;
         }
 
         public static string Invariant(FormattableString messageFormat)
@@ -32,12 +32,12 @@ namespace System
 
         public string ToString(IFormatProvider formatProvider)
         {
-            return string.Format(formatProvider, format, args);
+            return string.Format(formatProvider, _format, _args);
         }
 
         public override string ToString()
         {
-            return string.Format(format, args);
+            return string.Format(_format, _args);
         }
     }
 }

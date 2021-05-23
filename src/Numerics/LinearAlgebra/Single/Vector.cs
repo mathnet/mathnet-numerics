@@ -254,7 +254,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
 
         protected override void DoPointwiseAbs(Vector<float> result)
         {
-            Map(x => (float)Math.Abs(x), result, Zeros.AllowSkip);
+            Map(x => Math.Abs(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseAcos(Vector<float> result)
         {
@@ -270,11 +270,11 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
         protected override void DoPointwiseAtan2(Vector<float> other, Vector<float> result)
         {
-            Map2((x, y) => (float)Math.Atan2((double)x, (double)y), other, result, Zeros.Include);
+            Map2((x, y) => (float)Math.Atan2(x, y), other, result, Zeros.Include);
         }
         protected override void DoPointwiseAtan2(float scalar, Vector<float> result)
         {
-            Map(x => (float)Math.Atan2((double)x, (double)scalar), result, Zeros.Include);
+            Map(x => (float)Math.Atan2(x, scalar), result, Zeros.Include);
         }
         protected override void DoPointwiseCeiling(Vector<float> result)
         {
@@ -302,7 +302,7 @@ namespace MathNet.Numerics.LinearAlgebra.Single
         }
         protected override void DoPointwiseSign(Vector<float> result)
         {
-            Map(x => (float)Math.Sign(x), result, Zeros.AllowSkip);
+            Map(x => Math.Sign(x), result, Zeros.AllowSkip);
         }
         protected override void DoPointwiseSin(Vector<float> result)
         {

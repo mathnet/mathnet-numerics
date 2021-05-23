@@ -108,7 +108,7 @@ namespace MathNet.Numerics.Statistics
         /// <param name="kLow">Min lag to calculate ACF for (0 = no shift with acf=1) must be zero or positive and smaller than x.Length</param>
         /// <param name="kHigh">Max lag (EXCLUSIVE) to calculate ACF for must be positive and smaller than x.Length</param>
         /// <returns>An array with the ACF as a function of the lags k.</returns>
-        private static double[] AutoCorrelationFft(double[] x, int kLow, int kHigh)
+        static double[] AutoCorrelationFft(double[] x, int kLow, int kHigh)
         {
             if (x == null)
                 throw new ArgumentNullException(nameof(x));

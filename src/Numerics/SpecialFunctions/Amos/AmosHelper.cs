@@ -8,7 +8,7 @@ namespace MathNet.Numerics
         //
         // References:
         // [1] Amos package in netlib. http://www.netlib.org/amos
-        private static class AmosHelper
+        static class AmosHelper
         {
             #region Bessel- related functions
 
@@ -2385,7 +2385,7 @@ namespace MathNet.Numerics
 
             #region Fortran utilities
 
-            private static double d1mach(int i)
+            static double d1mach(int i)
             {
                 #region Description
 
@@ -2463,7 +2463,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int i1mach(int i)
+            static int i1mach(int i)
             {
                 #region Description
 
@@ -2552,14 +2552,14 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static double dsign(double a, double b)
+            static double dsign(double a, double b)
             {
                 // Returns the absolute value of A times the sign of B
                 double x = (a >= 0 ? a : -a);
                 return (b >= 0 ? x : -x);
             }
 
-            private static double zabs(double zr, double zi)
+            static double zabs(double zr, double zi)
             {
                 #region Description
 
@@ -2595,7 +2595,7 @@ namespace MathNet.Numerics
                 return 0.0;
             }
 
-            private static int zdiv(double ar, double ai, double br, double bi, ref double cr, ref double ci)
+            static int zdiv(double ar, double ai, double br, double bi, ref double cr, ref double ci)
             {
                 #region Description
 
@@ -2621,7 +2621,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zexp(double ar, double ai, ref double br, ref double bi)
+            static int zexp(double ar, double ai, ref double br, ref double bi)
             {
                 #region Description
 
@@ -2645,7 +2645,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zlog(double ar, double ai, ref double br, ref double bi, ref int ierr)
+            static int zlog(double ar, double ai, ref double br, ref double bi, ref int ierr)
             {
                 #region Description
 
@@ -2697,7 +2697,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zmlt(double ar, double ai, double br, double bi, ref double cr, ref double ci)
+            static int zmlt(double ar, double ai, double br, double bi, ref double cr, ref double ci)
             {
                 #region Description
 
@@ -2720,7 +2720,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zsqrt(double ar, double ai, ref double br, ref double bi)
+            static int zsqrt(double ar, double ai, ref double br, ref double bi)
             {
                 #region Description
 
@@ -2782,7 +2782,7 @@ namespace MathNet.Numerics
 
             #region Subroutines to calculate the Bessel functions
 
-            private static int zacai(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double rl, double tol, double elim, double alim)
+            static int zacai(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double rl, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -2888,7 +2888,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zacon(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double rl, double fnul, double tol, double elim, double alim)
+            static int zacon(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double rl, double fnul, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -3105,7 +3105,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zasyi(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double rl, double tol, double elim, double alim)
+            static int zasyi(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double rl, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -3283,7 +3283,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zbinu(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, double rl, double fnul, double tol, double elim, double alim)
+            static int zbinu(double zr, double zi, double fnu, int kode, int n, double[] cyr, double[] cyi, ref int nz, double rl, double fnul, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -3398,7 +3398,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zbknu(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
+            static int zbknu(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -3994,7 +3994,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zbuni(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, int nui, ref int nlast, double fnul, double tol, double elim, double alim)
+            static int zbuni(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, int nui, ref int nlast, double fnul, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -4178,7 +4178,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zbunk(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
+            static int zbunk(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -4217,7 +4217,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zkscl(double zrr, double zri, double fnu, int n, double[] yr, double[] yi, ref int nz, double rzr, double rzi, double ascle, double tol, double elim)
+            static int zkscl(double zrr, double zri, double fnu, int n, double[] yr, double[] yi, ref int nz, double rzr, double rzi, double ascle, double tol, double elim)
             {
                 #region Description
 
@@ -4355,7 +4355,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zmlri(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol)
+            static int zmlri(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol)
             {
                 #region Description
 
@@ -4575,7 +4575,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zrati(double zr, double zi, double fnu, int n, double[] cyr, double[] cyi, double tol)
+            static int zrati(double zr, double zi, double fnu, int n, double[] cyr, double[] cyi, double tol)
             {
                 #region Description
 
@@ -4719,7 +4719,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zs1s2(double zrr, double zri, ref double s1r, ref double s1i, ref double s2r, ref double s2i, ref int nz, double ascle, double alim, ref int iuf)
+            static int zs1s2(double zrr, double zri, ref double s1r, ref double s1i, ref double s2r, ref double s2i, ref int nz, double ascle, double alim, ref int iuf)
             {
                 #region Description
 
@@ -4776,7 +4776,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zseri(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
+            static int zseri(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -4982,7 +4982,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zshch(double zr, double zi, ref double cshr, ref double cshi, ref double cchr, ref double cchi)
+            static int zshch(double zr, double zi, ref double cshr, ref double cshi, ref double cchr, ref double cchi)
             {
                 #region Description
 
@@ -5008,7 +5008,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zuchk(double yr, double yi, ref int nz, double ascle, double tol)
+            static int zuchk(double yr, double yi, ref int nz, double ascle, double tol)
             {
                 #region Description
 
@@ -5041,7 +5041,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zunhj(double zr, double zi, double fnu, int ipmtr, double tol, ref double phir, ref double phii, ref double argr, ref double argi, ref double zeta1r, ref double zeta1i, ref double zeta2r, ref double zeta2i, ref double asumr, ref double asumi, ref double bsumr, ref double bsumi)
+            static int zunhj(double zr, double zi, double fnu, int ipmtr, double tol, ref double phir, ref double phii, ref double argr, ref double argi, ref double zeta1r, ref double zeta1i, ref double zeta2r, ref double zeta2i, ref double asumr, ref double asumi, ref double bsumr, ref double bsumi)
             {
                 #region Description
 
@@ -5655,7 +5655,7 @@ namespace MathNet.Numerics
                 goto L120;
             }
 
-            private static int zuni1(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, ref int nlast, double fnul, double tol, double elim, double alim)
+            static int zuni1(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, ref int nlast, double fnul, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -5893,7 +5893,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zuni2(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, ref int nlast, double fnul, double tol, double elim, double alim)
+            static int zuni2(double zr, double zi, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, ref int nlast, double fnul, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -6174,7 +6174,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zunik(double zrr, double zri, double fnu, int ikflg, int ipmtr, double tol, ref int init, ref double phir, ref double phii, ref double zeta1r, ref double zeta1i, ref double zeta2r, ref double zeta2i, ref double sumr, ref double sumi, ref double[] cwrkr, ref double[] cwrki)
+            static int zunik(double zrr, double zri, double fnu, int ikflg, int ipmtr, double tol, ref int init, ref double phir, ref double phii, ref double zeta1r, ref double zeta1i, ref double zeta2r, ref double zeta2i, ref double sumr, ref double sumi, ref double[] cwrkr, ref double[] cwrki)
             {
                 #region Description
 
@@ -6363,7 +6363,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zunk1(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
+            static int zunk1(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -6836,7 +6836,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zunk2(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
+            static int zunk2(double zr, double zi, double fnu, int kode, int mr, int n, double[] yr, double[] yi, ref int nz, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -7370,7 +7370,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zuoik(double zr, double zi, double fnu, int kode, int ikflg, int n, double[] yr, double[] yi, ref int nuf, double tol, double elim, double alim)
+            static int zuoik(double zr, double zi, double fnu, int kode, int ikflg, int n, double[] yr, double[] yi, ref int nuf, double tol, double elim, double alim)
             {
                 #region Description
 
@@ -7570,7 +7570,7 @@ namespace MathNet.Numerics
                 return 0;
             }
 
-            private static int zwrsk(double zrr, double zri, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double[] cwr, double[] cwi, double tol, double elim, double alim)
+            static int zwrsk(double zrr, double zri, double fnu, int kode, int n, double[] yr, double[] yi, ref int nz, double[] cwr, double[] cwi, double tol, double elim, double alim)
             {
                 #region Description
 
