@@ -23,7 +23,7 @@
     <ProjectGuid>{C0B0DBA9-7FB0-4C87-BDB1-3EED19DC2B8F}</ProjectGuid>
     <RootNamespace>MKLWrapper</RootNamespace>
     <ProjectName>MKL</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <PlatformToolset>v142</PlatformToolset>
     <TargetName>MathNet.Numerics.MKL</TargetName>
@@ -33,30 +33,26 @@
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <UseIntelMKL>Parallel</UseIntelMKL>
+    <UseInteloneMKL>Parallel</UseInteloneMKL>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <CharacterSet>MultiByte</CharacterSet>
     <UseIntelMKL>Parallel</UseIntelMKL>
+    <UseInteloneMKL>Parallel</UseInteloneMKL>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <UseIntelMKL>Parallel</UseIntelMKL>
+    <UseInteloneMKL>Parallel</UseInteloneMKL>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <CharacterSet>MultiByte</CharacterSet>
     <UseIntelMKL>Parallel</UseIntelMKL>
+    <UseInteloneMKL>Parallel</UseInteloneMKL>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  <PropertyGroup>
-    <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <IntelRedistDir>$(INTEL_DEV_REDIST)</IntelRedistDir>
-    <IntelRedistDir Condition="'$(IntelRedistDir)' == ''">$(MKLProductDir)</IntelRedistDir>
-    <IntelIncludePaths>$(MKLIncludeDir);$(ICPP_COMPILER20)\mkl\include\;$(ICPP_COMPILER20)\mkl\include\fftw\;$(ICPP_COMPILER20)\compiler\include\</IntelIncludePaths>
-    <IntelLib32Paths>$(MKLLibDir)\;$(OmpLibDir)\;$(ICPP_COMPILER20)mkl\lib;$(ICPP_COMPILER20)mkl\lib\ia32_win;$(ICPP_COMPILER20)compiler\lib;$(ICPP_COMPILER20)compiler\lib\ia32_win</IntelLib32Paths>
-    <IntelLib64Paths>$(MKLLibDir)\;$(OmpLibDir)\;$(ICPP_COMPILER20)mkl\lib;$(ICPP_COMPILER20)mkl\lib\intel64_win;$(ICPP_COMPILER20)compiler\lib;$(ICPP_COMPILER20)compiler\lib\intel64_win</IntelLib64Paths>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)..\..\..\..\out\MKL\Windows\x86\</OutDir>
     <IncludePath>$(ProjectDir)..\..\Common;$(ProjectDir)..\..\MKL;$(IntelIncludePaths);$(IncludePath)</IncludePath>
@@ -82,7 +78,6 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
@@ -98,7 +93,7 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(IntelRedistDir)redist\ia32_win\compiler\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(CompilerPath)\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -109,7 +104,6 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(IncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
@@ -125,7 +119,7 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(IntelRedistDir)redist\intel64_win\compiler\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(CompilerPath)\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -154,7 +148,7 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(IntelRedistDir)redist\ia32_win\compiler\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(CompilerPath)\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -186,7 +180,7 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(IntelRedistDir)redist\intel64_win\compiler\libiomp5md.dll" $(OutputPath)</Command>
+      <Command>copy "$(CompilerPath)\libiomp5md.dll" $(OutputPath)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
