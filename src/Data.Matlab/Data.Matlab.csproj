@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFrameworks>net5.0;net40;net461;netstandard2.0</TargetFrameworks>
+        <AssemblyName>MathNet.Numerics.Data.Matlab</AssemblyName>
+        <RootNamespace>MathNet.Numerics.Data.Matlab</RootNamespace>
+        <IsPackable>true</IsPackable>
+        <PackageId>MathNet.Numerics.Data.Matlab$(PackageIdSuffix)</PackageId>
+        <VersionPrefix>4.15.0</VersionPrefix>
+        <VersionSuffix></VersionSuffix>
+        <Title>Math.NET Numerics - MATLAB Data I/O Extensions$(TitleSuffix)</Title>
+        <Description>MathWorks MATLAB Data Input/Output Extensions for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>
+        <PackageReleaseNotes>Precision: Round (with integer part rounding) ~Jon Larborn
+Precision: RoundToMultiple, RoundToPower
+F#: BigRational.FromDecimal ~Brian Berns</PackageReleaseNotes>
+        <PackageTags>math numeric data matlab</PackageTags>
+        <IsTool>false</IsTool>
+        <RepositoryUrl>https://github.com/mathnet/mathnet-numerics</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <NeutralLanguage>en</NeutralLanguage>
+        <NoPackageAnalysis>false</NoPackageAnalysis>
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+        <NoWarn>1701;1702;1705;1591;1573</NoWarn>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Numerics\Numerics.csproj" />
+    </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Numerics" />
+        <Reference Include="System.Runtime.Serialization" />
+    </ItemGroup>
+    <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

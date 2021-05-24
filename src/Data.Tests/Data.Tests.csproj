@@ -1,30 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <GenerateProgramFile>false</GenerateProgramFile>
-    <TargetFrameworks>net5.0;net48</TargetFrameworks>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AssemblyName>MathNet.Numerics.Data.Tests</AssemblyName>
-    <RootNamespace>MathNet.Numerics.Data.Tests</RootNamespace>
-    <IsPackable>false</IsPackable>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-  </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Data\Matlab\Matlab.csproj" />
-    <ProjectReference Include="..\Data\Text\Text.csproj" />
-    <ProjectReference Include="..\TestData\TestData.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
-  </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <GenerateProgramFile>false</GenerateProgramFile>
+        <TargetFrameworks>net5.0;net48</TargetFrameworks>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AssemblyName>MathNet.Numerics.Data.Tests</AssemblyName>
+        <RootNamespace>MathNet.Numerics.Data.Tests</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    </PropertyGroup>
+    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Numerics" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Runtime.Serialization" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Numerics\Numerics.csproj" />
+        <ProjectReference Include="..\Data.Matlab\Data.Matlab.csproj" />
+        <ProjectReference Include="..\Data.Text\Data.Text.csproj" />
+        <ProjectReference Include="..\TestData\TestData.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+    </ItemGroup>
+    <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

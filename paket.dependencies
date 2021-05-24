@@ -16,9 +16,6 @@ nuget NUnit3TestAdapter framework:net48,net5.0
 // Benchmarks
 nuget BenchmarkDotNet lowest_matching, strategy:min, framework:net5.0,net48
 
-// Data
-nuget MathNet.Numerics 4.12.0
-
 nuget Microsoft.NETFramework.ReferenceAssemblies copy_local:true, framework:net48,net461,net40
 nuget NETStandard.Library lowest_matching, strategy:min, framework:netstandard2.0
 

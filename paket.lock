@@ -26,7 +26,6 @@ NUGET
       NETStandard.Library (>= 2.0.3) - restriction: || (&& (== net40) (== net48)) (&& (== net40) (>= netstandard2.0)) (&& (== net461) (< net46) (>= netstandard2.0)) (&& (== net48) (< net46)) (== net50) (== netstandard2.0)
       NUnit (>= 3.12 < 4.0) - restriction: || (&& (== net40) (>= net46)) (&& (== net40) (>= netstandard2.0)) (== net461) (== net48) (== net50) (== netstandard2.0)
     Iced (1.4) - restriction: || (== net48) (== net50)
-    MathNet.Numerics (4.12)
     Microsoft.CodeAnalysis.Analyzers (2.6.1) - restriction: || (== net48) (== net50)
     Microsoft.CodeAnalysis.Common (2.10) - restriction: || (== net48) (== net50)
       Microsoft.CodeAnalysis.Analyzers (>= 2.6.1) - restriction: || (&& (== net40) (>= netstandard1.3)) (== net461) (== net48) (== net50) (== netstandard2.0)

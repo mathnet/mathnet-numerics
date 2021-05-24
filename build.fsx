@@ -37,8 +37,7 @@ let numericsRelease = release "numerics" "Math.NET Numerics" "RELEASENOTES.md"
 let mklRelease = release "numerics" "MKL Provider" "RELEASENOTES-MKL.md"
 let cudaRelease = release "numerics" "CUDA Provider" "RELEASENOTES-CUDA.md"
 let openBlasRelease = release "numerics" "OpenBLAS Provider" "RELEASENOTES-OpenBLAS.md"
-let dataRelease = release "numerics" "Data Extensions" "RELEASENOTES-Data.md"
-let releases = [ numericsRelease; mklRelease; openBlasRelease; dataRelease ] // skip cuda
+let releases = [ numericsRelease; mklRelease; openBlasRelease ] // skip cuda
 traceHeader releases
 
 
@@ -54,28 +53,19 @@ let numericsFSharpStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.FSharp
 let numericsProvidersMklNuGetPackage = nugetPackage "MathNet.Numerics.Providers.MKL" numericsRelease
 let numericsProvidersOpenBlasNuGetPackage = nugetPackage "MathNet.Numerics.Providers.OpenBLAS" numericsRelease
 let numericsProvidersCudaNuGetPackage = nugetPackage "MathNet.Numerics.Providers.CUDA" numericsRelease
+let numericsDataTextNuGetPackage = nugetPackage "MathNet.Numerics.Data.Text" numericsRelease
+let numericsDataMatlabNuGetPackage = nugetPackage "MathNet.Numerics.Data.Matlab" numericsRelease
+let numericsDataTextStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Data.Text.Signed" numericsRelease
+let numericsDataMatlabStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Data.Matlab.Signed" numericsRelease
 
 let numericsProject = project "MathNet.Numerics" "src/Numerics/Numerics.csproj" [numericsNuGetPackage; numericsStrongNameNuGetPackage]
 let numericsFsharpProject = project "MathNet.Numerics.FSharp" "src/FSharp/FSharp.fsproj" [numericsFSharpNuGetPackage; numericsFSharpStrongNameNuGetPackage]
 let numericsProvidersMklProject = project "MathNet.Numerics.Providers.MKL" "src/Providers.MKL/Providers.MKL.csproj" [numericsProvidersMklNuGetPackage]
 let numericsProvidersOpenBlasProject = project "MathNet.Numerics.Providers.OpenBLAS" "src/Providers.OpenBLAS/Providers.OpenBLAS.csproj" [numericsProvidersOpenBlasNuGetPackage]
 let numericsProvidersCudaProject = project "MathNet.Numerics.Providers.CUDA" "src/Providers.CUDA/Providers.CUDA.csproj" [numericsProvidersCudaNuGetPackage]
-let numericsSolution = solution "Numerics" "MathNet.Numerics.sln" [numericsProject; numericsFsharpProject; numericsProvidersMklProject; numericsProvidersOpenBlasProject; numericsProvidersCudaProject] [numericsZipPackage; numericsStrongNameZipPackage]
-
-
-// DATA EXTENSION PACKAGES
-
-let dataZipPackage = zipPackage "MathNet.Numerics.Data" "Math.NET Numerics Data Extensions" dataRelease
-let dataStrongNameZipPackage = zipPackage "MathNet.Numerics.Data.Signed" "Math.NET Numerics Data Extensions" dataRelease
-
-let dataTextNuGetPackage = nugetPackage "MathNet.Numerics.Data.Text" dataRelease
-let dataMatlabNuGetPackage = nugetPackage "MathNet.Numerics.Data.Matlab" dataRelease
-let dataTextStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Data.Text.Signed" dataRelease
-let dataMatlabStrongNameNuGetPackage = nugetPackage "MathNet.Numerics.Data.Matlab.Signed" dataRelease
-
-let dataTextProject = project "MathNet.Numerics.Data.Text" "src/Data/Text/Text.csproj" [dataTextNuGetPackage; dataTextStrongNameNuGetPackage]
-let dataMatlabProject = project "MathNet.Numerics.Data.Matlab" "src/Data/Matlab/Matlab.csproj" [dataMatlabNuGetPackage; dataMatlabStrongNameNuGetPackage]
-let dataSolution = solution "Data" "MathNet.Numerics.Data.sln" [dataTextProject; dataMatlabProject] [dataZipPackage; dataStrongNameZipPackage]
+let numericsDataTextProject = project "MathNet.Numerics.Data.Text" "src/Data.Text/Data.Text.csproj" [numericsDataTextNuGetPackage; numericsDataTextStrongNameNuGetPackage]
+let numericsDataMatlabProject = project "MathNet.Numerics.Data.Matlab" "src/Data.Matlab/Data.Matlab.csproj" [numericsDataMatlabNuGetPackage; numericsDataMatlabStrongNameNuGetPackage]
+let numericsSolution = solution "Numerics" "MathNet.Numerics.sln" [numericsProject; numericsFsharpProject; numericsProvidersMklProject; numericsProvidersOpenBlasProject; numericsProvidersCudaProject; numericsDataTextProject; numericsDataMatlabProject] [numericsZipPackage; numericsStrongNameZipPackage]
 
 
 // MKL NATIVE PROVIDER PACKAGES
@@ -155,7 +145,7 @@ let openBlasWinPack =
 
 // ALL
 
-let allSolutions = [numericsSolution; dataSolution]
+let allSolutions = [numericsSolution]
 let allProjects = allSolutions |> List.collect (fun s -> s.Projects) |> List.distinct
 
 
@@ -177,7 +167,7 @@ Target "ApplyVersion" (fun _ ->
     patchVersionInAssemblyInfo "src/TestData" numericsRelease
     patchVersionInAssemblyInfo "src/Numerics.Tests" numericsRelease
     patchVersionInAssemblyInfo "src/FSharp.Tests" numericsRelease
-    patchVersionInAssemblyInfo "src/Data.Tests" dataRelease
+    patchVersionInAssemblyInfo "src/Data.Tests" numericsRelease
     patchVersionInResource "src/NativeProviders/MKL/resource.rc" mklRelease
     patchVersionInResource "src/NativeProviders/CUDA/resource.rc" cudaRelease
     patchVersionInResource "src/NativeProviders/OpenBLAS/resource.rc" openBlasRelease)
@@ -231,39 +221,6 @@ Target "Build" (fun _ ->
 
     )
 "Prepare" ==> "Build"
-
-Target "DataBuild" (fun _ ->
-
-    // Strong Name Build (with strong name, without certificate signature)
-    if hasBuildParam "strongname" then
-        CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-        restoreStrong dataSolution
-        buildStrong dataSolution
-        if isWindows && hasBuildParam "sign" then sign fingerprint timeserver dataSolution
-        collectBinariesSN dataSolution
-        zip dataStrongNameZipPackage dataSolution.OutputZipDir dataSolution.OutputLibStrongNameDir (fun f -> f.Contains("MathNet.Numerics.Data."))
-        if isWindows then
-            packProjectStrong dataTextProject
-            packProjectStrong dataMatlabProject
-            collectNuGetPackages dataSolution
-
-    // Normal Build (without strong name, with certificate signature)
-    CleanDirs (!! "src/**/obj/" ++ "src/**/bin/" )
-    restoreWeak dataSolution
-    buildWeak dataSolution
-    if isWindows && hasBuildParam "sign" then sign fingerprint timeserver dataSolution
-    collectBinaries dataSolution
-    zip dataZipPackage dataSolution.OutputZipDir dataSolution.OutputLibDir (fun f -> f.Contains("MathNet.Numerics.Data."))
-    if isWindows then
-        packProjectWeak dataTextProject
-        packProjectWeak dataMatlabProject
-        collectNuGetPackages dataSolution
-
-    // NuGet Sign (all or nothing)
-    if isWindows && hasBuildParam "sign" then signNuGet fingerprint timeserver [dataSolution]
-
-    )
-"Prepare" ==> "DataBuild"
 
 Target "MklWinBuild" (fun _ ->
 
@@ -329,9 +286,16 @@ Target "TestFsharpNET50" (fun _ -> testFsharp "net5.0")
 Target "TestFsharpNET48" (fun _ -> testFsharp "net48")
 "Build" ==> "TestFsharpNET50" ==> "TestFsharp"
 "Build" =?> ("TestFsharpNET48", isWindows) ==> "TestFsharp"
+let testData framework = test "src/Data.Tests" "Data.Tests.csproj" framework
+Target "TestData" DoNothing
+Target "TestDataNET50" (fun _ -> testData "net5.0")
+Target "TestDataNET48" (fun _ -> testData "net48")
+"Build" ==> "TestDataNET50" ==> "TestData"
+"Build" =?> ("TestDataNET48", isWindows) ==> "TestData"
 Target "Test" DoNothing
 "TestNumerics" ==> "Test"
 "TestFsharp" ==> "Test"
+"TestData" ==> "Test"
 
 let testMKL framework = test "src/Numerics.Tests" "Numerics.Tests.MKL.csproj" framework
 Target "MklTest" DoNothing
@@ -353,13 +317,6 @@ Target "CudaTestNET50" (fun _ -> testCUDA "net5.0")
 Target "CudaTestNET48" (fun _ -> testCUDA "net48")
 "CudaWinBuild" ==> "CudaTestNET50" ==> "CudaTest"
 "CudaWinBuild" =?> ("CudaTestNET48", isWindows) ==> "CudaTest"
-
-let testData framework = test "src/Data.Tests" "Data.Tests.csproj" framework
-Target "DataTest" DoNothing
-Target "DataTestNET50" (fun _ -> testData "net5.0")
-Target "DataTestNET48" (fun _ -> testData "net48")
-"DataBuild" ==> "DataTestNET50" ==> "DataTest"
-"DataBuild" =?> ("DataTestNET48", isWindows) ==> "DataTest"
 
 
 // --------------------------------------------------------------------------------------
@@ -441,7 +398,6 @@ Target "Api" (fun _ ->
 // --------------------------------------------------------------------------------------
 
 Target "PublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics" "" numericsRelease)
-Target "DataPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics Data Extensions" "data-" dataRelease)
 Target "MklPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics MKL Provider" "mkl-" mklRelease)
 Target "CudaPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics CUDA Provider" "cuda-" cudaRelease)
 Target "OpenBlasPublishTag" (fun _ -> publishReleaseTag "Math.NET Numerics OpenBLAS Provider" "openblas-" openBlasRelease)
@@ -450,22 +406,17 @@ Target "PublishDocs" (fun _ -> publishDocs numericsRelease)
 Target "PublishApi" (fun _ -> publishApi numericsRelease)
 
 Target "PublishArchive" (fun _ -> publishArchives [numericsSolution])
-Target "DataPublishArchive" (fun _ -> publishArchives [dataSolution])
 Target "MklPublishArchive" (fun _ -> publishArchives [mklSolution])
 Target "CudaPublishArchive" (fun _ -> publishArchives [cudaSolution])
 Target "OpenBlasPublishArchive" (fun _ -> publishArchives [openBlasSolution])
 
 Target "PublishNuGet" (fun _ -> publishNuGet [numericsSolution])
-Target "DataPublishNuGet" (fun _ -> publishNuGet [dataSolution])
 Target "MklPublishNuGet" (fun _ -> publishNuGet [mklSolution])
 Target "CudaPublishNuGet" (fun _ -> publishNuGet [cudaSolution])
 Target "OpenBlasPublishNuGet" (fun _ -> publishNuGet [openBlasSolution])
 
 Target "Publish" DoNothing
 Dependencies "Publish" [ "PublishTag"; "PublishDocs"; "PublishApi"; "PublishArchive"; "PublishNuGet" ]
-
-Target "DataPublish" DoNothing
-Dependencies "DataPublish" [ "DataPublishTag"; "DataPublishArchive"; "DataPublishNuGet" ]
 
 Target "MklPublish" DoNothing
 Dependencies "MklPublish" [ "MklPublishTag"; "PublishDocs"; "MklPublishArchive"; "MklPublishNuGet" ]
@@ -483,9 +434,6 @@ Dependencies "OpenBlasPublish" [ "OpenBlasPublishTag"; "PublishDocs"; "OpenBlasP
 
 Target "All" DoNothing
 Dependencies "All" [ "Build"; "Docs"; "Api"; "Test" ]
-
-Target "DataAll" DoNothing
-Dependencies "DataAll" [ "DataBuild"; "DataTest" ]
 
 Target "MklWinAll" DoNothing
 Dependencies "MklWinAll" [ "MklWinBuild"; "MklTest" ]
