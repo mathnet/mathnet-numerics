@@ -123,9 +123,7 @@ namespace MathNet.Numerics.Data.Text
 
         public static Matrix<T> ReadMatrix<T>(TextReader reader) where T : struct, IEquatable<T>, IFormattable
         {
-            bool complex, sparse;
-            MatrixMarketSymmetry symmetry;
-            ExpectHeader(reader, true, out complex, out sparse, out symmetry);
+            ExpectHeader(reader, true, out var complex, out var sparse, out var symmetry);
 
             var parse = CreateValueParser<T>(complex);
 
@@ -200,9 +198,7 @@ namespace MathNet.Numerics.Data.Text
         public static Vector<T> ReadVector<T>(TextReader reader)
             where T : struct, IEquatable<T>, IFormattable
         {
-            bool complex, sparse;
-            MatrixMarketSymmetry symmetry;
-            ExpectHeader(reader, false, out complex, out sparse, out symmetry);
+            ExpectHeader(reader, false, out var complex, out var sparse, out _);
 
             var parse = CreateValueParser<T>(complex);
 

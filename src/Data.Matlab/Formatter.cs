@@ -105,17 +105,17 @@ namespace MathNet.Numerics.Data.Matlab
         {
             if (matrix == null)
             {
-                throw new ArgumentNullException("matrix");
+                throw new ArgumentNullException(nameof(matrix));
             }
 
             if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentException("String parameter cannot be empty or null.", "name");
+                throw new ArgumentException("String parameter cannot be empty or null.", nameof(name));
             }
 
             if (name.IndexOf(' ') > -1)
             {
-                throw new ArgumentException(string.Format("Name cannot contain a space.name:  {0}", name), "name");
+                throw new ArgumentException($"Name cannot contain a space.name: {name}", nameof(name));
             }
 
             var dataType = typeof(T);
@@ -167,7 +167,7 @@ namespace MathNet.Numerics.Data.Matlab
                 writer.Write((byte)(sparse ? ArrayClass.Sparse : doublePrecision ? ArrayClass.Double : ArrayClass.Single));
                 writer.Write((byte)(complex ? ArrayFlags.Complex : 0));
                 writer.Write((short)0);
-                writer.Write((int)sparseNonZeroValues);
+                writer.Write(sparseNonZeroValues);
 
                 // Dimensions Array tag: data type + size (8 bytes)
                 writer.Write((int)DataType.Int32);
@@ -178,11 +178,10 @@ namespace MathNet.Numerics.Data.Matlab
                 writer.Write(matrix.ColumnCount);
 
                 // Array Name:
-                bool smallBlock;
                 var nameBytes = Encoding.ASCII.GetBytes(name);
-                WriteElementTag(writer, DataType.Int8, nameBytes.Length, out smallBlock);
+                WriteElementTag(writer, DataType.Int8, nameBytes.Length, out var isSmallBlock);
                 writer.Write(nameBytes);
-                PadElement(writer, nameBytes.Length, smallBlock);
+                PadElement(writer, nameBytes.Length, isSmallBlock);
 
                 if (sparse)
                 {
@@ -203,9 +202,8 @@ namespace MathNet.Numerics.Data.Matlab
         {
             int count = matrix.RowCount*matrix.ColumnCount;
 
-            bool smallBlock;
             int size = doublePrecision ? count*8 : count*4;
-            WriteElementTag(writer, doublePrecision ? DataType.Double : DataType.Single, size, out smallBlock);
+            WriteElementTag(writer, doublePrecision ? DataType.Double : DataType.Single, size, out var isSmallBlock);
 
             var data = ((DenseColumnMajorMatrixStorage<T>)matrix.Storage).Data;
 
@@ -219,14 +217,14 @@ namespace MathNet.Numerics.Data.Matlab
             }
             else if (doublePrecision)
             {
-                WriteComplexArray(writer, (Complex[])(object)data, data.Length, size, ref smallBlock);
+                WriteComplexArray(writer, (Complex[])(object)data, data.Length, size, ref isSmallBlock);
             }
             else
             {
-                WriteComplex32Array(writer, (Complex32[])(object)data, data.Length, size, ref smallBlock);
+                WriteComplex32Array(writer, (Complex32[])(object)data, data.Length, size, ref isSmallBlock);
             }
 
-            PadElement(writer, size, smallBlock);
+            PadElement(writer, size, isSmallBlock);
         }
 
         static void WriteSparseMatrix<T>(BinaryWriter writer, Matrix<T> matrix, bool complex, bool doublePrecision)
@@ -235,32 +233,31 @@ namespace MathNet.Numerics.Data.Matlab
             var transposed = matrix.Transpose();
             var storage = (SparseCompressedRowMatrixStorage<T>)transposed.Storage;
 
-            bool smallBlock;
             int nzcount = storage.ValueCount;
 
             // row data array
             var ir = storage.ColumnIndices;
-            WriteElementTag(writer, DataType.Int32, nzcount*4, out smallBlock);
+            WriteElementTag(writer, DataType.Int32, nzcount*4, out var isSmallBlock);
             for (var i = 0; i < nzcount; i++)
             {
                 writer.Write(ir[i]);
             }
 
-            PadElement(writer, nzcount*4, smallBlock);
+            PadElement(writer, nzcount*4, isSmallBlock);
 
             // column data array
             var jc = storage.RowPointers;
-            WriteElementTag(writer, DataType.Int32, jc.Length*4, out smallBlock);
+            WriteElementTag(writer, DataType.Int32, jc.Length*4, out isSmallBlock);
             for (var i = 0; i < jc.Length; i++)
             {
                 writer.Write(jc[i]);
             }
 
-            PadElement(writer, jc.Length*4, smallBlock);
+            PadElement(writer, jc.Length*4, isSmallBlock);
 
             // values
             int size = doublePrecision ? nzcount*8 : nzcount*4;
-            WriteElementTag(writer, doublePrecision ? DataType.Double : DataType.Single, size, out smallBlock);
+            WriteElementTag(writer, doublePrecision ? DataType.Double : DataType.Single, size, out isSmallBlock);
 
             if (doublePrecision && !complex)
             {
@@ -272,14 +269,14 @@ namespace MathNet.Numerics.Data.Matlab
             }
             else if (doublePrecision)
             {
-                WriteComplexArray(writer, (Complex[])(object)storage.Values, nzcount, size, ref smallBlock);
+                WriteComplexArray(writer, (Complex[])(object)storage.Values, nzcount, size, ref isSmallBlock);
             }
             else
             {
-                WriteComplex32Array(writer, (Complex32[])(object)storage.Values, nzcount, size, ref smallBlock);
+                WriteComplex32Array(writer, (Complex32[])(object)storage.Values, nzcount, size, ref isSmallBlock);
             }
 
-            PadElement(writer, size, smallBlock);
+            PadElement(writer, size, isSmallBlock);
         }
 
         static void WriteDoubleArray(BinaryWriter writer, double[] data, int count)
@@ -348,7 +345,7 @@ namespace MathNet.Numerics.Data.Matlab
             }
         }
 
-        static void PadElement(BinaryWriter writer, int size, bool smallBlock, byte padValue = (byte)0)
+        static void PadElement(BinaryWriter writer, int size, bool smallBlock, byte padValue = 0)
         {
             var blockSize = smallBlock ? SmallBlockSize : LargeBlockSize;
             var offset = 0;
@@ -364,7 +361,7 @@ namespace MathNet.Numerics.Data.Matlab
             }
         }
 
-        static void Pad(BinaryWriter writer, int count, byte padValue = (byte)0)
+        static void Pad(BinaryWriter writer, int count, byte padValue = 0)
         {
             for (var i = 0; i < count; i++)
             {

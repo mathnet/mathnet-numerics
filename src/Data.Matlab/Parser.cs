@@ -89,10 +89,7 @@ namespace MathNet.Numerics.Data.Matlab
                     // small format: size (2 bytes), type (2 bytes), data (4 bytes)
                     // long format: type (4 bytes), size (4 bytes), data (size, aligned to 8 bytes)
 
-                    DataType type;
-                    int size;
-                    bool smallBlock;
-                    ReadElementTag(reader, out type, out size, out smallBlock);
+                    ReadElementTag(reader, out var type, out var size, out var isSmallBlock);
 
                     // read element data of the size provided in the element header
                     // uncompress if compressed
@@ -105,7 +102,7 @@ namespace MathNet.Numerics.Data.Matlab
                     {
                         data = new byte[size];
                         reader.Read(data, 0, size);
-                        SkipElementPadding(reader, size, smallBlock);
+                        SkipElementPadding(reader, size, isSmallBlock);
                     }
 
                     if (type == DataType.Matrix)
@@ -169,12 +166,9 @@ namespace MathNet.Numerics.Data.Matlab
                 var columns = reader.ReadInt32();
 
                 // Array name
-                DataType type;
-                int size;
-                bool smallBlock;
-                ReadElementTag(reader, out type, out size, out smallBlock);
+                ReadElementTag(reader, out _, out var size, out var isSmallBlock);
                 reader.BaseStream.Seek(size, SeekOrigin.Current);
-                SkipElementPadding(reader, size, smallBlock);
+                SkipElementPadding(reader, size, isSmallBlock);
 
                 // Data
                 switch (arrayClass)
@@ -209,12 +203,8 @@ namespace MathNet.Numerics.Data.Matlab
             var count = rows*columns;
             var data = new T[count];
 
-            DataType type;
-            int size;
-            bool smallBlock;
-
             // read real part array
-            ReadElementTag(reader, out type, out size, out smallBlock);
+            ReadElementTag(reader, out var type, out var size, out var isSmallBlock);
 
             // direct copy if possible
             if ((type == DataType.Double && dataType == typeof(double)) || (type == DataType.Single && dataType == typeof(float)))
@@ -241,18 +231,18 @@ namespace MathNet.Numerics.Data.Matlab
             }
             else if (dataType == typeof(Complex))
             {
-                PopulateComplexArray(reader, (Complex[])(object)data, complex, type, ref size, ref smallBlock);
+                PopulateComplexArray(reader, (Complex[])(object)data, complex, type, ref size, ref isSmallBlock);
             }
             else if (dataType == typeof(Complex32))
             {
-                PopulateComplex32Array(reader, (Complex32[])(object)data, complex, type, ref size, ref smallBlock);
+                PopulateComplex32Array(reader, (Complex32[])(object)data, complex, type, ref size, ref isSmallBlock);
             }
             else
             {
                 throw new NotSupportedException();
             }
 
-            SkipElementPadding(reader, size, smallBlock);
+            SkipElementPadding(reader, size, isSmallBlock);
             return Matrix<T>.Build.Dense(rows, columns, data);
         }
 
@@ -273,22 +263,18 @@ namespace MathNet.Numerics.Data.Matlab
             // MATLAB sparse matrices are actually stored as CSC, so just read the data and then transpose.
             var storage = matrix.Storage as SparseCompressedRowMatrixStorage<T>;
 
-            DataType type;
-            int size;
-            bool smallBlock;
-
             // populate the row data array
-            ReadElementTag(reader, out type, out size, out smallBlock);
+            ReadElementTag(reader, out var type, out var size, out var isSmallBlock);
             var ir = storage.ColumnIndices = new int[size/4];
             for (var i = 0; i < ir.Length; i++)
             {
                 ir[i] = reader.ReadInt32();
             }
 
-            SkipElementPadding(reader, size, smallBlock);
+            SkipElementPadding(reader, size, isSmallBlock);
 
             // populate the column data array
-            ReadElementTag(reader, out type, out size, out smallBlock);
+            ReadElementTag(reader, out type, out size, out isSmallBlock);
             var jc = storage.RowPointers;
             if (jc.Length != size/4)
             {
@@ -300,10 +286,10 @@ namespace MathNet.Numerics.Data.Matlab
                 jc[j] = reader.ReadInt32();
             }
 
-            SkipElementPadding(reader, size, smallBlock);
+            SkipElementPadding(reader, size, isSmallBlock);
 
             // populate the values
-            ReadElementTag(reader, out type, out size, out smallBlock);
+            ReadElementTag(reader, out type, out size, out isSmallBlock);
             var dataType = typeof(T);
             var data = storage.Values = new T[jc[columns]];
 
@@ -327,18 +313,18 @@ namespace MathNet.Numerics.Data.Matlab
             }
             else if (dataType == typeof(Complex))
             {
-                PopulateComplexArray(reader, (Complex[])(object)data, complex, type, ref size, ref smallBlock);
+                PopulateComplexArray(reader, (Complex[])(object)data, complex, type, ref size, ref isSmallBlock);
             }
             else if (dataType == typeof(Complex32))
             {
-                PopulateComplex32Array(reader, (Complex32[])(object)data, complex, type, ref size, ref smallBlock);
+                PopulateComplex32Array(reader, (Complex32[])(object)data, complex, type, ref size, ref isSmallBlock);
             }
             else
             {
                 throw new NotSupportedException();
             }
 
-            SkipElementPadding(reader, size, smallBlock);
+            SkipElementPadding(reader, size, isSmallBlock);
             return matrix.Transpose();
         }
 

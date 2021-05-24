@@ -59,12 +59,12 @@ namespace MathNet.Numerics.Data.Text
         {
             if (matrix == null)
             {
-                throw new ArgumentNullException("matrix");
+                throw new ArgumentNullException(nameof(matrix));
             }
 
             if (writer == null)
             {
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
             }
 
             if (columnHeaders != null && columnHeaders.Count > 0)
