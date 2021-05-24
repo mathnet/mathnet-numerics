@@ -212,7 +212,7 @@ namespace MathNet.Numerics.Distributions
         static double AdjustAddend(double scale, double skew, double p)
         {
             return (Math.Pow(2.0, 2.0 / p) * scale * skew * SpecialFunctions.Gamma(1.0 / 2.0 + 1.0 / p)) /
-                Math.Sqrt(Constants.Pi);
+                Constants.SqrtPi;
         }
 
         public static double PDF(double location, double scale, double skew, double p, double x)

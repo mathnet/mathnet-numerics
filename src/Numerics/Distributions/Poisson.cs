@@ -133,7 +133,7 @@ namespace MathNet.Numerics.Distributions
         /// Gets the entropy of the distribution.
         /// </summary>
         /// <remarks>Approximation, see Wikipedia <a href="http://en.wikipedia.org/wiki/Poisson_distribution">Poisson distribution</a></remarks>
-        public double Entropy => (0.5*Math.Log(2*Constants.Pi*Constants.E*_lambda)) - (1.0/(12.0*_lambda)) - (1.0/(24.0*_lambda*_lambda)) - (19.0/(360.0*_lambda*_lambda*_lambda));
+        public double Entropy => (0.5*Math.Log(Constants.Pi2*Constants.E*_lambda)) - (1.0/(12.0*_lambda)) - (1.0/(24.0*_lambda*_lambda)) - (19.0/(360.0*_lambda*_lambda*_lambda));
 
         /// <summary>
         /// Gets the skewness of the distribution.

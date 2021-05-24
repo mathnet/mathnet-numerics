@@ -94,8 +94,8 @@ namespace MathNet.Numerics.RootFinding
                 // 3 real roots, use eqn (70)-(73) to calculate the real roots
                 double theta = Math.Acos(R/Math.Sqrt(-Q3));
                 x1 = 2d*Math.Sqrt(-Q)*Math.Cos(theta/3.0) + shift;
-                x2 = 2d*Math.Sqrt(-Q)*Math.Cos((theta + 2.0*Constants.Pi)/3d) + shift;
-                x3 = 2d*Math.Sqrt(-Q)*Math.Cos((theta - 2.0*Constants.Pi)/3d) + shift;
+                x2 = 2d*Math.Sqrt(-Q)*Math.Cos((theta + Constants.Pi2)/3d) + shift;
+                x3 = 2d*Math.Sqrt(-Q)*Math.Cos((theta - Constants.Pi2)/3d) + shift;
             }
 
             return new Tuple<double, double, double>(x1, x2, x3);

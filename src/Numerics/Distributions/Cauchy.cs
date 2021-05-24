@@ -203,7 +203,7 @@ namespace MathNet.Numerics.Distributions
         /// <seealso cref="CDF"/>
         public double CumulativeDistribution(double x)
         {
-            return ((1.0/Constants.Pi)*Math.Atan((x - _location)/_scale)) + 0.5;
+            return Constants.InvPi*Math.Atan((x - _location)/_scale) + 0.5;
         }
 
         /// <summary>

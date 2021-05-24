@@ -92,7 +92,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             var tol = 1e-14;
             var n = 10;
             // make some dummy data
-            var a = Generate.LinearSpacedMap(n, 0, 2*Constants.Pi, Math.Sin);
+            var a = Generate.LinearSpacedMap(n, 0, Constants.Pi2, Math.Sin);
 
             var idxs = new int[] { 2, 1, 7 };
 
