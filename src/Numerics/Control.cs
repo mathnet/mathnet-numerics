@@ -28,14 +28,20 @@
 // </copyright>
 
 using System;
-using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics.Providers.SparseSolver;
 using MathNet.Numerics.Providers.FourierTransform;
 using MathNet.Numerics.Providers.LinearAlgebra;
+
+#if NET40
+using System.Linq;
+#endif
+
+#if !NET40 && !NET461
+using System.Runtime.InteropServices;
+#endif
 
 namespace MathNet.Numerics
 {
@@ -346,6 +352,17 @@ namespace MathNet.Numerics
             sb.AppendLine($"Framework: {RuntimeInformation.FrameworkDescription}");
             sb.AppendLine($"Process Architecture: {RuntimeInformation.ProcessArchitecture}");
 #endif
+            var processorArchitecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
+            if (!String.IsNullOrEmpty(processorArchitecture))
+            {
+                sb.AppendLine($"Processor Architecture: {processorArchitecture}");
+            }
+            var processorId = Environment.GetEnvironmentVariable("PROCESSOR_IDENTIFIER");
+            if (!String.IsNullOrEmpty(processorId))
+            {
+                sb.AppendLine($"Processor Identifier: {processorId}");
+            }
+
             return sb.ToString();
         }
     }
