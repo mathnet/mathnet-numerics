@@ -18,7 +18,7 @@ module FitTests =
         let y = x |> Array.map f
 
         // LeastSquares.FitToLine(x,y)
-        let a, b = Fit.line x y
+        let struct (a, b) = Fit.line x y
         a |> should (equalWithin 1.0e-12) 4.0
         b |> should (equalWithin 1.0e-12) -1.5
 
@@ -35,7 +35,7 @@ module FitTests =
         let y = [| 4.986; 2.347; 2.061; -2.995; -2.352; -5.782 |]
 
         // LeastSquares.FitToLinearCombination(x, y, (fun z -> 1.0), (fun z -> Math.Sin(z)), (fun z -> Math.Cos(z)))
-        let [a;b;c] = (x,y) ||> Fit.linear [(fun _ -> 1.0); (Math.Sin); (Math.Cos)]
+        let [a;b;c] = (x,y) ||> Fit.linear [(fun _ -> 1.0); Math.Sin; Math.Cos]
         a |> should (equalWithin 1.0e-4) -0.287476
         b |> should (equalWithin 1.0e-4) 4.02159
         c |> should (equalWithin 1.0e-4) -1.46962

@@ -530,7 +530,7 @@ namespace MathNet.Numerics.Integration.GaussRule
         /// <summary>
         /// Return value and derivative of a Legendre series at given points.
         /// </summary>
-        static Tuple<double, double> LegendreSeries(double[] a, double x)
+        static (double, double) LegendreSeries(double[] a, double x)
         {
             // S = a[0]*P[0, x] + ... + a[k]*P[k, x] + ... + a[n]*P[n, x]
             // where P[k, x] is the Legendre polynomial of order k
@@ -548,9 +548,9 @@ namespace MathNet.Numerics.Integration.GaussRule
             // b'[k, x] = (2k + 1)/(k + 1)*b[k + 1, x] + (2k + 1)/(k + 1)*x*b'[k + 1, x] - (k + 1)/(k + 2)*b'[k + 2, x]
 
             if (a.Length == 1)
-                return new Tuple<double, double>(a[0], 0);
+                return (a[0], 0);
             if (a.Length == 2)
-                return new Tuple<double, double>(a[0] + a[1] * x, a[1]);
+                return (a[0] + a[1] * x, a[1]);
 
             double b0 = 0.0, b1 = 0.0, b2 = 0.0;
             double p0 = 0.0, p1 = 0.0, p2 = 0.0;
@@ -568,14 +568,13 @@ namespace MathNet.Numerics.Integration.GaussRule
 
             var value = a[0] + b1 * x - 0.5 * b2;
             var derivative = b1 + p1 * x - 0.5 * p2;
-
-            return new Tuple<double, double>( value, derivative );
+            return (value, derivative);
         }
 
         /// <summary>
         /// Return value and derivative of a Legendre polynomial of order at given points.
         /// </summary>
-        static Tuple<double, double> LegendreP(int order, double x)
+        static (double, double) LegendreP(int order, double x)
         {
             // The Legendre polynomial, P[n, x], is defined by the recurrence relation:
             //
@@ -590,9 +589,9 @@ namespace MathNet.Numerics.Integration.GaussRule
             //                        = (2 * n + 1) * (P[n, x] + x * P'[n, x]) - n * P'[n - 1, x]
 
             if (order == 0)
-                return new Tuple<double, double>(1.0, 0.0);
+                return (1.0, 0.0);
             if (order == 1)
-                return new Tuple<double, double>(x, 1.0);
+                return (x, 1.0);
 
             double b0 = 0.0, b1 = 1.0, b2 = 0.0;
             double p0 = 0.0, p1 = 0.0, p2 = 0.0;
@@ -610,8 +609,7 @@ namespace MathNet.Numerics.Integration.GaussRule
 
             var value = b0;
             var derivative = p0;
-
-            return new Tuple<double, double>(value, derivative);
+            return (value, derivative);
         }
     }
 }

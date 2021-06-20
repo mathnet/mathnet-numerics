@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// Objective function where the Gradient is available. Greedy evaluation.
         /// </summary>
-        public static IObjectiveFunction Gradient(Func<Vector<double>, Tuple<double, Vector<double>>> function)
+        public static IObjectiveFunction Gradient(Func<Vector<double>, (double, Vector<double>)> function)
         {
             return new GradientObjectiveFunction(function);
         }
@@ -62,7 +62,7 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// Objective function where the Hessian is available. Greedy evaluation.
         /// </summary>
-        public static IObjectiveFunction Hessian(Func<Vector<double>, Tuple<double, Matrix<double>>> function)
+        public static IObjectiveFunction Hessian(Func<Vector<double>, (double, Matrix<double>)> function)
         {
             return new HessianObjectiveFunction(function);
         }
@@ -78,7 +78,7 @@ namespace MathNet.Numerics.Optimization
         /// <summary>
         /// Objective function where both Gradient and Hessian are available. Greedy evaluation.
         /// </summary>
-        public static IObjectiveFunction GradientHessian(Func<Vector<double>, Tuple<double, Vector<double>, Matrix<double>>> function)
+        public static IObjectiveFunction GradientHessian(Func<Vector<double>, (double, Vector<double>, Matrix<double>)> function)
         {
             return new GradientHessianObjectiveFunction(function);
         }

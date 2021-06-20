@@ -41,7 +41,7 @@ namespace MathNet.Numerics.LinearRegression
         /// </summary>
         /// <param name="x">Predictor (independent)</param>
         /// <param name="y">Response (dependent)</param>
-        public static Tuple<double, double> Fit(double[] x, double[] y)
+        public static (double A, double B) Fit(double[] x, double[] y)
         {
             if (x.Length != y.Length)
             {
@@ -76,7 +76,7 @@ namespace MathNet.Numerics.LinearRegression
             }
 
             var b = covariance/variance;
-            return new Tuple<double, double>(my - b*mx, b);
+            return (my - b*mx, b);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace MathNet.Numerics.LinearRegression
         /// where a is the intercept and b the slope.
         /// </summary>
         /// <param name="samples">Predictor-Response samples as tuples</param>
-        public static Tuple<double, double> Fit(IEnumerable<Tuple<double, double>> samples)
+        public static (double A, double B) Fit(IEnumerable<Tuple<double, double>> samples)
         {
             var xy = samples.UnpackSinglePass();
             return Fit(xy.Item1, xy.Item2);

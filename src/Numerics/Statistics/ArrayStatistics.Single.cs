@@ -271,9 +271,9 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN and NaN for variance if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample array, no sorting is assumed.</param>
-        public static Tuple<double, double> MeanVariance(float[] samples)
+        public static (double Mean, double Variance) MeanVariance(float[] samples)
         {
-            return new Tuple<double, double>(Mean(samples), Variance(samples));
+            return (Mean(samples), Variance(samples));
         }
 
         /// <summary>
@@ -282,9 +282,9 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN and NaN for standard deviation if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample array, no sorting is assumed.</param>
-        public static Tuple<double, double> MeanStandardDeviation(float[] samples)
+        public static (double Mean, double StandardDeviation) MeanStandardDeviation(float[] samples)
         {
-            return new Tuple<double, double>(Mean(samples), StandardDeviation(samples));
+            return (Mean(samples), StandardDeviation(samples));
         }
 
         /// <summary>

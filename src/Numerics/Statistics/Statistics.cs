@@ -561,7 +561,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="samples">The data to calculate the mean of.</param>
         /// <returns>The mean of the sample.</returns>
-        public static Tuple<double, double> MeanVariance(this IEnumerable<double> samples)
+        public static (double Mean, double Variance) MeanVariance(this IEnumerable<double> samples)
         {
             return samples is double[] array
                 ? ArrayStatistics.MeanVariance(array)
@@ -575,7 +575,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="samples">The data to calculate the mean of.</param>
         /// <returns>The mean of the sample.</returns>
-        public static Tuple<double, double> MeanVariance(this IEnumerable<float> samples)
+        public static (double Mean, double Variance) MeanVariance(this IEnumerable<float> samples)
         {
             return samples is float[] array
                 ? ArrayStatistics.MeanVariance(array)
@@ -589,7 +589,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="samples">The data to calculate the mean of.</param>
         /// <returns>The mean of the sample.</returns>
-        public static Tuple<double, double> MeanStandardDeviation(this IEnumerable<double> samples)
+        public static (double Mean, double StandardDeviation) MeanStandardDeviation(this IEnumerable<double> samples)
         {
             return samples is double[] array
                 ? ArrayStatistics.MeanStandardDeviation(array)
@@ -603,7 +603,7 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <param name="samples">The data to calculate the mean of.</param>
         /// <returns>The mean of the sample.</returns>
-        public static Tuple<double, double> MeanStandardDeviation(this IEnumerable<float> samples)
+        public static (double Mean, double StandardDeviation) MeanStandardDeviation(this IEnumerable<float> samples)
         {
             return samples is float[] array
                 ? ArrayStatistics.MeanStandardDeviation(array)
@@ -615,10 +615,10 @@ namespace MathNet.Numerics.Statistics
         /// Uses a normalizer (Bessel's correction; type 2).
         /// </summary>
         /// <param name="samples">A subset of samples, sampled from the full population.</param>
-        public static Tuple<double, double> SkewnessKurtosis(this IEnumerable<double> samples)
+        public static (double Skewness, double Kurtosis) SkewnessKurtosis(this IEnumerable<double> samples)
         {
             var stats = new RunningStatistics(samples);
-            return new Tuple<double, double>(stats.Skewness, stats.Kurtosis);
+            return (stats.Skewness, stats.Kurtosis);
         }
 
         /// <summary>
@@ -626,10 +626,10 @@ namespace MathNet.Numerics.Statistics
         /// Does not use a normalizer and would thus be biased if applied to a subset (type 1).
         /// </summary>
         /// <param name="population">The full population data.</param>
-        public static Tuple<double, double> PopulationSkewnessKurtosis(this IEnumerable<double> population)
+        public static (double Skewness, double Kurtosis) PopulationSkewnessKurtosis(this IEnumerable<double> population)
         {
             var stats = new RunningStatistics(population);
-            return new Tuple<double, double>(stats.PopulationSkewness, stats.PopulationKurtosis);
+            return (stats.PopulationSkewness, stats.PopulationKurtosis);
         }
 
         /// <summary>

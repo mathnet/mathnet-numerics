@@ -171,9 +171,9 @@ namespace MathNet.Numerics.RootFinding
         static bool TryScanForCrossingsWithRoots(Func<double, double> f, Func<double, double> df, double lowerBound, double upperBound, double accuracy, int maxIterations, int subdivision, out double root)
         {
             var zeroCrossings = ZeroCrossingBracketing.FindIntervalsWithin(f, lowerBound, upperBound, subdivision);
-            foreach (Tuple<double, double> bounds in zeroCrossings)
+            foreach ((double lower, double upper) in zeroCrossings)
             {
-                if (TryFindRoot(f, df, bounds.Item1, bounds.Item2, accuracy, maxIterations, subdivision, out root))
+                if (TryFindRoot(f, df, lower, upper, accuracy, maxIterations, subdivision, out root))
                 {
                     return true;
                 }

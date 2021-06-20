@@ -573,7 +573,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for variance if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static Tuple<double, double> MeanVariance(IEnumerable<double> samples)
+        public static (double Mean, double Variance) MeanVariance(IEnumerable<double> samples)
         {
             double mean = 0;
             double variance = 0;
@@ -599,9 +599,7 @@ namespace MathNet.Numerics.Statistics
                 }
             }
 
-            return new Tuple<double, double>(
-                count > 0 ? mean : double.NaN,
-                count > 1 ? variance/(count - 1) : double.NaN);
+            return (count > 0 ? mean : double.NaN, count > 1 ? variance/(count - 1) : double.NaN);
         }
 
         /// <summary>
@@ -610,7 +608,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for variance if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static Tuple<double, double> MeanVariance(IEnumerable<float> samples)
+        public static (double Mean, double Variance) MeanVariance(IEnumerable<float> samples)
         {
             return MeanVariance(samples.Select(x => (double)x));
         }
@@ -621,10 +619,10 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for standard deviation if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static Tuple<double, double> MeanStandardDeviation(IEnumerable<double> samples)
+        public static (double Mean, double StandardDeviation) MeanStandardDeviation(IEnumerable<double> samples)
         {
             var meanVariance = MeanVariance(samples);
-            return new Tuple<double, double>(meanVariance.Item1, Math.Sqrt(meanVariance.Item2));
+            return (meanVariance.Item1, Math.Sqrt(meanVariance.Item2));
         }
 
         /// <summary>
@@ -633,7 +631,7 @@ namespace MathNet.Numerics.Statistics
         /// Returns NaN for mean if data is empty or any entry is NaN, and NaN for standard deviation if data has less than two entries or if any entry is NaN.
         /// </summary>
         /// <param name="samples">Sample stream, no sorting is assumed.</param>
-        public static Tuple<double, double> MeanStandardDeviation(IEnumerable<float> samples)
+        public static (double Mean, double StandardDeviation) MeanStandardDeviation(IEnumerable<float> samples)
         {
             return MeanStandardDeviation(samples.Select(x => (double)x));
         }

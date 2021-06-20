@@ -446,7 +446,7 @@ namespace MathNet.Numerics
         ///     Thrown if <paramref name="maxNumbersBetween"/> is smaller than zero.
         /// </exception>
         /// <returns>Tuple of the bottom and top range ends.</returns>
-        public static Tuple<double, double> RangeOfMatchingFloatingPointNumbers(this double value, long maxNumbersBetween)
+        public static (double, double) RangeOfMatchingFloatingPointNumbers(this double value, long maxNumbersBetween)
         {
             // Make sure ulpDifference is non-negative
             if (maxNumbersBetween < 1)
@@ -458,13 +458,13 @@ namespace MathNet.Numerics
             // return the same infinity for the range.
             if (double.IsInfinity(value))
             {
-                return new Tuple<double, double>(value, value);
+                return (value, value);
             }
 
             // If the value is a NaN then the range is a NaN too.
             if (double.IsNaN(value))
             {
-                return new Tuple<double, double>(double.NaN, double.NaN);
+                return (double.NaN, double.NaN);
             }
 
             // Translate the bit pattern of the double to an integer.
@@ -498,7 +498,7 @@ namespace MathNet.Numerics
                     // However due to the conversion way this means that the actual double value gets more negative :-S
                     : BitConverter.Int64BitsToDouble(intValue + maxNumbersBetween);
 
-                return new Tuple<double, double>(bottomRangeEnd, topRangeEnd);
+                return (bottomRangeEnd, topRangeEnd);
             }
             else
             {
@@ -519,7 +519,7 @@ namespace MathNet.Numerics
                     // the reversal at the negative end
                     : BitConverter.Int64BitsToDouble(long.MinValue + (maxNumbersBetween - intValue));
 
-                return new Tuple<double, double>(bottomRangeEnd, topRangeEnd);
+                return (bottomRangeEnd, topRangeEnd);
             }
         }
 
@@ -565,7 +565,7 @@ namespace MathNet.Numerics
         /// Tuple with the number of ULPS between the <c>value</c> and the <c>value - relativeDifference</c> as first,
         /// and the number of ULPS between the <c>value</c> and the <c>value + relativeDifference</c> as second value.
         /// </returns>
-        public static Tuple<long, long> RangeOfMatchingNumbers(this double value, double relativeDifference)
+        public static (long, long) RangeOfMatchingNumbers(this double value, double relativeDifference)
         {
             // Make sure the relative is non-negative
             if (relativeDifference < 0)
@@ -591,7 +591,7 @@ namespace MathNet.Numerics
             if (value.Equals(0))
             {
                 var v = BitConverter.DoubleToInt64Bits(relativeDifference);
-                return new Tuple<long, long>(v, v);
+                return (v, v);
             }
 
             // Calculate the ulps for the maximum and minimum values
@@ -603,7 +603,7 @@ namespace MathNet.Numerics
             long intValue = AsDirectionalInt64(value);
 
             // Determine the ranges
-            return new Tuple<long, long>(Math.Abs(intValue - min), Math.Abs(max - intValue));
+            return (Math.Abs(intValue - min), Math.Abs(max - intValue));
         }
 
         /// <summary>

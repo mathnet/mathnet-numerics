@@ -265,11 +265,10 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 
         public IObjectiveFunction ToObjectiveFunction()
         {
-            Tuple<double, Vector<double>, Matrix<double>> Function(Vector<double> point)
+            (double, Vector<double>, Matrix<double>) Function(Vector<double> point)
             {
                 EvaluateAt(point);
-
-                return new Tuple<double, Vector<double>, Matrix<double>>(Value, Gradient, Hessian);
+                return (Value, Gradient, Hessian);
             }
 
             var objective = new GradientHessianObjectiveFunction(Function);

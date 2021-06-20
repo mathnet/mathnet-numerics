@@ -45,7 +45,7 @@ namespace MathNet.Numerics
         /// returning its best fitting parameters as [a, b] array,
         /// where a is the intercept and b the slope.
         /// </summary>
-        public static Tuple<double, double> Line(double[] x, double[] y)
+        public static (double A, double B) Line(double[] x, double[] y)
         {
             return SimpleRegression.Fit(x, y);
         }
@@ -85,12 +85,12 @@ namespace MathNet.Numerics
         /// Least-Squares fitting the points (x,y) to an exponential y : x -> a*exp(r*x),
         /// returning its best fitting parameters as (a, r) tuple.
         /// </summary>
-        public static Tuple<double, double> Exponential(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        public static (double A, double R) Exponential(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
             // Transformation: y_h := ln(y) ~> y_h : x -> ln(a) + r*x;
             double[] lny = Generate.Map(y, Math.Log);
             double[] p = LinearCombination(x, lny, method, t => 1.0, t => t);
-            return Tuple.Create(Math.Exp(p[0]), p[1]);
+            return (Math.Exp(p[0]), p[1]);
         }
 
         /// <summary>
@@ -109,11 +109,11 @@ namespace MathNet.Numerics
         /// Least-Squares fitting the points (x,y) to a logarithm y : x -> a + b*ln(x),
         /// returning its best fitting parameters as (a, b) tuple.
         /// </summary>
-        public static Tuple<double, double> Logarithm(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        public static (double A, double B) Logarithm(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
             double[] lnx = Generate.Map(x, Math.Log);
             double[] p = LinearCombination(lnx, y, method, t => 1.0, t => t);
-            return Tuple.Create(p[0], p[1]);
+            return (p[0], p[1]);
         }
 
         /// <summary>
@@ -132,12 +132,12 @@ namespace MathNet.Numerics
         /// Least-Squares fitting the points (x,y) to a power y : x -> a*x^b,
         /// returning its best fitting parameters as (a, b) tuple.
         /// </summary>
-        public static Tuple<double, double> Power(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
+        public static (double A, double B) Power(double[] x, double[] y, DirectRegressionMethod method = DirectRegressionMethod.QR)
         {
             // Transformation: y_h := ln(y) ~> y_h : x -> ln(a) + b*ln(x);
             double[] lny = Generate.Map(y, Math.Log);
             double[] p = LinearCombination(x, lny, method, t => 1.0, Math.Log);
-            return Tuple.Create(Math.Exp(p[0]), p[1]);
+            return (Math.Exp(p[0]), p[1]);
         }
 
         /// <summary>
@@ -348,7 +348,7 @@ namespace MathNet.Numerics
         /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, x),
         /// returning its best fitting parameter p0 and p1.
         /// </summary>
-        public static Tuple<double, double> Curve(double[] x, double[] y, Func<double, double, double, double> f, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
+        public static (double P0, double P1) Curve(double[] x, double[] y, Func<double, double, double, double> f, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
         {
             return FindMinimum.OfFunction((p0, p1) => Distance.Euclidean(Generate.Map(x, t => f(p0, p1, t)), y), initialGuess0, initialGuess1, tolerance, maxIterations);
         }
@@ -357,7 +357,7 @@ namespace MathNet.Numerics
         /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, x),
         /// returning its best fitting parameter p0, p1 and p2.
         /// </summary>
-        public static Tuple<double, double, double> Curve(double[] x, double[] y, Func<double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double tolerance = 1e-8, int maxIterations = 1000)
+        public static (double P0, double P1, double P2) Curve(double[] x, double[] y, Func<double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double tolerance = 1e-8, int maxIterations = 1000)
         {
             return FindMinimum.OfFunction((p0, p1, p2) => Distance.Euclidean(Generate.Map(x, t => f(p0, p1, p2, t)), y), initialGuess0, initialGuess1, initialGuess2, tolerance, maxIterations);
         }
@@ -366,7 +366,7 @@ namespace MathNet.Numerics
         /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, x),
         /// returning its best fitting parameter p0, p1, p2 and p3.
         /// </summary>
-        public static Tuple<double, double, double, double> Curve(double[] x, double[] y, Func<double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double tolerance = 1e-8, int maxIterations = 1000)
+        public static (double P0, double P1, double P2, double P3) Curve(double[] x, double[] y, Func<double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double tolerance = 1e-8, int maxIterations = 1000)
         {
             return FindMinimum.OfFunction((p0, p1, p2, p3) => Distance.Euclidean(Generate.Map(x, t => f(p0, p1, p2, p3, t)), y), initialGuess0, initialGuess1, initialGuess2, initialGuess3, tolerance, maxIterations);
         }
@@ -375,7 +375,7 @@ namespace MathNet.Numerics
         /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, p4, x),
         /// returning its best fitting parameter p0, p1, p2, p3 and p4.
         /// </summary>
-        public static Tuple<double, double, double, double, double> Curve(double[] x, double[] y, Func<double, double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double initialGuess4, double tolerance = 1e-8, int maxIterations = 1000)
+        public static (double P0, double P1, double P2, double P3, double P4) Curve(double[] x, double[] y, Func<double, double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double initialGuess4, double tolerance = 1e-8, int maxIterations = 1000)
         {
             return FindMinimum.OfFunction((p0, p1, p2, p3, p4) => Distance.Euclidean(Generate.Map(x, t => f(p0, p1, p2, p3, p4, t)), y), initialGuess0, initialGuess1, initialGuess2, initialGuess3, initialGuess4, tolerance, maxIterations);
         }
@@ -397,7 +397,7 @@ namespace MathNet.Numerics
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double> f, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var parameters = Curve(x, y, f, initialGuess0, initialGuess1, tolerance, maxIterations);
-            return z => f(parameters.Item1, parameters.Item2, z);
+            return z => f(parameters.P0, parameters.P1, z);
         }
 
         /// <summary>
@@ -407,7 +407,7 @@ namespace MathNet.Numerics
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var parameters = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, tolerance, maxIterations);
-            return z => f(parameters.Item1, parameters.Item2, parameters.Item3, z);
+            return z => f(parameters.P0, parameters.P1, parameters.P2, z);
         }
 
         /// <summary>
@@ -417,7 +417,7 @@ namespace MathNet.Numerics
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var parameters = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, initialGuess3, tolerance, maxIterations);
-            return z => f(parameters.Item1, parameters.Item2, parameters.Item3, parameters.Item4, z);
+            return z => f(parameters.P0, parameters.P1, parameters.P2, parameters.P3, z);
         }
 
         /// <summary>
@@ -427,7 +427,7 @@ namespace MathNet.Numerics
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double initialGuess4, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var parameters = Curve(x, y, f, initialGuess0, initialGuess1, initialGuess2, initialGuess3, initialGuess4, tolerance, maxIterations);
-            return z => f(parameters.Item1, parameters.Item2, parameters.Item3, parameters.Item4, parameters.Item5, z);
+            return z => f(parameters.P0, parameters.P1, parameters.P2, parameters.P3, parameters.P4, z);
         }
     }
 }

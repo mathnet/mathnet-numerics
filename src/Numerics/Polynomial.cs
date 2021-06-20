@@ -624,7 +624,7 @@ namespace MathNet.Numerics
         /// <param name="a">Left polynomial</param>
         /// <param name="b">Right polynomial</param>
         /// <returns>A tuple holding quotient in first and remainder in second</returns>
-        public static Tuple<Polynomial, Polynomial> DivideRemainder(Polynomial a, Polynomial b)
+        public static (Polynomial, Polynomial) DivideRemainder(Polynomial a, Polynomial b)
         {
             var bDegree = b.Degree;
             if (bDegree < 0)
@@ -636,20 +636,20 @@ namespace MathNet.Numerics
             if (aDegree < 0)
             {
                 // zero divided by non-zero is zero without remainder
-                return Tuple.Create(a, a);
+                return (a, a);
             }
 
             if (bDegree == 0)
             {
                 // division by scalar
-                return Tuple.Create(Divide(a, b.Coefficients[0]), Zero);
+                return (Divide(a, b.Coefficients[0]), Zero);
             }
 
             if (aDegree < bDegree)
             {
                 // denominator degree higher than nominator degree
                 // quotient always be 0 and return c1 as remainder
-                return Tuple.Create(Zero, a);
+                return (Zero, a);
             }
 
             var c1 = a.Coefficients.ToArray();
@@ -691,7 +691,7 @@ namespace MathNet.Numerics
                 rem[k] = c1[k];
             }
 
-            return Tuple.Create(new Polynomial(quo), new Polynomial(rem));
+            return (new Polynomial(quo), new Polynomial(rem));
         }
 
         #endregion
@@ -756,7 +756,7 @@ namespace MathNet.Numerics
         /// </summary>
         /// <param name="b">Right polynomial</param>
         /// <returns>A tuple holding quotient in first and remainder in second</returns>
-        public Tuple<Polynomial, Polynomial> DivideRemainder(Polynomial b)
+        public (Polynomial, Polynomial) DivideRemainder(Polynomial b)
         {
             return DivideRemainder(this, b);
         }

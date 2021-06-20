@@ -5,7 +5,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
 {
     internal static class Util
     {
-        public static Tuple<double, double> FindBeta(double alpha, Vector<double> sd, Vector<double> gn, double delta)
+        public static (double, double) FindBeta(double alpha, Vector<double> sd, Vector<double> gn, double delta)
         {
             // Pstep is intersection of the trust region boundary
             // Pstep = α*Psd + β*(Pgn - α*Psd)
@@ -27,9 +27,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion.Subproblems
             var beta2 = -2.0 * c / aux;
 
             // return sorted beta
-            return (beta1 < beta2)
-                ? new Tuple<double, double>(beta1, beta2)
-                : new Tuple<double, double>(beta2, beta1);
+            return beta1 < beta2 ? (beta1, beta2) : (beta2, beta1);
         }
     }
 }

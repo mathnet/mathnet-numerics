@@ -64,7 +64,7 @@ namespace MathNet.Numerics.RootFinding
         /// Find all real-valued roots of the cubic equation a0 + a1*x + a2*x^2 + x^3 = 0.
         /// Note the special coefficient order ascending by exponent (consistent with polynomials).
         /// </summary>
-        public static Tuple<double, double, double> RealRoots(double a0, double a1, double a2)
+        public static (double, double, double) RealRoots(double a0, double a1, double a2)
         {
             double Q, R;
             QR(a2, a1, a0, out Q, out R);
@@ -98,14 +98,14 @@ namespace MathNet.Numerics.RootFinding
                 x3 = 2d*Math.Sqrt(-Q)*Math.Cos((theta - Constants.Pi2)/3d) + shift;
             }
 
-            return new Tuple<double, double, double>(x1, x2, x3);
+            return (x1, x2, x3);
         }
 
         /// <summary>
         /// Find all three complex roots of the cubic equation d + c*x + b*x^2 + a*x^3 = 0.
         /// Note the special coefficient order ascending by exponent (consistent with polynomials).
         /// </summary>
-        public static Tuple<Complex, Complex, Complex> Roots(double d, double c, double b, double a)
+        public static (Complex, Complex, Complex) Roots(double d, double c, double b, double a)
         {
             double A = b*b - 3*a*c;
             double B = 2*b*b*b - 9*a*b*c + 27*a*a*d;
@@ -117,22 +117,19 @@ namespace MathNet.Numerics.RootFinding
                 if (A == 0d)
                 {
                     var u = new Complex(s*b, 0d);
-                    return new Tuple<Complex, Complex, Complex>(u, u, u);
+                    return (u, u, u);
                 }
 
                 var v = new Complex((9*a*d - b*c)/(2*A), 0d);
                 var w = new Complex((4*a*b*c - 9*a*a*d - b*b*b)/(a*A), 0d);
-                return new Tuple<Complex, Complex, Complex>(v, v, w);
+                return (v, v, w);
             }
 
             var C = (A == 0)
                 ? new Complex(B, 0d).CubicRoots()
                 : ((B + Complex.Sqrt(B*B - 4*A*A*A))/2).CubicRoots();
 
-            return new Tuple<Complex, Complex, Complex>(
-                s*(b + C.Item1 + A/C.Item1),
-                s*(b + C.Item2 + A/C.Item2),
-                s*(b + C.Item3 + A/C.Item3));
+            return (s*(b + C.Item1 + A/C.Item1), s*(b + C.Item2 + A/C.Item2), s*(b + C.Item3 + A/C.Item3));
         }
     }
 }

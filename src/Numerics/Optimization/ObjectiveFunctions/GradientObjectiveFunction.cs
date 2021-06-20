@@ -34,9 +34,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 {
     internal class GradientObjectiveFunction : IObjectiveFunction
     {
-        readonly Func<Vector<double>, Tuple<double, Vector<double>>> _function;
+        readonly Func<Vector<double>, (double, Vector<double>)> _function;
 
-        public GradientObjectiveFunction(Func<Vector<double>, Tuple<double, Vector<double>>> function)
+        public GradientObjectiveFunction(Func<Vector<double>, (double, Vector<double>)> function)
         {
             _function = function;
         }
@@ -64,10 +64,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public void EvaluateAt(Vector<double> point)
         {
             Point = point;
-
-            var result = _function(point);
-            Value = result.Item1;
-            Gradient = result.Item2;
+            (Value, Gradient) = _function(point);
         }
 
         public Vector<double> Point { get; private set; }

@@ -84,26 +84,26 @@ namespace MathNet.Numerics
         /// Find both complex roots of the quadratic equation c + b*x + a*x^2 = 0.
         /// Note the special coefficient order ascending by exponent (consistent with polynomials).
         /// </summary>
-        public static Tuple<Complex, Complex> Quadratic(double c, double b, double a)
+        public static (Complex, Complex) Quadratic(double c, double b, double a)
         {
             if (b == 0d)
             {
                 var t = new Complex(-c/a, 0d).SquareRoot();
-                return new Tuple<Complex, Complex>(t, -t);
+                return (t, -t);
             }
 
             var q = b > 0d
                 ? -0.5*(b + new Complex(b*b - 4*a*c, 0d).SquareRoot())
                 : -0.5*(b - new Complex(b*b - 4*a*c, 0d).SquareRoot());
 
-            return new Tuple<Complex, Complex>(q/a, c/q);
+            return (q/a, c/q);
         }
 
         /// <summary>
         /// Find all three complex roots of the cubic equation d + c*x + b*x^2 + a*x^3 = 0.
         /// Note the special coefficient order ascending by exponent (consistent with polynomials).
         /// </summary>
-        public static Tuple<Complex, Complex, Complex> Cubic(double d, double c, double b, double a)
+        public static (Complex, Complex, Complex) Cubic(double d, double c, double b, double a)
         {
             return RootFinding.Cubic.Roots(d, c, b, a);
         }

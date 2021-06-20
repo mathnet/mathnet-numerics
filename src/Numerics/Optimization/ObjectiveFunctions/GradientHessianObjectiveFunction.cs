@@ -34,9 +34,9 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
 {
     internal class GradientHessianObjectiveFunction : IObjectiveFunction
     {
-        readonly Func<Vector<double>, Tuple<double, Vector<double>, Matrix<double>>> _function;
+        readonly Func<Vector<double>, (double, Vector<double>, Matrix<double>)> _function;
 
-        public GradientHessianObjectiveFunction(Func<Vector<double>, Tuple<double, Vector<double>, Matrix<double>>> function)
+        public GradientHessianObjectiveFunction(Func<Vector<double>, (double, Vector<double>, Matrix<double>)> function)
         {
             _function = function;
         }
@@ -65,11 +65,7 @@ namespace MathNet.Numerics.Optimization.ObjectiveFunctions
         public void EvaluateAt(Vector<double> point)
         {
             Point = point;
-
-            var result = _function(point);
-            Value = result.Item1;
-            Gradient = result.Item2;
-            Hessian = result.Item3;
+            (Value, Gradient, Hessian) = _function(point);
         }
 
         public Vector<double> Point { get; private set; }

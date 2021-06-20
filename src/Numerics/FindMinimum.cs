@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2017 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -61,44 +61,44 @@ namespace MathNet.Numerics
         /// Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
         /// For more options and diagnostics consider to use <see cref="NelderMeadSimplex"/> directly.
         /// </summary>
-        public static Tuple<double, double> OfFunction(Func<double, double, double> function, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
+        public static (double P0, double P1) OfFunction(Func<double, double, double> function, double initialGuess0, double initialGuess1, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var objective = ObjectiveFunction.Value(v => function(v[0], v[1]));
             var result = NelderMeadSimplex.Minimum(objective, CreateVector.Dense(new[] { initialGuess0, initialGuess1 }), tolerance, maxIterations);
-            return Tuple.Create(result.MinimizingPoint[0], result.MinimizingPoint[1]);
+            return (result.MinimizingPoint[0], result.MinimizingPoint[1]);
         }
 
         /// <summary>
         /// Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
         /// For more options and diagnostics consider to use <see cref="NelderMeadSimplex"/> directly.
         /// </summary>
-        public static Tuple<double, double, double> OfFunction(Func<double, double, double, double> function, double initialGuess0, double initialGuess1, double initialGuess2, double tolerance = 1e-8, int maxIterations = 1000)
+        public static (double P0, double P1, double P2) OfFunction(Func<double, double, double, double> function, double initialGuess0, double initialGuess1, double initialGuess2, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var objective = ObjectiveFunction.Value(v => function(v[0], v[1], v[2]));
             var result = NelderMeadSimplex.Minimum(objective, CreateVector.Dense(new[] { initialGuess0, initialGuess1, initialGuess2 }), tolerance, maxIterations);
-            return Tuple.Create(result.MinimizingPoint[0], result.MinimizingPoint[1], result.MinimizingPoint[2]);
+            return (result.MinimizingPoint[0], result.MinimizingPoint[1], result.MinimizingPoint[2]);
         }
 
         /// <summary>
         /// Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
         /// For more options and diagnostics consider to use <see cref="NelderMeadSimplex"/> directly.
         /// </summary>
-        public static Tuple<double, double, double, double> OfFunction(Func<double, double, double, double, double> function, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double tolerance = 1e-8, int maxIterations = 1000)
+        public static (double P0, double P1, double P2, double P3) OfFunction(Func<double, double, double, double, double> function, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var objective = ObjectiveFunction.Value(v => function(v[0], v[1], v[2], v[3]));
             var result = NelderMeadSimplex.Minimum(objective, CreateVector.Dense(new[] { initialGuess0, initialGuess1, initialGuess2, initialGuess3 }), tolerance, maxIterations);
-            return Tuple.Create(result.MinimizingPoint[0], result.MinimizingPoint[1], result.MinimizingPoint[2], result.MinimizingPoint[3]);
+            return (result.MinimizingPoint[0], result.MinimizingPoint[1], result.MinimizingPoint[2], result.MinimizingPoint[3]);
         }
 
         /// <summary>
         /// Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
         /// For more options and diagnostics consider to use <see cref="NelderMeadSimplex"/> directly.
         /// </summary>
-        public static Tuple<double, double, double, double, double> OfFunction(Func<double, double, double, double, double, double> function, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double initialGuess4, double tolerance = 1e-8, int maxIterations = 1000)
+        public static (double P0, double P1, double P2, double P3, double P4) OfFunction(Func<double, double, double, double, double, double> function, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double initialGuess4, double tolerance = 1e-8, int maxIterations = 1000)
         {
             var objective = ObjectiveFunction.Value(v => function(v[0], v[1], v[2], v[3], v[4]));
             var result = NelderMeadSimplex.Minimum(objective, CreateVector.Dense(new[] { initialGuess0, initialGuess1, initialGuess2, initialGuess3, initialGuess4 }), tolerance, maxIterations);
-            return Tuple.Create(result.MinimizingPoint[0], result.MinimizingPoint[1], result.MinimizingPoint[2], result.MinimizingPoint[3], result.MinimizingPoint[4]);
+            return (result.MinimizingPoint[0], result.MinimizingPoint[1], result.MinimizingPoint[2], result.MinimizingPoint[3], result.MinimizingPoint[4]);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace MathNet.Numerics
         /// For more options and diagnostics consider to use <see cref="BfgsMinimizer"/> directly.
         /// An alternative routine using conjugate gradients (CG) is available in <see cref="ConjugateGradientMinimizer"/>.
         /// </summary>
-        public static Vector<double> OfFunctionGradient(Func<Vector<double>, Tuple<double, Vector<double>>> functionGradient, Vector<double> initialGuess, double gradientTolerance=1e-5, double parameterTolerance=1e-5, double functionProgressTolerance=1e-5, int maxIterations=1000)
+        public static Vector<double> OfFunctionGradient(Func<Vector<double>, (double, Vector<double>)> functionGradient, Vector<double> initialGuess, double gradientTolerance=1e-5, double parameterTolerance=1e-5, double functionProgressTolerance=1e-5, int maxIterations=1000)
         {
             var objective = ObjectiveFunction.Gradient(functionGradient);
             var algorithm = new BfgsMinimizer(gradientTolerance, parameterTolerance, functionProgressTolerance, maxIterations);
@@ -168,7 +168,7 @@ namespace MathNet.Numerics
         /// Find vector x that minimizes the function f(x), constrained within bounds, using the Broyden–Fletcher–Goldfarb–Shanno Bounded (BFGS-B) algorithm.
         /// For more options and diagnostics consider to use <see cref="BfgsBMinimizer"/> directly.
         /// </summary>
-        public static Vector<double> OfFunctionGradientConstrained(Func<Vector<double>, Tuple<double, Vector<double>>> functionGradient, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> initialGuess, double gradientTolerance=1e-5, double parameterTolerance=1e-5, double functionProgressTolerance=1e-5, int maxIterations=1000)
+        public static Vector<double> OfFunctionGradientConstrained(Func<Vector<double>, (double, Vector<double>)> functionGradient, Vector<double> lowerBound, Vector<double> upperBound, Vector<double> initialGuess, double gradientTolerance=1e-5, double parameterTolerance=1e-5, double functionProgressTolerance=1e-5, int maxIterations=1000)
         {
             var objective = ObjectiveFunction.Gradient(functionGradient);
             var algorithm = new BfgsBMinimizer(gradientTolerance, parameterTolerance, functionProgressTolerance, maxIterations);
@@ -191,7 +191,7 @@ namespace MathNet.Numerics
         /// Find vector x that minimizes the function f(x) using the Newton algorithm.
         /// For more options and diagnostics consider to use <see cref="NewtonMinimizer"/> directly.
         /// </summary>
-        public static Vector<double> OfFunctionGradientHessian(Func<Vector<double>, Tuple<double, Vector<double>, Matrix<double>>> functionGradientHessian, Vector<double> initialGuess, double gradientTolerance=1e-8, int maxIterations=1000)
+        public static Vector<double> OfFunctionGradientHessian(Func<Vector<double>, (double, Vector<double>, Matrix<double>)> functionGradientHessian, Vector<double> initialGuess, double gradientTolerance=1e-8, int maxIterations=1000)
         {
             var objective = ObjectiveFunction.GradientHessian(functionGradientHessian);
             var result = NewtonMinimizer.Minimum(objective, initialGuess, gradientTolerance, maxIterations);

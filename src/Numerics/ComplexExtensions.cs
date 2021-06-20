@@ -295,22 +295,21 @@ namespace MathNet.Numerics
         /// <summary>
         /// Evaluate all square roots of this <c>Complex</c>.
         /// </summary>
-        public static Tuple<Complex, Complex> SquareRoots(this Complex complex)
+        public static (Complex, Complex) SquareRoots(this Complex complex)
         {
             var principal = SquareRoot(complex);
-            return new Tuple<Complex, Complex>(principal, -principal);
+            return (principal, -principal);
         }
 
         /// <summary>
         /// Evaluate all cubic roots of this <c>Complex</c>.
         /// </summary>
-        public static Tuple<Complex, Complex, Complex> CubicRoots(this Complex complex)
+        public static (Complex, Complex, Complex) CubicRoots(this Complex complex)
         {
             var r = Math.Pow(complex.Magnitude, 1d/3d);
             var theta = complex.Phase/3;
             const double shift = Constants.Pi2/3;
-            return new Tuple<Complex, Complex, Complex>(
-                Complex.FromPolarCoordinates(r, theta),
+            return (Complex.FromPolarCoordinates(r, theta),
                 Complex.FromPolarCoordinates(r, theta + shift),
                 Complex.FromPolarCoordinates(r, theta - shift));
         }
