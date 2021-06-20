@@ -1,23 +1,7 @@
 source https://api.nuget.org/v3/index.json
 storage: packages
 
-framework: net5.0,net48,net461,net40,netstandard2.0
-
-nuget FSharp.Core 4.7.2
-nuget Microsoft.CSharp
-
-// Testing
-nuget NUnit framework:net48,net5.0
-nuget NUnitLite framework:net48,net5.0
-nuget FsUnit framework:net48,net5.0
-nuget Microsoft.NET.Test.Sdk framework:net48,net5.0
-nuget NUnit3TestAdapter framework:net48,net5.0
-
-// Benchmarks
-nuget BenchmarkDotNet lowest_matching, strategy:min, framework:net5.0,net48
-
-nuget Microsoft.NETFramework.ReferenceAssemblies copy_local:true, framework:net48,net461,net40
-nuget NETStandard.Library lowest_matching, strategy:min, framework:netstandard2.0
+framework: net5.0,net48,net461,netstandard2.0
 
 group Build
     source https://api.nuget.org/v3/index.json

@@ -1,37 +1,45 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <GenerateProgramFile>false</GenerateProgramFile>
-    <TargetFrameworks>net5.0;net48</TargetFrameworks>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <AssemblyName>MathNet.Numerics.FSharp.Tests</AssemblyName>
-    <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
-    <IsPackable>false</IsPackable>
-    <NoWarn>44;2003</NoWarn>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FSharp\FSharp.fsproj" />
-    <ProjectReference Include="..\TestData\TestData.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AssemblyInfo.fs" />
-    <Compile Include="VectorTests.fs" />
-    <Compile Include="SparseVectorTests.fs" />
-    <Compile Include="DenseVectorTests.fs" />
-    <Compile Include="MatrixTests.fs" />
-    <Compile Include="SparseMatrixTests.fs" />
-    <Compile Include="DenseMatrixTests.fs" />
-    <Compile Include="Utilities.fs" />
-    <Compile Include="BigRationalTests.fs" />
-    <Compile Include="RandomVariableTests.fs" />
-    <Compile Include="PokerTests.fs" />
-    <Compile Include="FitTests.fs" />
-    <Compile Include="FindRootsTests.fs" />
-    <Compile Include="QuaternionTests.fs" />
-    <Compile Include="Main.fs" />
-    <None Include="paket.references" />
-  </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <GenerateProgramFile>false</GenerateProgramFile>
+        <TargetFrameworks>net5.0;net48</TargetFrameworks>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <AssemblyName>MathNet.Numerics.FSharp.Tests</AssemblyName>
+        <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <NoWarn>44;2003</NoWarn>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\FSharp\FSharp.fsproj" />
+        <ProjectReference Include="..\TestData\TestData.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="AssemblyInfo.fs" />
+        <Compile Include="VectorTests.fs" />
+        <Compile Include="SparseVectorTests.fs" />
+        <Compile Include="DenseVectorTests.fs" />
+        <Compile Include="MatrixTests.fs" />
+        <Compile Include="SparseMatrixTests.fs" />
+        <Compile Include="DenseMatrixTests.fs" />
+        <Compile Include="Utilities.fs" />
+        <Compile Include="BigRationalTests.fs" />
+        <Compile Include="RandomVariableTests.fs" />
+        <Compile Include="PokerTests.fs" />
+        <Compile Include="FitTests.fs" />
+        <Compile Include="FindRootsTests.fs" />
+        <Compile Include="QuaternionTests.fs" />
+        <Compile Include="Main.fs" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnitLite" Version="3.13.2" />
+        <PackageReference Include="FsUnit" Version="4.0.4" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>

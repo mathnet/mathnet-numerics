@@ -2,15 +2,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5.0;net461;net40;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net461;net48;netstandard2.0</TargetFrameworks>
     <AssemblyName>MathNet.Numerics</AssemblyName>
     <RootNamespace>MathNet.Numerics</RootNamespace>
     <IsPackable>true</IsPackable>
-    <PackageId>MathNet.Numerics$(PackageIdSuffix)</PackageId>
+    <PackageId>MathNet.Numerics</PackageId>
+    <PackageId Condition="'$(StrongName)'=='True'">MathNet.Numerics.Signed</PackageId>
     <VersionPrefix>4.15.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics$(TitleSuffix)</Title>
-    <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net 5.0 or higher, .NET Standard 2.0 and .NET Framework 4.0 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
+    <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net 5.0 or higher, .NET Standard 2.0 and .NET Framework 4.6.1 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
     <PackageReleaseNotes>Precision: Round (with integer part rounding) ~Jon Larborn
 Precision: RoundToMultiple, RoundToPower
 F#: BigRational.FromDecimal ~Brian Berns</PackageReleaseNotes>
@@ -28,5 +29,11 @@ F#: BigRational.FromDecimal ~Brian Berns</PackageReleaseNotes>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" Condition="'$(TargetFramework)' == 'net461'" />
+  </ItemGroup>
 </Project>

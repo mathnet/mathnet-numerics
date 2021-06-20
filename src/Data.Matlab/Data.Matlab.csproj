@@ -2,11 +2,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Library</OutputType>
-        <TargetFrameworks>net5.0;net40;net461;netstandard2.0</TargetFrameworks>
+        <TargetFrameworks>net5.0;net461;net48;netstandard2.0</TargetFrameworks>
         <AssemblyName>MathNet.Numerics.Data.Matlab</AssemblyName>
         <RootNamespace>MathNet.Numerics.Data.Matlab</RootNamespace>
         <IsPackable>true</IsPackable>
-        <PackageId>MathNet.Numerics.Data.Matlab$(PackageIdSuffix)</PackageId>
+        <PackageId>MathNet.Numerics.Data.Matlab</PackageId>
+        <PackageId Condition="'$(StrongName)'=='True'">MathNet.Numerics.Data.Matlab.Signed</PackageId>
         <VersionPrefix>4.15.0</VersionPrefix>
         <VersionSuffix></VersionSuffix>
         <Title>Math.NET Numerics - MATLAB Data I/O Extensions$(TitleSuffix)</Title>
@@ -36,5 +37,10 @@ F#: BigRational.FromDecimal ~Brian Berns</PackageReleaseNotes>
         <Reference Include="System.Numerics" />
         <Reference Include="System.Runtime.Serialization" />
     </ItemGroup>
-    <Import Project="..\..\.paket\Paket.Restore.targets" />
+    <ItemGroup>
+      <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+    </ItemGroup>
 </Project>

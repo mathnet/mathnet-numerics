@@ -2,15 +2,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net5.0;net461;net40;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net5.0;net461;net48;netstandard2.0</TargetFrameworks>
     <AssemblyName>MathNet.Numerics.Providers.OpenBLAS</AssemblyName>
     <RootNamespace>MathNet.Numerics.Providers.OpenBLAS</RootNamespace>
     <IsPackable>true</IsPackable>
-    <PackageId>MathNet.Numerics.Providers.OpenBLAS$(PackageIdSuffix)</PackageId>
+    <PackageId>MathNet.Numerics.Providers.OpenBLAS</PackageId>
+    <PackageId Condition="'$(StrongName)'=='True'">MathNet.Numerics.Providers.OpenBLAS.Signed</PackageId>
     <VersionPrefix>4.15.0</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <Title>Math.NET Numerics OpenBLAS Provider$(TitleSuffix)</Title>
-    <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net 5.0 or higher, .NET Standard 2.0 and .NET Framework 4.0 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
+    <Description>Math.NET Numerics is the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use.$(DescriptionSuffix)</Description>
     <PackageReleaseNotes>Precision: Round (with integer part rounding) ~Jon Larborn
 Precision: RoundToMultiple, RoundToPower
 F#: BigRational.FromDecimal ~Brian Berns</PackageReleaseNotes>
@@ -30,5 +31,10 @@ F#: BigRational.FromDecimal ~Brian Berns</PackageReleaseNotes>
   <ItemGroup>
     <ProjectReference Include="..\Numerics\Numerics.csproj" />
   </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>
