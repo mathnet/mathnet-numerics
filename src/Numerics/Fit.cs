@@ -364,7 +364,7 @@ namespace MathNet.Numerics
 
         /// <summary>
         /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, x),
-        /// returning its best fitting parameter p0, p1 and p2.
+        /// returning its best fitting parameter p0, p1, p2 and p3.
         /// </summary>
         public static Tuple<double, double, double, double> Curve(double[] x, double[] y, Func<double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double tolerance = 1e-8, int maxIterations = 1000)
         {
@@ -372,8 +372,8 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, x),
-        /// returning its best fitting parameter p0, p1 and p2.
+        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, p4, x),
+        /// returning its best fitting parameter p0, p1, p2, p3 and p4.
         /// </summary>
         public static Tuple<double, double, double, double, double> Curve(double[] x, double[] y, Func<double, double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double initialGuess4, double tolerance = 1e-8, int maxIterations = 1000)
         {
@@ -411,7 +411,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, x),
+        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, x),
         /// returning a function y' for the best fitting curve.
         /// </summary>
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double tolerance = 1e-8, int maxIterations = 1000)
@@ -421,7 +421,7 @@ namespace MathNet.Numerics
         }
 
         /// <summary>
-        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, x),
+        /// Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, p4, x),
         /// returning a function y' for the best fitting curve.
         /// </summary>
         public static Func<double, double> CurveFunc(double[] x, double[] y, Func<double, double, double, double, double, double, double> f, double initialGuess0, double initialGuess1, double initialGuess2, double initialGuess3, double initialGuess4, double tolerance = 1e-8, int maxIterations = 1000)
