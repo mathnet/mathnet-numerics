@@ -225,6 +225,18 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense vector as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static Vector<T> DenseOfIndexed<T>(int length, IEnumerable<(int, T)> enumerable)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return Vector<T>.Build.DenseOfIndexed(length, enumerable);
+        }
+
+        /// <summary>
         /// Create a new sparse vector straight from an initialized vector storage instance.
         /// The storage is used directly without copying.
         /// Intended for advanced scenarios where you're working directly with
@@ -304,6 +316,18 @@ namespace MathNet.Numerics.LinearAlgebra
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public static Vector<T> SparseOfIndexed<T>(int length, IEnumerable<Tuple<int, T>> enumerable)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return Vector<T>.Build.SparseOfIndexed(length, enumerable);
+        }
+
+        /// <summary>
+        /// Create a new sparse vector as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static Vector<T> SparseOfIndexed<T>(int length, IEnumerable<(int, T)> enumerable)
             where T : struct, IEquatable<T>, IFormattable
         {
             return Vector<T>.Build.SparseOfIndexed(length, enumerable);

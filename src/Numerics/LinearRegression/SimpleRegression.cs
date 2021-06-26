@@ -87,8 +87,20 @@ namespace MathNet.Numerics.LinearRegression
         /// <param name="samples">Predictor-Response samples as tuples</param>
         public static (double A, double B) Fit(IEnumerable<Tuple<double, double>> samples)
         {
-            var xy = samples.UnpackSinglePass();
-            return Fit(xy.Item1, xy.Item2);
+            var (u, v) = samples.UnpackSinglePass();
+            return Fit(u, v);
+        }
+
+        /// <summary>
+        /// Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
+        /// returning its best fitting parameters as (a, b) tuple,
+        /// where a is the intercept and b the slope.
+        /// </summary>
+        /// <param name="samples">Predictor-Response samples as tuples</param>
+        public static (double A, double B) Fit(IEnumerable<(double, double)> samples)
+        {
+            var (u, v) = samples.UnpackSinglePass();
+            return Fit(u, v);
         }
 
         /// <summary>

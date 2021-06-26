@@ -129,9 +129,7 @@ namespace MathNet.Numerics.Optimization
             }
 
             // Evaluate gradient and Hessian
-            var jac = EvaluateJacobian(objective, P);
-            var Gradient = jac.Item1; // objective.Gradient;
-            var Hessian = jac.Item2; // objective.Hessian;
+            var (Gradient, Hessian) = EvaluateJacobian(objective, P);
             var diagonalOfHessian = Hessian.Diagonal(); // diag(H)
 
             // if ||g||oo <= gtol, found and stop
@@ -190,9 +188,7 @@ namespace MathNet.Numerics.Optimization
                         RSS = RSSnew;
 
                         // update gradient and Hessian
-                        jac = EvaluateJacobian(objective, P);
-                        Gradient = jac.Item1; // objective.Gradient;
-                        Hessian = jac.Item2; // objective.Hessian;
+                        (Gradient, Hessian) = EvaluateJacobian(objective, P);
                         diagonalOfHessian = Hessian.Diagonal();
 
                         // if ||g||_oo <= gtol, found and stop

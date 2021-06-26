@@ -397,12 +397,42 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
 
             var indices = new List<int>();
             var values = new List<T>();
-            foreach (var item in data)
+            foreach (var (i, x) in data)
             {
-                if (!Zero.Equals(item.Item2))
+                if (!Zero.Equals(x))
                 {
-                    values.Add(item.Item2);
-                    indices.Add(item.Item1);
+                    values.Add(x);
+                    indices.Add(i);
+                }
+            }
+
+            var indicesArray = indices.ToArray();
+            var valuesArray = values.ToArray();
+            Sorting.Sort(indicesArray, valuesArray);
+
+            return new SparseVectorStorage<T>(length)
+            {
+                Indices = indicesArray,
+                Values = valuesArray,
+                ValueCount = values.Count
+            };
+        }
+
+        public static SparseVectorStorage<T> OfIndexedEnumerable(int length, IEnumerable<(int, T)> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            var indices = new List<int>();
+            var values = new List<T>();
+            foreach (var (i, x) in data)
+            {
+                if (!Zero.Equals(x))
+                {
+                    values.Add(x);
+                    indices.Add(i);
                 }
             }
 
@@ -631,14 +661,12 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        public override IEnumerable<(int, T)> EnumerateIndexed()
         {
             int k = 0;
             for (int i = 0; i < Length; i++)
             {
-                yield return k < ValueCount && Indices[k] == i
-                    ? new Tuple<int, T>(i, Values[k++])
-                    : new Tuple<int, T>(i, Zero);
+                yield return (i, k < ValueCount && Indices[k] == i ? Values[k++] : Zero);
             }
         }
 
@@ -647,13 +675,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return Values.Take(ValueCount).Where(x => !Zero.Equals(x));
         }
 
-        public override IEnumerable<Tuple<int, T>> EnumerateNonZeroIndexed()
+        public override IEnumerable<(int, T)> EnumerateNonZeroIndexed()
         {
             for (var i = 0; i < ValueCount; i++)
             {
                 if (!Zero.Equals(Values[i]))
                 {
-                    yield return new Tuple<int, T>(Indices[i], Values[i]);
+                    yield return (Indices[i], Values[i]);
                 }
             }
         }

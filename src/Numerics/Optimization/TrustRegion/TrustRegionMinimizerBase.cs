@@ -137,9 +137,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
             }
 
             // evaluate projected gradient and Hessian
-            var jac = EvaluateJacobian(objective, P);
-            var Gradient = jac.Item1; // objective.Gradient;
-            var Hessian = jac.Item2; // objective.Hessian;
+            var (Gradient, Hessian) = EvaluateJacobian(objective, P);
 
             // if ||g||_oo <= gtol, found and stop
             if (Gradient.InfinityNorm() <= gradientTolerance)
@@ -213,9 +211,7 @@ namespace MathNet.Numerics.Optimization.TrustRegion
                     RSS = RSSnew;
 
                     // evaluate projected gradient and Hessian
-                    jac = EvaluateJacobian(objective, P);
-                    Gradient = jac.Item1; // objective.Gradient;
-                    Hessian = jac.Item2; // objective.Hessian;
+                    (Gradient, Hessian) = EvaluateJacobian(objective, P);
 
                     // if ||g||_oo <= gtol, found and stop
                     if (Gradient.InfinityNorm() <= gradientTolerance)

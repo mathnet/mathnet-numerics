@@ -171,9 +171,24 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             var array = new T[length];
-            foreach (var item in data)
+            foreach (var (index, value) in data)
             {
-                array[item.Item1] = item.Item2;
+                array[index] = value;
+            }
+            return new DenseVectorStorage<T>(array.Length, array);
+        }
+
+        public static DenseVectorStorage<T> OfIndexedEnumerable(int length, IEnumerable<(int, T)> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            var array = new T[length];
+            foreach (var (index, value) in data)
+            {
+                array[index] = value;
             }
             return new DenseVectorStorage<T>(array.Length, array);
         }
@@ -338,9 +353,9 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return Data;
         }
 
-        public override IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        public override IEnumerable<(int, T)> EnumerateIndexed()
         {
-            return Data.Select((t, i) => new Tuple<int, T>(i, t));
+            return Data.Select((t, i) => (i, t));
         }
 
         public override IEnumerable<T> EnumerateNonZero()
@@ -348,13 +363,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return Data.Where(x => !Zero.Equals(x));
         }
 
-        public override IEnumerable<Tuple<int, T>> EnumerateNonZeroIndexed()
+        public override IEnumerable<(int, T)> EnumerateNonZeroIndexed()
         {
             for (var i = 0; i < Data.Length; i++)
             {
                 if (!Zero.Equals(Data[i]))
                 {
-                    yield return new Tuple<int, T>(i, Data[i]);
+                    yield return (i, Data[i]);
                 }
             }
         }

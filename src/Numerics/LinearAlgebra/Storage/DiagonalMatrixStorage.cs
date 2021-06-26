@@ -237,9 +237,24 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
 
             var storage = new DiagonalMatrixStorage<T>(rows, columns);
-            foreach (var item in data)
+            foreach (var (i,x) in data)
             {
-                storage.Data[item.Item1] = item.Item2;
+                storage.Data[i] = x;
+            }
+            return storage;
+        }
+
+        public static DiagonalMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<(int, T)> data)
+        {
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            var storage = new DiagonalMatrixStorage<T>(rows, columns);
+            foreach (var (i,x) in data)
+            {
+                storage.Data[i] = x;
             }
             return storage;
         }
@@ -559,16 +574,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
+        public override IEnumerable<(int, int, T)> EnumerateIndexed()
         {
             for (int j = 0; j < ColumnCount; j++)
             {
                 for (int i = 0; i < RowCount; i++)
                 {
                     // PERF: consider to break up loop to avoid branching
-                    yield return i == j
-                        ? new Tuple<int, int, T>(i, i, Data[i])
-                        : new Tuple<int, int, T>(i, j, Zero);
+                    yield return (i, j, i == j ? Data[i] : Zero);
                 }
             }
         }
@@ -578,13 +591,13 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return Data.Where(x => !Zero.Equals(x));
         }
 
-        public override IEnumerable<Tuple<int, int, T>> EnumerateNonZeroIndexed()
+        public override IEnumerable<(int, int, T)> EnumerateNonZeroIndexed()
         {
             for (int i = 0; i < Data.Length; i++)
             {
                 if (!Zero.Equals(Data[i]))
                 {
-                    yield return new Tuple<int, int, T>(i, i, Data[i]);
+                    yield return (i, i, Data[i]);
                 }
             }
         }

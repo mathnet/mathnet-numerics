@@ -208,8 +208,21 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] NormalEquations<T>(IEnumerable<Tuple<T[], T>> samples, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
-            var xy = samples.UnpackSinglePass();
-            return NormalEquations(xy.Item1, xy.Item2, intercept);
+            var (u, v) = samples.UnpackSinglePass();
+            return NormalEquations(u, v, intercept);
+        }
+
+        /// <summary>
+        /// Find the model parameters β such that their linear combination with all predictor-arrays in X become as close to their response in Y as possible, with least squares residuals.
+        /// Uses the cholesky decomposition of the normal equations.
+        /// </summary>
+        /// <param name="samples">Sequence of predictor-arrays and their response.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
+        /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
+        public static T[] NormalEquations<T>(IEnumerable<(T[], T)> samples, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
+        {
+            var (u, v) = samples.UnpackSinglePass();
+            return NormalEquations(u, v, intercept);
         }
 
         /// <summary>
@@ -294,8 +307,21 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] QR<T>(IEnumerable<Tuple<T[], T>> samples, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
-            var xy = samples.UnpackSinglePass();
-            return QR(xy.Item1, xy.Item2, intercept);
+            var (u, v) = samples.UnpackSinglePass();
+            return QR(u, v, intercept);
+        }
+
+        /// <summary>
+        /// Find the model parameters β such that their linear combination with all predictor-arrays in X become as close to their response in Y as possible, with least squares residuals.
+        /// Uses an orthogonal decomposition and is therefore more numerically stable than the normal equations but also slower.
+        /// </summary>
+        /// <param name="samples">Sequence of predictor-arrays and their response.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
+        /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
+        public static T[] QR<T>(IEnumerable<(T[], T)> samples, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
+        {
+            var (u, v) = samples.UnpackSinglePass();
+            return QR(u, v, intercept);
         }
 
         /// <summary>
@@ -380,8 +406,21 @@ namespace MathNet.Numerics.LinearRegression
         /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
         public static T[] Svd<T>(IEnumerable<Tuple<T[], T>> samples, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
         {
-            var xy = samples.UnpackSinglePass();
-            return Svd(xy.Item1, xy.Item2, intercept);
+            var (u, v) = samples.UnpackSinglePass();
+            return Svd(u, v, intercept);
+        }
+
+        /// <summary>
+        /// Find the model parameters β such that their linear combination with all predictor-arrays in X become as close to their response in Y as possible, with least squares residuals.
+        /// Uses a singular value decomposition and is therefore more numerically stable (especially if ill-conditioned) than the normal equations or QR but also slower.
+        /// </summary>
+        /// <param name="samples">Sequence of predictor-arrays and their response.</param>
+        /// <param name="intercept">True if an intercept should be added as first artificial predictor value. Default = false.</param>
+        /// <returns>Best fitting list of model parameters β for each element in the predictor-arrays.</returns>
+        public static T[] Svd<T>(IEnumerable<(T[], T)> samples, bool intercept = false) where T : struct, IEquatable<T>, IFormattable
+        {
+            var (u, v) = samples.UnpackSinglePass();
+            return Svd(u, v, intercept);
         }
     }
 }

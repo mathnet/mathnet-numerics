@@ -765,12 +765,52 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public static SparseCompressedRowMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<Tuple<int, int, T>> data)
         {
             var trows = new List<Tuple<int, T>>[rows];
-            foreach (var item in data)
+            foreach (var (i,j,x) in data)
             {
-                if (!Zero.Equals(item.Item3))
+                if (!Zero.Equals(x))
                 {
-                    var row = trows[item.Item1] ?? (trows[item.Item1] = new List<Tuple<int, T>>());
-                    row.Add(new Tuple<int, T>(item.Item2, item.Item3));
+                    var row = trows[i] ?? (trows[i] = new List<Tuple<int, T>>());
+                    row.Add(new Tuple<int, T>(j, x));
+                }
+            }
+
+            var storage = new SparseCompressedRowMatrixStorage<T>(rows, columns);
+            var rowPointers = storage.RowPointers;
+            var columnIndices = new List<int>();
+            var values = new List<T>();
+
+            int index = 0;
+            for (int row = 0; row < rows; row++)
+            {
+                rowPointers[row] = index;
+                var trow = trows[row];
+                if (trow != null)
+                {
+                    trow.Sort();
+                    foreach (var item in trow)
+                    {
+                        values.Add(item.Item2);
+                        columnIndices.Add(item.Item1);
+                        index++;
+                    }
+                }
+            }
+
+            rowPointers[rows] = values.Count;
+            storage.ColumnIndices = columnIndices.ToArray();
+            storage.Values = values.ToArray();
+            return storage;
+        }
+
+        public static SparseCompressedRowMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<(int, int, T)> data)
+        {
+            var trows = new List<Tuple<int, T>>[rows];
+            foreach (var (i,j,x) in data)
+            {
+                if (!Zero.Equals(x))
+                {
+                    var row = trows[i] ?? (trows[i] = new List<Tuple<int, T>>());
+                    row.Add(new Tuple<int, T>(j, x));
                 }
             }
 
@@ -1653,16 +1693,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public override IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
+        public override IEnumerable<(int, int, T)> EnumerateIndexed()
         {
             int k = 0;
             for (int row = 0; row < RowCount; row++)
             {
                 for (int col = 0; col < ColumnCount; col++)
                 {
-                    yield return k < RowPointers[row + 1] && ColumnIndices[k] == col
-                        ? new Tuple<int, int, T>(row, col, Values[k++])
-                        : new Tuple<int, int, T>(row, col, Zero);
+                    yield return (row, col, k < RowPointers[row + 1] && ColumnIndices[k] == col ? Values[k++] : Zero);
                 }
             }
         }
@@ -1672,7 +1710,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return Values.Take(ValueCount).Where(x => !Zero.Equals(x));
         }
 
-        public override IEnumerable<Tuple<int, int, T>> EnumerateNonZeroIndexed()
+        public override IEnumerable<(int, int, T)> EnumerateNonZeroIndexed()
         {
             for (int row = 0; row < RowCount; row++)
             {
@@ -1682,7 +1720,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 {
                     if (!Zero.Equals(Values[j]))
                     {
-                        yield return new Tuple<int, int, T>(row, ColumnIndices[j], Values[j]);
+                        yield return (row, ColumnIndices[j], Values[j]);
                     }
                 }
             }

@@ -100,7 +100,7 @@ namespace MathNet.Numerics.Optimization
             return objective.Value;
         }
 
-        protected Tuple<Vector<double>, Matrix<double>> EvaluateJacobian(IObjectiveModel objective, Vector<double> Pint)
+        protected (Vector<double> Gradient, Matrix<double> Hessian) EvaluateJacobian(IObjectiveModel objective, Vector<double> Pint)
         {
             var gradient = objective.Gradient;
             var hessian = objective.Hessian;
@@ -123,7 +123,7 @@ namespace MathNet.Numerics.Optimization
                 }
             }
 
-            return new Tuple<Vector<double>, Matrix<double>>(gradient, hessian);
+            return (gradient, hessian);
         }
 
         #region Projection of Parameters

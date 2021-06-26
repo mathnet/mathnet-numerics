@@ -49,13 +49,13 @@ module Vector =
     let inline toSeq (v: #Vector<_>) = v.Enumerate(Zeros.Include)
 
     /// Transform a vector into an indexed sequence.
-    let inline toSeqi (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include)
+    let inline toSeqi (v: #Vector<_>) = v.EnumerateIndexed(Zeros.Include) |> Seq.map (fun t -> t.ToTuple())
 
     /// Transform a vector into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
     let inline toSeqSkipZeros (v: #Vector<_>) = v.Enumerate(Zeros.AllowSkip)
 
     /// Transform a vector into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqiSkipZeros (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip)
+    let inline toSeqiSkipZeros (v: #Vector<_>) = v.EnumerateIndexed(Zeros.AllowSkip) |> Seq.map (fun t -> t.ToTuple())
 
 
     /// Applies a function to all elements of the vector.

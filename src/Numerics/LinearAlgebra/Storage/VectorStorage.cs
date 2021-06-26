@@ -400,11 +400,11 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public virtual IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        public virtual IEnumerable<(int, T)> EnumerateIndexed()
         {
             for (var i = 0; i < Length; i++)
             {
-                yield return new Tuple<int, T>(i, At(i));
+                yield return (i, At(i));
             }
         }
 
@@ -420,14 +420,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             }
         }
 
-        public virtual IEnumerable<Tuple<int, T>> EnumerateNonZeroIndexed()
+        public virtual IEnumerable<(int, T)> EnumerateNonZeroIndexed()
         {
             for (var i = 0; i < Length; i++)
             {
                 var x = At(i);
                 if (!Zero.Equals(x))
                 {
-                    yield return new Tuple<int, T>(i, x);
+                    yield return (i, x);
                 }
             }
         }

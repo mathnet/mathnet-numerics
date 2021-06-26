@@ -52,25 +52,25 @@ module Matrix =
     let inline toSeq (m: #Matrix<_>) = m.Enumerate(Zeros.Include)
 
     /// Transform a matrix into an indexed sequence.
-    let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include)
+    let inline toSeqi (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.Include) |> Seq.map (fun t -> t.ToTuple())
 
     /// Transform a matrix into a sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
     let inline toSeqSkipZeros (m: #Matrix<_>) = m.Enumerate(Zeros.AllowSkip)
 
     /// Transform a matrix into an indexed sequence where zero-values are skipped. Skipping zeros is efficient on sparse data.
-    let inline toSeqiSkipZeros (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip)
+    let inline toSeqiSkipZeros (m: #Matrix<_>) = m.EnumerateIndexed(Zeros.AllowSkip) |> Seq.map (fun t -> t.ToTuple())
 
     /// Transform a matrix into a column sequence.
     let inline toColSeq (m: #Matrix<_>) = m.EnumerateColumns()
 
     /// Transform a matrix into an indexed column sequence.
-    let inline toColSeqi (m: #Matrix<_>) = m.EnumerateColumnsIndexed()
+    let inline toColSeqi (m: #Matrix<_>) = m.EnumerateColumnsIndexed() |> Seq.map (fun t -> t.ToTuple())
 
     /// Transform a matrix into a row sequence.
     let inline toRowSeq (m: #Matrix<_>) = m.EnumerateRows()
 
     /// Transform a matrix into an indexed row sequence.
-    let inline toRowSeqi (m: #Matrix<_>) = m.EnumerateRowsIndexed()
+    let inline toRowSeqi (m: #Matrix<_>) = m.EnumerateRowsIndexed() |> Seq.map (fun t -> t.ToTuple())
 
 
     /// Applies a function to all elements of the matrix.

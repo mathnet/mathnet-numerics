@@ -282,6 +282,18 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense matrix as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static Matrix<T> DenseOfIndexed<T>(int rows, int columns, IEnumerable<(int, int, T)> enumerable)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return Matrix<T>.Build.DenseOfIndexed(rows, columns, enumerable);
+        }
+
+        /// <summary>
         /// Create a new dense matrix as a copy of the given enumerable.
         /// The enumerable is assumed to be in column-major order (column by column).
         /// This new matrix will be independent from the enumerable.
@@ -600,6 +612,18 @@ namespace MathNet.Numerics.LinearAlgebra
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
         public static Matrix<T> SparseOfIndexed<T>(int rows, int columns, IEnumerable<Tuple<int, int, T>> enumerable)
+            where T : struct, IEquatable<T>, IFormattable
+        {
+            return Matrix<T>.Build.SparseOfIndexed(rows, columns, enumerable);
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static Matrix<T> SparseOfIndexed<T>(int rows, int columns, IEnumerable<(int, int, T)> enumerable)
             where T : struct, IEquatable<T>, IFormattable
         {
             return Matrix<T>.Build.SparseOfIndexed(rows, columns, enumerable);

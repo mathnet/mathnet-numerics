@@ -1471,7 +1471,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the third value being the value of the element at that index.
         /// The enumerator will include all values, even if they are zero.
         /// </remarks>
-        public IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
+        public IEnumerable<(int, int, T)> EnumerateIndexed()
         {
             return Storage.EnumerateIndexed();
         }
@@ -1484,7 +1484,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the third value being the value of the element at that index.
         /// The enumerator will include all values, even if they are zero.
         /// </remarks>
-        public IEnumerable<Tuple<int, int, T>> EnumerateIndexed(Zeros zeros = Zeros.Include)
+        public IEnumerable<(int, int, T)> EnumerateIndexed(Zeros zeros = Zeros.Include)
         {
             switch (zeros)
             {
@@ -1527,11 +1527,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The enumerator returns a Tuple with the first value being the column index
         /// and the second value being the value of the column at that index.
         /// </remarks>
-        public IEnumerable<Tuple<int, Vector<T>>> EnumerateColumnsIndexed()
+        public IEnumerable<(int, Vector<T>)> EnumerateColumnsIndexed()
         {
             for (var i = 0; i < ColumnCount; i++)
             {
-                yield return new Tuple<int, Vector<T>>(i, Column(i));
+                yield return (i, Column(i));
             }
         }
 
@@ -1544,12 +1544,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The enumerator returns a Tuple with the first value being the column index
         /// and the second value being the value of the column at that index.
         /// </remarks>
-        public IEnumerable<Tuple<int, Vector<T>>> EnumerateColumnsIndexed(int index, int length)
+        public IEnumerable<(int, Vector<T>)> EnumerateColumnsIndexed(int index, int length)
         {
             var maxIndex = Math.Min(index + length, ColumnCount);
             for (var i = Math.Max(index, 0); i < maxIndex; i++)
             {
-                yield return new Tuple<int, Vector<T>>(i, Column(i));
+                yield return (i, Column(i));
             }
         }
 
@@ -1585,11 +1585,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The enumerator returns a Tuple with the first value being the row index
         /// and the second value being the value of the row at that index.
         /// </remarks>
-        public IEnumerable<Tuple<int, Vector<T>>> EnumerateRowsIndexed()
+        public IEnumerable<(int, Vector<T>)> EnumerateRowsIndexed()
         {
             for (var i = 0; i < RowCount; i++)
             {
-                yield return new Tuple<int, Vector<T>>(i, Row(i));
+                yield return (i, Row(i));
             }
         }
 
@@ -1602,12 +1602,12 @@ namespace MathNet.Numerics.LinearAlgebra
         /// The enumerator returns a Tuple with the first value being the row index
         /// and the second value being the value of the row at that index.
         /// </remarks>
-        public IEnumerable<Tuple<int, Vector<T>>> EnumerateRowsIndexed(int index, int length)
+        public IEnumerable<(int, Vector<T>)> EnumerateRowsIndexed(int index, int length)
         {
             var maxIndex = Math.Min(index + length, RowCount);
             for (var i = Math.Max(index, 0); i < maxIndex; i++)
             {
-                yield return new Tuple<int, Vector<T>>(i, Row(i));
+                yield return (i, Row(i));
             }
         }
 

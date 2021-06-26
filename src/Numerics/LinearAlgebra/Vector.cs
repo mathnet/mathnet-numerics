@@ -323,7 +323,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the second value being the value of the element at that index.
         /// The enumerator will include all values, even if they are zero.
         /// </remarks>
-        public IEnumerable<Tuple<int, T>> EnumerateIndexed()
+        public IEnumerable<(int, T)> EnumerateIndexed()
         {
             return Storage.EnumerateIndexed();
         }
@@ -336,7 +336,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// and the second value being the value of the element at that index.
         /// The enumerator will include all values, even if they are zero.
         /// </remarks>
-        public IEnumerable<Tuple<int, T>> EnumerateIndexed(Zeros zeros = Zeros.Include)
+        public IEnumerable<(int, T)> EnumerateIndexed(Zeros zeros = Zeros.Include)
         {
             switch (zeros)
             {

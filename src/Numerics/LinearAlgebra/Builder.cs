@@ -566,6 +566,17 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense matrix as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> DenseOfIndexed(int rows, int columns, IEnumerable<(int, int, T)> enumerable)
+        {
+            return Dense(DenseColumnMajorMatrixStorage<T>.OfIndexedEnumerable(rows, columns, enumerable));
+        }
+
+        /// <summary>
         /// Create a new dense matrix as a copy of the given enumerable.
         /// The enumerable is assumed to be in column-major order (column by column).
         /// This new matrix will be independent from the enumerable.
@@ -907,6 +918,17 @@ namespace MathNet.Numerics.LinearAlgebra
         /// A new memory block will be allocated for storing the matrix.
         /// </summary>
         public Matrix<T> SparseOfIndexed(int rows, int columns, IEnumerable<Tuple<int, int, T>> enumerable)
+        {
+            return Sparse(SparseCompressedRowMatrixStorage<T>.OfIndexedEnumerable(rows, columns, enumerable));
+        }
+
+        /// <summary>
+        /// Create a new sparse matrix as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public Matrix<T> SparseOfIndexed(int rows, int columns, IEnumerable<(int, int, T)> enumerable)
         {
             return Sparse(SparseCompressedRowMatrixStorage<T>.OfIndexedEnumerable(rows, columns, enumerable));
         }
@@ -1538,6 +1560,17 @@ namespace MathNet.Numerics.LinearAlgebra
         }
 
         /// <summary>
+        /// Create a new dense vector as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public Vector<T> DenseOfIndexed(int length, IEnumerable<(int, T)> enumerable)
+        {
+            return Dense(DenseVectorStorage<T>.OfIndexedEnumerable(length, enumerable));
+        }
+
+        /// <summary>
         /// Create a new sparse vector straight from an initialized vector storage instance.
         /// The storage is used directly without copying.
         /// Intended for advanced scenarios where you're working directly with
@@ -1608,6 +1641,17 @@ namespace MathNet.Numerics.LinearAlgebra
         /// A new memory block will be allocated for storing the vector.
         /// </summary>
         public Vector<T> SparseOfIndexed(int length, IEnumerable<Tuple<int, T>> enumerable)
+        {
+            return Sparse(SparseVectorStorage<T>.OfIndexedEnumerable(length, enumerable));
+        }
+
+        /// <summary>
+        /// Create a new sparse vector as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public Vector<T> SparseOfIndexed(int length, IEnumerable<(int, T)> enumerable)
         {
             return Sparse(SparseVectorStorage<T>.OfIndexedEnumerable(length, enumerable));
         }

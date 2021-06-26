@@ -222,8 +222,8 @@ namespace MathNet.Numerics.UnitTests
         public void UnfoldConsistentWithSequence()
         {
             Assert.That(
-                Generate.UnfoldSequence((s => new Tuple<int, int>(s + 1, s + 1)), 0).Take(250).ToArray(),
-                Is.EqualTo(Generate.Unfold(250, (s => new Tuple<int, int>(s + 1, s + 1)), 0)).AsCollection);
+                Generate.UnfoldSequence((s => (s + 1, s + 1)), 0).Take(250).ToArray(),
+                Is.EqualTo(Generate.Unfold(250, (s => (s + 1, s + 1)), 0)).AsCollection);
         }
 
         [Test]
@@ -239,11 +239,11 @@ namespace MathNet.Numerics.UnitTests
         {
             Assert.That(
                 Generate.FibonacciSequence().Take(250).ToArray(),
-                Is.EqualTo(new[] { BigInteger.Zero, BigInteger.One }.Concat(Generate.Unfold(248, (s =>
+                Is.EqualTo(new[] { BigInteger.Zero, BigInteger.One }.Concat(Generate.Unfold(248, s =>
                 {
                     var z = s.Item1 + s.Item2;
-                    return new Tuple<BigInteger, Tuple<BigInteger, BigInteger>>(z, new Tuple<BigInteger, BigInteger>(s.Item2, z));
-                }), new Tuple<BigInteger, BigInteger>(BigInteger.Zero, BigInteger.One)))).AsCollection);
+                    return (z, (s.Item2, z));
+                }, (BigInteger.Zero, BigInteger.One)))).AsCollection);
         }
     }
 }

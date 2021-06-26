@@ -147,6 +147,17 @@ namespace MathNet.Numerics.LinearAlgebra.Double
         }
 
         /// <summary>
+        /// Create a new diagonal matrix and initialize each diagonal value from the provided indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new matrix will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the matrix.
+        /// </summary>
+        public static DiagonalMatrix OfIndexedDiagonal(int rows, int columns, IEnumerable<(int, double)> diagonal)
+        {
+            return new DiagonalMatrix(DiagonalMatrixStorage<double>.OfIndexedEnumerable(rows, columns, diagonal));
+        }
+
+        /// <summary>
         /// Create a new diagonal matrix and initialize each diagonal value from the provided enumerable.
         /// This new matrix will be independent from the enumerable.
         /// A new memory block will be allocated for storing the matrix.

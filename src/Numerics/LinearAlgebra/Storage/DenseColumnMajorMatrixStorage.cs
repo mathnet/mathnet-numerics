@@ -329,9 +329,19 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
         public static DenseColumnMajorMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<Tuple<int, int, T>> data)
         {
             var array = new T[rows*columns];
-            foreach (var item in data)
+            foreach (var (i,j,x) in data)
             {
-                array[(item.Item2*rows) + item.Item1] = item.Item3;
+                array[j * rows + i] = x;
+            }
+            return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
+        }
+
+        public static DenseColumnMajorMatrixStorage<T> OfIndexedEnumerable(int rows, int columns, IEnumerable<(int, int, T)> data)
+        {
+            var array = new T[rows*columns];
+            foreach (var (i,j,x) in data)
+            {
+                array[j * rows + i] = x;
             }
             return new DenseColumnMajorMatrixStorage<T>(rows, columns, array);
         }
@@ -669,14 +679,14 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return Data;
         }
 
-        public override IEnumerable<Tuple<int, int, T>> EnumerateIndexed()
+        public override IEnumerable<(int, int, T)> EnumerateIndexed()
         {
             int index = 0;
             for (int j = 0; j < ColumnCount; j++)
             {
                 for (int i = 0; i < RowCount; i++)
                 {
-                    yield return new Tuple<int, int, T>(i, j, Data[index]);
+                    yield return (i, j, Data[index]);
                     index++;
                 }
             }
@@ -687,7 +697,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             return Data.Where(x => !Zero.Equals(x));
         }
 
-        public override IEnumerable<Tuple<int, int, T>> EnumerateNonZeroIndexed()
+        public override IEnumerable<(int, int, T)> EnumerateNonZeroIndexed()
         {
             int index = 0;
             for (int j = 0; j < ColumnCount; j++)
@@ -697,7 +707,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                     var x = Data[index];
                     if (!Zero.Equals(x))
                     {
-                        yield return new Tuple<int, int, T>(i, j, x);
+                        yield return (i, j, x);
                     }
                     index++;
                 }
@@ -712,8 +722,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             {
                 if (predicate(Data[i]))
                 {
-                    int row, column;
-                    RowColumnAtIndex(i, out row, out column);
+                    RowColumnAtIndex(i, out int row, out int column);
                     return new Tuple<int, int, T>(row, column, Data[i]);
                 }
             }
@@ -729,8 +738,7 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
                 {
                     if (predicate(Data[i], otherData[i]))
                     {
-                        int row, column;
-                        RowColumnAtIndex(i, out row, out column);
+                        RowColumnAtIndex(i, out int row, out int column);
                         return new Tuple<int, int, T, TOther>(row, column, Data[i], otherData[i]);
 
                     }

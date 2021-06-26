@@ -2,9 +2,9 @@
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
-// 
+//
 // Copyright (c) 2009-2013 Math.NET
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -13,10 +13,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -34,18 +34,32 @@ namespace MathNet.Numerics.LinearRegression
 {
     internal static class Util
     {
-        public static Tuple<TU[], TV[]> UnpackSinglePass<TU, TV>(this IEnumerable<Tuple<TU, TV>> samples)
+        public static (TU[] U, TV[] V) UnpackSinglePass<TU, TV>(this IEnumerable<Tuple<TU, TV>> samples)
         {
-            var u = new List<TU>();
-            var v = new List<TV>();
+            var ux = new List<TU>();
+            var vx = new List<TV>();
 
             foreach (var tuple in samples)
             {
-                u.Add(tuple.Item1);
-                v.Add(tuple.Item2);
+                ux.Add(tuple.Item1);
+                vx.Add(tuple.Item2);
             }
 
-            return new Tuple<TU[], TV[]>(u.ToArray(), v.ToArray());
+            return (ux.ToArray(), vx.ToArray());
+        }
+
+        public static (TU[] U, TV[] V) UnpackSinglePass<TU, TV>(this IEnumerable<(TU, TV)> samples)
+        {
+            var ux = new List<TU>();
+            var vx = new List<TV>();
+
+            foreach (var (u, v) in samples)
+            {
+                ux.Add(u);
+                vx.Add(v);
+            }
+
+            return (ux.ToArray(), vx.ToArray());
         }
     }
 }

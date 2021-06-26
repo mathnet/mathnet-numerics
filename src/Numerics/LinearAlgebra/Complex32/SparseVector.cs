@@ -108,6 +108,17 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         }
 
         /// <summary>
+        /// Create a new sparse vector as a copy of the given indexed enumerable.
+        /// Keys must be provided at most once, zero is assumed if a key is omitted.
+        /// This new vector will be independent from the enumerable.
+        /// A new memory block will be allocated for storing the vector.
+        /// </summary>
+        public static SparseVector OfIndexedEnumerable(int length, IEnumerable<(int, Complex32)> enumerable)
+        {
+            return new SparseVector(SparseVectorStorage<Complex32>.OfIndexedEnumerable(length, enumerable));
+        }
+
+        /// <summary>
         /// Create a new sparse vector and initialize each value using the provided value.
         /// </summary>
         public static SparseVector Create(int length, Complex32 value)
