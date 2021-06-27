@@ -56,7 +56,7 @@ namespace MathNet.Numerics
             // Series Expansion to x^k / k!
             int k = 0;
             double term = 1.0;
-            return Evaluate.Series(
+            return Series.Evaluate(
                 () =>
                 {
                     k++;

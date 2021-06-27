@@ -385,7 +385,7 @@ Target "DocsWatch" (fun _ ->
 Target "CleanApi" (fun _ -> CleanDirs ["out/api"])
 
 Target "Api" (fun _ ->
-    !! "src/Numerics/bin/Release/net40/MathNet.Numerics.dll"
+    !! "src/Numerics/bin/Release/net461/MathNet.Numerics.dll"
     |> Docu (fun p ->
         { p with
             ToolPath = "tools/docu/docu.exe"
