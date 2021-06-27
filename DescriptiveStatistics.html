@@ -148,13 +148,13 @@ The mean is affected by outliers, so if you need a more robust estimate consider
 <span class="l">7: </span>
 <span class="l">8: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">whiteNoise</span> <span class="o">=</span> <span class="i">Generate</span><span class="o">.</span><span class="i">Normal</span>(<span class="n">1000</span>, <span class="i">mean</span><span class="o">=</span><span class="n">10.0</span>, <span class="i">standardDeviation</span><span class="o">=</span><span class="n">2.0</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">whiteNoise</span> <span class="o">=</span> <span class="i">Generate</span><span class="o">.</span><span class="i">Normal</span>(<span class="n">1000</span>, <span class="i">mean</span><span class="o">=</span><span class="n">10.0</span>, <span class="i">standardDeviation</span><span class="o">=</span><span class="n">2.0</span>)
 <span class="fsi">val samples : float [] = [|12.90021939; 9.631515037; 7.810008046; 14.13301053; ...|] </span>
-<span class="i">Statistics</span><span class="o">.</span><span class="i">Mean</span> <span class="i">whiteNoise</span>
+<span class="i">Statistics</span><span class="o">.</span><span class="i">Mean</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="i">whiteNoise</span>
 <span class="fsi">val it : float = 10.02162347</span>
 
-<span class="k">let</span> <span class="i">wave</span> <span class="o">=</span> <span class="i">Generate</span><span class="o">.</span><span class="i">Sinusoidal</span>(<span class="n">1000</span>, <span class="i">samplingRate</span><span class="o">=</span><span class="n">100.</span>, <span class="i">frequency</span><span class="o">=</span><span class="n">5.</span>, <span class="i">amplitude</span><span class="o">=</span><span class="n">0.5</span>)
-<span class="i">Statistics</span><span class="o">.</span><span class="i">Mean</span> <span class="i">wave</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 3)" onmouseover="showTip(event, 'fs2', 3)" class="i">wave</span> <span class="o">=</span> <span class="i">Generate</span><span class="o">.</span><span class="i">Sinusoidal</span>(<span class="n">1000</span>, <span class="i">samplingRate</span><span class="o">=</span><span class="n">100.</span>, <span class="i">frequency</span><span class="o">=</span><span class="n">5.</span>, <span class="i">amplitude</span><span class="o">=</span><span class="n">0.5</span>)
+<span class="i">Statistics</span><span class="o">.</span><span class="i">Mean</span> <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="i">wave</span>
 <span class="fsi">val it : float = -4.133520783e-17</span>
 </code></pre></td>
 </tr>
@@ -180,12 +180,12 @@ Bessel's correction with an <span class="math">\(N-1\)</span> normalizer to a sa
 <span class="l">6: </span>
 <span class="l">7: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Variance</span> <span class="i">whiteNoise</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Variance</span> <span onmouseout="hideTip(event, 'fs1', 5)" onmouseover="showTip(event, 'fs1', 5)" class="i">whiteNoise</span>
 <span class="fsi">val it : float = 3.819436094</span>
-<span class="i">Statistics</span><span class="o">.</span><span class="i">StandardDeviation</span> <span class="i">whiteNoise</span>
+<span class="i">Statistics</span><span class="o">.</span><span class="i">StandardDeviation</span> <span onmouseout="hideTip(event, 'fs1', 6)" onmouseover="showTip(event, 'fs1', 6)" class="i">whiteNoise</span>
 <span class="fsi">val it : float = 1.954337764</span>
 
-<span class="i">Statistics</span><span class="o">.</span><span class="i">Variance</span> <span class="i">wave</span>
+<span class="i">Statistics</span><span class="o">.</span><span class="i">Variance</span> <span onmouseout="hideTip(event, 'fs2', 7)" onmouseover="showTip(event, 'fs2', 7)" class="i">wave</span>
 <span class="fsi">val it : float = 0.1251251251</span>
 </code></pre></td>
 </tr>
@@ -199,7 +199,7 @@ that evaluate both in a single pass:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">MeanVariance</span> <span class="i">whiteNoise</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">MeanVariance</span> <span onmouseout="hideTip(event, 'fs1', 8)" onmouseover="showTip(event, 'fs1', 8)" class="i">whiteNoise</span>
 <span class="fsi">val it : float * float = (10.02162347, 3.819436094)</span>
 </code></pre></td>
 </tr>
@@ -217,9 +217,9 @@ apply Bessel's correction to bias in case of sample data.</p>
 <span class="l">3: </span>
 <span class="l">4: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Covariance</span>(<span class="i">whiteNoise</span>, <span class="i">whiteNoise</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Covariance</span>(<span onmouseout="hideTip(event, 'fs1', 9)" onmouseover="showTip(event, 'fs1', 9)" class="i">whiteNoise</span>, <span onmouseout="hideTip(event, 'fs1', 10)" onmouseover="showTip(event, 'fs1', 10)" class="i">whiteNoise</span>)
 <span class="fsi">val it : float = 3.819436094</span>
-<span class="i">Statistics</span><span class="o">.</span><span class="i">Covariance</span>(<span class="i">whiteNoise</span>, <span class="i">wave</span>)
+<span class="i">Statistics</span><span class="o">.</span><span class="i">Covariance</span>(<span onmouseout="hideTip(event, 'fs1', 11)" onmouseover="showTip(event, 'fs1', 11)" class="i">whiteNoise</span>, <span onmouseout="hideTip(event, 'fs2', 12)" onmouseover="showTip(event, 'fs2', 12)" class="i">wave</span>)
 <span class="fsi">val it : float = 0.04397985084</span>
 </code></pre></td>
 </tr>
@@ -257,17 +257,17 @@ and also the rest of the library.</p>
 <span class="l">11: </span>
 <span class="l">12: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">OrderStatistic</span>(<span class="i">whiteNoise</span>, <span class="n">1</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">OrderStatistic</span>(<span onmouseout="hideTip(event, 'fs1', 13)" onmouseover="showTip(event, 'fs1', 13)" class="i">whiteNoise</span>, <span class="n">1</span>)
 <span class="fsi">val it : float = 3.633070184</span>
-<span class="i">Statistics</span><span class="o">.</span><span class="i">OrderStatistic</span>(<span class="i">whiteNoise</span>, <span class="n">1000</span>)
+<span class="i">Statistics</span><span class="o">.</span><span class="i">OrderStatistic</span>(<span onmouseout="hideTip(event, 'fs1', 14)" onmouseover="showTip(event, 'fs1', 14)" class="i">whiteNoise</span>, <span class="n">1000</span>)
 <span class="fsi">val it : float = 16.65183566</span>
 
-<span class="k">let</span> <span class="i">os</span> <span class="o">=</span> <span class="i">Statistics</span><span class="o">.</span><span class="i">orderStatisticFunc</span> <span class="i">whiteNoise</span>
-<span class="i">os</span> <span class="n">250</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 15)" onmouseover="showTip(event, 'fs3', 15)" class="f">os</span> <span class="o">=</span> <span class="i">Statistics</span><span class="o">.</span><span class="i">orderStatisticFunc</span> <span onmouseout="hideTip(event, 'fs1', 16)" onmouseover="showTip(event, 'fs1', 16)" class="i">whiteNoise</span>
+<span onmouseout="hideTip(event, 'fs3', 17)" onmouseover="showTip(event, 'fs3', 17)" class="f">os</span> <span class="n">250</span>
 <span class="fsi">val it : float = 8.645491746</span>
-<span class="i">os</span> <span class="n">500</span>
+<span onmouseout="hideTip(event, 'fs3', 18)" onmouseover="showTip(event, 'fs3', 18)" class="f">os</span> <span class="n">500</span>
 <span class="fsi">val it : float = 10.11872428</span>
-<span class="i">os</span> <span class="n">750</span>
+<span onmouseout="hideTip(event, 'fs3', 19)" onmouseover="showTip(event, 'fs3', 19)" class="f">os</span> <span class="n">750</span>
 <span class="fsi">val it : float = 11.33170746</span>
 </code></pre></td>
 </tr>
@@ -288,9 +288,9 @@ median-unbiased regardless of the sample distribution. If you need another conve
 <span class="l">3: </span>
 <span class="l">4: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Median</span> <span class="i">whiteNoise</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Median</span> <span onmouseout="hideTip(event, 'fs1', 20)" onmouseover="showTip(event, 'fs1', 20)" class="i">whiteNoise</span>
 <span class="fsi">val it : float = 10.11872428</span>
-<span class="i">Statistics</span><span class="o">.</span><span class="i">Median</span> <span class="i">wave</span>
+<span class="i">Statistics</span><span class="o">.</span><span class="i">Median</span> <span onmouseout="hideTip(event, 'fs2', 21)" onmouseover="showTip(event, 'fs2', 21)" class="i">wave</span>
 <span class="fsi">val it : float = -2.452600839e-16</span>
 </code></pre></td>
 </tr>
@@ -312,9 +312,9 @@ estimates the median as discussed above.</p>
 <span class="l">3: </span>
 <span class="l">4: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">LowerQuartile</span> <span class="i">whiteNoise</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">LowerQuartile</span> <span onmouseout="hideTip(event, 'fs1', 22)" onmouseover="showTip(event, 'fs1', 22)" class="i">whiteNoise</span>
 <span class="fsi">val it : float = 8.645491746</span>
-<span class="i">Statistics</span><span class="o">.</span><span class="i">UpperQuartile</span> <span class="i">whiteNoise</span>
+<span class="i">Statistics</span><span class="o">.</span><span class="i">UpperQuartile</span> <span onmouseout="hideTip(event, 'fs1', 23)" onmouseover="showTip(event, 'fs1', 23)" class="i">whiteNoise</span>
 <span class="fsi">val it : float = 11.33213732</span>
 </code></pre></td>
 </tr>
@@ -330,9 +330,9 @@ the maximum value. All these values can be visualized in the popular box plot di
 <span class="l">3: </span>
 <span class="l">4: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">FiveNumberSummary</span> <span class="i">whiteNoise</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">FiveNumberSummary</span> <span onmouseout="hideTip(event, 'fs1', 24)" onmouseover="showTip(event, 'fs1', 24)" class="i">whiteNoise</span>
 <span class="fsi">val it : float [] = [|3.633070184; 8.645937823; 10.12165054; 11.33213732; 16.65183566|] </span>
-<span class="i">Statistics</span><span class="o">.</span><span class="i">FiveNumberSummary</span> <span class="i">wave</span>
+<span class="i">Statistics</span><span class="o">.</span><span class="i">FiveNumberSummary</span> <span onmouseout="hideTip(event, 'fs2', 25)" onmouseover="showTip(event, 'fs2', 25)" class="i">wave</span>
 <span class="fsi">val it : float [] = [|-0.5; -0.3584185509; -2.452600839e-16; 0.3584185509; 0.5|] </span>
 </code></pre></td>
 </tr>
@@ -346,7 +346,7 @@ and is a robust indicator of spread. In box plots the IQR is the total height of
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">InterquartileRange</span> <span class="i">whiteNoise</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">InterquartileRange</span> <span onmouseout="hideTip(event, 'fs1', 26)" onmouseover="showTip(event, 'fs1', 26)" class="i">whiteNoise</span>
 <span class="fsi">val it : float = 2.686199498</span>
 </code></pre></td>
 </tr>
@@ -366,9 +366,9 @@ The 0-percentile represents the minimum value, 25 the first quartile, 50 the med
 <span class="l">3: </span>
 <span class="l">4: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Percentile</span>(<span class="i">whiteNoise</span>, <span class="n">5</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Percentile</span>(<span onmouseout="hideTip(event, 'fs1', 27)" onmouseover="showTip(event, 'fs1', 27)" class="i">whiteNoise</span>, <span class="n">5</span>)
 <span class="fsi">val it : float = 6.693373507</span>
-<span class="i">Statistics</span><span class="o">.</span><span class="i">Percentile</span>(<span class="i">whiteNoise</span>, <span class="n">98</span>)
+<span class="i">Statistics</span><span class="o">.</span><span class="i">Percentile</span>(<span onmouseout="hideTip(event, 'fs1', 28)" onmouseover="showTip(event, 'fs1', 28)" class="i">whiteNoise</span>, <span class="n">98</span>)
 <span class="fsi">val it : float = 13.97580653</span>
 </code></pre></td>
 </tr>
@@ -385,7 +385,7 @@ the inverse cumulative distribution function of the sample distribution.</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Quantile</span>(<span class="i">whiteNoise</span>, <span class="n">0.98</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Quantile</span>(<span onmouseout="hideTip(event, 'fs1', 29)" onmouseover="showTip(event, 'fs1', 29)" class="i">whiteNoise</span>, <span class="n">0.98</span>)
 <span class="fsi">val it : float = 13.97580653</span>
 </code></pre></td>
 </tr>
@@ -447,7 +447,7 @@ Similar to <code>QuantileDefinition</code>, the <code>RankDefinition</code> enum
 <span class="l">5: </span>
 <span class="l">6: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Ranks</span>(<span class="i">whiteNoise</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">Ranks</span>(<span onmouseout="hideTip(event, 'fs1', 30)" onmouseover="showTip(event, 'fs1', 30)" class="i">whiteNoise</span>)
 <span class="fsi">val it : float [] = [|634.0; 736.0; 405.0; 395.0; 197.0; 167.0; 722.0; 44.0; ...|] </span>
 <span class="i">Statistics</span><span class="o">.</span><span class="i">Ranks</span>([| <span class="n">13.0</span>; <span class="n">14.0</span>; <span class="n">11.0</span>; <span class="n">12.0</span>; <span class="n">13.0</span> |], <span class="i">RankDefinition</span><span class="o">.</span><span class="i">Average</span>)
 <span class="fsi">val it : float [] = [|3.5; 5.0; 1.0; 2.0; 3.5|] </span>
@@ -468,9 +468,9 @@ function crosses <span class="math">\(\tau\)</span>.</p>
 <span class="l">3: </span>
 <span class="l">4: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">QuantileRank</span>(<span class="i">whiteNoise</span>, <span class="n">13.0</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Statistics</span><span class="o">.</span><span class="i">QuantileRank</span>(<span onmouseout="hideTip(event, 'fs1', 31)" onmouseover="showTip(event, 'fs1', 31)" class="i">whiteNoise</span>, <span class="n">13.0</span>)
 <span class="fsi">val it : float = 0.9370045563</span>
-<span class="i">Statistics</span><span class="o">.</span><span class="i">QuantileRank</span>(<span class="i">whiteNoise</span>, <span class="n">6.7</span>, <span class="i">RankDefinition</span><span class="o">.</span><span class="i">Average</span>)
+<span class="i">Statistics</span><span class="o">.</span><span class="i">QuantileRank</span>(<span onmouseout="hideTip(event, 'fs1', 32)" onmouseover="showTip(event, 'fs1', 32)" class="i">whiteNoise</span>, <span class="n">6.7</span>, <span class="i">RankDefinition</span><span class="o">.</span><span class="i">Average</span>)
 <span class="fsi">val it : float = 0.04960610389</span>
 </code></pre></td>
 </tr>
@@ -495,14 +495,14 @@ function crosses <span class="math">\(\tau\)</span>.</p>
 <span class="l">12: </span>
 <span class="l">13: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">ecdf</span> <span class="o">=</span> <span class="i">Statistics</span><span class="o">.</span><span class="i">EmpiricalCDFFunc</span> <span class="i">whiteNoise</span>
-<span class="i">Generate</span><span class="o">.</span><span class="i">LinearSpacedMap</span>(<span class="n">20</span>, <span class="i">start</span><span class="o">=</span><span class="n">3.0</span>, <span class="i">stop</span><span class="o">=</span><span class="n">17.0</span>, <span class="i">map</span><span class="o">=</span><span class="i">ecdf</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 33)" onmouseover="showTip(event, 'fs4', 33)" class="i">ecdf</span> <span class="o">=</span> <span class="i">Statistics</span><span class="o">.</span><span class="i">EmpiricalCDFFunc</span> <span onmouseout="hideTip(event, 'fs1', 34)" onmouseover="showTip(event, 'fs1', 34)" class="i">whiteNoise</span>
+<span class="i">Generate</span><span class="o">.</span><span class="i">LinearSpacedMap</span>(<span class="n">20</span>, <span class="i">start</span><span class="o">=</span><span class="n">3.0</span>, <span class="i">stop</span><span class="o">=</span><span class="n">17.0</span>, <span class="i">map</span><span class="o">=</span><span onmouseout="hideTip(event, 'fs4', 35)" onmouseover="showTip(event, 'fs4', 35)" class="i">ecdf</span>)
 <span class="fsi">val it : float [] =</span>
 <span class="fsi">    [|0.0; 0.001; 0.002; 0.005; 0.022; 0.05; 0.094; 0.172; 0.278; 0.423; 0.555; </span>
 <span class="fsi">      0.705; 0.843; 0.921; 0.944; 0.983; 0.992; 0.997; 0.999; 1.0|] </span>
 
-<span class="k">let</span> <span class="i">eicdf</span> <span class="o">=</span> <span class="i">Statistics</span><span class="o">.</span><span class="i">empiricalInvCDFFunc</span> <span class="i">whiteNoise</span>
-[ <span class="k">for</span> <span class="i">tau</span> <span class="k">in</span> <span class="n">0.0</span><span class="o">..</span><span class="n">0.05</span><span class="o">..</span><span class="n">1.0</span> <span class="k">-&gt;</span> <span class="i">eicdf</span> <span class="i">tau</span> ]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 36)" onmouseover="showTip(event, 'fs5', 36)" class="f">eicdf</span> <span class="o">=</span> <span class="i">Statistics</span><span class="o">.</span><span class="i">empiricalInvCDFFunc</span> <span onmouseout="hideTip(event, 'fs1', 37)" onmouseover="showTip(event, 'fs1', 37)" class="i">whiteNoise</span>
+[ <span class="k">for</span> <span onmouseout="hideTip(event, 'fs6', 38)" onmouseover="showTip(event, 'fs6', 38)" class="i">tau</span> <span class="k">in</span> <span class="n">0.0</span><span class="o">..</span><span class="n">0.05</span><span class="o">..</span><span class="n">1.0</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs5', 39)" onmouseover="showTip(event, 'fs5', 39)" class="f">eicdf</span> <span onmouseout="hideTip(event, 'fs6', 40)" onmouseover="showTip(event, 'fs6', 40)" class="i">tau</span> ]
 <span class="fsi">val it : float [] =</span>
 <span class="fsi">    [3.633070184; 6.682142043; 7.520000817; 8.040513497; 8.347587493; </span>
 <span class="fsi">     8.645491746; 9.02681611; 9.298987151; 9.522627142; 9.819352699; 10.11872428; </span>
@@ -534,6 +534,12 @@ correlation coefficient, as well as their correlation matrix for a set of vector
 <span class="k">double</span> correlation <span class="o">=</span> Correlation.Pearson(dataF, dataG);
 </code></pre></td></tr></table>
 
+<div class="tip" id="fs1">val whiteNoise : obj<br /><br />Full name: DescriptiveStatistics.whiteNoise</div>
+<div class="tip" id="fs2">val wave : obj<br /><br />Full name: DescriptiveStatistics.wave</div>
+<div class="tip" id="fs3">val os : (int -&gt; obj)<br /><br />Full name: DescriptiveStatistics.os</div>
+<div class="tip" id="fs4">val ecdf : obj<br /><br />Full name: DescriptiveStatistics.ecdf</div>
+<div class="tip" id="fs5">val eicdf : (float -&gt; obj)<br /><br />Full name: DescriptiveStatistics.eicdf</div>
+<div class="tip" id="fs6">val tau : float</div>
 
                 </div>
                 <div class="span3">

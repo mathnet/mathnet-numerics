@@ -77,7 +77,7 @@ single colon <code>:</code> and double colon <code>::</code> operators in MATLAB
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">[ <span class="n">10.0</span> <span class="o">..</span> <span class="n">2.0</span> <span class="o">..</span> <span class="n">15.0</span> ]
 <span class="fsi">val it : float list = [10.0; 12.0; 14.0] </span>
-[ <span class="k">for</span> <span class="i">x</span> <span class="k">in</span> <span class="n">10.0</span> <span class="o">..</span> <span class="n">2.0</span> <span class="o">..</span> <span class="n">15.0</span> <span class="k">-&gt;</span> <span class="i">sin</span> <span class="i">x</span> ]
+[ <span class="k">for</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">x</span> <span class="k">in</span> <span class="n">10.0</span> <span class="o">..</span> <span class="n">2.0</span> <span class="o">..</span> <span class="n">15.0</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="f">sin</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="i">x</span> ]
 <span class="fsi">val it : float list = [-0.5440211109; -0.536572918; 0.9906073557] </span>
 </code></pre></td>
 </tr>
@@ -111,7 +111,7 @@ Generate.LinearSpacedMap(<span class="n">15</span>, <span class="n">0.0</span>, 
 <span class="l">4: </span>
 <span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Generate</span><span class="o">.</span><span class="i">linearSpacedMap</span> <span class="n">15</span> <span class="n">0.0</span> <span class="i">Math</span><span class="o">.</span><span class="i">PI</span> <span class="i">sin</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Generate</span><span class="o">.</span><span class="i">linearSpacedMap</span> <span class="n">15</span> <span class="n">0.0</span> <span class="i">Math</span><span class="o">.</span><span class="i">PI</span> <span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="i">sin</span>
 <span class="fsi">val it : float [] = </span>
 <span class="fsi">  [|0.0; 0.222520934; 0.4338837391; 0.6234898019; 0.7818314825; 0.9009688679; </span>
 <span class="fsi">    0.9749279122; 1.0; 0.9749279122; 0.9009688679; 0.7818314825; 0.6234898019; </span>
@@ -245,7 +245,7 @@ Generate.Map(a, x <span class="o">=</span><span class="o">&gt;</span> x <span cl
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Array</span><span class="o">.</span><span class="i">map</span> ((<span class="o">+</span>) <span class="n">1.0</span>) <span class="i">a</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs3', 5)" onmouseover="showTip(event, 'fs3', 5)" class="t">Array</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="f">map</span> ((<span class="o">+</span>) <span class="n">1.0</span>) <span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="i">a</span>
 <span class="fsi">val it : float [] = [|3.0; 5.0; 4.0; 7.0|] </span>
 </code></pre></td>
 </tr>
@@ -261,8 +261,8 @@ You can use LINQ, but that operates on sequences instead of arrays:</p>
 <span class="l">2: </span>
 <span class="l">3: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">b</span> <span class="o">=</span> [| <span class="n">1.0</span>; <span class="o">-</span><span class="n">1.0</span>; <span class="n">2.0</span>; <span class="o">-</span><span class="n">2.0</span> |]
-<span class="i">Generate</span><span class="o">.</span><span class="i">Map2</span>(<span class="i">a</span>, <span class="i">b</span>, <span class="k">fun</span> <span class="i">x</span> <span class="i">y</span> <span class="k">-&gt;</span> <span class="i">x</span> <span class="o">+</span> <span class="i">y</span>)
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 8)" onmouseover="showTip(event, 'fs6', 8)" class="i">b</span> <span class="o">=</span> [| <span class="n">1.0</span>; <span class="o">-</span><span class="n">1.0</span>; <span class="n">2.0</span>; <span class="o">-</span><span class="n">2.0</span> |]
+<span class="i">Generate</span><span class="o">.</span><span class="i">Map2</span>(<span onmouseout="hideTip(event, 'fs5', 9)" onmouseover="showTip(event, 'fs5', 9)" class="i">a</span>, <span onmouseout="hideTip(event, 'fs6', 10)" onmouseover="showTip(event, 'fs6', 10)" class="i">b</span>, <span class="k">fun</span> <span class="i">x</span> <span class="i">y</span> <span class="k">-&gt;</span> <span class="i">x</span> <span class="o">+</span> <span class="i">y</span>)
 <span class="fsi">val it : float [] = [|3.0; 3.0; 5.0; 4.0|] </span>
 </code></pre></td>
 </tr>
@@ -271,7 +271,7 @@ You can use LINQ, but that operates on sequences instead of arrays:</p>
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="i">Array</span><span class="o">.</span><span class="i">map2</span> (<span class="o">+</span>) <span class="i">a</span> <span class="i">b</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs3', 11)" onmouseover="showTip(event, 'fs3', 11)" class="t">Array</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs7', 12)" onmouseover="showTip(event, 'fs7', 12)" class="f">map2</span> (<span class="o">+</span>) <span onmouseout="hideTip(event, 'fs5', 13)" onmouseover="showTip(event, 'fs5', 13)" class="i">a</span> <span onmouseout="hideTip(event, 'fs6', 14)" onmouseover="showTip(event, 'fs6', 14)" class="i">b</span>
 <span class="fsi">val it : float [] = [|3.0; 3.0; 5.0; 4.0|] </span>
 </code></pre></td>
 </tr>
@@ -282,6 +282,13 @@ You can use LINQ, but that operates on sequences instead of arrays:</p>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">a.Zip(b, (x, y) <span class="o">=</span><span class="o">&gt;</span> x <span class="o">+</span> y).ToArray();
 </code></pre></td></tr></table>
 
+<div class="tip" id="fs1">val x : float</div>
+<div class="tip" id="fs2">val sin : value:&#39;T -&gt; &#39;T (requires member Sin)<br /><br />Full name: Microsoft.FSharp.Core.Operators.sin</div>
+<div class="tip" id="fs3">module Array<br /><br />from Microsoft.FSharp.Collections</div>
+<div class="tip" id="fs4">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; array:&#39;T [] -&gt; &#39;U []<br /><br />Full name: Microsoft.FSharp.Collections.Array.map</div>
+<div class="tip" id="fs5">val a : float []<br /><br />Full name: Generate.a</div>
+<div class="tip" id="fs6">val b : float []<br /><br />Full name: Generate.b</div>
+<div class="tip" id="fs7">val map2 : mapping:(&#39;T1 -&gt; &#39;T2 -&gt; &#39;U) -&gt; array1:&#39;T1 [] -&gt; array2:&#39;T2 [] -&gt; &#39;U []<br /><br />Full name: Microsoft.FSharp.Collections.Array.map2</div>
 
                 </div>
                 <div class="span3">

@@ -58,7 +58,27 @@
                 <div class="span9" id="main">
                     
 <h1><a name="Math-NET-Numerics-Release-Notes" class="anchor" href="#Math-NET-Numerics-Release-Notes">Math.NET Numerics Release Notes</a></h1>
-<p><a href="ReleaseNotes.html">Math.NET Numerics</a> | <a href="ReleaseNotes-MKL.html">MKL Provider</a> | <a href="ReleaseNotes-OpenBLAS.html">OpenBLAS Provider</a> | <a href="ReleaseNotes-Data.html">Data Extensions</a></p>
+<p><a href="ReleaseNotes.html">Math.NET Numerics</a> | <a href="ReleaseNotes-MKL.html">MKL Provider</a> | <a href="ReleaseNotes-OpenBLAS.html">OpenBLAS Provider</a></p>
+<h3><a name="5-0-0-alpha01-2021-06-27" class="anchor" href="#5-0-0-alpha01-2021-06-27">5.0.0-alpha01 - 2021-06-27</a></h3>
+<ul>
+<li>COMPATIBILITY: net5.0, net48 better supported with explicit builds</li>
+<li>COMPATIBILITY: netstandard1.x, net40, net45 no longer supported</li>
+<li>BREAKING: drop all which was marked as obsolete</li>
+<li>BREAKING: all native provider adapters moved out to separate NuGet packages</li>
+<li>BREAKING: switch many usages of tuples to value tuples (experimental)</li>
+<li>Distributions: Logistic <em>~Bobby Ingram</em></li>
+<li>Distributions: Perf: Cauchy avoid duplicate evaluation <em>~Febin</em></li>
+<li>Precision: Perf: pre-compute negative powers <em>~Febin</em></li>
+<li>Optimizations: Remove static properties in LevenbergMarquardtMinimizer <em>~Jong Hyun Kim</em></li>
+<li>Fit.Curve and FindMinimum extended to accept two more parameters</li>
+<li>Series: stable series summation</li>
+<li>Providers: drop managed reference linear algebra provider</li>
+<li>Providers: native providers no longer inherit managed providers, managed now sealed</li>
+<li>Providers: MKL provider compilation switched to Intel oneAPI MKL</li>
+<li>Lots of internal cleanup, leveraging newer language features</li>
+<li>Data: now released always together with Numerics (no longer separate versioning)</li>
+<li>Control.Describe now includes CPU architecture and family identifier if know</li>
+</ul>
 <h3><a name="4-15-0-2021-01-07" class="anchor" href="#4-15-0-2021-01-07">4.15.0 - 2021-01-07</a></h3>
 <ul>
 <li>Precision: Round (with integer part rounding) <em>~Jon Larborn</em></li>

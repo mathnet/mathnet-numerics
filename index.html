@@ -119,9 +119,9 @@ idiomatic and includes arbitrary precision types (BigInteger, BigRational).</p>
 <span class="l">4: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">LinearAlgebra</span>
-<span class="k">let</span> <span class="i">m</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">1.0</span>; <span class="n">2.0</span> ]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">m</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">1.0</span>; <span class="n">2.0</span> ]
                 [ <span class="n">3.0</span>; <span class="n">4.0</span> ]]
-<span class="k">let</span> <span class="i">m&#39;</span> <span class="o">=</span> <span class="i">m</span><span class="o">.</span><span class="i">Inverse</span>()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">m&#39;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="i">m</span><span class="o">.</span><span class="i">Inverse</span>()
 </code></pre></td>
 </tr>
 </table>
@@ -145,8 +145,8 @@ For convenience our F# packages include a small script that sets everything up p
 <span class="i">SpecialFunctions</span><span class="o">.</span><span class="i">Gamma</span>(<span class="n">0.5</span>)
 
 <span class="k">open</span> <span class="i">MathNet</span><span class="o">.</span><span class="i">Numerics</span><span class="o">.</span><span class="i">LinearAlgebra</span>
-<span class="k">let</span> <span class="i">m</span> <span class="o">:</span> <span class="i">Matrix</span><span class="o">&lt;</span><span class="i">float</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">randomStandard</span> <span class="n">50</span> <span class="n">50</span>
-(<span class="i">m</span> <span class="o">*</span> <span class="i">m</span><span class="o">.</span><span class="i">Transpose</span>())<span class="o">.</span><span class="i">Determinant</span>()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="i">m</span> <span class="o">:</span> <span class="i">Matrix</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs3', 5)" onmouseover="showTip(event, 'fs3', 5)" class="i">float</span><span class="o">&gt;</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">randomStandard</span> <span class="n">50</span> <span class="n">50</span>
+(<span onmouseout="hideTip(event, 'fs1', 6)" onmouseover="showTip(event, 'fs1', 6)" class="i">m</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs1', 7)" onmouseover="showTip(event, 'fs1', 7)" class="i">m</span><span class="o">.</span><span class="i">Transpose</span>())<span class="o">.</span><span class="i">Determinant</span>()
 </code></pre></td>
 </tr>
 </table>
@@ -281,6 +281,9 @@ DenseVector 500-Double
 </code></pre></td></tr></table>
 <p>See <a href="MKL.html">Intel MKL</a> for details how to use native providers on Linux.</p>
 
+<div class="tip" id="fs1">val m : obj<br /><br />Full name: index.m</div>
+<div class="tip" id="fs2">val m&#39; : obj<br /><br />Full name: index.m&#39;</div>
+<div class="tip" id="fs3">Multiple items<br />val float : value:&#39;T -&gt; float (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.float<br /><br />--------------------<br />type float = System.Double<br /><br />Full name: Microsoft.FSharp.Core.float<br /><br />--------------------<br />type float&lt;&#39;Measure&gt; = float<br /><br />Full name: Microsoft.FSharp.Core.float&lt;_&gt;</div>
 
                 </div>
                 <div class="span3">

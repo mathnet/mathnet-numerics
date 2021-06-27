@@ -117,11 +117,11 @@ a_{m1} &amp; a_{m2} &amp; \cdots &amp; a_{mn}
 <span class="l">4: </span>
 <span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">A</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">3.0</span>; <span class="n">2.0</span>; <span class="o">-</span><span class="n">1.0</span> ]
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">A</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">3.0</span>; <span class="n">2.0</span>; <span class="o">-</span><span class="n">1.0</span> ]
                 [ <span class="n">2.0</span>; <span class="o">-</span><span class="n">2.0</span>; <span class="n">4.0</span> ]
                 [ <span class="o">-</span><span class="n">1.0</span>; <span class="n">0.5</span>; <span class="o">-</span><span class="n">1.0</span> ]]
-<span class="k">let</span> <span class="i">b</span> <span class="o">=</span> <span class="i">vector</span> [ <span class="n">1.0</span>; <span class="o">-</span><span class="n">2.0</span>; <span class="n">0.0</span> ]
-<span class="k">let</span> <span class="i">x</span> <span class="o">=</span> <span class="i">A</span><span class="o">.</span><span class="i">Solve</span>(<span class="i">b</span>) <span class="c">// 1;-2;-2</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">b</span> <span class="o">=</span> <span class="i">vector</span> [ <span class="n">1.0</span>; <span class="o">-</span><span class="n">2.0</span>; <span class="n">0.0</span> ]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">x</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 4)" onmouseover="showTip(event, 'fs1', 4)" class="i">A</span><span class="o">.</span><span class="i">Solve</span>(<span onmouseout="hideTip(event, 'fs2', 5)" onmouseover="showTip(event, 'fs2', 5)" class="i">b</span>) <span class="c">// 1;-2;-2</span>
 </code></pre></td>
 </tr>
 </table>
@@ -158,16 +158,22 @@ become zero on the right side), by introducing a new column each. First we subtr
 <span class="l">5: </span>
 <span class="l">6: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">A&#39;</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">3.0</span>; <span class="n">4.0</span>; <span class="o">-</span><span class="n">1.0</span>; <span class="n">0.0</span> ]
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="i">A&#39;</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">3.0</span>; <span class="n">4.0</span>; <span class="o">-</span><span class="n">1.0</span>; <span class="n">0.0</span> ]
                  [ <span class="n">4.0</span>; <span class="n">5.0</span>; <span class="n">0.0</span>; <span class="o">-</span><span class="n">1.0</span> ]
                  [ <span class="n">5.0</span>; <span class="n">6.0</span>; <span class="n">0.0</span>; <span class="n">0.0</span>; ]
                  [ <span class="n">6.0</span>; <span class="n">7.0</span>; <span class="n">0.0</span>; <span class="n">0.0</span> ]]
-<span class="k">let</span> <span class="i">b&#39;</span> <span class="o">=</span> <span class="i">vector</span> [ <span class="n">0.0</span>; <span class="n">0.0</span>; <span class="n">20.0</span>; <span class="n">0.0</span> ]
-<span class="k">let</span> <span class="i">x&#39;</span> <span class="o">=</span> <span class="i">A&#39;</span><span class="o">.</span><span class="i">Solve</span>(<span class="i">b&#39;</span>) <span class="c">// -140; 120; 60; 40</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="i">b&#39;</span> <span class="o">=</span> <span class="i">vector</span> [ <span class="n">0.0</span>; <span class="n">0.0</span>; <span class="n">20.0</span>; <span class="n">0.0</span> ]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 8)" onmouseover="showTip(event, 'fs6', 8)" class="i">x&#39;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs4', 9)" onmouseover="showTip(event, 'fs4', 9)" class="i">A&#39;</span><span class="o">.</span><span class="i">Solve</span>(<span onmouseout="hideTip(event, 'fs5', 10)" onmouseover="showTip(event, 'fs5', 10)" class="i">b&#39;</span>) <span class="c">// -140; 120; 60; 40</span>
 </code></pre></td>
 </tr>
 </table>
 
+<div class="tip" id="fs1">val A : obj<br /><br />Full name: LinearEquations.A</div>
+<div class="tip" id="fs2">val b : obj<br /><br />Full name: LinearEquations.b</div>
+<div class="tip" id="fs3">val x : obj<br /><br />Full name: LinearEquations.x</div>
+<div class="tip" id="fs4">val A&#39; : obj<br /><br />Full name: LinearEquations.A&#39;</div>
+<div class="tip" id="fs5">val b&#39; : obj<br /><br />Full name: LinearEquations.b&#39;</div>
+<div class="tip" id="fs6">val x&#39; : obj<br /><br />Full name: LinearEquations.x&#39;</div>
 
                 </div>
                 <div class="span3">

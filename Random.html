@@ -124,18 +124,18 @@ System.Random rng <span class="o">=</span> SystemRandomSource.Default;
 <span class="l">11: </span>
 <span class="l">12: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">samples</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">doubles</span> <span class="n">1000</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">samples</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">doubles</span> <span class="n">1000</span>
 
 <span class="c">// overwrite the whole array with new random values</span>
-<span class="i">Random</span><span class="o">.</span><span class="i">doubleFill</span> <span class="i">samples</span>
+<span class="i">Random</span><span class="o">.</span><span class="i">doubleFill</span> <span onmouseout="hideTip(event, 'fs1', 2)" onmouseover="showTip(event, 'fs1', 2)" class="i">samples</span>
 
 <span class="c">// create an infinite sequence:</span>
-<span class="k">let</span> <span class="i">sampleSeq</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">doubleSeq</span> ()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 3)" onmouseover="showTip(event, 'fs2', 3)" class="i">sampleSeq</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">doubleSeq</span> ()
 
 <span class="c">// take a single random value</span>
-<span class="k">let</span> <span class="i">rng</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">shared</span>
-<span class="k">let</span> <span class="i">sample</span> <span class="o">=</span> <span class="i">rng</span><span class="o">.</span><span class="i">NextDouble</span>()
-<span class="k">let</span> <span class="i">sampled</span> <span class="o">=</span> <span class="i">rng</span><span class="o">.</span><span class="i">NextDecimal</span>()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 4)" onmouseover="showTip(event, 'fs3', 4)" class="i">rng</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">shared</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 5)" onmouseover="showTip(event, 'fs4', 5)" class="i">sample</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="i">rng</span><span class="o">.</span><span class="i">NextDouble</span>()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 7)" onmouseover="showTip(event, 'fs5', 7)" class="i">sampled</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 8)" onmouseover="showTip(event, 'fs3', 8)" class="i">rng</span><span class="o">.</span><span class="i">NextDecimal</span>()
 </code></pre></td>
 </tr>
 </table>
@@ -187,9 +187,9 @@ or else a combination of a random number from a shared RNG, the time and a Guid
 <span class="l">2: </span>
 <span class="l">3: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">someTimeSeed</span> <span class="o">=</span> <span class="i">RandomSeed</span><span class="o">.</span><span class="i">Time</span>() <span class="c">// not recommended</span>
-<span class="k">let</span> <span class="i">someGuidSeed</span> <span class="o">=</span> <span class="i">RandomSeed</span><span class="o">.</span><span class="i">Guid</span>()
-<span class="k">let</span> <span class="i">someRobustSeed</span> <span class="o">=</span> <span class="i">RandomSeed</span><span class="o">.</span><span class="i">Robust</span>() <span class="c">// recommended, used by default</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 9)" onmouseover="showTip(event, 'fs6', 9)" class="i">someTimeSeed</span> <span class="o">=</span> <span class="i">RandomSeed</span><span class="o">.</span><span class="i">Time</span>() <span class="c">// not recommended</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="i">someGuidSeed</span> <span class="o">=</span> <span class="i">RandomSeed</span><span class="o">.</span><span class="i">Guid</span>()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 11)" onmouseover="showTip(event, 'fs8', 11)" class="i">someRobustSeed</span> <span class="o">=</span> <span class="i">RandomSeed</span><span class="o">.</span><span class="i">Robust</span>() <span class="c">// recommended, used by default</span>
 </code></pre></td>
 </tr>
 </table>
@@ -198,9 +198,9 @@ or else a combination of a random number from a shared RNG, the time and a Guid
 <span class="l">2: </span>
 <span class="l">3: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">samplesSeeded</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">doublesSeed</span> <span class="n">42</span> <span class="n">1000</span>
-<span class="i">Random</span><span class="o">.</span><span class="i">doubleFillSeed</span> <span class="n">42</span> <span class="i">samplesSeeded</span>
-<span class="k">let</span> <span class="i">samplesSeqSeeded</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">doubleSeqSeed</span> <span class="n">42</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 12)" onmouseover="showTip(event, 'fs9', 12)" class="i">samplesSeeded</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">doublesSeed</span> <span class="n">42</span> <span class="n">1000</span>
+<span class="i">Random</span><span class="o">.</span><span class="i">doubleFillSeed</span> <span class="n">42</span> <span onmouseout="hideTip(event, 'fs9', 13)" onmouseover="showTip(event, 'fs9', 13)" class="i">samplesSeeded</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="i">samplesSeqSeeded</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">doubleSeqSeed</span> <span class="n">42</span>
 </code></pre></td>
 </tr>
 </table>
@@ -269,18 +269,18 @@ In case of the latter, all objects will be cast to their common base type <code>
 <span class="l">13: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// By using the normal constructor (random1 has type MersenneTwister) </span>
-<span class="k">let</span> <span class="i">random1</span> <span class="o">=</span> <span class="i">MersenneTwister</span>()
-<span class="k">let</span> <span class="i">random1b</span> <span class="o">=</span> <span class="i">MersenneTwister</span>(<span class="n">42</span>) <span class="c">// with seed</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs11', 15)" onmouseover="showTip(event, 'fs11', 15)" class="i">random1</span> <span class="o">=</span> <span class="i">MersenneTwister</span>()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 16)" onmouseover="showTip(event, 'fs12', 16)" class="i">random1b</span> <span class="o">=</span> <span class="i">MersenneTwister</span>(<span class="n">42</span>) <span class="c">// with seed</span>
 
 <span class="c">// By using the Random module (random2 has type System.Random)</span>
-<span class="k">let</span> <span class="i">random2</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">mersenneTwister</span> ()
-<span class="k">let</span> <span class="i">random2b</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">mersenneTwisterSeed</span> <span class="n">42</span> <span class="c">// with seed</span>
-<span class="k">let</span> <span class="i">random2c</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">mersenneTwisterWith</span> <span class="n">42</span> <span class="k">false</span> <span class="c">// opt-out of thread-safety</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 17)" onmouseover="showTip(event, 'fs13', 17)" class="i">random2</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">mersenneTwister</span> ()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 18)" onmouseover="showTip(event, 'fs14', 18)" class="i">random2b</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">mersenneTwisterSeed</span> <span class="n">42</span> <span class="c">// with seed</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 19)" onmouseover="showTip(event, 'fs15', 19)" class="i">random2c</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">mersenneTwisterWith</span> <span class="n">42</span> <span class="k">false</span> <span class="c">// opt-out of thread-safety</span>
 
 <span class="c">// Using some other algorithms:</span>
-<span class="k">let</span> <span class="i">random3</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">crypto</span> ()
-<span class="k">let</span> <span class="i">random4</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">xorshift</span> ()
-<span class="k">let</span> <span class="i">random5</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">wh2006</span> ()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 20)" onmouseover="showTip(event, 'fs16', 20)" class="i">random3</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">crypto</span> ()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 21)" onmouseover="showTip(event, 'fs17', 21)" class="i">random4</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">xorshift</span> ()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 22)" onmouseover="showTip(event, 'fs18', 22)" class="i">random5</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">wh2006</span> ()
 </code></pre></td>
 </tr>
 </table>
@@ -314,11 +314,11 @@ unless explicitly disabled by a constructor argument or by setting <code>Control
 <span class="l">4: </span>
 <span class="l">5: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span class="i">a</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">systemShared</span>
-<span class="k">let</span> <span class="i">b</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">mersenneTwisterShared</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 23)" onmouseover="showTip(event, 'fs19', 23)" class="i">a</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">systemShared</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 24)" onmouseover="showTip(event, 'fs20', 24)" class="i">b</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">mersenneTwisterShared</span>
 
 <span class="c">// or if you don&#39;t care, simply</span>
-<span class="k">let</span> <span class="i">c</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">shared</span>;
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 25)" onmouseover="showTip(event, 'fs21', 25)" class="i">c</span> <span class="o">=</span> <span class="i">Random</span><span class="o">.</span><span class="i">shared</span>;
 </code></pre></td>
 </tr>
 </table>
@@ -351,6 +351,27 @@ Normal.Samples(c, <span class="n">0.0</span>, <span class="n">1.0</span>);
 </code></pre></td></tr></table>
 <p>See <a href="Probability.html">Probability Distributions</a> for details.</p>
 
+<div class="tip" id="fs1">val samples : obj<br /><br />Full name: Random.samples</div>
+<div class="tip" id="fs2">val sampleSeq : obj<br /><br />Full name: Random.sampleSeq</div>
+<div class="tip" id="fs3">val rng : obj<br /><br />Full name: Random.rng</div>
+<div class="tip" id="fs4">val sample : obj<br /><br />Full name: Random.sample</div>
+<div class="tip" id="fs5">val sampled : obj<br /><br />Full name: Random.sampled</div>
+<div class="tip" id="fs6">val someTimeSeed : obj<br /><br />Full name: Random.someTimeSeed</div>
+<div class="tip" id="fs7">val someGuidSeed : obj<br /><br />Full name: Random.someGuidSeed</div>
+<div class="tip" id="fs8">val someRobustSeed : obj<br /><br />Full name: Random.someRobustSeed</div>
+<div class="tip" id="fs9">val samplesSeeded : obj<br /><br />Full name: Random.samplesSeeded</div>
+<div class="tip" id="fs10">val samplesSeqSeeded : obj<br /><br />Full name: Random.samplesSeqSeeded</div>
+<div class="tip" id="fs11">val random1 : obj<br /><br />Full name: Random.random1</div>
+<div class="tip" id="fs12">val random1b : obj<br /><br />Full name: Random.random1b</div>
+<div class="tip" id="fs13">val random2 : obj<br /><br />Full name: Random.random2</div>
+<div class="tip" id="fs14">val random2b : obj<br /><br />Full name: Random.random2b</div>
+<div class="tip" id="fs15">val random2c : obj<br /><br />Full name: Random.random2c</div>
+<div class="tip" id="fs16">val random3 : obj<br /><br />Full name: Random.random3</div>
+<div class="tip" id="fs17">val random4 : obj<br /><br />Full name: Random.random4</div>
+<div class="tip" id="fs18">val random5 : obj<br /><br />Full name: Random.random5</div>
+<div class="tip" id="fs19">val a : obj<br /><br />Full name: Random.a</div>
+<div class="tip" id="fs20">val b : obj<br /><br />Full name: Random.b</div>
+<div class="tip" id="fs21">val c : obj<br /><br />Full name: Random.c</div>
 
                 </div>
                 <div class="span3">
