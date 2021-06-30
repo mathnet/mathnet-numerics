@@ -157,8 +157,25 @@ namespace MathNet.Numerics.Optimization
                 if (reflectionPointValue <= errorValues[errorProfile.LowestIndex])
                 {
                     // it's better than the best point, so attempt an expansion of the simplex
-                    double expansionPointValue = TryToScaleSimplex(2.0, ref errorProfile, vertices, errorValues, objectiveFunction);
+                    double currentWorst = errorValues[errorProfile.HighestIndex];
+                    double expansionValue = TryToScaleSimplex(2.0, ref errorProfile, vertices, errorValues, objectiveFunction);
                     ++evaluationCount;
+                    if (expansionValue >= currentWorst)
+                    {
+                        // it would be worse than the second best point, so attempt a contraction to look
+                        // for an intermediate point
+                        double currentWorst2 = errorValues[errorProfile.HighestIndex];
+                        double contractionPointValue = TryToScaleSimplex(0.5, ref errorProfile, vertices, errorValues, objectiveFunction);
+                        ++evaluationCount;
+                        if (contractionPointValue >= currentWorst2)
+                        {
+                            // that would be even worse, so let's try to contract uniformly towards the low point;
+                            // don't bother to update the error profile, we'll do it at the start of the
+                            // next iteration
+                            ShrinkSimplex(errorProfile, vertices, errorValues, objectiveFunction);
+                            evaluationCount += numVertices; // that required one function evaluation for each vertex; keep track
+                        }
+                    }
                 }
                 else if (reflectionPointValue >= errorValues[errorProfile.NextHighestIndex])
                 {
