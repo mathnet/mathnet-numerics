@@ -29,6 +29,10 @@
 
 using System;
 using System.Collections.Generic;
+#if NET5_0_OR_GREATER
+using System.Text.Json;
+using System.Text.Json.Serialization;
+#endif
 using NUnit.Framework;
 using MathNet.Numerics.Statistics;
 
@@ -301,5 +305,47 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(stats.Skewness, Is.NaN);
             Assert.That(stats.Kurtosis, Is.NaN);
         }
+
+#if NET5_0_OR_GREATER
+        /// <summary>
+        /// <c>IEnumerable</c> Double.
+        /// </summary>
+        /// <param name="dataSet">Dataset name.</param>
+        /// <param name="digits">Digits count.</param>
+        /// <param name="skewness">Skewness value.</param>
+        /// <param name="kurtosis">Kurtosis value.</param>
+        /// <param name="median">Median value.</param>
+        /// <param name="min">Min value.</param>
+        /// <param name="max">Max value.</param>
+        /// <param name="count">Count value.</param>
+        [TestCase("lottery", 12, -0.09333165310779, -1.19256091074856, 522.5, 4, 999, 218)]
+        [TestCase("lew", 12, -0.050606638756334, -1.49604979214447, -162, -579, 300, 200)]
+        [TestCase("mavro", 11, 0.64492948110824, -0.82052379677456, 2.0018, 2.0013, 2.0027, 50)]
+        [TestCase("michelso", 11, -0.0185388637725746, 0.33968459842539, 299.85, 299.62, 300.07, 100)]
+        [TestCase("numacc1", 15, 0, double.NaN, 10000002, 10000001, 10000003, 3)]
+        [TestCase("numacc2", 13, 0, -2.003003003003, 1.2, 1.1, 1.3, 1001)]
+        [TestCase("numacc3", 9, 0, -2.003003003003, 1000000.2, 1000000.1, 1000000.3, 1001)]
+        [TestCase("numacc4", 7, 0, -2.00300300299913, 10000000.2, 10000000.1, 10000000.3, 1001)]
+        [TestCase("meixner", 8, -0.016649617280859657, 0.8171318629552635, -0.002042931016531602, -4.825626912281697, 5.3018298664184913, 10000)]
+        public void JsonDeserializationTest(string dataSet, int digits, double skewness, double kurtosis, double median, double min, double max, int count)
+        {
+            var data = _data[dataSet];
+            var serialize = new DescriptiveStatistics(data.Data, false);
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals,
+            };
+            var json = JsonSerializer.Serialize(serialize, jsonSerializerOptions);
+            var stats = JsonSerializer.Deserialize<DescriptiveStatistics>(json, jsonSerializerOptions);
+            Assert.NotNull(stats);
+            AssertHelpers.AlmostEqualRelative(data.Mean, stats.Mean, 10);
+            AssertHelpers.AlmostEqualRelative(data.StandardDeviation, stats.StandardDeviation, digits);
+            AssertHelpers.AlmostEqualRelative(skewness, stats.Skewness, 8);
+            AssertHelpers.AlmostEqualRelative(kurtosis, stats.Kurtosis, 8);
+            Assert.AreEqual(stats.Minimum, min);
+            Assert.AreEqual(stats.Maximum, max);
+            Assert.AreEqual(stats.Count, count);
+        }
+#endif
     }
 }

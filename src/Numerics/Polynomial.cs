@@ -5,6 +5,9 @@ using System.Runtime.Serialization;
 using System.Linq;
 using Complex = System.Numerics.Complex;
 using System.Text;
+#if NET5_0_OR_GREATER
+using System.Text.Json.Serialization;
+#endif
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
 using MathNet.Numerics.LinearRegression;
@@ -24,6 +27,9 @@ namespace MathNet.Numerics
         /// The coefficients of the polynomial in a
         /// </summary>
         [DataMember(Order = 1)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
         public double[] Coefficients { get; private set; }
 
         /// <summary>

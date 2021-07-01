@@ -30,6 +30,9 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+#if NET5_0_OR_GREATER
+using System.Text.Json.Serialization;
+#endif
 
 namespace MathNet.Numerics.Statistics
 {
@@ -107,11 +110,26 @@ namespace MathNet.Numerics.Statistics
             }
         }
 
+#if NET5_0_OR_GREATER
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DescriptiveStatistics"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Used for Json serialization
+        /// </remarks>
+        public DescriptiveStatistics()
+        {
+        }
+#endif
+
         /// <summary>
         /// Gets the size of the sample.
         /// </summary>
         /// <value>The size of the sample.</value>
         [DataMember(Order = 1)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
         public long Count { get; private set; }
 
         /// <summary>
@@ -119,6 +137,9 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <value>The sample mean.</value>
         [DataMember(Order = 2)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
         public double Mean { get; private set; }
 
         /// <summary>
@@ -126,6 +147,9 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <value>The sample variance.</value>
         [DataMember(Order = 3)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
         public double Variance { get; private set; }
 
         /// <summary>
@@ -133,6 +157,9 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <value>The sample standard deviation.</value>
         [DataMember(Order = 4)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
         public double StandardDeviation { get; private set; }
 
         /// <summary>
@@ -141,6 +168,9 @@ namespace MathNet.Numerics.Statistics
         /// <value>The sample skewness.</value>
         /// <remarks>Returns zero if <see cref="Count"/> is less than three. </remarks>
         [DataMember(Order = 5)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
         public double Skewness { get; private set; }
 
         /// <summary>
@@ -149,6 +179,9 @@ namespace MathNet.Numerics.Statistics
         /// <value>The sample kurtosis.</value>
         /// <remarks>Returns zero if <see cref="Count"/> is less than four. </remarks>
         [DataMember(Order = 6)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
         public double Kurtosis { get; private set; }
 
         /// <summary>
@@ -156,6 +189,9 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <value>The maximum sample value.</value>
         [DataMember(Order = 7)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
         public double Maximum { get; private set; }
 
         /// <summary>
@@ -163,6 +199,9 @@ namespace MathNet.Numerics.Statistics
         /// </summary>
         /// <value>The minimum sample value.</value>
         [DataMember(Order = 8)]
+#if NET5_0_OR_GREATER
+        [JsonInclude]
+#endif
         public double Minimum { get; private set; }
 
         /// <summary>
