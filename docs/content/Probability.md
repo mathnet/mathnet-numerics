@@ -70,7 +70,7 @@ for simpler usage scenarios:
 * [Pareto](https://en.wikipedia.org/wiki/Pareto_distribution)
 * [Rayleigh](https://en.wikipedia.org/wiki/Rayleigh_distribution)
 * [Stable](https://en.wikipedia.org/wiki/Stable_distribution)
-* [Stundent-T](https://en.wikipedia.org/wiki/Student%27s_t-distribution)
+* [Student-T](https://en.wikipedia.org/wiki/Student%27s_t-distribution)
 * [Weibull](https://en.wikipedia.org/wiki/Weibull_distribution)
 * [Triangular](https://en.wikipedia.org/wiki/Triangular_distribution)
 
