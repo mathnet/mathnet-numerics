@@ -89,22 +89,13 @@
           <a href="../MathNet.Numerics.Optimization.TrustRegion/index.htm">MathNet.Numerics.Optimization.TrustRegion</a>
       </li>
 			<li>
-          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+          <a href="../MathNet.Numerics.Providers/index.htm">MathNet.Numerics.Providers</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.SparseSolver/index.htm">MathNet.Numerics.Providers.SparseSolver</a>
@@ -161,9 +152,6 @@
             <a href="../MathNet.Numerics/Euclid.htm">Euclid</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics/Evaluate.htm">Evaluate</a>
-        </li>
-				<li>
             <a href="../MathNet.Numerics/ExcelFunctions.htm">ExcelFunctions</a>
         </li>
 				<li>
@@ -215,6 +203,9 @@
             <a href="../MathNet.Numerics/Precision.htm">Precision</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics/Series.htm">Series</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics/SingularUMatrixException.htm">SingularUMatrixException</a>
         </li>
 				<li>
@@ -249,6 +240,10 @@
 				<li><a href="../MathNet.Numerics/Fit.htm#Curve">Curve</a></li>
 				<li><a href="../MathNet.Numerics/Fit.htm#Curve">Curve</a></li>
 				<li><a href="../MathNet.Numerics/Fit.htm#Curve">Curve</a></li>
+				<li><a href="../MathNet.Numerics/Fit.htm#Curve">Curve</a></li>
+				<li><a href="../MathNet.Numerics/Fit.htm#Curve">Curve</a></li>
+				<li><a href="../MathNet.Numerics/Fit.htm#CurveFunc">CurveFunc</a></li>
+				<li><a href="../MathNet.Numerics/Fit.htm#CurveFunc">CurveFunc</a></li>
 				<li><a href="../MathNet.Numerics/Fit.htm#CurveFunc">CurveFunc</a></li>
 				<li><a href="../MathNet.Numerics/Fit.htm#CurveFunc">CurveFunc</a></li>
 				<li><a href="../MathNet.Numerics/Fit.htm#CurveFunc">CurveFunc</a></li>
@@ -291,9 +286,9 @@
 	<h3 class="section">Public Static Functions</h3>
 	
 	<div id="Curve" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>Curve</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double>">Func&lt;double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
-		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, x),
-returning its best fitting parameter p0 and p1. 
+		<h4><span title="System.ValueTuple<double, double, double, double>">ValueTuple&lt;double, double, double, double&gt;</span> <strong>Curve</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double, double, double>">Func&lt;double, double, double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> initialGuess3, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, x),
+returning its best fitting parameter p0, p1, p2 and p3. 
 
 
 
@@ -301,7 +296,17 @@ returning its best fitting parameter p0 and p1.
     </div>
 	</div>
 	<div id="Curve" class="method">
-		<h4><span title="System.Tuple<double, double, double>">Tuple&lt;double, double, double&gt;</span> <strong>Curve</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double, double>">Func&lt;double, double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<h4><span title="System.ValueTuple<double, double, double, double, double>">ValueTuple&lt;double, double, double, double, double&gt;</span> <strong>Curve</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double, double, double, double>">Func&lt;double, double, double, double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> initialGuess3, <span title="System.double">double</span> initialGuess4, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, p4, x),
+returning its best fitting parameter p0, p1, p2, p3 and p4. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="Curve" class="method">
+		<h4><span title="System.ValueTuple<double, double, double>">ValueTuple&lt;double, double, double&gt;</span> <strong>Curve</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double, double>">Func&lt;double, double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
 		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, x),
 returning its best fitting parameter p0, p1 and p2. 
 
@@ -320,9 +325,39 @@ returning its best fitting parameter p.
       
     </div>
 	</div>
+	<div id="Curve" class="method">
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>Curve</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double>">Func&lt;double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, x),
+returning its best fitting parameter p0 and p1. 
+
+
+
+      
+    </div>
+	</div>
 	<div id="CurveFunc" class="method">
-		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>CurveFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double>">Func&lt;double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
-		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p, x),
+		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>CurveFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double, double, double, double>">Func&lt;double, double, double, double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> initialGuess3, <span title="System.double">double</span> initialGuess4, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, p4, x),
+returning a function y' for the best fitting curve. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="CurveFunc" class="method">
+		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>CurveFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double, double, double>">Func&lt;double, double, double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> initialGuess3, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, p3, x),
+returning a function y' for the best fitting curve. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="CurveFunc" class="method">
+		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>CurveFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double, double>">Func&lt;double, double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, x),
 returning a function y' for the best fitting curve. 
 
 
@@ -341,8 +376,8 @@ returning a function y' for the best fitting curve.
     </div>
 	</div>
 	<div id="CurveFunc" class="method">
-		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>CurveFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double, double, double>">Func&lt;double, double, double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
-		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p0, p1, p2, x),
+		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>CurveFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func<double, double, double>">Func&lt;double, double, double&gt;</span> f, <span title="System.double">double</span> initialGuess, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<div class="content">Non-linear least-squares fitting the points (x,y) to an arbitrary function y : x -> f(p, x),
 returning a function y' for the best fitting curve. 
 
 
@@ -351,7 +386,7 @@ returning a function y' for the best fitting curve.
     </div>
 	</div>
 	<div id="Exponential" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>Exponential</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method)</h4>
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>Exponential</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method)</h4>
 		<div class="content">Least-Squares fitting the points (x,y) to an exponential y : x -> a*exp(r*x),
 returning its best fitting parameters as (a, r) tuple. 
 
@@ -371,7 +406,7 @@ returning a function y' for the best fitting line.
     </div>
 	</div>
 	<div id="Line" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>Line</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y)</h4>
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>Line</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y)</h4>
 		<div class="content">Least-Squares fitting the points (x,y) to a line y : x -> a+b*x,
 returning its best fitting parameters as [a, b] array,
 where a is the intercept and b the slope. 
@@ -400,7 +435,7 @@ where a is the intercept and b the slope.
     </div>
 	</div>
 	<div id="LinearCombinationFunc" class="method">
-		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>LinearCombinationFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
+		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>LinearCombinationFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
 		<div class="content">
 
 
@@ -409,7 +444,7 @@ where a is the intercept and b the slope.
     </div>
 	</div>
 	<div id="LinearCombinationFunc" class="method">
-		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>LinearCombinationFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
+		<h4><span title="System.Func<double, double>">Func&lt;double, double&gt;</span> <strong>LinearCombinationFunc</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
 		<div class="content">
 
 
@@ -454,15 +489,6 @@ where a is the intercept and b the slope.
     </div>
 	</div>
 	<div id="LinearMultiDim" class="method">
-		<h4><span title="System.Double[]">Double[]</span> <strong>LinearMultiDim</strong>(<span title="System.Double[][]">Double[][]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
-		<div class="content">
-
-
-
-      
-    </div>
-	</div>
-	<div id="LinearMultiDim" class="method">
 		<h4><span title="System.Double[]">Double[]</span> <strong>LinearMultiDim</strong>(<span title="System.Double[][]">Double[][]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
 		<div class="content">
 
@@ -471,8 +497,8 @@ where a is the intercept and b the slope.
       
     </div>
 	</div>
-	<div id="LinearMultiDimFunc" class="method">
-		<h4><span title="System.Func<Double[], double>">Func&lt;Double[], double&gt;</span> <strong>LinearMultiDimFunc</strong>(<span title="System.Double[][]">Double[][]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
+	<div id="LinearMultiDim" class="method">
+		<h4><span title="System.Double[]">Double[]</span> <strong>LinearMultiDim</strong>(<span title="System.Double[][]">Double[][]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
 		<div class="content">
 
 
@@ -482,6 +508,15 @@ where a is the intercept and b the slope.
 	</div>
 	<div id="LinearMultiDimFunc" class="method">
 		<h4><span title="System.Func<Double[], double>">Func&lt;Double[], double&gt;</span> <strong>LinearMultiDimFunc</strong>(<span title="System.Double[][]">Double[][]</span> x, <span title="System.Double[]">Double[]</span> y, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
+		<div class="content">
+
+
+
+      
+    </div>
+	</div>
+	<div id="LinearMultiDimFunc" class="method">
+		<h4><span title="System.Func<Double[], double>">Func&lt;Double[], double&gt;</span> <strong>LinearMultiDimFunc</strong>(<span title="System.Double[][]">Double[][]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method, <span title="System.Func`2[]">Func`2[]</span> functions)</h4>
 		<div class="content">
 
 
@@ -521,7 +556,7 @@ returning a function y' for the best fitting line.
     </div>
 	</div>
 	<div id="Logarithm" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>Logarithm</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method)</h4>
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>Logarithm</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method)</h4>
 		<div class="content">Least-Squares fitting the points (x,y) to a logarithm y : x -> a + b*ln(x),
 returning its best fitting parameters as (a, b) tuple. 
 
@@ -601,7 +636,7 @@ A polynomial with order/degree k has (k+1) coefficients and thus requires at lea
     </div>
 	</div>
 	<div id="Power" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>Power</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method)</h4>
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>Power</strong>(<span title="System.Double[]">Double[]</span> x, <span title="System.Double[]">Double[]</span> y, <a href="../MathNet.Numerics.LinearRegression/DirectRegressionMethod.htm">DirectRegressionMethod</a> method)</h4>
 		<div class="content">Least-Squares fitting the points (x,y) to a power y : x -> a*x^b,
 returning its best fitting parameters as (a, b) tuple. 
 
@@ -623,7 +658,7 @@ returning a function y' for the best fitting line.
 
 	
 	<div id="footer">
-  <p>Based on v4.15.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v5.0.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

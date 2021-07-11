@@ -89,22 +89,13 @@
           <a href="../MathNet.Numerics.Optimization.TrustRegion/index.htm">MathNet.Numerics.Optimization.TrustRegion</a>
       </li>
 			<li>
-          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+          <a href="../MathNet.Numerics.Providers/index.htm">MathNet.Numerics.Providers</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.SparseSolver/index.htm">MathNet.Numerics.Providers.SparseSolver</a>
@@ -161,9 +152,6 @@
             <a href="../MathNet.Numerics/Euclid.htm">Euclid</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics/Evaluate.htm">Evaluate</a>
-        </li>
-				<li>
             <a href="../MathNet.Numerics/ExcelFunctions.htm">ExcelFunctions</a>
         </li>
 				<li>
@@ -215,6 +203,9 @@
             <a href="../MathNet.Numerics/Precision.htm">Precision</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics/Series.htm">Series</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics/SingularUMatrixException.htm">SingularUMatrixException</a>
         </li>
 				<li>
@@ -247,6 +238,8 @@
 				<li><a href="../MathNet.Numerics/FindMinimum.htm#OfFunction">OfFunction</a></li>
 				<li><a href="../MathNet.Numerics/FindMinimum.htm#OfFunction">OfFunction</a></li>
 				<li><a href="../MathNet.Numerics/FindMinimum.htm#OfFunction">OfFunction</a></li>
+				<li><a href="../MathNet.Numerics/FindMinimum.htm#OfFunction">OfFunction</a></li>
+				<li><a href="../MathNet.Numerics/FindMinimum.htm#OfFunction">OfFunction</a></li>
 				<li><a href="../MathNet.Numerics/FindMinimum.htm#OfFunctionConstrained">OfFunctionConstrained</a></li>
 				<li><a href="../MathNet.Numerics/FindMinimum.htm#OfFunctionGradient">OfFunctionGradient</a></li>
 				<li><a href="../MathNet.Numerics/FindMinimum.htm#OfFunctionGradient">OfFunctionGradient</a></li>
@@ -267,7 +260,7 @@
 	<h3 class="section">Public Static Functions</h3>
 	
 	<div id="OfFunction" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>OfFunction</strong>(<span title="System.Func<double, double, double>">Func&lt;double, double, double&gt;</span> function, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>OfFunction</strong>(<span title="System.Func<double, double, double>">Func&lt;double, double, double&gt;</span> function, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
 		<div class="content">Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
 For more options and diagnostics consider to use  <a href="../MathNet.Numerics.Optimization/NelderMeadSimplex.htm">NelderMeadSimplex</a>  directly. 
 
@@ -277,7 +270,27 @@ For more options and diagnostics consider to use  <a href="../MathNet.Numerics.O
     </div>
 	</div>
 	<div id="OfFunction" class="method">
-		<h4><span title="System.Tuple<double, double, double>">Tuple&lt;double, double, double&gt;</span> <strong>OfFunction</strong>(<span title="System.Func<double, double, double, double>">Func&lt;double, double, double, double&gt;</span> function, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<h4><span title="System.ValueTuple<double, double, double>">ValueTuple&lt;double, double, double&gt;</span> <strong>OfFunction</strong>(<span title="System.Func<double, double, double, double>">Func&lt;double, double, double, double&gt;</span> function, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<div class="content">Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
+For more options and diagnostics consider to use  <a href="../MathNet.Numerics.Optimization/NelderMeadSimplex.htm">NelderMeadSimplex</a>  directly. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="OfFunction" class="method">
+		<h4><span title="System.ValueTuple<double, double, double, double>">ValueTuple&lt;double, double, double, double&gt;</span> <strong>OfFunction</strong>(<span title="System.Func<double, double, double, double, double>">Func&lt;double, double, double, double, double&gt;</span> function, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> initialGuess3, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<div class="content">Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
+For more options and diagnostics consider to use  <a href="../MathNet.Numerics.Optimization/NelderMeadSimplex.htm">NelderMeadSimplex</a>  directly. 
+
+
+
+      
+    </div>
+	</div>
+	<div id="OfFunction" class="method">
+		<h4><span title="System.ValueTuple<double, double, double, double, double>">ValueTuple&lt;double, double, double, double, double&gt;</span> <strong>OfFunction</strong>(<span title="System.Func<double, double, double, double, double, double>">Func&lt;double, double, double, double, double, double&gt;</span> function, <span title="System.double">double</span> initialGuess0, <span title="System.double">double</span> initialGuess1, <span title="System.double">double</span> initialGuess2, <span title="System.double">double</span> initialGuess3, <span title="System.double">double</span> initialGuess4, <span title="System.double">double</span> tolerance, <span title="System.int">int</span> maxIterations)</h4>
 		<div class="content">Find vector x that minimizes the function f(x) using the Nelder-Mead Simplex algorithm.
 For more options and diagnostics consider to use  <a href="../MathNet.Numerics.Optimization/NelderMeadSimplex.htm">NelderMeadSimplex</a>  directly. 
 
@@ -319,7 +332,7 @@ An alternative routine using conjugate gradients (CG) is available in  <a href="
     </div>
 	</div>
 	<div id="OfFunctionGradient" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>OfFunctionGradient</strong>(<span title="System.Func<Vector<double>, Tuple<double, Vector<double>>>">Func&lt;Vector&lt;double&gt;, Tuple&lt;double, Vector&lt;double&gt;&gt;&gt;</span> functionGradient, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> initialGuess, <span title="System.double">double</span> gradientTolerance, <span title="System.double">double</span> parameterTolerance, <span title="System.double">double</span> functionProgressTolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>OfFunctionGradient</strong>(<span title="System.Func<Vector<double>, ValueTuple<double, Vector<double>>>">Func&lt;Vector&lt;double&gt;, ValueTuple&lt;double, Vector&lt;double&gt;&gt;&gt;</span> functionGradient, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> initialGuess, <span title="System.double">double</span> gradientTolerance, <span title="System.double">double</span> parameterTolerance, <span title="System.double">double</span> functionProgressTolerance, <span title="System.int">int</span> maxIterations)</h4>
 		<div class="content">Find vector x that minimizes the function f(x) using the Broyden–Fletcher–Goldfarb–Shanno (BFGS) algorithm.
 For more options and diagnostics consider to use  <a href="../MathNet.Numerics.Optimization/BfgsMinimizer.htm">BfgsMinimizer</a>  directly.
 An alternative routine using conjugate gradients (CG) is available in  <a href="../MathNet.Numerics.Optimization/ConjugateGradientMinimizer.htm">ConjugateGradientMinimizer</a>. 
@@ -340,7 +353,7 @@ For more options and diagnostics consider to use  <a href="../MathNet.Numerics.O
     </div>
 	</div>
 	<div id="OfFunctionGradientConstrained" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>OfFunctionGradientConstrained</strong>(<span title="System.Func<Vector<double>, Tuple<double, Vector<double>>>">Func&lt;Vector&lt;double&gt;, Tuple&lt;double, Vector&lt;double&gt;&gt;&gt;</span> functionGradient, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> lowerBound, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> upperBound, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> initialGuess, <span title="System.double">double</span> gradientTolerance, <span title="System.double">double</span> parameterTolerance, <span title="System.double">double</span> functionProgressTolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>OfFunctionGradientConstrained</strong>(<span title="System.Func<Vector<double>, ValueTuple<double, Vector<double>>>">Func&lt;Vector&lt;double&gt;, ValueTuple&lt;double, Vector&lt;double&gt;&gt;&gt;</span> functionGradient, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> lowerBound, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> upperBound, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> initialGuess, <span title="System.double">double</span> gradientTolerance, <span title="System.double">double</span> parameterTolerance, <span title="System.double">double</span> functionProgressTolerance, <span title="System.int">int</span> maxIterations)</h4>
 		<div class="content">Find vector x that minimizes the function f(x), constrained within bounds, using the Broyden–Fletcher–Goldfarb–Shanno Bounded (BFGS-B) algorithm.
 For more options and diagnostics consider to use  <a href="../MathNet.Numerics.Optimization/BfgsBMinimizer.htm">BfgsBMinimizer</a>  directly. 
 
@@ -360,7 +373,7 @@ For more options and diagnostics consider to use  <a href="../MathNet.Numerics.O
     </div>
 	</div>
 	<div id="OfFunctionGradientHessian" class="method">
-		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>OfFunctionGradientHessian</strong>(<span title="System.Func<Vector<double>, Tuple<double, Vector<double>, Matrix<double>>>">Func&lt;Vector&lt;double&gt;, Tuple&lt;double, Vector&lt;double&gt;, Matrix&lt;double&gt;&gt;&gt;</span> functionGradientHessian, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> initialGuess, <span title="System.double">double</span> gradientTolerance, <span title="System.int">int</span> maxIterations)</h4>
+		<h4><a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> <strong>OfFunctionGradientHessian</strong>(<span title="System.Func<Vector<double>, ValueTuple<double, Vector<double>, Matrix<double>>>">Func&lt;Vector&lt;double&gt;, ValueTuple&lt;double, Vector&lt;double&gt;, Matrix&lt;double&gt;&gt;&gt;</span> functionGradientHessian, <a href="../MathNet.Numerics.LinearAlgebra/Vector`1.htm">Vector&lt;T&gt;</a> initialGuess, <span title="System.double">double</span> gradientTolerance, <span title="System.int">int</span> maxIterations)</h4>
 		<div class="content">Find vector x that minimizes the function f(x) using the Newton algorithm.
 For more options and diagnostics consider to use  <a href="../MathNet.Numerics.Optimization/NewtonMinimizer.htm">NewtonMinimizer</a>  directly. 
 
@@ -392,7 +405,7 @@ For more options and diagnostics consider to use  <a href="../MathNet.Numerics.O
 
 	
 	<div id="footer">
-  <p>Based on v4.15.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v5.0.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

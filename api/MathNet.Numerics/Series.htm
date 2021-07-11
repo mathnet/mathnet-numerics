@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <title>Evaluate - Math.NET Numerics Documentation</title>
+    <title>Series - Math.NET Numerics Documentation</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link type="text/css" rel="stylesheet" href="../main.css"/>
     <script type="text/javascript" src="../js/jquery-1.3.2.min.js"></script>
@@ -89,22 +89,13 @@
           <a href="../MathNet.Numerics.Optimization.TrustRegion/index.htm">MathNet.Numerics.Optimization.TrustRegion</a>
       </li>
 			<li>
-          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+          <a href="../MathNet.Numerics.Providers/index.htm">MathNet.Numerics.Providers</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.SparseSolver/index.htm">MathNet.Numerics.Providers.SparseSolver</a>
@@ -161,9 +152,6 @@
             <a href="../MathNet.Numerics/Euclid.htm">Euclid</a>
         </li>
 				<li>
-            <a href="../MathNet.Numerics/Evaluate.htm" class="current">Evaluate</a>
-        </li>
-				<li>
             <a href="../MathNet.Numerics/ExcelFunctions.htm">ExcelFunctions</a>
         </li>
 				<li>
@@ -215,6 +203,9 @@
             <a href="../MathNet.Numerics/Precision.htm">Precision</a>
         </li>
 				<li>
+            <a href="../MathNet.Numerics/Series.htm" class="current">Series</a>
+        </li>
+				<li>
             <a href="../MathNet.Numerics/SingularUMatrixException.htm">SingularUMatrixException</a>
         </li>
 				<li>
@@ -236,19 +227,16 @@
 	</div>
 </div>
     <div class="header">
-		<p class="class"><strong>Type</strong> Evaluate</p>
+		<p class="class"><strong>Type</strong> Series</p>
 		<p><strong>Namespace</strong> MathNet.Numerics</p>
 	</div>
     <div class="sub-header">
-			<div id="summary">Evaluation functions, useful for function approximation. 
-			</div>
 		
 
 			<h3 class="section">Static Functions</h3>
 			<ul>
-				<li><a href="../MathNet.Numerics/Evaluate.htm#Polynomial">Polynomial</a></li>
-				<li><a href="../MathNet.Numerics/Evaluate.htm#Polynomial">Polynomial</a></li>
-				<li><a href="../MathNet.Numerics/Evaluate.htm#Polynomial">Polynomial</a></li>
+				<li><a href="../MathNet.Numerics/Series.htm#Evaluate">Evaluate</a></li>
+				<li><a href="../MathNet.Numerics/Series.htm#Evaluate">Evaluate</a></li>
 			</ul>
 		
 
@@ -259,76 +247,50 @@
 	
 	<h3 class="section">Public Static Functions</h3>
 	
-	<div id="Polynomial" class="method">
-		<h4><span title="System.double">double</span> <strong>Polynomial</strong>(<span title="System.double">double</span> z, <span title="System.Double[]">Double[]</span> coefficients)</h4>
-		<div class="content">Evaluate a polynomial at point x.
-Coefficients are ordered by power with power k at index k.
-Example: coefficients [3,-1,2] represent y=2x^2-x+3. 
-        <div id="warning">
-          <b>Obsolete:</b> Use Polynomial.Evaluate instead. Will be removed in the next major version.
-        </div>
+	<div id="Evaluate" class="method">
+		<h4><span title="System.double">double</span> <strong>Evaluate</strong>(<span title="System.Func<double>">Func&lt;double&gt;</span> nextSummand)</h4>
+		<div class="content">Numerically stable series summation (stops automatically). 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.double">double</span></code> z</h6>
-          <p class="comments">The location where to evaluate the polynomial at. </p>
-          <h6><code><span title="System.Double[]">Double[]</span></code> coefficients</h6>
-          <p class="comments">The coefficients of the polynomial, coefficient for power k at index k. </p>
+          <h6><code><span title="System.Func<double>">Func&lt;double&gt;</span></code> nextSummand</h6>
+          <p class="comments">provides the summands sequentially </p>
       </div>
 
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Sum </p>
+      </div>
       
     </div>
 	</div>
-	<div id="Polynomial" class="method">
-		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Polynomial</strong>(<span title="System.Numerics.Complex">Complex</span> z, <span title="System.Double[]">Double[]</span> coefficients)</h4>
-		<div class="content">Evaluate a polynomial at point x.
-Coefficients are ordered by power with power k at index k.
-Example: coefficients [3,-1,2] represent y=2x^2-x+3. 
-        <div id="warning">
-          <b>Obsolete:</b> Use Polynomial.Evaluate instead. Will be removed in the next major version.
-        </div>
+	<div id="Evaluate" class="method">
+		<h4><span title="System.double">double</span> <strong>Evaluate</strong>(<span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> infiniteSummands)</h4>
+		<div class="content">Numerically stable series summation (stops automatically). 
 
 
       <div class="parameters">
         <h5>Parameters</h5>
 
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
-          <p class="comments">The location where to evaluate the polynomial at. </p>
-          <h6><code><span title="System.Double[]">Double[]</span></code> coefficients</h6>
-          <p class="comments">The coefficients of the polynomial, coefficient for power k at index k. </p>
+          <h6><code><span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span></code> infiniteSummands</h6>
+          <p class="comments">provides the summands sequentially </p>
       </div>
 
-      
-    </div>
-	</div>
-	<div id="Polynomial" class="method">
-		<h4><span title="System.Numerics.Complex">Complex</span> <strong>Polynomial</strong>(<span title="System.Numerics.Complex">Complex</span> z, <span title="System.Numerics.Complex[]">Complex[]</span> coefficients)</h4>
-		<div class="content">Evaluate a polynomial at point x.
-Coefficients are ordered by power with power k at index k.
-Example: coefficients [3,-1,2] represent y=2x^2-x+3. 
-        <div id="warning">
-          <b>Obsolete:</b> Use Polynomial.Evaluate instead. Will be removed in the next major version.
-        </div>
-
-
-      <div class="parameters">
-        <h5>Parameters</h5>
-
-          <h6><code><span title="System.Numerics.Complex">Complex</span></code> z</h6>
-          <p class="comments">The location where to evaluate the polynomial at. </p>
-          <h6><code><span title="System.Numerics.Complex[]">Complex[]</span></code> coefficients</h6>
-          <p class="comments">The coefficients of the polynomial, coefficient for power k at index k. </p>
+      <div class="return">
+        <h5>Return</h5>
+        <h6><code><span title="System.double">double</span></code></h6>
+        <p>Sum </p>
       </div>
-
       
     </div>
 	</div>
 
 	
 	<div id="footer">
-  <p>Based on v4.15.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v5.0.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>

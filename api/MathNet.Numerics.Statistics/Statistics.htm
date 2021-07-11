@@ -89,22 +89,13 @@
           <a href="../MathNet.Numerics.Optimization.TrustRegion/index.htm">MathNet.Numerics.Optimization.TrustRegion</a>
       </li>
 			<li>
-          <a href="../MathNet.Numerics.Providers.Common.Cuda/index.htm">MathNet.Numerics.Providers.Common.Cuda</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.Common.Mkl/index.htm">MathNet.Numerics.Providers.Common.Mkl</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.Common.OpenBlas/index.htm">MathNet.Numerics.Providers.Common.OpenBlas</a>
+          <a href="../MathNet.Numerics.Providers/index.htm">MathNet.Numerics.Providers</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.FourierTransform/index.htm">MathNet.Numerics.Providers.FourierTransform</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.LinearAlgebra/index.htm">MathNet.Numerics.Providers.LinearAlgebra</a>
-      </li>
-			<li>
-          <a href="../MathNet.Numerics.Providers.LinearAlgebra.OpenBlas/index.htm">MathNet.Numerics.Providers.LinearAlgebra.OpenBlas</a>
       </li>
 			<li>
           <a href="../MathNet.Numerics.Providers.SparseSolver/index.htm">MathNet.Numerics.Providers.SparseSolver</a>
@@ -546,7 +537,7 @@ Returns NaN if data is empty or if any entry is NaN.
     </div>
 	</div>
 	<div id="MeanStandardDeviation" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>MeanStandardDeviation</strong>(this <span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> samples)</h4>
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>MeanStandardDeviation</strong>(this <span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> samples)</h4>
 		<div class="content">Estimates the sample mean and the unbiased population standard deviation from the provided samples.
 On a dataset of size N will use an N-1 normalizer (Bessel's correction).
 Returns NaN for mean if data is empty or if any entry is NaN and NaN for standard deviation if data has less than two entries or if any entry is NaN. 
@@ -561,14 +552,14 @@ Returns NaN for mean if data is empty or if any entry is NaN and NaN for standar
 
       <div class="return">
         <h5>Return</h5>
-        <h6><code><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span></code></h6>
+        <h6><code><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span></code></h6>
         <p>The mean of the sample. </p>
       </div>
       
     </div>
 	</div>
 	<div id="MeanVariance" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>MeanVariance</strong>(this <span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> samples)</h4>
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>MeanVariance</strong>(this <span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> samples)</h4>
 		<div class="content">Estimates the sample mean and the unbiased population variance from the provided samples.
 On a dataset of size N will use an N-1 normalizer (Bessel's correction).
 Returns NaN for mean if data is empty or if any entry is NaN and NaN for variance if data has less than two entries or if any entry is NaN. 
@@ -583,7 +574,7 @@ Returns NaN for mean if data is empty or if any entry is NaN and NaN for varianc
 
       <div class="return">
         <h5>Return</h5>
-        <h6><code><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span></code></h6>
+        <h6><code><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span></code></h6>
         <p>The mean of the sample. </p>
       </div>
       
@@ -807,7 +798,7 @@ Returns NaN if data has less than two entries or if any entry is NaN.
     </div>
 	</div>
 	<div id="PopulationSkewnessKurtosis" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>PopulationSkewnessKurtosis</strong>(this <span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> population)</h4>
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>PopulationSkewnessKurtosis</strong>(this <span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> population)</h4>
 		<div class="content">Evaluates the skewness and kurtosis from the full population.
 Does not use a normalizer and would thus be biased if applied to a subset (type 1). 
 
@@ -1053,7 +1044,7 @@ Returns NaN if data has less than three entries or if any entry is NaN.
     </div>
 	</div>
 	<div id="SkewnessKurtosis" class="method">
-		<h4><span title="System.Tuple<double, double>">Tuple&lt;double, double&gt;</span> <strong>SkewnessKurtosis</strong>(this <span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> samples)</h4>
+		<h4><span title="System.ValueTuple<double, double>">ValueTuple&lt;double, double&gt;</span> <strong>SkewnessKurtosis</strong>(this <span title="System.Collections.Generic.IEnumerable<double>">IEnumerable&lt;double&gt;</span> samples)</h4>
 		<div class="content">Estimates the unbiased population skewness and kurtosis from the provided samples in a single pass.
 Uses a normalizer (Bessel's correction; type 2). 
 
@@ -1121,7 +1112,7 @@ Returns NaN if data has less than two entries or if any entry is NaN.
 
 	
 	<div id="footer">
-  <p>Based on v4.15.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
+  <p>Based on v5.0.0.0 of MathNet.Numerics (Math.NET Numerics)</p>
   <p>Generated by <a href="http://docu.jagregory.com">docu</a></p>
 </div>
   </body>
