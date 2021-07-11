@@ -91,6 +91,11 @@ namespace MathNet.Numerics.RootFinding
 
             root = 0.5*(lowerBound + upperBound);
             double fx = f(root);
+            if (fx == 0.0)
+            {
+                return true;
+            }
+
             double lastStep = Math.Abs(upperBound - lowerBound);
             for (int i = 0; i < maxIterations; i++)
             {
@@ -119,6 +124,11 @@ namespace MathNet.Numerics.RootFinding
                     // Bisection
                     root = 0.5*(upperBound + lowerBound);
                     fx = f(root);
+                    if (fx == 0.0)
+                    {
+                        return true;
+                    }
+
                     lastStep = 0.5*Math.Abs(upperBound - lowerBound);
                     if (Math.Sign(fx) == Math.Sign(fmin))
                     {
@@ -146,6 +156,11 @@ namespace MathNet.Numerics.RootFinding
 
                 // Evaluation
                 fx = f(root);
+                if (fx == 0.0)
+                {
+                    return true;
+                }
+
                 lastStep = step;
 
                 // Update bounds

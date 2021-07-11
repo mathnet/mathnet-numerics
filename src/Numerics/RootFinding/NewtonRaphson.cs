@@ -99,6 +99,11 @@ namespace MathNet.Numerics.RootFinding
             {
                 // Evaluation
                 double fx = f(root);
+                if (fx == 0.0)
+                {
+                    return true;
+                }
+
                 double dfx = df(root);
 
                 // Netwon-Raphson step
