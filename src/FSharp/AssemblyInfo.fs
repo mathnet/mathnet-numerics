@@ -46,7 +46,7 @@ open System.Runtime.InteropServices
 
 [<assembly: AssemblyVersion("5.0.0.0")>]
 [<assembly: AssemblyFileVersion("5.0.0.0")>]
-[<assembly: AssemblyInformationalVersion("5.0.0-alpha01")>]
+[<assembly: AssemblyInformationalVersion("5.0.0-alpha02")>]
 
 [<assembly: ComVisible(false)>]
 [<assembly: Guid("048BC4EB-CE2B-4040-9967-4784F5405B0F")>]

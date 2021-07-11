@@ -1,4 +1,4 @@
-### 5.0.0-alpha01 - 2021-06-27
+### 5.0.0-alpha02 - 2021-07-11
 * COMPATIBILITY: net5.0, net48 better supported with explicit builds
 * COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
 * BREAKING: drop all which was marked as obsolete
@@ -8,11 +8,13 @@
 * Distributions: Perf: Cauchy avoid duplicate evaluation *~Febin*
 * Precision: Perf: pre-compute negative powers *~Febin*
 * Optimizations: Remove static properties in LevenbergMarquardtMinimizer *~Jong Hyun Kim*
+* Root Finding: Newton-Raphson better handling of zero-evaluations
 * Fit.Curve and FindMinimum extended to accept two more parameters
 * Series: stable series summation
 * Providers: drop managed reference linear algebra provider
 * Providers: native providers no longer inherit managed providers, managed now sealed
 * Providers: MKL provider compilation switched to Intel oneAPI MKL
+* Better support for System.Text.Json: Polynomial, DescriptiveStatistics *~Joseph Petersen*
 * Lots of internal cleanup, leveraging newer language features
 * Data: now released always together with Numerics (no longer separate versioning)
 * Control.Describe now includes CPU architecture and family identifier if know
