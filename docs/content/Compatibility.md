@@ -3,18 +3,10 @@ Platform Support
 
 Supported Platforms:
 
-- .Net Framework 4.0 and higher, with builds for .Net 4.0 and 4.6.1.
-- .Net Standard 1.3 and higher, with builds for .Net Standard 1.3 and 2.0.
-- .Net Core (via .Net Standard)
-- Mono (via .Net Framework)
-- Windows, Linux and Mac.
-
-The F# extensions support a slightly reduced platform set:
-
-- .Net Framework 4.5 and higher, with builds for .Net 4.5.
-- .Net Standard 1.6 and higher, with builds for .Net Standard 1.6 and 2.0.
-- .Net Core (via .Net Standard)
-- Mono (via .Net Framework)
+- .NET 5.0 or higher, with builds for 5.0.
+- .NET Framework 4.6.1 or higher, with builds for 4.6.1 and 4.8.
+- .NET Standard 2.0 or higher, with builds for 2.0.
+- Mono (via .NET Standard)
 - Windows, Linux and Mac.
 
 
@@ -23,6 +15,8 @@ Dependencies
 
 Package Dependencies:
 
-- .Net 4.0 and higher, .Net Standard 2.0, Mono: None
-- .Net Standard 1.3: NETStandard.Library and many System.* packages
+- .NET 5.0 and higher: None
+- .NET Framework 4.6.1: [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple)
+- .NET Framework 4.8 and higher: None
+- .Net Standard 2.0 and higher: None
 - F#: additionally [FSharp.Core](https://www.nuget.org/packages/FSharp.Core)

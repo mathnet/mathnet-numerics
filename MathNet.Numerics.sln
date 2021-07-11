@@ -26,7 +26,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Numerics.Tests", "src\Numer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40-DE22-49FB-B1C0-6E5BDA3B0B2F}"
 	ProjectSection(SolutionItems) = preProject
-		.travis.yml = .travis.yml
 		appveyor.yml = appveyor.yml
 		docs\tools\build-docs.fsx = docs\tools\build-docs.fsx
 		build\build-framework.fsx = build\build-framework.fsx

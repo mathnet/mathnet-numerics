@@ -34,11 +34,12 @@ Core Package:
 - **MathNet.Numerics**
 - **MathNet.Numerics.FSharp** - optional extensions for a better F# experience. BigRational.
 
-Alternative Provider Packages (optional):
+Intel MKL Provider (optional):
 
-- **MathNet.Numerics.MKL.Win** - Native Intel MKL Linear Algebra provider (Windows).
-- **MathNet.Numerics.MKL.Win-x86** - Native Intel MKL Linear Algebra provider (Windows/32-bit only).
-- **MathNet.Numerics.MKL.Win-x64** - Native Intel MKL Linear Algebra provider (Windows/64-bit only).
+- **MathNet.Numerics.Providers.MKL** - Binding to Native Intel MKL provider.
+- **MathNet.Numerics.MKL.Win** - Native Intel MKL provider (Windows).
+- **MathNet.Numerics.MKL.Win-x86** - Native Intel MKL provider (Windows/32-bit only).
+- **MathNet.Numerics.MKL.Win-x64** - Native Intel MKL provider (Windows/64-bit only).
 
 Data/IO Packages for reading and writing data (optional):
 
@@ -50,21 +51,16 @@ Platform Support and Dependencies
 
 Supported Platforms:
 
-- .Net Framework 4.0 or higher and Mono (Package includes builds for 4.0 and 4.6.1)
-- .Net Standard 1.3 or higher (Package includes builds for 1.3 and 2.0)
-
-Supported Platforms for the F# extensions:
-
-- .Net Framework 4.5 or higher (Package includes builds for 4.5)
-- .Net Standard 1.6 or higher (Package includes builds for 1.6 and 2.0)
+- .NET 5.0 or higher (Package includes builds for 5.0)
+- .NET Framework 4.6.1 or higher (Package includes builds for 4.6.1 and 4.8)
+- .NET Standard 2.0 or higher (Package includes builds for 2.0)
 
 For full details, dependencies and platform discrepancies see [Platform Compatibility](https://numerics.mathdotnet.com/Compatibility.html).
 
 Building Math.NET Numerics
 --------------------------
 
-Windows (.Net): [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics)  
-Linux (Mono): [![Travis Build Status](https://travis-ci.org/mathnet/mathnet-numerics.svg?branch=master)](https://travis-ci.org/mathnet/mathnet-numerics)
+Windows (.Net): [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics)
 
 You can build Math.NET Numerics with an IDE like VisualStudio or JetBrains Rider, with MsBuild, .Net CLI tools or with FAKE (recommended).
 
