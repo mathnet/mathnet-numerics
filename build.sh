@@ -5,7 +5,9 @@ set -o pipefail
 
 cd "$(dirname "$0")"
 
-PAKET_EXE=.paket/paket.exe
+dotnet tool restore
+dotnet paket restore
+
 FAKE_EXE=packages/build/FAKE/tools/FAKE.exe
 
 FSIARGS=""
@@ -34,5 +36,4 @@ then
   mozroots --import --sync --quiet
 fi
 
-run $PAKET_EXE restore
 run $FAKE_EXE "$@" $FSIARGS $FSIARGS2 build.fsx
