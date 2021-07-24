@@ -13,6 +13,12 @@
       "commands": [
         "fake"
       ]
+    },
+    "fsharp.formatting.commandtool": {
+      "version": "11.4.1",
+      "commands": [
+        "fsdocs"
+      ]
     }
   }
 }

@@ -63,7 +63,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)icon.png">
+    <None Include="$(MSBuildThisFileDirectory)build/icon.png">
       <Filter>Source Files\Resource Files</Filter>
     </None>
   </ItemGroup>

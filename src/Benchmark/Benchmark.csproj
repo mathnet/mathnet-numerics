@@ -3,10 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net5.0;net48</TargetFrameworks>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>Benchmark</AssemblyName>
     <RootNamespace>Benchmark</RootNamespace>
     <IsPackable>false</IsPackable>
+    <VersionPrefix>5.0.0</VersionPrefix>
+    <VersionSuffix>alpha02</VersionSuffix>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>

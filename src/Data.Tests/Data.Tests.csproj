@@ -4,10 +4,11 @@
         <OutputType>Exe</OutputType>
         <GenerateProgramFile>false</GenerateProgramFile>
         <TargetFrameworks>net5.0;net48</TargetFrameworks>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <AssemblyName>MathNet.Numerics.Data.Tests</AssemblyName>
         <RootNamespace>MathNet.Numerics.Data.Tests</RootNamespace>
         <IsPackable>false</IsPackable>
+        <VersionPrefix>5.0.0</VersionPrefix>
+        <VersionSuffix>alpha02</VersionSuffix>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
     <ItemGroup Condition="'$(TargetFramework)'=='net45'">
