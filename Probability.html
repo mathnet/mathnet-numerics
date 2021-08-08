@@ -1,63 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <title>Probability Distributions
+
+<head>
+    <meta charset="utf-8">
+    <title>Probability Distributions
 </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <meta name="description" content="Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use. .Net 4, .Net 3.5, SL5, Win8, WP8, PCL 47 and 136, Mono, Xamarin Android/iOS."/>
-        <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael">
 
-        <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
-        <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
-        <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-        <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
-        <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/style.css" />
-        <style>
-          #main table:not(.pre) {
-              border: 1px solid #dddddd;
-              max-width: 100%;
-              border-style: solid;
-              border-width: 1px;
-              border-color: gray;
-              border-collapse: collapse;
-              border-right-width: 1px;
-              border-bottom-width: 1px;
-              margin-top: 15px;
-              margin-bottom: 25px;
-          }
-          #main table:not(.pre) th, #main table:not(.pre) td {
-              border: 1px solid #dddddd;
-              padding: 6px;
-          }
-          #main table:not(.pre) th p, #main table:not(.pre) td p {
-              margin-bottom: 5px;
-          }
-        </style>
-        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/tips.js"></script>
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <![endif]-->
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    </head>
-    <body>
-        <div class="container">
-            <div class="masthead">
-                <ul class="nav nav-pills pull-right">
-                    <li><a href="https://www.mathdotnet.com">Math.NET Project</a></li>
-                    <li><a href="https://numerics.mathdotnet.com">Math.NET Numerics</a></li>
-                    <li><a href="https://github.com/mathnet/mathnet-numerics">GitHub</a></li>
-                </ul>
-                <h3 class="muted">Math.NET Numerics</h3>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-secondary fixed-left" id="fsdocs-nav">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
+            <a href="https://numerics.mathdotnet.com/"><img id="fsdocs-logo" src="/logo.png" /></a>
+            <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+            <div id="header">
+                <div class="searchbox" id="fsdocs-searchbox">
+                    <label for="search-by">
+                        <i class="fas fa-search"></i>
+                    </label>
+                    <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
+                    <span data-search-clear="">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </div>
             </div>
-            <hr />
-            <div class="row">
-                <div class="span9" id="main">
-                    
-<h1><a name="Probability-Distributions" class="anchor" href="#Probability-Distributions">Probability Distributions</a></h1>
+            <!-- END SEARCH BOX: this adds support for the search box -->
+            <ul class="navbar-nav">
+                <li class="nav-header">Math.NET Numerics</li>
+                <li class="nav-item"><a class="nav-link" href="Packages.html">NuGet & Binaries</a></li>
+                <li class="nav-item"><a class="nav-link" href="ReleaseNotes.html">Release Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/mathnet/mathnet-numerics/blob/master/LICENSE.md">MIT License</a></li>
+                <li class="nav-item"><a class="nav-link" href="Compatibility.html">Platform Support</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://numerics.mathdotnet.com/api/">Class Reference</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/mathnet/mathnet-numerics/issues">Issues & Bugs</a></li>
+                <li class="nav-item"><a class="nav-link" href="Users.html">Who is using Math.NET?</a></li>
+
+                <li class="nav-header">Contributing</li>
+                <li class="nav-item"><a class="nav-link" href="Contributors.html">Contributors</a></li>
+                <li class="nav-item"><a class="nav-link" href="Contributing.html">Contributing</a></li>
+                <li class="nav-item"><a class="nav-link" href="Build.html">Build & Tools</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/mathnet/mathnet-numerics/discussions/categories/ideas">Your Ideas</a></li>
+
+                <li class="nav-header">Getting Help</li>
+                <li class="nav-item"><a class="nav-link" href="https://discuss.mathdotnet.com/c/numerics">Discuss</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://stackoverflow.com/questions/tagged/mathdotnet">Stack Overflow</a></li>
+
+                <li class="nav-header">Getting Started</li>
+                <l class="nav-item"i><a class="nav-link" href="/">Getting started</a></li>
+                <li class="nav-item"><a class="nav-link" href="Constants.html">Constants</a></li>
+                <li class="nav-item">Floating-Point Numbers</li>
+                <li class="nav-item">Arbitrary Precision Numbers</li>
+                <li class="nav-item">Complex Numbers</li>
+                <li class="nav-item"><a class="nav-link" href="Matrix.html">Matrices and Vectors</a></li>
+                <li class="nav-item"><a class="nav-link" href="Euclid.html">Euclid & Number Theory</a></li>
+                <li class="nav-item">Combinatorics</li>
+
+                <li class="nav-header">Evaluation</li>
+                <li class="nav-item"><a class="nav-link" href="Functions.html">Special Functions</a></li>
+                <li class="nav-item">Differentiation</li>
+                <li class="nav-item"><a class="nav-link" href="Integration.html">Integration</a></li>
+
+                <li class="nav-header">Statistics/Probability</li>
+                <li class="nav-item"><a class="nav-link" href="DescriptiveStatistics.html">Descriptive Statistics</a></li>
+                <li class="nav-item"><a class="nav-link" href="Probability.html">Probability Distributions</a></li>
+
+                <li class="nav-header">Generation</li>
+                <li class="nav-item"><a class="nav-link" href="Generate.html">Generating Data</a></li>
+                <li class="nav-item"><a class="nav-link" href="Random.html">Random Numbers</a></li>
+
+                <li class="nav-header">Transformation</li>
+                <li class="nav-item">Fourier Transform (FFT)</li>
+                <li class="nav-item">Filtering & DSP</li>
+                <li class="nav-item">Window Functions</li>
+
+                <li class="nav-header">Solving Equations</li>
+                <li class="nav-item"><a class="nav-link" href="LinearEquations.html">Linear Equation Systems</a></li>
+                <li class="nav-item">Nonlinear Root Finding</li>
+
+                <li class="nav-header">Optimization</li>
+                <li class="nav-item">Linear Least Squares</li>
+                <li class="nav-item">Nonlinear Optimization</li>
+                <li class="nav-item"><a class="nav-link" href="Distance.html">Distance Metrics</a></li>
+
+                <li class="nav-header">Curve Fitting</li>
+                <li class="nav-item"><a class="nav-link" href="Regression.html">Regression</a></li>
+                <li class="nav-item">Interpolation</li>
+                <li class="nav-item">Fourier Approximation</li>
+
+                <li class="nav-header">Native Providers</li>
+                <li class="nav-item"><a class="nav-link" href="MKL.html">Intel MKL</a></li>
+
+                <li class="nav-header">Working Together</li>
+                <li class="nav-item"><a class="nav-link" href="CSV.html">Delimited Text Files (CSV)</a></li>
+                <li class="nav-item"><a class="nav-link" href="MatrixMarket.html">NIST MatrixMarket</a></li>
+                <li class="nav-item"><a class="nav-link" href="MatlabFiles.html">MATLAB</a></li>
+                <li class="nav-item"><a class="nav-link" href="IFSharpNotebook.html">IF# Notebook</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="masthead">
+            <h3 class="muted">
+                <a href="https://www.mathdotnet.com">Math.NET Project</a> | 
+                <a href="https://numerics.mathdotnet.com">Math.NET Numerics</a> | 
+                <a href="https://github.com/mathnet/mathnet-numerics">GitHub</a>
+            </h3>
+        </div>
+        <hr />
+        <div class="container" id="fsdocs-content">
+            <h1><a name="Probability-Distributions" class="anchor" href="#Probability-Distributions">Probability Distributions</a></h1>
 <p>Math.NET Numerics provides a wide range of probability distributions. Given the
 distribution parameters they can be used to investigate their statistical properties
 or to sample non-uniform random numbers.</p>
@@ -67,26 +142,7 @@ at a given point, or to compute the mean, standard deviation and other propertie
 Because it is often numerically more stable and faster to compute such statistical quantities
 in the logarithmic domain, we also provide a selection of them in the log domain with the "Ln" suffix,
 e.g. DensityLn for the logarithmic density.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">using</span> MathNet.Numerics.Distributions;
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">using</span> MathNet.Numerics.Distributions;
 <span class="k">using</span> MathNet.Numerics.Random;
 
 <span class="c">// create a parametrized distribution instance</span>
@@ -107,11 +163,7 @@ e.g. DensityLn for the logarithmic density.</p>
 </code></pre></td></tr></table>
 <p>Both probability functions and sampling are also available as static functions
 for simpler usage scenarios:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// distribution parameters must be passed as arguments</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// distribution parameters must be passed as arguments</span>
 <span class="k">double</span> a<span class="n">2</span> <span class="o">=</span> Gamma.PDF(<span class="n">2.0</span>, <span class="n">1.5</span>, <span class="n">2.3</span>);
 <span class="k">double</span> randomSample<span class="n">2</span> <span class="o">=</span> Gamma.Sample(<span class="n">2.0</span>, <span class="n">1.5</span>);
 </code></pre></td></tr></table>
@@ -171,60 +223,33 @@ default constructor, read carefully which parameters it requires. For distributi
 multiple ways are common there are also static methods, so you can use the one that fits best.
 For example, a normal distribution is usually parametrized with mean and standard deviation,
 but if you'd rather use mean and precision:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> normal <span class="o">=</span> Normal.WithMeanPrecision(<span class="n">0.0</span>, <span class="n">0.5</span>);
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> normal <span class="o">=</span> Normal.WithMeanPrecision(<span class="n">0.0</span>, <span class="n">0.5</span>);
 </code></pre></td></tr></table>
 <p>Since probability distributions can also be sampled to generate random numbers
 with the configured distribution, all constructors optionally accept a random generator
 as last argument.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> gamma<span class="n">2</span> <span class="o">=</span> <span class="k">new</span> Gamma(<span class="n">2.0</span>, <span class="n">1.5</span>, <span class="k">new</span> MersenneTwister());
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> gamma<span class="n">2</span> <span class="o">=</span> <span class="k">new</span> Gamma(<span class="n">2.0</span>, <span class="n">1.5</span>, <span class="k">new</span> MersenneTwister());
 
 <span class="c">// the random generator can also be replaced on an existing instance</span>
 gamma<span class="n">2</span>.RandomSource <span class="o">=</span> <span class="k">new</span> Mrg<span class="n">32</span>k<span class="n">3</span>a();
 </code></pre></td></tr></table>
 <p>A few more examples, this time in F#:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-<span class="l">7: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// some probability distributions</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">normal</span> <span class="o">=</span> <span class="i">Normal</span><span class="o">.</span><span class="i">WithMeanVariance</span>(<span class="n">3.0</span>, <span class="n">1.5</span>, <span class="i">a</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">exponential</span> <span class="o">=</span> <span class="i">Exponential</span>(<span class="n">2.4</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">gamma</span> <span class="o">=</span> <span class="i">Gamma</span>(<span class="n">2.0</span>, <span class="n">1.5</span>, <span class="i">Random</span><span class="o">.</span><span class="i">crypto</span>())
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">cauchy</span> <span class="o">=</span> <span class="i">Cauchy</span>(<span class="n">0.0</span>, <span class="n">1.0</span>, <span class="i">Random</span><span class="o">.</span><span class="i">mrg32k3aWith</span> <span class="n">10</span> <span class="k">false</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="i">poisson</span> <span class="o">=</span> <span class="i">Poisson</span>(<span class="n">3.0</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="i">geometric</span> <span class="o">=</span> <span class="i">Geometric</span>(<span class="n">0.8</span>, <span class="i">Random</span><span class="o">.</span><span class="i">system</span>())
-</code></pre></td>
-</tr>
-</table>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// some probability distributions</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">normal</span> <span class="o">=</span> <span class="id">Normal</span><span class="pn">.</span><span class="id">WithMeanVariance</span><span class="pn">(</span><span class="n">3.0</span><span class="pn">,</span> <span class="n">1.5</span><span class="pn">,</span> <span class="id">a</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">exponential</span> <span class="o">=</span> <span class="id">Exponential</span><span class="pn">(</span><span class="n">2.4</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">gamma</span> <span class="o">=</span> <span class="id">Gamma</span><span class="pn">(</span><span class="n">2.0</span><span class="pn">,</span> <span class="n">1.5</span><span class="pn">,</span> <span class="id">Random</span><span class="pn">.</span><span class="id">crypto</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="id">cauchy</span> <span class="o">=</span> <span class="id">Cauchy</span><span class="pn">(</span><span class="n">0.0</span><span class="pn">,</span> <span class="n">1.0</span><span class="pn">,</span> <span class="id">Random</span><span class="pn">.</span><span class="id">mrg32k3aWith</span> <span class="n">10</span> <span class="k">false</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="id">poisson</span> <span class="o">=</span> <span class="id">Poisson</span><span class="pn">(</span><span class="n">3.0</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 6)" onmouseover="showTip(event, 'fs6', 6)" class="id">geometric</span> <span class="o">=</span> <span class="id">Geometric</span><span class="pn">(</span><span class="n">0.8</span><span class="pn">,</span> <span class="id">Random</span><span class="pn">.</span><span class="id">system</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span>
+</code></pre>
 <p>Some of the distributions also have routines for maximum-likelihood parameter
 estimation from a set of samples:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="i">estimation</span> <span class="o">=</span> <span class="i">LogNormal</span><span class="o">.</span><span class="i">Estimate</span>([| <span class="n">2.0</span>; <span class="n">1.5</span>; <span class="n">2.1</span>; <span class="n">1.2</span>; <span class="n">3.0</span>; <span class="n">2.4</span>; <span class="n">1.8</span> |])
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="i">mean</span>, <span onmouseout="hideTip(event, 'fs9', 9)" onmouseover="showTip(event, 'fs9', 9)" class="i">variance</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="i">estimation</span><span class="o">.</span><span class="i">Mean</span>, <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="i">estimation</span><span class="o">.</span><span class="i">Variance</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 12)" onmouseover="showTip(event, 'fs10', 12)" class="i">moreSamples</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="i">estimation</span><span class="o">.</span><span class="i">Samples</span>() <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 14)" onmouseover="showTip(event, 'fs11', 14)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 15)" onmouseover="showTip(event, 'fs12', 15)" class="f">take</span> <span class="n">10</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs13', 17)" onmouseover="showTip(event, 'fs13', 17)" class="f">toArray</span>
-</code></pre></td>
-</tr>
-</table>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs7', 7)" onmouseover="showTip(event, 'fs7', 7)" class="id">estimation</span> <span class="o">=</span> <span class="id">LogNormal</span><span class="pn">.</span><span class="id">Estimate</span><span class="pn">(</span><span class="pn">[|</span> <span class="n">2.0</span><span class="pn">;</span> <span class="n">1.5</span><span class="pn">;</span> <span class="n">2.1</span><span class="pn">;</span> <span class="n">1.2</span><span class="pn">;</span> <span class="n">3.0</span><span class="pn">;</span> <span class="n">2.4</span><span class="pn">;</span> <span class="n">1.8</span> <span class="pn">|]</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 8)" onmouseover="showTip(event, 'fs8', 8)" class="id">mean</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs9', 9)" onmouseover="showTip(event, 'fs9', 9)" class="id">variance</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs7', 10)" onmouseover="showTip(event, 'fs7', 10)" class="id">estimation</span><span class="pn">.</span><span class="id">Mean</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs7', 11)" onmouseover="showTip(event, 'fs7', 11)" class="id">estimation</span><span class="pn">.</span><span class="id">Variance</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 12)" onmouseover="showTip(event, 'fs10', 12)" class="id">moreSamples</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs7', 13)" onmouseover="showTip(event, 'fs7', 13)" class="id">estimation</span><span class="pn">.</span><span class="id">Samples</span><span class="pn">(</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 14)" onmouseover="showTip(event, 'fs11', 14)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 15)" onmouseover="showTip(event, 'fs12', 15)" class="id">take</span> <span class="n">10</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 17)" onmouseover="showTip(event, 'fs13', 17)" class="id">toArray</span>
+</code></pre>
 <p>or in C#:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">LogNormal estimation <span class="o">=</span> LogNormal.Estimate(<span class="k">new</span> [] {<span class="n">2.0</span>, <span class="n">1.5</span>, <span class="n">2.1</span>, <span class="n">1.2</span>, <span class="n">3.0</span>, <span class="n">2.4</span>, <span class="n">1.8</span>});
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">LogNormal estimation <span class="o">=</span> LogNormal.Estimate(<span class="k">new</span> [] {<span class="n">2.0</span>, <span class="n">1.5</span>, <span class="n">2.1</span>, <span class="n">1.2</span>, <span class="n">3.0</span>, <span class="n">2.4</span>, <span class="n">1.8</span>});
 <span class="k">double</span> mean <span class="o">=</span> estimation.Mean, variance <span class="o">=</span> estimation.Variance;
 <span class="k">double</span>[] moreSamples <span class="o">=</span> estimation.Samples().Take(<span class="n">10</span>).ToArray();
 </code></pre></td></tr></table>
@@ -234,289 +259,166 @@ These random variate generators work by accessing the distribution's member Rand
 to provide uniform random numbers. By default, this member is an instance of System.Random
 but one can easily replace this with more sophisticated random number generators from
 <code>MathNet.Numerics.Random</code> (see <a href="Random.html">Random Numbers</a> for details).</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// sample some random numbers from these distributions</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// sample some random numbers from these distributions</span>
 <span class="c">// continuous distributions sample to floating-point numbers:</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 18)" onmouseover="showTip(event, 'fs14', 18)" class="i">continuous</span> <span class="o">=</span>
-  [ <span class="k">yield</span> <span onmouseout="hideTip(event, 'fs1', 19)" onmouseover="showTip(event, 'fs1', 19)" class="i">normal</span><span class="o">.</span><span class="i">Sample</span>()
-    <span class="k">yield</span> <span onmouseout="hideTip(event, 'fs2', 20)" onmouseover="showTip(event, 'fs2', 20)" class="i">exponential</span><span class="o">.</span><span class="i">Sample</span>()
-    <span class="k">yield!</span> <span onmouseout="hideTip(event, 'fs3', 21)" onmouseover="showTip(event, 'fs3', 21)" class="i">gamma</span><span class="o">.</span><span class="i">Samples</span>() <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 22)" onmouseover="showTip(event, 'fs11', 22)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 23)" onmouseover="showTip(event, 'fs12', 23)" class="f">take</span> <span class="n">10</span> ]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 18)" onmouseover="showTip(event, 'fs14', 18)" class="id">continuous</span> <span class="o">=</span>
+  <span class="pn">[</span> <span class="k">yield</span> <span onmouseout="hideTip(event, 'fs1', 19)" onmouseover="showTip(event, 'fs1', 19)" class="id">normal</span><span class="pn">.</span><span class="id">Sample</span><span class="pn">(</span><span class="pn">)</span>
+    <span class="k">yield</span> <span onmouseout="hideTip(event, 'fs2', 20)" onmouseover="showTip(event, 'fs2', 20)" class="id">exponential</span><span class="pn">.</span><span class="id">Sample</span><span class="pn">(</span><span class="pn">)</span>
+    <span class="k">yield!</span> <span onmouseout="hideTip(event, 'fs3', 21)" onmouseover="showTip(event, 'fs3', 21)" class="id">gamma</span><span class="pn">.</span><span class="id">Samples</span><span class="pn">(</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 22)" onmouseover="showTip(event, 'fs11', 22)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 23)" onmouseover="showTip(event, 'fs12', 23)" class="id">take</span> <span class="n">10</span> <span class="pn">]</span>
 
 <span class="c">// discrete distributions on the other hand sample to integers:</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 24)" onmouseover="showTip(event, 'fs15', 24)" class="i">discrete</span> <span class="o">=</span>
-  [ <span onmouseout="hideTip(event, 'fs5', 25)" onmouseover="showTip(event, 'fs5', 25)" class="i">poisson</span><span class="o">.</span><span class="i">Sample</span>()
-    <span onmouseout="hideTip(event, 'fs5', 26)" onmouseover="showTip(event, 'fs5', 26)" class="i">poisson</span><span class="o">.</span><span class="i">Sample</span>()
-    <span onmouseout="hideTip(event, 'fs6', 27)" onmouseover="showTip(event, 'fs6', 27)" class="i">geometric</span><span class="o">.</span><span class="i">Sample</span>() ]
-</code></pre></td>
-</tr>
-</table>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 24)" onmouseover="showTip(event, 'fs15', 24)" class="id">discrete</span> <span class="o">=</span>
+  <span class="pn">[</span> <span onmouseout="hideTip(event, 'fs5', 25)" onmouseover="showTip(event, 'fs5', 25)" class="id">poisson</span><span class="pn">.</span><span class="id">Sample</span><span class="pn">(</span><span class="pn">)</span>
+    <span onmouseout="hideTip(event, 'fs5', 26)" onmouseover="showTip(event, 'fs5', 26)" class="id">poisson</span><span class="pn">.</span><span class="id">Sample</span><span class="pn">(</span><span class="pn">)</span>
+    <span onmouseout="hideTip(event, 'fs6', 27)" onmouseover="showTip(event, 'fs6', 27)" class="id">geometric</span><span class="pn">.</span><span class="id">Sample</span><span class="pn">(</span><span class="pn">)</span> <span class="pn">]</span>
+</code></pre>
 <p>Instead of creating a distribution object we can also sample directly with static functions.
 Note that no intermediate value caching is possible this way and parameters must be validated on each call.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-<span class="l">7: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// using the default number generator (SystemRandomSource.Default)</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 28)" onmouseover="showTip(event, 'fs16', 28)" class="i">w</span> <span class="o">=</span> <span class="i">Rayleigh</span><span class="o">.</span><span class="i">Sample</span>(<span class="n">1.5</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 29)" onmouseover="showTip(event, 'fs17', 29)" class="i">x</span> <span class="o">=</span> <span class="i">Hypergeometric</span><span class="o">.</span><span class="i">Sample</span>(<span class="n">100</span>, <span class="n">20</span>, <span class="n">5</span>)
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// using the default number generator (SystemRandomSource.Default)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 28)" onmouseover="showTip(event, 'fs16', 28)" class="id">w</span> <span class="o">=</span> <span class="id">Rayleigh</span><span class="pn">.</span><span class="id">Sample</span><span class="pn">(</span><span class="n">1.5</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 29)" onmouseover="showTip(event, 'fs17', 29)" class="id">x</span> <span class="o">=</span> <span class="id">Hypergeometric</span><span class="pn">.</span><span class="id">Sample</span><span class="pn">(</span><span class="n">100</span><span class="pn">,</span> <span class="n">20</span><span class="pn">,</span> <span class="n">5</span><span class="pn">)</span>
 
 <span class="c">// or by manually providing the uniform random number generator</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 30)" onmouseover="showTip(event, 'fs18', 30)" class="i">u</span> <span class="o">=</span> <span class="i">Normal</span><span class="o">.</span><span class="i">Sample</span>(<span class="i">Random</span><span class="o">.</span><span class="i">system</span>(), <span class="n">2.0</span>, <span class="n">4.0</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 31)" onmouseover="showTip(event, 'fs19', 31)" class="i">v</span> <span class="o">=</span> <span class="i">Laplace</span><span class="o">.</span><span class="i">Samples</span>(<span class="i">Random</span><span class="o">.</span><span class="i">mersenneTwister</span>(), <span class="n">1.0</span>, <span class="n">3.0</span>) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 32)" onmouseover="showTip(event, 'fs11', 32)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 33)" onmouseover="showTip(event, 'fs12', 33)" class="f">take</span> <span class="n">100</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs20', 34)" onmouseover="showTip(event, 'fs20', 34)" class="t">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs21', 35)" onmouseover="showTip(event, 'fs21', 35)" class="f">ofSeq</span>
-</code></pre></td>
-</tr>
-</table>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 30)" onmouseover="showTip(event, 'fs18', 30)" class="id">u</span> <span class="o">=</span> <span class="id">Normal</span><span class="pn">.</span><span class="id">Sample</span><span class="pn">(</span><span class="id">Random</span><span class="pn">.</span><span class="id">system</span><span class="pn">(</span><span class="pn">)</span><span class="pn">,</span> <span class="n">2.0</span><span class="pn">,</span> <span class="n">4.0</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 31)" onmouseover="showTip(event, 'fs19', 31)" class="id">v</span> <span class="o">=</span> <span class="id">Laplace</span><span class="pn">.</span><span class="id">Samples</span><span class="pn">(</span><span class="id">Random</span><span class="pn">.</span><span class="id">mersenneTwister</span><span class="pn">(</span><span class="pn">)</span><span class="pn">,</span> <span class="n">1.0</span><span class="pn">,</span> <span class="n">3.0</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 32)" onmouseover="showTip(event, 'fs11', 32)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 33)" onmouseover="showTip(event, 'fs12', 33)" class="id">take</span> <span class="n">100</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs20', 34)" onmouseover="showTip(event, 'fs20', 34)" class="m">List</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs21', 35)" onmouseover="showTip(event, 'fs21', 35)" class="id">ofSeq</span>
+</code></pre>
 <p>If you need to sample not just one or two values but a large number of them,
 there are routines that either fill an existing array or return an enumerable.
 The variant that fills an array is generally the fastest. Routines to sample
 more than one value use the plural form <code>Samples</code> instead of <code>Sample</code>.</p>
 <p>Let's sample 100'000 values from a laplace distribution with mean 1.0 and scale 2.0 in C#:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> samples <span class="o">=</span> <span class="k">new</span> <span class="k">double</span>[<span class="n">100000</span>];
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> samples <span class="o">=</span> <span class="k">new</span> <span class="k">double</span>[<span class="n">100000</span>];
 Laplace.Samples(samples, <span class="n">1.0</span>, <span class="n">2.0</span>);
 </code></pre></td></tr></table>
 <p>Let's do some random walks in F# (TODO: Graph):</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs11', 36)" onmouseover="showTip(event, 'fs11', 36)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 37)" onmouseover="showTip(event, 'fs22', 37)" class="f">scan</span> (<span class="o">+</span>) <span class="n">0.0</span> (<span class="i">Normal</span><span class="o">.</span><span class="i">Samples</span>(<span class="n">0.0</span>, <span class="n">1.0</span>)) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 38)" onmouseover="showTip(event, 'fs11', 38)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 39)" onmouseover="showTip(event, 'fs12', 39)" class="f">take</span> <span class="n">10</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 40)" onmouseover="showTip(event, 'fs11', 40)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs13', 41)" onmouseover="showTip(event, 'fs13', 41)" class="f">toArray</span>
-<span onmouseout="hideTip(event, 'fs11', 42)" onmouseover="showTip(event, 'fs11', 42)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs22', 43)" onmouseover="showTip(event, 'fs22', 43)" class="f">scan</span> (<span class="o">+</span>) <span class="n">0.0</span> (<span class="i">Cauchy</span><span class="o">.</span><span class="i">Samples</span>(<span class="n">0.0</span>, <span class="n">1.0</span>)) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 44)" onmouseover="showTip(event, 'fs11', 44)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 45)" onmouseover="showTip(event, 'fs12', 45)" class="f">take</span> <span class="n">10</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 46)" onmouseover="showTip(event, 'fs11', 46)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs13', 47)" onmouseover="showTip(event, 'fs13', 47)" class="f">toArray</span>
-</code></pre></td>
-</tr>
-</table>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs11', 36)" onmouseover="showTip(event, 'fs11', 36)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 37)" onmouseover="showTip(event, 'fs22', 37)" class="id">scan</span> <span class="pn">(</span><span class="o">+</span><span class="pn">)</span> <span class="n">0.0</span> <span class="pn">(</span><span class="id">Normal</span><span class="pn">.</span><span class="id">Samples</span><span class="pn">(</span><span class="n">0.0</span><span class="pn">,</span> <span class="n">1.0</span><span class="pn">)</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 38)" onmouseover="showTip(event, 'fs11', 38)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 39)" onmouseover="showTip(event, 'fs12', 39)" class="id">take</span> <span class="n">10</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 40)" onmouseover="showTip(event, 'fs11', 40)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 41)" onmouseover="showTip(event, 'fs13', 41)" class="id">toArray</span>
+<span onmouseout="hideTip(event, 'fs11', 42)" onmouseover="showTip(event, 'fs11', 42)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs22', 43)" onmouseover="showTip(event, 'fs22', 43)" class="id">scan</span> <span class="pn">(</span><span class="o">+</span><span class="pn">)</span> <span class="n">0.0</span> <span class="pn">(</span><span class="id">Cauchy</span><span class="pn">.</span><span class="id">Samples</span><span class="pn">(</span><span class="n">0.0</span><span class="pn">,</span> <span class="n">1.0</span><span class="pn">)</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 44)" onmouseover="showTip(event, 'fs11', 44)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 45)" onmouseover="showTip(event, 'fs12', 45)" class="id">take</span> <span class="n">10</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 46)" onmouseover="showTip(event, 'fs11', 46)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 47)" onmouseover="showTip(event, 'fs13', 47)" class="id">toArray</span>
+</code></pre>
 <h2><a name="Distribution-Functions-and-Properties" class="anchor" href="#Distribution-Functions-and-Properties">Distribution Functions and Properties</a></h2>
 <p>Distributions can not just be used to generate non-uniform random samples.
 Once parametrized they can compute a variety of distribution properties
 or evaluate distribution functions. Because it is often numerically more stable
 and faster to compute and work with such quantities in the logarithmic domain,
 some of them are also available with the <code>Ln</code>-suffix.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-<span class="l">21: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// distribution properties of the gamma we&#39;ve configured above</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 48)" onmouseover="showTip(event, 'fs23', 48)" class="i">gammaStats</span> <span class="o">=</span>
-  ( <span onmouseout="hideTip(event, 'fs3', 49)" onmouseover="showTip(event, 'fs3', 49)" class="i">gamma</span><span class="o">.</span><span class="i">Mean</span>,
-    <span onmouseout="hideTip(event, 'fs3', 50)" onmouseover="showTip(event, 'fs3', 50)" class="i">gamma</span><span class="o">.</span><span class="i">Variance</span>,
-    <span onmouseout="hideTip(event, 'fs3', 51)" onmouseover="showTip(event, 'fs3', 51)" class="i">gamma</span><span class="o">.</span><span class="i">StdDev</span>,
-    <span onmouseout="hideTip(event, 'fs3', 52)" onmouseover="showTip(event, 'fs3', 52)" class="i">gamma</span><span class="o">.</span><span class="i">Entropy</span>,
-    <span onmouseout="hideTip(event, 'fs3', 53)" onmouseover="showTip(event, 'fs3', 53)" class="i">gamma</span><span class="o">.</span><span class="i">Skewness</span>,
-    <span onmouseout="hideTip(event, 'fs3', 54)" onmouseover="showTip(event, 'fs3', 54)" class="i">gamma</span><span class="o">.</span><span class="i">Mode</span> )
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// distribution properties of the gamma we&#39;ve configured above</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 48)" onmouseover="showTip(event, 'fs23', 48)" class="id">gammaStats</span> <span class="o">=</span>
+  <span class="pn">(</span> <span onmouseout="hideTip(event, 'fs3', 49)" onmouseover="showTip(event, 'fs3', 49)" class="id">gamma</span><span class="pn">.</span><span class="id">Mean</span><span class="pn">,</span>
+    <span onmouseout="hideTip(event, 'fs3', 50)" onmouseover="showTip(event, 'fs3', 50)" class="id">gamma</span><span class="pn">.</span><span class="id">Variance</span><span class="pn">,</span>
+    <span onmouseout="hideTip(event, 'fs3', 51)" onmouseover="showTip(event, 'fs3', 51)" class="id">gamma</span><span class="pn">.</span><span class="id">StdDev</span><span class="pn">,</span>
+    <span onmouseout="hideTip(event, 'fs3', 52)" onmouseover="showTip(event, 'fs3', 52)" class="id">gamma</span><span class="pn">.</span><span class="id">Entropy</span><span class="pn">,</span>
+    <span onmouseout="hideTip(event, 'fs3', 53)" onmouseover="showTip(event, 'fs3', 53)" class="id">gamma</span><span class="pn">.</span><span class="id">Skewness</span><span class="pn">,</span>
+    <span onmouseout="hideTip(event, 'fs3', 54)" onmouseover="showTip(event, 'fs3', 54)" class="id">gamma</span><span class="pn">.</span><span class="id">Mode</span> <span class="pn">)</span>
 
 <span class="c">// probability distribution functions of the normal we&#39;ve configured above.</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 55)" onmouseover="showTip(event, 'fs24', 55)" class="i">nd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 56)" onmouseover="showTip(event, 'fs1', 56)" class="i">normal</span><span class="o">.</span><span class="i">Density</span>(<span class="n">4.0</span>)  <span class="c">(* PDF *)</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 57)" onmouseover="showTip(event, 'fs25', 57)" class="i">ndLn</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 58)" onmouseover="showTip(event, 'fs1', 58)" class="i">normal</span><span class="o">.</span><span class="i">DensityLn</span>(<span class="n">4.0</span>)  <span class="c">(* ln(PDF) *)</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 59)" onmouseover="showTip(event, 'fs26', 59)" class="i">nc</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 60)" onmouseover="showTip(event, 'fs1', 60)" class="i">normal</span><span class="o">.</span><span class="i">CumulativeDistribution</span>(<span class="n">4.0</span>)  <span class="c">(* CDF *)</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 61)" onmouseover="showTip(event, 'fs27', 61)" class="i">nic</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 62)" onmouseover="showTip(event, 'fs1', 62)" class="i">normal</span><span class="o">.</span><span class="i">InverseCumulativeDistribution</span>(<span class="n">0.7</span>)  <span class="c">(* CDF^(-1) *)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 55)" onmouseover="showTip(event, 'fs24', 55)" class="id">nd</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 56)" onmouseover="showTip(event, 'fs1', 56)" class="id">normal</span><span class="pn">.</span><span class="id">Density</span><span class="pn">(</span><span class="n">4.0</span><span class="pn">)</span>  <span class="c">(* PDF *)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 57)" onmouseover="showTip(event, 'fs25', 57)" class="id">ndLn</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 58)" onmouseover="showTip(event, 'fs1', 58)" class="id">normal</span><span class="pn">.</span><span class="id">DensityLn</span><span class="pn">(</span><span class="n">4.0</span><span class="pn">)</span>  <span class="c">(* ln(PDF) *)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 59)" onmouseover="showTip(event, 'fs26', 59)" class="id">nc</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 60)" onmouseover="showTip(event, 'fs1', 60)" class="id">normal</span><span class="pn">.</span><span class="id">CumulativeDistribution</span><span class="pn">(</span><span class="n">4.0</span><span class="pn">)</span>  <span class="c">(* CDF *)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs27', 61)" onmouseover="showTip(event, 'fs27', 61)" class="id">nic</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs1', 62)" onmouseover="showTip(event, 'fs1', 62)" class="id">normal</span><span class="pn">.</span><span class="id">InverseCumulativeDistribution</span><span class="pn">(</span><span class="n">0.7</span><span class="pn">)</span>  <span class="c">(* CDF^(-1) *)</span>
 
 <span class="c">// Distribution functions can also be evaluated without creating an object,</span>
 <span class="c">// but then you have to pass in the distribution parameters as first arguments:</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 63)" onmouseover="showTip(event, 'fs28', 63)" class="i">nd2</span> <span class="o">=</span> <span class="i">Normal</span><span class="o">.</span><span class="i">PDF</span>(<span class="n">3.0</span>, <span onmouseout="hideTip(event, 'fs29', 64)" onmouseover="showTip(event, 'fs29', 64)" class="i">sqrt</span> <span class="n">1.5</span>, <span class="n">4.0</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 65)" onmouseover="showTip(event, 'fs30', 65)" class="i">ndLn2</span> <span class="o">=</span> <span class="i">Normal</span><span class="o">.</span><span class="i">PDFLn</span>(<span class="n">3.0</span>, <span onmouseout="hideTip(event, 'fs29', 66)" onmouseover="showTip(event, 'fs29', 66)" class="i">sqrt</span> <span class="n">1.5</span>, <span class="n">4.0</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 67)" onmouseover="showTip(event, 'fs31', 67)" class="i">nc2</span> <span class="o">=</span> <span class="i">Normal</span><span class="o">.</span><span class="i">CDF</span>(<span class="n">3.0</span>, <span onmouseout="hideTip(event, 'fs29', 68)" onmouseover="showTip(event, 'fs29', 68)" class="i">sqrt</span> <span class="n">1.5</span>, <span class="n">4.0</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 69)" onmouseover="showTip(event, 'fs32', 69)" class="i">nic2</span> <span class="o">=</span> <span class="i">Normal</span><span class="o">.</span><span class="i">InvCDF</span>(<span class="n">3.0</span>, <span onmouseout="hideTip(event, 'fs29', 70)" onmouseover="showTip(event, 'fs29', 70)" class="i">sqrt</span> <span class="n">1.5</span>, <span class="n">0.7</span>)
-</code></pre></td>
-</tr>
-</table>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 63)" onmouseover="showTip(event, 'fs28', 63)" class="id">nd2</span> <span class="o">=</span> <span class="id">Normal</span><span class="pn">.</span><span class="id">PDF</span><span class="pn">(</span><span class="n">3.0</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs29', 64)" onmouseover="showTip(event, 'fs29', 64)" class="id">sqrt</span> <span class="n">1.5</span><span class="pn">,</span> <span class="n">4.0</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 65)" onmouseover="showTip(event, 'fs30', 65)" class="id">ndLn2</span> <span class="o">=</span> <span class="id">Normal</span><span class="pn">.</span><span class="id">PDFLn</span><span class="pn">(</span><span class="n">3.0</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs29', 66)" onmouseover="showTip(event, 'fs29', 66)" class="id">sqrt</span> <span class="n">1.5</span><span class="pn">,</span> <span class="n">4.0</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs31', 67)" onmouseover="showTip(event, 'fs31', 67)" class="id">nc2</span> <span class="o">=</span> <span class="id">Normal</span><span class="pn">.</span><span class="id">CDF</span><span class="pn">(</span><span class="n">3.0</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs29', 68)" onmouseover="showTip(event, 'fs29', 68)" class="id">sqrt</span> <span class="n">1.5</span><span class="pn">,</span> <span class="n">4.0</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 69)" onmouseover="showTip(event, 'fs32', 69)" class="id">nic2</span> <span class="o">=</span> <span class="id">Normal</span><span class="pn">.</span><span class="id">InvCDF</span><span class="pn">(</span><span class="n">3.0</span><span class="pn">,</span> <span onmouseout="hideTip(event, 'fs29', 70)" onmouseover="showTip(event, 'fs29', 70)" class="id">sqrt</span> <span class="n">1.5</span><span class="pn">,</span> <span class="n">0.7</span><span class="pn">)</span>
+</code></pre>
 <h2><a name="Composing-Distributions" class="anchor" href="#Composing-Distributions">Composing Distributions</a></h2>
 <p>Specifically for F# there is also a <code>Sample</code> module that allows a somewhat more functional
 view on distribution sampling functions by having the random source passed in as last argument.
 This way they can be composed and transformed arbitrarily if curried:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">/// Transform a sample from a distribution</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 71)" onmouseover="showTip(event, 'fs33', 71)" class="f">s1</span> <span onmouseout="hideTip(event, 'fs34', 72)" onmouseover="showTip(event, 'fs34', 72)" class="i">rng</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs35', 73)" onmouseover="showTip(event, 'fs35', 73)" class="f">tanh</span> (<span class="i">Sample</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs1', 74)" onmouseover="showTip(event, 'fs1', 74)" class="i">normal</span> <span class="n">2.0</span> <span class="n">0.5</span> <span onmouseout="hideTip(event, 'fs34', 75)" onmouseover="showTip(event, 'fs34', 75)" class="i">rng</span>)
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="c">/// Transform a sample from a distribution</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs33', 71)" onmouseover="showTip(event, 'fs33', 71)" class="fn">s1</span> <span onmouseout="hideTip(event, 'fs34', 72)" onmouseover="showTip(event, 'fs34', 72)" class="fn">rng</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs35', 73)" onmouseover="showTip(event, 'fs35', 73)" class="fn">tanh</span> <span class="pn">(</span><span class="id">Sample</span><span class="pn">.</span><span class="id">normal</span> <span class="n">2.0</span> <span class="n">0.5</span> <span onmouseout="hideTip(event, 'fs34', 74)" onmouseover="showTip(event, 'fs34', 74)" class="id">rng</span><span class="pn">)</span>
 
 <span class="c">/// But we really want to transform the function, not the resulting sample:</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 76)" onmouseover="showTip(event, 'fs36', 76)" class="f">s1f</span> <span onmouseout="hideTip(event, 'fs34', 77)" onmouseover="showTip(event, 'fs34', 77)" class="i">rng</span> <span class="o">=</span> <span class="i">Sample</span><span class="o">.</span><span class="i">map</span> <span onmouseout="hideTip(event, 'fs35', 78)" onmouseover="showTip(event, 'fs35', 78)" class="i">tanh</span> (<span class="i">Sample</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs1', 79)" onmouseover="showTip(event, 'fs1', 79)" class="i">normal</span> <span class="n">2.0</span> <span class="n">0.5</span>) <span onmouseout="hideTip(event, 'fs34', 80)" onmouseover="showTip(event, 'fs34', 80)" class="i">rng</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs36', 75)" onmouseover="showTip(event, 'fs36', 75)" class="fn">s1f</span> <span onmouseout="hideTip(event, 'fs34', 76)" onmouseover="showTip(event, 'fs34', 76)" class="fn">rng</span> <span class="o">=</span> <span class="id">Sample</span><span class="pn">.</span><span class="id">map</span> <span onmouseout="hideTip(event, 'fs35', 77)" onmouseover="showTip(event, 'fs35', 77)" class="id">tanh</span> <span class="pn">(</span><span class="id">Sample</span><span class="pn">.</span><span class="id">normal</span> <span class="n">2.0</span> <span class="n">0.5</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs34', 78)" onmouseover="showTip(event, 'fs34', 78)" class="id">rng</span>
 
 <span class="c">/// Exactly the same also works with functions generating full sequences</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 81)" onmouseover="showTip(event, 'fs37', 81)" class="f">s1s</span> <span onmouseout="hideTip(event, 'fs34', 82)" onmouseover="showTip(event, 'fs34', 82)" class="i">rng</span> <span class="o">=</span> <span class="i">Sample</span><span class="o">.</span><span class="i">mapSeq</span> <span onmouseout="hideTip(event, 'fs35', 83)" onmouseover="showTip(event, 'fs35', 83)" class="i">tanh</span> (<span class="i">Sample</span><span class="o">.</span><span class="i">normalSeq</span> <span class="n">2.0</span> <span class="n">0.5</span>) <span onmouseout="hideTip(event, 'fs34', 84)" onmouseover="showTip(event, 'fs34', 84)" class="i">rng</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 79)" onmouseover="showTip(event, 'fs37', 79)" class="fn">s1s</span> <span onmouseout="hideTip(event, 'fs34', 80)" onmouseover="showTip(event, 'fs34', 80)" class="fn">rng</span> <span class="o">=</span> <span class="id">Sample</span><span class="pn">.</span><span class="id">mapSeq</span> <span onmouseout="hideTip(event, 'fs35', 81)" onmouseover="showTip(event, 'fs35', 81)" class="id">tanh</span> <span class="pn">(</span><span class="id">Sample</span><span class="pn">.</span><span class="id">normalSeq</span> <span class="n">2.0</span> <span class="n">0.5</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs34', 82)" onmouseover="showTip(event, 'fs34', 82)" class="id">rng</span>
 
 <span class="c">/// Now with multiple distributions, e.g. their product:</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs38', 85)" onmouseover="showTip(event, 'fs38', 85)" class="f">s2</span> <span onmouseout="hideTip(event, 'fs34', 86)" onmouseover="showTip(event, 'fs34', 86)" class="i">rng</span> <span class="o">=</span> (<span class="i">Sample</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs1', 87)" onmouseover="showTip(event, 'fs1', 87)" class="i">normal</span> <span class="n">2.0</span> <span class="n">1.5</span> <span onmouseout="hideTip(event, 'fs34', 88)" onmouseover="showTip(event, 'fs34', 88)" class="i">rng</span>) <span class="o">*</span> (<span class="i">Sample</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 89)" onmouseover="showTip(event, 'fs4', 89)" class="i">cauchy</span> <span class="n">2.0</span> <span class="n">0.5</span> <span onmouseout="hideTip(event, 'fs34', 90)" onmouseover="showTip(event, 'fs34', 90)" class="i">rng</span>)
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 91)" onmouseover="showTip(event, 'fs39', 91)" class="f">s2f</span> <span onmouseout="hideTip(event, 'fs34', 92)" onmouseover="showTip(event, 'fs34', 92)" class="i">rng</span> <span class="o">=</span> <span class="i">Sample</span><span class="o">.</span><span class="i">map2</span> <span class="o">(*)</span> (<span class="i">Sample</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs1', 93)" onmouseover="showTip(event, 'fs1', 93)" class="i">normal</span> <span class="n">2.0</span> <span class="n">1.5</span>) (<span class="i">Sample</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs4', 94)" onmouseover="showTip(event, 'fs4', 94)" class="i">cauchy</span> <span class="n">2.0</span> <span class="n">0.5</span>) <span onmouseout="hideTip(event, 'fs34', 95)" onmouseover="showTip(event, 'fs34', 95)" class="i">rng</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 96)" onmouseover="showTip(event, 'fs40', 96)" class="f">s2s</span> <span onmouseout="hideTip(event, 'fs34', 97)" onmouseover="showTip(event, 'fs34', 97)" class="i">rng</span> <span class="o">=</span> <span class="i">Sample</span><span class="o">.</span><span class="i">mapSeq2</span> <span class="o">(*)</span> (<span class="i">Sample</span><span class="o">.</span><span class="i">normalSeq</span> <span class="n">2.0</span> <span class="n">1.5</span>) (<span class="i">Sample</span><span class="o">.</span><span class="i">cauchySeq</span> <span class="n">2.0</span> <span class="n">0.5</span>) <span onmouseout="hideTip(event, 'fs34', 98)" onmouseover="showTip(event, 'fs34', 98)" class="i">rng</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs38', 83)" onmouseover="showTip(event, 'fs38', 83)" class="fn">s2</span> <span onmouseout="hideTip(event, 'fs34', 84)" onmouseover="showTip(event, 'fs34', 84)" class="fn">rng</span> <span class="o">=</span> <span class="pn">(</span><span class="id">Sample</span><span class="pn">.</span><span class="id">normal</span> <span class="n">2.0</span> <span class="n">1.5</span> <span onmouseout="hideTip(event, 'fs34', 85)" onmouseover="showTip(event, 'fs34', 85)" class="id">rng</span><span class="pn">)</span> <span class="o">*</span> <span class="pn">(</span><span class="id">Sample</span><span class="pn">.</span><span class="id">cauchy</span> <span class="n">2.0</span> <span class="n">0.5</span> <span onmouseout="hideTip(event, 'fs34', 86)" onmouseover="showTip(event, 'fs34', 86)" class="id">rng</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 87)" onmouseover="showTip(event, 'fs39', 87)" class="fn">s2f</span> <span onmouseout="hideTip(event, 'fs34', 88)" onmouseover="showTip(event, 'fs34', 88)" class="fn">rng</span> <span class="o">=</span> <span class="id">Sample</span><span class="pn">.</span><span class="id">map2</span> <span class="o">(*)</span> <span class="pn">(</span><span class="id">Sample</span><span class="pn">.</span><span class="id">normal</span> <span class="n">2.0</span> <span class="n">1.5</span><span class="pn">)</span> <span class="pn">(</span><span class="id">Sample</span><span class="pn">.</span><span class="id">cauchy</span> <span class="n">2.0</span> <span class="n">0.5</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs34', 89)" onmouseover="showTip(event, 'fs34', 89)" class="id">rng</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 90)" onmouseover="showTip(event, 'fs40', 90)" class="fn">s2s</span> <span onmouseout="hideTip(event, 'fs34', 91)" onmouseover="showTip(event, 'fs34', 91)" class="fn">rng</span> <span class="o">=</span> <span class="id">Sample</span><span class="pn">.</span><span class="id">mapSeq2</span> <span class="o">(*)</span> <span class="pn">(</span><span class="id">Sample</span><span class="pn">.</span><span class="id">normalSeq</span> <span class="n">2.0</span> <span class="n">1.5</span><span class="pn">)</span> <span class="pn">(</span><span class="id">Sample</span><span class="pn">.</span><span class="id">cauchySeq</span> <span class="n">2.0</span> <span class="n">0.5</span><span class="pn">)</span> <span onmouseout="hideTip(event, 'fs34', 92)" onmouseover="showTip(event, 'fs34', 92)" class="id">rng</span>
 
 <span class="c">// Taking some samples from the composed function</span>
-<span onmouseout="hideTip(event, 'fs11', 99)" onmouseover="showTip(event, 'fs11', 99)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs12', 100)" onmouseover="showTip(event, 'fs12', 100)" class="f">take</span> <span class="n">10</span> (<span onmouseout="hideTip(event, 'fs40', 101)" onmouseover="showTip(event, 'fs40', 101)" class="f">s2s</span> (<span class="i">Random</span><span class="o">.</span><span class="i">system</span>())) <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 102)" onmouseover="showTip(event, 'fs11', 102)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs13', 103)" onmouseover="showTip(event, 'fs13', 103)" class="f">toArray</span>
-</code></pre></td>
-</tr>
-</table>
+<span onmouseout="hideTip(event, 'fs11', 93)" onmouseover="showTip(event, 'fs11', 93)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs12', 94)" onmouseover="showTip(event, 'fs12', 94)" class="id">take</span> <span class="n">10</span> <span class="pn">(</span><span onmouseout="hideTip(event, 'fs40', 95)" onmouseover="showTip(event, 'fs40', 95)" class="fn">s2s</span> <span class="pn">(</span><span class="id">Random</span><span class="pn">.</span><span class="id">system</span><span class="pn">(</span><span class="pn">)</span><span class="pn">)</span><span class="pn">)</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs11', 96)" onmouseover="showTip(event, 'fs11', 96)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs13', 97)" onmouseover="showTip(event, 'fs13', 97)" class="id">toArray</span>
+</code></pre>
 
-<div class="tip" id="fs1">val normal : obj<br /><br />Full name: Probability.normal</div>
-<div class="tip" id="fs2">val exponential : obj<br /><br />Full name: Probability.exponential</div>
-<div class="tip" id="fs3">val gamma : obj<br /><br />Full name: Probability.gamma</div>
-<div class="tip" id="fs4">val cauchy : obj<br /><br />Full name: Probability.cauchy</div>
-<div class="tip" id="fs5">val poisson : obj<br /><br />Full name: Probability.poisson</div>
-<div class="tip" id="fs6">val geometric : obj<br /><br />Full name: Probability.geometric</div>
-<div class="tip" id="fs7">val estimation : obj<br /><br />Full name: Probability.estimation</div>
-<div class="tip" id="fs8">val mean : obj<br /><br />Full name: Probability.mean</div>
-<div class="tip" id="fs9">val variance : obj<br /><br />Full name: Probability.variance</div>
-<div class="tip" id="fs10">val moreSamples : obj []<br /><br />Full name: Probability.moreSamples</div>
-<div class="tip" id="fs11">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
-<div class="tip" id="fs12">val take : count:int -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Collections.Seq.take</div>
-<div class="tip" id="fs13">val toArray : source:seq&lt;&#39;T&gt; -&gt; &#39;T []<br /><br />Full name: Microsoft.FSharp.Collections.Seq.toArray</div>
-<div class="tip" id="fs14">val continuous : obj list<br /><br />Full name: Probability.continuous</div>
-<div class="tip" id="fs15">val discrete : obj list<br /><br />Full name: Probability.discrete</div>
-<div class="tip" id="fs16">val w : obj<br /><br />Full name: Probability.w</div>
-<div class="tip" id="fs17">val x : obj<br /><br />Full name: Probability.x</div>
-<div class="tip" id="fs18">val u : obj<br /><br />Full name: Probability.u</div>
-<div class="tip" id="fs19">val v : obj list<br /><br />Full name: Probability.v</div>
-<div class="tip" id="fs20">Multiple items<br />module List<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type List&lt;&#39;T&gt; =<br />&#160;&#160;| ( [] )<br />&#160;&#160;| ( :: ) of Head: &#39;T * Tail: &#39;T list<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;member GetSlice : startIndex:int option * endIndex:int option -&gt; &#39;T list<br />&#160;&#160;member Head : &#39;T<br />&#160;&#160;member IsEmpty : bool<br />&#160;&#160;member Item : index:int -&gt; &#39;T with get<br />&#160;&#160;member Length : int<br />&#160;&#160;member Tail : &#39;T list<br />&#160;&#160;static member Cons : head:&#39;T * tail:&#39;T list -&gt; &#39;T list<br />&#160;&#160;static member Empty : &#39;T list<br /><br />Full name: Microsoft.FSharp.Collections.List&lt;_&gt;</div>
-<div class="tip" id="fs21">val ofSeq : source:seq&lt;&#39;T&gt; -&gt; &#39;T list<br /><br />Full name: Microsoft.FSharp.Collections.List.ofSeq</div>
-<div class="tip" id="fs22">val scan : folder:(&#39;State -&gt; &#39;T -&gt; &#39;State) -&gt; state:&#39;State -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;State&gt;<br /><br />Full name: Microsoft.FSharp.Collections.Seq.scan</div>
-<div class="tip" id="fs23">val gammaStats : obj * obj * obj * obj * obj * obj<br /><br />Full name: Probability.gammaStats</div>
-<div class="tip" id="fs24">val nd : obj<br /><br />Full name: Probability.nd</div>
-<div class="tip" id="fs25">val ndLn : obj<br /><br />Full name: Probability.ndLn</div>
-<div class="tip" id="fs26">val nc : obj<br /><br />Full name: Probability.nc</div>
-<div class="tip" id="fs27">val nic : obj<br /><br />Full name: Probability.nic</div>
-<div class="tip" id="fs28">val nd2 : obj<br /><br />Full name: Probability.nd2</div>
-<div class="tip" id="fs29">val sqrt : value:&#39;T -&gt; &#39;U (requires member Sqrt)<br /><br />Full name: Microsoft.FSharp.Core.Operators.sqrt</div>
-<div class="tip" id="fs30">val ndLn2 : obj<br /><br />Full name: Probability.ndLn2</div>
-<div class="tip" id="fs31">val nc2 : obj<br /><br />Full name: Probability.nc2</div>
-<div class="tip" id="fs32">val nic2 : obj<br /><br />Full name: Probability.nic2</div>
-<div class="tip" id="fs33">val s1 : rng:&#39;a -&gt; float<br /><br />Full name: Probability.s1<br /><em><br /><br />&#160;Transform a sample from a distribution</em></div>
-<div class="tip" id="fs34">val rng : &#39;a</div>
-<div class="tip" id="fs35">val tanh : value:&#39;T -&gt; &#39;T (requires member Tanh)<br /><br />Full name: Microsoft.FSharp.Core.Operators.tanh</div>
-<div class="tip" id="fs36">val s1f : rng:&#39;a -&gt; &#39;b<br /><br />Full name: Probability.s1f<br /><em><br /><br />&#160;But we really want to transform the function, not the resulting sample:</em></div>
-<div class="tip" id="fs37">val s1s : rng:&#39;a -&gt; &#39;b<br /><br />Full name: Probability.s1s<br /><em><br /><br />&#160;Exactly the same also works with functions generating full sequences</em></div>
-<div class="tip" id="fs38">val s2 : rng:&#39;a -&gt; obj<br /><br />Full name: Probability.s2<br /><em><br /><br />&#160;Now with multiple distributions, e.g. their product:</em></div>
-<div class="tip" id="fs39">val s2f : rng:&#39;a -&gt; &#39;b<br /><br />Full name: Probability.s2f</div>
-<div class="tip" id="fs40">val s2s : rng:&#39;a -&gt; &#39;b<br /><br />Full name: Probability.s2s</div>
+            <div class="fsdocs-tip" id="fs1">val normal : obj</div>
+<div class="fsdocs-tip" id="fs2">val exponential : obj</div>
+<div class="fsdocs-tip" id="fs3">val gamma : obj</div>
+<div class="fsdocs-tip" id="fs4">val cauchy : obj</div>
+<div class="fsdocs-tip" id="fs5">val poisson : obj</div>
+<div class="fsdocs-tip" id="fs6">val geometric : obj</div>
+<div class="fsdocs-tip" id="fs7">val estimation : obj</div>
+<div class="fsdocs-tip" id="fs8">val mean : obj</div>
+<div class="fsdocs-tip" id="fs9">val variance : obj</div>
+<div class="fsdocs-tip" id="fs10">val moreSamples : obj []</div>
+<div class="fsdocs-tip" id="fs11">Modul Seq
 
-                </div>
-                <div class="span3">
-                    <ul class="nav nav-list" id="menu">
+aus Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.seq`1&quot; /&gt;.&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs12">val take : count:int -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;T&gt;<br /><em>&lt;summary&gt;Returns the first N elements of the sequence.&lt;/summary&gt;<br />&lt;remarks&gt;Throws &lt;c&gt;InvalidOperationException&lt;/c&gt;
+ if the count exceeds the number of elements in the sequence. &lt;c&gt;Seq.truncate&lt;/c&gt;
+ returns as many items as the sequence contains instead of throwing an exception.&lt;/remarks&gt;<br />&lt;param name=&quot;count&quot;&gt;The number of items to take.&lt;/param&gt;<br />&lt;param name=&quot;source&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The result sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input sequence is null.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when the input sequence is empty.&lt;/exception&gt;<br />&lt;exception cref=&quot;T:System.InvalidOperationException&quot;&gt;Thrown when count exceeds the number of elements
+ in the sequence.&lt;/exception&gt;</em></div>
+<div class="fsdocs-tip" id="fs13">val toArray : source:seq&lt;&#39;T&gt; -&gt; &#39;T []<br /><em>&lt;summary&gt;Builds an array from the given collection.&lt;/summary&gt;<br />&lt;param name=&quot;source&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The result array.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input sequence is null.&lt;/exception&gt;</em></div>
+<div class="fsdocs-tip" id="fs14">val continuous : obj list</div>
+<div class="fsdocs-tip" id="fs15">val discrete : obj list</div>
+<div class="fsdocs-tip" id="fs16">val w : obj</div>
+<div class="fsdocs-tip" id="fs17">val x : obj</div>
+<div class="fsdocs-tip" id="fs18">val u : obj</div>
+<div class="fsdocs-tip" id="fs19">val v : obj list</div>
+<div class="fsdocs-tip" id="fs20">Multiple items<br />Modul List
 
-                        <li class="nav-header">Math.NET Numerics</li>
-                        <li><a href="https://numerics.mathdotnet.com/Packages.html">NuGet & Binaries</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/ReleaseNotes.html">Release Notes</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/License.html">MIT License</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Compatibility.html">Platform Support</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/api/">Class Reference</a></li>
-                        <li><a href="https://github.com/mathnet/mathnet-numerics/issues">Issues & Bugs</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Users.html">Who is using Math.NET?</a></li>
+aus Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.list`1&quot; /&gt;.&lt;/summary&gt;<br />&lt;namespacedoc&gt;&lt;summary&gt;Operations for collections such as lists, arrays, sets, maps and sequences. See also 
+    &lt;a href=&quot;https://docs.microsoft.com/dotnet/fsharp/language-reference/fsharp-collection-types&quot;&gt;F# Collection Types&lt;/a&gt; in the F# Language Guide.
+ &lt;/summary&gt;&lt;/namespacedoc&gt;</em><br /><br />--------------------<br />type List&lt;&#39;T&gt; =
+  | ( [] )
+  | ( :: ) of Head: &#39;T * Tail: &#39;T list
+    interface IReadOnlyList&lt;&#39;T&gt;
+    interface IReadOnlyCollection&lt;&#39;T&gt;
+    interface IEnumerable
+    interface IEnumerable&lt;&#39;T&gt;
+    member GetReverseIndex : rank:int * offset:int -&gt; int
+    member GetSlice : startIndex:int option * endIndex:int option -&gt; &#39;T list
+    static member Cons : head:&#39;T * tail:&#39;T list -&gt; &#39;T list
+    member Head : &#39;T
+    member IsEmpty : bool
+    member Item : index:int -&gt; &#39;T with get
+    ...<br /><em>&lt;summary&gt;The type of immutable singly-linked lists.&lt;/summary&gt;<br />&lt;remarks&gt;Use the constructors &lt;c&gt;[]&lt;/c&gt; and &lt;c&gt;::&lt;/c&gt; (infix) to create values of this type, or
+ the notation &lt;c&gt;[1;2;3]&lt;/c&gt;. Use the values in the &lt;c&gt;List&lt;/c&gt; module to manipulate 
+ values of this type, or pattern match against the values directly.
+ &lt;/remarks&gt;<br />&lt;exclude /&gt;</em></div>
+<div class="fsdocs-tip" id="fs21">val ofSeq : source:seq&lt;&#39;T&gt; -&gt; &#39;T list<br /><em>&lt;summary&gt;Builds a new list from the given enumerable object.&lt;/summary&gt;<br />&lt;param name=&quot;source&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The list of elements from the sequence.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs22">val scan : folder:(&#39;State -&gt; &#39;T -&gt; &#39;State) -&gt; state:&#39;State -&gt; source:seq&lt;&#39;T&gt; -&gt; seq&lt;&#39;State&gt;<br /><em>&lt;summary&gt;Like fold, but computes on-demand and returns the sequence of intermediary and final results.&lt;/summary&gt;<br />&lt;param name=&quot;folder&quot;&gt;A function that updates the state with each element from the sequence.&lt;/param&gt;<br />&lt;param name=&quot;state&quot;&gt;The initial state.&lt;/param&gt;<br />&lt;param name=&quot;source&quot;&gt;The input sequence.&lt;/param&gt;<br />&lt;returns&gt;The resulting sequence of computed states.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentNullException&quot;&gt;Thrown when the input sequence is null.&lt;/exception&gt;</em></div>
+<div class="fsdocs-tip" id="fs23">val gammaStats : obj * obj * obj * obj * obj * obj</div>
+<div class="fsdocs-tip" id="fs24">val nd : obj</div>
+<div class="fsdocs-tip" id="fs25">val ndLn : obj</div>
+<div class="fsdocs-tip" id="fs26">val nc : obj</div>
+<div class="fsdocs-tip" id="fs27">val nic : obj</div>
+<div class="fsdocs-tip" id="fs28">val nd2 : obj</div>
+<div class="fsdocs-tip" id="fs29">val sqrt : value:&#39;T -&gt; &#39;U (requires member Sqrt)<br /><em>&lt;summary&gt;Square root of the given number&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The square root of the input.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs30">val ndLn2 : obj</div>
+<div class="fsdocs-tip" id="fs31">val nc2 : obj</div>
+<div class="fsdocs-tip" id="fs32">val nic2 : obj</div>
+<div class="fsdocs-tip" id="fs33">val s1 : rng:&#39;a -&gt; float<br /><em>&#160;Transform a sample from a distribution</em></div>
+<div class="fsdocs-tip" id="fs34">val rng : &#39;a</div>
+<div class="fsdocs-tip" id="fs35">val tanh : value:&#39;T -&gt; &#39;T (requires member Tanh)<br /><em>&lt;summary&gt;Hyperbolic tangent of the given number&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The hyperbolic tangent of the input.&lt;/returns&gt;</em></div>
+<div class="fsdocs-tip" id="fs36">val s1f : rng:&#39;a -&gt; &#39;b<br /><em>&#160;But we really want to transform the function, not the resulting sample:</em></div>
+<div class="fsdocs-tip" id="fs37">val s1s : rng:&#39;a -&gt; &#39;b<br /><em>&#160;Exactly the same also works with functions generating full sequences</em></div>
+<div class="fsdocs-tip" id="fs38">val s2 : rng:&#39;a -&gt; obj<br /><em>&#160;Now with multiple distributions, e.g. their product:</em></div>
+<div class="fsdocs-tip" id="fs39">val s2f : rng:&#39;a -&gt; &#39;b</div>
+<div class="fsdocs-tip" id="fs40">val s2s : rng:&#39;a -&gt; &#39;b</div>
 
-                        <li class="nav-header">Contributing</li>
-                        <li><a href="https://numerics.mathdotnet.com/Contributors.html">Contributors</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Contributing.html">Contributing</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Build.html">Build & Tools</a></li>
-                        <li><a href="http://feedback.mathdotnet.com/forums/2060-math-net-numerics">Your Ideas</a></li>
-
-                        <li class="nav-header">Getting Help</li>
-                        <li><a href="https://discuss.mathdotnet.com/c/numerics">Discuss</a></li>
-                        <li><a href="https://stackoverflow.com/questions/tagged/mathdotnet">Stack Overflow</a></li>
-
-                        <li class="nav-header">Getting Started</li>
-                        <li><a href="https://numerics.mathdotnet.com/">Getting started</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Constants.html">Constants</a></li>
-                        <li>Floating-Point Numbers</li>
-                        <li>Arbitrary Precision Numbers</li>
-                        <li>Complex Numbers</li>
-                        <li><a href="https://numerics.mathdotnet.com/Matrix.html">Matrices and Vectors</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Euclid.html">Euclid & Number Theory</a></li>
-                        <li>Combinatorics</li>
-
-                        <li class="nav-header">Evaluation</li>
-                        <li><a href="https://numerics.mathdotnet.com/Functions.html">Special Functions</a></li>
-                        <li>Differentiation</li>
-                        <li><a href="https://numerics.mathdotnet.com/Integration.html">Integration</a></li>
-
-                        <li class="nav-header">Statistics/Probability</li>
-                        <li><a href="https://numerics.mathdotnet.com/DescriptiveStatistics.html">Descriptive Statistics</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Probability.html">Probability Distributions</a></li>
-
-                        <li class="nav-header">Generation</li>
-                        <li><a href="https://numerics.mathdotnet.com/Generate.html">Generating Data</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Random.html">Random Numbers</a></li>
-
-                        <li class="nav-header">Transformation</li>
-                        <li>Fourier Transform (FFT)</li>
-                        <li>Filtering & DSP</li>
-                        <li>Window Functions</li>
-
-                        <li class="nav-header">Solving Equations</li>
-                        <li><a href="https://numerics.mathdotnet.com/LinearEquations.html">Linear Equation Systems</a></li>
-                        <li>Nonlinear Root Finding</li>
-
-                        <li class="nav-header">Optimization</li>
-                        <li>Linear Least Squares</li>
-                        <li>Nonlinear Optimization</li>
-                        <li><a href="https://numerics.mathdotnet.com/Distance.html">Distance Metrics</a></li>
-
-                        <li class="nav-header">Curve Fitting</li>
-                        <li><a href="https://numerics.mathdotnet.com/Regression.html">Regression</a></li>
-                        <li>Interpolation</li>
-                        <li>Fourier Approximation</li>
-
-                        <li class="nav-header">Native Providers</li>
-                        <li><a href="https://numerics.mathdotnet.com/MKL.html">Intel MKL</a></li>
-
-                        <li class="nav-header">Working Together</li>
-                        <li><a href="https://numerics.mathdotnet.com/CSV.html">Delimited Text Files (CSV)</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/MatrixMarket.html">NIST MatrixMarket</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/MatlabFiles.html">MATLAB</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/IFSharpNotebook.html">IF# Notebook</a></li>
-                        <li>FsLab & Deedle</li>
-                        <li>Microsoft Excel</li>
-                        <li>numl.net machine learning</li>
-                        <li>R-project</li>
-
-                    </ul>
-                </div>
-            </div>
         </div>
-    </body>
+        <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+        <script type="text/javascript">var fsdocs_search_baseurl = 'https://numerics.mathdotnet.com/';</script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-search.js"></script>
+        <!-- END SEARCH BOX: this adds support for the search box -->
+    </div>
+</body>
+
 </html>

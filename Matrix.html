@@ -1,63 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <title>Matrices and Vectors
+
+<head>
+    <meta charset="utf-8">
+    <title>Matrices and Vectors
 </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <meta name="description" content="Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use. .Net 4, .Net 3.5, SL5, Win8, WP8, PCL 47 and 136, Mono, Xamarin Android/iOS."/>
-        <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Christoph Ruegg, Marcus Cuda, Jurgen Van Gael">
 
-        <script src="https://code.jquery.com/jquery-1.8.0.js"></script>
-        <script src="https://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
-        <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
-        <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
-        <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/style.css" />
-        <style>
-          #main table:not(.pre) {
-              border: 1px solid #dddddd;
-              max-width: 100%;
-              border-style: solid;
-              border-width: 1px;
-              border-color: gray;
-              border-collapse: collapse;
-              border-right-width: 1px;
-              border-bottom-width: 1px;
-              margin-top: 15px;
-              margin-bottom: 25px;
-          }
-          #main table:not(.pre) th, #main table:not(.pre) td {
-              border: 1px solid #dddddd;
-              padding: 6px;
-          }
-          #main table:not(.pre) th p, #main table:not(.pre) td p {
-              margin-bottom: 5px;
-          }
-        </style>
-        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/tips.js"></script>
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-        <![endif]-->
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    </head>
-    <body>
-        <div class="container">
-            <div class="masthead">
-                <ul class="nav nav-pills pull-right">
-                    <li><a href="https://www.mathdotnet.com">Math.NET Project</a></li>
-                    <li><a href="https://numerics.mathdotnet.com">Math.NET Numerics</a></li>
-                    <li><a href="https://github.com/mathnet/mathnet-numerics">GitHub</a></li>
-                </ul>
-                <h3 class="muted">Math.NET Numerics</h3>
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/navbar-fixed-left.css" />
+    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-default.css" />
+    <link type="text/css" rel="stylesheet" href="https://numerics.mathdotnet.com/content/fsdocs-custom.css" />
+    <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-secondary fixed-left" id="fsdocs-nav">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
+            <a href="https://numerics.mathdotnet.com/"><img id="fsdocs-logo" src="/logo.png" /></a>
+            <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+            <div id="header">
+                <div class="searchbox" id="fsdocs-searchbox">
+                    <label for="search-by">
+                        <i class="fas fa-search"></i>
+                    </label>
+                    <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
+                    <span data-search-clear="">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </div>
             </div>
-            <hr />
-            <div class="row">
-                <div class="span9" id="main">
-                    
-<h1><a name="Matrices-and-Vectors" class="anchor" href="#Matrices-and-Vectors">Matrices and Vectors</a></h1>
+            <!-- END SEARCH BOX: this adds support for the search box -->
+            <ul class="navbar-nav">
+                <li class="nav-header">Math.NET Numerics</li>
+                <li class="nav-item"><a class="nav-link" href="Packages.html">NuGet & Binaries</a></li>
+                <li class="nav-item"><a class="nav-link" href="ReleaseNotes.html">Release Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/mathnet/mathnet-numerics/blob/master/LICENSE.md">MIT License</a></li>
+                <li class="nav-item"><a class="nav-link" href="Compatibility.html">Platform Support</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://numerics.mathdotnet.com/api/">Class Reference</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/mathnet/mathnet-numerics/issues">Issues & Bugs</a></li>
+                <li class="nav-item"><a class="nav-link" href="Users.html">Who is using Math.NET?</a></li>
+
+                <li class="nav-header">Contributing</li>
+                <li class="nav-item"><a class="nav-link" href="Contributors.html">Contributors</a></li>
+                <li class="nav-item"><a class="nav-link" href="Contributing.html">Contributing</a></li>
+                <li class="nav-item"><a class="nav-link" href="Build.html">Build & Tools</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/mathnet/mathnet-numerics/discussions/categories/ideas">Your Ideas</a></li>
+
+                <li class="nav-header">Getting Help</li>
+                <li class="nav-item"><a class="nav-link" href="https://discuss.mathdotnet.com/c/numerics">Discuss</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://stackoverflow.com/questions/tagged/mathdotnet">Stack Overflow</a></li>
+
+                <li class="nav-header">Getting Started</li>
+                <l class="nav-item"i><a class="nav-link" href="/">Getting started</a></li>
+                <li class="nav-item"><a class="nav-link" href="Constants.html">Constants</a></li>
+                <li class="nav-item">Floating-Point Numbers</li>
+                <li class="nav-item">Arbitrary Precision Numbers</li>
+                <li class="nav-item">Complex Numbers</li>
+                <li class="nav-item"><a class="nav-link" href="Matrix.html">Matrices and Vectors</a></li>
+                <li class="nav-item"><a class="nav-link" href="Euclid.html">Euclid & Number Theory</a></li>
+                <li class="nav-item">Combinatorics</li>
+
+                <li class="nav-header">Evaluation</li>
+                <li class="nav-item"><a class="nav-link" href="Functions.html">Special Functions</a></li>
+                <li class="nav-item">Differentiation</li>
+                <li class="nav-item"><a class="nav-link" href="Integration.html">Integration</a></li>
+
+                <li class="nav-header">Statistics/Probability</li>
+                <li class="nav-item"><a class="nav-link" href="DescriptiveStatistics.html">Descriptive Statistics</a></li>
+                <li class="nav-item"><a class="nav-link" href="Probability.html">Probability Distributions</a></li>
+
+                <li class="nav-header">Generation</li>
+                <li class="nav-item"><a class="nav-link" href="Generate.html">Generating Data</a></li>
+                <li class="nav-item"><a class="nav-link" href="Random.html">Random Numbers</a></li>
+
+                <li class="nav-header">Transformation</li>
+                <li class="nav-item">Fourier Transform (FFT)</li>
+                <li class="nav-item">Filtering & DSP</li>
+                <li class="nav-item">Window Functions</li>
+
+                <li class="nav-header">Solving Equations</li>
+                <li class="nav-item"><a class="nav-link" href="LinearEquations.html">Linear Equation Systems</a></li>
+                <li class="nav-item">Nonlinear Root Finding</li>
+
+                <li class="nav-header">Optimization</li>
+                <li class="nav-item">Linear Least Squares</li>
+                <li class="nav-item">Nonlinear Optimization</li>
+                <li class="nav-item"><a class="nav-link" href="Distance.html">Distance Metrics</a></li>
+
+                <li class="nav-header">Curve Fitting</li>
+                <li class="nav-item"><a class="nav-link" href="Regression.html">Regression</a></li>
+                <li class="nav-item">Interpolation</li>
+                <li class="nav-item">Fourier Approximation</li>
+
+                <li class="nav-header">Native Providers</li>
+                <li class="nav-item"><a class="nav-link" href="MKL.html">Intel MKL</a></li>
+
+                <li class="nav-header">Working Together</li>
+                <li class="nav-item"><a class="nav-link" href="CSV.html">Delimited Text Files (CSV)</a></li>
+                <li class="nav-item"><a class="nav-link" href="MatrixMarket.html">NIST MatrixMarket</a></li>
+                <li class="nav-item"><a class="nav-link" href="MatlabFiles.html">MATLAB</a></li>
+                <li class="nav-item"><a class="nav-link" href="IFSharpNotebook.html">IF# Notebook</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="masthead">
+            <h3 class="muted">
+                <a href="https://www.mathdotnet.com">Math.NET Project</a> | 
+                <a href="https://numerics.mathdotnet.com">Math.NET Numerics</a> | 
+                <a href="https://github.com/mathnet/mathnet-numerics">GitHub</a>
+            </h3>
+        </div>
+        <hr />
+        <div class="container" id="fsdocs-content">
+            <h1><a name="Matrices-and-Vectors" class="anchor" href="#Matrices-and-Vectors">Matrices and Vectors</a></h1>
 <p>Math.NET Numerics includes rich types for matrices and vectors.
 They support both single and double precision, real and complex floating point numbers.</p>
 <p><span class="math">\[\mathbf{A}=
@@ -109,14 +184,7 @@ For example, for double precision numbers there is a <code>DenseMatrix</code> cl
 namespace. You do not normally need to be aware of that, but as consequence the generic <code>Matrix&lt;T&gt;</code> type is abstract
 and we need other ways to create a matrix or vector instance.</p>
 <p>The matrix and vector builder provide functions to create instances from a variety of formats or approaches.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// create a dense matrix with 3 rows and 4 columns</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// create a dense matrix with 3 rows and 4 columns</span>
 <span class="c">// filled with random numbers sampled from the standard distribution</span>
 Matrix&lt;<span class="k">double</span>&gt; m <span class="o">=</span> Matrix&lt;<span class="k">double</span>&gt;.Build.Random(<span class="n">3</span>, <span class="n">4</span>);
 
@@ -125,14 +193,7 @@ Vector&lt;<span class="k">double</span>&gt; v <span class="o">=</span> Vector&lt
 </code></pre></td></tr></table>
 <p>Since within an application you often only work with one specific data type, a common trick to keep this a bit shorter
 is to define shortcuts to the builders:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> M <span class="o">=</span> Matrix&lt;<span class="k">double</span>&gt;.Build;
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> M <span class="o">=</span> Matrix&lt;<span class="k">double</span>&gt;.Build;
 <span class="k">var</span> V <span class="o">=</span> Vector&lt;<span class="k">double</span>&gt;.Build;
 
 <span class="c">// build the same as above</span>
@@ -143,25 +204,7 @@ is to define shortcuts to the builders:</p>
 so if we'd like to build a sparse matrix, intellisense will list all available options
 together once you type <code>M.Sparse</code>.</p>
 <p>There are variants to generate synthetic matrices, for example:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// 3x4 dense matrix filled with zeros</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// 3x4 dense matrix filled with zeros</span>
 M.Dense(<span class="n">3</span>, <span class="n">4</span>);
 
 <span class="c">// 3x4 dense matrix filled with 1.0.</span>
@@ -182,46 +225,7 @@ M.Random(<span class="n">3</span>, <span class="n">4</span>, <span class="k">new
 <p>But often we already have data available in some format and
 need a matrix representing the same data. Whenever a function contains
 "Of" in its name it does create a copy of the original data.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-<span class="l">21: </span>
-<span class="l">22: </span>
-<span class="l">23: </span>
-<span class="l">24: </span>
-<span class="l">25: </span>
-<span class="l">26: </span>
-<span class="l">27: </span>
-<span class="l">28: </span>
-<span class="l">29: </span>
-<span class="l">30: </span>
-<span class="l">31: </span>
-<span class="l">32: </span>
-<span class="l">33: </span>
-<span class="l">34: </span>
-<span class="l">35: </span>
-<span class="l">36: </span>
-<span class="l">37: </span>
-<span class="l">38: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// Copy of an existing matrix (can also be sparse or diagonal)</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// Copy of an existing matrix (can also be sparse or diagonal)</span>
 Matrix&lt;<span class="k">double</span>&gt; x <span class="o">=</span> <span class="o">.</span><span class="o">.</span><span class="o">.</span>
 M.DenseOfMatrix(x);
 
@@ -263,24 +267,7 @@ M.DenseOfMatrixArray(x);
 <p>Very similar variants also exist for sparse and diagonal matrices, prefixed
 with <code>Sparse</code> and <code>Diagonal</code> respectively.</p>
 <p>The approach for vectors is exactly the same:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// Standard-distributed random vector of length 10</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// Standard-distributed random vector of length 10</span>
 V.Random(<span class="n">10</span>);
 
 <span class="c">// All-zero vector of length 10</span>
@@ -299,104 +286,59 @@ V.Dense(x);
 </code></pre></td></tr></table>
 <h3><a name="Creating-matrices-and-vectors-in-F" class="anchor" href="#Creating-matrices-and-vectors-in-F">Creating matrices and vectors in F#</a></h3>
 <p>In F# we can use the builders just like in C#, but we can also use the F# modules:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-<span class="l">21: </span>
-<span class="l">22: </span>
-<span class="l">23: </span>
-<span class="l">24: </span>
-<span class="l">25: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">m1</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">2.0</span>; <span class="n">3.0</span> ]
-                 [ <span class="n">4.0</span>; <span class="n">5.0</span> ]]
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="id">m1</span> <span class="o">=</span> <span class="id">matrix</span> <span class="pn">[</span><span class="pn">[</span> <span class="n">2.0</span><span class="pn">;</span> <span class="n">3.0</span> <span class="pn">]</span>
+                 <span class="pn">[</span> <span class="n">4.0</span><span class="pn">;</span> <span class="n">5.0</span> <span class="pn">]</span><span class="pn">]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">v1</span> <span class="o">=</span> <span class="i">vector</span> [ <span class="n">1.0</span>; <span class="n">2.0</span>; <span class="n">3.0</span> ]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="id">v1</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span> <span class="n">2.0</span><span class="pn">;</span> <span class="n">3.0</span> <span class="pn">]</span>
 
 <span class="c">// dense 3x4 matrix filled with zeros.</span>
 <span class="c">// (usually the type is inferred, but not for zero matrices)</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">m2</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">zero</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="i">float</span><span class="o">&gt;</span> <span class="n">3</span> <span class="n">4</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="id">m2</span> <span class="o">=</span> <span class="id">DenseMatrix</span><span class="pn">.</span><span class="id">zero</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="id">float</span><span class="pn">&gt;</span> <span class="n">3</span> <span class="n">4</span>
 
 <span class="c">// dense 3x4 matrix initialized by a function</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="i">m3</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">init</span> <span class="n">3</span> <span class="n">4</span> (<span class="k">fun</span> <span class="i">i</span> <span class="i">j</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="i">float</span> (<span class="i">i</span><span class="o">+</span><span class="i">j</span>))
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 5)" onmouseover="showTip(event, 'fs5', 5)" class="id">m3</span> <span class="o">=</span> <span class="id">DenseMatrix</span><span class="pn">.</span><span class="id">init</span> <span class="n">3</span> <span class="n">4</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">i</span> <span class="id">j</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs4', 6)" onmouseover="showTip(event, 'fs4', 6)" class="id">float</span> <span class="pn">(</span><span class="id">i</span><span class="o">+</span><span class="id">j</span><span class="pn">)</span><span class="pn">)</span>
 
 <span class="c">// diagonal 4x4 identity matrix of single precision</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 7)" onmouseover="showTip(event, 'fs6', 7)" class="i">m4</span> <span class="o">=</span> <span class="i">DiagonalMatrix</span><span class="o">.</span><span class="i">identity</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs7', 8)" onmouseover="showTip(event, 'fs7', 8)" class="i">float32</span><span class="o">&gt;</span> <span class="n">4</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs6', 7)" onmouseover="showTip(event, 'fs6', 7)" class="id">m4</span> <span class="o">=</span> <span class="id">DiagonalMatrix</span><span class="pn">.</span><span class="id">identity</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs7', 8)" onmouseover="showTip(event, 'fs7', 8)" class="id">float32</span><span class="pn">&gt;</span> <span class="n">4</span>
 
 <span class="c">// dense 3x4 matrix created from a sequence of sequence-columns</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 9)" onmouseover="showTip(event, 'fs8', 9)" class="i">x</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 10)" onmouseover="showTip(event, 'fs9', 10)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs10', 11)" onmouseover="showTip(event, 'fs10', 11)" class="f">init</span> <span class="n">4</span> (<span class="k">fun</span> <span onmouseout="hideTip(event, 'fs11', 12)" onmouseover="showTip(event, 'fs11', 12)" class="i">c</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs9', 13)" onmouseover="showTip(event, 'fs9', 13)" class="t">Seq</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="f">init</span> <span class="n">3</span> (<span class="k">fun</span> <span onmouseout="hideTip(event, 'fs12', 15)" onmouseover="showTip(event, 'fs12', 15)" class="i">r</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs4', 16)" onmouseover="showTip(event, 'fs4', 16)" class="f">float</span> (<span class="n">100</span><span class="o">*</span><span onmouseout="hideTip(event, 'fs12', 17)" onmouseover="showTip(event, 'fs12', 17)" class="i">r</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="i">c</span>)))
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="i">m5</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">ofColumnSeq</span> <span onmouseout="hideTip(event, 'fs8', 20)" onmouseover="showTip(event, 'fs8', 20)" class="i">x</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 9)" onmouseover="showTip(event, 'fs8', 9)" class="id">x</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs9', 10)" onmouseover="showTip(event, 'fs9', 10)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 11)" onmouseover="showTip(event, 'fs10', 11)" class="id">init</span> <span class="n">4</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs11', 12)" onmouseover="showTip(event, 'fs11', 12)" class="fn">c</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs9', 13)" onmouseover="showTip(event, 'fs9', 13)" class="m">Seq</span><span class="pn">.</span><span onmouseout="hideTip(event, 'fs10', 14)" onmouseover="showTip(event, 'fs10', 14)" class="id">init</span> <span class="n">3</span> <span class="pn">(</span><span class="k">fun</span> <span onmouseout="hideTip(event, 'fs12', 15)" onmouseover="showTip(event, 'fs12', 15)" class="fn">r</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs4', 16)" onmouseover="showTip(event, 'fs4', 16)" class="fn">float</span> <span class="pn">(</span><span class="n">100</span><span class="o">*</span><span onmouseout="hideTip(event, 'fs12', 17)" onmouseover="showTip(event, 'fs12', 17)" class="fn">r</span> <span class="o">+</span> <span onmouseout="hideTip(event, 'fs11', 18)" onmouseover="showTip(event, 'fs11', 18)" class="fn">c</span><span class="pn">)</span><span class="pn">)</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="id">m5</span> <span class="o">=</span> <span class="id">DenseMatrix</span><span class="pn">.</span><span class="id">ofColumnSeq</span> <span onmouseout="hideTip(event, 'fs8', 20)" onmouseover="showTip(event, 'fs8', 20)" class="id">x</span>
 
 <span class="c">// random matrix with standard distribution:</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 21)" onmouseover="showTip(event, 'fs14', 21)" class="i">m6</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">randomStandard</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs4', 22)" onmouseover="showTip(event, 'fs4', 22)" class="i">float</span><span class="o">&gt;</span> <span class="n">3</span> <span class="n">4</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs14', 21)" onmouseover="showTip(event, 'fs14', 21)" class="id">m6</span> <span class="o">=</span> <span class="id">DenseMatrix</span><span class="pn">.</span><span class="id">randomStandard</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs4', 22)" onmouseover="showTip(event, 'fs4', 22)" class="id">float</span><span class="pn">&gt;</span> <span class="n">3</span> <span class="n">4</span>
 
 <span class="c">// random matrix with a uniform and one with a Gamma distribution:</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 23)" onmouseover="showTip(event, 'fs15', 23)" class="i">m7a</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">random</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs4', 24)" onmouseover="showTip(event, 'fs4', 24)" class="i">float</span><span class="o">&gt;</span> <span class="n">3</span> <span class="n">4</span> (<span class="i">ContinuousUniform</span>(<span class="o">-</span><span class="n">2.0</span>, <span class="n">4.0</span>))
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 25)" onmouseover="showTip(event, 'fs16', 25)" class="i">m7b</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">random</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs4', 26)" onmouseover="showTip(event, 'fs4', 26)" class="i">float</span><span class="o">&gt;</span> <span class="n">3</span> <span class="n">4</span> (<span class="i">Gamma</span>(<span class="n">1.0</span>, <span class="n">2.0</span>))
-</code></pre></td>
-</tr>
-</table>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs15', 23)" onmouseover="showTip(event, 'fs15', 23)" class="id">m7a</span> <span class="o">=</span> <span class="id">DenseMatrix</span><span class="pn">.</span><span class="id">random</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs4', 24)" onmouseover="showTip(event, 'fs4', 24)" class="id">float</span><span class="pn">&gt;</span> <span class="n">3</span> <span class="n">4</span> <span class="pn">(</span><span class="id">ContinuousUniform</span><span class="pn">(</span><span class="o">-</span><span class="n">2.0</span><span class="pn">,</span> <span class="n">4.0</span><span class="pn">)</span><span class="pn">)</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs16', 25)" onmouseover="showTip(event, 'fs16', 25)" class="id">m7b</span> <span class="o">=</span> <span class="id">DenseMatrix</span><span class="pn">.</span><span class="id">random</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs4', 26)" onmouseover="showTip(event, 'fs4', 26)" class="id">float</span><span class="pn">&gt;</span> <span class="n">3</span> <span class="n">4</span> <span class="pn">(</span><span class="id">Gamma</span><span class="pn">(</span><span class="n">1.0</span><span class="pn">,</span> <span class="n">2.0</span><span class="pn">)</span><span class="pn">)</span>
+</code></pre>
 <p>Or using any other of all the available functions.</p>
 <h2><a name="Arithmetics" class="anchor" href="#Arithmetics">Arithmetics</a></h2>
 <p>All the common arithmetic operators like <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> and <code>%</code> are provided,
 between matrices, vectors and scalars. In F# there are additional pointwise
 operators <code>.*</code>, <code>./</code> and <code>.%</code> available for convenience.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-<span class="l">7: </span>
-<span class="l">8: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 27)" onmouseover="showTip(event, 'fs17', 27)" class="i">m</span> <span class="o">=</span> <span class="i">matrix</span> [[ <span class="n">1.0</span>; <span class="n">4.0</span>; <span class="n">7.0</span> ]
-                [ <span class="n">2.0</span>; <span class="n">5.0</span>; <span class="n">8.0</span> ]
-                [ <span class="n">3.0</span>; <span class="n">6.0</span>; <span class="n">9.0</span> ]]
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 27)" onmouseover="showTip(event, 'fs17', 27)" class="id">m</span> <span class="o">=</span> <span class="id">matrix</span> <span class="pn">[</span><span class="pn">[</span> <span class="n">1.0</span><span class="pn">;</span> <span class="n">4.0</span><span class="pn">;</span> <span class="n">7.0</span> <span class="pn">]</span>
+                <span class="pn">[</span> <span class="n">2.0</span><span class="pn">;</span> <span class="n">5.0</span><span class="pn">;</span> <span class="n">8.0</span> <span class="pn">]</span>
+                <span class="pn">[</span> <span class="n">3.0</span><span class="pn">;</span> <span class="n">6.0</span><span class="pn">;</span> <span class="n">9.0</span> <span class="pn">]</span><span class="pn">]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 28)" onmouseover="showTip(event, 'fs18', 28)" class="i">v</span> <span class="o">=</span> <span class="i">vector</span> [ <span class="n">10.0</span>; <span class="n">20.0</span>; <span class="n">30.0</span> ]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 28)" onmouseover="showTip(event, 'fs18', 28)" class="id">v</span> <span class="o">=</span> <span class="id">vector</span> <span class="pn">[</span> <span class="n">10.0</span><span class="pn">;</span> <span class="n">20.0</span><span class="pn">;</span> <span class="n">30.0</span> <span class="pn">]</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 29)" onmouseover="showTip(event, 'fs19', 29)" class="i">v&#39;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 30)" onmouseover="showTip(event, 'fs17', 30)" class="i">m</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs18', 31)" onmouseover="showTip(event, 'fs18', 31)" class="i">v</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 32)" onmouseover="showTip(event, 'fs20', 32)" class="i">m&#39;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 33)" onmouseover="showTip(event, 'fs17', 33)" class="i">m</span> <span class="o">+</span> <span class="n">2.0</span><span class="o">*</span><span onmouseout="hideTip(event, 'fs17', 34)" onmouseover="showTip(event, 'fs17', 34)" class="i">m</span>
-</code></pre></td>
-</tr>
-</table>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 29)" onmouseover="showTip(event, 'fs19', 29)" class="id">v&#39;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 30)" onmouseover="showTip(event, 'fs17', 30)" class="id">m</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs18', 31)" onmouseover="showTip(event, 'fs18', 31)" class="id">v</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 32)" onmouseover="showTip(event, 'fs20', 32)" class="id">m&#39;</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 33)" onmouseover="showTip(event, 'fs17', 33)" class="id">m</span> <span class="o">+</span> <span class="n">2.0</span><span class="o">*</span><span onmouseout="hideTip(event, 'fs17', 34)" onmouseover="showTip(event, 'fs17', 34)" class="id">m</span>
+</code></pre>
 <h3><a name="Arithmetic-Instance-Methods" class="anchor" href="#Arithmetic-Instance-Methods">Arithmetic Instance Methods</a></h3>
 <p>All other operations are covered by methods, like <code>Transpose</code> and <code>Conjugate</code>,
 or in F# as functions in the Matrix module, e.g. <code>Matrix.transpose</code>.
 But even the operators have equivalent methods. The equivalent code from
 above when using instance methods:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> v<span class="n">2</span> <span class="o">=</span> m.Multiply(v);
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> v<span class="n">2</span> <span class="o">=</span> m.Multiply(v);
 <span class="k">var</span> m<span class="n">2</span> <span class="o">=</span> m.Add(m.Multiply(<span class="n">2</span>));
 </code></pre></td></tr></table>
 <p>These methods also have an overload that accepts the result data structure as last argument,
 allowing to avoid allocating new structures for every single operation. Provided the
 dimensions match, most also allow one of the arguments to be passed as result,
 resulting in an in-place application. For example, an in-place version of the code above:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.Multiply(v, v); <span class="c">// v &lt;- m*v</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.Multiply(v, v); <span class="c">// v &lt;- m*v</span>
 m.Multiply(<span class="n">3</span>, m); <span class="c">// m &lt;- 3*m</span>
 </code></pre></td></tr></table>
 <h3><a name="Shortcut-Methods" class="anchor" href="#Shortcut-Methods">Shortcut Methods</a></h3>
@@ -404,23 +346,14 @@ m.Multiply(<span class="n">3</span>, m); <span class="c">// m &lt;- 3*m</span>
 <span class="math">\(\mathbf{X}^T\mathbf y = \mathbf{X}^T\mathbf X \mathbf p\)</span> which we would like to solve
 for <span class="math">\(p\)</span>. By matrix inversion we get <span class="math">\(\mathbf p = (\mathbf{X}^T\mathbf X)^{-1}(\mathbf{X}^T\mathbf y)\)</span>.
 This can directly be translated to the following code:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">(X.Transpose() <span class="o">*</span> X).Inverse() <span class="o">*</span> (X.Transpose() <span class="o">*</span> y)
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">(X.Transpose() <span class="o">*</span> X).Inverse() <span class="o">*</span> (X.Transpose() <span class="o">*</span> y)
 </code></pre></td></tr></table>
 <p>Since products where one of the arguments is transposed are common, there are a few shortcut routines
 that are more efficient:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">X.TransposeThisAndMultiply(X).Inverse() <span class="o">*</span> X.TransposeThisAndMultiply(y)
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">X.TransposeThisAndMultiply(X).Inverse() <span class="o">*</span> X.TransposeThisAndMultiply(y)
 </code></pre></td></tr></table>
 <p>Of course in practice you would not use the matrix inverse but a decomposition:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">X.TransposeThisAndMultiply(X).Cholesky().Solve(X.TransposeThisAndMultiply(y))
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">X.TransposeThisAndMultiply(X).Cholesky().Solve(X.TransposeThisAndMultiply(y))
 
 <span class="c">// or if the problem is small enough, simply:</span>
 X.Solve(y);
@@ -464,9 +397,7 @@ is said to be <em>well-conditioned</em>, with a high condition number <em>ill-co
 For a linear equation <span class="math">\(Ax=b\)</span> the condition number is the maximum ratio of the
 relative error in <span class="math">\(x\)</span> divided by the relative error in <span class="math">\(b\)</span>. It therefore gives a bound on how
 inaccurate the solution <span class="math">\(x\)</span> will be after approximation.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">M.Random(<span class="n">4</span>,<span class="n">4</span>).ConditionNumber(); <span class="c">// e.g. 14.829</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">M.Random(<span class="n">4</span>,<span class="n">4</span>).ConditionNumber(); <span class="c">// e.g. 14.829</span>
 </code></pre></td></tr></table>
 <h2><a name="Trace-and-Determinant" class="anchor" href="#Trace-and-Determinant">Trace and Determinant</a></h2>
 <p>For a square matrix, the trace of a matrix is the sum of the elements on the main diagonal,
@@ -475,14 +406,7 @@ of a square matrix is the product of all its eigenvalues with multiplicities.
 A matrix is said to be <em>singular</em> if its determinant is zero and <em>non-singular</em> otherwise.
 In the latter case the matrix is invertible and the linear equation system it
 represents has a single unique solution.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m <span class="o">=</span> M.DenseOfArray(<span class="k">new</span>[,] {{ <span class="n">1.0</span>,  <span class="n">2.0</span>, <span class="n">1.0</span>},
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m <span class="o">=</span> M.DenseOfArray(<span class="k">new</span>[,] {{ <span class="n">1.0</span>,  <span class="n">2.0</span>, <span class="n">1.0</span>},
                                {<span class="n">-2.0</span>, <span class="n">-3.0</span>, <span class="n">1.0</span>},
                                { <span class="n">3.0</span>,  <span class="n">5.0</span>, <span class="n">0.0</span>}});
 
@@ -494,11 +418,7 @@ m.Determinant(); <span class="c">// ~0 hence not invertible, either none or mult
 number of linearly independent column and row vectors of the matrix. It is a measure
 of the non-degenerateness of the linear equation system the matrix represents.</p>
 <p>An orthonormal basis of the column space can be computed with the range method.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// with the same m as above</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// with the same m as above</span>
 m.Rank();  <span class="c">// 2</span>
 m.Range(); <span class="c">// [-0.30519,0.503259,-0.808449], [-0.757315,-0.64296,-0.114355]</span>
 </code></pre></td></tr></table>
@@ -507,14 +427,7 @@ m.Range(); <span class="c">// [-0.30519,0.503259,-0.808449], [-0.757315,-0.64296
 It is the orthogonal complement to the row space of the matrix.</p>
 <p>The nullity of a matrix is the dimension of its null space.
 An orthonormal basis of the null space can be computed with the kernel method.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// with the same m as above</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="c">// with the same m as above</span>
 m.Nullity(); <span class="c">// 1</span>
 m.Kernel();  <span class="c">// [0.845154,-0.507093,0.169031]</span>
 
@@ -554,14 +467,7 @@ If the symmetricity of the matrix is known, the algorithm can optionally skip it
 <p>Individual values can be get and set in matrices and vectors using the indexers
 or the <code>At</code> methods. Using <code>At</code> instead of the indexers is slightly faster but
 skips some range checks, so use it only after checking the range yourself.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m <span class="o">=</span> Matrix&lt;<span class="k">double</span>&gt;.Build.Dense(<span class="n">3</span>,<span class="n">4</span>,(i,j) <span class="o">=</span><span class="o">&gt;</span> <span class="n">10</span>*i <span class="o">+</span> j);
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m <span class="o">=</span> Matrix&lt;<span class="k">double</span>&gt;.Build.Dense(<span class="n">3</span>,<span class="n">4</span>,(i,j) <span class="o">=</span><span class="o">&gt;</span> <span class="n">10</span>*i <span class="o">+</span> j);
 m[<span class="n">0</span>,<span class="n">0</span>]; <span class="c">// 0   (row 0, column 0)</span>
 m[<span class="n">2</span>,<span class="n">0</span>]; <span class="c">// 20 (row 2, column 0)</span>
 m[<span class="n">0</span>,<span class="n">2</span>]; <span class="c">// 2   (row 0, column 2)</span>
@@ -569,73 +475,39 @@ m[<span class="n">0</span>,<span class="n">2</span>] <span class="o">=</span> <s
 m[<span class="n">0</span>,<span class="n">2</span>]; <span class="c">// -1</span>
 </code></pre></td></tr></table>
 <p>In F#:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs17', 35)" onmouseover="showTip(event, 'fs17', 35)" class="i">m</span><span class="o">.</span>[<span class="n">2</span>,<span class="n">0</span>] <span class="c">// 20</span>
-</code></pre></td>
-</tr>
-</table>
+<pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs17', 35)" onmouseover="showTip(event, 'fs17', 35)" class="id">m</span><span class="pn">.</span><span class="pn">[</span><span class="n">2</span><span class="pn">,</span><span class="n">0</span><span class="pn">]</span> <span class="c">// 20</span>
+</code></pre>
 <p>We can also get entire column or row vectors, or a new matrix from parts of an existing one.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m <span class="o">=</span> M.Dense(<span class="n">6</span>,<span class="n">4</span>,(i,j) <span class="o">=</span><span class="o">&gt;</span> <span class="n">10</span>*i <span class="o">+</span> j);
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m <span class="o">=</span> M.Dense(<span class="n">6</span>,<span class="n">4</span>,(i,j) <span class="o">=</span><span class="o">&gt;</span> <span class="n">10</span>*i <span class="o">+</span> j);
 m.Column(<span class="n">2</span>);          <span class="c">// [2,12,22,32,42,52]</span>
 m.Row(<span class="n">3</span>);             <span class="c">// [30,31,32,33]</span>
 m.SubMatrix(<span class="n">1</span>,<span class="n">2</span>,<span class="n">1</span>,<span class="n">2</span>); <span class="c">// [11,12; 21,22]</span>
 </code></pre></td></tr></table>
 <p>For each of these methods there is also a variant prefixed with <code>Set</code> that can be used
 to overwrite those elements with the provided data.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.SetRow(<span class="n">3</span>, V.Random(<span class="n">4</span>));
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.SetRow(<span class="n">3</span>, V.Random(<span class="n">4</span>));
 </code></pre></td></tr></table>
 <p>In F# we can also use its slicing syntax:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 36)" onmouseover="showTip(event, 'fs21', 36)" class="i">m</span> <span class="o">=</span> <span class="i">DenseMatrix</span><span class="o">.</span><span class="i">init</span> <span class="n">6</span> <span class="n">4</span> (<span class="k">fun</span> <span class="i">i</span> <span class="i">j</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs4', 37)" onmouseover="showTip(event, 'fs4', 37)" class="i">float</span> (<span class="n">10</span><span class="o">*</span><span class="i">i</span> <span class="o">+</span> <span class="i">j</span>))
-<span onmouseout="hideTip(event, 'fs21', 38)" onmouseover="showTip(event, 'fs21', 38)" class="i">m</span><span class="o">.</span>[<span class="n">0</span>,<span class="n">0..</span><span class="n">3</span>]    <span class="c">// vector [0,1,2,3]</span>
-<span onmouseout="hideTip(event, 'fs21', 39)" onmouseover="showTip(event, 'fs21', 39)" class="i">m</span><span class="o">.</span>[<span class="n">1..</span><span class="n">2</span>,<span class="n">0..</span><span class="n">3</span>] <span class="c">// matrix [10,11,12,13; 20,21,22,23]</span>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 36)" onmouseover="showTip(event, 'fs21', 36)" class="id">m</span> <span class="o">=</span> <span class="id">DenseMatrix</span><span class="pn">.</span><span class="id">init</span> <span class="n">6</span> <span class="n">4</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">i</span> <span class="id">j</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs4', 37)" onmouseover="showTip(event, 'fs4', 37)" class="id">float</span> <span class="pn">(</span><span class="n">10</span><span class="pn">*</span><span class="id">i</span> <span class="o">+</span> <span class="id">j</span><span class="pn">)</span><span class="pn">)</span>
+<span onmouseout="hideTip(event, 'fs21', 38)" onmouseover="showTip(event, 'fs21', 38)" class="id">m</span><span class="pn">.</span><span class="pn">[</span><span class="n">0</span><span class="pn">,</span><span class="n">0..</span><span class="n">3</span><span class="pn">]</span>    <span class="c">// vector [0,1,2,3]</span>
+<span onmouseout="hideTip(event, 'fs21', 39)" onmouseover="showTip(event, 'fs21', 39)" class="id">m</span><span class="pn">.</span><span class="pn">[</span><span class="n">1..</span><span class="n">2</span><span class="pn">,</span><span class="n">0..</span><span class="n">3</span><span class="pn">]</span> <span class="c">// matrix [10,11,12,13; 20,21,22,23]</span>
 <span class="c">// overwrite a sub-matrix with the content of another matrix:</span>
-<span onmouseout="hideTip(event, 'fs21', 40)" onmouseover="showTip(event, 'fs21', 40)" class="i">m</span><span class="o">.</span>[<span class="n">0..</span><span class="n">1</span>,<span class="n">1..</span><span class="n">2</span>] <span class="o">&lt;-</span> <span class="i">matrix</span> [[ <span class="n">3.0</span>; <span class="n">4.0</span> ]; [ <span class="n">5.0</span>; <span class="n">6.0</span> ]]
-</code></pre></td>
-</tr>
-</table>
+<span onmouseout="hideTip(event, 'fs21', 40)" onmouseover="showTip(event, 'fs21', 40)" class="id">m</span><span class="pn">.</span><span class="pn">[</span><span class="n">0..</span><span class="n">1</span><span class="pn">,</span><span class="n">1..</span><span class="n">2</span><span class="pn">]</span> <span class="k">&lt;-</span> <span class="id">matrix</span> <span class="pn">[</span><span class="pn">[</span> <span class="n">3.0</span><span class="pn">;</span> <span class="n">4.0</span> <span class="pn">]</span><span class="pn">;</span> <span class="pn">[</span> <span class="n">5.0</span><span class="pn">;</span> <span class="n">6.0</span> <span class="pn">]</span><span class="pn">]</span>
+</code></pre>
 <p>To set the whole matrix or some of its columns or rows to zero, use one of the clear methods:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.Clear(); <span class="c">// set all elements to 0</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.Clear(); <span class="c">// set all elements to 0</span>
 m.ClearColumn(<span class="n">2</span>); <span class="c">// set the 3rd column to 0 (0-based indexing)</span>
 m.ClearColumns(<span class="n">1</span>,<span class="n">3</span>); <span class="c">// set the 2nd and 4th columns to 0 (params-array)</span>
 m.ClearSubMatrix(<span class="n">1</span>,<span class="n">2</span>,<span class="n">1</span>,<span class="n">2</span>); <span class="c">// set the 2x2 submatrix with offset 1,1 to zero</span>
 </code></pre></td></tr></table>
 <p>Because of the limitations of floating point numbers, we may want to set very small numbers to zero:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.CoerceZero(<span class="n">1</span>e<span class="n">-14</span>); <span class="c">// set all elements smaller than 1e-14 to 0</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">m.CoerceZero(<span class="n">1</span>e<span class="n">-14</span>); <span class="c">// set all elements smaller than 1e-14 to 0</span>
 m.CoerceZero(x <span class="o">=</span><span class="o">&gt;</span> x <span class="o">&lt;</span> <span class="n">10</span>); <span class="c">// set all elements that match a predicate function to 0.</span>
 </code></pre></td></tr></table>
 <p>Even though matrices and vectors are mutable, their dimension is fixed and cannot be changed
 after creation. However, we can still insert or remove rows or columns, or concatenate matrices together.
 But all these operations will create and return a new instance.</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-<span class="l">3: </span>
-<span class="l">4: </span>
-<span class="l">5: </span>
-<span class="l">6: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m<span class="n">2</span> <span class="o">=</span> m.RemoveRow(<span class="n">2</span>); <span class="c">// remove the 3rd rows</span>
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp"><span class="k">var</span> m<span class="n">2</span> <span class="o">=</span> m.RemoveRow(<span class="n">2</span>); <span class="c">// remove the 3rd rows</span>
 <span class="k">var</span> m<span class="n">3</span> <span class="o">=</span> m<span class="n">2</span>.RemoveColumn(<span class="n">3</span>); <span class="c">// remove the 4th column</span>
 
 <span class="k">var</span> m<span class="n">4</span> <span class="o">=</span> m.Stack(m<span class="n">2</span>); <span class="c">// new matrix with m on top and m2 on the bottom</span>
@@ -679,21 +551,13 @@ of applying a function to its value. Or, if indexed, to its index and value.</p>
 <li><strong>MapIndexed(f,zeros)</strong>: indexed variant of Map.</li>
 </ul>
 <p>Example: Convert a complex vector to a real vector containing only the real parts in C#:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">Vector&lt;Complex&gt; u <span class="o">=</span> Vector&lt;Complex&gt;.Build.Random(<span class="n">10</span>);
+<table class="pre"><tr><td class="snippet"><pre class="fssnip highlighted"><code lang="csharp">Vector&lt;Complex&gt; u <span class="o">=</span> Vector&lt;Complex&gt;.Build.Random(<span class="n">10</span>);
 Vector&lt;Double&gt; v <span class="o">=</span> u.Map(c <span class="o">=</span><span class="o">&gt;</span> c.Real);
 </code></pre></td></tr></table>
 <p>Or in F#:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
-<span class="l">2: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 41)" onmouseover="showTip(event, 'fs22', 41)" class="i">u</span> <span class="o">=</span> <span class="i">DenseVector</span><span class="o">.</span><span class="i">randomStandard</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs23', 42)" onmouseover="showTip(event, 'fs23', 42)" class="i">Complex</span><span class="o">&gt;</span> <span class="n">10</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 43)" onmouseover="showTip(event, 'fs24', 43)" class="i">v</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 44)" onmouseover="showTip(event, 'fs22', 44)" class="i">u</span> <span class="o">|&gt;</span> <span class="i">Vector</span><span class="o">.</span><span class="i">map</span> (<span class="k">fun</span> <span class="i">c</span> <span class="k">-&gt;</span> <span class="i">c</span><span class="o">.</span><span class="i">Real</span>)
-</code></pre></td>
-</tr>
-</table>
+<pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs22', 41)" onmouseover="showTip(event, 'fs22', 41)" class="id">u</span> <span class="o">=</span> <span class="id">DenseVector</span><span class="pn">.</span><span class="id">randomStandard</span><span class="pn">&lt;</span><span onmouseout="hideTip(event, 'fs23', 42)" onmouseover="showTip(event, 'fs23', 42)" class="id">Complex</span><span class="pn">&gt;</span> <span class="n">10</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs24', 43)" onmouseover="showTip(event, 'fs24', 43)" class="id">v</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 44)" onmouseover="showTip(event, 'fs22', 44)" class="id">u</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs25', 45)" onmouseover="showTip(event, 'fs25', 45)" class="id">Vector</span><span class="pn">.</span><span class="id">map</span> <span class="pn">(</span><span class="k">fun</span> <span class="id">c</span> <span class="k">-&gt;</span> <span class="id">c</span><span class="pn">.</span><span class="id">Real</span><span class="pn">)</span>
+</code></pre>
 <h3><a name="Fold-and-Reduce" class="anchor" href="#Fold-and-Reduce">Fold and Reduce</a></h3>
 <p>Matrices also provide column/row fold and reduce routines:</p>
 <ul>
@@ -708,43 +572,7 @@ in a reasonable way, without overflowing the output device on a large matrix.</p
 file, but to give an informative summary about it. For data import/export,
 use one of the MathNet.Numerics.Data packages instead.</p>
 <p>Some matrix examples:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-<span class="l">21: </span>
-<span class="l">22: </span>
-<span class="l">23: </span>
-<span class="l">24: </span>
-<span class="l">25: </span>
-<span class="l">26: </span>
-<span class="l">27: </span>
-<span class="l">28: </span>
-<span class="l">29: </span>
-<span class="l">30: </span>
-<span class="l">31: </span>
-<span class="l">32: </span>
-<span class="l">33: </span>
-<span class="l">34: </span>
-<span class="l">35: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip"><code lang="text">// Matrix&lt;double&gt;.Build.Dense(3,4,(i,j) =&gt; i*10*j).ToString()
+<table class="pre"><tr><td class="snippet"><pre class="fssnip"><code lang="text">// Matrix&lt;double&gt;.Build.Dense(3,4,(i,j) =&gt; i*10*j).ToString()
 DenseMatrix 3x4-Double
 0   0   0   0
 0  10  20  30
@@ -781,37 +609,7 @@ SparseMatrix 4x100-Double 0.25% Filled
 0  0    0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  ..  0  0
 </code></pre></td></tr></table>
 <p>Vectors are printed as a column that can wrap over to multiple columns if needed:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-<span class="l">21: </span>
-<span class="l">22: </span>
-<span class="l">23: </span>
-<span class="l">24: </span>
-<span class="l">25: </span>
-<span class="l">26: </span>
-<span class="l">27: </span>
-<span class="l">28: </span>
-<span class="l">29: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip"><code lang="text">// Vector&lt;double&gt;.Build.Random(15).ToString()
+<table class="pre"><tr><td class="snippet"><pre class="fssnip"><code lang="text">// Vector&lt;double&gt;.Build.Random(15).ToString()
 DenseVector 15-Double
  0.519184  0.0950414
   1.65913    2.56783
@@ -843,42 +641,7 @@ DenseVector 500-Double
 </code></pre></td></tr></table>
 <p>The format is customizable to some degree, for example we can choose the
 floating point format and culture, or how many rows or columns should be shown:</p>
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-<span class="l">21: </span>
-<span class="l">22: </span>
-<span class="l">23: </span>
-<span class="l">24: </span>
-<span class="l">25: </span>
-<span class="l">26: </span>
-<span class="l">27: </span>
-<span class="l">28: </span>
-<span class="l">29: </span>
-<span class="l">30: </span>
-<span class="l">31: </span>
-<span class="l">32: </span>
-<span class="l">33: </span>
-<span class="l">34: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip"><code lang="text">// var m = Matrix&lt;double&gt;.Build.Random(5,100,42); // 42 = random seed
+<table class="pre"><tr><td class="snippet"><pre class="fssnip"><code lang="text">// var m = Matrix&lt;double&gt;.Build.Random(5,100,42); // 42 = random seed
 
 // m.ToString()
 DenseMatrix 5x100-Double
@@ -917,112 +680,99 @@ DenseMatrix 5x100-Double
 to load the MathNet.Numerics.fsx script of the F# package. Besides loading
 the assemblies it also adds proper FSI printers for both matrices and vectors.</p>
 
-<div class="tip" id="fs1">val m1 : obj<br /><br />Full name: Matrix.m1</div>
-<div class="tip" id="fs2">val v1 : obj<br /><br />Full name: Matrix.v1</div>
-<div class="tip" id="fs3">val m2 : obj<br /><br />Full name: Matrix.m2</div>
-<div class="tip" id="fs4">Multiple items<br />val float : value:&#39;T -&gt; float (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.float<br /><br />--------------------<br />type float = System.Double<br /><br />Full name: Microsoft.FSharp.Core.float<br /><br />--------------------<br />type float&lt;&#39;Measure&gt; = float<br /><br />Full name: Microsoft.FSharp.Core.float&lt;_&gt;</div>
-<div class="tip" id="fs5">val m3 : obj<br /><br />Full name: Matrix.m3</div>
-<div class="tip" id="fs6">val m4 : obj<br /><br />Full name: Matrix.m4</div>
-<div class="tip" id="fs7">Multiple items<br />val float32 : value:&#39;T -&gt; float32 (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.float32<br /><br />--------------------<br />type float32 = System.Single<br /><br />Full name: Microsoft.FSharp.Core.float32<br /><br />--------------------<br />type float32&lt;&#39;Measure&gt; = float32<br /><br />Full name: Microsoft.FSharp.Core.float32&lt;_&gt;</div>
-<div class="tip" id="fs8">val x : seq&lt;seq&lt;float&gt;&gt;<br /><br />Full name: Matrix.x</div>
-<div class="tip" id="fs9">module Seq<br /><br />from Microsoft.FSharp.Collections</div>
-<div class="tip" id="fs10">val init : count:int -&gt; initializer:(int -&gt; &#39;T) -&gt; seq&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Collections.Seq.init</div>
-<div class="tip" id="fs11">val c : int</div>
-<div class="tip" id="fs12">val r : int</div>
-<div class="tip" id="fs13">val m5 : obj<br /><br />Full name: Matrix.m5</div>
-<div class="tip" id="fs14">val m6 : obj<br /><br />Full name: Matrix.m6</div>
-<div class="tip" id="fs15">val m7a : obj<br /><br />Full name: Matrix.m7a</div>
-<div class="tip" id="fs16">val m7b : obj<br /><br />Full name: Matrix.m7b</div>
-<div class="tip" id="fs17">val m : float<br /><br />Full name: Matrix.m</div>
-<div class="tip" id="fs18">val v : float<br /><br />Full name: Matrix.v</div>
-<div class="tip" id="fs19">val v&#39; : float<br /><br />Full name: Matrix.v&#39;</div>
-<div class="tip" id="fs20">val m&#39; : float<br /><br />Full name: Matrix.m&#39;</div>
-<div class="tip" id="fs21">val m : obj<br /><br />Full name: Matrix.m</div>
-<div class="tip" id="fs22">val u : obj<br /><br />Full name: Matrix.u</div>
-<div class="tip" id="fs23">Multiple items<br />type Complex =<br />&#160;&#160;struct<br />&#160;&#160;&#160;&#160;new : real:float * imaginary:float -&gt; Complex<br />&#160;&#160;&#160;&#160;member Equals : obj:obj -&gt; bool + 1 overload<br />&#160;&#160;&#160;&#160;member GetHashCode : unit -&gt; int<br />&#160;&#160;&#160;&#160;member Imaginary : float<br />&#160;&#160;&#160;&#160;member Magnitude : float<br />&#160;&#160;&#160;&#160;member Phase : float<br />&#160;&#160;&#160;&#160;member Real : float<br />&#160;&#160;&#160;&#160;member ToString : unit -&gt; string + 3 overloads<br />&#160;&#160;&#160;&#160;static val Zero : Complex<br />&#160;&#160;&#160;&#160;static val One : Complex<br />&#160;&#160;&#160;&#160;...<br />&#160;&#160;end<br /><br />Full name: System.Numerics.Complex<br /><br />--------------------<br />Complex()<br />Complex(real: float, imaginary: float) : unit</div>
-<div class="tip" id="fs24">val v : obj<br /><br />Full name: Matrix.v</div>
+            <div class="fsdocs-tip" id="fs1">val m1 : obj</div>
+<div class="fsdocs-tip" id="fs2">val v1 : obj</div>
+<div class="fsdocs-tip" id="fs3">val m2 : obj</div>
+<div class="fsdocs-tip" id="fs4">Multiple items<br />val float : value:&#39;T -&gt; float (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 64-bit float. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using &lt;c&gt;Double.Parse()&lt;/c&gt;  
+ with InvariantCulture settings. Otherwise the operation requires an appropriate
+ static conversion method on the input type.&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted float&lt;/returns&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
+type float = System.Double<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types&lt;/category&gt;</em><br /><br />--------------------<br />type float&lt;&#39;Measure&gt; =
+  float<br /><em>&lt;summary&gt;The type of double-precision floating point numbers, annotated with a unit of measure. 
+ The unit of measure is erased in compiled code and when values of this type
+ are analyzed using reflection. The type is representationally equivalent to 
+ &lt;see cref=&quot;T:System.Double&quot; /&gt;.&lt;/summary&gt;<br />&lt;category index=&quot;6&quot;&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
+<div class="fsdocs-tip" id="fs5">val m3 : obj</div>
+<div class="fsdocs-tip" id="fs6">val m4 : obj</div>
+<div class="fsdocs-tip" id="fs7">Multiple items<br />val float32 : value:&#39;T -&gt; float32 (requires member op_Explicit)<br /><em>&lt;summary&gt;Converts the argument to 32-bit float. This is a direct conversion for all 
+ primitive numeric types. For strings, the input is converted using &lt;c&gt;Single.Parse()&lt;/c&gt;  
+ with InvariantCulture settings. Otherwise the operation requires an appropriate
+ static conversion method on the input type.&lt;/summary&gt;<br />&lt;param name=&quot;value&quot;&gt;The input value.&lt;/param&gt;<br />&lt;returns&gt;The converted float32&lt;/returns&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
+type float32 = System.Single<br /><em>&lt;summary&gt;An abbreviation for the CLI type &lt;see cref=&quot;T:System.Single&quot; /&gt;.&lt;/summary&gt;<br />&lt;category&gt;Basic Types&lt;/category&gt;</em><br /><br />--------------------<br />type float32&lt;&#39;Measure&gt; =
+  float32<br /><em>&lt;summary&gt;The type of single-precision floating point numbers, annotated with a unit of measure. 
+ The unit of measure is erased in compiled code and when values of this type
+ are analyzed using reflection. The type is representationally equivalent to 
+ &lt;see cref=&quot;T:System.Single&quot; /&gt;.
+ &lt;/summary&gt;<br />&lt;category&gt;Basic Types with Units of Measure&lt;/category&gt;</em></div>
+<div class="fsdocs-tip" id="fs8">val x : seq&lt;seq&lt;float&gt;&gt;</div>
+<div class="fsdocs-tip" id="fs9">Modul Seq
 
-                </div>
-                <div class="span3">
-                    <ul class="nav nav-list" id="menu">
+aus Microsoft.FSharp.Collections<br /><em>&lt;summary&gt;Contains operations for working with values of type &lt;see cref=&quot;T:Microsoft.FSharp.Collections.seq`1&quot; /&gt;.&lt;/summary&gt;</em></div>
+<div class="fsdocs-tip" id="fs10">val init : count:int -&gt; initializer:(int -&gt; &#39;T) -&gt; seq&lt;&#39;T&gt;<br /><em>&lt;summary&gt;Generates a new sequence which, when iterated, will return successive
+ elements by calling the given function, up to the given count.  Each element is saved after its
+ initialization.  The function is passed the index of the item being
+ generated.&lt;/summary&gt;<br />&lt;remarks&gt;The returned sequence may be passed between threads safely. However, 
+ individual IEnumerator values generated from the returned sequence should not be accessed concurrently.&lt;/remarks&gt;<br />&lt;param name=&quot;count&quot;&gt;The maximum number of items to generate for the sequence.&lt;/param&gt;<br />&lt;param name=&quot;initializer&quot;&gt;A function that generates an item in the sequence from a given index.&lt;/param&gt;<br />&lt;returns&gt;The result sequence.&lt;/returns&gt;<br />&lt;exception cref=&quot;T:System.ArgumentException&quot;&gt;Thrown when count is negative.&lt;/exception&gt;</em></div>
+<div class="fsdocs-tip" id="fs11">val c : int</div>
+<div class="fsdocs-tip" id="fs12">val r : int</div>
+<div class="fsdocs-tip" id="fs13">val m5 : obj</div>
+<div class="fsdocs-tip" id="fs14">val m6 : obj</div>
+<div class="fsdocs-tip" id="fs15">val m7a : obj</div>
+<div class="fsdocs-tip" id="fs16">val m7b : obj</div>
+<div class="fsdocs-tip" id="fs17">val m : float</div>
+<div class="fsdocs-tip" id="fs18">val v : float</div>
+<div class="fsdocs-tip" id="fs19">val v&#39; : float</div>
+<div class="fsdocs-tip" id="fs20">val m&#39; : float</div>
+<div class="fsdocs-tip" id="fs21">val m : obj</div>
+<div class="fsdocs-tip" id="fs22">val u : obj</div>
+<div class="fsdocs-tip" id="fs23">Multiple items<br />[&lt;Struct&gt;]
+type Complex =
+  new : real: float * imaginary: float -&gt; unit
+  member Equals : value: Complex -&gt; bool + 1 &#220;berladung
+  member GetHashCode : unit -&gt; int
+  member ToString : unit -&gt; string + 3 &#220;berladungen
+  static member Abs : value: Complex -&gt; float
+  static member Acos : value: Complex -&gt; Complex
+  static member Add : left: float * right: Complex -&gt; Complex + 2 &#220;berladungen
+  static member Asin : value: Complex -&gt; Complex
+  static member Atan : value: Complex -&gt; Complex
+  static member Conjugate : value: Complex -&gt; Complex
+  ...<br /><em>&lt;summary&gt;Represents a complex number.&lt;/summary&gt;</em><br /><br />--------------------<br />Complex ()<br />Complex(real: float, imaginary: float) : Complex</div>
+<div class="fsdocs-tip" id="fs24">val v : obj</div>
+<div class="fsdocs-tip" id="fs25">Multiple items<br />type Vector =
+  static member Abs&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
+  static member Add&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
+  static member AndNot&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
+  static member AsVectorByte&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;byte&gt;
+  static member AsVectorDouble&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;float&gt;
+  static member AsVectorInt16&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;int16&gt;
+  static member AsVectorInt32&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;int&gt;
+  static member AsVectorInt64&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;int64&gt;
+  static member AsVectorSByte&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;sbyte&gt;
+  static member AsVectorSingle&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; : value: Vector&lt;&#39;T&gt; -&gt; Vector&lt;float32&gt;
+  ...<br /><em>&lt;summary&gt;Provides a collection of static convenience methods for creating, manipulating, combining, and converting generic vectors.&lt;/summary&gt;</em><br /><br />--------------------<br />[&lt;Struct&gt;]
+type Vector&lt;&#39;T (requires default constructor and value type and &#39;T :&gt; ValueType)&gt; =
+  new : values: ReadOnlySpan&lt;byte&gt; -&gt; unit + 5 &#220;berladungen
+  member CopyTo : destination: Span&lt;byte&gt; -&gt; unit + 3 &#220;berladungen
+  member Equals : other: Vector&lt;&#39;T&gt; -&gt; bool + 1 &#220;berladung
+  member GetHashCode : unit -&gt; int
+  member ToString : unit -&gt; string + 2 &#220;berladungen
+  member TryCopyTo : destination: Span&lt;byte&gt; -&gt; bool + 1 &#220;berladung
+  static member op_Addition : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
+  static member op_BitwiseAnd : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
+  static member op_BitwiseOr : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
+  static member op_Division : left: Vector&lt;&#39;T&gt; * right: Vector&lt;&#39;T&gt; -&gt; Vector&lt;&#39;T&gt;
+  ...<br /><em>&lt;summary&gt;Represents a single vector of a specified numeric type that is suitable for low-level optimization of parallel algorithms.&lt;/summary&gt;<br />&lt;typeparam name=&quot;T&quot;&gt;The vector type. &lt;c&gt;T&lt;/c&gt; can be any primitive numeric type.&lt;/typeparam&gt;</em><br /><br />--------------------<br />Vector ()<br />Vector(values: System.ReadOnlySpan&lt;byte&gt;) : Vector&lt;&#39;T&gt;<br />Vector(values: System.ReadOnlySpan&lt;&#39;T&gt;) : Vector&lt;&#39;T&gt;<br />Vector(values: System.Span&lt;&#39;T&gt;) : Vector&lt;&#39;T&gt;<br />Vector(value: &#39;T) : Vector&lt;&#39;T&gt;<br />Vector(values: &#39;T []) : Vector&lt;&#39;T&gt;<br />Vector(values: &#39;T [], index: int) : Vector&lt;&#39;T&gt;</div>
 
-                        <li class="nav-header">Math.NET Numerics</li>
-                        <li><a href="https://numerics.mathdotnet.com/Packages.html">NuGet & Binaries</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/ReleaseNotes.html">Release Notes</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/License.html">MIT License</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Compatibility.html">Platform Support</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/api/">Class Reference</a></li>
-                        <li><a href="https://github.com/mathnet/mathnet-numerics/issues">Issues & Bugs</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Users.html">Who is using Math.NET?</a></li>
-
-                        <li class="nav-header">Contributing</li>
-                        <li><a href="https://numerics.mathdotnet.com/Contributors.html">Contributors</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Contributing.html">Contributing</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Build.html">Build & Tools</a></li>
-                        <li><a href="http://feedback.mathdotnet.com/forums/2060-math-net-numerics">Your Ideas</a></li>
-
-                        <li class="nav-header">Getting Help</li>
-                        <li><a href="https://discuss.mathdotnet.com/c/numerics">Discuss</a></li>
-                        <li><a href="https://stackoverflow.com/questions/tagged/mathdotnet">Stack Overflow</a></li>
-
-                        <li class="nav-header">Getting Started</li>
-                        <li><a href="https://numerics.mathdotnet.com/">Getting started</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Constants.html">Constants</a></li>
-                        <li>Floating-Point Numbers</li>
-                        <li>Arbitrary Precision Numbers</li>
-                        <li>Complex Numbers</li>
-                        <li><a href="https://numerics.mathdotnet.com/Matrix.html">Matrices and Vectors</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Euclid.html">Euclid & Number Theory</a></li>
-                        <li>Combinatorics</li>
-
-                        <li class="nav-header">Evaluation</li>
-                        <li><a href="https://numerics.mathdotnet.com/Functions.html">Special Functions</a></li>
-                        <li>Differentiation</li>
-                        <li><a href="https://numerics.mathdotnet.com/Integration.html">Integration</a></li>
-
-                        <li class="nav-header">Statistics/Probability</li>
-                        <li><a href="https://numerics.mathdotnet.com/DescriptiveStatistics.html">Descriptive Statistics</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Probability.html">Probability Distributions</a></li>
-
-                        <li class="nav-header">Generation</li>
-                        <li><a href="https://numerics.mathdotnet.com/Generate.html">Generating Data</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/Random.html">Random Numbers</a></li>
-
-                        <li class="nav-header">Transformation</li>
-                        <li>Fourier Transform (FFT)</li>
-                        <li>Filtering & DSP</li>
-                        <li>Window Functions</li>
-
-                        <li class="nav-header">Solving Equations</li>
-                        <li><a href="https://numerics.mathdotnet.com/LinearEquations.html">Linear Equation Systems</a></li>
-                        <li>Nonlinear Root Finding</li>
-
-                        <li class="nav-header">Optimization</li>
-                        <li>Linear Least Squares</li>
-                        <li>Nonlinear Optimization</li>
-                        <li><a href="https://numerics.mathdotnet.com/Distance.html">Distance Metrics</a></li>
-
-                        <li class="nav-header">Curve Fitting</li>
-                        <li><a href="https://numerics.mathdotnet.com/Regression.html">Regression</a></li>
-                        <li>Interpolation</li>
-                        <li>Fourier Approximation</li>
-
-                        <li class="nav-header">Native Providers</li>
-                        <li><a href="https://numerics.mathdotnet.com/MKL.html">Intel MKL</a></li>
-
-                        <li class="nav-header">Working Together</li>
-                        <li><a href="https://numerics.mathdotnet.com/CSV.html">Delimited Text Files (CSV)</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/MatrixMarket.html">NIST MatrixMarket</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/MatlabFiles.html">MATLAB</a></li>
-                        <li><a href="https://numerics.mathdotnet.com/IFSharpNotebook.html">IF# Notebook</a></li>
-                        <li>FsLab & Deedle</li>
-                        <li>Microsoft Excel</li>
-                        <li>numl.net machine learning</li>
-                        <li>R-project</li>
-
-                    </ul>
-                </div>
-            </div>
         </div>
-    </body>
+        <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+        <script type="text/javascript">var fsdocs_search_baseurl = 'https://numerics.mathdotnet.com/';</script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+        <script type="text/javascript" src="https://numerics.mathdotnet.com/content/fsdocs-search.js"></script>
+        <!-- END SEARCH BOX: this adds support for the search box -->
+    </div>
+</body>
+
 </html>
