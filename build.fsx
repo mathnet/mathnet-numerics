@@ -829,10 +829,10 @@ Target.create "Docs" (fun _ ->
     provideDocExtraFiles extraDocs releases
     dotnet rootDir "fsdocs build --noapidocs --output out/docs")
 Target.create "DocsDev" (fun _ ->
-    provideDocExtraFiles  extraDocs releases
+    provideDocExtraFiles extraDocs releases
     dotnet rootDir "fsdocs build --noapidocs --output out/docs")
 Target.create "DocsWatch" (fun _ ->
-    provideDocExtraFiles  extraDocs releases
+    provideDocExtraFiles extraDocs releases
     dotnet rootDir "fsdocs build --noapidocs --output out/docs"
     dotnet rootDir "fsdocs watch --noapidocs --output out/docs")
 

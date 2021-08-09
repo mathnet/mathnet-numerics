@@ -1,0 +1,16 @@
+.navbar-nav .nav-link {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+}
+
+#fsdocs-content li {
+    margin: 0px 0px 10px 0px;
+}
+
+.masthead h3 {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    font-size: 130%;
+    text-align: right;
+    color: #999999;
+}
