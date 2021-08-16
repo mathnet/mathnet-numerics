@@ -210,9 +210,12 @@ namespace MathNet.Numerics.Statistics
                     return double.NaN;
                 else
                 {
-                    double poly = _w1 * _w1 * _w1 * _w1 - 6.0 * _w1 * _w1 * _w2 + 8.0 * _w1 * _w3 + 3.0 * _w2 * _w2 - 6.0 * _w4;
-                    double a = _w1 * _w1 * _w1 * _w1 - 4.0 * _w1 * _w3 + 3.0 * _w2 * _w2;
-                    double b = 3.0 * (_w1 * _w1 * _w1 * _w1 - 2.0 * _w1 * _w1 * _w2 + 4.0 * _w1 * _w3 - 3.0 * _w2 * _w2);
+                    double p2 = _w1 * _w1;
+                    double p4 = p2 * p2;
+                    double w2p2 = _w2 * _w2;
+                    double poly = p4 - 6.0 * p2 * _w2 + 8.0 * _w1 * _w3 + 3.0 * w2p2 - 6.0 * _w4;
+                    double a = p4 - 4.0 * _w1 * _w3 + 3.0 * w2p2;
+                    double b = 3.0 * (p4 - 2.0 * p2 * _w2 + 4.0 * _w1 * _w3 - 3.0 * w2p2);
                     return (a * _w1 * _m4 / (_m2 * _m2) - b) * (_den / (_w1 * poly));
                 }
             }
@@ -238,7 +241,7 @@ namespace MathNet.Numerics.Statistics
             if (weight == 0.0)
                 return;
             if (weight < 0.0)
-                throw new ArgumentException("Expected non-negative weighting of sample", nameof(weight));
+                throw new ArgumentOutOfRangeException(nameof(weight), weight, "Expected non-negative weighting of sample");
 
             _n++;
             double prevW = _w1;

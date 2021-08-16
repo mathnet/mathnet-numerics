@@ -136,6 +136,15 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         [Test]
+        public void NegativeWeightsThrow()
+        {
+            Assert.That(() => new RunningWeightedStatistics(new[] { System.Tuple.Create(-1.0, 1.0) }), Throws.TypeOf<System.ArgumentOutOfRangeException>());
+            var stats0 = new RunningWeightedStatistics(new System.Tuple<double,double>[0]);
+            Assert.That(() =>stats0.Push(-1.0, 1.0), Throws.TypeOf<System.ArgumentOutOfRangeException>());
+            Assert.That(() => stats0.PushRange(new[] { System.Tuple.Create(-1.0, 1.0) }), Throws.TypeOf<System.ArgumentOutOfRangeException>());
+        }
+
+        [Test]
         public void ShortSequences()
         {
             var stats0 = new RunningWeightedStatistics(new System.Tuple<double,double>[0]);

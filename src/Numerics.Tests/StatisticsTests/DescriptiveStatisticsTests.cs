@@ -527,6 +527,12 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         [Test]
+        public void NegativeWeightsThrow()
+        {
+            Assert.That(() => new DescriptiveStatistics(new[] { Tuple.Create(-1.0, 1.0) }), Throws.TypeOf<ArgumentOutOfRangeException>());
+        }
+
+        [Test]
         public void ZeroVarianceSequence()
         {
             var stats = new DescriptiveStatistics(new[] { 2.0, 2.0, 2.0, 2.0 });

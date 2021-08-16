@@ -475,7 +475,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Computes descriptive statistics from a stream of data values.
+        /// Computes descriptive statistics from a stream of data values and weights.
         /// </summary>
         /// <param name="data">A sequence of datapoints.</param>
         void Compute(IEnumerable<Tuple<double, double>> data)
@@ -496,7 +496,11 @@ namespace MathNet.Numerics.Statistics
 
             foreach (var (w, xi) in data)
             {
-                if (w > 0)
+                if (w < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(data), w, "Expected non-negative weighting of sample");
+                }
+                else if (w > 0)
                 {
                     ++n;
                     double delta = xi - mean;
@@ -537,7 +541,7 @@ namespace MathNet.Numerics.Statistics
         }
 
         /// <summary>
-        /// Computes descriptive statistics from a stream of data values.
+        /// Computes descriptive statistics from a stream of data values and weights.
         /// </summary>
         /// <param name="data">A sequence of datapoints.</param>
         void ComputeDecimal(IEnumerable<Tuple<double, double>> data)
@@ -558,7 +562,11 @@ namespace MathNet.Numerics.Statistics
 
             foreach (var (w, x) in data)
             {
-                if (w > 0)
+                if (w < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(data), w, "Expected non-negative weighting of sample");
+                }
+                else if (w > 0)
                 {
 
                     decimal xi = (decimal)x;
@@ -643,10 +651,12 @@ namespace MathNet.Numerics.Statistics
 
                     if (n > 3)
                     {
-                        // common denominator
-                        double poly = w1 * w1 * w1 * w1 - 6.0 * w1 * w1 * w2 + 8.0 * w1 * w3 + 3.0 * w2 * w2 - 6.0 * w4;
-                        double a = w1 * w1 * w1 * w1 - 4.0 * w1 * w3 + 3.0 * w2 * w2;
-                        double b = 3.0 * (w1 * w1 * w1 * w1 - 2.0 * w1 * w1 * w2 + 4.0 * w1 * w3 - 3.0 * w2 * w2);
+                        double p2 = w1 * w1;
+                        double p4 = p2 * p2;
+                        double w2p2 = w2 * w2;
+                        double poly = p4 - 6.0 * p2 * w2 + 8.0 * w1 * w3 + 3.0 * w2p2 - 6.0 * w4;
+                        double a = p4 - 4.0 * w1 * w3 + 3.0 * w2p2;
+                        double b = 3.0 * (p4 - 2.0 * p2 * w2 + 4.0 * w1 * w3 - 3.0 * w2p2);
                         Kurtosis = (a * w1 * kurtosis / (variance * variance) - b) * (den / (w1 * poly));
                     }
                 }
