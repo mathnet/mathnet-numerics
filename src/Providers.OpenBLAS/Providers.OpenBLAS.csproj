@@ -31,7 +31,6 @@ Better support for System.Text.Json: Polynomial, DescriptiveStatistics ~Joseph P
 Lots of internal cleanup, leveraging newer language features
 Data: now released always together with Numerics (no longer separate versioning)
 Control.Describe now includes CPU architecture and family identifier if know</PackageReleaseNotes>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>

@@ -29,24 +29,7 @@
 
 namespace MathNet.Numerics
 
-open System.Reflection
-open System.Resources;
-open System.Runtime.CompilerServices
 open System.Runtime.InteropServices
-
-[<assembly: AssemblyTitle("Math.NET Numerics for F#")>]
-[<assembly: AssemblyDescription("F# Modules for Math.NET Numerics, providing methods and algorithms for numerical computations in science, engineering and every day use.")>]
-[<assembly: AssemblyConfiguration("")>]
-[<assembly: AssemblyCompany("Math.NET Project")>]
-[<assembly: AssemblyProduct("Math.NET Numerics")>]
-[<assembly: AssemblyCopyright("Copyright (c) Math.NET Project")>]
-[<assembly: AssemblyTrademark("")>]
-[<assembly: AssemblyCulture("")>]
-[<assembly: NeutralResourcesLanguage("en")>]
-
-[<assembly: AssemblyVersion("5.0.0.0")>]
-[<assembly: AssemblyFileVersion("5.0.0.0")>]
-[<assembly: AssemblyInformationalVersion("5.0.0-alpha02")>]
 
 [<assembly: ComVisible(false)>]
 [<assembly: Guid("048BC4EB-CE2B-4040-9967-4784F5405B0F")>]

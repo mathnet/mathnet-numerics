@@ -27,47 +27,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40-DE22-49FB-B1C0-6E5BDA3B0B2F}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
-		docs\tools\build-docs.fsx = docs\tools\build-docs.fsx
 		build\build-framework.fsx = build\build-framework.fsx
 		build.fsx = build.fsx
-		src\Directory.Build.props = src\Directory.Build.props
 		global.json = global.json
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
+		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "src\Benchmark\Benchmark.csproj", "{82444930-9FD7-41B6-B476-CCE41A0C0A0B}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{B890C1AF-E488-490F-B784-2C6F8C924693}"
-ProjectSection(SolutionItems) = preProject
-	docs\content\Build.md = docs\content\Build.md
-	docs\content\Compatibility.md = docs\content\Compatibility.md
-	docs\content\Constants.md = docs\content\Constants.md
-	docs\content\CSV.md = docs\content\CSV.md
-	docs\content\DescriptiveStatistics.md = docs\content\DescriptiveStatistics.md
-	docs\content\Distance.md = docs\content\Distance.md
-	docs\content\Euclid.md = docs\content\Euclid.md
-	docs\content\Functions.md = docs\content\Functions.md
-	docs\content\Generate.md = docs\content\Generate.md
-	docs\content\IFsharpNotebook.md = docs\content\IFsharpNotebook.md
-	docs\content\index.md = docs\content\index.md
-	docs\content\IntegralTransforms.md = docs\content\IntegralTransforms.md
-	docs\content\Integration.md = docs\content\Integration.md
-	docs\content\Interpolation.md = docs\content\Interpolation.md
-	docs\content\LinearEquations.md = docs\content\LinearEquations.md
-	docs\content\MatlabFiles.md = docs\content\MatlabFiles.md
-	docs\content\Matrix.md = docs\content\Matrix.md
-	docs\content\MatrixMarket.md = docs\content\MatrixMarket.md
-	docs\content\MKL.md = docs\content\MKL.md
-	docs\content\Packages.md = docs\content\Packages.md
-	docs\content\Probability.md = docs\content\Probability.md
-	docs\content\Random.md = docs\content\Random.md
-	docs\content\Regression.md = docs\content\Regression.md
-	docs\content\Users.md = docs\content\Users.md
-	README.md = README.md
-EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Providers.MKL", "src\Providers.MKL\Providers.MKL.csproj", "{0B5FAFAA-4286-4D92-B5AB-CBA75ADDA0BB}"
 EndProject
