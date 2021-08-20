@@ -36,6 +36,8 @@ using MathNet.Numerics.UnitTests.OptimizationTests.TestFunctions;
 using System.Collections.Generic;
 using System.Collections;
 using NUnit.Framework.Interfaces;
+using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.Optimization.ObjectiveFunctions;
 
 namespace MathNet.Numerics.UnitTests.OptimizationTests
 {
@@ -153,6 +155,45 @@ namespace MathNet.Numerics.UnitTests.OptimizationTests
             var abs_err = Math.Abs(val1 - val2);
             var rel_err = abs_err / abs_min;
             var success = (abs_min <= 1 && abs_err < 1e-3) || (abs_min > 1 && rel_err < 1e-3);
+            Assert.That(success, "Minimal function value is not as expected.");
+        }
+
+
+        [Test]
+        public void BfgsMinimizer_MinimizesProperlyWhenConstrainedInOneVariable()
+        {
+            // Test comes from github issue 510
+            // https://github.com/mathnet/mathnet-numerics/issues/510
+            Func<Vector<double>, double> function = (Vector<double> vectorArg) =>
+            {
+                double x = vectorArg[0];
+                double y = -1.0 * Math.Exp(-x * x);
+                return y;
+            };
+
+            double gradientTolerance = 1e-10;
+            double parameterTolerance = 1e-10;
+            double functionProgressTolerance = 1e-10;
+            int maxIterations = 1000;
+
+            var initialGuess = new DenseVector(new[] { -1.0 });
+
+            // Bad Bound
+            var lowerBound = new DenseVector(new[] { -2.0 });
+            var upperBound = new DenseVector(new[] { 2.0 });
+
+
+            var objective = ObjectiveFunction.Value(function);
+            var objectiveWithGradient = new ForwardDifferenceGradientObjectiveFunction(objective, lowerBound, upperBound);
+            var algorithm = new BfgsBMinimizer(gradientTolerance, parameterTolerance, functionProgressTolerance, maxIterations);
+            var result = algorithm.FindMinimum(objectiveWithGradient, lowerBound, upperBound, initialGuess);
+
+            var resultVector = result.MinimizingPoint;
+            double xResult = resultVector[0];
+
+            // (actual minimum at zero)
+            var abs_err = Math.Abs(xResult);
+            var success = abs_err < 1e-6;
             Assert.That(success, "Minimal function value is not as expected.");
         }
     }
