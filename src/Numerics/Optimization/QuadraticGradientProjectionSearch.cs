@@ -80,6 +80,11 @@ namespace MathNet.Numerics.Optimization
             // while minimum of the last quadratic piece observed is beyond the interval searched
             while (true)
             {
+                if (jj + 1 >= orderedBreakpoint.Count - 1)
+                {
+                    isFixed[isFixed.Count - 1] = true;
+                    return new GradientProjectionResult(x + maxS * d, lowerBound.Count, isFixed);
+                }
                 // update data to the beginning of the interval we're searching
                 jj += 1;
                 x = x + d * maxS;
@@ -104,11 +109,6 @@ namespace MathNet.Numerics.Optimization
 
                 if (sMin < maxS)
                     return new GradientProjectionResult(x + sMin * d, fixedCount, isFixed);
-                else if (jj + 1 >= orderedBreakpoint.Count - 1)
-                {
-                    isFixed[isFixed.Count - 1] = true;
-                    return new GradientProjectionResult(x + maxS * d, lowerBound.Count, isFixed);
-                }
             }
         }
 
