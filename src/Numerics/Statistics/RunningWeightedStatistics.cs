@@ -37,8 +37,8 @@ using System.Runtime.Serialization;
 namespace MathNet.Numerics.Statistics
 {
     /// <summary>
-    /// Running statistics accumulator, allows updating by adding values
-    /// or by combining two accumulators.
+    /// Running weighted statistics accumulator, allows updating by adding values
+    /// or by combining two accumulators. Weights are reliability weights, not frequency weights.
     /// </summary>
     /// <remarks>
     /// This type declares a DataContract for out of the box ephemeral serialization
@@ -144,7 +144,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the unbiased population variance from the provided samples.
-        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Will use the Bessel correction for reliability weighting.
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         public double Variance => _n < 2 ? double.NaN : _m2 / _den;
@@ -158,7 +158,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the unbiased population standard deviation from the provided samples.
-        /// On a dataset of size N will use an N-1 normalizer (Bessel's correction).
+        /// Will use the Bessel correction for reliability weighting.
         /// Returns NaN if data has less than two entries or if any entry is NaN.
         /// </summary>
         public double StandardDeviation => _n < 2 ? double.NaN : Math.Sqrt(_m2 / _den);
@@ -172,7 +172,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the unbiased population skewness from the provided samples.
-        /// Uses a normalizer (Bessel's correction; type 2).
+        /// Will use the Bessel correction for reliability weighting.
         /// Returns NaN if data has less than three entries or if any entry is NaN.
         /// </summary>
         public double Skewness
@@ -198,7 +198,7 @@ namespace MathNet.Numerics.Statistics
 
         /// <summary>
         /// Estimates the unbiased population excess kurtosis from the provided samples.
-        /// Uses a normalizer (Bessel's correction; type 2).
+        /// Will use the Bessel correction for reliability weighting.
         /// Returns NaN if data has less than four entries or if any entry is NaN.
         /// Equivalent formula for this for weighted distributions are unknown.
         /// </summary>
@@ -232,6 +232,11 @@ namespace MathNet.Numerics.Statistics
         /// Evaluates the total weight of the population.
         /// </summary>
         public double TotalWeight => _w1;
+
+        /// <summary>
+        /// The Kish's Effective Sample Size
+        /// </summary>
+        public double EffectiveSampleSize => _w2 / _w1;
 
         /// <summary>
         /// Update the running statistics by adding another observed sample (in-place).

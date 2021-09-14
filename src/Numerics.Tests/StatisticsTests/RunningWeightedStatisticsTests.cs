@@ -88,7 +88,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void ConsistentWithNist(string dataSet, int digits, double skewness, double kurtosis, double median, double min, double max, int count)
         {
             var data = _data[dataSet];
-            var stats = new RunningWeightedStatistics(data.Data.Select(x => System.Tuple.Create(1.0,x)));
+            var stats = new RunningWeightedStatistics(data.Data.Select(x => System.Tuple.Create(1.0, x)));
 
             AssertHelpers.AlmostEqualRelative(data.Mean, stats.Mean, 10);
             AssertHelpers.AlmostEqualRelative(data.StandardDeviation, stats.StandardDeviation, digits);
@@ -139,19 +139,19 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         public void NegativeWeightsThrow()
         {
             Assert.That(() => new RunningWeightedStatistics(new[] { System.Tuple.Create(-1.0, 1.0) }), Throws.TypeOf<System.ArgumentOutOfRangeException>());
-            var stats0 = new RunningWeightedStatistics(new System.Tuple<double,double>[0]);
-            Assert.That(() =>stats0.Push(-1.0, 1.0), Throws.TypeOf<System.ArgumentOutOfRangeException>());
+            var stats0 = new RunningWeightedStatistics(new System.Tuple<double, double>[0]);
+            Assert.That(() => stats0.Push(-1.0, 1.0), Throws.TypeOf<System.ArgumentOutOfRangeException>());
             Assert.That(() => stats0.PushRange(new[] { System.Tuple.Create(-1.0, 1.0) }), Throws.TypeOf<System.ArgumentOutOfRangeException>());
         }
 
         [Test]
         public void ShortSequences()
         {
-            var stats0 = new RunningWeightedStatistics(new System.Tuple<double,double>[0]);
+            var stats0 = new RunningWeightedStatistics(new System.Tuple<double, double>[0]);
             Assert.That(stats0.Skewness, Is.NaN);
             Assert.That(stats0.Kurtosis, Is.NaN);
 
-            var stats1 = new RunningWeightedStatistics(new [] { System.Tuple.Create(1.0,1.0) });
+            var stats1 = new RunningWeightedStatistics(new[] { System.Tuple.Create(1.0, 1.0) });
             Assert.That(stats1.Skewness, Is.NaN);
             Assert.That(stats1.Kurtosis, Is.NaN);
 
@@ -159,7 +159,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(stats2.Skewness, Is.NaN);
             Assert.That(stats2.Kurtosis, Is.NaN);
 
-            var stats3 = new RunningWeightedStatistics(new[] { System.Tuple.Create(1.0, 1.0), System.Tuple.Create(1.0, 2.0), System.Tuple.Create(1.0, -3.0)});
+            var stats3 = new RunningWeightedStatistics(new[] { System.Tuple.Create(1.0, 1.0), System.Tuple.Create(1.0, 2.0), System.Tuple.Create(1.0, -3.0) });
             Assert.That(stats3.Skewness, Is.Not.NaN);
             Assert.That(stats3.Kurtosis, Is.NaN);
 
@@ -177,7 +177,7 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
         }
 
         [Test]
-        public void Combine()
+        public void CombineUnweighted()
         {
             var rnd = new SystemRandomSource(10);
             var a = Generate.Random(200, new Erlang(2, 0.2, rnd)).Select(datum => System.Tuple.Create(1.0, datum)).ToArray();
@@ -193,9 +193,9 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             y.PushRange(b);
             y.PushRange(c);
 
-            var za  = new RunningWeightedStatistics(a);
-            var zb  = new RunningWeightedStatistics(b);
-            var zc  = new RunningWeightedStatistics(c);
+            var za = new RunningWeightedStatistics(a);
+            var zb = new RunningWeightedStatistics(b);
+            var zc = new RunningWeightedStatistics(c);
             var z = za + zb + zc;
 
             Assert.That(x.Mean, Is.EqualTo(direct.Mean()).Within(1e-12), "Mean Reference");
@@ -233,6 +233,92 @@ namespace MathNet.Numerics.UnitTests.StatisticsTests
             Assert.That(x.PopulationKurtosis, Is.EqualTo(direct.PopulationKurtosis()).Within(1e-12), "PopulationKurtosis Reference (not independent!)");
             Assert.That(y.PopulationKurtosis, Is.EqualTo(x.PopulationKurtosis).Within(1e-12), "PopulationKurtosis y");
             Assert.That(z.PopulationKurtosis, Is.EqualTo(x.PopulationKurtosis).Within(1e-12), "PopulationKurtosis z");
+        }
+
+        [Test]
+        /// Tests that combination of data via + / Combine is consistent with the incremental approach.
+        public void CombineWeighted()
+        {
+            var rnd = new SystemRandomSource(10);
+            var wa = Generate.Random(200, new ContinuousUniform(1.0, 10.0));
+            var a = Generate.Random(200, new Erlang(2, 0.2, rnd)).Select((datum, i) => System.Tuple.Create(wa[i], datum)).ToArray();
+            var wb = Generate.Random(100, new ContinuousUniform(1.0, 10.0));
+            var b = Generate.Random(100, new Beta(1.2, 1.4, rnd)).Select((datum, i) => System.Tuple.Create(wb[i], datum)).ToArray();
+            var wc = Generate.Random(150, new ContinuousUniform(1.0, 10.0));
+            var c = Generate.Random(150, new Rayleigh(0.8, rnd)).Select((datum, i) => System.Tuple.Create(wc[i], datum)).ToArray();
+
+            var d = a.Concat(b).Concat(c);
+
+            var x = new RunningWeightedStatistics(d);
+
+            var y = new RunningWeightedStatistics(a);
+            y.PushRange(b);
+            y.PushRange(c);
+
+            var za = new RunningWeightedStatistics(a);
+            var zb = new RunningWeightedStatistics(b);
+            var zc = new RunningWeightedStatistics(c);
+            var z = za + zb + zc;
+
+            Assert.That(y.Mean, Is.EqualTo(x.Mean).Within(1e-12), "Mean y");
+            Assert.That(z.Mean, Is.EqualTo(x.Mean).Within(1e-12), "Mean z");
+
+            Assert.That(y.Variance, Is.EqualTo(x.Variance).Within(1e-12), "Variance y");
+            Assert.That(z.Variance, Is.EqualTo(x.Variance).Within(1e-12), "Variance z");
+
+            Assert.That(y.PopulationVariance, Is.EqualTo(x.PopulationVariance).Within(1e-12), "PopulationVariance y");
+            Assert.That(z.PopulationVariance, Is.EqualTo(x.PopulationVariance).Within(1e-12), "PopulationVariance z");
+
+            Assert.That(y.StandardDeviation, Is.EqualTo(x.StandardDeviation).Within(1e-12), "StandardDeviation y");
+            Assert.That(z.StandardDeviation, Is.EqualTo(x.StandardDeviation).Within(1e-12), "StandardDeviation z");
+
+            Assert.That(y.PopulationStandardDeviation, Is.EqualTo(x.PopulationStandardDeviation).Within(1e-12), "PopulationStandardDeviation y");
+            Assert.That(z.PopulationStandardDeviation, Is.EqualTo(x.PopulationStandardDeviation).Within(1e-12), "PopulationStandardDeviation z");
+
+            Assert.That(y.Skewness, Is.EqualTo(x.Skewness).Within(1e-12), "Skewness y");
+            Assert.That(z.Skewness, Is.EqualTo(x.Skewness).Within(1e-12), "Skewness z");
+
+            Assert.That(y.PopulationSkewness, Is.EqualTo(x.PopulationSkewness).Within(1e-12), "PopulationSkewness y");
+            Assert.That(z.PopulationSkewness, Is.EqualTo(x.PopulationSkewness).Within(1e-12), "PopulationSkewness z");
+
+            Assert.That(y.Kurtosis, Is.EqualTo(x.Kurtosis).Within(1e-12), "Kurtosis y");
+            Assert.That(z.Kurtosis, Is.EqualTo(x.Kurtosis).Within(1e-12), "Kurtosis z");
+
+            Assert.That(y.PopulationKurtosis, Is.EqualTo(x.PopulationKurtosis).Within(1e-12), "PopulationKurtosis y");
+            Assert.That(z.PopulationKurtosis, Is.EqualTo(x.PopulationKurtosis).Within(1e-12), "PopulationKurtosis z");
+        }
+
+        [TestCase("lottery")]
+        [TestCase("lew")]
+        [TestCase("mavro")]
+        [TestCase("michelso")]
+        [TestCase("numacc1")]
+        [TestCase("meixner")]
+        /// Generates samples with weightings that are integral and compares that to the unweighted statistics result. Doesn't correspond with the
+        /// higher order sample statistics because our weightings represent reliability weights, *not* frequency weights, and the Bessel correction is
+        /// calculated appropriately - so don't let the construction of the test mislead you.
+        public void ConsistentWithUnweighted (string dataSet)
+        {
+            var data = _data[dataSet].Data.ToArray();
+            var gen = new DiscreteUniform(1, 5);
+            var weights = new int[data.Length];
+            gen.Samples(weights);
+
+            var stats = new RunningWeightedStatistics( data.Select((x, i) => System.Tuple.Create((double)weights[i], x)) );
+            var stats2 = new RunningStatistics();
+            for (int i = 0; i < data.Length; ++i)
+                for(int j = 0; j < weights[i] ; ++j)
+                    stats2.Push(data[i]);
+            var sumWeights = weights.Sum();
+            Assert.That(stats.TotalWeight, Is.EqualTo(sumWeights), "TotalWeight");
+            Assert.That(stats.Count, Is.EqualTo(weights.Length), "Count");
+            Assert.That(stats2.Minimum, Is.EqualTo(stats.Minimum), "Minimum");
+            Assert.That(stats2.Maximum, Is.EqualTo(stats.Maximum), "Maximum");
+            Assert.That(stats2.Mean, Is.EqualTo(stats.Mean).Within(1e-8), "Mean");
+            Assert.That(stats2.PopulationVariance, Is.EqualTo(stats.PopulationVariance).Within(1e-9), "PopulationVariance");
+            Assert.That(stats2.PopulationStandardDeviation, Is.EqualTo(stats.PopulationStandardDeviation).Within(1e-9), "PopulationStandardDeviation");
+            Assert.That(stats2.PopulationSkewness, Is.EqualTo(stats.PopulationSkewness).Within(1e-8), "PopulationSkewness");
+            Assert.That(stats2.PopulationKurtosis, Is.EqualTo(stats.PopulationKurtosis).Within(1e-8), "PopulationKurtosis");
         }
     }
 }
