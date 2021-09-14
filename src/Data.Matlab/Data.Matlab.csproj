@@ -37,7 +37,6 @@ Control.Describe now includes CPU architecture and family identifier if know</Pa
         <RepositoryType>git</RepositoryType>
         <NeutralLanguage>en</NeutralLanguage>
         <NoPackageAnalysis>false</NoPackageAnalysis>
-        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <EnableDefaultCompileItems>true</EnableDefaultCompileItems>

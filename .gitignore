@@ -2,6 +2,8 @@
 bin/
 obj/
 out/
+output/
+tmp/
 
 # User-specific Files
 *.user
@@ -59,22 +61,18 @@ Thumbs.db
 ehthumbs.db
 Desktop.ini
 
-# NuGet Packages
-# NOTE: we do NOT use package restore in the core projects, but do use it with FAKE builds.
+
 packages/*
 !packages/.gitattributes
 !packages/TaskParallelLibrary
 !packages/FSharp.Core
-
-# FAKE & Paket
 packages
 paket-files
 .fake
-
-# Generated Doc Files
-docs/content/License.md
-docs/content/Contributing.md
-docs/content/Contributors.md
-docs/content/ReleaseNotes.md
-docs/content/ReleaseNotes-*.md
+.fsdocs
 /build.fsx.lock
+docs/License.md
+docs/Contributing.md
+docs/Contributors.md
+docs/ReleaseNotes.md
+docs/ReleaseNotes-*.md

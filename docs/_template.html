@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{fsdocs-page-title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="{{fsdocs-authors}}">
+
+    <link rel="stylesheet" id="theme_link" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="{{root}}content/navbar-{{fsdocs-navbar-position}}.css" />
+    <link type="text/css" rel="stylesheet" href="{{root}}content/fsdocs-{{fsdocs-theme}}.css" />
+    <link type="text/css" rel="stylesheet" href="{{root}}content/fsdocs-custom.css" />
+    <script type="text/javascript" src="{{root}}content/fsdocs-tips.js"></script>
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+    <!-- END SEARCH BOX: this adds support for the search box -->
+    {{fsdocs-watch-script}}
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-secondary {{fsdocs-navbar-position}}" id="fsdocs-nav">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse navbar-nav-scroll" id="navbarsExampleDefault">
+            <a href="{{fsdocs-logo-link}}"><img id="fsdocs-logo" src="{{fsdocs-logo-src}}" /></a>
+            <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+            <div id="header">
+                <div class="searchbox" id="fsdocs-searchbox">
+                    <label for="search-by">
+                        <i class="fas fa-search"></i>
+                    </label>
+                    <input data-search-input="" id="search-by" type="search" placeholder="Search..." />
+                    <span data-search-clear="">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </div>
+            </div>
+            <!-- END SEARCH BOX: this adds support for the search box -->
+            <ul class="navbar-nav">
+                <li class="nav-header">Math.NET Numerics</li>
+                <li class="nav-item"><a class="nav-link" href="Packages.html">NuGet & Binaries</a></li>
+                <li class="nav-item"><a class="nav-link" href="ReleaseNotes.html">Release Notes</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/mathnet/mathnet-numerics/blob/master/LICENSE.md">MIT License</a></li>
+                <li class="nav-item"><a class="nav-link" href="Compatibility.html">Platform Support</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://numerics.mathdotnet.com/api/">Class Reference</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/mathnet/mathnet-numerics/issues">Issues & Bugs</a></li>
+                <li class="nav-item"><a class="nav-link" href="Users.html">Who is using Math.NET?</a></li>
+
+                <li class="nav-header">Contributing</li>
+                <li class="nav-item"><a class="nav-link" href="Contributors.html">Contributors</a></li>
+                <li class="nav-item"><a class="nav-link" href="Contributing.html">Contributing</a></li>
+                <li class="nav-item"><a class="nav-link" href="Build.html">Build & Tools</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://github.com/mathnet/mathnet-numerics/discussions/categories/ideas">Your Ideas</a></li>
+
+                <li class="nav-header">Getting Help</li>
+                <li class="nav-item"><a class="nav-link" href="https://discuss.mathdotnet.com/c/numerics">Discuss</a></li>
+                <li class="nav-item"><a class="nav-link" href="https://stackoverflow.com/questions/tagged/mathdotnet">Stack Overflow</a></li>
+
+                <li class="nav-header">Getting Started</li>
+                <l class="nav-item"i><a class="nav-link" href="/">Getting started</a></li>
+                <li class="nav-item"><a class="nav-link" href="Constants.html">Constants</a></li>
+                <li class="nav-item"><a class="nav-link" href="Matrix.html">Matrices and Vectors</a></li>
+                <li class="nav-item"><a class="nav-link" href="Euclid.html">Euclid & Number Theory</a></li>
+                <li class="nav-item">Combinatorics</li>
+
+                <li class="nav-header">Evaluation</li>
+                <li class="nav-item"><a class="nav-link" href="Functions.html">Special Functions</a></li>
+                <li class="nav-item"><a class="nav-link" href="Integration.html">Integration</a></li>
+
+                <li class="nav-header">Statistics/Probability</li>
+                <li class="nav-item"><a class="nav-link" href="DescriptiveStatistics.html">Descriptive Statistics</a></li>
+                <li class="nav-item"><a class="nav-link" href="Probability.html">Probability Distributions</a></li>
+
+                <li class="nav-header">Generation</li>
+                <li class="nav-item"><a class="nav-link" href="Generate.html">Generating Data</a></li>
+                <li class="nav-item"><a class="nav-link" href="Random.html">Random Numbers</a></li>
+
+                <li class="nav-header">Solving Equations</li>
+                <li class="nav-item"><a class="nav-link" href="LinearEquations.html">Linear Equation Systems</a></li>
+
+                <li class="nav-header">Optimization</li>
+                <li class="nav-item"><a class="nav-link" href="Distance.html">Distance Metrics</a></li>
+
+                <li class="nav-header">Curve Fitting</li>
+                <li class="nav-item"><a class="nav-link" href="Regression.html">Regression</a></li>
+
+                <li class="nav-header">Native Providers</li>
+                <li class="nav-item"><a class="nav-link" href="MKL.html">Intel MKL</a></li>
+
+                <li class="nav-header">Working Together</li>
+                <li class="nav-item"><a class="nav-link" href="CSV.html">Delimited Text Files (CSV)</a></li>
+                <li class="nav-item"><a class="nav-link" href="MatrixMarket.html">NIST MatrixMarket</a></li>
+                <li class="nav-item"><a class="nav-link" href="MatlabFiles.html">MATLAB</a></li>
+                <li class="nav-item"><a class="nav-link" href="IFSharpNotebook.html">IF# Notebook</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="masthead">
+            <h3 class="muted">
+                <a href="https://numerics.mathdotnet.com">Math.NET Numerics</a> | 
+                <a href="https://www.mathdotnet.com">Math.NET Project</a> | 
+                <a href="https://github.com/mathnet/mathnet-numerics">GitHub</a>
+            </h3>
+        </div>
+        <hr />
+        <div class="container" id="fsdocs-content">
+            {{fsdocs-content}}
+            {{fsdocs-tooltips}}
+        </div>
+        <!-- BEGIN SEARCH BOX: this adds support for the search box -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.css" />
+        <script type="text/javascript">var fsdocs_search_baseurl = '{{root}}';</script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.8/lunr.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/JavaScript-autoComplete/1.0.4/auto-complete.min.js"></script>
+        <script type="text/javascript" src="{{root}}content/fsdocs-search.js"></script>
+        <!-- END SEARCH BOX: this adds support for the search box -->
+    </div>
+</body>
+
+</html>

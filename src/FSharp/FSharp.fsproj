@@ -32,7 +32,6 @@ Lots of internal cleanup, leveraging newer language features
 Data: now released always together with Numerics (no longer separate versioning)
 Control.Describe now includes CPU architecture and family identifier if know</PackageReleaseNotes>
         <PackageTags>fsharp F# math numeric statistics probability integration interpolation regression solve fit linear algebra matrix fft</PackageTags>
-        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>

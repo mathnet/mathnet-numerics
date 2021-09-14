@@ -1,18 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime.InteropServices;
-
-[assembly: AssemblyTitle("Math.NET Numerics Test Data")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Math.NET Project")]
-[assembly: AssemblyProduct("Math.NET Numerics")]
-[assembly: AssemblyCopyright("Copyright (c) Math.NET Project")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+﻿using System.Runtime.InteropServices;
 
 [assembly: ComVisible(false)]
-
 [assembly: Guid("a4a6a08e-5265-4608-a43d-e4f2e210ba2d")]
-
-[assembly: AssemblyVersion("5.0.0.0")]
-[assembly: AssemblyFileVersion("5.0.0.0")]
