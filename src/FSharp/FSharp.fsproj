@@ -60,7 +60,7 @@ Control.Describe now includes CPU architecture and family identifier if know</Pa
         <Compile Include="Quaternion.fs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Update="FSharp.Core" Version="4.7.2" />
+        <PackageReference Update="FSharp.Core" Version="6.0.0" />
         <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
