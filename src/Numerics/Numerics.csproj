@@ -49,6 +49,6 @@ Control.Describe now includes CPU architecture and family identifier if know</Pa
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" Condition="'$(TargetFramework)' == 'net461'" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="'$(TargetFramework)' == 'net461'" />
   </ItemGroup>
 </Project>
