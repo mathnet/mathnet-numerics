@@ -396,7 +396,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
         /// </summary>
         public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseMatrix(new DenseColumnMajorMatrixStorage<Complex>(rows, columns, Generate.RandomComplex(rows*columns, distribution)));
+            return new DenseMatrix(new DenseColumnMajorMatrixStorage<Complex>(rows, columns, Generate.RandomComplex(rows*columns, distribution).ToArray()));
         }
 
         /// <summary>

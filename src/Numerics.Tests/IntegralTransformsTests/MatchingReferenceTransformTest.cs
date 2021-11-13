@@ -51,72 +51,72 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         }
 
         static void Verify(
-            Complex32[] samples,
+            Memory<Complex32> samples,
             int maximumErrorDecimalPlaces,
             FourierOptions options,
-            Action<Complex32[], FourierOptions> expected,
-            Action<Complex32[], FourierOptions> actual)
+            Action<Memory<Complex32>, FourierOptions> expected,
+            Action<Memory<Complex32>, FourierOptions> actual)
         {
             var spectrumExpected = new Complex32[samples.Length];
-            samples.CopyTo(spectrumExpected, 0);
+            samples.CopyTo(spectrumExpected);
             expected(spectrumExpected, options);
 
             var spectrumActual = new Complex32[samples.Length];
-            samples.CopyTo(spectrumActual, 0);
+            samples.CopyTo(spectrumActual);
             actual(spectrumActual, options);
 
             AssertHelpers.AlmostEqual(spectrumExpected, spectrumActual, maximumErrorDecimalPlaces);
         }
 
         static void Verify(
-            Complex[] samples,
+            Memory<Complex> samples,
             int maximumErrorDecimalPlaces,
             FourierOptions options,
-            Action<Complex[], FourierOptions> expected,
-            Action<Complex[], FourierOptions> actual)
+            Action<Memory<Complex>, FourierOptions> expected,
+            Action<Memory<Complex>, FourierOptions> actual)
         {
             var spectrumExpected = new Complex[samples.Length];
-            samples.CopyTo(spectrumExpected, 0);
+            samples.CopyTo(spectrumExpected);
             expected(spectrumExpected, options);
 
             var spectrumActual = new Complex[samples.Length];
-            samples.CopyTo(spectrumActual, 0);
+            samples.CopyTo(spectrumActual);
             actual(spectrumActual, options);
 
             AssertHelpers.AlmostEqual(spectrumExpected, spectrumActual, maximumErrorDecimalPlaces);
         }
 
         static void Verify(
-            Complex32[] samples,
+            Memory<Complex32> samples,
             int maximumErrorDecimalPlaces,
             FourierTransformScaling options,
-            Action<Complex32[], FourierTransformScaling> expected,
-            Action<Complex32[], FourierTransformScaling> actual)
+            Action<Memory<Complex32>, FourierTransformScaling> expected,
+            Action<Memory<Complex32>, FourierTransformScaling> actual)
         {
             var spectrumExpected = new Complex32[samples.Length];
-            samples.CopyTo(spectrumExpected, 0);
+            samples.CopyTo(spectrumExpected);
             expected(spectrumExpected, options);
 
             var spectrumActual = new Complex32[samples.Length];
-            samples.CopyTo(spectrumActual, 0);
+            samples.CopyTo(spectrumActual);
             actual(spectrumActual, options);
 
             AssertHelpers.AlmostEqual(spectrumExpected, spectrumActual, maximumErrorDecimalPlaces);
         }
 
         static void Verify(
-            Complex[] samples,
+            Memory<Complex> samples,
             int maximumErrorDecimalPlaces,
             FourierTransformScaling options,
-            Action<Complex[], FourierTransformScaling> expected,
-            Action<Complex[], FourierTransformScaling> actual)
+            Action<Memory<Complex>, FourierTransformScaling> expected,
+            Action<Memory<Complex>, FourierTransformScaling> actual)
         {
             var spectrumExpected = new Complex[samples.Length];
-            samples.CopyTo(spectrumExpected, 0);
+            samples.CopyTo(spectrumExpected);
             expected(spectrumExpected, options);
 
             var spectrumActual = new Complex[samples.Length];
-            samples.CopyTo(spectrumActual, 0);
+            samples.CopyTo(spectrumActual);
             actual(spectrumActual, options);
 
             AssertHelpers.AlmostEqual(spectrumExpected, spectrumActual, maximumErrorDecimalPlaces);

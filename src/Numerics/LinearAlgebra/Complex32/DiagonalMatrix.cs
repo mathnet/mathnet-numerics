@@ -190,7 +190,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static DiagonalMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DiagonalMatrix(new DiagonalMatrixStorage<Complex32>(rows, columns, Generate.RandomComplex32(Math.Min(rows, columns), distribution)));
+            return new DiagonalMatrix(new DiagonalMatrixStorage<Complex32>(rows, columns, Generate.RandomComplex32(Math.Min(rows, columns), distribution).ToArray()));
         }
 
         /// <summary>

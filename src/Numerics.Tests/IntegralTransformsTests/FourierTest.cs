@@ -43,7 +43,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void ReferenceDftTransformsRealSineCorrectly32()
         {
-            var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+            var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2).ToArray();
 
             // real-odd transforms to imaginary odd
             ReferenceDiscreteFourierTransform.Forward(samples, FourierOptions.Matlab);
@@ -75,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void ReferenceDftTransformsRealSineCorrectly64()
         {
-            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2).ToArray();
 
             // real-odd transforms to imaginary odd
             ReferenceDiscreteFourierTransform.Forward(samples, FourierOptions.Matlab);
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void FourierDefaultTransformsRealSineCorrectly32()
         {
-            var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+            var samples = Generate.PeriodicMap(16, w => new Complex32((float)Math.Sin(w), 0), 16, 1.0, Constants.Pi2).ToArray();
 
             // real-odd transforms to imaginary odd
             Fourier.Forward(samples, FourierOptions.Matlab);
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [Test]
         public void FourierDefaultTransformsRealSineCorrectly64()
         {
-            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2).ToArray();
 
             // real-odd transforms to imaginary odd
             Fourier.Forward(samples, FourierOptions.Matlab);

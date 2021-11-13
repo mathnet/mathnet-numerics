@@ -164,7 +164,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static DenseVector CreateRandom(int length, IContinuousDistribution distribution)
         {
-            var samples = Generate.RandomComplex32(length, distribution);
+            var samples = Generate.RandomComplex32(length, distribution).ToArray();
             return new DenseVector(new DenseVectorStorage<Complex32>(length, samples));
         }
 

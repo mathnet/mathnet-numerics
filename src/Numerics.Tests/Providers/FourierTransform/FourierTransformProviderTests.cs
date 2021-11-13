@@ -45,7 +45,7 @@ namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
         [Test]
         public void ProviderSurvivesFreeResources()
         {
-            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2).ToArray();
 
             var spectrum1 = new Complex[samples.Length];
             samples.Copy(spectrum1);
@@ -66,7 +66,7 @@ namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
         [Test]
         public void ForwardInplaceRealSine()
         {
-            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2);
+            var samples = Generate.PeriodicMap(16, w => new Complex(Math.Sin(w), 0), 16, 1.0, Constants.Pi2).ToArray();
             var spectrum = new Complex[samples.Length];
 
             // real-odd transforms to imaginary odd
@@ -101,7 +101,7 @@ namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
         [TestCase(0x7FF)]
         public void ForwardInplaceParsevalTheorem(int count)
         {
-            var samples = Generate.RandomComplex(count, GetUniform(1));
+            var samples = Generate.RandomComplex(count, GetUniform(1)).ToArray();
             var timeSpaceEnergy = Generate.Map(samples, s => s.MagnitudeSquared()).Mean();
 
             FourierTransformControl.Provider.Forward(samples, FourierTransformScaling.SymmetricScaling);
@@ -114,6 +114,5 @@ namespace MathNet.Numerics.UnitTests.Providers.FourierTransform
         {
             return new ContinuousUniform(-1, 1, new System.Random(seed));
         }
-
     }
 }
