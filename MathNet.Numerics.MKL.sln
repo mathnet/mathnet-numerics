@@ -38,9 +38,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{9275D8F1-8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{97C9717A-68C7-4C86-B30E-E4FC54C43A13}"
 	ProjectSection(SolutionItems) = preProject
-		build\build-framework.fsx = build\build-framework.fsx
 		build.fsx = build.fsx
-		src\Directory.Build.props = src\Directory.Build.props
+		Directory.Build.props = Directory.Build.props
 		build\MathNet.Numerics.MKL.Linux-x64.nuspec = build\MathNet.Numerics.MKL.Linux-x64.nuspec
 		build\MathNet.Numerics.MKL.Linux-x86.nuspec = build\MathNet.Numerics.MKL.Linux-x86.nuspec
 		build\MathNet.Numerics.MKL.Linux.nuspec = build\MathNet.Numerics.MKL.Linux.nuspec
