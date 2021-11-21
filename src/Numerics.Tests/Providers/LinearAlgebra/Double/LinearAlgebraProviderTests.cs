@@ -75,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.Providers.LinearAlgebra.Double
         [Test]
         public void ProviderSurvivesFreeResources()
         {
-            var samples = Generate.PeriodicMap(16, w => Math.Sin(w), 16, 1.0, Constants.Pi2);
+            var samples = Generate.PeriodicMap(16, w => Math.Sin(w), 16, 1.0, Constants.Pi2).ToArray();
 
             var result1 = new double[samples.Length];
             LinearAlgebraControl.Provider.ScaleArray(2.5, samples, result1);

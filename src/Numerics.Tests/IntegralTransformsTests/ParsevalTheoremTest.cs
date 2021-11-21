@@ -58,7 +58,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(0x7FF)]
         public void ReferenceDftSatisfiesParsevalsTheorem32(int count)
         {
-            var samples = Generate.RandomComplex32(count, GetUniform(1));
+            var samples = Generate.RandomComplex32(count, GetUniform(1)).ToArray();
             var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
             var spectrum = new Complex32[samples.Length];
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(0x7FF)]
         public void ReferenceDftSatisfiesParsevalsTheorem64(int count)
         {
-            var samples = Generate.RandomComplex(count, GetUniform(1));
+            var samples = Generate.RandomComplex(count, GetUniform(1)).ToArray();
             var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
             var spectrum = new Complex[samples.Length];
@@ -96,7 +96,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(0x7FF)]
         public void FourierDefaultTransformSatisfiesParsevalsTheorem32(int count)
         {
-            var samples = Generate.RandomComplex32(count, GetUniform(1));
+            var samples = Generate.RandomComplex32(count, GetUniform(1)).ToArray();
             var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
             var spectrum = new Complex32[samples.Length];
@@ -115,7 +115,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(0x7FF)]
         public void FourierDefaultTransformSatisfiesParsevalsTheorem64(int count)
         {
-            var samples = Generate.RandomComplex(count, GetUniform(1));
+            var samples = Generate.RandomComplex(count, GetUniform(1)).ToArray();
             var timeSpaceEnergy = (from s in samples select s.MagnitudeSquared()).Mean();
 
             var spectrum = new Complex[samples.Length];

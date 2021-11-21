@@ -396,7 +396,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
         /// </summary>
         public static DenseMatrix CreateRandom(int rows, int columns, IContinuousDistribution distribution)
         {
-            return new DenseMatrix(new DenseColumnMajorMatrixStorage<Complex32>(rows, columns, Generate.RandomComplex32(rows*columns, distribution)));
+            return new DenseMatrix(new DenseColumnMajorMatrixStorage<Complex32>(rows, columns, Generate.RandomComplex32(rows*columns, distribution).ToArray()));
         }
 
         /// <summary>

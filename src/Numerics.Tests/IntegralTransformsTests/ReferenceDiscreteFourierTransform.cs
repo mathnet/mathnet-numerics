@@ -10,7 +10,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Naive forward DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        public static void Forward(Complex32[] samples, FourierOptions options = FourierOptions.Default)
+        public static void Forward(Memory<Complex32> samples, FourierOptions options = FourierOptions.Default)
         {
             Naive(samples, SignByOptions(options));
             ForwardScaleByOptions(options, samples);
@@ -19,7 +19,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Naive forward DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        public static void Forward(Complex[] samples, FourierOptions options = FourierOptions.Default)
+        public static void Forward(Memory<Complex> samples, FourierOptions options = FourierOptions.Default)
         {
             Naive(samples, SignByOptions(options));
             ForwardScaleByOptions(options, samples);
@@ -28,7 +28,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Naive inverse DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        public static void Inverse(Complex32[] spectrum, FourierOptions options = FourierOptions.Default)
+        public static void Inverse(Memory<Complex32> spectrum, FourierOptions options = FourierOptions.Default)
         {
             Naive(spectrum, -SignByOptions(options));
             InverseScaleByOptions(options, spectrum);
@@ -37,7 +37,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <summary>
         /// Naive inverse DFT, useful e.g. to verify faster algorithms.
         /// </summary>
-        public static void Inverse(Complex[] spectrum, FourierOptions options = FourierOptions.Default)
+        public static void Inverse(Memory<Complex> spectrum, FourierOptions options = FourierOptions.Default)
         {
             Naive(spectrum, -SignByOptions(options));
             InverseScaleByOptions(options, spectrum);
@@ -49,10 +49,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="samples">Time-space sample vector.</param>
         /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
-        static void Naive(Complex32[] samples, int exponentSign)
+        static void Naive(Memory<Complex32> samples, int exponentSign)
         {
             var w0 = exponentSign * Constants.Pi2 / samples.Length;
-            var spectrum = new Complex32[samples.Length];
+            Memory<Complex32> spectrum = new Complex32[samples.Length];
 
             CommonParallel.For(0, samples.Length, (u, v) =>
             {
@@ -63,14 +63,14 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                     for (var n = 0; n < samples.Length; n++)
                     {
                         var w = n * wk;
-                        sum += samples[n] * new Complex32((float)Math.Cos(w), (float)Math.Sin(w));
+                        sum += samples.Span[n] * new Complex32((float)Math.Cos(w), (float)Math.Sin(w));
                     }
 
-                    spectrum[i] = sum;
+                    spectrum.Span[i] = sum;
                 }
             });
 
-            spectrum.Copy(samples);
+            spectrum.CopyTo(samples);
         }
 
         /// <summary>
@@ -79,10 +79,10 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// <param name="samples">Time-space sample vector.</param>
         /// <param name="exponentSign">Fourier series exponent sign.</param>
         /// <returns>Corresponding frequency-space vector.</returns>
-        static void Naive(Complex[] samples, int exponentSign)
+        static void Naive(Memory<Complex> samples, int exponentSign)
         {
             var w0 = exponentSign * Constants.Pi2 / samples.Length;
-            var spectrum = new Complex[samples.Length];
+            Memory<Complex> spectrum = new Complex[samples.Length];
 
             CommonParallel.For(0, samples.Length, (u, v) =>
             {
@@ -93,14 +93,14 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
                     for (var n = 0; n < samples.Length; n++)
                     {
                         var w = n * wk;
-                        sum += samples[n] * new Complex(Math.Cos(w), Math.Sin(w));
+                        sum += samples.Span[n] * new Complex(Math.Cos(w), Math.Sin(w));
                     }
 
-                    spectrum[i] = sum;
+                    spectrum.Span[i] = sum;
                 }
             });
 
-            spectrum.Copy(samples);
+            spectrum.CopyTo(samples);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        static void ForwardScaleByOptions(FourierOptions options, Complex32[] samples)
+        static void ForwardScaleByOptions(FourierOptions options, Memory<Complex32> samples)
         {
             if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling ||
                 (options & FourierOptions.AsymmetricScaling) == FourierOptions.AsymmetricScaling)
@@ -130,7 +130,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var scalingFactor = (float)Math.Sqrt(1.0 / samples.Length);
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] *= scalingFactor;
+                samples.Span[i] *= scalingFactor;
             }
         }
 
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        static void ForwardScaleByOptions(FourierOptions options, Complex[] samples)
+        static void ForwardScaleByOptions(FourierOptions options, Memory<Complex> samples)
         {
             if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling ||
                 (options & FourierOptions.AsymmetricScaling) == FourierOptions.AsymmetricScaling)
@@ -150,7 +150,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
             var scalingFactor = Math.Sqrt(1.0 / samples.Length);
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] *= scalingFactor;
+                samples.Span[i] *= scalingFactor;
             }
         }
 
@@ -159,7 +159,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        static void InverseScaleByOptions(FourierOptions options, Complex32[] samples)
+        static void InverseScaleByOptions(FourierOptions options, Memory<Complex32> samples)
         {
             if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling)
             {
@@ -174,7 +174,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] *= scalingFactor;
+                samples.Span[i] *= scalingFactor;
             }
         }
 
@@ -183,7 +183,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         /// </summary>
         /// <param name="options">Fourier Transform Convention Options.</param>
         /// <param name="samples">Sample Vector.</param>
-        static void InverseScaleByOptions(FourierOptions options, Complex[] samples)
+        static void InverseScaleByOptions(FourierOptions options, Memory<Complex> samples)
         {
             if ((options & FourierOptions.NoScaling) == FourierOptions.NoScaling)
             {
@@ -198,7 +198,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
 
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] *= scalingFactor;
+                samples.Span[i] *= scalingFactor;
             }
         }
     }

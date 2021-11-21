@@ -44,7 +44,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
-        public static void Forward(Complex32[] samples)
+        public static void Forward(Memory<Complex32> samples)
         {
             FourierTransformControl.Provider.Forward(samples, FourierTransformScaling.SymmetricScaling);
         }
@@ -53,7 +53,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// Applies the forward Fast Fourier Transform (FFT) to arbitrary-length sample vectors.
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
-        public static void Forward(Complex[] samples)
+        public static void Forward(Memory<Complex> samples)
         {
             FourierTransformControl.Provider.Forward(samples, FourierTransformScaling.SymmetricScaling);
         }
@@ -63,7 +63,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Forward(Complex32[] samples, FourierOptions options)
+        public static void Forward(Memory<Complex32> samples, FourierOptions options)
         {
             switch (options)
             {
@@ -89,7 +89,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="samples">Sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Forward(Complex[] samples, FourierOptions options)
+        public static void Forward(Memory<Complex> samples, FourierOptions options)
         {
             switch (options)
             {
@@ -116,7 +116,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="real">Real part of the sample vector, where the FFT is evaluated in place.</param>
         /// <param name="imaginary">Imaginary part of the sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Forward(float[] real, float[] imaginary, FourierOptions options = FourierOptions.Default)
+        public static void Forward(Span<float> real, Span<float> imaginary, FourierOptions options = FourierOptions.Default)
         {
             if (real.Length != imaginary.Length)
             {
@@ -147,7 +147,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="real">Real part of the sample vector, where the FFT is evaluated in place.</param>
         /// <param name="imaginary">Imaginary part of the sample vector, where the FFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Forward(double[] real, double[] imaginary, FourierOptions options = FourierOptions.Default)
+        public static void Forward(Span<double> real, Span<double> imaginary, FourierOptions options = FourierOptions.Default)
         {
             if (real.Length != imaginary.Length)
             {
@@ -181,7 +181,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="data">Data array of length N+2 (if N is even) or N+1 (if N is odd).</param>
         /// <param name="n">The number of samples.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void ForwardReal(float[] data, int n, FourierOptions options = FourierOptions.Default)
+        public static void ForwardReal(Span<float> data, int n, FourierOptions options = FourierOptions.Default)
         {
             int length = n.IsEven() ? n + 2 : n + 1;
             if (data.Length < length)
@@ -215,7 +215,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="data">Data array of length N+2 (if N is even) or N+1 (if N is odd).</param>
         /// <param name="n">The number of samples.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void ForwardReal(double[] data, int n, FourierOptions options = FourierOptions.Default)
+        public static void ForwardReal(Span<double> data, int n, FourierOptions options = FourierOptions.Default)
         {
             int length = n.IsEven() ? n + 2 : n + 1;
             if (data.Length < length)
@@ -249,7 +249,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row.
         /// </param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void ForwardMultiDim(Complex32[] samples, int[] dimensions, FourierOptions options = FourierOptions.Default)
+        public static void ForwardMultiDim(Span<Complex32> samples, Span<int> dimensions, FourierOptions options = FourierOptions.Default)
         {
             switch (options)
             {
@@ -279,7 +279,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row.
         /// </param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void ForwardMultiDim(Complex[] samples, int[] dimensions, FourierOptions options = FourierOptions.Default)
+        public static void ForwardMultiDim(Span<Complex> samples, Span<int> dimensions, FourierOptions options = FourierOptions.Default)
         {
             switch (options)
             {
@@ -308,7 +308,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="columns">The number of columns.</param>
         /// <remarks>Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments.</remarks>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Forward2D(Complex32[] samplesRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
+        public static void Forward2D(Span<Complex32> samplesRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
         {
             ForwardMultiDim(samplesRowWise, new[] { rows, columns }, options);
         }
@@ -321,7 +321,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="columns">The number of columns.</param>
         /// <remarks>Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments.</remarks>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Forward2D(Complex[] samplesRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
+        public static void Forward2D(Span<Complex> samplesRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
         {
             ForwardMultiDim(samplesRowWise, new[] { rows, columns }, options);
         }
@@ -386,7 +386,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
         /// </summary>
         /// <param name="spectrum">Spectrum data, where the iFFT is evaluated in place.</param>
-        public static void Inverse(Complex32[] spectrum)
+        public static void Inverse(Memory<Complex32> spectrum)
         {
             FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
         }
@@ -395,7 +395,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// Applies the inverse Fast Fourier Transform (iFFT) to arbitrary-length sample vectors.
         /// </summary>
         /// <param name="spectrum">Spectrum data, where the iFFT is evaluated in place.</param>
-        public static void Inverse(Complex[] spectrum)
+        public static void Inverse(Memory<Complex> spectrum)
         {
             FourierTransformControl.Provider.Backward(spectrum, FourierTransformScaling.SymmetricScaling);
         }
@@ -405,7 +405,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="spectrum">Spectrum data, where the iFFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Inverse(Complex32[] spectrum, FourierOptions options)
+        public static void Inverse(Memory<Complex32> spectrum, FourierOptions options)
         {
             switch (options)
             {
@@ -435,7 +435,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="spectrum">Spectrum data, where the iFFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Inverse(Complex[] spectrum, FourierOptions options)
+        public static void Inverse(Memory<Complex> spectrum, FourierOptions options)
         {
             switch (options)
             {
@@ -466,7 +466,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="real">Real part of the sample vector, where the iFFT is evaluated in place.</param>
         /// <param name="imaginary">Imaginary part of the sample vector, where the iFFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Inverse(float[] real, float[] imaginary, FourierOptions options = FourierOptions.Default)
+        public static void Inverse(Memory<float> real, Memory<float> imaginary, FourierOptions options = FourierOptions.Default)
         {
             if (real.Length != imaginary.Length)
             {
@@ -479,15 +479,15 @@ namespace MathNet.Numerics.IntegralTransforms
             Complex32[] data = new Complex32[real.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                data[i] = new Complex32(real[i], imaginary[i]);
+                data[i] = new Complex32(real.Span[i], imaginary.Span[i]);
             }
 
             Inverse(data, options);
 
             for (int i = 0; i < data.Length; i++)
             {
-                real[i] = data[i].Real;
-                imaginary[i] = data[i].Imaginary;
+                real.Span[i] = data[i].Real;
+                imaginary.Span[i] = data[i].Imaginary;
             }
         }
 
@@ -497,7 +497,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="real">Real part of the sample vector, where the iFFT is evaluated in place.</param>
         /// <param name="imaginary">Imaginary part of the sample vector, where the iFFT is evaluated in place.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Inverse(double[] real, double[] imaginary, FourierOptions options = FourierOptions.Default)
+        public static void Inverse(Memory<double> real, Memory<double> imaginary, FourierOptions options = FourierOptions.Default)
         {
             if (real.Length != imaginary.Length)
             {
@@ -510,15 +510,15 @@ namespace MathNet.Numerics.IntegralTransforms
             Complex[] data = new Complex[real.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                data[i] = new Complex(real[i], imaginary[i]);
+                data[i] = new Complex(real.Span[i], imaginary.Span[i]);
             }
 
             Inverse(data, options);
 
             for (int i = 0; i < data.Length; i++)
             {
-                real[i] = data[i].Real;
-                imaginary[i] = data[i].Imaginary;
+                real.Span[i] = data[i].Real;
+                imaginary.Span[i] = data[i].Imaginary;
             }
         }
 
@@ -531,7 +531,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="data">Data array of length N+2 (if N is even) or N+1 (if N is odd).</param>
         /// <param name="n">The number of samples.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void InverseReal(float[] data, int n, FourierOptions options = FourierOptions.Default)
+        public static void InverseReal(Memory<float> data, int n, FourierOptions options = FourierOptions.Default)
         {
             int length = n.IsEven() ? n + 2 : n + 1;
             if (data.Length < length)
@@ -547,13 +547,13 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.BackwardReal(data.Span, n, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.BackwardScaling);
+                    FourierTransformControl.Provider.BackwardReal(data.Span, n, FourierTransformScaling.BackwardScaling);
                     break;
                 default:
-                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.BackwardReal(data.Span, n, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -567,7 +567,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="data">Data array of length N+2 (if N is even) or N+1 (if N is odd).</param>
         /// <param name="n">The number of samples.</param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void InverseReal(double[] data, int n, FourierOptions options = FourierOptions.Default)
+        public static void InverseReal(Memory<double> data, int n, FourierOptions options = FourierOptions.Default)
         {
             int length = n.IsEven() ? n + 2 : n + 1;
             if (data.Length < length)
@@ -583,13 +583,13 @@ namespace MathNet.Numerics.IntegralTransforms
             switch (options)
             {
                 case FourierOptions.NoScaling:
-                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.NoScaling);
+                    FourierTransformControl.Provider.BackwardReal(data.Span, n, FourierTransformScaling.NoScaling);
                     break;
                 case FourierOptions.AsymmetricScaling:
-                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.BackwardScaling);
+                    FourierTransformControl.Provider.BackwardReal(data.Span, n, FourierTransformScaling.BackwardScaling);
                     break;
                 default:
-                    FourierTransformControl.Provider.BackwardReal(data, n, FourierTransformScaling.SymmetricScaling);
+                    FourierTransformControl.Provider.BackwardReal(data.Span, n, FourierTransformScaling.SymmetricScaling);
                     break;
             }
         }
@@ -603,7 +603,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row.
         /// </param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void InverseMultiDim(Complex32[] spectrum, int[] dimensions, FourierOptions options = FourierOptions.Default)
+        public static void InverseMultiDim(Span<Complex32> spectrum, Span<int> dimensions, FourierOptions options = FourierOptions.Default)
         {
             switch (options)
             {
@@ -637,7 +637,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// For example, with two dimensions "rows" and "columns" the samples are assumed to be organized row by row.
         /// </param>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void InverseMultiDim(Complex[] spectrum, int[] dimensions, FourierOptions options = FourierOptions.Default)
+        public static void InverseMultiDim(Span<Complex> spectrum, Span<int> dimensions, FourierOptions options = FourierOptions.Default)
         {
             switch (options)
             {
@@ -670,7 +670,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="columns">The number of columns.</param>
         /// <remarks>Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments.</remarks>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Inverse2D(Complex32[] spectrumRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
+        public static void Inverse2D(Span<Complex32> spectrumRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
         {
             InverseMultiDim(spectrumRowWise, new[] { rows, columns }, options);
         }
@@ -683,7 +683,7 @@ namespace MathNet.Numerics.IntegralTransforms
         /// <param name="columns">The number of columns.</param>
         /// <remarks>Data available organized column by column instead of row by row can be processed directly by swapping the rows and columns arguments.</remarks>
         /// <param name="options">Fourier Transform Convention Options.</param>
-        public static void Inverse2D(Complex[] spectrumRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
+        public static void Inverse2D(Span<Complex> spectrumRowWise, int rows, int columns, FourierOptions options = FourierOptions.Default)
         {
             InverseMultiDim(spectrumRowWise, new[] { rows, columns }, options);
         }
@@ -753,9 +753,9 @@ namespace MathNet.Numerics.IntegralTransforms
         /// </summary>
         /// <param name="length">Number of samples.</param>
         /// <param name="sampleRate">The sampling rate of the time-space data.</param>
-        public static double[] FrequencyScale(int length, double sampleRate)
+        public static Span<double> FrequencyScale(int length, double sampleRate)
         {
-            double[] scale = new double[length];
+            Span<double> scale = new double[length];
             double f = 0, step = sampleRate / length;
             int secondHalf = (length >> 1) + 1;
             for (int i = 0; i < secondHalf; i++)

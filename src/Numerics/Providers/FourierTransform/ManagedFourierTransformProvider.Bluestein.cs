@@ -45,7 +45,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         /// <param name="n">Number of samples.</param>
         /// <returns>Bluestein sequence exp(I*Pi*k^2/N)</returns>
-        static Complex32[] BluesteinSequence32(int n)
+        static Memory<Complex32> BluesteinSequence32(int n)
         {
             double s = Constants.Pi / n;
             var sequence = new Complex32[n];
@@ -77,7 +77,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         /// <param name="n">Number of samples.</param>
         /// <returns>Bluestein sequence exp(I*Pi*k^2/N)</returns>
-        static Complex[] BluesteinSequence(int n)
+        static Memory<Complex> BluesteinSequence(int n)
         {
             double s = Constants.Pi / n;
             var sequence = new Complex[n];
@@ -108,10 +108,10 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Convolution with the bluestein sequence (Parallel Version).
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        static void BluesteinConvolutionParallel(Complex32[] samples)
+        static void BluesteinConvolutionParallel(Memory<Complex32> samples)
         {
             int n = samples.Length;
-            Complex32[] sequence = BluesteinSequence32(n);
+            Memory<Complex32> sequence = BluesteinSequence32(n);
 
             // Padding to power of two >= 2N–1 so we can apply Radix-2 FFT.
             int m = ((n << 1) - 1).CeilingToPowerOfTwo();
@@ -124,12 +124,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
                     // Build and transform padded sequence b_k = exp(I*Pi*k^2/N)
                     for (int i = 0; i < n; i++)
                     {
-                        b[i] = sequence[i];
+                        b[i] = sequence.Span[i];
                     }
 
                     for (int i = m - n + 1; i < b.Length; i++)
                     {
-                        b[i] = sequence[m - i];
+                        b[i] = sequence.Span[m - i];
                     }
 
                     Radix2Forward(b);
@@ -139,7 +139,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                     // Build and transform padded sequence a_k = x_k * exp(-I*Pi*k^2/N)
                     for (int i = 0; i < samples.Length; i++)
                     {
-                        a[i] = sequence[i].Conjugate() * samples[i];
+                        a[i] = sequence.Span[i].Conjugate() * samples.Span[i];
                     }
 
                     Radix2Forward(a);
@@ -155,7 +155,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
             var nbinv = 1.0f / m;
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] = nbinv * sequence[i].Conjugate() * a[i];
+                samples.Span[i] = nbinv * sequence.Span[i].Conjugate() * a[i];
             }
         }
 
@@ -163,10 +163,10 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Convolution with the bluestein sequence (Parallel Version).
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        static void BluesteinConvolutionParallel(Complex[] samples)
+        static void BluesteinConvolutionParallel(Memory<Complex> samples)
         {
             int n = samples.Length;
-            Complex[] sequence = BluesteinSequence(n);
+            Memory<Complex> sequence = BluesteinSequence(n);
 
             // Padding to power of two >= 2N–1 so we can apply Radix-2 FFT.
             int m = ((n << 1) - 1).CeilingToPowerOfTwo();
@@ -179,12 +179,12 @@ namespace MathNet.Numerics.Providers.FourierTransform
                     // Build and transform padded sequence b_k = exp(I*Pi*k^2/N)
                     for (int i = 0; i < n; i++)
                     {
-                        b[i] = sequence[i];
+                        b[i] = sequence.Span[i];
                     }
 
                     for (int i = m - n + 1; i < b.Length; i++)
                     {
-                        b[i] = sequence[m - i];
+                        b[i] = sequence.Span[m - i];
                     }
 
                     Radix2Forward(b);
@@ -194,7 +194,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                     // Build and transform padded sequence a_k = x_k * exp(-I*Pi*k^2/N)
                     for (int i = 0; i < samples.Length; i++)
                     {
-                        a[i] = sequence[i].Conjugate() * samples[i];
+                        a[i] = sequence.Span[i].Conjugate() * samples.Span[i];
                     }
 
                     Radix2Forward(a);
@@ -210,7 +210,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
             var nbinv = 1.0 / m;
             for (int i = 0; i < samples.Length; i++)
             {
-                samples[i] = nbinv * sequence[i].Conjugate() * a[i];
+                samples.Span[i] = nbinv * sequence.Span[i].Conjugate() * a[i];
             }
         }
 
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Swap the real and imaginary parts of each sample.
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        static void SwapRealImaginary(Complex32[] samples)
+        static void SwapRealImaginary(Span<Complex32> samples)
         {
             for (int i = 0; i < samples.Length; i++)
             {
@@ -230,7 +230,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// Swap the real and imaginary parts of each sample.
         /// </summary>
         /// <param name="samples">Sample Vector.</param>
-        static void SwapRealImaginary(Complex[] samples)
+        static void SwapRealImaginary(Span<Complex> samples)
         {
             for (int i = 0; i < samples.Length; i++)
             {
@@ -241,7 +241,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        static void BluesteinForward(Complex[] samples)
+        static void BluesteinForward(Memory<Complex> samples)
         {
             BluesteinConvolutionParallel(samples);
         }
@@ -249,17 +249,17 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        static void BluesteinInverse(Complex[] spectrum)
+        static void BluesteinInverse(Memory<Complex> spectrum)
         {
-            SwapRealImaginary(spectrum);
+            SwapRealImaginary(spectrum.Span);
             BluesteinConvolutionParallel(spectrum);
-            SwapRealImaginary(spectrum);
+            SwapRealImaginary(spectrum.Span);
         }
 
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        static void BluesteinForward(Complex32[] samples)
+        static void BluesteinForward(Memory<Complex32> samples)
         {
             BluesteinConvolutionParallel(samples);
         }
@@ -267,11 +267,11 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// <summary>
         /// Bluestein generic FFT for arbitrary sized sample vectors.
         /// </summary>
-        static void BluesteinInverse(Complex32[] spectrum)
+        static void BluesteinInverse(Memory<Complex32> spectrum)
         {
-            SwapRealImaginary(spectrum);
+            SwapRealImaginary(spectrum.Span);
             BluesteinConvolutionParallel(spectrum);
-            SwapRealImaginary(spectrum);
+            SwapRealImaginary(spectrum.Span);
         }
     }
 }

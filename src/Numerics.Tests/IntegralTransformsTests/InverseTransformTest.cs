@@ -58,13 +58,13 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         {
             var samples = Generate.RandomComplex32(0x80, GetUniform(1));
             var work = new Complex32[samples.Length];
-            samples.CopyTo(work, 0);
+            samples.CopyTo(work);
 
             ReferenceDiscreteFourierTransform.Forward(work, options);
-            Assert.IsFalse(work.ListAlmostEqual(samples, 6));
+            Assert.IsFalse(work.ListAlmostEqual(samples.ToArray(), 6));
 
             ReferenceDiscreteFourierTransform.Inverse(work, options);
-            AssertHelpers.AlmostEqual(samples, work, 11);
+            AssertHelpers.AlmostEqual(samples.ToArray(), work, 11);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Matlab)]
         public void ReferenceDftIsReversible64(FourierOptions options)
         {
-            var samples = Generate.RandomComplex(0x80, GetUniform(1));
+            var samples = Generate.RandomComplex(0x80, GetUniform(1)).ToArray();
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -94,7 +94,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Matlab)]
         public void FourierRadix2IsReversible32(FourierOptions options)
         {
-            var samples = Generate.RandomComplex32(0x8000, GetUniform(1));
+            var samples = Generate.RandomComplex32(0x8000, GetUniform(1)).ToArray();
             var work = new Complex32[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -113,7 +113,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Matlab)]
         public void FourierRadix2IsReversible64(FourierOptions options)
         {
-            var samples = Generate.RandomComplex(0x8000, GetUniform(1));
+            var samples = Generate.RandomComplex(0x8000, GetUniform(1)).ToArray();
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -132,7 +132,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Matlab)]
         public void FourierBluesteinIsReversible32(FourierOptions options)
         {
-            var samples = Generate.RandomComplex32(0x7FFF, GetUniform(1));
+            var samples = Generate.RandomComplex32(0x7FFF, GetUniform(1)).ToArray();
             var work = new Complex32[samples.Length];
             samples.CopyTo(work, 0);
 
@@ -151,7 +151,7 @@ namespace MathNet.Numerics.UnitTests.IntegralTransformsTests
         [TestCase(FourierOptions.Matlab)]
         public void FourierBluesteinIsReversible64(FourierOptions options)
         {
-            var samples = Generate.RandomComplex(0x7FFF, GetUniform(1));
+            var samples = Generate.RandomComplex(0x7FFF, GetUniform(1)).ToArray();
             var work = new Complex[samples.Length];
             samples.CopyTo(work, 0);
 

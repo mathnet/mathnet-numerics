@@ -198,7 +198,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override Matrix<Complex> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return Dense(rows, columns, Generate.RandomComplex(rows*columns, distribution));
+            return Dense(rows, columns, Generate.RandomComplex(rows*columns, distribution).ToArray());
         }
 
         public override IIterationStopCriterion<Complex>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -236,7 +236,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex
 
         public override Vector<Complex> Random(int length, IContinuousDistribution distribution)
         {
-            return Dense(Generate.RandomComplex(length, distribution));
+            return Dense(Generate.RandomComplex(length, distribution).ToArray());
         }
     }
 }
@@ -266,7 +266,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override Matrix<Numerics.Complex32> Random(int rows, int columns, IContinuousDistribution distribution)
         {
-            return Dense(rows, columns, Generate.RandomComplex32(rows*columns, distribution));
+            return Dense(rows, columns, Generate.RandomComplex32(rows*columns, distribution).ToArray());
         }
 
         public override IIterationStopCriterion<Numerics.Complex32>[] IterativeSolverStopCriteria(int maxIterations = 1000)
@@ -304,7 +304,7 @@ namespace MathNet.Numerics.LinearAlgebra.Complex32
 
         public override Vector<Numerics.Complex32> Random(int length, IContinuousDistribution distribution)
         {
-            return Dense(Generate.RandomComplex32(length, distribution));
+            return Dense(Generate.RandomComplex32(length, distribution).ToArray());
         }
     }
 }

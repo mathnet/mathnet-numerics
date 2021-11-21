@@ -64,7 +64,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
             return "Managed";
         }
 
-        public void Forward(Complex32[] samples, FourierTransformScaling scaling)
+        public void Forward(Memory<Complex32> samples, FourierTransformScaling scaling)
         {
             if (samples.Length.IsPowerOfTwo())
             {
@@ -74,7 +74,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                 }
                 else
                 {
-                    Radix2Forward(samples);
+                    Radix2Forward(samples.Span);
                 }
             }
             else
@@ -86,18 +86,18 @@ namespace MathNet.Numerics.Providers.FourierTransform
             {
                 case FourierTransformScaling.SymmetricScaling:
                 {
-                    HalfRescale(samples);
+                    HalfRescale(samples.Span);
                     break;
                 }
                 case FourierTransformScaling.ForwardScaling:
                 {
-                    FullRescale(samples);
+                    FullRescale(samples.Span);
                     break;
                 }
             }
         }
 
-        public void Forward(Complex[] samples, FourierTransformScaling scaling)
+        public void Forward(Memory<Complex> samples, FourierTransformScaling scaling)
         {
             if (samples.Length.IsPowerOfTwo())
             {
@@ -107,7 +107,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                 }
                 else
                 {
-                    Radix2Forward(samples);
+                    Radix2Forward(samples.Span);
                 }
             }
             else
@@ -119,18 +119,18 @@ namespace MathNet.Numerics.Providers.FourierTransform
             {
                 case FourierTransformScaling.SymmetricScaling:
                 {
-                    HalfRescale(samples);
+                    HalfRescale(samples.Span);
                     break;
                 }
                 case FourierTransformScaling.ForwardScaling:
                 {
-                    FullRescale(samples);
+                    FullRescale(samples.Span);
                     break;
                 }
             }
         }
 
-        public void Backward(Complex32[] spectrum, FourierTransformScaling scaling)
+        public void Backward(Memory<Complex32> spectrum, FourierTransformScaling scaling)
         {
             if (spectrum.Length.IsPowerOfTwo())
             {
@@ -140,7 +140,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                 }
                 else
                 {
-                    Radix2Inverse(spectrum);
+                    Radix2Inverse(spectrum.Span);
                 }
             }
             else
@@ -152,18 +152,18 @@ namespace MathNet.Numerics.Providers.FourierTransform
             {
                 case FourierTransformScaling.SymmetricScaling:
                 {
-                    HalfRescale(spectrum);
+                    HalfRescale(spectrum.Span);
                     break;
                 }
                 case FourierTransformScaling.BackwardScaling:
                 {
-                    FullRescale(spectrum);
+                    FullRescale(spectrum.Span);
                     break;
                 }
             }
         }
 
-        public void Backward(Complex[] spectrum, FourierTransformScaling scaling)
+        public void Backward(Memory<Complex> spectrum, FourierTransformScaling scaling)
         {
             if (spectrum.Length.IsPowerOfTwo())
             {
@@ -173,7 +173,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
                 }
                 else
                 {
-                    Radix2Inverse(spectrum);
+                    Radix2Inverse(spectrum.Span);
                 }
             }
             else
@@ -185,18 +185,18 @@ namespace MathNet.Numerics.Providers.FourierTransform
             {
                 case FourierTransformScaling.SymmetricScaling:
                 {
-                    HalfRescale(spectrum);
+                    HalfRescale(spectrum.Span);
                     break;
                 }
                 case FourierTransformScaling.BackwardScaling:
                 {
-                    FullRescale(spectrum);
+                    FullRescale(spectrum.Span);
                     break;
                 }
             }
         }
 
-        public void ForwardReal(float[] samples, int n, FourierTransformScaling scaling)
+        public void ForwardReal(Span<float> samples, int n, FourierTransformScaling scaling)
         {
             // TODO: backport proper, optimized implementation from Iridium
 
@@ -227,7 +227,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
             }
         }
 
-        public void ForwardReal(double[] samples, int n, FourierTransformScaling scaling)
+        public void ForwardReal(Span<double> samples, int n, FourierTransformScaling scaling)
         {
             // TODO: backport proper, optimized implementation from Iridium
 
@@ -258,7 +258,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
             }
         }
 
-        public void BackwardReal(float[] spectrum, int n, FourierTransformScaling scaling)
+        public void BackwardReal(Span<float> spectrum, int n, FourierTransformScaling scaling)
         {
             // TODO: backport proper, optimized implementation from Iridium
 
@@ -288,7 +288,7 @@ namespace MathNet.Numerics.Providers.FourierTransform
             spectrum[n] = 0f;
         }
 
-        public void BackwardReal(double[] spectrum, int n, FourierTransformScaling scaling)
+        public void BackwardReal(Span<double> spectrum, int n, FourierTransformScaling scaling)
         {
             // TODO: backport proper, optimized implementation from Iridium
 
@@ -318,22 +318,22 @@ namespace MathNet.Numerics.Providers.FourierTransform
             spectrum[n] = 0d;
         }
 
-        public void ForwardMultidim(Complex32[] samples, int[] dimensions, FourierTransformScaling scaling)
+        public void ForwardMultidim(Span<Complex32> samples, Span<int> dimensions, FourierTransformScaling scaling)
         {
             throw new NotSupportedException();
         }
 
-        public void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling)
+        public void ForwardMultidim(Span<Complex> samples, Span<int> dimensions, FourierTransformScaling scaling)
         {
             throw new NotSupportedException();
         }
 
-        public void BackwardMultidim(Complex32[] spectrum, int[] dimensions, FourierTransformScaling scaling)
+        public void BackwardMultidim(Span<Complex32> spectrum, Span<int> dimensions, FourierTransformScaling scaling)
         {
             throw new NotSupportedException();
         }
 
-        public void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling)
+        public void BackwardMultidim(Span<Complex> spectrum, Span<int> dimensions, FourierTransformScaling scaling)
         {
             throw new NotSupportedException();
         }

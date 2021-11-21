@@ -27,6 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
+using System;
 using Complex = System.Numerics.Complex;
 
 namespace MathNet.Numerics.Providers.FourierTransform
@@ -58,19 +59,19 @@ namespace MathNet.Numerics.Providers.FourierTransform
         /// </summary>
         void FreeResources();
 
-        void Forward(Complex32[] samples, FourierTransformScaling scaling);
-        void Forward(Complex[] samples, FourierTransformScaling scaling);
-        void Backward(Complex32[] spectrum, FourierTransformScaling scaling);
-        void Backward(Complex[] spectrum, FourierTransformScaling scaling);
+        void Forward(Memory<Complex32> samples, FourierTransformScaling scaling);
+        void Forward(Memory<Complex> samples, FourierTransformScaling scaling);
+        void Backward(Memory<Complex32> spectrum, FourierTransformScaling scaling);
+        void Backward(Memory<Complex> spectrum, FourierTransformScaling scaling);
 
-        void ForwardReal(float[] samples, int n, FourierTransformScaling scaling);
-        void ForwardReal(double[] samples, int n, FourierTransformScaling scaling);
-        void BackwardReal(float[] spectrum, int n, FourierTransformScaling scaling);
-        void BackwardReal(double[] spectrum, int n, FourierTransformScaling scaling);
+        void ForwardReal(Span<float> samples, int n, FourierTransformScaling scaling);
+        void ForwardReal(Span<double> samples, int n, FourierTransformScaling scaling);
+        void BackwardReal(Span<float> spectrum, int n, FourierTransformScaling scaling);
+        void BackwardReal(Span<double> spectrum, int n, FourierTransformScaling scaling);
 
-        void ForwardMultidim(Complex32[] samples, int[] dimensions, FourierTransformScaling scaling);
-        void ForwardMultidim(Complex[] samples, int[] dimensions, FourierTransformScaling scaling);
-        void BackwardMultidim(Complex32[] spectrum, int[] dimensions, FourierTransformScaling scaling);
-        void BackwardMultidim(Complex[] spectrum, int[] dimensions, FourierTransformScaling scaling);
+        void ForwardMultidim(Span<Complex32> samples, Span<int> dimensions, FourierTransformScaling scaling);
+        void ForwardMultidim(Span<Complex> samples, Span<int> dimensions, FourierTransformScaling scaling);
+        void BackwardMultidim(Span<Complex32> spectrum, Span<int> dimensions, FourierTransformScaling scaling);
+        void BackwardMultidim(Span<Complex> spectrum, Span<int> dimensions, FourierTransformScaling scaling);
     }
 }
