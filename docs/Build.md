@@ -170,7 +170,7 @@ Official Release Process (Maintainers only)
 
 *   Build Release:
 
-        build.sh all strongname
+        build.sh all --strongname
 
 *   Commit and push release notes and (auto-updated) assembly info files with new "Release: v1.2.3" commit
 

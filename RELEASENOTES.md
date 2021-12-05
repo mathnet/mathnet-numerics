@@ -1,4 +1,4 @@
-### 5.0.0-alpha02 - 2021-07-11
+### 5.0.0-alpha03 - 2021-12-05
 * COMPATIBILITY: net5.0, net48 better supported with explicit builds
 * COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
 * BREAKING: drop all which was marked as obsolete
@@ -10,6 +10,8 @@
 * Optimizations: Remove static properties in LevenbergMarquardtMinimizer *~Jong Hyun Kim*
 * Root Finding: Newton-Raphson better handling of zero-evaluations
 * Fit.Curve and FindMinimum extended to accept two more parameters
+* Fixed an index out of bounds issue when calculating BFGS minimizer with one variable *~Shiney*
+* Marcum-Q function *~CHUTORO*
 * Series: stable series summation
 * Providers: drop managed reference linear algebra provider
 * Providers: native providers no longer inherit managed providers, managed now sealed
