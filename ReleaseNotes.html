@@ -120,7 +120,7 @@
         <div class="container" id="fsdocs-content">
             <h1><a name="Math-NET-Numerics-Release-Notes" class="anchor" href="#Math-NET-Numerics-Release-Notes">Math.NET Numerics Release Notes</a></h1>
 <p><a href="ReleaseNotes.html">Math.NET Numerics</a> | <a href="ReleaseNotes-MKL.html">MKL Provider</a> | <a href="ReleaseNotes-OpenBLAS.html">OpenBLAS Provider</a></p>
-<h3><a name="5-0-0-alpha02-2021-07-11" class="anchor" href="#5-0-0-alpha02-2021-07-11">5.0.0-alpha02 - 2021-07-11</a></h3>
+<h3><a name="5-0-0-alpha03-2021-12-05" class="anchor" href="#5-0-0-alpha03-2021-12-05">5.0.0-alpha03 - 2021-12-05</a></h3>
 <ul>
 <li>COMPATIBILITY: net5.0, net48 better supported with explicit builds</li>
 <li>COMPATIBILITY: netstandard1.x, net40, net45 no longer supported</li>
@@ -133,6 +133,8 @@
 <li>Optimizations: Remove static properties in LevenbergMarquardtMinimizer <em>~Jong Hyun Kim</em></li>
 <li>Root Finding: Newton-Raphson better handling of zero-evaluations</li>
 <li>Fit.Curve and FindMinimum extended to accept two more parameters</li>
+<li>Fixed an index out of bounds issue when calculating BFGS minimizer with one variable <em>~Shiney</em></li>
+<li>Marcum-Q function <em>~CHUTORO</em></li>
 <li>Series: stable series summation</li>
 <li>Providers: drop managed reference linear algebra provider</li>
 <li>Providers: native providers no longer inherit managed providers, managed now sealed</li>
