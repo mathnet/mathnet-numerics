@@ -3,7 +3,7 @@
   "isRoot": true,
   "tools": {
     "paket": {
-      "version": "5.258.1",
+      "version": "6.2.1",
       "commands": [
         "paket"
       ]
