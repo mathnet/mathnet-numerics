@@ -9,7 +9,7 @@
     <IsPackable>false</IsPackable>
     <VersionPrefix>5.0.0</VersionPrefix>
     <VersionSuffix>alpha02</VersionSuffix>
-    <DefineConstants>NATIVE;MKL;$(CommonConstants)</DefineConstants>
+    <DefineConstants>MKL</DefineConstants>
   </PropertyGroup>
     <ItemGroup>
     <None Remove="TestResult.xml" />

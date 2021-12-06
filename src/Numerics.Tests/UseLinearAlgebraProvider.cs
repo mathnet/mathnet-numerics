@@ -32,14 +32,6 @@ using System.IO;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
-#if MKL
-using MathNet.Numerics.Providers.MKL;
-#elif CUDA
-using MathNet.Numerics.Providers.CUDA;
-#elif OPENBLAS
-using MathNet.Numerics.Providers.OpenBLAS;
-#endif
-
 namespace MathNet.Numerics.UnitTests
 {
     [AttributeUsage(AttributeTargets.Assembly)]
@@ -51,13 +43,10 @@ namespace MathNet.Numerics.UnitTests
 #if MKL
             Control.NativeProviderPath = Path.GetFullPath(Path.Combine(outDir, @"MKL/Windows/"));
             Control.UseNativeMKL();
-            //MklControl.UseNativeMKL(MklConsistency.AVX, MklPrecision.Double, MklAccuracy.High);
 #elif CUDA
             Control.UseNativeCUDA();
-            //CudaControl.UseNativeCUDA();
 #elif OPENBLAS
             Control.UseNativeOpenBLAS();
-            //OpenBlasControl.UseNativeOpenBLAS();
 #else
             Control.UseManaged();
 #endif

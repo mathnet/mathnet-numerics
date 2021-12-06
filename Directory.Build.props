@@ -20,14 +20,10 @@
         <SignAssembly>true</SignAssembly>
         <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)build/MathNet.Numerics.snk</AssemblyOriginatorKeyFile>
         <DelaySign>false</DelaySign>
-        <CommonConstants>STRONGNAME</CommonConstants>
         <PackageIdSuffix>.Signed</PackageIdSuffix>
         <TitleSuffix> - Strong Name Edition</TitleSuffix>
         <DescriptionSuffix> This package contains strong-named assemblies for legacy use cases (not recommended).</DescriptionSuffix>
-        <DefineConstants>$(CommonConstants)</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(TargetFramework)'!='netstandard1.3'">
-        <DefineConstants>NATIVE;$(CommonConstants)</DefineConstants>
+        <DefineConstants>STRONGNAME</DefineConstants>
     </PropertyGroup>
     <ItemGroup>
         <None Include="$(MSBuildThisFileDirectory)build/icon.png" Pack="true" Visible="false" PackagePath="\" />
