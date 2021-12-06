@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.IO;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 
@@ -46,14 +47,17 @@ namespace MathNet.Numerics.UnitTests
     {
         public void BeforeTest(ITest testDetails)
         {
-            string outDir = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"../../../../../out/");
+            string outDir = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), @"../../../../../out/"));
 #if MKL
-            Control.NativeProviderPath = System.IO.Path.Combine(outDir, @"MKL/Windows/");
-            MklControl.UseNativeMKL(MklConsistency.AVX, MklPrecision.Double, MklAccuracy.High);
+            Control.NativeProviderPath = Path.GetFullPath(Path.Combine(outDir, @"MKL/Windows/"));
+            Control.UseNativeMKL();
+            //MklControl.UseNativeMKL(MklConsistency.AVX, MklPrecision.Double, MklAccuracy.High);
 #elif CUDA
-            CudaControl.UseNativeCUDA();
+            Control.UseNativeCUDA();
+            //CudaControl.UseNativeCUDA();
 #elif OPENBLAS
-            OpenBlasControl.UseNativeOpenBLAS();
+            Control.UseNativeOpenBLAS();
+            //OpenBlasControl.UseNativeOpenBLAS();
 #else
             Control.UseManaged();
 #endif
@@ -68,9 +72,6 @@ namespace MathNet.Numerics.UnitTests
         {
         }
 
-        public ActionTargets Targets
-        {
-            get { return ActionTargets.Suite; }
-        }
+        public ActionTargets Targets => ActionTargets.Suite;
     }
 }

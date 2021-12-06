@@ -28,7 +28,7 @@
 // </copyright>
 
 using System;
-using System.Numerics;
+using System.IO;
 using System.Security;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
@@ -71,7 +71,7 @@ namespace MathNet.Numerics.Providers.MKL.LinearAlgebra
         /// <param name="accuracy">VML accuracy mode.</param>
         internal MklLinearAlgebraProvider(string hintPath, MklConsistency consistency, MklPrecision precision, MklAccuracy accuracy)
         {
-            _hintPath = hintPath;
+            _hintPath = Path.GetFullPath(hintPath);
             _consistency = consistency;
             _precision = precision;
             _accuracy = accuracy;

@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.IO;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
@@ -62,7 +63,7 @@ namespace MathNet.Numerics.Providers.OpenBLAS.LinearAlgebra
         /// <param name="hintPath">Hint path where to look for the native binaries</param>
         internal OpenBlasLinearAlgebraProvider(string hintPath)
         {
-            _hintPath = hintPath;
+            _hintPath = Path.GetFullPath(hintPath);
         }
 
         /// <summary>

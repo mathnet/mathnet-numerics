@@ -27,6 +27,7 @@
 // </copyright>
 
 using System;
+using System.IO;
 using System.Security;
 using System.Threading;
 using MathNet.Numerics.Providers.FourierTransform;
@@ -53,7 +54,7 @@ namespace MathNet.Numerics.Providers.MKL.FourierTransform
         /// <param name="hintPath">Hint path where to look for the native binaries</param>
         internal MklFourierTransformProvider(string hintPath)
         {
-            _hintPath = hintPath;
+            _hintPath = Path.GetFullPath(hintPath);
         }
 
         /// <summary>

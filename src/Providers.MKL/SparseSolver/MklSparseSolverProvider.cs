@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using MathNet.Numerics.Providers.SparseSolver;
 
 namespace MathNet.Numerics.Providers.MKL.SparseSolver
@@ -18,7 +19,7 @@ namespace MathNet.Numerics.Providers.MKL.SparseSolver
         /// <param name="hintPath">Hint path where to look for the native binaries</param>
         internal MklSparseSolverProvider(string hintPath)
         {
-            _hintPath = hintPath;
+            _hintPath = Path.GetFullPath(hintPath);
         }
 
         /// <summary>

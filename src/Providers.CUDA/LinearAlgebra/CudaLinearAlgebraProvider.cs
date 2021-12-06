@@ -28,6 +28,7 @@
 // </copyright>
 
 using System;
+using System.IO;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
 namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
@@ -46,7 +47,7 @@ namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
         /// <param name="hintPath">Hint path where to look for the native binaries</param>
         internal CudaLinearAlgebraProvider(string hintPath)
         {
-            _hintPath = hintPath;
+            _hintPath = Path.GetFullPath(hintPath);
         }
 
         /// <summary>
