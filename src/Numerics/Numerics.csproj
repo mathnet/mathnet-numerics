@@ -40,13 +40,7 @@ Control.Describe now includes CPU architecture and family identifier if know</Pa
     <NoWarn>1701;1702;1705;1591;1573</NoWarn>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Runtime.Serialization" />
-  </ItemGroup>
-  <ItemGroup>
+    <ItemGroup>
       <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="'$(TargetFramework)' == 'net461'" />
       <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
           <PrivateAssets>all</PrivateAssets>

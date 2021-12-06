@@ -11,14 +11,6 @@
         <VersionSuffix>alpha02</VersionSuffix>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     </PropertyGroup>
-    <ItemGroup Condition="'$(TargetFramework)'=='net45'">
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Numerics" />
-        <Reference Include="Microsoft.CSharp" />
-        <Reference Include="System.Runtime.Serialization" />
-        <Reference Include="System.Xml" />
-    </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Numerics\Numerics.csproj" />
         <ProjectReference Include="..\Data.Matlab\Data.Matlab.csproj" />

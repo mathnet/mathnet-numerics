@@ -11,15 +11,7 @@
     <VersionSuffix>alpha02</VersionSuffix>
     <DefineConstants>NATIVE;OPENBLAS;$(CommonConstants)</DefineConstants>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
+	<ItemGroup>
     <None Remove="TestResult.xml" />
   </ItemGroup>
   <ItemGroup>

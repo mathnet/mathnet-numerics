@@ -9,15 +9,7 @@
     <VersionPrefix>5.0.0</VersionPrefix>
     <VersionSuffix>alpha02</VersionSuffix>
   </PropertyGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
+    <ItemGroup>
     <EmbeddedResource Include="..\..\data\numpy\CorrNumpyData_pwm.csv">
       <Link>Data\numpy\CorrNumpyData_pwm.csv</Link>
     </EmbeddedResource>

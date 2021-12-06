@@ -48,12 +48,6 @@ Control.Describe now includes CPU architecture and family identifier if know</Pa
     <ItemGroup>
         <ProjectReference Include="..\Numerics\Numerics.csproj" />
     </ItemGroup>
-    <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
-        <Reference Include="System" />
-        <Reference Include="System.Core" />
-        <Reference Include="System.Numerics" />
-        <Reference Include="System.Runtime.Serialization" />
-    </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
         <PrivateAssets>all</PrivateAssets>
