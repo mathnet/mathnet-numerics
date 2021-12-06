@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <GenerateProgramFile>false</GenerateProgramFile>
-    <TargetFrameworks>net5.0;net48</TargetFrameworks>
-    <AssemblyName>MathNet.Numerics.Tests.OpenBLAS</AssemblyName>
-    <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
-    <IsPackable>false</IsPackable>
-    <VersionPrefix>5.0.0</VersionPrefix>
-    <VersionSuffix>alpha02</VersionSuffix>
-    <DefineConstants>OPENBLAS</DefineConstants>
-  </PropertyGroup>
-	<ItemGroup>
-    <None Remove="TestResult.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Numerics\Numerics.csproj" />
-    <ProjectReference Include="..\Providers.OpenBLAS\Providers.OpenBLAS.csproj" />
-    <ProjectReference Include="..\TestData\TestData.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
-    <PackageReference Include="NUnitLite" Version="3.13.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
-    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <GenerateProgramFile>false</GenerateProgramFile>
+        <TargetFrameworks>net5.0;net48</TargetFrameworks>
+        <AssemblyName>MathNet.Numerics.Tests.OpenBLAS</AssemblyName>
+        <RootNamespace>MathNet.Numerics.Tests</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <VersionPrefix>5.0.0</VersionPrefix>
+        <VersionSuffix>alpha02</VersionSuffix>
+        <DefineConstants>OPENBLAS</DefineConstants>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Remove="TestResult.xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Numerics\Numerics.csproj" />
+        <ProjectReference Include="..\Providers.OpenBLAS\Providers.OpenBLAS.csproj" />
+        <ProjectReference Include="..\TestData\TestData.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.1.0" />
+        <PackageReference Include="NUnitLite" Version="3.13.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
+        <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>
