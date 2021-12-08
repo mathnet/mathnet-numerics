@@ -15,6 +15,9 @@
         <summary>OpenBLAS native libraries for Math.NET Numerics.</summary>
         <releaseNotes>@releaseNotes@</releaseNotes>
         <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native openblas</tags>
+        <dependencies>
+            <dependency id="MathNet.Numerics.Providers.OpenBLAS" />
+        </dependencies>
     </metadata>
     <files>
         <file src="..\..\out\OpenBLAS\Windows\x64\libgcc_s_seh-1.dll" target="build\x64\libgcc_s_seh-1.dll" />
@@ -31,7 +34,4 @@
         <file src="license.txt" target="license.txt" />
         <file src="readme.txt" target="readme.txt" />
     </files>
-    <dependencies>
-        <dependency id="MathNet.Numerics.Providers.OpenBLAS" />
-    </dependencies>
 </package>
