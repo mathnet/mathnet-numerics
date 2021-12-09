@@ -133,6 +133,7 @@ type Solution =
 type NuGetSpecification =
     { NuGet: NuGetPackage
       NuSpecFile: string
+      Dependencies: (string * string) list
       Title: string }
 
 
@@ -384,11 +385,12 @@ let zip (package:ZipPackage) zipDir filesDir filesFilter =
 
 // NUGET
 
-let updateNuspec (nuget:NuGetPackage) outPath (spec:NuGet.NuGet.NuGetParams) =
+let updateNuspec (nuget:NuGetPackage) outPath dependencies (spec:NuGet.NuGet.NuGetParams) =
     { spec with ToolPath = "packages/build/NuGet.CommandLine/tools/NuGet.exe"
                 OutputPath = outPath
                 WorkingDir = "obj/NuGet"
                 Version = nuget.Release.PackageVersion
+                Dependencies = dependencies
                 ReleaseNotes = nuget.Release.ReleaseNotes
                 Publish = false }
 
@@ -397,7 +399,7 @@ let nugetPackManually (solution:Solution) (packages:NuGetSpecification list) =
     for pack in packages do
         provideLicense "obj/NuGet"
         provideReadme (sprintf "%s v%s" pack.Title pack.NuGet.Release.PackageVersion) pack.NuGet.Release "obj/NuGet"
-        NuGet.NuGet (updateNuspec pack.NuGet solution.OutputNuGetDir) pack.NuSpecFile
+        NuGet.NuGet (updateNuspec pack.NuGet solution.OutputNuGetDir pack.Dependencies) pack.NuSpecFile
         Shell.cleanDir "obj/NuGet"
     Directory.delete "obj/NuGet"
 
@@ -581,31 +583,37 @@ let mklSolution = solution "MKL" "MathNet.Numerics.MKL.sln" [mklWinProject; mklL
 let mklWinPack =
     { NuGet = mklWinNuGetPackage
       NuSpecFile = "build/MathNet.Numerics.MKL.Win.nuspec"
+      Dependencies = [ numericsProvidersMklNuGetPackage.Id, numericsProvidersMklNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - MKL Native Provider for Windows (x64 and x86)" }
 
 let mklWin32Pack =
     { NuGet = mklWin32NuGetPackage
       NuSpecFile = "build/MathNet.Numerics.MKL.Win-x86.nuspec"
+      Dependencies = [ numericsProvidersMklNuGetPackage.Id, numericsProvidersMklNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - MKL Native Provider for Windows (x86)" }
 
 let mklWin64Pack =
     { NuGet = mklWin64NuGetPackage
       NuSpecFile = "build/MathNet.Numerics.MKL.Win-x64.nuspec"
+      Dependencies = [ numericsProvidersMklNuGetPackage.Id, numericsProvidersMklNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - MKL Native Provider for Windows (x64)" }
 
 let mklLinuxPack =
     { NuGet = mklLinuxNuGetPackage
       NuSpecFile = "build/MathNet.Numerics.MKL.Linux.nuspec"
+      Dependencies = [ numericsProvidersMklNuGetPackage.Id, numericsProvidersMklNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - MKL Native Provider for Linux (x64 and x86)" }
 
 let mklLinux32Pack =
     { NuGet = mklLinux32NuGetPackage
       NuSpecFile = "build/MathNet.Numerics.MKL.Linux-x86.nuspec"
+      Dependencies = [ numericsProvidersMklNuGetPackage.Id, numericsProvidersMklNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - MKL Native Provider for Linux (x86)" }
 
 let mklLinux64Pack =
     { NuGet = mklLinux64NuGetPackage
       NuSpecFile = "build/MathNet.Numerics.MKL.Linux-x64.nuspec"
+      Dependencies = [ numericsProvidersMklNuGetPackage.Id, numericsProvidersMklNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - MKL Native Provider for Linux (x64)" }
 
 
@@ -620,6 +628,7 @@ let cudaSolution = solution "CUDA" "MathNet.Numerics.CUDA.sln" [cudaWinProject] 
 let cudaWinPack =
     { NuGet = cudaWinNuGetPackage
       NuSpecFile = "build/MathNet.Numerics.CUDA.Win.nuspec"
+      Dependencies = [ numericsProvidersCudaNuGetPackage.Id, numericsProvidersCudaNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - CUDA Native Provider for Windows (x64)" }
 
 
@@ -634,6 +643,7 @@ let openBlasSolution = solution "OpenBLAS" "MathNet.Numerics.OpenBLAS.sln" [open
 let openBlasWinPack =
     { NuGet = openBlasWinNuGetPackage
       NuSpecFile = "build/MathNet.Numerics.OpenBLAS.Win.nuspec"
+      Dependencies = [ numericsProvidersOpenBlasNuGetPackage.Id, numericsProvidersOpenBlasNuGetPackage.Release.PackageVersion ]
       Title = "Math.NET Numerics - OpenBLAS Native Provider for Windows (x64 and x86)" }
 
 

@@ -15,9 +15,7 @@
         <summary>Intel MKL native libraries for Math.NET Numerics on Linux.</summary>
         <releaseNotes>@releaseNotes@</releaseNotes>
         <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native mkl</tags>
-        <dependencies>
-            <dependency id="MathNet.Numerics.Providers.MKL" />
-        </dependencies>
+        @dependencies@
     </metadata>
     <files>
         <file src="..\..\out\MKL\Linux\x86\libiomp5.so" target="build\x86\libiomp5.so" />

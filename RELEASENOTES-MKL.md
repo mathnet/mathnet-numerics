@@ -1,4 +1,4 @@
-### 2.6.0-beta1 - 2021-12-09
+### 2.6.0-beta2 - 2021-12-09
 * r15 with Intel oneAPI 2021.4, preview for Numerics v5 with MathNet.Numerics.Pro
 * Note that MathNet.Numerics.Providers.MKL.dll is required for this to work with Numerics v5
 

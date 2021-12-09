@@ -15,9 +15,7 @@
         <summary>Intel oneAPI MKL native libraries for Math.NET Numerics on Windows.</summary>
         <releaseNotes>@releaseNotes@</releaseNotes>
         <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native mkl</tags>
-        <dependencies>
-            <dependency id="MathNet.Numerics.Providers.MKL" />
-        </dependencies>
+        @dependencies@
     </metadata>
     <files>
         <file src="..\..\out\MKL\Windows\x64\libiomp5md.dll" target="build\x64\libiomp5md.dll" />

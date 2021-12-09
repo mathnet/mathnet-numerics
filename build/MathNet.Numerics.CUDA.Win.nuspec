@@ -15,9 +15,6 @@
         <summary>Nvidia CUDA native libraries for Math.NET Numerics.</summary>
         <releaseNotes>@releaseNotes@</releaseNotes>
         <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native cuda gpu</tags>
-        <dependencies>
-            <dependency id="MathNet.Numerics.Providers.CUDA" />
-        </dependencies>
     </metadata>
     <files>
         <file src="..\..\out\CUDA\Windows\x64\cublas64_70.dll" target="build\x64\cublas64_70.dll" />
