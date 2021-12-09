@@ -49,16 +49,18 @@ namespace MathNet.Numerics.Random
         /// <summary>
         /// Construct a new random number generator with a random seed.
         /// </summary>
-        public SystemRandomSource() : this(RandomSeed.Robust())
+        public SystemRandomSource()
         {
+            _random = new System.Random();
         }
 
         /// <summary>
         /// Construct a new random number generator with random seed.
         /// </summary>
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
-        public SystemRandomSource(bool threadSafe) : this(RandomSeed.Robust(), threadSafe)
+        public SystemRandomSource(bool threadSafe) : base(threadSafe)
         {
+            _random = new System.Random();
         }
 
         /// <summary>
@@ -80,7 +82,7 @@ namespace MathNet.Numerics.Random
             _random = new System.Random(seed);
         }
 
-        static readonly ThreadLocal<SystemRandomSource> DefaultInstance = new ThreadLocal<SystemRandomSource>(() => new SystemRandomSource(RandomSeed.Robust(), true));
+        static readonly ThreadLocal<SystemRandomSource> DefaultInstance = new ThreadLocal<SystemRandomSource>(() => new SystemRandomSource(true));
 
         /// <summary>
         /// Default instance, thread-safe.
