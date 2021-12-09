@@ -42,7 +42,7 @@ let rootDir = Path.getFullName __SOURCE_DIRECTORY__
 Environment.CurrentDirectory <- rootDir
 Trace.log rootDir
 
-let args = Target.getArguments() 
+let args = Target.getArguments()
 let isStrongname, isSign, isIncremental =
     match args with
     | Some args ->
@@ -278,11 +278,22 @@ let packProjectStrong = function
     | VisualStudio p -> dotnetStrong rootDir (sprintf "pack %s --configuration Release --no-restore --no-build" p.ProjectFile)
     | _ -> failwith "Project type not supported"
 
-//let buildConfig config subject = MSBuild "" (if hasBuildParam "incremental" then "Build" else "Rebuild") [ "Configuration", config ] subject |> ignore
-//let build subject = buildConfig "Release" subject
-//let buildSigned subject = buildConfig "Release-Signed" subject
-let buildConfig32 config subject = MSBuild.run id "" (if isIncremental then "Build" else "Rebuild") [("Configuration", config); ("Platform","Win32")] subject |> ignore<string list>
-let buildConfig64 config subject = MSBuild.run id "" (if isIncremental then "Build" else "Rebuild") [("Configuration", config); ("Platform","x64")] subject |> ignore<string list>
+let buildVS2019x86 config subject =
+    MSBuild.run
+        (fun p -> {p with ToolPath = Environment.environVar "VS2019INSTALLDIR" </> @"MSBuild\Current\Bin\MSBuild.exe"})
+        ""
+        (if isIncremental then "Build" else "Rebuild")
+        [("Configuration", config); ("Platform","Win32")]
+        subject
+        |> ignore<string list>
+let buildVS2019x64 config subject =
+    MSBuild.run
+        (fun p -> {p with ToolPath = Environment.environVar "VS2019INSTALLDIR" </> @"MSBuild\Current\Bin\MSBuild.exe"})
+        ""
+        (if isIncremental then "Build" else "Rebuild")
+        [("Configuration", config); ("Platform","x64")]
+        subject
+        |> ignore<string list>
 
 
 // --------------------------------------------------------------------------------------
@@ -700,11 +711,18 @@ Target.create "Build" (fun _ ->
 
 Target.create "MklWinBuild" (fun _ ->
 
+    //let result =
+    //    CreateProcess.fromRawCommandLine "cmd.exe" "/c setvars.bat"
+    //    |> CreateProcess.withWorkingDirectory (Environment.GetEnvironmentVariable("ONEAPI_ROOT"))
+    //    |> CreateProcess.withTimeout (TimeSpan.FromMinutes 10.)
+    //    |> Proc.run
+    //if result.ExitCode <> 0 then failwith "Error while setting oneAPI environment variables."
+
     restoreWeak mklSolution
-    buildConfig32 "Release-MKL" !! "MathNet.Numerics.MKL.sln"
-    buildConfig64 "Release-MKL" !! "MathNet.Numerics.MKL.sln"
+    buildVS2019x86 "Release-MKL" !! "MathNet.Numerics.MKL.sln"
+    buildVS2019x64 "Release-MKL" !! "MathNet.Numerics.MKL.sln"
     Directory.create mklSolution.OutputZipDir
-    zip mklWinZipPackage mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
+    zip mklWinZipPackage mklSolution.OutputZipDir "out/MKL/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5md.dll"))
     Directory.create mklSolution.OutputNuGetDir
     nugetPackManually mklSolution [ mklWinPack; mklWin32Pack; mklWin64Pack ]
 
@@ -717,9 +735,9 @@ Target.create "MklWinBuild" (fun _ ->
 Target.create "CudaWinBuild" (fun _ ->
 
     restoreWeak cudaSolution
-    buildConfig64 "Release-CUDA" !! "MathNet.Numerics.CUDA.sln"
+    buildVS2019x64 "Release-CUDA" !! "MathNet.Numerics.CUDA.sln"
     Directory.create cudaSolution.OutputZipDir
-    zip cudaWinZipPackage cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
+    zip cudaWinZipPackage cudaSolution.OutputZipDir "out/CUDA/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.CUDA.") || f.Contains("MathNet.Numerics.CUDA.") || f.Contains("cublas") || f.Contains("cudart") || f.Contains("cusolver"))
     Directory.create cudaSolution.OutputNuGetDir
     nugetPackManually cudaSolution [ cudaWinPack ]
 
@@ -732,10 +750,10 @@ Target.create "CudaWinBuild" (fun _ ->
 Target.create "OpenBlasWinBuild" (fun _ ->
 
     restoreWeak openBlasSolution
-    buildConfig32 "Release-OpenBLAS" !! "MathNet.Numerics.OpenBLAS.sln"
-    buildConfig64 "Release-OpenBLAS" !! "MathNet.Numerics.OpenBLAS.sln"
+    buildVS2019x86 "Release-OpenBLAS" !! "MathNet.Numerics.OpenBLAS.sln"
+    buildVS2019x64 "Release-OpenBLAS" !! "MathNet.Numerics.OpenBLAS.sln"
     Directory.create openBlasSolution.OutputZipDir
-    zip openBlasWinZipPackage openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
+    zip openBlasWinZipPackage openBlasSolution.OutputZipDir "out/OpenBLAS/Windows" (fun f -> f.Contains("MathNet.Numerics.Providers.OpenBLAS.") || f.Contains("MathNet.Numerics.OpenBLAS.") || f.Contains("libgcc") || f.Contains("libgfortran") || f.Contains("libopenblas") || f.Contains("libquadmath"))
     Directory.create openBlasSolution.OutputNuGetDir
     nugetPackManually openBlasSolution [ openBlasWinPack ]
 
@@ -803,7 +821,7 @@ Target.create "MklLinuxPack" ignore
 
 Target.create "MklLinuxZip" (fun _ ->
     Directory.create mklSolution.OutputZipDir
-    zip mklLinuxZipPackage mklSolution.OutputZipDir "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
+    zip mklLinuxZipPackage mklSolution.OutputZipDir "out/MKL/Linux" (fun f -> f.Contains("MathNet.Numerics.Providers.MKL.") || f.Contains("MathNet.Numerics.MKL.") || f.Contains("libiomp5.so")))
 "MklLinuxZip" ==> "MklLinuxPack"
 
 Target.create "MklLinuxNuGet" (fun _ ->
