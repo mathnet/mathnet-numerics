@@ -51,7 +51,11 @@ namespace MathNet.Numerics.Random
         /// </summary>
         public SystemRandomSource()
         {
+#if NETCOREAPP
             _random = new System.Random();
+#else
+            _random = new System.Random(RandomSeed.Robust());
+#endif
         }
 
         /// <summary>
@@ -60,7 +64,11 @@ namespace MathNet.Numerics.Random
         /// <param name="threadSafe">if set to <c>true</c> , the class is thread safe.</param>
         public SystemRandomSource(bool threadSafe) : base(threadSafe)
         {
+#if NETCOREAPP
             _random = new System.Random();
+#else
+            _random = new System.Random(RandomSeed.Robust());
+#endif
         }
 
         /// <summary>
