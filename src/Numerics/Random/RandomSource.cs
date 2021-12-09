@@ -469,8 +469,8 @@ namespace MathNet.Numerics.Random
 
             DoSampleBytes(buffer);
         }
-        
-#if NETCOREAPP2_1_OR_GREATER
+
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         /// <summary>
         /// Fills the elements of a specified array of bytes with random numbers.
         /// </summary>
@@ -532,7 +532,7 @@ namespace MathNet.Numerics.Random
             }
         }
 
-#if NETCOREAPP2_1_OR_GREATER
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         /// <summary>
         /// Fills the elements of a specified array of bytes with random numbers in full range, including zero and 255 (<see cref="F:System.Byte.MaxValue"/>).
         /// </summary>
