@@ -3,7 +3,7 @@
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
 //
-// Copyright (c) 2009-2016 Math.NET
+// Copyright (c) 2009-2021 Math.NET
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
@@ -37,18 +37,23 @@ using System.Threading;
 
 namespace MathNet.Numerics.Providers.CUDA
 {
+    internal enum Runtime
+    {
+        Unknown = 0,
+        WindowsX64,
+        WindowsX86,
+        WindowsArm64,
+        WindowsArm,
+        LinuxX64,
+        LinuxX86,
+    }
+
     /// <summary>
     /// Helper class to load native libraries depending on the architecture of the OS and process.
     /// </summary>
     internal static class NativeProviderLoader
     {
         static readonly object StaticLock = new Object();
-
-        const string X86 = "x86";
-        const string X64 = "x64";
-        const string IA64 = "ia64";
-        const string ARM = "arm";
-        const string ARM64 = "arm64";
 
         /// <summary>
         /// Dictionary of handles to previously loaded libraries,
@@ -58,7 +63,7 @@ namespace MathNet.Numerics.Providers.CUDA
         /// <summary>
         /// Gets a string indicating the architecture and bitness of the current process.
         /// </summary>
-        static readonly Lazy<string> ArchitectureKey = new Lazy<string>(EvaluateArchitectureKey, LazyThreadSafetyMode.PublicationOnly);
+        static readonly Lazy<Runtime> RuntimeKey = new Lazy<Runtime>(EvaluateRuntime, LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
         /// If the last native library failed to load then gets the corresponding exception
@@ -75,42 +80,35 @@ namespace MathNet.Numerics.Providers.CUDA
             }
         }
 
-        static string EvaluateArchitectureKey()
+        static Runtime EvaluateRuntime()
         {
             //return (IntPtr.Size == 8) ? X64 : X86;
             if (IsUnix)
             {
-
                 // Only support x86 and amd64 on Unix as there isn't a reliable way to detect the architecture
-                return Environment.Is64BitProcess ? X64 : X86;
-
+                return Environment.Is64BitProcess ? Runtime.LinuxX64 : Runtime.LinuxX86;
             }
 
             var architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
 
             if (string.Equals(architecture, "x86", StringComparison.OrdinalIgnoreCase))
             {
-                return X86;
+                return Runtime.WindowsX86;
             }
 
             if (string.Equals(architecture, "amd64", StringComparison.OrdinalIgnoreCase)
                 || string.Equals(architecture, "x64", StringComparison.OrdinalIgnoreCase))
             {
-                return Environment.Is64BitProcess ? X64 : X86;
-            }
-
-            if (string.Equals(architecture, "ia64", StringComparison.OrdinalIgnoreCase))
-            {
-                return IA64;
+                return Environment.Is64BitProcess ? Runtime.WindowsX64 : Runtime.WindowsX86;
             }
 
             if (string.Equals(architecture, "arm", StringComparison.OrdinalIgnoreCase))
             {
-                return Environment.Is64BitProcess ? ARM64 : ARM;
+                return Environment.Is64BitProcess ? Runtime.WindowsArm64 : Runtime.WindowsArm;
             }
 
             // Fallback if unknown
-            return architecture;
+            return Runtime.Unknown;
         }
 
         /// <summary>
@@ -169,31 +167,77 @@ namespace MathNet.Numerics.Providers.CUDA
             directory = Path.GetFullPath(directory);
 
             // If we have a know architecture, try the matching subdirectory first
-            var architecture = ArchitectureKey.Value;
-            if (!string.IsNullOrEmpty(architecture) && TryLoadFile(new FileInfo(Path.Combine(Path.Combine(directory, architecture), fileName))))
+            switch (RuntimeKey.Value)
             {
-                return true;
+                case Runtime.WindowsX64:
+                    if (TryLoadFile(directory, "x64", fileName)
+                        || TryLoadFile(directory, "win-x64/native", fileName)
+                        || TryLoadFile(directory, "win-x64", fileName))
+                    {
+                        return true;
+                    }
+                    break;
+                case Runtime.WindowsX86:
+                    if (TryLoadFile(directory, "x86", fileName)
+                        || TryLoadFile(directory, "win-x86/native", fileName)
+                        || TryLoadFile(directory, "win-x86", fileName))
+                    {
+                        return true;
+                    }
+                    break;
+                case Runtime.WindowsArm64:
+                    if (TryLoadFile(directory, "arm64", fileName)
+                        || TryLoadFile(directory, "win-arm64/native", fileName)
+                        || TryLoadFile(directory, "win-arm64", fileName))
+                    {
+                        return true;
+                    }
+                    break;
+                case Runtime.WindowsArm:
+                    if (TryLoadFile(directory, "arm", fileName)
+                        || TryLoadFile(directory, "win-arm/native", fileName)
+                        || TryLoadFile(directory, "win-arm", fileName))
+                    {
+                        return true;
+                    }
+                    break;
+                case Runtime.LinuxX64:
+                    if (TryLoadFile(directory, "x64", fileName)
+                        || TryLoadFile(directory, "linux-x64/native", fileName)
+                        || TryLoadFile(directory, "linux-x64", fileName))
+                    {
+                        return true;
+                    }
+                    break;
+                case Runtime.LinuxX86:
+                    if (TryLoadFile(directory, "x86", fileName)
+                        || TryLoadFile(directory, "linux-x86/native", fileName)
+                        || TryLoadFile(directory, "linux-x86", fileName))
+                    {
+                        return true;
+                    }
+                    break;
             }
 
             // Otherwise try to load directly from the provided directory
-            return TryLoadFile(new FileInfo(Path.Combine(directory, fileName)));
+            return TryLoadFile(directory, string.Empty, fileName);
         }
 
         /// <summary>
         /// Try to load a native library by providing the full path including the file name of the library.
         /// </summary>
         /// <returns>True if the library was successfully loaded or if it has already been loaded.</returns>
-        static bool TryLoadFile(FileInfo file)
+        static bool TryLoadFile(string directory, string relativePath, string fileName)
         {
             lock (StaticLock)
             {
-                IntPtr libraryHandle;
-                if (NativeHandles.Value.TryGetValue(file.Name, out libraryHandle))
+                if (NativeHandles.Value.TryGetValue(fileName, out IntPtr libraryHandle))
                 {
                     return true;
                 }
 
-                if (!file.Exists)
+                var fullPath = Path.GetFullPath(Path.Combine(Path.Combine(directory, relativePath), fileName));
+                if (!File.Exists(fullPath))
                 {
                     // If the library isn't found within an architecture specific folder then return false
                     // to allow normal P/Invoke searching behavior when the library is called
@@ -201,7 +245,7 @@ namespace MathNet.Numerics.Providers.CUDA
                 }
 
                 // If successful this will return a handle to the library
-                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(file.FullName) : WindowsLoader.LoadLibrary(file.FullName);
+                libraryHandle = IsUnix ? UnixLoader.LoadLibrary(fullPath) : WindowsLoader.LoadLibrary(fullPath);
                 if (libraryHandle == IntPtr.Zero)
                 {
                     int lastError = Marshal.GetLastWin32Error();
@@ -211,7 +255,7 @@ namespace MathNet.Numerics.Providers.CUDA
                 else
                 {
                     LastException = null;
-                    NativeHandles.Value[file.Name] = libraryHandle;
+                    NativeHandles.Value[fileName] = libraryHandle;
                 }
 
                 return libraryHandle != IntPtr.Zero;

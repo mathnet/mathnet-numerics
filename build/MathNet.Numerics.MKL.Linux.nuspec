@@ -5,25 +5,23 @@
         <version>@build.number@</version>
         <title>Math.NET Numerics - MKL Native Provider for Linux (x64 and x86)</title>
         <authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</authors>
-        <owners>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <licenseUrl>https://numerics.mathdotnet.com/License.html</licenseUrl>
+        <license type="expression">MIT</license>
         <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
-        <iconUrl>https://www.mathdotnet.com/images/MathNet128.png</iconUrl>
         <repository type="git" url="https://github.com/mathnet/mathnet-numerics" />
         <description>Intel MKL native libraries for Math.NET Numerics on Linux.</description>
         <summary>Intel MKL native libraries for Math.NET Numerics on Linux.</summary>
         <releaseNotes>@releaseNotes@</releaseNotes>
+        <copyright>Copyright Math.NET Project</copyright>
         <tags>math numeric statistics probability integration interpolation linear algebra matrix fft native mkl</tags>
         @dependencies@
     </metadata>
     <files>
-        <file src="..\..\out\MKL\Linux\x64\libiomp5.so" target="build\x64\libiomp5.so" />
-        <file src="..\..\out\MKL\Linux\x64\MathNet.Numerics.MKL.dll" target="build\x64\MathNet.Numerics.MKL.dll" />
-        <file src="..\..\out\MKL\Linux\x86\libiomp5.so" target="build\x86\libiomp5.so" />
-        <file src="..\..\out\MKL\Linux\x86\MathNet.Numerics.MKL.dll" target="build\x86\MathNet.Numerics.MKL.dll" />
+        <file src="..\..\out\MKL\Linux\x64\libiomp5.so" target="runtimes\linux-x64\native\libiomp5.so" />
+        <file src="..\..\out\MKL\Linux\x64\MathNet.Numerics.MKL.dll" target="runtimes\linux-x64\native\MathNet.Numerics.MKL.dll" />
+        <file src="..\..\out\MKL\Linux\x86\libiomp5.so" target="runtimes\linux-x86\native\libiomp5.so" />
+        <file src="..\..\out\MKL\Linux\x86\MathNet.Numerics.MKL.dll" target="runtimes\linux-x86\native\MathNet.Numerics.MKL.dll" />
         <file src="..\..\build\NativeProvider.targets" target="build\MathNet.Numerics.MKL.Linux.targets" />
-        <file src="license.txt" target="license.txt" />
-        <file src="readme.txt" target="readme.txt" />
+        <file src="..\..\build\icon.png" target="icon.png" />
     </files>
 </package>
