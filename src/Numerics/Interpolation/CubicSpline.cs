@@ -664,7 +664,7 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Returns the minimum value for the spline within its domain.
+        /// Returns the maximum value for the spline within its domain.
         /// </summary>
         /// <returns></returns>
         public double GetMaxPoint()
