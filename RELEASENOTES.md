@@ -1,11 +1,11 @@
-### 5.0.0-alpha05 - 2021-12-19
+### 5.0.0-alpha06 - 2021-12-19
 * COMPATIBILITY: net5.0, net48 better supported with explicit builds
 * COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
 * BREAKING: drop all which was marked as obsolete
 * BREAKING: all native provider adapters moved out to separate NuGet packages
 * BREAKING: switch many usages of tuples to value tuples (experimental)
 * Distributions: Logistic *~Bobby Ingram*
-* Distributions: Perf: Cauchy avoid duplicate evaluation *~Febin*
+* Distributions: Perf: Cauchy~~~~ avoid duplicate evaluation *~Febin*
 * Precision: Perf: pre-compute negative powers *~Febin*
 * Optimizations: Remove static properties in LevenbergMarquardtMinimizer *~Jong Hyun Kim*
 * Root Finding: Newton-Raphson better handling of zero-evaluations
