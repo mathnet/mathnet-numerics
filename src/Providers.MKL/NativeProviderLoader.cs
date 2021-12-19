@@ -173,7 +173,7 @@ namespace MathNet.Numerics.Providers.MKL
             {
                 case Runtime.WindowsX64:
                     if (TryLoadFile(directory, "x64", fileName)
-                        || TryLoadFile(directory, "runtimes/win-x64", fileName)
+                        || TryLoadFile(directory, "runtimes/win-x64/native", fileName)
                         || TryLoadFile(directory, "win-x64/native", fileName)
                         || TryLoadFile(directory, "win-x64", fileName))
                     {
@@ -182,7 +182,7 @@ namespace MathNet.Numerics.Providers.MKL
                     break;
                 case Runtime.WindowsX86:
                     if (TryLoadFile(directory, "x86", fileName)
-                        || TryLoadFile(directory, "runtimes/win-x86", fileName)
+                        || TryLoadFile(directory, "runtimes/win-x86/native", fileName)
                         || TryLoadFile(directory, "win-x86/native", fileName)
                         || TryLoadFile(directory, "win-x86", fileName))
                     {
@@ -191,7 +191,7 @@ namespace MathNet.Numerics.Providers.MKL
                     break;
                 case Runtime.WindowsArm64:
                     if (TryLoadFile(directory, "arm64", fileName)
-                        || TryLoadFile(directory, "runtimes/win-arm64", fileName)
+                        || TryLoadFile(directory, "runtimes/win-arm64/native", fileName)
                         || TryLoadFile(directory, "win-arm64/native", fileName)
                         || TryLoadFile(directory, "win-arm64", fileName))
                     {
@@ -200,7 +200,7 @@ namespace MathNet.Numerics.Providers.MKL
                     break;
                 case Runtime.WindowsArm:
                     if (TryLoadFile(directory, "arm", fileName)
-                        || TryLoadFile(directory, "runtimes/win-arm", fileName)
+                        || TryLoadFile(directory, "runtimes/win-arm/native", fileName)
                         || TryLoadFile(directory, "win-arm/native", fileName)
                         || TryLoadFile(directory, "win-arm", fileName))
                     {
@@ -209,7 +209,7 @@ namespace MathNet.Numerics.Providers.MKL
                     break;
                 case Runtime.LinuxX64:
                     if (TryLoadFile(directory, "x64", fileName)
-                        || TryLoadFile(directory, "runtimes/linux-x64", fileName)
+                        || TryLoadFile(directory, "runtimes/linux-x64/native", fileName)
                         || TryLoadFile(directory, "linux-x64/native", fileName)
                         || TryLoadFile(directory, "linux-x64", fileName))
                     {
@@ -218,7 +218,7 @@ namespace MathNet.Numerics.Providers.MKL
                     break;
                 case Runtime.LinuxX86:
                     if (TryLoadFile(directory, "x86", fileName)
-                        || TryLoadFile(directory, "runtimes/linux-x86", fileName)
+                        || TryLoadFile(directory, "runtimes/linux-x86/native", fileName)
                         || TryLoadFile(directory, "linux-x86/native", fileName)
                         || TryLoadFile(directory, "linux-x86", fileName))
                     {
