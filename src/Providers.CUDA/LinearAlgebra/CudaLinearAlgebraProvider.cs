@@ -47,7 +47,7 @@ namespace MathNet.Numerics.Providers.CUDA.LinearAlgebra
         /// <param name="hintPath">Hint path where to look for the native binaries</param>
         internal CudaLinearAlgebraProvider(string hintPath)
         {
-            _hintPath = Path.GetFullPath(hintPath);
+            _hintPath = hintPath != null ? Path.GetFullPath(hintPath) : null;
         }
 
         /// <summary>
