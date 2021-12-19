@@ -5,7 +5,7 @@
 * BREAKING: all native provider adapters moved out to separate NuGet packages
 * BREAKING: switch many usages of tuples to value tuples (experimental)
 * Distributions: Logistic *~Bobby Ingram*
-* Distributions: Perf: Cauchy~~~~ avoid duplicate evaluation *~Febin*
+* Distributions: Perf: Cauchy avoid duplicate evaluation *~Febin*
 * Precision: Perf: pre-compute negative powers *~Febin*
 * Optimizations: Remove static properties in LevenbergMarquardtMinimizer *~Jong Hyun Kim*
 * Root Finding: Newton-Raphson better handling of zero-evaluations
