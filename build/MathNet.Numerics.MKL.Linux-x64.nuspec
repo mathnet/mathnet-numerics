@@ -7,6 +7,7 @@
         <authors>Christoph Ruegg, Marcus Cuda, Jurgen Van Gael</authors>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <license type="expression">MIT</license>
+        <icon>icon.png</icon>
         <projectUrl>https://numerics.mathdotnet.com/</projectUrl>
         <repository type="git" url="https://github.com/mathnet/mathnet-numerics" />
         <description>Intel MKL native libraries for Math.NET Numerics on Linux.</description>
