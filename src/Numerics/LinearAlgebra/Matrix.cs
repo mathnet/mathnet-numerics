@@ -88,15 +88,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// to get and set values without range checking.</remarks>
         public T this[int row, int column]
         {
-#if !NET40
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
             get { return Storage[row, column]; }
 
-#if !NET40
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
             set { Storage[row, column] = value; }
         }
@@ -113,9 +109,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <returns>
         /// The requested element.
         /// </returns>
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
         public T At(int row, int column)
         {
@@ -134,9 +128,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <param name="value">
         /// The value to set the element to.
         /// </param>
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
         public void At(int row, int column, T value)
         {

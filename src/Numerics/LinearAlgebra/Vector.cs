@@ -72,15 +72,11 @@ namespace MathNet.Numerics.LinearAlgebra
         /// greater than the size of the vector.</exception>
         public T this[int index]
         {
-#if !NET40
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
             get { return Storage[index]; }
 
-#if !NET40
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
             [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
             set { Storage[index] = value; }
         }
@@ -88,9 +84,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>Gets the value at the given <paramref name="index"/> without range checking..</summary>
         /// <param name="index">The index of the value to get or set.</param>
         /// <returns>The value of the vector at the given <paramref name="index"/>.</returns>
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
         public T At(int index)
         {
@@ -100,9 +94,7 @@ namespace MathNet.Numerics.LinearAlgebra
         /// <summary>Sets the <paramref name="value"/> at the given <paramref name="index"/> without range checking..</summary>
         /// <param name="index">The index of the value to get or set.</param>
         /// <param name="value">The value to set.</param>
-#if !NET40
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
         public void At(int index, T value)
         {

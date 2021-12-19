@@ -64,11 +64,7 @@ namespace MathNet.Numerics
         /// </summary>
         public Polynomial()
         {
-#if NET40
-            Coefficients = new double[0];
-#else
             Coefficients = Array.Empty<double>();
-#endif
         }
 
         /// <summary>
@@ -80,11 +76,7 @@ namespace MathNet.Numerics
         {
             if (coefficient == 0.0)
             {
-#if NET40
-                Coefficients = new double[0];
-#else
                 Coefficients = Array.Empty<double>();
-#endif
             }
             else
             {

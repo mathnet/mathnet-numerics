@@ -27,7 +27,7 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 // </copyright>
 
-#if NET40_OR_GREATER
+#if NET461_OR_GREATER
 // Rationale: System.Random is no longer serializable in .Net Core
 
 using System;

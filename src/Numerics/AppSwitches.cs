@@ -46,26 +46,14 @@ namespace MathNet.Numerics
         const string AppSwitchDisableCudaNativeProvider = "Switch.MathNet.Numerics.Providers.DisableCudaNativeProvider";
         const string AppSwitchDisableOpenBlasNativeProvider = "Switch.MathNet.Numerics.Providers.DisableOpenBlasNativeProvider";
 
-#if NET40
-        static readonly System.Collections.Generic.Dictionary<string, bool> Switches = new System.Collections.Generic.Dictionary<string, bool>();
-#endif
-
         static void SetSwitch(string switchName, bool isEnabled)
         {
-#if NET40
-            Switches[switchName] = isEnabled;
-#else
             System.AppContext.SetSwitch(switchName, isEnabled);
-#endif
         }
 
         static bool IsEnabled(string switchName)
         {
-#if NET40
-            return Switches.TryGetValue(switchName, out bool isEnabled) && isEnabled;
-#else
             return System.AppContext.TryGetSwitch(switchName, out bool isEnabled) && isEnabled;
-#endif
         }
 
         public static bool DisableNativeProviderProbing

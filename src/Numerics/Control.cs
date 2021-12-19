@@ -35,11 +35,7 @@ using MathNet.Numerics.Providers.SparseSolver;
 using MathNet.Numerics.Providers.FourierTransform;
 using MathNet.Numerics.Providers.LinearAlgebra;
 
-#if NET40
-using System.Linq;
-#endif
-
-#if !NET40 && !NET461
+#if !NET461
 using System.Runtime.InteropServices;
 #endif
 
@@ -310,14 +306,7 @@ namespace MathNet.Numerics
 
         public static string Describe()
         {
-#if NET40
-            var versionAttribute = typeof(Control).Assembly
-                .GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false)
-                .OfType<AssemblyInformationalVersionAttribute>()
-                .FirstOrDefault();
-#else
             var versionAttribute = typeof(Control).GetTypeInfo().Assembly.GetCustomAttribute(typeof(AssemblyInformationalVersionAttribute)) as AssemblyInformationalVersionAttribute;
-#endif
 
             var sb = new StringBuilder();
             sb.AppendLine("Math.NET Numerics Configuration:");
@@ -328,10 +317,10 @@ namespace MathNet.Numerics
             sb.AppendLine("Built for .Net 5.0+");
 #elif NETSTANDARD2_0
             sb.AppendLine("Built for .Net Standard 2.0");
+#elif NET48
+            sb.AppendLine("Built for .Net Framework 4.8");
 #elif NET461
             sb.AppendLine("Built for .Net Framework 4.6.1");
-#elif NET40
-            sb.AppendLine("Built for .Net Framework 4.0");
 #endif
 
             sb.AppendLine($"Linear Algebra Provider: {LinearAlgebraControl.Provider}");
@@ -342,7 +331,7 @@ namespace MathNet.Numerics
             sb.AppendLine($"Parallelize Order: {ParallelizeOrder}");
             sb.AppendLine($"Check Distribution Parameters: {CheckDistributionParameters}");
             sb.AppendLine($"Thread-Safe RNGs: {ThreadSafeRandomNumberGenerators}");
-#if NET40 || NET461
+#if NET461
             sb.AppendLine($"Operating System: {Environment.OSVersion}");
             sb.AppendLine($"Framework: {Environment.Version}");
 #else
