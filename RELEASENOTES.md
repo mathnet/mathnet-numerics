@@ -1,4 +1,4 @@
-### 5.0.0-alpha03 - 2021-12-05
+### 5.0.0-alpha04 - 2021-12-19
 * COMPATIBILITY: net5.0, net48 better supported with explicit builds
 * COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
 * BREAKING: drop all which was marked as obsolete
@@ -16,6 +16,7 @@
 * Providers: drop managed reference linear algebra provider
 * Providers: native providers no longer inherit managed providers, managed now sealed
 * Providers: MKL provider compilation switched to Intel oneAPI MKL
+* Providers: support for provider packages with runtime folders
 * Better support for System.Text.Json: Polynomial, DescriptiveStatistics *~Joseph Petersen*
 * Lots of internal cleanup, leveraging newer language features
 * Data: now released always together with Numerics (no longer separate versioning)
