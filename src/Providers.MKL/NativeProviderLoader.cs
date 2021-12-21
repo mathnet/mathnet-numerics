@@ -127,13 +127,13 @@ namespace MathNet.Numerics.Providers.Common
             }
 
             // If we have hint path provided by the user, look there first
-            if (TryLoadFromDirectory(fileName, hintPath))
+            if (hintPath != null && TryLoadFromDirectory(fileName, hintPath))
             {
                 return true;
             }
 
             // If we have an overall hint path provided by the user, look there next
-            if (Control.NativeProviderPath != hintPath && TryLoadFromDirectory(fileName, Control.NativeProviderPath))
+            if (Control.NativeProviderPath != null && Control.NativeProviderPath != hintPath && TryLoadFromDirectory(fileName, Control.NativeProviderPath))
             {
                 return true;
             }
@@ -252,6 +252,9 @@ namespace MathNet.Numerics.Providers.Common
                     return false;
                 }
 
+#if NET5_0_OR_GREATER
+                return NativeLibrary.TryLoad(fullPath, out libraryHandle);
+#else
                 // If successful this will return a handle to the library
                 libraryHandle = IsUnix ? UnixLoader.LoadLibrary(fullPath) : WindowsLoader.LoadLibrary(fullPath);
                 if (libraryHandle == IntPtr.Zero)
@@ -267,9 +270,11 @@ namespace MathNet.Numerics.Providers.Common
                 }
 
                 return libraryHandle != IntPtr.Zero;
+#endif
             }
         }
 
+#if !NET5_0_OR_GREATER
         [SuppressUnmanagedCodeSecurity]
         [SecurityCritical]
         static class WindowsLoader
@@ -297,8 +302,9 @@ namespace MathNet.Numerics.Providers.Common
 
             const int RTLD_NOW = 2;
 
-            [DllImport("libdl.so", SetLastError = true)]
+            [DllImport("libdl", SetLastError = true)]
             static extern IntPtr dlopen(String fileName, int flags);
         }
+#endif
     }
 }
