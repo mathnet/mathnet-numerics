@@ -49,4 +49,9 @@ Control.Describe now includes CPU architecture and family identifier if know</Pa
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Providers.MKL\NativeProviderLoader.cs">
+      <Link>NativeProviderLoader.cs</Link>
+    </Compile>
+  </ItemGroup>
 </Project>

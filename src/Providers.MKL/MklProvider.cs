@@ -29,6 +29,7 @@
 
 using System;
 using System.Collections.Generic;
+using MathNet.Numerics.Providers.Common;
 
 namespace MathNet.Numerics.Providers.MKL
 {

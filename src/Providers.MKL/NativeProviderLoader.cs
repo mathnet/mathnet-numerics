@@ -37,7 +37,7 @@ using System.Threading;
 
 // ReSharper disable InconsistentNaming
 
-namespace MathNet.Numerics.Providers.MKL
+namespace MathNet.Numerics.Providers.Common
 {
     internal enum Runtime
     {
