@@ -1,3 +1,6 @@
+### 3.0.0-beta1 - 2021-12-23
+* New binary names and package structure with runtime folders
+
 ### 2.6.0-beta3 - 2021-12-19
 * Experimental build with runtime folders for sdk projects
 

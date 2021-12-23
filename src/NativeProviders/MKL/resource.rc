@@ -51,8 +51,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 2,6,0,0
- PRODUCTVERSION 2,6,0,0
+ FILEVERSION 3,0,0,0
+ PRODUCTVERSION 3,0,0,0
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -70,12 +70,12 @@ BEGIN
             VALUE "Comments", "http://numerics.mathdotnet.com/"
             VALUE "CompanyName", "Math.NET"
             VALUE "FileDescription", "MathNET Numerics MKL Native Provider"
-            VALUE "FileVersion", "2.6.0.0"
+            VALUE "FileVersion", "3.0.0.0"
             VALUE "InternalName", "Math.NET"
             VALUE "LegalCopyright", "Copyright (C) Math.NET 2009-2021"
             VALUE "OriginalFilename", "libMathNetNumercisMKL"
             VALUE "ProductName", "Math.NET Numerics"
-            VALUE "ProductVersion", "2.6.0.0"
+            VALUE "ProductVersion", "3.0.0.0"
         END
     END
     BLOCK "VarFileInfo"
