@@ -32,6 +32,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{B54A0B40
 		paket.dependencies = paket.dependencies
 		paket.lock = paket.lock
 		Directory.Build.props = Directory.Build.props
+		build\MathNet.Numerics.CUDA.Win.nuspec = build\MathNet.Numerics.CUDA.Win.nuspec
+		build\MathNet.Numerics.MKL.Linux.nuspec = build\MathNet.Numerics.MKL.Linux.nuspec
+		build\MathNet.Numerics.MKL.Linux-x64.nuspec = build\MathNet.Numerics.MKL.Linux-x64.nuspec
+		build\MathNet.Numerics.MKL.Linux-x86.nuspec = build\MathNet.Numerics.MKL.Linux-x86.nuspec
+		build\MathNet.Numerics.MKL.Win.nuspec = build\MathNet.Numerics.MKL.Win.nuspec
+		build\MathNet.Numerics.MKL.Win-x64.nuspec = build\MathNet.Numerics.MKL.Win-x64.nuspec
+		build\MathNet.Numerics.MKL.Win-x86.nuspec = build\MathNet.Numerics.MKL.Win-x86.nuspec
+		build\MathNet.Numerics.OpenBLAS.Win.nuspec = build\MathNet.Numerics.OpenBLAS.Win.nuspec
+		build\NativeProvider.targets = build\NativeProvider.targets
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestData", "src\TestData\TestData.csproj", "{AF3253C9-4DB5-45A0-98CF-C105FDA9DA47}"

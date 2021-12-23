@@ -20,8 +20,11 @@
         <file src="..\..\out\CUDA\Windows\x64\cublas64_70.dll" target="runtimes\win-x64\native\cublas64_70.dll" />
         <file src="..\..\out\CUDA\Windows\x64\cudart64_70.dll" target="runtimes\win-x64\native\cudart64_70.dll" />
         <file src="..\..\out\CUDA\Windows\x64\cusolver64_70.dll" target="runtimes\win-x64\native\cusolver64_70.dll" />
-        <file src="..\..\out\CUDA\Windows\x64\MathNet.Numerics.CUDA.dll" target="runtimes\win-x64\native\MathNet.Numerics.CUDA.dll" />
-        <file src="..\..\build\NativeProvider.targets" target="build\MathNet.Numerics.CUDA.Win.targets" />
+        <file src="..\..\out\CUDA\Windows\x64\libMathNetNumericsCUDA.dll" target="runtimes\win-x64\native\libMathNetNumericsCUDA.dll" />
+        <file src="..\..\build\NativeProvider.targets" target="build\net461\MathNet.Numerics.CUDA.Win.targets" />
+        <file src="..\..\build\NativeProvider.targets" target="build\net48\MathNet.Numerics.CUDA.Win.targets" />
+        <file src="..\..\build\NativeProvider.targets" target="buildTransitive\net461\MathNet.Numerics.CUDA.Win.targets" />
+        <file src="..\..\build\NativeProvider.targets" target="buildTransitive\net48\MathNet.Numerics.CUDA.Win.targets" />
         <file src="..\..\build\icon.png" target="icon.png" />
     </files>
 </package>

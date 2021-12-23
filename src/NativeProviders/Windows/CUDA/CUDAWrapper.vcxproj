@@ -81,21 +81,21 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)..\..\..\..\out\CUDA\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>MathNet.Numerics.CUDA</TargetName>
+    <TargetName>libMathNetNumericsCUDA</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>MathNet.Numerics.CUDA</TargetName>
+    <TargetName>libMathNetNumericsCUDA</TargetName>
     <OutDir>$(ProjectDir)..\..\..\..\out\CUDA\Windows\x64\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)..\..\..\..\out\CUDA\Windows\x86\</OutDir>
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>MathNet.Numerics.CUDA</TargetName>
+    <TargetName>libMathNetNumericsCUDA</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>$(Platform)\$(Configuration)\</IntDir>
-    <TargetName>MathNet.Numerics.CUDA</TargetName>
+    <TargetName>libMathNetNumericsCUDA</TargetName>
     <OutDir>$(ProjectDir)..\..\..\..\out\CUDA\Windows\x64\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -64,14 +64,6 @@ namespace MathNet.Numerics
             /// </summary>
             static readonly double Huge = 1.7976931348623157e+308;
             /// <summary>
-            /// The number 3*pi/4
-            /// </summary>
-            static readonly double Pi3Over4 = 2.3561944901923449288;
-            /// <summary>
-            /// The number sqrt(2/pi)
-            /// </summary>
-            static readonly double Sqrt2OverPi = 0.7978845608028653559;
-            /// <summary>
             /// The number 2**(1/4)
             /// </summary>
             static readonly double TwoExp1Over4 = 1.18920711500272106671749997;
@@ -92,17 +84,9 @@ namespace MathNet.Numerics
             /// </summary>
             static readonly double Giant = Huge / 1000;
             /// <summary>
-            /// The number 2/sqrt(pi)
-            /// </summary>
-            static readonly double TwoOverSqrtPi = 1.1283791670955125739;
-            /// <summary>
             /// Lower limit of exponential
             /// </summary>
             static readonly double ExpLow = -300;
-            /// <summary>
-            /// Upper limit of exponential
-            /// </summary>
-            static readonly double ExpHigh = 300;
             /// <summary>
             /// Demanded accuracy
             /// </summary>

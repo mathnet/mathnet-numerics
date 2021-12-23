@@ -35,8 +35,8 @@ namespace MathNet.Numerics.Providers.MKL
 {
     public static class MklProvider
     {
-        const int DesignTimeRevision = 14;
-        const int MinimumCompatibleRevision = 4;
+        const int DesignTimeRevision = 15;
+        const int MinimumCompatibleRevision = 15;
 
         static int _nativeRevision;
         static Version _mklVersion;

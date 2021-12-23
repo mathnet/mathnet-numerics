@@ -73,7 +73,7 @@ BEGIN
             VALUE "FileVersion", "2.6.0.0"
             VALUE "InternalName", "Math.NET"
             VALUE "LegalCopyright", "Copyright (C) Math.NET 2009-2021"
-            VALUE "OriginalFilename", "MathNet.Numerics.MKL"
+            VALUE "OriginalFilename", "libMathNetNumercisMKL"
             VALUE "ProductName", "Math.NET Numerics"
             VALUE "ProductVersion", "2.6.0.0"
         END

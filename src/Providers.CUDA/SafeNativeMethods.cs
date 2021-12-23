@@ -46,7 +46,7 @@ namespace MathNet.Numerics.Providers.CUDA
         /// <summary>
         /// Name of the native DLL.
         /// </summary>
-        internal const string DllName = "MathNet.Numerics.CUDA.dll";
+        internal const string DllName = "libMathNetNumercisCUDA";
 
         [DllImport(DllName, ExactSpelling = true, SetLastError = false, CallingConvention = CallingConvention.Cdecl)]
         internal static extern int query_capability(int capability);

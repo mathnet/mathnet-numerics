@@ -73,7 +73,7 @@ BEGIN
             VALUE "FileVersion", "0.2.0.0"
             VALUE "InternalName", "Math.NET"
             VALUE "LegalCopyright", "Copyright (C) Math.NET 2009-2015"
-            VALUE "OriginalFilename", "MathNet.Numerics.OpenBLAS"
+            VALUE "OriginalFilename", "libMathNetNumericsOpenBLAS"
             VALUE "ProductName", "Math.NET Numerics"
             VALUE "ProductVersion", "0.2.0.0"
         END

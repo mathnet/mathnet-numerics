@@ -39,15 +39,12 @@ using System.Threading;
 
 namespace MathNet.Numerics.Providers.Common
 {
-    internal enum Runtime
+    internal enum ProcArchitecture
     {
-        Unknown = 0,
-        WindowsX64,
-        WindowsX86,
-        WindowsArm64,
-        WindowsArm,
-        LinuxX64,
-        LinuxX86,
+        X64,
+        X86,
+        Arm,
+        Arm64
     }
 
     /// <summary>
@@ -63,54 +60,51 @@ namespace MathNet.Numerics.Providers.Common
         static readonly Lazy<Dictionary<string, IntPtr>> NativeHandles = new Lazy<Dictionary<string, IntPtr>>(LazyThreadSafetyMode.PublicationOnly);
 
         /// <summary>
-        /// Gets a string indicating the architecture and bitness of the current process.
-        /// </summary>
-        static readonly Lazy<Runtime> RuntimeKey = new Lazy<Runtime>(EvaluateRuntime, LazyThreadSafetyMode.PublicationOnly);
-
-        /// <summary>
         /// If the last native library failed to load then gets the corresponding exception
         /// which occurred or null if the library was successfully loaded.
         /// </summary>
         internal static Exception LastException { get; private set; }
 
-        static bool IsUnix
+        static bool IsWindows { get; }
+        static bool IsLinux { get; }
+        static bool IsMac { get; }
+        static bool IsUnix { get; }
+
+        static ProcArchitecture ProcArchitecture { get; }
+        static string Extension { get; }
+
+        static NativeProviderLoader()
         {
-            get
-            {
-                var p = Environment.OSVersion.Platform;
-                return p == PlatformID.Unix || p == PlatformID.MacOSX;
-            }
-        }
+#if !NET461
+            IsLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+            IsMac = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
-        static Runtime EvaluateRuntime()
-        {
-            //return (IntPtr.Size == 8) ? X64 : X86;
-            if (IsUnix)
-            {
-                // Only support x86 and amd64 on Unix as there isn't a reliable way to detect the architecture
-                return Environment.Is64BitProcess ? Runtime.LinuxX64 : Runtime.LinuxX86;
-            }
+            var a = RuntimeInformation.ProcessArchitecture;
+            bool arm = a == Architecture.Arm || a == Architecture.Arm64;
+#else
+            var p = Environment.OSVersion.Platform;
+            IsLinux = p == PlatformID.Unix;
+            IsMac = p == PlatformID.MacOSX;
 
-            var architecture = Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
+            bool arm = false;
+#endif
 
-            if (string.Equals(architecture, "x86", StringComparison.OrdinalIgnoreCase))
-            {
-                return Runtime.WindowsX86;
-            }
+            IsUnix = IsLinux || IsMac;
+            IsWindows = !IsUnix;
 
-            if (string.Equals(architecture, "amd64", StringComparison.OrdinalIgnoreCase)
-                || string.Equals(architecture, "x64", StringComparison.OrdinalIgnoreCase))
-            {
-                return Environment.Is64BitProcess ? Runtime.WindowsX64 : Runtime.WindowsX86;
-            }
+            Extension = IsWindows
+                ? ".dll"
+                : IsLinux
+                    ? ".so"
+                    : ".dylib";
 
-            if (string.Equals(architecture, "arm", StringComparison.OrdinalIgnoreCase))
-            {
-                return Environment.Is64BitProcess ? Runtime.WindowsArm64 : Runtime.WindowsArm;
-            }
-
-            // Fallback if unknown
-            return Runtime.Unknown;
+            ProcArchitecture = Environment.Is64BitProcess
+                ? arm
+                    ? ProcArchitecture.Arm64
+                    : ProcArchitecture.X64
+                : arm
+                    ? ProcArchitecture.Arm
+                    : ProcArchitecture.X86;
         }
 
         /// <summary>
@@ -124,6 +118,11 @@ namespace MathNet.Numerics.Providers.Common
             if (string.IsNullOrEmpty(fileName))
             {
                 throw new ArgumentNullException(nameof(fileName));
+            }
+
+            if (string.IsNullOrEmpty(Path.GetExtension(fileName)))
+            {
+                fileName = Path.ChangeExtension(fileName, Extension);
             }
 
             // If we have hint path provided by the user, look there first
@@ -168,67 +167,110 @@ namespace MathNet.Numerics.Providers.Common
 
             directory = Path.GetFullPath(directory);
 
-            // If we have a know architecture, try the matching subdirectory first
-            switch (RuntimeKey.Value)
+            if (IsWindows)
             {
-                case Runtime.WindowsX64:
-                    if (TryLoadFile(directory, "x64", fileName)
-                        || TryLoadFile(directory, "runtimes/win-x64/native", fileName)
-                        || TryLoadFile(directory, "win-x64/native", fileName)
-                        || TryLoadFile(directory, "win-x64", fileName))
-                    {
-                        return true;
-                    }
-                    break;
-                case Runtime.WindowsX86:
-                    if (TryLoadFile(directory, "x86", fileName)
-                        || TryLoadFile(directory, "runtimes/win-x86/native", fileName)
-                        || TryLoadFile(directory, "win-x86/native", fileName)
-                        || TryLoadFile(directory, "win-x86", fileName))
-                    {
-                        return true;
-                    }
-                    break;
-                case Runtime.WindowsArm64:
-                    if (TryLoadFile(directory, "arm64", fileName)
-                        || TryLoadFile(directory, "runtimes/win-arm64/native", fileName)
-                        || TryLoadFile(directory, "win-arm64/native", fileName)
-                        || TryLoadFile(directory, "win-arm64", fileName))
-                    {
-                        return true;
-                    }
-                    break;
-                case Runtime.WindowsArm:
-                    if (TryLoadFile(directory, "arm", fileName)
-                        || TryLoadFile(directory, "runtimes/win-arm/native", fileName)
-                        || TryLoadFile(directory, "win-arm/native", fileName)
-                        || TryLoadFile(directory, "win-arm", fileName))
-                    {
-                        return true;
-                    }
-                    break;
-                case Runtime.LinuxX64:
-                    if (TryLoadFile(directory, "x64", fileName)
-                        || TryLoadFile(directory, "runtimes/linux-x64/native", fileName)
-                        || TryLoadFile(directory, "linux-x64/native", fileName)
-                        || TryLoadFile(directory, "linux-x64", fileName))
-                    {
-                        return true;
-                    }
-                    break;
-                case Runtime.LinuxX86:
-                    if (TryLoadFile(directory, "x86", fileName)
-                        || TryLoadFile(directory, "runtimes/linux-x86/native", fileName)
-                        || TryLoadFile(directory, "linux-x86/native", fileName)
-                        || TryLoadFile(directory, "linux-x86", fileName))
-                    {
-                        return true;
-                    }
-                    break;
+                switch (ProcArchitecture)
+                {
+                    case ProcArchitecture.X64:
+                        return TryLoadFile(directory, "runtimes/win-x64/native", fileName)
+                            || TryLoadFile(directory, "win-x64/native", fileName)
+                            || TryLoadFile(directory, "win-x64", fileName)
+                            || TryLoadFile(directory, "x64", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    case ProcArchitecture.X86:
+                        return TryLoadFile(directory, "runtimes/win-x86/native", fileName)
+                            || TryLoadFile(directory, "win-x86/native", fileName)
+                            || TryLoadFile(directory, "win-x86", fileName)
+                            || TryLoadFile(directory, "x86", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    case ProcArchitecture.Arm64:
+                        return TryLoadFile(directory, "runtimes/win-arm64/native", fileName)
+                            || TryLoadFile(directory, "win-arm64/native", fileName)
+                            || TryLoadFile(directory, "win-arm64", fileName)
+                            || TryLoadFile(directory, "arm64", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    case ProcArchitecture.Arm:
+                        return TryLoadFile(directory, "runtimes/win-arm/native", fileName)
+                            || TryLoadFile(directory, "win-arm/native", fileName)
+                            || TryLoadFile(directory, "win-arm", fileName)
+                            || TryLoadFile(directory, "arm", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    default:
+                        return TryLoadFile(directory, string.Empty, fileName);
+                }
             }
 
-            // Otherwise try to load directly from the provided directory
-            return TryLoadFile(directory, string.Empty, fileName);
+            if (IsLinux)
+            {
+                switch (ProcArchitecture)
+                {
+                    case ProcArchitecture.X64:
+                        return TryLoadFile(directory, "runtimes/linux-x64/native", fileName)
+                            || TryLoadFile(directory, "linux-x64/native", fileName)
+                            || TryLoadFile(directory, "linux-x64", fileName)
+                            || TryLoadFile(directory, "x64", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    case ProcArchitecture.X86:
+                        return TryLoadFile(directory, "runtimes/linux-x86/native", fileName)
+                            || TryLoadFile(directory, "linux-x86/native", fileName)
+                            || TryLoadFile(directory, "linux-x86", fileName)
+                            || TryLoadFile(directory, "x86", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    case ProcArchitecture.Arm64:
+                        return TryLoadFile(directory, "runtimes/linux-arm64/native", fileName)
+                            || TryLoadFile(directory, "linux-arm64/native", fileName)
+                            || TryLoadFile(directory, "linux-arm64", fileName)
+                            || TryLoadFile(directory, "arm64", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    case ProcArchitecture.Arm:
+                        return TryLoadFile(directory, "runtimes/linux-arm/native", fileName)
+                            || TryLoadFile(directory, "linux-arm/native", fileName)
+                            || TryLoadFile(directory, "linux-arm", fileName)
+                            || TryLoadFile(directory, "arm", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    default:
+                        return TryLoadFile(directory, string.Empty, fileName);
+                }
+            }
+
+            if (IsMac)
+            {
+                switch (ProcArchitecture)
+                {
+                    case ProcArchitecture.X64:
+                        return TryLoadFile(directory, "runtimes/osx-x64/native", fileName)
+                            || TryLoadFile(directory, "osx-x64/native", fileName)
+                            || TryLoadFile(directory, "osx-x64", fileName)
+                            || TryLoadFile(directory, "x64", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    case ProcArchitecture.Arm64:
+                        return TryLoadFile(directory, "runtimes/osx-arm64/native", fileName)
+                            || TryLoadFile(directory, "osx-arm64/native", fileName)
+                            || TryLoadFile(directory, "osx-arm64", fileName)
+                            || TryLoadFile(directory, "arm64", fileName)
+                            || TryLoadFile(directory, string.Empty, fileName);
+                    default:
+                        return TryLoadFile(directory, string.Empty, fileName);
+                }
+            }
+
+            switch (ProcArchitecture)
+            {
+                case ProcArchitecture.X64:
+                    return TryLoadFile(directory, "x64", fileName)
+                        || TryLoadFile(directory, string.Empty, fileName);
+                case ProcArchitecture.X86:
+                    return TryLoadFile(directory, "x86", fileName)
+                        || TryLoadFile(directory, string.Empty, fileName);
+                case ProcArchitecture.Arm64:
+                    return TryLoadFile(directory, "arm64", fileName)
+                        || TryLoadFile(directory, string.Empty, fileName);
+                case ProcArchitecture.Arm:
+                    return TryLoadFile(directory, "arm", fileName)
+                        || TryLoadFile(directory, string.Empty, fileName);
+                default:
+                    return TryLoadFile(directory, string.Empty, fileName);
+            }
         }
 
         /// <summary>
@@ -302,7 +344,7 @@ namespace MathNet.Numerics.Providers.Common
 
             const int RTLD_NOW = 2;
 
-            [DllImport("libdl", SetLastError = true)]
+            [DllImport("dl", SetLastError = true)]
             static extern IntPtr dlopen(String fileName, int flags);
         }
 #endif
