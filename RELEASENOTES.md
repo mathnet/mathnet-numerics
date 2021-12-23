@@ -1,4 +1,4 @@
-### 5.0.0-alpha07 - 2021-12-19
+### 5.0.0-alpha08 - 2021-12-23
 * COMPATIBILITY: net5.0, net48 better supported with explicit builds
 * COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
 * BREAKING: drop all which was marked as obsolete
@@ -13,6 +13,7 @@
 * Fixed an index out of bounds issue when calculating BFGS minimizer with one variable *~Shiney*
 * Marcum-Q function *~CHUTORO*
 * Series: stable series summation
+* Providers: binary names and loading changes to follow conventions and better x-plat
 * Providers: drop managed reference linear algebra provider
 * Providers: native providers no longer inherit managed providers, managed now sealed
 * Providers: MKL provider compilation switched to Intel oneAPI MKL
