@@ -311,5 +311,26 @@ namespace MathNet.Numerics.UnitTests.SpecialFunctionsTests
         {
             AssertHelpers.AlmostEqualRelative(x, SpecialFunctions.Logistic(p), 14);
         }
+
+        /// <summary>
+        /// Log1p function.
+        /// </summary>
+        /// <param name="y">Expected value.</param>
+        /// <param name="x">Input X value.</param>
+        [TestCase(-1.0, double.NegativeInfinity)]
+        [TestCase(-0.01, -0.010050335853501442)]
+        [TestCase(-0.0001, -0.00010000500033335834)]
+        [TestCase(-1.0e-6, -1.0000005000003334e-6)]
+        [TestCase(-1.0e-8, -1.0000000050000001e-8)]
+        [TestCase(0.0, 0.0)]
+        [TestCase(1.0e-8, 9.999999950000001e-9)]
+        [TestCase(1.0e-6, 9.999995000003334e-7)]
+        [TestCase(0.0001, 9.999500033330834e-5)]
+        [TestCase(0.01, 0.009950330853168083)]
+        [TestCase(1.0, 0.6931471805599453)]
+        public void Log1p(double x, double y)
+        {
+            AssertHelpers.AlmostEqualRelative(y, SpecialFunctions.Log1p(x), 14);
+        }
     }
 }
