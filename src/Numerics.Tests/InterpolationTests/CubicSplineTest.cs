@@ -39,7 +39,10 @@ namespace MathNet.Numerics.Tests.InterpolationTests
     {
         readonly double[] _t = { -2.0, -1.0, 0.0, 1.0, 2.0 };
         readonly double[] _y = { 1.0, 2.0, -1.0, 0.0, 1.0 };
-
+        //test data for min max values
+        readonly double[] _x = { -4, -3, -2, -1, 0, 1, 2, 3, 4 };
+        readonly double[] _z = { -7, 2, 5, 0, -3, -1, -4, 0, 6 }; 
+                                                                  
         /// <summary>
         /// Verifies that the interpolation matches the given value at all the provided sample points.
         /// </summary>
@@ -201,6 +204,38 @@ namespace MathNet.Numerics.Tests.InterpolationTests
             });
 
             CollectionAssert.DoesNotContain(yipol, Double.NaN);
+        }
+
+        /// <summary>
+        /// Tests that the cubic spline returns the correct t values where the derivative is 0
+        /// </summary>
+        [Test]
+        public void NaturalSplineGetHorizontalDerivativeTValues()
+        {
+            CubicSpline it = CubicSpline.InterpolateBoundaries(_x, _z, SplineBoundaryCondition.SecondDerivative, -4.0, SplineBoundaryCondition.SecondDerivative, 4.0);
+            var horizontalDerivatives = it.GetHorizontalDerivativeTValues();
+            //readonly double[] _x = { -4, -3, -2, -1,  0,  1,  2, 3, 4 };
+            //readonly double[] _z = { -7,  2,  5,  0, -3, -1, -4, 0, 6 };
+            Assert.AreEqual(4, horizontalDerivatives.Length, "Incorrect number of points with derivative value equal to 0");
+            Assert.IsTrue(horizontalDerivatives[0]>=-3 && horizontalDerivatives[0] <= -2,"Spline returns wrong t value: "+horizontalDerivatives[0]+" for first point");
+            Assert.IsTrue(horizontalDerivatives[1] >= -1 && horizontalDerivatives[1] <= 0, "Spline returns wrong t value: " + horizontalDerivatives[1] + " for second point");
+            Assert.IsTrue(horizontalDerivatives[2] >= 0 && horizontalDerivatives[2] <= 1, "Spline returns wrong t value: " + horizontalDerivatives[2] + " for third point");
+            Assert.IsTrue(horizontalDerivatives[3] >= 2 && horizontalDerivatives[3] <= 3, "Spline returns wrong t value: " + horizontalDerivatives[3] + " for fourth point");
+            Console.WriteLine("GetHorizontalDerivativeTValues checked out ok for cubic spline.");
+         }
+
+        /// <summary>
+        /// Tests that the min and max values for the natural spline are correct
+        /// </summary>
+        [Test]
+        public void NaturalSplineGetMinMaxTvalues()
+        {
+            CubicSpline it = CubicSpline.InterpolateBoundaries(_x, _z, SplineBoundaryCondition.SecondDerivative, -4.0, SplineBoundaryCondition.SecondDerivative, 4.0);
+            var minMax = it.GetMinMaxTValues();
+            Assert.AreEqual(-4, minMax.Item1, "Spline returns wrong t value for global minimum");
+            Assert.AreEqual(4, minMax.Item2, "Spline returns wrong t value for global maximum");
+            Console.WriteLine("GetMinMaxTValues checked out ok for cubic spline.");
+
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// <copyright file="CubicSpline.cs" company="Math.NET">
+// <copyright file="CubicSpline.cs" company="Math.NET">
 // Math.NET Numerics, part of the Math.NET Project
 // http://numerics.mathdotnet.com
 // http://github.com/mathnet/mathnet-numerics
@@ -625,13 +625,13 @@ namespace MathNet.Numerics.Interpolation
         }
 
         /// <summary>
-        /// Gets all the points (x values) where the derivative is 0
+        /// Gets all the t values where the derivative is 0
         /// </summary>
-        /// <returns>An array of X values where the derivative of the spline is 0</returns>
-        public double[] GetHorizontalPoints()
+        /// <returns>An array of t values (in the domain of teh function) where the derivative of the spline is 0</returns>
+        public double[] GetHorizontalDerivativeTValues()
         {
             List<double> points = new List<double>();
-            for (int index = 0; index < _x.Length-1; index++)
+            for (int index = 0; index < _x.Length - 1; index++)
             {
                 double a = 6 * _c3[index]; //derive ax^3 and multiply by 2
                 double b = 2 * _c2[index]; //derive bx^2
@@ -640,58 +640,70 @@ namespace MathNet.Numerics.Interpolation
                 //first check if a is 0, if so its a linear function, this happens with quadratic condition
                 if (a.AlmostEqual(0))
                 {
-                double x = _x[index] - c / b;
-                //check if the result is in the domain
-                if (_x[index] <= x && x <= _x[index + 1]) points.Add(x);
+                    double x = _x[index] - c / b;
+                    //check if the result is in the domain
+                    if (_x[index] <= x && x <= _x[index + 1]) points.Add(x);
                 }
                 else if (d.AlmostEqual(0))//its a quadratic with a single solution
                 {
-                double x = _x[index] - b / a;
-                if (_x[index] <= x && x <= _x[index + 1]) points.Add(x);
+                    double x = _x[index] - b / a;
+                    if (_x[index] <= x && x <= _x[index + 1]) points.Add(x);
                 }
                 else if (d > 0)//only has a solution if d is greater than 0
                 {
-                d = (double)System.Math.Sqrt(d);
-                //apply quadratic equation
-                double x1 = _x[index]+ (-b + d) / a;
-                double x2 = _x[index]+ (-b - d) / a;
-                //Add any solution points that fall within the domain to the list
-                if ((_x[index] <= x1) && (x1 <= _x[index + 1])) points.Add(x1);
-                if ((_x[index] <= x2) && (x2 <= _x[index + 1])) points.Add(x2);
+                    d = (double)System.Math.Sqrt(d);
+                    //apply quadratic equation
+                    double x1 = _x[index] + (-b + d) / a;
+                    double x2 = _x[index] + (-b - d) / a;
+                    //Add any solution points that fall within the domain to the list
+                    if ((_x[index] <= x1) && (x1 <= _x[index + 1])) points.Add(x1);
+                    if ((_x[index] <= x2) && (x2 <= _x[index + 1])) points.Add(x2);
                 }
             }
             return points.ToArray();
         }
 
         /// <summary>
-        /// Returns the maximum value for the spline within its domain.
+        /// Returns the t values in the domain of the spline for which it takes the minimum and maximum value.
         /// </summary>
-        /// <returns></returns>
-        public double GetMaxPoint()
+        /// <returns>A tuple containing the t value for which the spline is minimum in the first component and maximum in the second component </returns>
+        public Tuple<double, double> GetMinMaxTValues()
         {
             double max = double.MinValue;
-            double x=0;
+            double min = double.MaxValue;
+            double minT = 0;
+            double maxT = 0;
             //go through the functions points to check if one of them has a higher value
             foreach (double p in _x)
             {
                 double y = Interpolate(p);
                 if (y > max)
                 {
-                max = y;
-                x = p;
+                    max = y;
+                    maxT = p;
+                }
+                if (y < min)
+                {
+                    min = y;
+                    minT = p;
                 }
             }
             //go through the inflexion, local minimums and local maximums
-            foreach (double p in GetHorizontalPoints())
+            foreach (double p in GetHorizontalDerivativeTValues())
             {
                 double y = Interpolate(p);
                 if (y > max)
                 {
-                max = y;
-                x = p;
+                    max = y;
+                    maxT = p;
+                }
+                if (y < min)
+                {
+                    min = y;
+                    minT = p;
                 }
             }
-            return x;
+            return new Tuple<double, double>(minT, maxT);
         }
     }
 }
