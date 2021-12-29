@@ -44,12 +44,12 @@ module Random =
     let inline doubleSeqSeed (seed:int) = SystemRandomSource.DoubleSequence(seed)
     let inline doubleFillSeed (seed:int) (values:float[]) = SystemRandomSource.Doubles(values, seed)
 
-    /// Creates a default .Net system pRNG with a robust seed
+    /// Creates a default .NET system pRNG with a robust seed
     let systemShared = shared
     let inline system () = SystemRandomSource() :> System.Random
     let inline systemSeed (seed:int) = SystemRandomSource(seed) :> System.Random
 
-    /// Creates a default .Net cryptographic system pRNG
+    /// Creates a default .NET cryptographic system pRNG
     let inline crypto () = new CryptoRandomSource() :> System.Random
     let inline cryptoWith (threadSafe:bool) = new CryptoRandomSource(threadSafe) :> System.Random
     let inline cryptoDoubles (length:int) = CryptoRandomSource.Doubles(length)

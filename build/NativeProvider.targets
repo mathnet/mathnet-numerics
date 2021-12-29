@@ -8,7 +8,7 @@
     <MathNetInteropFiles Include="$(MSBuildThisFileDirectory)..\..\runtimes\**\*.dll" />
     <MathNetInteropFiles Include="$(MSBuildThisFileDirectory)..\..\runtimes\**\*.so" />
     <MathNetInteropFiles Include="$(MSBuildThisFileDirectory)..\..\runtimes\**\*.dylib" />
-    <None Include="@(MathNetInteropFiles)">
+    <None Include="@(MathNetInteropFiles)" Visible="false">
       <Link>runtimes/%(RecursiveDir)%(FileName)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

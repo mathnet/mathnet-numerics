@@ -28,7 +28,7 @@
 // </copyright>
 
 #if NET461_OR_GREATER
-// Rationale: System.Random is no longer serializable in .Net Core
+// Rationale: System.Random is no longer serializable in .NET Core
 
 using System;
 using System.IO;

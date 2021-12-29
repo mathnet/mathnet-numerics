@@ -121,17 +121,17 @@
 * Native Providers: All providers now support freeing resources without unloading the provider
 * Native Providers: MKL provider sets consistency, precision and accuracy modes earlier to ensure they are applied
 * Native Providers: If a provider has been loaded successfully, skip any future loading attempts (faster switching)
-* Build: add .Net Framework 4.6.1 target (main package), switch to 4.6.1 for testing projects
+* Build: add .NET Framework 4.6.1 target (main package), switch to 4.6.1 for testing projects
 
 ### 4.1.0 - 2018-02-19
 * Curve Fitting: Fit.Power, Fit.Exponential, Fit.Logarithm (similar to excel trend curves)
 
 ### 4.0.0 - 2018-02-11
-* Explicit builds for .Net Framework 4.0 and higher and for .Net Standard 1.3 and 2.0
-* F#: explicit builds for .Net Framework 4.5 and higher and for .Net Standard 1.6 and 2.0
+* Explicit builds for .NET Framework 4.0 and higher and for .Net Standard 1.3 and 2.0
+* F#: explicit builds for .NET Framework 4.5 and higher and for .Net Standard 1.6 and 2.0
 * BREAKING: drop obsolete functionality (which has been marked as obsolete for a while)
-* BREAKING: drop support for .Net 3.5 and PCL profiles
-* BREAKING: F#: drop support for .Net 4.0 and PCL profiles
+* BREAKING: drop support for .NET 3.5 and PCL profiles
+* BREAKING: F#: drop support for .NET 4.0 and PCL profiles
 * BREAKING: F#: depends on FSharp.Core 4.3.3
 * BREAKING: Native provider implementation types internal (but can be constructed explicitly)
 * BREAKING: Native provider control API moved from Control to per-provider Control classes
@@ -144,7 +144,7 @@
 * BUG: Trigonometry: Complex trigonometric functions behave better on large imput *~diluculo*
 * BUG: Trigonometry: Fix imaginary part sign of complex hyperbolic cotangent
 * Control.Describe: human readable summary of the effective Math.NET Numerics configuration
-* Providers: Native Provider support in .Net Standard 2.0 (but not in 1.x).
+* Providers: Native Provider support in .NET Standard 2.0 (but not in 1.x).
 * Linear Algebra: F# vector/matrix functions to accept all #seq instead of lists only
 * Linear Algebra: Vector MapInplace implemented at storage level
 * Curve Fitting: Fit.LineThroughOrigin shortcut
@@ -163,7 +163,7 @@
 * Build: use latest SDKs and runtimes, cleanups
 
 ### 4.0.0-beta06 - 2018-02-03
-* Rework conditional compilation to simplify and increase the .Net Standard api surface
+* Rework conditional compilation to simplify and increase the .NET Standard api surface
 * BREAKING: Native provider implementation types internal (but can be constructed explicitly)
 * BREAKING: Native provider control API moved from Control to per-provider Control classes
 * Control.Describe: human readable summary of the effective Math.NET Numerics configuration
@@ -192,11 +192,11 @@
 
 ### 4.0.0-beta01 - 2018-01-07
 * BREAKING: drop obsolete functionality (which has been marked as obsolete for a while)
-* BREAKING: drop support for .Net 3.5 and PCL profiles
-* BREAKING: F#: drop support for .Net 4.0 and PCL profiles
+* BREAKING: drop support for .NET 3.5 and PCL profiles
+* BREAKING: F#: drop support for .NET 4.0 and PCL profiles
 * BREAKING: F#: depends on FSharp.Core 4.2.3
-* Explicit builds for .Net Framework 4.0 and higher and for .Net Standard 1.3 and 2.0
-* F#: explicit builds for .Net Framework 4.5 and higher and for .Net Standard 1.6 and 2.0
+* Explicit builds for .NET Framework 4.0 and higher and for .Net Standard 1.3 and 2.0
+* F#: explicit builds for .NET Framework 4.5 and higher and for .Net Standard 1.6 and 2.0
 * Assemblies are now code-signed with an X.509 certificate, using SHA2-256 hashes
 * BUG: Ode Solver: fix typo in the Runge-Kutta solvers on time-step handling *~Ksero*
 * BUG: fix Matrix.GetHashCode for wide matrices *~mjmckp*
@@ -214,7 +214,7 @@
 
 ### 3.20.0 - 2017-07-15
 * Optimization: non-linear optimization algorithms *~Scott Stephens, Erik Ovegard, bdodson, et al.*
-* Native Providers: from now on also supported in the .Net 3.5 build.
+* Native Providers: from now on also supported in the .NET 3.5 build.
 * BUG: Special Functions: allow more iterations in BetaRegularized *~Elias Abou Jaoude*
 
 ### 3.19.0 - 2017-04-29
@@ -403,7 +403,7 @@
 * BUG: MatrixNormal distribution: density computation switched row and column covariance *~Evelina Gabasova*
 
 ### 3.2.1 - 2014-08-05
-* Package fix: make sure .Net 3.5-only dependencies are not installed on .Net 4 and newer.
+* Package fix: make sure .NET 3.5-only dependencies are not installed on .Net 4 and newer.
 
 ### 3.2.0 - 2014-08-05
 * Linear Algebra: Vector.Map2 (map2 in F#), storage-optimized
@@ -411,9 +411,9 @@
 * Statistics: Entropy *~Jeff Mastry*
 * Interpolation: use Array.BinarySearch instead of local implementation *~Candy Chiu*
 * Resources: fix a corrupted exception message string
-* Portable Build: support .Net 4.0 as well by using profile 328 instead of 344.
-* .Net 3.5: F# extensions now support .Net 3.5 as well
-* .Net 3.5: NuGet package now contains proper 3.5-only TPL package dependency; also in Zip package
+* Portable Build: support .NET 4.0 as well by using profile 328 instead of 344.
+* .NET 3.5: F# extensions now support .Net 3.5 as well
+* .NET 3.5: NuGet package now contains proper 3.5-only TPL package dependency; also in Zip package
 
 ### 3.1.0 - 2014-07-20
 * Random: generate a sequence of integers within a range in one go
@@ -610,8 +610,8 @@
 * Build:
    * FAKE-based build (in addition to existing Visual Studio solutions) to clean, build, test, document and package independently of the CI server.
    * Finally proper documentation using FSharp.Formatting with sources included in the repository so it is versioned and can be contributed to with pull requests.
-   * NuGet packages now also include the PCL portable profile 47 (.Net 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses `System.Numerics` for complex numbers, among others, which is not available in profile 136.
-   * NuGet packages now also include a .Net 3.5 build of the core library.
+   * NuGet packages now also include the PCL portable profile 47 (.NET 4.5, Silverlight 5, Windows 8) in addition to the normal .Net 4.0 build and PCL profile 136 (.Net 4.0, WindowsPhone 8, Silverlight 5, Windows 8) as before. Profile 47 uses `System.Numerics` for complex numbers, among others, which is not available in profile 136.
+   * NuGet packages now also include a .NET 3.5 build of the core library.
    * IO libraries have been removed, replaced with new `.Data` packages (see list on top).
    * Alternative strong-named versions of more NuGet packages (mostly the F# extensions for now), with the `.Signed` suffix.
    * Reworked solution structure so it works in both Visual Studio 11 (2012) and 12 (2013).
@@ -627,7 +627,7 @@
 * Complex: routines to return all two square and three cubic roots of a complex number.
 * Complex: More robust complex Asin/Acos for large real numbers.
 * Evaluate: routine to evaluate complex polynomials, or real polynomials at a complex point.
-* CommonParallel now also supported in .Net 3.5 and portable profiles; TaskScheduler can be replaced with custom implementation *~Thomas Ibel*
+* CommonParallel now also supported in .NET 3.5 and portable profiles; TaskScheduler can be replaced with custom implementation *~Thomas Ibel*
 * F# BigRational type cleaned up and optimized *~Jack Pappas*
 * F# BigRational IsZero, IsOne, IsInteger, create from fraction.
 * F# BigRational Reciprocal, Power operator support (**), support for negative integer powers.
@@ -691,7 +691,7 @@
    * Performance: reworked and tuned common parallelization. Some operations are up to 3 magnitudes faster in some extreme cases. Replaced copy loops with native routines. More algorithms are storage-aware (and should thus perform better especially on sparse data). *~Thomas Ibel, Iain McDonald, Marcus Cuda*
    * Fixed range checks in the Thin-QR decomposition. *~Marcus Cuda*
    * BUG: Fixed bug in Gram Schmidt for solving tall matrices. *~Marcus Cuda*
-   * Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .Net code. *~Scott Stephens*
+   * Vectors now implement the BCL IList interfaces (fixed-length) for better integration with existing .NET code. *~Scott Stephens*
    * Matrix/Vector parsing has been updated to be able to parse the new visual format as well (see ToMatrixString).
    * DebuggerDisplay attributes for matrices and vectors.
    * Map/IndexedMap combinators with storage-aware and partially parallelized implementations for both dense and sparse data.
@@ -718,8 +718,8 @@
 * F#: Better support for our Complex types (close to the F# PowerPack Complex type) *~Gustavo Guerra*
 
 ### 2.3.0 - 2013-11-25
-* Portable Library: Adds support for WP8 (.Net 4.0 and higher, SL5, WP8 and .NET for Windows Store apps)
-* Portable Library: New: portable build also for F# extensions (.Net 4.5, SL5 and .NET for Windows Store apps)
+* Portable Library: Adds support for WP8 (.NET 4.0 and higher, SL5, WP8 and .NET for Windows Store apps)
+* Portable Library: New: portable build also for F# extensions (.NET 4.5, SL5 and .NET for Windows Store apps)
 * Portable Library: NuGet: portable builds are now included in the main packages, no more need for special portable packages
 * Linear Algebra: Continued major storage rework, in this release focusing on vectors (previous release was on matrices)
 * Linear Algebra: Thin QR decomposition (in addition to existing full QR)

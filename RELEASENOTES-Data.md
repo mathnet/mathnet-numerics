@@ -4,11 +4,11 @@
 
 ### 4.0.0 - 2018-02-14
 * Support for Math.NET Numerics v4
-* In addition to .Net 4.0 and newer now also targets .Net Standard 1.3 and 2.0.
+* In addition to .NET 4.0 and newer now also targets .NET Standard 1.3 and 2.0.
 
 ### 4.0.0-beta01 - 2018-02-04
 * Support for Math.NET Numerics v4
-* In addition to .Net 4.0 and newer now also targets .Net Standard 1.3 and 2.0.
+* In addition to .NET 4.0 and newer now also targets .NET Standard 1.3 and 2.0.
 
 ### 3.2.1 - 2017-04-29
 * BUG: to prevent corrupt files, writers now overwrite files if they exists already

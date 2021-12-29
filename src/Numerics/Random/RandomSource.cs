@@ -35,7 +35,7 @@ namespace MathNet.Numerics.Random
 {
     /// <summary>
     /// Base class for random number generators. This class introduces a layer between <see cref="System.Random"/>
-    /// and the Math.Net Numerics random number generators to provide thread safety.
+    /// and the Math.NET Numerics random number generators to provide thread safety.
     /// When used directly it use the System.Random as random number source.
     /// </summary>
     [Serializable]

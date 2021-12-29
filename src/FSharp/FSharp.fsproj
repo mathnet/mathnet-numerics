@@ -11,7 +11,7 @@
         <VersionPrefix>5.0.0</VersionPrefix>
         <VersionSuffix>alpha08</VersionSuffix>
         <Title>Math.NET Numerics for F#$(TitleSuffix)</Title>
-        <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .Net 5.0 or higher, .NET Standard 2.0 and .NET Framework 4.6.1 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
+        <Description>F# Modules for Math.NET Numerics, the numerical foundation of the Math.NET project, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Supports .NET 5.0 or higher, .NET Standard 2.0 and .NET Framework 4.6.1 or higher, on Windows, Linux and Mac.$(DescriptionSuffix)</Description>
         <PackageReleaseNotes>COMPATIBILITY: net5.0, net48 better supported with explicit builds
 COMPATIBILITY: netstandard1.x, net40, net45 no longer supported
 BREAKING: drop all which was marked as obsolete

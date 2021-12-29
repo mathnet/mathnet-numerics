@@ -1,7 +1,7 @@
 Math.NET Numerics
 =================
 
-Math.NET Numerics is an opensource **numerical library for .Net, Silverlight and Mono**.
+Math.NET Numerics is an opensource **numerical library for .NET, Silverlight and Mono**.
 
 Math.NET Numerics is the numerical foundation of the Math.NET initiative, aiming to provide methods and algorithms for numerical computations in science, engineering and every day use. Covered topics include special functions, linear algebra, probability models, random numbers, statistics, interpolation, integration, regression, curve fitting, integral transforms (FFT) and more.
 
@@ -60,16 +60,16 @@ For full details, dependencies and platform discrepancies see [Platform Compatib
 Building Math.NET Numerics
 --------------------------
 
-Windows (.Net): [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics)
+Windows (.NET): [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/79j22c061saisces/branch/master)](https://ci.appveyor.com/project/cdrnet/mathnet-numerics)
 
-You can build Math.NET Numerics with an IDE like VisualStudio or JetBrains Rider, with MsBuild, .Net CLI tools or with FAKE (recommended).
+You can build Math.NET Numerics with an IDE like VisualStudio or JetBrains Rider, with MsBuild, .NET CLI tools or with FAKE (recommended).
 
 FAKE:
 
     ./build.sh build (or build.cmd)
     ./build.sh test
 
-.Net CLI:
+.NET CLI:
 
     ./restore.sh (or restore.cmd)
     dotnet build MathNet.Numerics.sln
