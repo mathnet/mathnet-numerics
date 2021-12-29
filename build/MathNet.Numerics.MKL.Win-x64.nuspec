@@ -24,6 +24,10 @@
         <file src="..\..\build\NativeProvider.targets" target="build\net48\MathNet.Numerics.MKL.Win-x64.targets" />
         <file src="..\..\build\NativeProvider.targets" target="buildTransitive\net461\MathNet.Numerics.MKL.Win-x64.targets" />
         <file src="..\..\build\NativeProvider.targets" target="buildTransitive\net48\MathNet.Numerics.MKL.Win-x64.targets" />
+        <file src="..\..\build\_._" target="build\net5.0\_._" />
+        <file src="..\..\build\_._" target="build\netstandard2.0\_._" />
+        <file src="..\..\build\_._" target="buildTransitive\net5.0\_._" />
+        <file src="..\..\build\_._" target="buildTransitive\netstandard2.0\_._" />
         <file src="..\..\build\icon.png" target="icon.png" />
     </files>
 </package>
