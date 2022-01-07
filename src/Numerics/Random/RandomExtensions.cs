@@ -29,6 +29,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Numerics;
+using System.Linq;
 
 namespace MathNet.Numerics.Random
 {
@@ -167,7 +169,7 @@ namespace MathNet.Numerics.Random
         }
 
         /// <summary>
-        /// Returns an infinite sequence of uniform random numbers greater than or equal to 0.0 and less than 1.0.
+        /// Returns an infinite sequence of uniform random 32-bit signed integers within the specified range.
         /// </summary>
         /// <remarks>
         /// This extension is thread-safe if and only if called on an random number
@@ -188,6 +190,34 @@ namespace MathNet.Numerics.Random
             while (true)
             {
                 yield return rnd.Next(minInclusive, maxExclusive);
+            }
+        }
+
+        /// <summary>
+        /// Returns an infinite sequence of uniform random <see cref="System.Numerics.BigInteger"/> within the specified range.
+        /// </summary>
+        /// <remarks>
+        /// This extension is thread-safe if and only if called on an random number
+        /// generator provided by Math.NET Numerics or derived from the RandomSource class.
+        /// </remarks>
+        public static IEnumerable<BigInteger> NextBigIntegerSequence(this System.Random rnd, BigInteger minInclusive, BigInteger maxExclusive)
+        {
+            BigInteger AbsoluteRange = maxExclusive - minInclusive;
+            int NumBytes = (int)Math.Ceiling(BigInteger.Log(AbsoluteRange, byte.MaxValue) * 2);
+            byte[] ByteSequence = Enumerable.Repeat(byte.MaxValue, NumBytes + 1).ToArray();
+            ByteSequence[NumBytes] = 0;
+            BigInteger RandomNumber = new BigInteger(ByteSequence);
+            BigInteger ValidRange = RandomNumber - RandomNumber % AbsoluteRange;
+            while(true)
+            {
+                do
+                {
+                    rnd.NextBytes(ByteSequence);
+                    ByteSequence[NumBytes] = 0;
+                    RandomNumber = new BigInteger(ByteSequence);
+                }
+                while (RandomNumber >= ValidRange);
+                yield return RandomNumber % AbsoluteRange + minInclusive;
             }
         }
 
