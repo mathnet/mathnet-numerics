@@ -394,7 +394,7 @@ namespace MathNet.Numerics.Distributions
         {
             var x = Gamma.SampleUnchecked(rnd, a, 1.0);
             var y = Gamma.SampleUnchecked(rnd, b, 1.0);
-            return x/(x + y);
+            return x == 0 ? 0 : x / (x + y);
         }
 
         internal static void SamplesUnchecked(System.Random rnd, double[] values, double a, double b)
