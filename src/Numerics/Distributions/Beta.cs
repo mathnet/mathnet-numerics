@@ -392,9 +392,13 @@ namespace MathNet.Numerics.Distributions
         /// <returns>a random number from the Beta distribution.</returns>
         internal static double SampleUnchecked(System.Random rnd, double a, double b)
         {
-            var x = Gamma.SampleUnchecked(rnd, a, 1.0);
-            var y = Gamma.SampleUnchecked(rnd, b, 1.0);
-            return x == 0 ? 0 : x / (x + y);
+            double x, y;
+            do
+            {
+                x = Gamma.SampleUnchecked(rnd, a, 1.0);
+                y = Gamma.SampleUnchecked(rnd, b, 1.0);
+            } while (x == 0 && y == 0);
+            return x / (x + y);
         }
 
         internal static void SamplesUnchecked(System.Random rnd, double[] values, double a, double b)
