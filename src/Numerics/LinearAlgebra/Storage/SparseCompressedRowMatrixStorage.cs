@@ -302,26 +302,20 @@ namespace MathNet.Numerics.LinearAlgebra.Storage
             var builder = BuilderInstance<T>.Matrix;
 
             int valueCount = 0;
+            int last = 0;
             for (int i = 0; i < RowCount; i++)
             {
-                int index = RowPointers[i];
-                int last = RowPointers[i + 1];
+                int index = last;
+                last = RowPointers[i + 1];
                 while (index < last)
                 {
                     var col = ColumnIndices[index];
                     var val = Values[index];
                     index++;
-                    while (index < last)
+                    while (index < last && ColumnIndices[index] == col)
                     {
-                        if (ColumnIndices[index] == col)
-                        {
-                            val = builder.Add(val, Values[index]);
-                            index++;
-                        }
-                        else
-                        {
-                            break;
-                        }
+                        val = builder.Add(val, Values[index]);
+                        index++;
                     }
                     ColumnIndices[valueCount] = col;
                     Values[valueCount] = val;
