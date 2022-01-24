@@ -138,6 +138,20 @@ namespace MathNet.Numerics.UnitTests.Random
         }
 
         /// <summary>
+        /// NextBytes fills buffers of different sizes without throwing an exception (e.g. OutOfRangeException)
+        /// </remarks>
+        [Test]
+        public void NextBytesDoesNotThrow()
+        {
+            var rng = (System.Random)Activator.CreateInstance(_randomType, new object[] { false });
+
+            for (int i = 1; i < 30; i++)
+            {
+                Assert.DoesNotThrow(() => rng.NextBytes(new byte[i]));
+            }
+        }
+
+        /// <summary>
         /// Test runner function.
         /// </summary>
         /// <param name="random">RNG object.</param>
