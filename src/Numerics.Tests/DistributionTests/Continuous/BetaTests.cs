@@ -405,5 +405,13 @@ namespace MathNet.Numerics.UnitTests.DistributionTests.Continuous
             Assert.That(dist.InverseCumulativeDistribution(p), Is.EqualTo(x).Within(1e-6));
             Assert.That(Beta.InvCDF(a, b, p), Is.EqualTo(x).Within(1e-6));
         }
+
+        [TestCase(0.001)]
+        public void ProbableNaNWhenABBothSmall(double ab)
+        {
+            Beta dist = new Beta(ab, ab);
+            for (byte i = 0; i < 100; ++i)
+                Assert.That(!double.IsNaN(dist.Sample()),"Generate NaN");
+        }
     }
 }
