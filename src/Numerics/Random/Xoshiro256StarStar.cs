@@ -158,7 +158,8 @@ namespace MathNet.Numerics.Random
             int i = 0;
 
             // Fill up the bulk of the buffer in chunks of 8 bytes at a time.
-            for (int bound = buffer.Length - 3; i < bound;)
+            int bound = buffer.Length - (buffer.Length % 8);
+            while (i < bound)
             {
                 // Generate 64 random bits.
                 ulong x = RotateLeft(s1 * 5, 7) * 9;
