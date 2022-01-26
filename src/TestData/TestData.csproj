@@ -269,4 +269,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\data\coo_torsion_duplicates.csv">
+      <Link>Data\coo_torsion_duplicates.csv</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\data\coo_torsion_no_duplicates.csv">
+      <Link>Data\coo_torsion_no_duplicates.csv</Link>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

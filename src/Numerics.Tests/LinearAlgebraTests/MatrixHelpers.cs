@@ -28,7 +28,9 @@
 // </copyright>
 
 using System;
+using System.IO;
 using MathNet.Numerics.LinearAlgebra;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
 {
@@ -97,6 +99,51 @@ namespace MathNet.Numerics.UnitTests.LinearAlgebraTests
                     matrix.At(column, row, matrix.At(row, column).Conjugate());
                 }
             }
+        }
+
+        public static Matrix<double> ReadTestDataSparseMatrixDoubleCoordinateFormat(string name)
+        {
+            var stream = MathNet.Numerics.TestData.Data.ReadStream(name);
+            if (stream == null)
+                throw new FileNotFoundException($"Could not find test data file '{name}'");
+            var reader = new StreamReader(stream);
+
+            var first = reader.ReadLine()?.Trim();
+            if (first == null)
+                throw new InvalidDataException("Could not read first line of data file");
+            if (!int.TryParse(first, out var nnz))
+                throw new InvalidDataException("Could not parse first line of file (expected integer count of coordinate tuples)");
+
+            var cooRows = new int[nnz];
+            var cooCols = new int[nnz];
+            var cooVals = new double[nnz];
+            var nRows = 0;
+            var nCols = 0;
+
+            for (var i = 0; i < nnz; i++)
+            {
+                var line = reader.ReadLine()?.Trim();
+                if (line == null)
+                    throw new InvalidDataException($"File ended unexpectedly on line {i+1}. Expecting {nnz} coordinate tuples.");
+
+                var split = line.Split(',');
+                if (split.Length != 3)
+                    throw new InvalidDataException($"Invalid sized tuple on line {i + 1} (expected 3 but detected {split.Length})");
+
+                if (!int.TryParse(split[0], out cooRows[i]))
+                    throw new InvalidDataException($"Could not parse row integer on line {i + 1}");
+
+                if (!int.TryParse(split[1], out cooCols[i]))
+                    throw new InvalidDataException($"Could not parse column integer on line {i + 1}");
+
+                if (!double.TryParse(split[2], out cooVals[i]))
+                    throw new InvalidDataException($"Could not parse double value on line {i + 1}");
+
+                nRows = Math.Max(nRows, cooRows[i] + 1);
+                nCols = Math.Max(nCols, cooCols[i] + 1);
+            }
+
+            return SparseMatrix.Build.SparseFromCoordinateFormat(nRows, nCols, nnz, cooRows, cooCols, cooVals);
         }
     }
 }
