@@ -626,9 +626,10 @@ namespace MathNet.Numerics.Interpolation
 
         /// <summary>
         /// Gets all the t values where the derivative is 0
+        /// see: https://mathworld.wolfram.com/StationaryPoint.html
         /// </summary>
-        /// <returns>An array of t values (in the domain of teh function) where the derivative of the spline is 0</returns>
-        public double[] GetHorizontalDerivativeTValues()
+        /// <returns>An array of t values (in the domain of the function) where the derivative of the spline is 0</returns>
+        public double[] StationaryPoints()
         {
             List<double> points = new List<double>();
             for (int index = 0; index < _x.Length - 1; index++)
@@ -667,29 +668,31 @@ namespace MathNet.Numerics.Interpolation
         /// Returns the t values in the domain of the spline for which it takes the minimum and maximum value.
         /// </summary>
         /// <returns>A tuple containing the t value for which the spline is minimum in the first component and maximum in the second component </returns>
-        public Tuple<double, double> GetMinMaxTValues()
+        public Tuple<double, double> Extrema()
         {
-            double max = double.MinValue;
-            double min = double.MaxValue;
-            double minT = 0;
-            double maxT = 0;
-            //go through the functions points to check if one of them has a higher value
-            foreach (double p in _x)
+            //Check the edges of the domain
+            //set the initial values to the leftmost domain point
+            double t = _x[0];
+            double max = Interpolate(t);
+            double min = max;
+            double minT = t;
+            double maxT = t;
+            //check the rightmost domain point
+            t = _x[_x.Length-1];
+            var ty = Interpolate(t);
+            if (ty > max)
             {
-                double y = Interpolate(p);
-                if (y > max)
-                {
-                    max = y;
-                    maxT = p;
-                }
-                if (y < min)
-                {
-                    min = y;
-                    minT = p;
-                }
+                max = ty;
+                maxT = t;
             }
-            //go through the inflexion, local minimums and local maximums
-            foreach (double p in GetHorizontalDerivativeTValues())
+            if (ty < min)
+            {
+                min = ty;
+                minT = t;
+            }
+            //check the the inflexion, local minimums and local maximums
+            double[] pointsToCheck = StationaryPoints();
+            foreach (double p in pointsToCheck)
             {
                 double y = Interpolate(p);
                 if (y > max)
